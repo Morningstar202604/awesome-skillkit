@@ -16,10 +16,29 @@ Curated skill packs for AI tools. **Download a zip → unzip → drag it into yo
 
 | Skill | Scenario | Platform + Tool | When to use |
 |-------|----------|-----------------|-------------|
-| [agent-builder-skill](skills/agent-builder-skill/) | Development | Generic + code generation | You want to "build an app/agent" from a one-line requirement without long back-and-forth |
-| [chinese-parents-skill](skills/chinese-parents-skill/) | Life | Generic + simulation/diagnosis | You want to understand parents, analyze their type, or don't know how to start the conversation |
-| [cnblogs-skill](skills/cnblogs-skill/) | Writing | cnblogs.com + API/browser | You need to publish blog posts, manage your blog, or engage with the community |
-| [zhihu-skill](skills/zhihu-skill/) | Writing | zhihu.com + Playwright | You need to publish/edit/delete Zhihu articles, clear drafts, or fix garbled text |
+| [agent-builder-skill](skills/programming/ai-agents/agent-builder-skill/) | Programming > AI Agents | Generic + code generation | You want to "build an app/agent" from a one-line requirement without long back-and-forth |
+| [chinese-parents-skill](skills/life/family/chinese-parents-skill/) | Life > Family | Generic + simulation/diagnosis | You want to understand parents, analyze their type, or don't know how to start the conversation |
+| [cnblogs-skill](skills/writing/blog/cnblogs-skill/) | Writing > Blog | cnblogs.com + API/browser | You need to publish blog posts, manage your blog, or engage with the community |
+| [zhihu-content-manager](skills/writing/zhihu/zhihu-content-manager/) | Writing > Zhihu | zhihu.com + Playwright | You need to publish/edit/delete Zhihu articles, clear drafts, or fix garbled text |
+
+## Directory Layout
+
+Skills are organized by **scenario → sub-scenario** (multi-level directories), so you can find the right pack by browsing the tree instead of reading a flat list.
+
+```
+skills/
+├── programming/
+│   └── ai-agents/
+│       └── agent-builder-skill/        # one-line requirement -> production-grade AI agent
+├── writing/
+│   ├── blog/
+│   │   └── cnblogs-skill/              # publish & manage posts on cnblogs.com
+│   └── zhihu/
+│       └── zhihu-content-manager/      # publish/edit/delete Zhihu articles
+└── life/
+    └── family/
+        └── chinese-parents-skill/      # understand & talk to Chinese parents
+```
 
 ## Getting Started (30 seconds)
 
@@ -73,10 +92,10 @@ Full metadata is in [manifest.json](manifest.json) (name / category / triggers /
 
 | Skill | Size | Source |
 |-------|------|--------|
-| agent-builder-skill | 735 KB | [weed33834/agent-builder-skill](https://github.com/weed33834/agent-builder-skill) |
-| chinese-parents-skill | 255 KB | [weed33834/chinese-parents-skill](https://github.com/weed33834/chinese-parents-skill) |
-| cnblogs-skill | 29 KB | [weed33834/cnblogs-skill](https://github.com/weed33834/cnblogs-skill) |
-| zhihu-skill | 8 KB | [weed33834/zhihu-skill](https://github.com/weed33834/zhihu-skill) |
+| agent-builder-skill | 785 KB | [weed33834/agent-builder-skill](https://github.com/weed33834/agent-builder-skill) |
+| chinese-parents-skill | 263 KB | [weed33834/chinese-parents-skill](https://github.com/weed33834/chinese-parents-skill) |
+| cnblogs-skill | 31 KB | [weed33834/cnblogs-skill](https://github.com/weed33834/cnblogs-skill) |
+| zhihu-content-manager | 8 KB | [weed33834/zhihu-skill](https://github.com/weed33834/zhihu-skill) |
 
 ## Notes
 

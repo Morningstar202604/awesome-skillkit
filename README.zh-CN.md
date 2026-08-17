@@ -29,10 +29,29 @@ AIGC:
 
 | 技能 | 场景 | 平台 + 工具 | 什么时候用 |
 |------|------|-----------|-----------|
-| [agent-builder-skill](skills/agent-builder-skill/) | 开发 | 通用 + 代码生成 | 想"做个 XX 应用/Agent"，但不想多轮沟通 |
-| [chinese-parents-skill](skills/chinese-parents-skill/) | 生活 | 通用 + 模拟/诊断 | 想理解家长、分析家长类型、不知道怎么开口 |
-| [cnblogs-skill](skills/cnblogs-skill/) | 写作 | 博客园 cnblogs.com + API/浏览器 | 要发博文、管理博客、社区互动 |
-| [zhihu-skill](skills/zhihu-skill/) | 写作 | 知乎 zhihu.com + Playwright | 要发/改/删知乎文章、清草稿、修乱码 |
+| [agent-builder-skill](skills/programming/ai-agents/agent-builder-skill/) | 编程 > AI Agent | 通用 + 代码生成 | 想"做个 XX 应用/Agent"，但不想多轮沟通 |
+| [chinese-parents-skill](skills/life/family/chinese-parents-skill/) | 生活 > 家庭 | 通用 + 模拟/诊断 | 想理解家长、分析家长类型、不知道怎么开口 |
+| [cnblogs-skill](skills/writing/blog/cnblogs-skill/) | 写作 > 博客 | 博客园 cnblogs.com + API/浏览器 | 要发博文、管理博客、社区互动 |
+| [zhihu-content-manager](skills/writing/zhihu/zhihu-content-manager/) | 写作 > 知乎 | 知乎 zhihu.com + Playwright | 要发/改/删知乎文章、清草稿、修乱码 |
+
+## 目录结构
+
+技能按**场景 → 子场景**多级目录组织，直接浏览目录树即可找到对应技能包，不用看一长串平铺列表。
+
+```
+skills/
+├── programming/
+│   └── ai-agents/
+│       └── agent-builder-skill/        # 一句话需求 -> 生产级 AI Agent
+├── writing/
+│   ├── blog/
+│   │   └── cnblogs-skill/              # 博客园发文与管理
+│   └── zhihu/
+│       └── zhihu-content-manager/      # 知乎文章发布/编辑/删除
+└── life/
+    └── family/
+        └── chinese-parents-skill/      # 理解家长、与家长沟通
+```
 
 ## 怎么用（30 秒上手）
 
@@ -86,10 +105,10 @@ git push origin v1.0.0
 
 | 技能 | 大小 | 来源 |
 |------|------|------|
-| agent-builder-skill | 735 KB | [weed33834/agent-builder-skill](https://github.com/weed33834/agent-builder-skill) |
-| chinese-parents-skill | 255 KB | [weed33834/chinese-parents-skill](https://github.com/weed33834/chinese-parents-skill) |
-| cnblogs-skill | 29 KB | [weed33834/cnblogs-skill](https://github.com/weed33834/cnblogs-skill) |
-| zhihu-skill | 8 KB | [weed33834/zhihu-skill](https://github.com/weed33834/zhihu-skill) |
+| agent-builder-skill | 785 KB | [weed33834/agent-builder-skill](https://github.com/weed33834/agent-builder-skill) |
+| chinese-parents-skill | 263 KB | [weed33834/chinese-parents-skill](https://github.com/weed33834/chinese-parents-skill) |
+| cnblogs-skill | 31 KB | [weed33834/cnblogs-skill](https://github.com/weed33834/cnblogs-skill) |
+| zhihu-content-manager | 8 KB | [weed33834/zhihu-skill](https://github.com/weed33834/zhihu-skill) |
 
 ## 说明
 

@@ -1,15 +1,23 @@
 {
-  "hub": "SkillKit",
+  "hub": "awesome-skillkit",
   "version": "1.0.0",
   "updated": "2026-08-17",
   "description": "Curated skill packs for AI tools: download zip -> unzip -> drag into your AI tool's skills directory.",
+  "description_zh": "精选 AI 技能包合集：下载 zip -> 解压 -> 拖进 AI 工具的 skills 目录即可使用。",
+  "categories": {
+    "Programming": "编程",
+    "Writing": "写作",
+    "Life": "生活"
+  },
   "skills": [
     {
       "name": "agent-builder-skill",
       "file": "dist/agent-builder-skill.zip",
-      "size_kb": 735,
-      "category": "Development",
+      "size_kb": 785,
+      "category": "Programming > AI Agents",
+      "category_zh": "编程 > AI Agent",
       "description": "Generate a production-grade AI agent (backend + frontend + tests) from a one-line requirement, no lengthy clarification needed.",
+      "description_zh": "一句话需求生成生产级 AI Agent（后端 + 前端 + 测试），无需多轮澄清。",
       "triggers": [
         "创建 agent",
         "构建 agent",
@@ -20,9 +28,11 @@
     {
       "name": "chinese-parents-skill",
       "file": "dist/chinese-parents-skill.zip",
-      "size_kb": 255,
-      "category": "Life",
+      "size_kb": 263,
+      "category": "Life > Family",
+      "category_zh": "生活 > 家庭",
       "description": "Chinese-parent behavior simulation/diagnosis/coping: 10-dimension profile (0-100), multi-turn emotional progression and conversation scripts.",
+      "description_zh": "中国式家长行为模拟/诊断/应对：10 维画像（0-100）、多轮情绪推演与话术脚本。",
       "triggers": [
         "模拟家长反应",
         "分析家长类型",
@@ -33,9 +43,11 @@
     {
       "name": "cnblogs-skill",
       "file": "dist/cnblogs-skill.zip",
-      "size_kb": 29,
-      "category": "Writing",
+      "size_kb": 31,
+      "category": "Writing > Blog",
+      "category_zh": "写作 > 博客",
       "description": "Automated blog publishing & management on cnblogs.com: topic research, writing & formatting, images, API publishing, community engagement.",
+      "description_zh": "博客园自动化发文与管理：选题调研、写作排版、配图、API 发布、社区互动。",
       "triggers": [
         "博客园",
         "cnblogs",
@@ -45,11 +57,13 @@
       ]
     },
     {
-      "name": "zhihu-skill",
-      "file": "dist/zhihu-skill.zip",
+      "name": "zhihu-content-manager",
+      "file": "dist/zhihu-content-manager.zip",
       "size_kb": 8,
-      "category": "Writing",
+      "category": "Writing > Zhihu",
+      "category_zh": "写作 > 知乎",
       "description": "Zhihu article management: publish/edit/delete articles, clear drafts, topic tags, cover upload, garbled-text detection & fix.",
+      "description_zh": "知乎内容管理：文章发布/编辑/删除、草稿清理、话题标签、封面上传、乱码检测与修复。",
       "triggers": [
         "知乎发文",
         "知乎发布",

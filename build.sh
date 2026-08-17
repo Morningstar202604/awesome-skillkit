@@ -21,22 +21,18 @@ mkdir -p "$OUT_DIR"
 
 cd "$SCRIPT_DIR/skills"
 count=0
-for skill in */; do
-  skill="${skill%/}"
-  # A dir is a valid skill if it contains SKILL.md at any depth
-  # (e.g. zhihu-skill keeps SKILL.md in a subdirectory)
-  if ! find "$skill" -name "SKILL.md" -print -quit | grep -q .; then
-    echo "skip $skill (no SKILL.md)"
-    continue
-  fi
-
-  zip_args=(-r -q "$OUT_DIR/$skill.zip" "$skill")
+# Walk every directory that contains a SKILL.md at any depth (multi-level taxonomy)
+while IFS= read -r skill; do
+  skill="${skill#./}"
+  # Zip name = skill dir name (flat in dist/), content keeps the skill folder
+  name="$(basename "$skill")"
+  zip_args=(-r -q "$OUT_DIR/$name.zip" "$skill")
   for ex in "${EXCLUDES[@]}"; do
     zip_args+=(-x "$skill/$ex")
   done
   zip "${zip_args[@]}"
-  echo "built: $OUT_DIR/$skill.zip"
+  echo "built: $OUT_DIR/$name.zip  (from $skill)"
   count=$((count + 1))
-done
+done < <(find . -name "SKILL.md" -exec dirname {} \; | sort -u)
 
 echo "done: $count pack(s) -> $OUT_DIR"
