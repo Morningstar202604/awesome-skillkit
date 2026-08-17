@@ -11,7 +11,7 @@ AIGC:
 
 
 
-# SkillKit
+# awesome-skillkit
 
 [English](README.md) | **中文**
 
