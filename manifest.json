@@ -1,0 +1,63 @@
+{
+  "hub": "SkillKit",
+  "version": "1.0.0",
+  "updated": "2026-08-17",
+  "description": "Curated skill packs for AI tools: download zip -> unzip -> drag into your AI tool's skills directory.",
+  "skills": [
+    {
+      "name": "agent-builder-skill",
+      "file": "dist/agent-builder-skill.zip",
+      "size_kb": 735,
+      "category": "Development",
+      "description": "Generate a production-grade AI agent (backend + frontend + tests) from a one-line requirement, no lengthy clarification needed.",
+      "triggers": [
+        "创建 agent",
+        "构建 agent",
+        "生成 AI agent",
+        "一句话需求做应用"
+      ]
+    },
+    {
+      "name": "chinese-parents-skill",
+      "file": "dist/chinese-parents-skill.zip",
+      "size_kb": 255,
+      "category": "Life",
+      "description": "Chinese-parent behavior simulation/diagnosis/coping: 10-dimension profile (0-100), multi-turn emotional progression and conversation scripts.",
+      "triggers": [
+        "模拟家长反应",
+        "分析家长类型",
+        "怎么跟父母开口",
+        "家长画像"
+      ]
+    },
+    {
+      "name": "cnblogs-skill",
+      "file": "dist/cnblogs-skill.zip",
+      "size_kb": 29,
+      "category": "Writing",
+      "description": "Automated blog publishing & management on cnblogs.com: topic research, writing & formatting, images, API publishing, community engagement.",
+      "triggers": [
+        "博客园",
+        "cnblogs",
+        "发博文",
+        "博客管理",
+        "博客互动"
+      ]
+    },
+    {
+      "name": "zhihu-skill",
+      "file": "dist/zhihu-skill.zip",
+      "size_kb": 8,
+      "category": "Writing",
+      "description": "Zhihu article management: publish/edit/delete articles, clear drafts, topic tags, cover upload, garbled-text detection & fix.",
+      "triggers": [
+        "知乎发文",
+        "知乎发布",
+        "知乎文章",
+        "知乎回答",
+        "知乎草稿",
+        "知乎乱码"
+      ]
+    }
+  ]
+}
