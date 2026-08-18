@@ -232,8 +232,8 @@ dist/                           # 构建产物：每个场景包一个 zip（已
 bash build.sh
 
 # 发布流程
-git tag v2.0.0
-git push origin v2.0.0
+git tag v1.2.0
+git push origin v1.2.0
 # 在 GitHub Releases 页面创建 release 并上传 dist/*.zip
 ```
 

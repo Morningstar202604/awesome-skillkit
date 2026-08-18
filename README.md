@@ -232,8 +232,8 @@ Source lives in `skills/`; scene packs are defined in `packs/*/pack.json`; zips 
 bash build.sh
 
 # Release flow
-git tag v2.0.0
-git push origin v2.0.0
+git tag v1.2.0
+git push origin v1.2.0
 # Create a release on the GitHub Releases page and upload dist/*.zip
 ```
 
