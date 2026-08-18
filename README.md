@@ -28,8 +28,21 @@ Skills are organized by **scenario → sub-scenario** (multi-level directories),
 ```
 skills/
 ├── programming/
-│   └── ai-agents/
-│       └── agent-builder-skill/        # one-line requirement -> production-grade AI agent
+│   ├── ai-agents/
+│   │   └── agent-builder-skill/        # one-line requirement -> production-grade AI agent
+│   ├── ai-engineering/                 # mcp-server-builder, feature-flags-architect, self-eval, skill-tester
+│   ├── api/                            # api-design-reviewer, api-test-suite-builder
+│   ├── architecture/                   # senior-architect, migration-architect, monorepo-navigator
+│   ├── cicd/                           # ci-cd-pipeline-builder, ship-gate, spec-driven-workflow
+│   ├── code-quality/                   # code-reviewer, tdd-guide, tech-debt-tracker, dependency-auditor
+│   ├── containers/                     # docker-development, helm-chart-builder
+│   ├── database/                       # database-designer, database-schema-designer, sql-database-assistant
+│   ├── github/                         # pr-review-expert, git-worktree-manager, changelog-generator
+│   ├── incident/                       # incident-commander, runbook-generator, slo-architect
+│   ├── infrastructure/                 # kubernetes-operator, observability-designer, terraform-patterns
+│   ├── performance/                    # performance-profiler
+│   ├── security/                       # env-secrets-manager, secrets-vault-manager
+│   └── workflow/                       # agent-designer, agent-workflow-designer
 ├── writing/
 │   ├── blog/
 │   │   └── cnblogs-skill/              # publish & manage posts on cnblogs.com
@@ -92,14 +105,49 @@ Full metadata is in [manifest.json](manifest.json) (name / category / triggers /
 
 | Skill | Size | Source |
 |-------|------|--------|
-| agent-builder-skill | 785 KB | [weed33834/agent-builder-skill](https://github.com/weed33834/agent-builder-skill) |
-| chinese-parents-skill | 263 KB | [weed33834/chinese-parents-skill](https://github.com/weed33834/chinese-parents-skill) |
-| cnblogs-skill | 31 KB | [weed33834/cnblogs-skill](https://github.com/weed33834/cnblogs-skill) |
-| zhihu-content-manager | 8 KB | [weed33834/zhihu-skill](https://github.com/weed33834/zhihu-skill) |
+| chinese-parents-skill | 559 KB | [weed33834/chinese-parents-skill](https://github.com/weed33834/chinese-parents-skill) |
+| agent-builder-skill | 1923 KB | [weed33834/agent-builder-skill](https://github.com/weed33834/agent-builder-skill) |
+| feature-flags-architect | 45 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| mcp-server-builder | 26 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| self-eval | 8 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| skill-tester | 83 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| api-design-reviewer | 187 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| api-test-suite-builder | 23 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| migration-architect | 265 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| monorepo-navigator | 23 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| senior-architect | 120 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| ci-cd-pipeline-builder | 25 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| ship-gate | 72 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| spec-driven-workflow | 85 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| code-reviewer | 163 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| dependency-auditor | 197 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| tdd-guide | 170 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| tech-debt-tracker | 326 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| docker-development | 49 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| helm-chart-builder | 70 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| database-designer | 245 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| database-schema-designer | 18 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| sql-database-assistant | 76 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| changelog-generator | 63 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| git-worktree-manager | 25 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| pr-review-expert | 12 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| incident-commander | 304 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| runbook-generator | 3 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| slo-architect | 48 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| kubernetes-operator | 64 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| observability-designer | 207 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| terraform-patterns | 65 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| performance-profiler | 17 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| env-secrets-manager | 21 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| secrets-vault-manager | 78 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| agent-designer | 260 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| agent-workflow-designer | 7 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
+| cnblogs-skill | 69 KB | [weed33834/cnblogs-skill](https://github.com/weed33834/cnblogs-skill) |
+| zhihu-content-manager | 15 KB | [weed33834/zhihu-skill](https://github.com/weed33834/zhihu-skill) |
 
 ## Notes
 
-- Only self-authored skill repos are included (no forks).
+- Self-authored skill repos + curated packs from [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT).
 - Non-core files (`.github`, `.gitignore`, `docker-compose.yml`, etc.) are excluded from the zips; runtime-required content (`SKILL.md`, `references/`, `scripts/`, `templates/`) is kept.
 - Per-skill dependencies (e.g. Playwright, login state) are documented in each skill's own `SKILL.md`.
 

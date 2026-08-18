@@ -1,7 +1,7 @@
 {
   "hub": "awesome-skillkit",
-  "version": "1.0.0",
-  "updated": "2026-08-17",
+  "version": "1.1.0",
+  "updated": "2026-08-18",
   "description": "Curated skill packs for AI tools: download zip -> unzip -> drag into your AI tool's skills directory.",
   "description_zh": "精选 AI 技能包合集：下载 zip -> 解压 -> 拖进 AI 工具的 skills 目录即可使用。",
   "categories": {
@@ -11,24 +11,9 @@
   },
   "skills": [
     {
-      "name": "agent-builder-skill",
-      "file": "dist/agent-builder-skill.zip",
-      "size_kb": 785,
-      "category": "Programming > AI Agents",
-      "category_zh": "编程 > AI Agent",
-      "description": "Generate a production-grade AI agent (backend + frontend + tests) from a one-line requirement, no lengthy clarification needed.",
-      "description_zh": "一句话需求生成生产级 AI Agent（后端 + 前端 + 测试），无需多轮澄清。",
-      "triggers": [
-        "创建 agent",
-        "构建 agent",
-        "生成 AI agent",
-        "一句话需求做应用"
-      ]
-    },
-    {
       "name": "chinese-parents-skill",
       "file": "dist/chinese-parents-skill.zip",
-      "size_kb": 263,
+      "size_kb": 559,
       "category": "Life > Family",
       "category_zh": "生活 > 家庭",
       "description": "Chinese-parent behavior simulation/diagnosis/coping: 10-dimension profile (0-100), multi-turn emotional progression and conversation scripts.",
@@ -41,9 +26,444 @@
       ]
     },
     {
+      "name": "agent-builder-skill",
+      "file": "dist/agent-builder-skill.zip",
+      "size_kb": 1923,
+      "category": "Programming > AI Agents",
+      "category_zh": "编程 > AI Agent",
+      "description": "Generate a production-grade AI agent (backend + frontend + tests) from a one-line requirement, no lengthy clarification needed.",
+      "description_zh": "一句话需求生成生产级 AI Agent（后端 + 前端 + 测试），无需多轮澄清。",
+      "triggers": [
+        "创建 agent",
+        "构建 agent",
+        "生成 AI agent",
+        "一句话需求做应用"
+      ]
+    },
+    {
+      "name": "feature-flags-architect",
+      "file": "dist/feature-flags-architect.zip",
+      "size_kb": 45,
+      "category": "Programming > AI Engineering",
+      "category_zh": "编程 > AI 工程",
+      "description": "Use when adding, retiring, or auditing feature flags.",
+      "description_zh": "Use when adding, retiring, or auditing feature flags.",
+      "triggers": [
+        "feature-flags-architect"
+      ]
+    },
+    {
+      "name": "mcp-server-builder",
+      "file": "dist/mcp-server-builder.zip",
+      "size_kb": 26,
+      "category": "Programming > AI Engineering",
+      "category_zh": "编程 > AI 工程",
+      "description": "Design and ship production-ready MCP (Model Context Protocol) servers from OpenAPI contracts instead of hand-written tool wrappers.",
+      "description_zh": "Design and ship production-ready MCP (Model Context Protocol) servers from OpenAPI contracts instead of hand-written tool wrappers.",
+      "triggers": [
+        "mcp-server-builder"
+      ]
+    },
+    {
+      "name": "self-eval",
+      "file": "dist/self-eval.zip",
+      "size_kb": 8,
+      "category": "Programming > AI Engineering",
+      "category_zh": "编程 > AI 工程",
+      "description": "Honestly evaluate AI work quality using a two-axis scoring system.",
+      "description_zh": "Honestly evaluate AI work quality using a two-axis scoring system.",
+      "triggers": [
+        "self-eval"
+      ]
+    },
+    {
+      "name": "skill-tester",
+      "file": "dist/skill-tester.zip",
+      "size_kb": 83,
+      "category": "Programming > AI Engineering",
+      "category_zh": "编程 > AI 工程",
+      "description": "Validate, test, and score the quality of skills within the claude-skills ecosystem.",
+      "description_zh": "Validate, test, and score the quality of skills within the claude-skills ecosystem.",
+      "triggers": [
+        "skill-tester"
+      ]
+    },
+    {
+      "name": "api-design-reviewer",
+      "file": "dist/api-design-reviewer.zip",
+      "size_kb": 187,
+      "category": "Programming > API",
+      "category_zh": "编程 > API",
+      "description": "Comprehensive REST API design review with automated linting, breaking-change detection, and design scorecards.",
+      "description_zh": "Comprehensive REST API design review with automated linting, breaking-change detection, and design scorecards.",
+      "triggers": [
+        "api-design-reviewer"
+      ]
+    },
+    {
+      "name": "api-test-suite-builder",
+      "file": "dist/api-test-suite-builder.zip",
+      "size_kb": 23,
+      "category": "Programming > API",
+      "category_zh": "编程 > API",
+      "description": "Use when the user asks to generate API tests, create integration test suites, test REST endpoints, or build contract tests..",
+      "description_zh": "Use when the user asks to generate API tests, create integration test suites, test REST endpoints, or build contract tests..",
+      "triggers": [
+        "api-test-suite-builder"
+      ]
+    },
+    {
+      "name": "migration-architect",
+      "file": "dist/migration-architect.zip",
+      "size_kb": 265,
+      "category": "Programming > Architecture",
+      "category_zh": "编程 > 架构",
+      "description": "Zero-downtime migration planning, compatibility validation, and rollback strategy generation.",
+      "description_zh": "Zero-downtime migration planning, compatibility validation, and rollback strategy generation.",
+      "triggers": [
+        "migration-architect"
+      ]
+    },
+    {
+      "name": "monorepo-navigator",
+      "file": "dist/monorepo-navigator.zip",
+      "size_kb": 23,
+      "category": "Programming > Architecture",
+      "category_zh": "编程 > 架构",
+      "description": "Navigate, manage, and optimize monorepos.",
+      "description_zh": "Navigate, manage, and optimize monorepos.",
+      "triggers": [
+        "monorepo-navigator"
+      ]
+    },
+    {
+      "name": "senior-architect",
+      "file": "dist/senior-architect.zip",
+      "size_kb": 120,
+      "category": "Programming > Architecture",
+      "category_zh": "编程 > 架构",
+      "description": "This skill should be used when the user asks to \"design system architecture\", \"evaluate microservices vs monolith\", \"create architecture diagrams\", \"analyze dependencies\", \"choose a database\", \"plan for scalability\", \"make technical decisions\", or \"review system design\".",
+      "description_zh": "This skill should be used when the user asks to \"design system architecture\", \"evaluate microservices vs monolith\", \"create architecture diagrams\", \"analyze dependencies\", \"choose a database\", \"plan for scalability\", \"make technical decisions\", or \"review system design\".",
+      "triggers": [
+        "senior-architect"
+      ]
+    },
+    {
+      "name": "ci-cd-pipeline-builder",
+      "file": "dist/ci-cd-pipeline-builder.zip",
+      "size_kb": 25,
+      "category": "Programming > CI/CD",
+      "category_zh": "编程 > CI/CD",
+      "description": "Generate pragmatic CI/CD pipelines from detected project stack signals — fast baseline generation, repeatable checks, environment-aware deployment stages.",
+      "description_zh": "Generate pragmatic CI/CD pipelines from detected project stack signals — fast baseline generation, repeatable checks, environment-aware deployment stages.",
+      "triggers": [
+        "ci-cd-pipeline-builder"
+      ]
+    },
+    {
+      "name": "ship-gate",
+      "file": "dist/ship-gate.zip",
+      "size_kb": 72,
+      "category": "Programming > CI/CD",
+      "category_zh": "编程 > CI/CD",
+      "description": ">.",
+      "description_zh": ">.",
+      "triggers": [
+        "ship-gate"
+      ]
+    },
+    {
+      "name": "spec-driven-workflow",
+      "file": "dist/spec-driven-workflow.zip",
+      "size_kb": 85,
+      "category": "Programming > CI/CD",
+      "category_zh": "编程 > CI/CD",
+      "description": "Use when the user asks to write specs before code, define acceptance criteria, plan features before implementation, generate tests from specifications, or follow spec-first development practices..",
+      "description_zh": "Use when the user asks to write specs before code, define acceptance criteria, plan features before implementation, generate tests from specifications, or follow spec-first development practices..",
+      "triggers": [
+        "spec-driven-workflow"
+      ]
+    },
+    {
+      "name": "code-reviewer",
+      "file": "dist/code-reviewer.zip",
+      "size_kb": 163,
+      "category": "Programming > Code Quality",
+      "category_zh": "编程 > 代码质量",
+      "description": "Code review automation for TypeScript, JavaScript, Python, Go, Swift, Kotlin, C#, .NET, Java, C, C++, Rust, Ruby, PHP, and Dart/Flutter.",
+      "description_zh": "Code review automation for TypeScript, JavaScript, Python, Go, Swift, Kotlin, C#, .NET, Java, C, C++, Rust, Ruby, PHP, and Dart/Flutter.",
+      "triggers": [
+        "code-reviewer"
+      ]
+    },
+    {
+      "name": "dependency-auditor",
+      "file": "dist/dependency-auditor.zip",
+      "size_kb": 197,
+      "category": "Programming > Code Quality",
+      "category_zh": "编程 > 代码质量",
+      "description": "Audit and manage dependencies across multi-language projects.",
+      "description_zh": "Audit and manage dependencies across multi-language projects.",
+      "triggers": [
+        "dependency-auditor"
+      ]
+    },
+    {
+      "name": "tdd-guide",
+      "file": "dist/tdd-guide.zip",
+      "size_kb": 170,
+      "category": "Programming > Code Quality",
+      "category_zh": "编程 > 代码质量",
+      "description": "Test-driven development skill for writing unit tests, generating test fixtures and mocks, analyzing coverage gaps, and guiding red-green-refactor workflows across Jest, Pytest, JUnit, Vitest, and Mocha.",
+      "description_zh": "Test-driven development skill for writing unit tests, generating test fixtures and mocks, analyzing coverage gaps, and guiding red-green-refactor workflows across Jest, Pytest, JUnit, Vitest, and Mocha.",
+      "triggers": [
+        "tdd-guide"
+      ]
+    },
+    {
+      "name": "tech-debt-tracker",
+      "file": "dist/tech-debt-tracker.zip",
+      "size_kb": 326,
+      "category": "Programming > Code Quality",
+      "category_zh": "编程 > 代码质量",
+      "description": "Scan codebases for technical debt, score severity, track trends, and generate prioritized remediation plans.",
+      "description_zh": "Scan codebases for technical debt, score severity, track trends, and generate prioritized remediation plans.",
+      "triggers": [
+        "tech-debt-tracker"
+      ]
+    },
+    {
+      "name": "docker-development",
+      "file": "dist/docker-development.zip",
+      "size_kb": 49,
+      "category": "Programming > Containers",
+      "category_zh": "编程 > 容器",
+      "description": "Docker and container development agent skill and plugin for Dockerfile optimization, docker-compose orchestration, multi-stage builds, and container security hardening.",
+      "description_zh": "Docker and container development agent skill and plugin for Dockerfile optimization, docker-compose orchestration, multi-stage builds, and container security hardening.",
+      "triggers": [
+        "docker-development"
+      ]
+    },
+    {
+      "name": "helm-chart-builder",
+      "file": "dist/helm-chart-builder.zip",
+      "size_kb": 70,
+      "category": "Programming > Containers",
+      "category_zh": "编程 > 容器",
+      "description": "Helm chart development agent skill and plugin for Claude Code, Codex, Gemini CLI, Cursor, OpenClaw — chart scaffolding, values design, template patterns, dependency management, security hardening, and chart testing.",
+      "description_zh": "Helm chart development agent skill and plugin for Claude Code, Codex, Gemini CLI, Cursor, OpenClaw — chart scaffolding, values design, template patterns, dependency management, security hardening, and chart testing.",
+      "triggers": [
+        "helm-chart-builder"
+      ]
+    },
+    {
+      "name": "database-designer",
+      "file": "dist/database-designer.zip",
+      "size_kb": 245,
+      "category": "Programming > Database",
+      "category_zh": "编程 > 数据库",
+      "description": "Use when the user asks to design database schemas, plan data migrations, optimize queries, choose between SQL and NoSQL, or model data relationships..",
+      "description_zh": "Use when the user asks to design database schemas, plan data migrations, optimize queries, choose between SQL and NoSQL, or model data relationships..",
+      "triggers": [
+        "database-designer"
+      ]
+    },
+    {
+      "name": "database-schema-designer",
+      "file": "dist/database-schema-designer.zip",
+      "size_kb": 18,
+      "category": "Programming > Database",
+      "category_zh": "编程 > 数据库",
+      "description": "Use when the user asks to create ERD diagrams, normalize database schemas, design table relationships, or plan schema migrations..",
+      "description_zh": "Use when the user asks to create ERD diagrams, normalize database schemas, design table relationships, or plan schema migrations..",
+      "triggers": [
+        "database-schema-designer"
+      ]
+    },
+    {
+      "name": "sql-database-assistant",
+      "file": "dist/sql-database-assistant.zip",
+      "size_kb": 76,
+      "category": "Programming > Database",
+      "category_zh": "编程 > 数据库",
+      "description": "Use when the user asks to write SQL queries, optimize database performance, generate migrations, explore database schemas, or work with ORMs like Prisma, Drizzle, TypeORM, or SQLAlchemy..",
+      "description_zh": "Use when the user asks to write SQL queries, optimize database performance, generate migrations, explore database schemas, or work with ORMs like Prisma, Drizzle, TypeORM, or SQLAlchemy..",
+      "triggers": [
+        "sql-database-assistant"
+      ]
+    },
+    {
+      "name": "changelog-generator",
+      "file": "dist/changelog-generator.zip",
+      "size_kb": 63,
+      "category": "Programming > GitHub",
+      "category_zh": "编程 > GitHub",
+      "description": "Produce consistent, auditable release notes from Conventional Commits.",
+      "description_zh": "Produce consistent, auditable release notes from Conventional Commits.",
+      "triggers": [
+        "changelog-generator"
+      ]
+    },
+    {
+      "name": "git-worktree-manager",
+      "file": "dist/git-worktree-manager.zip",
+      "size_kb": 25,
+      "category": "Programming > GitHub",
+      "category_zh": "编程 > GitHub",
+      "description": "Run parallel feature work safely with Git worktrees.",
+      "description_zh": "Run parallel feature work safely with Git worktrees.",
+      "triggers": [
+        "git-worktree-manager"
+      ]
+    },
+    {
+      "name": "pr-review-expert",
+      "file": "dist/pr-review-expert.zip",
+      "size_kb": 12,
+      "category": "Programming > GitHub",
+      "category_zh": "编程 > GitHub",
+      "description": "Use when the user asks to review pull requests, analyze code changes, check for security issues in PRs, or assess code quality of diffs..",
+      "description_zh": "Use when the user asks to review pull requests, analyze code changes, check for security issues in PRs, or assess code quality of diffs..",
+      "triggers": [
+        "pr-review-expert"
+      ]
+    },
+    {
+      "name": "incident-commander",
+      "file": "dist/incident-commander.zip",
+      "size_kb": 304,
+      "category": "Programming > Incident",
+      "category_zh": "编程 > 故障",
+      "description": "Comprehensive incident response framework from detection through resolution and post-incident review.",
+      "description_zh": "Comprehensive incident response framework from detection through resolution and post-incident review.",
+      "triggers": [
+        "incident-commander"
+      ]
+    },
+    {
+      "name": "runbook-generator",
+      "file": "dist/runbook-generator.zip",
+      "size_kb": 3,
+      "category": "Programming > Incident",
+      "category_zh": "编程 > 故障",
+      "description": "Generate operational runbooks from a service name — deployment, incident response, maintenance, and rollback workflows.",
+      "description_zh": "Generate operational runbooks from a service name — deployment, incident response, maintenance, and rollback workflows.",
+      "triggers": [
+        "runbook-generator"
+      ]
+    },
+    {
+      "name": "slo-architect",
+      "file": "dist/slo-architect.zip",
+      "size_kb": 48,
+      "category": "Programming > Incident",
+      "category_zh": "编程 > 故障",
+      "description": "Use when defining, reviewing, or operating SLOs/SLIs/error budgets.",
+      "description_zh": "Use when defining, reviewing, or operating SLOs/SLIs/error budgets.",
+      "triggers": [
+        "slo-architect"
+      ]
+    },
+    {
+      "name": "kubernetes-operator",
+      "file": "dist/kubernetes-operator.zip",
+      "size_kb": 64,
+      "category": "Programming > Infrastructure",
+      "category_zh": "编程 > 基础设施",
+      "description": "Use when building a Kubernetes Operator — custom controllers that reconcile CRD state.",
+      "description_zh": "Use when building a Kubernetes Operator — custom controllers that reconcile CRD state.",
+      "triggers": [
+        "kubernetes-operator"
+      ]
+    },
+    {
+      "name": "observability-designer",
+      "file": "dist/observability-designer.zip",
+      "size_kb": 207,
+      "category": "Programming > Infrastructure",
+      "category_zh": "编程 > 基础设施",
+      "description": "Design production-ready observability strategies combining metrics, logs, and traces.",
+      "description_zh": "Design production-ready observability strategies combining metrics, logs, and traces.",
+      "triggers": [
+        "observability-designer"
+      ]
+    },
+    {
+      "name": "terraform-patterns",
+      "file": "dist/terraform-patterns.zip",
+      "size_kb": 65,
+      "category": "Programming > Infrastructure",
+      "category_zh": "编程 > 基础设施",
+      "description": "Terraform infrastructure-as-code agent skill and plugin for Claude Code, Codex, Gemini CLI, Cursor, OpenClaw.",
+      "description_zh": "Terraform infrastructure-as-code agent skill and plugin for Claude Code, Codex, Gemini CLI, Cursor, OpenClaw.",
+      "triggers": [
+        "terraform-patterns"
+      ]
+    },
+    {
+      "name": "performance-profiler",
+      "file": "dist/performance-profiler.zip",
+      "size_kb": 17,
+      "category": "Programming > Performance",
+      "category_zh": "编程 > 性能",
+      "description": "Systematic performance profiling for Node.js, Python, and Go applications.",
+      "description_zh": "Systematic performance profiling for Node.js, Python, and Go applications.",
+      "triggers": [
+        "performance-profiler"
+      ]
+    },
+    {
+      "name": "env-secrets-manager",
+      "file": "dist/env-secrets-manager.zip",
+      "size_kb": 21,
+      "category": "Programming > Security",
+      "category_zh": "编程 > 安全",
+      "description": "Manage environment-variable hygiene and secrets safety across local development and production.",
+      "description_zh": "Manage environment-variable hygiene and secrets safety across local development and production.",
+      "triggers": [
+        "env-secrets-manager"
+      ]
+    },
+    {
+      "name": "secrets-vault-manager",
+      "file": "dist/secrets-vault-manager.zip",
+      "size_kb": 78,
+      "category": "Programming > Security",
+      "category_zh": "编程 > 安全",
+      "description": "Use when the user asks to set up secret management infrastructure, integrate HashiCorp Vault, configure cloud secret stores (AWS Secrets Manager, Azure Key Vault, GCP Secret Manager), implement secret rotation, or audit secret access patterns..",
+      "description_zh": "Use when the user asks to set up secret management infrastructure, integrate HashiCorp Vault, configure cloud secret stores (AWS Secrets Manager, Azure Key Vault, GCP Secret Manager), implement secret rotation, or audit secret access patterns..",
+      "triggers": [
+        "secrets-vault-manager"
+      ]
+    },
+    {
+      "name": "agent-designer",
+      "file": "dist/agent-designer.zip",
+      "size_kb": 260,
+      "category": "Programming > Workflow",
+      "category_zh": "编程 > 工作流",
+      "description": "Use when the user asks to design a multi-agent system, pick an orchestration pattern (supervisor/swarm/pipeline), generate tool schemas for agents, or evaluate agent execution logs for cost, latency, and failure bottlenecks.",
+      "description_zh": "Use when the user asks to design a multi-agent system, pick an orchestration pattern (supervisor/swarm/pipeline), generate tool schemas for agents, or evaluate agent execution logs for cost, latency, and failure bottlenecks.",
+      "triggers": [
+        "agent-designer"
+      ]
+    },
+    {
+      "name": "agent-workflow-designer",
+      "file": "dist/agent-workflow-designer.zip",
+      "size_kb": 7,
+      "category": "Programming > Workflow",
+      "category_zh": "编程 > 工作流",
+      "description": "Design production-grade multi-agent workflows with clear pattern choice (sequential, parallel, hierarchical), handoff contracts, failure handling, and cost/context controls.",
+      "description_zh": "Design production-grade multi-agent workflows with clear pattern choice (sequential, parallel, hierarchical), handoff contracts, failure handling, and cost/context controls.",
+      "triggers": [
+        "agent-workflow-designer"
+      ]
+    },
+    {
       "name": "cnblogs-skill",
       "file": "dist/cnblogs-skill.zip",
-      "size_kb": 31,
+      "size_kb": 69,
       "category": "Writing > Blog",
       "category_zh": "写作 > 博客",
       "description": "Automated blog publishing & management on cnblogs.com: topic research, writing & formatting, images, API publishing, community engagement.",
@@ -59,7 +479,7 @@
     {
       "name": "zhihu-content-manager",
       "file": "dist/zhihu-content-manager.zip",
-      "size_kb": 8,
+      "size_kb": 15,
       "category": "Writing > Zhihu",
       "category_zh": "写作 > 知乎",
       "description": "Zhihu article management: publish/edit/delete articles, clear drafts, topic tags, cover upload, garbled-text detection & fix.",
