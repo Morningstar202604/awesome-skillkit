@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# SkillKit build script: package skills/* source dirs into dist/*.zip
+# SkillKit build script: package scene packs (packs/*/pack.json) into dist/*.zip
+# Each scene pack zip contains multiple skill dirs (flat), so users unzip and
+# drag the skill folders into their AI tool's skills directory.
 # Usage: bash build.sh [output-dir]   (default: dist/)
-# Release flow: tag -> upload dist/*.zip to GitHub Releases
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -19,20 +20,38 @@ EXCLUDES=(
 
 mkdir -p "$OUT_DIR"
 
-cd "$SCRIPT_DIR/skills"
-count=0
-# Walk every directory that contains a SKILL.md at any depth (multi-level taxonomy)
-while IFS= read -r skill; do
-  skill="${skill#./}"
-  # Zip name = skill dir name (flat in dist/), content keeps the skill folder
-  name="$(basename "$skill")"
-  zip_args=(-r -q "$OUT_DIR/$name.zip" "$skill")
-  for ex in "${EXCLUDES[@]}"; do
-    zip_args+=(-x "$skill/$ex")
-  done
-  zip "${zip_args[@]}"
-  echo "built: $OUT_DIR/$name.zip  (from $skill)"
-  count=$((count + 1))
-done < <(find . -name "SKILL.md" -exec dirname {} \; | sort -u)
+# Locate a skill dir under skills/ by its directory name
+find_skill_dir() {
+  local name="$1"
+  find "$SCRIPT_DIR/skills" -type d -name "$name" -not -path "*/.git/*" | head -n1
+}
 
-echo "done: $count pack(s) -> $OUT_DIR"
+count=0
+for pack_json in "$SCRIPT_DIR"/packs/*/pack.json; do
+  pack_id="$(basename "$(dirname "$pack_json")")"
+  # Collect skill names from pack.json (jq if available, else python3)
+  mapfile -t skills < <(python3 -c "
+import json,sys
+p=json.load(open('$pack_json',encoding='utf-8'))
+for s in p['skills']: print(s['name'])
+")
+  zip_args=(-r -q "$OUT_DIR/$pack_id.zip")
+  missing=0
+  for skill in "${skills[@]}"; do
+    dir="$(find_skill_dir "$skill")"
+    if [ -z "$dir" ]; then
+      echo "WARN: skill dir not found: $skill (pack $pack_id)" >&2
+      missing=1
+      continue
+    fi
+    # zip content keeps the skill folder name flat (top-level = skill name),
+    # so users unzip and drag the skill folders straight into skills/.
+    parent="$(dirname "$dir")"
+    name="$(basename "$dir")"
+    (cd "$parent" && zip -r -q "$OUT_DIR/$pack_id.zip" "$name")
+  done
+  echo "built: $OUT_DIR/$pack_id.zip  (${#skills[@]} skills)"
+  count=$((count + 1))
+done
+
+echo "done: $count scene pack(s) -> $OUT_DIR"

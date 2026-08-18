@@ -1,0 +1,17 @@
+{
+  "id": "api-development",
+  "name": "API Development & Testing",
+  "name_zh": "API 开发与测试",
+  "description": "Review REST API designs and generate integration/contract test suites.",
+  "description_zh": "审查 REST API 设计并生成集成/契约测试套件。",
+  "skills": [
+    {
+      "name": "api-design-reviewer",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "api-test-suite-builder",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    }
+  ]
+}

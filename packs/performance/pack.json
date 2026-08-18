@@ -1,0 +1,13 @@
+{
+  "id": "performance",
+  "name": "Performance Profiling",
+  "name_zh": "性能优化",
+  "description": "Profile CPU/memory/I/O bottlenecks in Node.js, Python, and Go.",
+  "description_zh": "剖析 Node.js、Python、Go 的 CPU/内存/IO 瓶颈。",
+  "skills": [
+    {
+      "name": "performance-profiler",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    }
+  ]
+}

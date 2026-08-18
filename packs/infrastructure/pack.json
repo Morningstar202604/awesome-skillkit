@@ -1,0 +1,21 @@
+{
+  "id": "infrastructure",
+  "name": "Infrastructure as Code",
+  "name_zh": "基础设施即代码",
+  "description": "Terraform patterns, observability design, and Kubernetes operators.",
+  "description_zh": "Terraform 模式、可观测性设计与 Kubernetes Operator。",
+  "skills": [
+    {
+      "name": "terraform-patterns",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "observability-designer",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "kubernetes-operator",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    }
+  ]
+}

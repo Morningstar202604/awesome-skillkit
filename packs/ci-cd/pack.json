@@ -1,0 +1,21 @@
+{
+  "id": "ci-cd",
+  "name": "CI/CD Pipeline",
+  "name_zh": "CI/CD 流水线",
+  "description": "Generate pragmatic CI/CD pipelines, release gates, and spec-driven development workflows.",
+  "description_zh": "生成务实的 CI/CD 流水线、发布门禁与规范驱动开发流程。",
+  "skills": [
+    {
+      "name": "ci-cd-pipeline-builder",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "ship-gate",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "spec-driven-workflow",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    }
+  ]
+}

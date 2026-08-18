@@ -1,0 +1,37 @@
+{
+  "id": "ai-agent-development",
+  "name": "AI Agent Development",
+  "name_zh": "AI Agent 开发",
+  "description": "Build production-grade AI agents, design multi-agent workflows, MCP servers, feature flags, and self-evaluation.",
+  "description_zh": "构建生产级 AI Agent、设计多 Agent 工作流、MCP 服务、功能开关与自评。",
+  "skills": [
+    {
+      "name": "agent-builder-skill",
+      "source": "weed33834 (self-authored)"
+    },
+    {
+      "name": "agent-designer",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "agent-workflow-designer",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "mcp-server-builder",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "feature-flags-architect",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "self-eval",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "skill-tester",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    }
+  ]
+}

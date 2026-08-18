@@ -1,0 +1,17 @@
+{
+  "id": "security",
+  "name": "Security & Secrets",
+  "name_zh": "安全与密钥管理",
+  "description": "Set up secret vaults and manage environment-variable hygiene.",
+  "description_zh": "搭建密钥库并管理环境变量卫生。",
+  "skills": [
+    {
+      "name": "secrets-vault-manager",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "env-secrets-manager",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    }
+  ]
+}

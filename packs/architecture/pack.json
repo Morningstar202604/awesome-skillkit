@@ -1,0 +1,21 @@
+{
+  "id": "architecture",
+  "name": "System Architecture",
+  "name_zh": "系统架构设计",
+  "description": "Design system architecture, plan zero-downtime migrations, and navigate monorepos.",
+  "description_zh": "设计系统架构、规划零停机迁移、驾驭 monorepo。",
+  "skills": [
+    {
+      "name": "senior-architect",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "migration-architect",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "monorepo-navigator",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    }
+  ]
+}

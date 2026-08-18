@@ -1,0 +1,13 @@
+{
+  "id": "family-communication",
+  "name": "Family Communication",
+  "name_zh": "家庭沟通",
+  "description": "Simulate, diagnose, and cope with Chinese-parent behavior via a 10-dimension profile.",
+  "description_zh": "用 10 维画像模拟、诊断与应对中国式家长。",
+  "skills": [
+    {
+      "name": "chinese-parents-skill",
+      "source": "weed33834 (self-authored)"
+    }
+  ]
+}

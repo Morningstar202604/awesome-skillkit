@@ -1,0 +1,21 @@
+{
+  "id": "github-workflow",
+  "name": "GitHub Collaboration",
+  "name_zh": "GitHub 协作工作流",
+  "description": "Parallel worktrees, conventional-commit changelogs, and PR review on GitHub.",
+  "description_zh": "并行 worktree、Conventional Commits 变更日志与 GitHub PR 审查。",
+  "skills": [
+    {
+      "name": "git-worktree-manager",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "changelog-generator",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "pr-review-expert",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    }
+  ]
+}

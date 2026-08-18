@@ -1,0 +1,21 @@
+{
+  "id": "incident-response",
+  "name": "Incident Response & SRE",
+  "name_zh": "故障响应与 SRE",
+  "description": "Command incidents, generate runbooks, and define SLOs/error budgets.",
+  "description_zh": "事故指挥、生成 runbook、定义 SLO 与错误预算。",
+  "skills": [
+    {
+      "name": "incident-commander",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "runbook-generator",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "slo-architect",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    }
+  ]
+}

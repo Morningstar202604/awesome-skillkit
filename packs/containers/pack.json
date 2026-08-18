@@ -1,0 +1,21 @@
+{
+  "id": "containers",
+  "name": "Containers & Orchestration",
+  "name_zh": "容器与编排",
+  "description": "Dockerfile optimization, docker-compose, Helm charts, and Kubernetes operators.",
+  "description_zh": "Dockerfile 优化、docker-compose、Helm Chart 与 Kubernetes Operator。",
+  "skills": [
+    {
+      "name": "docker-development",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "helm-chart-builder",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "kubernetes-operator",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    }
+  ]
+}

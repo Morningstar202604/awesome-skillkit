@@ -1,0 +1,13 @@
+{
+  "id": "tdd",
+  "name": "Test-Driven Development",
+  "name_zh": "测试驱动开发",
+  "description": "Write unit tests, fixtures, mocks, and guide red-green-refactor cycles.",
+  "description_zh": "编写单元测试、fixture、mock，并引导红绿重构循环。",
+  "skills": [
+    {
+      "name": "tdd-guide",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    }
+  ]
+}

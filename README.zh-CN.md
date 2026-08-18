@@ -1,170 +1,253 @@
----
-AIGC:
-    Label: "1"
-    ContentProducer: 001191440300708461136T1XGW3
-    ProduceID: 98adaa6f98486df4666888a6691e7607_1c7ffc529a2411f1a98a525400f8a581
-    ReservedCode1: c4Rcdsi8C/sVj6fiVq4Ms4viKQX6q4HD1vDadl70xfx5rJy2EmbQEOQ+p5zksHxfy/Coo9Ty/ZYTVdtB+lUOC58bDmBroB3c0KeHPHaGLU2OtOAyuBoohhqEJkz/I15vnYjSCc/8Rl5BSj3TgOStUmyPjqXvQUEaME3595ryAZRWcCD0Ry0lIH7/OI0=
-    ContentPropagator: 001191440300708461136T1XGW3
-    PropagateID: 98adaa6f98486df4666888a6691e7607_1c7ffc529a2411f1a98a525400f8a581
-    ReservedCode2: c4Rcdsi8C/sVj6fiVq4Ms4viKQX6q4HD1vDadl70xfx5rJy2EmbQEOQ+p5zksHxfy/Coo9Ty/ZYTVdtB+lUOC58bDmBroB3c0KeHPHaGLU2OtOAyuBoohhqEJkz/I15vnYjSCc/8Rl5BSj3TgOStUmyPjqXvQUEaME3595ryAZRWcCD0Ry0lIH7/OI0=
----
-
-
-
 # awesome-skillkit
 
 [English](README.md) | **中文**
 
-常用技能包合集。**下载 zip → 解压 → 拖进 AI 工具的 skills 目录 → 立即生效**，不用再纠结一堆技能该用哪个。
+面向 AI 工具的精选**场景包**合集。**每个场景包 = 一个真实场景，内含多个精选 skill。** 下载 zip → 解压 → 把 skill 文件夹拖进 AI 工具的 skills 目录 → 直接可用。
 
 ## 定位
 
-**场景即答案，落地到平台+工具。**
+**场景即答案——落地到平台 + 工具。**
 
-- 每个技能包对应一个**具体使用场景**（"我要发博客"、"我要发知乎"），而不是"营销""工程"这类大领域。
-- 细节落到**平台 + 工具**：如"博客园发文"（cnblogs.com + API/浏览器）、"知乎发文"（zhihu.com + Playwright）。
-- 包内只放精选的 3-5 个技能，下载即用，不堆数量。
+- 每个场景包对应一个**具体场景**（"审查 PR"、"搭建 CI/CD 流水线"、"发博客"），而不是"营销""工程"这类宽泛领域。
+- 每个场景包打包 **3–7 个协同工作的 skill**，不用再在上百个零散 skill 里翻找。
+- 每个 skill 的**来源都明确标注**（见"来源"列），让大家知道它来自哪里。
 
-## 快速选择
+## 场景包总览
 
-| 技能 | 场景 | 平台 + 工具 | 什么时候用 |
-|------|------|-----------|-----------|
-| [agent-builder-skill](skills/programming/ai-agents/agent-builder-skill/) | 编程 > AI Agent | 通用 + 代码生成 | 想"做个 XX 应用/Agent"，但不想多轮沟通 |
-| [chinese-parents-skill](skills/life/family/chinese-parents-skill/) | 生活 > 家庭 | 通用 + 模拟/诊断 | 想理解家长、分析家长类型、不知道怎么开口 |
-| [cnblogs-skill](skills/writing/blog/cnblogs-skill/) | 写作 > 博客 | 博客园 cnblogs.com + API/浏览器 | 要发博文、管理博客、社区互动 |
-| [zhihu-content-manager](skills/writing/zhihu/zhihu-content-manager/) | 写作 > 知乎 | 知乎 zhihu.com + Playwright | 要发/改/删知乎文章、清草稿、修乱码 |
+| 场景包 | 场景 | Skill 数 | 大小 |
+|--------|------|----------|------|
+| ai-agent-development | AI Agent 开发 | 7 | 1796 KB |
+| api-development | API 开发与测试 | 2 | 100 KB |
+| architecture | 系统架构设计 | 3 | 223 KB |
+| blog-writing | 博客写作发文 | 1 | 60 KB |
+| ci-cd | CI/CD 流水线 | 3 | 126 KB |
+| code-review | 代码审查 | 5 | 502 KB |
+| containers | 容器与编排 | 3 | 138 KB |
+| database | 数据库设计与管理 | 3 | 198 KB |
+| family-communication | 家庭沟通 | 1 | 513 KB |
+| github-workflow | GitHub 协作工作流 | 3 | 83 KB |
+| incident-response | 故障响应与 SRE | 3 | 244 KB |
+| infrastructure | 基础设施即代码 | 3 | 207 KB |
+| performance | 性能优化 | 1 | 17 KB |
+| security | 安全与密钥管理 | 2 | 80 KB |
+| tdd | 测试驱动开发 | 1 | 105 KB |
+| zhihu-writing | 知乎写作发文 | 1 | 16 KB |
+
+## 场景包详情
+
+### AI Agent 开发（`ai-agent-development`）— 1796 KB
+
+**构建生产级 AI Agent、设计多 Agent 工作流、MCP 服务、功能开关与自评。**
+
+| Skill | 来源 |
+|-------|------|
+| agent-builder-skill | weed33834 (self-authored) |
+| agent-designer | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| agent-workflow-designer | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| mcp-server-builder | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| feature-flags-architect | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| self-eval | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| skill-tester | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+
+### API 开发与测试（`api-development`）— 100 KB
+
+**审查 REST API 设计并生成集成/契约测试套件。**
+
+| Skill | 来源 |
+|-------|------|
+| api-design-reviewer | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| api-test-suite-builder | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+
+### 系统架构设计（`architecture`）— 223 KB
+
+**设计系统架构、规划零停机迁移、驾驭 monorepo。**
+
+| Skill | 来源 |
+|-------|------|
+| senior-architect | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| migration-architect | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| monorepo-navigator | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+
+### 博客写作发文（`blog-writing`）— 60 KB
+
+**博客园发文与管理：选题、写作、配图、API 发布。**
+
+| Skill | 来源 |
+|-------|------|
+| cnblogs-skill | weed33834 (self-authored) |
+
+### CI/CD 流水线（`ci-cd`）— 126 KB
+
+**生成务实的 CI/CD 流水线、发布门禁与规范驱动开发流程。**
+
+| Skill | 来源 |
+|-------|------|
+| ci-cd-pipeline-builder | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| ship-gate | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| spec-driven-workflow | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+
+### 代码审查（`code-review`）— 502 KB
+
+**审查 PR、分析代码质量、审计依赖与技术债，覆盖多语言。**
+
+| Skill | 来源 |
+|-------|------|
+| pr-review-expert | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| code-reviewer | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| api-design-reviewer | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| tech-debt-tracker | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| dependency-auditor | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+
+### 容器与编排（`containers`）— 138 KB
+
+**Dockerfile 优化、docker-compose、Helm Chart 与 Kubernetes Operator。**
+
+| Skill | 来源 |
+|-------|------|
+| docker-development | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| helm-chart-builder | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| kubernetes-operator | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+
+### 数据库设计与管理（`database`）— 198 KB
+
+**设计表结构、ERD 图、迁移方案，并优化 SQL 查询。**
+
+| Skill | 来源 |
+|-------|------|
+| database-designer | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| database-schema-designer | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| sql-database-assistant | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+
+### 家庭沟通（`family-communication`）— 513 KB
+
+**用 10 维画像模拟、诊断与应对中国式家长。**
+
+| Skill | 来源 |
+|-------|------|
+| chinese-parents-skill | weed33834 (self-authored) |
+
+### GitHub 协作工作流（`github-workflow`）— 83 KB
+
+**并行 worktree、Conventional Commits 变更日志与 GitHub PR 审查。**
+
+| Skill | 来源 |
+|-------|------|
+| git-worktree-manager | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| changelog-generator | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| pr-review-expert | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+
+### 故障响应与 SRE（`incident-response`）— 244 KB
+
+**事故指挥、生成 runbook、定义 SLO 与错误预算。**
+
+| Skill | 来源 |
+|-------|------|
+| incident-commander | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| runbook-generator | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| slo-architect | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+
+### 基础设施即代码（`infrastructure`）— 207 KB
+
+**Terraform 模式、可观测性设计与 Kubernetes Operator。**
+
+| Skill | 来源 |
+|-------|------|
+| terraform-patterns | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| observability-designer | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| kubernetes-operator | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+
+### 性能优化（`performance`）— 17 KB
+
+**剖析 Node.js、Python、Go 的 CPU/内存/IO 瓶颈。**
+
+| Skill | 来源 |
+|-------|------|
+| performance-profiler | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+
+### 安全与密钥管理（`security`）— 80 KB
+
+**搭建密钥库并管理环境变量卫生。**
+
+| Skill | 来源 |
+|-------|------|
+| secrets-vault-manager | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+| env-secrets-manager | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+
+### 测试驱动开发（`tdd`）— 105 KB
+
+**编写单元测试、fixture、mock，并引导红绿重构循环。**
+
+| Skill | 来源 |
+|-------|------|
+| tdd-guide | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+
+### 知乎写作发文（`zhihu-writing`）— 16 KB
+
+**知乎文章发布/编辑/删除、草稿、话题、封面与乱码修复。**
+
+| Skill | 来源 |
+|-------|------|
+| zhihu-content-manager | weed33834 (self-authored) |
 
 ## 目录结构
 
-技能按**场景 → 子场景**多级目录组织，直接浏览目录树即可找到对应技能包，不用看一长串平铺列表。
-
 ```
-skills/
-├── programming/
-│   ├── ai-agents/
-│   │   └── agent-builder-skill/        # 一句话需求 -> 生产级 AI Agent
-│   ├── ai-engineering/                 # mcp-server-builder、feature-flags-architect、self-eval、skill-tester
-│   ├── api/                            # api-design-reviewer、api-test-suite-builder
-│   ├── architecture/                   # senior-architect、migration-architect、monorepo-navigator
-│   ├── cicd/                           # ci-cd-pipeline-builder、ship-gate、spec-driven-workflow
-│   ├── code-quality/                   # code-reviewer、tdd-guide、tech-debt-tracker、dependency-auditor
-│   ├── containers/                     # docker-development、helm-chart-builder
-│   ├── database/                       # database-designer、database-schema-designer、sql-database-assistant
-│   ├── github/                         # pr-review-expert、git-worktree-manager、changelog-generator
-│   ├── incident/                       # incident-commander、runbook-generator、slo-architect
-│   ├── infrastructure/                 # kubernetes-operator、observability-designer、terraform-patterns
-│   ├── performance/                    # performance-profiler
-│   ├── security/                       # env-secrets-manager、secrets-vault-manager
-│   └── workflow/                       # agent-designer、agent-workflow-designer
-├── writing/
-│   ├── blog/
-│   │   └── cnblogs-skill/              # 博客园发文与管理
-│   └── zhihu/
-│       └── zhihu-content-manager/      # 知乎文章发布/编辑/删除
-└── life/
-    └── family/
-        └── chinese-parents-skill/      # 理解家长、与家长沟通
+packs/                          # 场景包定义（每个场景一个目录）
+├── code-review/                #   pack.json：场景元数据 + skill 清单 + 来源
+├── ci-cd/
+├── containers/
+├── database/
+├── api-development/
+├── github-workflow/
+├── architecture/
+├── incident-response/
+├── infrastructure/
+├── ai-agent-development/
+├── security/
+├── performance/
+├── tdd/
+├── blog-writing/
+├── zhihu-writing/
+└── family-communication/
+skills/                         # 所有 skill 源码的唯一真源
+└── programming/ | writing/ | life/   # 多级分类
+dist/                           # 构建产物：每个场景包一个 zip（已 gitignore）
 ```
 
-## 怎么用（30 秒上手）
+## 快速上手（30 秒）
 
-1. 从 **Releases** 下载对应技能的 zip（或直接使用 `skills/` 下的源码目录）
-2. 解压，得到一个以技能名命名的文件夹（内含 `SKILL.md`）
-3. 把整个文件夹**拖进** AI 工具的 skills 目录：
-   - Claude Code：`~/.claude/skills/`（全局）或项目下 `.claude/skills/`（仅该项目）
-   - 其他支持 skills 的工具：放入其对应 skills 目录
-4. 新开会话即可触发，无需任何配置
+1. 从 **Releases** 下载你需要的**场景包** zip（或本地运行 `bash build.sh` 生成 `dist/*.zip`）。
+2. 解压后得到**多个 skill 文件夹**（每个含 `SKILL.md`）。
+3. 把 skill 文件夹**拖进** AI 工具的 skills 目录：
+   - Claude Code：`~/.claude/skills/`（全局）或项目内 `.claude/skills/`（仅项目）
+   - 其他支持 skills 的工具：使用其对应的 skills 目录
+4. 新开会话即可使用，无需任何配置。
 
-> 也可以一键安装全部技能（见下方"一键安装"）。
+## 构建与发布
 
-## 一键安装
-
-把全部技能解压到 `~/.claude/skills/`：
+源码在 `skills/`；场景包定义在 `packs/*/pack.json`；zip 通过 GitHub Releases 发布（`dist/` 已 gitignore）。
 
 ```bash
-# 1. 先生成压缩包（若 dist/ 为空）
-bash build.sh
-
-# 2. Linux / macOS
-bash install.sh
-
-# Windows (PowerShell)
-.\install.ps1
-```
-
-指定安装目录：
-
-```bash
-bash install.sh /path/to/skills-dir
-```
-
-## 打包发布
-
-源码在 `skills/`，压缩包通过 GitHub Releases 发布（不进仓库，`dist/` 已被 .gitignore 忽略）。
-
-```bash
-# 生成 dist/*.zip
+# 生成 dist/*.zip（每个场景包一个 zip）
 bash build.sh
 
 # 发布流程
-git tag v1.0.0
-git push origin v1.0.0
-# 在 GitHub Releases 页面创建 release，上传 dist/*.zip
+git tag v2.0.0
+git push origin v2.0.0
+# 在 GitHub Releases 页面创建 release 并上传 dist/*.zip
 ```
 
-## 技能清单
+## 来源说明
 
-完整元数据见 [manifest.json](manifest.json)（名称 / 类别 / 触发词 / 大小）。
-
-| 技能 | 大小 | 来源 |
-|------|------|------|
-| chinese-parents-skill | 559 KB | [weed33834/chinese-parents-skill](https://github.com/weed33834/chinese-parents-skill) |
-| agent-builder-skill | 1923 KB | [weed33834/agent-builder-skill](https://github.com/weed33834/agent-builder-skill) |
-| feature-flags-architect | 45 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| mcp-server-builder | 26 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| self-eval | 8 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| skill-tester | 83 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| api-design-reviewer | 187 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| api-test-suite-builder | 23 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| migration-architect | 265 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| monorepo-navigator | 23 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| senior-architect | 120 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| ci-cd-pipeline-builder | 25 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| ship-gate | 72 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| spec-driven-workflow | 85 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| code-reviewer | 163 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| dependency-auditor | 197 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| tdd-guide | 170 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| tech-debt-tracker | 326 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| docker-development | 49 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| helm-chart-builder | 70 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| database-designer | 245 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| database-schema-designer | 18 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| sql-database-assistant | 76 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| changelog-generator | 63 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| git-worktree-manager | 25 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| pr-review-expert | 12 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| incident-commander | 304 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| runbook-generator | 3 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| slo-architect | 48 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| kubernetes-operator | 64 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| observability-designer | 207 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| terraform-patterns | 65 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| performance-profiler | 17 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| env-secrets-manager | 21 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| secrets-vault-manager | 78 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| agent-designer | 260 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| agent-workflow-designer | 7 KB | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) |
-| cnblogs-skill | 69 KB | [weed33834/cnblogs-skill](https://github.com/weed33834/cnblogs-skill) |
-| zhihu-content-manager | 15 KB | [weed33834/zhihu-skill](https://github.com/weed33834/zhihu-skill) |
+- **35 个 skill** 精选自 [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills)（MIT 协议）。
+- **4 个 skill** 为仓库作者自建：`agent-builder-skill`、`chinese-parents-skill`、`cnblogs-skill`、`zhihu-content-manager`。
+- 每个 skill 的完整来源标注见 [manifest.json](manifest.json) 及各 `packs/*/pack.json`。
 
 ## 说明
 
-- 收录本人自建仓库的 skill，并精选 [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills)（MIT）的开发者场景技能包。
-- 打包时已剔除 `.github`、`.gitignore`、`docker-compose.yml` 等非技能核心文件，保留 `SKILL.md`、`references/`、`scripts/`、`templates/` 等运行所需内容。
-- 各技能依赖（如 playwright、登录态）以各自 `SKILL.md` 内说明为准。
-*（内容由AI生成，仅供参考）*
+- 非核心文件（`.github`、`.gitignore`、`docker-compose.yml` 等）不打包进 zip；运行所需内容（`SKILL.md`、`references/`、`scripts/`、`templates/`）保留。
+- 各 skill 的依赖（如 Playwright、登录态）见其自身 `SKILL.md`。
 
-## 许可证
+## License
 
 [Apache License 2.0](LICENSE) © 2026 weed33834

@@ -1,0 +1,13 @@
+{
+  "id": "zhihu-writing",
+  "name": "Zhihu Publishing",
+  "name_zh": "知乎写作发文",
+  "description": "Publish/edit/delete Zhihu articles, manage drafts, topics, covers, and fix garbled text.",
+  "description_zh": "知乎文章发布/编辑/删除、草稿、话题、封面与乱码修复。",
+  "skills": [
+    {
+      "name": "zhihu-content-manager",
+      "source": "weed33834 (self-authored)"
+    }
+  ]
+}

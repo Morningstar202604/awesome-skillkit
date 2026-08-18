@@ -1,0 +1,29 @@
+{
+  "id": "code-review",
+  "name": "Code Review",
+  "name_zh": "代码审查",
+  "description": "Review pull requests, analyze code quality, audit dependencies and tech debt across languages.",
+  "description_zh": "审查 PR、分析代码质量、审计依赖与技术债，覆盖多语言。",
+  "skills": [
+    {
+      "name": "pr-review-expert",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "code-reviewer",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "api-design-reviewer",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "tech-debt-tracker",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "dependency-auditor",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    }
+  ]
+}

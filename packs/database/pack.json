@@ -1,0 +1,21 @@
+{
+  "id": "database",
+  "name": "Database Design & Management",
+  "name_zh": "数据库设计与管理",
+  "description": "Design schemas, ERD diagrams, migrations, and optimize SQL queries.",
+  "description_zh": "设计表结构、ERD 图、迁移方案，并优化 SQL 查询。",
+  "skills": [
+    {
+      "name": "database-designer",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "database-schema-designer",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "sql-database-assistant",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    }
+  ]
+}
