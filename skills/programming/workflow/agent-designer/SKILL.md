@@ -1,6 +1,6 @@
 ---
 name: "agent-designer"
-description: "Use when the user asks to design a multi-agent system, pick an orchestration pattern (supervisor/swarm/pipeline), generate tool schemas for agents, or evaluate agent execution logs for cost, latency, and failure bottlenecks. Examples: 'design an agent architecture for research automation', 'generate Anthropic tool schemas from these tool descriptions', 'analyze these agent run logs for bottlenecks'. NOT for Claude Code workflow files (use workflow-builder) or single-agent prompt design (use agent-workflow-designer)."
+description: "Use when the user asks to design a multi-agent system, pick an orchestration pattern (supervisor/swarm/pipeline/sequential/parallel/router/orchestrator/evaluator), scaffold a multi-step agent workflow config, choose between single-agent vs multi-agent approaches, generate tool schemas for agents, or evaluate agent execution logs for cost, latency, and failure bottlenecks. Examples: 'design an agent architecture for research automation', 'scaffold a content-pipeline workflow', 'generate Anthropic tool schemas from these tool descriptions', 'analyze these agent run logs for bottlenecks'."
 ---
 
 # Agent Designer — Multi-Agent System Architecture
@@ -13,7 +13,7 @@ Design, schema-generate, and evaluate multi-agent systems with three determinist
 - Generating provider-ready tool schemas (Anthropic + OpenAI formats) from plain tool descriptions
 - Evaluating execution logs: success rate, latency distribution, cost, bottlenecks
 
-**When NOT to use:** Claude Code Workflow-tool automations → `workflow-builder`; single-agent workflow scaffolds → `agent-workflow-designer`; multi-agent fan-out at runtime → `agenthub`.
+**When NOT to use:** Claude Code Workflow-tool automations → `workflow-builder`; multi-agent fan-out at runtime → `agenthub`.
 
 ## Pattern decision table
 
@@ -26,6 +26,25 @@ Design, schema-generate, and evaluate multi-agent systems with three determinist
 | Swarm | Parallel peers, fault tolerance over predictability | Hard to debug; needs consensus rules |
 
 The planner applies this scoring deterministically — run it rather than picking by feel.
+
+## Workflow scaffolding (quick start)
+
+For a fast skeleton before running the full planner pipeline:
+
+```bash
+# Sequential / parallel / router / orchestrator / evaluator skeletons
+python3 workflow_scaffolder.py sequential --name content-pipeline
+python3 workflow_scaffolder.py orchestrator --name incident-triage --output workflows/incident-triage.json
+```
+
+Pattern templates and the minimum handoff contract (`workflow_id`, `step_id`,
+`task`, `constraints`, `upstream_artifacts`, `budget_tokens`, `timeout_seconds`)
+→ See references/workflow_patterns.md for details
+
+Workflow discipline: start with the smallest pattern that satisfies the
+requirements; keep handoff payloads explicit and bounded; add retry/timeout
+policy to every external-model call; validate intermediate outputs before
+fan-in synthesis; dry-run with small context budgets before scaling.
 
 ## Workflow
 
@@ -72,5 +91,6 @@ The design is not done until:
 ## References
 
 - `references/agent_architecture_patterns.md` — pattern trade-offs in depth
+- `references/workflow_patterns.md` — workflow skeleton templates + handoff contract (merged from agent-workflow-designer)
 - `references/tool_design_best_practices.md` — schema, idempotency, error-handling rules
 - `references/evaluation_methodology.md` — metric definitions the evaluator implements

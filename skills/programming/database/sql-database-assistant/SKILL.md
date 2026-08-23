@@ -7,7 +7,7 @@ description: "Use when the user asks to write SQL queries, optimize database per
 
 ## Overview
 
-The operational companion to database design. While **database-designer** focuses on schema architecture and **database-schema-designer** handles ERD modeling, this skill covers the day-to-day: writing queries, optimizing performance, generating migrations, and bridging the gap between application code and database engines.
+The operational companion to database design. While **database-designer** focuses on schema architecture, ERD modeling, and multi-tenancy patterns, this skill covers the day-to-day: writing queries, optimizing performance, generating migrations, and bridging the gap between application code and database engines.
 
 ### Core Capabilities
 
@@ -451,7 +451,7 @@ sqlite3 dbname ".backup backup.db"
 | Skill | Relationship |
 |-------|-------------|
 | **database-designer** | Schema architecture, normalization analysis, ERD generation |
-| **database-schema-designer** | Visual ERD modeling, relationship mapping |
+| **database-designer** | Schema architecture, ERD modeling, RLS/multi-tenancy patterns |
 | **migration-architect** | Complex multi-step migration orchestration |
 | **api-design-reviewer** | Ensuring API endpoints align with query patterns |
 | **observability-platform** | Query performance monitoring, slow query alerts |

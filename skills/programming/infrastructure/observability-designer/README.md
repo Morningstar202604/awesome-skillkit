@@ -1,12 +1,11 @@
 # Observability Designer
 
-A comprehensive toolkit for designing production-ready observability strategies including SLI/SLO frameworks, alert optimization, and dashboard generation.
+A comprehensive toolkit for designing production-ready observability strategies including alert optimization and dashboard generation. (SLO framework design lives in the `slo-architect` skill.)
 
 ## Overview
 
-The Observability Designer skill provides three powerful Python scripts that help you create, optimize, and maintain observability systems:
+The Observability Designer skill provides two powerful Python scripts that help you create, optimize, and maintain observability systems:
 
-- **SLO Designer**: Generate complete SLI/SLO frameworks with error budgets and burn rate alerts
 - **Alert Optimizer**: Analyze and optimize existing alert configurations to reduce noise and improve effectiveness
 - **Dashboard Generator**: Create comprehensive dashboard specifications with role-based layouts and drill-down paths
 
@@ -20,9 +19,6 @@ The Observability Designer skill provides three powerful Python scripts that hel
 ### Basic Usage
 
 ```bash
-# Generate SLO framework for a service
-python3 scripts/slo_designer.py --service-type api --criticality critical --user-facing true --service-name payment-service
-
 # Optimize existing alerts
 python3 scripts/alert_optimizer.py --input assets/sample_alerts.json --analyze-only
 
@@ -32,69 +28,9 @@ python3 scripts/dashboard_generator.py --service-type web --name "Customer Porta
 
 ## Scripts Documentation
 
-### SLO Designer (`slo_designer.py`)
-
-Generates comprehensive SLO frameworks based on service characteristics.
-
-#### Features
-- **Automatic SLI Selection**: Recommends appropriate SLIs based on service type
-- **Target Setting**: Suggests SLO targets based on service criticality
-- **Error Budget Calculation**: Computes error budgets and burn rate thresholds
-- **Multi-Window Burn Rate Alerts**: Generates 4-window burn rate alerting rules
-- **SLA Recommendations**: Provides customer-facing SLA guidance
-
-#### Usage Examples
-
-```bash
-# From service definition file
-python3 scripts/slo_designer.py --input assets/sample_service_api.json --output slo_framework.json
-
-# From command line parameters
-python3 scripts/slo_designer.py \
-    --service-type api \
-    --criticality critical \
-    --user-facing true \
-    --service-name payment-service \
-    --output payment_slos.json
-
-# Generate and display summary only
-python3 scripts/slo_designer.py --input assets/sample_service_web.json --summary-only
-```
-
-#### Service Definition Format
-
-```json
-{
-  "name": "payment-service",
-  "type": "api",
-  "criticality": "critical",
-  "user_facing": true,
-  "description": "Handles payment processing",
-  "team": "payments",
-  "environment": "production",
-  "dependencies": [
-    {
-      "name": "user-service",
-      "type": "api",
-      "criticality": "high"
-    }
-  ]
-}
-```
-
-#### Supported Service Types
-- **api**: REST APIs, GraphQL services
-- **web**: Web applications, SPAs
-- **database**: Database services, data stores
-- **queue**: Message queues, event streams
-- **batch**: Batch processing jobs
-- **ml**: Machine learning services
-
-#### Criticality Levels
-- **critical**: 99.99% availability, <100ms P95 latency, <0.1% error rate
-- **high**: 99.9% availability, <200ms P95 latency, <0.5% error rate
-- **medium**: 99.5% availability, <500ms P95 latency, <1% error rate
-- **low**: 99% availability, <1s P95 latency, <2% error rate
+> **SLO frameworks:** use the `slo-architect` skill (ships `slo_designer.py`,
+> `error_budget_calculator.py`, `slo_review.py`). This skill consumes SLO
+> targets as inputs for alert rules and dashboards.
 
 ### Alert Optimizer (`alert_optimizer.py`)
 
@@ -256,9 +192,6 @@ The `expected_outputs/` directory shows example outputs from each script:
 
 ### CI/CD Integration
 ```bash
-# Generate SLOs during service onboarding
-python3 scripts/slo_designer.py --input service-config.json --output slos.json
-
 # Validate alert configurations in pipeline
 python3 scripts/alert_optimizer.py --input alerts.json --analyze-only --report validation.html
 
@@ -347,7 +280,7 @@ Enable verbose logging by setting environment variable:
 
 ```bash
 export DEBUG=1
-python3 scripts/slo_designer.py --input service.json
+python3 scripts/dashboard_generator.py --input service.json
 ```
 
 ## Contributing

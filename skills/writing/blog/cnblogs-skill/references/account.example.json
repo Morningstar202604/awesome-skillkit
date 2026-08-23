@@ -1,0 +1,13 @@
+{
+  "_comment": "模板：复制为同目录 account.local.json 并填入你自己的博客园账号。",
+  "username": "your-cnblogs-username",
+  "blog_url": "https://www.cnblogs.com/your-account",
+  "blog_id": 0,
+  "signature_id": 0,
+  "personal_categories": {
+    "<分类ID>": "<分类名>"
+  },
+  "published_posts": [
+    {"post_id": 0, "title": "示例文章标题", "category": "分类名"}
+  ]
+}

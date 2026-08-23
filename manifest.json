@@ -1,11 +1,11 @@
 {
   "hub": "awesome-skillkit",
-  "version": "1.2.0",
-  "updated": "2026-08-18",
+  "version": "1.3.0",
+  "updated": "2026-08-23",
   "description": "Curated scene packs for AI tools: each pack = one real-world scenario, containing multiple skills. Download zip -> unzip -> drag the skill folders into your AI tool's skills directory.",
   "description_zh": "精选场景包合集：每个场景包 = 一个真实场景，内含多个 skill。下载 zip -> 解压 -> 把 skill 文件夹拖进 AI 工具的 skills 目录即可使用。",
   "source_notes": {
-    "alirezarezvani/claude-skills (MIT)": "35 skills curated from the open-source claude-skills project (MIT license).",
+    "alirezarezvani/claude-skills (MIT)": "33 skills curated from the open-source claude-skills project (MIT license). Two upstream near-duplicates (database-schema-designer, agent-workflow-designer) were merged into their siblings; unique content was preserved as reference docs.",
     "weed33834 (self-authored)": "4 skills authored by the repo owner (agent-builder-skill, chinese-parents-skill, cnblogs-skill, zhihu-content-manager)."
   },
   "packs": [
@@ -14,7 +14,7 @@
       "name": "AI Agent Development",
       "name_zh": "AI Agent 开发",
       "file": "dist/ai-agent-development.zip",
-      "size_kb": 1796,
+      "size_kb": 883,
       "description": "Build production-grade AI agents, design multi-agent workflows, MCP servers, feature flags, and self-evaluation.",
       "description_zh": "构建生产级 AI Agent、设计多 Agent 工作流、MCP 服务、功能开关与自评。",
       "skills": [
@@ -24,10 +24,6 @@
         },
         {
           "name": "agent-designer",
-          "source": "alirezarezvani/claude-skills (MIT)"
-        },
-        {
-          "name": "agent-workflow-designer",
           "source": "alirezarezvani/claude-skills (MIT)"
         },
         {
@@ -53,7 +49,7 @@
       "name": "API Development & Testing",
       "name_zh": "API 开发与测试",
       "file": "dist/api-development.zip",
-      "size_kb": 100,
+      "size_kb": 49,
       "description": "Review REST API designs and generate integration/contract test suites.",
       "description_zh": "审查 REST API 设计并生成集成/契约测试套件。",
       "skills": [
@@ -72,7 +68,7 @@
       "name": "System Architecture",
       "name_zh": "系统架构设计",
       "file": "dist/architecture.zip",
-      "size_kb": 223,
+      "size_kb": 108,
       "description": "Design system architecture, plan zero-downtime migrations, and navigate monorepos.",
       "description_zh": "设计系统架构、规划零停机迁移、驾驭 monorepo。",
       "skills": [
@@ -95,7 +91,7 @@
       "name": "Blog Publishing",
       "name_zh": "博客写作发文",
       "file": "dist/blog-writing.zip",
-      "size_kb": 60,
+      "size_kb": 29,
       "description": "Publish and manage posts on cnblogs.com: research, writing, images, API publishing.",
       "description_zh": "博客园发文与管理：选题、写作、配图、API 发布。",
       "skills": [
@@ -110,7 +106,7 @@
       "name": "CI/CD Pipeline",
       "name_zh": "CI/CD 流水线",
       "file": "dist/ci-cd.zip",
-      "size_kb": 126,
+      "size_kb": 60,
       "description": "Generate pragmatic CI/CD pipelines, release gates, and spec-driven development workflows.",
       "description_zh": "生成务实的 CI/CD 流水线、发布门禁与规范驱动开发流程。",
       "skills": [
@@ -133,7 +129,7 @@
       "name": "Code Review",
       "name_zh": "代码审查",
       "file": "dist/code-review.zip",
-      "size_kb": 502,
+      "size_kb": 242,
       "description": "Review pull requests, analyze code quality, audit dependencies and tech debt across languages.",
       "description_zh": "审查 PR、分析代码质量、审计依赖与技术债，覆盖多语言。",
       "skills": [
@@ -164,7 +160,7 @@
       "name": "Containers & Orchestration",
       "name_zh": "容器与编排",
       "file": "dist/containers.zip",
-      "size_kb": 138,
+      "size_kb": 66,
       "description": "Dockerfile optimization, docker-compose, Helm charts, and Kubernetes operators.",
       "description_zh": "Dockerfile 优化、docker-compose、Helm Chart 与 Kubernetes Operator。",
       "skills": [
@@ -187,16 +183,12 @@
       "name": "Database Design & Management",
       "name_zh": "数据库设计与管理",
       "file": "dist/database.zip",
-      "size_kb": 198,
+      "size_kb": 95,
       "description": "Design schemas, ERD diagrams, migrations, and optimize SQL queries.",
       "description_zh": "设计表结构、ERD 图、迁移方案，并优化 SQL 查询。",
       "skills": [
         {
           "name": "database-designer",
-          "source": "alirezarezvani/claude-skills (MIT)"
-        },
-        {
-          "name": "database-schema-designer",
           "source": "alirezarezvani/claude-skills (MIT)"
         },
         {
@@ -210,7 +202,7 @@
       "name": "Family Communication",
       "name_zh": "家庭沟通",
       "file": "dist/family-communication.zip",
-      "size_kb": 513,
+      "size_kb": 255,
       "description": "Simulate, diagnose, and cope with Chinese-parent behavior via a 10-dimension profile.",
       "description_zh": "用 10 维画像模拟、诊断与应对中国式家长。",
       "skills": [
@@ -225,7 +217,7 @@
       "name": "GitHub Collaboration",
       "name_zh": "GitHub 协作工作流",
       "file": "dist/github-workflow.zip",
-      "size_kb": 83,
+      "size_kb": 39,
       "description": "Parallel worktrees, conventional-commit changelogs, and PR review on GitHub.",
       "description_zh": "并行 worktree、Conventional Commits 变更日志与 GitHub PR 审查。",
       "skills": [
@@ -248,7 +240,7 @@
       "name": "Incident Response & SRE",
       "name_zh": "故障响应与 SRE",
       "file": "dist/incident-response.zip",
-      "size_kb": 244,
+      "size_kb": 118,
       "description": "Command incidents, generate runbooks, and define SLOs/error budgets.",
       "description_zh": "事故指挥、生成 runbook、定义 SLO 与错误预算。",
       "skills": [
@@ -271,7 +263,7 @@
       "name": "Infrastructure as Code",
       "name_zh": "基础设施即代码",
       "file": "dist/infrastructure.zip",
-      "size_kb": 207,
+      "size_kb": 92,
       "description": "Terraform patterns, observability design, and Kubernetes operators.",
       "description_zh": "Terraform 模式、可观测性设计与 Kubernetes Operator。",
       "skills": [
@@ -294,7 +286,7 @@
       "name": "Performance Profiling",
       "name_zh": "性能优化",
       "file": "dist/performance.zip",
-      "size_kb": 17,
+      "size_kb": 8,
       "description": "Profile CPU/memory/I/O bottlenecks in Node.js, Python, and Go.",
       "description_zh": "剖析 Node.js、Python、Go 的 CPU/内存/IO 瓶颈。",
       "skills": [
@@ -309,7 +301,7 @@
       "name": "Security & Secrets",
       "name_zh": "安全与密钥管理",
       "file": "dist/security.zip",
-      "size_kb": 80,
+      "size_kb": 45,
       "description": "Set up secret vaults and manage environment-variable hygiene.",
       "description_zh": "搭建密钥库并管理环境变量卫生。",
       "skills": [
@@ -328,7 +320,7 @@
       "name": "Test-Driven Development",
       "name_zh": "测试驱动开发",
       "file": "dist/tdd.zip",
-      "size_kb": 105,
+      "size_kb": 51,
       "description": "Write unit tests, fixtures, mocks, and guide red-green-refactor cycles.",
       "description_zh": "编写单元测试、fixture、mock，并引导红绿重构循环。",
       "skills": [
@@ -343,7 +335,7 @@
       "name": "Zhihu Publishing",
       "name_zh": "知乎写作发文",
       "file": "dist/zhihu-writing.zip",
-      "size_kb": 16,
+      "size_kb": 7,
       "description": "Publish/edit/delete Zhihu articles, manage drafts, topics, covers, and fix garbled text.",
       "description_zh": "知乎文章发布/编辑/删除、草稿、话题、封面与乱码修复。",
       "skills": [

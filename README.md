@@ -16,26 +16,26 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 
 | Pack | Scenario | Skills | Size |
 |------|----------|--------|------|
-| ai-agent-development | AI Agent Development | 7 | 1796 KB |
-| api-development | API Development & Testing | 2 | 100 KB |
-| architecture | System Architecture | 3 | 223 KB |
-| blog-writing | Blog Publishing | 1 | 60 KB |
-| ci-cd | CI/CD Pipeline | 3 | 126 KB |
-| code-review | Code Review | 5 | 502 KB |
-| containers | Containers & Orchestration | 3 | 138 KB |
-| database | Database Design & Management | 3 | 198 KB |
-| family-communication | Family Communication | 1 | 513 KB |
-| github-workflow | GitHub Collaboration | 3 | 83 KB |
-| incident-response | Incident Response & SRE | 3 | 244 KB |
-| infrastructure | Infrastructure as Code | 3 | 207 KB |
-| performance | Performance Profiling | 1 | 17 KB |
-| security | Security & Secrets | 2 | 80 KB |
-| tdd | Test-Driven Development | 1 | 105 KB |
-| zhihu-writing | Zhihu Publishing | 1 | 16 KB |
+| ai-agent-development | AI Agent Development | 6 | 883 KB |
+| api-development | API Development & Testing | 2 | 49 KB |
+| architecture | System Architecture | 3 | 108 KB |
+| blog-writing | Blog Publishing | 1 | 29 KB |
+| ci-cd | CI/CD Pipeline | 3 | 60 KB |
+| code-review | Code Review | 5 | 242 KB |
+| containers | Containers & Orchestration | 3 | 66 KB |
+| database | Database Design & Management | 2 | 95 KB |
+| family-communication | Family Communication | 1 | 255 KB |
+| github-workflow | GitHub Collaboration | 3 | 39 KB |
+| incident-response | Incident Response & SRE | 3 | 118 KB |
+| infrastructure | Infrastructure as Code | 3 | 92 KB |
+| performance | Performance Profiling | 1 | 8 KB |
+| security | Security & Secrets | 2 | 45 KB |
+| tdd | Test-Driven Development | 1 | 51 KB |
+| zhihu-writing | Zhihu Publishing | 1 | 7 KB |
 
 ## Pack Details
 
-### AI Agent Development (`ai-agent-development`) — 1796 KB
+### AI Agent Development (`ai-agent-development`) — 883 KB
 
 **Build production-grade AI agents, design multi-agent workflows, MCP servers, feature flags, and self-evaluation.**
 
@@ -43,13 +43,12 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 |-------|--------|
 | agent-builder-skill | weed33834 (self-authored) |
 | agent-designer | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| agent-workflow-designer | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 | mcp-server-builder | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 | feature-flags-architect | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 | self-eval | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 | skill-tester | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 
-### API Development & Testing (`api-development`) — 100 KB
+### API Development & Testing (`api-development`) — 49 KB
 
 **Review REST API designs and generate integration/contract test suites.**
 
@@ -58,7 +57,7 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | api-design-reviewer | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 | api-test-suite-builder | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 
-### System Architecture (`architecture`) — 223 KB
+### System Architecture (`architecture`) — 108 KB
 
 **Design system architecture, plan zero-downtime migrations, and navigate monorepos.**
 
@@ -68,7 +67,7 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | migration-architect | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 | monorepo-navigator | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 
-### Blog Publishing (`blog-writing`) — 60 KB
+### Blog Publishing (`blog-writing`) — 29 KB
 
 **Publish and manage posts on cnblogs.com: research, writing, images, API publishing.**
 
@@ -76,7 +75,7 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 |-------|--------|
 | cnblogs-skill | weed33834 (self-authored) |
 
-### CI/CD Pipeline (`ci-cd`) — 126 KB
+### CI/CD Pipeline (`ci-cd`) — 60 KB
 
 **Generate pragmatic CI/CD pipelines, release gates, and spec-driven development workflows.**
 
@@ -86,7 +85,7 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | ship-gate | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 | spec-driven-workflow | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 
-### Code Review (`code-review`) — 502 KB
+### Code Review (`code-review`) — 242 KB
 
 **Review pull requests, analyze code quality, audit dependencies and tech debt across languages.**
 
@@ -98,7 +97,7 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | tech-debt-tracker | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 | dependency-auditor | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 
-### Containers & Orchestration (`containers`) — 138 KB
+### Containers & Orchestration (`containers`) — 66 KB
 
 **Dockerfile optimization, docker-compose, Helm charts, and Kubernetes operators.**
 
@@ -108,17 +107,16 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | helm-chart-builder | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 | kubernetes-operator | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 
-### Database Design & Management (`database`) — 198 KB
+### Database Design & Management (`database`) — 95 KB
 
 **Design schemas, ERD diagrams, migrations, and optimize SQL queries.**
 
 | Skill | Source |
 |-------|--------|
 | database-designer | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| database-schema-designer | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 | sql-database-assistant | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 
-### Family Communication (`family-communication`) — 513 KB
+### Family Communication (`family-communication`) — 255 KB
 
 **Simulate, diagnose, and cope with Chinese-parent behavior via a 10-dimension profile.**
 
@@ -126,7 +124,7 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 |-------|--------|
 | chinese-parents-skill | weed33834 (self-authored) |
 
-### GitHub Collaboration (`github-workflow`) — 83 KB
+### GitHub Collaboration (`github-workflow`) — 39 KB
 
 **Parallel worktrees, conventional-commit changelogs, and PR review on GitHub.**
 
@@ -136,7 +134,7 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | changelog-generator | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 | pr-review-expert | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 
-### Incident Response & SRE (`incident-response`) — 244 KB
+### Incident Response & SRE (`incident-response`) — 118 KB
 
 **Command incidents, generate runbooks, and define SLOs/error budgets.**
 
@@ -146,7 +144,7 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | runbook-generator | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 | slo-architect | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 
-### Infrastructure as Code (`infrastructure`) — 207 KB
+### Infrastructure as Code (`infrastructure`) — 92 KB
 
 **Terraform patterns, observability design, and Kubernetes operators.**
 
@@ -156,7 +154,7 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | observability-designer | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 | kubernetes-operator | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 
-### Performance Profiling (`performance`) — 17 KB
+### Performance Profiling (`performance`) — 8 KB
 
 **Profile CPU/memory/I/O bottlenecks in Node.js, Python, and Go.**
 
@@ -164,7 +162,7 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 |-------|--------|
 | performance-profiler | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 
-### Security & Secrets (`security`) — 80 KB
+### Security & Secrets (`security`) — 45 KB
 
 **Set up secret vaults and manage environment-variable hygiene.**
 
@@ -173,7 +171,7 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | secrets-vault-manager | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 | env-secrets-manager | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 
-### Test-Driven Development (`tdd`) — 105 KB
+### Test-Driven Development (`tdd`) — 51 KB
 
 **Write unit tests, fixtures, mocks, and guide red-green-refactor cycles.**
 
@@ -181,7 +179,7 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 |-------|--------|
 | tdd-guide | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 
-### Zhihu Publishing (`zhihu-writing`) — 16 KB
+### Zhihu Publishing (`zhihu-writing`) — 7 KB
 
 **Publish/edit/delete Zhihu articles, manage drafts, topics, covers, and fix garbled text.**
 
@@ -216,7 +214,7 @@ dist/                           # build output: one zip per scene pack (gitignor
 
 ## Getting Started (30 seconds)
 
-1. Download the zip for the **scene** you need from **Releases** (or run `bash build.sh` to build `dist/*.zip` locally).
+1. Download the zip for the **scene** you need from **Releases** (or run `python3 build.py` to build `dist/*.zip` locally).
 2. Unzip it — you get **multiple skill folders** (each containing `SKILL.md`).
 3. **Drag** the skill folders into your AI tool's skills directory:
    - Claude Code: `~/.claude/skills/` (global) or `.claude/skills/` in your project (project-only)
@@ -229,7 +227,8 @@ Source lives in `skills/`; scene packs are defined in `packs/*/pack.json`; zips 
 
 ```bash
 # Generate dist/*.zip (one zip per scene pack)
-bash build.sh
+bash build.sh        # macOS / Linux / Git Bash
+python3 build.py     # cross-platform (no bash/zip needed); also emits dist/_all.zip with every skill
 
 # Release flow
 git tag v1.2.0
@@ -239,7 +238,7 @@ git push origin v1.2.0
 
 ## Sources
 
-- **35 skills** curated from [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT license).
+- **33 skills** curated from [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT license). Two upstream near-duplicates (`database-schema-designer`, `agent-workflow-designer`) were merged into their siblings; their unique material was preserved as reference docs inside the surviving skill.
 - **4 skills** self-authored by the repo owner: `agent-builder-skill`, `chinese-parents-skill`, `cnblogs-skill`, `zhihu-content-manager`.
 - Full per-skill attribution is in [manifest.json](manifest.json) and each `packs/*/pack.json`.
 

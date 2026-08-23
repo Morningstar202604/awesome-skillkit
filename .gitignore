@@ -1,2 +1,5 @@
 # 打包产物（通过 GitHub Releases 发布，不进仓库）
 dist/
+
+# 本地账号配置（个人数据，不进仓库、不进场景包）
+*.local.json

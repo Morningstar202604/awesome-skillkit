@@ -10,10 +10,6 @@
       "source": "alirezarezvani/claude-skills (MIT)"
     },
     {
-      "name": "database-schema-designer",
-      "source": "alirezarezvani/claude-skills (MIT)"
-    },
-    {
       "name": "sql-database-assistant",
       "source": "alirezarezvani/claude-skills (MIT)"
     }

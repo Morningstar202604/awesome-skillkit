@@ -1,0 +1,76 @@
+{
+  "target": "skills\\programming\\security\\env-secrets-manager\\assets",
+  "summary": {
+    "critical": 3,
+    "high": 4,
+    "medium": 0,
+    "low": 1
+  },
+  "total_findings": 8,
+  "findings": [
+    {
+      "severity": "critical",
+      "id": "openai_key",
+      "message": "OpenAI-style API key detected",
+      "file": "sample_env_leak.env",
+      "line": 3,
+      "excerpt": "sk-F...(30 chars)"
+    },
+    {
+      "severity": "critical",
+      "id": "github_token",
+      "message": "GitHub token detected",
+      "file": "sample_env_leak.env",
+      "line": 4,
+      "excerpt": "ghp_...(40 chars)"
+    },
+    {
+      "severity": "critical",
+      "id": "aws_access_key",
+      "message": "AWS access key ID detected",
+      "file": "sample_env_leak.env",
+      "line": 5,
+      "excerpt": "AKIA...(20 chars)"
+    },
+    {
+      "severity": "high",
+      "id": "sensitive_assignment",
+      "message": "hardcoded assignment to sensitive key 'API_KEY'",
+      "file": "sample_env_leak.env",
+      "line": 3,
+      "excerpt": "sk-F...(30 chars)"
+    },
+    {
+      "severity": "high",
+      "id": "sensitive_assignment",
+      "message": "hardcoded assignment to sensitive key 'GITHUB_TOKEN'",
+      "file": "sample_env_leak.env",
+      "line": 4,
+      "excerpt": "ghp_...(40 chars)"
+    },
+    {
+      "severity": "high",
+      "id": "slack_token",
+      "message": "Slack token detected",
+      "file": "sample_env_leak.env",
+      "line": 6,
+      "excerpt": "xoxb...(24 chars)"
+    },
+    {
+      "severity": "high",
+      "id": "sensitive_assignment",
+      "message": "hardcoded assignment to sensitive key 'SLACK_TOKEN'",
+      "file": "sample_env_leak.env",
+      "line": 6,
+      "excerpt": "xoxb...(24 chars)"
+    },
+    {
+      "severity": "low",
+      "id": "no_rotation_date",
+      "message": "env file contains credential-like keys but records no rotation date/comment (e.g. a ROTATED comment)",
+      "file": "sample_env_leak.env",
+      "line": null,
+      "excerpt": ""
+    }
+  ]
+}

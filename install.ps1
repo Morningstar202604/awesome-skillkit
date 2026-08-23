@@ -1,6 +1,6 @@
 # SkillKit one-click installer (Windows PowerShell)
 # Usage: .\install.ps1 [target-dir]   (default: $HOME\.claude\skills)
-# Note: if dist/ is empty, run bash build.sh first
+# Note: if dist/ is empty, run build.py or bash build.sh first
 param(
     [string]$Target = "$HOME\.claude\skills"
 )
@@ -9,7 +9,7 @@ $HubDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $SkillsDir = Join-Path $HubDir "dist"
 
 if (-not (Test-Path $SkillsDir)) {
-    Write-Error "dist directory not found: $SkillsDir (run build.sh first)"
+    Write-Error "dist directory not found: $SkillsDir (run build.py or bash build.sh first)"
     exit 1
 }
 

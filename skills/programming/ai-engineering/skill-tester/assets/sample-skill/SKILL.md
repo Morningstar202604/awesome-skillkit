@@ -1,3 +1,13 @@
+---
+name: "sample-text-processor"
+description: "Reference BASIC-tier skill: text analysis and transformation with word/character statistics, case transforms, batch processing, and dual JSON/human output."
+---
+
+--
+name: "sample-text-processor"
+description: "Reference BASIC-tier skill: text analysis and transformation with word/character statistics, case transforms, batch processing, and dual JSON/human output."
+---
+
 # Sample Text Processor
 
 ---

@@ -1,0 +1,11 @@
+{
+  "_comment": "模板：复制为同目录 account.local.json 并填入你自己的知乎专栏与文章台账。",
+  "columns": {
+    "<专栏名>": "c_xxxxxxxxxxxxxxx"
+  },
+  "published_articles": {
+    "<系列名>": [
+      {"title": "示例标题", "id": "2070197197132542220"}
+    ]
+  }
+}

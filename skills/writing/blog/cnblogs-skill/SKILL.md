@@ -15,35 +15,22 @@ description: 博客园(cnblogs.com)自动化发文与管理技能。覆盖选题
 
 ## 账号信息
 
-| 项目 | 值 |
+账号数据**不随本技能分发**，存于 `references/account.local.json`（gitignored）：
+
+| 字段 | 说明 |
 |------|------|
-| 用户名 | badhope33834 |
-| 博客地址 | https://www.cnblogs.com/badhope |
-| blogId | 861831 |
-| 签名ID | 61983（HTML格式，系统默认） |
+| `username` | 博客园用户名 |
+| `blog_url` | 博客首页地址 |
+| `blog_id` | 博客 ID（API 发文必需） |
+| `signature_id` | 签名 ID |
+| `personal_categories` | 个人分类 ID 映射 |
+| `published_posts` | 已发布文章台账（本地运营记录） |
+
+首次使用：复制 `references/account.example.json` 为 `account.local.json` 并填入你自己的账号。所有发文/互动流程先读该文件；文件缺失时提示用户配置，不要猜测账号。
 
 ## 已发布文章列表
 
-| # | PostId | 标题 | 分类 |
-|:---:|:---:|------|------|
-| 1 | 22501546 | Vibe Coding的幻觉 | AI与职业 |
-| 2 | 22492054 | AI正在挤爆你的代码库 | AI与职业 |
-| 3 | 22485208 | Prompt工程师正在消失 | AI与职业 |
-| 4 | 22467774 | 专业大战：软件vs硬件 | AI与职业 |
-| 5 | 22436525 | 开源vs闭源之战 | 开源与工具 |
-| 6 | 22435358 | GitHub开源项目指南 | 开源与工具 |
-| 7 | 22435341 | GitHub完整教程 | 开源与工具 |
-| 8 | 22435239 | AI裁员潮v2 | AI与职业 |
-| 9 | 22435235 | AI安全事件v2 | AI安全 |
-| 10 | 22435231 | AI Agent指南v2 | AI Agent |
-| 11 | 22435149 | Python自动化v2 | Python实战 |
-| 12 | 22435111 | AI泡沫v2 | AI思考 |
-| 13 | 22430972 | AI裁员潮v1 | AI与职业 |
-| 14 | 22404761 | AI安全事件v1 | AI安全 |
-| 15 | 22359592 | AI Agent指南v1 | AI Agent |
-| 16 | 22357737 | Python自动化v1 | Python实战 |
-| 17 | 22345012 | AI泡沫v1 | AI思考 |
-| 18 | 22290394 | 前端模板趋同 | 前端技术 |
+→ 运营台账已移至 `references/account.local.json` 的 `published_posts` 字段（含 PostId、标题、分类），发文成功后由流程负责追加更新。
 
 ## 认证管理
 
@@ -240,16 +227,9 @@ curl -s "https://i.cnblogs.com/api/posts/{任意已有postId}" -H "Cookie: $COOK
 
 ### 个人分类
 
-| 分类 ID | 名称 | 用途 |
-|---------|------|------|
-| 2525790 | AI思考 | AI泡沫、AI观点类 |
-| 2526541 | AI与职业 | AI裁员、职业发展、程序员转型类 |
-| 2526140 | Python实战 | Python自动化类 |
-| 2526151 | 开源与工具 | GitHub、开源项目类 |
-| 2525784 | 前端技术 | 前端模板、UI类 |
-| 2526408 | AI安全 | AI安全事件类 |
+→ 见 `references/account.local.json` 的 `personal_categories` 字段（每账号不同）。
 
-### 网站分类
+### 网站分类（博客园平台级，全站通用）
 
 | 分类 ID | 名称 | 适用场景 |
 |---------|------|---------|

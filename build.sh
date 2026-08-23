@@ -16,6 +16,7 @@ EXCLUDES=(
   "docker-compose.yml"
   "__pycache__/*"
   "*.pyc"
+  "*.local.json"
 )
 
 mkdir -p "$OUT_DIR"
@@ -27,6 +28,7 @@ find_skill_dir() {
 }
 
 count=0
+declare -A ALL_SKILLS
 for pack_json in "$SCRIPT_DIR"/packs/*/pack.json; do
   pack_id="$(basename "$(dirname "$pack_json")")"
   # Collect skill names from pack.json (jq if available, else python3)
@@ -44,14 +46,27 @@ for s in p['skills']: print(s['name'])
       missing=1
       continue
     fi
+    ALL_SKILLS["$skill"]=1
     # zip content keeps the skill folder name flat (top-level = skill name),
     # so users unzip and drag the skill folders straight into skills/.
     parent="$(dirname "$dir")"
     name="$(basename "$dir")"
-    (cd "$parent" && zip -r -q "$OUT_DIR/$pack_id.zip" "$name")
+    (cd "$parent" && zip -r -q "$OUT_DIR/$pack_id.zip" "$name" -x "*.local.json")
   done
   echo "built: $OUT_DIR/$pack_id.zip  (${#skills[@]} skills)"
   count=$((count + 1))
 done
 
-echo "done: $count scene pack(s) -> $OUT_DIR"
+# Convenience bundle: every skill from every pack in one zip
+if [ "${#ALL_SKILLS[@]}" -gt 0 ]; then
+  for skill in "${!ALL_SKILLS[@]}"; do
+    dir="$(find_skill_dir "$skill")"
+    parent="$(dirname "$dir")"
+    name="$(basename "$dir")"
+    (cd "$parent" && zip -r -q "$OUT_DIR/_all.zip" "$name" -x "*.local.json")
+  done
+  echo "built: $OUT_DIR/_all.zip  (_all bundle, ${#ALL_SKILLS[@]} skills)"
+  count=$((count + 1))
+fi
+
+echo "done: $count archive(s) -> $OUT_DIR"

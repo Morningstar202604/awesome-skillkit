@@ -13,7 +13,7 @@ description: "Design production-ready observability strategies combining metrics
 
 Observability Designer creates production-ready dashboards, alert configurations, and monitoring strategies across the three pillars (metrics, logs, traces).
 
-**When NOT to use → slo-architect.** For SLO/SLI design with error-budget math, multi-window burn-rate alerting thresholds, and SLO review gates, route to `slo-architect` — it is the authoritative skill for that half. This skill's `slo_designer.py` produces a quick scaffold only. This skill's lane: dashboards (`dashboard_generator.py`) and alert-noise reduction (`alert_optimizer.py`).
+**When NOT to use → slo-architect.** For SLO/SLI design, error-budget math, multi-window burn-rate alerting thresholds, and SLO review gates — including scaffolding SLO definitions — route to `slo-architect` (it ships `slo_designer.py`, `error_budget_calculator.py`, and `slo_review.py`). This skill's lane: dashboards (`dashboard_generator.py`) and alert-noise reduction (`alert_optimizer.py`).
 
 ## Quick Start
 
@@ -26,20 +26,16 @@ python3 scripts/alert_optimizer.py --input alerts.json --analyze-only --report a
 # ...then emit the optimized config once the report is reviewed:
 python3 scripts/alert_optimizer.py --input alerts.json --output alerts_optimized.json
 
-# Quick SLO scaffold (hand off to slo-architect for the real error-budget work)
-python3 scripts/slo_designer.py --service-type api --criticality high --user-facing true --service-name payments -o slo_scaffold.json
+# SLO definitions/error budgets → use the slo-architect skill (scripts/slo_designer.py there)
 ```
 
 **Verification loop:** after deploying optimized alerts, track the report's noise metrics for one on-call rotation — if the actionable-alert ratio didn't improve, re-run `--analyze-only` against the live config and iterate. Import the generated dashboard into Grafana and confirm every golden-signal panel renders with live data before closing the task.
 
 ## Core Competencies
 
-### SLI/SLO/SLA Framework Design
-- **Service Level Indicators (SLI):** Define measurable signals that indicate service health
-- **Service Level Objectives (SLO):** Set reliability targets based on user experience
-- **Service Level Agreements (SLA):** Establish customer-facing commitments with consequences
-- **Error Budget Management:** Calculate and track error budget consumption
-- **Burn Rate Alerting:** Multi-window burn rate alerts for proactive SLO protection
+### SLI/SLO/SLA Awareness (design input — deep work in slo-architect)
+- **SLI/SLO/SLA definitions** and error-budget math → owned by `slo-architect`; treat its output as an input here
+- **Burn Rate Alerting:** translate a team's SLO burn-rate thresholds into concrete alert rules via `alert_optimizer.py`
 
 ### Three Pillars of Observability
 
@@ -191,21 +187,16 @@ python3 scripts/slo_designer.py --service-type api --criticality high --user-fac
 
 ## Scripts Overview
 
-This skill includes three powerful Python scripts for comprehensive observability design:
+This skill includes two Python scripts for observability design (SLO framework
+generation lives in the `slo-architect` skill):
 
-### 1. SLO Designer (`slo_designer.py`)
-Generates complete SLI/SLO frameworks based on service characteristics:
-- **Input:** Service description JSON (type, criticality, dependencies)
-- **Output:** SLI definitions, SLO targets, error budgets, burn rate alerts, SLA recommendations
-- **Features:** Multi-window burn rate calculations, error budget policies, alert rule generation
-
-### 2. Alert Optimizer (`alert_optimizer.py`)
+### 1. Alert Optimizer (`alert_optimizer.py`)
 Analyzes and optimizes existing alert configurations:
 - **Input:** Alert configuration JSON with rules, thresholds, and routing
 - **Output:** Optimization report and improved alert configuration
 - **Features:** Noise detection, coverage gaps, duplicate identification, threshold optimization
 
-### 3. Dashboard Generator (`dashboard_generator.py`)
+### 2. Dashboard Generator (`dashboard_generator.py`)
 Creates comprehensive dashboard specifications:
 - **Input:** Service/system description JSON
 - **Output:** Grafana-compatible dashboard JSON and documentation

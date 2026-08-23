@@ -1,6 +1,6 @@
 ---
 name: "database-designer"
-description: "Use when the user asks to design database schemas, plan data migrations, optimize queries, choose between SQL and NoSQL, or model data relationships."
+description: "Use when the user asks to design database schemas, create ERD diagrams, normalize schemas, plan data migrations, add multi-tenancy or row-level security, generate seed data, optimize queries, choose between SQL and NoSQL, or model data relationships."
 ---
 
 # Database Designer - POWERFUL Tier Skill
@@ -64,6 +64,9 @@ python3 migration_generator.py --current current_schema.json --target target_sch
 ### 4. Verification loop
 
 Re-run step 1 on the *target* schema and assert the issues found in the first pass are gone; run `migration_generator.py --validate-only` before handing over the migration.
+
+## Schema Design Playbook (multi-tenancy, RLS, seed data)
+→ See references/schema-design-playbook.md for cross-cutting concerns (tenant isolation, soft deletes, audit trails), PostgreSQL RLS policies, seed-data guidance, and a full example schema in references/full-schema-examples.md
 
 ## Database Design Principles
 → See references/database-design-reference.md for details
@@ -307,7 +310,6 @@ Fixes:
 ## Cross-References
 
 - **sql-database-assistant** — query writing, optimization, and debugging for day-to-day SQL work
-- **database-schema-designer** — ERD modeling, normalization analysis, and schema generation
 - **migration-architect** — large-scale migration planning across database engines or major schema overhauls
 - **senior-backend** — application-layer patterns (connection pooling, ORM best practices)
 - **senior-devops** — infrastructure provisioning for database clusters and replicas
