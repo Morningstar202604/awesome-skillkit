@@ -223,7 +223,7 @@ dist/                           # build output: one zip per scene pack (gitignor
 
 ## Build & Release
 
-Source lives in `skills/`; scene packs are defined in `packs/*/pack.json`; zips are published via GitHub Releases (`dist/` is gitignored).
+Source lives in `skills/`; scene packs are defined in `packs/*/pack.json`; zips are published via platform Releases on Gitee / GitCode (`dist/` is gitignored).
 
 ```bash
 # Generate dist/*.zip (one zip per scene pack)
@@ -231,9 +231,10 @@ bash build.sh        # macOS / Linux / Git Bash
 python3 build.py     # cross-platform (no bash/zip needed); also emits dist/_all.zip with every skill
 
 # Release flow
-git tag v1.2.0
-git push origin v1.2.0
-# Create a release on the GitHub Releases page and upload dist/*.zip
+git tag v1.3.0
+git push origin v1.3.0
+git push gitee v1.3.0
+# Create a release on the Gitee/GitCode Releases page and upload dist/*.zip
 ```
 
 ## Sources

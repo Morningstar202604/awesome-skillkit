@@ -223,7 +223,7 @@ dist/                           # 构建产物：每个场景包一个 zip（已
 
 ## 构建与发布
 
-源码在 `skills/`；场景包定义在 `packs/*/pack.json`；zip 通过 GitHub Releases 发布（`dist/` 已 gitignore）。
+源码在 `skills/`；场景包定义在 `packs/*/pack.json`；zip 通过 Gitee / GitCode 的平台 Releases 发布（`dist/` 已 gitignore）。
 
 ```bash
 # 生成 dist/*.zip（每个场景包一个 zip）
@@ -231,9 +231,10 @@ bash build.sh        # macOS / Linux / Git Bash
 python3 build.py     # 跨平台（无需 bash/zip）；同时生成 dist/_all.zip 全量合集
 
 # 发布流程
-git tag v1.2.0
-git push origin v1.2.0
-# 在 GitHub Releases 页面创建 release 并上传 dist/*.zip
+git tag v1.3.0
+git push origin v1.3.0
+git push gitee v1.3.0
+# 在 Gitee / GitCode 的 Releases 页面创建 release 并上传 dist/*.zip
 ```
 
 ## 来源说明
