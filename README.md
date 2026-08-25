@@ -1,6 +1,6 @@
 # awesome-skillkit
 
-**English** | [中文](README.zh-CN.md)
+**English** | [中文](README.zh-CN.md) | [日本語](README.ja.md)
 
 Curated **scene packs** for AI tools. **Each pack = one real-world scenario, containing multiple hand-picked skills.** Download a zip → unzip → drag the skill folders into your AI tool's skills directory → it just works.
 
