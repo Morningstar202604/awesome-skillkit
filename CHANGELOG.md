@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.10.0] - 2026-08-26
+
+### Added
+
+- **品类 C 落地：新包 `office-productivity` 四件套**
+  - `ppt-builder`：大纲公式→逐页 spec JSON→捆绑脚本渲染真 .pptx（python-pptx 缺席时优雅降级 markdown），含 spec 校验器与 7 个单测；
+  - `excel-assistant`：先勘察后动手、一步一改带前后证据、编码三连降序尝试、交付 `_cleaned` + findings.md；
+  - `resume-tailor`：JD 提取→差距矩阵→STAR 量化重写→ATS 卫生检查，双产物（定制稿+逐条可追溯 edit_log），硬禁造假红线；
+  - `meeting-notes`：议题分段→决议/讨论/行动三分类（原话作证据）→行动项表格（无主必标 `<待指派>`），固定骨架输出。
+- **品类 G 上线：新包 `viral-entertainment` 首个技能 `ai-baby-podcast`**（AI 宝宝播客/会说话角色短视频全流水线，基于 2026-08 成熟打法调研）：
+  - 形象图 prompt 公式 → 反差脚本公式（成人观点×婴儿脸+固定口癖）→ 成人声 TTS 干声 → 口型驱动（短句先行）→ 剪映收尾五步；
+  - 角色一致性纪律：角色卡七件套、锁定 seed/音色、每 10 条漂移审计、永不从文字重生角色（references/character-consistency.md）；
+  - 合规红线四条硬禁令：《人工智能生成合成内容标识办法》显式声明要求（2025-09-01 施行）、纯虚构形象、不克隆名人声纹肖像、避开平台点名整治题材。
+- DIRECTION-V2 品类表新增 G 行与电影级/宣传片系列愿景备注。
+- 门禁基线：58 技能 / 17 包 / 0 错误 / 76 警告；测试 180 通过 +1 条件跳过；18 个分发包含 sha256。
+
 ## [1.9.0] - 2026-08-26
 
 ### Added
