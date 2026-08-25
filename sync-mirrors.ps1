@@ -38,7 +38,7 @@ else {
 }
 
 if ($env:GITHUB_TOKEN) {
-    Push-To "github (token)" "https://badhope:$($env:GITHUB_TOKEN)@github.com/badhope/awesome-skillkit.git"
+    Push-To "github (token)" "https://Morningstar202604:$($env:GITHUB_TOKEN)@github.com/Morningstar202604/awesome-skillkit.git"
 }
 elseif (git remote | Select-String -Quiet -Pattern "^github$") {
     Push-To "github (stored credentials)" "github"
