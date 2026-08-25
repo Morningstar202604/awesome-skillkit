@@ -1,0 +1,13 @@
+{
+  "id": "office-productivity",
+  "name": "Office Productivity",
+  "name_zh": "办公效率工具箱",
+  "description": "Daily office work: decks, spreadsheets, resumes, meeting minutes.",
+  "description_zh": "日常办公四件套：PPT 制作、Excel 清洗分析、简历岗位定制、会议纪要结构化。",
+  "skills": [
+    { "name": "ppt-builder", "source": "self-authored" },
+    { "name": "excel-assistant", "source": "self-authored" },
+    { "name": "resume-tailor", "source": "self-authored" },
+    { "name": "meeting-notes", "source": "self-authored" }
+  ]
+}

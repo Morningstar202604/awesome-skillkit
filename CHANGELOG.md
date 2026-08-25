@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.12.0] - 2026-08-26
+
+### Changed
+
+- **`meme-mascot-shorts` 重写为 `nailong-laugh-shorts`**（按需求改为"大笑奶龙"直出版）：
+  - 删除路线门与梗源复盘，改为纯生产手册：形象描述库（官方风基础体/大笑变异体/比例失调"奶蛙感"三套可复制 prompt）、双管线（A 表情包成精图生视频 / B 真人动作套壳还原原梗扭曲感）、自制笑声变声器配方、概率 bait 文案模板表、皮肤矩阵系列化；
+  - 风险提示压缩为一行事实陈述（非盈利常见后果=限流下架、商用必追责），决策权交还用户。
+
+### Fixed
+
+- **发布流程缺陷（重要）**：release.py 此前只提交 manifest+CHANGELOG，导致
+  v1.7.0–v1.11.0 的标签树缺失当时未暂存的新增技能文件。现 release.py 增加
+  脏工作区硬门禁：有任何未提交变更即拒绝发版；本版为首个全量完整树。
+- 补交 v1.7.0 以来全部场景技能与三个新包文件。
+
 ## [1.11.0] - 2026-08-26
 
 ### Added

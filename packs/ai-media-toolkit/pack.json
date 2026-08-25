@@ -1,0 +1,25 @@
+{
+  "id": "ai-media-toolkit",
+  "name": "AI Media Toolkit",
+  "name_zh": "AI 媒体生成工具箱",
+  "description": "Generate videos from text or reference images through a local generation gateway.",
+  "description_zh": "通过本地生成网关用提示词生成视频：文生视频与图生视频全流程（提交、轮询、下载交付）。",
+  "skills": [
+    {
+      "name": "video-generation",
+      "source": "self-authored"
+    },
+    {
+      "name": "image-generation",
+      "source": "self-authored"
+    },
+    {
+      "name": "music-generation",
+      "source": "self-authored"
+    },
+    {
+      "name": "ai-cover-generator",
+      "source": "self-authored"
+    }
+  ]
+}

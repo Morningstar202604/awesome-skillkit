@@ -1,0 +1,17 @@
+{
+  "id": "viral-entertainment",
+  "name": "Viral Entertainment",
+  "name_zh": "爆款娱乐场景",
+  "description": "Special entertainment scenarios: talking-character viral shorts.",
+  "description_zh": "特别娱乐场景：AI 宝宝播客/会说话角色等病毒式短视频的完整制作流水线（含合规标识与角色一致性纪律）。",
+  "skills": [
+    {
+      "name": "ai-baby-podcast",
+      "source": "self-authored"
+    },
+    {
+      "name": "nailong-laugh-shorts",
+      "source": "self-authored"
+    }
+  ]
+}

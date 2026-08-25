@@ -63,6 +63,19 @@ def main(argv: list[str]) -> int:
         )
 
     today = datetime.date.today().isoformat()
+
+    # guard: a tag must contain the full content it claims to release.
+    # v1.7.0-v1.11.0 shipped with new skill files left untracked because
+    # only manifest/changelog were staged — never again.
+    dirty = subprocess.run(
+        ["git", "status", "--porcelain"], cwd=ROOT, capture_output=True, text=True
+    ).stdout.strip()
+    if dirty:
+        return fail(
+            "working tree is dirty — commit ALL changes before releasing "
+            "(uncommitted content would be missing from the tag):\n" + dirty
+        )
+
     dated = f"{section} - {today}"
     if dated not in changelog:
         print(f"WARN: CHANGELOG section date is not today ({today}); continuing.")
