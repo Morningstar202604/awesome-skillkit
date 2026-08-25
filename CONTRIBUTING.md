@@ -6,8 +6,17 @@ Thanks for your interest in contributing! This project is a curated collection o
 
 1. **Fork** the repository and create a feature branch.
 2. Make your changes.
-3. Run `bash build.sh` to verify the zips still build.
+3. Run the quality gates (all must pass):
+   - `python tools/validate_skills.py` — skill standard + reference integrity, **0 errors**
+   - `python -m pytest skills -q` — all unit tests green
+   - `python build.py` — packs still build
 4. Open a **Pull Request** with a clear description of what and why.
+
+PRs that fail any gate will not be merged; paste the gate output in the PR description.
+
+## Authoring standards
+
+New and edited skills must follow `docs/SKILL-STANDARD-v2.md` (machine-first writing rules, frontmatter spec, workflow skeleton). Versioning and release policy: `docs/VERSIONING.md`. Strategic direction: `docs/DIRECTION-V2.md`.
 
 ## Adding a new skill pack
 
