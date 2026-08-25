@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.0] - 2026-08-26
+
+### Added
+
+- **品类 B 第三个技能 `music-generation`**（brief → 配乐/歌曲）：三槽位风格公式（流派+乐器+情绪用途）、纯音乐/歌词双模式、端点 404 快速失败（VERIFY BEFORE USE，禁止本地合成兜底）、六症状失败处置表、量化交付标准。
+- **`ai-cover-generator` 跨包挂入 `ai-media-toolkit`**（封面图生成复用既有资产，不造重复轮子），包扩至 4 技能。
+- 门禁基线：53 技能 / 0 错误 / 76 警告；16 个分发包 sha256 全覆盖。
+
 ## [1.8.0] - 2026-08-26
 
 ### Added
