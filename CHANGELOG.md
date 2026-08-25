@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.11.0] - 2026-08-26
+
+### Added
+
+- **品类 G 第二个技能 `meme-mascot-shorts`**（"大笑奶龙"式魔性萌物短视频，基于 2026-01 梗源调研）：
+  - 梗源拆解：真人动作 AI 套壳（军体拳→奶龙="奶蛙"）× 变声器魔性笑声 × 概率 bait 文案的四方缝合公式；
+  - **三条合规路线硬性前置**（A 正版素材 / B 原创同类萌物【推荐】 / C 直接用 IP=高侵权风险）：奶龙 IP 方有活跃维权判例（玩具销售赔偿、商标异议胜诉、上海知产法院首例 AI LoRA 侵权案判赔 5 万），Route C 需用户书面确认已知风险；
+  - Route B 原创度自检底线（剪影/五官/配色两项以上明显不同）、"听觉锤先行"设计法、hook-and-body 皮肤矩阵系列化；
+  - references/meme-case-study.md：梗起源与官方应对失效的传播学复盘（脱敏公式）。
+- `viral-entertainment` 包扩至 2 技能。
+- 门禁基线：59 技能 / 17 包 / 0 错误 / 76 警告；18 个分发包 sha256 全覆盖。
+
 ## [1.10.0] - 2026-08-26
 
 ### Added
