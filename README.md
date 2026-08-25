@@ -30,6 +30,11 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | performance | Performance Profiling | 1 | 12 KB |
 | security | Security & Secrets | 2 | 49 KB |
 | tdd | Test-Driven Development | 1 | 55 KB |
+| ai-media-toolkit | AI Media Generation | 4 | 19 KB |
+| office-productivity | Office Productivity | 4 | 11 KB |
+| viral-entertainment | Viral Entertainment (meme shorts) | 2 | 11 KB |
+
+**17 packs · 59 skills.** Project docs: [Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning & Release policy](docs/VERSIONING.md) · [Expert review](docs/EXPERT-REVIEW-AND-ROADMAP.md)
 
 ## Pack Details
 
@@ -179,6 +184,37 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 
 ### Test-Driven Development (`tdd`) — 55 KB
 
+### AI Media Generation (`ai-media-toolkit`) — 19 KB
+
+**Text/image-to-video, text/image-to-image generation, music generation, and cover-image creation through a local generation gateway — full submit/poll/download workflows with failure handling.**
+
+| Skill | Source |
+|-------|--------|
+| video-generation | self-authored |
+| image-generation | self-authored |
+| music-generation | self-authored |
+| ai-cover-generator | self-authored |
+
+### Office Productivity (`office-productivity`) — 11 KB
+
+**Daily office work: real .pptx deck builder, Excel clean-and-analyze with before/after evidence, JD-driven resume tailoring with anti-fabrication rules, and structured meeting minutes.**
+
+| Skill | Source |
+|-------|--------|
+| ppt-builder | self-authored |
+| excel-assistant | self-authored |
+| resume-tailor | self-authored |
+| meeting-notes | self-authored |
+
+### Viral Entertainment (`viral-entertainment`) — 11 KB
+
+**Special entertainment scenarios: talking-baby podcast pipeline and "laughing mascot" meme shorts (nailong style) — character consistency discipline and platform-compliance built in.**
+
+| Skill | Source |
+|-------|--------|
+| ai-baby-podcast | self-authored |
+| nailong-laugh-shorts | self-authored |
+
 **Write unit tests, fixtures, mocks, and guide red-green-refactor cycles.**
 
 | Skill | Source |
@@ -234,9 +270,9 @@ bash build.sh        # macOS / Linux / Git Bash
 python3 build.py     # cross-platform (no bash/zip needed); also emits dist/_all.zip with every skill
 
 # Release flow
-git tag v1.6.2
-git push origin v1.6.2
-git push gitee v1.6.2
+git tag v1.12.1
+git push origin main --follow-tags
+powershell -File sync-mirrors.ps1   # gitcode + gitee + github
 # Create a release on the Gitee/GitCode Releases page and upload dist/*.zip
 ```
 

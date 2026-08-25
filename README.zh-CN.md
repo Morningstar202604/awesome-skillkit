@@ -30,6 +30,12 @@
 | performance | 性能优化 | 1 | 12 KB |
 | security | 安全与密钥管理 | 2 | 49 KB |
 | tdd | 测试驱动开发 | 1 | 55 KB |
+| ai-media-toolkit | AI 媒体生成 | 4 | 19 KB |
+| office-productivity | 办公效率 | 4 | 11 KB |
+| viral-entertainment | 爆款娱乐（魔性短视频） | 2 | 11 KB |
+
+
+**17 个场景包 · 59 个技能。** 项目文档：[方向 v2](docs/DIRECTION-V2.md) · [技能编写规范](docs/SKILL-STANDARD-v2.md) · [版本与发布制度](docs/VERSIONING.md) · [专家评审报告](docs/EXPERT-REVIEW-AND-ROADMAP.md)
 
 ## 场景包详情
 
@@ -185,6 +191,38 @@
 |-------|------|
 | tdd-guide | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 
+
+### AI 媒体生成（`ai-media-toolkit`）— 19 KB
+
+**通过本地生成网关完成文生/图生视频、文生/图生图、音乐生成与封面图创作——提交/轮询/下载全流程，自带失败处置表。**
+
+| Skill | Source |
+|-------|--------|
+| video-generation | self-authored |
+| image-generation | self-authored |
+| music-generation | self-authored |
+| ai-cover-generator | self-authored |
+
+### 办公效率（`office-productivity`）— 11 KB
+
+**日常办公四件套：真 .pptx 渲染的 PPT 制作、带前后证据的 Excel 清洗分析、JD 驱动的简历定制（防造假红线）、结构化会议纪要。**
+
+| Skill | Source |
+|-------|--------|
+| ppt-builder | self-authored |
+| excel-assistant | self-authored |
+| resume-tailor | self-authored |
+| meeting-notes | self-authored |
+
+### 爆款娱乐（`viral-entertainment`）— 11 KB
+
+**特别娱乐场景：AI 宝宝播客全流水线与"大笑奶龙"式魔性萌物短视频——内建角色一致性纪律与平台合规要点。**
+
+| Skill | Source |
+|-------|--------|
+| ai-baby-podcast | self-authored |
+| nailong-laugh-shorts | self-authored |
+
 ## 目录结构
 
 ```
@@ -234,9 +272,9 @@ bash build.sh        # macOS / Linux / Git Bash
 python3 build.py     # 跨平台（无需 bash/zip）；同时生成 dist/_all.zip 全量合集
 
 # 发布流程
-git tag v1.6.2
-git push origin v1.6.2
-git push gitee v1.6.2
+git tag v1.12.1
+git push origin main --follow-tags
+powershell -File sync-mirrors.ps1   # gitcode + gitee + github
 # 在 Gitee / GitCode 的 Releases 页面创建 release 并上传 dist/*.zip
 ```
 

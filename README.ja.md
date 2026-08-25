@@ -30,6 +30,12 @@ AI ツール向けに厳選された**シーンパック**のコレクション�
 | performance | パフォーマンスプロファイリング | 1 | 12 KB |
 | security | セキュリティとシークレット管理 | 2 | 49 KB |
 | tdd | テスト駆動開発 | 1 | 55 KB |
+| ai-media-toolkit | AI メディア生成 | 4 | 19 KB |
+| office-productivity | オフィス業務 | 4 | 11 KB |
+| viral-entertainment | バイラルエンタメ（ミーム動画） | 2 | 11 KB |
+
+
+**17 パック・59 スキル。** ドキュメント：[Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning](docs/VERSIONING.md) · [Expert review](docs/EXPERT-REVIEW-AND-ROADMAP.md)
 
 ## パック詳細
 
@@ -185,6 +191,38 @@ AI ツール向けに厳選された**シーンパック**のコレクション�
 |-------|--------|
 | tdd-guide | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 
+
+### AI Media Generation（`ai-media-toolkit`）— 19 KB
+
+**ローカル生成ゲートウェイ経由でテキスト/画像→動画・画像の生成、音楽生成、カバー画像作成。送信/ポーリング/ダウンロードのフルワークフローと失敗時の対処表を内蔵。**
+
+| Skill | Source |
+|-------|--------|
+| video-generation | self-authored |
+| image-generation | self-authored |
+| music-generation | self-authored |
+| ai-cover-generator | self-authored |
+
+### Office Productivity（`office-productivity`）— 11 KB
+
+**日常オフィス業務の四点セット：実際の .pptx を生成するスライド作成、ビフォー/アフター証拠付きの Excel クリーニング分析、JD 駆動の履歴書カスタマイズ（捏造禁止ルール付き）、構造化議事録。**
+
+| Skill | Source |
+|-------|--------|
+| ppt-builder | self-authored |
+| excel-assistant | self-authored |
+| resume-tailor | self-authored |
+| meeting-notes | self-authored |
+
+### Viral Entertainment（`viral-entertainment`）— 11 KB
+
+**特別エンタメシナリオ：AI 赤ちゃんポッドキャストの制作パイプラインと「大笑いナーゴン」風マスコットミーム動画——キャラクター一貫性の規律とプラットフォーム準拠を内蔵。**
+
+| Skill | Source |
+|-------|--------|
+| ai-baby-podcast | self-authored |
+| nailong-laugh-shorts | self-authored |
+
 ## ディレクトリ構成
 
 ```
@@ -234,8 +272,8 @@ bash build.sh        # macOS / Linux / Git Bash
 python3 build.py     # クロスプラットフォーム（bash/zip 不要）；全スキル入りの dist/_all.zip も生成
 
 # リリースフロー
-git tag v1.6.2
-git push origin v1.6.2
+git tag v1.12.1
+git push origin main --follow-tags
 # 各プラットフォームの Releases ページで release を作成し dist/*.zip をアップロード
 ```
 
