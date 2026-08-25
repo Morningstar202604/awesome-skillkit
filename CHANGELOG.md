@@ -5,6 +5,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.3] - 2026-08-26
+
+### Fixed
+
+- **install.ps1 平铺解压修复**：原先按 zip 名嵌套子目录解压，导致 Windows 用户安装后技能无法被 AI 工具发现；现与 install.sh 同语义平铺，并在安装后自检 SKILL.md 可发现数量。
+- **build.py 两处修复**：
+  - `_common` 公共库此前因全局累积状态被误打进所有后序场景包，现仅打包真正依赖它的包；
+  - 构建完成后自动把每个包的实际 `size_kb` 与 `sha256` 回填 `manifest.json`，分发产物首次可校验。
+- **导航断链清零**（由新增 validator 驱动）：
+  - `ship-gate` 补齐被三处引用的 `references/checks.md` 检查目录（与 scanner 内 CHECKS/MANUAL_CHECKS 注册表逐条对齐）；
+  - `slo-architect` 移除指向不存在文件的引用、修正跨技能路径表述；
+  - `cnblogs-skill/image-guide` 移除指向不存在旧版文档的指针；
+  - `bilibili/weibo/jianshu/csdn` 四个 publisher 中 `_common` 相对路径更正为打包布局真实形态。
+- manifest.json 中文描述中重复的"豆瓣"去除。
+
+### Added
+
+- **治理制度文档**：`docs/VERSIONING.md`（SemVer 语义、发布流程、历史处置决定：不回溯伪造 tag、自本版起 tag 全覆盖）、`docs/DIRECTION-V2.md`（通用场景工作流库战略）、`docs/SKILL-STANDARD-v2.md`（机器优先编写规范与门禁清单）。
+- **tools/validate_skills.py** 质量门禁：frontmatter 合规、引用完整性（区分"导航断链=ERROR"与"宣传性缺失脚本=WARN"）、渐进披露行数、绝对路径检测、pack↔磁盘一致性。当前基线：**50 技能 0 错误 / 76 警告（存量债务已登记）**。
+- **tools/release.py** 发布助手：SemVer 校验、CHANGELOG 小节强制、manifest 版本同步、annotated tag。
+- **tools/migrate_metadata_v2.py** 一次性迁移（已完成）：全部 50 个技能补齐 `license` 与 `metadata.version/category/verified-date`。
+- CONTRIBUTING.md 接入门禁：PR 必须通过 validator + pytest + build 三关。
+
+### Changed
+
+- `terraform-patterns` 正文 740→417 行（规范 G5），CI/CD、多云、OpenTofu、Terragrunt 等章节移入 `references/cicd-and-advanced-patterns.md`。
+
+### Security
+
+- `.git/config` 中内嵌的明文访问令牌已从 remote URL 移除（该令牌应视为已泄露，需在 GitCode 后台吊销轮换）。
+
 ## [1.6.2] - 2026-08-25
 
 ### Added
