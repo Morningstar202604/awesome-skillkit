@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.0] - 2026-08-26
+
+### Added
+
+- **品类 B（AI 媒体生成）首个示范技能 `video-generation`**，按 SKILL-STANDARD-v2 §4 骨架编写：
+  - 输入清单 + 一次性询问模板；前置自检（网关探活，失败即停、禁止回退本地渲染）；
+  - 工作流五步全部"命令+预期输出+失败分支"三件套；60 次轮询上限；
+  - 失败处置表六种症状对应处置；交付标准量化（非空 mp4 + 时间戳命名 + 绝对路径回报）；
+  - `references/prompt-recipes.md`：四槽位提示词公式与强弱示例对照。
+  - 网关地址走 `VIDEO_GATEWAY_BASE` 环境变量（默认 `http://127.0.0.1:30080`）。
+- **新场景包 `ai-media-toolkit`**（15 号包），manifest 同步注册。
+- 门禁基线更新：51 技能 / 0 错误 / 76 警告；16 个分发包全部带 sha256。
+
 ## [1.6.3] - 2026-08-26
 
 ### Fixed
