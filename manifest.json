@@ -39,7 +39,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "8bac3636283ed4d45f29ef57a491e4805b04103c2d369b81d7997c5e175be18a"
+      "sha256": "28ce07e516c149a58d8ee74a6f7a089b0719a8bd368642f0421c0651cfb7c5eb"
     },
     {
       "id": "api-development",
@@ -59,7 +59,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "608a3cd3c51a9eb225860e103448f200ba8d8a933dac09e68556d54e31fee3fb"
+      "sha256": "12e54dba01b144b0ef5a988da31c1f2462d7886a4a95bc2ef3f91b9bdce7eca5"
     },
     {
       "id": "architecture",
@@ -83,7 +83,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "a916f992152b5de65849c0ad8e5f021f56766f07a3e7419bf71a1e7899378f7e"
+      "sha256": "c41466dd0040207adb317b55957458986d06cbac8a9d49514db62cb2a697094c"
     },
     {
       "id": "ci-cd",
@@ -107,7 +107,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "894ed118f8f30095a7726ac7d73463239a1fef9468dfa51d3140b44016fc9105"
+      "sha256": "7703c1afcafe038bb34cca1c91eff416dd5114e15c249658bb32d62c5d70b266"
     },
     {
       "id": "content-publishing",
@@ -191,7 +191,7 @@
           "source": "skillkit authors (self-authored)"
         }
       ],
-      "sha256": "1cb7f81ad89a58e72690d7bfa593677725b06b719900f68f06eaa74102f31292"
+      "sha256": "0702c7669862a9b396aa32247865ed368b660e643faf77d1ae99c71b1c8bc274"
     },
     {
       "id": "code-review",
@@ -223,7 +223,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "03034edd5b885c14fd6b9a1cc9488c772c24d5ea257760520e4be3aeaf19b911"
+      "sha256": "81a84965b9a8ef2d06fc19e4965ec800af9bf17c09e3e7ef35263c7b712d28a9"
     },
     {
       "id": "containers",
@@ -247,7 +247,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "1e720a8653610994043dccceb222c6dd3e9180357288a134800c0f88a657448d"
+      "sha256": "293521976aed8bf2996ca0de0d43619996e9cf1886954dc01287a5513bf7cdec"
     },
     {
       "id": "database",
@@ -267,7 +267,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "41056a3669fcb8c36dc9587761cadaeaf0403c341a2e020e51af9a29cd1352f5"
+      "sha256": "93248d0df51d1ba1be19873c91e1085fa1abdb2e81fad6517261226749e5c7ce"
     },
     {
       "id": "github-workflow",
@@ -291,7 +291,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "5eab09cc9e829b3f74b3046ba81afbd3eba9fa88f2e4f1e0fcea0469a2b12c8c"
+      "sha256": "7bbc6c5ccaa9c212210bf315fdbbb3afd038d37b204d83f3e9f7b38598fb38ef"
     },
     {
       "id": "incident-response",
@@ -315,7 +315,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "93b4dbf49dbc94fcb1ad6f9dea1eac640e35d7f487c845d9f5bf59a73f55f807"
+      "sha256": "b26ad54e2cf4178a1cf31c4fc4f1c4b77db54a9af747f4a3c6c8bc75d3489642"
     },
     {
       "id": "infrastructure",
@@ -339,7 +339,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "fcaad086ba1c3265dc583b255e5ca14ec14aaa309eab073cd1a725c5cb036894"
+      "sha256": "7b1e7293cacd030c4a18b786198e01221ee91e2c03144969d10b7648e424a527"
     },
     {
       "id": "performance",
@@ -355,7 +355,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "46f7acfc66f93264357112be815d81debf07f743fce8d2e98e43f3948d551d99"
+      "sha256": "e49d9e91772bf17a325c2f5feee9ade925dfafc8a42ec18e706a8475f8e8ceda"
     },
     {
       "id": "security",
@@ -375,7 +375,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "a3d4f4dd9fd049e216839d9090db6460c89969e200ce521007f56482aa7701bc"
+      "sha256": "5265e3898c707a15d8ce54c83aab23d46c9ad702c7581510687ba527ddd30c68"
     },
     {
       "id": "tdd",
@@ -391,7 +391,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "b5ea8aa587a14812fb6987db2066b215b525ba6423b64858c66506f6eefe3f44"
+      "sha256": "44bced2afddef320d96db76c1171223b258750842fb8a02689eac6c859486cf5"
     },
     {
       "id": "ai-media-toolkit",
@@ -419,7 +419,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "0c9fd4d45de910a528d91d71a81a70dcb8924c6d22f63d72e8a58c3daf0c141f"
+      "sha256": "fd898317eea24e64a9734a0f17382edd51c0eeb9972e5836c93674663b46b572"
     },
     {
       "id": "office-productivity",
@@ -447,7 +447,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "09faa3d87919088ac23e9c2ae342b1f9043614f81f5b44e6cba88bf9bf707f32"
+      "sha256": "a79349d7c70fe95ad57ccaf1b68ddfad1f67f511dabec63714b25187d3c957e7"
     },
     {
       "id": "viral-entertainment",
@@ -456,7 +456,7 @@
       "description": "Special entertainment scenarios: talking-character viral shorts.",
       "description_zh": "特别娱乐场景：AI 宝宝播客等会说话角色的病毒式短视频完整流水线（含合规标识与角色一致性纪律）。",
       "file": "dist/viral-entertainment.zip",
-      "size_kb": 11,
+      "size_kb": 9,
       "skills": [
         {
           "name": "ai-baby-podcast",
@@ -467,7 +467,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "d5ff6e9efc315b2ff8509147183b042de934ee9d905c795ddbadcd729363278a"
+      "sha256": "6e3ec6e0281a9b74d69cdd3330bc816aa2ac354217b0cfa9a8a838994413be26"
     }
   ]
 }

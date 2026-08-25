@@ -22,6 +22,10 @@ SKIP_DIRS = {".git", "__pycache__", ".pytest_cache", ".ruff_cache", ".github"}
 SKIP_FILES = {".gitignore", "docker-compose.yml"}
 SKIP_SUFFIXES = {".pyc"}
 
+# reproducible builds: fixed entry timestamps -> identical bytes for
+# identical inputs -> stable manifest sha256 across rebuilds
+FIXED_DATE = (2026, 1, 1, 0, 0, 0)
+
 
 def is_excluded(rel: Path) -> bool:
     parts = set(rel.parts)
@@ -48,7 +52,10 @@ def add_tree(zf: zipfile.ZipFile, src_dir: Path, arc_prefix: str) -> int:
             continue
         if path.is_dir():
             continue
-        zf.write(path, f"{arc_prefix}/{rel.as_posix()}")
+        zi = zipfile.ZipInfo(f"{arc_prefix}/{rel.as_posix()}", date_time=FIXED_DATE)
+        zi.compress_type = zipfile.ZIP_DEFLATED
+        zi.external_attr = 0o644 << 16
+        zf.writestr(zi, path.read_bytes())
         count += 1
     return count
 

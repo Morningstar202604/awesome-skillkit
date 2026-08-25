@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.12.3] - 2026-08-26
+
+### Fixed
+
+- **构建不可复现修复**：zip 条目此前嵌入源文件时间戳，导致每次重建产生不同
+  sha256（manifest 校验和随构建漂移、失去可信度）。现统一固定条目时间戳，
+  相同输入产出字节级相同的 zip——已实测连续两次构建哈希完全一致。
+- 平台仓库描述补齐：GitCode 与 Gitee 均已通过各自 API 写入英文简介
+  （GitHub 此前已完成 description + 15 topics）。
+
 ## [1.12.2] - 2026-08-26
 
 ### Changed
