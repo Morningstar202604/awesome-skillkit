@@ -1,5 +1,7 @@
 # awesome-skillkit
 
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-59-brightgreen) ![Packs](https://img.shields.io/badge/scenes-17-blue) [![Gitee](https://img.shields.io/badge/Gitee-badhope-C71D23)](https://gitee.com/badhope/awesome-skillkit) [![GitCode](https://img.shields.io/badge/GitCode-badhope-3B82F6)](https://gitcode.com/badhope/awesome-skillkit)
+
 [English](README.md) | **中文** | [日本語](README.ja.md)
 
 面向 AI 工具的精选**场景包**合集。**每个场景包 = 一个真实场景，内含多个精选 skill。** 下载 zip → 解压 → 把 skill 文件夹拖进 AI 工具的 skills 目录 → 直接可用。
@@ -303,3 +305,7 @@ powershell -File sync-mirrors.ps1   # gitcode + gitee + github
 ## License
 
 [Apache License 2.0](LICENSE) © 2026 weed33834
+
+---
+
+**如果这些场景包对你有用，欢迎在 [GitCode](https://gitcode.com/badhope/awesome-skillkit) / [Gitee](https://gitee.com/badhope/awesome-skillkit) / [GitHub](https://github.com/Morningstar202604/awesome-skillkit) 点个 Star** - 这是让更多人搜到它们的最直接方式。

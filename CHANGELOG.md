@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.12.2] - 2026-08-26
+
+### Changed
+
+- **可发现性优化（对标同类头部仓库后择优采纳）**：
+  - 三语 README 增加徽章行（License/Skills/Packs/Gitee/GitCode）与底部三平台 Star 引导——awesome-claude-skills(13k★) 与 anthropics/skills 均有徽章，属同行标准做法；
+  - **不添加自定义 Logo**：头部同类仓库均无 Logo 图标，遵循"同行没做就不做"原则。
+- **平台元数据**：GitHub 仓库 description 与 15 个 topics 已通过 API 生效；Gitee/GitCode 的 API 拒绝 git 凭据直调（需网页端设置或专用私人令牌）。
+
+### Fixed
+
+- **sync-mirrors.ps1 假报错修复**：PowerShell 5.1 在 EAP=Stop 下把 git 的 stderr 进度（如 "Everything up-to-date"）渲染为红色异常并可能中断脚本；现改为经 cmd /c 进程级合并流、仅以退出码判定成败。实测三平台一次跑通、退出码 0。
+
 ## [1.12.1] - 2026-08-26
 
 ### Changed

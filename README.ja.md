@@ -1,5 +1,7 @@
 # awesome-skillkit
 
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-59-brightgreen) ![Packs](https://img.shields.io/badge/scenes-17-blue) [![Gitee](https://img.shields.io/badge/Gitee-badhope-C71D23)](https://gitee.com/badhope/awesome-skillkit) [![GitCode](https://img.shields.io/badge/GitCode-badhope-3B82F6)](https://gitcode.com/badhope/awesome-skillkit)
+
 [English](README.md) | [中文](README.zh-CN.md) | **日本語**
 
 AI ツール向けに厳選された**シーンパック**のコレクションです。**各パック = 一つの実務シナリオに対応し、厳選した複数のスキルを同梱しています。** zip をダウンロード → 解凍 → スキルフォルダを AI ツールの skills ディレクトリにドラッグするだけで、すぐに使えます。
@@ -302,3 +304,7 @@ git push origin main --follow-tags
 ## ライセンス
 
 [Apache License 2.0](LICENSE) © 2026 weed33834
+
+---
+
+**役に立ったら [GitCode](https://gitcode.com/badhope/awesome-skillkit) / [Gitee](https://gitee.com/badhope/awesome-skillkit) / [GitHub](https://github.com/Morningstar202604/awesome-skillkit) でスターをお願いします** - 他の人の発見につながります。

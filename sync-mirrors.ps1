@@ -18,9 +18,17 @@ $ErrorActionPreference = "Stop"
 
 function Push-To([string]$Label, [string]$UrlOrRemote) {
     Write-Host "==> pushing $Branch -> $Label" -ForegroundColor Cyan
-    git push $UrlOrRemote "${Branch}:${Branch}"
+    # PS5.1 turns git's stderr progress into fake errors under EAP=Stop.
+    # Merge streams at the process level via cmd so PS receives plain text.
+    $prevEap = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    $out = (& cmd /c "git push $UrlOrRemote ${Branch}:${Branch} 2>&1") | Out-String
+    $tagOut = (& cmd /c "git push $UrlOrRemote --tags 2>&1") | Out-String
+    $ErrorActionPreference = $prevEap
+    foreach ($line in (($out.TrimEnd() + "`n" + $tagOut.TrimEnd()) -split "`n")) {
+        if ($line.Trim()) { Write-Host ("    " + $line.Trim()) }
+    }
     if ($LASTEXITCODE -ne 0) { throw "push to $Label failed (exit $LASTEXITCODE)" }
-    git push $UrlOrRemote --tags 2>$null | Out-Null
 }
 
 Write-Host "=== awesome-skillkit mirror sync (gitcode + gitee + github) ===" -ForegroundColor Yellow
