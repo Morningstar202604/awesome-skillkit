@@ -6,6 +6,10 @@ version: 1.0.0
 author: skillkit authors
 license: Apache-2.0
 tags: [csdn, blog, publishing, automation, china-platform]
+metadata:
+  version: "1.0"
+  category: "content-publishing"
+  verified-date: "2026-08-26"
 ---
 
 # CSDN Publisher
@@ -101,7 +105,7 @@ python csdn_publisher.py draft-save --cookie-file ~/.csdn_cookie ...
 
 - Python 3.8+
 - 标准库（`argparse` `json` `os` `sys` `urllib`）
-- `publish_common`（同目录 `../../../_common/publish_common.py`）
+- `publish_common`（打包后与技能目录平级的 `_common/publish_common.py`；仓库内位于 `skills/writing/_common/`）
 
 ## 相关技能
 

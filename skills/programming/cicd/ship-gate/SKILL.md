@@ -11,6 +11,8 @@ license: MIT
 metadata:
   author: Rajaraman Arumugam
   version: 1.0.0
+  category: "ci-cd"
+  verified-date: "2026-08-26"
 ---
 
 # Ship Gate

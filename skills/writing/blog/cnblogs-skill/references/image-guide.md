@@ -147,7 +147,7 @@ for img_path in ['img1.png', 'img2.png']:
 
 ### 方案B：浏览器 base64 分块注入（备用）
 
-浏览器 session 有效时可用，详见旧版 `references/image-upload.md` 中的 base64 方案。此方案较慢，仅在 Python urllib 上传失败时作为 fallback。
+浏览器 session 有效时可用。此 base64 方案较慢，仅在 Python urllib 上传失败时作为 fallback。
 
 ### 上传失败处理
 

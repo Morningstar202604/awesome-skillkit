@@ -6,6 +6,10 @@ version: 1.0.0
 author: skillkit authors
 license: Apache-2.0
 tags: [toutiao, douyin, publishing, automation, china-platform]
+metadata:
+  version: "1.0"
+  category: "content-publishing"
+  verified-date: "2026-08-26"
 ---
 
 # 今日头条/抖音 Publisher

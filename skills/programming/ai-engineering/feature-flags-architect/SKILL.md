@@ -7,6 +7,10 @@ author: claude-code-skills
 license: MIT
 tags: [feature-flags, progressive-delivery, rollout, kill-switch, launchdarkly, growthbook, statsig, unleash, flipt, release-engineering]
 compatible_tools: [claude-code, codex-cli, cursor, antigravity, opencode, gemini-cli]
+metadata:
+  version: "1.0"
+  category: "ai-agent-development"
+  verified-date: "2026-08-26"
 ---
 
 # Feature Flags Architect

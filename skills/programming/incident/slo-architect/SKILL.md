@@ -7,6 +7,10 @@ author: claude-code-skills
 license: MIT
 tags: [slo, sli, sla, error-budget, burn-rate, sre, reliability, google-sre-workbook, observability]
 compatible_tools: [claude-code, codex-cli, cursor, antigravity, opencode, gemini-cli]
+metadata:
+  version: "1.0"
+  category: "incident-response"
+  verified-date: "2026-08-26"
 ---
 
 # SLO Architect
@@ -155,7 +159,7 @@ This skill explicitly composes with three others:
 | `chaos-engineering` | Blast-radius calculator already takes monthly error budget as input — define it here |
 | `kubernetes-operator` | Operator capability L4 (Deep Insights) requires SLOs + Prometheus rules |
 
-The `error_budget_calculator.py` output is in the same shape `engineering/skills/chaos-engineering/scripts/blast_radius_calculator.py` expects on stdin.
+The `error_budget_calculator.py` output is in the same shape as the chaos-engineering skill's `blast_radius_calculator.py` expects on stdin.
 
 ## Workflows
 
@@ -198,7 +202,7 @@ The `error_budget_calculator.py` output is in the same shape `engineering/skills
 
 ## References
 
-- `references/slo_principles.md` — SLI vs SLO vs SLA, Google SRE Workbook canon
+- SLI vs SLO vs SLA fundamentals, Google SRE Workbook canon
 - `references/sli_design.md` — picking the right SLI; 5 types with examples
 - `references/error_budget.md` — error budget math, burn-rate alerts, budget policy
 - `references/composition.md` — how SLOs feed feature flags, chaos, operators

@@ -7,6 +7,7 @@ metadata:
   author: Alireza Rezvani
   category: engineering
   updated: 2026-03-16
+  verified-date: "2026-08-26"
 ---
 
 # Docker Development

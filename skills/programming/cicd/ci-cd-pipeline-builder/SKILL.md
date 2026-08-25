@@ -1,6 +1,11 @@
 ---
 name: "ci-cd-pipeline-builder"
 description: "Generate pragmatic CI/CD pipelines from detected project stack signals — fast baseline generation, repeatable checks, environment-aware deployment stages. Use when setting up CI for a new project, refactoring existing pipelines, or standardizing deployment workflows across multiple repos."
+license: Apache-2.0
+metadata:
+  version: "1.0"
+  category: "ci-cd"
+  verified-date: "2026-08-26"
 ---
 
 # CI/CD Pipeline Builder

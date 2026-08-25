@@ -1,6 +1,11 @@
 ---
 name: "code-reviewer"
 description: Automated static-analysis engine for code changes and files in TypeScript, JavaScript, Python, Go, Swift, Kotlin, C#, .NET, Java, C, C++, Rust, Ruby, PHP, and Dart/Flutter. Detects complexity, risk, hardcoded secrets, SQL injection, and SOLID violations; generates review reports. Use for deterministic code analysis of files or diffs (the workflow-level GitHub PR review process is pr-review-expert's job).
+license: Apache-2.0
+metadata:
+  version: "1.0"
+  category: "code-review"
+  verified-date: "2026-08-26"
 ---
 
 # Code Reviewer
@@ -167,7 +172,7 @@ score the new language:
 3. Add the extensions to `LANGUAGE_EXTENSIONS` in `scripts/code_quality_checker.py` (this also adds the `--language` choice).
 4. Add `function` / `class` / `method` regex entries for the language in the same file; otherwise it falls back to the Python patterns.
 5. Optionally add a `check_<name>_specific_smells(...)` detector (see the C#, Java, and C ones) and call it from `analyze_file`.
-6. Add `assets/sample_<name>_smells.<ext>` + `_clean` fixtures and commit the expected `--json` output under `expected_outputs/` as a regression guard.
+6. Add sample `<name>_smells.<ext>` + `_clean` fixture files under assets/, and commit the expected `--json` output under `expected_outputs/` as a regression guard.
 
 ---
 

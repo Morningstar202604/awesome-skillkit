@@ -1,6 +1,11 @@
 ---
 name: "wechat-mp-publisher"
 description: "微信公众号文章发布自动化。基于官方草稿箱 API：获取 access_token、上传正文图片与封面素材、创建草稿（draft/add）、提交发布（freepublish）。当用户提到公众号发文、微信公众号发布、公众号草稿、推送文章到公众号等场景时使用。所有写操作默认 dry-run，确认后才真正执行。"
+license: Apache-2.0
+metadata:
+  version: "1.0"
+  category: "content-publishing"
+  verified-date: "2026-08-26"
 ---
 
 # 微信公众号发布 Skill

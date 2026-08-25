@@ -1,6 +1,11 @@
 ---
 name: "api-test-suite-builder"
 description: "Use when the user asks to generate API tests, create integration test suites, test REST endpoints, or build contract tests."
+license: Apache-2.0
+metadata:
+  version: "1.0"
+  category: "api-development"
+  verified-date: "2026-08-26"
 ---
 
 # API Test Suite Builder

@@ -1,6 +1,11 @@
 ---
 name: "database-designer"
 description: "Use when the user asks to design database schemas, create ERD diagrams, normalize schemas, plan data migrations, add multi-tenancy or row-level security, generate seed data, optimize queries, choose between SQL and NoSQL, or model data relationships."
+license: Apache-2.0
+metadata:
+  version: "1.0"
+  category: "database"
+  verified-date: "2026-08-26"
 ---
 
 # Database Designer - POWERFUL Tier Skill

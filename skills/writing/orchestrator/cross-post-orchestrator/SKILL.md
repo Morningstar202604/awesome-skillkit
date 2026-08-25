@@ -1,6 +1,11 @@
 ---
 name: "cross-post-orchestrator"
 description: "一篇文章多平台发布编排器。读取 post.manifest.json，检查各平台前置条件（凭据/登录态/账号文件），生成执行计划；对已脚本化的平台（公众号、掘金）调度对应技能 CLI，无脚本的平台输出精确手工清单；维护发布台账。当用户提到多平台发文、一键分发文章、同步发布到多个平台、发布计划时使用。默认 plan 模式绝不联网。"
+license: Apache-2.0
+metadata:
+  version: "1.0"
+  category: "content-publishing"
+  verified-date: "2026-08-26"
 ---
 
 # 跨平台发布编排 Skill

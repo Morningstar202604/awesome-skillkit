@@ -1,6 +1,11 @@
 ---
 name: "sql-database-assistant"
 description: "Use when the user asks to write SQL queries, optimize database performance, generate migrations, explore database schemas, or work with ORMs like Prisma, Drizzle, TypeORM, or SQLAlchemy."
+license: Apache-2.0
+metadata:
+  version: "1.0"
+  category: "database"
+  verified-date: "2026-08-26"
 ---
 
 # SQL Database Assistant - POWERFUL Tier Skill

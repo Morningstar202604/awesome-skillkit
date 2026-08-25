@@ -1,6 +1,11 @@
 ---
 name: "spec-driven-workflow"
 description: "Use when the user asks to write specs before code, define acceptance criteria, plan features before implementation, generate tests from specifications, or follow spec-first development practices."
+license: Apache-2.0
+metadata:
+  version: "1.0"
+  category: "ci-cd"
+  verified-date: "2026-08-26"
 ---
 
 # Spec-Driven Workflow — POWERFUL

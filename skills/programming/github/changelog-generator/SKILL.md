@@ -1,6 +1,11 @@
 ---
 name: "changelog-generator"
 description: "Produce consistent, auditable release notes from Conventional Commits. Separates commit parsing, semantic-bump logic, and changelog rendering for automated releases with editorial control. Use when cutting a release, generating CHANGELOG.md from git history, computing the next semantic version from commits, automating release notes in CI, or planning a hotfix/rollback. Examples: 'generate the changelog for v1.4.0', 'what version bump do these commits require', 'we need an emergency hotfix process'."
+license: Apache-2.0
+metadata:
+  version: "1.0"
+  category: "github-workflow"
+  verified-date: "2026-08-26"
 ---
 
 # Changelog Generator

@@ -1,6 +1,11 @@
 ---
 name: "env-secrets-manager"
 description: "Manage environment-variable hygiene and secrets safety across local development and production. Practical auditing, drift awareness, rotation readiness. Use when auditing .env files for committed secrets, planning a credential rotation, debugging missing-env-var production incidents, or hardening a new project against secrets leakage."
+license: Apache-2.0
+metadata:
+  version: "1.0"
+  category: "security"
+  verified-date: "2026-08-26"
 ---
 
 # Env & Secrets Manager

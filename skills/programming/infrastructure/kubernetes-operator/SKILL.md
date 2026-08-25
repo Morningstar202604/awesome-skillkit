@@ -7,6 +7,10 @@ author: claude-code-skills
 license: MIT
 tags: [kubernetes, operator, crd, controller-runtime, kubebuilder, operator-sdk, metacontroller, kopf, reconcile, devops]
 compatible_tools: [claude-code, codex-cli, cursor, antigravity, opencode, gemini-cli]
+metadata:
+  version: "1.0"
+  category: "containers"
+  verified-date: "2026-08-26"
 ---
 
 # Kubernetes Operator
