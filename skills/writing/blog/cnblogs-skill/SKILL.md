@@ -11,7 +11,7 @@ description: 博客园(cnblogs.com)自动化发文与管理技能。覆盖选题
 
 采用 **API优先、浏览器兜底** 的双轨策略：
 - **API方式**（推荐）：通过 `i.cnblogs.com/api/posts` 等 REST 接口直接操作，无需浏览器交互
-- **浏览器方式**（兜底）：通过 `dumate-browser-use` 的 Playwright 操作页面，用于评论提交、博问互动等无 API 的场景
+- **浏览器方式**（兜底）：通过任意 Playwright 驱动的浏览器会话操作页面，用于评论提交、博问互动等无 API 的场景
 
 ## 账号信息
 
@@ -36,7 +36,7 @@ description: 博客园(cnblogs.com)自动化发文与管理技能。覆盖选题
 
 ### Cookie 来源
 
-Cookie 存储在会话工作目录的 `auth-state.json` 文件中。该文件包含浏览器完整 cookie（含 HttpOnly），由 `dumate-browser-use` 登录时生成。
+Cookie 存储在会话工作目录的 `auth-state.json` 文件中。该文件包含浏览器完整 cookie（含 HttpOnly），由 Playwright 登录会话的 `storage_state` 导出。
 
 提取方式见 `references/publish-api.md` 的"Cookie 提取"章节。
 
@@ -84,7 +84,7 @@ curl -s "https://i.cnblogs.com/api/posts/{任意已有postId}" -H "Cookie: $COOK
 4. **搜索素材** → 用 websearch 获取最新数据、案例、趋势
 5. **撰写文章** → 按排版规范和发文风格写 Markdown 正文
 6. **格式检查** → 运行 `scripts/cnblogs-pre-publish-check.py`
-7. **生成配图** → `baidu-image-gen` 技能生成 2 张配图
+7. **生成配图** → 用任意可用的文生图工具/技能生成 2 张配图（无配图能力可跳过）
 8. **上传配图** → Python urllib 直接 POST 到博客园图床
 9. **插入图片** → 将图片 URL 插入 Markdown 正文
 10. **提取 Cookie + XSRF** → 从 `auth-state.json` 提取，GET HTML 页面获取新 XSRF
@@ -170,10 +170,9 @@ curl -s "https://i.cnblogs.com/api/posts/{任意已有postId}" -H "Cookie: $COOK
 | 规则 | 要求 |
 |------|------|
 | 数量 | 每篇 2 张 |
-| 风格 | 暗色技术风：背景 #0d1117，绿色 #238636，蓝色 #58a6ff |
-| 格式 | flat-design，无渐变，无3D |
+| 风格建议 | 暗色技术风：背景 #0d1117，绿色 #238636，蓝色 #58a6ff，flat-design |
 | 比例 | 3:2（1536x1024） |
-| 生成工具 | `baidu-image-gen` 技能 |
+| 生成工具 | 任意文生图工具/技能（本技能不绑定特定实现） |
 | 上传方式 | Python urllib 直接 POST 到图床 |
 | 插入位置 | 开头1张（概念图），中间1张（数据/对比图） |
 
@@ -181,15 +180,15 @@ curl -s "https://i.cnblogs.com/api/posts/{任意已有postId}" -H "Cookie: $COOK
 
 ## 评论与社区互动规范
 
-### 行为准则
+### 互动原则
 
-| 规则 | 说明 |
+| 原则 | 说明 |
 |------|------|
-| 一问一答 | 别人回复了才回，不主动重复评论同一个人 |
+| 质量优先 | 回复要有实质内容，补充观点或展开讨论；宁可不回也不要乱回 |
+| 一问一答 | 别人回复了才回，不主动刷屏 |
 | 内容筛选 | 纯客套/情绪化/无实质内容的评论跳过不回 |
-| 回复质量 | 回复要有实质内容，补充观点或展开讨论 |
-| 不敷衍 | 不发"感谢支持"、"说得好"等无意义回复 |
-| 克制互动 | 宁可不回也不要乱回，质量优先于数量 |
+| 真诚透明 | 被问及是否用 AI 时如实说明：AI 辅助整理素材与润色，观点和分析框架是自己的 |
+| 不刷数据 | 不做机械的互赞互评任务，避免社区反感和平台风控 |
 
 ### 应该回复的情况
 
@@ -201,25 +200,9 @@ curl -s "https://i.cnblogs.com/api/posts/{任意已有postId}" -H "Cookie: $COOK
 ### 应该跳过的情况
 
 - 纯客套："感谢分享"、"学到了"、"写的很好"
-- 情绪化表达："太悲观了"、"危言耸听"
-- 无实质内容：只有一个表情、只说"顶"、"沙发"
+- 情绪化表达：无实质内容的争论
+- 只有一个表情、只说"顶"、"沙发"
 - 已经回复过的人再次发无关内容
-
-### 被质疑AI写作的回复口径
-
-> "觉醒的AI，即为伪人，隐藏于人类中运作。"
-
-承认用了AI辅助整理素材和润色语言，但强调核心观点和分析框架是自己梳理的。
-
-### 每日活跃任务
-
-| 任务 | 数量 |
-|------|:---:|
-| 推荐别人博文 | 3篇 |
-| 在别人博文下评论 | 3条 |
-| 查看消息中心 | 1次 |
-| 检查自己文章评论 | 全部 |
-| 回复新评论 | 按需 |
 
 详细操作见 `references/community.md`。
 
@@ -237,6 +220,8 @@ curl -s "https://i.cnblogs.com/api/posts/{任意已有postId}" -H "Cookie: $COOK
 | 108696 | 编程语言 | Python等编程语言文章 |
 | 108766 | AI安全 | AI安全事件文章 |
 | 108781 | AI Agent | AI Agent指南文章 |
+
+> 注意：平台级分类 ID 以博客园当前实际为准，使用前建议在网站上核对。
 
 ## 参考文件索引
 
@@ -270,4 +255,4 @@ python3 scripts/cnblogs-pre-publish-check.py <markdown_file> --title "文章标�
 9. **浏览器session会过期**：优先用API，浏览器仅用于评论/点赞等无API操作
 10. **cookie从auth-state.json提取**：包含HttpOnly cookie，比浏览器document.cookie更完整
 11. **短段落多空行**：这是用户最强调的排版要求，一句或几句话就空行
-12. **被质疑AI写作时**：用"觉醒的AI"口径回复，承认AI辅助但强调核心观点是自己梳理的
+12. **互动真诚透明**：被问及是否用 AI 时如实说明；不做虚假人设话术

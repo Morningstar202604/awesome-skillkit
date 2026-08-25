@@ -139,7 +139,7 @@ def run_checks(filepath: str, title: str = "") -> bool:
         print(f"错误: 文件不存在 - {filepath}")
         return False
     
-    content = path.read_text(encoding='utf-8')
+    content = path.read_text(encoding='utf-8-sig')  # utf-8-sig 兼容带 BOM 的文件（Windows 常见）
     
     all_issues = []
     

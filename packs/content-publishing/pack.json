@@ -1,0 +1,81 @@
+{
+  "id": "content-publishing",
+  "name": "Content Publishing Automation",
+  "name_zh": "内容多平台发布自动化",
+  "description": "Publish, edit and manage articles/videos on Chinese platforms (Zhihu, cnblogs, WeChat MP, Juejin, CSDN, Jianshu, Bilibili, Toutiao, Baijiahao, Xiaohongshu, Weibo, Douban, V2EX, SegmentFault, OSChina, Static Blogs) with battle-tested platform knowledge, plus a cross-post orchestrator and AI cover-image generation.",
+  "description_zh": "在知乎、博客园、微信公众号、掘金、CSDN、简书、B站、头条、百家号、小红书、微博、豆瓣、V2EX、SegmentFault、开源中国、静态博客等中文平台发布、编辑、管理内容，沉淀实战平台经验；附跨平台发布编排器与 AI 封面图生成。",
+  "skills": [
+    {
+      "name": "zhihu-content-manager",
+      "source": "skillkit authors (self-authored)"
+    },
+    {
+      "name": "cnblogs-skill",
+      "source": "skillkit authors (self-authored)"
+    },
+    {
+      "name": "wechat-mp-publisher",
+      "source": "skillkit authors (self-authored)"
+    },
+    {
+      "name": "juejin-publisher",
+      "source": "skillkit authors (self-authored)"
+    },
+    {
+      "name": "csdn-publisher",
+      "source": "skillkit authors (self-authored)"
+    },
+    {
+      "name": "jianshu-publisher",
+      "source": "skillkit authors (self-authored)"
+    },
+    {
+      "name": "bilibili-publisher",
+      "source": "skillkit authors (self-authored)"
+    },
+    {
+      "name": "toutiao-publisher",
+      "source": "skillkit authors (self-authored)"
+    },
+    {
+      "name": "baijiahao-publisher",
+      "source": "skillkit authors (self-authored)"
+    },
+    {
+      "name": "xiaohongshu-publisher",
+      "source": "skillkit authors (self-authored)"
+    },
+    {
+      "name": "weibo-publisher",
+      "source": "skillkit authors (self-authored)"
+    },
+    {
+      "name": "douban-publisher",
+      "source": "skillkit authors (self-authored)"
+    },
+    {
+      "name": "v2ex-publisher",
+      "source": "skillkit authors (self-authored)"
+    },
+    {
+      "name": "segmentfault-publisher",
+      "source": "skillkit authors (self-authored)"
+    },
+    {
+      "name": "oschina-publisher",
+      "source": "skillkit authors (self-authored)"
+    },
+    {
+      "name": "static-blog-deploy",
+      "source": "skillkit authors (self-authored)"
+    },
+    {
+      "name": "cross-post-orchestrator",
+      "source": "skillkit authors (self-authored)"
+    },
+    {
+      "name": "ai-cover-generator",
+      "source": "skillkit authors (self-authored)"
+    }
+  ]
+}

@@ -6,10 +6,6 @@
   "description_zh": "构建生产级 AI Agent、设计多 Agent 工作流、MCP 服务、功能开关与自评。",
   "skills": [
     {
-      "name": "agent-builder-skill",
-      "source": "weed33834 (self-authored)"
-    },
-    {
       "name": "agent-designer",
       "source": "alirezarezvani/claude-skills (MIT)"
     },

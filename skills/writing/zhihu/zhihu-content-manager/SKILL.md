@@ -5,12 +5,10 @@ description: "知乎内容发布与管理自动化工具。支持文章发布、
 
 # 知乎发文管理 Skill
 
-> 原 `## name` / `## description` 小节已上移为 YAML frontmatter（skills 规范要求）。
-
 ## compatibility
-- Python 3.8+ with playwright
-- Chromium browser (路径: /app/chromium-1224/chrome-linux64/chrome)
-- zhihu_state.json (知乎登录态cookies文件)
+- Python 3.8+ 与 Playwright（`pip install playwright && playwright install chromium`）
+- Chromium 浏览器（默认用 Playwright 自带的；如需指定路径见下文）
+- `zhihu_state.json`：知乎登录态 cookies 文件（由用户本地浏览器登录后导出，不入库）
 
 ---
 
@@ -20,17 +18,20 @@ description: "知乎内容发布与管理自动化工具。支持文章发布、
 
 ```python
 import sys
-sys.path.insert(0, '/tmp/.pip-global/lib/python3.12/site-packages')
+from pathlib import Path
 from playwright.sync_api import sync_playwright
 
-CHROME_PATH = '/app/chromium-1224/chrome-linux64/chrome'
-STATE_FILE = 'zhihu_state.json'
+# Chromium 路径按优先级解析：
+# 1) 环境变量 ZHIHU_CHROME_PATH
+# 2) Playwright 自带浏览器（不传 executable_path 即可）
+CHROME_PATH = os.environ.get("ZHIHU_CHROME_PATH") or None
+STATE_FILE = os.environ.get("ZHIHU_STATE_FILE", "zhihu_state.json")
 ```
 
 启动浏览器配置：
 ```python
 browser = p.chromium.launch(
-    executable_path=CHROME_PATH,
+    executable_path=CHROME_PATH,   # None 时使用 Playwright 自带 Chromium
     headless=True,
     args=[
         '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage',
@@ -203,65 +204,14 @@ page.evaluate(f"""async () => {{
 
 ---
 
----
+## 发布风格与内容运营
 
-## 发布风格与质量标准
+排版要求、视觉要求、内容风格、草稿箱盘点与润色流程等**内容运营策略**属于可自定义部分，
+不绑定平台能力，统一放在 `references/content-ops.md`。
+首次使用建议：复制该文件为你的个人风格基线，按自己的账号定位修改。
 
-### 排版要求
-- **万字长文**：每篇文章7000-10000字，内容丰富深入
-- **多级标题**：h2大章节带中文编号（如"一、""二、"），h3小节带数字编号（如"1.1""1.2"）
-- **章节分割线**：大章节之间用 `<hr/>` 分隔，视觉上清晰分层
-- **段落间距**：自然段落之间有空行，引用块与正文之间有空行，层次丰富
-- **列表结构**：用 `<ul><li>` 列出结构化知识点、步骤、对比项
-- **引用块**：用 `<blockquote>` 包裹名言、重要结论、历史背景
-- **代码块**：代码示例用 `<code>` 包裹，必须转义尖括号；长代码块用 `<pre>`
-- **粗体强调**：关键术语、核心概念、重要数字用 `<b>` 加粗
-
-### 视觉要求
-- **封面图**：主题场景风格（如"复古机械人偶变现代AI"、"机器人侦探监控墙"），非纯渐变PPT风
-- **正文插图**：每篇3-5张，均匀穿插在章节之间，内容与章节主题匹配
-- **图片格式**：`<figure data-size="normal"><img src="URL" data-caption="说明"/></figure>`
-- **公式**：行内用 `<span class="FormulaCSR" data-eeimg="1">$...$</span>`，块级用 `<p>` + `data-eeimg="2"`
-
-### 内容风格
-- **故事性开头**：每篇文章以历史故事、场景描写或引人思考的问题开头
-- **生动比喻**：用日常类比解释技术概念（如"AI Agent像能帮你干活的助理"）
-- **历史背景**：技术演进要有时间线、人物、关键事件
-- **实战导向**：每篇都要有代码示例、应用场景、常见误区
-- **层次递进**：从基础概念 → 核心原理 → 实战应用 → 进阶技巧
-- **结尾升华**：总结核心价值，给出行动建议或学习路径
-
-### 质量标准
-- 0乱码、0未转义尖括号、0裸img标签
-- 标题层次清晰，无空章节
-- 代码可运行，注释完整
-- 图片版权安全（用文生图生成）
-
----
-
-## 草稿管理流程
-
-### 草稿箱盘点
-```
-1. 访问 https://www.zhihu.com/creator/manage/creation/all
-2. 点击"草稿箱"标签
-3. 滚动加载所有草稿
-4. 对每个草稿判断：
-   - 纯图片无文字 → 删除
-   - 内容<100字 → 删除
-   - 已有已发布版本 → 删除
-   - 有实质内容但重复 → 只留最新，其余删除
-   - 有实质内容且未发布 → 评估润色发布
-```
-
-### 内容润色流程
-对于有价值但质量不达标的草稿：
-1. 获取完整HTML内容
-2. 检查结构：标题层次、段落间距、代码完整性
-3. 扩充内容：补充历史背景、增加代码示例、添加应用场景
-4. 统一风格：按排版要求和内容风格规范化
-5. 生成封面图和正文插图
-6. 发布到目标专栏
+发布前的**硬性格式检查**（与风格无关，必须全部通过）：
+运行 `python3 scripts/zhihu_html_lint.py <html_file>`，详见下文「预发布检查脚本」。
 
 ---
 
@@ -330,20 +280,14 @@ Phase 4: 验证
 
 ### 封面图和插图生成方案
 
-使用 baidu-image-gen skill：
-```bash
-python3 scripts/submit.py \
-  --prompt "高质量的英文文生图prompt，包含主题、风格、光影、构图" \
-  --model dumate-image2.1 \
-  --resolution 2K \
-  --aspect_ratio 3:2 \
-  --output cover.png
-```
+图片生成工具不限（文生图 API、本地工具均可），要求：
 
-- 2K分辨率，3:2宽高比
-- 英文prompt，详细描述场景和风格
-- PIL压缩到<1MB后上传知乎
-- 压缩脚本：PIL.Image.open().convert('RGB').save('cover.jpg', 'JPEG', quality=75)
+- 2K 分辨率、3:2 宽高比（封面）
+- 英文 prompt，详细描述场景和风格
+- 上传前用 PIL 压缩到 <1MB：
+  ```python
+  PIL.Image.open('cover.png').convert('RGB').save('cover.jpg', 'JPEG', quality=75)
+  ```
 
 ### 文章质量评级标准
 
@@ -389,3 +333,27 @@ for (const block of blocks) {
 - 发布后显示404——反垃圾系统暂时屏蔽，等待即可
 - 空行段落被删除——使用了`<p></p>`而不是`<p><br data-text="true"/></p>`
 - API限流——短时间内大量API请求（fetch），改用浏览器DOM操作
+
+---
+
+## 预发布检查脚本
+
+发布前对正文 HTML 运行离线静态检查（只读、不联网）：
+
+```bash
+python3 scripts/zhihu_html_lint.py article.html [--json] [--strict]
+```
+
+检查项与退出码：
+
+| 代码 | 级别 | 含义 |
+|------|------|------|
+| E001 | error | 裸 `<img>`（会被过滤，必须 `<figure>` 包裹） |
+| E002 | error | 出现 `<table>`（Draft.js 无法清除） |
+| E003 | warning | 空段落 `<p></p>`（会被剥离，用空行段落方案替代） |
+| E004 | error | `<code>` 块内未转义尖括号 |
+| E005 | error | Latin-1 乱码特征字符 |
+| W001 | warning | 使用了 `<strong>` 而非 `<b>` |
+
+存在 error 时退出码为 1，**禁止发布**；`--strict` 时 warning 也算失败。
+单元测试位于 `tests/test_zhihu_html_lint.py`，运行：`python -m unittest discover -s tests`。

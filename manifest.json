@@ -1,12 +1,12 @@
 {
   "hub": "awesome-skillkit",
-  "version": "0.1.0",
-  "updated": "2026-08-23",
+  "version": "1.6.2",
+  "updated": "2026-08-25",
   "description": "Curated scene packs for AI tools: each pack = one real-world scenario, containing multiple skills. Download zip -> unzip -> drag the skill folders into your AI tool's skills directory.",
   "description_zh": "精选场景包合集：每个场景包 = 一个真实场景，内含多个 skill。下载 zip -> 解压 -> 把 skill 文件夹拖进 AI 工具的 skills 目录即可使用。",
   "source_notes": {
-    "alirezarezvani/claude-skills (MIT)": "33 skills curated from the open-source claude-skills project (MIT license). Two upstream near-duplicates (database-schema-designer, agent-workflow-designer) were merged into their siblings; unique content was preserved as reference docs.",
-    "weed33834 (self-authored)": "4 skills authored by the repo owner (agent-builder-skill, chinese-parents-skill, cnblogs-skill, zhihu-content-manager)."
+    "alirezarezvani/claude-skills (MIT)": "33 programming skills curated from https://github.com/alirezarezvani/claude-skills (MIT license). Two upstream near-duplicates (database-schema-designer, agent-workflow-designer) were merged into their siblings; unique content was preserved as reference docs.",
+    "self-authored scenarios": "18 scenario skills authored and maintained in this repo under skills/writing/ (Zhihu, cnblogs, WeChat MP, Juejin, CSDN, Jianshu, Bilibili, Toutiao, Baijiahao, Xiaohongshu, Weibo, Douban, V2EX, SegmentFault, OSChina, static-blog deploy, plus a cross-post orchestrator and AI cover-image generator). They encode China-platform-specific automation knowledge that upstream does not cover. See SOURCES.md."
   },
   "packs": [
     {
@@ -14,14 +14,10 @@
       "name": "AI Agent Development",
       "name_zh": "AI Agent 开发",
       "file": "dist/ai-agent-development.zip",
-      "size_kb": 883,
+      "size_kb": 145,
       "description": "Build production-grade AI agents, design multi-agent workflows, MCP servers, feature flags, and self-evaluation.",
       "description_zh": "构建生产级 AI Agent、设计多 Agent 工作流、MCP 服务、功能开关与自评。",
       "skills": [
-        {
-          "name": "agent-builder-skill",
-          "source": "weed33834 (self-authored)"
-        },
         {
           "name": "agent-designer",
           "source": "alirezarezvani/claude-skills (MIT)"
@@ -87,21 +83,6 @@
       ]
     },
     {
-      "id": "blog-writing",
-      "name": "Blog Publishing",
-      "name_zh": "博客写作发文",
-      "file": "dist/blog-writing.zip",
-      "size_kb": 29,
-      "description": "Publish and manage posts on cnblogs.com: research, writing, images, API publishing.",
-      "description_zh": "博客园发文与管理：选题、写作、配图、API 发布。",
-      "skills": [
-        {
-          "name": "cnblogs-skill",
-          "source": "weed33834 (self-authored)"
-        }
-      ]
-    },
-    {
       "id": "ci-cd",
       "name": "CI/CD Pipeline",
       "name_zh": "CI/CD 流水线",
@@ -121,6 +102,89 @@
         {
           "name": "spec-driven-workflow",
           "source": "alirezarezvani/claude-skills (MIT)"
+        }
+      ]
+    },
+    {
+      "id": "content-publishing",
+      "name": "Content Publishing Automation",
+      "name_zh": "内容多平台发布自动化",
+      "file": "dist/content-publishing.zip",
+      "size_kb": 127,
+      "description": "Publish, edit and manage articles/videos on Chinese platforms (Zhihu, cnblogs, WeChat MP, Juejin, CSDN, Jianshu, Bilibili, Toutiao, Baijiahao, Xiaohongshu, Weibo, Douban, V2EX, SegmentFault, OSChina, Douban, Static Blogs) with battle-tested platform knowledge, plus a cross-post orchestrator and AI cover-image generation.",
+      "description_zh": "在知乎、博客园、微信公众号、掘金、CSDN、简书、B站、头条、百家号、小红书、微博、豆瓣、V2EX、SegmentFault、开源中国、豆瓣、静态博客等中文平台发布、编辑、管理内容，沉淀实战平台经验；附跨平台发布编排器与 AI 封面图生成。",
+      "skills": [
+        {
+          "name": "zhihu-content-manager",
+          "source": "skillkit authors (self-authored)"
+        },
+        {
+          "name": "cnblogs-skill",
+          "source": "skillkit authors (self-authored)"
+        },
+        {
+          "name": "wechat-mp-publisher",
+          "source": "skillkit authors (self-authored)"
+        },
+        {
+          "name": "juejin-publisher",
+          "source": "skillkit authors (self-authored)"
+        },
+        {
+          "name": "cross-post-orchestrator",
+          "source": "skillkit authors (self-authored)"
+        },
+        {
+          "name": "ai-cover-generator",
+          "source": "skillkit authors (self-authored)"
+        },
+        {
+          "name": "csdn-publisher",
+          "source": "skillkit authors (self-authored)"
+        },
+        {
+          "name": "jianshu-publisher",
+          "source": "skillkit authors (self-authored)"
+        },
+        {
+          "name": "bilibili-publisher",
+          "source": "skillkit authors (self-authored)"
+        },
+        {
+          "name": "toutiao-publisher",
+          "source": "skillkit authors (self-authored)"
+        },
+        {
+          "name": "baijiahao-publisher",
+          "source": "skillkit authors (self-authored)"
+        },
+        {
+          "name": "xiaohongshu-publisher",
+          "source": "skillkit authors (self-authored)"
+        },
+        {
+          "name": "weibo-publisher",
+          "source": "skillkit authors (self-authored)"
+        },
+        {
+          "name": "douban-publisher",
+          "source": "skillkit authors (self-authored)"
+        },
+        {
+          "name": "v2ex-publisher",
+          "source": "skillkit authors (self-authored)"
+        },
+        {
+          "name": "segmentfault-publisher",
+          "source": "skillkit authors (self-authored)"
+        },
+        {
+          "name": "oschina-publisher",
+          "source": "skillkit authors (self-authored)"
+        },
+        {
+          "name": "static-blog-deploy",
+          "source": "skillkit authors (self-authored)"
         }
       ]
     },
@@ -183,7 +247,7 @@
       "name": "Database Design & Management",
       "name_zh": "数据库设计与管理",
       "file": "dist/database.zip",
-      "size_kb": 95,
+      "size_kb": 99,
       "description": "Design schemas, ERD diagrams, migrations, and optimize SQL queries.",
       "description_zh": "设计表结构、ERD 图、迁移方案，并优化 SQL 查询。",
       "skills": [
@@ -198,26 +262,11 @@
       ]
     },
     {
-      "id": "family-communication",
-      "name": "Family Communication",
-      "name_zh": "家庭沟通",
-      "file": "dist/family-communication.zip",
-      "size_kb": 255,
-      "description": "Simulate, diagnose, and cope with Chinese-parent behavior via a 10-dimension profile.",
-      "description_zh": "用 10 维画像模拟、诊断与应对中国式家长。",
-      "skills": [
-        {
-          "name": "chinese-parents-skill",
-          "source": "weed33834 (self-authored)"
-        }
-      ]
-    },
-    {
       "id": "github-workflow",
       "name": "GitHub Collaboration",
       "name_zh": "GitHub 协作工作流",
       "file": "dist/github-workflow.zip",
-      "size_kb": 39,
+      "size_kb": 43,
       "description": "Parallel worktrees, conventional-commit changelogs, and PR review on GitHub.",
       "description_zh": "并行 worktree、Conventional Commits 变更日志与 GitHub PR 审查。",
       "skills": [
@@ -240,7 +289,7 @@
       "name": "Incident Response & SRE",
       "name_zh": "故障响应与 SRE",
       "file": "dist/incident-response.zip",
-      "size_kb": 118,
+      "size_kb": 122,
       "description": "Command incidents, generate runbooks, and define SLOs/error budgets.",
       "description_zh": "事故指挥、生成 runbook、定义 SLO 与错误预算。",
       "skills": [
@@ -263,7 +312,7 @@
       "name": "Infrastructure as Code",
       "name_zh": "基础设施即代码",
       "file": "dist/infrastructure.zip",
-      "size_kb": 92,
+      "size_kb": 96,
       "description": "Terraform patterns, observability design, and Kubernetes operators.",
       "description_zh": "Terraform 模式、可观测性设计与 Kubernetes Operator。",
       "skills": [
@@ -286,7 +335,7 @@
       "name": "Performance Profiling",
       "name_zh": "性能优化",
       "file": "dist/performance.zip",
-      "size_kb": 8,
+      "size_kb": 12,
       "description": "Profile CPU/memory/I/O bottlenecks in Node.js, Python, and Go.",
       "description_zh": "剖析 Node.js、Python、Go 的 CPU/内存/IO 瓶颈。",
       "skills": [
@@ -301,7 +350,7 @@
       "name": "Security & Secrets",
       "name_zh": "安全与密钥管理",
       "file": "dist/security.zip",
-      "size_kb": 45,
+      "size_kb": 49,
       "description": "Set up secret vaults and manage environment-variable hygiene.",
       "description_zh": "搭建密钥库并管理环境变量卫生。",
       "skills": [
@@ -320,28 +369,13 @@
       "name": "Test-Driven Development",
       "name_zh": "测试驱动开发",
       "file": "dist/tdd.zip",
-      "size_kb": 51,
+      "size_kb": 55,
       "description": "Write unit tests, fixtures, mocks, and guide red-green-refactor cycles.",
       "description_zh": "编写单元测试、fixture、mock，并引导红绿重构循环。",
       "skills": [
         {
           "name": "tdd-guide",
           "source": "alirezarezvani/claude-skills (MIT)"
-        }
-      ]
-    },
-    {
-      "id": "zhihu-writing",
-      "name": "Zhihu Publishing",
-      "name_zh": "知乎写作发文",
-      "file": "dist/zhihu-writing.zip",
-      "size_kb": 7,
-      "description": "Publish/edit/delete Zhihu articles, manage drafts, topics, covers, and fix garbled text.",
-      "description_zh": "知乎文章发布/编辑/删除、草稿、话题、封面与乱码修复。",
-      "skills": [
-        {
-          "name": "zhihu-content-manager",
-          "source": "weed33834 (self-authored)"
         }
       ]
     }

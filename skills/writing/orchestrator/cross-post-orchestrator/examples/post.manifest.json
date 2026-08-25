@@ -1,0 +1,11 @@
+{
+  "title": "文章标题",
+  "markdown": "article.md",
+  "ledger_file": "published.ledger.json",
+  "targets": [
+    { "platform": "wechat_mp", "enabled": true, "thumb_media_id": "填入add-thumb返回的media_id" },
+    { "platform": "juejin", "enabled": true, "category_id": "6809637773934372878", "tag_ids": ["6809640407482626055"] },
+    { "platform": "cnblogs", "enabled": true },
+    { "platform": "zhihu", "enabled": true }
+  ]
+}
