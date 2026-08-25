@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.0] - 2026-08-26
+
+### Added
+
+- **品类 B 第二个技能 `image-generation`**（文生图 + 图生图，同骨架同纪律）：
+  - 尺寸约束表（16 倍数、宽高比 1:3–3:1、总像素上下限，标 VERIFY BEFORE USE）与常用尺寸清单；
+  - 参数错误自动修正重试路径；轮询 3–5 秒/次、120 次上限；
+  - 六症状失败处置表；量化交付标准（非空 png + 时间戳命名 + 绝对路径回报）;
+  - 提示词四段式公式：主体细节 / 风格媒介 / 构图视角 / 文字排版（含"精确引述文字内容"规则）。
+- **`ai-media-toolkit` 包扩至 2 技能**（对齐 SkillsBench"每包 2–3 个聚焦技能"最优区间），双语描述同步更新。
+- 门禁基线：52 技能 / 0 错误 / 76 警告；16 个分发包 sha256 全覆盖。
+
 ## [1.7.0] - 2026-08-26
 
 ### Added
