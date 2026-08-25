@@ -1,5 +1,17 @@
-# 打包产物（通过 GitHub Releases 发布，不进仓库）
+# 打包产物（通过 Releases 发布，不进仓库）
 dist/
 
 # 本地账号配置（个人数据，不进仓库、不进场景包）
 *.local.json
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

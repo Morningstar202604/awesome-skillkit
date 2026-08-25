@@ -14,7 +14,8 @@ Thanks for your interest in contributing! This project is a curated collection o
 - The skill must be **self-authored** (no forks of others' work).
 - It must contain a `SKILL.md` (at any depth) plus any runtime-required files (`references/`, `scripts/`, `templates/`).
 - It should map to one **concrete scenario** and be grounded in a **platform + tool** (see the project positioning in the README).
-- Keep the pack lean: 3–5 skills per scenario, no bloat.
+- Keep the pack focused on its one scenario — a couple of skills for narrow scenarios, more (10+) only when the scenario genuinely spans many platforms (see `content-publishing`).
+- Reuse shared helpers from `skills/writing/_common/publish_common.py` (HTTP / dry-run / credentials) instead of re-implementing them.
 - Update `manifest.json` and the README tables accordingly.
 
 ## Commit conventions
