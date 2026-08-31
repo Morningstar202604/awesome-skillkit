@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate manifest JSON
+        run: python3 -c "import json; json.load(open('manifest.json')); print('manifest.json OK')"
+      - name: Run build.sh (pack -> dist zips)
+        run: bash build.sh
+      - name: Assert artifacts produced
+        run: |
+          test -d dist
+          count=$(ls dist/*.zip 2>/dev/null | wc -l)
+          echo "dist zips: $count"
+          [ "$count" -gt 0 ]
