@@ -1,4 +1,4 @@
-# awesome-skillkit
+<p align="center"><img src="docs/logo.svg" alt="Awesome SkillKit Logo" width="200" height="60" /></p>`n`n# awesome-skillkit
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-59-brightgreen) ![Packs](https://img.shields.io/badge/scenes-17-blue) [![Gitee](https://img.shields.io/badge/Gitee-badhope-C71D23)](https://gitee.com/badhope/awesome-skillkit) [![GitCode](https://img.shields.io/badge/GitCode-badhope-3B82F6)](https://gitcode.com/badhope/awesome-skillkit)
 
@@ -307,3 +307,5 @@ Full per-skill attribution is in [manifest.json](manifest.json), each `packs/*/p
 ---
 
 **If this helps you, please Star the repo on [GitCode](https://gitcode.com/badhope/awesome-skillkit) / [Gitee](https://gitee.com/badhope/awesome-skillkit) / [GitHub](https://github.com/Morningstar202604/awesome-skillkit)** - it is how other people find these packs.
+
+
