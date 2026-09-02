@@ -36,7 +36,7 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | office-productivity | Office Productivity | 4 | 11 KB |
 | viral-entertainment | Viral Entertainment (meme shorts) | 2 | 11 KB |
 
-**17 packs · 59 skills.** Project docs: [Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning & Release policy](docs/VERSIONING.md) · [Expert review](docs/EXPERT-REVIEW-AND-ROADMAP.md)
+**17 packs · 59 skills.** Project docs: [Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning & Release policy](docs/VERSIONING.md) 
 
 ## Pack Details
 
