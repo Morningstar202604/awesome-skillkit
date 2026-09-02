@@ -27,17 +27,44 @@ find_skill_dir() {
   find "$SCRIPT_DIR/skills" -type d -name "$name" -not -path "*/.git/*" | head -n1
 }
 
+# Zip a skill dir flat (top-level entry = skill folder name). `zip` is not
+# shipped with stock Git Bash, so fall back to python's zipfile module.
+zip_dir() {
+  local archive="$1" parent="$2" name="$3"
+  (
+    cd "$parent" || exit 1
+    if command -v zip >/dev/null 2>&1; then
+      zip -r -q "$archive" "$name" -x "*.local.json"
+    else
+      python3 - "$archive" "$name" <<'PY'
+import os, sys, zipfile
+archive, name = sys.argv[1], sys.argv[2]
+with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as z:
+    for root, _dirs, files in os.walk(name):
+        for f in sorted(files):
+            if f.endswith(".local.json"):
+                continue
+            p = os.path.join(root, f)
+            z.write(p, p)
+PY
+    fi
+  )
+}
+
 count=0
+all_count=0
 declare -A ALL_SKILLS
 for pack_json in "$SCRIPT_DIR"/packs/*/pack.json; do
   pack_id="$(basename "$(dirname "$pack_json")")"
-  # Collect skill names from pack.json (jq if available, else python3)
+  # Collect skill names from pack.json (jq if available, else python3).
+  # The path is passed as argv (not interpolated into the script) so that
+  # MSYS/Git Bash translates it for native Windows Python.
+  # Native Windows Python writes CRLF; tr strips \r so names match dir names.
   mapfile -t skills < <(python3 -c "
 import json,sys
-p=json.load(open('$pack_json',encoding='utf-8'))
+p=json.load(open(sys.argv[1],encoding='utf-8'))
 for s in p['skills']: print(s['name'])
-")
-  zip_args=(-r -q "$OUT_DIR/$pack_id.zip")
+" "$pack_json" | tr -d '\r')
   missing=0
   for skill in "${skills[@]}"; do
     dir="$(find_skill_dir "$skill")"
@@ -47,25 +74,26 @@ for s in p['skills']: print(s['name'])
       continue
     fi
     ALL_SKILLS["$skill"]=1
+    all_count=$((all_count + 1))
     # zip content keeps the skill folder name flat (top-level = skill name),
     # so users unzip and drag the skill folders straight into skills/.
     parent="$(dirname "$dir")"
     name="$(basename "$dir")"
-    (cd "$parent" && zip -r -q "$OUT_DIR/$pack_id.zip" "$name" -x "*.local.json")
+    zip_dir "$OUT_DIR/$pack_id.zip" "$parent" "$name"
   done
   echo "built: $OUT_DIR/$pack_id.zip  (${#skills[@]} skills)"
   count=$((count + 1))
 done
 
 # Convenience bundle: every skill from every pack in one zip
-if [ "${#ALL_SKILLS[@]}" -gt 0 ]; then
+if [ "$all_count" -gt 0 ]; then
   for skill in "${!ALL_SKILLS[@]}"; do
     dir="$(find_skill_dir "$skill")"
     parent="$(dirname "$dir")"
     name="$(basename "$dir")"
-    (cd "$parent" && zip -r -q "$OUT_DIR/_all.zip" "$name" -x "*.local.json")
+    zip_dir "$OUT_DIR/_all.zip" "$parent" "$name"
   done
-  echo "built: $OUT_DIR/_all.zip  (_all bundle, ${#ALL_SKILLS[@]} skills)"
+  echo "built: $OUT_DIR/_all.zip  (_all bundle, $all_count skills)"
   count=$((count + 1))
 fi
 
