@@ -276,8 +276,7 @@ python3 build.py     # cross-platform (no bash/zip needed); also emits dist/_all
 # Release flow
 git tag v0.12.3
 git push origin main --follow-tags
-powershell -File sync-mirrors.ps1   # gitcode + gitee + github
-# Create a release on the Gitee/GitCode Releases page and upload dist/*.zip
+# Create a release on the GitHub Releases page and upload dist/*.zip
 ```
 
 ## Sources & Updates
