@@ -1,6 +1,6 @@
 # awesome-skillkit
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-59-brightgreen) ![Packs](https://img.shields.io/badge/scenes-17-blue) [![Gitee](https://img.shields.io/badge/Gitee-badhope-C71D23)](https://gitee.com/badhope/awesome-skillkit) [![GitCode](https://img.shields.io/badge/GitCode-badhope-3B82F6)](https://gitcode.com/badhope/awesome-skillkit)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-59-brightgreen) ![Packs](https://img.shields.io/badge/scenes-17-blue)
 
 [English](README.md) | **中文** | [日本語](README.ja.md)
 
@@ -274,7 +274,7 @@ bash build.sh        # macOS / Linux / Git Bash
 python3 build.py     # 跨平台（无需 bash/zip）；同时生成 dist/_all.zip 全量合集
 
 # 发布流程
-git tag v1.12.1
+git tag v0.12.3
 git push origin main --follow-tags
 powershell -File sync-mirrors.ps1   # gitcode + gitee + github
 # 在 Gitee / GitCode 的 Releases 页面创建 release 并上传 dist/*.zip
@@ -304,8 +304,6 @@ powershell -File sync-mirrors.ps1   # gitcode + gitee + github
 
 ## License
 
-[Apache License 2.0](LICENSE) © 2026 weed33834
+[Apache License 2.0](LICENSE) © 2026 Morningstar202604
 
 ---
-
-**如果这些场景包对你有用，欢迎在 [GitCode](https://gitcode.com/badhope/awesome-skillkit) / [Gitee](https://gitee.com/badhope/awesome-skillkit) / [GitHub](https://github.com/Morningstar202604/awesome-skillkit) 点个 Star** - 这是让更多人搜到它们的最直接方式。

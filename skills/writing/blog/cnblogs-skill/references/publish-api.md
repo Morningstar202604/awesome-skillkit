@@ -362,7 +362,7 @@ with urllib.request.urlopen(req, timeout=15) as resp:
 ```python
 sig_data = {
     "id": None,  # None=新建，已有ID=更新
-    "content": '<hr>\n<p><strong>作者：badhope33834</strong></p>\n<p>原文链接：<a href="{post_url}">{post_url}</a></p>\n<p>本文为博主原创文章，转载请注明出处。</p>',
+    "content": '<hr>\n<p><strong>作者：Morningstar202604</strong></p>\n<p>原文链接：<a href="{post_url}">{post_url}</a></p>\n<p>本文为博主原创文章，转载请注明出处。</p>',
     "isDefault": True
 }
 

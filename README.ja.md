@@ -1,6 +1,6 @@
 # awesome-skillkit
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-59-brightgreen) ![Packs](https://img.shields.io/badge/scenes-17-blue) [![Gitee](https://img.shields.io/badge/Gitee-badhope-C71D23)](https://gitee.com/badhope/awesome-skillkit) [![GitCode](https://img.shields.io/badge/GitCode-badhope-3B82F6)](https://gitcode.com/badhope/awesome-skillkit)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-59-brightgreen) ![Packs](https://img.shields.io/badge/scenes-17-blue)
 
 [English](README.md) | [中文](README.zh-CN.md) | **日本語**
 
@@ -274,7 +274,7 @@ bash build.sh        # macOS / Linux / Git Bash
 python3 build.py     # クロスプラットフォーム（bash/zip 不要）；全スキル入りの dist/_all.zip も生成
 
 # リリースフロー
-git tag v1.12.1
+git tag v0.12.3
 git push origin main --follow-tags
 # 各プラットフォームの Releases ページで release を作成し dist/*.zip をアップロード
 ```
@@ -303,8 +303,6 @@ git push origin main --follow-tags
 
 ## ライセンス
 
-[Apache License 2.0](LICENSE) © 2026 weed33834
+[Apache License 2.0](LICENSE) © 2026 Morningstar202604
 
 ---
-
-**役に立ったら [GitCode](https://gitcode.com/badhope/awesome-skillkit) / [Gitee](https://gitee.com/badhope/awesome-skillkit) / [GitHub](https://github.com/Morningstar202604/awesome-skillkit) でスターをお願いします** - 他の人の発見につながります。

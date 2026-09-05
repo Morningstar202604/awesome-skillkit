@@ -2,7 +2,7 @@
 
 # awesome-skillkit
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-59-brightgreen) ![Packs](https://img.shields.io/badge/scenes-17-blue) [![Gitee](https://img.shields.io/badge/Gitee-badhope-C71D23)](https://gitee.com/badhope/awesome-skillkit) [![GitCode](https://img.shields.io/badge/GitCode-badhope-3B82F6)](https://gitcode.com/badhope/awesome-skillkit)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-59-brightgreen) ![Packs](https://img.shields.io/badge/scenes-17-blue)
 
 **English** | [中文](README.zh-CN.md) | [日本語](README.ja.md)
 
@@ -188,6 +188,12 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 
 ### Test-Driven Development (`tdd`) — 55 KB
 
+**Write unit tests, fixtures, mocks, and guide red-green-refactor cycles.**
+
+| Skill | Source |
+|-------|--------|
+| tdd-guide | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
+
 ### AI Media Generation (`ai-media-toolkit`) — 19 KB
 
 **Text/image-to-video, text/image-to-image generation, music generation, and cover-image creation through a local generation gateway — full submit/poll/download workflows with failure handling.**
@@ -218,12 +224,6 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 |-------|--------|
 | ai-baby-podcast | self-authored |
 | nailong-laugh-shorts | self-authored |
-
-**Write unit tests, fixtures, mocks, and guide red-green-refactor cycles.**
-
-| Skill | Source |
-|-------|--------|
-| tdd-guide | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
 
 ## Directory Layout
 
@@ -274,7 +274,7 @@ bash build.sh        # macOS / Linux / Git Bash
 python3 build.py     # cross-platform (no bash/zip needed); also emits dist/_all.zip with every skill
 
 # Release flow
-git tag v1.12.1
+git tag v0.12.3
 git push origin main --follow-tags
 powershell -File sync-mirrors.ps1   # gitcode + gitee + github
 # Create a release on the Gitee/GitCode Releases page and upload dist/*.zip
@@ -304,10 +304,8 @@ Full per-skill attribution is in [manifest.json](manifest.json), each `packs/*/p
 
 ## License
 
-[Apache License 2.0](LICENSE) © 2026 weed33834
+[Apache License 2.0](LICENSE) © 2026 Morningstar202604
 
 ---
-
-**If this helps you, please Star the repo on [GitCode](https://gitcode.com/badhope/awesome-skillkit) / [Gitee](https://gitee.com/badhope/awesome-skillkit) / [GitHub](https://github.com/Morningstar202604/awesome-skillkit)** - it is how other people find these packs.
 
 
