@@ -52,7 +52,7 @@ import urllib.request
 cookie = open('/tmp/ck.txt').read()
 
 req = urllib.request.Request(
-    f'https://www.cnblogs.com/badhope/ajax/GetComments.aspx?postId={postId}&pageIndex=0',
+    f'https://www.cnblogs.com/your_username/ajax/GetComments.aspx?postId={postId}&pageIndex=0',
     headers={
         'Cookie': cookie,
         'X-Requested-With': 'XMLHttpRequest',
@@ -98,7 +98,7 @@ return result;
 
 ```bash
 # 导航到文章页面
-scripts/playwright-cli goto "https://www.cnblogs.com/badhope/p/{postId}/{slug}"
+scripts/playwright-cli goto "https://www.cnblogs.com/your_username/p/{postId}/{slug}"
 ```
 
 填写评论：
@@ -165,7 +165,7 @@ cookie = open('/tmp/ck.txt').read()
 xsrf = open('/tmp/xsrf.txt').read().strip()
 
 req = urllib.request.Request(
-    f'https://www.cnblogs.com/badhope/comment/DeleteComment.aspx?commentId={commentId}',
+    f'https://www.cnblogs.com/your_username/comment/DeleteComment.aspx?commentId={commentId}',
     headers={
         'Cookie': cookie,
         'X-XSRF-TOKEN': xsrf
@@ -328,7 +328,7 @@ post_ids = [22467774, 22436525, 22435358, 22435341, 22435239, 22435235, 22435231
 # 逐篇检查评论
 for pid in post_ids:
     req = urllib.request.Request(
-        f'https://www.cnblogs.com/badhope/ajax/GetComments.aspx?postId={pid}&pageIndex=0',
+        f'https://www.cnblogs.com/your_username/ajax/GetComments.aspx?postId={pid}&pageIndex=0',
         headers={
             'Cookie': cookie,
             'X-Requested-With': 'XMLHttpRequest'

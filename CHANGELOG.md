@@ -273,7 +273,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - 16 curated scene packs under `packs/`.
-- Source attribution for every skill (`alirezarezvani/claude-skills (MIT)` / `weed33834 (self-authored)`).
+- Source attribution for every skill (`alirezarezvani/claude-skills (MIT)` / `Morningstar202604 (self-authored)`).
 
 ## [Unreleased]
 

@@ -163,7 +163,7 @@ post_data = {
     "isAigc": False,
     "changePostType": False,
     "blogId": 861831,
-    "author": "badhope33834",
+    "author": "your_username",
     "removeScript": False,
     "inSiteCandidate": True,
     "inSiteHome": False,
@@ -202,8 +202,8 @@ with urllib.request.urlopen(req, timeout=30) as resp:
 {
     "id": 22467774,
     "title": "文章标题",
-    "url": "https://www.cnblogs.com/badhope/p/22467774/slug",
-    "blogUrl": "https://www.cnblogs.com/badhope",
+    "url": "https://www.cnblogs.com/your_username/p/22467774/slug",
+    "blogUrl": "https://www.cnblogs.com/your_username",
     "postType": 1,
     "dateAdded": "2026-08-14T12:14:00",
     "entryName": "slug",
@@ -281,7 +281,7 @@ with urllib.request.urlopen(req, timeout=30) as resp:
 | `isAigc` | bool | 是 | 是否AI生成内容 |
 | `changePostType` | bool | 是 | 固定 False |
 | `blogId` | int | 是 | 博客ID（861831） |
-| `author` | string | 是 | 用户名（badhope33834） |
+| `author` | string | 是 | 用户名（your_username） |
 | `removeScript` | bool | 是 | 固定 False |
 | `inSiteCandidate` | bool | 是 | 是否投稿首页候选区 |
 | `inSiteHome` | bool | 是 | 是否投稿首页原创精品 |
@@ -467,7 +467,7 @@ post_data = {
     "isAigc": False,
     "changePostType": False,
     "blogId": 861831,
-    "author": "badhope33834",
+    "author": "your_username",
     "removeScript": False,
     "inSiteCandidate": True,
     "inSiteHome": False,
