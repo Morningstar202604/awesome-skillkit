@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.12.3] - 2026-08-26
+## [0.12.3] - 2026-08-26
 
 ### Fixed
 
@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 平台仓库描述补齐：GitCode 与 Gitee 均已通过各自 API 写入英文简介
   （GitHub 此前已完成 description + 15 topics）。
 
-## [1.12.2] - 2026-08-26
+## [0.12.2] - 2026-08-26
 
 ### Changed
 
@@ -28,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **sync-mirrors.ps1 假报错修复**：PowerShell 5.1 在 EAP=Stop 下把 git 的 stderr 进度（如 "Everything up-to-date"）渲染为红色异常并可能中断脚本；现改为经 cmd /c 进程级合并流、仅以退出码判定成败。实测三平台一次跑通、退出码 0。
 
-## [1.12.1] - 2026-08-26
+## [0.12.1] - 2026-08-26
 
 ### Changed
 
@@ -36,7 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - sync-mirrors.ps1 升级为三平台同步（GitCode + Gitee + GitHub）：支持环境变量令牌与命名 remote 凭据双通道，自动推送 tags；新增 gitee/github 命名 remote。
 - 许可确认：全仓统一 Apache-2.0（LICENSE、frontmatter、CONTRIBUTING 已一致）。
 
-## [1.12.0] - 2026-08-26
+## [0.12.0] - 2026-08-26
 
 ### Changed
 
@@ -51,7 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   脏工作区硬门禁：有任何未提交变更即拒绝发版；本版为首个全量完整树。
 - 补交 v1.7.0 以来全部场景技能与三个新包文件。
 
-## [1.11.0] - 2026-08-26
+## [0.11.0] - 2026-08-26
 
 ### Added
 
@@ -63,7 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `viral-entertainment` 包扩至 2 技能。
 - 门禁基线：59 技能 / 17 包 / 0 错误 / 76 警告；18 个分发包 sha256 全覆盖。
 
-## [1.10.0] - 2026-08-26
+## [0.10.0] - 2026-08-26
 
 ### Added
 
@@ -79,7 +79,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - DIRECTION-V2 品类表新增 G 行与电影级/宣传片系列愿景备注。
 - 门禁基线：58 技能 / 17 包 / 0 错误 / 76 警告；测试 180 通过 +1 条件跳过；18 个分发包含 sha256。
 
-## [1.9.0] - 2026-08-26
+## [0.9.0] - 2026-08-26
 
 ### Added
 
@@ -87,7 +87,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`ai-cover-generator` 跨包挂入 `ai-media-toolkit`**（封面图生成复用既有资产，不造重复轮子），包扩至 4 技能。
 - 门禁基线：53 技能 / 0 错误 / 76 警告；16 个分发包 sha256 全覆盖。
 
-## [1.8.0] - 2026-08-26
+## [0.8.0] - 2026-08-26
 
 ### Added
 
@@ -99,7 +99,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`ai-media-toolkit` 包扩至 2 技能**（对齐 SkillsBench"每包 2–3 个聚焦技能"最优区间），双语描述同步更新。
 - 门禁基线：52 技能 / 0 错误 / 76 警告；16 个分发包 sha256 全覆盖。
 
-## [1.7.0] - 2026-08-26
+## [0.7.0] - 2026-08-26
 
 ### Added
 
@@ -112,7 +112,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **新场景包 `ai-media-toolkit`**（15 号包），manifest 同步注册。
 - 门禁基线更新：51 技能 / 0 错误 / 76 警告；16 个分发包全部带 sha256。
 
-## [1.6.3] - 2026-08-26
+## [0.6.3] - 2026-08-26
 
 ### Fixed
 
@@ -143,7 +143,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `.git/config` 中内嵌的明文访问令牌已从 remote URL 移除（该令牌应视为已泄露，需在 GitCode 后台吊销轮换）。
 
-## [1.6.2] - 2026-08-25
+## [0.6.2] - 2026-08-25
 
 ### Added
 
@@ -163,7 +163,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 全新增 12 个技能，content-publishing 包从 6 扩展至 18 技能（覆盖 CSDN、简书、B站、头条、百家号、小红书、微博、豆瓣、V2EX、SegmentFault、开源中国、静态博客部署）。
 - 所有新技能均遵循统一安全设计：默认 dry-run、凭据环境变量隔离、端点常量标注 VERIFY BEFORE USE、带单元测试。
 
-## [1.6.1] - 2026-08-25
+## [0.6.1] - 2026-08-25
 
 ### Refactored
 
@@ -179,7 +179,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `build.py` 现在会把 `_common` 一并打包进引用它的场景包（如 content-publishing），
   保证用户解压后即可运行；本地经 junction 调用时 `os.path.realpath` 也能正确解析
 
-## [1.6.0] - 2026-08-25
+## [0.6.0] - 2026-08-25
 
 ### Added
 
@@ -195,7 +195,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 全部 33 个单元测试通过（6 技能 × unittest discover）。
 - agentseed MCP 门禁：4 个新脚本 verify_code suspects=[] 且 scan_hallucination clean/blocking=false。
 
-## [1.5.0] - 2026-08-25
+## [0.5.0] - 2026-08-25
 
 ### Added
 
@@ -214,7 +214,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Deceptive engagement playbook: fake-persona reply script for "are you AI?" questions and daily quota farming table. Replaced with honest, quality-first interaction guidelines.
 
-## [1.4.0] - 2026-08-25
+## [0.4.0] - 2026-08-25
 
 ### Removed
 
@@ -230,7 +230,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `manifest.json`: removed self-authored entries; source notes now point to the single upstream.
 - Added [SOURCES.md](SOURCES.md) — upstream address and step-by-step update guide for all skills.
 
-## [1.3.0] - 2026-08-23
+## [0.3.0] - 2026-08-23
 
 ### Fixed
 
@@ -260,7 +260,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `.github/workflows/skill-quality.yml`: runs bundled unit tests, builds all packs, and gates changed skills on YAML frontmatter presence + dangling script references.
 - Added `sync-mirrors.ps1` for pushing to the GitCode + Gitee mirrors (tokens via env vars, never stored). GitHub is dropped as a distribution platform for now; upstream attribution links are unaffected.
 
-## [1.2.0] - 2026-08-18
+## [0.2.0] - 2026-08-18
 
 ### Changed
 
