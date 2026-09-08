@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Security
+- 依赖升级：djangorestframework、black 等例行补丁。
+### Changed
+- 仓库身份与版权统一（移除 Zilin 旧身份引用）；README 字面转义与陈旧版本引用修正；
+  移除镜像同步脚本与一次性评审文档；补充 CONTRIBUTING/SECURITY 文档；
+  移除 dependabot 自动合并配置；构建脚本支持 Windows（Git Bash + 原生 Python）。
+
 ## [0.12.3] - 2026-08-26
 
 ### Fixed
