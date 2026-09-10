@@ -1,11 +1,15 @@
 ---
-name: "agent-designer"
+name: agent-designer
 description: "Use when the user asks to design a multi-agent system, pick an orchestration pattern (supervisor/swarm/pipeline/sequential/parallel/router/orchestrator/evaluator), scaffold a multi-step agent workflow config, choose between single-agent vs multi-agent approaches, generate tool schemas for agents, or evaluate agent execution logs for cost, latency, and failure bottlenecks. Examples: 'design an agent architecture for research automation', 'scaffold a content-pipeline workflow', 'generate Anthropic tool schemas from these tool descriptions', 'analyze these agent run logs for bottlenecks'."
 license: Apache-2.0
+compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
   version: "1.0"
-  category: "ai-agent-development"
-  verified-date: "2026-08-26"
+  author: awesome-skillkit
+  category: workflow
+  pattern: single-task
+  tier: powerful
+  verified-date: "2026-09-09"
 ---
 
 # Agent Designer — Multi-Agent System Architecture
@@ -38,8 +42,8 @@ For a fast skeleton before running the full planner pipeline:
 
 ```bash
 # Sequential / parallel / router / orchestrator / evaluator skeletons
-python3 workflow_scaffolder.py sequential --name content-pipeline
-python3 workflow_scaffolder.py orchestrator --name incident-triage --output workflows/incident-triage.json
+python3 scripts/workflow_scaffolder.py sequential --name content-pipeline
+python3 scripts/workflow_scaffolder.py orchestrator --name incident-triage --output workflows/incident-triage.json
 ```
 
 Pattern templates and the minimum handoff contract (`workflow_id`, `step_id`,
@@ -60,7 +64,7 @@ All paths relative to this skill folder. Each step's JSON output is the next ste
 Write a requirements JSON (copy `assets/sample_system_requirements.json` — keys: `goal`, `tasks[]`, `constraints{max_response_time, budget_per_task, concurrent_tasks}`, `team_size`):
 
 ```bash
-python3 agent_planner.py requirements.json --format json -o arch
+python3 scripts/agent_planner.py requirements.json --format json -o arch
 ```
 
 Emits `arch.json` with `architecture_design` (pattern, agents, communication links), `mermaid_diagram`, and `implementation_roadmap`. Read `architecture_design.pattern` and the per-agent role list; present the mermaid diagram to the user.
@@ -70,7 +74,7 @@ Emits `arch.json` with `architecture_design` (pattern, agents, communication lin
 Describe each agent's tools in plain JSON (copy `assets/sample_tool_descriptions.json`), then:
 
 ```bash
-python3 tool_schema_generator.py tool_descriptions.json --validate -o tools
+python3 scripts/tool_schema_generator.py tool_descriptions.json --validate -o tools
 ```
 
 Emits `tools.json` (`tool_schemas`, `validation_summary`) plus provider-specific `tools_anthropic.json` / `tools_openai.json`. **Gate: every tool must print `✓ Valid`.** Fix any invalid schema before proceeding — never hand an agent an unvalidated schema.
@@ -80,7 +84,7 @@ Emits `tools.json` (`tool_schemas`, `validation_summary`) plus provider-specific
 Once the system runs (or against `assets/sample_execution_logs.json` for a dry run):
 
 ```bash
-python3 agent_evaluator.py execution_logs.json --detailed -o eval
+python3 scripts/agent_evaluator.py execution_logs.json --detailed -o eval
 ```
 
 Emits `eval.json` with `summary`, `agent_metrics`, `bottleneck_analysis`, `error_analysis`, `cost_breakdown`, `sla_compliance`, and `optimization_recommendations`, plus split files (`eval_errors.json`, `eval_recommendations.json`).

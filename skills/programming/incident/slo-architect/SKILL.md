@@ -1,16 +1,15 @@
 ---
 name: slo-architect
-description: Use when defining, reviewing, or operating SLOs/SLIs/error budgets. Triggers on "define an SLO", "what should our SLO be", "error budget", "burn rate", "SLI", "service level objective", "Google SRE workbook", "multi-window burn-rate alert", or any reliability-target question. Ships SLO designer, error-budget calculator with multi-window burn-rate thresholds, and SLO reviewer that catches the common bugs (target too aggressive, window too short, conflicting SLOs, no SLI definition). 4 references on SLO principles + SLI design + error budget math + composition with feature-flags-architect/chaos-engineering/kubernetes-operator. NOT a generic observability skill — specifically the SLO discipline.
-context: fork
-version: 2.9.0
-author: claude-code-skills
-license: MIT
-tags: [slo, sli, sla, error-budget, burn-rate, sre, reliability, google-sre-workbook, observability]
-compatible_tools: [claude-code, codex-cli, cursor, antigravity, opencode, gemini-cli]
+description: "Use when defining, reviewing, or operating SLOs/SLIs/error budgets. Triggers on "define an SLO", "what should our SLO be", "error budget", "burn rate", "SLI", "service level objective", "Google SRE workbook", "multi-window burn-rate alert", or any reliability-target question. Ships SLO designer, error-budget calculator with multi-window burn-rate thresholds, and SLO reviewer that catches the common bugs (target too aggressive, window too short, conflicting SLOs, no SLI definition). 4 references on SLO principles + SLI design + error budget math + composition with feature-flags-architect/chaos-engineering/kubernetes-operator. NOT a generic observability skill — specifically the SLO discipline."
+license: Apache-2.0
+compatibility: Requires network access. No API keys required.
 metadata:
   version: "1.0"
-  category: "incident-response"
-  verified-date: "2026-08-26"
+  author: awesome-skillkit
+  category: incident
+  pattern: architecture
+  tier: powerful
+  verified-date: "2026-09-09"
 ---
 
 # SLO Architect

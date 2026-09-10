@@ -1,11 +1,15 @@
 ---
 name: tech-debt-tracker
-description: Scan codebases for technical debt, score severity, track trends, and generate prioritized remediation plans. Use when users mention tech debt, code quality, refactoring priority, debt scoring, cleanup sprints, or code health assessment. Also use for legacy code modernization planning and maintenance cost estimation.
+description: "Scan codebases for technical debt, score severity, track trends, and generate prioritized remediation plans. Use when users mention tech debt, code quality, refactoring priority, debt scoring, cleanup sprints, or code health assessment. Also use for legacy code modernization planning and maintenance cost estimation."
 license: Apache-2.0
+compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
   version: "1.0"
-  category: "code-review"
-  verified-date: "2026-08-26"
+  author: awesome-skillkit
+  category: code-quality
+  pattern: single-task
+  tier: powerful
+  verified-date: "2026-09-09"
 ---
 
 # Tech Debt Tracker
@@ -90,3 +94,15 @@ After a remediation sprint: re-run step 1, re-run step 3 with the new snapshot, 
 **Solution**: Start simple, iterate based on actual usage patterns.
 
 Technical debt management is not just about writing better code - it's about creating sustainable development practices that balance short-term delivery pressure with long-term system health. Use these tools and frameworks to make informed decisions about when and how to invest in debt reduction.
+
+---
+
+## Debt Severity Scoring
+
+| Factor | Weight | Description |
+|--------|--------|-------------|
+| **Impact** | 30% | How many users/services are affected? |
+| **Risk** | 25% | Security, data loss, or compliance risk? |
+| **Effort** | 20% | How much work to fix? (inverse) |
+| **Frequency** | 15% | How often does this cause issues? |
+| **Age** | 10% | How long has this debt existed? |

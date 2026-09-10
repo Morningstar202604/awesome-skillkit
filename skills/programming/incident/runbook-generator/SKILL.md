@@ -1,11 +1,15 @@
 ---
-name: "runbook-generator"
+name: runbook-generator
 description: "Generate operational runbooks from a service name — deployment, incident response, maintenance, and rollback workflows. Templated structure customizable per environment. Use when documenting on-call procedures for a new service, standardizing incident response across teams, or producing runbooks before launching to production."
 license: Apache-2.0
+compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
   version: "1.0"
-  category: "incident-response"
-  verified-date: "2026-08-26"
+  author: awesome-skillkit
+  category: incident
+  pattern: code-generator
+  tier: powerful
+  verified-date: "2026-09-09"
 ---
 
 # Runbook Generator
@@ -79,3 +83,28 @@ python3 scripts/runbook_generator.py payments-api --owner platform --output docs
 2. Include health checks after every critical step.
 3. Validate runbooks on a fixed review cadence.
 4. Update runbook content after incidents and postmortems.
+
+---
+
+## Runbook Quality Checklist
+
+- [ ] Every command is copy-pasteable (no screenshots)
+- [ ] Expected output is documented for each command
+- [ ] Rollback steps are tested in staging
+- [ ] Ownership and escalation contacts are current
+- [ ] Health checks exist for each critical component
+- [ ] Runbook is stored in version control near service code
+- [ ] Runbook has been reviewed by on-call team
+- [ ] Incident communication templates are included
+- [ ] Post-incident runbook update process is defined
+
+---
+
+## Maintenance Schedule
+
+| Frequency | Action |
+|-----------|--------|
+| **Weekly** | Review on-call handoff notes for runbook gaps |
+| **Monthly** | Verify all health check endpoints are responding |
+| **Quarterly** | Full runbook review with on-call team |
+| **Post-Incident** | Update runbook based on incident learnings |

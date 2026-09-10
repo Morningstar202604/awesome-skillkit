@@ -1,11 +1,15 @@
 ---
-name: "monorepo-navigator"
+name: monorepo-navigator
 description: "Navigate, manage, and optimize monorepos. Covers Turborepo, Nx, pnpm workspaces, and Lerna. Cross-package impact analysis, selective builds/tests on affected packages, remote caching, dependency graph visualization, and structured multi-repo to monorepo migrations. Use when setting up a new monorepo, optimizing CI for a large workspace, debugging cross-package dependency issues, or planning a multi-repo consolidation."
 license: Apache-2.0
+compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
   version: "1.0"
-  category: "architecture"
-  verified-date: "2026-08-26"
+  author: awesome-skillkit
+  category: architecture
+  pattern: single-task
+  tier: powerful
+  verified-date: "2026-09-09"
 ---
 
 # Monorepo Navigator

@@ -1,11 +1,15 @@
 ---
-name: "performance-profiler"
+name: performance-profiler
 description: "Systematic performance profiling for Node.js, Python, and Go applications. Identifies CPU, memory, and I/O bottlenecks, generates flamegraphs, analyzes bundle sizes, optimizes database queries, runs load tests with k6 and Artillery. Always measures before and after. Use when investigating a slow endpoint, planning a performance budget, or hunting a memory leak in production."
 license: Apache-2.0
+compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
   version: "1.0"
-  category: "performance"
-  verified-date: "2026-08-26"
+  author: awesome-skillkit
+  category: performance
+  pattern: single-task
+  tier: powerful
+  verified-date: "2026-09-09"
 ---
 
 # Performance Profiler
@@ -71,6 +75,28 @@ python3 scripts/performance_profiler.py /path/to/project --large-file-threshold-
 
 ## Node.js Profiling
 → See references/profiling-recipes.md for details
+
+## Quick Optimization Checklist
+
+### Database
+- [ ] Add indexes for frequently queried columns
+- [ ] Use connection pooling (pgBouncer, HikariCP)
+- [ ] Enable query result caching (Redis, application-level)
+- [ ] Batch N+1 queries into single bulk query
+
+### Application
+- [ ] Replace synchronous I/O with async equivalents
+- [ ] Add pagination for large result sets
+- [ ] Use streaming for large file processing
+- [ ] Cache expensive computations (LRU, Redis)
+
+### Frontend
+- [ ] Code-split large bundles (dynamic import)
+- [ ] Lazy-load images below the fold
+- [ ] Compress assets (gzip, brotli)
+- [ ] Use CDN for static assets
+
+---
 
 ## References
 

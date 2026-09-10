@@ -1,11 +1,15 @@
 ---
-name: "dependency-auditor"
+name: dependency-auditor
 description: "Audit and manage dependencies across multi-language projects. Identifies vulnerabilities, license conflicts, transitive dependency risks, and safe-upgrade paths. Use when auditing third-party packages before release, investigating a CVE, planning a major version bump, or running a license-compliance review. Examples: 'audit our npm dependencies', 'do we have GPL contamination', 'plan the upgrade to React 19'."
 license: Apache-2.0
+compatibility: Requires network access and network access. No API keys required.
 metadata:
   version: "1.0"
-  category: "code-review"
-  verified-date: "2026-08-26"
+  author: awesome-skillkit
+  category: code-quality
+  pattern: single-task
+  tier: powerful
+  verified-date: "2026-09-09"
 ---
 
 # Dependency Auditor
@@ -88,3 +92,18 @@ python3 scripts/license_checker.py . --policy strict --format json
 4. **False positives**: whitelist with documentation; contact maintainers for license ambiguity.
 
 See [README.md](README.md) for detailed usage and `references/` for the vulnerability/license knowledge bases.
+
+---
+
+## Supported Ecosystems
+
+| Ecosystem | Package Manager | Lock File | Audit Command |
+|-----------|----------------|-----------|---------------|
+| Node.js | npm/yarn/pnpm | package-lock.json | `npm audit` |
+| Python | pip/poetry/uv | requirements.txt | `pip-audit` |
+| Go | go modules | go.sum | `govulncheck` |
+| Rust | cargo | Cargo.lock | `cargo audit` |
+| Java | maven/gradle | pom.xml | `dependency-check` |
+| Ruby | bundler | Gemfile.lock | `bundle audit` |
+| PHP | composer | composer.lock | `composer audit` |
+| .NET | nuget | *.csproj | `dotnet list package --vulnerable` |

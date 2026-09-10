@@ -1,11 +1,15 @@
 ---
-name: "mcp-server-builder"
+name: mcp-server-builder
 description: "Design and ship production-ready MCP (Model Context Protocol) servers from OpenAPI contracts instead of hand-written tool wrappers. Python and TypeScript support, schema validation, safe evolution. Use when exposing an existing API as an MCP server, building tool integrations for Claude or Codex or Cursor, or scaffolding an MCP project from scratch."
 license: Apache-2.0
+compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
   version: "1.0"
-  category: "ai-agent-development"
-  verified-date: "2026-08-26"
+  author: awesome-skillkit
+  category: ai-engineering
+  pattern: pipeline-builder
+  tier: powerful
+  verified-date: "2026-09-09"
 ---
 
 # MCP Server Builder

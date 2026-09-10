@@ -1,11 +1,15 @@
 ---
-name: "api-test-suite-builder"
+name: api-test-suite-builder
 description: "Use when the user asks to generate API tests, create integration test suites, test REST endpoints, or build contract tests."
 license: Apache-2.0
+compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
   version: "1.0"
-  category: "api-development"
-  verified-date: "2026-08-26"
+  author: awesome-skillkit
+  category: api
+  pattern: pipeline-builder
+  tier: powerful
+  verified-date: "2026-09-09"
 ---
 
 # API Test Suite Builder

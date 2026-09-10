@@ -1,11 +1,15 @@
 ---
-name: "skill-tester"
+name: skill-tester
 description: "Validate, test, and score the quality of skills within the claude-skills ecosystem. Comprehensive meta-skill: structure validation, Python script testing (syntax + imports + runtime + output format), multi-dimensional quality scoring with letter grades and tier classification (BASIC/STANDARD/POWERFUL). Use when authoring a new skill, auditing existing skills for tier promotion, setting up pre-commit hooks for skill quality, or integrating skill QA into CI."
 license: Apache-2.0
+compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
   version: "1.0"
-  category: "ai-agent-development"
-  verified-date: "2026-08-26"
+  author: awesome-skillkit
+  category: ai-engineering
+  pattern: single-task
+  tier: expert
+  verified-date: "2026-09-09"
 ---
 
 # Skill Tester

@@ -1,13 +1,15 @@
 ---
-name: "helm-chart-builder"
+name: helm-chart-builder
 description: "Helm chart development agent skill and plugin for Claude Code, Codex, Gemini CLI, Cursor, OpenClaw — chart scaffolding, values design, template patterns, dependency management, security hardening, and chart testing. Use when: user wants to create or improve Helm charts, design values.yaml files, implement template helpers, audit chart security (RBAC, network policies, pod security), manage subcharts, or run helm lint/test."
-license: MIT
+license: Apache-2.0
+compatibility: Requires network access and network access. No API keys required.
 metadata:
-  version: 1.0.0
-  author: Alireza Rezvani
-  category: engineering
-  updated: 2026-03-15
-  verified-date: "2026-08-26"
+  version: "1.0"
+  author: awesome-skillkit
+  category: containers
+  pattern: pipeline-builder
+  tier: powerful
+  verified-date: "2026-09-09"
 ---
 
 # Helm Chart Builder

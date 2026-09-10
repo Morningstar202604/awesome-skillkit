@@ -1,13 +1,15 @@
 ---
-name: "terraform-patterns"
+name: terraform-patterns
 description: "Terraform infrastructure-as-code agent skill and plugin for Claude Code, Codex, Gemini CLI, Cursor, OpenClaw. Covers module design patterns, state management strategies, provider configuration, security hardening, policy-as-code with Sentinel/OPA, and CI/CD plan/apply workflows. Use when: user wants to design Terraform modules, manage state backends, review Terraform security, implement multi-region deployments, or follow IaC best practices."
-license: MIT
+license: Apache-2.0
+compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
-  version: 1.0.0
-  author: Alireza Rezvani
-  category: engineering
-  updated: 2026-03-15
-  verified-date: "2026-08-26"
+  version: "1.0"
+  author: awesome-skillkit
+  category: infrastructure
+  pattern: single-task
+  tier: powerful
+  verified-date: "2026-09-09"
 ---
 
 # Terraform Patterns

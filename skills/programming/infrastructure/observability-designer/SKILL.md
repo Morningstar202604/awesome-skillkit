@@ -1,11 +1,15 @@
 ---
-name: "observability-designer"
+name: observability-designer
 description: "Design production-ready observability strategies combining metrics, logs, and traces. Includes SLI/SLO design, golden-signals monitoring, alert optimization. Use when adding observability to a new service, refactoring alerting that is too noisy, or designing an SLO program before scaling production load."
 license: Apache-2.0
+compatibility: Requires network access and network access. No API keys required.
 metadata:
   version: "1.0"
-  category: "infrastructure"
-  verified-date: "2026-08-26"
+  author: awesome-skillkit
+  category: infrastructure
+  pattern: single-task
+  tier: powerful
+  verified-date: "2026-09-09"
 ---
 
 # Observability Designer (POWERFUL)

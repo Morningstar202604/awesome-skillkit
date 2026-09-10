@@ -1,11 +1,15 @@
 ---
-name: "database-designer"
+name: database-designer
 description: "Use when the user asks to design database schemas, create ERD diagrams, normalize schemas, plan data migrations, add multi-tenancy or row-level security, generate seed data, optimize queries, choose between SQL and NoSQL, or model data relationships."
 license: Apache-2.0
+compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
   version: "1.0"
-  category: "database"
-  verified-date: "2026-08-26"
+  author: awesome-skillkit
+  category: database
+  pattern: single-task
+  tier: powerful
+  verified-date: "2026-09-09"
 ---
 
 # Database Designer - POWERFUL Tier Skill
@@ -45,7 +49,7 @@ All paths relative to this skill folder; sample inputs in `assets/`.
 ### 1. Analyze the schema
 
 ```bash
-python3 schema_analyzer.py --input schema.sql --generate-erd --output-format json -o analysis.json
+python3 scripts/schema_analyzer.py --input schema.sql --generate-erd --output-format json -o analysis.json
 ```
 
 Accepts SQL DDL or JSON schema (`assets/sample_schema.sql` / `sample_schema.json`). Output includes normalization findings, missing constraints, naming issues, and a Mermaid ERD — show the ERD to the user and fix flagged issues before optimizing.
@@ -53,7 +57,7 @@ Accepts SQL DDL or JSON schema (`assets/sample_schema.sql` / `sample_schema.json
 ### 2. Optimize indexes against real query patterns
 
 ```bash
-python3 index_optimizer.py --schema assets/sample_schema.json --queries assets/sample_query_patterns.json --analyze-existing --format json -o indexes.json
+python3 scripts/index_optimizer.py --schema assets/sample_schema.json --queries assets/sample_query_patterns.json --analyze-existing --format json -o indexes.json
 ```
 
 Write the user's hot queries into a query-patterns JSON first (copy `assets/sample_query_patterns.json`). Output is a priority-ordered list of CREATE INDEX recommendations plus redundant-index removals.
@@ -61,7 +65,7 @@ Write the user's hot queries into a query-patterns JSON first (copy `assets/samp
 ### 3. Generate the migration
 
 ```bash
-python3 migration_generator.py --current current_schema.json --target target_schema.json --zero-downtime --format sql -o migration.sql
+python3 scripts/migration_generator.py --current current_schema.json --target target_schema.json --zero-downtime --format sql -o migration.sql
 ```
 
 `--zero-downtime` emits an expand-contract plan; `--validate-only` checks feasibility without generating SQL.

@@ -1,0 +1,64 @@
+{
+  "version": "2.0",
+  "note": "Each domain is self-contained. No cross-domain skill reuse.",
+  "domains": {
+    "programming": {
+      "entry": "skills/programming/planning/pipeline_orchestrator.py",
+      "skills": [
+        "code-intent-planner", "deep-research", "web-search",
+        "code-generator", "tdd-guide", "code-reviewer",
+        "dependency-auditor", "ci-cd-pipeline-builder", "ship-gate",
+        "runbook-generator", "incident-commander", "observability-designer"
+      ],
+      "chains": {
+        "full_project": ["code-intent-planner", "deep-research?", "code-generator", "tdd-guide", "code-reviewer", "dependency-auditor", "ci-cd-pipeline-builder", "ship-gate", "runbook-generator"],
+        "bug_fix": ["code-intent-planner", "deep-research?", "code-generator", "tdd-guide", "code-reviewer"],
+        "incident": ["incident-commander", "runbook-generator", "code-intent-planner", "code-generator", "tdd-guide", "ship-gate"]
+      }
+    },
+    "video": {
+      "entry": "skills/video/video_pipeline.py",
+      "skills": [
+        "script-writer", "voice-synth", "lip-sync", "editor",
+        "subtitles", "thumbnail", "video-generation", "image-generation",
+        "music-generation", "ai-baby-podcast", "nailong-laugh-shorts"
+      ],
+      "chains": {
+        "talking_character": ["script-writer", "voice-synth", "lip-sync", "editor", "subtitles", "thumbnail"],
+        "meme": ["script-writer", "image-generation", "music-generation", "editor", "subtitles", "thumbnail"],
+        "tutorial": ["script-writer", "voice-synth", "editor", "subtitles", "thumbnail"]
+      }
+    },
+    "writing": {
+      "entry": "skills/writing/writing_pipeline.py",
+      "skills": [
+        "article-outliner", "article-drafter", "content-editor", "seo-optimizer",
+        "ai-cover-generator", "cross-post-orchestrator",
+        "wechat-mp-publisher", "csdn-publisher", "juejin-publisher",
+        "baijiahao-publisher", "toutiao-publisher"
+      ],
+      "chains": {
+        "article": ["article-outliner", "article-drafter", "content-editor", "seo-optimizer", "ai-cover-generator", "cross-post-orchestrator"],
+        "news_flash": ["article-drafter", "content-editor", "seo-optimizer"]
+      }
+    },
+    "ppt": {
+      "entry": "skills/ppt/ppt_pipeline.py",
+      "skills": [
+        "ppt-builder", "ppt-outline-architect", "ppt-visual-designer",
+        "ppt-assets-curator", "ppt-prompt-formulas", "ppt-rehearsal-notes",
+        "ppt-render-exporter"
+      ],
+      "chains": {
+        "presentation": ["ppt-outline-architect", "ppt-visual-designer", "ppt-assets-curator", "ppt-rehearsal-notes", "ppt-render-exporter"]
+      }
+    },
+    "music": {
+      "entry": null,
+      "skills": ["music-generation"],
+      "chains": {
+        "bgm": ["music-generation"]
+      }
+    }
+  }
+}

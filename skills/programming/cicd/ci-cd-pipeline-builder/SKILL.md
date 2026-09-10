@@ -1,11 +1,15 @@
 ---
-name: "ci-cd-pipeline-builder"
+name: ci-cd-pipeline-builder
 description: "Generate pragmatic CI/CD pipelines from detected project stack signals — fast baseline generation, repeatable checks, environment-aware deployment stages. Use when setting up CI for a new project, refactoring existing pipelines, or standardizing deployment workflows across multiple repos."
 license: Apache-2.0
+compatibility: Requires docker and docker. No API keys required.
 metadata:
   version: "1.0"
-  category: "ci-cd"
-  verified-date: "2026-08-26"
+  author: awesome-skillkit
+  category: cicd
+  pattern: pipeline-builder
+  tier: powerful
+  verified-date: "2026-09-09"
 ---
 
 # CI/CD Pipeline Builder
@@ -92,3 +96,15 @@ python3 scripts/pipeline_generator.py --repo . --platform gitlab --output .gitla
 - [references/gitlab-ci-templates.md](references/gitlab-ci-templates.md)
 - [references/deployment-gates.md](references/deployment-gates.md)
 - [README.md](README.md)
+
+---
+
+## Platform Decision Matrix
+
+| Factor | GitHub Actions | GitLab CI | Jenkins |
+|--------|---------------|-----------|---------|
+| **Setup** | YAML in .github/workflows | YAML in .gitlab-ci.yml | Groovy/Jenkinsfile |
+| **Runners** | GitHub-hosted, self-hosted | Shared, group, project | Self-hosted |
+| **Secrets** | Repository/Environment vars | CI/CD Variables | Credentials plugin |
+| **Caching** | actions/cache | cache key/tag | Workspace cleanup |
+| **Matrix** | strategy.matrix | parallel:matrix | Matrix Authorization |

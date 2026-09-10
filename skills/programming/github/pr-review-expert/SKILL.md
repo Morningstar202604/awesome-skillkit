@@ -1,11 +1,15 @@
 ---
-name: "pr-review-expert"
+name: pr-review-expert
 description: "Use when the user asks to review pull requests or merge requests end-to-end on GitHub/GitLab (gh/glab CLI recipes), assess a diff's blast radius, check breaking changes and coverage delta, or run a structured PR review checklist. For deterministic static analysis of files/diffs (secrets, SQLi, complexity scoring), chain in code-reviewer as the analysis engine."
 license: Apache-2.0
+compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
   version: "1.0"
-  category: "code-review"
-  verified-date: "2026-08-26"
+  author: awesome-skillkit
+  category: github
+  pattern: single-task
+  tier: powerful
+  verified-date: "2026-09-09"
 ---
 
 # PR Review Expert

@@ -1,11 +1,15 @@
 ---
-name: "secrets-vault-manager"
+name: secrets-vault-manager
 description: "Use when the user asks to set up secret management infrastructure, integrate HashiCorp Vault, configure cloud secret stores (AWS Secrets Manager, Azure Key Vault, GCP Secret Manager), implement secret rotation, or audit secret access patterns."
 license: Apache-2.0
+compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
   version: "1.0"
-  category: "security"
-  verified-date: "2026-08-26"
+  author: awesome-skillkit
+  category: security
+  pattern: workflow
+  tier: powerful
+  verified-date: "2026-09-09"
 ---
 
 # Secrets Vault Manager
