@@ -15,8 +15,10 @@ description_zh: CSDN 博客发布、编辑、删除、草稿箱管理，基于 W
 version: 1.0.0
 author: skillkit authors
 license: Apache-2.0
+compatibility: Requires network access to blog.csdn.net and valid session credentials in environment variables. Python 3.8+.
 tags: [csdn, blog, publishing, automation, china-platform]
 metadata:
+  author: "awesome-skillkit"
   version: "1.0"
   category: "content-publishing"
   verified-date: "2026-08-26"

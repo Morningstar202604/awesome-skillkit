@@ -1,6 +1,6 @@
 ---
 name: content-editor
-description: "Proofread, polish, and style-unify article drafts. Detects banned words, inconsistent tone, overlong sentences, and grammar issues. Scores editability. Use after drafting, before SEO and publishing. 当用户要求 润色文章 / 校对错别字 / 统一文风 / 改掉 AI 腔 时使用。"
+description: "Proofread, polish, and style-unify article drafts. Detects banned words, inconsistent tone, overlong sentences, and grammar issues. Scores editability. Use after drafting, before SEO and publishing. 当用户要求 润色文章 / 校对错别字 / 统一文风 / 改掉 AI 腔 时使用。 Do NOT use for generating new content from scratch (editing and polishing only)."
 license: Apache-2.0
 compatibility: Pure Python analysis; LLM-assisted for rewriting. No API keys required.
 metadata:

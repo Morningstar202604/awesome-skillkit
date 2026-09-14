@@ -1,6 +1,6 @@
 ---
 name: video-thumbnail
-description: "Design and generate video thumbnails/covers optimized for each platform. Supports text overlay, character placement, and platform-specific sizing. Use as final step before publishing. 当用户要求 做视频封面 / 设计封面图 / 缩略图 时使用。"
+description: "Design and generate video thumbnails/covers optimized for each platform. Supports text overlay, character placement, and platform-specific sizing. Use as final step before publishing. 当用户要求 做视频封面 / 设计封面图 / 缩略图 时使用。 Do NOT use for generating the video itself (cover image only)."
 license: Apache-2.0
 compatibility: Uses image-generation gateway for creation; FFmpeg for frame extraction. No API keys required.
 metadata:

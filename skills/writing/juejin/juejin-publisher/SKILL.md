@@ -1,8 +1,10 @@
 ---
 name: "juejin-publisher"
-description: "掘金（juejin.cn）文章发布自动化。通过 Web 端接口保存草稿并发布 Markdown 文章，Cookie 认证，默认 dry-run。当用户提到掘金发文、掘金发布文章、发沸点文章到掘金等场景时使用。首次使用需按文档核对端点。"
+description: "掘金（juejin.cn）文章发布自动化。通过 Web 端接口保存草稿并发布 Markdown 文章，Cookie 认证，默认 dry-run。当用户提到掘金发文、掘金发布文章、发沸点文章到掘金等场景时使用。首次使用需按文档核对端点。 Do NOT use for publishing to platforms other than juejin.cn."
 license: Apache-2.0
+compatibility: Requires network access to juejin.cn and valid session credentials in environment variables. Python 3.8+.
 metadata:
+  author: "awesome-skillkit"
   version: "1.0"
   category: "content-publishing"
   verified-date: "2026-08-26"

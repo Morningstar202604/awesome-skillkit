@@ -14,8 +14,10 @@ description_zh: 今日头条文章发布、微头条发布，支持官方开放�
 version: 1.0.0
 author: skillkit authors
 license: Apache-2.0
+compatibility: Requires network access to www.toutiao.com and valid session credentials in environment variables. Python 3.8+.
 tags: [toutiao, douyin, publishing, automation, china-platform]
 metadata:
+  author: "awesome-skillkit"
   version: "1.0"
   category: "content-publishing"
   verified-date: "2026-08-26"

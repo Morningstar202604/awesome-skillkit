@@ -1,6 +1,6 @@
 ---
 name: migration-architect
-description: "Zero-downtime migration planning, compatibility validation, and rollback strategy generation. Tools for system, database, and infrastructure migrations with minimal business impact. Use when planning a database migration, infrastructure cutover, system replacement, or any high-risk transition that needs explicit rollback paths. 当用户要求 规划零停机迁移 / 数据迁移方案 / 双写切换 时使用。"
+description: "Zero-downtime migration planning, compatibility validation, and rollback strategy generation. Tools for system, database, and infrastructure migrations with minimal business impact. Use when planning a database migration, infrastructure cutover, system replacement, or any high-risk transition that needs explicit rollback paths. 当用户要求 规划零停机迁移 / 数据迁移方案 / 双写切换 时使用。 Do NOT use for executing the data migration itself (it produces the plan and scripts)."
 license: Apache-2.0
 compatibility: Requires network access. No API keys required.
 metadata:

@@ -13,8 +13,10 @@ description_zh: 百家号文章发布、视频发布、草稿箱管理，基于�
 version: 1.0.0
 author: skillkit authors
 license: Apache-2.0
+compatibility: Requires network access to baijiahao.baidu.com and valid session credentials in environment variables. Python 3.8+.
 tags: [baijiahao, publishing, automation, china-platform]
 metadata:
+  author: "awesome-skillkit"
   version: "1.0"
   category: "content-publishing"
   verified-date: "2026-08-26"

@@ -1,6 +1,6 @@
 ---
 name: etl-builder
-description: "Build data pipelines: extract from CSV/JSON/DB, apply transforms (clean, normalize, encode), load to target. Supports batch and incremental modes. Use when raw data needs cleaning before analysis or ML training. 当用户要求 写数据管道 / ETL 清洗 / 数据入库 时使用。"
+description: "Build data pipelines: extract from CSV/JSON/DB, apply transforms (clean, normalize, encode), load to target. Supports batch and incremental modes. Use when raw data needs cleaning before analysis or ML training. 当用户要求 写数据管道 / ETL 清洗 / 数据入库 时使用。 Do NOT use for running production ETL schedules (generation and local dry-run only)."
 license: Apache-2.0
 compatibility: Requires pandas or csv module. No external DB needed for basic mode.
 metadata:

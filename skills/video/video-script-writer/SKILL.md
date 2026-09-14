@@ -1,6 +1,6 @@
 ---
 name: video-script-writer
-description: "Write video scripts: dialogue, narration, shot descriptions, timing markers, and platform-compliant titles/captions. Supports multiple video types (talking character, meme, tutorial, vlog, short). Use when the user needs a script for a video before production. 当用户要求 写视频脚本 / 短视频文案 / 分镜脚本 时使用。"
+description: "Write video scripts: dialogue, narration, shot descriptions, timing markers, and platform-compliant titles/captions. Supports multiple video types (talking character, meme, tutorial, vlog, short). Use when the user needs a script for a video before production. 当用户要求 写视频脚本 / 短视频文案 / 分镜脚本 时使用。 Do NOT use for generating video files (script text only)."
 license: Apache-2.0
 compatibility: Pure prompt-based; may call LLM for generation. No API keys required.
 metadata:

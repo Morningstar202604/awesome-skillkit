@@ -1,6 +1,6 @@
 ---
 name: api-test-suite-builder
-description: "Use when the user asks to generate API tests, create integration test suites, test REST endpoints, or build contract tests. 当用户要求 生成接口测试 / 写集成测试 / 契约测试 时使用。"
+description: "Use when the user asks to generate API tests, create integration test suites, test REST endpoints, or build contract tests. 当用户要求 生成接口测试 / 写集成测试 / 契约测试 时使用。 Do NOT use for running the generated suites inside CI (it only generates them)."
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:

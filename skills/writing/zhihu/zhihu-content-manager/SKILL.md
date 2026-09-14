@@ -1,8 +1,10 @@
 ---
 name: "zhihu-content-manager"
-description: "知乎内容发布与管理自动化工具。支持文章发布、编辑、删除、草稿清理、话题标签管理、封面图上传、乱码检测与修复。当用户提到知乎发文、知乎发布、知乎文章、知乎回答、知乎草稿、知乎专栏、知乎乱码、修复知乎内容或任何涉及知乎内容管理的操作时触发。"
+description: "知乎内容发布与管理自动化工具。支持文章发布、编辑、删除、草稿清理、话题标签管理、封面图上传、乱码检测与修复。当用户提到知乎发文、知乎发布、知乎文章、知乎回答、知乎草稿、知乎专栏、知乎乱码、修复知乎内容或任何涉及知乎内容管理的操作时触发。 Do NOT use for publishing to platforms other than zhihu.com."
 license: Apache-2.0
+compatibility: Requires network access to www.zhihu.com and valid session credentials in environment variables. Python 3.8+.
 metadata:
+  author: "awesome-skillkit"
   version: "1.0"
   category: "content-publishing"
   verified-date: "2026-08-26"

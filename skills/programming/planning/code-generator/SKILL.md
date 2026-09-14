@@ -1,6 +1,6 @@
 ---
 name: code-generator
-description: "Two-tier code generation (L1 template engine + L2 LLM) that produces working code from intent plans. Supports Python FastAPI, TypeScript Express, and Go Gin CRUD templates with project analysis. Use when converting a structured plan into actual code files. 当用户要求 生成代码 / 按计划写实现 / 把方案变成代码 时使用。"
+description: "Two-tier code generation (L1 template engine + L2 LLM) that produces working code from intent plans. Supports Python FastAPI, TypeScript Express, and Go Gin CRUD templates with project analysis. Use when converting a structured plan into actual code files. 当用户要求 生成代码 / 按计划写实现 / 把方案变成代码 时使用。 Do NOT use for reviewing or debugging existing code (generation from a plan only)."
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:

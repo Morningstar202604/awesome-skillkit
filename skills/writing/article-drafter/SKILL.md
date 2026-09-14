@@ -1,6 +1,6 @@
 ---
 name: article-drafter
-description: "Generate article first draft from outline. Fills in each section with prose based on key points, audience level, and style. Use after outline is approved, before editing/SEO. 当用户要求 写文章初稿 / 起草正文 / 帮我写这篇 时使用。"
+description: "Generate article first draft from outline. Fills in each section with prose based on key points, audience level, and style. Use after outline is approved, before editing/SEO. 当用户要求 写文章初稿 / 起草正文 / 帮我写这篇 时使用。 Do NOT use for publishing the finished draft to platforms."
 license: Apache-2.0
 compatibility: Pure prompt-based; LLM generates text. No API keys required.
 metadata:

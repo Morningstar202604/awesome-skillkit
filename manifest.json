@@ -14,7 +14,7 @@
       "name": "AI Agent Development",
       "name_zh": "AI Agent 开发",
       "file": "dist/ai-agent-development.zip",
-      "size_kb": 151,
+      "size_kb": 152,
       "description": "Build production-grade AI agents, design multi-agent workflows, MCP servers, feature flags, and self-evaluation.",
       "description_zh": "构建生产级 AI Agent、设计多 Agent 工作流、MCP 服务、功能开关与自评。",
       "skills": [
@@ -39,7 +39,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "17f5c933de250ca778f9b31aae6ca0da7b9cf2dcb2bd0f44cbb9e895dbe3cbe1"
+      "sha256": "74e90b78ab8951812c0ff9977348a80d861506074c8aa43b8f70cb547116b5f4"
     },
     {
       "id": "ai-media-toolkit",
@@ -106,8 +106,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 93,
-      "sha256": "6e43b38778782b6a9404884cab03d3d773ab659622c6ca6c61e5b27291449fd3"
+      "size_kb": 95,
+      "sha256": "631d3b577fb8def0b30a517ab80779914193e147d23b9483a694ea17ba2e29ae"
     },
     {
       "id": "ai-video-pipeline",
@@ -142,8 +142,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 62,
-      "sha256": "048909e2b22bdccb2604de95bdf229bc456a5ef2cfb25a419f8d24422bdf9908"
+      "size_kb": 65,
+      "sha256": "cffffbf7f0113591732cb5ab38f3c75fddb3a63cfec174998f96059b3f848da4"
     },
     {
       "id": "api-development",
@@ -163,14 +163,14 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "6dcf7ca0328603fa65afd9fd3204632cf8dcc5516f390d91535c61a1fd025336"
+      "sha256": "3f754bd5d31dc8717dd88f87134d3ffb1ef3ad1c10e077e257b975531ea29ba2"
     },
     {
       "id": "architecture",
       "name": "System Architecture",
       "name_zh": "系统架构设计",
       "file": "dist/architecture.zip",
-      "size_kb": 109,
+      "size_kb": 110,
       "description": "Design system architecture, plan zero-downtime migrations, and navigate monorepos.",
       "description_zh": "设计系统架构、规划零停机迁移、驾驭 monorepo。",
       "skills": [
@@ -187,14 +187,14 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "964880e4f52f8ef97ea23ed2e0d0771668a98beeee6fdd92870236566da25088"
+      "sha256": "8a6ef40b05bea454e3132215c56526f096942b0d5646fb582df8c80f42331c53"
     },
     {
       "id": "ci-cd",
       "name": "CI/CD Pipeline",
       "name_zh": "CI/CD 流水线",
       "file": "dist/ci-cd.zip",
-      "size_kb": 64,
+      "size_kb": 65,
       "description": "Generate pragmatic CI/CD pipelines, release gates, and spec-driven development workflows.",
       "description_zh": "生成务实的 CI/CD 流水线、发布门禁与规范驱动开发流程。",
       "skills": [
@@ -211,7 +211,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "e5718cfa0b47e71cb59d97f5855966ebda01258480cbec94cc774a6f921d72d0"
+      "sha256": "9e5f0fbc14944c839c0cbe0885723e82e0a6094896653c5a57e80263e2e04cb2"
     },
     {
       "id": "code-planning",
@@ -234,8 +234,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 72,
-      "sha256": "3e6a184511a0f763f38b6e1237649c99ed568babfc8db0187136e236740049ba"
+      "size_kb": 73,
+      "sha256": "09363b87474c01fd563b5af1e4f39e7b3e1cbf3b018ac64341393a35c8baab12"
     },
     {
       "id": "code-review",
@@ -267,7 +267,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "21a3420e93666401285fd01054bddf15dfff6a55b460262e4ed793f45669f2d4"
+      "sha256": "1a8410c0f4ea0e3f594b17794739af9c19183bb752c3f72268dda4a9adfb01af"
     },
     {
       "id": "containers",
@@ -291,14 +291,14 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "bca7c51b64cf3202604e96bb7f50e7b42b583ec545a07d3920247196bff8f070"
+      "sha256": "500c3a9e08ca4ea1a2919d825e899eb2729ceac0fb119e0d37247eca1664d75e"
     },
     {
       "id": "content-publishing",
       "name": "Content Publishing Automation",
       "name_zh": "内容多平台发布自动化",
       "file": "dist/content-publishing.zip",
-      "size_kb": 132,
+      "size_kb": 134,
       "description": "Publish, edit and manage articles/videos on Chinese platforms (Zhihu, cnblogs, WeChat MP, Juejin, CSDN, Jianshu, Bilibili, Toutiao, Baijiahao, Xiaohongshu, Weibo, Douban, V2EX, SegmentFault, OSChina, Douban, Static Blogs) with battle-tested platform knowledge, plus a cross-post orchestrator and AI cover-image generation.",
       "description_zh": "在知乎、博客园、微信公众号、掘金、CSDN、简书、B站、头条、百家号、小红书、微博、豆瓣、V2EX、SegmentFault、开源中国、静态博客等中文平台发布、编辑、管理内容，沉淀实战平台经验；附跨平台发布编排器与 AI 封面图生成。",
       "skills": [
@@ -375,7 +375,7 @@
           "source": "skillkit authors (self-authored)"
         }
       ],
-      "sha256": "94a862288ca5cfedd961a27ed7b9f9cfecf23c2e8f0ecfef6c581d819eb6c568"
+      "sha256": "cacdc85896ea4229016e88df46b6ed71a5bcd1c3217d8e531e0436821aeadc44"
     },
     {
       "id": "data-ml-science",
@@ -414,8 +414,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 63,
-      "sha256": "e760f508fdb80f8833946795c8f89100171fd1cacd4757ff57e6d1813a97d2c6"
+      "size_kb": 67,
+      "sha256": "c12a554475b1ed5e89df4bb7a74a414fc1c9e12e6e2116a39d36a34668d04e93"
     },
     {
       "id": "database",
@@ -435,14 +435,14 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "27b7cb0dc8c7ce96f84122c7a7673ea41cc37d251f39332c05f22f6488c352c2"
+      "sha256": "82f5b93a6d733de5e79f7fcf2fad3783b712f0ab3d72b10ad4716554b9f17434"
     },
     {
       "id": "github-workflow",
       "name": "GitHub Collaboration",
       "name_zh": "GitHub 协作工作流",
       "file": "dist/github-workflow.zip",
-      "size_kb": 39,
+      "size_kb": 40,
       "description": "Parallel worktrees, conventional-commit changelogs, and PR review on GitHub.",
       "description_zh": "并行 worktree、Conventional Commits 变更日志与 GitHub PR 审查。",
       "skills": [
@@ -459,7 +459,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "b8cd1842c39dd307f44f51ecd62c68cb827338e207fd9fccca099456b0ff263d"
+      "sha256": "47ebb2cbae7d46f02e85da1ff6dfd90ee9e3a7f3c02ef388c6144600c1390e2d"
     },
     {
       "id": "incident-response",
@@ -483,7 +483,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "36cbf53e24dcef0513b9a8eaff706e151e99c311ae3a32174c44315e396bbfac"
+      "sha256": "6e4985d30b5fede0ac0cb2f9af3e2edac24ed2b34bcdcd5e78b132a4c30b84fb"
     },
     {
       "id": "infrastructure",
@@ -507,7 +507,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "d127ff90fbfa0727979bb09db961f03e36275eeaba5e12fc0e09f32db2b1a976"
+      "sha256": "5712d3d365735a640dee7b95b3f1f26a20ad15bc7623838e707f5b6a389dd382"
     },
     {
       "id": "office-productivity",
@@ -551,7 +551,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "b58e716a16a9cf8c1bbcc5cf0ff1f4cf1e9de80db7822e6a13814a891afef70f"
+      "sha256": "e88f38525272604ca0303e5ff81e8936913c72ae7cc50b8706f4accf9cae46b8"
     },
     {
       "id": "security",
@@ -571,7 +571,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "03131a5f08ec2eac6bce18268b5e92dec880295169a1a6aadee279267650d6f1"
+      "sha256": "f709526d21d84416933461f500fb85e73e7597cb054cb5562acd9138fb48e5d7"
     },
     {
       "id": "tdd",
@@ -587,7 +587,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "52b664a95ca84905bfa1918d97efd87ebdbd735673eb854513fec22beee3d315"
+      "sha256": "e5e0ebee5eb2bfba7389f31c7659cb045efd1cd7afe8668ce3c4cae27f4a1053"
     },
     {
       "id": "viral-entertainment",

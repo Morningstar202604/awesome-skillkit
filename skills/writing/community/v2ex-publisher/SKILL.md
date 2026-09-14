@@ -14,8 +14,10 @@ description_zh: V2EX 主题创建、回复、节点列表获取，基于 Web 内
 version: 1.0.0
 author: skillkit authors
 license: Apache-2.0
+compatibility: Requires network access to www.v2ex.com and valid session credentials in environment variables. Python 3.8+.
 tags: [v2ex, community, publishing, automation, china-platform]
 metadata:
+  author: "awesome-skillkit"
   version: "1.0"
   category: "content-publishing"
   verified-date: "2026-08-26"

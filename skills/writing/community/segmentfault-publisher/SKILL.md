@@ -15,8 +15,10 @@ description_zh: SegmentFault 文章草稿、发布、提问，基于 Web 内部�
 version: 1.0.0
 author: skillkit authors
 license: Apache-2.0
+compatibility: Requires network access to segmentfault.com and valid session credentials in environment variables. Python 3.8+.
 tags: [segmentfault, publishing, automation, china-platform]
 metadata:
+  author: "awesome-skillkit"
   version: "1.0"
   category: "content-publishing"
   verified-date: "2026-08-26"

@@ -1,6 +1,6 @@
 ---
 name: pr-review-expert
-description: "Use when the user asks to review pull requests or merge requests end-to-end on GitHub/GitLab (gh/glab CLI recipes), assess a diff's blast radius, check breaking changes and coverage delta, or run a structured PR review checklist. For deterministic static analysis of files/diffs (secrets, SQLi, complexity scoring), chain in code-reviewer as the analysis engine. 当用户要求 审查 PR / 看这个 pull request 时使用。"
+description: "Use when the user asks to review pull requests or merge requests end-to-end on GitHub/GitLab (gh/glab CLI recipes), assess a diff's blast radius, check breaking changes and coverage delta, or run a structured PR review checklist. For deterministic static analysis of files/diffs (secrets, SQLi, complexity scoring), chain in code-reviewer as the analysis engine. 当用户要求 审查 PR / 看这个 pull request 时使用。 Do NOT use for pushing fixes itself (review and verdict only)."
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:

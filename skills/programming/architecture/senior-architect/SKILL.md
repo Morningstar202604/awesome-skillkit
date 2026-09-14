@@ -1,6 +1,6 @@
 ---
 name: senior-architect
-description: "This skill should be used when the user asks to "design system architecture", "evaluate microservices vs monolith", "create architecture diagrams", "analyze dependencies", "choose a database", "plan for scalability", "make technical decisions", or "review system design". Use for architecture decision records (ADRs), tech stack evaluation, system design reviews, dependency analysis, and generating architecture diagrams in Mermaid, PlantUML, or ASCII format. 当用户要求 设计系统架构 / 技术选型 / 架构评审 时使用。"
+description: "This skill should be used when the user asks to "design system architecture", "evaluate microservices vs monolith", "create architecture diagrams", "analyze dependencies", "choose a database", "plan for scalability", "make technical decisions", or "review system design". Use for architecture decision records (ADRs), tech stack evaluation, system design reviews, dependency analysis, and generating architecture diagrams in Mermaid, PlantUML, or ASCII format. 当用户要求 设计系统架构 / 技术选型 / 架构评审 时使用。 Do NOT use for writing detailed implementation code (output stays at architecture level)."
 license: Apache-2.0
 compatibility: Requires docker and docker. No API keys required.
 metadata:

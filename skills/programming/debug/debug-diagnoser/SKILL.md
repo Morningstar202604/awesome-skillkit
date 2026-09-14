@@ -1,6 +1,6 @@
 ---
 name: debug-diagnoser
-description: "Parse stack traces and error logs, identify root cause from 10+ known patterns, suggest minimal fix. Outputs structured diagnosis consumable by code-generator. Use when a crash/bug report needs triage before fixing. 当用户要求 排查报错 / 定位崩溃原因 / 看这个 traceback / debug 一下 时使用。"
+description: "Parse stack traces and error logs, identify root cause from 10+ known patterns, suggest minimal fix. Outputs structured diagnosis consumable by code-generator. Use when a crash/bug report needs triage before fixing. 当用户要求 排查报错 / 定位崩溃原因 / 看这个 traceback / debug 一下 时使用。 Do NOT use for fixing the code itself (diagnosis and hypothesis ranking only)."
 license: Apache-2.0
 compatibility: Pure Python regex analysis. No external dependencies.
 metadata:

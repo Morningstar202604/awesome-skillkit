@@ -1,6 +1,6 @@
 ---
 name: result-visualizer
-description: "Plot model results: line charts, scatter plots, histograms, heatmaps. Outputs PNG/SVG for reports and presentations. Use after solving/simulating to visualize findings. 当用户要求 画结果图 / 数据可视化 / 出图表 时使用。"
+description: "Plot model results: line charts, scatter plots, histograms, heatmaps. Outputs PNG/SVG for reports and presentations. Use after solving/simulating to visualize findings. 当用户要求 画结果图 / 数据可视化 / 出图表 时使用。 Do NOT use for statistical inference beyond plotting the given results."
 license: Apache-2.0
 compatibility: Requires matplotlib. No API keys required.
 metadata:

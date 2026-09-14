@@ -15,8 +15,10 @@ description_zh: 简书文章发布、编辑、删除、草稿箱管理，基于 
 version: 1.0.0
 author: skillkit authors
 license: Apache-2.0
+compatibility: Requires network access to www.jianshu.com and valid session credentials in environment variables. Python 3.8+.
 tags: [jianshu, blog, publishing, automation, china-platform]
 metadata:
+  author: "awesome-skillkit"
   version: "1.0"
   category: "content-publishing"
   verified-date: "2026-08-26"

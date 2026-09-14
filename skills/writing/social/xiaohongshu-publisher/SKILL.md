@@ -14,8 +14,10 @@ description_zh: 小红书笔记草稿、发布、编辑、删除，基于 Web �
 version: 1.0.0
 author: skillkit authors
 license: Apache-2.0
+compatibility: Requires network access to www.xiaohongshu.com and valid session credentials in environment variables. Python 3.8+.
 tags: [xiaohongshu, publishing, automation, china-platform]
 metadata:
+  author: "awesome-skillkit"
   version: "1.0"
   category: "content-publishing"
   verified-date: "2026-08-26"

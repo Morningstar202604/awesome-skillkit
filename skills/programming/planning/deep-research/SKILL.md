@@ -1,6 +1,6 @@
 ---
 name: deep-research
-description: "Multi-round search with information synthesis and structured report generation. Query decomposition, quality scoring, trustworthiness assessment, deduplication. Use when the user asks to research a topic in depth and needs a comprehensive report with sources. 当用户要求 深度调研 / 多轮检索出报告 / 帮我研究这个主题 时使用。"
+description: "Multi-round search with information synthesis and structured report generation. Query decomposition, quality scoring, trustworthiness assessment, deduplication. Use when the user asks to research a topic in depth and needs a comprehensive report with sources. 当用户要求 深度调研 / 多轮检索出报告 / 帮我研究这个主题 时使用。 Do NOT use for casual single-question lookups (use web-search)."
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:

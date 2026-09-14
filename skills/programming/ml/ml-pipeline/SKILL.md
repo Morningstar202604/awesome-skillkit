@@ -1,6 +1,6 @@
 ---
 name: ml-pipeline
-description: "Train, evaluate, and tune ML models end-to-end. Supports RandomForest, GradientBoosting, LogisticRegression. Outputs accuracy/F1/ROC-AUC + cross-validation. Use after feature engineering is complete. 当用户要求 搭 ML 训练流水线 / 模型训练流程 / 调超参 时使用。"
+description: "Train, evaluate, and tune ML models end-to-end. Supports RandomForest, GradientBoosting, LogisticRegression. Outputs accuracy/F1/ROC-AUC + cross-validation. Use after feature engineering is complete. 当用户要求 搭 ML 训练流水线 / 模型训练流程 / 调超参 时使用。 Do NOT use for deep-learning research (tabular sklearn/XGBoost workflows only)."
 license: Apache-2.0
 compatibility: Requires scikit-learn, pandas, numpy. No API keys required.
 metadata:

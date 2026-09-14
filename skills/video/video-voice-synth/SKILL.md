@@ -1,6 +1,6 @@
 ---
 name: video-voice-synth
-description: "Text-to-speech (TTS) for video production. Converts script dialogue to natural voice audio. Supports multiple voices (baby, adult, mascot), languages (zh/en), and styles (funny, serious, excited). Gateway-based with mock fallback. Use when the script is ready and audio needs to be generated before lip-sync. 当用户要求 配音 / 合成语音 / 文字转语音 / TTS 时使用。"
+description: "Text-to-speech (TTS) for video production. Converts script dialogue to natural voice audio. Supports multiple voices (baby, adult, mascot), languages (zh/en), and styles (funny, serious, excited). Gateway-based with mock fallback. Use when the script is ready and audio needs to be generated before lip-sync. 当用户要求 配音 / 合成语音 / 文字转语音 / TTS 时使用。 Do NOT use for cloning a real person's voice without documented consent."
 license: Apache-2.0
 compatibility: Requires local TTS gateway at 127.0.0.1:30081 or mock mode. No API keys required.
 metadata:

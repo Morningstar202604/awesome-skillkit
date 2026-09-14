@@ -14,8 +14,10 @@ description_zh: 微博发布、转发、评论、删除、图片上传，支持�
 version: 1.0.0
 author: skillkit authors
 license: Apache-2.0
+compatibility: Requires network access to api.weibo.com / weibo.com and valid session credentials in environment variables. Python 3.8+.
 tags: [weibo, social, publishing, automation, china-platform]
 metadata:
+  author: "awesome-skillkit"
   version: "1.0"
   category: "content-publishing"
   verified-date: "2026-08-26"

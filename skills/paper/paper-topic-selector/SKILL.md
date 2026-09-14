@@ -1,6 +1,6 @@
 ---
 name: paper-topic-selector
-description: "Identify research gaps and select paper topics. Scans recent literature trends, finds underexplored areas, evaluates novelty/feasibility/impact. Outputs a ranked list of viable research directions. Use at the start of a research project. 当用户要求 选论文选题 / 找研究空白 / 投稿选刊 时使用。"
+description: "Identify research gaps and select paper topics. Scans recent literature trends, finds underexplored areas, evaluates novelty/feasibility/impact. Outputs a ranked list of viable research directions. Use at the start of a research project. 当用户要求 选论文选题 / 找研究空白 / 投稿选刊 时使用。 Do NOT use for writing the paper itself."
 license: Apache-2.0
 compatibility: Pure prompt-based; may call web-search for trend scanning. No API keys required.
 metadata:

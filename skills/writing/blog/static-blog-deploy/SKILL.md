@@ -15,8 +15,10 @@ description_zh: Hexo/Hugo/GitHub Pages/GitLab Pages/Vercel/Netlify 静态站点�
 version: 1.0.0
 author: skillkit authors
 license: Apache-2.0
+compatibility: Requires network access to static hosting providers (GitHub Pages / GitLab Pages / Vercel / Netlify) and valid session credentials in environment variables. Python 3.8+.
 tags: [static-site, hexo, hugo, github-pages, gitlab-pages, vercel, netlify, deployment]
 metadata:
+  author: "awesome-skillkit"
   version: "1.0"
   category: "content-publishing"
   verified-date: "2026-08-26"

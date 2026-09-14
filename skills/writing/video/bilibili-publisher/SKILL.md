@@ -14,8 +14,10 @@ description_zh: B 站视频投稿、专栏文章发布、动态发布，支持�
 version: 1.0.0
 author: skillkit authors
 license: Apache-2.0
+compatibility: Requires network access to api.bilibili.com and valid session credentials in environment variables. Python 3.8+.
 tags: [bilibili, video, publishing, automation, china-platform]
 metadata:
+  author: "awesome-skillkit"
   version: "1.0"
   category: "content-publishing"
   verified-date: "2026-08-26"
