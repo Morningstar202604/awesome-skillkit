@@ -1,6 +1,16 @@
 ---
 name: douban-publisher
-description: 豆瓣日记/广播/小组发布客户端（Web 内部 API）
+description: >
+  豆瓣内容发布客户端，基于 www.douban.com Web 内部接口（豆瓣无公开 API，
+  早期 OAuth API 已停止维护）。支持创建日记（--privacy 可选公开/仅自己可见/好友可见）、
+  发布广播、在指定小组发布话题。Cookie 从环境变量 DOUBAN_COOKIE 或 --cookie-file
+  读取，绝不入库；所有写操作默认 dry-run 只打印请求计划，加 --execute 才真正
+  联网发送；端点标注 VERIFY BEFORE USE，需按 SKILL.md 在浏览器 DevTools 核对。
+  Use when the user asks to 发豆瓣日记 / 发豆瓣广播 / 在豆瓣小组发帖 /
+  发布豆瓣小组话题 / publish a Douban note / post a Douban status /
+  create a Douban group topic. Do NOT use for 豆瓣电影、图书、音乐的评分与评论，
+  不用于豆列、相册与同城活动管理，不用于抓取他人内容，
+  也不用于微博、小红书等其他平台发布。
 description_zh: 豆瓣日记创建、广播发布、小组话题发布，基于 Web 内部接口
 version: 1.0.0
 author: skillkit authors

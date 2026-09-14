@@ -1,6 +1,15 @@
 ---
 name: v2ex-publisher
-description: V2EX 发帖/回复客户端（Web 内部 API）
+description: >
+  V2EX 发帖与回复客户端，基于 www.v2ex.com Web 内部接口（无公开开放 API）。
+  支持创建主题帖（需 --node-id 节点 ID）、回复指定主题、获取节点列表（用于查 node_id）。
+  Cookie 从环境变量 V2EX_COOKIE 或 --cookie-file 读取，绝不入库；
+  所有写操作默认 dry-run 只打印请求计划，加 --execute 才真正联网发送；
+  端点标注 VERIFY BEFORE USE，需按 SKILL.md 在浏览器 DevTools 核对。
+  Use when the user asks to 发 V2EX / 在 V2EX 发帖 / 回复 V2EX 主题 /
+  查 V2EX 节点 / post on V2EX / create a V2EX topic / reply to a V2EX thread.
+  Do NOT use for 节点收藏、感谢、私信与举报等互动操作，不用于批量抓取或搬运帖子，
+  也不用于 SegmentFault、开源中国等其他社区发布。
 description_zh: V2EX 主题创建、回复、节点列表获取，基于 Web 内部接口
 version: 1.0.0
 author: skillkit authors

@@ -1,5 +1,20 @@
 # Error budget
 
+## 目录
+
+- [Computation](#computation)
+- [Reference table](#reference-table)
+- [Burn-rate alerts (Google SRE Workbook canon)](#burn-rate-alerts-google-sre-workbook-canon)
+  - [Why multi-window](#why-multi-window)
+  - [Recommended thresholds](#recommended-thresholds)
+- [Error budget policy](#error-budget-policy)
+  - [Standard 4-state policy](#standard-4-state-policy)
+  - [What "freeze" means](#what-freeze-means)
+  - [Recovery path](#recovery-path)
+- [Burn-rate vs uptime alerting](#burn-rate-vs-uptime-alerting)
+- [When to skip burn-rate alerts](#when-to-skip-burn-rate-alerts)
+- [The error budget conversation](#the-error-budget-conversation)
+
 The most important number in your SLO.
 
 ## Computation

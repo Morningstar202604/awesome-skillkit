@@ -1,6 +1,6 @@
 # awesome-skillkit
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-59-brightgreen) ![Packs](https://img.shields.io/badge/scenes-17-blue)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-83-brightgreen) ![Packs](https://img.shields.io/badge/scenes-21-blue)
 
 [English](README.md) | **中文** | [日本語](README.ja.md)
 
@@ -18,26 +18,30 @@
 
 | 场景包 | 场景 | Skill 数 | 大小 |
 |--------|------|----------|------|
-| ai-agent-development | AI Agent 开发 | 5 | 145 KB |
-| api-development | API 开发与测试 | 2 | 49 KB |
-| architecture | 系统架构设计 | 3 | 108 KB |
-| ci-cd | CI/CD 流水线 | 3 | 60 KB |
-| code-review | 代码审查 | 5 | 242 KB |
-| containers | 容器与编排 | 3 | 66 KB |
-| content-publishing | 内容多平台发布自动化 | 18 | 127 KB |
-| database | 数据库设计与管理 | 2 | 99 KB |
-| github-workflow | GitHub 协作工作流 | 3 | 43 KB |
-| incident-response | 故障响应与 SRE | 3 | 122 KB |
-| infrastructure | 基础设施即代码 | 3 | 96 KB |
-| performance | 性能优化 | 1 | 12 KB |
-| security | 安全与密钥管理 | 2 | 49 KB |
-| tdd | 测试驱动开发 | 1 | 55 KB |
+| ai-agent-development | AI Agent 开发 | 5 | 151 KB |
 | ai-media-toolkit | AI 媒体生成 | 4 | 19 KB |
+| ai-research-writing | AI 研究与写作 | 7 | 92 KB |
+| ai-video-pipeline | AI 短视频流水线 | 6 | 61 KB |
+| api-development | API 开发与测试 | 2 | 50 KB |
+| architecture | 系统架构设计 | 3 | 109 KB |
+| ci-cd | CI/CD 流水线 | 3 | 64 KB |
+| code-planning | 代码规划与生成 | 3 | 74 KB |
+| code-review | 代码审查 | 5 | 246 KB |
+| containers | 容器与编排 | 3 | 67 KB |
+| content-publishing | 内容多平台发布自动化 | 18 | 132 KB |
+| data-ml-science | 数据科学与科学计算 | 7 | 63 KB |
+| database | 数据库设计与管理 | 2 | 102 KB |
+| github-workflow | GitHub 协作工作流 | 3 | 39 KB |
+| incident-response | 故障响应与 SRE | 3 | 123 KB |
+| infrastructure | 基础设施即代码 | 3 | 95 KB |
 | office-productivity | 办公效率 | 4 | 11 KB |
-| viral-entertainment | 爆款娱乐（魔性短视频） | 2 | 11 KB |
+| performance | 性能优化 | 1 | 11 KB |
+| security | 安全与密钥管理 | 2 | 46 KB |
+| tdd | 测试驱动开发 | 1 | 50 KB |
+| viral-entertainment | 爆款娱乐（魔性短视频） | 2 | 9 KB |
 
 
-**17 个场景包 · 59 个技能。** 项目文档：[方向 v2](docs/DIRECTION-V2.md) · [技能编写规范](docs/SKILL-STANDARD-v2.md) · [版本与发布制度](docs/VERSIONING.md) · [专家评审报告](docs/EXPERT-REVIEW-AND-ROADMAP.md)
+**21 个场景包 · 83 个技能。** 项目文档：[方向 v2](docs/DIRECTION-V2.md) · [技能编写规范](docs/SKILL-STANDARD-v2.md) · [版本与发布制度](docs/VERSIONING.md) · [专家评审报告](docs/EXPERT-REVIEW-AND-ROADMAP.md)
 
 ## 场景包详情
 

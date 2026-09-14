@@ -1,5 +1,20 @@
 # env-secrets-manager reference
 
+## 目录
+
+- [Required Variable Validation Script](#required-variable-validation-script)
+- [Secret Leak Detection](#secret-leak-detection)
+  - [Scan Working Tree](#scan-working-tree)
+  - [Scan Git History (post-incident)](#scan-git-history-post-incident)
+- [Pre-commit Hook Installation](#pre-commit-hook-installation)
+- [Credential Rotation Workflow](#credential-rotation-workflow)
+  - [Step 1 — Detect & Confirm](#step-1-detect-confirm)
+  - [Step 2 — Identify Exposure Window](#step-2-identify-exposure-window)
+  - [Step 3 — Rotate Credential](#step-3-rotate-credential)
+  - [Step 4 — Update All Environments](#step-4-update-all-environments)
+  - [Step 5 — Remove from Git History](#step-5-remove-from-git-history)
+  - [Step 6 — Verify](#step-6-verify)
+
 ## Required Variable Validation Script
 
 ```bash

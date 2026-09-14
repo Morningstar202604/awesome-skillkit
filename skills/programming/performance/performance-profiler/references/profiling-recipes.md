@@ -1,5 +1,28 @@
 # performance-profiler reference
 
+## 目录
+
+- [Node.js Profiling](#nodejs-profiling)
+  - [CPU Flamegraph](#cpu-flamegraph)
+  - [Heap Snapshot / Memory Leak Detection](#heap-snapshot-memory-leak-detection)
+  - [Detect Event Loop Blocking](#detect-event-loop-blocking)
+  - [Node.js Memory Profiling Script](#nodejs-memory-profiling-script)
+- [Python Profiling](#python-profiling)
+  - [CPU Profiling with py-spy](#cpu-profiling-with-py-spy)
+  - [cProfile for function-level profiling](#cprofile-for-function-level-profiling)
+  - [Memory profiling with memory_profiler](#memory-profiling-with-memoryprofiler)
+- [Go Profiling with pprof](#go-profiling-with-pprof)
+- [Bundle Size Analysis](#bundle-size-analysis)
+  - [Next.js Bundle Analyzer](#nextjs-bundle-analyzer)
+  - [What to look for](#what-to-look-for)
+  - [Common bundle wins](#common-bundle-wins)
+- [Database Query Optimization](#database-query-optimization)
+  - [Find slow queries](#find-slow-queries)
+  - [EXPLAIN ANALYZE](#explain-analyze)
+  - [Detect N+1 Queries](#detect-n1-queries)
+  - [Fix N+1 — Before/After](#fix-n1-beforeafter)
+- [Load Testing with k6](#load-testing-with-k6)
+
 ## Node.js Profiling
 
 ### CPU Flamegraph

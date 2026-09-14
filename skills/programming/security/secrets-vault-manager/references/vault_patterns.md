@@ -1,5 +1,38 @@
 # HashiCorp Vault Architecture & Patterns Reference
 
+## 目录
+
+- [Architecture Overview](#architecture-overview)
+  - [Core Components](#core-components)
+  - [Storage Backend Selection](#storage-backend-selection)
+- [High Availability Setup](#high-availability-setup)
+  - [Raft Cluster Configuration](#raft-cluster-configuration)
+  - [Auto-Unseal with AWS KMS](#auto-unseal-with-aws-kms)
+  - [Auto-Unseal with Azure Key Vault](#auto-unseal-with-azure-key-vault)
+  - [Auto-Unseal with GCP KMS](#auto-unseal-with-gcp-kms)
+- [Namespaces (Enterprise)](#namespaces-enterprise)
+- [Policy Patterns](#policy-patterns)
+  - [Templated Policies](#templated-policies)
+  - [Sentinel Policies (Enterprise)](#sentinel-policies-enterprise)
+  - [Policy Hierarchy](#policy-hierarchy)
+- [Secret Engine Configuration](#secret-engine-configuration)
+  - [KV v2 (Versioned Key-Value)](#kv-v2-versioned-key-value)
+  - [Database Engine](#database-engine)
+  - [PKI Engine (Certificate Authority)](#pki-engine-certificate-authority)
+  - [Transit Engine (Encryption-as-a-Service)](#transit-engine-encryption-as-a-service)
+- [Performance and Scaling](#performance-and-scaling)
+  - [Performance Replication (Enterprise)](#performance-replication-enterprise)
+  - [Performance Standbys (Enterprise)](#performance-standbys-enterprise)
+  - [Response Wrapping](#response-wrapping)
+  - [Batch Tokens](#batch-tokens)
+- [Monitoring and Health](#monitoring-and-health)
+  - [Key Metrics](#key-metrics)
+  - [Health Check Endpoint](#health-check-endpoint)
+- [Disaster Recovery](#disaster-recovery)
+  - [Backup](#backup)
+  - [Restore](#restore)
+  - [DR Replication (Enterprise)](#dr-replication-enterprise)
+
 ## Architecture Overview
 
 Vault operates as a centralized secret management service with a client-server model. All secrets are encrypted at rest and in transit. The seal/unseal mechanism protects the master encryption key.

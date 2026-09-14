@@ -1,5 +1,30 @@
 # Dependency Management Best Practices
 
+## 目录
+
+- [Strategic Foundation](#strategic-foundation)
+  - [Dependency Strategy](#dependency-strategy)
+  - [Governance Framework](#governance-framework)
+- [Operational Practices](#operational-practices)
+  - [Dependency Lifecycle Management](#dependency-lifecycle-management)
+  - [Version Management](#version-management)
+- [Security Management](#security-management)
+  - [Vulnerability Management](#vulnerability-management)
+  - [Supply Chain Security](#supply-chain-security)
+- [Multi-Language Considerations](#multi-language-considerations)
+  - [Ecosystem-Specific Practices](#ecosystem-specific-practices)
+  - [Cross-Language Integration](#cross-language-integration)
+- [Performance and Optimization](#performance-and-optimization)
+  - [Bundle Size Management](#bundle-size-management)
+  - [Build Performance](#build-performance)
+- [Monitoring and Metrics](#monitoring-and-metrics)
+  - [Key Performance Indicators](#key-performance-indicators)
+  - [Dashboard and Reporting](#dashboard-and-reporting)
+- [Team Organization and Training](#team-organization-and-training)
+  - [Roles and Responsibilities](#roles-and-responsibilities)
+  - [Training Programs](#training-programs)
+- [Conclusion](#conclusion)
+
 A comprehensive guide to effective dependency management across the software development lifecycle, covering strategy, governance, security, and operational practices.
 
 ## Strategic Foundation

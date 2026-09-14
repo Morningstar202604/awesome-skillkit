@@ -1,6 +1,6 @@
 ---
 name: mcp-server-builder
-description: "Design and ship production-ready MCP (Model Context Protocol) servers from OpenAPI contracts instead of hand-written tool wrappers. Python and TypeScript support, schema validation, safe evolution. Use when exposing an existing API as an MCP server, building tool integrations for Claude or Codex or Cursor, or scaffolding an MCP project from scratch."
+description: "Design and ship production-ready MCP (Model Context Protocol) servers from OpenAPI contracts instead of hand-written tool wrappers. Python and TypeScript support, schema validation, safe evolution. Use when exposing an existing API as an MCP server, building tool integrations for Claude or Codex or Cursor, or scaffolding an MCP project from scratch. 当用户要求 搭 MCP 服务 / 把 API 变成 MCP / 写 MCP server 时使用。"
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:

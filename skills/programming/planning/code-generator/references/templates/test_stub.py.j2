@@ -1,0 +1,32 @@
+"""{{ ClassName }} 测试桩（由 code-generator test.coverage 模板渲染生成）
+
+渲染上下文变量（变量名取自 scripts/code_generator.py:TEST_STUB_PYTHON）：
+    module_path={{ module_path }} / ClassName={{ ClassName }} / test_name={{ test_name }}
+"""
+import pytest
+
+from {{ module_path }} import {{ ClassName }}
+
+
+class Test{{ ClassName }}:
+    """{{ ClassName }} 的 Given / When / Then 三段式测试桩。"""
+
+    def test_{{ test_name }}_happy_path(self):
+        """Given: {{ given }}
+        When: {{ when }}
+        Then: {{ then }}
+        """
+        obj = {{ ClassName }}({{ constructor_params }})
+        result = obj.{{ method_name }}({{ method_params }})
+        assert result == {{ expected }}
+
+    def test_{{ test_name }}_edge_case(self):
+        """Edge case: {{ edge_case }}"""
+        with pytest.raises({{ Exception }}):
+            {{ ClassName }}({{ edge_params }}).{{ method_name }}()
+
+    def test_{{ test_name }}_error_handling(self):
+        """Error handling: {{ error_scenario }}"""
+        obj = {{ ClassName }}({{ constructor_params }})
+        result = obj.{{ method_name }}({{ method_params }})
+        assert result is not None

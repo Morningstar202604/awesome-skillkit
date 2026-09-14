@@ -1,6 +1,15 @@
 ---
 name: bilibili-publisher
-description: B 站视频/专栏/动态发布客户端（官方 API + Web 内部 API）
+description: >
+  B 站（bilibili）发布客户端，双模式：专栏草稿保存、专栏发布与动态发布走 Web 内部 API
+  （仅需 BILI_COOKIE 或 --cookie-file，加 --execute 即真实提交）；
+  视频投稿走官方 API（需 BILI_ACCESS_KEY/BILI_SECRET_KEY 签名，脚本输出投稿参数计划，
+  分片上传与断点续传需自行接入）。所有写操作默认 dry-run 只打印请求计划，
+  加 --execute 才真正联网发送。Use when the user asks to 发 B 站 / 投稿 bilibili /
+  上传视频到 B 站 / 发 B 站专栏 / 发 B 站动态 / publish to bilibili /
+  upload video to bilibili / post a bilibili article.
+  Do NOT use for 视频剪辑、压制、字幕与封面生成，不用于下载或搬运已有视频、
+  不用于弹幕与评论管理，也不用于直播推流与开播设置。
 description_zh: B 站视频投稿、专栏文章发布、动态发布，支持官方开放平台与 Web 内部接口
 version: 1.0.0
 author: skillkit authors

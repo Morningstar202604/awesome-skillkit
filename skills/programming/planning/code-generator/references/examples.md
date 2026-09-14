@@ -2,7 +2,19 @@
 
 > 来源：真实项目 + 边缘场景测试
 
+## 目录
+
+- [案例 1：L1 模板直接生成（Python FastAPI CRUD）](#case-1)
+- [案例 2：L2 LLM 生成（复杂业务逻辑）](#case-2)
+- [案例 3：Bug Fix 生成](#case-3)
+- [案例 4：多意图混合生成](#case-4)
+- [案例 5：L1 无匹配 → L2 兜底](#case-5)
+- [案例 6：生成验证失败 → 重试](#case-6)
+- [案例来源](#case-sources)
+
 ---
+
+<a id="case-1"></a>
 
 ## 案例 1：L1 模板直接生成（Python FastAPI CRUD）
 
@@ -41,6 +53,8 @@ class ProductCreate(BaseModel):
 ```
 
 ---
+
+<a id="case-2"></a>
 
 ## 案例 2：L2 LLM 生成（复杂业务逻辑）
 
@@ -93,6 +107,8 @@ class InventoryService:
 
 ---
 
+<a id="case-3"></a>
+
 ## 案例 3：Bug Fix 生成
 
 **输入：**
@@ -137,6 +153,8 @@ def login(self, username: str, password: str) -> Optional[Token]:
 
 ---
 
+<a id="case-4"></a>
+
 ## 案例 4：多意图混合生成
 
 **输入（多意图）：**
@@ -152,11 +170,19 @@ def login(self, username: str, password: str) -> Optional[Token]:
 }
 ```
 
-**输出：**
-1. 先生成 `src/auth/api.py`（T1）
-2. 再生成 `tests/test_auth_api.py`（T2，依赖 T1 完成）
+**输出：**（下列路径相对**被生成项目的根目录**，不是本技能包内的文件）
+
+```text
+1. 先生成 src/auth/api.py（T1）
+2. 再生成 tests/test_auth_api.py（T2，依赖 T1 完成）
+```
+
+两次产出分别来自 `references/templates/` 下的 FastAPI CRUD 模板与测试桩模板，
+渲染后都需先过 SKILL.md 步骤 4 的语法校验才落盘。
 
 ---
+
+<a id="case-5"></a>
 
 ## 案例 5：L1 无匹配 → L2 兜底
 
@@ -213,6 +239,8 @@ async def websocket_endpoint(websocket: WebSocket, room: str):
 
 ---
 
+<a id="case-6"></a>
+
 ## 案例 6：生成验证失败 → 重试
 
 **输入：**
@@ -240,6 +268,8 @@ class UserCreate(BaseModel):
 3. 重新生成 → 通过
 
 ---
+
+<a id="case-sources"></a>
 
 ## 案例来源
 

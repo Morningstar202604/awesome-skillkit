@@ -1,6 +1,15 @@
 ---
 name: weibo-publisher
-description: 微博发布/管理自动化（官方 API + Web 内部 API）
+description: >
+  微博发布客户端，双模式：官方开放平台 API 发微博（需 WEIBO_ACCESS_TOKEN，
+  可附带已上传的 pic_ids）；Web 内部 API 发微博（仅需 WEIBO_COOKIE 或
+  --cookie-file）；另提供图片上传的 dry-run 流程演示（仅打印计划）。
+  所有写操作默认 dry-run 只打印请求计划，加 --execute 才真正联网发送；
+  Web 端点标注 VERIFY BEFORE USE，需按 SKILL.md 在浏览器 DevTools 核对。
+  Use when the user asks to 发微博 / 发一条微博 / 发带图微博 / 发布到微博 /
+  post to Weibo / publish a Weibo status / update my Weibo.
+  Do NOT use for 转发、评论、删除微博与私信（脚本未实现这些子命令），
+  不用于定时发布、超话与粉丝群运营，也不用于小红书、B 站等其他平台发布。
 description_zh: 微博发布、转发、评论、删除、图片上传，支持官方开放平台与 Web 内部接口
 version: 1.0.0
 author: skillkit authors

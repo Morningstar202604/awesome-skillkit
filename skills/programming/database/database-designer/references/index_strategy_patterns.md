@@ -1,5 +1,36 @@
 # Index Strategy Patterns
 
+## 目录
+
+- [Overview](#overview)
+- [Index Types and Use Cases](#index-types-and-use-cases)
+  - [B-Tree Indexes (Default)](#b-tree-indexes-default)
+  - [Hash Indexes](#hash-indexes)
+  - [Partial Indexes](#partial-indexes)
+  - [Covering Indexes](#covering-indexes)
+  - [Functional/Expression Indexes](#functionalexpression-indexes)
+- [Composite Index Design Patterns](#composite-index-design-patterns)
+  - [Column Ordering Strategy](#column-ordering-strategy)
+  - [Query Pattern Matching](#query-pattern-matching)
+  - [Prefix Optimization](#prefix-optimization)
+- [Performance Optimization Patterns](#performance-optimization-patterns)
+  - [Index Intersection vs Composite Indexes](#index-intersection-vs-composite-indexes)
+  - [Index Size vs Performance Trade-off](#index-size-vs-performance-trade-off)
+  - [Maintenance Optimization](#maintenance-optimization)
+- [Common Anti-Patterns](#common-anti-patterns)
+  - [1. Over-Indexing](#1-over-indexing)
+  - [2. Wrong Column Order](#2-wrong-column-order)
+  - [3. Ignoring Query Patterns](#3-ignoring-query-patterns)
+  - [4. Function in WHERE Without Functional Index](#4-function-in-where-without-functional-index)
+- [Advanced Patterns](#advanced-patterns)
+  - [Multi-Column Statistics](#multi-column-statistics)
+  - [Conditional Indexes for Data Lifecycle](#conditional-indexes-for-data-lifecycle)
+  - [Index-Only Scan Optimization](#index-only-scan-optimization)
+- [Index Monitoring and Maintenance](#index-monitoring-and-maintenance)
+  - [Performance Monitoring Queries](#performance-monitoring-queries)
+  - [Index Maintenance Schedule](#index-maintenance-schedule)
+- [Conclusion](#conclusion)
+
 ## Overview
 
 Database indexes are critical for query performance, but they come with trade-offs. This guide covers proven patterns for index design, optimization strategies, and common pitfalls to avoid.

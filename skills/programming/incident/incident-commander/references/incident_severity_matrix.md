@@ -1,5 +1,31 @@
 # Incident Severity Classification Matrix
 
+## 目录
+
+- [Overview](#overview)
+- [Severity Levels](#severity-levels)
+  - [SEV1 - Critical Outage](#sev1-critical-outage)
+  - [SEV2 - Major Impact](#sev2-major-impact)
+  - [SEV3 - Minor Impact](#sev3-minor-impact)
+  - [SEV4 - Low Impact](#sev4-low-impact)
+- [Classification Guidelines](#classification-guidelines)
+  - [User Impact Assessment](#user-impact-assessment)
+  - [Business Impact Assessment](#business-impact-assessment)
+  - [Duration Considerations](#duration-considerations)
+- [Decision Tree](#decision-tree)
+- [Examples](#examples)
+  - [SEV1 Examples](#sev1-examples)
+  - [SEV2 Examples](#sev2-examples)
+  - [SEV3 Examples](#sev3-examples)
+  - [SEV4 Examples](#sev4-examples)
+- [Escalation Triggers](#escalation-triggers)
+  - [Automatic Escalation](#automatic-escalation)
+  - [Manual Escalation](#manual-escalation)
+- [Communication Templates](#communication-templates)
+  - [SEV1 Executive Alert](#sev1-executive-alert)
+  - [SEV2 Major Impact](#sev2-major-impact)
+- [Review and Updates](#review-and-updates)
+
 ## Overview
 
 This document defines the severity classification system used for incident response. The classification determines response requirements, escalation paths, and communication frequency.

@@ -1,6 +1,6 @@
 ---
 name: article-outliner
-description: "Create article outlines: structure, section hierarchy, key points, and reading flow. Supports blog posts, technical articles, news, and listicles. Use when the topic is defined but structure is needed before drafting."
+description: "Create article outlines: structure, section hierarchy, key points, and reading flow. Supports blog posts, technical articles, news, and listicles. Use when the topic is defined but structure is needed before drafting. 当用户要求 搭文章大纲 / 列提纲 / 规划结构 时使用。"
 license: Apache-2.0
 compatibility: Pure prompt-based; may call LLM for generation. No API keys required.
 metadata:

@@ -1,6 +1,16 @@
 ---
 name: csdn-publisher
-description: CSDN 博客发布/管理自动化（Web 内部 API）
+description: >
+  CSDN 博客发布与管理客户端，基于 blog.csdn.net Web 端内部接口（CSDN 无公开开放 API）。
+  支持拉取文章分类（取 category_id）、保存草稿、发布草稿、编辑已发布文章、
+  删除文章（移入回收站）、分页列出我的文章。Cookie 从环境变量 CSDN_COOKIE
+  或 --cookie-file 读取，绝不入库；所有写操作默认 dry-run 只打印请求计划，
+  加 --execute 才真正联网发送；端点标注 VERIFY BEFORE USE，需按 SKILL.md 在
+  浏览器 DevTools 核对。Use when the user asks to 发 CSDN / 发一篇 CSDN 博客 /
+  发布到 CSDN / 更新 CSDN 文章 / 删除 CSDN 文章 / 列出我的 CSDN 文章 /
+  publish to CSDN / post a CSDN blog / update my CSDN article.
+  Do NOT use for 掘金、知乎、公众号、博客园等其他平台发布，不用于 CSDN 下载、
+  问答、私信与粉丝运营，也不用于纯 Markdown 写作、排版润色与配图生成。
 description_zh: CSDN 博客发布、编辑、删除、草稿箱管理，基于 Web 端内部接口
 version: 1.0.0
 author: skillkit authors

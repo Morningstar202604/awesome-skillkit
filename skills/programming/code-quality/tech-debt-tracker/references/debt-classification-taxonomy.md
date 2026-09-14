@@ -1,5 +1,32 @@
 # Technical Debt Classification Taxonomy
 
+## 目录
+
+- [Overview](#overview)
+- [Primary Categories](#primary-categories)
+  - [1. Code Debt](#1-code-debt)
+  - [2. Architecture Debt](#2-architecture-debt)
+  - [3. Test Debt](#3-test-debt)
+  - [4. Documentation Debt](#4-documentation-debt)
+  - [5. Dependency Debt](#5-dependency-debt)
+  - [6. Infrastructure Debt](#6-infrastructure-debt)
+- [Severity Classification](#severity-classification)
+  - [Critical (Score: 9-10)](#critical-score-9-10)
+  - [High (Score: 7-8)](#high-score-7-8)
+  - [Medium (Score: 4-6)](#medium-score-4-6)
+  - [Low (Score: 1-3)](#low-score-1-3)
+- [Impact Dimensions](#impact-dimensions)
+  - [Business Impact](#business-impact)
+  - [Technical Impact](#technical-impact)
+  - [Team Impact](#team-impact)
+- [Effort Estimation Guidelines](#effort-estimation-guidelines)
+  - [T-Shirt Sizing](#t-shirt-sizing)
+  - [Complexity Factors](#complexity-factors)
+- [Usage Guidelines](#usage-guidelines)
+  - [When Classifying Debt](#when-classifying-debt)
+  - [Consistency Rules](#consistency-rules)
+  - [Review and Updates](#review-and-updates)
+
 ## Overview
 
 This document provides a comprehensive taxonomy for classifying technical debt across different dimensions. Consistent classification is essential for tracking, prioritizing, and managing technical debt effectively across teams and projects.

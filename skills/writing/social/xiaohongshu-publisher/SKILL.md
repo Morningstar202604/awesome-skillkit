@@ -1,6 +1,15 @@
 ---
 name: xiaohongshu-publisher
-description: 小红书发布客户端（Web 内部 API）
+description: >
+  小红书笔记发布与管理客户端，基于 www.xiaohongshu.com Web 内部接口（无公开开放 API）。
+  支持保存草稿（标题、正文、话题标签、多图与封面，返回 note_id）、发布笔记、
+  编辑已发布笔记、删除笔记。Cookie 从环境变量 XHS_COOKIE 或 --cookie-file 读取，
+  绝不入库；所有写操作默认 dry-run 只打印请求计划，加 --execute 才真正联网发送；
+  端点标注 VERIFY BEFORE USE，需按 SKILL.md 在浏览器 DevTools 核对。
+  Use when the user asks to 发小红书 / 发一篇小红书笔记 / 发布到小红书 /
+  更新小红书笔记 / 删掉小红书笔记 / publish to Xiaohongshu / post a RedNote /
+  edit my xiaohongshu note. Do NOT use for 评论、私信、点赞、收藏与涨粉运营，
+  不用于笔记配图生成与修图，也不用于微博、B 站、抖音等其他平台发布。
 description_zh: 小红书笔记草稿、发布、编辑、删除，基于 Web 内部接口
 version: 1.0.0
 author: skillkit authors

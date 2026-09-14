@@ -1,5 +1,20 @@
 # Provider comparison
 
+## 目录
+
+- [At-a-glance matrix](#at-a-glance-matrix)
+- [When to choose each](#when-to-choose-each)
+  - [LaunchDarkly](#launchdarkly)
+  - [GrowthBook](#growthbook)
+  - [Statsig](#statsig)
+  - [Unleash](#unleash)
+  - [Flipt](#flipt)
+  - [DIY (env vars / config file)](#diy-env-vars-config-file)
+- [Cost rule of thumb](#cost-rule-of-thumb)
+- [Migration paths](#migration-paths)
+- [Build-vs-buy threshold](#build-vs-buy-threshold)
+- [Selection checklist](#selection-checklist)
+
 Five mainstream providers + DIY. Pick based on flag count, targeting needs, compliance, and self-hosting requirements.
 
 ## At-a-glance matrix

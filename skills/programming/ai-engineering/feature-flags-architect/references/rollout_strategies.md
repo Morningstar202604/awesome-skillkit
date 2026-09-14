@@ -1,5 +1,19 @@
 # Rollout strategies
 
+## 目录
+
+- [The 4 strategies](#the-4-strategies)
+  - [1. Ring (canary) — risky launches](#1-ring-canary-risky-launches)
+  - [2. Linear — medium risk](#2-linear-medium-risk)
+  - [3. Log (front-loaded) — low risk](#3-log-front-loaded-low-risk)
+  - [4. Cohort — entitlement-aware](#4-cohort-entitlement-aware)
+- [Geo-staged variant](#geo-staged-variant)
+- [Abort criteria](#abort-criteria)
+- [Verification per phase](#verification-per-phase)
+- [Hold-time rules](#hold-time-rules)
+- [Common mistakes](#common-mistakes)
+- [Tools](#tools)
+
 Pick a strategy by risk, not by preference. Higher-risk launches get slower, more granular ramps.
 
 ## The 4 strategies

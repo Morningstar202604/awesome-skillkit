@@ -1,5 +1,17 @@
 # 搜索结果解析器
 
+## 目录
+
+- [SearXNG 解析](#searxng-解析)
+  - [JSON 结构](#json-结构)
+  - [解析函数](#解析函数)
+- [DuckDuckGo 解析](#duckduckgo-解析)
+  - [HTML 结构](#html-结构)
+  - [解析函数](#解析函数)
+- [Brave Search 解析](#brave-search-解析)
+  - [JSON 结构](#json-结构)
+- [统一输出格式](#统一输出格式)
+
 ## SearXNG 解析
 
 ### JSON 结构

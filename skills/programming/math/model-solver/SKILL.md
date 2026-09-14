@@ -1,6 +1,6 @@
 ---
 name: model-solver
-description: "Solve mathematical models: LP/MIP (scipy/cvxpy), ODE/PDE (scipy.integrate), Monte Carlo (numpy). Takes model spec from model-formulator, returns solution + convergence info. Use after formulation is complete."
+description: "Solve mathematical models: LP/MIP (scipy/cvxpy), ODE/PDE (scipy.integrate), Monte Carlo (numpy). Takes model spec from model-formulator, returns solution + convergence info. Use after formulation is complete. 当用户要求 求解模型 / 选求解器 / 优化问题求解 时使用。"
 license: Apache-2.0
 compatibility: Requires scipy, numpy. Optional: cvxpy, pulp, ortools.
 metadata:

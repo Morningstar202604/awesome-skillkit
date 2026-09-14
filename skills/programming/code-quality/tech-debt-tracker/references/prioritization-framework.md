@@ -1,5 +1,32 @@
 # Technical Debt Prioritization Framework
 
+## 目录
+
+- [Introduction](#introduction)
+- [Core Principles](#core-principles)
+  - [1. Business Value Alignment](#1-business-value-alignment)
+  - [2. Evidence-Based Decisions](#2-evidence-based-decisions)
+  - [3. Cost-Benefit Optimization](#3-cost-benefit-optimization)
+  - [4. Risk Management](#4-risk-management)
+  - [5. Sustainable Pace](#5-sustainable-pace)
+- [Prioritization Frameworks](#prioritization-frameworks)
+  - [Framework 1: Cost of Delay (CoD)](#framework-1-cost-of-delay-cod)
+  - [Framework 2: Weighted Shortest Job First (WSJF)](#framework-2-weighted-shortest-job-first-wsjf)
+  - [Framework 3: RICE (Reach, Impact, Confidence, Effort)](#framework-3-rice-reach-impact-confidence-effort)
+  - [Framework 4: Technical Debt Quadrants](#framework-4-technical-debt-quadrants)
+  - [Framework 5: Risk-Impact Matrix](#framework-5-risk-impact-matrix)
+- [Multi-Framework Approach](#multi-framework-approach)
+  - [When to Use Multiple Frameworks](#when-to-use-multiple-frameworks)
+  - [Combining Framework Results](#combining-framework-results)
+- [Implementation Guidelines](#implementation-guidelines)
+  - [Setting Up Prioritization](#setting-up-prioritization)
+  - [Common Pitfalls](#common-pitfalls)
+  - [Measuring Framework Effectiveness](#measuring-framework-effectiveness)
+- [Stakeholder Communication](#stakeholder-communication)
+  - [For Engineering Leaders](#for-engineering-leaders)
+  - [For Product Managers](#for-product-managers)
+  - [for Executive Leadership](#for-executive-leadership)
+
 ## Introduction
 
 Technical debt prioritization is a critical capability that separates high-performing engineering teams from those struggling with maintenance burden. This framework provides multiple approaches to systematically prioritize technical debt based on business value, risk, effort, and strategic alignment.

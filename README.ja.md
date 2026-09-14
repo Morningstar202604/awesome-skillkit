@@ -1,6 +1,6 @@
 # awesome-skillkit
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-59-brightgreen) ![Packs](https://img.shields.io/badge/scenes-17-blue)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-83-brightgreen) ![Packs](https://img.shields.io/badge/scenes-21-blue)
 
 [English](README.md) | [中文](README.zh-CN.md) | **日本語**
 
@@ -18,26 +18,30 @@ AI ツール向けに厳選された**シーンパック**のコレクション�
 
 | パック | シナリオ | スキル数 | サイズ |
 |--------|----------|----------|--------|
-| ai-agent-development | AI エージェント開発 | 5 | 145 KB |
-| api-development | API 開発とテスト | 2 | 49 KB |
-| architecture | システムアーキテクチャ | 3 | 108 KB |
-| ci-cd | CI/CD パイプライン | 3 | 60 KB |
-| code-review | コードレビュー | 5 | 242 KB |
-| containers | コンテナとオーケストレーション | 3 | 66 KB |
-| content-publishing | 中国語プラットフォームへの記事・動画公開自動化 | 18 | 127 KB |
-| database | データベース設計と管理 | 2 | 99 KB |
-| github-workflow | GitHub 協作ワークフロー | 3 | 43 KB |
-| incident-response | インシデント対応と SRE | 3 | 122 KB |
-| infrastructure | Infrastructure as Code | 3 | 96 KB |
-| performance | パフォーマンスプロファイリング | 1 | 12 KB |
-| security | セキュリティとシークレット管理 | 2 | 49 KB |
-| tdd | テスト駆動開発 | 1 | 55 KB |
+| ai-agent-development | AI エージェント開発 | 5 | 151 KB |
 | ai-media-toolkit | AI メディア生成 | 4 | 19 KB |
+| ai-research-writing | AI リサーチとライティング | 7 | 92 KB |
+| ai-video-pipeline | AI ショート動画パイプライン | 6 | 61 KB |
+| api-development | API 開発とテスト | 2 | 50 KB |
+| architecture | システムアーキテクチャ | 3 | 109 KB |
+| ci-cd | CI/CD パイプライン | 3 | 64 KB |
+| code-planning | コード計画と生成 | 3 | 74 KB |
+| code-review | コードレビュー | 5 | 246 KB |
+| containers | コンテナとオーケストレーション | 3 | 67 KB |
+| content-publishing | 中国語プラットフォームへの記事・動画公開自動化 | 18 | 132 KB |
+| data-ml-science | データ・ML・科学計算 | 7 | 63 KB |
+| database | データベース設計と管理 | 2 | 102 KB |
+| github-workflow | GitHub 協作ワークフロー | 3 | 39 KB |
+| incident-response | インシデント対応と SRE | 3 | 123 KB |
+| infrastructure | Infrastructure as Code | 3 | 95 KB |
 | office-productivity | オフィス業務 | 4 | 11 KB |
-| viral-entertainment | バイラルエンタメ（ミーム動画） | 2 | 11 KB |
+| performance | パフォーマンスプロファイリング | 1 | 11 KB |
+| security | セキュリティとシークレット管理 | 2 | 46 KB |
+| tdd | テスト駆動開発 | 1 | 50 KB |
+| viral-entertainment | バイラルエンタメ（ミーム動画） | 2 | 9 KB |
 
 
-**17 パック・59 スキル。** ドキュメント：[Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning](docs/VERSIONING.md) · [Expert review](docs/EXPERT-REVIEW-AND-ROADMAP.md)
+**21 パック・83 スキル。** ドキュメント：[Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning](docs/VERSIONING.md) · [Expert review](docs/EXPERT-REVIEW-AND-ROADMAP.md)
 
 ## パック詳細
 

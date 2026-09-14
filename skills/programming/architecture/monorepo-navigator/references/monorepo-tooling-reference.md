@@ -1,5 +1,28 @@
 # monorepo-navigator reference
 
+## 目录
+
+- [Turborepo](#turborepo)
+  - [turbo.json pipeline config](#turbojson-pipeline-config)
+  - [Key commands](#key-commands)
+  - [Remote caching setup](#remote-caching-setup)
+- [Nx](#nx)
+  - [Project graph and affected commands](#project-graph-and-affected-commands)
+  - [nx.json configuration](#nxjson-configuration)
+- [pnpm Workspaces](#pnpm-workspaces)
+  - [pnpm-workspace.yaml](#pnpm-workspaceyaml)
+  - [workspace:* protocol for local packages](#workspace-protocol-for-local-packages)
+  - [Useful pnpm workspace commands](#useful-pnpm-workspace-commands)
+- [Cross-Package Impact Analysis](#cross-package-impact-analysis)
+- [Dependency Graph Visualization](#dependency-graph-visualization)
+- [Claude Code Configuration (Workspace-Aware CLAUDE.md)](#claude-code-configuration-workspace-aware-claudemd)
+- [Migration: Multi-Repo → Monorepo](#migration-multi-repo-monorepo)
+- [CI Patterns](#ci-patterns)
+  - [GitHub Actions — Affected Only](#github-actions-affected-only)
+  - [GitLab CI — Parallel Stages](#gitlab-ci-parallel-stages)
+- [Publishing with Changesets](#publishing-with-changesets)
+  - [Automated publish workflow (GitHub Actions)](#automated-publish-workflow-github-actions)
+
 ## Turborepo
 
 ### turbo.json pipeline config

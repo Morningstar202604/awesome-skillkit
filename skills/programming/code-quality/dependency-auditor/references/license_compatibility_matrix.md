@@ -1,5 +1,46 @@
 # License Compatibility Matrix
 
+## 目录
+
+- [Understanding License Types](#understanding-license-types)
+  - [Permissive Licenses](#permissive-licenses)
+  - [Weak Copyleft Licenses](#weak-copyleft-licenses)
+  - [Strong Copyleft Licenses](#strong-copyleft-licenses)
+- [Compatibility Matrix](#compatibility-matrix)
+- [Detailed Compatibility Rules](#detailed-compatibility-rules)
+  - [MIT Project with Other Licenses](#mit-project-with-other-licenses)
+  - [Apache 2.0 Project with Other Licenses](#apache-20-project-with-other-licenses)
+  - [GPL Projects](#gpl-projects)
+- [Common Compatibility Scenarios](#common-compatibility-scenarios)
+  - [Scenario 1: Permissive Project with GPL Dependency](#scenario-1-permissive-project-with-gpl-dependency)
+  - [Scenario 2: Apache Project with GPL 2.0 Dependency](#scenario-2-apache-project-with-gpl-20-dependency)
+  - [Scenario 3: Commercial Product with AGPL Dependency](#scenario-3-commercial-product-with-agpl-dependency)
+- [License Combination Rules](#license-combination-rules)
+  - [Safe Combinations](#safe-combinations)
+  - [Risky Combinations](#risky-combinations)
+  - [Forbidden Combinations](#forbidden-combinations)
+- [Distribution Considerations](#distribution-considerations)
+  - [Binary Distribution](#binary-distribution)
+  - [Source Distribution](#source-distribution)
+  - [SaaS/Network Services](#saasnetwork-services)
+- [Compliance Best Practices](#compliance-best-practices)
+  - [1. License Inventory](#1-license-inventory)
+  - [2. Compatibility Checking](#2-compatibility-checking)
+  - [3. Documentation](#3-documentation)
+  - [4. Legal Review](#4-legal-review)
+- [Risk Mitigation Strategies](#risk-mitigation-strategies)
+  - [High-Risk Licenses](#high-risk-licenses)
+  - [Medium-Risk Scenarios](#medium-risk-scenarios)
+  - [Risk Assessment Framework](#risk-assessment-framework)
+- [Common Misconceptions](#common-misconceptions)
+  - [❌ Wrong Assumptions](#wrong-assumptions)
+  - [✅ Correct Understanding](#correct-understanding)
+- [Quick Reference Decision Tree](#quick-reference-decision-tree)
+- [Tools and Resources](#tools-and-resources)
+  - [Automated Tools](#automated-tools)
+  - [Manual Review Resources](#manual-review-resources)
+- [Conclusion](#conclusion)
+
 This document provides a comprehensive reference for understanding license compatibility when combining open source software dependencies in your projects.
 
 ## Understanding License Types

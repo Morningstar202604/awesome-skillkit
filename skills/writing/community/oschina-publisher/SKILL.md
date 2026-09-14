@@ -1,6 +1,15 @@
 ---
 name: oschina-publisher
-description: 开源中国发布客户端（官方 API + Web 内部 API）
+description: >
+  开源中国（OSChina）发布客户端，双模式：博客发布走官方开放平台 API
+  （需 OSCHINA_ACCESS_TOKEN，必填 --catalog 分类 ID，可带标签）；
+  提问与发动态走 Web 内部 API（需 OSCHINA_COOKIE 或 --cookie-file，动态可带图片）。
+  所有写操作默认 dry-run 只打印请求计划，加 --execute 才真正联网发送；
+  Web 端点标注 VERIFY BEFORE USE，需按 SKILL.md 在浏览器 DevTools 核对。
+  Use when the user asks to 发开源中国博客 / 发布到 OSChina / 在开源中国提问 /
+  发开源中国动态 / publish a blog on OSChina / post an oschina question /
+  create an oschina dynamic. Do NOT use for Gitee 码云的代码托管、Issue 与 PR 操作，
+  不用于软件下载与资讯抓取，也不用于 CSDN、SegmentFault、V2EX 等其他技术社区发布。
 description_zh: 开源中国博客发布、问答、动态发布，支持官方开放平台与 Web 内部接口
 version: 1.0.0
 author: skillkit authors

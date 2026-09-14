@@ -1,5 +1,18 @@
 # Flag lifecycle
 
+## 目录
+
+- [Phase 1: Request](#phase-1-request)
+- [Phase 2: Design](#phase-2-design)
+- [Phase 3: Ship](#phase-3-ship)
+- [Phase 4: Ramp](#phase-4-ramp)
+- [Phase 5: Cleanup](#phase-5-cleanup)
+- [Phase 6: Archive](#phase-6-archive)
+- [Lifecycle automation](#lifecycle-automation)
+- [SLAs by phase](#slas-by-phase)
+- [Worked example](#worked-example)
+- [When the lifecycle breaks](#when-the-lifecycle-breaks)
+
 Every flag passes through 6 phases. Skipping any phase creates debt.
 
 ```

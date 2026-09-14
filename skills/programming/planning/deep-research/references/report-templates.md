@@ -1,5 +1,10 @@
 # 报告模板
 
+## 目录
+
+- [Markdown 报告模板](#markdown-报告模板)
+- [JSON 报告模板](#json-报告模板)
+
 ## Markdown 报告模板
 
 ```markdown

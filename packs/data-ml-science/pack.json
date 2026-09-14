@@ -1,0 +1,16 @@
+{
+  "id": "data-ml-science",
+  "name": "Data, ML & Scientific Computing",
+  "name_zh": "数据科学与科学计算",
+  "description": "Data pipelines, feature engineering, mathematical modeling, simulation, and ML training workflows.",
+  "description_zh": "数据与建模的完整工具箱：ETL 清洗变换、特征工程、数学建模与求解器选型、蒙特卡洛仿真、结果可视化、ML 训练流水线与超参调优、指标体系解读。",
+  "skills": [
+    { "name": "etl-builder", "source": "self-authored" },
+    { "name": "feature-engineer", "source": "self-authored" },
+    { "name": "model-formulator", "source": "self-authored" },
+    { "name": "model-solver", "source": "self-authored" },
+    { "name": "simulation-runner", "source": "self-authored" },
+    { "name": "result-visualizer", "source": "self-authored" },
+    { "name": "ml-pipeline", "source": "self-authored" }
+  ]
+}

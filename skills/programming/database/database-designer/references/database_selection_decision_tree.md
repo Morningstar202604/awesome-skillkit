@@ -1,5 +1,37 @@
 # Database Selection Decision Tree
 
+## 目录
+
+- [Overview](#overview)
+- [Decision Framework](#decision-framework)
+  - [Primary Questions](#primary-questions)
+- [Decision Tree](#decision-tree)
+- [Database Categories Deep Dive](#database-categories-deep-dive)
+  - [Traditional SQL Databases](#traditional-sql-databases)
+  - [Distributed SQL (NewSQL)](#distributed-sql-newsql)
+  - [NoSQL Document Stores](#nosql-document-stores)
+  - [Key-Value Stores](#key-value-stores)
+  - [Column-Family Stores](#column-family-stores)
+  - [Graph Databases](#graph-databases)
+  - [Time-Series Databases](#time-series-databases)
+  - [Search Engines](#search-engines)
+  - [Data Warehouses](#data-warehouses)
+- [Selection Criteria Matrix](#selection-criteria-matrix)
+- [Decision Checklist](#decision-checklist)
+  - [Requirements Analysis](#requirements-analysis)
+  - [Technical Evaluation](#technical-evaluation)
+  - [Operational Considerations](#operational-considerations)
+- [Common Decision Patterns](#common-decision-patterns)
+  - [E-commerce Platform](#e-commerce-platform)
+  - [IoT/Sensor Data Platform](#iotsensor-data-platform)
+  - [Social Media Application](#social-media-application)
+  - [Analytics Platform](#analytics-platform)
+  - [Global SaaS Application](#global-saas-application)
+- [Migration Strategies](#migration-strategies)
+  - [From Monolithic to Distributed](#from-monolithic-to-distributed)
+  - [Technology Stack Evolution](#technology-stack-evolution)
+- [Conclusion](#conclusion)
+
 ## Overview
 
 Choosing the right database technology is crucial for application success. This guide provides a systematic approach to database selection based on specific requirements, data patterns, and operational constraints.

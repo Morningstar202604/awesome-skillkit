@@ -14,6 +14,7 @@ import hashlib
 import json
 import sys
 import zipfile
+from datetime import datetime, timezone
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -79,29 +80,61 @@ COMMON_DIR = SCRIPT_DIR / "skills" / "writing" / "_common"
 
 
 def sync_manifest(fingerprints: dict[str, dict]) -> None:
-    """Write size_kb/sha256 of built packs back into manifest.json."""
+    """把构建产物的 size_kb/sha256 回写 manifest.json，并补齐新增的 pack。
+
+    早期版本只更新「manifest 里已存在的包」，新增的包（dist 里有 zip 但
+    manifest 无条目）会被静默跳过——用户下载 manifest 后根本看不到新包。
+    现在以 packs/*/pack.json 为准做 upsert：新增的追加，删除的移除。
+
+    顺序保持与 packs/ 目录字典序一致，避免每次构建产生无意义的 diff。
+    """
     manifest_path = SCRIPT_DIR / "manifest.json"
     if not manifest_path.is_file() or not fingerprints:
         return
     raw = manifest_path.read_text(encoding="utf-8")
     trailing_nl = raw.endswith("\n")
     manifest = json.loads(raw)
+
+    existing = {p.get("id"): p for p in manifest.get("packs", [])}
+    ordered: list[dict] = []
     changed = False
-    for pack in manifest.get("packs", []):
-        fp = fingerprints.get(pack.get("id", ""))
-        if fp:
-            if pack.get("size_kb") != fp["size_kb"]:
-                pack["size_kb"] = fp["size_kb"]
-                changed = True
-            if pack.get("sha256") != fp["sha256"]:
-                pack["sha256"] = fp["sha256"]
-                changed = True
+
+    for pack_json in sorted(SCRIPT_DIR.glob("packs/*/pack.json")):
+        pack_id = pack_json.parent.name
+        fp = fingerprints.get(pack_id)
+        if not fp:
+            continue
+        entry = existing.get(pack_id)
+        if entry is None:
+            meta = json.loads(pack_json.read_text(encoding="utf-8"))
+            entry = {
+                k: meta[k]
+                for k in ("id", "name", "name_zh", "description", "description_zh")
+                if k in meta
+            }
+            entry["file"] = f"dist/{pack_id}.zip"
+            entry["skills"] = meta.get("skills", [])
+            changed = True
+        if entry.get("size_kb") != fp["size_kb"]:
+            entry["size_kb"] = fp["size_kb"]
+            changed = True
+        if entry.get("sha256") != fp["sha256"]:
+            entry["sha256"] = fp["sha256"]
+            changed = True
+        ordered.append(entry)
+
+    # 已从 packs/ 删除的包，其 manifest 条目也应移除
+    if len(ordered) != len(manifest.get("packs", [])):
+        changed = True
+
     if changed:
+        manifest["packs"] = ordered
+        manifest["updated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         out = json.dumps(manifest, ensure_ascii=False, indent=2)
         if trailing_nl:
             out += "\n"
         manifest_path.write_text(out, encoding="utf-8")
-        print("manifest.json: size_kb/sha256 updated")
+        print(f"manifest.json: {len(ordered)} packs synced (size_kb/sha256/updated)")
 
 
 def main(argv: list[str]) -> int:

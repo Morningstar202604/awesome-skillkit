@@ -1,5 +1,37 @@
 # Dockerfile Best Practices Reference
 
+## 目录
+
+- [Layer Optimization](#layer-optimization)
+  - [The Golden Rule](#the-golden-rule)
+  - [Combine Related Commands](#combine-related-commands)
+  - [Order Layers by Change Frequency](#order-layers-by-change-frequency)
+  - [Use .dockerignore](#use-dockerignore)
+- [Base Image Selection](#base-image-selection)
+  - [Size Comparison (approximate)](#size-comparison-approximate)
+  - [When to Use Alpine](#when-to-use-alpine)
+  - [When to Use Slim](#when-to-use-slim)
+  - [When to Use Distroless](#when-to-use-distroless)
+- [Multi-Stage Builds](#multi-stage-builds)
+  - [Why Multi-Stage](#why-multi-stage)
+  - [Naming Stages](#naming-stages)
+  - [Selective Copy](#selective-copy)
+- [Security Hardening](#security-hardening)
+  - [Run as Non-Root](#run-as-non-root)
+  - [Secret Management](#secret-management)
+  - [Read-Only Filesystem](#read-only-filesystem)
+  - [Drop Capabilities](#drop-capabilities)
+- [Build Performance](#build-performance)
+  - [BuildKit Cache Mounts](#buildkit-cache-mounts)
+  - [Parallel Builds](#parallel-builds)
+  - [Enable BuildKit](#enable-buildkit)
+- [Health Checks](#health-checks)
+  - [HTTP Service](#http-service)
+  - [Without curl (using wget)](#without-curl-using-wget)
+  - [TCP Check](#tcp-check)
+  - [PostgreSQL](#postgresql)
+  - [Redis](#redis)
+
 ## Layer Optimization
 
 ### The Golden Rule

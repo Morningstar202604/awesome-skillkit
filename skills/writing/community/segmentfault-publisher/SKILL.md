@@ -1,6 +1,16 @@
 ---
 name: segmentfault-publisher
-description: SegmentFault 发布客户端（Web 内部 API）
+description: >
+  SegmentFault（思否）发布客户端，基于 segmentfault.com Web 内部接口（无公开开放 API）。
+  支持保存文章草稿（返回 article_id，可带摘要、标签与封面图）、直接发布文章、
+  发布提问。Cookie 从环境变量 SF_COOKIE 或 --cookie-file 读取，绝不入库；
+  所有写操作默认 dry-run 只打印请求计划，加 --execute 才真正联网发送；
+  端点标注 VERIFY BEFORE USE，需按 SKILL.md 在浏览器 DevTools 核对。
+  Use when the user asks to 发 SegmentFault / 发思否文章 / 在思否提问 /
+  存 SegmentFault 草稿 / publish to SegmentFault / post an article on SegmentFault /
+  ask a question on SegmentFault. Do NOT use for 回答已有问题、采纳答案与声望操作，
+  不用于 SegmentFault 课程、招聘与问答悬赏功能，
+  也不用于 V2EX、开源中国、CSDN 等其他技术社区发布。
 description_zh: SegmentFault 文章草稿、发布、提问，基于 Web 内部接口
 version: 1.0.0
 author: skillkit authors

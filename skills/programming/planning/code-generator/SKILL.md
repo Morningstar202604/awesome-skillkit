@@ -1,6 +1,6 @@
 ---
 name: code-generator
-description: "Two-tier code generation (L1 template engine + L2 LLM) that produces working code from intent plans. Supports Python FastAPI, TypeScript Express, and Go Gin CRUD templates with project analysis. Use when converting a structured plan into actual code files."
+description: "Two-tier code generation (L1 template engine + L2 LLM) that produces working code from intent plans. Supports Python FastAPI, TypeScript Express, and Go Gin CRUD templates with project analysis. Use when converting a structured plan into actual code files. 当用户要求 生成代码 / 按计划写实现 / 把方案变成代码 时使用。"
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
@@ -172,10 +172,11 @@ def generate_with_llm(plan, project_context):
 
 ### 步骤 5：测试桩生成
 
-调用 tdd-guide 的 test_generator：
+调用 tdd-guide 技能里的 test_generator（路径以 tdd-guide 技能目录为基准，不是本技能目录）：
 
 ```bash
-python scripts/test_generator.py \
+# <tdd-guide>/scripts/test_generator.py
+python "<tdd-guide>/scripts/test_generator.py" \
   --source src/auth/service.py \
   --framework pytest \
   --output tests/test_auth_service.py

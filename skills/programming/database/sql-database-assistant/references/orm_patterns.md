@@ -1,5 +1,41 @@
 # ORM Patterns Reference
 
+## 目录
+
+- [Schema Definition](#schema-definition)
+  - [Prisma (schema.prisma)](#prisma-schemaprisma)
+  - [Drizzle (schema.ts)](#drizzle-schemats)
+  - [TypeORM (entities)](#typeorm-entities)
+  - [SQLAlchemy (models.py)](#sqlalchemy-modelspy)
+- [CRUD Operations](#crud-operations)
+  - [Create](#create)
+  - [Read (with filter)](#read-with-filter)
+  - [Update](#update)
+  - [Delete](#delete)
+- [Relations and Eager Loading](#relations-and-eager-loading)
+  - [Prisma — include / select](#prisma-include-select)
+  - [Drizzle — relational queries](#drizzle-relational-queries)
+  - [TypeORM — relations / query builder](#typeorm-relations-query-builder)
+  - [SQLAlchemy — joinedload / selectinload](#sqlalchemy-joinedload-selectinload)
+- [Raw SQL Escape Hatches](#raw-sql-escape-hatches)
+- [Transaction Patterns](#transaction-patterns)
+  - [Prisma](#prisma)
+  - [Drizzle](#drizzle)
+  - [TypeORM](#typeorm)
+  - [SQLAlchemy](#sqlalchemy)
+- [Migration Workflows](#migration-workflows)
+  - [Prisma](#prisma)
+  - [Drizzle](#drizzle)
+  - [TypeORM](#typeorm)
+  - [SQLAlchemy (Alembic)](#sqlalchemy-alembic)
+- [N+1 Prevention Cheat Sheet](#n1-prevention-cheat-sheet)
+- [Connection Pooling](#connection-pooling)
+  - [Prisma](#prisma)
+  - [Drizzle (with node-postgres)](#drizzle-with-node-postgres)
+  - [TypeORM](#typeorm)
+  - [SQLAlchemy](#sqlalchemy)
+- [Best Practices Summary](#best-practices-summary)
+
 Side-by-side comparison of Prisma, Drizzle, TypeORM, and SQLAlchemy patterns for common database operations.
 
 ---

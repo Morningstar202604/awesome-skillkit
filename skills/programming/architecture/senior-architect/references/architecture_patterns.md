@@ -1,5 +1,19 @@
 # Architecture Patterns Reference
 
+## 目录
+
+- [Patterns Index](#patterns-index)
+- [1. Monolithic Architecture](#1-monolithic-architecture)
+- [2. Modular Monolith](#2-modular-monolith)
+- [3. Microservices Architecture](#3-microservices-architecture)
+- [4. Event-Driven Architecture](#4-event-driven-architecture)
+- [5. CQRS](#5-cqrs)
+- [6. Event Sourcing](#6-event-sourcing)
+- [7. Hexagonal Architecture](#7-hexagonal-architecture)
+- [8. Clean Architecture](#8-clean-architecture)
+- [9. API Gateway Pattern](#9-api-gateway-pattern)
+- [Pattern Selection Quick Reference](#pattern-selection-quick-reference)
+
 Detailed guide to software architecture patterns with trade-offs and implementation guidance.
 
 ## Patterns Index

@@ -1,5 +1,44 @@
 # Incident Response Framework Reference
 
+## 目录
+
+- [1. Industry Framework Comparison](#1-industry-framework-comparison)
+  - [PagerDuty Incident Response Model](#pagerduty-incident-response-model)
+  - [Google SRE: Managing Incidents (Chapter 14)](#google-sre-managing-incidents-chapter-14)
+  - [Atlassian Incident Management Model](#atlassian-incident-management-model)
+  - [Framework Comparison Table](#framework-comparison-table)
+  - [When to Use Which Framework](#when-to-use-which-framework)
+- [2. Severity Definitions](#2-severity-definitions)
+  - [Severity Classification Matrix](#severity-classification-matrix)
+  - [Customer-Facing Signals by Severity](#customer-facing-signals-by-severity)
+  - [Severity Upgrade and Downgrade Criteria](#severity-upgrade-and-downgrade-criteria)
+- [3. Role Definitions](#3-role-definitions)
+  - [Incident Commander (IC)](#incident-commander-ic)
+  - [Communications Lead](#communications-lead)
+  - [Operations Lead](#operations-lead)
+  - [Scribe](#scribe)
+  - [Subject Matter Experts (SMEs)](#subject-matter-experts-smes)
+  - [Customer Liaison](#customer-liaison)
+- [4. Communication Protocols](#4-communication-protocols)
+  - [Incident Channel Naming Convention](#incident-channel-naming-convention)
+  - [Internal Status Update Templates](#internal-status-update-templates)
+  - [Status Page Update Templates](#status-page-update-templates)
+  - [Bridge Call / War Room Etiquette](#bridge-call-war-room-etiquette)
+  - [Customer Notification Templates](#customer-notification-templates)
+- [5. Escalation Matrix](#5-escalation-matrix)
+  - [Escalation Tiers](#escalation-tiers)
+  - [Time-Based Escalation Triggers](#time-based-escalation-triggers)
+  - [Escalation Path Examples](#escalation-path-examples)
+  - [On-Call Rotation Best Practices](#on-call-rotation-best-practices)
+- [6. Incident Lifecycle Phases](#6-incident-lifecycle-phases)
+  - [Phase 1: Detection](#phase-1-detection)
+  - [Phase 2: Triage](#phase-2-triage)
+  - [Phase 3: Mobilization](#phase-3-mobilization)
+  - [Phase 4: Investigation](#phase-4-investigation)
+  - [Phase 5: Mitigation](#phase-5-mitigation)
+  - [Phase 6: Resolution](#phase-6-resolution)
+  - [Phase 7: Postmortem](#phase-7-postmortem)
+
 Production-grade incident management knowledge base synthesizing PagerDuty, Google SRE, and Atlassian methodologies into a unified, opinionated framework. This document is the source of truth for incident commanders operating under pressure.
 
 ---

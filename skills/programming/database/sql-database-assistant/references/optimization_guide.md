@@ -1,5 +1,35 @@
 # Query Optimization Guide
 
+## 目录
+
+- [Reading EXPLAIN Plans](#reading-explain-plans)
+  - [PostgreSQL — EXPLAIN ANALYZE](#postgresql-explain-analyze)
+  - [MySQL — EXPLAIN FORMAT=JSON](#mysql-explain-formatjson)
+- [Index Types](#index-types)
+  - [B-tree (default)](#b-tree-default)
+  - [Hash](#hash)
+  - [GIN (Generalized Inverted Index)](#gin-generalized-inverted-index)
+  - [GiST (Generalized Search Tree)](#gist-generalized-search-tree)
+  - [BRIN (Block Range INdex)](#brin-block-range-index)
+  - [Partial Index](#partial-index)
+  - [Covering Index (INCLUDE)](#covering-index-include)
+  - [Expression Index](#expression-index)
+- [Query Plan Operators](#query-plan-operators)
+  - [Scan operators](#scan-operators)
+  - [Join operators](#join-operators)
+  - [Other operators](#other-operators)
+- [Connection Pooling](#connection-pooling)
+  - [Why pool connections?](#why-pool-connections)
+  - [PgBouncer (PostgreSQL)](#pgbouncer-postgresql)
+  - [ProxySQL (MySQL)](#proxysql-mysql)
+  - [Application-Level Pooling](#application-level-pooling)
+  - [Pool Sizing Guidelines](#pool-sizing-guidelines)
+- [Statistics and Maintenance](#statistics-and-maintenance)
+  - [PostgreSQL](#postgresql)
+  - [MySQL](#mysql)
+- [Performance Checklist](#performance-checklist)
+- [Quick Reference: When to Use Which Index](#quick-reference-when-to-use-which-index)
+
 How to read EXPLAIN plans, choose the right index types, understand query plan operators, and configure connection pooling.
 
 ---

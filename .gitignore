@@ -10,6 +10,10 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 
+# 技能运行时产生的会话/状态缓存（跑测试或实际使用时会落在技能目录里）
+_session_*.json
+*.session.json
+
 # 编辑器 / 系统
 .vscode/
 .idea/

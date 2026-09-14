@@ -1,5 +1,18 @@
 # The operator pattern
 
+## 目录
+
+- [When you need an operator](#when-you-need-an-operator)
+- [Operator pattern shape](#operator-pattern-shape)
+- [Spec vs status — the cardinal split](#spec-vs-status-the-cardinal-split)
+- [Reconcile must be idempotent](#reconcile-must-be-idempotent)
+- [OwnerReferences and cascading deletion](#ownerreferences-and-cascading-deletion)
+- [Finalizers](#finalizers)
+- [Conditions](#conditions)
+- [Webhooks](#webhooks)
+- [Anti-patterns](#anti-patterns)
+- [Decision flow: when an operator is the right answer](#decision-flow-when-an-operator-is-the-right-answer)
+
 An operator is a controller that reconciles a Custom Resource (CR) toward its declared spec. It encodes operational knowledge — installation, upgrades, backups, failover — that would otherwise live in tribal knowledge or runbooks.
 
 ## When you need an operator

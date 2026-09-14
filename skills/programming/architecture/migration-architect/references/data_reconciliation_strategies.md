@@ -1,5 +1,40 @@
 # Data Reconciliation Strategies
 
+## 目录
+
+- [Overview](#overview)
+- [Core Principles](#core-principles)
+  - [1. Eventually Consistent](#1-eventually-consistent)
+  - [2. Idempotent Operations](#2-idempotent-operations)
+  - [3. Audit Trail](#3-audit-trail)
+  - [4. Non-Destructive](#4-non-destructive)
+- [Types of Data Inconsistencies](#types-of-data-inconsistencies)
+  - [1. Missing Records](#1-missing-records)
+  - [2. Extra Records](#2-extra-records)
+  - [3. Field Mismatches](#3-field-mismatches)
+  - [4. Referential Integrity Violations](#4-referential-integrity-violations)
+  - [5. Temporal Inconsistencies](#5-temporal-inconsistencies)
+  - [6. Schema Drift](#6-schema-drift)
+- [Detection Strategies](#detection-strategies)
+  - [1. Row Count Validation](#1-row-count-validation)
+  - [2. Checksum-Based Validation](#2-checksum-based-validation)
+  - [3. Delta Detection](#3-delta-detection)
+  - [4. Business Logic Validation](#4-business-logic-validation)
+- [Correction Strategies](#correction-strategies)
+  - [1. Automated Correction](#1-automated-correction)
+  - [2. Manual Review Process](#2-manual-review-process)
+  - [3. Reconciliation Scheduling](#3-reconciliation-scheduling)
+- [Monitoring and Reporting](#monitoring-and-reporting)
+  - [1. Reconciliation Metrics](#1-reconciliation-metrics)
+  - [2. Alerting Rules](#2-alerting-rules)
+  - [3. Dashboard and Reporting](#3-dashboard-and-reporting)
+- [Advanced Reconciliation Techniques](#advanced-reconciliation-techniques)
+  - [1. Machine Learning-Based Anomaly Detection](#1-machine-learning-based-anomaly-detection)
+  - [2. Probabilistic Reconciliation](#2-probabilistic-reconciliation)
+- [Performance Optimization](#performance-optimization)
+  - [1. Parallel Processing](#1-parallel-processing)
+  - [2. Incremental Reconciliation](#2-incremental-reconciliation)
+
 ## Overview
 
 Data reconciliation is the process of ensuring data consistency and integrity across systems during and after migrations. This document provides comprehensive strategies, tools, and implementation patterns for detecting, measuring, and correcting data discrepancies in migration scenarios.

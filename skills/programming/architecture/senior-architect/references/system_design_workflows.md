@@ -1,5 +1,46 @@
 # System Design Workflows
 
+## 目录
+
+- [Workflows Index](#workflows-index)
+- [1. System Design Interview Approach](#1-system-design-interview-approach)
+  - [Step 1: Clarify Requirements (3-5 minutes)](#step-1-clarify-requirements-3-5-minutes)
+  - [Step 2: Estimate Scale (2-3 minutes)](#step-2-estimate-scale-2-3-minutes)
+  - [Step 3: Design High-Level Architecture (5-10 minutes)](#step-3-design-high-level-architecture-5-10-minutes)
+  - [Step 4: Deep Dive into Components (10-15 minutes)](#step-4-deep-dive-into-components-10-15-minutes)
+  - [Step 5: Address Bottlenecks (5 minutes)](#step-5-address-bottlenecks-5-minutes)
+- [2. Capacity Planning Workflow](#2-capacity-planning-workflow)
+  - [Step 1: Gather Requirements](#step-1-gather-requirements)
+  - [Step 2: Calculate Compute Requirements](#step-2-calculate-compute-requirements)
+  - [Step 3: Calculate Storage Requirements](#step-3-calculate-storage-requirements)
+  - [Step 4: Calculate Network Requirements](#step-4-calculate-network-requirements)
+  - [Step 5: Document and Review](#step-5-document-and-review)
+- [3. API Design Workflow](#3-api-design-workflow)
+  - [Step 1: Identify Resources](#step-1-identify-resources)
+  - [Step 2: Define Operations](#step-2-define-operations)
+  - [Step 3: Design Request/Response Formats](#step-3-design-requestresponse-formats)
+  - [Step 4: Handle Errors Consistently](#step-4-handle-errors-consistently)
+  - [Step 5: Document the API](#step-5-document-the-api)
+- [4. Database Schema Design Workflow](#4-database-schema-design-workflow)
+  - [Step 1: Identify Entities](#step-1-identify-entities)
+  - [Step 2: Define Relationships](#step-2-define-relationships)
+  - [Step 3: Choose Primary Keys](#step-3-choose-primary-keys)
+  - [Step 4: Add Indexes](#step-4-add-indexes)
+  - [Step 5: Plan for Scale](#step-5-plan-for-scale)
+- [5. Scalability Assessment Workflow](#5-scalability-assessment-workflow)
+  - [Step 1: Profile Current System](#step-1-profile-current-system)
+  - [Step 2: Identify Bottlenecks](#step-2-identify-bottlenecks)
+  - [Step 3: Load Test](#step-3-load-test)
+  - [Step 4: Identify Scaling Strategy](#step-4-identify-scaling-strategy)
+  - [Step 5: Create Scaling Plan](#step-5-create-scaling-plan)
+- [6. Migration Planning Workflow](#6-migration-planning-workflow)
+  - [Step 1: Assess Current State](#step-1-assess-current-state)
+  - [Step 2: Define Target State](#step-2-define-target-state)
+  - [Step 3: Plan Migration Strategy](#step-3-plan-migration-strategy)
+  - [Step 4: Create Rollback Plan](#step-4-create-rollback-plan)
+  - [Step 5: Execute with Checkpoints](#step-5-execute-with-checkpoints)
+- [Quick Reference](#quick-reference)
+
 Step-by-step workflows for common system design tasks.
 
 ## Workflows Index

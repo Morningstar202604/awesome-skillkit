@@ -287,7 +287,15 @@ def iter_skills():
         yield p
 
 
-def check_pack_consistency(issues):
+def check_pack_consistency_for_all(per_skill: dict):
+    """校验 pack ↔ skills 双向一致性，把问题归到该去的地方。
+
+    - pack 引用了盘上不存在的技能 → issues_global 的 ERROR（属于 pack 的错）
+    - 技能在盘上但没有任何 pack 引用 → per_skill[技能名] 的 WARN（属于技能的错）
+
+    ⚠️ 早期版本把 orphan 警告写进了一个调用方丢弃的临时 list，
+    导致 23 条警告既没打印也没计入 warn_total —— 门禁看起来全绿其实是假绿。
+    """
     packed: set[str] = set()
     for pj in sorted(ROOT.glob("packs/*/pack.json")):
         pack_id = pj.parent.name
@@ -310,7 +318,7 @@ def check_pack_consistency(issues):
                 )
     for p in iter_skills():
         if p.parent.name not in packed:
-            issues.append(
+            per_skill.setdefault(p.parent.name, []).append(
                 Issue(
                     "WARN", f"'{p.parent.name}' exists on disk but in no pack (orphan)"
                 )
@@ -324,8 +332,18 @@ def main(argv):
     verbose = "--verbose" in argv
     all_rows = []
     err_total = warn_total = 0
+    per_skill_issues: dict[str, list] = {}
+
+    # pack 一致性检查要给每个技能带上 orphan / not-found 标记，
+    # 因此先用全部技能名建桶，再让检查函数往里填。
+    for skill_md in iter_skills():
+        per_skill_issues.setdefault(skill_md.parent.name, [])
+
+    check_pack_consistency_for_all(per_skill_issues)
+
     for skill_md in iter_skills():
         issues, score = validate_skill(skill_md)
+        issues = issues + per_skill_issues.get(skill_md.parent.name, [])
         errs = [x for x in issues if x.level == "ERROR"]
         warns = [x for x in issues if x.level == "WARN"]
         err_total += len(errs)
@@ -333,8 +351,8 @@ def main(argv):
         status = "ERR" if errs else ("WARN" if warns else "OK")
         all_rows.append((status, score, skill_md.parent.name, errs, warns))
 
-    check_pack_consistency(issues_global)
     err_total += sum(1 for x in issues_global if x.level == "ERROR")
+    warn_total += sum(1 for x in issues_global if x.level == "WARN")
 
     width = max(len(r[2]) for r in all_rows) if all_rows else 10
     for status, score, name, errs, warns in all_rows:

@@ -1,5 +1,42 @@
 # Technology Decision Guide
 
+## 目录
+
+- [Decision Frameworks Index](#decision-frameworks-index)
+- [1. Database Selection](#1-database-selection)
+  - [SQL vs NoSQL Decision Matrix](#sql-vs-nosql-decision-matrix)
+  - [Database Type Selection](#database-type-selection)
+  - [Quick Decision Flow](#quick-decision-flow)
+- [2. Caching Strategy](#2-caching-strategy)
+  - [Cache Type Selection](#cache-type-selection)
+  - [Cache Technology Selection](#cache-technology-selection)
+  - [Cache Patterns](#cache-patterns)
+- [3. Message Queue Selection](#3-message-queue-selection)
+  - [Queue Technology Comparison](#queue-technology-comparison)
+  - [Decision Matrix](#decision-matrix)
+  - [When to Use Each](#when-to-use-each)
+- [4. Authentication Strategy](#4-authentication-strategy)
+  - [Method Selection](#method-selection)
+  - [JWT vs Sessions](#jwt-vs-sessions)
+  - [OAuth 2.0 Flow Selection](#oauth-20-flow-selection)
+  - [Token Lifetimes](#token-lifetimes)
+- [5. Frontend Framework Selection](#5-frontend-framework-selection)
+  - [Framework Comparison](#framework-comparison)
+  - [Decision Matrix](#decision-matrix)
+  - [Meta-Framework Selection](#meta-framework-selection)
+  - [When to Use SSR vs SPA vs SSG](#when-to-use-ssr-vs-spa-vs-ssg)
+- [6. Cloud Provider Selection](#6-cloud-provider-selection)
+  - [Provider Comparison](#provider-comparison)
+  - [Decision Factors](#decision-factors)
+  - [Multi-Cloud Considerations](#multi-cloud-considerations)
+  - [Service Mapping](#service-mapping)
+- [7. API Style Selection](#7-api-style-selection)
+  - [REST vs GraphQL vs gRPC](#rest-vs-graphql-vs-grpc)
+  - [Decision Matrix](#decision-matrix)
+  - [When to Choose Each](#when-to-choose-each)
+  - [API Versioning Strategies](#api-versioning-strategies)
+- [Quick Reference](#quick-reference)
+
 Decision frameworks and comparison matrices for common technology choices.
 
 ## Decision Frameworks Index

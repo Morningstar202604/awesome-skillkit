@@ -49,6 +49,7 @@ class {{Model}}({{Model}}Base):
 """,
     "src/{{target}}/service.py": """\
 \"\"\"{{target}} 服务层\"\"\"
+from datetime import datetime
 from typing import List, Optional
 from .models import {{Model}}, {{Model}}Create, {{Model}}Update
 
@@ -384,6 +385,7 @@ class {model_name}({model_name}Base):
 """,
             f"src/{target}/service.py": f"""\
 \"\"\"{model_name} 服务层\"\"\"
+from datetime import datetime
 from typing import List, Optional
 from .models import {model_name}, {model_name}Create, {model_name}Update
 

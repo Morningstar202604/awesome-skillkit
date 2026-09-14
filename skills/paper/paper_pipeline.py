@@ -16,7 +16,7 @@ from pathlib import Path
 
 BASE = Path(__file__).resolve().parent
 SCRIPTS = {
-    "topic": BASE / "topic-selector" / "scripts" / "topic_selector.py",
+    "topic": BASE / "paper-topic-selector" / "scripts" / "topic_selector.py",
     "lit": BASE / "lit-review" / "scripts" / "lit_review.py",
     "experiment": BASE / "experiment-runner" / "scripts" / "experiment_runner.py",
     "figures": BASE / "figure-maker" / "scripts" / "figure_maker.py",

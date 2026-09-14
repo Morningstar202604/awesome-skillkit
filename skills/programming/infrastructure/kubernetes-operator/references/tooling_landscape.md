@@ -1,5 +1,20 @@
 # Tooling landscape
 
+## 目录
+
+- [At-a-glance](#at-a-glance)
+- [Decision tree](#decision-tree)
+- [controller-runtime (Go library)](#controller-runtime-go-library)
+- [kubebuilder (Go scaffolder)](#kubebuilder-go-scaffolder)
+- [operator-sdk (Red Hat / OpenShift)](#operator-sdk-red-hat-openshift)
+- [metacontroller (webhook-based, language-agnostic)](#metacontroller-webhook-based-language-agnostic)
+- [KOPF (Python)](#kopf-python)
+- [java-operator-sdk](#java-operator-sdk)
+- [Comparison: complexity vs control](#comparison-complexity-vs-control)
+- [Cross-cutting concerns](#cross-cutting-concerns)
+- [Migration paths](#migration-paths)
+- [Selection checklist](#selection-checklist)
+
 Five mainstream operator frameworks. Pick by language, complexity, and target environment.
 
 ## At-a-glance

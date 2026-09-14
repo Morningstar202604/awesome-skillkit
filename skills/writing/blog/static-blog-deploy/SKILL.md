@@ -1,6 +1,16 @@
 ---
 name: static-blog-deploy
-description: 静态博客部署工具
+description: >
+  静态博客构建与部署自动化，封装六类部署：Hexo、Hugo（同步到 user@host:/path
+  或 s3://bucket/path）、GitHub Pages（推 gh-pages 分支或 gh workflow run 触发
+  Actions）、GitLab Pages（推分支或触发 CI）、Vercel（vercel --prod，需
+  VERCEL_TOKEN）、Netlify（netlify deploy --prod，需 NETLIFY_AUTH_TOKEN）。
+  默认 dry-run 只打印命令，加 --execute 才真正运行；SSH key 与平台 token 走
+  环境变量或 CLI 登录态，不写入仓库。Use when the user asks to 部署博客 / 发布静态站点 /
+  部署 Hexo / 部署 Hugo / 推到 GitHub Pages / 发布到 Vercel / 部署到 Netlify /
+  deploy my static blog / deploy a Hugo site / publish to GitHub Pages.
+  Do NOT use for Jekyll 等未列出的生成器、不用于带后端与数据库的动态站点部署、
+  不用于域名 DNS 解析与证书申请，也不用于文章写作与内容生成。
 description_zh: Hexo/Hugo/GitHub Pages/GitLab Pages/Vercel/Netlify 静态站点部署自动化
 version: 1.0.0
 author: skillkit authors

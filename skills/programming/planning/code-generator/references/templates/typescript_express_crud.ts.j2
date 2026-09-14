@@ -1,0 +1,109 @@
+{#- Express CRUD 单文件模板：类型定义 + 服务层 + 路由 -#}
+/**
+ * {{ target }} 模块 —— Express CRUD 实现（由 code-generator L1 模板渲染生成）
+ *
+ * 渲染上下文变量（与 scripts/code_generator.py:extract_context() 输出一致）：
+ *   target     = {{ target }}
+ *   Model      = {{ Model }}
+ *   Service    = {{ Service }}
+ *   tech_stack = {{ tech_stack }}
+ *   id_param   = {{ id_param }}
+ *
+ * 本模板是单文件变体：类型定义、服务层、路由合并为一个模块。
+ * 若沿用 SKILL.md 中的双文件布局，可把 {{ Service }} 拆到 './{{ target }}.service' 再 import。
+ */
+import { Request, Response, Router } from 'express';
+
+/** 服务端读模型；id 由仓储分配。 */
+export interface {{ Model }} {
+  id: number;
+  name: string;
+  description?: string;
+}
+
+/** 创建 {{ Model }} 时接收的请求体（不含 id）。 */
+export type {{ Model }}Create = Omit<{{ Model }}, 'id'>;
+
+/** 更新 {{ Model }} 时接收的请求体，字段全部可选（PATCH 语义）。 */
+export type {{ Model }}Update = Partial<{{ Model }}Create>;
+
+/**
+ * {{ Model }} 的内存 Map 仓储。接入真实数据库时替换本类实现即可。
+ */
+export class {{ Service }} {
+  private readonly items = new Map<number, {{ Model }}>();
+  private nextId = 1;
+
+  findAll(): {{ Model }}[] {
+    return Array.from(this.items.values());
+  }
+
+  findById(id: number): {{ Model }} | undefined {
+    return this.items.get(id);
+  }
+
+  create(data: {{ Model }}Create): {{ Model }} {
+    const item: {{ Model }} = { id: this.nextId++, ...data };
+    this.items.set(item.id, item);
+    return item;
+  }
+
+  update(id: number, data: {{ Model }}Update): {{ Model }} | undefined {
+    const existing = this.items.get(id);
+    if (existing === undefined) {
+      return undefined;
+    }
+    const updated: {{ Model }} = { ...existing, ...data };
+    this.items.set(id, updated);
+    return updated;
+  }
+
+  delete(id: number): boolean {
+    return this.items.delete(id);
+  }
+}
+
+export const {{ target }}Router = Router();
+const service = new {{ Service }}();
+
+{{ target }}Router.get('/', (_req: Request, res: Response): void => {
+  res.json(service.findAll());
+});
+
+{{ target }}Router.post('/', (req: Request, res: Response): void => {
+  const item = service.create(req.body as {{ Model }}Create);
+  res.status(201).json(item);
+});
+
+{{ target }}Router.get('/:id', (req: Request, res: Response): void => {
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id)) {
+    res.status(400).json({ error: 'invalid id' });
+    return;
+  }
+  const item = service.findById(id);
+  if (item === undefined) {
+    res.status(404).json({ error: '{{ Model }} not found' });
+    return;
+  }
+  res.json(item);
+});
+
+{{ target }}Router.put('/:id', (req: Request, res: Response): void => {
+  const id = Number(req.params.id);
+  const updated = service.update(id, req.body as {{ Model }}Update);
+  if (updated === undefined) {
+    res.status(404).json({ error: '{{ Model }} not found' });
+    return;
+  }
+  res.json(updated);
+});
+
+{{ target }}Router.delete('/:id', (req: Request, res: Response): void => {
+  const id = Number(req.params.id);
+  if (!service.delete(id)) {
+    res.status(404).json({ error: '{{ Model }} not found' });
+    return;
+  }
+  res.status(204).send();
+});

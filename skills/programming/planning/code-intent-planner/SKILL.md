@@ -1,6 +1,6 @@
 ---
 name: code-intent-planner
-description: "Three-tier waterfall intent recognition (L1 regex <10ms, L2 Flash LLM, L3 Pro LLM) that classifies user intent into 10 types, decomposes tasks, and produces execution plans with evidence grading. Use when the user describes a coding task and needs structured planning before implementation."
+description: "Three-tier waterfall intent recognition (L1 regex <10ms, L2 Flash LLM, L3 Pro LLM) that classifies user intent into 10 types, decomposes tasks, and produces execution plans with evidence grading. Use when the user describes a coding task and needs structured planning before implementation. 当用户要求 理清需求 / 出实施计划 / 把模糊需求变具体 时使用。"
 license: Apache-2.0
 compatibility: Requires network access and docker. No API keys required.
 metadata:

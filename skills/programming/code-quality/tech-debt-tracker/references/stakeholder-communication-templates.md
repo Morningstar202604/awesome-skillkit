@@ -1,5 +1,28 @@
 # Stakeholder Communication Templates
 
+## 目录
+
+- [Introduction](#introduction)
+- [Executive Summary Templates](#executive-summary-templates)
+  - [Monthly Executive Report](#monthly-executive-report)
+  - [Quarterly Board-Level Report](#quarterly-board-level-report)
+- [Product Management Templates](#product-management-templates)
+  - [Sprint Planning Discussion](#sprint-planning-discussion)
+  - [Feature Impact Assessment](#feature-impact-assessment)
+- [Engineering Team Templates](#engineering-team-templates)
+  - [Team Health Check](#team-health-check)
+  - [Architecture Decision Record (ADR) Template](#architecture-decision-record-adr-template)
+- [Customer-Facing Templates](#customer-facing-templates)
+  - [Release Notes - Quality Improvements](#release-notes-quality-improvements)
+  - [Service Incident Communication](#service-incident-communication)
+- [Internal Communication Templates](#internal-communication-templates)
+  - [Engineering All-Hands Presentation](#engineering-all-hands-presentation)
+  - [Retrospective Templates](#retrospective-templates)
+- [Communication Best Practices](#communication-best-practices)
+  - [Do's and Don'ts](#dos-and-donts)
+  - [Tailoring Messages](#tailoring-messages)
+  - [Frequency Guidelines](#frequency-guidelines)
+
 ## Introduction
 
 Effective communication about technical debt is crucial for securing resources, setting expectations, and maintaining stakeholder trust. This document provides templates and guidelines for communicating technical debt status, impact, and recommendations to different stakeholder groups.

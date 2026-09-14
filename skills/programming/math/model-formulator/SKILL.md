@@ -1,6 +1,6 @@
 ---
 name: model-formulator
-description: "Formalize a real-world problem into a mathematical model: identify variables, constraints, objective function, and model type (ODE/ILP/stochastic/Bayesian). Outputs a structured model spec that model-solver can consume. Use when the problem is defined in words but needs mathematical structure."
+description: "Formalize a real-world problem into a mathematical model: identify variables, constraints, objective function, and model type (ODE/ILP/stochastic/Bayesian). Outputs a structured model spec that model-solver can consume. Use when the problem is defined in words but needs mathematical structure. 当用户要求 数学建模 / 把问题写成模型 / 定义变量与约束 时使用。"
 license: Apache-2.0
 compatibility: Pure Python + LLM assistance. No external solver needed at this step.
 metadata:

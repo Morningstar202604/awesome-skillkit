@@ -1,5 +1,37 @@
 # Quality Scoring Rubric
 
+## 目录
+
+- [Overview](#overview)
+  - [Dimension Configuration](#dimension-configuration)
+- [Scoring Framework](#scoring-framework)
+  - [Overall Scoring Scale](#overall-scoring-scale)
+  - [Dimension Weights (Default: 4 dimensions × 25%)](#dimension-weights-default-4-dimensions-25)
+- [Documentation Quality (20% Weight)](#documentation-quality-20-weight)
+  - [Scoring Components](#scoring-components)
+- [Code Quality (20% Weight)](#code-quality-20-weight)
+  - [Scoring Components](#scoring-components)
+- [Completeness (20% Weight)](#completeness-20-weight)
+  - [Scoring Components](#scoring-components)
+- [Usability (20% Weight)](#usability-20-weight)
+  - [Scoring Components](#scoring-components)
+- [Scoring Calculations](#scoring-calculations)
+  - [Dimension Score Calculation](#dimension-score-calculation)
+  - [Overall Score Calculation](#overall-score-calculation)
+  - [Letter Grade Assignment](#letter-grade-assignment)
+- [Quality Improvement Recommendations](#quality-improvement-recommendations)
+  - [Score-Based Recommendations](#score-based-recommendations)
+  - [Dimension-Specific Improvement Strategies](#dimension-specific-improvement-strategies)
+- [Security (Optional, 20% Weight when enabled)](#security-optional-20-weight-when-enabled)
+  - [Overview](#overview)
+  - [Scoring Components](#scoring-components)
+  - [Security Best Practices](#security-best-practices)
+  - [Security Score Impact on Tiers](#security-score-impact-on-tiers)
+- [Quality Assurance Process](#quality-assurance-process)
+  - [Automated Scoring](#automated-scoring)
+  - [Manual Review Process](#manual-review-process)
+  - [Continuous Improvement](#continuous-improvement)
+
 **Version**: 2.0.0  
 **Last Updated**: 2026-03-27  
 **Authority**: Claude Skills Engineering Team  

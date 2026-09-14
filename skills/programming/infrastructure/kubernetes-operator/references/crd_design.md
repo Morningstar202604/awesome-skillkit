@@ -1,5 +1,22 @@
 # CRD design
 
+## 目录
+
+- [Anatomy of a production CRD](#anatomy-of-a-production-crd)
+- [Required structural elements](#required-structural-elements)
+  - [1. Status subresource — `subresources.status: {}`](#1-status-subresource-subresourcesstatus)
+  - [2. Conditions array](#2-conditions-array)
+  - [3. observedGeneration](#3-observedgeneration)
+  - [4. Printer columns](#4-printer-columns)
+  - [5. Validation in the schema, not the controller](#5-validation-in-the-schema-not-the-controller)
+  - [6. Avoid `x-kubernetes-preserve-unknown-fields: true`](#6-avoid-x-kubernetes-preserve-unknown-fields-true)
+- [Versioning strategy](#versioning-strategy)
+- [Scope: Namespaced vs Cluster](#scope-namespaced-vs-cluster)
+- [Naming](#naming)
+- [Validation tooling](#validation-tooling)
+- [Documentation in the schema](#documentation-in-the-schema)
+- [Anti-patterns](#anti-patterns)
+
 Custom Resource Definitions (CRDs) define the API surface of your operator. A bad CRD design locks you into hard-to-evolve schemas, forces wrapper APIs, and creates user-facing UX problems via `kubectl`.
 
 ## Anatomy of a production CRD

@@ -1,5 +1,42 @@
 # tech-debt-tracker reference
 
+## 目录
+
+- [Technical Debt Classification Framework](#technical-debt-classification-framework)
+  - [1. Code Debt](#1-code-debt)
+  - [2. Architecture Debt](#2-architecture-debt)
+  - [3. Test Debt](#3-test-debt)
+  - [4. Documentation Debt](#4-documentation-debt)
+  - [5. Dependency Debt](#5-dependency-debt)
+  - [6. Infrastructure Debt](#6-infrastructure-debt)
+- [Severity Scoring Framework](#severity-scoring-framework)
+  - [Impact Assessment (1-10 scale)](#impact-assessment-1-10-scale)
+  - [Effort Assessment](#effort-assessment)
+- [Interest Rate Calculation](#interest-rate-calculation)
+  - [Interest Rate Formula](#interest-rate-formula)
+  - [Cost of Delay Calculation](#cost-of-delay-calculation)
+  - [Example Calculation](#example-calculation)
+- [Debt Inventory Management](#debt-inventory-management)
+  - [Data Structure](#data-structure)
+  - [Status Lifecycle](#status-lifecycle)
+- [Prioritization Frameworks](#prioritization-frameworks)
+  - [1. Cost-of-Delay vs Effort Matrix](#1-cost-of-delay-vs-effort-matrix)
+  - [2. Weighted Shortest Job First (WSJF)](#2-weighted-shortest-job-first-wsjf)
+  - [3. Technical Debt Quadrant](#3-technical-debt-quadrant)
+- [Refactoring Strategies](#refactoring-strategies)
+  - [1. Strangler Fig Pattern](#1-strangler-fig-pattern)
+  - [2. Branch by Abstraction](#2-branch-by-abstraction)
+  - [3. Feature Toggles](#3-feature-toggles)
+  - [4. Parallel Run](#4-parallel-run)
+- [Sprint Allocation Recommendations](#sprint-allocation-recommendations)
+  - [Debt-to-Feature Ratio](#debt-to-feature-ratio)
+  - [Sprint Planning Integration](#sprint-planning-integration)
+  - [Quarterly Planning](#quarterly-planning)
+- [Stakeholder Reporting](#stakeholder-reporting)
+  - [Executive Dashboard](#executive-dashboard)
+  - [Engineering Team Dashboard](#engineering-team-dashboard)
+  - [Product Manager Reports](#product-manager-reports)
+
 ## Technical Debt Classification Framework
 
 ### 1. Code Debt

@@ -1,6 +1,6 @@
 ---
 name: docker-development
-description: "Docker and container development agent skill and plugin for Dockerfile optimization, docker-compose orchestration, multi-stage builds, and container security hardening. Use when: user wants to optimize a Dockerfile, create or improve docker-compose configurations, implement multi-stage builds, audit container security, reduce image size, or follow container best practices. Covers build performance, layer caching, secret management, and production-ready container patterns."
+description: "Docker and container development agent skill and plugin for Dockerfile optimization, docker-compose orchestration, multi-stage builds, and container security hardening. Use when: user wants to optimize a Dockerfile, create or improve docker-compose configurations, implement multi-stage builds, audit container security, reduce image size, or follow container best practices. Covers build performance, layer caching, secret management, and production-ready container patterns. 当用户要求 写 Dockerfile / 容器化应用 / 优化镜像体积 时使用。"
 license: Apache-2.0
 compatibility: Requires docker and docker. No API keys required.
 metadata:
@@ -351,7 +351,9 @@ cp -r claude-skills/engineering/docker-development ~/.claude/skills/
 
 ### Multi-tool install
 ```bash
-./scripts/convert.sh --skill docker-development --tool codex|gemini|cursor|windsurf|openclaw
+# convert.sh 来自上游 claude-skills 仓库（不随本技能分发）：
+# https://github.com/alirezarezvani/claude-skills
+bash <claude-skills>/scripts/convert.sh --skill docker-development --tool codex|gemini|cursor|windsurf|openclaw
 ```
 
 ### OpenClaw

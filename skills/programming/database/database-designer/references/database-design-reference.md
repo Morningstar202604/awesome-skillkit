@@ -1,5 +1,46 @@
 # database-designer reference
 
+## 目录
+
+- [Database Design Principles](#database-design-principles)
+  - [Normalization Forms](#normalization-forms)
+  - [Denormalization Strategies](#denormalization-strategies)
+- [Index Optimization Strategies](#index-optimization-strategies)
+  - [B-Tree Indexes](#b-tree-indexes)
+  - [Hash Indexes](#hash-indexes)
+  - [Composite Indexes](#composite-indexes)
+  - [Covering Indexes](#covering-indexes)
+  - [Partial Indexes](#partial-indexes)
+- [Query Analysis & Optimization](#query-analysis-optimization)
+  - [Query Patterns Recognition](#query-patterns-recognition)
+  - [Index Selection Algorithm](#index-selection-algorithm)
+- [Data Modeling Patterns](#data-modeling-patterns)
+  - [Star Schema (Data Warehousing)](#star-schema-data-warehousing)
+  - [Snowflake Schema](#snowflake-schema)
+  - [Document Model (JSON Storage)](#document-model-json-storage)
+  - [Graph Data Patterns](#graph-data-patterns)
+- [Migration Strategies](#migration-strategies)
+  - [Zero-Downtime Migration (Expand-Contract Pattern)](#zero-downtime-migration-expand-contract-pattern)
+  - [Data Type Changes](#data-type-changes)
+- [Partitioning Strategies](#partitioning-strategies)
+  - [Horizontal Partitioning (Sharding)](#horizontal-partitioning-sharding)
+  - [Vertical Partitioning](#vertical-partitioning)
+- [Connection Management](#connection-management)
+  - [Connection Pooling](#connection-pooling)
+  - [Read Replicas Strategy](#read-replicas-strategy)
+- [Caching Layers](#caching-layers)
+  - [Cache-Aside Pattern](#cache-aside-pattern)
+  - [Write-Through Cache](#write-through-cache)
+  - [Cache Invalidation Strategies](#cache-invalidation-strategies)
+- [Database Selection Guide](#database-selection-guide)
+  - [SQL Databases](#sql-databases)
+  - [NoSQL Databases](#nosql-databases)
+  - [NewSQL Databases](#newsql-databases)
+- [Tools & Scripts](#tools-scripts)
+  - [Schema Analyzer](#schema-analyzer)
+  - [Index Optimizer](#index-optimizer)
+  - [Migration Generator](#migration-generator)
+
 ## Database Design Principles
 
 ### Normalization Forms

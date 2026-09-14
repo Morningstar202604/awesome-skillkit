@@ -1,6 +1,6 @@
 ---
 name: observability-designer
-description: "Design production-ready observability strategies combining metrics, logs, and traces. Includes SLI/SLO design, golden-signals monitoring, alert optimization. Use when adding observability to a new service, refactoring alerting that is too noisy, or designing an SLO program before scaling production load."
+description: "Design production-ready observability strategies combining metrics, logs, and traces. Includes SLI/SLO design, golden-signals monitoring, alert optimization. Use when adding observability to a new service, refactoring alerting that is too noisy, or designing an SLO program before scaling production load. 当用户要求 设计监控告警 / 可观测性方案 / 指标与日志体系 时使用。"
 license: Apache-2.0
 compatibility: Requires network access and network access. No API keys required.
 metadata:

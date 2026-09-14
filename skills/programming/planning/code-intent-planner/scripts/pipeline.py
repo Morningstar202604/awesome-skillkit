@@ -65,9 +65,26 @@ def normalize_input(raw_input: str, last_intent: Optional[Dict[str, Any]] = None
     return text
 
 
+def _session_path(session_id: str) -> str:
+    """会话文件的规范位置。
+
+    必须与 session_manager.SESSION_DIR 保持一致（~/.code_intent_planner/sessions）。
+    早期版本直接写 f"_session_{session_id}.json"，即落在调用者的当前工作目录——
+    用户把技能放进项目里跑一次，项目根就多出一堆 _session_*.json 垃圾文件。
+    可用 SKILLKIT_SESSION_DIR 覆盖（测试用），否则用用户主目录下的固定位置。
+    """
+    base = os.environ.get("SKILLKIT_SESSION_DIR")
+    if base:
+        d = base
+    else:
+        d = os.path.join(os.path.expanduser("~"), ".code_intent_planner", "sessions")
+    os.makedirs(d, exist_ok=True)
+    return os.path.join(d, f"_session_{session_id}.json")
+
+
 def load_session(session_id: str) -> Optional[Dict[str, Any]]:
     """加载 session 状态"""
-    path = f"_session_{session_id}.json"
+    path = _session_path(session_id)
     if os.path.exists(path):
         with open(path, encoding="utf-8") as f:
             return json.load(f)
@@ -76,7 +93,7 @@ def load_session(session_id: str) -> Optional[Dict[str, Any]]:
 
 def save_session(session_id: str, state: Dict[str, Any]):
     """保存 session 状态"""
-    path = f"_session_{session_id}.json"
+    path = _session_path(session_id)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(state, f, ensure_ascii=False, indent=2)
 

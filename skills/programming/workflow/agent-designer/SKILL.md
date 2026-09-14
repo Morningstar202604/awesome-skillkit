@@ -1,6 +1,6 @@
 ---
 name: agent-designer
-description: "Use when the user asks to design a multi-agent system, pick an orchestration pattern (supervisor/swarm/pipeline/sequential/parallel/router/orchestrator/evaluator), scaffold a multi-step agent workflow config, choose between single-agent vs multi-agent approaches, generate tool schemas for agents, or evaluate agent execution logs for cost, latency, and failure bottlenecks. Examples: 'design an agent architecture for research automation', 'scaffold a content-pipeline workflow', 'generate Anthropic tool schemas from these tool descriptions', 'analyze these agent run logs for bottlenecks'."
+description: "Use when the user asks to design a multi-agent system, pick an orchestration pattern (supervisor/swarm/pipeline/sequential/parallel/router/orchestrator/evaluator), scaffold a multi-step agent workflow config, choose between single-agent vs multi-agent approaches, generate tool schemas for agents, or evaluate agent execution logs for cost, latency, and failure bottlenecks. Examples: 'design an agent architecture for research automation', 'scaffold a content-pipeline workflow', 'generate Anthropic tool schemas from these tool descriptions', 'analyze these agent run logs for bottlenecks'. 当用户要求 设计 AI Agent / 多智能体工作流 / 定义工具与角色 时使用。"
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:

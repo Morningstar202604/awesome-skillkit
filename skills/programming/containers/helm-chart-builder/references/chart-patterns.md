@@ -1,5 +1,27 @@
 # Helm Chart Patterns Reference
 
+## 目录
+
+- [Standard Chart Structure](#standard-chart-structure)
+  - [Minimal Production Chart](#minimal-production-chart)
+  - [Full Production Chart](#full-production-chart)
+- [_helpers.tpl — Standard Helpers](#helperstpl-standard-helpers)
+  - [Why These Helpers Matter](#why-these-helpers-matter)
+- [Deployment Patterns](#deployment-patterns)
+  - [Standard Web Service](#standard-web-service)
+  - [Worker (No Service)](#worker-no-service)
+- [Conditional Resource Patterns](#conditional-resource-patterns)
+  - [Optional Ingress](#optional-ingress)
+  - [Optional HPA](#optional-hpa)
+- [PodDisruptionBudget](#poddisruptionbudget)
+- [Test Connection Template](#test-connection-template)
+- [NOTES.txt Pattern](#notestxt-pattern)
+- [Dependency Management](#dependency-management)
+  - [Chart.yaml with Dependencies](#chartyaml-with-dependencies)
+  - [Overriding Subchart Values](#overriding-subchart-values)
+  - [Commands](#commands)
+- [Troubleshooting Checklist](#troubleshooting-checklist)
+
 ## Standard Chart Structure
 
 ### Minimal Production Chart

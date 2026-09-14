@@ -1,6 +1,14 @@
 ---
 name: baijiahao-publisher
-description: 百家号发布客户端（官方开放平台 API）
+description: >
+  百家号（百度）发布客户端，基于官方开放平台 API。支持发布图文文章、发布视频
+  （提交 video_url 与封面图）、保存草稿，三者均可带封面图、标签与类目 ID。
+  凭据取自环境变量 BAIJIAHAO_ACCESS_TOKEN（或 APPID/APPSECRET 自行换取）；
+  所有写操作默认 dry-run 只打印请求计划，加 --execute 才真正联网发送。
+  Use when the user asks to 发百家号 / 发百家号文章 / 百家号发视频 /
+  存百家号草稿 / publish to Baijiahao / post an article on Baijiahao /
+  upload a video to Baijiahao. Do NOT use for 百度贴吧、百度知道与搜索 SEO 投放，
+  不用于视频剪辑转码与素材下载，也不用于草稿定时发布、收益结算与数据看板查询。
 description_zh: 百家号文章发布、视频发布、草稿箱管理，基于官方开放平台接口
 version: 1.0.0
 author: skillkit authors

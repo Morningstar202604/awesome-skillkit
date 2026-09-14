@@ -1,5 +1,34 @@
 # Database Normalization Guide
 
+## 目录
+
+- [Overview](#overview)
+- [Normal Forms](#normal-forms)
+  - [First Normal Form (1NF)](#first-normal-form-1nf)
+  - [Second Normal Form (2NF)](#second-normal-form-2nf)
+  - [Third Normal Form (3NF)](#third-normal-form-3nf)
+  - [Boyce-Codd Normal Form (BCNF)](#boyce-codd-normal-form-bcnf)
+- [Denormalization Strategies](#denormalization-strategies)
+  - [When to Denormalize](#when-to-denormalize)
+  - [Common Denormalization Patterns](#common-denormalization-patterns)
+- [Trade-offs Analysis](#trade-offs-analysis)
+  - [Normalization Benefits](#normalization-benefits)
+  - [Normalization Costs](#normalization-costs)
+  - [Denormalization Benefits](#denormalization-benefits)
+  - [Denormalization Costs](#denormalization-costs)
+- [Best Practices](#best-practices)
+  - [1. Start with Full Normalization](#1-start-with-full-normalization)
+  - [2. Use Triggers for Consistency](#2-use-triggers-for-consistency)
+  - [3. Consider Materialized Views](#3-consider-materialized-views)
+  - [4. Document Denormalization Decisions](#4-document-denormalization-decisions)
+  - [5. Monitor and Validate](#5-monitor-and-validate)
+- [Common Anti-Patterns](#common-anti-patterns)
+  - [1. Premature Denormalization](#1-premature-denormalization)
+  - [2. Over-Normalization](#2-over-normalization)
+  - [3. Inconsistent Approach](#3-inconsistent-approach)
+  - [4. Ignoring Maintenance](#4-ignoring-maintenance)
+- [Conclusion](#conclusion)
+
 ## Overview
 
 Database normalization is the process of organizing data to minimize redundancy and dependency issues. It involves decomposing tables to eliminate data anomalies and improve data integrity.

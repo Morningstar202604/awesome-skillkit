@@ -1,0 +1,16 @@
+{
+  "id": "ai-research-writing",
+  "name": "AI Research & Writing",
+  "name_zh": "AI 研究与写作",
+  "description": "Research a topic and turn it into a structured article: multi-round search, outline, draft, edit, SEO.",
+  "description_zh": "从选题调研到成稿发布的长文生产链路：多轮检索与报告综合、大纲搭建、初稿撰写、风格润色、关键词与平台规则优化，以及学术选题的研究空白识别与投稿匹配。",
+  "skills": [
+    { "name": "deep-research", "source": "self-authored" },
+    { "name": "web-search", "source": "self-authored" },
+    { "name": "paper-topic-selector", "source": "self-authored" },
+    { "name": "article-outliner", "source": "self-authored" },
+    { "name": "article-drafter", "source": "self-authored" },
+    { "name": "content-editor", "source": "self-authored" },
+    { "name": "seo-optimizer", "source": "self-authored" }
+  ]
+}

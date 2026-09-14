@@ -1,6 +1,6 @@
 ---
 name: code-reviewer
-description: "Automated static-analysis engine for code changes and files in TypeScript, JavaScript, Python, Go, Swift, Kotlin, C#, .NET, Java, C, C++, Rust, Ruby, PHP, and Dart/Flutter. Detects complexity, risk, hardcoded secrets, SQL injection, and SOLID violations; generates review reports. Use for deterministic code analysis of files or diffs (the workflow-level GitHub PR review process is pr-review-expert's job)."
+description: "Automated static-analysis engine for code changes and files in TypeScript, JavaScript, Python, Go, Swift, Kotlin, C#, .NET, Java, C, C++, Rust, Ruby, PHP, and Dart/Flutter. Detects complexity, risk, hardcoded secrets, SQL injection, and SOLID violations; generates review reports. Use for deterministic code analysis of files or diffs (the workflow-level GitHub PR review process is pr-review-expert's job). 当用户要求 审查代码 / code review / 帮我看这段代码 时使用。"
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:

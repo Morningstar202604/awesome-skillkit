@@ -1,6 +1,15 @@
 ---
 name: toutiao-publisher
-description: 今日头条/抖音文章发布客户端（官方 API + Web 内部 API）
+description: >
+  今日头条发布客户端，双模式：文章发布走官方开放平台 API
+  （需 TOUTIAO_ACCESS_TOKEN 或 TOUTIAO_APPID/APPSECRET，可带封面图与标签）；
+  微头条发布走 Web 内部 API（需 TOUTIAO_COOKIE 或 --cookie-file，可带图片）。
+  所有写操作默认 dry-run 只打印请求计划，加 --execute 才真正联网发送；
+  Web 端点标注 VERIFY BEFORE USE，需按 SKILL.md 在浏览器 DevTools 核对。
+  Use when the user asks to 发头条 / 发今日头条文章 / 发微头条 /
+  发布到今日头条 / publish to Toutiao / post a Toutiao article /
+  create a microblog on Toutiao. Do NOT use for 抖音与西瓜视频的短视频发布、
+  不用于头条广告投放与收益提现，也不用于评论、私信与粉丝互动等操作。
 description_zh: 今日头条文章发布、微头条发布，支持官方开放平台与 Web 内部接口
 version: 1.0.0
 author: skillkit authors

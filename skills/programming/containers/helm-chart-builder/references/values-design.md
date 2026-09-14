@@ -1,5 +1,32 @@
 # Values.yaml Design Reference
 
+## 目录
+
+- [Design Principles](#design-principles)
+  - [1. Every Value Is Documented](#1-every-value-is-documented)
+  - [2. Sensible Defaults That Work](#2-sensible-defaults-that-work)
+  - [3. Flat Over Nested](#3-flat-over-nested)
+  - [4. Group by Resource](#4-group-by-resource)
+- [Standard Values Structure](#standard-values-structure)
+  - [Recommended Layout Order](#recommended-layout-order)
+- [Anti-Patterns](#anti-patterns)
+  - [1. Secrets in Default Values](#1-secrets-in-default-values)
+  - [2. Cluster-Specific Defaults](#2-cluster-specific-defaults)
+  - [3. Boolean Naming](#3-boolean-naming)
+  - [4. Undocumented Values](#4-undocumented-values)
+  - [5. Empty String vs Null](#5-empty-string-vs-null)
+- [Override Patterns](#override-patterns)
+  - [Hierarchy (lowest to highest priority)](#hierarchy-lowest-to-highest-priority)
+  - [Common Override Scenarios](#common-override-scenarios)
+  - [values-production.yaml Pattern](#values-productionyaml-pattern)
+- [Type Safety with values.schema.json](#type-safety-with-valuesschemajson)
+  - [Basic Schema](#basic-schema)
+  - [Why Use Schema](#why-use-schema)
+- [Testing Values](#testing-values)
+  - [helm lint](#helm-lint)
+  - [helm template](#helm-template)
+  - [Checklist for New Values](#checklist-for-new-values)
+
 ## Design Principles
 
 ### 1. Every Value Is Documented

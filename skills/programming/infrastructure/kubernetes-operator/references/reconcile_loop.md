@@ -1,5 +1,22 @@
 # The reconcile loop
 
+## 目录
+
+- [Skeleton — `Reconcile(ctx, req)`](#skeleton-reconcilectx-req)
+- [The 5-step shape](#the-5-step-shape)
+- [Idempotence patterns](#idempotence-patterns)
+  - [Pattern: CreateOrUpdate](#pattern-createorupdate)
+  - [Pattern: SetControllerReference](#pattern-setcontrollerreference)
+  - [Pattern: Finalizer for external resources](#pattern-finalizer-for-external-resources)
+- [Error handling and requeue](#error-handling-and-requeue)
+- [Status update patterns](#status-update-patterns)
+- [Read once, decide, act](#read-once-decide-act)
+- [Predicates — filter events you don't care about](#predicates-filter-events-you-dont-care-about)
+- [Leader election](#leader-election)
+- [Performance — bounded reconcile time](#performance-bounded-reconcile-time)
+- [Logging conventions](#logging-conventions)
+- [Anti-patterns checklist](#anti-patterns-checklist)
+
 Reconcile is the heart of an operator. Most operator bugs are reconcile-loop bugs. The patterns below are deterministic — copy them.
 
 ## Skeleton — `Reconcile(ctx, req)`

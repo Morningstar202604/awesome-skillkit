@@ -1,5 +1,16 @@
 # Composition with the rest of the portfolio
 
+## 目录
+
+- [The unified concept: error budget](#the-unified-concept-error-budget)
+- [With feature-flags-architect](#with-feature-flags-architect)
+- [With chaos-engineering](#with-chaos-engineering)
+- [With kubernetes-operator](#with-kubernetes-operator)
+- [End-to-end example](#end-to-end-example)
+- [What slo-architect does NOT replace](#what-slo-architect-does-not-replace)
+- [Anti-pattern: SLO without composition](#anti-pattern-slo-without-composition)
+- [Operational checklist](#operational-checklist)
+
 `slo-architect` is the keystone. Three other skills in this library already lean on the SLO + error budget concept. This page shows how to wire them together for a coherent reliability stack.
 
 ## The unified concept: error budget

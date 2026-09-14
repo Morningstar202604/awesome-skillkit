@@ -1,6 +1,6 @@
 ---
 name: incident-commander
-description: "Comprehensive incident response framework from detection through resolution and post-incident review. Battle-tested SRE/DevOps practices: severity classification, timeline reconstruction, structured post-incident analysis. Use when declaring an incident, coordinating multi-team response during an outage, leading a post-mortem, or setting up on-call practices for a new service."
+description: "Comprehensive incident response framework from detection through resolution and post-incident review. Battle-tested SRE/DevOps practices: severity classification, timeline reconstruction, structured post-incident analysis. Use when declaring an incident, coordinating multi-team response during an outage, leading a post-mortem, or setting up on-call practices for a new service. 当用户要求 处理线上故障 / 事故指挥 / 应急响应 时使用。"
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
@@ -477,4 +477,3 @@ python scripts/pir_generator.py --incident assets/sample_incident_pir_data.json 
 - CI/CD pipeline integration
 - Deployment tracking systems
 - Feature flag platforms for quick rollbacks
-

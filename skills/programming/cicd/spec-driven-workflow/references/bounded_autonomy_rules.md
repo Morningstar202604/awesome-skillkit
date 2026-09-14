@@ -1,5 +1,36 @@
 # Bounded Autonomy Rules
 
+## 目录
+
+- [The Core Principle](#the-core-principle)
+- [Decision Matrix](#decision-matrix)
+- [Ambiguity Scoring](#ambiguity-scoring)
+  - [How to Score Ambiguity](#how-to-score-ambiguity)
+  - [Threshold](#threshold)
+  - [Example](#example)
+- [Scope Creep Detection](#scope-creep-detection)
+  - [What Is Scope Creep?](#what-is-scope-creep)
+  - [Detection Patterns](#detection-patterns)
+  - [Response Protocol](#response-protocol)
+- [Breaking Change Identification](#breaking-change-identification)
+  - [What Counts as a Breaking Change?](#what-counts-as-a-breaking-change)
+  - [Breaking Change Protocol](#breaking-change-protocol)
+- [Security Implication Checklist](#security-implication-checklist)
+  - [Always Escalate](#always-escalate)
+  - [Security Escalation Template](#security-escalation-template)
+- [Escalation Templates](#escalation-templates)
+  - [Template 1: Ambiguous Requirement](#template-1-ambiguous-requirement)
+  - [Template 2: Missing Edge Case](#template-2-missing-edge-case)
+  - [Template 3: Potential Breaking Change](#template-3-potential-breaking-change)
+  - [Template 4: Scope Creep Proposal](#template-4-scope-creep-proposal)
+- [Quick Reference Card](#quick-reference-card)
+- [Anti-Patterns in Autonomy](#anti-patterns-in-autonomy)
+  - [1. "I'll Ask Later"](#1-ill-ask-later)
+  - [2. "It's Obviously Needed"](#2-its-obviously-needed)
+  - [3. "The Spec Is Wrong"](#3-the-spec-is-wrong)
+  - [4. "Just This Once"](#4-just-this-once)
+  - [5. "I Already Built It"](#5-i-already-built-it)
+
 Decision framework for when an agent (human or AI) should stop and ask vs. continue working autonomously during spec-driven development.
 
 ---

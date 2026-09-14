@@ -1,5 +1,37 @@
 # Terraform State Management Reference
 
+## 目录
+
+- [Backend Configuration Patterns](#backend-configuration-patterns)
+  - [AWS: S3 + DynamoDB (Recommended)](#aws-s3-dynamodb-recommended)
+  - [GCP: Google Cloud Storage](#gcp-google-cloud-storage)
+  - [Azure: Blob Storage](#azure-blob-storage)
+  - [Terraform Cloud / Enterprise](#terraform-cloud-enterprise)
+- [Environment Isolation Strategies](#environment-isolation-strategies)
+  - [Strategy 1: Separate Directories (Recommended)](#strategy-1-separate-directories-recommended)
+  - [Strategy 2: Terraform Workspaces](#strategy-2-terraform-workspaces)
+  - [Strategy 3: Terragrunt (DRY Configuration)](#strategy-3-terragrunt-dry-configuration)
+- [State Migration Patterns](#state-migration-patterns)
+  - [Local to Remote (S3)](#local-to-remote-s3)
+  - [Between Remote Backends](#between-remote-backends)
+  - [State Import (Existing Resources)](#state-import-existing-resources)
+  - [State Move (Refactoring)](#state-move-refactoring)
+- [State Locking](#state-locking)
+  - [Why Locking Matters](#why-locking-matters)
+  - [Lock Behavior by Backend](#lock-behavior-by-backend)
+  - [Force Unlock (Emergency Only)](#force-unlock-emergency-only)
+- [State Security Best Practices](#state-security-best-practices)
+  - [1. Encrypt at Rest](#1-encrypt-at-rest)
+  - [2. Restrict Access](#2-restrict-access)
+  - [3. Enable Versioning (State History)](#3-enable-versioning-state-history)
+  - [4. Audit Access](#4-audit-access)
+  - [5. Sensitive Values in State](#5-sensitive-values-in-state)
+- [Drift Detection and Reconciliation](#drift-detection-and-reconciliation)
+  - [Detect Drift](#detect-drift)
+  - [Common Drift Sources](#common-drift-sources)
+  - [Reconciliation Options](#reconciliation-options)
+- [Troubleshooting Checklist](#troubleshooting-checklist)
+
 ## Backend Configuration Patterns
 
 ### AWS: S3 + DynamoDB (Recommended)

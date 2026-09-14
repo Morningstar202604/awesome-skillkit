@@ -1,5 +1,16 @@
 # Flag taxonomy — the 4 types
 
+## 目录
+
+- [Decision tree](#decision-tree)
+- [1. Release flag](#1-release-flag)
+- [2. Experiment flag](#2-experiment-flag)
+- [3. Operational flag](#3-operational-flag)
+- [4. Permission flag](#4-permission-flag)
+- [Classification matrix](#classification-matrix)
+- [Ownership rules](#ownership-rules)
+- [Lifespan SLAs](#lifespan-slas)
+
 Misclassifying a flag is the root cause of flag debt. Pick one type at the moment you create the flag.
 
 ## Decision tree

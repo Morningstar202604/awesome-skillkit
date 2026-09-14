@@ -1,5 +1,13 @@
 # Optimization Playbook — Template, Checklist, Pitfalls, Best Practices
 
+## 目录
+
+- [Before/After Measurement Template](#beforeafter-measurement-template)
+- [Optimization Checklist](#optimization-checklist)
+  - [Quick wins (check these first)](#quick-wins-check-these-first)
+- [Common Pitfalls](#common-pitfalls)
+- [Best Practices](#best-practices)
+
 The advisory layer behind the performance-profiler workflow: use this when
 writing up an optimization, scanning for quick wins, or reviewing a
 performance PR.

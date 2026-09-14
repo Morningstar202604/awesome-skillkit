@@ -1,5 +1,47 @@
 # Alert Design Patterns: A Guide to Effective Alerting
 
+## 目录
+
+- [Introduction](#introduction)
+- [Fundamental Principles](#fundamental-principles)
+  - [The Golden Rules of Alerting](#the-golden-rules-of-alerting)
+  - [Alert Classification](#alert-classification)
+- [Alert Design Patterns](#alert-design-patterns)
+  - [Pattern 1: Symptoms, Not Causes](#pattern-1-symptoms-not-causes)
+  - [Pattern 2: Multi-Window Alerting](#pattern-2-multi-window-alerting)
+  - [Pattern 3: Burn Rate Alerting](#pattern-3-burn-rate-alerting)
+  - [Pattern 4: Hysteresis](#pattern-4-hysteresis)
+  - [Pattern 5: Composite Alerts](#pattern-5-composite-alerts)
+  - [Pattern 6: Contextual Alerting](#pattern-6-contextual-alerting)
+- [Alert Routing and Escalation](#alert-routing-and-escalation)
+  - [Routing by Impact and Urgency](#routing-by-impact-and-urgency)
+  - [Escalation Patterns](#escalation-patterns)
+- [Alert Fatigue Prevention](#alert-fatigue-prevention)
+  - [Grouping and Suppression](#grouping-and-suppression)
+  - [Alert Throttling](#alert-throttling)
+  - [Smart Defaults](#smart-defaults)
+- [Runbook Integration](#runbook-integration)
+  - [Runbook Structure Template](#runbook-structure-template)
+  - [Runbook Integration in Alerts](#runbook-integration-in-alerts)
+- [Testing and Validation](#testing-and-validation)
+  - [Alert Testing Strategies](#alert-testing-strategies)
+  - [Alert Quality Metrics](#alert-quality-metrics)
+- [Advanced Patterns](#advanced-patterns)
+  - [Machine Learning-Enhanced Alerting](#machine-learning-enhanced-alerting)
+  - [Business Hours Awareness](#business-hours-awareness)
+  - [Progressive Alerting](#progressive-alerting)
+- [Anti-Patterns to Avoid](#anti-patterns-to-avoid)
+  - [Anti-Pattern 1: Alerting on Everything](#anti-pattern-1-alerting-on-everything)
+  - [Anti-Pattern 2: Vague Alert Messages](#anti-pattern-2-vague-alert-messages)
+  - [Anti-Pattern 3: Alerts Without Runbooks](#anti-pattern-3-alerts-without-runbooks)
+  - [Anti-Pattern 4: Static Thresholds](#anti-pattern-4-static-thresholds)
+  - [Anti-Pattern 5: Ignoring Alert Quality](#anti-pattern-5-ignoring-alert-quality)
+- [Implementation Checklist](#implementation-checklist)
+  - [Pre-Implementation](#pre-implementation)
+  - [Alert Development](#alert-development)
+  - [Post-Implementation](#post-implementation)
+  - [Quality Assurance](#quality-assurance)
+
 ## Introduction
 
 Well-designed alerts are the difference between a reliable system and 3 AM pages about non-issues. This guide provides patterns and anti-patterns for creating alerts that provide value without causing fatigue.

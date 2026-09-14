@@ -1,6 +1,16 @@
 ---
 name: jianshu-publisher
-description: 简书发布/管理自动化（Web 内部 API）
+description: >
+  简书文章发布与管理客户端，基于 www.jianshu.com Web 端内部接口（简书无公开开放 API）。
+  支持保存草稿（返回 note_id）、发布指定草稿、编辑已发布文章、删除文章。
+  Cookie 从环境变量 JIANSHU_COOKIE 或 --cookie-file 读取，绝不入库；
+  所有写操作默认 dry-run 只打印请求计划，加 --execute 才真正联网发送；
+  端点标注 VERIFY BEFORE USE，需按 SKILL.md 在浏览器 DevTools 核对。
+  Use when the user asks to 发简书 / 发一篇简书文章 / 发布到简书 / 更新简书文章 /
+  删除简书文章 / 存简书草稿 / publish to Jianshu / post an article on Jianshu /
+  edit my Jianshu note. Do NOT use for 列出文章列表、专题投稿与分类查询
+  （脚本未提供子命令），不用于公众号、知乎、掘金、CSDN 等其他平台发布，
+  也不用于正文写作、排版与配图生成。
 description_zh: 简书文章发布、编辑、删除、草稿箱管理，基于 Web 端内部接口
 version: 1.0.0
 author: skillkit authors

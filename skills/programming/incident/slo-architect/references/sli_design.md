@@ -1,5 +1,27 @@
 # SLI design
 
+## 目录
+
+- [The user-experience test](#the-user-experience-test)
+- [The 5 SLI types](#the-5-sli-types)
+  - [1. Request-success-rate (most common)](#1-request-success-rate-most-common)
+  - [2. Request-latency](#2-request-latency)
+  - [3. Availability-time](#3-availability-time)
+  - [4. Data-freshness](#4-data-freshness)
+  - [5. Correctness](#5-correctness)
+- [SLI vs SLO target — concrete examples](#sli-vs-slo-target-concrete-examples)
+  - [Example 1: Checkout API](#example-1-checkout-api)
+  - [Example 2: Search latency](#example-2-search-latency)
+  - [Example 3: Internal API uptime](#example-3-internal-api-uptime)
+- [Common SLI mistakes](#common-sli-mistakes)
+  - ["We just count errors"](#we-just-count-errors)
+  - [Conflating SLIs across user journeys](#conflating-slis-across-user-journeys)
+  - [Counting bot traffic](#counting-bot-traffic)
+  - [Counting internal traffic](#counting-internal-traffic)
+  - [Using ratios that go backward](#using-ratios-that-go-backward)
+- [Defining the numerator/denominator precisely](#defining-the-numeratordenominator-precisely)
+- [Review the SLI as the system evolves](#review-the-sli-as-the-system-evolves)
+
 The SLI is the foundation. Get it wrong and the SLO is meaningless — green dashboard, angry users.
 
 ## The user-experience test

@@ -6,12 +6,69 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Security
-- 依赖升级：djangorestframework、black 等例行补丁。
+
+### Added
+
+- **新增 4 个场景包，23 个技能从孤儿状态归位**（此前这些技能已在盘上但未纳入任何包，
+  用户下载任何 zip 都拿不到）：
+  - `ai-video-pipeline`（6 技能）：脚本 → 配音 → 口型 → 剪辑 → 字幕 → 封面，短视频全链路；
+  - `ai-research-writing`（7 技能）：多轮检索 → 选题 → 大纲 → 初稿 → 润色 → SEO，
+    含 `paper-topic-selector`（学术选题空白识别）；
+  - `code-planning`（3 技能）：意图识别 → 结构化计划 → 两档代码生成 → 故障诊断；
+  - `data-ml-science`（7 技能）：ETL → 特征 → 建模 → 求解 → 仿真 → 可视化 → ML 流水线。
+- **补全 36 篇缺失的 references 文档**（约 5,000 行），修复 35 处 broken reference——
+  这些引用此前指向不存在的文件，技能激活后必然执行失败。覆盖 video（8 篇）、
+  writing/paper（9 篇）、programming 数据/调试/数学/ML（11 篇）、
+  code-generator 模板（4 个 Jinja2 + 1 篇说明）。
+- `code-generator` 补齐 Jinja2 模板并实渲染验证（Python 产物过 `py_compile`，
+  TS 过 `tsc --strict`），模板渲染已固化为单测。
+- `sql-database-assistant` 补齐 `schema_explorer.py`（支持 SQLite 实内省、
+  JSON/CSV 输入、Markdown/JSON 输出），`skill-tester` 补齐 `audit_skills.py`
+  （批量审计：校验 + 打分 + 安全三合一，支持 `--fail-under` 供 CI 使用）。
+
+### Fixed
+
+- **门禁假绿（重要）**：`tools/validate_skills.py` 的 `check_pack_consistency`
+  把 orphan 警告写进了一个调用方丢弃的临时列表，导致 23 条警告既不打印也不计入
+  `warn_total`——门禁显示 `warnings: 0` 实际是假象。现改为按技能名归桶统计。
+- **manifest 漏包（重要）**：`build.py` 的 `sync_manifest` 只更新 manifest 中
+  已存在的包，新增包（dist 里有 zip 但 manifest 无条目）被静默跳过。
+  现改为以 `packs/*/pack.json` 为准做 upsert，并同步 `updated` 日期。
+- **硬编码 mock 死代码**：`video-editor` / `video-lip-sync` / `video-thumbnail` /
+  `video-voice-synth` 四个脚本存在 `MOCK_MODE = True` 常量，真实执行分支永远不可达。
+  现改为 `--mock` 参数 + `SKILLKIT_MOCK` 环境变量，**默认真实模式**；缺依赖时
+  输出安装指引并以非 0 退出，不再静默返回假结果。
+- `code-generator` 生成的 `service.py` 缺 `from datetime import datetime`，
+  任一 create/update 调用都会 `NameError` 崩溃——已修，并纳入单测。
+- 11 个技能目录名与 frontmatter `name` 不一致（如 `video/editor` 声明
+  `video-editor`），按规范 §1.1 统一为 `name` 全称，并修正 `paper_pipeline.py`
+  中的路径引用。
+- **12 个发布技能的 description 过短**（40–100 字符），模型无从判断是否加载，
+  等于技能不存在。按规范 §1.2 四段式重写为 400–570 字符，补齐中英文触发短语
+  与排除项，覆盖 CSDN / 简书 / 博客园静态部署 / 豆瓣 / 开源中国 / SegmentFault /
+  V2EX / 百家号 / 头条 / 微博 / 小红书 / B站。
+- 68 篇超过 100 行的 references 缺目录（违反门禁 G5），补齐带锚点链接的 TOC。
+- **54 个技能 description 缺中文触发词**（规范 §3.4 要求触发短语双语，中文用户是主力）。
+  按各技能真实能力逐个定制中文触发短语，现全仓 82 个技能 description 均含
+  中英文触发短语 + 排除项。
+- 三处 `./scripts/convert.sh` 被当作本地脚本引用，实为上游 claude-skills 仓库的
+  转换工具（不随技能分发）——改为显式外部引用并标注来源仓库路径。
+- **`code-intent-planner` 污染用户工作目录**：`pipeline.py` 把会话缓存写成
+  当前目录下的 `_session_*.json`（与 `session_manager.py` 的
+  `~/.code_intent_planner/sessions` 两套实现不一致），用户每次调用都在项目根
+  留下一堆垃圾文件。现统一到规范路径，并支持 `SKILLKIT_SESSION_DIR` 覆盖；
+  `_session_*.json` 同时加入 `.gitignore`。
+
+### Removed
+
+- 清理仓库根目录 12 个历史遗留的 `_session_*.json` 会话缓存（由上述
+  写入缺陷产生，此前被误提交进版本历史）。
+
 ### Changed
-- 仓库身份与版权统一（移除 Zilin 旧身份引用）；README 字面转义与陈旧版本引用修正；
-  移除镜像同步脚本与一次性评审文档；补充 CONTRIBUTING/SECURITY 文档；
-  移除 dependabot 自动合并配置；构建脚本支持 Windows（Git Bash + 原生 Python）。
+
+- 三语 README 同步至 21 包 / 83 技能（徽章、总览表、4 个新包的详情段）。
+- 门禁基线：**82 技能 / 21 包 / 0 错误 / 0 警告**（此前为 46 错误 / 83 警告）。
+- 构建产物 21 个包 + `_all` 合集，21 个 sha256 全覆盖，连续两次构建哈希一致。
 
 ## [0.12.3] - 2026-08-26
 

@@ -2,7 +2,7 @@
 
 # awesome-skillkit
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-59-brightgreen) ![Packs](https://img.shields.io/badge/scenes-17-blue)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-83-brightgreen) ![Packs](https://img.shields.io/badge/scenes-21-blue)
 
 **English** | [中文](README.zh-CN.md) | [日本語](README.ja.md)
 
@@ -20,25 +20,29 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 
 | Pack | Scenario | Skills | Size |
 |------|----------|--------|------|
-| ai-agent-development | AI Agent Development | 5 | 145 KB |
-| api-development | API Development & Testing | 2 | 49 KB |
-| architecture | System Architecture | 3 | 108 KB |
-| ci-cd | CI/CD Pipeline | 3 | 60 KB |
-| code-review | Code Review | 5 | 242 KB |
-| containers | Containers & Orchestration | 3 | 66 KB |
-| content-publishing | Content Publishing Automation | 18 | 127 KB |
-| database | Database Design & Management | 2 | 99 KB |
-| github-workflow | GitHub Collaboration | 3 | 43 KB |
-| incident-response | Incident Response & SRE | 3 | 122 KB |
-| infrastructure | Infrastructure as Code | 3 | 96 KB |
-| performance | Performance Profiling | 1 | 12 KB |
-| security | Security & Secrets | 2 | 49 KB |
-| tdd | Test-Driven Development | 1 | 55 KB |
+| ai-agent-development | AI Agent Development | 5 | 151 KB |
 | ai-media-toolkit | AI Media Generation | 4 | 19 KB |
+| ai-research-writing | AI Research & Writing | 7 | 92 KB |
+| ai-video-pipeline | AI Video Pipeline | 6 | 61 KB |
+| api-development | API Development & Testing | 2 | 50 KB |
+| architecture | System Architecture | 3 | 109 KB |
+| ci-cd | CI/CD Pipeline | 3 | 64 KB |
+| code-planning | Code Planning & Generation | 3 | 74 KB |
+| code-review | Code Review | 5 | 246 KB |
+| containers | Containers & Orchestration | 3 | 67 KB |
+| content-publishing | Content Publishing Automation | 18 | 132 KB |
+| data-ml-science | Data, ML & Scientific Computing | 7 | 63 KB |
+| database | Database Design & Management | 2 | 102 KB |
+| github-workflow | GitHub Collaboration | 3 | 39 KB |
+| incident-response | Incident Response & SRE | 3 | 123 KB |
+| infrastructure | Infrastructure as Code | 3 | 95 KB |
 | office-productivity | Office Productivity | 4 | 11 KB |
-| viral-entertainment | Viral Entertainment (meme shorts) | 2 | 11 KB |
+| performance | Performance Profiling | 1 | 11 KB |
+| security | Security & Secrets | 2 | 46 KB |
+| tdd | Test-Driven Development | 1 | 50 KB |
+| viral-entertainment | Viral Entertainment (meme shorts) | 2 | 9 KB |
 
-**17 packs · 59 skills.** Project docs: [Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning & Release policy](docs/VERSIONING.md) 
+**21 packs · 83 skills.** Project docs: [Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning & Release policy](docs/VERSIONING.md) 
 
 ## Pack Details
 
@@ -224,6 +228,57 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 |-------|--------|
 | ai-baby-podcast | self-authored |
 | nailong-laugh-shorts | self-authored |
+
+### AI Video Pipeline (`ai-video-pipeline`) — 61 KB
+
+**The whole short-video line in one pack: script → voice → lip-sync → assembly → subtitles → thumbnail. Six skills that hand off to each other, ending in a publish-ready vertical video.**
+
+| Skill | Source |
+|-------|--------|
+| video-script-writer | self-authored |
+| video-voice-synth | self-authored |
+| video-lip-sync | self-authored |
+| video-editor | self-authored |
+| video-subtitles | self-authored |
+| video-thumbnail | self-authored |
+
+### AI Research & Writing (`ai-research-writing`) — 92 KB
+
+**From question to finished long-form piece: multi-round research and report synthesis, academic topic selection, outline, draft, style editing, and keyword/platform-rule optimization.**
+
+| Skill | Source |
+|-------|--------|
+| deep-research | self-authored |
+| web-search | self-authored |
+| paper-topic-selector | self-authored |
+| article-outliner | self-authored |
+| article-drafter | self-authored |
+| content-editor | self-authored |
+| seo-optimizer | self-authored |
+
+### Code Planning & Generation (`code-planning`) — 74 KB
+
+**Turn a vague request into working code: three-layer waterfall intent recognition, structured implementation plans, two-tier generation (Jinja2 template engine + LLM), and systematic failure diagnosis with runnable Jinja2 templates bundled.**
+
+| Skill | Source |
+|-------|--------|
+| code-intent-planner | self-authored |
+| code-generator | self-authored |
+| debug-diagnoser | self-authored |
+
+### Data, ML & Scientific Computing (`data-ml-science`) — 63 KB
+
+**Data and modeling end to end: ETL cleaning and transforms, feature engineering with leakage warnings, mathematical formulation and solver selection, Monte Carlo simulation, result visualization, ML training pipelines with hyperparameter tuning, and metric interpretation.**
+
+| Skill | Source |
+|-------|--------|
+| etl-builder | self-authored |
+| feature-engineer | self-authored |
+| model-formulator | self-authored |
+| model-solver | self-authored |
+| simulation-runner | self-authored |
+| result-visualizer | self-authored |
+| ml-pipeline | self-authored |
 
 ## Directory Layout
 

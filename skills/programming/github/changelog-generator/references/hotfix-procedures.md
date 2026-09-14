@@ -1,5 +1,31 @@
 # Hotfix Procedures
 
+## 目录
+
+- [Overview](#overview)
+- [Severity Classification](#severity-classification)
+  - [P0 - Critical (Production Down)](#p0-critical-production-down)
+  - [P1 - High (Major Feature Broken)](#p1-high-major-feature-broken)
+  - [P2 - Medium (Minor Feature Issues)](#p2-medium-minor-feature-issues)
+- [Hotfix Workflows by Development Model](#hotfix-workflows-by-development-model)
+  - [Git Flow Hotfix Process](#git-flow-hotfix-process)
+  - [GitHub Flow Hotfix Process](#github-flow-hotfix-process)
+  - [Trunk-based Hotfix Process](#trunk-based-hotfix-process)
+- [Emergency Response Procedures](#emergency-response-procedures)
+  - [Incident Declaration Process](#incident-declaration-process)
+  - [Communication Templates](#communication-templates)
+  - [Rollback Procedures](#rollback-procedures)
+- [Testing Strategies for Hotfixes](#testing-strategies-for-hotfixes)
+  - [Pre-deployment Testing](#pre-deployment-testing)
+  - [Post-deployment Monitoring](#post-deployment-monitoring)
+- [Documentation and Learning](#documentation-and-learning)
+  - [Incident Documentation Template](#incident-documentation-template)
+  - [Post-Incident Review Process](#post-incident-review-process)
+  - [Knowledge Sharing](#knowledge-sharing)
+- [Common Pitfalls and Best Practices](#common-pitfalls-and-best-practices)
+  - [Common Pitfalls](#common-pitfalls)
+  - [Best Practices](#best-practices)
+
 ## Overview
 
 Hotfixes are emergency releases designed to address critical production issues that cannot wait for the regular release cycle. This document outlines classification, procedures, and best practices for managing hotfixes across different development workflows.

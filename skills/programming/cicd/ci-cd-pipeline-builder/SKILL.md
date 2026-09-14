@@ -1,6 +1,6 @@
 ---
 name: ci-cd-pipeline-builder
-description: "Generate pragmatic CI/CD pipelines from detected project stack signals — fast baseline generation, repeatable checks, environment-aware deployment stages. Use when setting up CI for a new project, refactoring existing pipelines, or standardizing deployment workflows across multiple repos."
+description: "Generate pragmatic CI/CD pipelines from detected project stack signals — fast baseline generation, repeatable checks, environment-aware deployment stages. Use when setting up CI for a new project, refactoring existing pipelines, or standardizing deployment workflows across multiple repos. 当用户要求 搭 CI/CD 流水线 / 配置自动构建部署 时使用。"
 license: Apache-2.0
 compatibility: Requires docker and docker. No API keys required.
 metadata:

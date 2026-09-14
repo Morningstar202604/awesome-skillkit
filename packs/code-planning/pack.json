@@ -1,0 +1,12 @@
+{
+  "id": "code-planning",
+  "name": "Code Planning & Generation",
+  "name_zh": "代码规划与生成",
+  "description": "Turn vague requests into structured plans, then into working code; diagnose and fix failures.",
+  "description_zh": "把模糊需求变成可执行代码：三层瀑布式意图识别、结构化实施计划、两档代码生成（模板引擎 + LLM）、运行时故障诊断与调试清单。",
+  "skills": [
+    { "name": "code-intent-planner", "source": "self-authored" },
+    { "name": "code-generator", "source": "self-authored" },
+    { "name": "debug-diagnoser", "source": "self-authored" }
+  ]
+}
