@@ -274,11 +274,10 @@ dist/                           # 构建产物：每个场景包一个 zip（已
 
 ```bash
 # 生成 dist/*.zip（每个场景包一个 zip）
-bash build.sh        # macOS / Linux / Git Bash
-python3 build.py     # 跨平台（无需 bash/zip）；同时生成 dist/_all.zip 全量合集
+python3 build.py     # 唯一构建入口；跨平台；同时生成 dist/_all.zip 全量合集
 
 # 发布流程（正式发版走 tools/release.py，见 docs/VERSIONING.md）
-python3 tools/release.py 0.13.0 --commit   # 校验 CHANGELOG→bump→commit→打 tag
+python3 tools/release.py 0.13.1 --commit   # 校验 CHANGELOG→bump→commit→打 tag
 git push origin main --follow-tags
 # 在 Gitee / GitCode 的 Releases 页面创建 release 并上传 dist/*.zip
 # 正式发版应使用 release.py 而非手动打 tag（版本号唯一权威来源是 manifest.json）

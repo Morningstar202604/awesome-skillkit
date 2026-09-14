@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # SkillKit one-click installer: unzip all dist/*.zip into the target skills dir
 # Usage: bash install.sh [target-dir]   (default: ~/.claude/skills)
-# Note: if dist/ is empty, run bash build.sh first
+# Note: if dist/ is empty, run `python3 build.py` first
 set -euo pipefail
 
 HUB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

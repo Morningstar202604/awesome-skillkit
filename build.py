@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Cross-platform build for scene packs (mirror of build.sh).
+"""Cross-platform build for scene packs (the single build entry).
 
 Packages packs/*/pack.json into dist/<pack>.zip; each zip contains the skill
 folders flat at top level so users unzip and drag them into their skills dir.

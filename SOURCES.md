@@ -32,7 +32,7 @@ git clone https://github.com/alirezarezvani/claude-skills.git D:\_upstream\claud
 # 3. 校验 manifest.json 中该 skill 的条目仍一致（名称、分类）
 
 # 4. 重新打包发布
-python build.py          # 或 bash build.sh
+python3 build.py         # 唯一构建入口
 ```
 
 ## 自建场景技能 / Self-authored scenarios（50 个）

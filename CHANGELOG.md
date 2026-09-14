@@ -393,3 +393,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `install.sh` / `install.ps1` — one-click install of all packs.
 - Bilingual docs: English primary (`README.md`) + Chinese (`README.zh-CN.md`).
 - License: Apache License 2.0.
+
+<!-- version compare links (Keep a Changelog). 0.4.0-0.6.1 have no tags;
+     see the version-scheme note at the top of this file. -->
+[0.1.0]: https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.1.0
+[0.2.0]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.1.0...v0.2.0
+[0.3.0]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.2.0...v0.3.0
+[0.6.2]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.3.0...v0.6.2
+[0.6.3]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.6.2...v0.6.3
+[0.7.0]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.6.3...v0.7.0
+[0.8.0]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.7.0...v0.8.0
+[0.9.0]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.8.0...v0.9.0
+[0.10.0]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.9.0...v0.10.0
+[0.11.0]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.10.0...v0.11.0
+[0.12.0]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.11.0...v0.12.0
+[0.12.1]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.12.0...v0.12.1
+[0.12.2]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.12.1...v0.12.2
+[0.12.3]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.12.2...v0.12.3
+[0.13.0]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.12.3...v0.13.0

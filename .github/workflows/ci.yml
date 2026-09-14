@@ -80,39 +80,10 @@ jobs:
           assert not bad, "语法错误:\n" + "\n".join(bad)
           print(f"全部 Python 文件语法 OK")
           PY
-      - name: Run bundled unit tests (self-contained test_*.py)
+      - name: Run pytest suite (single source of truth, matches CONTRIBUTING.md)
         run: |
-          python3 - <<'PY'
-          import subprocess, sys
-          from pathlib import Path
-          # 只跑「直接执行即可自验证」的测试脚本（unittest 与自带 main 的脚本）。
-          # 需要外部参数的脚本（如 test_extractor.py）由其所属技能自行维护。
-          # 注意：spec-driven-workflow/scripts/test_extractor.py 是"提取测试
-          # 用例"的工具脚本（名字撞了 test_ 前缀，SKILL.md 引用 5 处），
-          # 不是单元测试，无参数运行会以退出码 2 报 argparse 错误——排除。
-          TOOL_SCRIPTS = {'skills/programming/cicd/spec-driven-workflow/scripts/test_extractor.py'}
-          failures = []
-          ran = 0
-          for f in sorted(Path('skills').rglob('test_*.py')):
-              if '_common' in f.parts or 'assets' in f.parts:
-                  continue
-              if f.as_posix() in TOOL_SCRIPTS:
-                  continue
-              proc = subprocess.run(
-                  [sys.executable, str(f)],
-                  capture_output=True, text=True, timeout=120,
-              )
-              ran += 1
-              tail = (proc.stdout + proc.stderr).strip().splitlines()
-              tail = tail[-1] if tail else ''
-              if proc.returncode != 0:
-                  failures.append(f"{f} (exit {proc.returncode}): {tail}")
-              elif any(k in tail.lower() for k in ('failed', 'error')):
-                  # unittest 的 OK 输出也可能包含 "FAILED (skipped=x)" 字样
-                  if 'skipped' not in tail.lower():
-                      failures.append(f"{f}: {tail}")
-          print(f"ran {ran} test files, {len(failures)} failures")
-          for x in failures:
-              print("  FAIL", x)
-          assert not failures
-          PY
+          python3 -m pip install --quiet pytest
+          python3 -m pytest skills -q
+        # 为什么不用"直接执行 test_*.py"：pytest 风格的测试文件（如
+        # test_smoke_*.py 的 assert 函数）直接运行不会执行任何断言——
+        # 退出码恒 0，等于空跑假绿。统一走 pytest 才能保证语义一致。

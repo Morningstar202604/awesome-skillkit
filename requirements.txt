@@ -1,0 +1,29 @@
+# awesome-skillkit — Python dependencies used by bundled skill scripts.
+#
+# Most scripts degrade gracefully (clear install hints, non-zero exit) when a
+# dependency is missing, so installing everything here is optional but
+# recommended for a friction-free experience. Playwright additionally needs
+# `playwright install chromium` after pip install.
+
+# --- plotting (result-visualizer, paper figure-maker/pub-plotter, math pipeline) ---
+matplotlib
+
+# --- data / ML (etl-builder, feature-engineer, ml-pipeline, model-solver) ---
+numpy
+pandas
+scipy
+scikit-learn
+
+# --- documents (ppt-builder, content pipelines) ---
+python-pptx
+jinja2
+
+# --- web / parsing (web-search, zhihu HTML lint, publishing helpers) ---
+requests
+beautifulsoup4
+
+# --- imaging (ai-cover-generator, video-thumbnail) ---
+pillow
+
+# --- browser automation (zhihu-content-manager, cnblogs-skill) ---
+playwright

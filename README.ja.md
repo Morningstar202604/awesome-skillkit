@@ -274,11 +274,10 @@ dist/                           # ビルド成果物：シーンパックごと�
 
 ```bash
 # dist/*.zip の生成（シーンパックごとに 1 zip）
-bash build.sh        # macOS / Linux / Git Bash
-python3 build.py     # クロスプラットフォーム（bash/zip 不要）；全スキル入りの dist/_all.zip も生成
+python3 build.py     # 唯一のビルド入口；クロスプラットフォーム；全スキル入りの dist/_all.zip も生成
 
 # リリースフロー（正式リリースは tools/release.py を使用、docs/VERSIONING.md 参照）
-python3 tools/release.py 0.13.0 --commit   # CHANGELOG 検証 → bump → commit → tag
+python3 tools/release.py 0.13.1 --commit   # CHANGELOG 検証 → bump → commit → tag
 git push origin main --follow-tags
 # 各プラットフォームの Releases ページで release を作成し dist/*.zip をアップロード
 ```

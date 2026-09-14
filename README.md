@@ -325,11 +325,10 @@ Source lives in `skills/`; scene packs are defined in `packs/*/pack.json`; zips 
 
 ```bash
 # Generate dist/*.zip (one zip per scene pack)
-bash build.sh        # macOS / Linux / Git Bash
-python3 build.py     # cross-platform (no bash/zip needed); also emits dist/_all.zip with every skill
+python3 build.py     # single build entry; cross-platform; also emits dist/_all.zip with every skill
 
 # Release flow (formal releases use tools/release.py, see docs/VERSIONING.md)
-python3 tools/release.py 0.13.0 --commit   # validate CHANGELOG → bump → commit → tag
+python3 tools/release.py 0.13.1 --commit   # validate CHANGELOG → bump → commit → tag
 git push origin main --follow-tags
 # Create the release on Gitee / GitCode and upload dist/*.zip
 # (manifest.json's version field is the single source of truth — avoid manual tags)
