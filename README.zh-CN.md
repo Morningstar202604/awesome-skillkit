@@ -41,7 +41,7 @@
 | viral-entertainment | 爆款娱乐（魔性短视频） | 2 | 9 KB |
 
 
-**21 个场景包 · 83 个技能。** 项目文档：[方向 v2](docs/DIRECTION-V2.md) · [技能编写规范](docs/SKILL-STANDARD-v2.md) · [版本与发布制度](docs/VERSIONING.md) · [专家评审报告](docs/EXPERT-REVIEW-AND-ROADMAP.md)
+**21 个场景包 · 83 个技能。** 项目文档：[方向 v2](docs/DIRECTION-V2.md) · [技能编写规范](docs/SKILL-STANDARD-v2.md) · [版本与发布制度](docs/VERSIONING.md)
 
 ## 场景包详情
 
@@ -277,11 +277,11 @@ dist/                           # 构建产物：每个场景包一个 zip（已
 bash build.sh        # macOS / Linux / Git Bash
 python3 build.py     # 跨平台（无需 bash/zip）；同时生成 dist/_all.zip 全量合集
 
-# 发布流程
-git tag v0.12.3
+# 发布流程（正式发版走 tools/release.py，见 docs/VERSIONING.md）
+python3 tools/release.py 0.13.0 --commit   # 校验 CHANGELOG→bump→commit→打 tag
 git push origin main --follow-tags
-powershell -File sync-mirrors.ps1   # gitcode + gitee + github
 # 在 Gitee / GitCode 的 Releases 页面创建 release 并上传 dist/*.zip
+# 正式发版应使用 release.py 而非手动打 tag（版本号唯一权威来源是 manifest.json）
 ```
 
 ## 来源与更新

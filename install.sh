@@ -17,6 +17,11 @@ count=0
 for zip in "$HUB_DIR"/dist/*.zip; do
   [ -e "$zip" ] || continue
   name="$(basename "$zip" .zip)"
+  # _all.zip 是全部技能的合集包，与单包内容完全重复，跳过避免重复解压
+  if [ "$name" = "_all" ]; then
+    echo "skipping $name (bundle, already covered by per-pack zips)"
+    continue
+  fi
   echo "installing $name -> $TARGET/$name"
   unzip -oq "$zip" -d "$TARGET"
   count=$((count + 1))

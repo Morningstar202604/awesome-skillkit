@@ -20,13 +20,16 @@
 ## 2. 发布流程（每次发版逐步执行）
 
 ```bash
-python tools/validate_skills.py     # 门禁：0 ERROR 才能继续
+python tools/validate_skills.py     # 门禁：0 ERROR / 0 WARNING 才能继续
 python -m pytest skills -q          # 全部单测通过
-python build.py                     # 重建 dist，回填 size_kb/sha256 到 manifest
+python build.py                     # 重建 dist，回填 size_kb/sha256 到 manifest（自动 upsert 新包）
 python tools/release.py X.Y.Z --commit   # 校验 CHANGELOG 小节存在→bump→commit→打 tag
-git push origin main --follow-tags && powershell -File sync-mirrors.ps1   # 双镜像同步
+git push origin main --follow-tags       # 推送主分支与 tag
 ```
 
+- 镜像同步：各镜像平台以命名 remote 配置（如 `git remote add gitee ...`），
+  逐个 `git push <remote> main --follow-tags`。历史上的 sync-mirrors.ps1
+  已删除，不再使用脚本同步。
 - CHANGELOG 遵循 Keep a Changelog：开发中的改动先记在 `## [Unreleased]`，发版时改为正式小节。
 - tag 一律 annotated；禁止移动已有 tag。
 

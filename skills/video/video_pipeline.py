@@ -16,12 +16,12 @@ from datetime import datetime
 
 BASE = Path(__file__).resolve().parent
 SCRIPTS = {
-    "script": BASE / "script-writer" / "scripts" / "script_writer.py",
-    "tts": BASE / "voice-synth" / "scripts" / "voice_synth.py",
-    "lipsync": BASE / "lip-sync" / "scripts" / "lip_sync.py",
-    "editor": BASE / "editor" / "scripts" / "editor.py",
-    "subtitles": BASE / "subtitles" / "scripts" / "subtitles.py",
-    "thumbnail": BASE / "thumbnail" / "scripts" / "thumbnail.py",
+    "script": BASE / "video-script-writer" / "scripts" / "script_writer.py",
+    "tts": BASE / "video-voice-synth" / "scripts" / "voice_synth.py",
+    "lipsync": BASE / "video-lip-sync" / "scripts" / "lip_sync.py",
+    "editor": BASE / "video-editor" / "scripts" / "editor.py",
+    "subtitles": BASE / "video-subtitles" / "scripts" / "subtitles.py",
+    "thumbnail": BASE / "video-thumbnail" / "scripts" / "thumbnail.py",
 }
 
 

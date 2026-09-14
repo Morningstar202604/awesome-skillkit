@@ -58,15 +58,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `~/.code_intent_planner/sessions` 两套实现不一致），用户每次调用都在项目根
   留下一堆垃圾文件。现统一到规范路径，并支持 `SKILLKIT_SESSION_DIR` 覆盖；
   `_session_*.json` 同时加入 `.gitignore`。
+- **`skill_chains.json` 引用幽灵技能**：ppt 域引用 6 个从未创建的技能
+  （ppt-outline-architect 等），video 域引用 6 个改名前的旧目录名
+  （script-writer → video-script-writer 等）。按实际存在的技能清理，
+  可选依赖的 `?` 后缀语义保留。
+- **编排器路径失配**：`video_pipeline.py`、`math_pipeline.py` 共 8 处引用
+  改名前的旧目录名（`editor` → `video-editor` 等），任一编排调用都会
+  `FileNotFoundError`——已全部修正。
 
 ### Removed
 
 - 清理仓库根目录 12 个历史遗留的 `_session_*.json` 会话缓存（由上述
   写入缺陷产生，此前被误提交进版本历史）。
+- 删除 `code-intent-planner/scripts/l2_flash.py`：硬编码 `MOCK_MODE = True`
+  且括号未闭合（语法错误）、全仓无任何引用的孤儿死模块。
 
 ### Changed
 
-- 三语 README 同步至 21 包 / 83 技能（徽章、总览表、4 个新包的详情段）。
+- **CI 重写为三 job 流水线（重要）**：原 CI 只有 manifest JSON 校验 + build + zip
+  产出三步，从未运行门禁——46 个 broken reference 因此直接进了 main。现拆为：
+  `gate`（validate_skills.py 强制 0 错误 0 警告）、`build`（构建 + manifest
+  覆盖断言 + 可复现性双构建哈希比对）、`tests`（全仓 py_compile + 26 个
+  自验证测试脚本）。
+- `install.sh` 跳过 `_all.zip` 的重复解压（此前解压合集包会把 83 个技能
+  再覆盖安装一遍）。
+- 三语 README 深度对齐：英文版 Pack Details 18 处大小数字与 manifest 一致、
+  发布流程示例统一为 `tools/release.py`、移除指向已删除文档的链接。
+- 文档状态同步：`SOURCES.md` 重写为 83 技能 / 21 包双轨现状（上游 33 + 自建 50），
+  `docs/VERSIONING.md` 发布流程移除已删除的 sync-mirrors.ps1 引用，
+  `docs/DIRECTION-V2.md` 品类地图对齐实际交付。
 - 门禁基线：**82 技能 / 21 包 / 0 错误 / 0 警告**（此前为 46 错误 / 83 警告）。
 - 构建产物 21 个包 + `_all` 合集，21 个 sha256 全覆盖，连续两次构建哈希一致。
 

@@ -17,8 +17,8 @@ BASE = Path(__file__).resolve().parent
 SCRIPTS = {
     "formulator": BASE / "model-formulator" / "scripts" / "model_formulator.py",
     "solver": BASE / "model-solver" / "scripts" / "model_solver.py",
-    "simulation": BASE / "simulation" / "scripts" / "simulation.py",
-    "visualizer": BASE / "visualizer" / "scripts" / "visualizer.py",
+    "simulation": BASE / "simulation-runner" / "scripts" / "simulation.py",
+    "visualizer": BASE / "result-visualizer" / "scripts" / "visualizer.py",
 }
 
 

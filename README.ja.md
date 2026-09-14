@@ -41,7 +41,7 @@ AI ツール向けに厳選された**シーンパック**のコレクション�
 | viral-entertainment | バイラルエンタメ（ミーム動画） | 2 | 9 KB |
 
 
-**21 パック・83 スキル。** ドキュメント：[Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning](docs/VERSIONING.md) · [Expert review](docs/EXPERT-REVIEW-AND-ROADMAP.md)
+**21 パック・83 スキル。** ドキュメント：[Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning](docs/VERSIONING.md)
 
 ## パック詳細
 
@@ -277,8 +277,8 @@ dist/                           # ビルド成果物：シーンパックごと�
 bash build.sh        # macOS / Linux / Git Bash
 python3 build.py     # クロスプラットフォーム（bash/zip 不要）；全スキル入りの dist/_all.zip も生成
 
-# リリースフロー
-git tag v0.12.3
+# リリースフロー（正式リリースは tools/release.py を使用、docs/VERSIONING.md 参照）
+python3 tools/release.py 0.13.0 --commit   # CHANGELOG 検証 → bump → commit → tag
 git push origin main --follow-tags
 # 各プラットフォームの Releases ページで release を作成し dist/*.zip をアップロード
 ```

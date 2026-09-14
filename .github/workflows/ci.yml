@@ -10,17 +10,109 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  gate:
+    name: Skill quality gate
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
       - name: Validate manifest JSON
         run: python3 -c "import json; json.load(open('manifest.json')); print('manifest.json OK')"
-      - name: Run build.sh (pack -> dist zips)
-        run: bash build.sh
+      - name: Run skill validator (must be 0 errors, 0 warnings)
+        run: python3 tools/validate_skills.py
+      - name: Assert pack/disk consistency
+        run: |
+          # 门禁已含 pack↔skills 双向一致性检查（orphan/ghost 都会 FAIL），
+          # 这里只需防 validator 本身被绕过：再次确认退出码语义。
+          python3 tools/validate_skills.py >/dev/null && echo "gate PASSED"
+
+  build:
+    name: Build packs
+    runs-on: ubuntu-latest
+    needs: gate
+    steps:
+      - uses: actions/checkout@v7
+      - name: Run build.py (pack -> dist zips + manifest sync)
+        run: python3 build.py
       - name: Assert artifacts produced
         run: |
           test -d dist
           count=$(ls dist/*.zip 2>/dev/null | wc -l)
           echo "dist zips: $count"
           [ "$count" -gt 0 ]
+      - name: Assert manifest covers every pack
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          packs = {p.parent.name for p in Path('packs').glob('*/pack.json')}
+          manifest = {p['id'] for p in json.load(open('manifest.json'))['packs']}
+          missing = packs - manifest
+          assert not missing, f"manifest 缺包: {missing}"
+          print(f"manifest 覆盖 {len(manifest)}/{len(packs)} 个包 OK")
+          PY
+      - name: Verify build reproducibility
+        run: |
+          sha_before=$(sha256sum dist/content-publishing.zip | cut -d' ' -f1)
+          python3 build.py >/dev/null
+          sha_after=$(sha256sum dist/content-publishing.zip | cut -d' ' -f1)
+          echo "before=$sha_before after=$sha_after"
+          [ "$sha_before" = "$sha_after" ] && echo "reproducible OK"
+
+  tests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    needs: gate
+    steps:
+      - uses: actions/checkout@v7
+      - name: Run all python file syntax checks
+        run: |
+          python3 - <<'PY'
+          import py_compile
+          from pathlib import Path
+          bad = []
+          for f in sorted(Path('.').rglob('*.py')):
+              if '.git' in f.parts:
+                  continue
+              try:
+                  py_compile.compile(str(f), doraise=True)
+              except Exception as e:
+                  bad.append(f"{f}: {e}")
+          assert not bad, "语法错误:\n" + "\n".join(bad)
+          print(f"全部 Python 文件语法 OK")
+          PY
+      - name: Run bundled unit tests (self-contained test_*.py)
+        run: |
+          python3 - <<'PY'
+          import subprocess, sys
+          from pathlib import Path
+          # 只跑「直接执行即可自验证」的测试脚本（unittest 与自带 main 的脚本）。
+          # 需要外部参数的脚本（如 test_extractor.py）由其所属技能自行维护。
+          # 注意：spec-driven-workflow/scripts/test_extractor.py 是"提取测试
+          # 用例"的工具脚本（名字撞了 test_ 前缀，SKILL.md 引用 5 处），
+          # 不是单元测试，无参数运行会以退出码 2 报 argparse 错误——排除。
+          TOOL_SCRIPTS = {'skills/programming/cicd/spec-driven-workflow/scripts/test_extractor.py'}
+          failures = []
+          ran = 0
+          for f in sorted(Path('skills').rglob('test_*.py')):
+              if '_common' in f.parts or 'assets' in f.parts:
+                  continue
+              if f.as_posix() in TOOL_SCRIPTS:
+                  continue
+              proc = subprocess.run(
+                  [sys.executable, str(f)],
+                  capture_output=True, text=True, timeout=120,
+              )
+              ran += 1
+              tail = (proc.stdout + proc.stderr).strip().splitlines()
+              tail = tail[-1] if tail else ''
+              if proc.returncode != 0:
+                  failures.append(f"{f} (exit {proc.returncode}): {tail}")
+              elif any(k in tail.lower() for k in ('failed', 'error')):
+                  # unittest 的 OK 输出也可能包含 "FAILED (skipped=x)" 字样
+                  if 'skipped' not in tail.lower():
+                      failures.append(f"{f}: {tail}")
+          print(f"ran {ran} test files, {len(failures)} failures")
+          for x in failures:
+              print("  FAIL", x)
+          assert not failures
+          PY
