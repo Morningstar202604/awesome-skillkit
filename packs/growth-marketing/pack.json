@@ -1,0 +1,21 @@
+{
+  "id": "growth-marketing",
+  "name": "Growth Marketing",
+  "name_zh": "增长营销",
+  "description": "E-commerce and growth marketing chain: framework-driven product copy (FAB/PAS/AIDA with objection handling), campaign design with single-variable A/B variant pairs, and channel adaptation with machine-checked fit rules (word budgets, CTA counts per platform). Product facts in, launch-ready channel variants out.",
+  "description_zh": "电商与增长营销链条：框架驱动的商品文案（FAB/PAS/AIDA + 异议处理）、单变量 A/B 变体对的活动策划、附机器适配校验（各平台字数预算与 CTA 约束）的渠道适配。商品事实进、可投放渠道变体出。方法论借鉴 AIDA/PAS/FAB 直复营销框架与开源营销技能生态并已署名。",
+  "skills": [
+    {
+      "name": "product-copywriter",
+      "source": "self-authored"
+    },
+    {
+      "name": "campaign-designer",
+      "source": "self-authored"
+    },
+    {
+      "name": "channel-adapter",
+      "source": "self-authored"
+    }
+  ]
+}

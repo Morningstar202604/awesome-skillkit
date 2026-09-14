@@ -27,6 +27,8 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | video-design-studio | Video Design Studio (pre-production) | 4 | 32 KB |
 | visual-design-studio | Visual Design Studio | 3 | 14 KB |
 | audio-studio | Audio Studio (podcast chain) | 3 | 14 KB |
+| growth-marketing | Growth Marketing (e-commerce) | 3 | 15 KB |
+| edu-craft | Edu Craft (mastery teaching) | 3 | 15 KB |
 | api-development | API Development & Testing | 2 | 50 KB |
 | architecture | System Architecture | 3 | 109 KB |
 | ci-cd | CI/CD Pipeline | 3 | 64 KB |
@@ -45,7 +47,7 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | tdd | Test-Driven Development | 1 | 50 KB |
 | viral-entertainment | Viral Entertainment (meme shorts) | 2 | 9 KB |
 
-**25 packs · 94 skills.** Project docs: [Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning & Release policy](docs/VERSIONING.md) · [Video landscape research](docs/VIDEO-LANDSCAPE.md) 
+**27 packs · 100 skills.** Project docs: [Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning & Release policy](docs/VERSIONING.md) · [Video landscape research](docs/VIDEO-LANDSCAPE.md) 
 
 ## Pack Details
 
@@ -262,6 +264,27 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | podcast-producer | self-authored |
 | tts-voice-director | self-authored |
 | episode-publisher | self-authored |
+
+### Growth Marketing (`growth-marketing`) — 15 KB
+
+**E-commerce marketing chain: product-copywriter picks a conversion framework (FAB/PAS/AIDA) with objection handling and ad-law fact hygiene; campaign-designer plans calendar + channel matrix + single-variable A/B pairs; channel-adapter rewrites per-channel with a built-in constraint table audited by channel_fit_check.py. Methodology credited to direct-response frameworks and the open marketing-skills ecosystem — see sources-and-methodology.md.**
+
+| Skill | Source |
+|-------|--------|
+| product-copywriter | self-authored |
+| campaign-designer | self-authored |
+| channel-adapter | self-authored |
+
+### Edu Craft (`edu-craft`) — 15 KB
+
+**Mastery-teaching chain: course-designer turns a topic into a learning contract + dependency-ordered checkpoints; exercise-generator emits open-ended strict exercises (MCQ banned) with rubrics, linted by exercise_lint.py; feynman-explainer runs the six-beat Feynman loop for failed checkpoints until re-test passes. Methodology credited to the Feynman/mastery-learning ecosystem — see sources-and-methodology.md.**
+
+| Skill | Source |
+|-------|--------|
+| course-designer | self-authored |
+| exercise-generator | self-authored |
+| feynman-explainer | self-authored |
+
 
 
 ### AI Video Pipeline (`ai-video-pipeline`) — 62 KB

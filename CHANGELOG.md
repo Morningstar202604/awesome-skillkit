@@ -18,6 +18,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **新增场景包 `growth-marketing`（3 技能，自研）+ `marketing` 域链条**：
+  `product-copywriter`（按受众决策阶段选转化框架 FAB/PAS/AIDA + 异议处理
+  独立成段 + 广告法事实卫生）、`campaign-designer`（营销日历 + 渠道角色
+  矩阵 + 单变量 A/B 变体对纪律）、`channel-adapter`（内置 5 渠道约束表——
+  小红书字数/抖音口播节奏/朋友圈行数/邮件主题截断线/搜索广告关键词——
+  channel_fit_check.py 机器校验，6 个 pytest 用例）。marketing_pipeline.py
+  编排 + 注册 product_launch/single_post 两链。
+- **新增场景包 `edu-craft`（3 技能，自研）+ `education` 域链条**：
+  `course-designer`（学习契约 ≤3 问 + checkpoint 依赖排序 + 深度控制表）、
+  `exercise-generator`（开放题严格题库，**禁选择题防蒙**，评分标准与题同出，
+  exercise_lint.py 守门 + 5 个 pytest 用例）、`feynman-explainer`（费曼六拍
+  循环 + "不太聪明的学生"反向教学 + 换角度重测闭环）。education_pipeline.py
+  编排 + 注册 full_course/topic_mastery/remedial_only 三链。方法论借鉴
+  AI-Learning-Agent / Feynman Learning Coach / 授悟 FeynMind 与掌握式学习，
+  已署名。
+- **仓库达成 100 技能 / 9 域全链条**：programming / video / writing / ppt /
+  music / design / audio / marketing / education，每域具备"入口技能 →
+  编排器 → 链条收口"的完整使用路径。
+
+### Added
+
 - **新增场景包 `visual-design-studio`（3 技能，自研）+ `design` 域完整链条**：
   `design-brief-interpreter`（模糊需求 → 7 字段可机检设计规格单，风格锚纪律
   借鉴 Anthropic canvas-design 与 designskills 的 design-context 先行模式）、

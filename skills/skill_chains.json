@@ -189,6 +189,47 @@
           "episode-publisher"
         ]
       }
+    },
+    "marketing": {
+      "entry": "skills/marketing/marketing_pipeline.py",
+      "skills": [
+        "product-copywriter",
+        "campaign-designer",
+        "channel-adapter"
+      ],
+      "chains": {
+        "product_launch": [
+          "product-copywriter",
+          "campaign-designer",
+          "channel-adapter"
+        ],
+        "single_post": [
+          "product-copywriter",
+          "channel-adapter"
+        ]
+      }
+    },
+    "education": {
+      "entry": "skills/education/education_pipeline.py",
+      "skills": [
+        "course-designer",
+        "exercise-generator",
+        "feynman-explainer"
+      ],
+      "chains": {
+        "full_course": [
+          "course-designer",
+          "exercise-generator"
+        ],
+        "topic_mastery": [
+          "course-designer",
+          "exercise-generator",
+          "feynman-explainer"
+        ],
+        "remedial_only": [
+          "feynman-explainer"
+        ]
+      }
     }
   }
 }

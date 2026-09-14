@@ -1,0 +1,21 @@
+{
+  "id": "edu-craft",
+  "name": "Edu Craft",
+  "name_zh": "教育工艺",
+  "description": "Teaching and knowledge-product chain: learning-contract-driven course design with checkpoint breakdown, strict exercise generation (open-ended questions, MCQ banned, rubric included), and a Feynman loop explainer (diagnose, repair, teach-back, transfer). Topic in, mastery-ready course kit out.",
+  "description_zh": "教学与知识产品链条：学习契约驱动的课程设计（checkpoint 分解）、严格习题生成（开放题防蒙、附评分标准）、费曼循环讲解器（诊断→修复→回讲→迁移）。主题进、可交付掌握式课程包出。方法论借鉴费曼学习法生态与掌握式学习实践并已署名。",
+  "skills": [
+    {
+      "name": "course-designer",
+      "source": "self-authored"
+    },
+    {
+      "name": "exercise-generator",
+      "source": "self-authored"
+    },
+    {
+      "name": "feynman-explainer",
+      "source": "self-authored"
+    }
+  ]
+}

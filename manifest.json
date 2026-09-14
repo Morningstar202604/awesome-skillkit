@@ -478,6 +478,30 @@
       "sha256": "82f5b93a6d733de5e79f7fcf2fad3783b712f0ab3d72b10ad4716554b9f17434"
     },
     {
+      "id": "edu-craft",
+      "name": "Edu Craft",
+      "name_zh": "教育工艺",
+      "description": "Teaching and knowledge-product chain: learning-contract-driven course design with checkpoint breakdown, strict exercise generation (open-ended questions, MCQ banned, rubric included), and a Feynman loop explainer (diagnose, repair, teach-back, transfer). Topic in, mastery-ready course kit out.",
+      "description_zh": "教学与知识产品链条：学习契约驱动的课程设计（checkpoint 分解）、严格习题生成（开放题防蒙、附评分标准）、费曼循环讲解器（诊断→修复→回讲→迁移）。主题进、可交付掌握式课程包出。方法论借鉴费曼学习法生态与掌握式学习实践并已署名。",
+      "file": "dist/edu-craft.zip",
+      "skills": [
+        {
+          "name": "course-designer",
+          "source": "self-authored"
+        },
+        {
+          "name": "exercise-generator",
+          "source": "self-authored"
+        },
+        {
+          "name": "feynman-explainer",
+          "source": "self-authored"
+        }
+      ],
+      "size_kb": 10,
+      "sha256": "ceb6db69c7b08154dba77f0b3cff67021b15b2038d9acb23de17b479d6a91a26"
+    },
+    {
       "id": "github-workflow",
       "name": "GitHub Collaboration",
       "name_zh": "GitHub 协作工作流",
@@ -500,6 +524,30 @@
         }
       ],
       "sha256": "47ebb2cbae7d46f02e85da1ff6dfd90ee9e3a7f3c02ef388c6144600c1390e2d"
+    },
+    {
+      "id": "growth-marketing",
+      "name": "Growth Marketing",
+      "name_zh": "增长营销",
+      "description": "E-commerce and growth marketing chain: framework-driven product copy (FAB/PAS/AIDA with objection handling), campaign design with single-variable A/B variant pairs, and channel adaptation with machine-checked fit rules (word budgets, CTA counts per platform). Product facts in, launch-ready channel variants out.",
+      "description_zh": "电商与增长营销链条：框架驱动的商品文案（FAB/PAS/AIDA + 异议处理）、单变量 A/B 变体对的活动策划、附机器适配校验（各平台字数预算与 CTA 约束）的渠道适配。商品事实进、可投放渠道变体出。方法论借鉴 AIDA/PAS/FAB 直复营销框架与开源营销技能生态并已署名。",
+      "file": "dist/growth-marketing.zip",
+      "skills": [
+        {
+          "name": "product-copywriter",
+          "source": "self-authored"
+        },
+        {
+          "name": "campaign-designer",
+          "source": "self-authored"
+        },
+        {
+          "name": "channel-adapter",
+          "source": "self-authored"
+        }
+      ],
+      "size_kb": 11,
+      "sha256": "27a99a3bed5aed39f720b0182c01731aed87ea65c02df5e15d030397e6f4db4e"
     },
     {
       "id": "incident-response",

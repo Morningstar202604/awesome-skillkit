@@ -25,6 +25,8 @@
 | video-design-studio | 视频设计工作室（前期设计） | 4 | 32 KB |
 | visual-design-studio | 视觉设计工作室 | 3 | 14 KB |
 | audio-studio | 音频工作室（播客链条） | 3 | 14 KB |
+| growth-marketing | 增长营销（电商） | 3 | 15 KB |
+| edu-craft | 教育工艺（掌握式教学） | 3 | 15 KB |
 | api-development | API 开发与测试 | 2 | 50 KB |
 | architecture | 系统架构设计 | 3 | 109 KB |
 | ci-cd | CI/CD 流水线 | 3 | 64 KB |
@@ -44,7 +46,7 @@
 | viral-entertainment | 爆款娱乐（魔性短视频） | 2 | 9 KB |
 
 
-**25 个场景包 · 94 个技能。** 项目文档：[方向 v2](docs/DIRECTION-V2.md) · [技能编写规范](docs/SKILL-STANDARD-v2.md) · [版本与发布制度](docs/VERSIONING.md) · [视频方案全景调研](docs/VIDEO-LANDSCAPE.md)
+**27 个场景包 · 100 个技能。** 项目文档：[方向 v2](docs/DIRECTION-V2.md) · [技能编写规范](docs/SKILL-STANDARD-v2.md) · [版本与发布制度](docs/VERSIONING.md) · [视频方案全景调研](docs/VIDEO-LANDSCAPE.md)
 
 ## 场景包详情
 
@@ -253,6 +255,27 @@
 | podcast-producer | self-authored |
 | tts-voice-director | self-authored |
 | episode-publisher | self-authored |
+
+### 增长营销（`growth-marketing`）— 15 KB
+
+**电商营销链条：product-copywriter 按受众决策阶段选转化框架（FAB/PAS/AIDA）+ 异议处理 + 广告法事实卫生；campaign-designer 排营销日历 + 渠道矩阵 + 单变量 A/B 变体对；channel-adapter 按内置渠道约束表改写并由 channel_fit_check.py 机器校验。方法论借鉴直复营销框架与开源营销技能生态，见 sources-and-methodology.md。**
+
+| Skill | 来源 |
+|-------|--------|
+| product-copywriter | self-authored |
+| campaign-designer | self-authored |
+| channel-adapter | self-authored |
+
+### 教育工艺（`edu-craft`）— 15 KB
+
+**掌握式教学链条：course-designer 把主题变成学习契约 + 依赖排序 checkpoint；exercise-generator 产开放题严格题库（禁选择题防蒙，附评分标准），由 exercise_lint.py 守门；feynman-explainer 对未通过 checkpoint 跑费曼六拍补救直至重测通过。方法论借鉴费曼学习法与掌握式学习生态，见 sources-and-methodology.md。**
+
+| Skill | 来源 |
+|-------|--------|
+| course-designer | self-authored |
+| exercise-generator | self-authored |
+| feynman-explainer | self-authored |
+
 
 
 ### 爆款娱乐（`viral-entertainment`）— 11 KB

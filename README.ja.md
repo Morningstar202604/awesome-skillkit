@@ -25,6 +25,8 @@ AI ツール向けに厳選された**シーンパック**のコレクション�
 | video-design-studio | 映像デザインスタジオ | 4 | 32 KB |
 | visual-design-studio | ビジュアルデザインスタジオ | 3 | 14 KB |
 | audio-studio | オーディオスタジオ（ポッドキャスト連鎖） | 3 | 14 KB |
+| growth-marketing | グロースマーケティング | 3 | 15 KB |
+| edu-craft | 教育クラフト（習得型教学） | 3 | 15 KB |
 | api-development | API 開発とテスト | 2 | 50 KB |
 | architecture | システムアーキテクチャ | 3 | 109 KB |
 | ci-cd | CI/CD パイプライン | 3 | 64 KB |
@@ -44,7 +46,7 @@ AI ツール向けに厳選された**シーンパック**のコレクション�
 | viral-entertainment | バイラルエンタメ（ミーム動画） | 2 | 9 KB |
 
 
-**25 パック・94 スキル。** ドキュメント：[Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning](docs/VERSIONING.md) · [Video landscape 調査](docs/VIDEO-LANDSCAPE.md)
+**27 パック・100 スキル。** ドキュメント：[Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning](docs/VERSIONING.md) · [Video landscape 調査](docs/VIDEO-LANDSCAPE.md)
 
 ## パック詳細
 
@@ -253,6 +255,27 @@ AI ツール向けに厳選された**シーンパック**のコレクション�
 | podcast-producer | self-authored |
 | tts-voice-director | self-authored |
 | episode-publisher | self-authored |
+
+### グロースマーケティング（`growth-marketing`）— 15 KB
+
+**EC マーケティング連鎖：product-copywriter が転換フレームワーク（FAB/PAS/AIDA）と異議処理を選び、campaign-designer がカレンダー・チャネルマトリクス・単変量 A/B を計画し、channel-adapter が内蔵制約表に基づき channel_fit_check.py で検証しながら各チャネル版を書き出す。**
+
+| Skill | ソース |
+|-------|--------|
+| product-copywriter | self-authored |
+| campaign-designer | self-authored |
+| channel-adapter | self-authored |
+
+### 教育クラフト（`edu-craft`）— 15 KB
+
+**習得型教学連鎖：course-designer が学習契約 + 依存順 checkpoint を設計し、exercise-generator が選択肢問題禁止の厳格な記述式問題（ルーブリック付き）を exercise_lint.py で検証しながら生成し、feynman-explainer が未通過 checkpoint に対し 6 拍フェイマンループで再テスト合格まで補習する。**
+
+| Skill | ソース |
+|-------|--------|
+| course-designer | self-authored |
+| exercise-generator | self-authored |
+| feynman-explainer | self-authored |
+
 
 
 ### Viral Entertainment（`viral-entertainment`）— 11 KB

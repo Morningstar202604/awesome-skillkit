@@ -1,6 +1,6 @@
 # SOURCES — 技能来源与更新指引 / Skill Sources & Updates
 
-> 本仓库维护两条线（截至 v0.13，共 **94 个技能 / 25 个场景包**）：
+> 本仓库维护两条线（截至 v0.13，共 **100 个技能 / 27 个场景包**）：
 > 1. **上游精选**（`skills/programming/` 下 13 个分类目录，33 个）——全部来自下方上游项目；
 > 2. **自建场景技能**（54 个）——分布在 `skills/writing/`、`skills/video/`、`skills/scenarios/`、
 >    `skills/paper/`、`skills/ppt/` 及 `skills/programming/` 下的 5 个自建子目录
@@ -111,7 +111,7 @@ python3 build.py         # 唯一构建入口
 | resume-tailor | office-productivity | 简历定制 |
 | music-generation | ai-media-toolkit | 音乐生成 |
 
-### AI 对话与视觉/音频设计（skills/chat/ + skills/design/ + skills/audio/，7 个）
+### AI 对话/设计/营销/教育（skills/chat/ + skills/design/ + skills/audio/ + skills/marketing/ + skills/education/，13 个）
 
 | Skill | 场景包 | 说明 |
 |-------|--------|------|
@@ -122,10 +122,16 @@ python3 build.py         # 唯一构建入口
 | podcast-producer | audio-studio | 播客分段脚本（纯口播词纪律 + TTS 安全 lint） |
 | tts-voice-director | audio-studio | 跨引擎声音目录选角 + ffmpeg 拼接计划 |
 | episode-publisher | audio-studio | shownotes + 时间戳章节 + 平台元数据 + AI 披露 |
+| product-copywriter | growth-marketing | 转化框架商品文案（FAB/PAS/AIDA + 异议处理 + 广告法卫生） |
+| campaign-designer | growth-marketing | 营销日历 + 渠道矩阵 + 单变量 A/B 变体对 |
+| channel-adapter | growth-marketing | 渠道适配（内置约束表 + channel_fit_check.py 校验） |
+| course-designer | edu-craft | 学习契约 + checkpoint 依赖排序课程设计 |
+| exercise-generator | edu-craft | 开放题严格题库（禁选择题，附评分标准与 lint） |
+| feynman-explainer | edu-craft | 费曼六拍补救伴学（诊断→修复→回讲→迁移） |
 
-以上 61 个技能不来自上游，由本仓库原创维护，更新即改本仓库。
+以上 67 个技能不来自上游，由本仓库原创维护，更新即改本仓库。
 
-## 全部技能清单（94 = 上游 33 + 自建 61）
+## 全部技能清单（100 = 上游 33 + 自建 67）
 
 ### 上游精选（33）
 
@@ -167,7 +173,7 @@ python3 build.py         # 唯一构建入口
 
 > 注：`skill-tester/assets/sample-skill/` 是 skill-tester 自带的示例资产，不算独立 skill。
 
-### 自建（61）
+### 自建（67）
 
 按上文"自建场景技能"四个小节的表格为准，此处不重复罗列。
 单一事实来源是 `manifest.json`（由 `build.py` 从 `packs/*/pack.json` 自动同步）。
