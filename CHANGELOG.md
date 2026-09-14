@@ -5,7 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+> **版本体系说明 / Version scheme note**：本仓库在 2026-08-23（v0.1.0，
+> commit `ebd7f0a` "reset version baseline"）将版本基线重置为 0.x 体系并沿用至今。
+> 重置前曾短暂使用过一套 1.x 版本号（最高 v1.12.3），历史文档中的 v1.x 引用均为
+> 该时期的记录；同一事件在旧体系与 0.x 体系中的编号为一一对应
+> （如旧 v1.3.0 = 0.3.0，旧 v1.5.0 = 0.5.0）。2026-09-05（commit `ddfddf0`）
+> 起 `manifest.json` 的 version 字段与 0.x 体系完全对齐。
+> 另：0.4.0 – 0.6.1 发布于重置整理期，其内容随后被 squash 进 0.6.2 对应的提交
+> （`21769cb`），独立提交已不可考，故这四个版本没有对应的 git tag。
+
+## [0.13.0] - 2026-09-14
 
 ### Added
 
@@ -82,6 +91,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   自验证测试脚本）。
 - `install.sh` 跳过 `_all.zip` 的重复解压（此前解压合集包会把 83 个技能
   再覆盖安装一遍）。
+- **项目完整性补齐**：新增 `.github/ISSUE_TEMPLATE`（bug report / feature request
+  + config）与 `.github/PULL_REQUEST_TEMPLATE.md`；CHANGELOG 归档尾部遗留的
+  第二个 `[Unreleased]` 节为 `[0.1.0]`（对应 tag `v0.1.0`，2026-08-23 版本基线
+  重置提交）；补打 v0.2.0 / v0.3.0 历史 annotated tag（内容精确对应提交
+  `03f4eb9` / `1e089a9`）；顶部增加版本体系说明，澄清 1.x → 0.x 重置史。
 - 三语 README 深度对齐：英文版 Pack Details 18 处大小数字与 manifest 一致、
   发布流程示例统一为 `tools/release.py`、移除指向已删除文档的链接。
 - 文档状态同步：`SOURCES.md` 重写为 83 技能 / 21 包双轨现状（上游 33 + 自建 50），
@@ -360,7 +374,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 16 curated scene packs under `packs/`.
 - Source attribution for every skill (`alirezarezvani/claude-skills (MIT)` / `Morningstar202604 (self-authored)`).
 
-## [Unreleased]
+## [0.1.0] - 2026-08-23
+
+版本基线重置为 0.x 体系的首个版本（tag `v0.1.0` 指向 commit `ebd7f0a`
+"unify Apache-2.0 license, reset version baseline"）。此前该仓库短暂使用过
+一套 1.x 版本号，相关记录见顶部「版本体系说明」。
 
 ### Added
 

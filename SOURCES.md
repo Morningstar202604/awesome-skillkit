@@ -173,9 +173,9 @@ python build.py          # 或 bash build.sh
 - 2026-09（v0.13.x）：仓库扩至 83 技能 / 21 包。新增 4 个场景包（ai-video-pipeline、
   ai-research-writing、code-planning、data-ml-science）并补齐 36 篇 references；
   重写 CI 为门禁/构建/测试三 job 强制 0 错 0 警；清理孤儿死代码与幽灵技能引用。
-- 2026-08-25（v1.5.0）：恢复 2 个自建场景技能（zhihu-content-manager、cnblogs-skill）并按工程规范改造
+- 2026-08-25（0.5.0，旧体系编号 v1.5.0）：恢复 2 个自建场景技能（zhihu-content-manager、cnblogs-skill）并按工程规范改造
   （去私有依赖、修 BOM bug、新增带测试的 zhihu_html_lint.py、删除欺骗性互动话术），
   新增 `content-publishing` 场景包。仓库定位调整为「上游精选 + 自建中文平台场景技能」双轨。
-- 2026-08-25（v1.4.0）：移除 4 个自建 skill（`agent-builder-skill`、`chinese-parents-skill`、
+- 2026-08-25（0.4.0，旧体系编号 v1.4.0）：移除 4 个自建 skill（`agent-builder-skill`、`chinese-parents-skill`、
   `cnblogs-skill`、`zhihu-content-manager`）及其场景包（blog-writing、family-communication、
-  zhihu-writing）。其中 2 个后于 v1.5.0 按新规范恢复。
+  zhihu-writing）。其中 2 个后于 0.5.0 按新规范恢复。
