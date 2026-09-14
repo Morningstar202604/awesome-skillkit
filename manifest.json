@@ -190,6 +190,22 @@
       "sha256": "8a6ef40b05bea454e3132215c56526f096942b0d5646fb582df8c80f42331c53"
     },
     {
+      "id": "chat-prompt-craft",
+      "name": "Chat Prompt Craft",
+      "name_zh": "聊天提示词工艺",
+      "description": "Prompt engineering for conversational AI assistants (Doubao, ChatGPT, Kimi, DeepSeek, etc.): one-shot task prompts built on the five-element formula (role + background + task + requirements + format), agent/persona system prompts on the five-section skeleton, reverse constraints that kill filler, and heuristic structural audit.",
+      "description_zh": "面向对话式 AI 助手（豆包、ChatGPT、Kimi、DeepSeek 等）的提示词工程：五要素公式（角色 + 背景 + 任务 + 要求 + 格式）写一次性任务提示词，五段骨架写智能体人设 system prompt，反向约束砍废话，附启发式结构审计脚本。方法论提炼自豆包官方教程与 Coze 最佳实践并已署名。",
+      "file": "dist/chat-prompt-craft.zip",
+      "skills": [
+        {
+          "name": "chat-prompt-engineer",
+          "source": "self-authored"
+        }
+      ],
+      "size_kb": 11,
+      "sha256": "b85adae73c972de35691d1794a2285a883c6c71efe99b9ae5ad1c351b8e22575"
+    },
+    {
       "id": "ci-cd",
       "name": "CI/CD Pipeline",
       "name_zh": "CI/CD 流水线",
@@ -614,8 +630,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 32,
-      "sha256": "f496d8018fbd93c88df0701135e88482b2ce7da16a9d454131c8c6f96e3a890d"
+      "size_kb": 33,
+      "sha256": "68fef3b0d552f5b326cc6800b7471ecd0a7b5d85b2ba2b1048e2bf915b26ae45"
     },
     {
       "id": "viral-entertainment",

@@ -1,0 +1,13 @@
+{
+  "id": "chat-prompt-craft",
+  "name": "Chat Prompt Craft",
+  "name_zh": "聊天提示词工艺",
+  "description": "Prompt engineering for conversational AI assistants (Doubao, ChatGPT, Kimi, DeepSeek, etc.): one-shot task prompts built on the five-element formula (role + background + task + requirements + format), agent/persona system prompts on the five-section skeleton, reverse constraints that kill filler, and heuristic structural audit.",
+  "description_zh": "面向对话式 AI 助手（豆包、ChatGPT、Kimi、DeepSeek 等）的提示词工程：五要素公式（角色 + 背景 + 任务 + 要求 + 格式）写一次性任务提示词，五段骨架写智能体人设 system prompt，反向约束砍废话，附启发式结构审计脚本。方法论提炼自豆包官方教程与 Coze 最佳实践并已署名。",
+  "skills": [
+    {
+      "name": "chat-prompt-engineer",
+      "source": "self-authored"
+    }
+  ]
+}

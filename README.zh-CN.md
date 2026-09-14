@@ -42,7 +42,7 @@
 | viral-entertainment | 爆款娱乐（魔性短视频） | 2 | 9 KB |
 
 
-**22 个场景包 · 87 个技能。** 项目文档：[方向 v2](docs/DIRECTION-V2.md) · [技能编写规范](docs/SKILL-STANDARD-v2.md) · [版本与发布制度](docs/VERSIONING.md) · [视频方案全景调研](docs/VIDEO-LANDSCAPE.md)
+**23 个场景包 · 88 个技能。** 项目文档：[方向 v2](docs/DIRECTION-V2.md) · [技能编写规范](docs/SKILL-STANDARD-v2.md) · [版本与发布制度](docs/VERSIONING.md) · [视频方案全景调研](docs/VIDEO-LANDSCAPE.md)
 
 ## 场景包详情
 

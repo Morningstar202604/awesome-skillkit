@@ -1,6 +1,6 @@
 # SOURCES — 技能来源与更新指引 / Skill Sources & Updates
 
-> 本仓库维护两条线（截至 v0.13，共 **87 个技能 / 22 个场景包**）：
+> 本仓库维护两条线（截至 v0.13，共 **88 个技能 / 23 个场景包**）：
 > 1. **上游精选**（`skills/programming/` 下 13 个分类目录，33 个）——全部来自下方上游项目；
 > 2. **自建场景技能**（54 个）——分布在 `skills/writing/`、`skills/video/`、`skills/scenarios/`、
 >    `skills/paper/`、`skills/ppt/` 及 `skills/programming/` 下的 5 个自建子目录
@@ -111,9 +111,15 @@ python3 build.py         # 唯一构建入口
 | resume-tailor | office-productivity | 简历定制 |
 | music-generation | ai-media-toolkit | 音乐生成 |
 
-以上 50 个技能不来自上游，由本仓库原创维护，更新即改本仓库。
+### AI 对话提示词（skills/chat/，1 个）
 
-## 全部技能清单（87 = 上游 33 + 自建 54）
+| Skill | 场景包 | 说明 |
+|-------|--------|------|
+| chat-prompt-engineer | chat-prompt-craft | 对话助手提示词工程（豆包/ChatGPT/Kimi 等：五要素公式 + 智能体五段骨架 + 结构审计） |
+
+以上 55 个技能不来自上游，由本仓库原创维护，更新即改本仓库。
+
+## 全部技能清单（88 = 上游 33 + 自建 55）
 
 ### 上游精选（33）
 
@@ -155,7 +161,7 @@ python3 build.py         # 唯一构建入口
 
 > 注：`skill-tester/assets/sample-skill/` 是 skill-tester 自带的示例资产，不算独立 skill。
 
-### 自建（50）
+### 自建（55）
 
 按上文"自建场景技能"四个小节的表格为准，此处不重复罗列。
 单一事实来源是 `manifest.json`（由 `build.py` 从 `packs/*/pack.json` 自动同步）。

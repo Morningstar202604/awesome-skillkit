@@ -18,6 +18,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **新增场景包 `chat-prompt-craft`（1 技能，自研）**：面向豆包 / ChatGPT / Kimi /
+  DeepSeek 等对话式助手的提示词工程——`chat-prompt-engineer` 双模式（task /
+  agent）：task 模式按五要素公式（角色+背景+任务+要求+格式）写一次性任务提示词；
+  agent 模式按五段骨架（人设/能力与流程/约束/输出格式/边界处理）写智能体
+  system prompt；含反向约束纪律（禁用词表/字数硬限）、三轮迭代法（骨架→血肉
+  →抛光）、`prompt_audit.py` 启发式结构审计（6 个 pytest 用例）。方法论提炼自
+  豆包官方教程五要素公式、Coze 官方四段式与 CO-STAR 框架，已署名
+  （见技能 sources-and-methodology.md）。
 - **新增场景包 `video-design-studio`（4 技能，全部自研）**：把"生成前设计"从
   临时发挥变成可复用工作流——`storyboard-designer`（节拍表 → 逐场景 prompt 对
   → 连续性约束表，输出 `scene-NN.md` 9 字段结构，附场景 lint 脚本）、
