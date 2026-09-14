@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > 另：0.4.0 – 0.6.1 发布于重置整理期，其内容随后被 squash 进 0.6.2 对应的提交
 > （`21769cb`），独立提交已不可考，故这四个版本没有对应的 git tag。
 
-## [Unreleased]
+## [0.13.1] - 2026-09-14
 
 ### Added
 
@@ -453,4 +453,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [0.12.2]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.12.1...v0.12.2
 [0.12.3]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.12.2...v0.12.3
 [0.13.0]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.12.3...v0.13.0
-[Unreleased]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.13.0...HEAD
+[Unreleased]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.13.1...HEAD
+[0.13.1]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.13.0...v0.13.1
