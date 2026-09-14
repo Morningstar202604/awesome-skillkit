@@ -43,7 +43,7 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | tdd | Test-Driven Development | 1 | 50 KB |
 | viral-entertainment | Viral Entertainment (meme shorts) | 2 | 9 KB |
 
-**22 packs · 87 skills.** Project docs: [Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning & Release policy](docs/VERSIONING.md) 
+**22 packs · 87 skills.** Project docs: [Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning & Release policy](docs/VERSIONING.md) · [Video landscape research](docs/VIDEO-LANDSCAPE.md) 
 
 ## Pack Details
 

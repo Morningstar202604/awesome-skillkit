@@ -14,6 +14,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > 另：0.4.0 – 0.6.1 发布于重置整理期，其内容随后被 squash 进 0.6.2 对应的提交
 > （`21769cb`），独立提交已不可考，故这四个版本没有对应的 git tag。
 
+## [Unreleased]
+
+### Added
+
+- **新增场景包 `video-design-studio`（4 技能，全部自研）**：把"生成前设计"从
+  临时发挥变成可复用工作流——`storyboard-designer`（节拍表 → 逐场景 prompt 对
+  → 连续性约束表，输出 `scene-NN.md` 9 字段结构，附场景 lint 脚本）、
+  `shot-recipe-designer`（12 张镜头配方卡：establishing-wide / hook-pop-in /
+  match-cut / beat-sync-cut 等）、`video-prompt-engineer`（六槽位结构 +
+  write/audit 双模式 + 启发式审计脚本 + 相机词汇表 + 模型方言笔记）、
+  `visual-style-anchor`（风格锚公式 + 角色一致性卡：身份行纪律/三视图/
+  漂移审计/变体机制）。
+- `docs/VIDEO-LANDSCAPE.md`：主流 AI 视频方案全景调研（闭源旗舰 / 中国系 /
+  开源自托管三张矩阵表 + 六条跨模型硬纪律 + ComfyUI 关键帧管线工作流 +
+  对本仓的 6 项 gap 分析），全部条目标注来源分级与快照日期。
+- `video-prompt-engineer` 方言笔记扩充至 6 家模型（Sora 2 档位与对话块 /
+  Veo 3.1 五段公式与名词式负向 / Runway Gen-4.5 运动优先 / Seedance 2.5 /
+  Kling 3.0 / Wan 相机词前置与 I2V 纪律），新增音频扩展槽位说明。
+
+### Fixed
+
+- **G1 合规补齐**：60 个技能 description 追加排除句（"Do NOT use for X"），
+  17 个平台绑定技能补 `compatibility` 字段，60 个技能补 `metadata.author`
+  ——此前 `validate_skills.py` 不查这两项，属标准盲区。
+- **G7 冒烟测试**：为 19 个自建技能补 `test_smoke_<skill>.py`（模块名唯一化
+  避免 pytest 收集冲突），全量 227 passed / 1 skipped。
+- **构建产物污染（重要）**：删除 `build.sh`——其 zip 排除规则 glob 对嵌套
+  路径失效，产物混入 240 个 `__pycache__` 文件且哈希与 `build.py` 不一致；
+  `build.py` 确立为唯一构建入口，README 同步更新。
+- **CI 假绿（重要）**：CI 测试步骤由 subprocess 直跑改为 `python3 -m pytest`
+  ——前者不会真正执行断言，测试绿但没测。
+- 新增 `requirements.txt`（按用途分组，注明优雅降级）与 `pytest.ini`
+  （过滤 `PytestCollectionWarning`，警告 3 → 0）。
+
 ## [0.13.0] - 2026-09-14
 
 ### Added
@@ -411,3 +445,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [0.12.2]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.12.1...v0.12.2
 [0.12.3]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.12.2...v0.12.3
 [0.13.0]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.12.3...v0.13.0
+[Unreleased]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.13.0...HEAD

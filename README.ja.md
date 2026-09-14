@@ -41,7 +41,7 @@ AI ツール向けに厳選された**シーンパック**のコレクション�
 | viral-entertainment | バイラルエンタメ（ミーム動画） | 2 | 9 KB |
 
 
-**22 パック・87 スキル。** ドキュメント：[Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning](docs/VERSIONING.md)
+**22 パック・87 スキル。** ドキュメント：[Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning](docs/VERSIONING.md) · [Video landscape 調査](docs/VIDEO-LANDSCAPE.md)
 
 ## パック詳細
 
