@@ -1,6 +1,6 @@
 # awesome-skillkit
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-83-brightgreen) ![Packs](https://img.shields.io/badge/scenes-21-blue)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-87-brightgreen) ![Packs](https://img.shields.io/badge/scenes-22-blue)
 
 [English](README.md) | **中文** | [日本語](README.ja.md)
 
@@ -22,6 +22,7 @@
 | ai-media-toolkit | AI 媒体生成 | 4 | 19 KB |
 | ai-research-writing | AI 研究与写作 | 7 | 92 KB |
 | ai-video-pipeline | AI 短视频流水线 | 6 | 61 KB |
+| video-design-studio | 视频设计工作室（前期设计） | 4 | 32 KB |
 | api-development | API 开发与测试 | 2 | 50 KB |
 | architecture | 系统架构设计 | 3 | 109 KB |
 | ci-cd | CI/CD 流水线 | 3 | 64 KB |
@@ -41,7 +42,7 @@
 | viral-entertainment | 爆款娱乐（魔性短视频） | 2 | 9 KB |
 
 
-**21 个场景包 · 83 个技能。** 项目文档：[方向 v2](docs/DIRECTION-V2.md) · [技能编写规范](docs/SKILL-STANDARD-v2.md) · [版本与发布制度](docs/VERSIONING.md)
+**22 个场景包 · 87 个技能。** 项目文档：[方向 v2](docs/DIRECTION-V2.md) · [技能编写规范](docs/SKILL-STANDARD-v2.md) · [版本与发布制度](docs/VERSIONING.md)
 
 ## 场景包详情
 
@@ -219,6 +220,17 @@
 | excel-assistant | self-authored |
 | resume-tailor | self-authored |
 | meeting-notes | self-authored |
+
+### 视频设计工作室（`video-design-studio`）— 32 KB
+
+**AI 视频的前期设计层：分镜设计（节拍表 + 逐场景 prompt 对 + 连续性约束表 + 机器校验）、12 张配方卡的镜头清单设计、跨模型文生视频提示词工程（六槽位结构 + 结构审计器）、视觉风格锚 + 角色一致性卡。方法论借鉴并署名开源项目（video-storyboard / video-shotcraft / visual-skills），见各技能 sources-and-methodology.md。**
+
+| Skill | 来源 |
+|-------|--------|
+| storyboard-designer | self-authored |
+| shot-recipe-designer | self-authored |
+| video-prompt-engineer | self-authored |
+| visual-style-anchor | self-authored |
 
 ### 爆款娱乐（`viral-entertainment`）— 11 KB
 

@@ -590,6 +590,34 @@
       "sha256": "e5e0ebee5eb2bfba7389f31c7659cb045efd1cd7afe8668ce3c4cae27f4a1053"
     },
     {
+      "id": "video-design-studio",
+      "name": "Video Design Studio",
+      "name_zh": "视频设计工作室",
+      "description": "Pre-production design layer for AI video: storyboards with continuity contracts, cinematic shot lists from recipe cards, cross-model text-to-video prompt engineering with structural audit, and reusable visual style anchors with character consistency cards.",
+      "description_zh": "AI 视频的前期设计层：分镜设计（节拍表 + 逐场景 prompt 对 + 连续性约束表，附机器校验）、12 卡镜头清单设计、跨模型文生视频提示词工程（六槽位结构 + 机器审计）、视觉风格锚与角色一致性卡。方法论借鉴 video-storyboard / video-shotcraft / visual-skills 等开源项目并已署名。",
+      "file": "dist/video-design-studio.zip",
+      "skills": [
+        {
+          "name": "storyboard-designer",
+          "source": "self-authored"
+        },
+        {
+          "name": "shot-recipe-designer",
+          "source": "self-authored"
+        },
+        {
+          "name": "video-prompt-engineer",
+          "source": "self-authored"
+        },
+        {
+          "name": "visual-style-anchor",
+          "source": "self-authored"
+        }
+      ],
+      "size_kb": 32,
+      "sha256": "f496d8018fbd93c88df0701135e88482b2ce7da16a9d454131c8c6f96e3a890d"
+    },
+    {
       "id": "viral-entertainment",
       "name": "Viral Entertainment",
       "name_zh": "爆款娱乐场景",

@@ -2,7 +2,7 @@
 
 # awesome-skillkit
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-83-brightgreen) ![Packs](https://img.shields.io/badge/scenes-21-blue)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-87-brightgreen) ![Packs](https://img.shields.io/badge/scenes-22-blue)
 
 **English** | [中文](README.zh-CN.md) | [日本語](README.ja.md)
 
@@ -24,6 +24,7 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | ai-media-toolkit | AI Media Generation | 4 | 19 KB |
 | ai-research-writing | AI Research & Writing | 7 | 92 KB |
 | ai-video-pipeline | AI Video Pipeline | 6 | 61 KB |
+| video-design-studio | Video Design Studio (pre-production) | 4 | 32 KB |
 | api-development | API Development & Testing | 2 | 50 KB |
 | architecture | System Architecture | 3 | 109 KB |
 | ci-cd | CI/CD Pipeline | 3 | 64 KB |
@@ -42,7 +43,7 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | tdd | Test-Driven Development | 1 | 50 KB |
 | viral-entertainment | Viral Entertainment (meme shorts) | 2 | 9 KB |
 
-**21 packs · 83 skills.** Project docs: [Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning & Release policy](docs/VERSIONING.md) 
+**22 packs · 87 skills.** Project docs: [Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning & Release policy](docs/VERSIONING.md) 
 
 ## Pack Details
 
@@ -228,6 +229,17 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 |-------|--------|
 | ai-baby-podcast | self-authored |
 | nailong-laugh-shorts | self-authored |
+
+### Video Design Studio (`video-design-studio`) — 32 KB
+
+**Pre-production design layer: storyboard with continuity contracts, shot lists from 12 recipe cards, cross-model video-prompt engineering with a structural auditor, and visual style anchors with character consistency cards. Methodology credited to open-source projects (video-storyboard / video-shotcraft / visual-skills) — see each skill's sources-and-methodology.md.**
+
+| Skill | Source |
+|-------|--------|
+| storyboard-designer | self-authored |
+| shot-recipe-designer | self-authored |
+| video-prompt-engineer | self-authored |
+| visual-style-anchor | self-authored |
 
 ### AI Video Pipeline (`ai-video-pipeline`) — 62 KB
 

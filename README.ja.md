@@ -1,6 +1,6 @@
 # awesome-skillkit
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-83-brightgreen) ![Packs](https://img.shields.io/badge/scenes-21-blue)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-87-brightgreen) ![Packs](https://img.shields.io/badge/scenes-22-blue)
 
 [English](README.md) | [中文](README.zh-CN.md) | **日本語**
 
@@ -41,7 +41,7 @@ AI ツール向けに厳選された**シーンパック**のコレクション�
 | viral-entertainment | バイラルエンタメ（ミーム動画） | 2 | 9 KB |
 
 
-**21 パック・83 スキル。** ドキュメント：[Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning](docs/VERSIONING.md)
+**22 パック・87 スキル。** ドキュメント：[Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning](docs/VERSIONING.md)
 
 ## パック詳細
 
@@ -219,6 +219,17 @@ AI ツール向けに厳選された**シーンパック**のコレクション�
 | excel-assistant | self-authored |
 | resume-tailor | self-authored |
 | meeting-notes | self-authored |
+
+### 映像デザインスタジオ（`video-design-studio`）— 32 KB
+
+**AI映像のプリプロダクション設計層：絵コンテ設計（ビートシート＋シーン別プロンプト対＋連続性制約＋機械検証）、12レシピカードによるショットリスト設計、クロスモデル text-to-video プロンプトエンジニアリング（6スロット構造＋構造監査）、ビジュアルスタイルアンカー＋キャラクター一貫性カード。手法はオープンソース（video-storyboard / video-shotcraft / visual-skills）に由来し、各スキルの sources-and-methodology.md でクレジット。**
+
+| Skill | Source |
+|-------|--------|
+| storyboard-designer | self-authored |
+| shot-recipe-designer | self-authored |
+| video-prompt-engineer | self-authored |
+| visual-style-anchor | self-authored |
 
 ### Viral Entertainment（`viral-entertainment`）— 11 KB
 

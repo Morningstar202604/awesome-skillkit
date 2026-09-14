@@ -1,8 +1,8 @@
 # SOURCES — 技能来源与更新指引 / Skill Sources & Updates
 
-> 本仓库维护两条线（截至 v0.13，共 **83 个技能 / 21 个场景包**）：
+> 本仓库维护两条线（截至 v0.13，共 **87 个技能 / 22 个场景包**）：
 > 1. **上游精选**（`skills/programming/` 下 13 个分类目录，33 个）——全部来自下方上游项目；
-> 2. **自建场景技能**（50 个）——分布在 `skills/writing/`、`skills/video/`、`skills/scenarios/`、
+> 2. **自建场景技能**（54 个）——分布在 `skills/writing/`、`skills/video/`、`skills/scenarios/`、
 >    `skills/paper/`、`skills/ppt/` 及 `skills/programming/` 下的 5 个自建子目录
 >    （`data/`、`debug/`、`math/`、`ml/`、`planning/`），本仓库原创维护。
 
@@ -35,7 +35,7 @@ git clone https://github.com/alirezarezvani/claude-skills.git D:\_upstream\claud
 python3 build.py         # 唯一构建入口
 ```
 
-## 自建场景技能 / Self-authored scenarios（50 个）
+## 自建场景技能 / Self-authored scenarios（54 个）
 
 ### 内容发布与写作（skills/writing/，22 个）
 
@@ -64,7 +64,7 @@ python3 build.py         # 唯一构建入口
 | content-editor | ai-research-writing | 内容编辑润色 |
 | seo-optimizer | ai-research-writing | SEO 优化 |
 
-### AI 视频（skills/video/，10 个）
+### AI 视频（skills/video/，14 个）
 
 | Skill | 场景包 | 说明 |
 |-------|--------|------|
@@ -78,6 +78,10 @@ python3 build.py         # 唯一构建入口
 | image-generation | ai-media-toolkit | 文生图 |
 | ai-baby-podcast | viral-entertainment | AI 宝宝播客短视频 |
 | nailong-laugh-shorts | viral-entertainment | 奶龙搞笑短片 |
+| storyboard-designer | video-design-studio | 分镜设计：节拍表 + 逐场景 prompt 对 + 连续性约束表 |
+| shot-recipe-designer | video-design-studio | 12 张配方卡组装镜头清单 |
+| video-prompt-engineer | video-design-studio | 跨模型视频提示词工程 + 六槽位结构审计 |
+| visual-style-anchor | video-design-studio | 风格锚 + 角色一致性卡 |
 
 ### 编程自建（skills/programming/ 下 5 个目录，12 个）
 
@@ -109,7 +113,7 @@ python3 build.py         # 唯一构建入口
 
 以上 50 个技能不来自上游，由本仓库原创维护，更新即改本仓库。
 
-## 全部技能清单（83 = 上游 33 + 自建 50）
+## 全部技能清单（87 = 上游 33 + 自建 54）
 
 ### 上游精选（33）
 
@@ -170,6 +174,9 @@ python3 build.py         # 唯一构建入口
 
 ## 历史 / History
 
+- 2026-09-14（v0.13.x 后期）：新增 `video-design-studio` 包（4 技能，视频前期设计：
+  分镜/镜头配方/提示词工程/风格锚定），方法论借鉴 video-storyboard、video-shotcraft、
+  visual-skills 等开源项目并已在各技能 references 中署名。
 - 2026-09（v0.13.x）：仓库扩至 83 技能 / 21 包。新增 4 个场景包（ai-video-pipeline、
   ai-research-writing、code-planning、data-ml-science）并补齐 36 篇 references；
   重写 CI 为门禁/构建/测试三 job 强制 0 错 0 警；清理孤儿死代码与幽灵技能引用。
