@@ -1,6 +1,6 @@
 # SOURCES — 技能来源与更新指引 / Skill Sources & Updates
 
-> 本仓库维护两条线（截至 v0.13，共 **88 个技能 / 23 个场景包**）：
+> 本仓库维护两条线（截至 v0.13，共 **94 个技能 / 25 个场景包**）：
 > 1. **上游精选**（`skills/programming/` 下 13 个分类目录，33 个）——全部来自下方上游项目；
 > 2. **自建场景技能**（54 个）——分布在 `skills/writing/`、`skills/video/`、`skills/scenarios/`、
 >    `skills/paper/`、`skills/ppt/` 及 `skills/programming/` 下的 5 个自建子目录
@@ -111,15 +111,21 @@ python3 build.py         # 唯一构建入口
 | resume-tailor | office-productivity | 简历定制 |
 | music-generation | ai-media-toolkit | 音乐生成 |
 
-### AI 对话提示词（skills/chat/，1 个）
+### AI 对话与视觉/音频设计（skills/chat/ + skills/design/ + skills/audio/，7 个）
 
 | Skill | 场景包 | 说明 |
 |-------|--------|------|
 | chat-prompt-engineer | chat-prompt-craft | 对话助手提示词工程（豆包/ChatGPT/Kimi 等：五要素公式 + 智能体五段骨架 + 结构审计） |
+| design-brief-interpreter | visual-design-studio | 模糊需求 → 7 字段设计规格单（链条入口） |
+| image-prompt-engineer | visual-design-studio | 五段式文生图 prompt（含文字渲染铁律与模型方言） |
+| layout-spec-auditor | visual-design-studio | 平台版面规格审计脚本（比例/分辨率/安全区/文字预算） |
+| podcast-producer | audio-studio | 播客分段脚本（纯口播词纪律 + TTS 安全 lint） |
+| tts-voice-director | audio-studio | 跨引擎声音目录选角 + ffmpeg 拼接计划 |
+| episode-publisher | audio-studio | shownotes + 时间戳章节 + 平台元数据 + AI 披露 |
 
-以上 55 个技能不来自上游，由本仓库原创维护，更新即改本仓库。
+以上 61 个技能不来自上游，由本仓库原创维护，更新即改本仓库。
 
-## 全部技能清单（88 = 上游 33 + 自建 55）
+## 全部技能清单（94 = 上游 33 + 自建 61）
 
 ### 上游精选（33）
 
@@ -161,7 +167,7 @@ python3 build.py         # 唯一构建入口
 
 > 注：`skill-tester/assets/sample-skill/` 是 skill-tester 自带的示例资产，不算独立 skill。
 
-### 自建（55）
+### 自建（61）
 
 按上文"自建场景技能"四个小节的表格为准，此处不重复罗列。
 单一事实来源是 `manifest.json`（由 `build.py` 从 `packs/*/pack.json` 自动同步）。

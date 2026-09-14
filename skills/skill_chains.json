@@ -140,6 +140,55 @@
           "music-generation"
         ]
       }
+    },
+    "design": {
+      "entry": "skills/design/design_pipeline.py",
+      "skills": [
+        "design-brief-interpreter",
+        "image-prompt-engineer",
+        "layout-spec-auditor"
+      ],
+      "chains": {
+        "cover": [
+          "design-brief-interpreter",
+          "image-prompt-engineer",
+          "layout-spec-auditor"
+        ],
+        "poster": [
+          "design-brief-interpreter",
+          "image-prompt-engineer",
+          "layout-spec-auditor"
+        ],
+        "infographic": [
+          "design-brief-interpreter",
+          "image-prompt-engineer",
+          "layout-spec-auditor"
+        ]
+      }
+    },
+    "audio": {
+      "entry": "skills/audio/audio_pipeline.py",
+      "skills": [
+        "podcast-producer",
+        "tts-voice-director",
+        "episode-publisher"
+      ],
+      "chains": {
+        "podcast_episode": [
+          "podcast-producer",
+          "tts-voice-director",
+          "episode-publisher"
+        ],
+        "document_to_podcast": [
+          "podcast-producer",
+          "tts-voice-director",
+          "episode-publisher"
+        ],
+        "audiobook_chapter": [
+          "tts-voice-director",
+          "episode-publisher"
+        ]
+      }
     }
   }
 }

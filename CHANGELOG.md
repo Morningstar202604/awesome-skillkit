@@ -14,6 +14,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > 另：0.4.0 – 0.6.1 发布于重置整理期，其内容随后被 squash 进 0.6.2 对应的提交
 > （`21769cb`），独立提交已不可考，故这四个版本没有对应的 git tag。
 
+## [Unreleased]
+
+### Added
+
+- **新增场景包 `visual-design-studio`（3 技能，自研）+ `design` 域完整链条**：
+  `design-brief-interpreter`（模糊需求 → 7 字段可机检设计规格单，风格锚纪律
+  借鉴 Anthropic canvas-design 与 designskills 的 design-context 先行模式）、
+  `image-prompt-engineer`（五段式文生图 prompt + 文字渲染铁律"图上要可读文字
+  选 GPT Image 系" + 摄影词汇 + 模型方言笔记）、`layout-spec-auditor`（内置
+  8 平台规格表，审计比例/分辨率/文件限额/文字预算，附 spec_audit.py +
+  8 个 pytest 用例）。`design_pipeline.py` 编排 + skill_chains.json 注册
+  cover/poster/infographic 三条链。
+- **新增场景包 `audio-studio`（3 技能，自研）+ `audio` 域完整链条**：
+  `podcast-producer`（钩子→三段→CTA 大纲，纯口播词铁律"TTS 会读出一切标记"，
+  附 script_lint.py 机器守门 + 5 个 pytest 用例）、`tts-voice-director`
+  （跨引擎声音目录：Kokoro/DIA/Qwen3-TTS 气质→ID 映射 + ffmpeg 拼接计划）、
+  `episode-publisher`（shownotes + podcasting 2.0 时间戳章节 + 平台元数据 +
+  AI 内容披露行）。`audio_pipeline.py` 编排 + 注册 podcast_episode/
+  document_to_podcast/audiobook_chapter 三条链。方法论提炼自 Podify、
+  inference.sh skills 与开源 TTS 生态，已署名。
+- 至此仓库 7 个域全部具备"入口技能 → 编排器 → 链条收口"的完整使用链条
+  （programming / video / writing / ppt / music / design / audio）。
+
 ## [0.13.1] - 2026-09-14
 
 ### Added

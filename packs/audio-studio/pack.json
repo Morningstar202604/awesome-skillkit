@@ -1,0 +1,21 @@
+{
+  "id": "audio-studio",
+  "name": "Audio Studio",
+  "name_zh": "音频工作室",
+  "description": "AI audio production chain: turn a topic or document into a segmented podcast script (spoken words only - TTS reads everything), direct voice synthesis with a voice catalog and per-character casting, and publish with shownotes, timestamped chapters, and platform metadata. Topic in, publishable episode out, no step left dangling.",
+  "description_zh": "AI 音频生产链条：把选题或文档变成分段播客脚本（纯口播词——TTS 会把一切都读出来），按声音目录做角色选声与合成参数执导，并以 shownotes、时间戳章节、平台元数据收尾发布。选题进、可发布节目出，链条不断头。方法论借鉴 Kokoro/Qwen3-TTS 生态与 Podify/inference.sh 实践并已署名。",
+  "skills": [
+    {
+      "name": "podcast-producer",
+      "source": "self-authored"
+    },
+    {
+      "name": "tts-voice-director",
+      "source": "self-authored"
+    },
+    {
+      "name": "episode-publisher",
+      "source": "self-authored"
+    }
+  ]
+}

@@ -23,6 +23,8 @@
 | ai-research-writing | AI 研究与写作 | 7 | 92 KB |
 | ai-video-pipeline | AI 短视频流水线 | 6 | 61 KB |
 | video-design-studio | 视频设计工作室（前期设计） | 4 | 32 KB |
+| visual-design-studio | 视觉设计工作室 | 3 | 14 KB |
+| audio-studio | 音频工作室（播客链条） | 3 | 14 KB |
 | api-development | API 开发与测试 | 2 | 50 KB |
 | architecture | 系统架构设计 | 3 | 109 KB |
 | ci-cd | CI/CD 流水线 | 3 | 64 KB |
@@ -42,7 +44,7 @@
 | viral-entertainment | 爆款娱乐（魔性短视频） | 2 | 9 KB |
 
 
-**23 个场景包 · 88 个技能。** 项目文档：[方向 v2](docs/DIRECTION-V2.md) · [技能编写规范](docs/SKILL-STANDARD-v2.md) · [版本与发布制度](docs/VERSIONING.md) · [视频方案全景调研](docs/VIDEO-LANDSCAPE.md)
+**25 个场景包 · 94 个技能。** 项目文档：[方向 v2](docs/DIRECTION-V2.md) · [技能编写规范](docs/SKILL-STANDARD-v2.md) · [版本与发布制度](docs/VERSIONING.md) · [视频方案全景调研](docs/VIDEO-LANDSCAPE.md)
 
 ## 场景包详情
 
@@ -231,6 +233,27 @@
 | shot-recipe-designer | self-authored |
 | video-prompt-engineer | self-authored |
 | visual-style-anchor | self-authored |
+
+### 视觉设计工作室（`visual-design-studio`）— 14 KB
+
+**AI 视觉设计链条：需求 → 规格单 → prompt → 版面审计。design-brief-interpreter 把模糊需求翻译成 7 字段可机检规格单，image-prompt-engineer 按五段结构写文生图 prompt（含模型方言与文字渲染铁律），layout-spec-auditor 按内置平台规格表审计比例/分辨率/安全区/文字预算。方法论借鉴并署名 Anthropic canvas-design / designskills / Replicate prompting 指南，见 sources-and-methodology.md。**
+
+| Skill | 来源 |
+|-------|--------|
+| design-brief-interpreter | self-authored |
+| image-prompt-engineer | self-authored |
+| layout-spec-auditor | self-authored |
+
+### 音频工作室（`audio-studio`）— 14 KB
+
+**AI 播客链条：选题/文档 → 脚本 → 声音 → 可发布节目。podcast-producer 产纯口播词分段脚本（附 TTS 安全 lint），tts-voice-director 按跨引擎声音目录选角并排 ffmpeg 拼接计划，episode-publisher 产 shownotes、时间戳章节与平台元数据（含 AI 内容披露行）。方法论借鉴并署名 Kokoro/Qwen3-TTS 生态实践（Podify / inference.sh），见 sources-and-methodology.md。**
+
+| Skill | 来源 |
+|-------|--------|
+| podcast-producer | self-authored |
+| tts-voice-director | self-authored |
+| episode-publisher | self-authored |
+
 
 ### 爆款娱乐（`viral-entertainment`）— 11 KB
 

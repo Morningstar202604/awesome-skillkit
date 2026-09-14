@@ -22,6 +22,9 @@ AI ツール向けに厳選された**シーンパック**のコレクション�
 | ai-media-toolkit | AI メディア生成 | 4 | 19 KB |
 | ai-research-writing | AI リサーチとライティング | 7 | 92 KB |
 | ai-video-pipeline | AI ショート動画パイプライン | 6 | 61 KB |
+| video-design-studio | 映像デザインスタジオ | 4 | 32 KB |
+| visual-design-studio | ビジュアルデザインスタジオ | 3 | 14 KB |
+| audio-studio | オーディオスタジオ（ポッドキャスト連鎖） | 3 | 14 KB |
 | api-development | API 開発とテスト | 2 | 50 KB |
 | architecture | システムアーキテクチャ | 3 | 109 KB |
 | ci-cd | CI/CD パイプライン | 3 | 64 KB |
@@ -41,7 +44,7 @@ AI ツール向けに厳選された**シーンパック**のコレクション�
 | viral-entertainment | バイラルエンタメ（ミーム動画） | 2 | 9 KB |
 
 
-**23 パック・88 スキル。** ドキュメント：[Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning](docs/VERSIONING.md) · [Video landscape 調査](docs/VIDEO-LANDSCAPE.md)
+**25 パック・94 スキル。** ドキュメント：[Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning](docs/VERSIONING.md) · [Video landscape 調査](docs/VIDEO-LANDSCAPE.md)
 
 ## パック詳細
 
@@ -230,6 +233,27 @@ AI ツール向けに厳選された**シーンパック**のコレクション�
 | shot-recipe-designer | self-authored |
 | video-prompt-engineer | self-authored |
 | visual-style-anchor | self-authored |
+
+### ビジュアルデザインスタジオ（`visual-design-studio`）— 14 KB
+
+**AI ビジュアルデザイン連鎖：要件 → 仕様書 → プロンプト → レイアウト監査。design-brief-interpreter が曖昧な要求を機械検証可能な 7 項目仕様書に変換し、image-prompt-engineer が 5 セグメント構造の文生画像プロンプト（モデル方言・文字描画ルール込み）を書き、layout-spec-auditor が内蔵プラットフォーム仕様表で比率/解像度/セーフエリア/文字予算を監査する。**
+
+| Skill | ソース |
+|-------|--------|
+| design-brief-interpreter | self-authored |
+| image-prompt-engineer | self-authored |
+| layout-spec-auditor | self-authored |
+
+### オーディオスタジオ（`audio-studio`）— 14 KB
+
+**AI ポッドキャスト連鎖：話題/文書 → 台本 → 音声 → 発売可能なエピソード。podcast-producer が TTS セーフな分段台本（lint 付き）を書き、tts-voice-director が音声カタログからキャスティングと ffmpeg 接続計画を立て、episode-publisher が shownotes・タイムスタンプ章・プラットフォームメタデータ（AI 開示行込み）を出力する。**
+
+| Skill | ソース |
+|-------|--------|
+| podcast-producer | self-authored |
+| tts-voice-director | self-authored |
+| episode-publisher | self-authored |
+
 
 ### Viral Entertainment（`viral-entertainment`）— 11 KB
 

@@ -25,6 +25,8 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | ai-research-writing | AI Research & Writing | 7 | 92 KB |
 | ai-video-pipeline | AI Video Pipeline | 6 | 61 KB |
 | video-design-studio | Video Design Studio (pre-production) | 4 | 32 KB |
+| visual-design-studio | Visual Design Studio | 3 | 14 KB |
+| audio-studio | Audio Studio (podcast chain) | 3 | 14 KB |
 | api-development | API Development & Testing | 2 | 50 KB |
 | architecture | System Architecture | 3 | 109 KB |
 | ci-cd | CI/CD Pipeline | 3 | 64 KB |
@@ -43,7 +45,7 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | tdd | Test-Driven Development | 1 | 50 KB |
 | viral-entertainment | Viral Entertainment (meme shorts) | 2 | 9 KB |
 
-**23 packs · 88 skills.** Project docs: [Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning & Release policy](docs/VERSIONING.md) · [Video landscape research](docs/VIDEO-LANDSCAPE.md) 
+**25 packs · 94 skills.** Project docs: [Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning & Release policy](docs/VERSIONING.md) · [Video landscape research](docs/VIDEO-LANDSCAPE.md) 
 
 ## Pack Details
 
@@ -240,6 +242,27 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | shot-recipe-designer | self-authored |
 | video-prompt-engineer | self-authored |
 | visual-style-anchor | self-authored |
+
+### Visual Design Studio (`visual-design-studio`) — 14 KB
+
+**AI visual-design chain: brief -> spec -> prompt -> layout audit. design-brief-interpreter turns a vague request into a 7-field machine-checkable spec, image-prompt-engineer writes five-segment text-to-image prompts with per-model dialects and text-rendering rules, layout-spec-auditor checks ratio/resolution/safe-area/text-budget against a built-in platform spec table. Methodology credited to Anthropic canvas-design / designskills / Replicate prompting guide — see sources-and-methodology.md.**
+
+| Skill | Source |
+|-------|--------|
+| design-brief-interpreter | self-authored |
+| image-prompt-engineer | self-authored |
+| layout-spec-auditor | self-authored |
+
+### Audio Studio (`audio-studio`) — 14 KB
+
+**AI podcast chain: topic/document -> script -> voice -> publishable episode. podcast-producer writes segmented spoken-words-only scripts with a TTS-safety linter, tts-voice-director casts voices from a cross-engine catalog and plans ffmpeg stitching, episode-publisher emits shownotes, timestamped chapters and platform metadata with the AI-disclosure line. Methodology credited to Kokoro/Qwen3-TTS ecosystem practice (Podify / inference.sh) — see sources-and-methodology.md.**
+
+| Skill | Source |
+|-------|--------|
+| podcast-producer | self-authored |
+| tts-voice-director | self-authored |
+| episode-publisher | self-authored |
+
 
 ### AI Video Pipeline (`ai-video-pipeline`) — 62 KB
 
