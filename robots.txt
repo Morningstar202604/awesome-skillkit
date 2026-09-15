@@ -1,0 +1,9 @@
+# robots.txt — awesome-skillkit
+# Crawl policy for the hosted project site and repository mirrors.
+# All intentional public content is fully crawlable.
+
+User-agent: *
+Allow: /
+
+# Build output (gitignored locally; excluded from indexing on hosted pages).
+Disallow: /dist/
