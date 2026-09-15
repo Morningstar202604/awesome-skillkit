@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark" data-accent="cyan">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>awesome-skillkit — 技能目录 / 场景包下载</title>
+<meta name="description" content="浏览并下载 awesome-skillkit 的 112 个 Claude Code 技能（SKILL.md 单文件）与 27 个场景包压缩包，覆盖 12 个域、39 条技能链。">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<div class="bg-layer" aria-hidden="true"><span class="orb orb-1"></span><span class="orb orb-2"></span><span class="grid"></span></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-top">
+      <span class="brand" id="brand">awesome-skillkit</span>
+    </div>
+    <h1>把整套 Claude Code 技能，<em>一次搬回家</em></h1>
+    <p class="tagline" id="tagline">112 个技能 · 27 个场景包 · 12 个域 · 39 条技能链 —— 单个 SKILL.md 或整包 zip，随取随下。</p>
+    <div class="stats" id="stats"></div>
+    <div class="hero-actions">
+      <a class="btn primary" id="allPackBtn" href="packs/_all.zip" download>↓ 下载全量包（_all.zip）</a>
+      <a class="btn" id="ghBtn" href="#" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn" id="gcBtn" href="#" target="_blank" rel="noopener">GitCode</a>
+    </div>
+  </div>
+</header>
+
+<nav class="toolbar">
+  <div class="wrap bar">
+    <div class="search">
+      <span class="search-icon">⌕</span>
+      <input id="q" type="search" placeholder="搜索技能、场景包或域…（如 论文、video、ppt）" autocomplete="off">
+      <button class="clear" id="clearQ" hidden>×</button>
+    </div>
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-tab="skills">技能 <b id="cSkills">0</b></button>
+      <button class="tab" data-tab="packs">场景包 <b id="cPacks">0</b></button>
+      <button class="tab" data-tab="chains">技能链 <b id="cChains">0</b></button>
+    </div>
+    <div class="theme-tools">
+      <div class="seg" role="group" aria-label="强调色">
+        <button class="dot dot-cyan" data-set-accent="cyan" title="玄青"></button>
+        <button class="dot dot-violet" data-set-accent="violet" title="玄紫"></button>
+        <button class="dot dot-amber" data-set-accent="amber" title="玄黄"></button>
+      </div>
+      <button class="ghost-btn" id="themeToggle" title="明暗切换">◐</button>
+    </div>
+  </div>
+  <div class="wrap chips" id="domainChips"></div>
+</nav>
+
+<main class="wrap">
+  <p class="hint" id="hint"></p>
+  <section id="view-skills" class="grid"></section>
+  <section id="view-packs" class="grid" hidden></section>
+  <section id="view-chains" class="chain-view" hidden></section>
+  <p class="empty" id="empty" hidden>没有匹配项，换个关键词试试。</p>
+</main>
+
+<footer class="wrap foot">
+  <div>
+    <strong>awesome-skillkit</strong> · <span id="footMeta"></span> · Apache-2.0
+  </div>
+  <div class="foot-links">
+    <a id="footGh" href="#" target="_blank" rel="noopener">GitHub 仓库</a>
+    <a id="footGc" href="#" target="_blank" rel="noopener">GitCode 仓库</a>
+    <a href="data/site.json" download>site.json（数据源）</a>
+  </div>
+</footer>
+
+<div id="toast" class="toast" hidden></div>
+<script src="assets/app.js"></script>
+</body>
+</html>

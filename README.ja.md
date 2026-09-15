@@ -4,6 +4,10 @@
 
 [English](README.md) | [中文](README.zh-CN.md) | **日本語**
 
+> 🌐 **オンライン閲覧** — 113 個のスキルを検索し、任意の `SKILL.md` 単体またはパック zip をダウンロードできます：
+> [GitHub Pages](https://ms33834.github.io/awesome-skillkit/) · [GitCode Pages](https://gitcode.host/badhope/awesome-skillkit)
+> （手順は [docs/DEPLOY-SITE.md](docs/DEPLOY-SITE.md)）
+
 AI ツール向けに厳選された**シーンパック**のコレクションです。**各パック = 一つの実務シナリオに対応し、厳選した複数のスキルを同梱しています。** zip をダウンロード → 解凍 → スキルフォルダを AI ツールの skills ディレクトリにドラッグするだけで、すぐに使えます。
 
 ## コンセプト

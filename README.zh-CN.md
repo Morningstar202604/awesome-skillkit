@@ -4,6 +4,10 @@
 
 [English](README.md) | **中文** | [日本語](README.ja.md)
 
+> 🌐 **在线浏览** —— 搜索全部 113 个技能，单独下载任意 `SKILL.md`，或整包下载 zip：
+> [GitHub Pages](https://ms33834.github.io/awesome-skillkit/) · [GitCode Pages](https://gitcode.host/badhope/awesome-skillkit)
+> （部署说明见 [docs/DEPLOY-SITE.md](docs/DEPLOY-SITE.md)）
+
 面向 AI 工具的精选**场景包**合集。**每个场景包 = 一个真实场景，内含多个精选 skill。** 下载 zip → 解压 → 把 skill 文件夹拖进 AI 工具的 skills 目录 → 直接可用。
 
 ## 定位

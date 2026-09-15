@@ -6,6 +6,10 @@
 
 **English** | [中文](README.zh-CN.md) | [日本語](README.ja.md)
 
+> 🌐 **Browse online** — search all 113 skills and download any single `SKILL.md` or a whole pack zip:
+> [GitHub Pages](https://ms33834.github.io/awesome-skillkit/) · [GitCode Pages](https://gitcode.host/badhope/awesome-skillkit)
+> (deploy guide: [docs/DEPLOY-SITE.md](docs/DEPLOY-SITE.md))
+
 Curated **scene packs** for AI tools. **Each pack = one real-world scenario, containing multiple hand-picked skills.** Download a zip → unzip → drag the skill folders into your AI tool's skills directory → it just works.
 
 ## Positioning

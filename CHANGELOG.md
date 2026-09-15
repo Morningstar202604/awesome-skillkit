@@ -18,6 +18,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **技能目录 / 下载站点（site/）**：零依赖静态站（纯 HTML/CSS/JS + 一份 data JSON），
+  覆盖 112 技能 / 27 场景包 / 12 域 / 39 条技能链。支持**单个 SKILL.md 直接下载**
+  （站点自带副本，不依赖 raw 服务）与**场景包 zip 双通道下载**（站内镜像 + GitHub/GitCode
+  Release 附件链接，附件未上传时镜像保证按钮不失效）；实时搜索、域筛选、
+  技能/场景包/技能链三视图、包内技能跳转、玄青/玄紫/玄黄 + 明暗换肤（localStorage 记忆）。
+  新增 `tools/build_site.py`（数据生成）、`tools/publish_site.py`（发布 gh-pages 分支）、
+  `.github/workflows/pages.yml`（GitHub Actions 自动部署）、`docs/DEPLOY-SITE.md`。
+
+### Fixed
+
+- 三个语言 README 顶部的计数徽章停留在 87 技能 / 22 包 → 修正为 **112 / 27**。
+- lit-review 的 `compatibility` 仍宣称 `--arxiv` 是"离线 mock、无网络调用" → 更正为
+  真实 arXiv API（20s 超时 + 429 退避）并在失败时回退 mock、以 `data_source` 标注。
+
+### Added
+
 - **P3 清零轮**：tdd-guide 统一 CLI 入口 `tdd_cli.py`（7 子命令覆盖 8 库模块，
   rc 0/2/1 语义）；pipeline_orchestrator 补 5 步 runner（code_review /
   dependency_audit / ci_cd_setup / ship_gate / runbook_generation），

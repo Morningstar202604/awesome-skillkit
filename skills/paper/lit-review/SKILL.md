@@ -2,7 +2,7 @@
 name: lit-review
 description: "Literature review helper: scan a topic across venues, build a citation relationship map, and produce a structured summary with research-gap callouts. Use at the start of a paper project or when the user asks for 文献综述 / 相关工作梳理 / 找参考文献. 当用户要求 调研某方向论文 / 写相关工作 时使用。 Do NOT use for topic selection (use paper-topic-selector first)."
 license: Apache-2.0
-compatibility: Stdlib only by default; --arxiv flag is a MOCK offline simulation, no real network calls.
+compatibility: Stdlib only. --arxiv makes a real HTTPS call to export.arxiv.org (20s timeout, one 429 backoff retry); on any network/parse failure it falls back to MOCK data and flags it via top-level data_source/warning. SKILLKIT_MOCK=1 forces mock (no network).
 metadata:
   version: "1.0"
   author: awesome-skillkit

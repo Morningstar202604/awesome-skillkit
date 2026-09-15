@@ -19,3 +19,8 @@ _session_*.json
 .idea/
 .DS_Store
 Thumbs.db
+
+# 站点生成物（SKILL.md 副本 + zip 镜像，由 tools/build_site.py 生成，
+# 只随 gh-pages 发布分支走，不进 main）
+site/skills/
+site/packs/
