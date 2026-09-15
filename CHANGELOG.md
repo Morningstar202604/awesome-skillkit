@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.14.0] - 2026-09-15
+
 ### Added
 
 - **大规模全量测试轮（三层测试，详见 docs/FULL-TEST-REPORT.md）**：chains 静态一致性 +
@@ -537,5 +539,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [0.12.2]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.12.1...v0.12.2
 [0.12.3]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.12.2...v0.12.3
 [0.13.0]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.12.3...v0.13.0
-[Unreleased]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.13.1...HEAD
+[Unreleased]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.14.0...HEAD
+[0.14.0]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.13.1...v0.14.0
 [0.13.1]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.13.0...v0.13.1
