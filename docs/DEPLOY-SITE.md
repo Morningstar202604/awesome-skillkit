@@ -49,10 +49,25 @@ python3 tools/publish_site.py        # 重新生成并强推 gh-pages
 
 一次性开启：
 
-1. 在 GitHub 创建仓库 `MS33834/awesome-skillkit`（public），把 main 推上去
-2. **Settings → Pages → Source** 选 **GitHub Actions**
-3. 之后每次 push main 会自动：`build.py` → `tools/build_site.py` → 上传 `site/` → 部署
-4. 站点地址：`https://ms33834.github.io/awesome-skillkit/`
+```bash
+# token 只走环境变量，绝不写进命令历史或仓库
+export GH_TOKEN=ghp_xxx          # 需要 repo + workflow 权限
+
+# 1) 建仓并推 main（仓库已存在则只 push）
+gh repo create MS33834/awesome-skillkit --public --source=. --remote=github --push
+#   已有仓库时用：git remote add github https://github.com/MS33834/awesome-skillkit.git
+#                 git push github main
+
+# 2) Pages 来源设为 GitHub Actions（一次性）
+gh api -X POST repos/MS33834/awesome-skillkit/pages -f "source[branch]=main" -f "source[path]=/" 2>/dev/null \
+  || echo "→ 若 API 不接受，去 Settings → Pages → Source 手动选 GitHub Actions"
+
+# 3) 传 Release 附件（28 个 zip），让包卡片的 GitHub 直链生效
+gh release create v0.14.0 dist/*.zip --title "v0.14.0" --notes-file /tmp/relnotes.md
+```
+
+之后每次 push main 会自动：`build.py` → `tools/build_site.py` → 上传 `site/` → 部署。
+站点地址：`https://ms33834.github.io/awesome-skillkit/`
 
 若不想用 Actions，也可复用同一套发布脚本：
 
