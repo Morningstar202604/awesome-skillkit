@@ -105,14 +105,19 @@ def sync_manifest(fingerprints: dict[str, dict]) -> None:
         if not fp:
             continue
         entry = existing.get(pack_id)
+        meta = json.loads(pack_json.read_text(encoding="utf-8"))
         if entry is None:
-            meta = json.loads(pack_json.read_text(encoding="utf-8"))
             entry = {
                 k: meta[k]
                 for k in ("id", "name", "name_zh", "description", "description_zh")
                 if k in meta
             }
             entry["file"] = f"dist/{pack_id}.zip"
+            entry["skills"] = meta.get("skills", [])
+            changed = True
+        # skills 以 pack.json 为准：历史遗留条目（如 ai-research-writing 缺
+        # 整个 paper 域）会静默丢技能，导致 manifest 索引数与 README 不符
+        elif entry.get("skills") != meta.get("skills", []):
             entry["skills"] = meta.get("skills", [])
             changed = True
         if entry.get("size_kb") != fp["size_kb"]:

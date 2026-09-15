@@ -182,6 +182,8 @@ def collect(github_repo: str, gitcode_repo: str, dist_dir: Path) -> dict:
             "desc": manifest.get("description", ""),
             "desc_zh": manifest.get("description_zh", ""),
             "n_skills": len(skills),
+            # 磁盘 SKILL.md 总数：含 sample-skill 等不入包模板，与 README 徽章口径一致
+            "n_skills_on_disk": len(list(SKILLS_DIR.rglob("SKILL.md"))),
             "n_packs": len(packs),
             "n_domains": len(domains),
             "n_chains": sum(d["n_chains"] for d in domains),

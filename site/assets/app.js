@@ -68,11 +68,14 @@
   /* ---------- 渲染：统计 / 头部 ---------- */
   function renderHead() {
     const m = state.data.meta;
-    document.title = `${m.hub} — ${m.n_skills} 技能 / ${m.n_packs} 场景包下载`;
+    // 口径：n_skills 为入包技能数，n_skills_on_disk 含 sample-skill 等不入包模板
+    const total = m.n_skills_on_disk || m.n_skills;
+    const tpl = total - m.n_skills;
+    document.title = `${m.hub} — ${total} 技能 / ${m.n_packs} 场景包下载`;
     $("#brand").textContent = m.hub;
     $("#stats").innerHTML = "";
     const items = [
-      [m.n_skills, "个技能 SKILL.md"],
+      [total, "个技能 SKILL.md"],
       [m.n_packs, "个场景包 zip"],
       [m.n_domains, "个技能域"],
       [m.n_chains, "条技能链"],
@@ -92,6 +95,9 @@
     $("#cPacks").textContent = m.n_packs;
     $("#cChains").textContent = m.n_chains;
     $("#tagline").textContent = m.desc_zh || m.desc || $("#tagline").textContent;
+    $("#statsNote").textContent = tpl > 0
+      ? `其中 ${m.n_skills} 个已打包进场景包，${tpl} 个为模板技能（不入包，仅供参照编写）。`
+      : "";
   }
 
   function renderChips() {

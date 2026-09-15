@@ -104,10 +104,58 @@
         {
           "name": "seo-optimizer",
           "source": "self-authored"
+        },
+        {
+          "name": "lit-review",
+          "source": "self-authored"
+        },
+        {
+          "name": "experiment-runner",
+          "source": "self-authored"
+        },
+        {
+          "name": "figure-maker",
+          "source": "self-authored"
+        },
+        {
+          "name": "arch-diagram",
+          "source": "self-authored"
+        },
+        {
+          "name": "neural-net-draw",
+          "source": "self-authored"
+        },
+        {
+          "name": "latex-formatter",
+          "source": "self-authored"
+        },
+        {
+          "name": "self-reviewer",
+          "source": "self-authored"
+        },
+        {
+          "name": "journal-adapt",
+          "source": "self-authored"
+        },
+        {
+          "name": "anti-defensive",
+          "source": "self-authored"
+        },
+        {
+          "name": "ai-humanizer",
+          "source": "self-authored"
+        },
+        {
+          "name": "tex-cleaner",
+          "source": "self-authored"
+        },
+        {
+          "name": "pub-plotter",
+          "source": "self-authored"
         }
       ],
       "size_kb": 130,
-      "sha256": "7a1c410338804130068f4276912cc8fbfb2d4ab28b76bfcc63462cbab198e0c6"
+      "sha256": "925c22ca3e35eb361992397370ec9bf15ec5eb8cca03f924b4a0395e4fcf7380"
     },
     {
       "id": "ai-video-pipeline",
@@ -359,14 +407,6 @@
           "source": "skillkit authors (self-authored)"
         },
         {
-          "name": "cross-post-orchestrator",
-          "source": "skillkit authors (self-authored)"
-        },
-        {
-          "name": "ai-cover-generator",
-          "source": "skillkit authors (self-authored)"
-        },
-        {
           "name": "csdn-publisher",
           "source": "skillkit authors (self-authored)"
         },
@@ -412,6 +452,14 @@
         },
         {
           "name": "static-blog-deploy",
+          "source": "skillkit authors (self-authored)"
+        },
+        {
+          "name": "cross-post-orchestrator",
+          "source": "skillkit authors (self-authored)"
+        },
+        {
+          "name": "ai-cover-generator",
           "source": "skillkit authors (self-authored)"
         }
       ],

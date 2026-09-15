@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - **技能目录 / 下载站点（site/）**：零依赖静态站（纯 HTML/CSS/JS + 一份 data JSON），
-  覆盖 112 技能 / 27 场景包 / 12 域 / 39 条技能链。支持**单个 SKILL.md 直接下载**
+  覆盖 113 个技能（112 个入包 + 1 个模板）/ 27 场景包 / 12 域 / 39 条技能链。支持**单个 SKILL.md 直接下载**
   （站点自带副本，不依赖 raw 服务）与**场景包 zip 双通道下载**（站内镜像 + GitHub/GitCode
   Release 附件链接，附件未上传时镜像保证按钮不失效）；实时搜索、域筛选、
   技能/场景包/技能链三视图、包内技能跳转、玄青/玄紫/玄黄 + 明暗换肤（localStorage 记忆）。
@@ -28,7 +28,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- 三个语言 README 顶部的计数徽章停留在 87 技能 / 22 包 → 修正为 **112 / 27**。
+- 三个语言 README 顶部的计数徽章停留在 87 技能 / 22 包 → 修正为 **113 / 27**
+  （113 = 磁盘 `SKILL.md` 总数，其中 112 个打包进场景包，1 个 `sample-skill`
+  为编写模板不入包）。
+- `build.py` 的 `sync_manifest` 只对**新增**包写入 `skills`，已存在条目从不更新 →
+  `manifest.json` 的 `ai-research-writing` 长期缺 12 个 paper 域技能，索引只有
+  100 个技能，与 README 徽章和 `packs/*/pack.json` 都不一致。现改为**始终以
+  pack.json 的 `skills` 为准**做 upsert，索引恢复 112 个入包技能。
 - lit-review 的 `compatibility` 仍宣称 `--arxiv` 是"离线 mock、无网络调用" → 更正为
   真实 arXiv API（20s 超时 + 429 退避）并在失败时回退 mock、以 `data_source` 标注。
 
