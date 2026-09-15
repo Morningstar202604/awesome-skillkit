@@ -2,7 +2,7 @@
 
 # awesome-skillkit
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-87-brightgreen) ![Packs](https://img.shields.io/badge/scenes-22-blue)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-113-brightgreen) ![Packs](https://img.shields.io/badge/scenes-27-blue)
 
 **English** | [中文](README.zh-CN.md) | [日本語](README.ja.md)
 
@@ -12,9 +12,9 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 
 **The scenario is the answer — grounded in platform + tool.**
 
-- Each pack maps to one **concrete scenario** ("review a pull request", "build a CI/CD pipeline", "post to my blog"), not a broad domain.
-- Each pack bundles **the skills that work together for that scenario** — from a focused pair to a full 18-skill suite (`content-publishing` covers 16 Chinese platforms end-to-end) — no more hunting through a hundred standalone skills.
-- Every skill's **source is clearly attributed** (see the Source column), so you always know where it came from.
+- 🎯 Each pack maps to one **concrete scenario** ("review a pull request", "build a CI/CD pipeline", "post to my blog"), not a broad domain.
+- 🧩 Each pack bundles **the skills that work together for that scenario** — from a focused pair to a full 18-skill suite (`content-publishing` covers 16 Chinese platforms end-to-end) — no more hunting through a hundred standalone skills.
+- 🏷️ Every skill's **source is clearly attributed** (see the Source column), so you always know where it came from.
 
 ## Scene Packs
 
@@ -29,6 +29,7 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | audio-studio | Audio Studio (podcast chain) | 3 | 14 KB |
 | growth-marketing | Growth Marketing (e-commerce) | 3 | 15 KB |
 | edu-craft | Edu Craft (mastery teaching) | 3 | 15 KB |
+| chat-prompt-craft | Chat Prompt Craft | 1 | 8 KB |
 | api-development | API Development & Testing | 2 | 50 KB |
 | architecture | System Architecture | 3 | 109 KB |
 | ci-cd | CI/CD Pipeline | 3 | 64 KB |
@@ -47,7 +48,7 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | tdd | Test-Driven Development | 1 | 50 KB |
 | viral-entertainment | Viral Entertainment (meme shorts) | 2 | 9 KB |
 
-**27 packs · 112 skills.** Project docs: [Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning & Release policy](docs/VERSIONING.md) · [Video landscape research](docs/VIDEO-LANDSCAPE.md) 
+**27 packs · 113 skills.** Project docs: [Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning & Release policy](docs/VERSIONING.md) · [Video landscape research](docs/VIDEO-LANDSCAPE.md) 
 
 ## Pack Details
 
@@ -350,6 +351,14 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | result-visualizer | self-authored |
 | ml-pipeline | self-authored |
 
+### Chat Prompt Craft (`chat-prompt-craft`) — 8 KB
+
+**Prompt engineering for conversational AI assistants (Doubao, ChatGPT, Kimi, DeepSeek, etc.): one-shot task prompts built on the five-element formula (role + background + task + requirements + format), agent/persona system prompts, reverse constraints that kill filler, and a heuristic structural audit.**
+
+| Skill | Source |
+|-------|--------|
+| chat-prompt-engineer | self-authored |
+
 ## Directory Layout
 
 ```
@@ -382,12 +391,12 @@ dist/                           # build output: one zip per scene pack (gitignor
 
 ## Getting Started (30 seconds)
 
-1. Download the zip for the **scene** you need from **Releases** (or run `python3 build.py` to build `dist/*.zip` locally).
-2. Unzip it — you get **multiple skill folders** (each containing `SKILL.md`).
-3. **Drag** the skill folders into your AI tool's skills directory:
+1. 📦 Download the zip for the **scene** you need from **Releases** (or run `python3 build.py` to build `dist/*.zip` locally).
+2. 📂 Unzip it — you get **multiple skill folders** (each containing `SKILL.md`).
+3. 🧲 **Drag** the skill folders into your AI tool's skills directory:
    - Claude Code: `~/.claude/skills/` (global) or `.claude/skills/` in your project (project-only)
    - Other tools with skills support: use their corresponding skills directory
-4. Start a new session — it works immediately, no configuration needed.
+4. 🚀 Start a new session — it works immediately, no configuration needed.
 
 ## Build & Release
 

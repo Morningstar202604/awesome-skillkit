@@ -1,6 +1,6 @@
 # awesome-skillkit
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-87-brightgreen) ![Packs](https://img.shields.io/badge/scenes-22-blue)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-113-brightgreen) ![Packs](https://img.shields.io/badge/scenes-27-blue)
 
 [English](README.md) | **中文** | [日本語](README.ja.md)
 
@@ -27,6 +27,7 @@
 | audio-studio | 音频工作室（播客链条） | 3 | 14 KB |
 | growth-marketing | 增长营销（电商） | 3 | 15 KB |
 | edu-craft | 教育工艺（掌握式教学） | 3 | 15 KB |
+| chat-prompt-craft | 聊天提示词工艺 | 1 | 8 KB |
 | api-development | API 开发与测试 | 2 | 50 KB |
 | architecture | 系统架构设计 | 3 | 109 KB |
 | ci-cd | CI/CD 流水线 | 3 | 64 KB |
@@ -46,7 +47,7 @@
 | viral-entertainment | 爆款娱乐（魔性短视频） | 2 | 9 KB |
 
 
-**27 个场景包 · 112 个技能。** 项目文档：[方向 v2](docs/DIRECTION-V2.md) · [技能编写规范](docs/SKILL-STANDARD-v2.md) · [版本与发布制度](docs/VERSIONING.md) · [视频方案全景调研](docs/VIDEO-LANDSCAPE.md)
+**27 个场景包 · 113 个技能。** 项目文档：[方向 v2](docs/DIRECTION-V2.md) · [技能编写规范](docs/SKILL-STANDARD-v2.md) · [版本与发布制度](docs/VERSIONING.md) · [视频方案全景调研](docs/VIDEO-LANDSCAPE.md)
 
 ## 场景包详情
 
@@ -286,6 +287,14 @@
 |-------|--------|
 | ai-baby-podcast | self-authored |
 | nailong-laugh-shorts | self-authored |
+
+### 聊天提示词工艺（`chat-prompt-craft`）— 8 KB
+
+**面向对话式 AI 助手（豆包、ChatGPT、Kimi、DeepSeek 等）的提示词工程：五要素公式（角色 + 背景 + 任务 + 要求 + 格式）写一次性任务提示词、五段骨架写智能体人设 system prompt、反向约束砍废话，附启发式结构审计。**
+
+| Skill | Source |
+|-------|--------|
+| chat-prompt-engineer | self-authored |
 
 ## 目录结构
 

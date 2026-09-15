@@ -1,6 +1,6 @@
 # awesome-skillkit
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-87-brightgreen) ![Packs](https://img.shields.io/badge/scenes-22-blue)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-113-brightgreen) ![Packs](https://img.shields.io/badge/scenes-27-blue)
 
 [English](README.md) | [中文](README.zh-CN.md) | **日本語**
 
@@ -27,6 +27,7 @@ AI ツール向けに厳選された**シーンパック**のコレクション�
 | audio-studio | オーディオスタジオ（ポッドキャスト連鎖） | 3 | 14 KB |
 | growth-marketing | グロースマーケティング | 3 | 15 KB |
 | edu-craft | 教育クラフト（習得型教学） | 3 | 15 KB |
+| chat-prompt-craft | チャットプロンプトクラフト | 1 | 8 KB |
 | api-development | API 開発とテスト | 2 | 50 KB |
 | architecture | システムアーキテクチャ | 3 | 109 KB |
 | ci-cd | CI/CD パイプライン | 3 | 64 KB |
@@ -46,7 +47,7 @@ AI ツール向けに厳選された**シーンパック**のコレクション�
 | viral-entertainment | バイラルエンタメ（ミーム動画） | 2 | 9 KB |
 
 
-**27 パック・112 スキル。** ドキュメント：[Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning](docs/VERSIONING.md) · [Video landscape 調査](docs/VIDEO-LANDSCAPE.md)
+**27 パック・113 スキル。** ドキュメント：[Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning](docs/VERSIONING.md) · [Video landscape 調査](docs/VIDEO-LANDSCAPE.md)
 
 ## パック詳細
 
@@ -286,6 +287,14 @@ AI ツール向けに厳選された**シーンパック**のコレクション�
 |-------|--------|
 | ai-baby-podcast | self-authored |
 | nailong-laugh-shorts | self-authored |
+
+### チャットプロンプトクラフト（`chat-prompt-craft`）— 8 KB
+
+**会話型 AI アシスタント（豆包、ChatGPT、Kimi、DeepSeek など）向けプロンプトエンジニアリング：（役割 + 背景 + タスク + 要件 + 形式）の五要素式で一次性タスクプロンプト、五段スケルトンでエージェント人設 system prompt、冗長を削る逆方向制約、ヒューリスティック構造監査付き。**
+
+| Skill | Source |
+|-------|--------|
+| chat-prompt-engineer | self-authored |
 
 ## ディレクトリ構成
 
