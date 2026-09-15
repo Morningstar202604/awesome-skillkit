@@ -90,14 +90,32 @@ design / audio / marketing / education 四域 SKILL.md 的移交话术核查通�
 - design 补 thumbnail / banner 链
 - 12 个 paper 技能补齐合规 SKILL.md，收编进 `ai-research-writing` 包（7→19 技能）
 
-## 6. 残留建议（P3，未动）
+## 6. 残留建议（P3，2026-09-15 已全部清零）
 
-1. tdd-guide 8 个脚本均为无 CLI 库模块——建议补统一入口或 SKILL.md 明示"仅库引用"。
-2. programming full_project 缺失的 5 步 runner（reviewer/dep-audit/ci-cd/ship-gate/runbook）——仿 run_code_generator 模式单独立项。
-3. lit-review / experiment-runner 的 mock 数据须显式标注（SKILL.md 已写诚实声明，接入真实 API 是后续项）。
-4. dep_scanner 对非法清单静默按 0 依赖——建议 parse_errors 进报告。
-5. 编排器 `--mode research` 会真实联网——建议 `--offline` 熔断。
-6. database-designer 与 sql-database-assistant 各有一份 migration_generator.py，建议比对合并或划清边界。
+1. ~~tdd-guide 8 个脚本均为无 CLI 库模块~~ **已修**：新增统一入口
+   `scripts/tdd_cli.py`（workflow / detect / gen-tests / fixtures / coverage /
+   metrics / stub 七个子命令覆盖全部 8 模块，rc: 0/2/1），SKILL.md 同步给出
+   CLI 用法并纠正 `tdd_workflow.py --phase` 失效引用；8 正例 + 3 异常路径验证通过。
+2. ~~programming full_project 缺失的 5 步 runner~~ **已修**：pipeline_orchestrator.py
+   新增 `_run_step_script` 统一封装 + run_code_review / run_dependency_audit /
+   run_ci_cd_setup / run_ship_gate / run_runbook_generation 五个 runner，
+   `run_full_pipeline` 4 步 → 9 步（与 full_project 链定义对齐）；含失败步骤时
+   进程退出码传播 rc!=0（ship-gate 拦截如实记 failed）。
+3. ~~lit-review / experiment-runner 的 mock 数据须显式标注~~ **已修**：lit-review
+   `--arxiv` 真调 arXiv API（HTTPS + 429 退避重试 + 20s 超时，Atom XML 解析经
+   夹具验证），网络失败自动回退 mock 且输出顶层 `data_source` / `warning` 诚实标注；
+   experiment-runner 输出顶层带 `mode: "simulated"` + `simulation_notice`。
+   注：沙箱共享出口 IP 被 arXiv 限流（429）时按设计降级为带警告的 mock。
+4. ~~dep_scanner 对非法清单静默按 0 依赖~~ **已修**：12 个 `_parse_*` 由吞异常
+   改为 raise，`scan_project` 统一捕获记入 `parse_errors`（文件/解析器/错误详情），
+   summary 计数 + 文本报告 PARSE ERRORS 行 + recommendations WARNING；JSON 报告
+   自动携带。坏 package.json 夹具验证：错误上报且其余清单正常扫描。
+5. ~~编排器 `--mode research` 会真实联网~~ **已修**：新增 `--offline` 熔断旗标，
+   research 模式下不发起任何联网子进程，步骤如实标记 skipped 并输出说明。
+6. ~~database-designer 与 sql-database-assistant 各有一份 migration_generator.py~~
+   **已划界（不合并）**：二者非重复实现——database-designer 版做 schema JSON 对比
+   迁移（ALTER + 回滚 + 零停机 expand-contract），sql-database-assistant 版做
+   自然语言 → up/down 迁移模板。双方 SKILL.md 与 docstring 已加 Boundary 互指说明。
 
 ## 7. 复现
 

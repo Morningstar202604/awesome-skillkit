@@ -20,6 +20,22 @@ Test-driven development skill for generating tests, analyzing coverage, and guid
 
 ## Workflows
 
+### Unified CLI (`scripts/tdd_cli.py`)
+
+All 8 library modules are reachable through one entry point (`0 = ok / 2 = bad input / 1 = internal error`):
+
+```bash
+python scripts/tdd_cli.py workflow --requirement "实现用户登录"          # 红-绿-重构循环 + 阶段指引
+python scripts/tdd_cli.py detect --file src/service.py                  # 语言/框架/测试模式检测
+python scripts/tdd_cli.py gen-tests --requirements req.json --framework pytest   # 需求 → 测试用例
+python scripts/tdd_cli.py fixtures --mode boundary --type int           # 边界值/边缘场景/mock 数据
+python scripts/tdd_cli.py coverage --report coverage.xml --threshold 80 # 覆盖率摘要/缺口/建议
+python scripts/tdd_cli.py metrics --source src/a.py --test tests/test_a.py      # 质量 metrics
+python scripts/tdd_cli.py stub --framework pytest --name test_login     # 测试骨架渲染
+```
+
+`format_detector` / `framework_adapter` / `output_formatter` 通过 `detect` / `stub` / `coverage --format text` 间接暴露；也可以继续作为库 `import` 使用（模块均无独立 `__main__`，请勿直接执行）。
+
 ### Generate Tests from Code
 
 1. Provide source code (TypeScript, JavaScript, Python, Java)
@@ -39,9 +55,9 @@ Test-driven development skill for generating tests, analyzing coverage, and guid
 ### TDD New Feature
 
 1. Write failing test first (RED)
-2. Run `tdd_workflow.py --phase red` to validate
+2. Run `tdd_cli.py workflow --requirement "<feature>"` to start the cycle and get phase guidance
 3. Implement minimal code to pass (GREEN)
-4. Run `tdd_workflow.py --phase green` to validate
+4. Validate implementation with `tdd_cli.py metrics` / `detect` as you go
 5. Refactor while keeping tests green (REFACTOR)
 6. **Validation:** All tests pass after each cycle
 

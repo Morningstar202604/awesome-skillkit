@@ -13,6 +13,10 @@ Generates safe migration scripts between schema versions:
 Input: Current schema JSON + Target schema JSON
 Output: Migration SQL + Rollback SQL + Validation queries + Execution plan
 
+Boundary: schema-diff based migrations (this script, in database-designer).
+For natural-language change descriptions → up/down templates, use
+sql-database-assistant's migration_generator.py instead.
+
 Usage:
     python migration_generator.py --current current_schema.json --target target_schema.json --output migration.sql
     python migration_generator.py --current current.json --target target.json --format json

@@ -209,6 +209,7 @@ class DependencyScanner:
             'medium_severity_count': 0,
             'low_severity_count': 0,
             'ecosystems': set(),
+            'parse_errors': [],
             'scan_summary': {},
             'recommendations': []
         }
@@ -240,6 +241,11 @@ class DependencyScanner:
                                 scan_results['low_severity_count'] += 1
                 
                 except Exception as e:
+                    scan_results['parse_errors'].append({
+                        'file': str(dep_file),
+                        'parser': file_pattern,
+                        'error': str(e)
+                    })
                     print(f"Error parsing {dep_file}: {e}", file=sys.stderr)
                     continue
         
@@ -327,7 +333,7 @@ class DependencyScanner:
                         dependencies.append(dep)
         
         except Exception as e:
-            print(f"Error parsing package.json: {e}")
+            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
         
         return dependencies
     
@@ -357,7 +363,7 @@ class DependencyScanner:
                     dependencies.append(dep)
         
         except Exception as e:
-            print(f"Error parsing package-lock.json: {e}")
+            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
         
         return dependencies
     
@@ -385,7 +391,7 @@ class DependencyScanner:
                 dependencies.append(dep)
         
         except Exception as e:
-            print(f"Error parsing yarn.lock: {e}")
+            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
         
         return dependencies
     
@@ -413,7 +419,7 @@ class DependencyScanner:
                         dependencies.append(dep)
         
         except Exception as e:
-            print(f"Error parsing requirements.txt: {e}")
+            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
         
         return dependencies
     
@@ -442,7 +448,7 @@ class DependencyScanner:
                             dependencies.append(dep)
         
         except Exception as e:
-            print(f"Error parsing pyproject.toml: {e}")
+            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
         
         return dependencies
     
@@ -467,7 +473,7 @@ class DependencyScanner:
                         dependencies.append(dep)
         
         except Exception as e:
-            print(f"Error parsing Pipfile.lock: {e}")
+            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
         
         return dependencies
     
@@ -492,7 +498,7 @@ class DependencyScanner:
                 dependencies.append(dep)
         
         except Exception as e:
-            print(f"Error parsing poetry.lock: {e}")
+            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
         
         return dependencies
     
@@ -521,7 +527,7 @@ class DependencyScanner:
                         dependencies.append(dep)
         
         except Exception as e:
-            print(f"Error parsing go.mod: {e}")
+            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
         
         return dependencies
     
@@ -553,7 +559,7 @@ class DependencyScanner:
                         dependencies.append(dep)
         
         except Exception as e:
-            print(f"Error parsing Cargo.toml: {e}")
+            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
         
         return dependencies
     
@@ -578,7 +584,7 @@ class DependencyScanner:
                 dependencies.append(dep)
         
         except Exception as e:
-            print(f"Error parsing Cargo.lock: {e}")
+            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
         
         return dependencies
     
@@ -606,7 +612,7 @@ class DependencyScanner:
                 dependencies.append(dep)
         
         except Exception as e:
-            print(f"Error parsing Gemfile: {e}")
+            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
         
         return dependencies
     
@@ -634,7 +640,7 @@ class DependencyScanner:
                     dependencies.append(dep)
         
         except Exception as e:
-            print(f"Error parsing Gemfile.lock: {e}")
+            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
         
         return dependencies
     
@@ -652,7 +658,8 @@ class DependencyScanner:
                 'high': scan_results['high_severity_count'],
                 'medium': scan_results['medium_severity_count'],
                 'low': scan_results['low_severity_count']
-            }
+            },
+            'parse_errors': len(scan_results.get('parse_errors', []))
         }
     
     def _generate_recommendations(self, scan_results: Dict[str, Any]) -> List[str]:
@@ -677,7 +684,15 @@ class DependencyScanner:
         
         if len(scan_results['ecosystems']) > 3:
             recommendations.append("Consider consolidating package managers to reduce complexity")
-        
+
+        parse_errors = scan_results.get('parse_errors', [])
+        if parse_errors:
+            recommendations.append(
+                f"WARNING: {len(parse_errors)} manifest file(s) failed to parse and were "
+                f"excluded from the scan — fix them to avoid blind spots "
+                f"(e.g. {parse_errors[0]['file']})"
+            )
+
         return recommendations
     
     def generate_report(self, scan_results: Dict[str, Any], format: str = 'text') -> str:
@@ -717,6 +732,8 @@ class DependencyScanner:
         report.append(f"    High Severity: {summary['vulnerability_breakdown']['high']}")
         report.append(f"    Medium Severity: {summary['vulnerability_breakdown']['medium']}")
         report.append(f"    Low Severity: {summary['vulnerability_breakdown']['low']}")
+        if scan_results.get('parse_errors'):
+            report.append(f"  Parse Errors: {len(scan_results['parse_errors'])} file(s) EXCLUDED from scan")
         report.append("")
         
         # Vulnerable dependencies

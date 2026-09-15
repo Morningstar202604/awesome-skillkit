@@ -41,6 +41,9 @@ and gap callouts you can feed into the writing phase.
 
 ## Honesty Note
 
-`--arxiv` currently runs an **offline mock simulation** — results are synthetic
-and MUST be labeled 模拟数据, never presented as real retrieval. Replace with a
-real API client before production use.
+`--arxiv` now calls the **real arXiv API** (Atom XML, timeout 10s). Output top-level
+`data_source` is `"arxiv"` (real retrieval) or `"mock"` (synthetic). Network/parse
+failure **auto-falls-back to mock** with a top-level `warning` — such results MUST
+be labeled 模拟数据, never presented as real retrieval. Set `SKILLKIT_MOCK=1` to
+force mock (CI/offline). arXiv does not provide citation counts: `citations` is
+always 0 for arXiv results, and `--venues` filtering only applies to mock data.

@@ -33,6 +33,8 @@ The operational companion to database design. While **database-designer** focuse
 |--------|---------|
 | `scripts/query_optimizer.py` | Static analysis of SQL queries for performance issues |
 | `scripts/migration_generator.py` | Generate migration file templates from change descriptions |
+
+> **Boundary / 与 database-designer 的划界**：本技能的 `migration_generator.py` 做 **自然语言 → 迁移模板**（`--change "add column ..." → up/down 文件`）。若需求是"对比两份 schema JSON、生成含回滚与零停机（expand-contract）的正式迁移 SQL"，请走 `database-designer` 的同名脚本（`--current/--target`），二者职责不同、互为上下游。
 | `scripts/schema_explorer.py` | Generate schema documentation from introspection queries |
 
 ---

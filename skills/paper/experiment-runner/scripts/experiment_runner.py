@@ -4,6 +4,10 @@
 用法:
   python3 experiment_runner.py --config exp_config.json
   python3 experiment_runner.py --n-runs 5 --seed 42
+
+诚实声明: 本脚本为模拟实验（simulated）——不执行真实训练/评测，
+输出顶层带 `mode: "simulated"` 与 `simulation_notice`，结果 MUST 标注 模拟数据，
+勿当真实实验结果写进论文。接入真实训练 harness 前此标注不会消失。
 """
 import argparse
 import json
@@ -15,7 +19,7 @@ from pathlib import Path
 
 
 def run_experiment(config: dict) -> dict:
-    """Run a mock experiment and collect results."""
+    """Run a simulated experiment and collect results (mode: simulated)."""
     n_runs = config.get("n_runs", 3)
     seed = config.get("seed", 42)
     baseline = config.get("baseline_metric", 0.80)
@@ -44,6 +48,8 @@ def run_experiment(config: dict) -> dict:
 
     return {
         "status": "complete",
+        "mode": "simulated",
+        "simulation_notice": "模拟实验数据（未运行真实训练），MUST 标注 模拟数据",
         "n_runs": n_runs,
         "results": results,
         "stats": {

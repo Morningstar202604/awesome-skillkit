@@ -40,5 +40,6 @@ figure-maker / pub-plotter 画图，随后进 latex-formatter 组装论文。
 
 ## Honesty Note
 
-实验体默认是 mock 逻辑占位（不跑真实训练）。接入真实训练脚本前，
-输出 MUST 标注 模拟数据，勿当真实实验结果写进论文。
+实验体默认是 mock 逻辑占位（不跑真实训练）。输出顶层带 `mode: "simulated"` 与
+`simulation_notice` 字段做机器可读标注；接入真实训练 harness 前，输出 MUST 标注
+模拟数据，勿当真实实验结果写进论文。

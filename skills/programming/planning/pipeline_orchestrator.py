@@ -151,6 +151,71 @@ def run_code_generator(plan: Dict, project_root: str = None) -> Dict:
         return {"status": "error", "error": str(e)}
 
 
+def _run_step_script(cmd: List[str], timeout: int = 60) -> Dict:
+    """统一子进程封装（仿 run_code_generator 模式）。
+
+    rc==0 → success（stdout 尽力解析 JSON，失败则原文）；
+    rc!=0 → error（含 returncode 与 stderr 摘录）。
+    """
+    import subprocess
+    try:
+        result = subprocess.run(
+            [sys.executable] + cmd, capture_output=True, text=True, timeout=timeout
+        )
+        if result.returncode == 0:
+            try:
+                return {"status": "success", "data": json.loads(result.stdout)}
+            except json.JSONDecodeError:
+                return {"status": "success", "data": result.stdout}
+        err = (result.stderr or result.stdout or "").strip()
+        return {
+            "status": "error",
+            "error": err[-500:] or f"exit code {result.returncode}",
+            "returncode": result.returncode,
+        }
+    except subprocess.TimeoutExpired:
+        return {"status": "error", "error": f"子进程超时（>{timeout}s）"}
+    except Exception as e:
+        return {"status": "error", "error": str(e)}
+
+
+def _slugify(text: str, max_len: int = 40) -> str:
+    """把用户输入转成可用的服务名 slug。"""
+    slug = "".join(c if c.isalnum() else "-" for c in text.lower().strip())
+    slug = "-".join(p for p in slug.split("-") if p)
+    return slug[:max_len].rstrip("-") or "service"
+
+
+def run_code_review(project_root: str = None) -> Dict:
+    """执行代码审查（code-reviewer / code_quality_checker.py）"""
+    script = SKILLS_DIR / "programming" / "code-quality" / "code-reviewer" / "scripts" / "code_quality_checker.py"
+    return _run_step_script([str(script), project_root or ".", "--json"], timeout=90)
+
+
+def run_dependency_audit(project_root: str = None) -> Dict:
+    """执行依赖安全审计（dependency-auditor / dep_scanner.py）"""
+    script = SKILLS_DIR / "programming" / "code-quality" / "dependency-auditor" / "scripts" / "dep_scanner.py"
+    return _run_step_script([str(script), project_root or ".", "--format", "json", "--quick-scan"], timeout=60)
+
+
+def run_ci_cd_setup(project_root: str = None, platform: str = "github") -> Dict:
+    """生成 CI/CD 流水线配置（ci-cd-pipeline-builder / pipeline_generator.py）"""
+    script = SKILLS_DIR / "programming" / "cicd" / "ci-cd-pipeline-builder" / "scripts" / "pipeline_generator.py"
+    return _run_step_script([str(script), "--repo", project_root or ".", "--platform", platform, "--format", "json"], timeout=60)
+
+
+def run_ship_gate(project_root: str = None) -> Dict:
+    """执行发布门禁（ship-gate / ship_gate_scanner.py；rc=2 表示门禁拦截）"""
+    script = SKILLS_DIR / "programming" / "cicd" / "ship-gate" / "scripts" / "ship_gate_scanner.py"
+    return _run_step_script([str(script), project_root or ".", "--json", "--no-interactive"], timeout=120)
+
+
+def run_runbook_generation(service_name: str, owner: str = "TBD") -> Dict:
+    """生成运维手册（runbook-generator / runbook_generator.py）"""
+    script = SKILLS_DIR / "programming" / "incident" / "runbook-generator" / "scripts" / "runbook_generator.py"
+    return _run_step_script([str(script), service_name, "--owner", owner], timeout=30)
+
+
 def run_tdd_guide(source_files: List[str]) -> Dict:
     """执行测试生成"""
     try:
@@ -186,7 +251,12 @@ def run_full_pipeline(user_input: str, project_root: str = None, dry_run: bool =
         status.steps[-1]["status"] = "planned"
         status.add_step("task_planning", "planned", "生成任务计划...")
         status.add_step("code_generation", "planned", "生成代码文件...")
-        status.add_step("test_generation", "planned", "测试生成占位")
+        status.add_step("test_generation", "planned", "测试生成（tdd-guide）")
+        status.add_step("code_review", "planned", "代码审查（code-reviewer）")
+        status.add_step("dependency_audit", "planned", "依赖安全审计（dependency-auditor）")
+        status.add_step("ci_cd_setup", "planned", "CI/CD 流水线生成（ci-cd-pipeline-builder）")
+        status.add_step("ship_gate", "planned", "发布门禁（ship-gate）")
+        status.add_step("runbook_generation", "planned", "运维手册（runbook-generator）")
         status.end_time = datetime.now()
         return status.to_dict()
 
@@ -225,23 +295,62 @@ def run_full_pipeline(user_input: str, project_root: str = None, dry_run: bool =
     
     # Step 4: 测试生成
     status.add_step("test_generation", "pending", "等待代码生成完成后执行")
-    
+
+    def _execute(step_name: str, out_key: str, hint: str, runner, summarize=None):
+        status.add_step(step_name, "running", hint)
+        result = runner()
+        if result["status"] == "error":
+            status.add_step(step_name, "failed", result.get("error", ""))
+            return
+        status.set_output(out_key, result.get("data"))
+        detail = summarize(result.get("data")) if summarize else ""
+        status.add_step(step_name, "success", detail or "完成")
+
+    def _dep_summary(d) -> str:
+        if not isinstance(d, dict):
+            return "审计完成"
+        total = d.get("scan_summary", {}).get("total_dependencies", "?")
+        return f"依赖 {total} 个，漏洞 {d.get('vulnerabilities_found', '?')} 个"
+
+    # Step 5: 代码审查
+    _execute("code_review", "code_review", "执行代码审查...", lambda: run_code_review(project_root))
+    # Step 6: 依赖安全审计
+    _execute("dependency_audit", "dependency_audit", "执行依赖安全审计...",
+             lambda: run_dependency_audit(project_root), summarize=_dep_summary)
+    # Step 7: CI/CD 流水线生成
+    _execute("ci_cd_setup", "ci_cd", "生成 CI/CD 配置...", lambda: run_ci_cd_setup(project_root))
+    # Step 8: 发布门禁（rc=2 = 门禁拦截，如实记为 failed）
+    _execute("ship_gate", "ship_gate", "执行发布门禁...", lambda: run_ship_gate(project_root))
+    # Step 9: 运维手册
+    _execute("runbook_generation", "runbook", "生成运维手册...",
+             lambda: run_runbook_generation(_slugify(user_input)))
+
     status.end_time = datetime.now()
     return status.to_dict()
 
 
-def run_research_pipeline(topic: str) -> Dict:
+def run_research_pipeline(topic: str, offline: bool = False) -> Dict:
     """
     调研流水线
-    
+
     流程:
     1. 网络搜索
     2. 深度调研
     3. 报告生成
+
+    offline=True 时熔断：不发起任何联网子进程，如实标记 skipped。
     """
     status = PipelineStatus()
     status.start_time = datetime.now()
-    
+
+    if offline:
+        status.add_step("web_search", "skipped", "--offline 熔断：已跳过联网搜索")
+        status.add_step("deep_research", "skipped", "--offline 熔断：已跳过深度调研")
+        status.set_output("offline_note", "research 模式在 --offline 下不访问网络；"
+                                          "如需真实调研请去掉该标志（或改用 SKILLKIT_MOCK=1 的单技能 mock）")
+        status.end_time = datetime.now()
+        return status.to_dict()
+
     # Step 1: 基础搜索
     status.add_step("web_search", "running", f"搜索: {topic}")
     search_result = run_web_search(topic)
@@ -276,6 +385,8 @@ def main():
     parser.add_argument("--json", "-j", action="store_true", help="JSON 输出")
     parser.add_argument("--dry-run", action="store_true",
                         help="只规划不执行（不调用子技能脚本）")
+    parser.add_argument("--offline", action="store_true",
+                        help="熔断：禁止联网（research 模式下跳过 web_search/deep_research）")
     
     args = parser.parse_args()
     
@@ -285,7 +396,7 @@ def main():
     
     # 执行流水线
     if args.mode == "research":
-        result = run_research_pipeline(args.input)
+        result = run_research_pipeline(args.input, offline=args.offline)
     elif args.mode == "plan":
         result = run_intent_planner(args.input)
         result = {"status": "success", "data": result}
@@ -311,7 +422,8 @@ def main():
         ]
         
         for step in result.get("steps", []):
-            icon = {"success": "✓", "failed": "✗", "running": "⟳", "pending": "○"}.get(step["status"], "?")
+            icon = {"success": "✓", "failed": "✗", "running": "⟳", "pending": "○",
+                    "planned": "□", "skipped": "⊘"}.get(step["status"], "?")
             lines.append(f"- {icon} **{step['name']}**: {step.get('details', '')}")
         
         if result.get("errors"):
@@ -328,8 +440,12 @@ def main():
     else:
         print(output)
     
-    # 失败时向调用方传播非零退出码
-    has_errors = bool(result.get("errors")) or result.get("status") == "error"
+    # 失败时向调用方传播非零退出码（含任一步骤 failed，如 ship-gate 拦截）
+    has_errors = (
+        bool(result.get("errors"))
+        or result.get("status") == "error"
+        or any(s.get("status") == "failed" for s in result.get("steps", []))
+    )
     sys.exit(1 if has_errors else 0)
 
 

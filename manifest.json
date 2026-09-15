@@ -106,8 +106,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 128,
-      "sha256": "002d1d115f17794faaa12caf0adbb23431d48197c2c03cdb8cb580068e3b3b1d"
+      "size_kb": 130,
+      "sha256": "7a1c410338804130068f4276912cc8fbfb2d4ab28b76bfcc63462cbab198e0c6"
     },
     {
       "id": "ai-video-pipeline",
@@ -282,7 +282,7 @@
       "name": "Code Review",
       "name_zh": "代码审查",
       "file": "dist/code-review.zip",
-      "size_kb": 246,
+      "size_kb": 247,
       "description": "Review pull requests, analyze code quality, audit dependencies and tech debt across languages.",
       "description_zh": "审查 PR、分析代码质量、审计依赖与技术债，覆盖多语言。",
       "skills": [
@@ -307,7 +307,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "ebb65369d9633c252a313445843431d30630336071426601fc3767f073509625"
+      "sha256": "0b0164f3add8e1edd1bd9757152337631a7e9a9ce73b2c3ecb283fc119cd13b2"
     },
     {
       "id": "containers",
@@ -462,7 +462,7 @@
       "name": "Database Design & Management",
       "name_zh": "数据库设计与管理",
       "file": "dist/database.zip",
-      "size_kb": 102,
+      "size_kb": 103,
       "description": "Design schemas, ERD diagrams, migrations, and optimize SQL queries.",
       "description_zh": "设计表结构、ERD 图、迁移方案，并优化 SQL 查询。",
       "skills": [
@@ -475,7 +475,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "82f5b93a6d733de5e79f7fcf2fad3783b712f0ab3d72b10ad4716554b9f17434"
+      "sha256": "1fa347f53f303f406f0de7cad502e0ce3270ec370119a0179feb6a5827eeab67"
     },
     {
       "id": "edu-craft",
@@ -666,7 +666,7 @@
       "name": "Test-Driven Development",
       "name_zh": "测试驱动开发",
       "file": "dist/tdd.zip",
-      "size_kb": 51,
+      "size_kb": 55,
       "description": "Write unit tests, fixtures, mocks, and guide red-green-refactor cycles.",
       "description_zh": "编写单元测试、fixture、mock，并引导红绿重构循环。",
       "skills": [
@@ -675,7 +675,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "491fe57a4d3049ea98565b6a487537abd68e5089099d2c5119813c07f4553976"
+      "sha256": "1a9b2c30a7cbe4896af03d37432cb5d4cab6aa189dc0e8162cf2ecf1e1b460d8"
     },
     {
       "id": "video-design-studio",

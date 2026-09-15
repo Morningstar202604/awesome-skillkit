@@ -16,6 +16,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **P3 清零轮**：tdd-guide 统一 CLI 入口 `tdd_cli.py`（7 子命令覆盖 8 库模块，
+  rc 0/2/1 语义）；pipeline_orchestrator 补 5 步 runner（code_review /
+  dependency_audit / ci_cd_setup / ship_gate / runbook_generation），
+  full_project 4 步 → 9 步与链定义对齐，失败步骤向进程退出码传播；
+  编排器 research 模式新增 `--offline` 熔断；lit-review `--arxiv` 真调
+  arXiv API（HTTPS + 429 退避重试，失败自动回退 mock 并以 `data_source` /
+  `warning` 诚实标注）；experiment-runner 输出带 `mode: "simulated"` 显式标注。
+
+### Fixed
+
+- **P3 清零轮**：dep_scanner 12 个解析器由吞异常改为严格 raise，
+  非法清单计入 `parse_errors`（含 summary 计数 / 文本报告行 / recommendations
+  WARNING），不再静默按 0 依赖；database-designer 与 sql-database-assistant 的
+  migration_generator.py 经比对确认非重复实现（schema 对比迁移 vs 自然语言模板），
+  双方 SKILL.md 与 docstring 划清边界互指；tdd-guide SKILL.md 纠正
+  `tdd_workflow.py --phase` 失效引用。
+
 ## [0.14.0] - 2026-09-15
 
 ### Added

@@ -70,6 +70,8 @@ python3 scripts/migration_generator.py --current current_schema.json --target ta
 
 `--zero-downtime` emits an expand-contract plan; `--validate-only` checks feasibility without generating SQL.
 
+> **Boundary / 与 sql-database-assistant 的划界**：本技能的 `migration_generator.py` 做 **schema 对比迁移**——输入两份 schema JSON，输出 ALTER + 回滚 + 零停机计划。若需求是"用一句自然语言描述改动，生成 up/down 迁移模板"，请走 `sql-database-assistant` 的同名脚本（`--change "..."`），二者职责不同、互为上下游。
+
 ### 4. Verification loop
 
 Re-run step 1 on the *target* schema and assert the issues found in the first pass are gone; run `migration_generator.py --validate-only` before handing over the migration.

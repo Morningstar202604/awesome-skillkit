@@ -5,6 +5,10 @@ Migration Generator
 Generates database migration file templates (up/down) from natural-language
 schema change descriptions.
 
+Boundary: natural-language change → up/down template (this script, in
+sql-database-assistant). For schema-diff based migrations with rollback and
+zero-downtime planning, use database-designer's migration_generator.py.
+
 Supported operations:
 - Add column, drop column, rename column
 - Add table, drop table, rename table
