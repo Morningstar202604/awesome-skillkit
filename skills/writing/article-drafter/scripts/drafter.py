@@ -65,7 +65,11 @@ def main():
     args = parser.parse_args()
 
     if args.outline:
-        outline = json.loads(Path(args.outline).read_text(encoding="utf-8"))
+        path = Path(args.outline)
+        if not path.is_file():
+            print(f"[ERROR] 大纲文件不存在: {path}", file=sys.stderr)
+            return 1
+        outline = json.loads(path.read_text(encoding="utf-8"))
         article = draft_article(outline)
     elif args.topic:
         article = draft_article({"title": args.topic, "sections": []})
@@ -81,7 +85,8 @@ def main():
         print(f"Draft written to: {args.output}", file=sys.stderr)
     else:
         print(output)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

@@ -104,3 +104,6 @@ write 模式交付 prompt 原文 + 槽位标注版；audit 模式交付 JSON 报
 - [camera-vocabulary.md](references/camera-vocabulary.md) —— 运镜与转场词汇表（写 prompt 时查）
 - [model-dialects.md](references/model-dialects.md) —— 各模型语法方言与核实链接
 - [sources-and-methodology.md](references/sources-and-methodology.md) —— 方法论开源出处与致谢（CC BY 4.0 署名信息）
+
+## 链条衔接（下游建议）
+本技能承接 storyboard-designer / shot-recipe-designer 的场景描述，产出六槽位 prompt 供 video-generation / image-generation 投喂；角色一致性须引用 visual-style-anchor 的身份行。建议作为 video 域 chains 的上游规划步骤。当前为游离技能，衔接仅为文字描述。

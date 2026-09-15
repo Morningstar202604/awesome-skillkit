@@ -76,3 +76,5 @@ python3 diagnoser.py --file error.log
 
 - [references/error-patterns.md](references/error-patterns.md) — full pattern library
 - [references/debug-checklist.md](references/debug-checklist.md) — manual debug steps
+
+定位根因并修复后，**接着说："诊断已定位根因，继续调用 code-reviewer 复核修复改动，或 code-generator 直接生成修复补丁"——链条自动展开**。

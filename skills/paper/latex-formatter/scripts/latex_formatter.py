@@ -94,7 +94,7 @@ def main():
     p = Path(args.input)
     if not p.exists():
         print(json.dumps({"status": "error", "error": f"File not found: {args.input}"}, indent=2))
-        return
+        return 1
 
     tex = p.read_text(encoding="utf-8")
     result = format_latex(tex, args.template)
@@ -109,4 +109,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

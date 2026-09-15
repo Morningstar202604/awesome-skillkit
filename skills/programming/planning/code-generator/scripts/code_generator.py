@@ -563,13 +563,26 @@ def main():
     # 读取 plan
     plan = None
     if args.plan:
-        if os.path.exists(args.plan):
-            with open(args.plan, encoding="utf-8") as f:
-                plan = json.load(f)
+        plan_path = Path(args.plan)
+        if plan_path.exists():
+            try:
+                with open(plan_path, encoding="utf-8") as f:
+                    plan = json.load(f)
+            except json.JSONDecodeError as e:
+                print(f"Error: invalid JSON in plan file: {e}", file=sys.stderr)
+                return 1
         else:
-            plan = json.loads(args.plan)
+            try:
+                plan = json.loads(args.plan)
+            except json.JSONDecodeError:
+                print(f"Error: plan file not found and value is not valid JSON: {args.plan}", file=sys.stderr)
+                return 1
     elif args.plan_stdin:
-        plan = json.load(sys.stdin)
+        try:
+            plan = json.load(sys.stdin)
+        except json.JSONDecodeError as e:
+            print(f"Error: invalid JSON from stdin: {e}", file=sys.stderr)
+            return 1
     else:
         plan = {
             "intent_type": "implement",
@@ -613,7 +626,9 @@ def main():
             full_path.parent.mkdir(parents=True, exist_ok=True)
             full_path.write_text(content, encoding="utf-8")
             print(f"✓ 已生成: {full_path}", file=sys.stderr)
+    
+    return 1 if isinstance(result, dict) and result.get("status") == "error" else 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

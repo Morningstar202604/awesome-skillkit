@@ -101,9 +101,9 @@ def main():
     else:
         result = {"status": "unsupported", "type": args.type}
 
-    result["status"] = "success"
+    result["status"] = "success" if result.get("status") != "unsupported" else "unsupported"
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

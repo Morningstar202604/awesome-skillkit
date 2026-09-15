@@ -75,7 +75,8 @@ def generate_outline(topic: str, article_type: str = "technical",
 
 def main():
     parser = argparse.ArgumentParser(description="Generate article outline")
-    parser.add_argument("--topic", required=True)
+    parser.add_argument("--topic", required=False,
+                        help="文章主题（与 --json-input 二选一；给 --json-input 时可省略）")
     parser.add_argument("--type", default="technical", choices=list(STRUCTURES.keys()))
     parser.add_argument("--length", default="medium", choices=["short", "medium", "long"])
     parser.add_argument("--audience", default="intermediate")
@@ -87,6 +88,8 @@ def main():
 
     if args.json_input:
         data = json.loads(args.json_input)
+        if not data.get("topic") and not args.topic:
+            parser.error("需要 --topic 或在 --json-input 中提供 topic 字段")
         outline = generate_outline(
             data.get("topic", args.topic),
             data.get("type", args.type),
@@ -96,6 +99,8 @@ def main():
             data.get("platforms", args.platforms),
         )
     else:
+        if not args.topic:
+            parser.error("需要 --topic 或 --json-input")
         outline = generate_outline(
             args.topic, args.type, args.length,
             args.audience, args.points, args.platforms

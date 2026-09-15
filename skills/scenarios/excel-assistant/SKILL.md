@@ -100,3 +100,6 @@ Anything else is not done — say so plainly.
 ## References
 
 None — pandas snippets above are the toolkit.
+
+## 链条衔接（下游建议）
+本技能属 office / productivity 类单点技能，可独立使用；清洗后的结构化结果可继续喂给 meeting-notes（汇总）或 resume-tailor（按数据填简历）。建议在 skill_chains.json 中新增 office（或 productivity）域并登记本技能。衔接仅为文字描述。

@@ -67,3 +67,5 @@ python3 feature_engineer.py --data data/clean.csv --target label
 ## References
 
 - [references/feature-patterns.md](references/feature-patterns.md) — domain-specific patterns
+
+特征方案就绪，**接着说："特征已生成，继续调用 ml-pipeline 训练与评估模型"——链条自动展开**。

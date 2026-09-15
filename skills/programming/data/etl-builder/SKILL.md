@@ -70,3 +70,5 @@ python3 etl_builder.py --source data/raw.csv --target data/clean.csv \
 ## References
 
 - [references/transform-recipes.md](references/transform-recipes.md) — common ETL patterns
+
+清洗落库后，**接着说："干净数据就绪，继续调用 feature-engineer 做特征工程"——链条自动展开**。

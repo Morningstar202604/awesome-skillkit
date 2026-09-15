@@ -1,8 +1,8 @@
 # SOURCES — 技能来源与更新指引 / Skill Sources & Updates
 
-> 本仓库维护两条线（截至 v0.13，共 **100 个技能 / 27 个场景包**）：
+> 本仓库维护两条线（截至 v0.13，共 **112 个技能 / 27 个场景包**）：
 > 1. **上游精选**（`skills/programming/` 下 13 个分类目录，33 个）——全部来自下方上游项目；
-> 2. **自建场景技能**（54 个）——分布在 `skills/writing/`、`skills/video/`、`skills/scenarios/`、
+> 2. **自建场景技能**（79 个）——分布在 `skills/writing/`、`skills/video/`、`skills/scenarios/`、
 >    `skills/paper/`、`skills/ppt/` 及 `skills/programming/` 下的 5 个自建子目录
 >    （`data/`、`debug/`、`math/`、`ml/`、`planning/`），本仓库原创维护。
 
@@ -35,7 +35,7 @@ git clone https://github.com/alirezarezvani/claude-skills.git D:\_upstream\claud
 python3 build.py         # 唯一构建入口
 ```
 
-## 自建场景技能 / Self-authored scenarios（54 个）
+## 自建场景技能 / Self-authored scenarios（79 个）
 
 ### 内容发布与写作（skills/writing/，22 个）
 
@@ -129,9 +129,26 @@ python3 build.py         # 唯一构建入口
 | exercise-generator | edu-craft | 开放题严格题库（禁选择题，附评分标准与 lint） |
 | feynman-explainer | edu-craft | 费曼六拍补救伴学（诊断→修复→回讲→迁移） |
 
-以上 67 个技能不来自上游，由本仓库原创维护，更新即改本仓库。
+### 学术论文工具（skills/paper/，12 个）
 
-## 全部技能清单（100 = 上游 33 + 自建 67）
+| Skill | 场景包 | 说明 |
+|-------|--------|------|
+| lit-review | ai-research-writing | 文献检索+关系图谱+总结（--arxiv 为离线 mock，输出须标注模拟数据） |
+| experiment-runner | ai-research-writing | 实验多轮运行+统计检验（实验体为 mock 逻辑，同上） |
+| figure-maker | ai-research-writing | bar/line/boxplot 论文图表（heatmap 未实现，诚实返回 unsupported） |
+| arch-diagram | ai-research-writing | 架构/框架图 TikZ+SVG（学习自 torchdiagram / archscope / PlotNeuralNet） |
+| neural-net-draw | ai-research-writing | 神经网络结构图 TikZ（学习自 PlotNeuralNet） |
+| latex-formatter | ai-research-writing | LaTeX 格式化+编译前检查（缺文件 rc=1 门禁语义） |
+| self-reviewer | ai-research-writing | 模拟审稿 ready/needs_work 结构判定 |
+| journal-adapt | ai-research-writing | IEEE/ACM/NeurIPS/ACL/Nature/Cell 适配+禁用语筛查（学习自 Awesome-Journal-Skills） |
+| anti-defensive | ai-research-writing | 防御性学术写作检测修复（学习自 anti-defensive-writing） |
+| ai-humanizer | ai-research-writing | 去 AI 痕迹保学术声音（学习自 academic-humanizer） |
+| tex-cleaner | ai-research-writing | arXiv 提交前清理五类检查（学习自 arxiv-latex-cleaner） |
+| pub-plotter | ai-research-writing | SciencePlots 风格学术图（学习自 garrettj403/SciencePlots） |
+
+以上 79 个技能不来自上游，由本仓库原创维护，更新即改本仓库。
+
+## 全部技能清单（112 = 上游 33 + 自建 79）
 
 ### 上游精选（33）
 
@@ -173,7 +190,7 @@ python3 build.py         # 唯一构建入口
 
 > 注：`skill-tester/assets/sample-skill/` 是 skill-tester 自带的示例资产，不算独立 skill。
 
-### 自建（67）
+### 自建（79）
 
 按上文"自建场景技能"四个小节的表格为准，此处不重复罗列。
 单一事实来源是 `manifest.json`（由 `build.py` 从 `packs/*/pack.json` 自动同步）。
@@ -191,6 +208,12 @@ python3 build.py         # 唯一构建入口
 | `skills/programming/planning/pipeline_orchestrator.py` | 代码计划域编排器：意图→计划→生成 |
 
 ## 历史 / History
+
+- 2026-09-15：**全量测试轮**——三层测试（chains 静态一致性 / 9 编排器 ×19 情景 dry-run /
+  139 个本地脚本 ×约 90 用例深测）修复 27 项缺陷（4 P0：paper 13 脚本返回码丢弃致编排层
+  门禁被绕过、video 链文件交接断裂、math solver LP 必崩、data_ml 编排器路径错）。链条
+  9 域 21 链扩至 12 域 39 链（新增 chat/office/paper 三域），游离技能 53 → 1；12 个
+  paper 脚本技能补齐 SKILL.md 并收编进 ai-research-writing 包。详见 docs/FULL-TEST-REPORT.md。
 
 - 2026-09-14（v0.13.x 后期）：新增 `video-design-studio` 包（4 技能，视频前期设计：
   分镜/镜头配方/提示词工程/风格锚定），方法论借鉴 video-storyboard、video-shotcraft、

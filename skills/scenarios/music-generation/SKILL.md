@@ -120,3 +120,6 @@ report the absolute path plus the brief used.
 Success = a local non-empty audio file named `music_YYYYMMDD_HHMMSS.mp3`,
 absolute path reported together with the style brief and duration.
 Anything else is not done — say so plainly and show the failure row above.
+
+## 链条衔接（下游建议）
+本技能产出 BGM / 配乐，可作为 video 域 meme / talking_character 链的 music-generation 步骤输入（video 域 chains 已登记 music-generation，但本技能未列入 skills 列表，属游离）。建议在 video 域 skills 列表中补登本技能以完成衔接。衔接仅为文字描述。

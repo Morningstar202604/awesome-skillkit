@@ -5,12 +5,81 @@
   "description": "Research a topic and turn it into a structured article: multi-round search, outline, draft, edit, SEO.",
   "description_zh": "从选题调研到成稿发布的长文生产链路：多轮检索与报告综合、大纲搭建、初稿撰写、风格润色、关键词与平台规则优化，以及学术选题的研究空白识别与投稿匹配。",
   "skills": [
-    { "name": "deep-research", "source": "self-authored" },
-    { "name": "web-search", "source": "self-authored" },
-    { "name": "paper-topic-selector", "source": "self-authored" },
-    { "name": "article-outliner", "source": "self-authored" },
-    { "name": "article-drafter", "source": "self-authored" },
-    { "name": "content-editor", "source": "self-authored" },
-    { "name": "seo-optimizer", "source": "self-authored" }
+    {
+      "name": "deep-research",
+      "source": "self-authored"
+    },
+    {
+      "name": "web-search",
+      "source": "self-authored"
+    },
+    {
+      "name": "paper-topic-selector",
+      "source": "self-authored"
+    },
+    {
+      "name": "article-outliner",
+      "source": "self-authored"
+    },
+    {
+      "name": "article-drafter",
+      "source": "self-authored"
+    },
+    {
+      "name": "content-editor",
+      "source": "self-authored"
+    },
+    {
+      "name": "seo-optimizer",
+      "source": "self-authored"
+    },
+    {
+      "name": "lit-review",
+      "source": "self-authored"
+    },
+    {
+      "name": "experiment-runner",
+      "source": "self-authored"
+    },
+    {
+      "name": "figure-maker",
+      "source": "self-authored"
+    },
+    {
+      "name": "arch-diagram",
+      "source": "self-authored"
+    },
+    {
+      "name": "neural-net-draw",
+      "source": "self-authored"
+    },
+    {
+      "name": "latex-formatter",
+      "source": "self-authored"
+    },
+    {
+      "name": "self-reviewer",
+      "source": "self-authored"
+    },
+    {
+      "name": "journal-adapt",
+      "source": "self-authored"
+    },
+    {
+      "name": "anti-defensive",
+      "source": "self-authored"
+    },
+    {
+      "name": "ai-humanizer",
+      "source": "self-authored"
+    },
+    {
+      "name": "tex-cleaner",
+      "source": "self-authored"
+    },
+    {
+      "name": "pub-plotter",
+      "source": "self-authored"
+    }
   ]
 }

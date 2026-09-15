@@ -120,7 +120,7 @@ def main():
     p = Path(args.paper)
     if not p.exists():
         print(json.dumps({"error": f"File not found: {args.paper}"}, indent=2))
-        return
+        return 1
 
     content = p.read_text(encoding="utf-8")
 
@@ -139,4 +139,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

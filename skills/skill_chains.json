@@ -16,7 +16,39 @@
         "ship-gate",
         "runbook-generator",
         "incident-commander",
-        "observability-designer"
+        "observability-designer",
+        "debug-diagnoser",
+        "env-secrets-manager",
+        "secrets-vault-manager",
+        "api-design-reviewer",
+        "api-test-suite-builder",
+        "etl-builder",
+        "feature-engineer",
+        "ml-pipeline",
+        "model-formulator",
+        "model-solver",
+        "simulation-runner",
+        "result-visualizer",
+        "docker-development",
+        "helm-chart-builder",
+        "kubernetes-operator",
+        "terraform-patterns",
+        "senior-architect",
+        "migration-architect",
+        "monorepo-navigator",
+        "database-designer",
+        "sql-database-assistant",
+        "performance-profiler",
+        "tech-debt-tracker",
+        "spec-driven-workflow",
+        "slo-architect",
+        "skill-tester",
+        "mcp-server-builder",
+        "feature-flags-architect",
+        "agent-designer",
+        "changelog-generator",
+        "git-worktree-manager",
+        "pr-review-expert"
       ],
       "chains": {
         "full_project": [
@@ -44,12 +76,74 @@
           "code-generator",
           "tdd-guide",
           "ship-gate"
+        ],
+        "security_fix": [
+          "env-secrets-manager",
+          "secrets-vault-manager",
+          "code-intent-planner",
+          "code-generator",
+          "tdd-guide",
+          "code-reviewer",
+          "ship-gate"
+        ],
+        "debug_hotfix": [
+          "debug-diagnoser",
+          "code-intent-planner",
+          "code-generator",
+          "code-reviewer",
+          "ship-gate"
+        ],
+        "data_ml": [
+          "etl-builder",
+          "feature-engineer",
+          "ml-pipeline"
+        ],
+        "math_modeling": [
+          "model-formulator",
+          "model-solver",
+          "simulation-runner",
+          "result-visualizer"
+        ],
+        "api_design": [
+          "code-intent-planner",
+          "api-design-reviewer",
+          "api-test-suite-builder",
+          "ship-gate"
+        ],
+        "infra_delivery": [
+          "docker-development",
+          "helm-chart-builder",
+          "kubernetes-operator",
+          "terraform-patterns",
+          "ship-gate"
+        ],
+        "db_change": [
+          "database-designer",
+          "migration-architect",
+          "ship-gate"
+        ],
+        "sre_readiness": [
+          "slo-architect",
+          "observability-designer",
+          "runbook-generator",
+          "incident-commander"
+        ],
+        "release_audit": [
+          "tech-debt-tracker",
+          "dependency-auditor",
+          "env-secrets-manager",
+          "ship-gate",
+          "changelog-generator"
         ]
       }
     },
     "video": {
       "entry": "skills/video/video_pipeline.py",
       "skills": [
+        "visual-style-anchor",
+        "storyboard-designer",
+        "shot-recipe-designer",
+        "video-prompt-engineer",
         "video-script-writer",
         "video-voice-synth",
         "video-lip-sync",
@@ -85,6 +179,13 @@
           "video-editor",
           "video-subtitles",
           "video-thumbnail"
+        ],
+        "pre_production": [
+          "visual-style-anchor",
+          "storyboard-designer",
+          "shot-recipe-designer?",
+          "video-prompt-engineer",
+          "video-script-writer"
         ]
       }
     },
@@ -101,7 +202,18 @@
         "csdn-publisher",
         "juejin-publisher",
         "baijiahao-publisher",
-        "toutiao-publisher"
+        "toutiao-publisher",
+        "bilibili-publisher",
+        "xiaohongshu-publisher",
+        "weibo-publisher",
+        "zhihu-content-manager",
+        "cnblogs-skill",
+        "jianshu-publisher",
+        "douban-publisher",
+        "v2ex-publisher",
+        "segmentfault-publisher",
+        "oschina-publisher",
+        "static-blog-deploy"
       ],
       "chains": {
         "article": [
@@ -113,9 +225,11 @@
           "cross-post-orchestrator"
         ],
         "news_flash": [
+          "article-outliner",
           "article-drafter",
           "content-editor",
-          "seo-optimizer"
+          "seo-optimizer",
+          "cross-post-orchestrator?"
         ]
       }
     },
@@ -160,6 +274,16 @@
           "layout-spec-auditor"
         ],
         "infographic": [
+          "design-brief-interpreter",
+          "image-prompt-engineer",
+          "layout-spec-auditor"
+        ],
+        "thumbnail": [
+          "design-brief-interpreter",
+          "image-prompt-engineer",
+          "layout-spec-auditor"
+        ],
+        "banner": [
           "design-brief-interpreter",
           "image-prompt-engineer",
           "layout-spec-auditor"
@@ -228,6 +352,83 @@
         ],
         "remedial_only": [
           "feynman-explainer"
+        ]
+      }
+    },
+    "chat": {
+      "entry": null,
+      "skills": [
+        "chat-prompt-engineer"
+      ],
+      "chains": {
+        "prompt_audit": [
+          "chat-prompt-engineer"
+        ]
+      }
+    },
+    "office": {
+      "entry": null,
+      "skills": [
+        "excel-assistant",
+        "meeting-notes",
+        "resume-tailor"
+      ],
+      "chains": {
+        "document_pipeline": [
+          "excel-assistant",
+          "meeting-notes?",
+          "resume-tailor?"
+        ]
+      }
+    },
+    "paper": {
+      "entry": "skills/paper/paper_pipeline.py",
+      "skills": [
+        "paper-topic-selector",
+        "lit-review",
+        "experiment-runner",
+        "figure-maker",
+        "arch-diagram",
+        "neural-net-draw",
+        "latex-formatter",
+        "self-reviewer",
+        "journal-adapt",
+        "anti-defensive",
+        "ai-humanizer",
+        "tex-cleaner",
+        "pub-plotter"
+      ],
+      "chains": {
+        "full_paper": [
+          "paper-topic-selector",
+          "lit-review",
+          "experiment-runner?",
+          "figure-maker",
+          "arch-diagram?",
+          "neural-net-draw?",
+          "latex-formatter",
+          "self-reviewer?",
+          "journal-adapt",
+          "anti-defensive?",
+          "ai-humanizer?",
+          "tex-cleaner"
+        ],
+        "quick_draft": [
+          "paper-topic-selector",
+          "lit-review",
+          "latex-formatter",
+          "self-reviewer",
+          "tex-cleaner"
+        ],
+        "polish_only": [
+          "anti-defensive?",
+          "ai-humanizer?",
+          "tex-cleaner"
+        ],
+        "submit_ready": [
+          "self-reviewer",
+          "journal-adapt",
+          "tex-cleaner"
         ]
       }
     }

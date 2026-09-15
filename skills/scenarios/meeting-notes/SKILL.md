@@ -93,3 +93,6 @@ returning to Steps 2–3, not by deleting items.
 
 Success = minutes following the exact Step-4 skeleton, with a complete action
 table and zero invented facts. Anything else is not done — say so plainly.
+
+## 链条衔接（下游建议）
+本技能属 office / productivity 类单点技能；产出的 action items 可继续喂给 excel-assistant 做跟踪表，或作为 resume-tailor 的项目经历素材。建议在 skill_chains.json 中新增 office（或 productivity）域并登记本技能。衔接仅为文字描述。

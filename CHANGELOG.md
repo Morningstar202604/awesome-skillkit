@@ -18,6 +18,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **大规模全量测试轮（三层测试，详见 docs/FULL-TEST-REPORT.md）**：chains 静态一致性 +
+  9 编排器 ×19 真实情景 dry-run + 139 个本地脚本 ×约 90 用例正例/异常双向深测。
+- **链条大扩展：9 域 21 链 → 12 域 39 链，游离技能 53 → 1**。新增 chat 域
+  （prompt_audit）、office 域（document_pipeline）、paper 域（full_paper / quick_draft /
+  polish_only / submit_ready 四链）；programming 补登 32 技能 + 9 条专家链（security_fix /
+  debug_hotfix / data_ml / math_modeling / api_design / infra_delivery / db_change /
+  sre_readiness / release_audit）；video 补 pre_production 上游规划链；writing 登记
+  全部 11 个发布平台技能并补齐 news_flash；design 补 thumbnail / banner 两链。全部经
+  静态一致性校验。
+- **补齐 12 个 paper 脚本技能的 SKILL.md**（lit-review / experiment-runner / figure-maker /
+  arch-diagram / neural-net-draw / latex-formatter / self-reviewer / journal-adapt /
+  anti-defensive / ai-humanizer / tex-cleaner / pub-plotter）并收编进 ai-research-writing
+  包（7→19 技能）——此前它们无 SKILL.md、不在任何场景包，zip 下载拿不到。
+- 26 个游离/上游技能 SKILL.md 补"继续调用 X——链条自动展开"衔接话术。
+
+### Fixed
+
+- **P0（4 项）**：paper 13 脚本 `main()` 返回码被 `__main__` 丢弃 → 进程恒 rc=0，
+  编排器把失败当成功、门禁在编排层被静默绕过（13 处改 `sys.exit(main())`）；video 链
+  真实模式文件交接断裂（tts 写 CWD 而非 audio-dir、lipsync 输出 `lipsync_scene_*.mp4`
+  与 editor 期望 `scene_*.mp4` 契约不符，被 mock 掩盖——batch 加 `--audio-dir`、输出
+  对齐命名，SKILLKIT_MOCK=1 真跑 6/6 闭环）；math `model_solver` LP 路径 `result.iter`
+  必崩（scipy 无此属性 → `result.nit`）；`data_ml_pipeline` ml 脚本路径错致链条第 3 步
+  必断（`ml/pipeline/` → `ml/ml-pipeline/`）。
+- **P1（8 项）**：video 编排器无视 `--type` 硬编码 talking_character 步骤（现按链分流
+  meme/tutorial，素材生成步如实标 manual）；writing content-editor 产物未落盘、seo 读
+  编辑前稿（`--output edited.json` 接线，真跑验证）；ppt 编排器调用 5 个不存在的脚本而
+  从不调 make_pptx.py（重构为 spec 骨架生成 → LLM 填充提示 → 真调 make_pptx 渲染，
+  真跑产出 31 KB pptx）；code-intent-planner L2 失败 rc=0、visualizer 数据缺失 rc=0、
+  math 四件套返回码不传播、code-generator/diagnoser 返回码、programming 编排器硬编码
+  `python`（→ sys.executable）与 tdd 路径少一层。
+- **P2（15 项）**：dep_scanner CVE 重复计数、ship_gate 未知 `--category` 静默通过、
+  exercise_lint 空输入崩溃、figure_maker heatmap 假成功、latex/self/tex 缺文件 rc=0、
+  topic_selector 非法 JSON 抛栈、outliner `--json-input` 强制 `--topic`、drafter 缺文件
+  回溯、math/data_ml 编排器 dry-run 状态与失败 rc、programming 编排器 CWD 落盘垃圾等。
+- 修复后回归：pytest 257 passed / 1 skipped；validate_skills 111 skills 0 err 0 warn；
+  28 个 zip 重建（_all bundle 112 skills）。
+
+### Added
+
 - **新增场景包 `growth-marketing`（3 技能，自研）+ `marketing` 域链条**：
   `product-copywriter`（按受众决策阶段选转化框架 FAB/PAS/AIDA + 异议处理
   独立成段 + 广告法事实卫生）、`campaign-designer`（营销日历 + 渠道角色

@@ -186,3 +186,5 @@ This skill covers env hygiene and secret detection. For deeper coverage of relat
 |-------|-------------|
 | **Secrets Vault Manager** (`secrets-vault-manager`) | Production vault infrastructure, rotation execution, audit logging, HA/DR |
 | **CI/CD Pipeline Builder** (`ci-cd-pipeline-builder`) | Pipeline architecture, secret injection patterns |
+
+审计出泄露后，**接着说："泄露点已定位，继续调用 secrets-vault-manager 生成轮换计划与保险库配置"——链条自动展开**。

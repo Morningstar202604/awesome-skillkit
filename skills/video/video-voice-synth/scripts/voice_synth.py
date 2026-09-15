@@ -164,8 +164,12 @@ def synthesize_voice(text: str, voice: str = "baby_f01",
 
 
 def batch_synth(script: Dict, gateway_url: Optional[str] = None,
-                mock: bool = False) -> Dict[str, Any]:
-    """按脚本场景批量合成。"""
+                mock: bool = False, audio_dir: str = ".") -> Dict[str, Any]:
+    """按脚本场景批量合成。
+
+    audio_dir: 场景音频输出目录（下游 lip_sync --audio-dir 与 editor
+    --audio-dir 依赖同一目录下的 scene_<id>.wav 命名契约）。
+    """
     results = []
     conf = script.get("tts_config", {})
     for scene in script.get("scenes", []):
@@ -176,7 +180,7 @@ def batch_synth(script: Dict, gateway_url: Optional[str] = None,
             text=dialogue,
             voice=conf.get("voice_style", "baby_f01"),
             speed=conf.get("speed", 1.0),
-            output=f"scene_{scene['id']}.wav",
+            output=str(Path(audio_dir) / f"scene_{scene['id']}.wav"),
             gateway_url=gateway_url,
             mock=mock,
         )
@@ -200,6 +204,8 @@ def main():
     parser.add_argument("--pitch", type=int)
     parser.add_argument("--script", help="Script JSON file (batch mode)")
     parser.add_argument("--output", help="Output file")
+    parser.add_argument("--audio-dir", default=".",
+                        help="Batch mode: directory to write scene_<id>.wav")
     parser.add_argument("--gateway-url", help="网关根地址（默认取 GATEWAY_BASE_URL）")
     parser.add_argument("--mock", action="store_true",
                         help="生成静音占位，不调用网关（等价 SKILLKIT_MOCK=1）")
@@ -211,7 +217,7 @@ def main():
             sys.stderr.write(f"[ERROR] 脚本文件不存在: {args.script}\n")
             sys.exit(3)
         script = json.loads(Path(args.script).read_text(encoding="utf-8"))
-        result = batch_synth(script, args.gateway_url, mock)
+        result = batch_synth(script, args.gateway_url, mock, args.audio_dir)
     elif args.text:
         result = synthesize_voice(args.text, args.voice, args.speed, args.pitch,
                                   args.output, args.gateway_url, mock)

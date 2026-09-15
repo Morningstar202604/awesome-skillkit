@@ -127,8 +127,12 @@ def main():
     args = parser.parse_args()
 
     trace = ""
-    if args.file and Path(args.file).exists():
-        trace = Path(args.file).read_text(encoding="utf-8")
+    if args.file:
+        file_path = Path(args.file)
+        if not file_path.exists():
+            print(f"Error: log file not found: {args.file}", file=sys.stderr)
+            return 1
+        trace = file_path.read_text(encoding="utf-8")
     elif args.trace:
         trace = args.trace
     else:
@@ -141,7 +145,8 @@ def main():
         Path(args.output).write_text(output, encoding="utf-8")
     else:
         print(output)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

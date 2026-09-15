@@ -20,7 +20,7 @@ AI ツール向けに厳選された**シーンパック**のコレクション�
 |--------|----------|----------|--------|
 | ai-agent-development | AI エージェント開発 | 5 | 151 KB |
 | ai-media-toolkit | AI メディア生成 | 4 | 19 KB |
-| ai-research-writing | AI リサーチとライティング | 7 | 92 KB |
+| ai-research-writing | AI リサーチとライティング | 19 | 129 KB |
 | ai-video-pipeline | AI ショート動画パイプライン | 6 | 61 KB |
 | video-design-studio | 映像デザインスタジオ | 4 | 32 KB |
 | visual-design-studio | ビジュアルデザインスタジオ | 3 | 14 KB |
@@ -46,7 +46,7 @@ AI ツール向けに厳選された**シーンパック**のコレクション�
 | viral-entertainment | バイラルエンタメ（ミーム動画） | 2 | 9 KB |
 
 
-**27 パック・100 スキル。** ドキュメント：[Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning](docs/VERSIONING.md) · [Video landscape 調査](docs/VIDEO-LANDSCAPE.md)
+**27 パック・112 スキル。** ドキュメント：[Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning](docs/VERSIONING.md) · [Video landscape 調査](docs/VIDEO-LANDSCAPE.md)
 
 ## パック詳細
 

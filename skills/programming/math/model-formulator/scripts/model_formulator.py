@@ -76,16 +76,28 @@ def main():
     parser.add_argument("--output", help="Output file")
     args = parser.parse_args()
 
-    knowns = json.loads(args.knowns) if args.knowns else None
+    if args.knowns:
+        try:
+            knowns = json.loads(args.knowns)
+        except json.JSONDecodeError as e:
+            print(f"Error: invalid JSON in --knowns: {e}", file=sys.stderr)
+            return 1
+    else:
+        knowns = None
     spec = formulate(args.problem, args.domain, knowns, args.unknowns)
 
     output = json.dumps(spec, ensure_ascii=False, indent=2)
     if args.output:
-        Path(args.output).write_text(output, encoding="utf-8")
+        try:
+            Path(args.output).write_text(output, encoding="utf-8")
+        except OSError as e:
+            print(f"Error: cannot write output file: {e}", file=sys.stderr)
+            return 1
         print(f"Model spec written to: {args.output}", file=sys.stderr)
     else:
         print(output)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

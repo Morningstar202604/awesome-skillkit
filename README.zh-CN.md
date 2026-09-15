@@ -20,7 +20,7 @@
 |--------|------|----------|------|
 | ai-agent-development | AI Agent 开发 | 5 | 151 KB |
 | ai-media-toolkit | AI 媒体生成 | 4 | 19 KB |
-| ai-research-writing | AI 研究与写作 | 7 | 92 KB |
+| ai-research-writing | AI 研究与写作 | 19 | 129 KB |
 | ai-video-pipeline | AI 短视频流水线 | 6 | 61 KB |
 | video-design-studio | 视频设计工作室（前期设计） | 4 | 32 KB |
 | visual-design-studio | 视觉设计工作室 | 3 | 14 KB |
@@ -46,7 +46,7 @@
 | viral-entertainment | 爆款娱乐（魔性短视频） | 2 | 9 KB |
 
 
-**27 个场景包 · 100 个技能。** 项目文档：[方向 v2](docs/DIRECTION-V2.md) · [技能编写规范](docs/SKILL-STANDARD-v2.md) · [版本与发布制度](docs/VERSIONING.md) · [视频方案全景调研](docs/VIDEO-LANDSCAPE.md)
+**27 个场景包 · 112 个技能。** 项目文档：[方向 v2](docs/DIRECTION-V2.md) · [技能编写规范](docs/SKILL-STANDARD-v2.md) · [版本与发布制度](docs/VERSIONING.md) · [视频方案全景调研](docs/VIDEO-LANDSCAPE.md)
 
 ## 场景包详情
 

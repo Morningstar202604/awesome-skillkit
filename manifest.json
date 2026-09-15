@@ -1,7 +1,7 @@
 {
   "hub": "awesome-skillkit",
   "version": "0.13.1",
-  "updated": "2026-09-14",
+  "updated": "2026-09-15",
   "description": "Curated scene packs for AI tools: each pack = one real-world scenario, containing multiple skills. Download zip -> unzip -> drag the skill folders into your AI tool's skills directory.",
   "description_zh": "精选场景包合集：每个场景包 = 一个真实场景，内含多个 skill。下载 zip -> 解压 -> 把 skill 文件夹拖进 AI 工具的 skills 目录即可使用。",
   "source_notes": {
@@ -67,7 +67,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "c55098ade04589396abf71c39bd32dffbe615b38e06bdb138654f2edfd9354ae"
+      "sha256": "54614bb0c69bc7b182c51e8fde3ddd407fc50cf1481a9633e9a6f25d3fb77b3e"
     },
     {
       "id": "ai-research-writing",
@@ -106,8 +106,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 95,
-      "sha256": "631d3b577fb8def0b30a517ab80779914193e147d23b9483a694ea17ba2e29ae"
+      "size_kb": 128,
+      "sha256": "002d1d115f17794faaa12caf0adbb23431d48197c2c03cdb8cb580068e3b3b1d"
     },
     {
       "id": "ai-video-pipeline",
@@ -143,7 +143,7 @@
         }
       ],
       "size_kb": 65,
-      "sha256": "cffffbf7f0113591732cb5ab38f3c75fddb3a63cfec174998f96059b3f848da4"
+      "sha256": "078f771d878a2507380e5c89a2c28c24fc62813f260f6bff92659be8f99d3034"
     },
     {
       "id": "api-development",
@@ -163,7 +163,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "3f754bd5d31dc8717dd88f87134d3ffb1ef3ad1c10e077e257b975531ea29ba2"
+      "sha256": "003e023b34a2c3ba6e0b2fd5d61e1a8a382a2a6b61883f59f2adf69fad03c31e"
     },
     {
       "id": "architecture",
@@ -227,7 +227,7 @@
         }
       ],
       "size_kb": 11,
-      "sha256": "b85adae73c972de35691d1794a2285a883c6c71efe99b9ae5ad1c351b8e22575"
+      "sha256": "918d44e6ae8a7f520367aec1e0702773bfae703ea2f855f4bc8d33f03498cd83"
     },
     {
       "id": "ci-cd",
@@ -251,7 +251,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "9e5f0fbc14944c839c0cbe0885723e82e0a6094896653c5a57e80263e2e04cb2"
+      "sha256": "7d4b717d618da42069a84670431cf2738328a2d244428af131775581a5853ac7"
     },
     {
       "id": "code-planning",
@@ -275,7 +275,7 @@
         }
       ],
       "size_kb": 73,
-      "sha256": "09363b87474c01fd563b5af1e4f39e7b3e1cbf3b018ac64341393a35c8baab12"
+      "sha256": "2ef2935fe4460a2f056c76a917df50c367faf03cba4a0b19a50506f8165e9580"
     },
     {
       "id": "code-review",
@@ -307,7 +307,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "1a8410c0f4ea0e3f594b17794739af9c19183bb752c3f72268dda4a9adfb01af"
+      "sha256": "ebb65369d9633c252a313445843431d30630336071426601fc3767f073509625"
     },
     {
       "id": "containers",
@@ -331,7 +331,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "500c3a9e08ca4ea1a2919d825e899eb2729ceac0fb119e0d37247eca1664d75e"
+      "sha256": "cbda66f49b9580d0b23bc824e3c14b47db1b8334b995a491452dfa3e5b6d7637"
     },
     {
       "id": "content-publishing",
@@ -454,8 +454,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 67,
-      "sha256": "c12a554475b1ed5e89df4bb7a74a414fc1c9e12e6e2116a39d36a34668d04e93"
+      "size_kb": 68,
+      "sha256": "665e7615ad9f2f5c9b6152e8ee47e448e834afbc54a1e3f9386c3e80f10874d5"
     },
     {
       "id": "database",
@@ -499,7 +499,7 @@
         }
       ],
       "size_kb": 10,
-      "sha256": "ceb6db69c7b08154dba77f0b3cff67021b15b2038d9acb23de17b479d6a91a26"
+      "sha256": "87c422e5a59f944e9b9796c8a2cb791ffb0b18243e8b238dc352fae3597daab9"
     },
     {
       "id": "github-workflow",
@@ -547,7 +547,7 @@
         }
       ],
       "size_kb": 11,
-      "sha256": "27a99a3bed5aed39f720b0182c01731aed87ea65c02df5e15d030397e6f4db4e"
+      "sha256": "ad6618a9599c8e134d2d6d79a35ad6d046f0e3fae1e2998a58f58ab8eeace54d"
     },
     {
       "id": "incident-response",
@@ -595,7 +595,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "5712d3d365735a640dee7b95b3f1f26a20ad15bc7623838e707f5b6a389dd382"
+      "sha256": "6c7cc196419a759e279b91707df318be38ea92a57f234db4975a572d2ec9006c"
     },
     {
       "id": "office-productivity",
@@ -604,7 +604,7 @@
       "description": "Daily office work: decks, spreadsheets, resumes, meeting minutes.",
       "description_zh": "日常办公四件套：PPT 制作、Excel 清洗分析、简历岗位定制、会议纪要结构化。",
       "file": "dist/office-productivity.zip",
-      "size_kb": 11,
+      "size_kb": 12,
       "skills": [
         {
           "name": "ppt-builder",
@@ -623,7 +623,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "ae385f827c0606bb5d4802db12d0faafbb7fa70398fbe0ded0744ded2be4372a"
+      "sha256": "64fce33fbf836a2093bbcba612b2ab5f7e620cd41c42d1e65ecfa0ef7039fb1e"
     },
     {
       "id": "performance",
@@ -659,14 +659,14 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "f709526d21d84416933461f500fb85e73e7597cb054cb5562acd9138fb48e5d7"
+      "sha256": "8cdf184878a359517a33fb2c30ef4c004a12e5fa296274ae3d2f7b0f99ad9e91"
     },
     {
       "id": "tdd",
       "name": "Test-Driven Development",
       "name_zh": "测试驱动开发",
       "file": "dist/tdd.zip",
-      "size_kb": 50,
+      "size_kb": 51,
       "description": "Write unit tests, fixtures, mocks, and guide red-green-refactor cycles.",
       "description_zh": "编写单元测试、fixture、mock，并引导红绿重构循环。",
       "skills": [
@@ -675,7 +675,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "e5e0ebee5eb2bfba7389f31c7659cb045efd1cd7afe8668ce3c4cae27f4a1053"
+      "sha256": "491fe57a4d3049ea98565b6a487537abd68e5089099d2c5119813c07f4553976"
     },
     {
       "id": "video-design-studio",
@@ -702,8 +702,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 33,
-      "sha256": "68fef3b0d552f5b326cc6800b7471ecd0a7b5d85b2ba2b1048e2bf915b26ae45"
+      "size_kb": 34,
+      "sha256": "ede9bc03970b1683a66a36aacebb387cdd93e896038de5df56877cd6d2fc4619"
     },
     {
       "id": "viral-entertainment",

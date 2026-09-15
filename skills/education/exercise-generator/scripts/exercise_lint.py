@@ -25,7 +25,7 @@ def lint(text, no_mcq=True):
     blocks = re.split(r"(?=^###\s*Q\d+)", text, flags=re.M)
     blocks = [b for b in blocks if DIFFICULTY_RE.search(b)]
     if not blocks:
-        return {"error": "no question blocks found (expect '### Q1 [recall]' headers)"}, 2
+        return {"error": "no question blocks found (expect '### Q1 [recall]' headers)"}
 
     for block in blocks:
         qid = DIFFICULTY_RE.search(block).group(1)

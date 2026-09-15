@@ -243,3 +243,5 @@ A team using this skill should achieve:
 - All reconcile functions pass `reconcile_lint.py` strict mode
 - Operators reach OperatorHub Capability Level 3 (Full Lifecycle) before public release
 - Mean time to fix a reconcile bug: <1 day (no infinite loops in production)
+
+operator 设计就绪，**接着说："编排层已定，继续调用 terraform-patterns 落基础设施即代码"——链条自动展开**。

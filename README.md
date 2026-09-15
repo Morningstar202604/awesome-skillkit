@@ -22,7 +22,7 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 |------|----------|--------|------|
 | ai-agent-development | AI Agent Development | 5 | 151 KB |
 | ai-media-toolkit | AI Media Generation | 4 | 19 KB |
-| ai-research-writing | AI Research & Writing | 7 | 92 KB |
+| ai-research-writing | AI Research & Writing | 19 | 129 KB |
 | ai-video-pipeline | AI Video Pipeline | 6 | 61 KB |
 | video-design-studio | Video Design Studio (pre-production) | 4 | 32 KB |
 | visual-design-studio | Visual Design Studio | 3 | 14 KB |
@@ -47,7 +47,7 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | tdd | Test-Driven Development | 1 | 50 KB |
 | viral-entertainment | Viral Entertainment (meme shorts) | 2 | 9 KB |
 
-**27 packs · 100 skills.** Project docs: [Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning & Release policy](docs/VERSIONING.md) · [Video landscape research](docs/VIDEO-LANDSCAPE.md) 
+**27 packs · 112 skills.** Project docs: [Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning & Release policy](docs/VERSIONING.md) · [Video landscape research](docs/VIDEO-LANDSCAPE.md) 
 
 ## Pack Details
 
@@ -300,7 +300,7 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | video-subtitles | self-authored |
 | video-thumbnail | self-authored |
 
-### AI Research & Writing (`ai-research-writing`) — 93 KB
+### AI Research & Writing (`ai-research-writing`) — 129 KB
 
 **From question to finished long-form piece: multi-round research and report synthesis, academic topic selection, outline, draft, style editing, and keyword/platform-rule optimization.**
 
@@ -313,6 +313,18 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 | article-drafter | self-authored |
 | content-editor | self-authored |
 | seo-optimizer | self-authored |
+| lit-review | self-authored |
+| experiment-runner | self-authored |
+| figure-maker | self-authored |
+| arch-diagram | self-authored |
+| neural-net-draw | self-authored |
+| latex-formatter | self-authored |
+| self-reviewer | self-authored |
+| journal-adapt | self-authored |
+| anti-defensive | self-authored |
+| ai-humanizer | self-authored |
+| tex-cleaner | self-authored |
+| pub-plotter | self-authored |
 
 ### Code Planning & Generation (`code-planning`) — 72 KB
 

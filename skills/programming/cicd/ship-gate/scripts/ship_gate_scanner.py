@@ -1189,6 +1189,10 @@ def main():
 
     # Run automated checks
     all_results: List[Result] = []
+    if args.category and args.category.upper() not in CATEGORY_ORDER:
+        print(f"Error: unknown category '{args.category}'. "
+              f"Valid: {', '.join(CATEGORY_ORDER)}", file=sys.stderr)
+        sys.exit(2)
     categories = [args.category.upper()] if args.category else CATEGORY_ORDER
 
     for i, cat in enumerate(categories, 1):

@@ -116,3 +116,6 @@ python3 scripts/prompt_audit.py --prompt "<system prompt>" --mode agent   # 五�
 
 - [platform-dialects.md](references/platform-dialects.md) —— 豆包 / Coze / CO-STAR 方言结构与核实链接
 - [sources-and-methodology.md](references/sources-and-methodology.md) —— 方法论出处与致谢
+
+## 链条衔接（下游建议）
+本技能独立于其它域，是「提示词工程」单点技能，可被任意域的编排器在「先写好 prompt 再执行」时调用；其结构与 video-prompt-engineer 同构但互不链接。建议在 skill_chains.json 中新增 chat 域并登记本技能，例如 chat 域的 prompt_audit 链：chat-prompt-engineer（task / agent 两模式自我审计）。

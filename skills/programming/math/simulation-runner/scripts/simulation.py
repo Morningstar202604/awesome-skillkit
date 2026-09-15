@@ -99,7 +99,18 @@ def main():
     if args.monte_carlo:
         result = monte_carlo(args.n, args.mu, args.sigma, args.threshold)
     elif args.spec and args.param:
-        spec = json.loads(Path(args.spec).read_text(encoding="utf-8"))
+        spec_path = Path(args.spec)
+        if not spec_path.exists():
+            print(f"Error: spec file not found: {args.spec}", file=sys.stderr)
+            return 1
+        try:
+            spec = json.loads(spec_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as e:
+            print(f"Error: invalid JSON in spec file: {e}", file=sys.stderr)
+            return 1
+        except OSError as e:
+            print(f"Error: cannot read spec file: {e}", file=sys.stderr)
+            return 1
         lo, hi = args.range if args.range else [0.1, 5.0]
         result = param_scan(spec, args.param, lo, hi, args.steps)
     elif args.sensitivity:
@@ -109,10 +120,15 @@ def main():
 
     output = json.dumps(result, ensure_ascii=False, indent=2)
     if args.output:
-        Path(args.output).write_text(output, encoding="utf-8")
+        try:
+            Path(args.output).write_text(output, encoding="utf-8")
+        except OSError as e:
+            print(f"Error: cannot write output file: {e}", file=sys.stderr)
+            return 1
     else:
         print(output)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

@@ -440,3 +440,5 @@ fi
 
 
 Regular use of the linting, breaking change detection, and scoring tools ensures continuous improvement and helps maintain API quality throughout the development lifecycle.
+
+lint 通过后，**接着说："接口规范已定稿，继续调用 api-test-suite-builder 生成契约测试"——链条自动展开**。

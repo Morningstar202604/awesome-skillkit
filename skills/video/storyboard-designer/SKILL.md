@@ -126,3 +126,6 @@ python3 scripts/scene_lint.py storyboard/
 
 - [sources-and-methodology.md](references/sources-and-methodology.md) —— 分镜方法论的开源出处与致谢（必读，理解为何这样设计）
 - 同包的 `shot-recipe-designer` 技能（注意：跨技能禁止链接引用，此处仅文字提及）——需要更细的运镜/转场设计时单独调用它
+
+## 链条衔接（下游建议）
+本技能承接 video-script-writer 的脚本输出，产出分镜包供 video-generation / image-generation 使用；需要更细运镜/转场时再调用 shot-recipe-designer，需要锁定角色一致时引用 visual-style-anchor 的角色卡。建议在 video 域 chains 中以「上游规划」步骤接入 talking_character / meme 链。当前为游离技能，衔接仅为文字描述。

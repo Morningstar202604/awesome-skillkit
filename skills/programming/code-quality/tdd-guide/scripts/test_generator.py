@@ -64,7 +64,10 @@ class TestGenerator:
 
         # Generate from acceptance criteria
         if 'acceptance_criteria' in requirements:
-            for criterion in requirements['acceptance_criteria']:
+            for criterion in requirements['acceptance_criteria'] or []:
+                # Tolerate plain-string criteria like "must reject wrong password"
+                if isinstance(criterion, str):
+                    criterion = {'id': criterion, 'description': criterion}
                 test_cases.extend(self._test_cases_from_criteria(criterion))
 
         # Generate from API specs

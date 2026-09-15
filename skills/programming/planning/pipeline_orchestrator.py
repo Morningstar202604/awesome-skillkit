@@ -71,7 +71,7 @@ def run_web_search(topic: str) -> Dict:
         import subprocess
         search_script = SKILLS_DIR / "programming" / "planning" / "web-search" / "scripts" / "search_client.py"
         result = subprocess.run(
-            ["python", str(search_script), topic, "--format", "json", "--no-cache"],
+            [sys.executable, str(search_script), topic, "--format", "json", "--no-cache"],
             capture_output=True, text=True, timeout=30
         )
         if result.returncode == 0:
@@ -89,7 +89,7 @@ def run_deep_research(topic: str, max_rounds: int = 3) -> Dict:
         import subprocess
         research_script = SKILLS_DIR / "programming" / "planning" / "deep-research" / "scripts" / "research_agent.py"
         result = subprocess.run(
-            ["python", str(research_script), topic, "--rounds", str(max_rounds), "--format", "json", "--no-cache"],
+            [sys.executable, str(research_script), topic, "--rounds", str(max_rounds), "--format", "json", "--no-cache"],
             capture_output=True, text=True, timeout=60
         )
         if result.returncode == 0:
@@ -107,7 +107,7 @@ def run_intent_planner(raw_input: str, context: Dict = None) -> Dict:
         import subprocess
         planner_script = SKILLS_DIR / "programming" / "planning" / "code-intent-planner" / "scripts" / "pipeline.py"
         result = subprocess.run(
-            ["python", str(planner_script), raw_input, "--format", "json", "--no-mock"],
+            [sys.executable, str(planner_script), raw_input, "--format", "json", "--no-mock"],
             capture_output=True, text=True, timeout=30
         )
         if result.returncode == 0:
@@ -133,7 +133,7 @@ def run_code_generator(plan: Dict, project_root: str = None) -> Dict:
         
         try:
             result = subprocess.run(
-                ["python", str(gen_script), "--plan", plan_file, "--format", "json"],
+                [sys.executable, str(gen_script), "--plan", plan_file, "--format", "json", "--dry-run"],
                 capture_output=True, text=True, timeout=30
             )
             
@@ -154,7 +154,7 @@ def run_code_generator(plan: Dict, project_root: str = None) -> Dict:
 def run_tdd_guide(source_files: List[str]) -> Dict:
     """执行测试生成"""
     try:
-        sys.path.insert(0, str(SKILLS_DIR / "code-quality" / "tdd-guide" / "scripts"))
+        sys.path.insert(0, str(SKILLS_DIR / "programming" / "code-quality" / "tdd-guide" / "scripts"))
         # TDD guide 需要实际代码文件，这里返回占位
         return {
             "status": "success",
@@ -167,7 +167,7 @@ def run_tdd_guide(source_files: List[str]) -> Dict:
         return {"status": "error", "error": str(e)}
 
 
-def run_full_pipeline(user_input: str, project_root: str = None) -> Dict:
+def run_full_pipeline(user_input: str, project_root: str = None, dry_run: bool = False) -> Dict:
     """
     完整流水线执行
     
@@ -182,6 +182,14 @@ def run_full_pipeline(user_input: str, project_root: str = None) -> Dict:
     
     # Step 1: 意图识别
     status.add_step("intent_recognition", "running", "分析用户需求...")
+    if dry_run:
+        status.steps[-1]["status"] = "planned"
+        status.add_step("task_planning", "planned", "生成任务计划...")
+        status.add_step("code_generation", "planned", "生成代码文件...")
+        status.add_step("test_generation", "planned", "测试生成占位")
+        status.end_time = datetime.now()
+        return status.to_dict()
+
     intent_result = run_intent_planner(user_input)
     
     if intent_result["status"] == "error":
@@ -266,6 +274,8 @@ def main():
     parser.add_argument("--project", "-p", help="项目根目录")
     parser.add_argument("--output", "-o", help="输出文件")
     parser.add_argument("--json", "-j", action="store_true", help="JSON 输出")
+    parser.add_argument("--dry-run", action="store_true",
+                        help="只规划不执行（不调用子技能脚本）")
     
     args = parser.parse_args()
     
@@ -280,7 +290,7 @@ def main():
         result = run_intent_planner(args.input)
         result = {"status": "success", "data": result}
     else:
-        result = run_full_pipeline(args.input, args.project)
+        result = run_full_pipeline(args.input, args.project, dry_run=args.dry_run)
     
     # 输出
     if args.json:
@@ -313,16 +323,14 @@ def main():
         output = "\n".join(lines)
     
     if args.output:
-        Path(args.output).write_text(output if args.json else output, encoding="utf-8")
+        Path(args.output).write_text(output, encoding="utf-8")
         print(f"报告已保存到: {args.output}", file=sys.stderr)
     else:
         print(output)
     
-    # 同时保存 JSON
-    if not args.json:
-        json_output = json.dumps(result, ensure_ascii=False, indent=2)
-        json_file = args.output or f"pipeline_result_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        Path(json_file).write_text(json_output, encoding="utf-8")
+    # 失败时向调用方传播非零退出码
+    has_errors = bool(result.get("errors")) or result.get("status") == "error"
+    sys.exit(1 if has_errors else 0)
 
 
 if __name__ == "__main__":

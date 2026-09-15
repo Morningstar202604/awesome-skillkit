@@ -43,67 +43,84 @@ def run_step(name: str, cmd: list, dry_run: bool = False) -> dict:
         return {"step": name, "status": "error", "error": str(e)}
 
 
+# 与 skill_chains.json video.chains 对齐：编排器按 --type 选择链
+CHAIN_STEPS = {
+    "talking_character": ["script", "tts", "lipsync", "editor", "subtitles", "thumbnail"],
+    "tutorial": ["script", "tts", "editor", "subtitles", "thumbnail"],
+    "meme": ["script", "image_gen", "music_gen", "editor", "subtitles", "thumbnail"],
+}
+# meme 链的素材生成无本地脚本（外部生图/配乐），编排器如实标记 manual
+MANUAL_STEPS = {"image_gen", "music_gen"}
+
+
 def run_pipeline(concept: str, video_type: str = "talking_character",
                  duration: int = 30, platform: str = "douyin",
                  face_image: str = None, dry_run: bool = False) -> dict:
+    chain = CHAIN_STEPS.get(video_type)
+    if chain is None:
+        return {"concept": concept, "video_type": video_type,
+                "error": f"unknown --type '{video_type}' (valid: {', '.join(CHAIN_STEPS)})",
+                "steps": [], "completed": 0, "total": 0, "status": "error"}
     steps = []
     out_dir = Path(f"/tmp/video_{datetime.now().strftime('%H%M%S')}")
     out_dir.mkdir(parents=True, exist_ok=True)
     script_file = out_dir / "script.json"
 
-    # Step 1: Script
-    cmd = [sys.executable, str(SCRIPTS["script"]),
-           "--concept", concept, "--type", video_type,
-           "--duration", str(duration), "--platform", platform]
-    if not dry_run:
-        r = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
-        script_file.write_text(r.stdout, encoding="utf-8")
-    steps.append(run_step("script", cmd, dry_run))
+    for step in chain:
+        if step == "script":
+            cmd = [sys.executable, str(SCRIPTS["script"]),
+                   "--concept", concept, "--type", video_type,
+                   "--duration", str(duration), "--platform", platform]
+            if not dry_run:
+                r = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+                if r.returncode == 0:
+                    script_file.write_text(r.stdout, encoding="utf-8")
+            steps.append(run_step("script", cmd, dry_run))
+        elif step == "tts":
+            cmd = [sys.executable, str(SCRIPTS["tts"]),
+                   "--script", str(script_file), "--audio-dir", str(out_dir)]
+            steps.append(run_step("tts", cmd, dry_run))
+        elif step == "lipsync":
+            face = face_image or "/tmp/character.png"
+            cmd = [sys.executable, str(SCRIPTS["lipsync"]),
+                   "--face", face, "--script", str(script_file),
+                   "--audio-dir", str(out_dir)]
+            steps.append(run_step("lipsync", cmd, dry_run))
+        elif step in MANUAL_STEPS:
+            steps.append({"step": step, "status": "manual",
+                          "note": "无本地脚本：用外部生图/配乐工具产出素材放入 "
+                                  f"{out_dir}（scene_<id>.mp4 / scene_<id>.wav）后再跑 editor"})
+        elif step == "editor":
+            cmd = [sys.executable, str(SCRIPTS["editor"]),
+                   "--script", str(script_file),
+                   "--clips-dir", str(out_dir),
+                   "--audio-dir", str(out_dir),
+                   "--output", str(out_dir / "final.mp4")]
+            steps.append(run_step("editor", cmd, dry_run))
+        elif step == "subtitles":
+            cmd = [sys.executable, str(SCRIPTS["subtitles"]),
+                   "--script", str(script_file),
+                   "--output", str(out_dir / "subs.srt")]
+            steps.append(run_step("subtitles", cmd, dry_run))
+        elif step == "thumbnail":
+            cmd = [sys.executable, str(SCRIPTS["thumbnail"]),
+                   "--title", concept, "--platform", platform,
+                   "--output", str(out_dir / "thumb.png")]
+            steps.append(run_step("thumbnail", cmd, dry_run))
 
-    # Step 2: TTS
-    cmd = [sys.executable, str(SCRIPTS["tts"]),
-           "--script", str(script_file)]
-    steps.append(run_step("tts", cmd, dry_run))
-
-    # Step 3: Lip Sync
-    face = face_image or "/tmp/character.png"
-    cmd = [sys.executable, str(SCRIPTS["lipsync"]),
-           "--face", face, "--script", str(script_file),
-           "--audio-dir", str(out_dir)]
-    steps.append(run_step("lipsync", cmd, dry_run))
-
-    # Step 4: Assembly
-    cmd = [sys.executable, str(SCRIPTS["editor"]),
-           "--script", str(script_file),
-           "--clips-dir", str(out_dir),
-           "--audio-dir", str(out_dir),
-           "--output", str(out_dir / "final.mp4")]
-    steps.append(run_step("assembly", cmd, dry_run))
-
-    # Step 5: Subtitles
-    cmd = [sys.executable, str(SCRIPTS["subtitles"]),
-           "--script", str(script_file),
-           "--output", str(out_dir / "subs.srt")]
-    steps.append(run_step("subtitles", cmd, dry_run))
-
-    # Step 6: Thumbnail
-    title = concept
-    cmd = [sys.executable, str(SCRIPTS["thumbnail"]),
-           "--title", title, "--platform", platform,
-           "--output", str(out_dir / "thumb.png")]
-    steps.append(run_step("thumbnail", cmd, dry_run))
-
-    success = sum(1 for s in steps if s["status"] == "success")
+    automated = [s for s in steps if s["status"] != "manual"]
+    success = sum(1 for s in automated if s["status"] == "success")
     return {
         "concept": concept,
         "video_type": video_type,
         "platform": platform,
         "duration": duration,
+        "chain": chain,
         "output_dir": str(out_dir),
         "steps": steps,
         "completed": success,
         "total": len(steps),
-        "status": "complete" if success == len(steps) else "partial",
+        "status": "complete" if success == len(automated) else "partial",
     }
 
 

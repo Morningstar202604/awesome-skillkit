@@ -49,6 +49,7 @@ def run_pipeline(topic: str, article_type: str = "technical",
     platforms = platforms or ["csdn"]
     outline_file = out_dir / "outline.json"
     draft_file = out_dir / "draft.json"
+    edited_file = out_dir / "edited.json"
 
     # Step 1: Outline
     cmd = [sys.executable, str(SCRIPTS["outliner"]),
@@ -61,14 +62,15 @@ def run_pipeline(topic: str, article_type: str = "technical",
            "--outline", str(outline_file), "--output", str(draft_file)]
     steps.append(run_step("draft", cmd, dry_run))
 
-    # Step 3: Edit
+    # Step 3: Edit (产物落盘，下游 seo/publish 读编辑后稿)
     cmd = [sys.executable, str(SCRIPTS["editor"]),
-           "--draft", str(draft_file), "--style", "technical"]
+           "--draft", str(draft_file), "--style", "technical",
+           "--output", str(edited_file)]
     steps.append(run_step("edit", cmd, dry_run))
 
     # Step 4: SEO
     cmd = [sys.executable, str(SCRIPTS["seo"]),
-           "--title", topic, "--content", str(draft_file),
+           "--title", topic, "--content", str(edited_file),
            "--platform", platforms[0]]
     steps.append(run_step("seo", cmd, dry_run))
 

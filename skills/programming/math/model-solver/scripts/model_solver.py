@@ -29,8 +29,8 @@ def solve_lp(spec: dict) -> dict:
     return {
         "status": "success" if result.success else "infeasible",
         "solution": result.x.tolist() if result.x is not None else None,
-        "objective_value": float(result.fun) if result.fun else None,
-        "iterations": result.iter,
+        "objective_value": float(result.fun) if result.fun is not None else None,
+        "iterations": result.nit,
         "solver": "scipy.linprog (HiGHS)",
     }
 
@@ -112,15 +112,31 @@ def main():
     parser.add_argument("--output", help="Output file")
     args = parser.parse_args()
 
-    spec = json.loads(Path(args.spec).read_text(encoding="utf-8"))
+    spec_path = Path(args.spec)
+    if not spec_path.exists():
+        print(f"Error: spec file not found: {args.spec}", file=sys.stderr)
+        return 1
+    try:
+        spec = json.loads(spec_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        print(f"Error: invalid JSON in spec file: {e}", file=sys.stderr)
+        return 1
+    except OSError as e:
+        print(f"Error: cannot read spec file: {e}", file=sys.stderr)
+        return 1
+
     result = solve(spec, args.method)
+    if result.get("status") == "error":
+        print(f"Error: {result.get('error')}", file=sys.stderr)
+        return 1
 
     output = json.dumps(result, ensure_ascii=False, indent=2)
     if args.output:
         Path(args.output).write_text(output, encoding="utf-8")
     else:
         print(output)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

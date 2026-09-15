@@ -50,7 +50,12 @@ def main():
     parser.add_argument("--output", help="Output file")
     args = parser.parse_args()
 
-    constraints = json.loads(args.constraints) if args.constraints else None
+    try:
+        constraints = json.loads(args.constraints) if args.constraints else None
+    except json.JSONDecodeError as e:
+        print(json.dumps({"status": "error", "error": f"invalid --constraints JSON: {e}"},
+                         ensure_ascii=False, indent=2))
+        return 2
     result = evaluate_topic(args.topic, constraints)
 
     output = json.dumps(result, ensure_ascii=False, indent=2)
@@ -61,4 +66,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

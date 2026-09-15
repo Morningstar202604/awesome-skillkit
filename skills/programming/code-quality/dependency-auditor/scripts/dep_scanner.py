@@ -240,7 +240,7 @@ class DependencyScanner:
                                 scan_results['low_severity_count'] += 1
                 
                 except Exception as e:
-                    print(f"Error parsing {dep_file}: {e}")
+                    print(f"Error parsing {dep_file}: {e}", file=sys.stderr)
                     continue
         
         scan_results['ecosystems'] = list(scan_results['ecosystems'])
@@ -253,14 +253,15 @@ class DependencyScanner:
         """Check if a dependency has known vulnerabilities."""
         vulnerabilities = []
         
-        # Check package name (exact match and common variations)
-        package_names = [dependency.name, dependency.name.lower()]
+        # Check package name (exact match and common variations), deduplicated
+        package_names = list(dict.fromkeys([dependency.name, dependency.name.lower()]))
         
         for pkg_name in package_names:
             if pkg_name in self.known_vulnerabilities:
                 for vuln in self.known_vulnerabilities[pkg_name]:
                     if self._version_matches_vulnerability(dependency.version, vuln.affected_versions):
-                        vulnerabilities.append(vuln)
+                        if vuln not in vulnerabilities:
+                            vulnerabilities.append(vuln)
         
         return vulnerabilities
     

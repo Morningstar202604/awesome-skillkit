@@ -79,6 +79,7 @@ def run_pipeline(problem: str, domain: str = "optimization",
     steps.append(run_step("visualize", cmd, dry_run))
 
     success = sum(1 for s in steps if s["status"] == "success")
+    status = "planned" if dry_run else ("complete" if success == len(steps) else "partial")
     return {
         "problem": problem,
         "domain": domain,
@@ -86,7 +87,7 @@ def run_pipeline(problem: str, domain: str = "optimization",
         "completed": success,
         "total": len(steps),
         "output_dir": str(out_dir),
-        "status": "complete" if success == len(steps) else "partial",
+        "status": status,
     }
 
 
@@ -113,6 +114,8 @@ def main():
             err = f" — {s.get('error', '')[:40]}" if s.get("error") else ""
             print(f"  {icon} {s['step']}: {s['status']}{err}")
         print(f"\nCompleted: {result['completed']}/{result['total']}")
+    
+    sys.exit(0 if result["status"] in ("complete", "planned") else 1)
 
 
 if __name__ == "__main__":

@@ -332,6 +332,9 @@ def main():
     else:
         print(output)
 
+    # L2/L3 失败时向调用方传播失败状态，避免"失败当成功"
+    return 1 if isinstance(result, dict) and "error" in result else 0
+
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

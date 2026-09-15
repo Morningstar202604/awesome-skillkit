@@ -156,7 +156,9 @@ def batch_lip_sync(script: dict, face_image: str, audio_dir: str = ".",
                 continue
             audio = Path(audio_dir) / f"tts_mock_{scene['id']}.wav"
 
-        r = lip_sync(face_image, str(audio), gateway_url=gateway_url, mock=mock)
+        r = lip_sync(face_image, str(audio),
+                     output=str(Path(audio).parent / f"scene_{scene['id']}.mp4"),
+                     gateway_url=gateway_url, mock=mock)
         r["scene_id"] = scene["id"]
         results.append(r)
 

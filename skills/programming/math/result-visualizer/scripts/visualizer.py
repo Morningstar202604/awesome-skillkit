@@ -99,11 +99,18 @@ def main():
 
     data_path = Path(args.data)
     if not data_path.exists():
-        print(json.dumps({"status": "skipped", "reason": f"data file not found: {args.data}"},
+        print(json.dumps({"status": "error", "reason": f"data file not found: {args.data}"},
                          ensure_ascii=False, indent=2))
-        return
+        return 1
 
-    data = json.loads(data_path.read_text(encoding="utf-8"))
+    try:
+        data = json.loads(data_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        print(f"Error: invalid JSON in data file: {e}", file=sys.stderr)
+        return 1
+    except OSError as e:
+        print(f"Error: cannot read data file: {e}", file=sys.stderr)
+        return 1
 
     if args.type == "line":
         result = plot_line(data, args.output)
@@ -114,7 +121,8 @@ def main():
 
     result["status"] = "success"
     print(json.dumps(result, ensure_ascii=False, indent=2))
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

@@ -107,3 +107,8 @@ a young woman, short black bob hair, tired but sharp eyes, black oversized hoodi
 - [style-anchor-formula.md](references/style-anchor-formula.md) —— 风格锚五槽位的展开公式与更多示例
 - [character-consistency.md](references/character-consistency.md) —— 角色一致性的完整纪律（含 seed/音色锁定、漂移审计）
 - [sources-and-methodology.md](references/sources-and-methodology.md) —— 方法论出处（含本仓 ai-baby-podcast 的既有实践与开源生态致谢）
+
+## 链条衔接（下游建议）
+本技能是视频域 production chains 的上游「视觉规划」技能。建议编排顺序：
+visual-style-anchor → storyboard-designer → shot-recipe-designer → video-prompt-engineer → video-script-writer，之后再接入 video 域已登记的 talking_character / meme 链条（video-voice-synth → video-lip-sync → video-editor → video-subtitles → video-thumbnail）。
+当前 skill_chains.json 的 video 域 skills 列表未登记本技能（游离技能）；以上衔接仅为文字描述，无跨目录硬链接引用。

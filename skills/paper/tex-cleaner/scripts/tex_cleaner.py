@@ -104,7 +104,7 @@ def main():
     p = Path(args.input)
     if not p.exists():
         print(json.dumps({"error": f"Not found: {args.input}"}, indent=2))
-        return
+        return 1
 
     tex = p.read_text(encoding="utf-8")
     result = clean_latex(tex)
@@ -121,4 +121,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
