@@ -148,10 +148,13 @@ def collect(github_repo: str, gitcode_repo: str, dist_dir: Path) -> dict:
             "n_skills": len(pack.get("skills", [])),
             "skills": [s.get("name") for s in pack.get("skills", [])],
             "local_url": f"packs/{zip_name}",
+            # GitHub：附件直链（发版时由 release 流程上传 28 个 zip 到 Release 资产）
             "release_github": (f"https://github.com/{github_repo}/releases/download/"
                                f"v{version}/{zip_name}"),
-            "release_gitcode": (f"https://gitcode.com/{gitcode_repo}/releases/download/"
-                                f"v{version}/{zip_name}"),
+            # GitCode：API 不支持上传 Release 附件（attach_files 405/404），
+            # 故指向 Release 页面——该 URL 只要 Release 存在就一定有效，
+            # 避免给访客一个 404 的死链。真正下载走 local_url 站内镜像。
+            "release_gitcode": f"https://gitcode.com/{gitcode_repo}/releases/tag/v{version}",
             "dist_exists": (dist_dir / zip_name).is_file(),
         })
 

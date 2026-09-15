@@ -62,7 +62,20 @@ python3 tools/publish_site.py --remote github      # 推 gh-pages 分支
 # 然后 Settings → Pages → Deploy from a branch → gh-pages / (root)
 ```
 
-## 5. 更新流程（技能有增删时）
+## 5. Release 附件（zip 的第二下载通道）
+
+站内镜像（`packs/<id>.zip`）随站点一起发布，**永远可用**，是主下载按钮。
+Release 附件只是第二通道，缺失不影响下载：
+
+| 平台 | 附件直链 | 说明 |
+|---|---|---|
+| GitHub | `…/releases/download/vX.Y.Z/<id>.zip` | API 支持上传，发版时把 `dist/*.zip`（28 个）挂到 Release 资产 |
+| GitCode | 无直链，站点指向 Release 页面 | `attach_files` 接口返回 405/404，API 不支持上传附件；如需附件，在 Release 页面手动拖入 |
+
+站点上 GitCode 的副链接因此指向 `…/releases/tag/vX.Y.Z`（Release 存在即有效），
+不会给访客 404 死链。
+
+## 6. 更新流程（技能有增删时）
 
 ```bash
 python3 build.py                      # 1. 重新打包 dist/*.zip（同步 manifest）
@@ -71,7 +84,7 @@ python3 tools/publish_site.py         # 3. 推 GitCode gh-pages
 git add -A && git commit -m "..." && git push origin main   # 4. main（GitHub Actions 自动部署）
 ```
 
-## 6. 文件清单
+## 7. 文件清单
 
 | 文件 | 作用 |
 |---|---|
