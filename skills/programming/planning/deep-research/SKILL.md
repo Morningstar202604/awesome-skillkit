@@ -30,7 +30,7 @@ metadata:
 
 ## 工作流程
 
-```
+```text
 用户查询
     │
     ▼
@@ -104,21 +104,21 @@ def decompose_query(topic: str, focus_areas: List[str] = None) -> List[str]:
         (r"最佳(\w+)", ["{0} 最佳实践", "{0} 优缺点"]),
         (r"如何(\w+)", ["{0} 方法", "{0} 教程", "{0} 示例"]),
     ]
-    
+
     sub_queries = [topic]
     for pattern, templates in patterns:
         match = re.search(pattern, topic)
         if match:
             for tpl in templates:
                 sub_queries.append(tpl.format(*match.groups()))
-    
+
     # 添加时间维度
     if "2024" in topic or "2025" in topic or "最新" in topic:
         sub_queries.append(f"{topic} 2024 2025")
-    
+
     # 添加英文查询
     sub_queries.append(to_english_query(topic))
-    
+
     return list(set(sub_queries))[:10]  # 最多10个子查询
 ```
 
@@ -142,18 +142,18 @@ async def parallel_search(queries: List[str]) -> Dict[str, List[Dict]]:
     """并发执行多个搜索"""
     import asyncio
     from search_client import search
-    
+
     async def search_one(q: str) -> tuple:
         try:
             result = await asyncio.to_thread(search, q, use_cache=True)
             return (q, result)
         except Exception as e:
             return (q, {"error": str(e), "results": []})
-    
+
     # 并发执行
     tasks = [search_one(q) for q in queries]
     results = await asyncio.gather(*tasks)
-    
+
     return {q: r for q, r in results}
 ```
 
@@ -163,35 +163,35 @@ async def parallel_search(queries: List[str]) -> Dict[str, List[Dict]]:
 def evaluate_result_quality(result: Dict) -> float:
     """评估单个搜索结果的质量"""
     score = 0.0
-    
+
     # 1. 域名权威度
     domain = result.get("parsed_url", {}).get("domain", "")
     domain_score = DOMAIN_AUTHORITY.get(domain, 0.3)
     score += domain_score * 0.3
-    
+
     # 2. 内容完整性
     content = result.get("content", "")
     if len(content) > 100:
         score += 0.2
     elif len(content) > 50:
         score += 0.1
-    
+
     # 3. 标题相关性
     title = result.get("title", "")
     if title and len(title) > 10:
         score += 0.2
-    
+
     # 4. 来源多样性
     engine = result.get("engine", "")
     if engine in ["google", "bing"]:
         score += 0.15
     elif engine == "duckduckgo":
         score += 0.1
-    
+
     # 5. 新鲜度（从URL推断）
     if "2024" in result.get("url", "") or "2025" in result.get("url", ""):
         score += 0.15
-    
+
     return min(score, 1.0)
 ```
 
@@ -214,21 +214,21 @@ def evaluate_result_quality(result: Dict) -> float:
 def assess_trustworthiness(results: List[Dict]) -> Dict:
     """评估信息来源可信度"""
     trust_scores = {}
-    
+
     for r in results:
         domain = r.get("parsed_url", {}).get("domain", "")
         engine = r.get("engine", "")
-        
+
         # 域名可信度
         domain_trust = DOMAIN_TRUSTWORTHINESS.get(domain, 0.5)
-        
+
         # 引擎可信度
         engine_trust = {"google": 0.9, "bing": 0.85, "duckduckgo": 0.7}.get(engine, 0.6)
-        
+
         # 综合可信度
         trust = domain_trust * 0.6 + engine_trust * 0.4
         trust_scores[r["url"]] = trust
-    
+
     return trust_scores
 ```
 
@@ -238,14 +238,14 @@ def assess_trustworthiness(results: List[Dict]) -> Dict:
 def detect_conflicts(results: List[Dict]) -> List[Dict]:
     """检测相互矛盾的信息"""
     conflicts = []
-    
+
     # 按主题聚类
     clusters = cluster_by_topic(results)
-    
+
     for cluster in clusters:
         if len(cluster) < 2:
             continue
-        
+
         # 检查内容差异
         for i, r1 in enumerate(cluster):
             for r2 in cluster[i+1:]:
@@ -256,7 +256,7 @@ def detect_conflicts(results: List[Dict]) -> List[Dict]:
                         "conflict": "观点不一致",
                         "resolution": "需要进一步查证"
                     })
-    
+
     return conflicts
 ```
 
@@ -275,7 +275,7 @@ def multi_perspective_analysis(topic: str, results: List[Dict]) -> Dict:
         "最佳实践": filter_by_topic(results, "best practice|tutorial|guide"),
         "社区反馈": filter_by_topic(results, "reddit|forum|review|opinion"),
     }
-    
+
     return {
         "topic": topic,
         "perspectives": {
@@ -295,15 +295,15 @@ def multi_perspective_analysis(topic: str, results: List[Dict]) -> Dict:
 def identify_gaps(topic: str, results: List[Dict]) -> List[str]:
     """识别未覆盖的信息点"""
     covered = extract_topics(results)
-    
+
     # 预定义的关注点
     expected_topics = get_expected_topics(topic)
-    
+
     gaps = []
     for expected in expected_topics:
         if not any(similar(expected, covered_i) for covered_i in covered):
             gaps.append(f"缺少关于 '{expected}' 的信息")
-    
+
     return gaps
 ```
 
@@ -316,9 +316,9 @@ def identify_gaps(topic: str, results: List[Dict]) -> List[str]:
 ```markdown
 # 研究报告：{topic}
 
-**生成时间：** {timestamp}  
-**搜索轮次：** {rounds}  
-**信源数量：** {source_count}  
+**生成时间：** {timestamp}
+**搜索轮次：** {rounds}
+**信源数量：** {source_count}
 **整体可信度：** {trust_score}/1.0
 
 ---
@@ -335,8 +335,8 @@ def identify_gaps(topic: str, results: List[Dict]) -> List[str]:
 {详细描述}
 
 **来源：**
-- [来源1](url) (可信度: ⭐⭐⭐⭐⭐)
-- [来源2](url) (可信度: ⭐⭐⭐⭐)
+- [来源1](url) (可信度: ★★★★★)
+- [来源2](url) (可信度: ★★★★)
 
 ### 2. {发现标题}
 {详细描述}
@@ -349,9 +349,9 @@ def identify_gaps(topic: str, results: List[Dict]) -> List[str]:
 
 | 视角 | 主要观点 | 支持度 |
 |------|---------|--------|
-| 技术实现 | {观点} | ⭐⭐⭐⭐ |
-| 性能对比 | {观点} | ⭐⭐⭐ |
-| 社区反馈 | {观点} | ⭐⭐⭐⭐⭐ |
+| 技术实现 | {观点} | ★★★★ |
+| 性能对比 | {观点} | ★★★ |
+| 社区反馈 | {观点} | ★★★★★ |
 
 ---
 
@@ -371,7 +371,7 @@ def identify_gaps(topic: str, results: List[Dict]) -> List[str]:
 
 | # | 标题 | URL | 可信度 |
 |---|------|-----|--------|
-| 1 | {title} | [link](url) | ⭐⭐⭐⭐⭐ |
+| 1 | {title} | [link](url) | ★★★★★ |
 
 ---
 
@@ -418,7 +418,7 @@ def identify_gaps(topic: str, results: List[Dict]) -> List[str]:
 
 当研究主题涉及技术方案时，自动衔接：
 
-```
+```text
 deep-research 输出:
 {
   "topic": "FastAPI vs Flask",

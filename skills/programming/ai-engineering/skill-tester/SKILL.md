@@ -45,16 +45,19 @@ For repo-wide auditing prefer `scripts/audit_skills.py` at the repo root (wraps 
 ## What Each Tool Checks
 
 ### skill_validator.py
+
 - SKILL.md frontmatter parsing, required sections, minimum line counts per tier (`--tier BASIC|STANDARD|POWERFUL`)
 - Required structure: SKILL.md, README.md, scripts/, references/, assets/, expected_outputs/
 - Python scripts: argparse present, stdlib-only imports
 
 ### script_tester.py
+
 - AST-based syntax validation; import analysis (flags external dependencies)
 - Controlled execution with timeout protection (`--timeout`, default 30s)
 - `--help` functionality verification; sample-data runs compared against expected_outputs/
 
 ### quality_scorer.py
+
 Four dimensions, 25% each: **Documentation** (depth, examples, references), **Code Quality** (complexity, error handling, output consistency), **Completeness** (required dirs, sample data, expected outputs), **Usability** (help text, example clarity). Outputs 0-100 + A-F grade + tier recommendation.
 
 ## Tier Classification

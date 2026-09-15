@@ -14,10 +14,10 @@ metadata:
 
 # Incident Commander Skill
 
-**Category:** Engineering Team  
-**Tier:** POWERFUL  
-**Author:** Claude Skills Team  
-**Version:** 1.0.0  
+**Category:** Engineering Team
+**Tier:** POWERFUL
+**Author:** Claude Skills Team
+**Version:** 1.0.0
 **Last Updated:** February 2026
 
 ## Overview
@@ -58,6 +58,7 @@ Incident response framework for **availability/reliability incidents** (outages,
 ### Severity Classification System
 
 #### SEV1 - Critical Outage
+
 **Definition:** Complete service failure affecting all users or critical business functions
 
 **Characteristics:**
@@ -78,6 +79,7 @@ Incident response framework for **availability/reliability incidents** (outages,
 **Communication Frequency:** Every 15 minutes until resolution
 
 #### SEV2 - Major Impact
+
 **Definition:** Significant degradation affecting subset of users or non-critical functions
 
 **Characteristics:**
@@ -97,6 +99,7 @@ Incident response framework for **availability/reliability incidents** (outages,
 **Communication Frequency:** Every 30 minutes during active response
 
 #### SEV3 - Minor Impact
+
 **Definition:** Limited impact with workarounds available
 
 **Characteristics:**
@@ -115,6 +118,7 @@ Incident response framework for **availability/reliability incidents** (outages,
 **Communication Frequency:** At key milestones only
 
 #### SEV4 - Low Impact
+
 **Definition:** Minimal impact, cosmetic issues, or planned maintenance
 
 **Characteristics:**
@@ -182,7 +186,7 @@ Incident response framework for **availability/reliability incidents** (outages,
 
 #### Initial Incident Notification (SEV1/2)
 
-```
+```text
 Subject: [SEV{severity}] {Service Name} - {Brief Description}
 
 Incident Details:
@@ -212,7 +216,7 @@ War Room: {bridge/chat link}
 
 #### Executive Summary (SEV1)
 
-```
+```text
 Subject: URGENT - Customer-Impacting Outage - {Service Name}
 
 Executive Summary:
@@ -220,14 +224,14 @@ Executive Summary:
 
 Key Metrics:
 - Time to Detection: {X minutes}
-- Time to Engagement: {X minutes} 
+- Time to Engagement: {X minutes}
 - Estimated Customer Impact: {number/percentage}
 - Current Status: {status}
 - ETA to Resolution: {time or "investigating"}
 
 Leadership Actions Required:
 - [ ] Customer communication approval
-- [ ] PR/Communications coordination  
+- [ ] PR/Communications coordination
 - [ ] Resource allocation decisions
 - [ ] External vendor engagement
 
@@ -240,8 +244,8 @@ This is an automated alert from our incident response system.
 
 #### Customer Communication Template
 
-```
-We are currently experiencing {brief description of issue} affecting {scope of impact}. 
+```text
+We are currently experiencing {brief description of issue} affecting {scope of impact}.
 
 Our engineering team was alerted at {time} and is actively working to resolve the issue. We will provide updates every {frequency} until resolved.
 
@@ -387,26 +391,34 @@ Status page: {link}
 ### Example 1: Database Connection Pool Exhaustion
 
 ```bash
-# Classify the incident
+
+## Classify the incident
+
 echo '{"description": "Users reporting 500 errors, database connections timing out", "affected_users": "80%", "business_impact": "high"}' | python scripts/incident_classifier.py
 
-# Reconstruct timeline from logs
+## Reconstruct timeline from logs
+
 python scripts/timeline_reconstructor.py --input assets/sample_timeline_events.json --output timeline.md
 
-# Generate PIR after resolution
+## Generate PIR after resolution
+
 python scripts/pir_generator.py --incident assets/sample_incident_data.json --timeline timeline.md --output pir.md
-```
+```text
 
 ### Example 2: API Rate Limiting Incident
 
 ```bash
-# Quick classification from stdin
+
+## Quick classification from stdin
+
 echo "API rate limits causing customer API calls to fail" | python scripts/incident_classifier.py --format text
 
-# Build timeline from multiple sources
+## Build timeline from multiple sources
+
 python scripts/timeline_reconstructor.py --input assets/simple_timeline_events.json --detect-phases --gap-analysis
 
-# Generate comprehensive PIR
+## Generate comprehensive PIR
+
 python scripts/pir_generator.py --incident assets/sample_incident_pir_data.json --rca-method fishbone --action-items
 ```
 

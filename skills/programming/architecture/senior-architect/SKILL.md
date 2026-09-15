@@ -127,7 +127,7 @@ python scripts/dependency_analyzer.py ./project --verbose
 ```
 
 **Example output:**
-```
+```text
 Dependency Analysis Report
 ==========================
 Total dependencies: 47 (32 direct, 15 transitive)
@@ -175,7 +175,7 @@ python scripts/project_architect.py ./project --check layers
 ```
 
 **Example output:**
-```
+```text
 Architecture Assessment
 =======================
 Detected pattern: Layered Architecture (confidence: 85%)
@@ -231,7 +231,7 @@ Create an ADR (Architecture Decision Record) with:
 - Trade-offs accepted
 
 **Quick reference:**
-```
+```text
 PostgreSQL → Default choice for most applications
 MongoDB    → Document store, flexible schema
 Redis      → Caching, sessions, real-time features

@@ -20,11 +20,11 @@ metadata:
 
 | 输入 | 必需 | 说明 |
 |------|------|------|
-| 模式 | ✅ | `task`（一次性任务提示词）\| `agent`（智能体 system prompt） |
-| 粗需求 | write ✅ | 用户原话，哪怕只有一句："帮我写个小红书文案" |
-| 目标平台 | ❌ | 默认豆包系通用写法；指定平台套方言（见 references/platform-dialects.md） |
-| 受众 / 用途 | ❌ | 缺时主动问一句，不猜 |
-| 待审 prompt | audit ✅ | 原文粘贴 |
+| 模式 | ✓ | `task`（一次性任务提示词）\| `agent`（智能体 system prompt） |
+| 粗需求 | write ✓ | 用户原话，哪怕只有一句："帮我写个小红书文案" |
+| 目标平台 | ✗ | 默认豆包系通用写法；指定平台套方言（见 references/platform-dialects.md） |
+| 受众 / 用途 | ✗ | 缺时主动问一句，不猜 |
+| 待审 prompt | audit ✓ | 原文粘贴 |
 
 ## 前置自检
 
@@ -118,4 +118,5 @@ python3 scripts/prompt_audit.py --prompt "<system prompt>" --mode agent   # 五�
 - [sources-and-methodology.md](references/sources-and-methodology.md) —— 方法论出处与致谢
 
 ## 链条衔接（下游建议）
+
 本技能独立于其它域，是「提示词工程」单点技能，可被任意域的编排器在「先写好 prompt 再执行」时调用；其结构与 video-prompt-engineer 同构但互不链接。建议在 skill_chains.json 中新增 chat 域并登记本技能，例如 chat 域的 prompt_audit 链：chat-prompt-engineer（task / agent 两模式自我审计）。

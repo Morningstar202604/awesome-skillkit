@@ -13,6 +13,7 @@ metadata:
 # 微信公众号发布 Skill
 
 ## compatibility
+
 - Python 3.8+（仅标准库，无第三方依赖）
 - 已认证的公众号（服务号/订阅号均可），在后台「设置与开发 → 基本配置」拿到 AppID/AppSecret
 - 草稿箱与 freepublish 接口要求公众号已获得**发布接口权限**（大部分认证号默认有）

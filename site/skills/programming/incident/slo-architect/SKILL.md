@@ -33,7 +33,7 @@ Define SLOs that mean something. Most "SLOs" in the wild are arbitrary numbers n
 
 ## Core principle: an SLO is a promise about user experience
 
-```
+```text
 SLI  ⟶  measurable signal of user-perceived health (e.g., HTTP 2xx rate)
 SLO  ⟶  target for the SLI over a window (e.g., 99.9% over 30 days)
 SLA  ⟶  customer-facing commitment with consequences (separate concern)
@@ -164,7 +164,7 @@ The `error_budget_calculator.py` output is in the same shape as the chaos-engine
 
 ### Workflow 1: Define a new SLO
 
-```
+```text
 1. Pick the user journey to protect (e.g., "checkout completion").
 2. Choose SLI type (request-success-rate, latency, availability, freshness, correctness).
 3. Define the SLI precisely: numerator/denominator with concrete labels.
@@ -180,7 +180,7 @@ The `error_budget_calculator.py` output is in the same shape as the chaos-engine
 
 ### Workflow 2: Quarterly SLO review
 
-```
+```text
 1. For every active SLO, run slo_review.py — fix any FAIL findings.
 2. Look at last quarter's data:
    - Was the SLO too easy (never burned budget)? Tighten target.
@@ -192,7 +192,7 @@ The `error_budget_calculator.py` output is in the same shape as the chaos-engine
 
 ### Workflow 3: SLO-driven rollback
 
-```
+```text
 1. New deploy starts burning error budget faster than baseline.
 2. Burn-rate alert fires (from error_budget_calculator.py thresholds).
 3. Auto-rollback via feature flag (kill switch from feature-flags-architect).

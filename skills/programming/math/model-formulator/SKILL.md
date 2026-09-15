@@ -68,7 +68,7 @@ Turn a word problem into a structured mathematical model specification.
 
 ## Model Type Decision Tree
 
-```
+```text
 Is it deterministic?
 ├── Yes → Is it continuous?
 │   ├── Yes → ODE/PDE or nonlinear optimization

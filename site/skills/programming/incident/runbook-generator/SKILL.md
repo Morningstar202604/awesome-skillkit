@@ -14,8 +14,8 @@ metadata:
 
 # Runbook Generator
 
-**Tier:** POWERFUL  
-**Category:** Engineering  
+**Tier:** POWERFUL
+**Category:** Engineering
 **Domain:** DevOps / Site Reliability Engineering
 
 ---

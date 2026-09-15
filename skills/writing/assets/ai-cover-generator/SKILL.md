@@ -6,6 +6,7 @@ description: "技术文章封面图/配图生成。对接本地图片生成服�
 # AI 封面图生成 Skill
 
 ## compatibility
+
 - Python 3.8+（标准库即可运行；`--jpg` 压缩功能需 Pillow）
 - 本地图片服务运行于 `http://127.0.0.1:30080`（可用环境变量 `IMAGE_API_BASE` 覆盖）
 

@@ -21,6 +21,7 @@ A comprehensive database design skill that provides expert-level analysis, optim
 ## Core Competencies
 
 ### Schema Design & Analysis
+
 - **Normalization Analysis**: Automated detection of normalization levels (1NF through BCNF)
 - **Denormalization Strategy**: Smart recommendations for performance optimization
 - **Data Type Optimization**: Identification of inappropriate types and size issues
@@ -29,6 +30,7 @@ A comprehensive database design skill that provides expert-level analysis, optim
 - **ERD Generation**: Automatic Mermaid diagram creation from DDL
 
 ### Index Optimization
+
 - **Index Gap Analysis**: Identification of missing indexes on foreign keys and query patterns
 - **Composite Index Strategy**: Optimal column ordering for multi-column indexes
 - **Index Redundancy Detection**: Elimination of overlapping and unused indexes
@@ -36,6 +38,7 @@ A comprehensive database design skill that provides expert-level analysis, optim
 - **Index Type Selection**: B-tree, hash, partial, covering, and specialized indexes
 
 ### Migration Management
+
 - **Zero-Downtime Migrations**: Expand-contract pattern implementation
 - **Schema Evolution**: Safe column additions, deletions, and type changes
 - **Data Migration Scripts**: Automated data transformation and validation
@@ -77,14 +80,17 @@ python3 scripts/migration_generator.py --current current_schema.json --target ta
 Re-run step 1 on the *target* schema and assert the issues found in the first pass are gone; run `migration_generator.py --validate-only` before handing over the migration.
 
 ## Schema Design Playbook (multi-tenancy, RLS, seed data)
+
 → See references/schema-design-playbook.md for cross-cutting concerns (tenant isolation, soft deletes, audit trails), PostgreSQL RLS policies, seed-data guidance, and a full example schema in references/full-schema-examples.md
 
 ## Database Design Principles
+
 → See references/database-design-reference.md for details
 
 ## Best Practices
 
 ### Schema Design
+
 1. **Use meaningful names**: Clear, consistent naming conventions
 2. **Choose appropriate data types**: Right-sized columns for storage efficiency
 3. **Define proper constraints**: Foreign keys, check constraints, unique indexes
@@ -92,6 +98,7 @@ Re-run step 1 on the *target* schema and assert the issues found in the first pa
 5. **Document relationships**: Clear foreign key relationships and business rules
 
 ### Performance Optimization
+
 1. **Index strategically**: Cover common query patterns without over-indexing
 2. **Monitor query performance**: Regular analysis of slow queries
 3. **Partition large tables**: Improve query performance and maintenance
@@ -99,6 +106,7 @@ Re-run step 1 on the *target* schema and assert the issues found in the first pa
 5. **Implement connection pooling**: Efficient resource utilization
 
 ### Security Considerations
+
 1. **Principle of least privilege**: Grant minimal necessary permissions
 2. **Encrypt sensitive data**: At rest and in transit
 3. **Audit access patterns**: Monitor and log database access
@@ -181,7 +189,7 @@ GROUP BY GROUPING SETS ((region, product), (region), ());
 
 Every migration must have a reversible counterpart. Name files with a timestamp prefix for ordering:
 
-```
+```text
 migrations/
 ├── 20260101_000001_create_users.up.sql
 ├── 20260101_000001_create_users.down.sql

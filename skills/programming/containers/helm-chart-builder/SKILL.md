@@ -62,7 +62,7 @@ If the user has a Helm chart or wants to package Kubernetes resources → this s
 
 2. **Scaffold chart structure**
 
-   ```
+   ```text
    mychart/
    ├── Chart.yaml              # Chart metadata and dependencies
    ├── values.yaml             # Default configuration
@@ -87,7 +87,7 @@ If the user has a Helm chart or wants to package Kubernetes resources → this s
 
 3. **Apply Chart.yaml best practices**
 
-   ```
+   ```text
    METADATA
    ├── apiVersion: v2 (Helm 3 only — never v1)
    ├── name: matches directory name exactly
@@ -146,7 +146,7 @@ If the user has a Helm chart or wants to package Kubernetes resources → this s
    ```
 
 4. **Generate review report**
-   ```
+   ```text
    HELM CHART REVIEW — [chart name]
    Date: [timestamp]
 
@@ -193,7 +193,7 @@ If the user has a Helm chart or wants to package Kubernetes resources → this s
    | hostPID or hostIPC | Critical | Never use in application charts |
 
 4. **Generate security report**
-   ```
+   ```text
    SECURITY AUDIT — [chart name]
    Date: [timestamp]
 
@@ -364,7 +364,7 @@ spec:
 
 ## Values Design Principles
 
-```
+```text
 STRUCTURE
 ├── Flat over nested (image.tag > container.spec.image.tag)
 ├── Group by resource (service.*, ingress.*, resources.*)
@@ -391,7 +391,7 @@ ANTI-PATTERNS
 
 ## Dependency Management
 
-```
+```text
 SUBCHARTS
 ├── Use Chart.yaml dependencies (not requirements.yaml — Helm 3)
 ├── Pin versions: version: ~15.x.x (patch float)

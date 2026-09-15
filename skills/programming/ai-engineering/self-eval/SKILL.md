@@ -38,13 +38,13 @@ The core insight: AI self-assessment converges to "everything is a 4" because a 
 
 After completing work in a Claude Code session:
 
-```
+```text
 /self-eval
 ```
 
 With context about what to evaluate:
 
-```
+```text
 /self-eval the authentication refactor we just completed
 ```
 
@@ -54,12 +54,12 @@ The skill reviews the conversation history, identifies what was accomplished, sc
 
 ### Example 1: Feature Implementation
 
-```
+```text
 /self-eval added pagination to the user list API
 ```
 
 Output:
-```
+```text
 ## Self-Evaluation
 
 **Task:** Added cursor-based pagination to the user list API endpoint
@@ -76,12 +76,12 @@ Output:
 
 ### Example 2: Bug Fix
 
-```
+```text
 /self-eval
 ```
 
 Output:
-```
+```python
 ## Self-Evaluation
 
 **Task:** Fixed race condition in the checkout flow causing duplicate orders

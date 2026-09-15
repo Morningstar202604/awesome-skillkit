@@ -14,9 +14,9 @@ metadata:
 
 # Performance Profiler
 
-**Tier:** POWERFUL  
-**Category:** Engineering  
-**Domain:** Performance Engineering  
+**Tier:** POWERFUL
+**Category:** Engineering
+**Domain:** Performance Engineering
 
 ---
 
@@ -74,23 +74,27 @@ python3 scripts/performance_profiler.py /path/to/project --large-file-threshold-
 ---
 
 ## Node.js Profiling
+
 → See references/profiling-recipes.md for details
 
 ## Quick Optimization Checklist
 
 ### Database
+
 - [ ] Add indexes for frequently queried columns
 - [ ] Use connection pooling (pgBouncer, HikariCP)
 - [ ] Enable query result caching (Redis, application-level)
 - [ ] Batch N+1 queries into single bulk query
 
 ### Application
+
 - [ ] Replace synchronous I/O with async equivalents
 - [ ] Add pagination for large result sets
 - [ ] Use streaming for large file processing
 - [ ] Cache expensive computations (LRU, Redis)
 
 ### Frontend
+
 - [ ] Code-split large bundles (dynamic import)
 - [ ] Lazy-load images below the fold
 - [ ] Compress assets (gzip, brotli)

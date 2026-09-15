@@ -62,7 +62,7 @@ If the user has `.tf` files or wants to provision infrastructure with Terraform 
 
 2. **Apply review checklist**
 
-   ```
+   ```text
    MODULE STRUCTURE
    ├── Variables have descriptions and type constraints
    ├── Outputs expose only what consumers need
@@ -110,7 +110,7 @@ If the user has `.tf` files or wants to provision infrastructure with Terraform 
 
 2. **Apply module design checklist**
 
-   ```
+   ```text
    STRUCTURE
    ├── main.tf        — Primary resources
    ├── variables.tf   — All input variables with descriptions and types
@@ -237,7 +237,7 @@ python3 scripts/tf_security_scanner.py ./terraform --strict
 
 ### Pattern 1: Flat Module (Small/Medium Projects)
 
-```
+```text
 infrastructure/
 ├── main.tf          # All resources
 ├── variables.tf     # All inputs
@@ -251,7 +251,7 @@ Best for: Single application, < 20 resources, one team owns everything.
 
 ### Pattern 2: Nested Modules (Medium/Large Projects)
 
-```
+```text
 infrastructure/
 ├── environments/
 │   ├── dev/
@@ -278,7 +278,7 @@ Best for: Multiple environments, shared infrastructure patterns, team collaborat
 
 ### Pattern 3: Mono-Repo with Terragrunt
 
-```
+```text
 infrastructure/
 ├── terragrunt.hcl           # Root config
 ├── modules/                  # Reusable modules
@@ -357,7 +357,7 @@ provider "aws" {
 
 ## State Management Decision Tree
 
-```
+```text
 Single developer, small project?
 ├── Yes → Local state (but migrate to remote ASAP)
 └── No

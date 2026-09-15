@@ -14,8 +14,8 @@ metadata:
 
 # Tech Debt Tracker
 
-**Tier**: POWERFUL 🔥  
-**Category**: Engineering Process Automation  
+**Tier**: POWERFUL
+**Category**: Engineering Process Automation
 **Expertise**: Code Quality, Technical Debt Management, Software Engineering
 
 ## Overview
@@ -69,27 +69,33 @@ Or pass files explicitly (samples: `assets/historical_debt_2024-01-15.json asset
 After a remediation sprint: re-run step 1, re-run step 3 with the new snapshot, and assert the targeted categories' counts dropped. A cleanup that doesn't move the dashboard is rework, not debt paydown.
 
 ## Technical Debt Classification Framework
+
 → See references/debt-frameworks.md for details (also: references/debt-classification-taxonomy.md, references/prioritization-framework.md, references/stakeholder-communication-templates.md)
 
 ## Common Pitfalls and How to Avoid Them
 
 ### 1. Analysis Paralysis
+
 **Problem**: Spending too much time analyzing debt instead of fixing it.
 **Solution**: Set time limits for analysis, use "good enough" scoring for most items.
 
 ### 2. Perfectionism
+
 **Problem**: Trying to eliminate all debt instead of managing it.
 **Solution**: Focus on high-impact debt, accept that some debt is acceptable.
 
 ### 3. Ignoring Business Context
+
 **Problem**: Prioritizing technical elegance over business value.
 **Solution**: Always tie debt work to business outcomes and customer impact.
 
 ### 4. Inconsistent Application
+
 **Problem**: Some teams adopt practices while others ignore them.
 **Solution**: Make debt tracking part of standard development workflow.
 
 ### 5. Tool Over-Engineering
+
 **Problem**: Building complex debt management systems that nobody uses.
 **Solution**: Start simple, iterate based on actual usage patterns.
 

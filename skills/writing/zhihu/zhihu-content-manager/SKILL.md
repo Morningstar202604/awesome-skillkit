@@ -13,6 +13,7 @@ metadata:
 # 知乎发文管理 Skill
 
 ## compatibility
+
 - Python 3.8+ 与 Playwright（`pip install playwright && playwright install chromium`）
 - Chromium 浏览器（默认用 Playwright 自带的；如需指定路径见下文）
 - `zhihu_state.json`：知乎登录态 cookies 文件（由用户本地浏览器登录后导出，不入库）
@@ -72,7 +73,7 @@ page = context.new_page()
 
 ### 3. 发布新文章
 
-```
+```text
 导航: https://zhuanlan.zhihu.com/write
   ↓
 设置标题（React兼容方式）:
@@ -117,7 +118,7 @@ page = context.new_page()
 
 ### 4. 编辑已发布文章
 
-```
+```text
 导航: https://zhuanlan.zhihu.com/p/{id}/edit
   ↓
 设置新标题
@@ -157,7 +158,7 @@ page.evaluate(f"""async () => {{
 ### 6. 删除内容
 
 **文章删除**（必须通过UI，API DELETE返回403）：
-```
+```text
 导航: https://www.zhihu.com/creator/manage/creation/all
   ↓
 找到文章卡片 → 点击"更多"按钮
@@ -185,7 +186,7 @@ page.evaluate(f"""async () => {{
 
 ### 8. 图片上传
 
-```
+```text
 在/write页面:
   找到 input[type="file"][accept*="image"] (index=1)
   设置文件路径 (压缩到<2MB)
@@ -239,6 +240,7 @@ page.evaluate(f"""async () => {{
 **验证方法**：发布后检查文章页面，用浏览器dev tools查看段落间距，应出现大量`height: 26px`的空白段落。
 
 ### 绝对禁止
+
 1. **不要用base64编码中文内容**——atob()不支持UTF-8，中文会变成乱码
 2. **不要用API发布/更新中文文章**——知乎publish端点有服务端编码bug，无论ensure_ascii=True还是HTML实体编码都会把UTF-8中文存为Latin-1乱码
 3. **不要在回答编辑页通过UI更新**——Draft.js在回答编辑页与文章编辑页行为不同，selectAll+paste+click"更新"预览正常但实际未保存到服务器
@@ -246,6 +248,7 @@ page.evaluate(f"""async () => {{
 5. **不要中途关闭浏览器session**——批量操作（获取→修复→发布→验证）应在同一个浏览器session中完成，避免重复登录和状态丢失
 
 ### 必须遵守
+
 6. 代码块中的 `<` `>` 必须转义为 `&lt;` `&gt;`，否则被浏览器当HTML标签吃掉
 7. 图片必须用 `<figure>` 包裹，不能用裸 `<img>`
 8. 不要用 `<table>` 标签，Draft.js编辑器无法清除table
@@ -257,7 +260,7 @@ page.evaluate(f"""async () => {{
 
 ### 批量文章修复工作流
 
-```
+```text
 Phase 1: 获取所有文章HTML（单浏览器session）
   - 打开每篇文章页面
   - 提取 .Post-RichText 或 .RichText 的 innerHTML
@@ -335,6 +338,7 @@ for (const block of blocks) {
 **注意**：已发布文章的专栏归属不可修改（知乎平台限制），换专栏 = 删旧文 → 新建 → 选新专栏 → 贴内容 → 发布。
 
 ### 常见错误模式
+
 - 乱码特征：`å` `ç` `è` `æ` `¼` `½` `¾` 等Latin-1字符——表示UTF-8被错误解码
 - 尖括号被吃：`#include `（缺少`<iostream>`）——表示代码块内未转义
 - 发布后显示404——反垃圾系统暂时屏蔽，等待即可

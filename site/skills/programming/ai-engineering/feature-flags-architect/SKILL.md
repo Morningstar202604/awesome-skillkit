@@ -27,7 +27,7 @@ End-to-end discipline for feature flags: classify them, ship them, ramp them, an
 
 ## Core principle: flags are a lifecycle, not an `if`
 
-```
+```text
 request → design → ship → ramp → cleanup → archive
 ```
 
@@ -137,7 +137,7 @@ Decision rules:
 
 ### Workflow 1: Ship a new feature behind a flag
 
-```
+```text
 1. Classify: which of the 4 flag types?
    → Release (most common for engineering work)
 2. Run rollout_planner.py to design the ramp
@@ -152,7 +152,7 @@ Decision rules:
 
 ### Workflow 2: Quarterly flag cleanup
 
-```
+```text
 1. Run flag_debt_scanner.py --repo . --max-age-days 90 > debt.md
 2. For each flagged item:
    a. Confirm it reached 100% (or was killed)
@@ -164,7 +164,7 @@ Decision rules:
 
 ### Workflow 3: Choose a provider
 
-```
+```text
 1. Estimate flag count (current + 12-month projection)
 2. Required features:
    - Targeting rules (user, account, geo, %)?
@@ -178,7 +178,7 @@ Decision rules:
 
 ### Workflow 4: Design a kill switch
 
-```
+```text
 1. Identify the failure modes:
    - Latency spike (which threshold?)
    - Error rate spike (which threshold?)

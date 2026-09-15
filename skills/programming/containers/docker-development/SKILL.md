@@ -61,7 +61,7 @@ If the user has a Dockerfile or wants to containerize something → this skill a
 
 2. **Apply optimization checklist**
 
-   ```
+   ```text
    BASE IMAGE
    ├── Use specific tags, never :latest in production
    ├── Prefer slim/alpine variants (debian-slim > ubuntu > debian)
@@ -109,7 +109,7 @@ If the user has a Dockerfile or wants to containerize something → this skill a
 
 2. **Apply compose best practices**
 
-   ```
+   ```text
    SERVICES
    ├── Use depends_on with condition: service_healthy
    ├── Add healthchecks for every service
@@ -169,7 +169,7 @@ If the user has a Dockerfile or wants to containerize something → this skill a
    | No log driver configured | Low | Set `logging:` with size limits |
 
 3. **Generate security report**
-   ```
+   ```text
    SECURITY AUDIT — [Dockerfile/Image name]
    Date: [timestamp]
 
@@ -309,7 +309,7 @@ CMD ["python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000
 
 ## Base Image Decision Tree
 
-```
+```text
 Is it a compiled binary (Go, Rust, C)?
 ├── Yes → distroless/static or scratch
 └── No

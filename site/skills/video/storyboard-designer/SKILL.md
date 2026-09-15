@@ -20,12 +20,12 @@ metadata:
 
 | 输入 | 必需 | 说明 |
 |------|------|------|
-| 视频概念 / 脚本 | ✅ | 一段话或 video-script-writer 产出的脚本 |
-| 总时长 | ✅ | 秒；缺失时按平台默认（抖音/Reels ≤30s，B站/YouTube 30-60s） |
-| 画幅 | ❌ | 16:9（横屏/B站）\| 9:16（竖屏/抖音）\| 1:1；默认 16:9 |
+| 视频概念 / 脚本 | ✓ | 一段话或 video-script-writer 产出的脚本 |
+| 总时长 | ✓ | 秒；缺失时按平台默认（抖音/Reels ≤30s，B站/YouTube 30-60s） |
+| 画幅 | ✗ | 16:9（横屏/B站）\| 9:16（竖屏/抖音）\| 1:1；默认 16:9 |
 | 角色设定 | 可选 | 已有 character sheet 则必须随附（进入连续性表） |
 | 视觉风格锚 | 可选 | 已有 style anchor 则全场景锁定 |
-| 输出语言 | ❌ | prompt 脚本语言，默认跟随用户 |
+| 输出语言 | ✗ | prompt 脚本语言，默认跟随用户 |
 
 缺失时一次性问齐：「请提供：① 视频概念 ② 总时长 ③ 画幅（默认 16:9）。其余我将采用默认值。」
 
@@ -128,4 +128,5 @@ python3 scripts/scene_lint.py storyboard/
 - 同包的 `shot-recipe-designer` 技能（注意：跨技能禁止链接引用，此处仅文字提及）——需要更细的运镜/转场设计时单独调用它
 
 ## 链条衔接（下游建议）
+
 本技能承接 video-script-writer 的脚本输出，产出分镜包供 video-generation / image-generation 使用；需要更细运镜/转场时再调用 shot-recipe-designer，需要锁定角色一致时引用 visual-style-anchor 的角色卡。建议在 video 域 chains 中以「上游规划」步骤接入 talking_character / meme 链。当前为游离技能，衔接仅为文字描述。

@@ -352,7 +352,7 @@ EOF
 
 Structure your review comment as:
 
-```
+```text
 ## PR Review: [PR Title] (#NUMBER)
 
 Blast Radius: HIGH — changes lib/auth used by 5 services

@@ -14,9 +14,9 @@ metadata:
 
 # Monorepo Navigator
 
-**Tier:** POWERFUL  
-**Category:** Engineering  
-**Domain:** Monorepo Architecture / Build Systems  
+**Tier:** POWERFUL
+**Category:** Engineering
+**Domain:** Monorepo Architecture / Build Systems
 
 ---
 
@@ -69,6 +69,7 @@ Most modern setups: **pnpm workspaces + Turborepo + Changesets**
 ---
 
 ## Turborepo
+
 → See references/monorepo-tooling-reference.md for details
 
 ## Workspace Analyzer

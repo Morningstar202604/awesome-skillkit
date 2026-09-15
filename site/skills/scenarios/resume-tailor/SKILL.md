@@ -89,4 +89,5 @@ Success = tailored resume text + `edit_log.md` with per-edit traceability,
 zero unverifiable claims. Anything else is not done — say so plainly.
 
 ## 链条衔接（下游建议）
+
 本技能属 office / productivity 类单点技能；定制后的简历可继续用 excel-assistant 做版本对照、meeting-notes 风格整理。建议在 skill_chains.json 中新增 office（或 productivity）域并登记本技能。衔接仅为文字描述。

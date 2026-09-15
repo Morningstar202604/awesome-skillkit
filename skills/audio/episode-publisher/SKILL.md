@@ -20,9 +20,9 @@ metadata:
 
 | 输入 | 必需 | 说明 |
 |------|------|------|
-| 脚本 | ✅ | podcast-producer 产出（有分段结构才能推时间戳） |
-| 合成计划/音频 | ✅ | tts-voice-director 产出（段落时长用于章节估算） |
-| 平台 | ❌ | 默认小宇宙 + Apple Podcasts 双规格 |
+| 脚本 | ✓ | podcast-producer 产出（有分段结构才能推时间戳） |
+| 合成计划/音频 | ✓ | tts-voice-director 产出（段落时长用于章节估算） |
+| 平台 | ✗ | 默认小宇宙 + Apple Podcasts 双规格 |
 
 ## 工作流
 

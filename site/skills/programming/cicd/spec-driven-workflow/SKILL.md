@@ -30,7 +30,7 @@ This is not documentation. This is a contract. A spec defines what the system MU
 
 ### The Iron Law
 
-```
+```text
 NO CODE WITHOUT AN APPROVED SPEC.
 NO EXCEPTIONS. NO "QUICK PROTOTYPES." NO "I'LL DOCUMENT IT LATER."
 ```
@@ -233,7 +233,7 @@ Before marking any implementation as done, verify ALL of the following:
 
 Spec-driven workflow and TDD are complementary, not competing:
 
-```
+```text
 Spec-Driven Workflow          TDD (Red-Green-Refactor)
 ─────────────────────         ──────────────────────────
 Phase 1: Gather Requirements

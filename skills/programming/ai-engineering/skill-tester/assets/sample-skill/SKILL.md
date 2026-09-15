@@ -33,6 +33,7 @@ The skill processes text files and provides statistics and transformations in bo
 ## Features
 
 ### Core Functionality
+
 - **Word Count Analysis**: Count total words, unique words, and word frequency
 - **Character Statistics**: Analyze character count, line count, and special characters
 - **Text Transformations**: Convert text to uppercase, lowercase, or title case
@@ -40,6 +41,7 @@ The skill processes text files and provides statistics and transformations in bo
 - **Dual Output Formats**: Generate results in both JSON and human-readable formats
 
 ### Technical Features
+
 - Command-line interface with comprehensive argument parsing
 - Error handling for common file and processing issues
 - Progress reporting for batch operations

@@ -20,12 +20,12 @@ metadata:
 
 | 输入 | 必需 | 说明 |
 |------|------|------|
-| 模式 | ✅ | `write`（从场景描述写 prompt）\| `audit`（审计已有 prompt） |
-| 场景描述 | write ✅ | 一句话画面：主体 + 动作 + 环境 |
-| 目标模型 | ❌ | 通用结构默认；指定模型（seedance/kling/veo 等）则套方言（见 references/model-dialects.md） |
-| 时长 | ❌ | 默认 5s |
-| 画幅 | ❌ | 默认 16:9 |
-| 待审 prompt | audit ✅ | 原文粘贴 |
+| 模式 | ✓ | `write`（从场景描述写 prompt）\| `audit`（审计已有 prompt） |
+| 场景描述 | write ✓ | 一句话画面：主体 + 动作 + 环境 |
+| 目标模型 | ✗ | 通用结构默认；指定模型（seedance/kling/veo 等）则套方言（见 references/model-dialects.md） |
+| 时长 | ✗ | 默认 5s |
+| 画幅 | ✗ | 默认 16:9 |
+| 待审 prompt | audit ✓ | 原文粘贴 |
 
 ## 前置自检
 
@@ -106,4 +106,5 @@ write 模式交付 prompt 原文 + 槽位标注版；audit 模式交付 JSON 报
 - [sources-and-methodology.md](references/sources-and-methodology.md) —— 方法论开源出处与致谢（CC BY 4.0 署名信息）
 
 ## 链条衔接（下游建议）
+
 本技能承接 storyboard-designer / shot-recipe-designer 的场景描述，产出六槽位 prompt 供 video-generation / image-generation 投喂；角色一致性须引用 visual-style-anchor 的身份行。建议作为 video 域 chains 的上游规划步骤。当前为游离技能，衔接仅为文字描述。

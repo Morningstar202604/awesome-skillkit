@@ -14,9 +14,9 @@ metadata:
 
 # API Design Reviewer
 
-**Tier:** POWERFUL  
-**Category:** Engineering / Architecture  
-**Maintainer:** Claude Skills Team  
+**Tier:** POWERFUL
+**Category:** Engineering / Architecture
+**Maintainer:** Claude Skills Team
 
 ## Overview
 
@@ -40,6 +40,7 @@ Review flow: run all three, report linter findings + breaking changes + grade to
 ## Core Capabilities
 
 ### 1. API Linting and Convention Analysis
+
 - **Resource Naming Conventions**: Enforces kebab-case for resources, camelCase for fields
 - **HTTP Method Usage**: Validates proper use of GET, POST, PUT, PATCH, DELETE
 - **URL Structure**: Analyzes endpoint patterns for consistency and RESTful design
@@ -48,6 +49,7 @@ Review flow: run all three, report linter findings + breaking changes + grade to
 - **Documentation Coverage**: Checks for missing descriptions and documentation gaps
 
 ### 2. Breaking Change Detection
+
 - **Endpoint Removal**: Detects removed or deprecated endpoints
 - **Response Shape Changes**: Identifies modifications to response structures
 - **Field Removal**: Tracks removed or renamed fields in API responses
@@ -56,6 +58,7 @@ Review flow: run all three, report linter findings + breaking changes + grade to
 - **Status Code Changes**: Detects changes to expected status codes
 
 ### 3. API Design Scoring and Assessment
+
 - **Consistency Analysis** (30%): Evaluates naming conventions, response patterns, and structural consistency
 - **Documentation Quality** (20%): Assesses completeness and clarity of API documentation
 - **Security Implementation** (20%): Reviews authentication, authorization, and security headers
@@ -65,19 +68,20 @@ Review flow: run all three, report linter findings + breaking changes + grade to
 ## REST Design Principles
 
 ### Resource Naming Conventions
-```
-✅ Good Examples:
+```text
+✓ Good Examples:
 - /api/v1/users
 - /api/v1/user-profiles
 - /api/v1/orders/123/line-items
 
-❌ Bad Examples:
+✗ Bad Examples:
 - /api/v1/getUsers
 - /api/v1/user_profiles
 - /api/v1/orders/123/lineItems
 ```
 
 ### HTTP Method Usage
+
 - **GET**: Retrieve resources (safe, idempotent)
 - **POST**: Create new resources (not idempotent)
 - **PUT**: Replace entire resources (idempotent)
@@ -85,7 +89,7 @@ Review flow: run all three, report linter findings + breaking changes + grade to
 - **DELETE**: Remove resources (idempotent)
 
 ### URL Structure Best Practices
-```
+```text
 Collection Resources: /api/v1/users
 Individual Resources: /api/v1/users/123
 Nested Resources: /api/v1/users/123/orders
@@ -96,34 +100,34 @@ Filtering: /api/v1/users?status=active&role=admin
 ## Versioning Strategies
 
 ### 1. URL Versioning (Recommended)
-```
+```text
 /api/v1/users
 /api/v2/users
 ```
-**Pros**: Clear, explicit, easy to route  
+**Pros**: Clear, explicit, easy to route
 **Cons**: URL proliferation, caching complexity
 
 ### 2. Header Versioning
-```
+```text
 GET /api/users
 Accept: application/vnd.api+json;version=1
 ```
-**Pros**: Clean URLs, content negotiation  
+**Pros**: Clean URLs, content negotiation
 **Cons**: Less visible, harder to test manually
 
 ### 3. Media Type Versioning
-```
+```text
 GET /api/users
 Accept: application/vnd.myapi.v1+json
 ```
-**Pros**: RESTful, supports multiple representations  
+**Pros**: RESTful, supports multiple representations
 **Cons**: Complex, harder to implement
 
 ### 4. Query Parameter Versioning
-```
+```text
 /api/users?version=1
 ```
-**Pros**: Simple to implement  
+**Pros**: Simple to implement
 **Cons**: Not RESTful, can be ignored
 
 ## Pagination Patterns
@@ -187,6 +191,7 @@ Accept: application/vnd.myapi.v1+json
 ```
 
 ### HTTP Status Code Usage
+
 - **400 Bad Request**: Invalid request syntax or parameters
 - **401 Unauthorized**: Authentication required
 - **403 Forbidden**: Access denied (authenticated but not authorized)
@@ -199,18 +204,18 @@ Accept: application/vnd.myapi.v1+json
 ## Authentication and Authorization Patterns
 
 ### Bearer Token Authentication
-```
+```text
 Authorization: Bearer <token>
 ```
 
 ### API Key Authentication
-```
+```text
 X-API-Key: <api-key>
 Authorization: Api-Key <api-key>
 ```
 
 ### OAuth 2.0 Flow
-```
+```text
 Authorization: Bearer <oauth-access-token>
 ```
 
@@ -228,7 +233,7 @@ Authorization: Bearer <oauth-access-token>
 ## Rate Limiting Implementation
 
 ### Headers
-```
+```text
 X-RateLimit-Limit: 1000
 X-RateLimit-Remaining: 999
 X-RateLimit-Reset: 1640995200
@@ -257,7 +262,7 @@ X-RateLimit-Reset: 1640995200
     "self": { "href": "/api/v1/users/123" },
     "orders": { "href": "/api/v1/users/123/orders" },
     "profile": { "href": "/api/v1/users/123/profile" },
-    "deactivate": { 
+    "deactivate": {
       "href": "/api/v1/users/123/deactivate",
       "method": "POST"
     }
@@ -268,13 +273,14 @@ X-RateLimit-Reset: 1640995200
 ## Idempotency
 
 ### Idempotent Methods
+
 - **GET**: Always safe and idempotent
 - **PUT**: Should be idempotent (replace entire resource)
 - **DELETE**: Should be idempotent (same result)
 - **PATCH**: May or may not be idempotent
 
 ### Idempotency Keys
-```
+```text
 POST /api/v1/payments
 Idempotency-Key: 123e4567-e89b-12d3-a456-426614174000
 ```
@@ -282,6 +288,7 @@ Idempotency-Key: 123e4567-e89b-12d3-a456-426614174000
 ## Backward Compatibility Guidelines
 
 ### Safe Changes (Non-Breaking)
+
 - Adding optional fields to requests
 - Adding fields to responses
 - Adding new endpoints
@@ -289,6 +296,7 @@ Idempotency-Key: 123e4567-e89b-12d3-a456-426614174000
 - Adding new enum values (with graceful handling)
 
 ### Breaking Changes (Require Version Bump)
+
 - Removing fields from responses
 - Making optional fields required
 - Changing field types
@@ -299,6 +307,7 @@ Idempotency-Key: 123e4567-e89b-12d3-a456-426614174000
 ## OpenAPI/Swagger Validation
 
 ### Required Components
+
 - **API Information**: Title, description, version
 - **Server Information**: Base URLs and descriptions
 - **Path Definitions**: All endpoints with methods
@@ -308,6 +317,7 @@ Idempotency-Key: 123e4567-e89b-12d3-a456-426614174000
 - **Error Responses**: Standard error formats
 
 ### Best Practices
+
 - Use consistent naming conventions
 - Provide detailed descriptions for all components
 - Include examples for complex objects
@@ -317,13 +327,14 @@ Idempotency-Key: 123e4567-e89b-12d3-a456-426614174000
 ## Performance Considerations
 
 ### Caching Strategies
-```
+```text
 Cache-Control: public, max-age=3600
 ETag: "123456789"
 Last-Modified: Wed, 21 Oct 2015 07:28:00 GMT
 ```
 
 ### Efficient Data Transfer
+
 - Use appropriate HTTP methods
 - Implement field selection (`?fields=id,name,email`)
 - Support compression (gzip)
@@ -331,6 +342,7 @@ Last-Modified: Wed, 21 Oct 2015 07:28:00 GMT
 - Use ETags for conditional requests
 
 ### Resource Optimization
+
 - Avoid N+1 queries
 - Implement batch operations
 - Use async processing for heavy operations
@@ -339,18 +351,21 @@ Last-Modified: Wed, 21 Oct 2015 07:28:00 GMT
 ## Security Best Practices
 
 ### Input Validation
+
 - Validate all input parameters
 - Sanitize user data
 - Use parameterized queries
 - Implement request size limits
 
 ### Authentication Security
+
 - Use HTTPS everywhere
 - Implement secure token storage
 - Support token expiration and refresh
 - Use strong authentication mechanisms
 
 ### Authorization Controls
+
 - Implement principle of least privilege
 - Use resource-based permissions
 - Support fine-grained access control
@@ -359,6 +374,7 @@ Last-Modified: Wed, 21 Oct 2015 07:28:00 GMT
 ## Tools and Scripts
 
 ### api_linter.py
+
 Analyzes API specifications for compliance with REST conventions and best practices.
 
 **Features:**
@@ -369,6 +385,7 @@ Analyzes API specifications for compliance with REST conventions and best practi
 - Documentation completeness analysis
 
 ### breaking_change_detector.py
+
 Compares API specification versions to identify breaking changes.
 
 **Features:**
@@ -379,6 +396,7 @@ Compares API specification versions to identify breaking changes.
 - Impact severity assessment
 
 ### api_scorecard.py
+
 Provides comprehensive scoring of API design quality.
 
 **Features:**

@@ -72,7 +72,7 @@ Expected: prints one URL.
 Describe objects, style, and any text layout precisely — instruction clarity
 and detail fidelity dominate output quality. Structure:
 
-```
+```json
 [主体与细节] + [风格/媒介] + [构图与视角] + [文字排版要求，如有]
 ```
 

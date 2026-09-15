@@ -33,7 +33,7 @@ or similar deploy-intent phrases, do NOT proceed with deployment. Instead:
 
 Run these checks in order to identify the project stack:
 
-```
+```text
 Framework detection:
   package.json exists        -> Node.js project
     "next" in dependencies   -> Next.js
@@ -92,7 +92,7 @@ For each category, run every auto-scannable check from
 `references/checks.md` using the patterns in `references/patterns.md`.
 
 Report progress after each category completes:
-```
+```json
 [1/8] Security: 3 FAIL, 12 PASS, 3 SKIP
 [2/8] Database: 1 FAIL, 5 PASS, 6 SKIP
 ...
@@ -121,7 +121,7 @@ Classify results into three severities:
 
 Final output:
 
-```
+```text
 SHIP GATE REPORT
 ================
 Stack: Next.js + Supabase + Vercel

@@ -20,9 +20,9 @@ metadata:
 
 | 输入 | 必需 | 说明 |
 |------|------|------|
-| 基础文案 | ✅ | product-copywriter 的产出 |
-| 目标渠道 | ✅ | xhs / douyin-spoken / moments / email-subject / search-ad（可多选） |
-| 渠道角色 | ❌ | campaign-designer 的渠道矩阵角色（拉新/承接/私域） |
+| 基础文案 | ✓ | product-copywriter 的产出 |
+| 目标渠道 | ✓ | xhs / douyin-spoken / moments / email-subject / search-ad（可多选） |
+| 渠道角色 | ✗ | campaign-designer 的渠道矩阵角色（拉新/承接/私域） |
 
 ## 工作流
 

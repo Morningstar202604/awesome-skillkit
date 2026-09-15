@@ -432,6 +432,7 @@ sqlite3 dbname ".backup backup.db"
 ```
 
 ### Backup Best Practices
+
 - **Automate** — cron or systemd timer, never manual-only
 - **Test restores** — untested backups are not backups
 - **Offsite copies** — S3, GCS, or separate region

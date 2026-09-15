@@ -92,18 +92,21 @@ Write production-ready video scripts with dialogue, timing, and visual cues.
 ## Script Types
 
 ### Talking Character (baby, nailong, etc.)
+
 - Dialogue-driven, 2-4 scenes
 - Each scene: one line + one action
 - Punchline at 70-80% mark
 - Visual: character + prop, minimal background
 
 ### Meme / Reaction
+
 - 1-3 scenes, fast cuts
 - Text overlay + audio punchline
 - 3-7 seconds per scene
 - Loop-friendly ending
 
 ### Tutorial / Explainer
+
 - Intro (5s) → Steps (20-60s) → Outro (5s)
 - Each step: voiceover + screen capture
 - Keep each step < 10s

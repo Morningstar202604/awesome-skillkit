@@ -22,7 +22,7 @@ metadata:
 |------|------|------|
 | 图片文件 | 二选一 | 实际产出图（有 Pillow 时读真实尺寸） |
 | 声明尺寸 | 二选一 | 只有计划时的 W×H（纯审计计算） |
-| 设计规格单 | ✅ | design-brief-interpreter 的产出，platform 字段为准 |
+| 设计规格单 | ✓ | design-brief-interpreter 的产出，platform 字段为准 |
 
 ## 工作流
 

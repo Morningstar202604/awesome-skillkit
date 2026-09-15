@@ -113,7 +113,7 @@ python scripts/coverage_analyzer.py --report lcov.info --threshold 80
 ```
 
 **Sample output:**
-```
+```text
 Coverage Report — Overall: 63% (threshold: 80%)
 
 P0 — Critical gaps (uncovered error paths):
@@ -176,7 +176,7 @@ TDD is most effective when driven by a written spec. The flow:
 
 ### Spec Directory Convention
 
-```
+```text
 project/
 ├── specs/
 │   ├── user-auth.md          # Feature spec with acceptance criteria

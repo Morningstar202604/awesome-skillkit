@@ -77,13 +77,13 @@ metadata:
 analyze_project() {
   # 技术栈
   detect_tech_stack(project_root)    # → python/express/go/rust
-  
+
   # 目录结构（前 3 层）
   find "$project_root" -maxdepth 3 -type d | head -20
-  
+
   # 关键配置文件
   ls package.json pyproject.toml go.mod Cargo.toml tsconfig.json .eslintrc* 2>/dev/null
-  
+
   # 代码风格样本（读取 2-3 个代表性文件）
   sample_files=$(find . -name "*.py" -o -name "*.ts" -o -name "*.js" | head -3)
   cat $sample_files
@@ -275,17 +275,17 @@ router.get('/', async (req: Request, res: Response) => {
 def {function_name}({params}):
     """
     Fixed: {fix_description}
-    
+
     Before:
       {original_problem}
-    
+
     After:
       {fixed_version}
     """
     # Guard clause for edge case
     if {condition}:
         return {default_value}
-    
+
     # Main logic
     return {result}
 ```
@@ -305,7 +305,7 @@ class Test{FunctionName}:
         Then: {then}"""
         result = {function_name}({params})
         assert result == {expected}
-    
+
     def test_{name}_edge_case(self):
         """Edge case: {edge_case}"""
         with pytest.raises({Exception}):
@@ -331,7 +331,7 @@ class Test{FunctionName}:
 
 code-generator 生成代码后，自动调用 tdd-guide：
 
-```
+```text
 code-generator
     ↓ 生成代码文件
 tdd-guide (test_generator.py)

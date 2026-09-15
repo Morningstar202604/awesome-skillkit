@@ -49,7 +49,7 @@ Generate SRT subtitles and platform-optimized captions.
 
 ## SRT Format
 
-```
+```text
 1
 00:00:00,000 --> 00:00:03,000
 你们猜我花了多少钱？

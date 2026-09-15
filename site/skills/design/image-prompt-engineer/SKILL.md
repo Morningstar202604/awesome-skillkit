@@ -20,10 +20,10 @@ metadata:
 
 | 输入 | 必需 | 说明 |
 |------|------|------|
-| 模式 | ✅ | `write`（按规格写 prompt）\| `audit`（审已有 prompt） |
-| 设计规格单 | write ✅ | 来自 design-brief-interpreter 的 7 字段规格 |
-| 目标模型 | ❌ | 默认通用结构；指定则套方言（见 references/model-dialects.md） |
-| 待审 prompt | audit ✅ | 原文粘贴 |
+| 模式 | ✓ | `write`（按规格写 prompt）\| `audit`（审已有 prompt） |
+| 设计规格单 | write ✓ | 来自 design-brief-interpreter 的 7 字段规格 |
+| 目标模型 | ✗ | 默认通用结构；指定则套方言（见 references/model-dialects.md） |
+| 待审 prompt | audit ✓ | 原文粘贴 |
 
 ## 工作流
 

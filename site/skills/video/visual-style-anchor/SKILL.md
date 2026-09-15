@@ -20,10 +20,10 @@ metadata:
 
 | 输入 | 必需 | 说明 |
 |------|------|------|
-| 项目一句话 | ✅ | 「雨夜便利店霓虹短片」这种粒度 |
+| 项目一句话 | ✓ | 「雨夜便利店霓虹短片」这种粒度 |
 | 参考（文字/图链） | 可选 | 「像《银翼杀手》的雨夜」级别的参照即可 |
-| 角色数量 | ❌ | 0 = 只出风格锚；≥1 = 每角色一张一致性卡 |
-| 画幅/平台 | ❌ | 默认 16:9 |
+| 角色数量 | ✗ | 0 = 只出风格锚；≥1 = 每角色一张一致性卡 |
+| 画幅/平台 | ✗ | 默认 16:9 |
 
 ## 工作流
 
@@ -109,6 +109,7 @@ a young woman, short black bob hair, tired but sharp eyes, black oversized hoodi
 - [sources-and-methodology.md](references/sources-and-methodology.md) —— 方法论出处（含本仓 ai-baby-podcast 的既有实践与开源生态致谢）
 
 ## 链条衔接（下游建议）
+
 本技能是视频域 production chains 的上游「视觉规划」技能。建议编排顺序：
 visual-style-anchor → storyboard-designer → shot-recipe-designer → video-prompt-engineer → video-script-writer，之后再接入 video 域已登记的 talking_character / meme 链条（video-voice-synth → video-lip-sync → video-editor → video-subtitles → video-thumbnail）。
 当前 skill_chains.json 的 video 域 skills 列表未登记本技能（游离技能）；以上衔接仅为文字描述，无跨目录硬链接引用。

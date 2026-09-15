@@ -13,10 +13,11 @@ metadata:
 # 掘金发布 Skill
 
 ## compatibility
+
 - Python 3.8+（仅标准库）
 - 掘金账号登录态 Cookie（含 `sessionid_a1`）
 
-## ⚠️ 端点核对（首次使用必做）
+## ⚠ 端点核对（首次使用必做）
 
 掘金**没有公开开放 API**。本技能使用 Web 编辑器同款内部接口，
 社区通用端点已写入 `scripts/juejin_publish.py` 顶部 `ENDPOINTS` 常量。

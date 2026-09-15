@@ -20,9 +20,9 @@ metadata:
 
 | 输入 | 必需 | 说明 |
 |------|------|------|
-| 分镜 / 节拍表 | ✅ | storyboard-designer 的产出，或等价的场景描述 |
-| 基调 | ❌ | cinematic / energetic / calm / playful；默认随内容推断 |
-| 画幅 | ❌ | 默认 16:9 |
+| 分镜 / 节拍表 | ✓ | storyboard-designer 的产出，或等价的场景描述 |
+| 基调 | ✗ | cinematic / energetic / calm / playful；默认随内容推断 |
+| 画幅 | ✗ | 默认 16:9 |
 
 ## 工作流
 
@@ -95,4 +95,5 @@ metadata:
 - [sources-and-methodology.md](references/sources-and-methodology.md) —— 镜头卡片方法论的开源出处与致谢
 
 ## 链条衔接（下游建议）
+
 本技能承接 storyboard-designer 的节拍表/分镜，输出镜头清单供 video-prompt-engineer 逐镜写 prompt。建议作为 video 域 chains 的上游规划步骤。当前为游离技能，衔接仅为文字描述，禁止跨目录硬链接引用。

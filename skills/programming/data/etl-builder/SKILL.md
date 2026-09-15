@@ -26,11 +26,13 @@ Extract → Transform → Load data pipelines.
 ## Pipeline Stages
 
 ### Extract
+
 - CSV, JSON, Parquet, SQLite
 - API responses (JSON)
 - Log files (line-by-line parse)
 
 ### Transform
+
 | Operation | Description |
 |-----------|-------------|
 | dropna | Remove rows with missing values |
@@ -45,6 +47,7 @@ Extract → Transform → Load data pipelines.
 | rename_cols | Standardize naming |
 
 ### Load
+
 - CSV, Parquet, SQLite, JSON
 - Schema validation on load
 

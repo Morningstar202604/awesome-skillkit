@@ -93,7 +93,7 @@ if cache.get(cache_key):
 **模型**：Flash/Mini（如 deepseek-v4-flash, glm-4-flash）
 
 **Prompt 模板**：
-```
+```text
 分析用户编程意图，仅返回 JSON：
 {
   "intent_type": "<implement|fix|refactor|review|test|optimize|plan|design|migrate|destructive>",
@@ -120,11 +120,11 @@ if cache.get(cache_key):
 
 | 来源 | 证据级 | 示例 |
 |------|--------|------|
-| 用户明确指定 | 🟢 verified | "修改 auth 模块" → target=auth |
-| L1 规则推断 | 🟢 verified | 含"bug"+"crash" → fix.runtime |
-| L2 LLM 输出 | 🟡 provisional | L2 推断 target=api |
-| 项目上下文 | 🟡 provisional | 从 package.json 推断 tech_stack |
-| 模型猜测 | 🔴 assumed | 无证据，必须标注 |
+| 用户明确指定 |  verified | "修改 auth 模块" → target=auth |
+| L1 规则推断 |  verified | 含"bug"+"crash" → fix.runtime |
+| L2 LLM 输出 |  provisional | L2 推断 target=api |
+| 项目上下文 |  provisional | 从 package.json 推断 tech_stack |
+| 模型猜测 |  assumed | 无证据，必须标注 |
 
 **硬约束**（用户明确指定，不可违反）vs **软约束**（建议但可调整）。
 
@@ -142,7 +142,7 @@ if cache.get(cache_key):
 **模型**：Pro/推理模型
 
 **Prompt 模板**：
-```
+```text
 你是架构师，将需求分解为可执行任务。仅返回 JSON：
 
 原始输入："{raw_input}"
@@ -193,7 +193,7 @@ if cache.get(cache_key):
 **触发**：L2 置信度 0.60-0.85 且无法消除歧义，或必需槽位缺失。
 
 **追问模板**（一次性问齐，最多 3 个问题）：
-```
+```text
 为准确规划，请确认：
 ① [问题1]
 ② [问题2]

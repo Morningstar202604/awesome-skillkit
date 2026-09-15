@@ -52,7 +52,7 @@ Convert script dialogue to voice audio for video production.
 
 Local TTS service at `http://127.0.0.1:30081`:
 
-```
+```text
 POST /v1/tts
 {
   "text": "...",

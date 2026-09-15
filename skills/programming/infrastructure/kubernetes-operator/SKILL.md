@@ -34,7 +34,7 @@ Build operators that reconcile correctly. Most operator bugs are not Kubernetes 
 
 ## Core principle: an operator is a reconcile loop, not a script
 
-```
+```text
 observe(actual) → desired = read(spec) → diff(actual, desired) → act → update(status)
                                                                           ↓
                                                                    requeue / done
@@ -172,7 +172,7 @@ See `references/reconcile_loop.md` for full detail. Quick rules:
 
 ### Workflow 1: Bootstrap a new operator (Go + kubebuilder)
 
-```
+```text
 1. Pick a Group/Version/Kind: e.g., apps.example.com/v1alpha1, kind=MyApp
 2. kubebuilder init --domain example.com --repo github.com/org/myapp-operator
 3. kubebuilder create api --group apps --version v1alpha1 --kind MyApp
@@ -187,7 +187,7 @@ See `references/reconcile_loop.md` for full detail. Quick rules:
 
 ### Workflow 2: Audit an existing operator
 
-```
+```text
 1. Run operator_capability_audit.py --operator-dir <path>
 2. Run crd_validator.py --crd config/crd/
 3. Run reconcile_lint.py --controller controllers/
@@ -200,7 +200,7 @@ See `references/reconcile_loop.md` for full detail. Quick rules:
 
 ### Workflow 3: Choose a framework
 
-```
+```text
 1. Identify primary language constraint (team skill)
 2. Identify deployment target (vanilla k8s vs OpenShift)
 3. Identify operator complexity (single CRD vs multi-CRD vs cluster-wide)

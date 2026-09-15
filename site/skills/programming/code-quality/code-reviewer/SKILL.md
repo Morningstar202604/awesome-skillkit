@@ -20,7 +20,7 @@ Automated code review tools for analyzing pull requests, detecting code quality 
 
 ## How This Skill Is Organized
 
-```
+```text
 code-reviewer/
   SKILL.md                        ← you are here (tools + dispatch table)
   rules/
