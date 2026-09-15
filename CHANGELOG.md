@@ -21,12 +21,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **技能目录 / 下载站点（site/）**：零依赖静态站（纯 HTML/CSS/JS + 一份 data JSON），
   覆盖 113 个技能（112 个入包 + 1 个模板）/ 27 场景包 / 12 域 / 39 条技能链。支持**单个 SKILL.md 直接下载**
   （站点自带副本，不依赖 raw 服务）与**场景包 zip 双通道下载**（站内镜像 + GitHub/GitCode
-  Release 附件链接，附件未上传时镜像保证按钮不失效）；实时搜索、域筛选、
-  技能/场景包/技能链三视图、包内技能跳转、玄青/玄紫/玄黄 + 明暗换肤（localStorage 记忆）。
-  新增 `tools/build_site.py`（数据生成）、`tools/publish_site.py`（发布 gh-pages 分支）、
-  `.github/workflows/pages.yml`（GitHub Actions 自动部署）、`docs/DEPLOY-SITE.md`。
+  Release 链接，附件未上传时镜像保证按钮不失效）；实时搜索（命中词高亮）、域筛选、
+  技能/场景包/技能链三视图、包内技能跳转、玄青/玄紫/玄黄 + 明暗换肤（localStorage 记忆）、
+  12 域识别色 / 数字滚动 / 卡片入场动画 / 骨架屏 / `/` 聚焦搜索 / 回到顶部。
+  新增 `tools/build_site.py`（数据生成）、`.github/workflows/pages.yml`
+  （GitHub Actions 自动部署）、`docs/DEPLOY-SITE.md`。
+
+### Changed
+
+- **站点部署只走 main 分支，废弃发布分支**：删除 `tools/publish_site.py` 与远程
+  `gh-pages` 分支。GitCode Pages 直接指向 `main` 的 `/site` 目录，GitHub Pages 走
+  Actions（同样不产生分支）；`site/skills/`、`site/packs/` 生成副本相应改为**提交进
+  main**（它们是站点下载本体，不进仓库 = 下载按钮全废）。
 
 ### Fixed
+
+- **站点布局两处结构性 bug**（视觉上表现为：技能卡片飘在 hero 上、页脚顶到首屏、
+  滚动后内容区一片空白、切换视图时新旧内容叠加）：
+  1. 背景网格与卡片容器共用类名 `.grid`，两条规则合并后卡片容器继承
+     `position: absolute; inset: 0` 脱离文档流 → 背景网格改名 `.bg-grid`；
+  2. `.grid { display: grid }` / `.chain-view { display: block }` 覆盖了 UA 的
+     `[hidden] { display: none }`，切 tab 后旧视图并未真正隐藏 → 显式
+     `[hidden] { display: none !important }` 兜底。
+- 站点卡片描述渲染用截断版 `short`、搜索匹配用完整 `desc`，命中词被截掉导致
+  高亮落空 → 统一渲染完整 desc（CSS line-clamp 负责截断展示），删除 `short`
+  字段与 `shorten()`。
 
 - 三个语言 README 顶部的计数徽章停留在 87 技能 / 22 包 → 修正为 **113 / 27**
   （113 = 磁盘 `SKILL.md` 总数，其中 112 个打包进场景包，1 个 `sample-skill`

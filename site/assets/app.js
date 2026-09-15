@@ -29,6 +29,15 @@
     }
   }
 
+  /* ---------- 域色板：每个技能域一个识别色（缺省回退主题色） ---------- */
+  const DOMAIN_COLORS = {
+    programming: "#22d3ee", writing: "#a78bfa", video: "#f472b6",
+    paper: "#34d399", chat: "#60a5fa", audio: "#fbbf24",
+    design: "#fb7185", education: "#4ade80", marketing: "#f97316",
+    music: "#e879f9", office: "#94a3b8", ppt: "#facc15",
+  };
+  const domainColor = (d) => DOMAIN_COLORS[d] || "";
+
   /* ---------- 主题 ---------- */
   const THEME_KEY = "sk-theme", ACCENT_KEY = "sk-accent";
   function applyTheme() {
@@ -65,6 +74,32 @@
     return a;
   }
 
+  /* ---------- 搜索词高亮：对文本做 <mark> 包裹（大小写不敏感，多处命中） ---------- */
+  function highlight(text, q) {
+    if (!q) return document.createTextNode(text);
+    const lower = text.toLowerCase(), needle = q.toLowerCase();
+    const frag = document.createDocumentFragment();
+    let i = 0, hit;
+    while ((hit = lower.indexOf(needle, i)) >= 0) {
+      if (hit > i) frag.append(text.slice(i, hit));
+      frag.append(el("mark", null, text.slice(hit, hit + needle.length)));
+      i = hit + needle.length;
+    }
+    if (i < text.length) frag.append(text.slice(i));
+    return frag;
+  }
+
+  /* ---------- 数字滚动：stat 从 0 数到目标值 ---------- */
+  function countUp(node, target, dur = 700) {
+    const t0 = performance.now();
+    const tick = (t) => {
+      const k = Math.min((t - t0) / dur, 1);
+      node.textContent = String(Math.round(target * (1 - Math.pow(1 - k, 3))));
+      if (k < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
   /* ---------- 渲染：统计 / 头部 ---------- */
   function renderHead() {
     const m = state.data.meta;
@@ -73,7 +108,8 @@
     const tpl = total - m.n_skills;
     document.title = `${m.hub} — ${total} 技能 / ${m.n_packs} 场景包下载`;
     $("#brand").textContent = m.hub;
-    $("#stats").innerHTML = "";
+    const stats = $("#stats");
+    stats.innerHTML = "";
     const items = [
       [total, "个技能 SKILL.md"],
       [m.n_packs, "个场景包 zip"],
@@ -83,14 +119,17 @@
     ];
     items.forEach(([v, label]) => {
       const s = el("div", "stat");
-      s.append(el("b", null, String(v)), el("span", null, label));
-      $("#stats").append(s);
+      const b = el("b", null, "0");
+      s.append(b, el("span", null, label));
+      stats.append(s);
+      if (typeof v === "number") countUp(b, v);
+      else b.textContent = v;
     });
     $("#ghBtn").href = m.github.url;
     $("#gcBtn").href = m.gitcode.url;
     $("#footGh").href = m.github.url;
     $("#footGc").href = m.gitcode.url;
-    $("#footMeta").textContent = `${m.n_skills} 技能 · ${m.n_packs} 包 · v${m.version}${m.updated ? " · " + m.updated : ""}`;
+    $("#footMeta").textContent = `${m.n_skills} 技能 · ${m.n_packs} 包 · v${m.version}${m.updated ? " · 更新于 " + m.updated : ""}`;
     $("#cSkills").textContent = m.n_skills;
     $("#cPacks").textContent = m.n_packs;
     $("#cChains").textContent = m.n_chains;
@@ -139,19 +178,30 @@
   function renderSkills() {
     const box = $("#view-skills");
     box.innerHTML = "";
+    const q = state.q.trim();
     const list = state.data.skills.filter(matches);
-    list.forEach((s) => {
+    list.forEach((s, i) => {
       const c = el("article", "card");
+      const dc = domainColor(s.domain);
+      if (dc) c.style.setProperty("--dc", dc);
+      c.style.animationDelay = Math.min(i * 14, 280) + "ms";
+
       const h = el("h3");
-      h.append(document.createTextNode(s.name), el("span", "dom", s.domain));
-      c.append(h, el("p", null, s.short || s.desc));
+      const name = el("span", null);
+      name.append(highlight(s.name, q));
+      h.append(name, el("span", "dom", s.domain));
+      // 用完整 desc（CSS line-clamp 截 3 行展示）——匹配与高亮必须同一字符串，
+      // 否则命中关键词的词被 short 截断后，卡片上找不到高亮
+      const p = el("p");
+      p.append(highlight(s.desc, q));
+      c.append(h, p);
 
       const meta = el("div", "meta-row");
       if (s.version) meta.append(el("span", "tag", "v" + s.version));
       if (s.tier) meta.append(el("span", "tag", s.tier));
       if (s.pattern) meta.append(el("span", "tag", s.pattern));
       if (s.license) meta.append(el("span", "tag", s.license));
-      s.packs.forEach((p) => meta.append(el("span", "tag pack", "📦 " + p)));
+      s.packs.forEach((pk) => meta.append(el("span", "tag pack", "📦 " + pk)));
       c.append(meta);
 
       const act = el("div", "actions");
@@ -173,12 +223,21 @@
   function renderPacks() {
     const box = $("#view-packs");
     box.innerHTML = "";
+    const q = state.q.trim();
     const list = state.data.packs.filter(matchesPack);
-    list.forEach((p) => {
+    list.forEach((p, i) => {
       const c = el("article", "card");
+      const dc = domainColor(state.domain !== "all" ? state.domain : "");
+      if (dc) c.style.setProperty("--dc", dc);
+      c.style.animationDelay = Math.min(i * 14, 280) + "ms";
+
       const h = el("h3");
-      h.append(document.createTextNode(p.name_zh || p.name), el("span", "dom", p.id));
-      c.append(h, el("p", null, p.desc_zh || p.desc));
+      const name = el("span", null);
+      name.append(highlight(p.name_zh || p.name, q));
+      h.append(name, el("span", "dom", p.id));
+      const d = el("p");
+      d.append(highlight(p.desc_zh || p.desc, q));
+      c.append(h, d);
 
       const meta = el("div", "meta-row");
       meta.append(el("span", "tag", p.n_skills + " 技能"));
@@ -203,6 +262,7 @@
           state.domain = "all";
           state.q = n;
           $("#q").value = n;
+          $("#clearQ").hidden = false;
           syncTabs();
           renderChips();
           render();
@@ -227,12 +287,15 @@
     box.innerHTML = "";
     const q = state.q.trim().toLowerCase();
     let n = 0;
-    state.data.domains.forEach((d) => {
+    state.data.domains.forEach((d, di) => {
       if (state.domain !== "all" && d.id !== state.domain) return;
       const chains = d.chains.filter((c) =>
         !q || (c.name + " " + c.steps.join(" ") + " " + d.id).toLowerCase().includes(q));
       if (!chains.length) return;
       const wrap = el("div", "chain-domain");
+      const dc = domainColor(d.id);
+      if (dc) wrap.style.setProperty("--dc", dc);
+      wrap.style.animationDelay = Math.min(di * 40, 200) + "ms";
       wrap.append(el("h3", null, d.id));
       wrap.append(el("div", "sub", `${d.n_skills} 技能 · ${d.n_chains} 条链${d.entry ? " · 编排器 " + d.entry.split("/").pop() : ""}`));
       chains.forEach((c) => {
@@ -274,7 +337,6 @@
     $("#view-skills").hidden = state.tab !== "skills";
     $("#view-packs").hidden = state.tab !== "packs";
     $("#view-chains").hidden = state.tab !== "chains";
-    $("#domainChips").style.display = state.tab === "chains" ? "flex" : "flex";
   }
 
   document.querySelectorAll(".tab").forEach((t) =>
@@ -283,6 +345,13 @@
       syncTabs();
       render();
     }));
+
+  function clearSearch() {
+    $("#q").value = "";
+    $("#clearQ").hidden = true;
+    if (state.q) { state.q = ""; render(); }
+    $("#q").focus();
+  }
 
   let debounce = null;
   $("#q").addEventListener("input", (e) => {
@@ -302,6 +371,22 @@
     $("#q").focus();
   });
 
+  /* 键盘：/ 聚焦搜索，Esc 清空 */
+  document.addEventListener("keydown", (e) => {
+    const typing = document.activeElement === $("#q");
+    if (e.key === "/" && !typing && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      e.preventDefault();
+      $("#q").focus();
+    } else if (e.key === "Escape" && typing) {
+      clearSearch();
+    }
+  });
+
+  /* 回到顶部 */
+  const toTop = $("#toTop");
+  window.addEventListener("scroll", () => { toTop.hidden = window.scrollY < 600; }, { passive: true });
+  toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
   /* ---------- 启动 ---------- */
   applyTheme();
   fetch("data/site.json")
@@ -317,6 +402,8 @@
       render();
     })
     .catch((e) => {
+      $("#stats").innerHTML = "";
+      $("#view-skills").innerHTML = "";
       $("#hint").textContent =
         "数据加载失败（" + e.message + "）。若你是直接双击打开的 index.html，请改用本地 HTTP 服务：" +
         "python3 -m http.server 8000，然后访问 http://localhost:8000/";

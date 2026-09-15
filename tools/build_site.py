@@ -73,16 +73,6 @@ def find_skill_dir(name: str) -> Path | None:
     return hits[0] if hits else None
 
 
-def shorten(desc: str, limit: int = 160) -> str:
-    """取描述首句/前若干字符，用于卡片展示。"""
-    if not desc:
-        return ""
-    first = re.split(r"(?<=[。.!?])\s", desc.strip())[0]
-    if len(first) <= limit:
-        return first
-    return first[: limit - 1].rstrip() + "…"
-
-
 def collect(github_repo: str, gitcode_repo: str, dist_dir: Path) -> dict:
     manifest = json.loads((SCRIPT_DIR / "manifest.json").read_text(encoding="utf-8"))
     chains_doc = json.loads((SKILLS_DIR / "skill_chains.json").read_text(encoding="utf-8"))
@@ -122,7 +112,6 @@ def collect(github_repo: str, gitcode_repo: str, dist_dir: Path) -> dict:
             "path": f"skills/{rel}",                 # 站点内相对路径（目录）
             "file": f"skills/{rel}/SKILL.md",        # 站点内 SKILL.md 副本
             "desc": desc,
-            "short": shorten(desc),
             "license": fm.get("license", ""),
             "compatibility": fm.get("compatibility", ""),
             "version": meta.get("version", ""),
