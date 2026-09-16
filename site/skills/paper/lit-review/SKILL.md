@@ -14,7 +14,7 @@ metadata:
 
 # Lit Review
 
-Scan literature for a topic, build a citation map, and produce a structured review skeleton with gap callouts.
+围绕主题扫描文献，构建引用关系图，产出带研究空白标注的结构化综述骨架。
 
 ## 输入清单
 

@@ -24,7 +24,7 @@ metadata:
   verified-date: "2026-08-26"
 ---
 
-# SegmentFault Publisher
+# SegmentFault 发布客户端
 
 基于 SegmentFault Web 内部接口保存草稿、发布文章与提问；默认 dry-run，确认后才真正联网。
 

@@ -14,7 +14,7 @@ metadata:
 
 # Migration Architect
 
-Plan zero-downtime migrations, validate schema/API compatibility, and generate rollback runbooks with three tools — producing a phased plan, a compatibility report, and per-phase rollback procedures.
+用三件工具规划零停机迁移、校验 schema/API 兼容性、生成回滚手册——产出分阶段计划、兼容性报告和逐阶段回滚步骤。
 
 ## 输入清单
 
@@ -136,10 +136,10 @@ python3 scripts/rollback_generator.py --input migration_plan.json --format both 
 - `assets/database_schema_before.json` / `database_schema_after.json` — 兼容性检查样例输入。
 - `expected_outputs/` — 各工具样例输出的正确形态，用于核对产物格式。
 
-## CI/CD Integration
+## CI/CD 集成
 
 ```yaml
-# Example migration pipeline stage
+# 迁移流水线阶段示例
 migration_validation:
   stage: test
   script:

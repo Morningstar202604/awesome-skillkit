@@ -14,7 +14,7 @@ metadata:
 
 # Journal Adapt
 
-Retarget an existing draft to a venue's voice and section structure.
+把现有草稿改写到目标 venue 的语气与章节结构。
 
 ## 输入清单
 

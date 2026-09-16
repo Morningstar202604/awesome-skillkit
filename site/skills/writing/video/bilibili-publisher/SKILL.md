@@ -23,7 +23,7 @@ metadata:
   verified-date: "2026-08-26"
 ---
 
-# B 站 Publisher
+# B 站发布客户端
 
 B 站发布客户端，双模式：1) 官方开放平台 API——视频上传/投稿，需申请 AppKey；2) Web 内部 API——专栏文章/动态发布，仅需 Cookie。
 

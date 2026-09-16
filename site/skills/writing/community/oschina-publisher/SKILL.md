@@ -23,7 +23,7 @@ metadata:
   verified-date: "2026-08-26"
 ---
 
-# 开源中国 Publisher
+# 开源中国发布客户端
 
 双模式发布客户端：博客走官方开放平台 API，问答/动态走 Web 内部接口；默认 dry-run，确认后才真正联网。
 

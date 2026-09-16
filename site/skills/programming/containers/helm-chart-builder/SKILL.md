@@ -14,23 +14,23 @@ metadata:
 
 # Helm Chart Builder
 
-> Production-grade Helm charts. Sensible defaults. Secure by design. No cargo-culting.
+> 生产级 Helm chart。合理的默认值。默认安全。拒绝照抄。
 
-Opinionated Helm workflow that turns ad-hoc Kubernetes manifests into maintainable, testable, reusable charts. Covers chart structure, values design, template patterns, dependency management, and security hardening.
+一套带明确主张的 Helm 工作流，把临时拼凑的 Kubernetes manifests 变成可维护、可测试、可复用的 chart。覆盖 chart 结构、values 设计、模板模式、依赖管理与安全加固。
 
-Not a Helm tutorial — a set of concrete decisions about how to build charts that operators trust and developers don't fight.
+这不是 Helm 教程——这是一组具体决策，关于如何构建运维信得过、开发不打架的 chart。
 
-## Slash Commands
+## 斜杠命令
 
-| Command | What it does |
+| 命令 | 作用 |
 |---------|-------------|
-| `/helm:create` | Scaffold a production-ready Helm chart with best-practice structure |
-| `/helm:review` | Analyze an existing chart for issues — missing labels, hardcoded values, template anti-patterns |
-| `/helm:security` | Audit chart for security issues — RBAC, network policies, pod security, secrets handling |
+| `/helm:create` | 按最佳实践结构生成生产级 Helm chart 脚手架 |
+| `/helm:review` | 分析现有 chart 的问题——缺标签、硬编码值、模板反模式 |
+| `/helm:security` | 审计 chart 的安全问题——RBAC、网络策略、Pod 安全、密钥处理 |
 
-## When This Skill Activates
+## 何时激活
 
-Recognize these patterns from the user:
+识别用户的这些表达：
 
 - "Create a Helm chart for this service"
 - "Review my Helm chart"
@@ -39,192 +39,192 @@ Recognize these patterns from the user:
 - "Add a subchart dependency"
 - "Set up helm tests"
 - "Helm best practices for [workload type]"
-- Any request involving: Helm chart, values.yaml, Chart.yaml, templates, helpers, _helpers.tpl, subcharts, helm lint, helm test
+- 任何涉及 Helm chart、values.yaml、Chart.yaml、templates、helpers、_helpers.tpl、subcharts、helm lint、helm test 的请求
 
-If the user has a Helm chart or wants to package Kubernetes resources → this skill applies.
+用户有 Helm chart，或想打包 Kubernetes 资源 → 本技能适用。
 
 ## 输入清单
 
-| Input | Required | Description |
+| 输入 | 必需 | 说明 |
 |-------|----------|-------------|
-| Chart directory | Required | Existing chart to review/harden, or a name to scaffold |
-| Workload type | Required | Web service / worker / CronJob / Stateful service / library chart |
-| Image repository & tag source | Required | Registry path and how the tag is supplied (values, appVersion) |
-| Ingress / TLS needs | Optional | Hosts, paths, TLS secrets |
-| Subchart dependencies | Optional | e.g. postgresql, redis — with version constraints |
-| Secrets source | Optional | External secrets operator / sealed-secrets / user-supplied |
+| Chart 目录 | 必需 | 要评审/加固的现有 chart，或待生成的名称 |
+| 工作负载类型 | 必需 | Web service / worker / CronJob / Stateful service / library chart |
+| Image 仓库与 tag 来源 | 必需 | Registry 路径，以及 tag 如何提供（values、appVersion） |
+| Ingress / TLS 需求 | 可选 | Hosts、路径、TLS secrets |
+| Subchart 依赖 | 可选 | 如 postgresql、redis——带版本约束 |
+| 密钥来源 | 可选 | External secrets operator / sealed-secrets / 用户提供 |
 
-Collect missing inputs in one shot: "Please provide: ① the chart directory or a new chart name ② workload type (web service/worker/CronJob/stateful/library) ③ image repository and tag strategy ④ ingress/TLS needs and subchart dependencies ⑤ how secrets are provided. Everything else I'll default per the checklists below."
+缺输入时一次性收集："请一次性提供：① chart 目录或新 chart 名称 ② 工作负载类型（web service/worker/CronJob/stateful/library）③ image 仓库与 tag 策略 ④ ingress/TLS 需求与 subchart 依赖 ⑤ 密钥如何提供。其余我按下方清单给默认值。"
 
 ## 前置自检
 
-Probe before running; on any failure, give the fix and STOP:
+先探测再动手；任一失败，给出修复方法并停止：
 
 ```bash
-python3 --version   # expect 3.8+; fail: install python3
-python3 scripts/chart_analyzer.py --help >/dev/null 2>&1     # expect exit 0; fail: script missing → check skill dir
+python3 --version   # 预期 3.8+；失败：安装 python3
+python3 scripts/chart_analyzer.py --help >/dev/null 2>&1     # 预期退出码 0；失败：脚本缺失 → 检查技能目录
 python3 scripts/values_validator.py --help >/dev/null 2>&1
-helm version --short >/dev/null 2>&1   # expect exit 0; fail: helm not installed → install helm CLI or deliver static review only
-test -d <chart-dir>/templates   # expect exit 0 for review/security tasks; fail: not a chart → ask user for the chart root
+helm version --short >/dev/null 2>&1   # 预期退出码 0；失败：helm 未安装 → 安装 helm CLI，或只交付静态评审
+test -d <chart-dir>/templates   # review/security 任务预期退出码 0；失败：不是 chart → 向用户要 chart 根目录
 ```
 
 ## 工作流
 
-### 步骤 1: Identify workload type (`/helm:create`)
+### 步骤 1：确定工作负载类型（`/helm:create`）
 
-- Web service (Deployment + Service + Ingress)
-- Worker (Deployment, no Service)
-- CronJob (CronJob + ServiceAccount)
-- Stateful service (StatefulSet + PVC + Headless Service)
-- Library chart (no templates, only helpers)
+- Web service（Deployment + Service + Ingress）
+- Worker（Deployment，无 Service）
+- CronJob（CronJob + ServiceAccount）
+- Stateful service（StatefulSet + PVC + Headless Service）
+- Library chart（无 templates，只有 helpers）
 
-Expected: workload type confirmed with the user before scaffolding; it decides the template set.
+预期：脚手架生成前与用户确认工作负载类型；它决定模板集合。
 
-### 步骤 2: Scaffold chart structure
+### 步骤 2：生成 chart 结构
 
 ```text
 mychart/
-├── Chart.yaml              # Chart metadata and dependencies
-├── values.yaml             # Default configuration
-├── values.schema.json      # Optional: JSON Schema for values validation
-├── .helmignore             # Files to exclude from packaging
+├── Chart.yaml              # Chart 元数据与依赖
+├── values.yaml             # 默认配置
+├── values.schema.json      # 可选：values 校验用的 JSON Schema
+├── .helmignore             # 打包时排除的文件
 ├── templates/
-│   ├── _helpers.tpl        # Named templates and helper functions
-│   ├── deployment.yaml     # Workload resource
-│   ├── service.yaml        # Service exposure
-│   ├── ingress.yaml        # Ingress (if applicable)
+│   ├── _helpers.tpl        # 命名模板与辅助函数
+│   ├── deployment.yaml     # 工作负载资源
+│   ├── service.yaml        # Service 暴露
+│   ├── ingress.yaml        # Ingress（如适用）
 │   ├── serviceaccount.yaml # ServiceAccount
 │   ├── hpa.yaml            # HorizontalPodAutoscaler
 │   ├── pdb.yaml            # PodDisruptionBudget
 │   ├── networkpolicy.yaml  # NetworkPolicy
-│   ├── configmap.yaml      # ConfigMap (if needed)
-│   ├── secret.yaml         # Secret (if needed)
-│   ├── NOTES.txt           # Post-install usage instructions
+│   ├── configmap.yaml      # ConfigMap（如需要）
+│   ├── secret.yaml         # Secret（如需要）
+│   ├── NOTES.txt           # 安装后使用说明
 │   └── tests/
 │       └── test-connection.yaml
-└── charts/                 # Subcharts (dependencies)
+└── charts/                 # Subchart（依赖）
 ```
 
-Apply Chart.yaml best practices:
+套用 Chart.yaml 最佳实践：
 
 ```text
 METADATA
-├── apiVersion: v2 (Helm 3 only — never v1)
-├── name: matches directory name exactly
-├── version: semver (chart version, not app version)
-├── appVersion: application version string
-├── description: one-line summary of what the chart deploys
-└── type: application (or library for shared helpers)
+├── apiVersion: v2（仅 Helm 3——绝不用 v1）
+├── name: 与目录名完全一致
+├── version: semver（chart 版本，不是应用版本）
+├── appVersion: 应用版本字符串
+├── description: chart 部署内容的一行摘要
+└── type: application（共享 helpers 用 library）
 
 DEPENDENCIES
-├── Pin dependency versions with ~X.Y.Z (patch-level float)
-├── Use condition field to make subcharts optional
-├── Use alias for multiple instances of same subchart
-└── Run helm dependency update after changes
+├── 依赖版本用 ~X.Y.Z 锁定（patch 级浮动）
+├── 用 condition 字段让 subchart 可选
+├── 同一 subchart 多实例用 alias
+└── 变更后运行 helm dependency update
 ```
 
-values.yaml rules: every value has an inline comment; sensible dev defaults; flat where possible; no hardcoded cluster-specific values (registry, domain, storage class).
+values.yaml 规则：每个值都带行内注释；开发默认值合理；能扁平就扁平；不硬编码集群相关值（registry、域名、storage class）。
 
-### 步骤 3: Validate the chart
+### 步骤 3：校验 chart
 
 ```bash
-python3 scripts/chart_analyzer.py mychart/               # static analysis
+python3 scripts/chart_analyzer.py mychart/               # 静态分析
 python3 scripts/chart_analyzer.py mychart/ --output json
 python3 scripts/chart_analyzer.py mychart/ --security
 helm lint mychart/
 helm template mychart/ --debug
 ```
 
-Expected: analyzer reports no structural or anti-pattern flags; `helm lint` exits 0; `helm template` renders all resources without errors.
-If it fails: template render errors show file/line — fix the named template; lint failures on values → fix defaults in values.yaml.
+预期：分析器无结构或反模式标记；`helm lint` 退出码 0；`helm template` 渲染全部资源无报错。
+失败时：模板渲染错误带 file/line——修指定的模板；lint 因 values 失败 → 修 values.yaml 的默认值。
 
-### 步骤 4: Review an existing chart (`/helm:review`)
+### 步骤 4：评审现有 chart（`/helm:review`）
 
-Structure checks:
+结构检查：
 
-| Check | Severity | Fix |
+| 检查项 | 严重度 | 修复 |
 |-------|----------|-----|
-| Missing _helpers.tpl | High | Create helpers for common labels and selectors |
-| No NOTES.txt | Medium | Add post-install instructions |
-| No .helmignore | Low | Create one to exclude .git, CI files, tests |
-| Missing Chart.yaml fields | Medium | Add description, appVersion, maintainers |
-| Hardcoded values in templates | High | Extract to values.yaml with defaults |
+| 缺 _helpers.tpl | High | 为通用标签与选择器建 helpers |
+| 无 NOTES.txt | Medium | 补安装后说明 |
+| 无 .helmignore | Low | 建一个，排除 .git、CI 文件、tests |
+| Chart.yaml 字段缺失 | Medium | 补 description、appVersion、maintainers |
+| 模板中硬编码值 | High | 提取到 values.yaml 并给默认值 |
 
-Template quality checks:
+模板质量检查：
 
-| Check | Severity | Fix |
+| 检查项 | 严重度 | 修复 |
 |-------|----------|-----|
-| Missing standard labels | High | Use `app.kubernetes.io/*` labels via _helpers.tpl |
-| No resource requests/limits | Critical | Add resources section with defaults in values.yaml |
-| Hardcoded image tag | High | Use `{{ .Values.image.repository }}:{{ .Values.image.tag }}` |
-| No imagePullPolicy | Medium | Default to `IfNotPresent`, overridable |
-| Missing liveness/readiness probes | High | Add probes with configurable paths and ports |
-| No pod anti-affinity | Medium | Add preferred anti-affinity for HA |
-| Duplicate template code | Medium | Extract into named templates in _helpers.tpl |
+| 缺标准标签 | High | 经 _helpers.tpl 使用 `app.kubernetes.io/*` 标签 |
+| 无 resource requests/limits | Critical | 在 values.yaml 加带默认值的 resources 节 |
+| 硬编码 image tag | High | 改用 `{{ .Values.image.repository }}:{{ .Values.image.tag }}` |
+| 无 imagePullPolicy | Medium | 默认 `IfNotPresent`，可覆盖 |
+| 缺 liveness/readiness 探针 | High | 加探针，路径与端口可配置 |
+| 无 Pod 反亲和 | Medium | 为 HA 加 preferred 反亲和 |
+| 模板代码重复 | Medium | 提取为 _helpers.tpl 中的命名模板 |
 
-Values quality:
+values 质量：
 
 ```bash
-python3 scripts/values_validator.py mychart/values.yaml             # text report
+python3 scripts/values_validator.py mychart/values.yaml             # 文本报告
 python3 scripts/values_validator.py mychart/values.yaml --output json
 python3 scripts/values_validator.py mychart/values.yaml --strict
 ```
 
-Expected: a review report `HELM CHART REVIEW — <chart name>` with CRITICAL/HIGH/MEDIUM/LOW counts and per-finding fixes; `values_validator --strict` passes.
-If it fails: validator flags undocumented or secret-like defaults → fix values.yaml per its output and re-run.
+预期：一份 `HELM CHART REVIEW — <chart name>` 评审报告，带 CRITICAL/HIGH/MEDIUM/LOW 计数与逐项修复；`values_validator --strict` 通过。
+失败时：校验器标记未注释的值或疑似密钥的默认值 → 按其输出修 values.yaml 并重跑。
 
-### 步骤 5: Security audit (`/helm:security`)
+### 步骤 5：安全审计（`/helm:security`）
 
-Pod security:
+Pod 安全：
 
-| Check | Severity | Fix |
+| 检查项 | 严重度 | 修复 |
 |-------|----------|-----|
-| No securityContext | Critical | Add runAsNonRoot, readOnlyRootFilesystem |
-| Running as root | Critical | Set `runAsNonRoot: true`, `runAsUser: 1000` |
-| Writable root filesystem | High | Set `readOnlyRootFilesystem: true` + emptyDir for tmp |
-| All capabilities retained | High | Drop ALL, add only specific needed caps |
-| Privileged container | Critical | Set `privileged: false`, use specific capabilities |
-| No seccomp profile | Medium | Set `seccompProfile.type: RuntimeDefault` |
-| allowPrivilegeEscalation true | High | Set `allowPrivilegeEscalation: false` |
+| 无 securityContext | Critical | 加 runAsNonRoot、readOnlyRootFilesystem |
+| 以 root 运行 | Critical | 设 `runAsNonRoot: true`、`runAsUser: 1000` |
+| 根文件系统可写 | High | 设 `readOnlyRootFilesystem: true` + tmp 用 emptyDir |
+| 保留全部 capabilities | High | Drop ALL，只加确实需要的 caps |
+| 特权容器 | Critical | 设 `privileged: false`，用具体 capabilities |
+| 无 seccomp profile | Medium | 设 `seccompProfile.type: RuntimeDefault` |
+| allowPrivilegeEscalation true | High | 设 `allowPrivilegeEscalation: false` |
 
-RBAC:
+RBAC：
 
-| Check | Severity | Fix |
+| 检查项 | 严重度 | 修复 |
 |-------|----------|-----|
-| No ServiceAccount | Medium | Create dedicated SA, don't use default |
-| automountServiceAccountToken true | Medium | Set to false unless pod needs K8s API access |
-| ClusterRole instead of Role | Medium | Use namespace-scoped Role unless cluster-wide needed |
-| Wildcard permissions | Critical | Use specific resource names and verbs |
-| No RBAC at all | Low | Acceptable if pod doesn't need K8s API access |
+| 无 ServiceAccount | Medium | 建专用 SA，不用 default |
+| automountServiceAccountToken true | Medium | Pod 不需要访问 K8s API 就设为 false |
+| 用 ClusterRole 而非 Role | Medium | 无集群级需求就用 namespace 级 Role |
+| 通配权限 | Critical | 用具体资源名与动词 |
+| 完全没有 RBAC | Low | Pod 不需要访问 K8s API 时可接受 |
 
-Network and secrets:
+网络与密钥：
 
-| Check | Severity | Fix |
+| 检查项 | 严重度 | 修复 |
 |-------|----------|-----|
-| No NetworkPolicy | Medium | Add default-deny ingress + explicit allow rules |
-| Secrets in values.yaml | Critical | Use external secrets operator or sealed-secrets |
-| No PodDisruptionBudget | Medium | Add PDB with minAvailable for HA workloads |
-| hostNetwork: true | High | Remove unless absolutely required (e.g., CNI plugin) |
-| hostPID or hostIPC | Critical | Never use in application charts |
+| 无 NetworkPolicy | Medium | 加 default-deny ingress + 显式 allow 规则 |
+| values.yaml 中放密钥 | Critical | 改用 external secrets operator 或 sealed-secrets |
+| 无 PodDisruptionBudget | Medium | HA 工作负载加带 minAvailable 的 PDB |
+| hostNetwork: true | High | 除非绝对必要（如 CNI plugin）否则移除 |
+| hostPID 或 hostIPC | Critical | 应用 chart 中绝不使用 |
 
-Expected: a report `SECURITY AUDIT — <chart name>` with severity counts and remediation steps; zero CRITICAL findings before handover.
+预期：一份 `SECURITY AUDIT — <chart name>` 报告，带严重度计数与修复步骤；交付前零 CRITICAL 发现项。
 
-### 步骤 6: Proactive flags
+### 步骤 6：主动提示项
 
-Flag these without being asked:
+无人要求也要指出：
 
-- **No _helpers.tpl** → Create one. Every chart needs standard labels and fullname helpers.
-- **Hardcoded image tag in template** → Extract to values.yaml. Tags must be overridable.
-- **No resource requests/limits** → Add them. Pods without limits can starve the node.
-- **Running as root** → Add securityContext. No exceptions for production charts.
-- **No NOTES.txt** → Create one. Users need post-install instructions.
-- **Secrets in values.yaml defaults** → Remove them. Use placeholders with comments explaining how to provide secrets.
-- **No liveness/readiness probes** → Add them. Kubernetes needs to know if the pod is healthy.
-- **Missing app.kubernetes.io labels** → Add via _helpers.tpl. Required for proper resource tracking.
+- **无 _helpers.tpl** → 建一个。每个 chart 都需要标准标签与 fullname helpers。
+- **模板中硬编码 image tag** → 提取到 values.yaml。tag 必须可覆盖。
+- **无 resource requests/limits** → 加上。无限额的 Pod 会饿死节点。
+- **以 root 运行** → 加 securityContext。生产 chart 无例外。
+- **无 NOTES.txt** → 建一个。用户需要安装后说明。
+- **values.yaml 默认值里有密钥** → 删掉。用占位符加注释说明如何提供密钥。
+- **无 liveness/readiness 探针** → 加上。Kubernetes 需要判断 Pod 是否健康。
+- **缺 app.kubernetes.io 标签** → 经 _helpers.tpl 加上。资源跟踪必需。
 
-## Template Patterns
+## 模板模式
 
-### Pattern 1: Standard Labels (_helpers.tpl)
+### 模式 1：标准标签（_helpers.tpl）
 
 ```yaml
 {{/*
@@ -247,7 +247,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 ```
 
-### Pattern 2: Security-Hardened Pod Spec
+### 模式 2：安全加固的 Pod Spec
 
 ```yaml
 spec:
@@ -279,7 +279,7 @@ spec:
       emptyDir: {}
 ```
 
-### Pattern 3: Conditional Resources
+### 模式 3：条件资源
 
 ```yaml
 {{- if .Values.ingress.enabled -}}
@@ -322,83 +322,83 @@ spec:
 {{- end }}
 ```
 
-## Values Design Principles
+## values 设计原则
 
 ```text
 STRUCTURE
-├── Flat over nested (image.tag > container.spec.image.tag)
-├── Group by resource (service.*, ingress.*, resources.*)
-├── Use enabled: true/false for optional resources
-├── Document every key with inline YAML comments
-└── Provide sensible development defaults
+├── 扁平优先于嵌套（image.tag 优于 container.spec.image.tag）
+├── 按资源分组（service.*、ingress.*、resources.*）
+├── 可选资源用 enabled: true/false
+├── 每个键都用行内 YAML 注释说明
+└── 提供合理的开发默认值
 
 NAMING
-├── camelCase for keys (replicaCount, not replica_count)
-├── Boolean keys: use adjectives (enabled, required) not verbs
-├── Nested keys: max 3 levels deep
-└── Match upstream conventions (image.repository, image.tag, image.pullPolicy)
+├── 键用 camelCase（replicaCount，不是 replica_count）
+├── 布尔键用形容词（enabled、required），不用动词
+├── 嵌套键最多 3 层
+└── 对齐上游惯例（image.repository、image.tag、image.pullPolicy）
 
 ANTI-PATTERNS
-├── Hardcoded cluster URLs or domains
-├── Secrets as default values
-├── Empty strings where null is correct
-├── Deeply nested structures (>3 levels)
-├── Undocumented values
-└── values.yaml that doesn't work without overrides
+├── 硬编码集群 URL 或域名
+├── 密钥当默认值
+├── 该用 null 的地方用空字符串
+├── 过深嵌套（>3 层）
+├── 无注释的值
+└── 不加覆盖就无法工作的 values.yaml
 ```
 
-## Dependency Management
+## 依赖管理
 
 ```text
 SUBCHARTS
-├── Use Chart.yaml dependencies (not requirements.yaml — Helm 3)
-├── Pin versions: version: ~15.x.x (patch float)
-├── Use condition: to make optional: condition: postgresql.enabled
-├── Use alias: for multiple instances of same chart
-├── Override subchart values under subchart name key in values.yaml
-└── Run helm dependency update before packaging
+├── 用 Chart.yaml dependencies（不是 requirements.yaml——Helm 3）
+├── 锁版本：version: ~15.x.x（patch 浮动）
+├── 用 condition: 让 subchart 可选：condition: postgresql.enabled
+├── 同一 chart 多实例用 alias:
+├── 在 values.yaml 的 subchart 名称键下覆盖其值
+└── 打包前运行 helm dependency update
 
 LIBRARY CHARTS
-├── type: library in Chart.yaml — no templates directory
-├── Export named templates only — no rendered resources
-├── Use for shared labels, annotations, security contexts
-└── Version independently from application charts
+├── Chart.yaml 里 type: library——无 templates 目录
+├── 只导出命名模板——不渲染资源
+├── 用于共享标签、annotations、安全上下文
+└── 与应用 chart 分开版本化
 ```
 
 ## 失败处置表
 
-| Symptom / Error | Cause | Fix |
+| 症状 / 报错 | 原因 | 修复 |
 |-----------------|-------|-----|
-| `helm template` render error with template name/line | Template syntax or missing helper | Fix the named template in _helpers.tpl; re-run with `--debug` |
-| `helm lint` fails on values | Defaults violate chart constraints | Fix values.yaml defaults; re-lint |
-| Analyzer flags hardcoded image tag | Template bypasses values | Switch to `{{ .Values.image.repository }}:{{ .Values.image.tag }}` |
-| `values_validator --strict` fails | Undocumented keys or secret-like defaults | Apply validator's per-key fixes, re-run |
-| `helm dependency update` fails | Chart repo unreachable or version not found | Verify repo URL and `~X.Y.Z` constraint exists; retry or vendor the subchart into `charts/` |
-| Chart installs but pods CrashLoopBackOff | Probe/securityContext misconfigured | Check liveness/readiness paths and `runAsNonRoot` vs image user; adjust values |
+| `helm template` 渲染错误带模板名/行号 | 模板语法或缺失 helper | 修 _helpers.tpl 中的指定模板；用 `--debug` 重跑 |
+| `helm lint` 因 values 失败 | 默认值违反 chart 约束 | 修 values.yaml 默认值；重新 lint |
+| 分析器标记硬编码 image tag | 模板绕过了 values | 改用 `{{ .Values.image.repository }}:{{ .Values.image.tag }}` |
+| `values_validator --strict` 失败 | 有未注释的键或疑似密钥的默认值 | 按校验器的逐键提示修复，重跑 |
+| `helm dependency update` 失败 | chart 仓库不可达或版本不存在 | 核对仓库 URL 与 `~X.Y.Z` 约束；重试，或把 subchart vendor 进 `charts/` |
+| chart 装上了但 Pod CrashLoopBackOff | 探针/securityContext 配置不当 | 核对 liveness/readiness 路径与 `runAsNonRoot` 同镜像用户的关系；调整 values |
 
 ## 交付标准
 
-Success definition: chart passes `chart_analyzer.py`, `values_validator.py --strict`, `helm lint`, and `helm template`; security audit has zero CRITICAL findings; every value documented with inline comments.
-Artifact naming: chart directory named after the chart (matches `Chart.yaml` `name`); review/security reports as `chart_review.md` / `chart_security_audit.md` when written to files.
-Save location: chart in the project's `charts/` or `deploy/` folder; reports next to it.
-Verify completeness: `helm template` output renders every intended resource for the chosen workload type; NOTES.txt present; test connection hook present in the chart's tests directory; subchart dependencies pinned with conditions.
+成功定义：chart 通过 `chart_analyzer.py`、`values_validator.py --strict`、`helm lint` 与 `helm template`；安全审计零 CRITICAL 发现项；每个值都有行内注释。
+产物命名：chart 目录以 chart 名命名（与 `Chart.yaml` 的 `name` 一致）；评审/安全报告落盘时为 `chart_review.md` / `chart_security_audit.md`。
+保存位置：chart 放项目的 `charts/` 或 `deploy/` 目录；报告放旁边。
+完整性验证：`helm template` 输出渲染出所选工作负载类型的全部预期资源；有 NOTES.txt；chart 的 tests 目录有连接测试 hook；subchart 依赖带版本锁定与 condition。
 
 ## 安全红线
 
-- Never deploy (`helm install`/`helm upgrade`) — this skill generates and validates templates only; deployment is the user's action on a live cluster.
-- Secrets never default in values.yaml — placeholders only, with comments describing the external secrets source.
-- Security contexts are non-negotiable in production charts: runAsNonRoot, readOnlyRootFilesystem, dropped capabilities.
+- 绝不部署（`helm install`/`helm upgrade`）——本技能只生成与校验模板；部署是用户在真实集群上的动作。
+- 密钥绝不作为 values.yaml 默认值——只放占位符，配注释说明外部密钥来源。
+- 生产 chart 的安全上下文不可妥协：runAsNonRoot、readOnlyRootFilesystem、drop capabilities。
 
 ## 参考
 
-- `references/chart-patterns.md` — read for the full template pattern catalog (HPA, PDB, NetworkPolicy, tests) when scaffolding beyond the basics
-- `references/values-design.md` — read when designing or refactoring values.yaml structure and naming
+- `references/chart-patterns.md` —— 脚手架超出基础范围时读完整模板模式目录（HPA、PDB、NetworkPolicy、tests）
+- `references/values-design.md` —— 设计或重构 values.yaml 结构与命名时
 
-## Related Skills
+## 相关技能
 
-- **senior-devops** — Broader DevOps scope (CI/CD, IaC, monitoring). Complementary — use helm-chart-builder for chart-specific work, senior-devops for pipeline and infrastructure.
-- **docker-development** — Container building. Complementary — docker-development builds the images, helm-chart-builder deploys them to Kubernetes.
-- **ci-cd-pipeline-builder** — Pipeline construction. Complementary — helm-chart-builder defines the deployment artifact, ci-cd-pipeline-builder automates its delivery.
-- **senior-security** — Application security. Complementary — helm-chart-builder covers Kubernetes-level security (RBAC, pod security), senior-security covers application-level threats.
+- **senior-devops** —— 更宽的 DevOps 范围（CI/CD、IaC、监控）。互补——chart 专项用 helm-chart-builder，流水线与基础设施用 senior-devops。
+- **docker-development** —— 容器构建。互补——docker-development 构建镜像，helm-chart-builder 把它们部署到 Kubernetes。
+- **ci-cd-pipeline-builder** —— 流水线构建。互补——helm-chart-builder 定义部署产物，ci-cd-pipeline-builder 自动化其交付。
+- **senior-security** —— 应用安全。互补——helm-chart-builder 覆盖 Kubernetes 层安全（RBAC、Pod 安全），senior-security 覆盖应用层威胁。
 
 chart 生成后，**接着说："chart 已校验，继续调用 kubernetes-operator 补充控制器/CRD 设计"——链条自动展开**。

@@ -23,7 +23,7 @@ metadata:
   verified-date: "2026-08-26"
 ---
 
-# 微博 Publisher
+# 微博发布客户端
 
 双模式发布客户端：官方 API 发微博、Web 内部接口发微博、图片上传；默认 dry-run，确认后才真正联网。
 

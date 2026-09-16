@@ -14,7 +14,7 @@ metadata:
 
 # LaTeX Formatter
 
-Gate LaTeX drafts before compile / journal submission: sniff template, check balance, flag issues.
+在编译 / 期刊投稿前把关 LaTeX 草稿：嗅探模板、检查环境配对、标记问题。
 
 ## 输入清单
 

@@ -14,7 +14,7 @@ metadata:
 
 # Monorepo Navigator
 
-Navigate, manage, and optimize monorepos (Turborepo, Nx, pnpm workspaces, Lerna): cross-package impact analysis, selective builds/tests on affected packages, dependency graph visualization, and multi-repo → monorepo migration planning.
+导航、管理与优化 monorepo（Turborepo、Nx、pnpm workspaces、Lerna）：跨包影响面分析、只构建/测试受影响包、依赖图可视化、多仓库 → monorepo 迁移规划。
 
 ## 输入清单
 
@@ -75,15 +75,15 @@ python3 scripts/monorepo_analyzer.py /path/to/monorepo --json
 
 ## 工具选型速查
 
-| Tool | Best For | Key Feature |
+| 工具 | 最适合 | 关键特性 |
 |---|---|---|
-| **Turborepo** | JS/TS monorepos, simple pipeline config | Best-in-class remote caching, minimal config |
-| **Nx** | Large enterprises, plugin ecosystem | Project graph, code generation, affected commands |
-| **pnpm workspaces** | Workspace protocol, disk efficiency | `workspace:*` for local package refs |
-| **Lerna** | npm publishing, versioning | Batch publishing, conventional commits |
-| **Changesets** | Modern versioning (preferred over Lerna) | Changelog generation, pre-release channels |
+| **Turborepo** | JS/TS monorepo、流水线配置简单 | 一流的远程缓存，配置极简 |
+| **Nx** | 大型企业、插件生态 | 项目图、代码生成、affected 命令 |
+| **pnpm workspaces** | workspace 协议、磁盘高效 | `workspace:*` 引用本地包 |
+| **Lerna** | npm 发布、版本管理 | 批量发布、conventional commits |
+| **Changesets** | 现代版本管理（优于 Lerna） | 变更日志生成、预发布通道 |
 
-Most modern setups: **pnpm workspaces + Turborepo + Changesets**
+多数现代组合：**pnpm workspaces + Turborepo + Changesets**
 
 ## 失败处置表
 
@@ -97,16 +97,16 @@ Most modern setups: **pnpm workspaces + Turborepo + Changesets**
 | CI 中 remote cache 不生效 | `TURBO_TOKEN`/`TURBO_TEAM` 未配置 | 配好环境变量后用 `turbo run build --summarize` 验证 |
 | AI 助手改错包的文件 | CLAUDE.md 过于笼统 | 每个包的 CLAUDE.md 写明 "When working on X, only touch files in apps/X" |
 
-## Best Practices
+## 最佳实践
 
-1. **Root CLAUDE.md defines the map** — document every package, its purpose, and dependency rules
-2. **Per-package CLAUDE.md defines the rules** — what's allowed, what's forbidden, testing commands
-3. **Always scope commands with --filter** — running everything on every change defeats the purpose
-4. **Remote cache is not optional** — without it, monorepo CI is slower than multi-repo CI
-5. **Changesets over manual versioning** — never hand-edit package.json versions in a monorepo
-6. **Shared configs in root, extended in packages** — tsconfig.base.json, .eslintrc.base.js, jest.base.config.js
-7. **Impact analysis before merging shared package changes** — run affected check, communicate blast radius
-8. **Keep packages/types as pure TypeScript** — no runtime code, no dependencies, fast to build and type-check
+1. **根 CLAUDE.md 定义地图** — 记录每个包、用途与依赖规则
+2. **每包 CLAUDE.md 定义规则** — 允许什么、禁止什么、测试命令
+3. **命令一律用 --filter 限定范围** — 每次变更都全量跑就失去意义了
+4. **远程缓存不是可选项** — 没有它，monorepo CI 比多仓库还慢
+5. **用 Changesets 而非手工管版本** — 绝不在 monorepo 里手改 package.json 版本号
+6. **共享配置放根目录，包内 extends** — tsconfig.base.json、.eslintrc.base.js、jest.base.config.js
+7. **合并共享包改动前先做影响分析** — 跑受影响检查，通报爆炸半径
+8. **packages/types 保持纯 TypeScript** — 无运行时代码、无依赖，构建与类型检查都快
 
 ## 交付标准
 

@@ -14,7 +14,7 @@ metadata:
 
 # CI/CD Pipeline Builder
 
-Generate pragmatic CI/CD pipelines from detected project stack signals (not guesswork): detect the stack, emit a GitHub Actions or GitLab CI baseline YAML with caching and matrix strategy, then validate before merge.
+从检测到的项目栈信号生成务实的 CI/CD 流水线（不靠猜）：先探测技术栈，产出带缓存与 matrix 策略的 GitHub Actions 或 GitLab CI 基线 YAML，合并前完成校验。
 
 ## 输入清单
 
@@ -104,13 +104,13 @@ python3 scripts/pipeline_generator.py --repo . --platform gitlab --output .gitla
 
 ## 平台决策速查
 
-| Factor | GitHub Actions | GitLab CI | Jenkins |
+| 因素 | GitHub Actions | GitLab CI | Jenkins |
 |--------|---------------|-----------|---------|
-| **Setup** | YAML in .github/workflows | YAML in .gitlab-ci.yml | Groovy/Jenkinsfile |
-| **Runners** | GitHub-hosted, self-hosted | Shared, group, project | Self-hosted |
-| **Secrets** | Repository/Environment vars | CI/CD Variables | Credentials plugin |
-| **Caching** | actions/cache | cache key/tag | Workspace cleanup |
-| **Matrix** | strategy.matrix | parallel:matrix | Matrix Authorization |
+| **搭建方式** | YAML 放 .github/workflows | YAML 放 .gitlab-ci.yml | Groovy/Jenkinsfile |
+| **运行器** | GitHub 托管、自托管 | 共享级、组级、项目级 | 自托管 |
+| **密钥** | 仓库/环境变量 | CI/CD Variables | Credentials 插件 |
+| **缓存** | actions/cache | cache key/tag | Workspace 清理 |
+| **矩阵** | strategy.matrix | parallel:matrix | Matrix Authorization |
 
 ## 失败处置表
 

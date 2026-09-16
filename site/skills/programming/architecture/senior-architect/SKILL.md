@@ -14,7 +14,7 @@ metadata:
 
 # Senior Architect
 
-Architecture design and analysis: generate diagrams (Mermaid/PlantUML/ASCII), analyze dependencies for coupling and circular imports, assess project structure, and work through decision workflows (database, pattern, monolith-vs-microservices) — output stays at architecture level, no implementation code.
+架构设计与分析：生成架构图（Mermaid/PlantUML/ASCII）、分析依赖的耦合与循环引用、评估项目结构、走完决策工作流（数据库、模式、单体 vs 微服务）——产出停留在架构层，不写实现代码。
 
 ## 输入清单
 

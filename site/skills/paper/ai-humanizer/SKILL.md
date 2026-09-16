@@ -14,7 +14,7 @@ metadata:
 
 # AI Humanizer
 
-Detect and flag AI-tell phrasing in academic text, keeping the academic register.
+检测并标记学术文本中的 AI 腔措辞，保持学术语域。
 
 ## 输入清单
 

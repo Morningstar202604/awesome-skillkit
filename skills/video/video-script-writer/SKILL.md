@@ -12,7 +12,7 @@ metadata:
   verified-date: "2026-09-09"
 ---
 
-# Video Script Writer
+# 视频脚本编写
 
 产出可投产的结构化视频脚本：对话、计时、视觉提示、平台合规标题与标签。默认用 `scripts/script_writer.py` 确定性生成 JSON；纯提示词场景可直接照模板写。脚本文本是唯一产物，不生成视频文件。
 
@@ -70,24 +70,24 @@ python3 scripts/script_writer.py --json-input script.json --output out.json
 
 ## 平台约束
 
-| Platform | Max Duration | Safe Zone | Caption Limit |
-|----------|-------------|-----------|---------------|
-| Douyin | 60s (short) / 15min (long) | Top 10%, Bottom 15% | 50 chars + 3 tags |
-| Bilibili | Unlimited | Full frame | 100 chars |
-| TikTok | 10min | Top 10%, Bottom 15% | 220 chars + 5 hashtags |
+| 平台 | 最长时长 | 安全区 | 文案上限 |
+|------|------|------|------|
+| Douyin | 60 秒（短视频）/ 15 分钟（长视频） | 顶部 10%、底部 15% | 50 字 + 3 个标签 |
+| Bilibili | 不限 | 全画面 | 100 字 |
+| TikTok | 10 分钟 | 顶部 10%、底部 15% | 220 字 + 5 个标签 |
 
 ## 脚本类型要点
 
-### Talking Character（baby, nailong 等）
+### 口播角色（talking_character，baby、nailong 等）
 
 - 对话驱动，2–4 场景；每场景一句台词 + 一个动作。
 - 金句落在 70–80% 处；视觉以角色 + 道具为主，背景极简。
 
-### Meme / Reaction
+### 梗图/反应类（meme）
 
 - 1–3 场景，快切；文字压屏 + 音频金句；每场景 3–7s；结尾利于循环。
 
-### Tutorial / Explainer
+### 教程/讲解类（tutorial）
 
 - 开头 5s → 步骤 20–60s → 结尾 5s；每步配音 + 录屏；单步 < 10s。
 

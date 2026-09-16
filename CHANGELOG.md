@@ -16,6 +16,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.14.1] - 2026-09-16
+
+### Changed
+
+- **全仓 SKILL.md 语言统一（113 篇）**：正文叙述一律中文，代码/命令/参数/专有名词保留英文，
+  消灭同篇文档中英混排——44 篇以英文为主的技能全文翻译（含 infrastructure/security/containers
+  15 个大文件与 scenarios/paper/ppt 全部），38 篇中文骨架中的残留英文块（标题/段落/表格句子）
+  局部翻译；骨架章节名统一词汇表（输入清单/前置自检/工作流/参数速查表/失败处置表/交付标准）；
+  frontmatter 机器匹配层（英文 description + 中英双语触发词）按规范保持不变。
+- **排版修复**：拆分 resume-tailor / ai-baby-podcast / video-thumbnail / sample-skill 的稠密叙述块；
+  全部块间保证空行分隔。门禁保持全绿（validate 0/0、pytest 257 passed、正文 <500 行）。
+
 ### Added
 
 - **技能目录 / 下载站点（site/）**：零依赖静态站（纯 HTML/CSS/JS + 一份 data JSON），

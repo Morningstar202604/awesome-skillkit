@@ -24,7 +24,7 @@ metadata:
   verified-date: "2026-08-26"
 ---
 
-# 简书 Publisher
+# 简书发布客户端
 
 简书发布/管理自动化客户端，基于简书 Web 端内部接口（无公开 API）。
 

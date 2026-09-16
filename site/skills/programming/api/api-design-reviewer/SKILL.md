@@ -14,7 +14,7 @@ metadata:
 
 # API Design Reviewer
 
-Review REST API designs with three tools — lint an OpenAPI spec for convention violations, detect breaking changes between versions, and score overall design quality — then report findings with the tool outputs attached.
+用三件工具审查 REST API 设计——对 OpenAPI spec 做规范 lint、检测版本间破坏性变更、给整体设计质量打分——然后附上工具输出汇报发现。
 
 ## 输入清单
 
@@ -118,7 +118,7 @@ python3 scripts/api_scorecard.py openapi.json --format json --min-grade B --outp
 - `references/rest_design_rules.md` — REST 命名、方法、状态码、分页、错误格式的完整规则集；解读 lint violation 或回答"应该怎么改"时读。
 - `references/api_antipatterns.md` — 常见反模式及修复方案；lint 大量命中或用户要求"找出反模式"时读。
 
-## CI Integration
+## CI 集成
 
 ```yaml
 - name: "api-linting"

@@ -46,12 +46,12 @@ metadata:
 
 ## 声音目录（音色 × 内置参数）
 
-| Voice ID | Description | pitch | speed | Best For |
-|----------|-------------|-------|-------|----------|
-| baby_f01 | High-pitched child, fast | 5 | 1.3 | Baby podcast, cute characters |
-| baby_f02 | Slightly lower baby, slower | 4 | 1.0 | Baby educational |
-| adult_m01 | Male narrator, calm | 0 | 1.0 | Tutorials, vlogs |
-| adult_f01 | Female narrator, warm | 1 | 1.0 | Tutorials, reviews |
+| Voice ID | 音色描述 | pitch | speed | 适用场景 |
+|----------|---------|-------|-------|---------|
+| baby_f01 | 高音调童声、语速快 | 5 | 1.3 | 婴儿播客、萌系角色 |
+| baby_f02 | 音调略低的婴儿音、语速慢 | 4 | 1.0 | 婴儿教育类 |
+| adult_m01 | 男旁白、沉稳 | 0 | 1.0 | 教程、vlog |
+| adult_f01 | 女旁白、温暖 | 1 | 1.0 | 教程、评测 |
 | mascot_01 | Enthusiastic, slightly robotic | 2 | 1.1 | Mascot/animated characters |
 | narrator_01 | Neutral, clear | 0 | 0.9 | Explainer videos |
 

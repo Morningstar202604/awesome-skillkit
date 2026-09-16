@@ -14,7 +14,7 @@ metadata:
 
 # Paper Topic Selector
 
-Find viable research directions by identifying gaps, then rank and gate them.
+通过识别研究空白找出可行的研究方向，再排序并把关。
 
 > 诚实声明：两条评估轨道，勿混淆——① 工作流中的 Novelty/Feasibility/Impact 评分由模型按下方评分表**分析判断**；② `scripts/topic_selector.py` 的评分是**关键词启发式**（命中 `novel/unexplored` 等词就加分），只适合快速粗筛，不得当真实查新结论引用。
 
@@ -49,21 +49,21 @@ python3 scripts/topic_selector.py --topic "zero-shot coordination" --output topi
 
 ### 步骤 2：扫描文献并识别 gap
 
-1. Scan recent papers in area (last 6 months)
-2. Identify what's been done
-3. Find what's NOT done (gap)
+1. 扫描该领域近期论文（近 6 个月）
+2. 梳理已有哪些工作
+3. 找出没人做的部分（gap）
 
 预期：每个候选 gap 能指出「谁做了什么 / 缺什么」；产出格式见下例（`ranked_topics[]` + `rejected[]`）。
 若失败：领域太宽找不到边界 → 先收窄 sub_area 再扫描；联网失败 → 标注「未联网核实」后基于已知文献继续。
 
 ### 步骤 3：按评分表排序并对照约束
 
-| Factor | Weight | What to Check |
+| 因子 | 权重 | 检查内容 |
 |--------|--------|---------------|
-| Novelty | 40% | Is the specific angle unexplored? (not just the general area) |
-| Feasibility | 30% | Can it be done in the time/resource budget? |
-| Impact | 20% | Would reviewers care? Is there a clear evaluation? |
-| Buildability | 10% | Can results build on top of existing code? |
+| Novelty | 40% | 具体切入角是否没人做过？（不是泛领域本身） |
+| Feasibility | 30% | 在时间/资源预算内能否完成？ |
+| Impact | 20% | 审稿人会在意吗？有无清晰的评测方案？ |
+| Buildability | 10% | 结果能否在现有代码之上构建？ |
 
 预期：每个 topic 有 4 项打分与理由；`feasibility` 与用户约束（时间/算力）一致；被否掉的进 `rejected[]` 并写明 reason。
 若失败：打分无依据 → 必须引用具体论文/事实支撑，否则降级进 `rejected`。

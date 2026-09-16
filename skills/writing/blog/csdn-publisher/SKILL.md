@@ -24,7 +24,7 @@ metadata:
   verified-date: "2026-08-26"
 ---
 
-# CSDN Publisher
+# CSDN 发布客户端
 
 CSDN 博客发布/管理自动化客户端，基于 CSDN Web 端内部接口（无公开 API）。
 

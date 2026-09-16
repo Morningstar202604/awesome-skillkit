@@ -24,7 +24,7 @@ metadata:
   verified-date: "2026-08-26"
 ---
 
-# Static Blog Deploy
+# 静态博客部署
 
 静态博客部署工具，支持主流静态站点生成器与托管平台。
 

@@ -23,7 +23,7 @@ metadata:
   verified-date: "2026-08-26"
 ---
 
-# V2EX Publisher
+# V2EX 发布客户端
 
 基于 V2EX Web 内部接口创建主题、回复主题与查询节点；默认 dry-run，确认后才真正联网。
 

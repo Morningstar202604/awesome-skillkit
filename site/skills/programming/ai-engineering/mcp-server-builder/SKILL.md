@@ -12,7 +12,7 @@ metadata:
 
 # MCP Server Builder
 
-Design and ship production-ready MCP servers from API contracts instead of hand-written one-off tool wrappers. Focuses on fast scaffolding, schema quality, validation, and safe evolution. The workflow supports Python and TypeScript MCP implementations and treats OpenAPI as the source of truth.
+从 API 契约出发设计和交付生产可用的 MCP server，替代手写的一次性 tool 包装。聚焦快速脚手架、schema 质量、校验与安全演进。工作流支持 Python 与 TypeScript 两种 MCP 实现，把 OpenAPI 当作唯一事实来源。
 
 ## 输入清单
 

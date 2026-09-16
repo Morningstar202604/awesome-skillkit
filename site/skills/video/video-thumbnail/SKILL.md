@@ -12,7 +12,7 @@ metadata:
   verified-date: "2026-09-09"
 ---
 
-# Video Thumbnail / Cover（平台规格封面）
+# 视频封面（平台规格封面）
 
 两条路线产出平台规格封面：A=文生图走图像网关，B=从成片 ffmpeg 抽帧。
 全部通过本目录 `scripts/thumbnail.py` 执行，脚本默认真实模式，失败退出非 0，
@@ -35,8 +35,8 @@ metadata:
 
 ## 平台规格
 
-| Platform | Size | Ratio | Max Size |
-|----------|------|-------|----------|
+| 平台 | 尺寸 | 比例 | 大小上限 |
+|------|------|------|------|
 | Douyin | 1080x1920 | 9:16 | 2MB |
 | Bilibili | 1920x1080 | 16:9 | 2MB |
 | TikTok | 1080x1920 | 9:16 | 2MB |
@@ -88,10 +88,15 @@ python3 scripts/thumbnail.py --video /tmp/final.mp4 --timestamp 1.0 \
 
 ### 步骤 3：文字叠加与徽章
 
-脚本 JSON 里的 `layout` 给出布局参数：9:16 用 `bottom_center`（避让平台 UI）、
-其余 `center`；width ≥1920 用 `font_size 72`，否则 48；`style=funny` 自动带
-`NEW` 徽章。文字内容 = title，9:16 最多 2–4 个字。设计原则按
-[references/thumbnail-design.md](references/thumbnail-design.md) 执行（此时读）。
+脚本 JSON 里的 `layout` 给出布局参数：
+
+- 9:16 用 `bottom_center`（避让平台 UI），其余 `center`；
+- width ≥1920 用 `font_size 72`，否则 48；
+- `style=funny` 自动带 `NEW` 徽章；
+- 文字内容 = title，9:16 最多 2–4 个字。
+
+设计原则按 [references/thumbnail-design.md](references/thumbnail-design.md) 执行（此时读）。
+
 预期：叠加方案能复述出位置/字号/文案三要素。
 若失败：title 太长 → 与用户确认截短版本后再落版。
 

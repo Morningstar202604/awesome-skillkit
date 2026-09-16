@@ -12,7 +12,7 @@ metadata:
   verified-date: "2026-09-14"
 ---
 
-# Visual Style Anchor
+# 视觉风格锚
 
 产出两个可复用资产：**风格锚**（style-anchor.md，全片视觉 DNA）+ **角色一致性卡**（character-card.md，角色不跑脸的合同）。批量生成前先锁风格，是全片视觉统一的最便宜手段——逐张返工比先写一页锚定文档贵十倍。
 
@@ -119,6 +119,6 @@ a young woman, short black bob hair, tired but sharp eyes, black oversized hoodi
 
 ## 链条衔接（下游建议）
 
-本技能是视频域 production chains 的上游「视觉规划」技能。建议编排顺序：
+本技能是视频域生产链（production chains）的上游「视觉规划」技能。建议编排顺序：
 visual-style-anchor → storyboard-designer → shot-recipe-designer → video-prompt-engineer → video-script-writer，之后再接入 video 域已登记的 talking_character / meme 链条（video-voice-synth → video-lip-sync → video-editor → video-subtitles → video-thumbnail）。
 当前 skill_chains.json 的 video 域 skills 列表未登记本技能（游离技能）；以上衔接仅为文字描述，无跨目录硬链接引用。

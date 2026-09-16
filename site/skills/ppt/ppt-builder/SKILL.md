@@ -15,48 +15,46 @@ metadata:
   verified-date: "2026-08-26"
 ---
 
-# PPT Builder (brief → deck)
+# PPT Builder（需求简报 → 演示文稿）
 
-Produce a deck in two artifacts: a per-slide content spec (JSON) and — when
-python-pptx exists — a real .pptx rendered from it. The spec is the source of
-truth; rendering is mechanical.
+产出两件东西：逐页内容规格（JSON），以及——在 python-pptx 可用时——由它渲染出的真实 .pptx。规格是唯一事实源；渲染只是机械执行。
 
-## Inputs
+## 输入清单
 
-| Input | Required | Default | Notes |
+| 输入 | 必填 | 默认 | 说明 |
 |---|---|---|---|
-| topic | yes | — | what the deck argues or explains |
-| audience | no | 通用商务 | shapes tone and depth |
-| slide_count | no | `10` | including cover and closing |
-| style | no | 简洁商务 | e.g. 学术答辩 / 融资路演 / 教学课件 |
+| 主题 | 是 | — | 这套 PPT 要论证或解释什么 |
+| 受众 | 否 | 通用商务 | 决定语气和深度 |
+| slide_count | 否 | `10` | 含封面和结尾页 |
+| 风格 | 否 | 简洁商务 | 如：学术答辩 / 融资路演 / 教学课件 |
 
-If topic is missing, ask ONCE:
+缺主题时，只问一次：
 
 > 请给出 PPT 主题与用途（汇报对象是谁）。可选告知：页数（默认 10）、
 > 风格（默认简洁商务）、是否已有大纲或素材文件。
 
-## Preflight self-check
+## 前置自检
 
 ```bash
 python -c "import pptx; print('pptx-ok')"
 ```
 
-- Prints `pptx-ok` → .pptx export enabled (Step 3a).
-- ModuleNotFoundError → markdown path (Step 3b). Tell the user one line:
-  `pip install python-pptx` enables direct .pptx export next time. Do NOT
-  install it yourself unless the user explicitly says yes.
+- 打印 `pptx-ok` → 启用 .pptx 导出（步骤 3a）。
+- ModuleNotFoundError → 走 markdown 路径（步骤 3b）。用一句话告知用户：
+  `pip install python-pptx` 下次即可直接导出 .pptx。除非用户明确同意，否则不要自行安装。
 
-## Workflow
+## 工作流
 
-### Step 1: Outline
+### 步骤 1：搭大纲
 
-Structure the argument (not topics) in this order: 钩子开场（一个问题或反直觉
+按此顺序组织论证（不是罗列话题）：钩子开场（一个问题或反直觉
 事实）→ 全局地图 → 核心论点 2–3 个（每个配证据/案例）→ 反驳或边界 → 行动号召。
-Expected: numbered outline where every slide states ONE claim.
 
-### Step 2: Per-slide spec
+预期：带编号的大纲，每页只陈述一个论点。
 
-Write `slides_spec.json`:
+### 步骤 2：逐页规格
+
+写 `slides_spec.json`：
 
 ```json
 {
@@ -67,45 +65,41 @@ Write `slides_spec.json`:
 }
 ```
 
-Rules: title ≤ 16 字并含观点（不是"介绍"这种空词）; notes 必须是能照着说的
+规则：title ≤ 16 字并含观点（不是"介绍"这种空词）; notes 必须是能照着说的
 完整句子。
 
-### Step 3a: Render .pptx (pptx available)
+### 步骤 3a：渲染 .pptx（pptx 可用）
 
 ```bash
 python "<skill-dir>/scripts/make_pptx.py" slides_spec.json deck.pptx
 ```
 
-Expected: exit 0 plus `wrote deck.pptx (N slides)`. Exit 3 means python-pptx
-missing → fall back to 3b and tell the user why. Exit 2 means spec invalid —
-read the printed error, fix slides_spec.json, rerun.
+预期：exit 0 加 `wrote deck.pptx (N slides)`。exit 3 表示缺 python-pptx
+→ 转步骤 3b 并告知用户原因。exit 2 表示规格无效——读打印出的错误，
+修 slides_spec.json 后重跑。
 
-### Step 3b: Fallback deliverable
+### 步骤 3b：兜底交付物
 
-Emit `deck_outline.md`: H1 deck title, H2 per slide with bullets and the
-speaker note under each. User pastes into any tool.
+输出 `deck_outline.md`：H1 为演示文稿标题，每页一个 H2，含 bullets 和该页讲稿。用户可粘贴进任何工具。
 
-### Step 4: Self-review before handing over
+### 步骤 4：交付前自审
 
-Check: 每页只讲一个论点；无超过 5 条 bullet；每页 visual 有具体提示；
-notes 总词量支撑目标时长（约 1 分钟/页）。Fix violations in the spec and
-re-render rather than patching prose.
+检查：每页只讲一个论点；无超过 5 条 bullet；每页 visual 有具体提示；
+notes 总词量支撑目标时长（约 1 分钟/页）。发现违规就改规格重渲染，不要手工补 prose。
 
-## Failure handling
+## 失败处置表
 
-| Symptom | Likely cause | Action |
+| 现象 | 可能原因 | 处置 |
 |---|---|---|
-| script exits 2 listing slide N | spec schema violation | fix that slide's fields per Step 2 shape |
-| script exits 3 | python-pptx absent | switch to Step 3b, offer the pip hint |
-| bullets keep exceeding 18 字 | outline too dense | split the slide into two, re-render |
-| user wants their company template | styling out of scope for v1 | deliver spec + outline.md for manual restyle |
+| 脚本 exit 2 并指出第 N 页 | 规格违反 schema | 按步骤 2 的结构修该页字段 |
+| 脚本 exit 3 | 缺 python-pptx | 转步骤 3b，给出 pip 提示 |
+| bullet 反复超 18 字 | 大纲太密 | 把该页拆成两页，重渲染 |
+| 用户要求套公司模板 | v1 不含样式定制 | 交付 spec + outline.md 供手工改样式 |
 
-## Delivery standard
+## 交付标准
 
-Success = either `deck.pptx` (openable, N slides matching spec) or
-`deck_outline.md`, PLUS `slides_spec.json`, all three paths reported with
-slide count. Anything else is not done — say so plainly.
+成功 = `deck.pptx`（可打开，页数与规格一致）或 `deck_outline.md`，加上 `slides_spec.json`，三个路径都回报并附页数。缺任何一项即未完成——如实说明。
 
-## References
+## 参考
 
-- `scripts/make_pptx.py` — run it (execute, not read); validates spec then renders
+- `scripts/make_pptx.py` — 直接运行（执行，不要读）；先校验规格再渲染

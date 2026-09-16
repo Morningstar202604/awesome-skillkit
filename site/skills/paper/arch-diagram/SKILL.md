@@ -14,7 +14,7 @@ metadata:
 
 # Arch Diagram
 
-Generate method-overview diagrams (TikZ + editable SVG) for the "Model Architecture" figure.
+生成方法总览图（TikZ + 可编辑 SVG），用于"Model Architecture"配图。
 
 ## 输入清单
 

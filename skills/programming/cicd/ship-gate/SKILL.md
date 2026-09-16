@@ -14,15 +14,15 @@ metadata:
 
 # Ship Gate
 
-Pre-production audit that scans a codebase and reports pass/fail/manual across 8 categories before anything ships. Automated checks run via the bundled scanner; unverifiable items become a manual confirmation checklist. This skill audits and reports — it never fixes.
+上线前审计：对代码库做 8 大类别扫描，逐项给出 PASS/FAIL/MANUAL 结论。自动化检查由内置扫描器执行；无法自动验证的项转为人工确认清单。本技能只审计和报告——不负责修复。
 
-## Intercept Behavior
+## 拦截行为
 
-When the user says "push to production", "deploy", "ship it", "go live", or similar deploy-intent phrases, do NOT proceed with deployment. Instead:
+当用户说 "push to production"、"deploy"、"ship it"、"go live" 或类似部署意图的话时，不要直接执行部署。改为：
 
-1. Ask: "Have you run the ship gate? Want me to scan now?"
-2. If yes, run the workflow below.
-3. If the user says they already ran it, ask when. If more than 24 hours ago or if code changed since, recommend re-running.
+1. 询问："跑过上线门禁了吗？需要我现在扫描一遍？"
+2. 用户同意 → 执行下方工作流。
+3. 用户称已跑过 → 询问时间。超过 24 小时，或此后代码有改动 → 建议重跑。
 
 ## 输入清单
 
@@ -113,28 +113,29 @@ Fix critical items and re-run.
 
 ## 八大类别
 
-| Prefix | Category | 说明 |
+| 前缀 | 类别 | 说明 |
 |--------|----------|------|
-| SEC | Security | 密钥泄漏、鉴权缺失、注入向量、CSRF、HTTPS |
-| DB | Database | RLS、备份、迁移安全、连接安全 |
-| DEPLOY | Deployment | 回滚方案、staging 验证、环境配置 |
-| CODE | Code Quality | console.log、空 catch、错误边界 |
-| AI | AI/LLM Security | API key 管理、prompt 注入面、输出过滤 |
-| DEP | Dependencies | npm audit 严重漏洞、SBOM |
-| FE | Frontend Quality | OG 标签、404 页、错误页面 |
-| OBS | Observability | 错误监控、日志、告警 |
+| SEC | 安全 | 密钥泄漏、鉴权缺失、注入向量、CSRF、HTTPS |
+| DB | 数据库 | RLS、备份、迁移安全、连接安全 |
+| DEPLOY | 部署 | 回滚方案、staging 验证、环境配置 |
+| CODE | 代码质量 | console.log、空 catch、错误边界 |
+| AI | AI/LLM 安全 | API key 管理、prompt 注入面、输出过滤 |
+| DEP | 依赖 | npm audit 严重漏洞、SBOM |
+| FE | 前端质量 | OG 标签、404 页、错误页面 |
+| OBS | 可观测性 | 错误监控、日志、告警 |
 
 各项检查的完整定义见 `references/checks.md`，扫描模式（grep 规则）见 `references/patterns.md`。
 
-## Scope
+## 适用范围
 
-This skill audits. It does not fix. When it finds issues, it reports them with file locations and remediation guidance. The user or another skill (systematic-debugging, backend-patterns, shadcn-stack) handles the fix.
+本技能只审计，不修复。发现问题后，带着文件定位与修复建议报告出来；修复由用户或其他技能（systematic-debugging、backend-patterns、shadcn-stack）负责。
 
-This skill does not:
-- Set up CI/CD pipelines
-- Provision infrastructure
-- Configure monitoring tools
-- Run after deployment (it is pre-deploy only)
+本技能不做：
+
+- 搭建 CI/CD 流水线
+- 开通基础设施
+- 配置监控工具
+- 部署后运行（本技能只在部署前使用）
 
 ## 参数速查表
 
@@ -169,9 +170,9 @@ This skill does not:
 - `references/checks.md` — 全部检查项定义（含适用栈标签）；解读某条 FAIL 或核对人工确认项范围时读。
 - `references/patterns.md` — 扫描模式库；需要向用户解释某项是如何检出的时读。
 
-## Integration Points
+## 相关技能
 
-- **karpathy-coder**: run ship-gate after karpathy-check passes — simplicity first, then production readiness
-- **adversarial-reviewer**: deep security review for items ship-gate flags as critical
-- **security-pen-testing**: penetration testing methodology for SEC-category findings
-- **code-reviewer**: general code quality review complements ship-gate's automated checks
+- **karpathy-coder**：karpathy-check 通过后再跑 ship-gate——先保简洁，再上生产
+- **adversarial-reviewer**：对 ship-gate 判为 critical 的问题做深度安全审查
+- **security-pen-testing**：针对 SEC 类发现的渗透测试方法论
+- **code-reviewer**：通用代码质量审查，与 ship-gate 的自动检查互补

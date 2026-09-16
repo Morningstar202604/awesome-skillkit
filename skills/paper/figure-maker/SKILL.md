@@ -14,7 +14,7 @@ metadata:
 
 # Figure Maker
 
-Turn an experiments results JSON into publication charts (bar / line / boxplot) as PDF/PNG.
+把实验结果 JSON 转成可发表图表（bar / line / boxplot），输出 PDF/PNG。
 
 ## 输入清单
 

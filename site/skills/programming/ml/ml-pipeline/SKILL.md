@@ -60,11 +60,11 @@ python3 scripts/ml_pipeline.py --data data/clean.csv --target label --model rand
 
 ### 步骤 3：评估与对比
 
-| Model | Best For | Speed |
+| 模型 | 最适合 | 速度 |
 |-------|----------|-------|
-| random_forest | 表格、混合类型 | Medium |
-| gradient_boosting | 表格、精度优先 | Slow |
-| logistic | 二分类、可解释 | Fast |
+| random_forest | 表格、混合类型 | 中 |
+| gradient_boosting | 表格、精度优先 | 慢 |
+| logistic | 二分类、可解释 | 快 |
 
 - 动作：输出 test 指标（accuracy / F1 / ROC-AUC），多模型时横向对比。
 - 预期：报告含 `train_accuracy` / `test_accuracy` / `f1` / `cv_mean` / `cv_std`。

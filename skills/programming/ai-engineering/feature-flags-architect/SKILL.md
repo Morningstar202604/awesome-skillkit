@@ -13,7 +13,7 @@ metadata:
 
 # Feature Flags Architect
 
-End-to-end discipline for feature flags: classify them, ship them, ramp them, and retire them. Most teams treat flags as throwaway `if`-statements; this skill treats them as a controlled lifecycle with measurable debt.
+功能开关的全生命周期纪律：分类、上线、放量、退役。多数团队把 flag 当一次性 `if` 语句；本技能把它当作有可度量债务的受控生命周期。
 
 ## 输入清单
 
@@ -98,12 +98,12 @@ python scripts/flag_debt_scanner.py --repo . --max-age-days 90 > debt.md
 
 不同 flag 类型有不同生命周期与归属。错分会产生债务。
 
-| Type | Purpose | Typical lifespan | Owner | Cleanup trigger |
+| 类型 | 用途 | 典型寿命 | 归属 | 清理触发条件 |
 |---|---|---|---|---|
-| **Release** | 在生产环境隐藏未完成功能 | days–weeks | Eng | 达到 100% rollout |
-| **Experiment** | A/B 测试变体 | weeks | Product/Marketing | 测试结束，选定胜者 |
-| **Operational** | 熔断器、性能开关、kill switch | months–years | Eng/SRE | 被自动扩缩/功能退役替代 |
-| **Permission** | 按用户/账户/套餐的权益 | years (permanent) | Product | 套餐/角色移除 |
+| **Release** | 在生产环境隐藏未完成功能 | 数天–数周 | 工程 | 达到 100% rollout |
+| **Experiment** | A/B 测试变体 | 数周 | 产品/市场 | 测试结束，选定胜者 |
+| **Operational** | 熔断器、性能开关、kill switch | 数月–数年 | 工程/SRE | 被自动扩缩/功能退役替代 |
+| **Permission** | 按用户/账户/套餐的权益 | 数年（永久） | 产品 | 套餐/角色移除 |
 
 只有 Release 与 Experiment 应进入债务扫描观察名单；Operational 与 Permission 设计为长期存在。详见 `references/flag_taxonomy.md` 决策树。
 
@@ -146,14 +146,14 @@ python scripts/flag_debt_scanner.py --repo . --max-age-days 90 > debt.md
 
 ## Provider 选型（5 + DIY）
 
-| Provider | Best for | Pricing model | Lock-in risk | OSS option |
+| Provider | 最适合 | 定价模式 | 锁定风险 | 开源选项 |
 |---|---|---|---|---|
-| **LaunchDarkly** | Enterprise, complex targeting, audit/compliance | Per-MAU, expensive | High | No |
-| **GrowthBook** | Mid-market, A/B testing focused, OSS-friendly | Per-MAU + OSS | Low | Yes (self-host) |
-| **Statsig** | Growth/product teams, advanced experimentation | Free tier + per-MAU | Medium | No |
-| **Unleash** | OSS-first, self-hosted, dev-friendly | OSS + Enterprise | Low | Yes |
-| **Flipt** | Lightweight, k8s-native, simple needs | OSS-only | None | Yes |
-| **DIY** | <100 flags, no targeting, full control | None | None | N/A |
+| **LaunchDarkly** | 企业级、复杂定向、审计/合规 | 按 MAU 计费，价格高 | 高 | 无 |
+| **GrowthBook** | 中型市场、聚焦 A/B 测试、开源友好 | 按 MAU 计费 + 开源版 | 低 | 有（自托管） |
+| **Statsig** | 增长/产品团队、高级实验能力 | 免费档 + 按 MAU 计费 | 中 | 无 |
+| **Unleash** | 开源优先、自托管、开发者友好 | 开源版 + 企业版 | 低 | 有 |
+| **Flipt** | 轻量、k8s 原生、需求简单 | 仅开源版 | 无 | 有 |
+| **DIY** | flag 少于 100 个、无定向、要完全掌控 | 无 | 无 | N/A |
 
 详见 `references/provider_comparison.md`。
 
@@ -197,11 +197,11 @@ python scripts/flag_debt_scanner.py --repo . --max-age-days 90 > debt.md
 - `references/rollout_strategies.md` —— 设计 ramp 时读：ring/linear/log/cohort/geo、中止判据、监控
 - `references/flag_lifecycle.md` —— 设计 lifecycle/清理时读：request → design → ship → ramp → cleanup → archive
 
-## Slash command
+## 斜杠命令
 
 `/flag-cleanup` — 在当前仓库跑完整清理流程：扫描债务、生成移除计划、审计 kill switch。
 
-## Asset 模板
+## 资产模板
 
 - `assets/flag_request_template.md` — 新 flag 申请填报表（name、owner、type、kill switch、rollout plan）
 

@@ -14,7 +14,7 @@ metadata:
 
 # Experiment Runner
 
-Run an experiment N times with a fixed seed, aggregate mean/std, run a basic significance check.
+以固定 seed 把实验跑 N 次，聚合 mean/std，并做基础显著性检查。
 
 > 诚实声明：本技能脚本为**模拟实验**（mode: `simulated`）——不执行真实训练/评测。输出顶层带 `mode: "simulated"` 与 `simulation_notice`，结果 **MUST 标注"模拟数据"**，勿当真实实验结果写进论文。接入真实训练 harness 前此标注不会消失。
 

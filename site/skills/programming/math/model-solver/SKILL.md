@@ -52,12 +52,12 @@ python3 scripts/model_solver.py --spec model_spec.json --output solution.json
 
 ### 步骤 2：按类型分派求解
 
-| Model Type | Solver | Library |
+| 模型类型 | 求解器 | 库 |
 |-----------|--------|---------|
 | LP | HiGHS / Simplex | scipy.optimize.linprog |
 | MIP | CBC / Gurobi | pulp / cvxpy |
 | ODE | RK45 / Radau | scipy.integrate.solve_ivp |
-| Monte Carlo | Random sampling | numpy.random |
+| Monte Carlo | 随机抽样 | numpy.random |
 
 - 动作：LP/MIP 走 `scipy.optimize.linprog` 或 `pulp`；ODE 走 `scipy.integrate.solve_ivp`；蒙特卡洛走 `numpy.random`。
 - 预期：求解器正常返回，无 `Optimization failed` / `Integration error`。

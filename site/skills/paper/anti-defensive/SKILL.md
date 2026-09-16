@@ -14,7 +14,7 @@ metadata:
 
 # Anti-Defensive
 
-Detect defensive/hedged academic phrasing and suggest concrete rewrites.
+检测学术文本中的防御性/对冲措辞，给出具体改写建议。
 
 ## 输入清单
 

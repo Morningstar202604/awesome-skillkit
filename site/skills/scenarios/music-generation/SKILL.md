@@ -15,64 +15,58 @@ metadata:
   verified-date: "2026-08-26"
 ---
 
-# Music Generation (brief → track)
+# Music Generation（需求简报 → 音轨）
 
-Drive a local generation gateway with curl: submit a music task, poll until
-done, download the audio file. No local synthesis tools, no dependency
-installs — the gateway renders, you orchestrate.
+用 curl 驱动本地生成网关：提交音乐任务，轮询到结束，下载音频文件。不用本地合成工具，不装依赖——渲染在网关侧，你负责编排。
 
-> ENDPOINT STATUS: VERIFY BEFORE USE — confirm `/api/music/*` paths against
-> your gateway's docs before first run; the preflight step below fails fast
-> if the route differs or is absent.
+> ENDPOINT STATUS: VERIFY BEFORE USE — 首次运行前，先对照你的网关文档确认
+> `/api/music/*` 路径；下方前置自检会在路由不同或缺失时快速失败。
 
-## Inputs
+## 输入清单
 
-| Input | Required | Default | Notes |
+| 输入 | 必填 | 默认 | 说明 |
 |---|---|---|---|
-| style / mood brief | yes | — | genre + instruments + emotion, one line |
-| duration_seconds | no | `30` | keep within your gateway's documented range |
-| instrumental | no | `true` | set `false` only if lyrics are provided |
-| lyrics | no | — | required when instrumental is false |
+| 风格/情绪简报 | 是 | — | 曲风 + 乐器 + 情绪，一句话 |
+| duration_seconds | 否 | `30` | 保持在网关文档标注的范围内 |
+| instrumental | 否 | `true` | 仅在提供歌词时设 `false` |
+| lyrics | 否 | — | instrumental 为 false 时必填 |
 
-If the required input is missing, ask ONCE:
+缺必填项时，只问一次：
 
 > 请描述想要的音乐：风格（如轻快的企业宣传曲）、主要乐器、情绪。
 > 可选告知：时长（默认 30 秒）、是否需要人声歌词（默认纯音乐）。
 
-## Preflight self-check
+## 前置自检
 
 ```bash
 curl -s -o /dev/null -w "%{http_code}" --max-time 5 "$MUSIC_GATEWAY_BASE/api/music/status?task_id=0"
 ```
 
-Expected: an HTTP code prints. If connection fails OR the path returns 404:
-report that the music endpoint is unavailable at $MUSIC_GATEWAY_BASE, show
-the exact status code, and STOP. Do not synthesize audio locally as a
-substitute.
+预期：打印一个 HTTP 状态码。若连接失败或路径返回 404：报告 $MUSIC_GATEWAY_BASE 处音乐端点不可用，展示确切状态码，然后 STOP。绝不改用本地合成顶替。
 
-## Workflow
+## 工作流
 
-### Step 1: Resolve the gateway base
+### 步骤 1：确定网关基址
 
 ```bash
 MUSIC_GATEWAY_BASE="${MUSIC_GATEWAY_BASE:-http://127.0.0.1:30080}"
 echo "$MUSIC_GATEWAY_BASE"
 ```
 
-Expected: prints one URL.
+预期：打印一个 URL。
 
-### Step 2: Compose the music brief
+### 步骤 2：组织音乐简报
 
-Fill three slots in one sentence:
+一句话填满三个槽位：
 
 ```json
 [风格流派] + [主导乐器] + [情绪与用途]
 ```
 
-Example: "轻快的流行电子风，钢琴与合成器主导，用于产品发布会的开场暖场，
-积极向上。" Avoid naming artists; describe sonic characteristics instead.
+示例："轻快的流行电子风，钢琴与合成器主导，用于产品发布会的开场暖场，
+积极向上。" 不要点名艺术家；改用声音特征描述。
 
-### Step 3: Submit the task
+### 步骤 3：提交任务
 
 ```bash
 curl -s -X POST "$MUSIC_GATEWAY_BASE/api/music/generate" \
@@ -80,46 +74,44 @@ curl -s -X POST "$MUSIC_GATEWAY_BASE/api/music/generate" \
   -d '{"prompt":"<STEP-2 BRIEF>","params":{"duration":"30","instrumental":true}}'
 ```
 
-With lyrics: add `"instrumental":false` and `"lyrics":"<LYRICS>"`.
+带歌词：加 `"instrumental":false` 和 `"lyrics":"<LYRICS>"`。
 
-Expected: JSON containing `task_id`. Failure branch — HTTP error or HTML:
-retry once verbatim, then report and stop.
+预期：JSON 含 `task_id`。失败分支——HTTP 错误或返回 HTML：
+原样重试一次，然后报告并停止。
 
-### Step 4: Poll until final
+### 步骤 4：轮询到终态
 
 ```bash
 curl -s "$MUSIC_GATEWAY_BASE/api/music/status?task_id=<TASK_ID>"
 ```
 
-Poll every 10 seconds. Success condition: `is_final == true` AND
-`state == "success"`; take `result_url`. Cap at 60 polls (10 min).
+每 10 秒轮询一次。成功条件：`is_final == true` 且
+`state == "success"`；取 `result_url`。上限 60 次（10 分钟）。
 
-### Step 5: Download and deliver
+### 步骤 5：下载并交付
 
 ```bash
 curl -s -L -o "music_$(date +%Y%m%d_%H%M%S).mp3" "<RESULT_URL>"
 ls -lh music_*.mp3
 ```
 
-Expected: non-empty audio file. Verify size > 0 before claiming success;
-report the absolute path plus the brief used.
+预期：非空音频文件。声称成功前先验证大小 > 0；
+回报绝对路径和所用简报。
 
-## Failure handling
+## 失败处置表
 
-| Symptom | Likely cause | Action |
+| 现象 | 可能原因 | 处置 |
 |---|---|---|
-| preflight 404 | route name differs on this gateway | check gateway docs; update constants here; tell user |
-| preflight connect fail | gateway down | ask user to start it; stop |
-| generate rejects lyrics without flag | param mismatch | set instrumental=false explicitly, resubmit once |
-| status stays `pending` > 10 min | queue stuck | report task_id, suggest resubmitting |
-| `state == "failed"` | brief too vague or lyric policy hit | rewrite brief concretely / shorten lyrics, retry once |
-| downloaded file 0 bytes | expired URL | re-poll for fresh result_url, redownload once |
+| 前置自检 404 | 该网关路由名不同 | 查网关文档；更新本文件常量；告知用户 |
+| 前置自检连接失败 | 网关未启动 | 请用户启动；停止 |
+| 不带 flag 提交歌词被拒 | 参数不匹配 | 显式设 instrumental=false，重提交一次 |
+| status 长时间停在 `pending`（>10 分钟） | 队列卡住 | 回报 task_id，建议重提交 |
+| `state == "failed"` | 简报太模糊或命中歌词策略 | 把简报改具体 / 缩短歌词，重试一次 |
+| 下载文件 0 字节 | URL 过期 | 重新轮询拿新 result_url，再下载一次 |
 
-## Delivery standard
+## 交付标准
 
-Success = a local non-empty audio file named `music_YYYYMMDD_HHMMSS.mp3`,
-absolute path reported together with the style brief and duration.
-Anything else is not done — say so plainly and show the failure row above.
+成功 = 本地非空音频文件 `music_YYYYMMDD_HHMMSS.mp3`，回报绝对路径并附风格简报与时长。缺任何一项即未完成——如实说明并指出上方对应的失败行。
 
 ## 链条衔接（下游建议）
 

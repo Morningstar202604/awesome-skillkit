@@ -106,8 +106,8 @@ python3 scripts/drafter.py --outline outline.json --audience intermediate --outp
 
 ## 受众风格规则
 
-| Audience | Jargon | Examples | Code |
-|----------|--------|---------|------|
+| 受众 | 术语密度 | 示例 | 代码 |
+|------|---------|------|------|
 | Beginner | 最少，全解释 | 每节 3-4 个 | 完整片段 |
 | Intermediate | 适中，标准术语 | 每节 2-3 个 | 关键片段 |
 | Expert | 高密度，假定已懂 | 每节 0-1 个 | 单行片段 |

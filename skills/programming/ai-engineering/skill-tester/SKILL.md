@@ -14,9 +14,9 @@ metadata:
 
 # Skill Tester
 
-Validate, test, and score the quality of a skill directory with four tools (structure validation, script testing, quality scoring, security scoring), all runnable from the repo root.
+用四件工具校验、测试并为一个技能目录的质量打分（结构校验、脚本测试、质量评分、安全评分），全部可在仓库根目录直接运行。
 
-> **Scope note:** this skill's tier line-count minimums measure *legacy* skills. For authoring *new* skills, `engineering/write-a-skill` (SKILL.md under ~100 lines, Matt Pocock doctrine) is the binding standard — do not pad a new skill to satisfy a tier minimum here.
+> **范围说明**：本技能的 tier 行数下限衡量的是*遗留*技能。编写*新*技能时，`engineering/write-a-skill`（SKILL.md 约 100 行以内，Matt Pocock 原则）才是约束标准——不要为凑本技能的 tier 下限而给新技能注水。
 
 ## 输入清单
 
@@ -129,10 +129,10 @@ python3 skills/programming/ai-engineering/skill-tester/scripts/security_scorer.p
 - `references/tier-requirements-matrix.md` — tier 与行数/LOC 对照；步骤 1 tier 争议时读。
 - `references/quality-scoring-rubric.md` — 四维评分细则；向用户解释扣分原因时读。
 
-## CI Integration
+## CI 集成
 
 ```yaml
-# GitHub Actions: gate changed skills
+# GitHub Actions：对变更的技能做门禁
 - name: "validate-changed-skills"
   run: |
     for skill in $changed_skills; do
@@ -142,4 +142,4 @@ python3 skills/programming/ai-engineering/skill-tester/scripts/security_scorer.p
     done
 ```
 
-Pre-commit hook: run the validator on the staged skill directory and block the commit on non-zero exit.
+Pre-commit hook：对暂存的技能目录运行校验器，退出码非 0 则阻止提交。

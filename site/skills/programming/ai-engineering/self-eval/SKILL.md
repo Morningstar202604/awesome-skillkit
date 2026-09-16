@@ -12,9 +12,9 @@ metadata:
 
 # Self-Eval: Honest Work Evaluation
 
-Produces honest, calibrated work evaluations. Replaces the default AI tendency to rate everything 4/5 with a structured two-axis scoring system, mandatory devil's advocate reasoning, and cross-session anti-inflation detection.
+产出诚实、校准的工作评估。用结构化双轴评分、强制魔鬼辩护论证与跨会话反膨胀检测，替代 AI 默认"什么都打 4 分"的倾向。
 
-The core insight: AI self-assessment converges to "everything is a 4" because a single-axis score conflates task difficulty with execution quality. Self-eval separates these axes, then combines them via a fixed matrix that the model cannot override.
+核心洞察：AI 自评会收敛到"什么都是 4 分"，因为单轴评分把任务难度和执行质量混在一起。self-eval 把两个轴拆开，再用模型无法覆盖的固定矩阵合成分数。
 
 ## 输入清单
 
@@ -69,7 +69,7 @@ The core insight: AI self-assessment converges to "everything is a 4" because a 
 
 ## 双轴评分模型
 
-### Axis 1: Task Ambition（做了什么）
+### Axis 1：任务野心（做了什么）
 
 评难度与风险，**不是**做得好不好。
 
@@ -79,7 +79,7 @@ The core insight: AI self-assessment converges to "everything is a 4" because a 
 
 **自检：** 若开始前就确信能成功，野心是 Low 或 Medium，不是 High。
 
-### Axis 2: Execution Quality（做得如何）
+### Axis 2：执行质量（做得如何）
 
 独立于野心，评实际产出质量。
 
@@ -87,13 +87,13 @@ The core insight: AI self-assessment converges to "everything is a 4" because a 
 - **Adequate (2)** — 完成但有缺口、捷径或欠严谨。做了但留下明显可改进处。
 - **Strong (3)** — 执行好、彻底、质量高。在范围内无遗留明显改进。
 
-### Composite Score Matrix
+### 合成分矩阵
 
-|                        | Poor Exec (1) | Adequate Exec (2) | Strong Exec (3) |
+|                        | 差执行 (1) | 足执行 (2) | 强执行 (3) |
 |------------------------|:---:|:---:|:---:|
-| **Low Ambition (1)**   |  1  |  2  |  2  |
-| **Medium Ambition (2)**|  2  |  3  |  4  |
-| **High Ambition (3)**  |  2  |  4  |  5  |
+| **低野心 (1)**   |  1  |  2  |  2  |
+| **中野心 (2)**|  2  |  3  |  4  |
+| **高野心 (3)**  |  2  |  4  |  5  |
 
 **读矩阵，不要覆盖它。** 合成分即你的分数。魔鬼辩护可让你重评某一轴——但你不能直接覆盖矩阵结果。
 
@@ -126,18 +126,18 @@ The core insight: AI self-assessment converges to "everything is a 4" because a 
 
 ## 输出格式
 
-## Self-Evaluation
+## 自我评估
 
-**Task:** [1-sentence summary of what was attempted]
-**Ambition:** [Low/Medium/High] — [1-sentence justification]
-**Execution:** [Poor/Adequate/Strong] — [1-sentence justification]
+**Task:** [一句话概括所做工作]
+**Ambition:** [Low/Medium/High] — [一句理由]
+**Execution:** [Poor/Adequate/Strong] — [一句理由]
 
 **Devil's Advocate:**
-- Lower: [why it might deserve less]
-- Higher: [why it might deserve more]
-- Resolution: [final reasoning]
+- Lower: [为何可能应打更低]
+- Higher: [为何可能应打更高]
+- Resolution: [最终裁定理由]
 
-**Score: [1-5]** — [1-sentence final justification]
+**Score: [1-5]** — [一句最终理由]
 
 ## 失败处置表
 

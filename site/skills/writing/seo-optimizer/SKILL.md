@@ -12,7 +12,7 @@ metadata:
   verified-date: "2026-09-09"
 ---
 
-# SEO Optimizer: score article SEO-readiness and adapt titles/meta per platform
+# SEO 优化器：评估文章 SEO 就绪度并按平台适配标题与 meta
 
 ## 输入清单
 
@@ -88,28 +88,28 @@ python3 scripts/seo_optimizer.py \
 | `--platform` | `csdn`（默认）/`juejin`/`wechat`/`baijiahao`/`toutiao` | 决定标题长度规则 |
 | `--output` | JSON 文件路径 | 缺省打印 stdout |
 
-## SEO Score Factors
+## SEO 评分因子
 
-| Factor | Weight | Check |
-|--------|--------|-------|
-| Title has keyword | 20 | Primary keyword in title |
-| Title length | 10 | Within platform limit |
-| Meta description | 15 | 80-160 chars, has keyword |
-| Keyword density | 15 | 1-3% (not stuffed) |
-| Heading structure | 10 | H1 > H2 > H3 hierarchy |
-| Word count | 10 | > 800 words |
-| Internal links | 10 | At least 1 |
-| Readability | 10 | Short paragraphs, lists |
+| 因子 | 权重 | 检查点 |
+|------|------|--------|
+| 标题含关键词 | 20 | 主关键词出现在标题中 |
+| 标题长度 | 10 | 不超平台上限 |
+| Meta description | 15 | 80-160 字符，含关键词 |
+| 关键词密度 | 15 | 1-3%（不堆砌） |
+| 标题结构 | 10 | H1 > H2 > H3 层级 |
+| 正文字数 | 10 | > 800 词 |
+| 内部链接 | 10 | 至少 1 个 |
+| 可读性 | 10 | 短段落、列表 |
 
-## Platform Title Limits
+## 平台标题限制
 
-| Platform | Max Title | Max Tags | Caption Style |
-|----------|----------|----------|---------------|
-| CSDN | 50 chars | 5 | 关键词 + 数字 |
-| 掘金 | 60 chars | 3 | 【标题】 |
-| 微信 | 30 chars | 0 | 短 + 悬念 |
-| 百家号 | 30 chars | 3 | 数字 + 痛点 |
-| 头条 | 30 chars | 3 | 数字 + 疑问 |
+| 平台 | 标题上限 | 标签上限 | 文案风格 |
+|------|---------|---------|----------|
+| CSDN | 50 字符 | 5 | 关键词 + 数字 |
+| 掘金 | 60 字符 | 3 | 【标题】 |
+| 微信 | 30 字符 | 0 | 短 + 悬念 |
+| 百家号 | 30 字符 | 3 | 数字 + 痛点 |
+| 头条 | 30 字符 | 3 | 数字 + 疑问 |
 
 ## 失败处置表
 

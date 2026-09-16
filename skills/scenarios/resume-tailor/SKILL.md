@@ -16,84 +16,84 @@ metadata:
   verified-date: "2026-08-26"
 ---
 
-# Resume Tailor (resume + JD → tailored version)
+# Resume Tailor（简历 + JD → 定制版）
 
-One JD per pass. The machine-first rule: every edit must trace back to a
-JD line or an evidence line in the original resume. Fabrication is a hard
-ban — see red lines.
+一轮只处理一个 JD。机器优先原则：每处改动必须能追溯到 JD 的某一行，或原简历中的某条证据。虚构是硬性禁令——见红线。
 
-## Inputs
+## 输入清单
 
-| Input | Required | Default | Notes |
+| 输入 | 必填 | 默认 | 说明 |
 |---|---|---|---|
-| resume text/file | yes | — | plain text preferred |
-| job description | yes | — | paste full JD, not just the title |
-| target tone | no | 简洁量化 | e.g. 外企英文 / 国内互联网 |
+| 简历文本/文件 | 是 | — | 纯文本优先 |
+| 岗位描述 | 是 | — | 粘贴完整 JD，不是只给职位名 |
+| 目标语气 | 否 | 简洁量化 | 如：外企英文 / 国内互联网 |
 
-If anything required is missing, ask ONCE:
+缺必填项时，只问一次：
 
 > 请提供：① 现有简历全文；② 目标岗位的完整 JD（含任职要求）。
 > 可选：希望中文还是英文、有无特别想突出的项目。
 
-## Preflight self-check
+## 前置自检
 
-No environment to probe — no dependencies, no endpoints, no env vars. The
-self-check is input-side: full resume AND complete JD in hand? If either is
-missing, ask ONCE (above) and STOP. A title-only JD ("帮我改简历，投产品经理")
-is not a JD — requesting the full posting first is what makes Step 1 possible.
+无需探测环境——没有依赖、没有端点、没有环境变量。自检在输入侧：完整简历和完整 JD 都拿到了吗？缺任一项就按上面只问一次，然后 STOP。只有职位名的 JD（"帮我改简历，投产品经理"）不算 JD——先要全文，步骤 1 才可能做。
 
-## Red lines (hard bans, non-negotiable)
+## 红线（硬性禁令，不可协商）
 
 1. 不得虚构经历、职级、证书或数字。量化只能来自原简历已有事实或向用户提问确认。
 2. 不得隐瞒真实性问题的美化（如把实习写成工作）。
 3. 原因：背调与面试深挖会放大任何造假，代价是 offer 作废乃至行业口碑。
 
-## Workflow
+## 工作流
 
-### Step 1: Extract JD requirements
+### 步骤 1：提取 JD 要求
 
-Build a two-column table: 硬性要求（学历/年限/必备技能）｜软性优先项。
-Expected: 5–12 rows, each quoting the JD's own words.
+建一张两列表：硬性要求（学历/年限/必备技能）｜软性优先项。
 
-### Step 2: Gap matrix
+预期：5–12 行，每行引用 JD 原话。
 
-Map every JD row against the resume: 匹配(有证据) / 部分(需强化表述) /
-缺失(只能诚实留白或建议用户补充真实素材)。Expected: no row left unjudged.
+### 步骤 2：差距矩阵
 
-### Step 3: Rewrite bullets
+把 JD 每一行对照简历判定：匹配(有证据) / 部分(需强化表述) /
+缺失(只能诚实留白或建议用户补充真实素材)。
 
-For 部分 matches, rewrite with STAR + metric:
+预期：没有未判定的行。
+
+### 步骤 3：重写条目
+
+对"部分"匹配项，用 STAR + 数字重写：
 `动词 + 做了什么 + 方法/规模 + 可验证结果`。
-Example transformation — before: "负责公众号运营";
-after: "独立运营公众号（3 个月），周更 2 篇，粉丝从 1.2k 增至 4.6k（+283%）"。
-If a number does not exist in the source, insert `<待你确认：具体数值>`
-instead of inventing one.
 
-### Step 4: ATS hygiene pass
+改写示例——前："负责公众号运营"；
+后："独立运营公众号（3 个月），周更 2 篇，粉丝从 1.2k 增至 4.6k（+283%）"。
 
-Single column layout; standard headings (教育经历/工作经历/项目/技能);
-no tables, text boxes, or graphics for content; keywords mirrored from JD
-where honestly applicable; file naming `姓名_岗位_简历.pdf`.
+源材料里没有的数字，插入 `<待你确认：具体数值>`，绝不编一个。
 
-### Step 5: Deliver two artifacts
+### 步骤 4：ATS 卫生检查
 
-① tailored resume full text; ② `edit_log.md` listing each change as
-`原文 → 改后 ← JD依据`, plus a 待补充清单 of gaps only the user can fill
-(numbers, projects). Expected: user can accept/reject every edit individually.
+单栏排版；标准标题（教育经历/工作经历/项目/技能）；
+内容不放表格、文本框或图形；在真实的前提下从 JD 镜像关键词；
+文件命名 `姓名_岗位_简历.pdf`。
 
-## Failure handling
+### 步骤 5：交付两件产物
 
-| Symptom | Likely cause | Action |
+① 定制后的简历全文；② `edit_log.md`，每条改动记为
+`原文 → 改后 ← JD依据`，另附一份只有用户能补的待补充清单
+（数字、项目）。
+
+预期：用户能对每处改动逐条接受或拒绝。
+
+## 失败处置表
+
+| 现象 | 可能原因 | 处置 |
 |---|---|---|
-| JD rows exceed resume evidence everywhere | mismatch level | say so honestly; suggest adjacent roles rather than inflating |
-| user asks to inflate numbers/make up certs | red line violation | refuse that edit, restate ban, offer honest strengthening |
-| resume too long after tailoring | legacy irrelevant blocks | cut by JD relevance, log every cut in edit_log |
-| key skill missing entirely | true gap | add to 待补充清单 with a concrete way to gain it fast |
+| JD 每行都超出简历证据 | 匹配度太低 | 如实说明；建议相邻岗位而不是注水 |
+| 用户要求夸大数字/编造证书 | 触碰红线 | 拒绝该改动，重申禁令，提供诚实的强化方案 |
+| 定制后简历过长 | 遗留的无关板块 | 按 JD 相关度裁剪，每处删减记入 edit_log |
+| 关键技能完全缺失 | 真实差距 | 加入待补充清单，附一条快速补齐的具体路径 |
 
-## Delivery standard
+## 交付标准
 
-Success = tailored resume text + `edit_log.md` with per-edit traceability,
-zero unverifiable claims. Anything else is not done — say so plainly.
+成功 = 定制后的简历文本 + 每条改动可追溯的 `edit_log.md`，零不可验证的表述。缺任何一项即未完成——如实说明。
 
 ## 链条衔接（下游建议）
 

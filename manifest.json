@@ -1,6 +1,6 @@
 {
   "hub": "awesome-skillkit",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "updated": "2026-09-16",
   "description": "Curated scene packs for AI tools: each pack = one real-world scenario, containing multiple skills. Download zip -> unzip -> drag the skill folders into your AI tool's skills directory.",
   "description_zh": "精选场景包合集：每个场景包 = 一个真实场景，内含多个 skill。下载 zip -> 解压 -> 把 skill 文件夹拖进 AI 工具的 skills 目录即可使用。",
@@ -39,7 +39,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "197ea3b9245554b7d56e47a9745332c051a9550a817e15dbf98e34d3e6739181"
+      "sha256": "cbad93832d6a3b39632cbf90c26b55ca1d711e6089776773e67b6a6bf3ab9c38"
     },
     {
       "id": "ai-media-toolkit",
@@ -67,7 +67,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "d3c055687eb410004a57a0f2ceb92f24f03f4f7bfc0064f68f2073742c89fd06"
+      "sha256": "2a44797ad3348d94e0e18ad0822660717b30870fa36a24d2ae29bf41825103a9"
     },
     {
       "id": "ai-research-writing",
@@ -155,7 +155,7 @@
         }
       ],
       "size_kb": 157,
-      "sha256": "d02357fd2b254f04bd8032848fd8d3f6a62fac179fad409c8443d1596bf7033c"
+      "sha256": "bfb9bc4b8e4519f189c3fffcc06b676375fce4e698794c00a7ea2efdee95b9e0"
     },
     {
       "id": "ai-video-pipeline",
@@ -191,7 +191,7 @@
         }
       ],
       "size_kb": 74,
-      "sha256": "5e5abbb0ef87dc8b9b4278e5711f6a1a47d10c2f2de79a223b73834d800b4ac8"
+      "sha256": "2ccd16eb5e8173ba5394a5176ee5a4987bbf1a25b79390414ff277d6c656b555"
     },
     {
       "id": "api-development",
@@ -211,7 +211,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "fdb22184fa0135a7d849e178bf394f7fb356f121dc677ab0fff265e474c16dfa"
+      "sha256": "71acec9688f45dfc75de323683b8a44b3b9a5db7419f949c3b9983c6ae7d09d8"
     },
     {
       "id": "architecture",
@@ -235,7 +235,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "63eec70251b3a68f9cdb8775f32b0ca4ec00b8c9161a8a15d59c9d13df59d276"
+      "sha256": "748348c76a4d82c4ae42b5b43d7a2577ab898373c26d787bb257569975a8077c"
     },
     {
       "id": "audio-studio",
@@ -299,7 +299,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "36e9749069aa55b245c680a8fa30418f711b8ebae4cc756ffd34a15b15c2b923"
+      "sha256": "249f35df46ecad5c9bf061b163c25e4114a251646c6b110fa4b60387e0bfad61"
     },
     {
       "id": "code-planning",
@@ -323,14 +323,14 @@
         }
       ],
       "size_kb": 77,
-      "sha256": "ec9c863ccfc8d1f46c6964f04c59f0ee2d99661b93425b2b8a1f0c706c37660d"
+      "sha256": "908ef36567e40e5345c19912f3705e98ce88a81071dfb300beb353777cf3ba29"
     },
     {
       "id": "code-review",
       "name": "Code Review",
       "name_zh": "代码审查",
       "file": "dist/code-review.zip",
-      "size_kb": 246,
+      "size_kb": 247,
       "description": "Review pull requests, analyze code quality, audit dependencies and tech debt across languages.",
       "description_zh": "审查 PR、分析代码质量、审计依赖与技术债，覆盖多语言。",
       "skills": [
@@ -355,14 +355,14 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "bf3d2a77b284ff11ccd4cc454fa70dfb2d5c659fea7d872c8f7830a893d54ce9"
+      "sha256": "3f101e8fb43bc33ae4c573002a0492a512b959f5e1fb96719da49ce66699cdc9"
     },
     {
       "id": "containers",
       "name": "Containers & Orchestration",
       "name_zh": "容器与编排",
       "file": "dist/containers.zip",
-      "size_kb": 72,
+      "size_kb": 74,
       "description": "Dockerfile optimization, docker-compose, Helm charts, and Kubernetes operators.",
       "description_zh": "Dockerfile 优化、docker-compose、Helm Chart 与 Kubernetes Operator。",
       "skills": [
@@ -379,7 +379,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "082a6413475a794bfd3af50c9ddac42e334a9f0fdd1e583d575d5d1730d78e58"
+      "sha256": "916e957719802a912e4c69fadff0472a228f9db47358c99376c3edbf24fc2339"
     },
     {
       "id": "content-publishing",
@@ -463,7 +463,7 @@
           "source": "skillkit authors (self-authored)"
         }
       ],
-      "sha256": "e941d218b2ccb0ed6c36c1cad1965bd993ade3acd8e1c8ecca79d91acb61a59c"
+      "sha256": "c4e82d741be6a7e8586bdfcc3be856f15cbad2a82135801fd7901d0f116b4ca7"
     },
     {
       "id": "data-ml-science",
@@ -503,14 +503,14 @@
         }
       ],
       "size_kb": 77,
-      "sha256": "d2021fc9d36dba6b0696ef202c8c9f3d9a6756db8bf948301b2eaaf06fcb9d51"
+      "sha256": "67208ae4486b0b0128544729e4c5f8714fd8cf1d727e267c1e8e199e2c2ab0df"
     },
     {
       "id": "database",
       "name": "Database Design & Management",
       "name_zh": "数据库设计与管理",
       "file": "dist/database.zip",
-      "size_kb": 105,
+      "size_kb": 106,
       "description": "Design schemas, ERD diagrams, migrations, and optimize SQL queries.",
       "description_zh": "设计表结构、ERD 图、迁移方案，并优化 SQL 查询。",
       "skills": [
@@ -523,7 +523,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "c72ed0a6eb65847e57195a0c3105693236c96f78c1770f354f97a8a7a9d6e772"
+      "sha256": "70e69832bc4834405089b52072f76968857c226fd27c5c401c8187ad3c28020b"
     },
     {
       "id": "edu-craft",
@@ -595,7 +595,7 @@
         }
       ],
       "size_kb": 12,
-      "sha256": "92f59ba6bf7ca164ac5d1d27e541d4e6bec8240923845f8722250e10792f0ce6"
+      "sha256": "2a548ca1de5d8567b47dd9c84fe616c67911d66d4fb630c1351740f0f006ff2e"
     },
     {
       "id": "incident-response",
@@ -619,14 +619,14 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "bb5c3b068d9876a80b1798dd9b7ef827735395842d0b8c468318ae91d1635a0a"
+      "sha256": "a818c9d7946abf05c4f7223182a02fa99231e64c33fabc0fe383144ba688a50d"
     },
     {
       "id": "infrastructure",
       "name": "Infrastructure as Code",
       "name_zh": "基础设施即代码",
       "file": "dist/infrastructure.zip",
-      "size_kb": 99,
+      "size_kb": 100,
       "description": "Terraform patterns, observability design, and Kubernetes operators.",
       "description_zh": "Terraform 模式、可观测性设计与 Kubernetes Operator。",
       "skills": [
@@ -643,7 +643,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "8062de857a05444b1a2036ebdd0d8b60a3f029ce6e7da689e86c33248f90617f"
+      "sha256": "d34f0f82d72765b65e7004d6c7493444b59d9a8699882195faba9f760b1573c7"
     },
     {
       "id": "office-productivity",
@@ -671,7 +671,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "780eb3fe7f957534ad09a369334f9631f0b87e9392bcca73d27b56a244bf1a53"
+      "sha256": "42ad30f7cbd0dfc3d3812f6e73bbf630a1b21a1a0b8a0267d4c04d7021e126da"
     },
     {
       "id": "performance",
@@ -694,7 +694,7 @@
       "name": "Security & Secrets",
       "name_zh": "安全与密钥管理",
       "file": "dist/security.zip",
-      "size_kb": 51,
+      "size_kb": 52,
       "description": "Set up secret vaults and manage environment-variable hygiene.",
       "description_zh": "搭建密钥库并管理环境变量卫生。",
       "skills": [
@@ -707,7 +707,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "19677446d329cc3174cf62dc19ec2408fae89db8f50e8a018b887bd8e39899e0"
+      "sha256": "f3d45963ea77a884a5a88bd2b4a66d6233f26b282965168a60cba2202f5c583a"
     },
     {
       "id": "tdd",
@@ -723,7 +723,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "42f9e5b8dbaa1fafeebe2368dea6c52ea373ca5ad734ec5072cb25a15f6c2c48"
+      "sha256": "ad5c916e6d5c86dae04364363f82e4bcf96ab25ce233b5d90ab1b4c4cdab9b6f"
     },
     {
       "id": "video-design-studio",
@@ -751,7 +751,7 @@
         }
       ],
       "size_kb": 35,
-      "sha256": "ef7137347bbbf6d7b6447e798bb6bae72c6f264de194849589911ea6759ad5e9"
+      "sha256": "053925e9e19beb2b3027e493d0c37323d02287b8f3c0ff2ec0961776ec1bd59c"
     },
     {
       "id": "viral-entertainment",
@@ -771,7 +771,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "88ba67abf3a7f0b30011525a28ae30d7fa87704ba1827ca6cab5744623619a80"
+      "sha256": "e56146b886dd34483578afa435b49a208e86ec086cc4d08a83b452c2ee4b7c79"
     },
     {
       "id": "visual-design-studio",
@@ -795,7 +795,7 @@
         }
       ],
       "size_kb": 15,
-      "sha256": "d0c4d70efd2ef98064cdc004a815275c12ab6a5a71920c7ad636b1437c625866"
+      "sha256": "1f765d5d56888814bf2eb5ef12fd770bc15a124a64448ce2ed8baacb81a0864b"
     }
   ]
 }

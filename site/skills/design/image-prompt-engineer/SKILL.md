@@ -12,7 +12,7 @@ metadata:
   verified-date: "2026-09-14"
 ---
 
-# Image Prompt Engineer
+# 生图提示词工程师
 
 从设计规格单写、审文生图 prompt。核心是**五段结构** + **文字渲染规则**——生图模型不读心，且图上文字是第一大崩坏源。
 

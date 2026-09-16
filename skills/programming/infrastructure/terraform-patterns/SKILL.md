@@ -14,23 +14,23 @@ metadata:
 
 # Terraform Patterns
 
-> Predictable infrastructure. Secure state. Modules that compose. No drift.
+> 可预期的基础设施。安全的状态。可组合的模块。零漂移。
 
-Opinionated Terraform workflow that turns sprawling HCL into well-structured, secure, production-grade infrastructure code. Covers module design, state management, provider patterns, security hardening, and CI/CD integration.
+一套带明确主张的 Terraform 工作流，把失控的 HCL 变成结构良好、安全、生产级的基础设施代码。覆盖模块设计、状态管理、provider 模式、安全加固与 CI/CD 集成。
 
-Not a Terraform tutorial — a set of concrete decisions about how to write infrastructure code that doesn't break at 3 AM.
+这不是 Terraform 教程——这是一组具体决策，关于如何写出不会在凌晨 3 点出事的基础设施代码。
 
-## Slash Commands
+## 斜杠命令
 
-| Command | What it does |
+| 命令 | 作用 |
 |---------|-------------|
-| `/terraform:review` | Analyze Terraform code for anti-patterns, security issues, and structure problems |
-| `/terraform:module` | Design or refactor a Terraform module with proper inputs, outputs, and composition |
-| `/terraform:security` | Audit Terraform code for security vulnerabilities, secrets exposure, and IAM misconfigurations |
+| `/terraform:review` | 分析 Terraform 代码的反模式、安全问题与结构问题 |
+| `/terraform:module` | 设计或重构 Terraform 模块，规范 inputs、outputs 与组合 |
+| `/terraform:security` | 审计 Terraform 代码的安全漏洞、密钥暴露与 IAM 配置错误 |
 
-## When This Skill Activates
+## 何时激活
 
-Recognize these patterns from the user:
+识别用户的这些表达：
 
 - "Review this Terraform code"
 - "Design a Terraform module for..."
@@ -40,45 +40,45 @@ Recognize these patterns from the user:
 - "Terraform security review"
 - "Module structure best practices"
 - "Terraform CI/CD pipeline"
-- Any request involving: `.tf` files, HCL, Terraform modules, state management, provider configuration, infrastructure-as-code
+- 任何涉及 `.tf` 文件、HCL、Terraform 模块、状态管理、provider 配置、基础设施即代码的请求
 
-If the user has `.tf` files or wants to provision infrastructure with Terraform → this skill applies.
+用户有 `.tf` 文件，或想用 Terraform 创建基础设施 → 本技能适用。
 
-## Input checklist
+## 输入清单
 
-Collect once before scanning. If inputs are missing, ask the user once with: "要审计 Terraform 代码，请一次性提供：Terraform 目录路径、目标云厂商/后端类型、是否含多环境隔离。"
+扫描前一次性收集。缺输入时用这句话向用户问一次："要审计 Terraform 代码，请一次性提供：Terraform 目录路径、目标云厂商/后端类型、是否含多环境隔离。"
 
-| Input | Required | Description |
+| 输入 | 必需 | 说明 |
 |---|---|---|
-| Terraform directory | Yes | path to the `.tf` tree, e.g. `./terraform` — positional arg of both scripts |
-| Cloud / backend type | For state review | AWS / GCP / Azure / Terraform Cloud — decides backend recommendation |
-| Environment strategy | For state review | separate directories vs workspaces vs Terragrunt |
-| Module scope | For `/terraform:module` | what the module owns (networking, compute, …) and its consumers |
+| Terraform 目录 | 是 | `.tf` 目录树的路径，如 `./terraform`——两个脚本的位置参数 |
+| 云 / 后端类型 | state review 需要 | AWS / GCP / Azure / Terraform Cloud——决定后端建议 |
+| 环境隔离策略 | state review 需要 | 独立目录 vs workspaces vs Terragrunt |
+| 模块范围 | `/terraform:module` 需要 | 模块负责什么（networking、compute……）以及消费方是谁 |
 
-## Pre-flight checks
+## 前置自检
 
 ```bash
-python3 --version        # Expected: Python ≥ 3.8. Both scripts are stdlib-only.
+python3 --version        # 预期：Python ≥ 3.8。两个脚本均仅依赖标准库。
 ls scripts/tf_module_analyzer.py scripts/tf_security_scanner.py
-                         # Expected: both files listed.
-ls <tf-dir>/*.tf         # Expected: at least one .tf file. Empty → wrong directory.
+                         # 预期：两个文件全部列出。
+ls <tf-dir>/*.tf         # 预期：至少一个 .tf 文件。为空 → 目录不对。
 ```
 
-- Python missing/outdated → install Python ≥ 3.8, then STOP.
-- Script files missing → wrong directory; `cd` to this skill's directory and re-check, then STOP.
-- Target dir has no `.tf` files → confirm the path with the user; do not scan an empty tree and call it a review.
+- Python 缺失或版本过旧 → 安装 Python ≥ 3.8，然后停止。
+- 脚本文件缺失 → 目录不对；`cd` 到本技能目录重新检查，然后停止。
+- 目标目录没有 `.tf` 文件 → 与用户确认路径；不要扫一棵空树还称之为 review。
 
-## Workflow
+## 工作流
 
-### `/terraform:review` — Terraform Code Review
+### `/terraform:review` — Terraform 代码评审
 
-#### Step 1: Analyze current state
+#### 步骤 1：分析现状
 
-- **Action:** read all `.tf` files in the target directory; identify module structure (flat vs nested); count resources, data sources, variables, outputs; check naming conventions.
-- **Expected:** an inventory (counts + structure) you can quote in the report.
-- **If it fails:** directory unreadable → confirm path with the user; do not review a guessed tree.
+- **动作：** 读目标目录所有 `.tf` 文件；识别模块结构（扁平 vs 嵌套）；统计 resources、data sources、variables、outputs；核对命名约定。
+- **预期：** 一份可在报告中引用的清单（计数 + 结构）。
+- **失败时：** 目录不可读 → 与用户确认路径；不要评审一棵猜出来的树。
 
-#### Step 2: Apply review checklist
+#### 步骤 2：套用评审清单
 
 ```text
 MODULE STRUCTURE
@@ -109,30 +109,30 @@ SECURITY
 └── Sensitive variables marked with sensitive = true
 ```
 
-- **Expected:** every checklist line marked pass/fail with file references.
-- **If it fails:** a line cannot be judged from code alone (e.g. state backend) → mark "needs runtime check" instead of guessing.
+- **预期：** 清单每一行都标 pass/fail，并附文件引用。
+- **失败时：** 某一行无法仅凭代码判断（如 state backend）→ 标 "needs runtime check"，不要猜。
 
-#### Step 3: Generate the structural report
+#### 步骤 3：生成结构报告
 
-- **Action:** `python3 scripts/tf_module_analyzer.py ./terraform`
-- **Expected:** text report listing resource/variable/output analysis and naming checks; exit 0.
-- **If it fails:** argparse error → pass the directory as positional arg; parse oddities → the HCL may be non-standard, note it in the report.
+- **动作：** `python3 scripts/tf_module_analyzer.py ./terraform`
+- **预期：** 文本报告列出 resource/variable/output 分析与命名检查；退出码 0。
+- **失败时：** argparse 报错 → 把目录作为位置参数传入；解析异常 → HCL 可能非标准，在报告中注明。
 
-#### Step 4: Run the security scan
+#### 步骤 4：跑安全扫描
 
-- **Action:** `python3 scripts/tf_security_scanner.py ./terraform`
-- **Expected:** findings list with severities; exit 0 (strict mode elevates warnings — use `--strict` in CI).
-- **If it fails:** findings exist → triage per the `/terraform:security` table below; do not merge with Critical findings open.
+- **动作：** `python3 scripts/tf_security_scanner.py ./terraform`
+- **预期：** 带严重度的发现项清单；退出码 0（strict 模式会升级 warning——CI 中用 `--strict`）。
+- **失败时：** 有发现项 → 按下方 `/terraform:security` 表分诊；存在 Critical 发现项时不要合并。
 
-### `/terraform:module` — Module Design
+### `/terraform:module` — 模块设计
 
-#### Step 1: Identify module scope
+#### 步骤 1：确定模块范围
 
-- **Action:** one module = one logical grouping; determine inputs (variables), outputs, resource boundaries; decide flat vs nested.
-- **Expected:** a one-paragraph scope statement including who consumes the module.
-- **If it fails:** scope spans multiple concerns (network + compute + DB) → split; do not design a god-module.
+- **动作：** 一个模块 = 一个逻辑分组；确定输入（variables）、outputs、资源边界；决定扁平还是嵌套。
+- **预期：** 一段范围说明，写明模块由谁消费。
+- **失败时：** 范围横跨多个关注点（network + compute + DB）→ 拆分；不要设计上帝模块。
 
-#### Step 2: Apply module design checklist
+#### 步骤 2：套用模块设计清单
 
 ```text
 STRUCTURE
@@ -165,98 +165,98 @@ COMPOSITION
 └── Use module "name" { source = "./modules/name" }
 ```
 
-- **Expected:** checklist satisfied before any consumer uses the module.
-- **If it fails:** a variable cannot get a type → the module boundary is wrong; revisit Step 1.
+- **预期：** 清单全部满足后，模块才交给消费方使用。
+- **失败时：** 某个 variable 定不出类型 → 模块边界划错了；回到步骤 1。
 
-#### Step 3: Generate the module scaffold
+#### 步骤 3：生成模块脚手架
 
-- **Action:** output the file structure (per STRUCTURE above) with boilerplate, variable validation blocks, and lifecycle rules where appropriate.
-- **Expected:** files exist on disk with `terraform fmt` clean formatting.
-- **If it fails:** `terraform fmt` errors → syntax problem in generated HCL; fix before handing over.
+- **动作：** 按 STRUCTURE 输出文件结构（含样板代码、variable validation 块、必要的 lifecycle 规则）。
+- **预期：** 文件落盘，`terraform fmt` 格式干净。
+- **失败时：** `terraform fmt` 报错 → 生成的 HCL 有语法问题；交付前先修。
 
-### `/terraform:security` — Security Audit
+### `/terraform:security` — 安全审计
 
-#### Step 1: Code-level audit
+#### 步骤 1：代码级审计
 
-| Check | Severity | Fix |
+| 检查项 | 严重度 | 修复 |
 |-------|----------|-----|
-| Hardcoded secrets in `.tf` files | Critical | Use variables with sensitive = true or vault |
-| IAM policy with `*` actions | Critical | Scope to specific actions and resources |
-| Security group with 0.0.0.0/0 on port 22/3389 | Critical | Restrict to known CIDR blocks or use SSM/bastion |
-| S3 bucket without encryption | High | Add `server_side_encryption_configuration` block |
-| S3 bucket with public access | High | Add `aws_s3_bucket_public_access_block` |
-| RDS without encryption | High | Set `storage_encrypted = true` |
-| RDS publicly accessible | High | Set `publicly_accessible = false` |
-| CloudTrail not enabled | Medium | Add `aws_cloudtrail` resource |
-| Missing `prevent_destroy` on stateful resources | Medium | Add `lifecycle { prevent_destroy = true }` |
-| Variables without `sensitive = true` for secrets | Medium | Add `sensitive = true` to secret variables |
+| `.tf` 文件中硬编码密钥 | Critical | 改用 sensitive = true 的 variables 或 vault |
+| IAM policy 含 `*` 操作 | Critical | 收窄到具体操作与资源 |
+| Security group 对端口 22/3389 开放 0.0.0.0/0 | Critical | 限制到已知 CIDR，或改用 SSM/bastion |
+| S3 bucket 未加密 | High | 加 `server_side_encryption_configuration` 块 |
+| S3 bucket 允许公开访问 | High | 加 `aws_s3_bucket_public_access_block` |
+| RDS 未加密 | High | 设 `storage_encrypted = true` |
+| RDS 可公开访问 | High | 设 `publicly_accessible = false` |
+| CloudTrail 未启用 | Medium | 加 `aws_cloudtrail` 资源 |
+| 有状态资源缺 `prevent_destroy` | Medium | 加 `lifecycle { prevent_destroy = true }` |
+| 密钥类变量未标 `sensitive = true` | Medium | 给密钥变量加 `sensitive = true` |
 
-- **Expected:** each row checked against the code; findings mapped to file:line.
-- **If it fails:** a Critical finding → block merge; fix before any plan/apply.
+- **预期：** 每行都对照代码核查；发现项映射到 file:line。
+- **失败时：** 出现 Critical 发现项 → 阻断合并；任何 plan/apply 之前先修。
 
-#### Step 2: State security audit
+#### 步骤 2：状态安全审计
 
-| Check | Severity | Fix |
+| 检查项 | 严重度 | 修复 |
 |-------|----------|-----|
-| Local state file | Critical | Migrate to remote backend with encryption |
-| Remote state without encryption | High | Enable encryption on backend (SSE-S3, KMS) |
-| No state locking | High | Enable DynamoDB for S3, native for TF Cloud |
-| State accessible to all team members | Medium | Restrict via IAM policies or TF Cloud teams |
+| 本地 state 文件 | Critical | 迁移到带加密的 remote backend |
+| remote state 未加密 | High | 在后端启用加密（SSE-S3、KMS） |
+| 无 state 锁 | High | S3 配 DynamoDB，TF Cloud 用原生锁 |
+| state 全团队成员可访问 | Medium | 用 IAM policy 或 TF Cloud teams 限权 |
 
-- **Expected:** backend config inspected (backend.tf / terraform {} block), each row answered.
-- **If it fails:** state file with real secrets found locally → treat as a leak; rotate those credentials (see `env-secrets-manager` / `secrets-vault-manager`).
+- **预期：** 检查 backend 配置（backend.tf / terraform {} 块），每行都有结论。
+- **失败时：** 本地 state 文件里发现真实密钥 → 按泄露处理；轮换这些凭据（见 `env-secrets-manager` / `secrets-vault-manager`）。
 
-#### Step 3: Generate the security report
+#### 步骤 3：生成安全报告
 
-- **Action:** `python3 scripts/tf_security_scanner.py ./terraform` (add `--output json` for CI; `--strict` to elevate warnings)
-- **Expected:** machine-readable findings matching the manual audit; no Critical findings left untracked.
-- **If it fails:** scanner and manual audit disagree → reconcile; the manual table above is the source of truth.
+- **动作：** `python3 scripts/tf_security_scanner.py ./terraform`（CI 加 `--output json`；`--strict` 升级 warning）
+- **预期：** 机器可读的发现项与人工审计一致；无 Critical 发现项脱离跟踪。
+- **失败时：** 扫描器与人工审计不一致 → 以人工对照为准；人工表才是事实源。
 
-## Tooling
+## 工具
 
-Both scripts are stdlib-only Python.
+两个脚本均为仅依赖标准库的 Python。
 
-| Script | Positional arg | Flags | Purpose |
+| 脚本 | 位置参数 | Flags | 用途 |
 |---|---|---|---|
-| `scripts/tf_module_analyzer.py` | Terraform directory (omit for demo) | `--output text\|json` | structure, variables/outputs, naming, composition |
-| `scripts/tf_security_scanner.py` | Terraform dir or `.tf` file (omit for demo) | `--output text\|json`, `--strict` | secrets, IAM, open SGs, encryption, public access |
+| `scripts/tf_module_analyzer.py` | Terraform 目录（省略则演示） | `--output text\|json` | 结构、variables/outputs、命名、组合 |
+| `scripts/tf_security_scanner.py` | Terraform 目录或 `.tf` 文件（省略则演示） | `--output text\|json`、`--strict` | 密钥、IAM、开放的 SG、加密、公开访问 |
 
 ```bash
-# Analyze a Terraform directory
+# 分析一个 Terraform 目录
 python3 scripts/tf_module_analyzer.py ./terraform
 python3 scripts/tf_module_analyzer.py ./terraform --output json
 python3 scripts/tf_module_analyzer.py ./modules/vpc
 
-# Scan a Terraform directory
+# 扫描一个 Terraform 目录
 python3 scripts/tf_security_scanner.py ./terraform
 python3 scripts/tf_security_scanner.py ./terraform --output json
 python3 scripts/tf_security_scanner.py ./terraform --strict
 ```
 
-## Module Design Patterns
+## 模块设计模式
 
-### Pattern 1: Flat Module (Small/Medium Projects)
+### 模式 1：扁平模块（中小项目）
 
 ```text
 infrastructure/
-├── main.tf          # All resources
-├── variables.tf     # All inputs
-├── outputs.tf       # All outputs
-├── versions.tf      # Provider requirements
-├── terraform.tfvars # Environment values (not committed)
-└── backend.tf       # Remote state configuration
+├── main.tf          # 全部资源
+├── variables.tf     # 全部输入
+├── outputs.tf       # 全部输出
+├── versions.tf      # Provider 版本要求
+├── terraform.tfvars # 环境取值（不提交）
+└── backend.tf       # 远端状态配置
 ```
 
-Best for: Single application, < 20 resources, one team owns everything.
+适用：单一应用、< 20 个资源、一个团队全权负责。
 
-### Pattern 2: Nested Modules (Medium/Large Projects)
+### 模式 2：嵌套模块（中大型项目）
 
 ```text
 infrastructure/
 ├── environments/
 │   ├── dev/
-│   │   ├── main.tf          # Calls modules with dev params
-│   │   ├── backend.tf       # Dev state backend
+│   │   ├── main.tf          # 以 dev 参数调用模块
+│   │   ├── backend.tf       # Dev 状态后端
 │   │   └── terraform.tfvars
 │   ├── staging/
 │   │   └── ...
@@ -274,21 +274,21 @@ infrastructure/
 └── versions.tf
 ```
 
-Best for: Multiple environments, shared infrastructure patterns, team collaboration.
+适用：多环境、共享基础设施模式、团队协作。
 
-### Pattern 3: Mono-Repo with Terragrunt
+### 模式 3：Terragrunt 单仓
 
 ```text
 infrastructure/
-├── terragrunt.hcl           # Root config
-├── modules/                  # Reusable modules
+├── terragrunt.hcl           # 根配置
+├── modules/                  # 可复用模块
 │   ├── vpc/
 │   ├── eks/
 │   └── rds/
 ├── dev/
-│   ├── terragrunt.hcl       # Dev overrides
+│   ├── terragrunt.hcl       # Dev 覆盖配置
 │   ├── vpc/
-│   │   └── terragrunt.hcl   # Module invocation
+│   │   └── terragrunt.hcl   # 模块调用
 │   └── eks/
 │       └── terragrunt.hcl
 └── prod/
@@ -296,11 +296,12 @@ infrastructure/
     └── ...
 ```
 
-Best for: Large-scale, many environments, DRY configuration, team-level isolation.
+适用：大规模、多环境、DRY 配置、团队级隔离。
 
-## Provider Configuration Patterns
+## Provider 配置模式
 
-### Version Pinning
+### 版本锁定
+
 ```hcl
 terraform {
   required_version = ">= 1.5.0"
@@ -308,7 +309,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.0"    # Allow 5.x, block 6.0
+      version = "~> 5.0"    # 允许 5.x，挡住 6.0
     }
     random = {
       source  = "hashicorp/random"
@@ -318,7 +319,8 @@ terraform {
 }
 ```
 
-### Multi-Region with Aliases
+### 用 Alias 实现多 Region
+
 ```hcl
 provider "aws" {
   region = "us-east-1"
@@ -339,7 +341,8 @@ resource "aws_s3_bucket" "replica" {
 }
 ```
 
-### Multi-Account with Assume Role
+### 用 Assume Role 实现多账号
+
 ```hcl
 provider "aws" {
   alias  = "production"
@@ -351,27 +354,27 @@ provider "aws" {
 }
 ```
 
-## State Management
+## 状态管理
 
-Decision rules: single dev + tiny project → local state but migrate to remote ASAP; Terraform Cloud/Enterprise → native backend (locking, encryption, RBAC built in); AWS → S3 + DynamoDB; GCP → GCS; Azure → Blob Storage. Environments are isolated by separate state files — separate directories (recommended) or workspaces (simpler, weaker isolation). One state file for all environments: never.
+决策规则：单人开发 + 小项目 → 可用本地 state，但尽快迁 remote；Terraform Cloud/Enterprise → 原生 backend（自带锁、加密、RBAC）；AWS → S3 + DynamoDB；GCP → GCS；Azure → Blob Storage。环境之间用独立 state 文件隔离——独立目录（推荐）或 workspaces（更简单，隔离更弱）。所有环境共用一个 state 文件：绝对不行。
 
-Backend HCL, migration steps (`state mv`/`import`/`rm`), locking behavior, and force-unlock procedures → `references/state-management.md`.
+Backend HCL、迁移步骤（`state mv`/`import`/`rm`）、锁行为、force-unlock 流程 → `references/state-management.md`。
 
-## References
+## 参考
 
-Read the reference only when the corresponding situation applies:
+仅在对应情况出现时读：
 
-- `references/state-management.md` — read when choosing/configuring a backend, migrating state (local→remote, between backends), importing existing resources, or handling lock contention / force-unlock.
-- `references/cicd-and-advanced-patterns.md` — read when the task touches CI/CD plan/apply pipelines (GitHub Actions), drift detection, multi-cloud provider aliasing, OpenTofu migration, Infracost cost gates, importing existing infrastructure, or Terragrunt layouts.
+- `references/state-management.md` —— 选择/配置 backend、迁移 state（本地→remote、跨 backend）、导入既有资源、处理锁冲突 / force-unlock 时。
+- `references/cicd-and-advanced-patterns.md` —— 任务涉及 CI/CD plan/apply 流水线（GitHub Actions）、drift 检测、多云 provider aliasing、OpenTofu 迁移、Infracost 成本门禁、导入既有基础设施或 Terragrunt 布局时。
 
-## Installation
+## 安装
 
 ```bash
-# One-liner (any tool)
+# 一行安装（任意工具）
 git clone https://github.com/alirezarezvani/claude-skills.git
 cp -r claude-skills/engineering/terraform-patterns ~/.claude/skills/
 
-# Multi-tool install — convert.sh comes from the upstream claude-skills repo (not bundled here):
+# 多工具安装 —— convert.sh 来自上游 claude-skills 仓库（本仓库不打包）：
 # https://github.com/alirezarezvani/claude-skills
 bash <claude-skills>/scripts/convert.sh --skill terraform-patterns --tool codex|gemini|cursor|windsurf|openclaw
 
@@ -379,30 +382,30 @@ bash <claude-skills>/scripts/convert.sh --skill terraform-patterns --tool codex|
 clawhub install terraform-patterns
 ```
 
-## Related Skills
+## 相关技能
 
-- **senior-devops** — broader DevOps scope (CI/CD, monitoring); use for pipeline and infrastructure operations.
-- **aws-solution-architect** — designs the AWS architecture; terraform-patterns implements it.
-- **senior-security** — application-level threats; terraform-patterns covers infrastructure security posture.
-- **ci-cd-pipeline-builder** — automates deployment of what terraform-patterns defines.
+- **senior-devops** —— 更宽的 DevOps 范围（CI/CD、监控）；流水线与基础设施运维用它。
+- **aws-solution-architect** —— 设计 AWS 架构；terraform-patterns 负责落地实现。
+- **senior-security** —— 应用层威胁；terraform-patterns 覆盖基础设施安全态势。
+- **ci-cd-pipeline-builder** —— 自动化部署 terraform-patterns 定义的内容。
 
-## Failure handling
+## 失败处置表
 
-| Symptom / exit code | Cause | Fix |
+| 症状 / 退出码 | 原因 | 修复 |
 |---|---|---|
-| `tf_module_analyzer.py` prints a demo report | no directory argument given | pass the Terraform dir as positional arg |
-| Scanner reports nothing but manual audit finds issues | scanner is regex-based, not an HCL parser | manual checklist (Step 1 tables) is the source of truth; file scanner gaps |
-| Scanner `--strict` fails CI on warnings | strict mode elevates warnings | fix or explicitly baseline the accepted warnings |
-| HCL parse oddities in report | non-standard/generated HCL | note in report; verify by `terraform validate` on the user's side |
-| State secrets found in local `terraform.tfstate` | local state with real values | treat as credential leak: rotate secrets, migrate to encrypted remote backend |
-| `python: command not found` | no interpreter | install Python ≥ 3.8; both scripts are stdlib-only |
+| `tf_module_analyzer.py` 打出演示报告 | 未给目录参数 | 把 Terraform 目录作为位置参数传入 |
+| 扫描器无输出但人工审计发现问题 | 扫描器基于正则，不是 HCL 解析器 | 人工清单（步骤 1 的表）是事实源；把扫描缺口记录在案 |
+| 扫描器 `--strict` 让 CI 因 warning 失败 | strict 模式升级 warning | 修复，或把已接受的 warning 显式记入基线 |
+| 报告中出现 HCL 解析异常 | 非标准/生成的 HCL | 在报告中注明；请用户侧用 `terraform validate` 验证 |
+| 本地 `terraform.tfstate` 中发现 state 密钥 | 本地 state 带真实取值 | 按凭据泄露处理：轮换密钥，迁移到加密的 remote backend |
+| `python: command not found` | 无解释器 | 安装 Python ≥ 3.8；两个脚本均仅依赖标准库 |
 
-## Deliverables and success criteria
+## 交付标准
 
-A run of this skill is done when:
+满足以下条件才算跑完本技能：
 
-- Review/security reports are saved as `tf_review_<dir>_<date>.md` / `tf_security_<dir>_<date>.md` (or the `--output json` variants) next to the audited tree or in the team's docs location.
-- Every Critical finding is either fixed in code or has a tracked issue with an owner; Medium findings have a due date.
-- New/refactored modules: all files from the STRUCTURE checklist exist, `terraform fmt` clean, README with a usage example.
-- Verification of completeness: re-running `tf_security_scanner.py --output json` reproduces the same finding count as the report; no finding appears in the manual audit that is absent from the tracked list.
-- Boundary: this skill never runs `terraform plan`/`apply` — pattern authoring only.
+- 评审/安全报告以 `tf_review_<dir>_<date>.md` / `tf_security_<dir>_<date>.md`（或 `--output json` 变体）保存，位置在被审计目录树旁或团队文档区。
+- 每个 Critical 发现项要么已在代码中修复，要么有带负责人的跟踪 issue；Medium 发现有截止日期。
+- 新建/重构的模块：STRUCTURE 清单的文件全部存在，`terraform fmt` 干净，README 含用法示例。
+- 完整性验证：重跑 `tf_security_scanner.py --output json`，发现项数量与报告一致；人工审计中的发现项无一项游离在跟踪清单之外。
+- 边界：本技能绝不运行 `terraform plan`/`apply`——只做模式编写。

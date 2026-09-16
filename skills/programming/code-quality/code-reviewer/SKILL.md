@@ -21,70 +21,67 @@ metadata:
 
 # Code Reviewer
 
-Deterministic, multi-language static analysis: run the bundled scripts to flag
-risk, then load the language/rule references to produce a review. This file is
-the dispatch table — keep it short; the heavy rules live in `rules/` and
-`languages/`.
+确定性的多语言静态分析：跑内置脚本标记风险，再加载语言/规则参考生成审查报告。本文件是调度表——保持精简；重型规则在 `rules/` 和 `languages/`。
 
 ---
 
-## Inputs
+## 输入清单
 
-| Input | Required | Notes |
-|-------|----------|-------|
-| Target path | Yes | A repo root, a directory, or a single file (absolute or relative). |
-| Scope | No | `diff` (default: current branch vs `main`) or `files` (whole-tree scan). |
-| Language | No | Auto-detected from extension table below; override with `--language`. |
-| Output format | No | `markdown` (default) or `json`. |
-| Pre-computed analyses | No | Paths to `pr_results.json` / `quality_results.json` to skip re-running. |
+| 输入 | 必需 | 说明 |
+|------|------|------|
+| 目标路径 | 是 | 仓库根、目录或单个文件（绝对或相对路径）。 |
+| 范围 | 否 | `diff`（默认：当前分支 vs `main`）或 `files`（整树扫描）。 |
+| 语言 | 否 | 按下方扩展名表自动识别；可用 `--language` 覆盖。 |
+| 输出格式 | 否 | `markdown`（默认）或 `json`。 |
+| 预计算结果 | 否 | `pr_results.json` / `quality_results.json` 路径，跳过重复分析。 |
 
-If any required input is missing, ask once with this template:
+必需输入缺失时，按此模板只问一次：
 
 > 请提供：① 目标路径（仓库/目录/文件）；② 范围（diff 还是整树扫描）。
 > 其余我采用默认值：scope=diff（当前分支 vs main）、format=markdown、语言自动识别。
 
-## Pre-flight Self-check
+## 前置自检
 
-Run before any analysis. Any failure → print the fix and STOP.
+任何分析前先跑。任一失败 → 打印修复方法并 STOP。
 
 ```bash
-# 1. Scripts present?
+# 1. 脚本齐全？
 test -f scripts/pr_analyzer.py && test -f scripts/code_quality_checker.py \
   && test -f scripts/review_report_generator.py && echo "scripts-ok" \
   || { echo "ERROR: scripts/ missing — bundle is incomplete"; exit 1; }
 
-# 2. Python available?
+# 2. Python 可用？
 command -v python3 >/dev/null 2>&1 || { echo "ERROR: python3 not found"; exit 1; }
 
-# 3. Universal rule file present?
+# 3. 通用规则文件在位？
 test -f rules/universal.md || { echo "ERROR: rules/universal.md missing"; exit 1; }
 
-# 4. Target exists?
+# 4. 目标存在？
 test -e "$TARGET" || { echo "ERROR: target $TARGET not found"; exit 1; }
 ```
 
-## How the skill is organized
+## 技能目录结构
 
 ```text
 code-reviewer/
-  SKILL.md                        ← you are here (tools + dispatch table)
+  SKILL.md                        ← 你在这里（工具 + 调度表）
   rules/
-    universal.md                  ← security, async, resources, exceptions, perf — all languages
+    universal.md                  ← 安全、异步、资源、异常、性能——全语言通用
   languages/
     python.md  typescript.md  go.md  swift.md  kotlin.md  csharp.md
     java.md  c.md  cpp.md  rust.md  ruby.md  php.md  dart.md
   scripts/
     pr_analyzer.py  code_quality_checker.py  review_report_generator.py
-  assets/  expected_outputs/       ← regression fixtures (C#, Java, C)
+  assets/  expected_outputs/       ← 回归夹具（C#、Java、C）
 ```
 
-### Loading order (always exactly 2 extra files)
+### 加载顺序（始终恰好多读 2 个文件）
 
-1. `SKILL.md` — tools and thresholds (this file).
-2. `rules/universal.md` — always, for every language.
-3. One `languages/<ext>.md` — chosen from the table below.
+1. `SKILL.md` — 工具与阈值（本文件）。
+2. `rules/universal.md` — 每种语言都要读。
+3. 一份 `languages/<ext>.md` — 按下表选。
 
-| Extension(s) | Load |
+| 扩展名 | 加载 |
 |---|---|
 | `.py` | `languages/python.md` |
 | `.ts`, `.tsx`, `.js`, `.jsx`, `.mjs` | `languages/typescript.md` |
@@ -100,116 +97,101 @@ code-reviewer/
 | `.php`, `.phtml` | `languages/php.md` |
 | `.dart` | `languages/dart.md` |
 
-## Workflow
+## 工作流
 
-### Step 1: Analyze the change / tree
+### 步骤 1：分析变更 / 目录树
 
 ```bash
-# Diff mode — current branch against main
+# diff 模式——当前分支对比 main
 python scripts/pr_analyzer.py /path/to/repo
-# Specific branches
+# 指定分支
 python scripts/pr_analyzer.py . --base main --head feature-branch
-# JSON for downstream tools
+# 输出 JSON 给下游工具
 python scripts/pr_analyzer.py /path/to/repo --json
 ```
 
-Expected: script prints complexity score (1–10), risk category
-(critical/high/medium/low), file prioritization, and commit-message
-validation; `--json` writes the same to stdout.
-If failed: non-zero exit or traceback → confirm path exists and Python ≥3.10;
-re-run with `--json` to isolate parse errors.
+预期：脚本输出复杂度评分（1–10）、风险级别（critical/high/medium/low）、文件优先级排序与提交信息校验；`--json` 把同样内容打到 stdout。若失败：非零退出或 traceback → 确认路径存在且 Python ≥3.10；改用 `--json` 重跑以隔离解析错误。
 
-### Step 2: Run the quality checker
+### 步骤 2：跑质量检查器
 
 ```bash
-# Whole directory, auto language
+# 整目录，自动识别语言
 python scripts/code_quality_checker.py /path/to/code
-# Specific language (one of: python, typescript, javascript, go, swift,
-#   kotlin, csharp, java, c, cpp, rust, ruby, php, dart)
+# 指定语言（取值：python, typescript, javascript, go, swift,
+#   kotlin, csharp, java, c, cpp, rust, ruby, php, dart）
 python scripts/code_quality_checker.py . --language java
-# JSON output
+# JSON 输出
 python scripts/code_quality_checker.py /path/to/code --json
 ```
 
-Universal thresholds used by the checker:
+检查器使用的通用阈值：
 
-| Issue | Threshold |
-|-------|-----------|
-| Long function | >50 lines |
-| Large file | >500 lines |
-| God class | >20 methods |
-| Too many params | >5 |
-| Deep nesting | >4 levels |
-| High complexity | >10 branches |
+| 问题 | 阈值 |
+|------|------|
+| 长函数 | >50 行 |
+| 大文件 | >500 行 |
+| 上帝类 | >20 个方法 |
+| 参数过多 | >5 个 |
+| 嵌套过深 | >4 层 |
+| 复杂度过高 | >10 个分支 |
 
-Expected: per-file findings scored against the thresholds above.
-If failed: if a language is unknown the script falls back to Python patterns and
-logs a warning — re-run with explicit `--language`.
+预期：逐文件输出发现项，按上述阈值计分。若失败：语言无法识别时脚本回退到 Python 模式并记一条 warning——用显式 `--language` 重跑。
 
-### Step 3: Generate the review report
+### 步骤 3：生成审查报告
 
 ```bash
-# Markdown report for the current repo
+# 当前仓库的 Markdown 报告
 python scripts/review_report_generator.py /path/to/repo
-# Explicit format + output file
+# 显式格式 + 输出文件
 python scripts/review_report_generator.py . --format markdown --output review.md
-# Reuse pre-computed analyses
+# 复用预计算结果
 python scripts/review_report_generator.py . \
   --pr-analysis pr_results.json --quality-analysis quality_results.json
 ```
 
-Verdict mapping (apply after both analyses are in):
+结论映射（两项分析都完成后套用）：
 
-| Score | Verdict |
-|-------|---------|
-| 90+ with no high issues | Approve |
-| 75+ with ≤2 high issues | Approve with suggestions |
+| 评分 | 结论 |
+|------|------|
+| 90+ 且无 high 问题 | Approve |
+| 75+ 且 ≤2 个 high 问题 | Approve with suggestions |
 | 50–74 | Request changes |
-| <50 or any critical issue | Block |
+| <50 或存在任一 critical 问题 | Block |
 
-Expected: a report containing the verdict, per-file findings, and the
-recommendation. If failed: ensure the two upstream scripts produced output
-before invoking the generator, or pass `--pr-analysis` / `--quality-analysis`
-explicitly.
+预期：报告包含结论、逐文件发现项与建议。若失败：先确认两个上游脚本产出过结果，或显式传 `--pr-analysis` / `--quality-analysis`。
 
-## Parameter Cheat-sheet
+## 参数速查表
 
-| Script | Key flag | Values |
-|--------|----------|--------|
-| `pr_analyzer.py` | `--base` / `--head` | branch names (default base `main`) |
-| `pr_analyzer.py` | `--json` | emit JSON to stdout |
-| `code_quality_checker.py` | `--language` | one of the 14 supported languages |
+| 脚本 | 关键参数 | 取值 |
+|------|----------|------|
+| `pr_analyzer.py` | `--base` / `--head` | 分支名（base 默认 `main`） |
+| `pr_analyzer.py` | `--json` | 向 stdout 输出 JSON |
+| `code_quality_checker.py` | `--language` | 14 种受支持语言之一 |
 | `review_report_generator.py` | `--format` | `markdown` \| `json` |
-| `review_report_generator.py` | `--output` | file path |
+| `review_report_generator.py` | `--output` | 文件路径 |
 
-## Failure Handling
+## 失败处置表
 
-| Symptom | Cause | Action |
-|---------|-------|--------|
-| `ModuleNotFoundError` / `SyntaxError` | Python <3.10 or missing script | upgrade Python; re-verify scripts present |
-| Empty report / no findings | wrong target path | re-run with an existing file or directory |
-| Wrong-language signals | extension not in table | pass `--language` explicitly |
-| Analyzer flags unknown language as Python | fallback mode | add the language to `LANGUAGE_EXTENSIONS` in `code_quality_checker.py` |
+| 症状 | 原因 | 处置 |
+|------|------|------|
+| `ModuleNotFoundError` / `SyntaxError` | Python <3.10 或脚本缺失 | 升级 Python；重新确认脚本在位 |
+| 报告为空 / 零发现 | 目标路径错误 | 用确实存在的文件或目录重跑 |
+| 语言信号错乱 | 扩展名不在表内 | 显式传 `--language` |
+| 分析器把未知语言当 Python | 回退模式 | 把该语言加进 `code_quality_checker.py` 的 `LANGUAGE_EXTENSIONS` |
 
-## Delivery Standard
+## 交付标准
 
-Success = a review report exists with a verdict from the mapping above and
-per-file findings cross-checked against `rules/universal.md` + the matching
-`languages/*.md`.
+成功 = 存在一份审查报告，含上述映射得出的结论，且逐文件发现项与 `rules/universal.md` + 对应 `languages/*.md` 交叉核对过。
 
-- Save location: `review.md` in the repo root (or caller-specified `--output`).
-- Verify completeness: report must list (a) verdict, (b) each flagged file with
-  rule id, (c) whether any `critical`/`high` issue is present.
-- Do NOT modify the user's code — this skill analyzes only.
+- 保存位置：仓库根的 `review.md`（或调用方指定的 `--output`）。
+- 完整性核验：报告必须列出 (a) 结论；(b) 每个被标记的文件及规则 id；(c) 是否存在 `critical`/`high` 问题。
+- 绝不改用户的代码——本技能只分析。
 
-## References
+## 参考
 
-- `rules/universal.md` — read for every review: security, async, resource,
-  exception, and performance rules that apply to all languages.
-- `languages/<ext>.md` — read the one matching the target extension for
-  language-specific detections and idioms (see loading table above).
-- `assets/` + `expected_outputs/` — regression fixtures (C#, Java, C); use to
-  confirm the analyzer's behavior has not drifted:
+- `rules/universal.md` — 每次审查都读：适用于所有语言的安全、异步、资源、异常、性能规则。
+- `languages/<ext>.md` — 读与目标扩展名匹配的那一份，获取语言专属检测与惯用法（见上方加载表）。
+- `assets/` + `expected_outputs/` — 回归夹具（C#、Java、C）；用来确认分析器行为未漂移：
 
 ```bash
 python scripts/code_quality_checker.py assets/sample_java_smells.java --json \
@@ -218,14 +200,8 @@ python scripts/code_quality_checker.py assets/sample_java_smells.java --json \
 
 ---
 
-## Extending to a new language
+## 扩展新语言
 
-1. Create `languages/<name>.md` from any existing language file. It must contain
-   these sections: PR Analyzer Signals, Code Quality Checks, Security, Async,
-   Resource Management, Exception Handling, Performance, Idioms.
-2. Add the extension row to the dispatch table above.
-3. (Optional, to make the deterministic checker score it) add the extension to
-   `LANGUAGE_EXTENSIONS` and the function/class/method regexes in
-   `scripts/code_quality_checker.py`, add a `check_<name>_specific_smells(...)`
-   detector, and commit a `<name>_smells.<ext>` + `_clean` fixture under
-   `assets/` with its expected `--json` under `expected_outputs/`.
+1. 参照任一现有语言文件创建 `languages/<name>.md`。必须包含这些小节：PR Analyzer Signals, Code Quality Checks, Security, Async, Resource Management, Exception Handling, Performance, Idioms。
+2. 把扩展名行加进上方调度表。
+3. （可选，让确定性检查器给它计分）把扩展名加进 `scripts/code_quality_checker.py` 的 `LANGUAGE_EXTENSIONS` 和函数/类/方法正则，新增一个 `check_<name>_specific_smells(...)` 检测器，并在 `assets/` 提交一对 `<name>_smells.<ext>` + `_clean` 夹具，在 `expected_outputs/` 提交对应的 `--json`。

@@ -14,16 +14,16 @@ metadata:
 
 # Spec-Driven Workflow
 
-Enforce spec-first development: write the specification BEFORE any code, validate it, extract test stubs from acceptance criteria, then implement one criterion at a time. Every line of code traces back to a spec requirement.
+强制规格先行：先写 spec 再写任何代码，校验通过后从验收标准提取测试桩，再逐条实现。每一行代码都能追溯到 spec 里的某条需求。
 
-**The Iron Law:**
+**铁律：**
 
 ```text
 NO CODE WITHOUT AN APPROVED SPEC.
 NO EXCEPTIONS. NO "QUICK PROTOTYPES." NO "I'LL DOCUMENT IT LATER."
 ```
 
-Why spec-first: catching ambiguity in a spec costs minutes, in production costs days; the spec is the definition of done; acceptance criteria translate 1:1 into test cases.
+为什么规格先行：在 spec 里消除歧义只花几分钟，到生产环境再发现要花几天；spec 就是"完成"的定义；验收标准可以 1:1 翻译成测试用例。
 
 ## 输入清单
 
@@ -121,13 +121,13 @@ python3 scripts/test_extractor.py --file specs/auth.md --framework pytest --outp
 
 ### 有界自治（贯穿全程）
 
-STOP and ask：范围蔓延（spec 里没有的东西，即使"显然需要"）、歧义超 30%、需要破坏性变更、涉及鉴权/加密/PII、性能指标无法度量、跨团队依赖未确认。
-Continue autonomously：spec 明确无歧义、全部 AC 有通过测试且只在重构内部、改动非破坏、实现是 AC 的直接翻译、错误处理沿用代码库既有模式。
+STOP 提问：范围蔓延（spec 里没有的东西，即使"显然需要"）、歧义超 30%、需要破坏性变更、涉及鉴权/加密/PII、性能指标无法度量、跨团队依赖未确认。
+可自主推进：spec 明确无歧义、全部 AC 有通过测试且只在重构内部、改动非破坏、实现是 AC 的直接翻译、错误处理沿用代码库既有模式。
 升级时必须给：被阻塞的需求编号、具体问题、带 Pros/Cons 的选项、推荐项、等待影响。见 `references/bounded_autonomy_rules.md`。
 
 ## 工具速查
 
-| Script | Purpose | Key Flags |
+| 脚本 | 用途 | 关键参数 |
 |--------|---------|-----------|
 | `spec_generator.py` | 从功能名/描述生成 spec 模板 | `--name`（必填）, `--description`, `--output/-o`, `--format md\|json` |
 | `test_extractor.py` | 从验收标准提取测试桩 | `--file/-f`, `--framework pytest\|jest\|go-test`, `--output/-o`, `--json` |
@@ -155,7 +155,7 @@ Continue autonomously：spec 明确无歧义、全部 AC 有通过测试且只�
 - `references/acceptance_criteria_patterns.md` — Given/When/Then 验收标准模式库（auth/CRUD/search/upload/payment 等）；AC 写不出或被评审打回时读。
 - `references/bounded_autonomy_rules.md` — 何时停下提问 vs 自主推进的完整决策矩阵；执行中遇到边界情况时读。
 
-## Anti-Patterns
+## 反模式
 
 | # | 反模式 | 后果 | 规则 |
 |---|---|---|---|
@@ -167,7 +167,7 @@ Continue autonomously：spec 明确无歧义、全部 AC 有通过测试且只�
 | 6 | AC 不引用任何 FR/NFR | 孤儿标准，或缺需求或属多余 | 每个 AC 必须引用至少一个 FR-*/NFR-* |
 | 7 | 跳过校验直接开工 | 缺节在实现期才暴露，阻塞 | 步骤 3 checklist 全勾前不进步骤 4 |
 
-## Cross-References
+## 相关技能
 
 - **`engineering-team/tdd-guide`** — red-green-refactor 纪律、覆盖率分析；步骤 4 之后使用。
 - **`engineering/focused-fix`** — 规格驱动实现出现系统性问题时用于诊断。

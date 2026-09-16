@@ -14,7 +14,7 @@ metadata:
 
 # API Test Suite Builder
 
-Scan API route definitions across frameworks (Next.js App Router, Express, FastAPI, Django REST) and generate ready-to-run test suites for Vitest+Supertest (Node) or Pytest+httpx (Python), covering auth, input validation, error codes, pagination, file uploads, and rate limiting.
+扫描各框架（Next.js App Router、Express、FastAPI、Django REST）的 API 路由定义，生成可直接运行的测试套件——Vitest+Supertest（Node）或 Pytest+httpx（Python），覆盖鉴权、输入校验、错误码、分页、文件上传与限流。
 
 ## 输入清单
 
@@ -103,31 +103,31 @@ grep -rn "router\.register\|DefaultRouter\|SimpleRouter" . --include="*.py"
 
 对每个鉴权端点生成 Auth 矩阵，对每个带请求体的 POST/PUT/PATCH 生成输入校验矩阵：
 
-**Auth Test Matrix**（预期状态码）：
+**鉴权测试矩阵**（预期状态码）：
 
-| Test Case | Expected Status |
+| 测试用例 | 预期状态码 |
 |-----------|----------------|
-| No Authorization header | 401 |
-| Invalid token format | 401 |
-| Valid token, wrong user role | 403 |
-| Expired JWT token | 401 |
-| Valid token, correct role | 2xx |
-| Token from deleted user | 401 |
+| 缺 Authorization 头 | 401 |
+| token 格式无效 | 401 |
+| token 有效但用户角色错误 | 403 |
+| JWT token 已过期 | 401 |
+| token 有效且角色正确 | 2xx |
+| 已删除用户的 token | 401 |
 
-**Input Validation Matrix**（预期状态码）：
+**输入校验矩阵**（预期状态码）：
 
-| Test Case | Expected Status |
+| 测试用例 | 预期状态码 |
 |-----------|----------------|
-| Empty body `{}` | 400 or 422 |
-| Missing required fields (one at a time) | 400 or 422 |
-| Wrong type (string where int expected) | 400 or 422 |
-| Boundary: value at min-1 | 400 or 422 |
-| Boundary: value at min | 2xx |
-| Boundary: value at max | 2xx |
-| Boundary: value at max+1 | 400 or 422 |
-| SQL injection in string field | 400 or 200 (sanitized) |
-| XSS payload in string field | 400 or 200 (sanitized) |
-| Null values for required fields | 400 or 422 |
+| 空请求体 `{}` | 400 或 422 |
+| 缺必填字段（每次只缺一个） | 400 或 422 |
+| 类型错误（应为 int 却传 string） | 400 或 422 |
+| 边界：取 min-1 | 400 或 422 |
+| 边界：取 min | 2xx |
+| 边界：取 max | 2xx |
+| 边界：取 max+1 | 400 或 422 |
+| 字符串字段注入 SQL | 400 或 200（已净化） |
+| 字符串字段注入 XSS payload | 400 或 200（已净化） |
+| 必填字段传 null | 400 或 422 |
 
 生成规则：
 1. 测试名描述化：`"returns 401 when token is expired"`，不用 `"auth test 3"`

@@ -17,73 +17,61 @@ metadata:
   verified-date: "2026-08-26"
 ---
 
-# Image Generation (text-to-image / image-to-image)
+# 图像生成（文生图 / 图生图）
 
-Drive a local generation gateway with curl: submit a task, poll until done,
-download the PNG, hand the file path to the user. No Pillow/OpenCV, no
-dependency installs — the gateway renders, you orchestrate.
+用 curl 驱动本地生成网关：提交任务 → 轮询至完成 → 下载 PNG → 把文件路径交给用户。不需要 Pillow/OpenCV，不装任何依赖——网关负责渲染，你负责编排。
 
-## Inputs
+## 输入清单
 
-| Input | Required | Default | Notes |
+| 输入 | 必需 | 默认 | 说明 |
 |---|---|---|---|
-| subject description | yes | — | what the image shows; see prompt formula below |
-| size | no | `1024x1024` | any WxH where both are multiples of 16 |
-| quality | no | `auto` | `auto` / `high` / `medium` / `low` |
-| n | no | `1` | number of images |
-| reference_image_urls | no | — | up to 14 URLs; switches mode to image-to-image |
+| 画面描述 | 是 | — | 图像画什么；按下文 prompt 公式撰写 |
+| size | 否 | `1024x1024` | 任意宽高，两边均为 16 的倍数 |
+| quality | 否 | `auto` | `auto` / `high` / `medium` / `low` |
+| n | 否 | `1` | 生成张数 |
+| reference_image_urls | 否 | — | 最多 14 个 URL；提供即切换为图生图模式 |
 
-Size constraints (VERIFY BEFORE USE against your gateway docs):
-both dimensions must be multiples of 16; aspect ratio within 1:3–3:1;
-total pixels between 655360 and 8294400.
+尺寸约束（使用前对照网关文档核实）：宽高都必须是 16 的倍数；宽高比在 1:3–3:1 之间；总像素在 655360–8294400 之间。
 
-Common sizes: 1024x1024, 1024x1536, 1536x1024, 960x1280, 1280x960,
-1088x1920, 1920x1088, 2048x2048, 2048x3072, 3072x2048, 1920x2560,
-2560x1920, 1440x2560, 2560x1440, 2160x3840, 3840x2160.
+常用尺寸：1024x1024、1024x1536、1536x1024、960x1280、1280x960、1088x1920、1920x1088、2048x2048、2048x3072、3072x2048、1920x2560、2560x1920、1440x2560、2560x1440、2160x3840、3840x2160。
 
-If the required input is missing, ask ONCE:
+必需输入缺失时，一次性问齐：
 
 > 请描述想要的画面：主体、风格、用途（如封面/插画/产品图）。可选告知：
 > 尺寸（默认 1024x1024）、画质（默认 auto）、数量（默认 1）、参考图 URL。
 
-## Preflight self-check
+## 前置自检
 
 ```bash
 curl -s -o /dev/null -w "%{http_code}" --max-time 5 "$IMAGE_GATEWAY_BASE/api/image/status?task_id=0"
 ```
 
-Expected: an HTTP code prints (gateway reachable). If connection fails:
-report the base URL problem, ask the user to start the gateway, STOP.
-Never fall back to drawing tools or placeholder files.
+预期：打印出任意 HTTP 码（网关可达）。连接失败：报告 base URL 问题，请用户启动网关，STOP。绝不退回到本地画图工具或占位文件。
 
-## Workflow
+## 工作流
 
-### Step 1: Resolve the gateway base
+### 步骤 1：确认网关地址
 
 ```bash
 IMAGE_GATEWAY_BASE="${IMAGE_GATEWAY_BASE:-http://127.0.0.1:30080}"
 echo "$IMAGE_GATEWAY_BASE"
 ```
 
-Expected: prints one URL.
+预期：打印出一个 URL。
 
-### Step 2: Compose the prompt
+### 步骤 2：撰写 prompt
 
-Describe objects, style, and any text layout precisely — instruction clarity
-and detail fidelity dominate output quality. Structure:
+精确描述物体、风格与文字排版——指令是否清晰、细节是否忠实，决定出图质量。结构：
 
 ```json
 [主体与细节] + [风格/媒介] + [构图与视角] + [文字排版要求，如有]
 ```
 
-Rules: concrete nouns over adjectives ("磨砂玻璃瓶上的水珠" not
-"好看的瓶子"); state style once clearly ("扁平插画、有限四色"); if the image
-must contain text, quote the exact string and its position ("顶部横排文字：
-春季上新").
+规则：具体名词优于形容词（写"磨砂玻璃瓶上的水珠"，不写"好看的瓶子"）；风格只说一次、说清楚（"扁平插画、有限四色"）；图上要出现文字时，逐字引用字符串并标注位置（"顶部横排文字：春季上新"）。
 
-### Step 3: Submit the task
+### 步骤 3：提交任务
 
-Text-to-image:
+文生图：
 
 ```bash
 curl -s -X POST "$IMAGE_GATEWAY_BASE/api/image/generate" \
@@ -91,44 +79,38 @@ curl -s -X POST "$IMAGE_GATEWAY_BASE/api/image/generate" \
   -d '{"model":"gpt-image-2","prompt":"<STEP-2 PROMPT>","params":{"size":"1024x1024","quality":"auto","n":1}}'
 ```
 
-Image-to-image adds `"images":["<url>", ...]` inside `params`.
+图生图在 `params` 里追加 `"images":["<url>", ...]`。
 
-Expected: JSON containing `task_id`. Failure branch — HTTP error or HTML:
-retry once verbatim, then report the status line and stop.
+预期：返回含 `task_id` 的 JSON。失败分支——HTTP 错误或返回 HTML：原样重试一次，仍失败则报告状态行并停止。
 
-### Step 4: Poll until final
+### 步骤 4：轮询至终态
 
 ```bash
 curl -s "$IMAGE_GATEWAY_BASE/api/image/status?task_id=<TASK_ID>"
 ```
 
-Poll every 3–5 seconds. Success condition: `is_final == true` AND
-`state == "success"`; take `result_url`. `is_final == true` with any other
-state is FAILURE — use the table below. Cap at 120 polls (≈8 min).
+每 3–5 秒轮询一次。成功条件：`is_final == true` 且 `state == "success"`，取 `result_url`。`is_final == true` 但 state 为其他值即失败——查下方失败处置表。轮询上限 120 次（约 8 分钟）。
 
-### Step 5: Download and deliver
+### 步骤 5：下载交付
 
 ```bash
 curl -s -L -o "image_$(date +%Y%m%d_%H%M%S).png" "<RESULT_URL>"
 ls -lh image_*.png
 ```
 
-Expected: non-empty .png in the working directory. Verify size > 0 before
-claiming success; report the absolute path.
+预期：工作目录出现非空 .png。确认文件大小 > 0 再宣布成功；报告绝对路径。
 
-## Failure handling
+## 失败处置表
 
-| Symptom | Likely cause | Action |
+| 现象 | 原因 | 处置 |
 |---|---|---|
-| curl cannot connect (preflight) | gateway down | ask user to start it; stop |
-| generate returns size/param error | constraint violation | fix size to multiples-of-16 + pixel/ratio bounds, resubmit once |
-| status stays `pending` > 8 min | queue stuck | report task_id, suggest resubmitting |
-| `state == "failed"` | prompt too vague or violating policy | rewrite prompt with concrete details, resubmit once |
-| downloaded file 0 bytes | expired URL | re-poll for fresh result_url, redownload once |
-| `result_url` missing though success | API shape changed | mark endpoint VERIFY BEFORE USE; report raw JSON to maintainer |
+| curl 无法连接（前置自检） | 网关未启动 | 请用户启动网关；停止 |
+| generate 返回尺寸/参数错误 | 违反尺寸约束 | 改成 16 倍数且符合像素/比例边界的尺寸，重新提交一次 |
+| status 一直 `pending` 超 8 分钟 | 队列卡住 | 报告 task_id，建议重新提交 |
+| `state == "failed"` | prompt 太含糊或触犯政策 | 用具体细节重写 prompt，重新提交一次 |
+| 下载文件 0 字节 | URL 已过期 | 重新轮询拿新的 result_url，再下载一次 |
+| 成功但缺 `result_url` | API 结构变更 | 把端点标记为"使用前核实"；把原始 JSON 报给维护者 |
 
-## Delivery standard
+## 交付标准
 
-Success = a local `.png`, size > 0, named `image_YYYYMMDD_HHMMSS.png`
-(timestamped), absolute path reported together with size/quality used.
-Anything else is not done — say so plainly and show the failure row above.
+成功 = 本地 `.png` 文件、大小 > 0、命名为 `image_YYYYMMDD_HHMMSS.png`（带时间戳），已报告绝对路径及所用的 size/quality。其余情况都算未完成——直说，并给出上方失败处置表的对应行。

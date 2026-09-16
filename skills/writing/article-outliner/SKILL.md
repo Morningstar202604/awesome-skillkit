@@ -116,13 +116,13 @@ metadata:
 
 ## 结构模式表
 
-| Pattern | Best For | Sections |
-|---------|----------|----------|
-| Problem → Solution | Technical articles | 3-5 |
-| Listicle | Tips, tricks, resources | N items + intro + outro |
-| Tutorial | How-to guides | Steps 1-N + prerequisites + result |
-| News | Announcements, updates | What → Why → How → Impact |
-| Opinion | Essays, commentary | Thesis → Arguments → Counter → Conclusion |
+| 模式 | 适用场景 | 章节 |
+|------|----------|------|
+| Problem → Solution | 技术文章 | 3-5 |
+| Listicle | 技巧、资源盘点 | N 项 + 开头 + 结尾 |
+| Tutorial | 操作指南 | 步骤 1-N + 前置条件 + 结果 |
+| News | 公告、更新 | 是什么 → 为什么 → 怎么做 → 影响 |
+| Opinion | 评论、观点文 | 论点 → 论据 → 反方 → 结论 |
 
 ## 参数速查表
 

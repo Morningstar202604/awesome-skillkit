@@ -24,7 +24,7 @@ metadata:
   verified-date: "2026-08-26"
 ---
 
-# 豆瓣 Publisher
+# 豆瓣发布客户端
 
 基于豆瓣 Web 内部接口发布日记、广播与小组话题；默认 dry-run，确认后才真正联网。
 

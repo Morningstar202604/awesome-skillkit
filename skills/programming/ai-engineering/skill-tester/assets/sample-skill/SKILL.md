@@ -12,65 +12,65 @@ description: "Reference BASIC-tier skill: text analysis and transformation with 
 
 ---
 
-**Name**: sample-text-processor
-**Tier**: BASIC
-**Category**: Text Processing
-**Dependencies**: None (Python Standard Library Only)
-**Author**: Claude Skills Engineering Team
-**Version**: 1.0.0
-**Last Updated**: 2026-02-16
+- **名称**：sample-text-processor
+- **层级**：BASIC
+- **类别**：文本处理
+- **依赖**：无（仅 Python 标准库）
+- **作者**：Claude Skills Engineering Team
+- **版本**：1.0.0
+- **更新日期**：2026-02-16
 
 ---
 
-## Description
+## 简介
 
-The Sample Text Processor is a simple skill designed to demonstrate the basic structure and functionality expected in the claude-skills ecosystem. This skill provides fundamental text processing capabilities including word counting, character analysis, and basic text transformations.
+Sample Text Processor 是一个简单的示范技能，用于展示 claude-skills 生态中技能应具备的基本结构与功能。它提供基础文本处理能力，包括词数统计、字符分析和基础文本变换。
 
-This skill serves as a reference implementation for BASIC tier requirements and can be used as a template for creating new skills. It demonstrates proper file structure, documentation standards, and implementation patterns that align with ecosystem best practices.
+本技能是 BASIC 层级要求的参考实现，可作为创建新技能的模板。它演示了符合生态最佳实践的文件结构、文档标准和实现模式。
 
-The skill processes text files and provides statistics and transformations in both human-readable and JSON formats, showcasing the dual output requirement for skills in the claude-skills repository.
+技能处理文本文件，以人读和 JSON 两种格式输出统计与变换结果，体现 claude-skills 仓库对技能双输出格式的要求。
 
-## Features
+## 功能特性
 
-### Core Functionality
+### 核心功能
 
-- **Word Count Analysis**: Count total words, unique words, and word frequency
-- **Character Statistics**: Analyze character count, line count, and special characters
-- **Text Transformations**: Convert text to uppercase, lowercase, or title case
-- **File Processing**: Process single text files or batch process directories
-- **Dual Output Formats**: Generate results in both JSON and human-readable formats
+- **词数分析**：统计总词数、去重词数与词频
+- **字符统计**：分析字符数、行数与特殊字符
+- **文本变换**：转换为大写、小写或标题式大小写
+- **文件处理**：处理单个文本文件或批量处理目录
+- **双输出格式**：同时支持 JSON 与人读格式
 
-### Technical Features
+### 技术特性
 
-- Command-line interface with comprehensive argument parsing
-- Error handling for common file and processing issues
-- Progress reporting for batch operations
-- Configurable output formatting and verbosity levels
-- Cross-platform compatibility with standard library only dependencies
+- 带完整参数解析的命令行界面
+- 覆盖常见文件与处理问题的错误处理
+- 批量操作的进度上报
+- 可配置的输出格式与详细程度
+- 仅依赖标准库，跨平台可用
 
-## Usage
+## 用法
 
-### Basic Text Analysis
+### 基础文本分析
 ```bash
 python text_processor.py analyze document.txt
 python text_processor.py analyze document.txt --output results.json
 ```
 
-### Text Transformation
+### 文本转换
 ```bash
 python text_processor.py transform document.txt --mode uppercase
 python text_processor.py transform document.txt --mode title --output transformed.txt
 ```
 
-### Batch Processing
+### 批量处理
 ```bash
 python text_processor.py batch text_files/ --output results/
 python text_processor.py batch text_files/ --format json --output batch_results.json
 ```
 
-## Examples
+## 示例
 
-### Example 1: Basic Word Count
+### 示例 1：基础词数统计
 ```bash
 $ python text_processor.py analyze sample.txt
 === TEXT ANALYSIS RESULTS ===
@@ -82,7 +82,7 @@ Lines: 12
 Most frequent word: "the" (8 occurrences)
 ```
 
-### Example 2: JSON Output
+### 示例 2：JSON 输出
 ```bash
 $ python text_processor.py analyze sample.txt --format json
 {
@@ -100,76 +100,78 @@ $ python text_processor.py analyze sample.txt --format json
 }
 ```
 
-### Example 3: Text Transformation
+### 示例 3：文本转换
 ```bash
 $ python text_processor.py transform sample.txt --mode title
 Original: "hello world from the text processor"
 Transformed: "Hello World From The Text Processor"
 ```
 
-## Installation
+## 安装
 
-This skill requires only Python 3.7 or later with the standard library. No external dependencies are required.
+本技能只需 Python 3.7 及以上版本与标准库，无任何外部依赖。
 
-1. Clone or download the skill directory
-2. Navigate to the scripts directory
-3. Run the text processor directly with Python
+1. 克隆或下载技能目录
+2. 进入 scripts 目录
+3. 用 Python 直接运行文本处理器
 
 ```bash
 cd scripts/
 python text_processor.py --help
 ```
 
-## Configuration
+## 配置
 
-The text processor supports various configuration options through command-line arguments:
+文本处理器通过命令行参数支持多种配置项：
 
-- `--format`: Output format (json, text)
-- `--verbose`: Enable verbose output and progress reporting
-- `--output`: Specify output file or directory
-- `--encoding`: Specify text file encoding (default: utf-8)
+- `--format`：输出格式（json、text）
+- `--verbose`：开启详细输出与进度上报
+- `--output`：指定输出文件或目录
+- `--encoding`：指定文本文件编码（默认 utf-8）
 
-## Architecture
+## 架构
 
-The skill follows a simple modular architecture:
+技能采用简单的模块化架构：
 
-- **TextProcessor Class**: Core processing logic and statistics calculation
-- **OutputFormatter Class**: Handles dual output format generation
-- **FileManager Class**: Manages file I/O operations and batch processing
-- **CLI Interface**: Command-line argument parsing and user interaction
+- **TextProcessor 类**：核心处理逻辑与统计计算
+- **OutputFormatter 类**：负责双输出格式生成
+- **FileManager 类**：管理文件 I/O 与批量处理
+- **CLI 界面**：命令行参数解析与用户交互
 
-## Error Handling
+## 错误处理
 
-The skill includes comprehensive error handling for:
-- File not found or permission errors
-- Invalid encoding or corrupted text files
-- Memory limitations for very large files
-- Output directory creation and write permissions
-- Invalid command-line arguments and parameters
+技能覆盖以下错误场景：
 
-## Performance Considerations
+- 文件不存在或权限错误
+- 编码无效或文本文件损坏
+- 超大文件带来的内存限制
+- 输出目录创建与写权限问题
+- 命令行参数无效
 
-- Efficient memory usage for large text files through streaming
-- Optimized word counting using dictionary lookups
-- Batch processing with progress reporting for large datasets
-- Configurable encoding detection for international text
+## 性能考量
 
-## Contributing
+- 通过流式处理控制大文本文件的内存占用
+- 用字典查找优化词数统计
+- 批量处理大数据集时上报进度
+- 可配置编码检测，支持国际化文本
 
-This skill serves as a reference implementation and contributions are welcome to demonstrate best practices:
+## 参与贡献
 
-1. Follow PEP 8 coding standards
-2. Include comprehensive docstrings
-3. Add test cases with sample data
-4. Update documentation for any new features
-5. Ensure backward compatibility
+本技能是参考实现，欢迎以演示最佳实践为目的的贡献：
 
-## Limitations
+1. 遵循 PEP 8 编码规范
+2. 编写完整的 docstring
+3. 用示例数据补充测试用例
+4. 为新功能更新文档
+5. 保持向后兼容
 
-As a BASIC tier skill, some advanced features are intentionally omitted:
-- Complex text analysis (sentiment, language detection)
-- Advanced file format support (PDF, Word documents)
-- Database integration or external API calls
-- Parallel processing for very large datasets
+## 局限
 
-This skill demonstrates the essential structure and quality standards required for BASIC tier skills in the claude-skills ecosystem while remaining simple and focused on core functionality.
+作为 BASIC 层级技能，以下高级能力被有意省略：
+
+- 复杂文本分析（情感分析、语言检测）
+- 高级文件格式支持（PDF、Word 文档）
+- 数据库集成或外部 API 调用
+- 超大数据集的并行处理
+
+本技能在保持简单、聚焦核心功能的同时，展示了 claude-skills 生态中 BASIC 层级技能所需的基本结构与质量标准。

@@ -23,7 +23,7 @@ metadata:
 | plan_json | 是 | code-intent-planner 输出的完整 JSON | code-intent-planner |
 | project_root | 否 | 项目根目录 | 自动探测 |
 | output_dir | 否 | 代码输出目录 | 当前工作目录 |
-| session_id | 否 | 会话标识（跨轮复用） | auto-generated |
+| session_id | 否 | 会话标识（跨轮复用） | 自动生成 |
 | dry_run | 否 | 只输出计划不写入文件 | false |
 
 缺失时询问模板：「请提供：① code-intent-planner 输出的 JSON（或 plan 文件路径）。项目目录自动探测。」
@@ -52,12 +52,12 @@ test -d references/templates && echo "OK templates present"
 
 | 意图类型 | 覆盖模式 | 示例 |
 |---------|---------|------|
-| implement.feature | CRUD model + service + API | 用户注册/登录 |
-| implement.api | REST controller + DTO + validation | 订单接口 |
-| implement.component | UI component（React/Vue/Svelte） | 登录表单 |
-| fix.runtime | Bug fix template + patch | 空指针修复 |
-| test.coverage | Test stub generation | 覆盖率补全 |
-| refactor | Refactor skeleton + checklist | 模块重构 |
+| implement.feature | CRUD 模型 + service + API | 用户注册/登录 |
+| implement.api | REST controller + DTO + 参数校验 | 订单接口 |
+| implement.component | UI 组件（React/Vue/Svelte） | 登录表单 |
+| fix.runtime | Bug 修复模板 + 补丁 | 空指针修复 |
+| test.coverage | 测试桩生成 | 覆盖率补全 |
+| refactor | 重构骨架 + 检查清单 | 模块重构 |
 
 **模式匹配规则**（按优先级）：① 技术栈→语言/框架决定模板语言；② 意图类型→决定代码结构；③ 槽位 target→决定文件名与模块名；④ 项目已有代码→决定风格一致性。
 
