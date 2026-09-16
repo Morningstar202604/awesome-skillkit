@@ -29,6 +29,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **全仓 113 个 SKILL.md 逐篇内容质量重构（机器优先规范）**：统一骨架
+  输入清单 / 前置自检 / 工作流（动作+预期+若失败三件套）/ 参数速查表 /
+  失败处置表 / 交付标准 / 参考（何时读）。审计中实测脚本逐个核实，修复一批
+  真实缺陷：编造的 CLI 参数（tex-cleaner `--check`、schema_explorer
+  `--dialect` 等 4 处）、不存在的脚本引用（`spec_validator.py`）、缺
+  `scripts/` 前缀的脚本路径（5 处）、编造的输出结构（2 处）、失真的
+  compatibility 声明；盘上存在但从未被引用的 references 全部挂入参考章节。
+  同轮完成机械规范化：全文单 H1、彩色 emoji 归零（保留 →≤≥✓① 等有用符号）、
+  裸代码块补语言、标题粘连清零、行尾空白清理。门禁：pytest 257 passed /
+  validate 0 error 0 warning / 正文全部 <500 行。
+
 - **站点部署只走 main 分支，废弃发布分支**：删除 `tools/publish_site.py` 与远程
   `gh-pages` 分支。GitCode Pages 直接指向 `main` 的 `/site` 目录，GitHub Pages 走
   Actions（同样不产生分支）；`site/skills/`、`site/packs/` 生成副本相应改为**提交进
