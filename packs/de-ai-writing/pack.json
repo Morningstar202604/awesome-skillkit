@@ -1,0 +1,21 @@
+{
+  "id": "de-ai-writing",
+  "name": "De-AI Writing",
+  "name_zh": "去 AI 味写作",
+  "description": "Rewrite AI-generated text into natural human writing: trace auditing, humanized rewriting, personal voice profiling.",
+  "description_zh": "把 AI 生成文本改写成自然的人味文字：AI 痕迹审计、人性化重写、个人风格画像对齐。让 AI 代笔的内容读起来像你自己写的。",
+  "skills": [
+    {
+      "name": "ai-trace-auditor",
+      "source": "original"
+    },
+    {
+      "name": "humanize-rewriter",
+      "source": "original, extends ai-humanizer"
+    },
+    {
+      "name": "personal-voice-profile",
+      "source": "original"
+    }
+  ]
+}

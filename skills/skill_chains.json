@@ -213,7 +213,10 @@
         "v2ex-publisher",
         "segmentfault-publisher",
         "oschina-publisher",
-        "static-blog-deploy"
+        "static-blog-deploy",
+        "ai-trace-auditor",
+        "humanize-rewriter",
+        "personal-voice-profile"
       ],
       "chains": {
         "article": [
@@ -230,6 +233,11 @@
           "content-editor",
           "seo-optimizer",
           "cross-post-orchestrator?"
+        ],
+        "de_ai_pipeline": [
+          "ai-trace-auditor",
+          "humanize-rewriter",
+          "personal-voice-profile"
         ]
       }
     },
@@ -338,7 +346,10 @@
       "skills": [
         "course-designer",
         "exercise-generator",
-        "feynman-explainer"
+        "feynman-explainer",
+        "assignment-intake",
+        "solution-drafter",
+        "own-voice-rewrite"
       ],
       "chains": {
         "full_course": [
@@ -352,6 +363,15 @@
         ],
         "remedial_only": [
           "feynman-explainer"
+        ],
+        "homework_autopilot": [
+          "assignment-intake",
+          "solution-drafter",
+          "own-voice-rewrite"
+        ],
+        "humanized_homework": [
+          "assignment-intake",
+          "own-voice-rewrite"
         ]
       }
     },
@@ -429,6 +449,32 @@
           "self-reviewer",
           "journal-adapt",
           "tex-cleaner"
+        ]
+      }
+    },
+    "memory": {
+      "entry": "memory-architect",
+      "skills": [
+        "memory-architect",
+        "memory-extractor",
+        "memory-manager",
+        "memory-retriever"
+      ],
+      "chains": {
+        "full_memory_stack": [
+          "memory-architect",
+          "memory-extractor",
+          "memory-manager",
+          "memory-retriever"
+        ],
+        "retrofit_memory": [
+          "memory-architect",
+          "memory-retriever"
+        ],
+        "populate_and_serve": [
+          "memory-extractor",
+          "memory-manager",
+          "memory-retriever"
         ]
       }
     }

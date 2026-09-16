@@ -1,0 +1,25 @@
+{
+  "id": "memory-systems",
+  "name": "Memory Systems",
+  "name_zh": "长期记忆系统",
+  "description": "Design, populate, manage and retrieve long-term memory for AI agents: layered architecture, extraction, lifecycle and hybrid retrieval.",
+  "description_zh": "为 AI agent 设计、填充、管理与检索长期记忆：分层架构、记忆抽取、生命周期管理与混合检索。方法论蒸馏自 mem0 / letta (MemGPT) / Claude memory tool。",
+  "skills": [
+    {
+      "name": "memory-architect",
+      "source": "mem0 / letta / claude memory tool (methodology distilled)"
+    },
+    {
+      "name": "memory-extractor",
+      "source": "mem0 (methodology distilled)"
+    },
+    {
+      "name": "memory-manager",
+      "source": "letta (methodology distilled)"
+    },
+    {
+      "name": "memory-retriever",
+      "source": "mem0 / letta (methodology distilled)"
+    }
+  ]
+}

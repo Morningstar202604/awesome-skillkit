@@ -16,6 +16,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.15.0] - 2026-09-16
+
+### Added
+
+- **新场景包 ×4 / 新技能 ×10（第 13 个域：memory）**：
+  - `memory-systems` 长期记忆系统：memory-architect（分层架构设计）/ memory-extractor（对话→记忆条目）/
+    memory-manager（生命周期与冲突消解）/ memory-retriever（混合检索与预算注入）——方法论蒸馏自
+    mem0、letta (MemGPT)、Claude memory tool，references 署名。
+  - `de-ai-writing` 去 AI 味写作：ai-trace-auditor（痕迹体检，附实测脚本 trace_scanner.py：句长方差 +
+    中英 AI 高频词表）/ humanize-rewriter（burstiness + 具体性 + 情绪注入）/ personal-voice-profile（个人风格画像）。
+  - `homework-autopilot` 作业自动驾驶：assignment-intake（九题型审题拆解）/ solution-drafter（分题型作答）/
+    own-voice-rewrite（学生口吻重写，红线：不虚构经历、保留可复述难度、不担保过检测）。
+  - `image-studio` 画图工作台：组包 image-prompt-engineer / image-generation / visual-style-anchor / ai-cover-generator。
+- 新链 6 条：full_memory_stack、retrofit_memory、populate_and_serve、homework_autopilot、
+  humanized_homework、de_ai_pipeline。全量 122 技能 / 31 包 / 13 域 / 45 链，validate 0/0，pytest 257 passed。
+
 ## [0.14.1] - 2026-09-16
 
 ### Changed

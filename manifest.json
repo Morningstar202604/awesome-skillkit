@@ -1,6 +1,6 @@
 {
   "hub": "awesome-skillkit",
-  "version": "0.14.1",
+  "version": "0.15.0",
   "updated": "2026-09-16",
   "description": "Curated scene packs for AI tools: each pack = one real-world scenario, containing multiple skills. Download zip -> unzip -> drag the skill folders into your AI tool's skills directory.",
   "description_zh": "精选场景包合集：每个场景包 = 一个真实场景，内含多个 skill。下载 zip -> 解压 -> 把 skill 文件夹拖进 AI 工具的 skills 目录即可使用。",
@@ -526,6 +526,30 @@
       "sha256": "70e69832bc4834405089b52072f76968857c226fd27c5c401c8187ad3c28020b"
     },
     {
+      "id": "de-ai-writing",
+      "name": "De-AI Writing",
+      "name_zh": "去 AI 味写作",
+      "description": "Rewrite AI-generated text into natural human writing: trace auditing, humanized rewriting, personal voice profiling.",
+      "description_zh": "把 AI 生成文本改写成自然的人味文字：AI 痕迹审计、人性化重写、个人风格画像对齐。让 AI 代笔的内容读起来像你自己写的。",
+      "file": "dist/de-ai-writing.zip",
+      "skills": [
+        {
+          "name": "ai-trace-auditor",
+          "source": "original"
+        },
+        {
+          "name": "humanize-rewriter",
+          "source": "original, extends ai-humanizer"
+        },
+        {
+          "name": "personal-voice-profile",
+          "source": "original"
+        }
+      ],
+      "size_kb": 26,
+      "sha256": "47b15e2dfc4b9948d94937b9eccee828bbbed0701f0bb04d49af8d26791067d9"
+    },
+    {
       "id": "edu-craft",
       "name": "Edu Craft",
       "name_zh": "教育工艺",
@@ -598,6 +622,58 @@
       "sha256": "2a548ca1de5d8567b47dd9c84fe616c67911d66d4fb630c1351740f0f006ff2e"
     },
     {
+      "id": "homework-autopilot",
+      "name": "Homework Autopilot",
+      "name_zh": "作业自动驾驶",
+      "description": "One-shot homework completion pipeline with a human voice: assignment intake, per-type solution drafting, rewrite in the student's own words.",
+      "description_zh": "一键完成老师布置的任务，但保住人味：审题拆解、分题型作答、再用学生自己的口吻重写。真实素材注入、年级语言水平校准，拒绝冷血模板文。",
+      "file": "dist/homework-autopilot.zip",
+      "skills": [
+        {
+          "name": "assignment-intake",
+          "source": "original"
+        },
+        {
+          "name": "solution-drafter",
+          "source": "original"
+        },
+        {
+          "name": "own-voice-rewrite",
+          "source": "original, pairs with ai-trace-auditor"
+        }
+      ],
+      "size_kb": 19,
+      "sha256": "28cea908c7ec79186624f652811239cbd123080dace7d9d1b657f5c1645e29dc"
+    },
+    {
+      "id": "image-studio",
+      "name": "Image Studio",
+      "name_zh": "画图工作台",
+      "description": "End-to-end image creation workspace: prompt engineering, style anchoring, generation via gateway, cover art.",
+      "description_zh": "端到端画图工作台：生图提示词工程、风格锚定、网关生图执行、封面图生成。把散落的生图技能组装成一条龙。",
+      "file": "dist/image-studio.zip",
+      "skills": [
+        {
+          "name": "image-prompt-engineer",
+          "source": "existing (design)"
+        },
+        {
+          "name": "image-generation",
+          "source": "existing (video)"
+        },
+        {
+          "name": "visual-style-anchor",
+          "source": "existing (video)"
+        },
+        {
+          "name": "ai-cover-generator",
+          "source": "existing (writing/assets)"
+        }
+      ],
+      "size_kb": 26,
+      "sha256": "4ad9877de5e6b374e89dc7d7eba837f5f851cf964725c5bc326b8a953e2b39f7"
+    },
+    {
       "id": "incident-response",
       "name": "Incident Response & SRE",
       "name_zh": "故障响应与 SRE",
@@ -644,6 +720,34 @@
         }
       ],
       "sha256": "d34f0f82d72765b65e7004d6c7493444b59d9a8699882195faba9f760b1573c7"
+    },
+    {
+      "id": "memory-systems",
+      "name": "Memory Systems",
+      "name_zh": "长期记忆系统",
+      "description": "Design, populate, manage and retrieve long-term memory for AI agents: layered architecture, extraction, lifecycle and hybrid retrieval.",
+      "description_zh": "为 AI agent 设计、填充、管理与检索长期记忆：分层架构、记忆抽取、生命周期管理与混合检索。方法论蒸馏自 mem0 / letta (MemGPT) / Claude memory tool。",
+      "file": "dist/memory-systems.zip",
+      "skills": [
+        {
+          "name": "memory-architect",
+          "source": "mem0 / letta / claude memory tool (methodology distilled)"
+        },
+        {
+          "name": "memory-extractor",
+          "source": "mem0 (methodology distilled)"
+        },
+        {
+          "name": "memory-manager",
+          "source": "letta (methodology distilled)"
+        },
+        {
+          "name": "memory-retriever",
+          "source": "mem0 / letta (methodology distilled)"
+        }
+      ],
+      "size_kb": 25,
+      "sha256": "5f4d7e889d4109cfaadcac41661f164ab253d3547a006043b0e30e9602bcc782"
     },
     {
       "id": "office-productivity",

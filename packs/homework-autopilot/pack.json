@@ -1,0 +1,21 @@
+{
+  "id": "homework-autopilot",
+  "name": "Homework Autopilot",
+  "name_zh": "作业自动驾驶",
+  "description": "One-shot homework completion pipeline with a human voice: assignment intake, per-type solution drafting, rewrite in the student's own words.",
+  "description_zh": "一键完成老师布置的任务，但保住人味：审题拆解、分题型作答、再用学生自己的口吻重写。真实素材注入、年级语言水平校准，拒绝冷血模板文。",
+  "skills": [
+    {
+      "name": "assignment-intake",
+      "source": "original"
+    },
+    {
+      "name": "solution-drafter",
+      "source": "original"
+    },
+    {
+      "name": "own-voice-rewrite",
+      "source": "original, pairs with ai-trace-auditor"
+    }
+  ]
+}

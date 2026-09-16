@@ -1,0 +1,25 @@
+{
+  "id": "image-studio",
+  "name": "Image Studio",
+  "name_zh": "画图工作台",
+  "description": "End-to-end image creation workspace: prompt engineering, style anchoring, generation via gateway, cover art.",
+  "description_zh": "端到端画图工作台：生图提示词工程、风格锚定、网关生图执行、封面图生成。把散落的生图技能组装成一条龙。",
+  "skills": [
+    {
+      "name": "image-prompt-engineer",
+      "source": "existing (design)"
+    },
+    {
+      "name": "image-generation",
+      "source": "existing (video)"
+    },
+    {
+      "name": "visual-style-anchor",
+      "source": "existing (video)"
+    },
+    {
+      "name": "ai-cover-generator",
+      "source": "existing (writing/assets)"
+    }
+  ]
+}
