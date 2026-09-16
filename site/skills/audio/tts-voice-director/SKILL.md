@@ -91,3 +91,4 @@ outro 音乐（fade out，匹配 intro 风格）
 ## 参考
 
 - [voice-catalog.md](references/voice-catalog.md) —— 声音目录：各家 TTS 的声音 ID、气质映射与核实方法
+- [emotion-delivery-lexicon.md](references/emotion-delivery-lexicon.md) —— 情绪表演词库：情绪→文案手法对照、标点停顿层级、重音位置、对话节奏、参数档位（"情绪平"时先查这张再改脚本）

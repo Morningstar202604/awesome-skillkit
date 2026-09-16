@@ -116,3 +116,7 @@ ls -lh music_*.mp3
 ## 链条衔接（下游建议）
 
 本技能产出 BGM / 配乐，可作为 video 域 meme / talking_character 链的 music-generation 步骤输入（video 域 chains 已登记 music-generation，但本技能未列入 skills 列表，属游离）。建议在 video 域 skills 列表中补登本技能以完成衔接。衔接仅为文字描述。
+
+## 参考
+
+- [music-style-lexicon.md](references/music-style-lexicon.md) —— 音乐风格词库：五槽位 Style 公式、曲风族谱种子、情绪×BPM 对照、结构/人声/乐器 tag 全集、制作美学词、负面清单与现成种子（填风格简报时先查这张）

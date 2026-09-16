@@ -16,6 +16,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.16.1] - 2026-09-16
+
+### Added
+
+- **细节词库 ×3（v0.16.0 词库计划的第二梯队，举一反三扫描全仓 13 域后按"零词库裸奔"优先补齐）**：
+  - `music-generation/references/music-style-lexicon.md`：五槽位 Style 公式（曲风两级/情绪/人声三层/乐器点名/
+    制作+BPM）、曲风族谱 9 族种子、情绪×BPM 对照（禁配警告）、结构/人声/乐器 tag 全集、8 种制作美学词、
+    负面清单与 5 条现成种子——调研 Suno 官方与五家社区指南蒸馏，references 署名。
+  - `ppt-builder/references/layout-and-chart-rules.md`：字号层级表（6 元素最小/推荐值）、信息密度三档、
+    图表选择决策树（比较/趋势/占比/相关/流程→图型映射 + 图表纪律）、对齐网格、WCAG 对比度基准、负面清单。
+  - `product-copywriter/references/copywriting-formulas.md`：10 型标题公式（带例）、PAS/FAB/AIDA 结构模板、
+    CTA 按场景词库、四平台调性差异表（同一卖点四种写法）、负面清单。
+- 交叉挂链 3 处：video-script-writer 与 storyboard-designer 挂 cinematography-lexicon（脚本镜头指示词
+  统一从词库选），product-copywriter 挂 copywriting-formulas。
+
 ## [0.16.0] - 2026-09-16
 
 ### Added

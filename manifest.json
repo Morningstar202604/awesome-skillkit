@@ -48,7 +48,7 @@
       "description": "Generate videos, images, covers, and music from prompts through a local generation gateway.",
       "description_zh": "通过本地生成网关用提示词生成视频、图片、封面与配乐：文生/图生全流程（提交、轮询、下载交付）。",
       "file": "dist/ai-media-toolkit.zip",
-      "size_kb": 19,
+      "size_kb": 24,
       "skills": [
         {
           "name": "video-generation",
@@ -67,7 +67,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "2a44797ad3348d94e0e18ad0822660717b30870fa36a24d2ae29bf41825103a9"
+      "sha256": "c2fcc960d9eb6223aaea0cb8bf4b262b68897b80250208539d04469332fa4cb0"
     },
     {
       "id": "ai-research-writing",
@@ -191,7 +191,7 @@
         }
       ],
       "size_kb": 74,
-      "sha256": "2ccd16eb5e8173ba5394a5176ee5a4987bbf1a25b79390414ff277d6c656b555"
+      "sha256": "80bed5edf0bb470e1d078dbe1f5bc3cb3d103c6b94143d8135a37ef6f702772d"
     },
     {
       "id": "api-development",
@@ -618,8 +618,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 12,
-      "sha256": "2a548ca1de5d8567b47dd9c84fe616c67911d66d4fb630c1351740f0f006ff2e"
+      "size_kb": 15,
+      "sha256": "0d10db38aa14327d0e3963ed8509f243ba9c025dd0976a6cc6d9dd3a0268d699"
     },
     {
       "id": "homework-autopilot",
@@ -756,7 +756,7 @@
       "description": "Daily office work: decks, spreadsheets, resumes, meeting minutes.",
       "description_zh": "日常办公四件套：PPT 制作、Excel 清洗分析、简历岗位定制、会议纪要结构化。",
       "file": "dist/office-productivity.zip",
-      "size_kb": 33,
+      "size_kb": 36,
       "skills": [
         {
           "name": "ppt-builder",
@@ -787,7 +787,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "0551c9d5dc9685e2e5b434caed57d569d3d25bfd1e8d9eb0995a4f0ab0e459d2"
+      "sha256": "2a02ebb06c06cfbd26ff32bafe6763af289e49de3181d3857af22134fd0cffe8"
     },
     {
       "id": "performance",
@@ -871,7 +871,7 @@
         }
       ],
       "size_kb": 40,
-      "sha256": "af7b5fcff3d8a25d66d50524806078e386d881edcfb30287ebe68e1b1da4cb74"
+      "sha256": "b4be26efd0d6aefaf8815d1a471d5a8ebad78dd8eea717aa1fd4de185b0670c4"
     },
     {
       "id": "viral-entertainment",

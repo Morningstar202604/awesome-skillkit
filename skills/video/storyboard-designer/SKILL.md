@@ -124,6 +124,7 @@ python3 scripts/scene_lint.py storyboard/
 
 ## 参考
 
+- [cinematography-lexicon.md](../video-prompt-engineer/references/cinematography-lexicon.md) — 镜头语言深度词库：17 种转场、动作动词空间语义、微表情表演、速度节奏（分镜卡"镜头指示"列从这张选词）
 - [sources-and-methodology.md](references/sources-and-methodology.md) —— 分镜方法论的开源出处与致谢（必读，理解为何这样设计）
 - 同包的 `shot-recipe-designer` 技能（注意：跨技能禁止链接引用，此处仅文字提及）——需要更细的运镜/转场设计时单独调用它
 

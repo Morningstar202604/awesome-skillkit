@@ -103,3 +103,4 @@ notes 总词量支撑目标时长（约 1 分钟/页）。发现违规就改规�
 ## 参考
 
 - `scripts/make_pptx.py` — 直接运行（执行，不要读）；先校验规格再渲染
+- [layout-and-chart-rules.md](references/layout-and-chart-rules.md) — 版式与图表规则词库：字号层级表、信息密度三档、图表选择决策树（什么数据配什么图）、对齐网格、配色对比度基准、负面清单（排版规格与图表选型时查）

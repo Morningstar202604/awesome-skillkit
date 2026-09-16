@@ -84,4 +84,5 @@ test -f references/sources-and-methodology.md && echo OK
 
 ## 参考
 
+- [copywriting-formulas.md](references/copywriting-formulas.md) —— 文案公式库：10 型标题公式（带例）、PAS/FAB/AIDA 结构模板、CTA 按场景词库、平台调性差异表、负面清单（写标题与正文前先查这张）
 - [sources-and-methodology.md](references/sources-and-methodology.md) —— 直复营销框架出处与署名

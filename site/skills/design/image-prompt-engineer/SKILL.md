@@ -97,3 +97,4 @@ test -f references/model-dialects.md && echo OK
 ## 参考
 
 - [model-dialects.md](references/model-dialects.md) —— 图像模型方言与文字渲染规则（核实链接在内）
+- [visual-detail-lexicon.md](references/visual-detail-lexicon.md) —— 深度词库：三层光照、构图、焦段透视性格、材质微细节、色彩方案、静态图动势词、场景模板（写 prompt 时优先查这张）
