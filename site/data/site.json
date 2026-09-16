@@ -11,14 +11,18 @@
   "n_domains": 12,
   "n_chains": 39,
   "github": {
-   "repo": "MS33834/awesome-skillkit",
-   "url": "https://github.com/MS33834/awesome-skillkit",
-   "raw": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main"
+   "repo": "x33834/awesome-skillkit",
+   "url": "https://github.com/x33834/awesome-skillkit",
+   "raw": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main"
   },
   "gitcode": {
    "repo": "badhope/awesome-skillkit",
    "url": "https://gitcode.com/badhope/awesome-skillkit",
    "raw": "https://gitcode.com/badhope/awesome-skillkit/raw/main"
+  },
+  "gitee": {
+   "repo": "badhope/awesome-skillkit",
+   "url": "https://gitee.com/badhope/awesome-skillkit"
   }
  },
  "domains": [
@@ -499,7 +503,7 @@
    "packs": [
     "ai-agent-development"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/workflow/agent-designer/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/workflow/agent-designer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/workflow/agent-designer/SKILL.md"
   },
   {
@@ -518,7 +522,7 @@
    "packs": [
     "viral-entertainment"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/video/ai-baby-podcast/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/video/ai-baby-podcast/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/video/ai-baby-podcast/SKILL.md"
   },
   {
@@ -538,7 +542,7 @@
     "ai-media-toolkit",
     "content-publishing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/writing/assets/ai-cover-generator/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/assets/ai-cover-generator/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/assets/ai-cover-generator/SKILL.md"
   },
   {
@@ -557,7 +561,7 @@
    "packs": [
     "ai-research-writing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/paper/ai-humanizer/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/paper/ai-humanizer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/paper/ai-humanizer/SKILL.md"
   },
   {
@@ -576,7 +580,7 @@
    "packs": [
     "ai-research-writing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/paper/anti-defensive/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/paper/anti-defensive/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/paper/anti-defensive/SKILL.md"
   },
   {
@@ -596,7 +600,7 @@
     "api-development",
     "code-review"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/api/api-design-reviewer/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/api/api-design-reviewer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/api/api-design-reviewer/SKILL.md"
   },
   {
@@ -615,7 +619,7 @@
    "packs": [
     "api-development"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/api/api-test-suite-builder/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/api/api-test-suite-builder/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/api/api-test-suite-builder/SKILL.md"
   },
   {
@@ -634,7 +638,7 @@
    "packs": [
     "ai-research-writing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/paper/arch-diagram/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/paper/arch-diagram/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/paper/arch-diagram/SKILL.md"
   },
   {
@@ -653,7 +657,7 @@
    "packs": [
     "ai-research-writing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/writing/article-drafter/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/article-drafter/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/article-drafter/SKILL.md"
   },
   {
@@ -672,7 +676,7 @@
    "packs": [
     "ai-research-writing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/writing/article-outliner/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/article-outliner/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/article-outliner/SKILL.md"
   },
   {
@@ -691,7 +695,7 @@
    "packs": [
     "content-publishing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/writing/news/baijiahao-publisher/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/news/baijiahao-publisher/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/news/baijiahao-publisher/SKILL.md"
   },
   {
@@ -710,7 +714,7 @@
    "packs": [
     "content-publishing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/writing/video/bilibili-publisher/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/video/bilibili-publisher/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/video/bilibili-publisher/SKILL.md"
   },
   {
@@ -729,7 +733,7 @@
    "packs": [
     "growth-marketing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/marketing/campaign-designer/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/marketing/campaign-designer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/campaign-designer/SKILL.md"
   },
   {
@@ -748,7 +752,7 @@
    "packs": [
     "github-workflow"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/github/changelog-generator/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/github/changelog-generator/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/github/changelog-generator/SKILL.md"
   },
   {
@@ -767,7 +771,7 @@
    "packs": [
     "growth-marketing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/marketing/channel-adapter/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/marketing/channel-adapter/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/channel-adapter/SKILL.md"
   },
   {
@@ -786,7 +790,7 @@
    "packs": [
     "chat-prompt-craft"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/chat/chat-prompt-engineer/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/chat/chat-prompt-engineer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/chat/chat-prompt-engineer/SKILL.md"
   },
   {
@@ -805,7 +809,7 @@
    "packs": [
     "ci-cd"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/cicd/ci-cd-pipeline-builder/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/cicd/ci-cd-pipeline-builder/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/cicd/ci-cd-pipeline-builder/SKILL.md"
   },
   {
@@ -824,7 +828,7 @@
    "packs": [
     "content-publishing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/writing/blog/cnblogs-skill/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/blog/cnblogs-skill/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/blog/cnblogs-skill/SKILL.md"
   },
   {
@@ -843,7 +847,7 @@
    "packs": [
     "code-planning"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/planning/code-generator/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/planning/code-generator/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/planning/code-generator/SKILL.md"
   },
   {
@@ -862,7 +866,7 @@
    "packs": [
     "code-planning"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/planning/code-intent-planner/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/planning/code-intent-planner/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/planning/code-intent-planner/SKILL.md"
   },
   {
@@ -881,7 +885,7 @@
    "packs": [
     "code-review"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/code-quality/code-reviewer/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/code-quality/code-reviewer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/code-quality/code-reviewer/SKILL.md"
   },
   {
@@ -900,7 +904,7 @@
    "packs": [
     "ai-research-writing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/writing/content-editor/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/content-editor/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/content-editor/SKILL.md"
   },
   {
@@ -919,7 +923,7 @@
    "packs": [
     "edu-craft"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/education/course-designer/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/education/course-designer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/education/course-designer/SKILL.md"
   },
   {
@@ -938,7 +942,7 @@
    "packs": [
     "content-publishing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/writing/orchestrator/cross-post-orchestrator/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/orchestrator/cross-post-orchestrator/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/orchestrator/cross-post-orchestrator/SKILL.md"
   },
   {
@@ -957,7 +961,7 @@
    "packs": [
     "content-publishing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/writing/blog/csdn-publisher/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/blog/csdn-publisher/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/blog/csdn-publisher/SKILL.md"
   },
   {
@@ -976,7 +980,7 @@
    "packs": [
     "database"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/database/database-designer/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/database/database-designer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/database/database-designer/SKILL.md"
   },
   {
@@ -995,7 +999,7 @@
    "packs": [
     "code-planning"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/debug/debug-diagnoser/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/debug/debug-diagnoser/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/debug/debug-diagnoser/SKILL.md"
   },
   {
@@ -1014,7 +1018,7 @@
    "packs": [
     "ai-research-writing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/planning/deep-research/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/planning/deep-research/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/planning/deep-research/SKILL.md"
   },
   {
@@ -1033,7 +1037,7 @@
    "packs": [
     "code-review"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/code-quality/dependency-auditor/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/code-quality/dependency-auditor/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/code-quality/dependency-auditor/SKILL.md"
   },
   {
@@ -1052,7 +1056,7 @@
    "packs": [
     "visual-design-studio"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/design/design-brief-interpreter/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/design/design-brief-interpreter/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/design/design-brief-interpreter/SKILL.md"
   },
   {
@@ -1071,7 +1075,7 @@
    "packs": [
     "containers"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/containers/docker-development/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/containers/docker-development/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/containers/docker-development/SKILL.md"
   },
   {
@@ -1090,7 +1094,7 @@
    "packs": [
     "content-publishing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/writing/community/douban-publisher/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/community/douban-publisher/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/community/douban-publisher/SKILL.md"
   },
   {
@@ -1109,7 +1113,7 @@
    "packs": [
     "security"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/security/env-secrets-manager/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/security/env-secrets-manager/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/security/env-secrets-manager/SKILL.md"
   },
   {
@@ -1128,7 +1132,7 @@
    "packs": [
     "audio-studio"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/audio/episode-publisher/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/audio/episode-publisher/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/audio/episode-publisher/SKILL.md"
   },
   {
@@ -1147,7 +1151,7 @@
    "packs": [
     "data-ml-science"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/data/etl-builder/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/data/etl-builder/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/data/etl-builder/SKILL.md"
   },
   {
@@ -1166,7 +1170,7 @@
    "packs": [
     "office-productivity"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/scenarios/excel-assistant/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/scenarios/excel-assistant/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/scenarios/excel-assistant/SKILL.md"
   },
   {
@@ -1185,7 +1189,7 @@
    "packs": [
     "edu-craft"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/education/exercise-generator/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/education/exercise-generator/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/education/exercise-generator/SKILL.md"
   },
   {
@@ -1204,7 +1208,7 @@
    "packs": [
     "ai-research-writing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/paper/experiment-runner/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/paper/experiment-runner/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/paper/experiment-runner/SKILL.md"
   },
   {
@@ -1223,7 +1227,7 @@
    "packs": [
     "data-ml-science"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/data/feature-engineer/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/data/feature-engineer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/data/feature-engineer/SKILL.md"
   },
   {
@@ -1242,7 +1246,7 @@
    "packs": [
     "ai-agent-development"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/ai-engineering/feature-flags-architect/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/ai-engineering/feature-flags-architect/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/ai-engineering/feature-flags-architect/SKILL.md"
   },
   {
@@ -1261,7 +1265,7 @@
    "packs": [
     "edu-craft"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/education/feynman-explainer/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/education/feynman-explainer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/education/feynman-explainer/SKILL.md"
   },
   {
@@ -1280,7 +1284,7 @@
    "packs": [
     "ai-research-writing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/paper/figure-maker/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/paper/figure-maker/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/paper/figure-maker/SKILL.md"
   },
   {
@@ -1299,7 +1303,7 @@
    "packs": [
     "github-workflow"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/github/git-worktree-manager/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/github/git-worktree-manager/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/github/git-worktree-manager/SKILL.md"
   },
   {
@@ -1318,7 +1322,7 @@
    "packs": [
     "containers"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/containers/helm-chart-builder/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/containers/helm-chart-builder/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/containers/helm-chart-builder/SKILL.md"
   },
   {
@@ -1337,7 +1341,7 @@
    "packs": [
     "ai-media-toolkit"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/video/image-generation/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/video/image-generation/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/video/image-generation/SKILL.md"
   },
   {
@@ -1356,7 +1360,7 @@
    "packs": [
     "visual-design-studio"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/design/image-prompt-engineer/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/design/image-prompt-engineer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/design/image-prompt-engineer/SKILL.md"
   },
   {
@@ -1375,7 +1379,7 @@
    "packs": [
     "incident-response"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/incident/incident-commander/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/incident/incident-commander/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/incident/incident-commander/SKILL.md"
   },
   {
@@ -1394,7 +1398,7 @@
    "packs": [
     "content-publishing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/writing/blog/jianshu-publisher/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/blog/jianshu-publisher/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/blog/jianshu-publisher/SKILL.md"
   },
   {
@@ -1413,7 +1417,7 @@
    "packs": [
     "ai-research-writing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/paper/journal-adapt/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/paper/journal-adapt/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/paper/journal-adapt/SKILL.md"
   },
   {
@@ -1432,7 +1436,7 @@
    "packs": [
     "content-publishing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/writing/juejin/juejin-publisher/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/juejin/juejin-publisher/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/juejin/juejin-publisher/SKILL.md"
   },
   {
@@ -1452,7 +1456,7 @@
     "containers",
     "infrastructure"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/infrastructure/kubernetes-operator/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/infrastructure/kubernetes-operator/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/infrastructure/kubernetes-operator/SKILL.md"
   },
   {
@@ -1471,7 +1475,7 @@
    "packs": [
     "ai-research-writing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/paper/latex-formatter/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/paper/latex-formatter/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/paper/latex-formatter/SKILL.md"
   },
   {
@@ -1490,7 +1494,7 @@
    "packs": [
     "visual-design-studio"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/design/layout-spec-auditor/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/design/layout-spec-auditor/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/design/layout-spec-auditor/SKILL.md"
   },
   {
@@ -1509,7 +1513,7 @@
    "packs": [
     "ai-research-writing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/paper/lit-review/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/paper/lit-review/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/paper/lit-review/SKILL.md"
   },
   {
@@ -1528,7 +1532,7 @@
    "packs": [
     "ai-agent-development"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/ai-engineering/mcp-server-builder/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/ai-engineering/mcp-server-builder/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/ai-engineering/mcp-server-builder/SKILL.md"
   },
   {
@@ -1547,7 +1551,7 @@
    "packs": [
     "office-productivity"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/scenarios/meeting-notes/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/scenarios/meeting-notes/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/scenarios/meeting-notes/SKILL.md"
   },
   {
@@ -1566,7 +1570,7 @@
    "packs": [
     "architecture"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/architecture/migration-architect/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/architecture/migration-architect/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/architecture/migration-architect/SKILL.md"
   },
   {
@@ -1585,7 +1589,7 @@
    "packs": [
     "data-ml-science"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/ml/ml-pipeline/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/ml/ml-pipeline/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/ml/ml-pipeline/SKILL.md"
   },
   {
@@ -1604,7 +1608,7 @@
    "packs": [
     "data-ml-science"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/math/model-formulator/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/math/model-formulator/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/math/model-formulator/SKILL.md"
   },
   {
@@ -1623,7 +1627,7 @@
    "packs": [
     "data-ml-science"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/math/model-solver/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/math/model-solver/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/math/model-solver/SKILL.md"
   },
   {
@@ -1642,7 +1646,7 @@
    "packs": [
     "architecture"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/architecture/monorepo-navigator/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/architecture/monorepo-navigator/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/architecture/monorepo-navigator/SKILL.md"
   },
   {
@@ -1661,7 +1665,7 @@
    "packs": [
     "ai-media-toolkit"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/scenarios/music-generation/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/scenarios/music-generation/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/scenarios/music-generation/SKILL.md"
   },
   {
@@ -1680,7 +1684,7 @@
    "packs": [
     "viral-entertainment"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/video/nailong-laugh-shorts/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/video/nailong-laugh-shorts/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/video/nailong-laugh-shorts/SKILL.md"
   },
   {
@@ -1699,7 +1703,7 @@
    "packs": [
     "ai-research-writing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/paper/neural-net-draw/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/paper/neural-net-draw/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/paper/neural-net-draw/SKILL.md"
   },
   {
@@ -1718,7 +1722,7 @@
    "packs": [
     "infrastructure"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/infrastructure/observability-designer/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/infrastructure/observability-designer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/infrastructure/observability-designer/SKILL.md"
   },
   {
@@ -1737,7 +1741,7 @@
    "packs": [
     "content-publishing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/writing/community/oschina-publisher/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/community/oschina-publisher/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/community/oschina-publisher/SKILL.md"
   },
   {
@@ -1756,7 +1760,7 @@
    "packs": [
     "ai-research-writing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/paper/paper-topic-selector/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/paper/paper-topic-selector/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/paper/paper-topic-selector/SKILL.md"
   },
   {
@@ -1775,7 +1779,7 @@
    "packs": [
     "performance"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/performance/performance-profiler/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/performance/performance-profiler/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/performance/performance-profiler/SKILL.md"
   },
   {
@@ -1794,7 +1798,7 @@
    "packs": [
     "audio-studio"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/audio/podcast-producer/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/audio/podcast-producer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/audio/podcast-producer/SKILL.md"
   },
   {
@@ -1813,7 +1817,7 @@
    "packs": [
     "office-productivity"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/ppt/ppt-builder/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/ppt/ppt-builder/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/ppt/ppt-builder/SKILL.md"
   },
   {
@@ -1833,7 +1837,7 @@
     "code-review",
     "github-workflow"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/github/pr-review-expert/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/github/pr-review-expert/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/github/pr-review-expert/SKILL.md"
   },
   {
@@ -1852,7 +1856,7 @@
    "packs": [
     "growth-marketing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/marketing/product-copywriter/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/marketing/product-copywriter/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/product-copywriter/SKILL.md"
   },
   {
@@ -1871,7 +1875,7 @@
    "packs": [
     "ai-research-writing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/paper/pub-plotter/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/paper/pub-plotter/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/paper/pub-plotter/SKILL.md"
   },
   {
@@ -1890,7 +1894,7 @@
    "packs": [
     "data-ml-science"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/math/result-visualizer/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/math/result-visualizer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/math/result-visualizer/SKILL.md"
   },
   {
@@ -1909,7 +1913,7 @@
    "packs": [
     "office-productivity"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/scenarios/resume-tailor/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/scenarios/resume-tailor/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/scenarios/resume-tailor/SKILL.md"
   },
   {
@@ -1928,7 +1932,7 @@
    "packs": [
     "incident-response"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/incident/runbook-generator/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/incident/runbook-generator/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/incident/runbook-generator/SKILL.md"
   },
   {
@@ -1947,7 +1951,7 @@
    "packs": [
     "security"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/security/secrets-vault-manager/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/security/secrets-vault-manager/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/security/secrets-vault-manager/SKILL.md"
   },
   {
@@ -1966,7 +1970,7 @@
    "packs": [
     "content-publishing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/writing/community/segmentfault-publisher/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/community/segmentfault-publisher/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/community/segmentfault-publisher/SKILL.md"
   },
   {
@@ -1985,7 +1989,7 @@
    "packs": [
     "ai-agent-development"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/ai-engineering/self-eval/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/ai-engineering/self-eval/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/ai-engineering/self-eval/SKILL.md"
   },
   {
@@ -2004,7 +2008,7 @@
    "packs": [
     "ai-research-writing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/paper/self-reviewer/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/paper/self-reviewer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/paper/self-reviewer/SKILL.md"
   },
   {
@@ -2023,7 +2027,7 @@
    "packs": [
     "architecture"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/architecture/senior-architect/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/architecture/senior-architect/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/architecture/senior-architect/SKILL.md"
   },
   {
@@ -2042,7 +2046,7 @@
    "packs": [
     "ai-research-writing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/writing/seo-optimizer/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/seo-optimizer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/seo-optimizer/SKILL.md"
   },
   {
@@ -2061,7 +2065,7 @@
    "packs": [
     "ci-cd"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/cicd/ship-gate/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/cicd/ship-gate/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/cicd/ship-gate/SKILL.md"
   },
   {
@@ -2080,7 +2084,7 @@
    "packs": [
     "video-design-studio"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/video/shot-recipe-designer/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/video/shot-recipe-designer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/video/shot-recipe-designer/SKILL.md"
   },
   {
@@ -2099,7 +2103,7 @@
    "packs": [
     "data-ml-science"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/math/simulation-runner/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/math/simulation-runner/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/math/simulation-runner/SKILL.md"
   },
   {
@@ -2118,7 +2122,7 @@
    "packs": [
     "ai-agent-development"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/ai-engineering/skill-tester/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/ai-engineering/skill-tester/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/ai-engineering/skill-tester/SKILL.md"
   },
   {
@@ -2137,7 +2141,7 @@
    "packs": [
     "incident-response"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/incident/slo-architect/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/incident/slo-architect/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/incident/slo-architect/SKILL.md"
   },
   {
@@ -2156,7 +2160,7 @@
    "packs": [
     "ci-cd"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/cicd/spec-driven-workflow/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/cicd/spec-driven-workflow/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/cicd/spec-driven-workflow/SKILL.md"
   },
   {
@@ -2175,7 +2179,7 @@
    "packs": [
     "database"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/database/sql-database-assistant/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/database/sql-database-assistant/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/database/sql-database-assistant/SKILL.md"
   },
   {
@@ -2194,7 +2198,7 @@
    "packs": [
     "content-publishing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/writing/blog/static-blog-deploy/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/blog/static-blog-deploy/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/blog/static-blog-deploy/SKILL.md"
   },
   {
@@ -2213,7 +2217,7 @@
    "packs": [
     "video-design-studio"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/video/storyboard-designer/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/video/storyboard-designer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/video/storyboard-designer/SKILL.md"
   },
   {
@@ -2232,7 +2236,7 @@
    "packs": [
     "tdd"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/code-quality/tdd-guide/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/code-quality/tdd-guide/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/code-quality/tdd-guide/SKILL.md"
   },
   {
@@ -2251,7 +2255,7 @@
    "packs": [
     "code-review"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/code-quality/tech-debt-tracker/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/code-quality/tech-debt-tracker/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/code-quality/tech-debt-tracker/SKILL.md"
   },
   {
@@ -2270,7 +2274,7 @@
    "packs": [
     "infrastructure"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/infrastructure/terraform-patterns/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/infrastructure/terraform-patterns/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/infrastructure/terraform-patterns/SKILL.md"
   },
   {
@@ -2289,7 +2293,7 @@
    "packs": [
     "ai-research-writing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/paper/tex-cleaner/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/paper/tex-cleaner/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/paper/tex-cleaner/SKILL.md"
   },
   {
@@ -2308,7 +2312,7 @@
    "packs": [
     "content-publishing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/writing/news/toutiao-publisher/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/news/toutiao-publisher/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/news/toutiao-publisher/SKILL.md"
   },
   {
@@ -2327,7 +2331,7 @@
    "packs": [
     "audio-studio"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/audio/tts-voice-director/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/audio/tts-voice-director/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/audio/tts-voice-director/SKILL.md"
   },
   {
@@ -2346,7 +2350,7 @@
    "packs": [
     "content-publishing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/writing/community/v2ex-publisher/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/community/v2ex-publisher/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/community/v2ex-publisher/SKILL.md"
   },
   {
@@ -2365,7 +2369,7 @@
    "packs": [
     "ai-video-pipeline"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/video/video-editor/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/video/video-editor/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/video/video-editor/SKILL.md"
   },
   {
@@ -2384,7 +2388,7 @@
    "packs": [
     "ai-media-toolkit"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/video/video-generation/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/video/video-generation/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/video/video-generation/SKILL.md"
   },
   {
@@ -2403,7 +2407,7 @@
    "packs": [
     "ai-video-pipeline"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/video/video-lip-sync/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/video/video-lip-sync/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/video/video-lip-sync/SKILL.md"
   },
   {
@@ -2422,7 +2426,7 @@
    "packs": [
     "video-design-studio"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/video/video-prompt-engineer/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/video/video-prompt-engineer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/video/video-prompt-engineer/SKILL.md"
   },
   {
@@ -2441,7 +2445,7 @@
    "packs": [
     "ai-video-pipeline"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/video/video-script-writer/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/video/video-script-writer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/video/video-script-writer/SKILL.md"
   },
   {
@@ -2460,7 +2464,7 @@
    "packs": [
     "ai-video-pipeline"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/video/video-subtitles/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/video/video-subtitles/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/video/video-subtitles/SKILL.md"
   },
   {
@@ -2479,7 +2483,7 @@
    "packs": [
     "ai-video-pipeline"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/video/video-thumbnail/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/video/video-thumbnail/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/video/video-thumbnail/SKILL.md"
   },
   {
@@ -2498,7 +2502,7 @@
    "packs": [
     "ai-video-pipeline"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/video/video-voice-synth/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/video/video-voice-synth/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/video/video-voice-synth/SKILL.md"
   },
   {
@@ -2517,7 +2521,7 @@
    "packs": [
     "video-design-studio"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/video/visual-style-anchor/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/video/visual-style-anchor/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/video/visual-style-anchor/SKILL.md"
   },
   {
@@ -2536,7 +2540,7 @@
    "packs": [
     "ai-research-writing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/programming/planning/web-search/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/planning/web-search/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/planning/web-search/SKILL.md"
   },
   {
@@ -2555,7 +2559,7 @@
    "packs": [
     "content-publishing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/writing/wechat/wechat-mp-publisher/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/wechat/wechat-mp-publisher/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/wechat/wechat-mp-publisher/SKILL.md"
   },
   {
@@ -2574,7 +2578,7 @@
    "packs": [
     "content-publishing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/writing/social/weibo-publisher/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/social/weibo-publisher/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/social/weibo-publisher/SKILL.md"
   },
   {
@@ -2593,7 +2597,7 @@
    "packs": [
     "content-publishing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/writing/social/xiaohongshu-publisher/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/social/xiaohongshu-publisher/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/social/xiaohongshu-publisher/SKILL.md"
   },
   {
@@ -2612,7 +2616,7 @@
    "packs": [
     "content-publishing"
    ],
-   "raw_github": "https://raw.githubusercontent.com/MS33834/awesome-skillkit/main/skills/writing/zhihu/zhihu-content-manager/SKILL.md",
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/zhihu/zhihu-content-manager/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/zhihu/zhihu-content-manager/SKILL.md"
   }
  ],
@@ -2633,8 +2637,9 @@
     "skill-tester"
    ],
    "local_url": "packs/ai-agent-development.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/ai-agent-development.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/ai-agent-development.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/ai-agent-development.zip",
    "dist_exists": true
   },
   {
@@ -2652,8 +2657,9 @@
     "ai-cover-generator"
    ],
    "local_url": "packs/ai-media-toolkit.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/ai-media-toolkit.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/ai-media-toolkit.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/ai-media-toolkit.zip",
    "dist_exists": true
   },
   {
@@ -2686,8 +2692,9 @@
     "pub-plotter"
    ],
    "local_url": "packs/ai-research-writing.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/ai-research-writing.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/ai-research-writing.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/ai-research-writing.zip",
    "dist_exists": true
   },
   {
@@ -2707,8 +2714,9 @@
     "video-thumbnail"
    ],
    "local_url": "packs/ai-video-pipeline.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/ai-video-pipeline.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/ai-video-pipeline.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/ai-video-pipeline.zip",
    "dist_exists": true
   },
   {
@@ -2724,8 +2732,9 @@
     "api-test-suite-builder"
    ],
    "local_url": "packs/api-development.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/api-development.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/api-development.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/api-development.zip",
    "dist_exists": true
   },
   {
@@ -2742,8 +2751,9 @@
     "monorepo-navigator"
    ],
    "local_url": "packs/architecture.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/architecture.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/architecture.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/architecture.zip",
    "dist_exists": true
   },
   {
@@ -2760,8 +2770,9 @@
     "episode-publisher"
    ],
    "local_url": "packs/audio-studio.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/audio-studio.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/audio-studio.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/audio-studio.zip",
    "dist_exists": true
   },
   {
@@ -2776,8 +2787,9 @@
     "chat-prompt-engineer"
    ],
    "local_url": "packs/chat-prompt-craft.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/chat-prompt-craft.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/chat-prompt-craft.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/chat-prompt-craft.zip",
    "dist_exists": true
   },
   {
@@ -2794,8 +2806,9 @@
     "spec-driven-workflow"
    ],
    "local_url": "packs/ci-cd.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/ci-cd.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/ci-cd.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/ci-cd.zip",
    "dist_exists": true
   },
   {
@@ -2812,8 +2825,9 @@
     "debug-diagnoser"
    ],
    "local_url": "packs/code-planning.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/code-planning.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/code-planning.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/code-planning.zip",
    "dist_exists": true
   },
   {
@@ -2832,8 +2846,9 @@
     "dependency-auditor"
    ],
    "local_url": "packs/code-review.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/code-review.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/code-review.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/code-review.zip",
    "dist_exists": true
   },
   {
@@ -2850,8 +2865,9 @@
     "kubernetes-operator"
    ],
    "local_url": "packs/containers.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/containers.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/containers.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/containers.zip",
    "dist_exists": true
   },
   {
@@ -2883,8 +2899,9 @@
     "ai-cover-generator"
    ],
    "local_url": "packs/content-publishing.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/content-publishing.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/content-publishing.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/content-publishing.zip",
    "dist_exists": true
   },
   {
@@ -2905,8 +2922,9 @@
     "ml-pipeline"
    ],
    "local_url": "packs/data-ml-science.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/data-ml-science.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/data-ml-science.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/data-ml-science.zip",
    "dist_exists": true
   },
   {
@@ -2922,8 +2940,9 @@
     "sql-database-assistant"
    ],
    "local_url": "packs/database.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/database.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/database.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/database.zip",
    "dist_exists": true
   },
   {
@@ -2940,8 +2959,9 @@
     "feynman-explainer"
    ],
    "local_url": "packs/edu-craft.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/edu-craft.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/edu-craft.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/edu-craft.zip",
    "dist_exists": true
   },
   {
@@ -2958,8 +2978,9 @@
     "pr-review-expert"
    ],
    "local_url": "packs/github-workflow.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/github-workflow.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/github-workflow.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/github-workflow.zip",
    "dist_exists": true
   },
   {
@@ -2976,8 +2997,9 @@
     "channel-adapter"
    ],
    "local_url": "packs/growth-marketing.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/growth-marketing.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/growth-marketing.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/growth-marketing.zip",
    "dist_exists": true
   },
   {
@@ -2994,8 +3016,9 @@
     "slo-architect"
    ],
    "local_url": "packs/incident-response.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/incident-response.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/incident-response.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/incident-response.zip",
    "dist_exists": true
   },
   {
@@ -3012,8 +3035,9 @@
     "kubernetes-operator"
    ],
    "local_url": "packs/infrastructure.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/infrastructure.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/infrastructure.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/infrastructure.zip",
    "dist_exists": true
   },
   {
@@ -3031,8 +3055,9 @@
     "meeting-notes"
    ],
    "local_url": "packs/office-productivity.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/office-productivity.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/office-productivity.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/office-productivity.zip",
    "dist_exists": true
   },
   {
@@ -3047,8 +3072,9 @@
     "performance-profiler"
    ],
    "local_url": "packs/performance.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/performance.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/performance.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/performance.zip",
    "dist_exists": true
   },
   {
@@ -3064,8 +3090,9 @@
     "env-secrets-manager"
    ],
    "local_url": "packs/security.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/security.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/security.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/security.zip",
    "dist_exists": true
   },
   {
@@ -3080,8 +3107,9 @@
     "tdd-guide"
    ],
    "local_url": "packs/tdd.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/tdd.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/tdd.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/tdd.zip",
    "dist_exists": true
   },
   {
@@ -3099,8 +3127,9 @@
     "visual-style-anchor"
    ],
    "local_url": "packs/video-design-studio.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/video-design-studio.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/video-design-studio.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/video-design-studio.zip",
    "dist_exists": true
   },
   {
@@ -3116,8 +3145,9 @@
     "nailong-laugh-shorts"
    ],
    "local_url": "packs/viral-entertainment.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/viral-entertainment.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/viral-entertainment.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/viral-entertainment.zip",
    "dist_exists": true
   },
   {
@@ -3134,8 +3164,9 @@
     "layout-spec-auditor"
    ],
    "local_url": "packs/visual-design-studio.zip",
-   "release_github": "https://github.com/MS33834/awesome-skillkit/releases/download/v0.14.0/visual-design-studio.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.14.0/visual-design-studio.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.14.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.14.0/visual-design-studio.zip",
    "dist_exists": true
   }
  ]

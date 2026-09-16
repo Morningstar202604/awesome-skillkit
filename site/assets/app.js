@@ -249,7 +249,8 @@
       act.append(dlBtn(p.local_url, "↓ 下载 zip（站内镜像）", "act dl", p.id + ".zip"));
       const alt = el("span", "alt");
       alt.append(document.createTextNode("Release: "), extLink(p.release_github, "GitHub"),
-        document.createTextNode(" "), extLink(p.release_gitcode, "GitCode"));
+        document.createTextNode(" "), extLink(p.release_gitcode, "GitCode"),
+        document.createTextNode(" "), extLink(p.release_gitee, "Gitee"));
       act.append(alt);
       c.append(act);
 

@@ -14,7 +14,7 @@
 用法:
   python3 tools/build_site.py
   python3 tools/build_site.py --out site --no-zip
-  python3 tools/build_site.py --github-repo MS33834/awesome-skillkit
+  python3 tools/build_site.py --github-repo x33834/awesome-skillkit
 """
 import argparse
 import json
@@ -24,8 +24,9 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent.parent
 SKILLS_DIR = SCRIPT_DIR / "skills"
-DEFAULT_GITHUB = "MS33834/awesome-skillkit"
+DEFAULT_GITHUB = "x33834/awesome-skillkit"
 DEFAULT_GITCODE = "badhope/awesome-skillkit"
+DEFAULT_GITEE = "badhope/awesome-skillkit"
 
 
 def parse_frontmatter(text: str) -> dict:
@@ -73,7 +74,8 @@ def find_skill_dir(name: str) -> Path | None:
     return hits[0] if hits else None
 
 
-def collect(github_repo: str, gitcode_repo: str, dist_dir: Path) -> dict:
+def collect(github_repo: str, gitcode_repo: str, gitee_repo: str,
+            dist_dir: Path) -> dict:
     manifest = json.loads((SCRIPT_DIR / "manifest.json").read_text(encoding="utf-8"))
     chains_doc = json.loads((SKILLS_DIR / "skill_chains.json").read_text(encoding="utf-8"))
     version = manifest.get("version", "0.0.0")
@@ -144,6 +146,10 @@ def collect(github_repo: str, gitcode_repo: str, dist_dir: Path) -> dict:
             # 故指向 Release 页面——该 URL 只要 Release 存在就一定有效，
             # 避免给访客一个 404 的死链。真正下载走 local_url 站内镜像。
             "release_gitcode": f"https://gitcode.com/{gitcode_repo}/releases/tag/v{version}",
+            # Gitee：Release API 支持 attach_files 上传附件，附件直链与 GitHub 同构
+            # （/releases/download/{tag}/{filename}）——发版后已逐个实测可达。
+            "release_gitee": (f"https://gitee.com/{gitee_repo}/releases/download/"
+                              f"v{version}/{zip_name}"),
             "dist_exists": (dist_dir / zip_name).is_file(),
         })
 
@@ -183,6 +189,7 @@ def collect(github_repo: str, gitcode_repo: str, dist_dir: Path) -> dict:
                        "raw": gh_raw},
             "gitcode": {"repo": gitcode_repo, "url": f"https://gitcode.com/{gitcode_repo}",
                         "raw": gc_raw},
+            "gitee": {"repo": gitee_repo, "url": f"https://gitee.com/{gitee_repo}"},
         },
         "domains": domains,
         "skills": skills,
@@ -196,13 +203,14 @@ def main(argv: list[str]) -> int:
     parser.add_argument("--dist", default=str(SCRIPT_DIR / "dist"), help="zip 产物目录")
     parser.add_argument("--github-repo", default=DEFAULT_GITHUB)
     parser.add_argument("--gitcode-repo", default=DEFAULT_GITCODE)
+    parser.add_argument("--gitee-repo", default=DEFAULT_GITEE)
     parser.add_argument("--no-zip", action="store_true", help="跳过 zip 副本复制")
     parser.add_argument("--no-skill-copy", action="store_true", help="跳过 SKILL.md 副本复制")
     args = parser.parse_args(argv[1:])
 
     out_dir = Path(args.out)
     dist_dir = Path(args.dist)
-    data = collect(args.github_repo, args.gitcode_repo, dist_dir)
+    data = collect(args.github_repo, args.gitcode_repo, args.gitee_repo, dist_dir)
 
     (out_dir / "data").mkdir(parents=True, exist_ok=True)
     (out_dir / "data" / "site.json").write_text(

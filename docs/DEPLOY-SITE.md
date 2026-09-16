@@ -1,4 +1,4 @@
-# 站点部署说明（GitHub Pages + GitCode Pages）
+# 站点部署说明（GitHub Pages + GitCode Pages + Gitee Pages）
 
 `site/` 是一个**零依赖、零构建**的静态站点：纯 HTML/CSS/JS + 一份 `data/site.json`。
 数据由 `tools/build_site.py` 从 `manifest.json` / `skills/skill_chains.json` / 各技能 SKILL.md 生成，
@@ -15,7 +15,7 @@
 |---|---|---|
 | 单个 SKILL.md 下载 | `site/skills/<域>/<技能>/SKILL.md` | 站点自带副本，同域直链，不依赖 raw 服务、不怕域名被墙 |
 | 场景包 zip 下载（主） | `site/packs/<id>.zip` | 站内镜像，任何时候都可下载 |
-| 场景包 zip 下载（副） | GitHub Release 附件直链 / GitCode Release 页面 | 见 §5 |
+| 场景包 zip 下载（副） | GitHub / GitCode / Gitee 的 Release 通道 | 见 §6 |
 | 浏览与检索 | 112 技能 / 27 包 / 12 域 / 39 条链 | 实时搜索（命中高亮）、域筛选、三视图、包内技能跳转、`/` 聚焦搜索 |
 | 换肤 | 玄青 / 玄紫 / 玄黄 + 明暗 | localStorage 记忆；12 域各有识别色 |
 
@@ -37,7 +37,7 @@ cd site && python3 -m http.server 8000
 2. 模板选 **html**；部署分支选 **main**；路径填 **/site**
 3. 保存，等 1–2 分钟，平台会分配地址
 
-后续更新站点 = 正常推 main（见 §6），Pages 自动跟着走，无额外发布动作。
+后续更新站点 = 正常推 main（见 §7），Pages 自动跟着走，无额外发布动作。
 
 ## 4. GitHub Pages（Actions 自动部署）
 
@@ -50,12 +50,12 @@ cd site && python3 -m http.server 8000
 export GH_TOKEN=ghp_xxx          # 需要 repo + workflow 权限
 
 # 1) 建仓并推 main（仓库已存在则只 push）
-gh repo create MS33834/awesome-skillkit --public --source=. --remote=github --push
-#   已有仓库时用：git remote add github https://github.com/MS33834/awesome-skillkit.git
+gh repo create x33834/awesome-skillkit --public --source=. --remote=github --push
+#   已有仓库时用：git remote add github https://github.com/x33834/awesome-skillkit.git
 #                 git push github main
 
 # 2) Pages 来源设为 GitHub Actions（一次性）
-gh api -X POST repos/MS33834/awesome-skillkit/pages -f "source[branch]=main" -f "source[path]=/" 2>/dev/null \
+gh api -X POST repos/x33834/awesome-skillkit/pages -f "source[branch]=main" -f "source[path]=/" 2>/dev/null \
   || echo "→ 若 API 不接受，去 Settings → Pages → Source 手动选 GitHub Actions"
 
 # 3) 传 Release 附件（28 个 zip），让包卡片的 GitHub 直链生效
@@ -63,9 +63,49 @@ gh release create v0.14.0 dist/*.zip --title "v0.14.0" --notes-file /tmp/relnote
 ```
 
 之后每次 push main 会自动：`build.py` → `tools/build_site.py` → 上传 `site/` → 部署。
-站点地址：`https://ms33834.github.io/awesome-skillkit/`
+站点地址：`https://x33834.github.io/awesome-skillkit/`
 
-## 5. Release 附件（zip 的第二下载通道）
+注意：推送历史含 `.github/workflows/pages.yml`，token 必须带 **`workflow`** scope，
+否则 push 会被 `refusing to allow ... to create/update workflow` 拒绝。
+
+## 5. Gitee（实名认证 + 手动 Pages，API 方法与 GitHub/GitCode 均不同）
+
+Gitee 与前两家差异：**Release 附件可用 API 上传**（`attach_files`，GitCode 不行），
+**Pages 只能网页手动开启**（需先实名认证，无 API），且 Pages 部署的是整个分支——
+站点不在根路径，地址带 `/site/` 后缀。
+
+```bash
+# token 只走环境变量
+export GITEE_TOKEN=xxx           # Gitee 私人令牌（需 projects + releases 权限）
+
+# 1) 建仓（已存在则跳过；返回 400 = 已存在）
+curl -s -X POST "https://gitee.com/api/v5/repos" \
+  -H "Content-Type: application/json" \
+  -d "{\"access_token\":\"$GITEE_TOKEN\",\"name\":\"awesome-skillkit\",\"private\":false,\"auto_init\":false}"
+
+# 2) 推 main + tag（一次命令推两个 ref，一条连接）
+git remote add gitee https://badhope:$GITEE_TOKEN@gitee.com/badhope/awesome-skillkit.git
+git push gitee main v0.14.0
+
+# 3) 建 Release（tag 已随上一步推上去）
+curl -s -X POST "https://gitee.com/api/v5/repos/badhope/awesome-skillkit/releases" \
+  -H "Content-Type: application/json" \
+  -d "{\"access_token\":\"$GITEE_TOKEN\",\"tag_name\":\"v0.14.0\",\"name\":\"v0.14.0\",\"body\":\"28 scene packs\"}"
+
+# 4) 传 28 个 zip 附件（逐个、间隔 1-2 秒，避免触发限流）
+RID=$(curl -s "https://gitee.com/api/v5/repos/badhope/awesome-skillkit/releases/tags/v0.14.0?access_token=$GITEE_TOKEN" | python3 -c "import json,sys;print(json.load(sys.stdin)['id'])")
+for z in dist/*.zip; do
+  curl -s -X POST "https://gitee.com/api/v5/repos/badhope/awesome-skillkit/releases/$RID/attach_files" \
+    -F "access_token=$GITEE_TOKEN" -F "file=@$z" && echo " → $z" && sleep 1.5
+done
+```
+
+Pages 手动开启（网页操作，一次性）：
+1. 仓库页 → **服务 → Gitee Pages**（首次会引导实名认证）
+2. 部署分支选 **main**，启动
+3. 站点地址：`https://badhope.gitee.io/awesome-skillkit/site/`（整个分支被伺服，站点在 `/site` 子路径）
+
+## 6. Release 附件（zip 的第二下载通道）
 
 站内镜像（`packs/<id>.zip`）随站点一起发布，**永远可用**，是主下载按钮。
 Release 附件只是第二通道，缺失不影响下载：
@@ -73,12 +113,13 @@ Release 附件只是第二通道，缺失不影响下载：
 | 平台 | 附件直链 | 说明 |
 |---|---|---|
 | GitHub | `…/releases/download/vX.Y.Z/<id>.zip` | API 支持上传，发版时把 `dist/*.zip`（28 个）挂到 Release 资产 |
+| Gitee | `…/releases/download/vX.Y.Z/<id>.zip`（与 GitHub 同构） | API 支持 `attach_files` 上传（§5 第 4 步），附件直链实测可达 |
 | GitCode | 无直链，站点指向 Release 页面 | `attach_files` 接口返回 405/404，API 不支持上传附件；如需附件，在 Release 页面手动拖入 |
 
 站点上 GitCode 的副链接因此指向 `…/releases/tag/vX.Y.Z`（Release 存在即有效），
 不会给访客 404 死链。
 
-## 6. 更新流程（技能有增删时）
+## 7. 更新流程（技能有增删时）
 
 ```bash
 python3 build.py                      # 1. 重新打包 dist/*.zip（同步 manifest）
@@ -87,7 +128,7 @@ git add -A && git commit -m "..." && git push origin main
 # 3. 推完即部署：GitCode Pages 读 main/site；GitHub Actions 自动构建发布
 ```
 
-## 7. 文件清单
+## 8. 文件清单
 
 | 文件 | 作用 |
 |---|---|
@@ -96,5 +137,5 @@ git add -A && git commit -m "..." && git push origin main
 | `site/assets/app.js` | 数据加载、搜索高亮、筛选、三视图、域色板、count-up、快捷键 |
 | `site/data/site.json` | 生成的数据（提交进仓库，文本 diff 友好） |
 | `site/skills/`、`site/packs/` | 生成的可下载副本（**进 main**，Pages 直接伺服） |
-| `tools/build_site.py` | 站点数据生成器（`--github-repo` 可改 Release 基址） |
+| `tools/build_site.py` | 站点数据生成器（`--github-repo` / `--gitee-repo` 可改 Release 基址） |
 | `.github/workflows/pages.yml` | GitHub Actions 自动部署 |
