@@ -258,8 +258,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 15,
-      "sha256": "b008ac067811f7c06b8d880463cbfc049846fa7bceed8086c580c135eb4a22d1"
+      "size_kb": 17,
+      "sha256": "98c18863954f3e95c5beb14e73160a31d2b094597a467a5d0e7f81ed34a90b86"
     },
     {
       "id": "chat-prompt-craft",
@@ -670,8 +670,8 @@
           "source": "existing (writing/assets)"
         }
       ],
-      "size_kb": 26,
-      "sha256": "4ad9877de5e6b374e89dc7d7eba837f5f851cf964725c5bc326b8a953e2b39f7"
+      "size_kb": 31,
+      "sha256": "62a0a74cf99ded8d990bcbd4a6eee3abda34dd11b998cc26fc702df4d5ac194f"
     },
     {
       "id": "incident-response",
@@ -756,7 +756,7 @@
       "description": "Daily office work: decks, spreadsheets, resumes, meeting minutes.",
       "description_zh": "日常办公四件套：PPT 制作、Excel 清洗分析、简历岗位定制、会议纪要结构化。",
       "file": "dist/office-productivity.zip",
-      "size_kb": 12,
+      "size_kb": 33,
       "skills": [
         {
           "name": "ppt-builder",
@@ -773,9 +773,21 @@
         {
           "name": "meeting-notes",
           "source": "self-authored"
+        },
+        {
+          "name": "internal-comms-writer",
+          "source": "self-authored"
+        },
+        {
+          "name": "docx-writer",
+          "source": "self-authored"
+        },
+        {
+          "name": "pdf-pipeline",
+          "source": "self-authored"
         }
       ],
-      "sha256": "42ad30f7cbd0dfc3d3812f6e73bbf630a1b21a1a0b8a0267d4c04d7021e126da"
+      "sha256": "0551c9d5dc9685e2e5b434caed57d569d3d25bfd1e8d9eb0995a4f0ab0e459d2"
     },
     {
       "id": "performance",
@@ -818,16 +830,20 @@
       "name": "Test-Driven Development",
       "name_zh": "测试驱动开发",
       "file": "dist/tdd.zip",
-      "size_kb": 53,
+      "size_kb": 61,
       "description": "Write unit tests, fixtures, mocks, and guide red-green-refactor cycles.",
       "description_zh": "编写单元测试、fixture、mock，并引导红绿重构循环。",
       "skills": [
         {
           "name": "tdd-guide",
           "source": "alirezarezvani/claude-skills (MIT)"
+        },
+        {
+          "name": "webapp-flow-tester",
+          "source": "self-authored"
         }
       ],
-      "sha256": "ad5c916e6d5c86dae04364363f82e4bcf96ab25ce233b5d90ab1b4c4cdab9b6f"
+      "sha256": "1bb03d51effeb5be94f1a579296a6ec5d5ebb0f834066d544ce2dd27e45324a4"
     },
     {
       "id": "video-design-studio",
@@ -854,8 +870,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 35,
-      "sha256": "053925e9e19beb2b3027e493d0c37323d02287b8f3c0ff2ec0961776ec1bd59c"
+      "size_kb": 40,
+      "sha256": "af7b5fcff3d8a25d66d50524806078e386d881edcfb30287ebe68e1b1da4cb74"
     },
     {
       "id": "viral-entertainment",
@@ -896,10 +912,14 @@
         {
           "name": "layout-spec-auditor",
           "source": "self-authored"
+        },
+        {
+          "name": "frontend-design-director",
+          "source": "methodology distilled from Anthropic public skills (no content copied)"
         }
       ],
-      "size_kb": 15,
-      "sha256": "1f765d5d56888814bf2eb5ef12fd770bc15a124a64448ce2ed8baacb81a0864b"
+      "size_kb": 30,
+      "sha256": "564c87c154fd10106a46f35ba2212e3de3598860fe6f563ffaef32f7d848e602"
     }
   ]
 }

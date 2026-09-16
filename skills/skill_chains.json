@@ -48,7 +48,8 @@
         "agent-designer",
         "changelog-generator",
         "git-worktree-manager",
-        "pr-review-expert"
+        "pr-review-expert",
+        "webapp-flow-tester"
       ],
       "chains": {
         "full_project": [
@@ -134,6 +135,10 @@
           "env-secrets-manager",
           "ship-gate",
           "changelog-generator"
+        ],
+        "web_flow_test": [
+          "tdd-guide?",
+          "webapp-flow-tester"
         ]
       }
     },
@@ -268,7 +273,8 @@
       "skills": [
         "design-brief-interpreter",
         "image-prompt-engineer",
-        "layout-spec-auditor"
+        "layout-spec-auditor",
+        "frontend-design-director"
       ],
       "chains": {
         "cover": [
@@ -295,6 +301,10 @@
           "design-brief-interpreter",
           "image-prompt-engineer",
           "layout-spec-auditor"
+        ],
+        "frontend_design": [
+          "design-brief-interpreter?",
+          "frontend-design-director"
         ]
       }
     },
@@ -391,13 +401,21 @@
       "skills": [
         "excel-assistant",
         "meeting-notes",
-        "resume-tailor"
+        "resume-tailor",
+        "docx-writer",
+        "pdf-pipeline",
+        "internal-comms-writer"
       ],
       "chains": {
         "document_pipeline": [
+          "internal-comms-writer?",
+          "docx-writer?",
           "excel-assistant",
           "meeting-notes?",
-          "resume-tailor?"
+          "pdf-pipeline"
+        ],
+        "pdf_pipeline": [
+          "pdf-pipeline"
         ]
       }
     },

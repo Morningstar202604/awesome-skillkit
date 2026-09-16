@@ -2,8 +2,8 @@
   "id": "visual-design-studio",
   "name": "Visual Design Studio",
   "name_zh": "视觉设计工作室",
-  "description": "AI visual design chain: interpret a vague brief into a design spec (purpose, platform size, style anchor), engineer text-to-image prompts with model dialects and text-rendering rules, and audit output against platform layout specs (safe areas, ratios, text budgets). One brief flows through spec -> prompt -> audit without leaving the chain.",
-  "description_zh": "AI 视觉设计链条：把模糊需求翻译成设计规格单（用途/平台尺寸/风格锚），按模型方言与文字渲染规则写文生图 prompt，并按平台版面规格（比例/安全区/文字预算）审计产出。一条需求从规格到 prompt 到审计全程不出链。方法论借鉴 Anthropic canvas-design / designskills / Replicate prompting 指南并已署名。",
+  "description": "AI visual design chain: interpret a vague brief into a design spec (purpose, platform size, style anchor), engineer text-to-image prompts with model dialects and text-rendering rules, and audit output against platform layout specs (safe areas, ratios, text budgets). One brief flows through spec -> prompt -> audit without leaving the chain. Adds frontend-design-director: a two-pass design-lead workflow with an AI-default-tells checklist.",
+  "description_zh": "AI 视觉设计链条：把模糊需求翻译成设计规格单（用途/平台尺寸/风格锚），按模型方言与文字渲染规则写文生图 prompt，并按平台版面规格（比例/安全区/文字预算）审计产出。一条需求从规格到 prompt 到审计全程不出链。新增 frontend-design-director（设计总监式两遍工作流 + AI 味设计自查清单）。方法论借鉴 Anthropic canvas-design / designskills / Replicate prompting 指南并已署名。",
   "skills": [
     {
       "name": "design-brief-interpreter",
@@ -16,6 +16,10 @@
     {
       "name": "layout-spec-auditor",
       "source": "self-authored"
+    },
+    {
+      "name": "frontend-design-director",
+      "source": "methodology distilled from Anthropic public skills (no content copied)"
     }
   ]
 }

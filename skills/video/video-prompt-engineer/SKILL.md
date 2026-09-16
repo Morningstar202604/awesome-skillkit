@@ -104,7 +104,8 @@ write 模式交付 prompt 原文 + 槽位标注版；audit 模式交付 JSON 报
 
 ## 参考
 
-- [camera-vocabulary.md](references/camera-vocabulary.md) —— 运镜与转场词汇表（写 prompt 时查）
+- [camera-vocabulary.md](references/camera-vocabulary.md) —— 运镜与转场词汇表（快速版）
+- [cinematography-lexicon.md](references/cinematography-lexicon.md) —— 深度词库：17 种转场、动作动词空间语义、微表情表演、速度节奏、物理属性描述、各模型方言速查、迭代修复对照（写 prompt 时优先查这张）
 - [model-dialects.md](references/model-dialects.md) —— 各模型语法方言与核实链接
 - [sources-and-methodology.md](references/sources-and-methodology.md) —— 方法论开源出处与致谢（CC BY 4.0 署名信息）
 

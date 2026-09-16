@@ -3,11 +3,15 @@
   "name": "Test-Driven Development",
   "name_zh": "测试驱动开发",
   "description": "Write unit tests, fixtures, mocks, and guide red-green-refactor cycles.",
-  "description_zh": "编写单元测试、fixture、mock，并引导红绿重构循环。",
+  "description_zh": "编写单元测试、fixture、mock，引导红绿重构循环；新增 Playwright 网页应用流程测试（起服务→跑测试→清理，失败自动截图）。",
   "skills": [
     {
       "name": "tdd-guide",
       "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "webapp-flow-tester",
+      "source": "self-authored"
     }
   ]
 }

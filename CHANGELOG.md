@@ -16,6 +16,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.16.0] - 2026-09-16
+
+### Added
+
+- **细节词库 ×3（高密度模板，词条格式：术语 EN/CN + 效果 + 何时用 + prompt 示例）**：
+  - `video-prompt-engineer/references/cinematography-lexicon.md`：17 种转场（smash cut/match cut/J-cut/
+    invisible cut/seamless FPV fly-through…）、动作动词空间语义表（approaches vs comes）、微表情表演细节、
+    速度节奏词、Runway 官方运动类型词、可灵物理属性描述法、Veo 3/Runway/Sora/可灵/即梦五模型方言速查、
+    迭代修复对照表与负面清单——调研 Runway Gen-3 官方关键词体系与各家官方指南后蒸馏。
+  - `image-prompt-engineer/references/visual-detail-lexicon.md`：三层光照（自然/戏剧/棚拍 30+ 词条）、
+    构图 11 词条、焦段透视性格 10 词条、材质微细节与"材质×年代×色板×环境"堆叠公式、色彩方案、
+    静态图动势词、负面词节制、五大场景模板。
+  - `tts-voice-director/references/emotion-delivery-lexicon.md`：情绪→文案手法对照、标点停顿层级、
+    重音位置规则、双人对话节奏、参数档位、"情绪平"修复路径。
+- **新技能 ×5（方法论蒸馏自 Anthropic 公开技能文档思想，全部原创实现零复制，references 署名合规）**：
+  - `docx-writer`（office-productivity 包）：Word 文档生成/读取/中文字体统一（eastAsia 处理），
+    scripts/docx_ops.py 实测 create/inspect/styles 全通过。
+  - `pdf-pipeline`（office-productivity 包）：merge/split/extract/meta/rotate + 表单字段探测 +
+    扫描件 OCR 转线，scripts/pdf_ops.py 实测 6 子命令全通过。
+  - `internal-comms-writer`（office-productivity 包）：内部通讯四文体（团队更新/全员公告/FAQ 回答/
+    跨团队协调），四 W 一次问齐 + 原创自查清单，templates.md 全中文语境模板。
+  - `webapp-flow-tester`（tdd 包）：Playwright 网页应用流程测试，scripts/with_server.py 实测
+    起服务→就绪探测→测试→清理全生命周期（含 404 超时与退出码透传用例）。
+  - `frontend-design-director`（visual-design-studio 包）：设计总监式两遍工作流 + 原创五类 16 条
+    AI 味设计自查清单（ai-design-tells.md）。
+- 新链 3 条：document_pipeline 重排（内宣→docx→excel→纪要→pdf）、frontend_design、web_flow_test；
+  office 域 +pdf_pipeline 链。全量 126 技能文件 / 31 包 / 13 域。
+
 ## [0.15.0] - 2026-09-16
 
 ### Added
