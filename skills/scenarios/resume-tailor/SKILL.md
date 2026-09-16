@@ -35,6 +35,13 @@ If anything required is missing, ask ONCE:
 > 请提供：① 现有简历全文；② 目标岗位的完整 JD（含任职要求）。
 > 可选：希望中文还是英文、有无特别想突出的项目。
 
+## Preflight self-check
+
+No environment to probe — no dependencies, no endpoints, no env vars. The
+self-check is input-side: full resume AND complete JD in hand? If either is
+missing, ask ONCE (above) and STOP. A title-only JD ("帮我改简历，投产品经理")
+is not a JD — requesting the full posting first is what makes Step 1 possible.
+
 ## Red lines (hard bans, non-negotiable)
 
 1. 不得虚构经历、职级、证书或数字。量化只能来自原简历已有事实或向用户提问确认。

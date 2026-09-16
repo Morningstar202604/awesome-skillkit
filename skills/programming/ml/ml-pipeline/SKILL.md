@@ -1,6 +1,6 @@
 ---
 name: ml-pipeline
-description: "Train, evaluate, and tune ML models end-to-end. Supports RandomForest, GradientBoosting, LogisticRegression. Outputs accuracy/F1/ROC-AUC + cross-validation. Use after feature engineering is complete. 当用户要求 搭 ML 训练流水线 / 模型训练流程 / 调超参 时使用。 Do NOT use for deep-learning research (tabular sklearn/XGBoost workflows only)."
+description: "端到端训练、评估与调优 ML 模型：支持 RandomForest、GradientBoosting、LogisticRegression，输出 accuracy/F1/ROC-AUC 与交叉验证。何时使用：特征工程已完成、需要训练与对比模型时。触发场景（中/英）：搭 ML 训练流水线 / 模型训练流程 / 调超参 / train an ML model / build a training pipeline / tune hyperparameters。排除项：不用于深度学习研究（仅表格 sklearn/XGBoost 工作流）。"
 license: Apache-2.0
 compatibility: Requires scikit-learn, pandas, numpy. No API keys required.
 metadata:
@@ -14,39 +14,69 @@ metadata:
 
 # ML Pipeline
 
-Train → Evaluate → Tune → Save model.
+训练 → 评估 → 调优 → 保存模型。
 
-## When to Use
+## 输入清单
 
-- Features are engineered, ready for training
-- Need baseline model + cross-validation
-- Compare multiple algorithms
-- Generate model report for stakeholders
+| 输入 | 必需 | 说明 |
+|------|------|------|
+| data | 是 | 训练数据路径（CSV，含特征与标签列） |
+| target | 否 | 标签列名 | label |
+| model | 否 | `random_forest` / `gradient_boosting` / `logistic` | random_forest |
+| cv | 否 | 交叉验证折数 | 5 |
+| output | 否 | 报告写入文件 | 标准输出 |
 
-## Supported Models
+缺失时一次性问齐：「请提供：① data（CSV 路径，含特征与标签）。target/model/cv/output 我按默认处理。」
+
+## 前置自检
+
+```bash
+python3 --version
+python3 -c "import sklearn, pandas, numpy; print('deps OK')"
+test -f scripts/ml_pipeline.py && echo "OK script present"
+```
+
+- 预期：版本号输出；`deps OK` 打印；脚本存在。
+- 若失败：缺依赖 → `pip install scikit-learn pandas numpy`；脚本缺失 → STOP 回报。
+
+## 工作流
+
+### 步骤 1：加载并切分数据
+
+- 动作：读取 CSV，按 80/20 切分训练/测试集。
+
+```bash
+python3 scripts/ml_pipeline.py --data data/clean.csv --target label --model random_forest --cv 5
+```
+
+- 预期：脚本加载数据、完成切分，进入训练。
+- 若失败：`FileNotFoundError` → data 路径错；`KeyError` → target 列不存在。
+
+### 步骤 2：训练与交叉验证
+
+- 动作：用 `--model` 训练，`--cv` 折交叉验证。
+- 预期：训练完成，输出 `cv_mean` / `cv_std`。
+- 若失败：数据为空/全同值 → 检查特征；类别不平衡 → 考虑 `logistic` 或加权。
+
+### 步骤 3：评估与对比
 
 | Model | Best For | Speed |
 |-------|----------|-------|
-| random_forest | Tabular, mixed types | Medium |
-| gradient_boosting | Tabular, accuracy | Slow |
-| logistic | Binary, interpretability | Fast |
+| random_forest | 表格、混合类型 | Medium |
+| gradient_boosting | 表格、精度优先 | Slow |
+| logistic | 二分类、可解释 | Fast |
 
-## Workflow
+- 动作：输出 test 指标（accuracy / F1 / ROC-AUC），多模型时横向对比。
+- 预期：报告含 `train_accuracy` / `test_accuracy` / `f1` / `cv_mean` / `cv_std`。
+- 若失败：指标异常低 → 查数据泄漏或特征质量，参考 metrics-explained.md。
 
-1. Load data (from ETL output)
-2. Split train/test (80/20)
-3. Train model
-4. Evaluate: accuracy, F1, cross-validation
-5. Compare models (if multiple specified)
-6. Output report JSON
+### 步骤 4：报告与保存
 
-## Usage
+- 动作：将结果 JSON 写入 `--output` 或标准输出，保存模型产物。
+- 预期：报告含 `n_samples` / `n_features` 与各项指标。
+- 若失败：写入失败 → 检查 output 路径权限。
 
-```bash
-python3 ml_pipeline.py --data data/clean.csv --target label --model random_forest --cv 5
-```
-
-## Output
+## 输出格式
 
 ```json
 {
@@ -61,7 +91,32 @@ python3 ml_pipeline.py --data data/clean.csv --target label --model random_fores
 }
 ```
 
-## References
+## 参数速查表
 
-- [references/hyperparameter-guide.md](references/hyperparameter-guide.md) — tuning tips
-- [references/metrics-explained.md](references/metrics-explained.md) — when to use which metric
+| 参数 | 取值 | 说明 |
+|------|------|------|
+| --data | 文件路径 | 必需，CSV |
+| --target | 列名 | 默认 label |
+| --model | random_forest/gradient_boosting/logistic | 默认 random_forest |
+| --cv | 整数 | 默认 5 |
+| --output | 文件路径 | 可选，报告输出 |
+
+## 失败处置表
+
+| 现象/错误码 | 原因 | 处置 |
+|------------|------|------|
+| `FileNotFoundError` | data 路径错 | 核对路径 |
+| `KeyError: '<target>'` | 标签列缺失 | 用 `--target` 指定正确列名 |
+| test 指标远低于 train | 过拟合/数据泄漏 | 参考 metrics-explained.md 选指标与正则 |
+
+## 交付标准
+
+- 成功定义：报告含 `test_accuracy` 与 `f1` 等有限数值，模型产物已落盘。
+- 产物命名：`ml_report.json` + 模型文件（或 `--output` 指定）。
+- 保存位置：当前工作目录或 `--output` 路径。
+- 验证完整性：`python3 -c "import json; d=json.load(open('ml_report.json')); assert 0<=d['test_accuracy']<=1"`。
+
+## 参考
+
+- references/hyperparameter-guide.md — 调超参、选模型时读
+- references/metrics-explained.md — 选评估指标、解读分数时读

@@ -20,6 +20,39 @@ metadata:
 - **API方式**（推荐）：通过 `i.cnblogs.com/api/posts` 等 REST 接口直接操作，无需浏览器交互
 - **浏览器方式**（兜底）：通过任意 Playwright 驱动的浏览器会话操作页面，用于评论提交、博问互动等无 API 的场景
 
+## 输入清单
+
+| 输入 | 必需 | 说明 |
+|------|------|------|
+| 任务意图 | 是 | 发文 / 检查格式 / 配图 / 社区互动 / 选题调研（决定路由到哪个工作流） |
+| 文章主题（或全文） | 发文时必需 | 有全文则走格式检查，只有主题则从选题调研开始 |
+| `account.local.json` | 是（首次需配置） | 账号数据，见下节"账号信息" |
+| `auth-state.json` | 是 | 浏览器登录态文件，位于会话工作目录 |
+| 待检 Markdown 文件 | 格式检查时必需 | 传给预发布检查脚本 |
+
+缺输入时一次性问齐（不要分多轮追问）：
+"请提供：① 本次要做什么（发文/检查格式/配图/互动/选题）；② 若发文：文章主题或全文文件路径、目标个人分类；③ 若检查：Markdown 文件路径与文章标题。"
+
+## 前置自检
+
+依次执行，任一失败 → 按提示修复后 STOP，不要继续发文流程：
+
+```bash
+# 1. 账号文件已配置（首次使用时）
+test -f references/account.local.json && echo OK
+# 预期：OK；失败 → 复制 references/account.example.json 为 account.local.json 并填入真实账号，仍缺则提示用户配置，不要猜测账号
+
+# 2. 预发布检查脚本存在
+test -f scripts/cnblogs-pre-publish-check.py && echo OK
+# 预期：OK；失败 → cd 到本技能目录再操作
+
+# 3. 登录态有效（返回 JSON = 有效；返回 <!doctype = 过期）
+curl -s "https://i.cnblogs.com/api/posts/{任意已有postId}" -H "Cookie: $COOKIE" | head -c 20
+# 预期：JSON 开头；失败（HTML 开头）→ 提示用户通过浏览器重新登录并重新导出 auth-state.json
+```
+
+Cookie 存储在会话工作目录的 `auth-state.json` 文件中（含 HttpOnly），提取方式见 `references/publish-api.md` 的"Cookie 提取"章节。POST 请求另需 `X-XSRF-TOKEN` header：GET `https://i.cnblogs.com/posts`（HTML 页面），从 `Set-Cookie` 头提取 `XSRF-TOKEN` 值并 `decodeURIComponent` 解码；XSRF token 会定期变化，每次 POST 前重新获取最安全。
+
 ## 账号信息
 
 账号数据**不随本技能分发**，存于 `references/account.local.json`（gitignored）：
@@ -85,18 +118,47 @@ curl -s "https://i.cnblogs.com/api/posts/{任意已有postId}" -H "Cookie: $COOK
 
 ### 发文完整流程（API方式）
 
-1. **热点调研** → 浏览博客园首页 + websearch 搜索最新话题和数据
-2. **分析优秀文章** → 看高阅读量文章的标题技巧、结构、引流方式
-3. **确定选题** → 选择有差异化角度的话题
-4. **搜索素材** → 用 websearch 获取最新数据、案例、趋势
-5. **撰写文章** → 按排版规范和发文风格写 Markdown 正文
-6. **格式检查** → 运行 `scripts/cnblogs-pre-publish-check.py`
-7. **生成配图** → 用任意可用的文生图工具/技能生成 2 张配图（无配图能力可跳过）
-8. **上传配图** → Python urllib 直接 POST 到博客园图床
-9. **插入图片** → 将图片 URL 插入 Markdown 正文
-10. **提取 Cookie + XSRF** → 从 `auth-state.json` 提取，GET HTML 页面获取新 XSRF
-11. **POST 创建文章** → `https://i.cnblogs.com/api/posts`，`publishAt` 必须为 `null`
-12. **验证** → GET 文章确认字段完整、图片到位、格式检查全 PASS
+按以下 6 步执行；每步含动作、预期与失败分支，详细字段和代码示例见 `references/publish-api.md`。
+
+### 步骤 1：热点调研与选题
+
+- **动作**：按 `references/topic-research.md` 浏览博客园首页 + websearch 搜索最新话题和数据；分析高阅读量文章的标题技巧、结构、引流方式；选定有差异化角度的话题，并用 websearch 获取最新数据、案例、趋势作为素材。
+- **预期**：确定 1 个选题，且手头有 ≥2 条带出处的数据/案例支撑。
+- **若失败**：找不到有差异化的角度 → 换热点话题+实操角度（教人怎么做），不要硬写。
+
+### 步骤 2：撰写正文
+
+- **动作**：按 `references/formatting-guide.md` 的排版规范和下文"发文风格规范"写 Markdown 正文（`##`/`###` 标题、短段落多空行、`---` 分隔、章节标题带 emoji、文末要点回顾）。
+- **预期**：正文含开头故事/场景、至少 1 个对比表格、不超过 5 组引用块、"本文要点回顾"有序列表。
+- **若失败**：结构缺项 → 对照 `references/formatting-guide.md` 的文章结构模板补齐。
+
+### 步骤 3：格式检查
+
+- **动作**：
+  ```bash
+  python3 scripts/cnblogs-pre-publish-check.py <markdown_file> --title "文章标题"
+  ```
+  检查 8 项：h1 标题、标题 HTML 实体、代码块反引号、br 标签、引用块数量、签名区格式、标题层级跳跃。
+- **预期**：全部 PASS，退出码 0。
+- **若失败**：任一项 FAIL → 按 `references/formatting-guide.md` 对应规则修改后重跑，全部 PASS 才能发布。
+
+### 步骤 4：生成并上传配图
+
+- **动作**：按 `references/image-guide.md` 用任意可用的文生图工具/技能生成 2 张配图（暗色技术风、3:2 比例；无配图能力可跳过本步），再用 Python urllib 直接 POST 到博客园图床，把图片 URL 插入 Markdown 正文（开头 1 张概念图，中间 1 张数据/对比图）。
+- **预期**：拿到 2 个图床 URL，正文对应位置出现 `![...](图片URL)`。
+- **若失败**：上传 401/403 → Cookie 过期，回前置自检第 3 项重新验证登录态；插入图片时 replace 不生效 → 目标文本必须完全一致（含标点、换行），改用精确匹配重试。
+
+### 步骤 5：提取凭据并创建文章
+
+- **动作**：按 `references/publish-api.md` 从 `auth-state.json` 提取 Cookie，GET HTML 页面获取新 XSRF；POST `https://i.cnblogs.com/api/posts` 创建文章，`publishAt` 必须为 `null`（传空字符串 `""` 会报 DateTime 转换错误）。
+- **预期**：API 返回新文章 PostId。
+- **若失败**：返回 HTML 而非 JSON → 登录态过期，提示用户重新登录；DateTime 转换错误 → 检查 `publishAt` 是否为 `null`。
+
+### 步骤 6：验证发布结果并更新台账
+
+- **动作**：GET 新文章确认字段完整、图片到位、格式检查全 PASS；把 PostId、标题、分类追加到 `references/account.local.json` 的 `published_posts` 字段。
+- **预期**：GET 返回的文章字段与提交一致，台账新增 1 行记录。
+- **若失败**：字段缺失/图片未显示 → 按 `references/publish-api.md` 修正字段后用更新接口重新提交；台账更新失败 → 手动补记，不要丢失 PostId。
 
 详细字段格式和代码示例见 `references/publish-api.md`。
 
@@ -248,6 +310,26 @@ python3 scripts/cnblogs-pre-publish-check.py <markdown_file> --title "文章标�
 ```
 
 检查 8 项：h1标题、标题HTML实体、代码块反引号、br标签、引用块数量、签名区格式、标题层级跳跃。全部 PASS 才能发布。
+
+## 失败处置表
+
+| 现象/错误码 | 原因 | 处置 |
+|-------------|------|------|
+| API 返回 HTML 而非 JSON | 登录态过期 | 提示用户浏览器重新登录，重新导出 `auth-state.json` |
+| POST 缺 `XSRF-TOKEN` 报错 | XSRF token 过期或未带 | 每次 POST 前重新 GET `https://i.cnblogs.com/posts` 提取新 token |
+| `publishAt` 报 DateTime 转换错误 | 传了空字符串 `""` | `publishAt` 必须为 `null` |
+| GET API 端点拿不到 XSRF | API 端点不返回 Set-Cookie | 改 GET HTML 页面（`https://i.cnblogs.com/posts`）提取 |
+| 图片上传 401/403 | 图床凭据过期或 Cookie 不完整 | 确认 Cookie 取自 `auth-state.json`（含 HttpOnly），必要时重新登录 |
+| 格式检查任一项 FAIL | 正文违反排版硬性要求 | 按 `references/formatting-guide.md` 修改后重跑检查 |
+| 投稿超限 | 3 小时内同分类已投 1 篇候选区 | 换分类直接发布，或等待后再投 |
+| 更多未列出的失败 | — | 查 `references/troubleshooting.md`（13 个已知问题及解决方案） |
+
+## 交付标准
+
+- **成功定义**：发文流程 = API 返回 PostId 且 GET 复核字段/图片/格式全部到位，并已更新台账；互动流程 = 目标评论/消息已按规范处理；格式检查 = 8 项全 PASS。
+- **产物命名**：文章 Markdown `<主题-slug>.md`；配图 `cover-1.<ext>`、`mid-1.<ext>`（或生成工具默认名）。
+- **保存位置**：会话工作目录；账号台账固定在 `references/account.local.json` 的 `published_posts`。
+- **完整性验证**：GET 已发布文章 URL 可访问且正文图片显示；`published_posts` 含本次 PostId、标题、分类。
 
 ## 关键注意事项（踩过的坑）
 

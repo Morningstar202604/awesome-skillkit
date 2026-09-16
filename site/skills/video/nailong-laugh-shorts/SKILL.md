@@ -40,6 +40,13 @@ Ask ONCE only if user gave nothing at all:
 > B：拿真人魔性动作视频换成这个形象（更还原梗的扭曲感）。
 > 可选：做几期、要不要换装系列。
 
+## Preflight self-check
+
+- 文生图工具可用吗（本仓 `image-generation` 技能或任一 web 工具）？不可用 → STOP。
+- Pipeline B：动作源视频在盘吗？（`test -f <动作视频>`）不在 → 先拍或先取材，STOP。
+- 系列化（episode_count ≥5）：上一期的形象图与 prompt 存档在盘吗？不在 →
+  先重建角色档（重跑 Pipeline A Step 1 并归档），保证每期同一张脸。
+
 ## Character description library (copy-paste prompts)
 
 Base body (official-ish look):
@@ -92,6 +99,8 @@ Expected: 3–5 秒无缝循环感素材。失败分支：动作僵硬 → 改�
 
 找一段魔性真人动作（军体拳、社会摇、广场舞、摔跤倒地）。自己拍最稳；
 用网络素材注意只取动作参考、不保留任何人脸画面。
+Expected: 一段轮廓清晰、节奏夸张的动作视频。失败分支：素材带可辨识人脸 →
+裁剪或重拍，只保留动作（剪影/远景），不带脸进入下一步。
 
 ### Step 2: 动作迁移
 

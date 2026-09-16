@@ -12,20 +12,17 @@ metadata:
   verified-date: "2026-09-09"
 ---
 
-# SQL Database Assistant - POWERFUL Tier Skill
-
-## Overview
+# SQL Database Assistant
 
 The operational companion to database design. While **database-designer** focuses on schema architecture, ERD modeling, and multi-tenancy patterns, this skill covers the day-to-day: writing queries, optimizing performance, generating migrations, and bridging the gap between application code and database engines.
 
-### Core Capabilities
+## Core Capabilities
 
 - **Natural Language to SQL** — translate requirements into correct, performant queries
 - **Schema Exploration** — introspect live databases across PostgreSQL, MySQL, SQLite, SQL Server
-- **Query Optimization** — EXPLAIN analysis, index recommendations, N+1 detection, rewrite patterns
+- **Query Optimization** — EXPLAIN analysis, index recommendations, rewrite patterns
 - **Migration Generation** — up/down scripts, zero-downtime strategies, rollback plans
 - **ORM Integration** — Prisma, Drizzle, TypeORM, SQLAlchemy patterns and escape hatches
-- **Multi-Database Support** — dialect-aware SQL with compatibility guidance
 
 ### Tools
 
@@ -33,11 +30,34 @@ The operational companion to database design. While **database-designer** focuse
 |--------|---------|
 | `scripts/query_optimizer.py` | Static analysis of SQL queries for performance issues |
 | `scripts/migration_generator.py` | Generate migration file templates from change descriptions |
+| `scripts/schema_explorer.py` | Turn introspection results (or a SQLite file) into schema documentation |
 
 > **Boundary / 与 database-designer 的划界**：本技能的 `migration_generator.py` 做 **自然语言 → 迁移模板**（`--change "add column ..." → up/down 文件`）。若需求是"对比两份 schema JSON、生成含回滚与零停机（expand-contract）的正式迁移 SQL"，请走 `database-designer` 的同名脚本（`--current/--target`），二者职责不同、互为上下游。
-| `scripts/schema_explorer.py` | Generate schema documentation from introspection queries |
 
----
+## 输入清单
+
+| Input | Required | Description |
+|-------|----------|-------------|
+| SQL query or file | Conditional | Query text or `.sql` path, for optimization requests |
+| Change description | Conditional | Natural-language schema change, for migration requests |
+| Introspection source | Conditional | Introspection JSON/CSV file, or a SQLite `.db` file, for schema exploration |
+| Dialect | Optional | `postgres` (default), `mysql`, `sqlite`, `sqlserver` |
+| Output format | Optional | stdout by default; `--json` / `--output <file>` per tool |
+
+Collect missing inputs in one shot: "Please provide: ① the query / change description / introspection data (whichever fits the task) ② target dialect (postgres/mysql/sqlite/sqlserver) ③ output format and destination. Everything else I'll default."
+
+## 前置自检
+
+Probe before running; on any failure, give the fix and STOP:
+
+```bash
+python3 --version   # expect 3.8+; fail: install python3
+python3 scripts/query_optimizer.py --help >/dev/null 2>&1       # expect exit 0; fail: script missing → check skill dir
+python3 scripts/migration_generator.py --help >/dev/null 2>&1
+python3 scripts/schema_explorer.py --help >/dev/null 2>&1
+```
+
+Additional checks per task: optimization needs only query text; migration generation needs only the change description; schema exploration needs an introspection file (or SQLite file — verify it exists and is readable before passing `--sqlite`).
 
 ## Natural Language to SQL
 
@@ -92,8 +112,6 @@ ON DUPLICATE KEY UPDATE value = VALUES(value), updated_at = VALUES(updated_at);
 
 > See references/query_patterns.md for JOINs, CTEs, window functions, JSON operations, and more.
 
----
-
 ## Schema Exploration
 
 ### Introspection Queries
@@ -143,14 +161,18 @@ ORDER BY t.name, c.column_id;
 
 ### Generating Documentation from Schema
 
-Use `scripts/schema_explorer.py` to produce markdown or JSON documentation:
+Run `scripts/schema_explorer.py` — inputs are mutually exclusive and one is required:
 
 ```bash
-python scripts/schema_explorer.py --dialect postgres --tables all --format md
-python scripts/schema_explorer.py --dialect mysql --tables users,orders --format json --json
+# From a SQLite database (opened read-only), single table filter, JSON output
+python3 scripts/schema_explorer.py --sqlite app.db --table users --json
+
+# From an introspection result file (JSON/CSV; `-` reads stdin), write Markdown doc
+python3 scripts/schema_explorer.py --input introspection.json -o schema_doc.md
 ```
 
----
+Expected: Markdown schema doc on stdout, or at the `-o` path; `--json` switches to normalized JSON.
+If it fails: neither `--input` nor `--sqlite` given → the script exits with a usage error; supply one source. Malformed introspection file → regenerate it with the queries above first.
 
 ## Query Optimization
 
@@ -183,28 +205,17 @@ python scripts/schema_explorer.py --dialect mysql --tables users,orders --format
 | `LIKE '%search%'` | Full-text search index (GIN/FULLTEXT) |
 | `ORDER BY RAND()` | Application-side random sampling or `TABLESAMPLE` |
 
-### N+1 Detection
-
-**Symptoms:**
-- Application loop that executes one query per parent row
-- ORM lazy-loading related entities inside a loop
-- Query log shows hundreds of identical SELECT patterns with different IDs
-
-**Fixes:**
-- Use eager loading (`include` in Prisma, `joinedload` in SQLAlchemy)
-- Batch queries with `WHERE id IN (...)`
-- Use DataLoader pattern for GraphQL resolvers
-
 ### Static Analysis Tool
 
 ```bash
-python scripts/query_optimizer.py --query "SELECT * FROM orders WHERE status = 'pending'" --dialect postgres
-python scripts/query_optimizer.py --query queries.sql --dialect mysql --json
+python3 scripts/query_optimizer.py --query "SELECT * FROM orders WHERE status = 'pending'" --dialect postgres
+python3 scripts/query_optimizer.py --query queries.sql --dialect mysql --json
 ```
 
-> See references/optimization_guide.md for EXPLAIN plan reading, index types, and connection pooling.
+Expected: findings list per statement (anti-patterns, index hints); `--json` for machine-readable output.
+If it fails: `--query` accepts a SQL string or a `.sql` file path — a missing file path exits with an error; verify the path.
 
----
+> See references/optimization_guide.md for EXPLAIN plan reading, index types, and connection pooling.
 
 ## Migration Generation
 
@@ -247,29 +258,20 @@ ALTER TABLE orders ALTER COLUMN region SET DEFAULT 'unknown';
 CREATE INDEX CONCURRENTLY idx_orders_status ON orders (status);
 ```
 
-### Data Backfill Strategies
+### Backfill and Rollback Strategies
 
-- **Batch updates** — process in chunks of 1000-10000 rows to avoid lock contention
-- **Background jobs** — run backfills asynchronously with progress tracking
-- **Dual-write** — write to old and new columns during transition period
-- **Validation queries** — verify row counts and data integrity after each batch
-
-### Rollback Strategies
-
-Every migration must have a reversible down script. For irreversible changes:
-
-1. **Backup before execution** — `pg_dump` the affected tables
-2. **Feature flags** — application can switch between old/new schema reads
-3. **Shadow tables** — keep a copy of the original table during migration window
+- **Batch updates** — chunks of 1000-10000 rows to avoid lock contention; **dual-write** old and new columns during transition; verify row counts after each batch
+- Every migration must have a reversible down script. For irreversible changes: `pg_dump` the affected tables first, keep feature flags to switch reads, or hold a shadow-table copy during the window
 
 ### Migration Generator Tool
 
 ```bash
-python scripts/migration_generator.py --change "add email_verified boolean to users" --dialect postgres --format sql
-python scripts/migration_generator.py --change "rename column name to full_name in customers" --dialect mysql --format alembic --json
+python3 scripts/migration_generator.py --change "add email_verified boolean to users" --dialect postgres --format sql
+python3 scripts/migration_generator.py --change "rename column name to full_name in customers" --dialect mysql --format alembic --json
 ```
 
----
+Expected: up/down migration template (SQL) or Alembic/Prisma template per `--format` (`sql`/`prisma`/`alembic`); `--output` writes to a file instead of stdout.
+If it fails: unrecognized change phrasing → restate the change as "add/drop/rename column X to/in table Y"; unsupported dialect → one of the four choices above.
 
 ## Multi-Database Support
 
@@ -294,8 +296,6 @@ python scripts/migration_generator.py --change "rename column name to full_name 
 - **Test migrations on target engine** — `information_schema` varies between engines
 - **Use ISO date format** — `'YYYY-MM-DD'` works everywhere
 - **Quote identifiers** — use double quotes (SQL standard) or backticks (MySQL)
-
----
 
 ## ORM Patterns
 
@@ -375,8 +375,6 @@ class User(Base):
 
 > See references/orm_patterns.md for side-by-side comparisons and migration workflows per ORM.
 
----
-
 ## Data Integrity
 
 ### Constraint Strategy
@@ -402,8 +400,6 @@ class User(Base):
 2. **Short transactions** — minimize time between first lock and commit
 3. **Advisory locks** — use `pg_advisory_lock()` for application-level coordination
 4. **Retry logic** — catch deadlock errors and retry with exponential backoff
-
----
 
 ## Backup & Restore
 
@@ -431,15 +427,7 @@ mysql dbname < backup.sql
 sqlite3 dbname ".backup backup.db"
 ```
 
-### Backup Best Practices
-
-- **Automate** — cron or systemd timer, never manual-only
-- **Test restores** — untested backups are not backups
-- **Offsite copies** — S3, GCS, or separate region
-- **Retention policy** — daily for 7 days, weekly for 4 weeks, monthly for 12 months
-- **Monitor backup size and duration** — sudden changes signal issues
-
----
+Backup hygiene: automate backups, test restores regularly, keep offsite copies — an untested backup is not a backup.
 
 ## Anti-Patterns
 
@@ -447,7 +435,7 @@ sqlite3 dbname ".backup backup.db"
 |-------------|---------|-----|
 | `SELECT *` | Transfers unnecessary data, breaks on schema changes | Explicit column list |
 | Missing indexes on FK columns | Slow JOINs and cascading deletes | Add indexes on all foreign keys |
-| N+1 queries | 1 + N round trips to database | Eager loading or batch queries |
+| N+1 queries | 1 + N round trips; ORM lazy-loading in loops shows as many identical SELECTs | Eager loading (`include`/`joinedload`), `WHERE id IN (...)`, or DataLoader |
 | Implicit type coercion | `WHERE id = '123'` prevents index use | Match types in predicates |
 | No connection pooling | Exhausts connections under load | PgBouncer, ProxySQL, or ORM pool |
 | Unbounded queries | No LIMIT risks returning millions of rows | Always paginate |
@@ -456,14 +444,40 @@ sqlite3 dbname ".backup backup.db"
 | Soft deletes everywhere | Complicates every query with `WHERE deleted_at IS NULL` | Archive tables or event sourcing |
 | Raw string concatenation | SQL injection | Parameterized queries always |
 
----
+## 失败处置表
+
+| Symptom / Error | Cause | Fix |
+|-----------------|-------|-----|
+| `schema_explorer.py` usage error (missing source) | Neither `--input` nor `--sqlite` provided | Supply exactly one source; they are mutually exclusive |
+| `query_optimizer.py` file-not-found on `--query` | Path treated as file but missing | Pass SQL as a quoted string, or verify the `.sql` path |
+| Migration template misses the intent | Change phrasing not recognized | Restate as "add/drop/rename column X in table Y" |
+| Wrong dialect output | `--dialect` not passed, default postgres | Always pass `--dialect` matching the user's engine |
+| Generated SQL fails on target engine | Dialect-specific syntax in shared code | Check the Dialect Differences table; wrap dialect features in adapters |
+
+## 交付标准
+
+Success definition: correct, dialect-aware SQL with optimization rationale, or a migration template with a matching down script, or schema documentation reflecting the real source.
+Artifact naming: migration files `<timestamp>_<name>.up.sql` / `.down.sql` (or Alembic/Prisma per `--format`); schema docs `schema_doc.md` / `.json`.
+Save location: project's `migrations/` folder for migrations; `docs/` or project root for schema documentation.
+Verify completeness: every query passes the optimizer without flagged anti-patterns (or flags are consciously waived); every migration has a down script; schema doc covers all tables in the introspection source.
+
+## 安全红线
+
+- Never execute generated SQL against a live database — outputs are review artifacts. Destructive DDL (DROP/DELETE/TRUNCATE) must be flagged to the user.
+- Credentials belong in environment variables or connection configs, never inline in queries or docs.
+- `pg_dump`/`mysqldump` commands above are for user-side execution; run them only at the user's explicit request with their credentials.
+
+## 参考
+
+- `references/query_patterns.md` — read when composing JOINs, CTEs, window functions, or JSON operations
+- `references/optimization_guide.md` — read when interpreting EXPLAIN plans or choosing index types
+- `references/orm_patterns.md` — read when the task lives inside an ORM (Prisma/Drizzle/TypeORM/SQLAlchemy)
 
 ## Cross-References
 
 | Skill | Relationship |
 |-------|-------------|
-| **database-designer** | Schema architecture, normalization analysis, ERD generation |
-| **database-designer** | Schema architecture, ERD modeling, RLS/multi-tenancy patterns |
+| **database-designer** | Schema architecture, normalization analysis, ERD generation, RLS/multi-tenancy patterns |
 | **migration-architect** | Complex multi-step migration orchestration |
 | **api-design-reviewer** | Ensuring API endpoints align with query patterns |
 | **observability-platform** | Query performance monitoring, slow query alerts |

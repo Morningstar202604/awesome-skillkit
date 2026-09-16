@@ -68,6 +68,9 @@ python3 scripts/prompt_audit.py --prompt "<待审文本>"
 
 查 [model-dialects.md](references/model-dialects.md) 对应模型的语法差异（标记符号、参考图槽位、音频槽位）。**所有方言条目均为 2026-09 网络调研值，执行前按文档内给出的官方 prompt guide 链接核实（VERIFY BEFORE USE）**——模型语法月度级更新。
 
+预期：prompt 已按该模型方言改写，且文档内官方核实链接已点开确认。
+若失败：核实链接失效或文档缺失 → 按通用六槽位结构交付，并在交付物中注明「方言未核实」。
+
 ### 步骤 4：交付
 
 write 模式交付 prompt 原文 + 槽位标注版；audit 模式交付 JSON 报告 + 修复后的 prompt 对比版。

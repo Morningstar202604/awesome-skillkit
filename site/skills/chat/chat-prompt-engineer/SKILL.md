@@ -26,6 +26,8 @@ metadata:
 | 受众 / 用途 | ✗ | 缺时主动问一句，不猜 |
 | 待审 prompt | audit ✓ | 原文粘贴 |
 
+缺输入时一次性问齐："请提供：① 模式（task 一次性任务 / agent 智能体人设）② 粗需求或待审 prompt 原文 ③ 目标平台与受众（可选，缺则按豆包系通用）。"
+
 ## 前置自检
 
 - write 模式：粗需求里有**动词明确的任务**吗？"帮我搞一下这个"没有任务动词，先追问。
@@ -86,11 +88,13 @@ python3 scripts/prompt_audit.py --prompt "<system prompt>" --mode agent   # 五�
 
 长内容任务套**三轮迭代**：第一轮只要大纲骨架 → 第二轮选定部分展开成正文 → 第三轮抛光（删重复、被动改主动、开头加钩子）。一次让模型写全文 = 自己给自己找三轮返工。
 
-交付标准：
+## 交付标准
 
-- task：五要素齐全的 prompt 原文 + 要素标注版；audit 附 JSON 报告 + 修复前后对比
-- agent：五段齐全的 system prompt + 建议的开场白与预置问题各 3 条（Coze/豆包智能体发布件）
-- 方言条目使用前已按 platform-dialects.md 的核实步骤确认（VERIFY BEFORE USE）
+- 产物（task）：五要素齐全的 prompt 原文 + 要素标注版。
+- 产物（audit）：JSON 审计报告 + 修复前后对比。
+- 产物（agent）：五段齐全的 system prompt + 建议的开场白与预置问题各 3 条（Coze/豆包智能体发布件）。
+- 保存位置：直接输出在对话中（本技能不写文件）。
+- 完整性验证：task 产物跑 `python3 scripts/prompt_audit.py --prompt "<文本>"` 返回 5/5；agent 产物五段标题齐全；方言条目使用前已按 platform-dialects.md 的核实步骤确认（VERIFY BEFORE USE）。
 
 ## 五要素词典（最快查表）
 

@@ -12,106 +12,74 @@ metadata:
   verified-date: "2026-09-09"
 ---
 
-# Database Designer - POWERFUL Tier Skill
+# Database Designer
 
-## Overview
+Design and evolve database schemas with tool support: automated normalization analysis, ERD generation, index optimization against real query patterns, and zero-downtime migration planning. Analysis and plan generation only — never executes schema changes against a live database.
 
-A comprehensive database design skill that provides expert-level analysis, optimization, and migration capabilities for modern database systems. This skill combines theoretical principles with practical tools to help architects and developers create scalable, performant, and maintainable database schemas.
+## 输入清单
 
-## Core Competencies
+| Input | Required | Description |
+|-------|----------|-------------|
+| Current schema | Required | SQL DDL file or JSON schema (samples in `assets/sample_schema.sql` / `sample_schema.json`) |
+| Hot query patterns | Conditional | Query-patterns JSON for index optimization (copy `assets/sample_query_patterns.json` and fill with the user's queries) |
+| Target schema | Conditional | Second schema JSON when generating a migration |
+| Database engine | Optional | PostgreSQL (default assumption for SQL examples), MySQL, SQLite, SQL Server |
+| Multi-tenancy / RLS / seed-data needs | Optional | Triggers the schema-design playbook flow |
 
-### Schema Design & Analysis
+Collect missing inputs in one shot: "Please provide: ① the current schema (DDL file or JSON) ② your hottest queries (for index work) ③ the target schema if you want a migration plan ④ target engine and any tenancy/RLS requirements. Everything else I'll default."
 
-- **Normalization Analysis**: Automated detection of normalization levels (1NF through BCNF)
-- **Denormalization Strategy**: Smart recommendations for performance optimization
-- **Data Type Optimization**: Identification of inappropriate types and size issues
-- **Constraint Analysis**: Missing foreign keys, unique constraints, and null checks
-- **Naming Convention Validation**: Consistent table and column naming patterns
-- **ERD Generation**: Automatic Mermaid diagram creation from DDL
+## 前置自检
 
-### Index Optimization
+Probe before running; on any failure, give the fix and STOP:
 
-- **Index Gap Analysis**: Identification of missing indexes on foreign keys and query patterns
-- **Composite Index Strategy**: Optimal column ordering for multi-column indexes
-- **Index Redundancy Detection**: Elimination of overlapping and unused indexes
-- **Performance Impact Modeling**: Selectivity estimation and query cost analysis
-- **Index Type Selection**: B-tree, hash, partial, covering, and specialized indexes
+```bash
+python3 --version   # expect 3.8+; fail: install python3
+python3 scripts/schema_analyzer.py --help >/dev/null 2>&1     # expect exit 0; fail: script missing → check skill dir
+python3 scripts/index_optimizer.py --help >/dev/null 2>&1
+python3 scripts/migration_generator.py --help >/dev/null 2>&1
+test -f <schema-input>   # expect exit 0; fail: file missing → ask user for the DDL/JSON schema
+```
 
-### Migration Management
+## 工作流
 
-- **Zero-Downtime Migrations**: Expand-contract pattern implementation
-- **Schema Evolution**: Safe column additions, deletions, and type changes
-- **Data Migration Scripts**: Automated data transformation and validation
-- **Rollback Strategy**: Complete reversal capabilities with validation
-- **Execution Planning**: Ordered migration steps with dependency resolution
+Run the tools — do not analyze schemas by hand. All paths relative to this skill folder; sample inputs in `assets/`.
 
-## Tool Workflow (run these — do not analyze schemas by hand)
-
-All paths relative to this skill folder; sample inputs in `assets/`.
-
-### 1. Analyze the schema
+### 步骤 1: Analyze the schema
 
 ```bash
 python3 scripts/schema_analyzer.py --input schema.sql --generate-erd --output-format json -o analysis.json
 ```
 
-Accepts SQL DDL or JSON schema (`assets/sample_schema.sql` / `sample_schema.json`). Output includes normalization findings, missing constraints, naming issues, and a Mermaid ERD — show the ERD to the user and fix flagged issues before optimizing.
+Expected: `analysis.json` contains normalization findings, missing constraints, naming issues, and a Mermaid ERD (`--erd-only` outputs just the ERD). Show the ERD to the user and fix flagged issues before optimizing.
+If it fails: parse errors on the DDL → check the SQL dialect is supported or convert to JSON schema; empty findings on a big schema → confirm `--input` pointed at DDL, not a dump with data.
 
-### 2. Optimize indexes against real query patterns
+### 步骤 2: Optimize indexes against real query patterns
 
 ```bash
 python3 scripts/index_optimizer.py --schema assets/sample_schema.json --queries assets/sample_query_patterns.json --analyze-existing --format json -o indexes.json
 ```
 
-Write the user's hot queries into a query-patterns JSON first (copy `assets/sample_query_patterns.json`). Output is a priority-ordered list of CREATE INDEX recommendations plus redundant-index removals.
+Write the user's hot queries into a query-patterns JSON first (copy `assets/sample_query_patterns.json`). Expected: a priority-ordered list of CREATE INDEX recommendations plus redundant-index removals.
+If it fails: no recommendations → queries may be too few or trivial; ask for the real workload. `--min-priority` (1=highest, 4=lowest, default 4) controls cutoff.
 
-### 3. Generate the migration
+### 步骤 3: Generate the migration
 
 ```bash
 python3 scripts/migration_generator.py --current current_schema.json --target target_schema.json --zero-downtime --format sql -o migration.sql
 ```
 
-`--zero-downtime` emits an expand-contract plan; `--validate-only` checks feasibility without generating SQL.
+Expected: `migration.sql` with ALTERs; `--zero-downtime` emits an expand-contract plan.
+If it fails: schema JSONs structurally different from analyzer output → regenerate both via 步骤 1.
 
 > **Boundary / 与 sql-database-assistant 的划界**：本技能的 `migration_generator.py` 做 **schema 对比迁移**——输入两份 schema JSON，输出 ALTER + 回滚 + 零停机计划。若需求是"用一句自然语言描述改动，生成 up/down 迁移模板"，请走 `sql-database-assistant` 的同名脚本（`--change "..."`），二者职责不同、互为上下游。
 
-### 4. Verification loop
+### 步骤 4: Verification loop
 
-Re-run step 1 on the *target* schema and assert the issues found in the first pass are gone; run `migration_generator.py --validate-only` before handing over the migration.
+Re-run 步骤 1 on the *target* schema and assert the issues found in the first pass are gone; run `migration_generator.py --validate-only` before handing over the migration. Never execute the migration — hand the SQL to the user.
 
 ## Schema Design Playbook (multi-tenancy, RLS, seed data)
 
 → See references/schema-design-playbook.md for cross-cutting concerns (tenant isolation, soft deletes, audit trails), PostgreSQL RLS policies, seed-data guidance, and a full example schema in references/full-schema-examples.md
-
-## Database Design Principles
-
-→ See references/database-design-reference.md for details
-
-## Best Practices
-
-### Schema Design
-
-1. **Use meaningful names**: Clear, consistent naming conventions
-2. **Choose appropriate data types**: Right-sized columns for storage efficiency
-3. **Define proper constraints**: Foreign keys, check constraints, unique indexes
-4. **Consider future growth**: Plan for scale from the beginning
-5. **Document relationships**: Clear foreign key relationships and business rules
-
-### Performance Optimization
-
-1. **Index strategically**: Cover common query patterns without over-indexing
-2. **Monitor query performance**: Regular analysis of slow queries
-3. **Partition large tables**: Improve query performance and maintenance
-4. **Use appropriate isolation levels**: Balance consistency with performance
-5. **Implement connection pooling**: Efficient resource utilization
-
-### Security Considerations
-
-1. **Principle of least privilege**: Grant minimal necessary permissions
-2. **Encrypt sensitive data**: At rest and in transit
-3. **Audit access patterns**: Monitor and log database access
-4. **Validate inputs**: Prevent SQL injection attacks
-5. **Regular security updates**: Keep database software current
 
 ## Query Generation Patterns
 
@@ -181,8 +149,6 @@ FROM sales
 GROUP BY GROUPING SETS ((region, product), (region), ());
 ```
 
----
-
 ## Migration Patterns
 
 ### Up/Down Migration Scripts
@@ -198,8 +164,6 @@ migrations/
 ```
 
 ### Zero-Downtime Migrations (Expand/Contract)
-
-Use the expand-contract pattern to avoid locking or breaking running code:
 
 1. **Expand** — add the new column/table (nullable, with default)
 2. **Migrate data** — backfill in batches; dual-write from application
@@ -220,8 +184,6 @@ WHERE id IN (SELECT id FROM users WHERE email_normalized IS NULL LIMIT 5000);
 - Always test the `down.sql` in staging before deploying `up.sql` to production
 - Keep rollback window short — if the contract step has run, rollback requires a new forward migration
 - For irreversible changes (dropping columns with data), take a logical backup first
-
----
 
 ## Performance Optimization
 
@@ -271,8 +233,6 @@ Fixes:
 - Account for replication lag (typically <1s for async, 0 for sync)
 - Use `pg_last_wal_replay_lsn()` to detect lag before reading critical data
 
----
-
 ## Multi-Database Decision Matrix
 
 | Criteria | PostgreSQL | MySQL | SQLite | SQL Server |
@@ -299,8 +259,6 @@ Fixes:
 
 > Use SQL as default. Reach for NoSQL only when the access pattern clearly benefits from it.
 
----
-
 ## Sharding & Replication
 
 ### Horizontal vs Vertical Partitioning
@@ -324,7 +282,37 @@ Fixes:
 | **Asynchronous** | Eventual | Low write latency | Read-heavy web apps |
 | **Semi-synchronous** | At-least-one replica confirmed | Moderate | Balance of safety and speed |
 
----
+## 失败处置表
+
+| Symptom / Error | Cause | Fix |
+|-----------------|-------|-----|
+| `schema_analyzer.py` DDL parse errors | Dialect-specific syntax unsupported | Convert the DDL to JSON schema format, then re-run with `--input sample_schema.json` |
+| Analyzer finds nothing on a large schema | Input was a data dump, not DDL | Re-run with DDL-only input (`pg_dump --schema-only`) |
+| Index optimizer returns no recommendations | Query-patterns JSON empty or trivial | Fill `assets/sample_query_patterns.json` with the user's real hot queries |
+| Migration contains destructive DROPs unexpectedly | Current/target schema mismatch | Inspect both JSONs; regenerate via 步骤 1; confirm with user before delivering |
+| `--validate-only` reports failures | Migration infeasible as planned | Fix schema conflicts (type changes, existing data) and regenerate |
+
+## 交付标准
+
+Success definition: analysis JSON with a Mermaid ERD, an index recommendation list tied to real query patterns, and (when requested) a validated migration SQL with rollback/zero-downtime plan.
+Artifact naming: `analysis.json`, `indexes.json`, `migration.sql` (or user-specified names via `-o`).
+Save location: working directory root, or the project's `migrations/` folder for migration SQL following the timestamp naming above.
+Verify completeness: every analyzer finding is either fixed in the target schema or explicitly waived; every index recommendation cites the query pattern it serves; `--validate-only` passes on the migration.
+
+## 安全红线
+
+- Never connect to or execute against a live database from this skill — all outputs are files for user review.
+- Migrations containing DROP/DELETE/TRUNCATE must be called out explicitly to the user before handover.
+- Sample files in `assets/` are synthetic examples, not real production schemas.
+
+## 参考
+
+- `references/schema-design-playbook.md` — read when designing for multi-tenancy, RLS, soft deletes, audit trails, or seed data
+- `references/full-schema-examples.md` — read when you need a complete worked example schema
+- `references/database-design-reference.md` — read for general design principles (naming, constraints, types)
+- `references/normalization_guide.md` — read when the user asks why a schema is (de)normalized a certain way
+- `references/index_strategy_patterns.md` — read when choosing between index types or composite orderings
+- `references/database_selection_decision_tree.md` — read when the user is still choosing an engine (SQL vs NoSQL)
 
 ## Cross-References
 

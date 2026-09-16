@@ -14,393 +14,189 @@ metadata:
 
 # PR Review Expert
 
-**Tier:** POWERFUL
-**Category:** Engineering
-**Domain:** Code Review / Quality Assurance
+对 GitHub PR / GitLab MR 做端到端结构化代码评审：影响面分析、安全扫描、破坏性变更检测、测试覆盖 delta，产出带优先级的评审报告。只评审不下场改代码。
 
----
+## 输入清单
 
-## Overview
+| 输入 | 必需 | 说明 |
+|------|------|------|
+| PR/MR 编号 | 必需 | GitHub `gh` 用数字 ID；GitLab `glab` 用 IID |
+| 平台（GitHub / GitLab） | 必需 | 决定用 `gh` 还是 `glab` 命令 |
+| 是否验证关联票据 | 可选 | 若要，需 `JIRA_API_TOKEN` 或 `LINEAR_API_KEY` 环境变量 |
+| 评审严格度 | 可选 | 默认全量；超大 PR 仅关键项 |
 
-Structured, systematic code review for GitHub PRs and GitLab MRs. Goes beyond style nits — this skill
-performs blast radius analysis, security scanning, breaking change detection, and test coverage delta
-calculation. Produces a reviewer-ready report with a 30+ item checklist and prioritized findings.
+缺失输入时一次性问齐：「请提供：①PR/MR 编号 ②平台（GitHub/GitLab）③是否需要核验 Jira/Linear 票据（需要则确认对应凭据已注入环境变量）。其余按全量评审执行。」
 
----
+## 前置自检
 
-## Core Capabilities
-
-- **Blast radius analysis** — trace which files, services, and downstream consumers could break
-- **Security scan** — SQL injection, XSS, auth bypass, secret exposure, dependency vulns
-- **Test coverage delta** — new code vs new tests ratio
-- **Breaking change detection** — API contracts, DB schema migrations, config keys
-- **Ticket linking** — verify Jira/Linear ticket exists and matches scope
-- **Performance impact** — N+1 queries, bundle size regression, memory allocations
-
----
-
-## When to Use
-
-- Before merging any PR/MR that touches shared libraries, APIs, or DB schema
-- When a PR is large (>200 lines changed) and needs structured review
-- Onboarding new contributors whose PRs need thorough feedback
-- Security-sensitive code paths (auth, payments, PII handling)
-- After an incident — review similar PRs proactively
-
----
-
-## Fetching the Diff
-
-### GitHub (gh CLI)
 ```bash
-# View diff in terminal
-gh pr diff <PR_NUMBER>
-
-# Get PR metadata (title, body, labels, linked issues)
-gh pr view <PR_NUMBER> --json title,body,labels,assignees,milestone
-
-# List files changed
-gh pr diff <PR_NUMBER> --name-only
-
-# Check CI status
-gh pr checks <PR_NUMBER>
-
-# Download diff to file for analysis
-gh pr diff <PR_NUMBER> > /tmp/pr-<PR_NUMBER>.diff
+command -v gh glab >/dev/null 2>&1   # 预期：gh 或 glab 至少一个在 PATH；失败：安装对应 CLI 并 STOP
+gh auth status >/dev/null 2>&1 || glab auth status >/dev/null 2>&1   # 预期退出码 0；失败：未登录 → 提示 `gh auth login`/`glab auth login`
 ```
 
-### GitLab (glab CLI)
+若要验票：确认凭据已注入环境（绝不出现在命令行参数）：
+
 ```bash
-# View MR diff
-glab mr diff <MR_IID>
+: "${JIRA_API_TOKEN:?JIRA_API_TOKEN 未设置}"   # 失败：提示用户导出变量再跑，勿粘贴明文 token
+: "${LINEAR_API_KEY:?LINEAR_API_KEY 未设置}"
+```
 
-# MR details as JSON
+## 工作流
+
+### 步骤 1：拉取上下文
+
+```bash
+# GitHub
+gh pr view <PR_NUMBER> --json title,body,labels,assignees,milestone
+gh pr diff <PR_NUMBER> --name-only
+gh pr diff <PR_NUMBER> > /tmp/pr-<PR_NUMBER>.diff
+gh pr checks <PR_NUMBER>
+
+# GitLab
 glab mr view <MR_IID> --output json
-
-# List changed files
 glab mr diff <MR_IID> --name-only
-
-# Download diff
 glab mr diff <MR_IID> > /tmp/mr-<MR_IID>.diff
 ```
 
----
+预期：拿到 PR 标题/正文/标签/改动文件清单与完整 diff。
+若失败：编号不存在 → 核对 ID；未认证 → 执行 `gh auth login`/`glab auth login` 后重跑。
 
-## Workflow
-
-### Step 1 — Fetch Context
+### 步骤 2：影响面分析（Blast Radius）
 
 ```bash
-PR=123
-gh pr view $PR --json title,body,labels,milestone,assignees | jq .
-gh pr diff $PR --name-only
-gh pr diff $PR > /tmp/pr-$PR.diff
-```
-
-### Step 2 — Blast Radius Analysis
-
-For each changed file, identify:
-
-1. **Direct dependents** — who imports this file?
-```bash
-# Find all files importing a changed module
+# 直接依赖方：谁 import 了改动模块
 grep -r "from ['\"].*changed-module['\"]" src/ --include="*.ts" -l
-grep -r "require(['\"].*changed-module" src/ --include="*.js" -l
-
-# Python
-grep -r "from changed_module import\|import changed_module" . --include="*.py" -l
+grep -r "import changed_module" . --include="*.py" -l
+# 跨服务边界
+gh pr diff <PR_NUMBER> --name-only | cut -d/ -f1-2 | sort -u
+# 共享契约（类型/接口/ schema）
+gh pr diff <PR_NUMBER> --name-only | grep -E "types/|interfaces/|schemas/|models/"
 ```
 
-2. **Service boundaries** — does this change cross a service?
+预期：按严重度归类——CRITICAL（共享库/DB 模型/auth 中间件/API 契约）、HIGH（被 >3 服务依赖）、MEDIUM（单服务内部）、LOW（UI/测试/文档）。
+若失败：改动文件无法定位 → 先跑步骤 1 拿 `--name-only`。
+
+### 步骤 3：安全扫描
+
 ```bash
-# Check if changed files span multiple services (monorepo)
-gh pr diff $PR --name-only | cut -d/ -f1-2 | sort -u
+DIFF=/tmp/pr-<PR_NUMBER>.diff
+grep -n "query\|execute\|raw(" $DIFF | grep -E '\$\{|f"|%s|format\('      # SQL 注入
+grep -nE "(password|secret|api_key|token|private_key)\s*=\s*['\"][^'\"]{8,}" $DIFF   # 硬编码密钥
+grep -nE "AKIA[0-9A-Z]{16}" $DIFF                                          # AWS key
+grep -nE "jwt\.sign\(.*['\"][^'\"]{20,}['\"]" $DIFF                        # JWT 硬编码
+grep -n "dangerouslySetInnerHTML\|innerHTML\s*=" $DIFF                     # XSS
+grep -nE "md5\(|sha1\(" $DIFF                                              # 弱哈希
+grep -nE "\beval\(|\bexec\(" $DIFF                                         # 危险调用
+grep -n "__proto__\|constructor\[" $DIFF                                   # 原型污染
+grep -nE "path\.join\(.*req\.|readFile\(.*req\." $DIFF                     # 路径穿越
 ```
 
-3. **Shared contracts** — types, interfaces, schemas
+预期：列出命中行号与类型；无命中则该维度标记 clean。
+若失败：diff 路径错 → 用步骤 1 重新下载到 `/tmp`。
+
+### 步骤 4：测试覆盖 Delta
+
 ```bash
-gh pr diff $PR --name-only | grep -E "types/|interfaces/|schemas/|models/"
+CHANGED_SRC=$(gh pr diff <PR_NUMBER> --name-only | grep -vE "\.test\.|\.spec\.|__tests__")
+CHANGED_TESTS=$(gh pr diff <PR_NUMBER> --name-only | grep -E "\.test\.|\.spec\.|__tests__")
+echo "Source files: $(echo "$CHANGED_SRC" | wc -w)  Test files: $(echo "$CHANGED_TESTS" | wc -w)"
+LOGIC_LINES=$(grep "^+" /tmp/pr-<PR_NUMBER>.diff | grep -v "^+++" | wc -l)
 ```
 
-**Blast radius severity:**
-- CRITICAL — shared library, DB model, auth middleware, API contract
-- HIGH     — service used by >3 others, shared config, env vars
-- MEDIUM   — single service internal change, utility function
-- LOW      — UI component, test file, docs
+预期：得出源/测试文件比与新增行数；据此套用规则——新函数无测试→flag；覆盖率下降 >5%→block；auth/支付路径→要求 100% 覆盖。
+若失败：无测试文件改动 → 直接 flag 覆盖率缺口。
 
-### Step 3 — Security Scan
+### 步骤 5：破坏性变更检测
 
 ```bash
-DIFF=/tmp/pr-$PR.diff
-
-# SQL Injection — raw query string interpolation
-grep -n "query\|execute\|raw(" $DIFF | grep -E '\$\{|f"|%s|format\('
-
-# Hardcoded secrets
-grep -nE "(password|secret|api_key|token|private_key)\s*=\s*['\"][^'\"]{8,}" $DIFF
-
-# AWS key pattern
-grep -nE "AKIA[0-9A-Z]{16}" $DIFF
-
-# JWT secret in code
-grep -nE "jwt\.sign\(.*['\"][^'\"]{20,}['\"]" $DIFF
-
-# XSS vectors
-grep -n "dangerouslySetInnerHTML\|innerHTML\s*=" $DIFF
-
-# Auth bypass patterns
-grep -n "bypass\|skip.*auth\|noauth\|TODO.*auth" $DIFF
-
-# Insecure hash algorithms
-grep -nE "md5\(|sha1\(|createHash\(['\"]md5|createHash\(['\"]sha1" $DIFF
-
-# eval / exec
-grep -nE "\beval\(|\bexec\(|\bsubprocess\.call\(" $DIFF
-
-# Prototype pollution
-grep -n "__proto__\|constructor\[" $DIFF
-
-# Path traversal risk
-grep -nE "path\.join\(.*req\.|readFile\(.*req\." $DIFF
+grep -n "openapi\|swagger" /tmp/pr-<PR_NUMBER>.diff | head -20
+grep "^-" /tmp/pr-<PR_NUMBER>.diff | grep -E "router\.(get|post|put|delete|patch)\("
+grep "^-" /tmp/pr-<PR_NUMBER>.diff | grep -E "^-\s*(type |field |Query |Mutation )"
+gh pr diff <PR_NUMBER> --name-only | grep -E "migrations?/|alembic/|knex/"
+grep -E "DROP TABLE|DROP COLUMN|ALTER.*NOT NULL|TRUNCATE" /tmp/pr-<PR_NUMBER>.diff
+grep "^+" /tmp/pr-<PR_NUMBER>.diff | grep -oE "process\.env\.[A-Z_]+" | sort -u   # 新增 env 变量
 ```
 
-### Step 4 — Test Coverage Delta
+预期：列出移除的路由/类型、破坏性 migration、新增 env 变量（可能 prod 缺失）。
+
+### 步骤 6：性能影响
 
 ```bash
-# Count source vs test files changed
-CHANGED_SRC=$(gh pr diff $PR --name-only | grep -vE "\.test\.|\.spec\.|__tests__")
-CHANGED_TESTS=$(gh pr diff $PR --name-only | grep -E "\.test\.|\.spec\.|__tests__")
-
-echo "Source files changed: $(echo "$CHANGED_SRC" | wc -w)"
-echo "Test files changed:   $(echo "$CHANGED_TESTS" | wc -w)"
-
-# Lines of new logic vs new test lines
-LOGIC_LINES=$(grep "^+" /tmp/pr-$PR.diff | grep -v "^+++" | wc -l)
-echo "New lines added: $LOGIC_LINES"
-
-# Run coverage locally
-npm test -- --coverage --changedSince=main 2>/dev/null | tail -20
-pytest --cov --cov-report=term-missing 2>/dev/null | tail -20
+grep -n "\.find\|\.query\|db\." /tmp/pr-<PR_NUMBER>.diff | grep "^+" | head -20   # N+1 嫌疑
+grep "^+" /tmp/pr-<PR_NUMBER>.diff | grep -E '"[a-z@].*":\s*"[0-9^~]' | head -20  # 重依赖
+grep -n "while (true" /tmp/pr-<PR_NUMBER>.diff | grep "^+"                         # 死循环
 ```
 
-**Coverage delta rules:**
-- New function without tests → flag
-- Deleted tests without deleted code → flag
-- Coverage drop >5% → block merge
-- Auth/payments paths → require 100% coverage
+预期：标记 N+1、重依赖、未 await、超大内存分配等。
 
-### Step 5 — Breaking Change Detection
-
-#### API Contract Changes
-```bash
-# OpenAPI/Swagger spec changes
-grep -n "openapi\|swagger" /tmp/pr-$PR.diff | head -20
-
-# REST route removals or renames
-grep "^-" /tmp/pr-$PR.diff | grep -E "router\.(get|post|put|delete|patch)\("
-
-# GraphQL schema removals
-grep "^-" /tmp/pr-$PR.diff | grep -E "^-\s*(type |field |Query |Mutation )"
-
-# TypeScript interface removals
-grep "^-" /tmp/pr-$PR.diff | grep -E "^-\s*(export\s+)?(interface|type) "
-```
-
-#### DB Schema Changes
-```bash
-# Migration files added
-gh pr diff $PR --name-only | grep -E "migrations?/|alembic/|knex/"
-
-# Destructive operations
-grep -E "DROP TABLE|DROP COLUMN|ALTER.*NOT NULL|TRUNCATE" /tmp/pr-$PR.diff
-
-# Index removals (perf regression risk)
-grep "DROP INDEX\|remove_index" /tmp/pr-$PR.diff
-```
-
-#### Config / Env Var Changes
-```bash
-# New env vars referenced in code (might be missing in prod)
-grep "^+" /tmp/pr-$PR.diff | grep -oE "process\.env\.[A-Z_]+" | sort -u
-
-# Removed env vars (could break running instances)
-grep "^-" /tmp/pr-$PR.diff | grep -oE "process\.env\.[A-Z_]+" | sort -u
-```
-
-### Step 6 — Performance Impact
+### 步骤 7：票据核验（仅当用户要求）
 
 ```bash
-# N+1 query patterns (DB calls inside loops)
-grep -n "\.find\|\.findOne\|\.query\|db\." /tmp/pr-$PR.diff | grep "^+" | head -20
-# Then check surrounding context for forEach/map/for loops
-
-# Heavy new dependencies
-grep "^+" /tmp/pr-$PR.diff | grep -E '"[a-z@].*":\s*"[0-9^~]' | head -20
-
-# Unbounded loops
-grep -n "while (true\|while(true" /tmp/pr-$PR.diff | grep "^+"
-
-# Missing await (accidentally sequential promises)
-grep -n "await.*await" /tmp/pr-$PR.diff | grep "^+" | head -10
-
-# Large in-memory allocations
-grep -n "new Array([0-9]\{4,\}\|Buffer\.alloc" /tmp/pr-$PR.diff | grep "^+"
-```
-
----
-
-## Ticket Linking Verification
-
-```bash
-# Extract ticket references from PR body
-gh pr view $PR --json body | jq -r '.body' | \
-  grep -oE "(PROJ-[0-9]+|[A-Z]+-[0-9]+|https://linear\.app/[^)\"]+)" | sort -u
-
-# Verify Jira ticket exists (requires JIRA_API_TOKEN to be SET in the environment).
-# Credentials are fed to curl via a config read from stdin (-K -) so the token
-# never appears in argv — `ps aux` / /proc/*/cmdline can't see it, and nothing
-# secret lands in shell history. Never paste the raw token on the command line.
 TICKET="PROJ-123"
-: "${JIRA_API_TOKEN:?JIRA_API_TOKEN must be set}"
+: "${JIRA_API_TOKEN:?JIRA_API_TOKEN 必须设置}"
 curl -s -K - "https://your-org.atlassian.net/rest/api/3/issue/$TICKET" <<EOF | \
   jq '{key, summary: .fields.summary, status: .fields.status.name}'
 user = "user@company.com:$JIRA_API_TOKEN"
 EOF
-
-# Linear ticket — same pattern: the Authorization header goes through the
-# stdin config, not a -H flag, to keep the key out of the process list.
-LINEAR_ID="abc-123"
-: "${LINEAR_API_KEY:?LINEAR_API_KEY must be set}"
-curl -s -K - -H "Content-Type: application/json" \
-  --data "{\"query\": \"{ issue(id: \\\"$LINEAR_ID\\\") { title state { name } } }\"}" \
-  https://api.linear.app/graphql <<EOF | jq .
-header = "Authorization: $LINEAR_API_KEY"
-EOF
 ```
 
-> **Security note:** for repeated Jira use, prefer a `~/.netrc` entry
-> (`machine your-org.atlassian.net login user@company.com password <token>`,
-> `chmod 600 ~/.netrc`) and call `curl -s --netrc …` — no secret material in
-> the command at all.
+预期：返回票据 key/summary/status；校验其与 PR 范围匹配。
+安全红线：token 经 `curl -K -` 从 stdin 注入，**绝不进 argv**（`ps`/`/proc` 不可见、不入 shell 历史）。重复调用优先用 `~/.netrc`（`chmod 600`）+ `curl --netrc`。
+若失败：`JIRA_API_TOKEN` 未设 → 提示导出；401 → 令牌失效需轮换。
 
----
+## 评审检查清单（30+ 项）
 
-## Complete Review Checklist (30+ Items)
+按块逐项核对，结果归入交付报告：
 
-```markdown
-## Code Review Checklist
+- **范围**：标题准确；正文讲 WHY；关联票据存在且匹配；无范围蔓延；破坏性变更已记录
+- **影响面**：已定位所有 import 方；跨服务依赖已查；共享类型/接口已审；新增 env 写入 `.env.example`；migration 可回滚（有 down）
+- **安全**：无硬编码密钥；SQL 参数化；输入已校验；新端点有权限校验；无 XSS；新依赖查 CVE；日志无敏感数据；上传已校验；CORS 正确
+- **测试**：公开函数有单测；边界/错误路径覆盖；API 有集成测试；无无理由删测试；命名清晰
+- **破坏性**：API 端点移除有弃用通知；响应无新增必填字段；DB 列移除有两阶段计划；env 移除已评估；对外向后兼容
+- **性能**：无 N+1；新查询有索引；无无界循环；无无理由重依赖；await 正确；考虑了缓存
+- **质量**：无死代码/未用 import；错误处理非空 catch；符合现有约定；复杂逻辑有注释；无遗留 TODO
 
-### Scope & Context
-- [ ] PR title accurately describes the change
-- [ ] PR description explains WHY, not just WHAT
-- [ ] Linked Jira/Linear ticket exists and matches scope
-- [ ] No unrelated changes (scope creep)
-- [ ] Breaking changes documented in PR body
+## 失败处置表
 
-### Blast Radius
-- [ ] Identified all files importing changed modules
-- [ ] Cross-service dependencies checked
-- [ ] Shared types/interfaces/schemas reviewed for breakage
-- [ ] New env vars documented in .env.example
-- [ ] DB migrations are reversible (have down() / rollback)
+| 现象/错误码 | 原因 | 处置 |
+|------------|------|------|
+| `gh`/`glab` 不在 PATH | CLI 未装 | 安装并重跑自检 |
+| `auth status` 非零 | 未登录 | 执行 `gh auth login`/`glab auth login` |
+| PR 编号 404 | ID/IID 错或跨平台 | 核对平台与编号 |
+| `JIRA_API_TOKEN` 未设 | 凭据缺失 | 提示用户导出环境变量 |
+| 覆盖率下降 >5% | 测试不足 | 标记 block，要求补测试 |
 
-### Security
-- [ ] No hardcoded secrets or API keys
-- [ ] SQL queries use parameterized inputs (no string interpolation)
-- [ ] User inputs validated/sanitized before use
-- [ ] Auth/authorization checks on all new endpoints
-- [ ] No XSS vectors (innerHTML, dangerouslySetInnerHTML)
-- [ ] New dependencies checked for known CVEs
-- [ ] No sensitive data in logs (PII, tokens, passwords)
-- [ ] File uploads validated (type, size, content-type)
-- [ ] CORS configured correctly for new endpoints
+## 交付标准
 
-### Testing
-- [ ] New public functions have unit tests
-- [ ] Edge cases covered (empty, null, max values)
-- [ ] Error paths tested (not just happy path)
-- [ ] Integration tests for API endpoint changes
-- [ ] No tests deleted without clear reason
-- [ ] Test names clearly describe what they verify
-
-### Breaking Changes
-- [ ] No API endpoints removed without deprecation notice
-- [ ] No required fields added to existing API responses
-- [ ] No DB columns removed without two-phase migration plan
-- [ ] No env vars removed that may be set in production
-- [ ] Backward-compatible for external API consumers
-
-### Performance
-- [ ] No N+1 query patterns introduced
-- [ ] DB indexes added for new query patterns
-- [ ] No unbounded loops on potentially large datasets
-- [ ] No heavy new dependencies without justification
-- [ ] Async operations correctly awaited
-- [ ] Caching considered for expensive repeated operations
-
-### Code Quality
-- [ ] No dead code or unused imports
-- [ ] Error handling present (no bare empty catch blocks)
-- [ ] Consistent with existing patterns and conventions
-- [ ] Complex logic has explanatory comments
-- [ ] No unresolved TODOs (or tracked in ticket)
-```
-
----
-
-## Output Format
-
-Structure your review comment as:
+成功定义：产出单轮评审评论，按 `MUST FIX` / `SHOULD FIX` / `SUGGESTIONS` / `LOOKS GOOD` 分级，每项含文件:行号、原因与修复示例。
+报告结构：
 
 ```text
 ## PR Review: [PR Title] (#NUMBER)
-
 Blast Radius: HIGH — changes lib/auth used by 5 services
 Security: 1 finding (medium severity)
 Tests: Coverage delta +2%
 Breaking Changes: None detected
-
 --- MUST FIX (Blocking) ---
-
-1. SQL Injection risk in src/db/users.ts:42
-   Raw string interpolation in WHERE clause.
-   Fix: db.query("SELECT * WHERE id = $1", [userId])
-
+1. SQL Injection risk in src/db/users.ts:42 ... Fix: db.query("...", [userId])
 --- SHOULD FIX (Non-blocking) ---
-
-2. Missing auth check on POST /api/admin/reset
-   No role verification before destructive operation.
-
+2. Missing auth check on POST /api/admin/reset ...
 --- SUGGESTIONS ---
-
-3. N+1 pattern in src/services/reports.ts:88
-   findUser() called inside results.map() — batch with findManyUsers(ids)
-
+3. N+1 pattern in src/services/reports.ts:88 ...
 --- LOOKS GOOD ---
 - Test coverage for new auth flow is thorough
-- DB migration has proper down() rollback method
-- Error handling consistent with rest of codebase
 ```
 
----
+保存位置：作为 PR/MR 评论发布（由用户触发），或在会话内输出。
+验证完整性：每条 MUST FIX 都对应一处具体改动行且给出可操作修复；无仅风格层面的吹毛求疵（交给 linter）。
 
-## Common Pitfalls
+## 安全红线
 
-- **Reviewing style over substance** — let the linter handle style; focus on logic, security, correctness
-- **Missing blast radius** — a 5-line change in a shared utility can break 20 services
-- **Approving untested happy paths** — always verify error paths have coverage
-- **Ignoring migration risk** — NOT NULL additions need a default or two-phase migration
-- **Indirect secret exposure** — secrets in error messages/logs, not just hardcoded values
-- **Skipping large PRs** — if a PR is too large to review properly, request it be split
+- **凭据只走环境变量**：`JIRA_API_TOKEN`/`LINEAR_API_KEY` 经 `curl -K -`（stdin）或 `~/.netrc` 注入，`ps`/`/proc`/shell 历史均不可见；绝不在命令行写明文 token。
+- **只评审不下场**：本技能产出 verdict 与修复建议，不执行 `git push` 或修改代码；落地修复由用户/其他技能完成。
+- 外部 URL 视为不可信输入：票据 API 响应先 `jq` 结构化再读，不盲信。
 
----
+## 参考
 
-## Best Practices
-
-1. Read the linked ticket before looking at code — context prevents false positives
-2. Check CI status before reviewing — don't review code that fails to build
-3. Prioritize blast radius and security over style
-4. Reproduce locally for non-trivial auth or performance changes
-5. Label each comment clearly: "nit:", "must:", "question:", "suggestion:"
-6. Batch all comments in one review round — don't trickle feedback
-7. Acknowledge good patterns, not just problems — specific praise improves culture
+- 确定性静态分析（密钥/SQLi/复杂度打分）交由 `code-reviewer` 技能作为分析引擎链式调用。
+- 关联票据核验的 curl/JWT 安全写法见上方步骤 7 内联说明。

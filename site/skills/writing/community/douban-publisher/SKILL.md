@@ -26,69 +26,99 @@ metadata:
 
 # 豆瓣 Publisher
 
-豆瓣发布客户端，基于豆瓣 Web 内部接口（无公开 API，早期 OAuth API 已停止维护）。
+基于豆瓣 Web 内部接口发布日记、广播与小组话题；默认 dry-run，确认后才真正联网。
 
-## 功能
+所有命令在本技能 `scripts/` 目录内执行（先 `cd skills/writing/community/douban-publisher/scripts`）。
 
-- `note-create` —— 创建日记
-- `status-post` —— 发布广播
-- `group-topic` —— 发布小组话题
+## 输入清单
 
-## 安全设计
+| 输入 | 必需 | 说明 |
+|------|------|------|
+| 动作 | 是 | `note-create`（日记）、`status-post`（广播）、`group-topic`（小组话题）三选一 |
+| `--title` | note-create / group-topic 必需 | 日记或话题标题 |
+| `--content` | 是 | 正文，纯文本 |
+| `--privacy` | note-create 可选 | 可见范围：`0`=公开 / 其他取值见平台；VERIFY BEFORE USE |
+| `<group_id>` | group-topic 必需 | 小组 ID，作为位置参数传入（如 `123456`） |
+| `DOUBAN_COOKIE` 或 `--cookie-file` | 是 | 登录态凭据，二选一 |
 
-- **默认 dry-run**：所有写操作默认只打印请求计划，不联网；加 `--execute` 才真正发送。
-- **凭据隔离**：`DOUBAN_COOKIE` 环境变量或 `--cookie-file`
+缺任意必需项时一次性问齐：
 
-## 使用示例
+> 请告诉我：(1) 要发日记 / 广播 / 小组话题？(2) 标题与正文？(3) 若是日记，可见范围？(4) 若是小组话题，小组 ID？(5) Cookie 已设为 `DOUBAN_COOKIE` 还是用 `--cookie-file` 指定文件？
 
-```bash
-export DOUBAN_COOKIE="dbcl2=xxx; ck=xxx; ..."
-python douban_publisher.py note-create --execute \
-  --title "我的日记" \
-  --content "日记内容..." \
-  --privacy 0
+## 前置自检
 
-python douban_publisher.py status-post --execute \
-  --content "发个广播 #话题#"
+1. **Python**：`python3 --version` —— 预期输出含 `3.8` 及以上；若报错或低于 3.8 → 安装 Python 3.8+，STOP。
+2. **脚本**：`test -f douban_publisher.py && echo OK` —— 预期 `OK`；若不存在 → 仓库损坏，STOP。
+3. **凭据**：`test -n "$DOUBAN_COOKIE" -o -f ~/.douban_cookie && echo OK` —— 预期 `OK`；否则 STOP，提示设置 `export DOUBAN_COOKIE=...` 或后续用 `--cookie-file`。
 
-python douban_publisher.py group-topic --execute 123456 \
-  --title "小组话题标题" \
-  --content "话题内容..."
-```
+任一失败即 STOP，修复后再继续；前置全绿才进入工作流。
 
-## 端点核对（首次使用必做）
+## 工作流
 
-豆瓣无公开 API（早期 OAuth API 已停止维护），端点可能随时变更。首次使用前请在浏览器 DevTools 核对。
+### 步骤 1：注入凭据
 
-当前端点（需核对）：
-- 创建日记: `POST https://www.douban.com/j/note/new`
-- 发布广播: `POST https://www.douban.com/j/status/new`
-- 小组话题: `POST https://www.douban.com/j/group/topic/new`
+- **动作**：`export DOUBAN_COOKIE="dbcl2=xxx; ck=xxx; ..."`（或后续命令加 `--cookie-file ~/.douban_cookie`）。
+- **预期**：`echo "$DOUBAN_COOKIE"` 非空；dry-run 阶段不会校验，但 `--execute` 前必须就位。
+- **若失败**：未设置 → 脚本报凭据缺失类错误并退出码 1；STOP 并补齐凭据。
 
-## 认证
+### 步骤 2：dry-run 预览（默认，不联网）
 
-`DOUBAN_COOKIE` — 包含 `dbcl2`、`ck`、`_vwo_uuid_v2` 等字段的完整 Cookie
+- **动作**：`python douban_publisher.py note-create --title "我的日记" --content "日记内容..." --privacy 0`
+- **预期**：打印请求计划（method / url / body），**不发生任何网络请求**。
+- **若失败**：参数错误 → 退出码 1 并提示缺字段；按提示补齐后重跑本步。
 
-```bash
-export DOUBAN_COOKIE="dbcl2=xxx; ck=xxx; ..."
-# 或
-python douban_publisher.py note-create --cookie-file ~/.douban_cookie ...
-```
+### 步骤 3：--execute 真正发布
 
-## 退出码
+- **动作**：在步骤 2 命令后追加 `--execute`。
+- **预期**：退出码 `0`，输出创建结果（含日记/广播/话题的标识或链接）。
+- **若失败**：API 错误 → 退出码 1；见「失败处置表」。
 
-- `0` 成功
-- `1` API 错误或参数错误
+### 步骤 4：核对返回
+
+- **动作**：读取上一步输出的链接/ID，在浏览器打开确认。
+- **预期**：目标内容已可见。
+- **若失败**：返回成功但页面不可见 → Cookie 失效或被风控；刷新 `DOUBAN_COOKIE` 后重试。
+
+## 参数速查表
+
+| 命令 | 关键参数 | 说明 |
+|------|----------|------|
+| `note-create` | `--title --content --privacy --execute` | 创建日记 |
+| `status-post` | `--content --execute` | 发布广播 |
+| `group-topic <group_id>` | `--title --content --execute` | 在指定小组发话题 |
+| （通用） | `--cookie-file <path>` | 用文件替代 `DOUBAN_COOKIE` 环境变量 |
+
+## 端点核对（VERIFY BEFORE USE）
+
+豆瓣无公开 API（早期 OAuth API 已停止维护），端点可能随时变更。首次使用必须按 SKILL.md 在浏览器 DevTools 核对下列端点：
+
+- 创建日记：`POST https://www.douban.com/j/note/new`
+- 发布广播：`POST https://www.douban.com/j/status/new`
+- 小组话题：`POST https://www.douban.com/j/group/topic/new`
+
+## 失败处置表
+
+| 现象 / 错误码 | 原因 | 处置 |
+|---------------|------|------|
+| 退出码 1 + 参数错误 | 缺 `--title` / `--content` 等 | 补齐参数后重跑 dry-run |
+| 退出码 1 + API 错误 | Cookie 失效或端点变更 | 刷新 `DOUBAN_COOKIE`；按 DevTools 更新端点常量 |
+| 端点返回 4xx/5xx | 端点已被豆瓣调整 | 重核对端点，更新脚本顶部常量 |
+
+## 交付标准
+
+- **成功定义**：退出码 `0` 且输出含目标 URL / ID。
+- **产物**：发布后的日记、广播或小组话题链接。
+- **保存位置**：不落本地文件；发布结果以链接形式回传用户。
+- **完整性验证**：浏览器打开链接，确认内容可见、格式正确。
+
+## 安全红线
+
+- 默认 dry-run：所有写操作不加 `--execute` 只打印请求计划，绝不联网。
+- 凭据隔离：`DOUBAN_COOKIE` 环境变量或 `--cookie-file`，**绝不入库、绝不写入仓库**。
+- 端点 VERIFY BEFORE USE：发布前在 DevTools 核对，勿轻信文档中的端点。
+- 不可逆操作前确认：小组话题一经发布即公开，先 dry-run 展示计划，用户确认后再 `--execute`。
 
 ## 依赖
 
-- Python 3.8+
-- 标准库
-- `publish_common`
-
-## 相关技能
-
-- `v2ex-publisher` — V2EX 发帖
-- `segmentfault-publisher` — SegmentFault 发布
-- `oschina-publisher` — 开源中国发布
-- `cross-post-orchestrator` — 多平台编排
+- Python 3.8+，标准库。
+- `publish_common`（与技能目录平级的 `_common/publish_common.py`）。

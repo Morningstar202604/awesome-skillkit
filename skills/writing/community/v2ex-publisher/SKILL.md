@@ -25,67 +25,106 @@ metadata:
 
 # V2EX Publisher
 
-V2EX 发帖/回复客户端，基于 V2EX Web 内部接口（无公开 API）。
+基于 V2EX Web 内部接口创建主题、回复主题与查询节点；默认 dry-run，确认后才真正联网。
 
-## 功能
+所有命令在本技能 `scripts/` 目录内执行（先 `cd skills/writing/community/v2ex-publisher/scripts`）。
 
-- `topic-create` —— 创建主题帖
-- `reply-create` —— 回复主题
-- `node-list` —— 获取节点列表（用于获取 node_id）
+## 输入清单
 
-## 安全设计
+| 输入 | 必需 | 说明 |
+|------|------|------|
+| 动作 | 是 | `topic-create`（建主题）/ `reply-create`（回复）/ `node-list`（查节点） |
+| `--title` | topic-create 必需 | 主题标题 |
+| `--content` | topic-create / reply-create 必需 | 正文 |
+| `--node-id` | topic-create 必需 | 节点 ID；未知时先 `node-list` 查询 |
+| `<topic_id>` | reply-create 必需 | 被回复主题 ID，作为位置参数（如 `12345`） |
+| `V2EX_COOKIE` 或 `--cookie-file` | 写操作必需 | 登录态凭据（node-list 只读也可不带） |
 
-- **默认 dry-run**：所有写操作默认只打印请求计划，不联网；加 `--execute` 才真正发送。
-- **凭据隔离**：`V2EX_COOKIE` 环境变量或 `--cookie-file`
+缺任意必需项时一次性问齐：
 
-## 使用示例
+> 请告诉我：(1) 建主题 / 回复 / 查节点？(2) 标题与正文？(3) 建主题需 `--node-id`（不知道就先 `node-list`）？(4) 回复需主题 ID？(5) Cookie 已设为 `V2EX_COOKIE` 还是用 `--cookie-file`？
 
-```bash
-export V2EX_COOKIE="A2=xxx; PB3_SESSION=xxx; ..."
-python v2ex_publisher.py topic-create --execute \
-  --title "我的主题" \
-  --content "正文内容..." \
-  --node-id 123
+## 前置自检
 
-python v2ex_publisher.py reply-create --execute 12345 \
-  --content "回复内容..."
+1. **Python**：`python3 --version` —— 预期 `3.8` 及以上；否则安装 Python 3.8+，STOP。
+2. **脚本**：`test -f v2ex_publisher.py && echo OK` —— 预期 `OK`；否则仓库损坏，STOP。
+3. **凭据（写操作）**：`test -n "$V2EX_COOKIE" -o -f ~/.v2ex_cookie && echo OK` —— 否则 STOP，提示设置 `V2EX_COOKIE` 或后续用 `--cookie-file`。
 
-python v2ex_publisher.py node-list --execute
-```
+任一失败即 STOP，修复后再继续。
 
-## 端点核对（首次使用必做）
+## 工作流
 
-V2EX 无公开 API，端点可能随时变更。首次使用前请在浏览器 DevTools 核对。
+### 步骤 1：查询节点 ID（如未知）
 
-当前端点（需核对）：
-- 创建主题: `POST https://www.v2ex.com/api/topics/create`
-- 创建回复: `POST https://www.v2ex.com/api/replies/create`
-- 节点列表: `GET https://www.v2ex.com/api/nodes/show.json`
+- **动作**：`python v2ex_publisher.py node-list --execute`
+- **预期**：输出节点列表，含节点名与 `node_id`。
+- **若失败**：退出码 1 → 网络或端点问题；见「失败处置表」。
 
-## 认证
+### 步骤 2：注入凭据
 
-`V2EX_COOKIE` — 包含 `A2`、`PB3_SESSION` 等字段的完整 Cookie
+- **动作**：`export V2EX_COOKIE="A2=xxx; PB3_SESSION=xxx; ..."`（或后续命令加 `--cookie-file ~/.v2ex_cookie`）。
+- **预期**：环境变量非空。
+- **若失败**：未设置 → 退出码 1 报凭据缺失；STOP 并补齐。
 
-```bash
-export V2EX_COOKIE="A2=xxx; PB3_SESSION=xxx; ..."
-# 或
-python v2ex_publisher.py topic-create --cookie-file ~/.v2ex_cookie ...
-```
+### 步骤 3：dry-run 预览（默认，不联网）
 
-## 退出码
+- **动作**：`python v2ex_publisher.py topic-create --title "我的主题" --content "正文内容..." --node-id 123`
+- **预期**：打印请求计划（method / url / body），**不发生网络请求**。
+- **若失败**：参数错误 → 退出码 1 提示缺 `--node-id` 等；补齐后重跑。
 
-- `0` 成功
-- `1` API 错误或参数错误
+### 步骤 4：--execute 真正发布
+
+- **动作**：在步骤 3 命令后追加 `--execute`。
+- **预期**：退出码 `0`，输出创建结果（含主题链接/ID）。
+- **若失败**：API 错误 → 退出码 1；见「失败处置表」。
+
+### 步骤 5：核对返回
+
+- **动作**：打开输出链接确认主题/回复可见。
+- **预期**：内容已发布。
+- **若失败**：返回成功但不可见 → Cookie 失效；刷新 `V2EX_COOKIE` 后重试。
+
+## 参数速查表
+
+| 命令 | 关键参数 | 说明 |
+|------|----------|------|
+| `topic-create` | `--title --content --node-id --execute` | 创建主题（`--node-id` 必填） |
+| `reply-create <topic_id>` | `--content --execute` | 回复指定主题 |
+| `node-list` | `--execute` | 列出节点与 ID |
+| （通用） | `--cookie-file <path>` | 用文件替代 `V2EX_COOKIE` |
+
+## 端点核对（VERIFY BEFORE USE）
+
+V2EX 无公开 API，端点可能随时变更。首次使用必须按 SKILL.md 在浏览器 DevTools 核对：
+
+- 创建主题：`POST https://www.v2ex.com/api/topics/create`
+- 创建回复：`POST https://www.v2ex.com/api/replies/create`
+- 节点列表：`GET https://www.v2ex.com/api/nodes/show.json`
+
+## 失败处置表
+
+| 现象 / 错误码 | 原因 | 处置 |
+|---------------|------|------|
+| 退出码 1 + 参数错误 | 缺 `--title` / `--node-id` 等 | 补齐参数后重跑 dry-run |
+| 退出码 1 + API 错误 | Cookie 失效或端点变更 | 刷新 `V2EX_COOKIE`；重核端点 |
+| 端点返回 4xx/5xx | 端点已调整 | 按 DevTools 更新端点常量 |
+
+## 交付标准
+
+- **成功定义**：退出码 `0` 且输出含主题/回复链接或 ID。
+- **产物**：发布后的主题或回复链接。
+- **保存位置**：不落本地文件，链接回传用户。
+- **完整性验证**：浏览器打开链接确认可见、格式正确。
+
+## 安全红线
+
+- 默认 dry-run：所有写操作不加 `--execute` 只打印请求计划，绝不联网。
+- 凭据隔离：`V2EX_COOKIE` 环境变量或 `--cookie-file`，**绝不入库、绝不写入仓库**。
+- 端点 VERIFY BEFORE USE：发布前在 DevTools 核对。
+- 不可逆操作前确认：主题/回复一经发布即公开，先 dry-run 展示计划，用户确认后再 `--execute`。
+- 禁止滥用：不用于节点收藏、感谢、私信、举报等互动，不批量抓取或搬运帖子。
 
 ## 依赖
 
-- Python 3.8+
-- 标准库
-- `publish_common`
-
-## 相关技能
-
-- `segmentfault-publisher` — SegmentFault 发布
-- `oschina-publisher` — 开源中国发布
-- `douban-publisher` — 豆瓣发布
-- `cross-post-orchestrator` — 多平台编排
+- Python 3.8+，标准库。
+- `publish_common`（与技能目录平级的 `_common/publish_common.py`）。

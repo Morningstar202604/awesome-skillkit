@@ -1,8 +1,15 @@
 ---
 name: code-reviewer
-description: "Automated static-analysis engine for code changes and files in TypeScript, JavaScript, Python, Go, Swift, Kotlin, C#, .NET, Java, C, C++, Rust, Ruby, PHP, and Dart/Flutter. Detects complexity, risk, hardcoded secrets, SQL injection, and SOLID violations; generates review reports. Use for deterministic code analysis of files or diffs (the workflow-level GitHub PR review process is pr-review-expert's job). 当用户要求 审查代码 / code review / 帮我看这段代码 时使用。 Do NOT use for fixing the issues it reports (static analysis only)."
+description: >-
+  Automated static-analysis engine for code changes and files in TypeScript,
+  JavaScript, Python, Go, Swift, Kotlin, C#, .NET, Java, C, C++, Rust, Ruby,
+  PHP, and Dart/Flutter. Detects complexity, risk, hardcoded secrets, SQL
+  injection, and SOLID violations; generates review reports. Use when the user
+  asks to 审查代码 / code review / 帮我看这段代码 / 检查这段代码的风险 / 静态分析
+  / 生成审查报告. Do NOT use for fixing the issues it reports (static analysis
+  only) — that is code-generator's job.
 license: Apache-2.0
-compatibility: Pure prompt-based; may read project structure via Bash.
+compatibility: Pure prompt-based; may read project structure via Bash. The three bundled scripts require Python 3.10+.
 metadata:
   version: "1.0"
   author: awesome-skillkit
@@ -14,40 +21,68 @@ metadata:
 
 # Code Reviewer
 
-Automated code review tools for analyzing pull requests, detecting code quality issues, and generating review reports.
+Deterministic, multi-language static analysis: run the bundled scripts to flag
+risk, then load the language/rule references to produce a review. This file is
+the dispatch table — keep it short; the heavy rules live in `rules/` and
+`languages/`.
 
 ---
 
-## How This Skill Is Organized
+## Inputs
+
+| Input | Required | Notes |
+|-------|----------|-------|
+| Target path | Yes | A repo root, a directory, or a single file (absolute or relative). |
+| Scope | No | `diff` (default: current branch vs `main`) or `files` (whole-tree scan). |
+| Language | No | Auto-detected from extension table below; override with `--language`. |
+| Output format | No | `markdown` (default) or `json`. |
+| Pre-computed analyses | No | Paths to `pr_results.json` / `quality_results.json` to skip re-running. |
+
+If any required input is missing, ask once with this template:
+
+> 请提供：① 目标路径（仓库/目录/文件）；② 范围（diff 还是整树扫描）。
+> 其余我采用默认值：scope=diff（当前分支 vs main）、format=markdown、语言自动识别。
+
+## Pre-flight Self-check
+
+Run before any analysis. Any failure → print the fix and STOP.
+
+```bash
+# 1. Scripts present?
+test -f scripts/pr_analyzer.py && test -f scripts/code_quality_checker.py \
+  && test -f scripts/review_report_generator.py && echo "scripts-ok" \
+  || { echo "ERROR: scripts/ missing — bundle is incomplete"; exit 1; }
+
+# 2. Python available?
+command -v python3 >/dev/null 2>&1 || { echo "ERROR: python3 not found"; exit 1; }
+
+# 3. Universal rule file present?
+test -f rules/universal.md || { echo "ERROR: rules/universal.md missing"; exit 1; }
+
+# 4. Target exists?
+test -e "$TARGET" || { echo "ERROR: target $TARGET not found"; exit 1; }
+```
+
+## How the skill is organized
 
 ```text
 code-reviewer/
   SKILL.md                        ← you are here (tools + dispatch table)
   rules/
-    universal.md                  ← security, async, resources, exceptions, performance — all languages
+    universal.md                  ← security, async, resources, exceptions, perf — all languages
   languages/
-    python.md                     ← Python-specific rules + idioms
-    typescript.md                 ← TypeScript / JavaScript-specific rules + idioms
-    go.md                         ← Go-specific rules + idioms
-    swift.md                      ← Swift-specific rules + idioms
-    kotlin.md                     ← Kotlin-specific rules + idioms
-    csharp.md                     ← C# / .NET-specific rules + idioms
-    java.md                       ← Java-specific rules + idioms
-    c.md                          ← C -specific rules + idioms
-    cpp.md                        ← C++ -specific rules + idioms
-    rust.md                       ← Rust -specific rules + idioms
-    ruby.md                       ← Ruby -specific rules + idioms
-    php.md                        ← PHP-specific rules + idioms
-    dart.md                       ← Dart / Flutter-specific rules + idioms
+    python.md  typescript.md  go.md  swift.md  kotlin.md  csharp.md
+    java.md  c.md  cpp.md  rust.md  ruby.md  php.md  dart.md
+  scripts/
+    pr_analyzer.py  code_quality_checker.py  review_report_generator.py
+  assets/  expected_outputs/       ← regression fixtures (C#, Java, C)
 ```
 
-### Loading order for every review
+### Loading order (always exactly 2 extra files)
 
-1. This file (`SKILL.md`) — tools and thresholds
-2. `rules/universal.md` — always, for every language
-3. The matching `languages/*.md` — one file based on the extension table below
-
-That is always exactly **2 additional files**, regardless of scope.
+1. `SKILL.md` — tools and thresholds (this file).
+2. `rules/universal.md` — always, for every language.
+3. One `languages/<ext>.md` — chosen from the table below.
 
 | Extension(s) | Load |
 |---|---|
@@ -65,59 +100,38 @@ That is always exactly **2 additional files**, regardless of scope.
 | `.php`, `.phtml` | `languages/php.md` |
 | `.dart` | `languages/dart.md` |
 
----
+## Workflow
 
-## Tools
-
-### PR Analyzer
-
-Analyzes git diff between branches to assess review complexity and identify risks.
+### Step 1: Analyze the change / tree
 
 ```bash
-# Analyze current branch against main
+# Diff mode — current branch against main
 python scripts/pr_analyzer.py /path/to/repo
-
-# Compare specific branches
+# Specific branches
 python scripts/pr_analyzer.py . --base main --head feature-branch
-
-# JSON output for integration
+# JSON for downstream tools
 python scripts/pr_analyzer.py /path/to/repo --json
 ```
 
-**What it detects (universal — see also language file for language-specific signals):**
-- Hardcoded secrets (passwords, API keys, tokens, connection strings)
-- SQL / query injection patterns
-- Debug statements left in production code
-- Lint / analyzer suppression annotations
-- TODO/FIXME comments
+Expected: script prints complexity score (1–10), risk category
+(critical/high/medium/low), file prioritization, and commit-message
+validation; `--json` writes the same to stdout.
+If failed: non-zero exit or traceback → confirm path exists and Python ≥3.10;
+re-run with `--json` to isolate parse errors.
 
-**Language-specific detections** are defined in each `languages/*.md` file.
-
-**Output includes:**
-- Complexity score (1-10)
-- Risk categorization (critical, high, medium, low)
-- File prioritization for review order
-- Commit message validation
-
----
-
-### Code Quality Checker
-
-Analyzes source code for structural issues, code smells, and SOLID violations.
+### Step 2: Run the quality checker
 
 ```bash
-# Analyze a directory
+# Whole directory, auto language
 python scripts/code_quality_checker.py /path/to/code
-
-# Analyze specific language
-# Valid values: python, typescript, javascript, go, swift, kotlin, csharp, java, c, cpp, rust, ruby, php, dart
+# Specific language (one of: python, typescript, javascript, go, swift,
+#   kotlin, csharp, java, c, cpp, rust, ruby, php, dart)
 python scripts/code_quality_checker.py . --language java
-
 # JSON output
 python scripts/code_quality_checker.py /path/to/code --json
 ```
 
-**Universal thresholds:**
+Universal thresholds used by the checker:
 
 | Issue | Threshold |
 |-------|-----------|
@@ -128,65 +142,90 @@ python scripts/code_quality_checker.py /path/to/code --json
 | Deep nesting | >4 levels |
 | High complexity | >10 branches |
 
-Language-specific checks are defined in each `languages/*.md` file.
+Expected: per-file findings scored against the thresholds above.
+If failed: if a language is unknown the script falls back to Python patterns and
+logs a warning — re-run with explicit `--language`.
 
----
-
-### Review Report Generator
-
-Combines PR analysis and code quality findings into structured review reports.
+### Step 3: Generate the review report
 
 ```bash
-# Generate report for current repo
+# Markdown report for the current repo
 python scripts/review_report_generator.py /path/to/repo
-
-# Markdown output
+# Explicit format + output file
 python scripts/review_report_generator.py . --format markdown --output review.md
-
-# Use pre-computed analyses
+# Reuse pre-computed analyses
 python scripts/review_report_generator.py . \
-  --pr-analysis pr_results.json \
-  --quality-analysis quality_results.json
+  --pr-analysis pr_results.json --quality-analysis quality_results.json
 ```
 
-**Verdicts:**
+Verdict mapping (apply after both analyses are in):
 
 | Score | Verdict |
 |-------|---------|
 | 90+ with no high issues | Approve |
 | 75+ with ≤2 high issues | Approve with suggestions |
-| 50-74 | Request changes |
-| <50 or critical issues | Block |
+| 50–74 | Request changes |
+| <50 or any critical issue | Block |
 
----
+Expected: a report containing the verdict, per-file findings, and the
+recommendation. If failed: ensure the two upstream scripts produced output
+before invoking the generator, or pass `--pr-analysis` / `--quality-analysis`
+explicitly.
 
-## Adding a New Language
+## Parameter Cheat-sheet
 
-**Reviewer guidance (required):**
+| Script | Key flag | Values |
+|--------|----------|--------|
+| `pr_analyzer.py` | `--base` / `--head` | branch names (default base `main`) |
+| `pr_analyzer.py` | `--json` | emit JSON to stdout |
+| `code_quality_checker.py` | `--language` | one of the 14 supported languages |
+| `review_report_generator.py` | `--format` | `markdown` \| `json` |
+| `review_report_generator.py` | `--output` | file path |
 
-1. Create `languages/<name>.md` using any existing language file as a template — it must have sections: PR Analyzer Signals, Code Quality Checks, Security, Async, Resource Management, Exception Handling, Performance, Idioms.
-2. Add the extension row to the dispatch table above.
+## Failure Handling
 
-That is all the agent-driven review needs.
+| Symptom | Cause | Action |
+|---------|-------|--------|
+| `ModuleNotFoundError` / `SyntaxError` | Python <3.10 or missing script | upgrade Python; re-verify scripts present |
+| Empty report / no findings | wrong target path | re-run with an existing file or directory |
+| Wrong-language signals | extension not in table | pass `--language` explicitly |
+| Analyzer flags unknown language as Python | fallback mode | add the language to `LANGUAGE_EXTENSIONS` in `code_quality_checker.py` |
 
-**Deterministic analyzer support (optional, recommended):** the bundled scripts
-only flag a language they explicitly know. To make `code_quality_checker.py`
-score the new language:
+## Delivery Standard
 
-3. Add the extensions to `LANGUAGE_EXTENSIONS` in `scripts/code_quality_checker.py` (this also adds the `--language` choice).
-4. Add `function` / `class` / `method` regex entries for the language in the same file; otherwise it falls back to the Python patterns.
-5. Optionally add a `check_<name>_specific_smells(...)` detector (see the C#, Java, and C ones) and call it from `analyze_file`.
-6. Add sample `<name>_smells.<ext>` + `_clean` fixture files under assets/, and commit the expected `--json` output under `expected_outputs/` as a regression guard.
+Success = a review report exists with a verdict from the mapping above and
+per-file findings cross-checked against `rules/universal.md` + the matching
+`languages/*.md`.
 
----
+- Save location: `review.md` in the repo root (or caller-specified `--output`).
+- Verify completeness: report must list (a) verdict, (b) each flagged file with
+  rule id, (c) whether any `critical`/`high` issue is present.
+- Do NOT modify the user's code — this skill analyzes only.
 
-## Regression Fixtures
+## References
 
-Labelled fixtures live in `assets/` with their committed `--json` output in
-`expected_outputs/` (C#, Java, and C). Drift from the committed JSON signals a
-behaviour change in the analyzer:
+- `rules/universal.md` — read for every review: security, async, resource,
+  exception, and performance rules that apply to all languages.
+- `languages/<ext>.md` — read the one matching the target extension for
+  language-specific detections and idioms (see loading table above).
+- `assets/` + `expected_outputs/` — regression fixtures (C#, Java, C); use to
+  confirm the analyzer's behavior has not drifted:
 
 ```bash
 python scripts/code_quality_checker.py assets/sample_java_smells.java --json \
   | diff - expected_outputs/sample_java_smells_quality.json
 ```
+
+---
+
+## Extending to a new language
+
+1. Create `languages/<name>.md` from any existing language file. It must contain
+   these sections: PR Analyzer Signals, Code Quality Checks, Security, Async,
+   Resource Management, Exception Handling, Performance, Idioms.
+2. Add the extension row to the dispatch table above.
+3. (Optional, to make the deterministic checker score it) add the extension to
+   `LANGUAGE_EXTENSIONS` and the function/class/method regexes in
+   `scripts/code_quality_checker.py`, add a `check_<name>_specific_smells(...)`
+   detector, and commit a `<name>_smells.<ext>` + `_clean` fixture under
+   `assets/` with its expected `--json` under `expected_outputs/`.

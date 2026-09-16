@@ -1,6 +1,6 @@
 ---
 name: secrets-vault-manager
-description: "Use when the user asks to set up secret management infrastructure, integrate HashiCorp Vault, configure cloud secret stores (AWS Secrets Manager, Azure Key Vault, GCP Secret Manager), implement secret rotation, or audit secret access patterns. 当用户要求 用密钥库 / Vault 管理凭据 / 密钥轮换 时使用。 Do NOT use for storing or reading production secret values (workflow design only)."
+description: "Use when the user asks to set up secret management infrastructure, integrate HashiCorp Vault, configure cloud secret stores (AWS Secrets Manager, Azure Key Vault, GCP Secret Manager), implement secret rotation, or audit secret access patterns. Triggers on "set up Vault", "vault policies", "AppRole or OIDC auth", "rotate database credentials", "dynamic secrets", "vault audit log", "secret leak response", "External Secrets Operator". 当用户要求 用密钥库 / Vault 管理凭据 / 密钥轮换 / 审计密钥访问 时使用。 Do NOT use for storing or reading production secret values (workflow design only); local .env hygiene lives in env-secrets-manager."
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
@@ -14,19 +14,11 @@ metadata:
 
 # Secrets Vault Manager
 
-**Tier:** POWERFUL
-**Category:** Engineering
-**Domain:** Security / Infrastructure / DevOps
-
----
-
-## Overview
-
 Production secret infrastructure management for teams running HashiCorp Vault, cloud-native secret stores, or hybrid architectures. This skill covers policy authoring, auth method configuration, automated rotation, dynamic secrets, audit logging, and incident response.
 
 **Distinct from env-secrets-manager** which handles local `.env` file hygiene and leak detection. This skill operates at the infrastructure layer — Vault clusters, cloud KMS, certificate authorities, and CI/CD secret injection.
 
-### When to Use
+## When to use
 
 - Standing up a new Vault cluster or migrating to a managed secret store
 - Designing auth methods for services, CI runners, and human operators
@@ -35,7 +27,32 @@ Production secret infrastructure management for teams running HashiCorp Vault, c
 - Responding to a secret leak that requires mass revocation
 - Integrating secrets into Kubernetes workloads or CI/CD pipelines
 
----
+## Input checklist
+
+Collect once before designing. If inputs are missing, ask the user once with: "要设计密钥基础设施，请一次性提供：部署形态（Vault 自建 / 云托管）、服务与消费者清单、现有密钥盘点（类型/最近轮换时间/负责人）、合规要求。"
+
+| Input | Required | Description |
+|---|---|---|
+| Deployment form | Yes | self-hosted Vault (Raft HA) vs AWS Secrets Manager / Azure Key Vault / GCP Secret Manager vs hybrid |
+| Service & consumer list | Yes | which services, CI runners, humans need which secrets |
+| Secret inventory JSON | For rotation planning | entries with `name`, `type`, `last_rotated` (`YYYY-MM-DD`), `owner` → `rotation_planner.py --inventory` |
+| App requirements | For config generation | app name, auth method, secret types → `vault_config_generator.py` |
+| Compliance targets | For audit design | SOC 2 / ISO 27001 / HIPAA retention minimums |
+| Audit log files | For anomaly review | Vault/cloud audit logs (JSON lines or JSON array) → `audit_log_analyzer.py --log-file` |
+
+## Pre-flight checks
+
+```bash
+python3 --version        # Expected: Python ≥ 3.8. All 3 scripts are stdlib-only.
+ls scripts/vault_config_generator.py scripts/rotation_planner.py scripts/audit_log_analyzer.py
+                         # Expected: all 3 files listed.
+python3 -m json.tool <inventory.json > /dev/null && echo ok
+                         # Expected: ok — inventory JSON is valid.
+```
+
+- Python missing/outdated → install Python ≥ 3.8, then STOP.
+- Script files missing → wrong directory; `cd` to this skill's directory and re-check, then STOP.
+- Driving a live Vault? Also verify CLI reachability: `vault status` — expected: seal state and cluster info printed. Unreachable → fix address/token (export `VAULT_ADDR`, `VAULT_TOKEN` as environment variables — never inline credentials in commands) before any `vault write`.
 
 ## HashiCorp Vault Patterns
 
@@ -121,8 +138,6 @@ path "sys/*" {
 
 **Policy naming convention:** `{service}-{access-level}` (e.g., `payment-service-read`, `api-gateway-admin`).
 
----
-
 ## Cloud Secret Store Integration
 
 ### Comparison Matrix
@@ -180,8 +195,6 @@ def get_secret(vault_url, secret_name):
     return client.get_secret(secret_name).value
 ```
 
----
-
 ## Secret Rotation Workflows
 
 ### Rotation Strategy by Secret Type
@@ -211,8 +224,6 @@ def get_secret(vault_url, secret_name):
 3. Deploy applications — they read `current`
 4. After all instances restarted (or TTL expired), revoke `previous`
 5. Monitoring confirms zero usage of old key before revocation
-
----
 
 ## Dynamic Secrets
 
@@ -250,8 +261,6 @@ Replace SSH key distribution with a Vault-signed certificate model:
 3. SSH servers trust the CA public key — no `authorized_keys` management
 4. Certificates expire automatically — no revocation needed for normal operations
 
----
-
 ## Audit Logging
 
 ### What to Log
@@ -286,7 +295,50 @@ Generate periodic reports covering:
 
 Use `audit_log_analyzer.py` to parse Vault or cloud audit logs for these signals.
 
----
+## Workflow: Stand up rotation + audit for a service
+
+### Step 1: Build the secret inventory
+
+- **Action:** enumerate every secret (name, type, `last_rotated` as `YYYY-MM-DD`, owner) into a JSON file.
+- **Expected:** valid JSON (checked in pre-flight); no entry missing `last_rotated`.
+- **If it fails:** a secret's rotation date is unknown → include it anyway; the planner marks it overdue, which is the honest state.
+
+### Step 2: Generate the rotation schedule
+
+- **Action:** `python3 scripts/rotation_planner.py --inventory secrets.json --policy 30d` (or `60d`/`90d`; add `--json` for CI).
+- **Expected:** a schedule listing each secret's next rotation due date; entries without `last_rotated` print a stderr `WARNING` and are marked overdue.
+- **If it fails:** JSON validation error → fix the inventory; wrong policy tier → the 3 policies are `30d` (aggressive), `60d`, `90d` only.
+
+### Step 3: Generate Vault auth + policy config
+
+- **Action:** `python3 scripts/vault_config_generator.py --app-name <svc> --auth-method approle --secrets db-creds,api-key --environment production`
+- **Expected:** HCL policy/auth config rendered for the requested auth method (`approle` / `kubernetes` / `oidc`).
+- **If it fails:** argparse error → a required flag is missing; review the rendered policy for least privilege before applying — the generator is a starting point, not an approval.
+
+### Step 4: Review and apply through change control
+
+- **Action:** human reviews the generated policies; apply via `vault policy write` / `vault write auth/...` with `VAULT_TOKEN` in the environment.
+- **Expected:** `vault policy read <policy>` shows the reviewed content; a test token gets exactly the intended paths and nothing more.
+- **If it fails:** test token can read unintended paths → tighten path scopes before rollout; never "fix later".
+
+### Step 5: Wire audit log analysis
+
+- **Action:** `python3 scripts/audit_log_analyzer.py --log-file <vault-audit.log> --threshold 5` (or `--sample` to see output shape on a synthetic log).
+- **Expected:** `=== Audit Log Analysis Report ===` with summary counts and anomaly list; exit 0.
+- **If it fails:** empty report on a real log → check the log is JSON lines/array format; lower `--threshold` (lower = more sensitive) if nothing surfaces.
+
+## Failure handling
+
+| Symptom / exit code | Cause | Fix |
+|---|---|---|
+| `rotation_planner.py` stderr `WARNING: ... no last_rotated date` | inventory entry lacks rotation date | correct — secret is tracked as overdue; fill the date after its first rotation |
+| `rotation_planner.py` JSON error | inventory not valid JSON / wrong shape | validate with `python3 -m json.tool`; entries need `name`/`type`/`last_rotated`/`owner` |
+| `vault_config_generator.py` argparse error | missing `--app-name`/`--auth-method`/`--secrets` | add the flag named in the error; `--auth-method` accepts only `approle`/`kubernetes`/`oidc` |
+| Generated policy broader than needed | generator defaults | hand-tighten paths before `vault policy write`; the review step is mandatory |
+| `vault write` → permission denied | token lacks management capabilities | use a management token from the change process, not a service token |
+| Audit analyzer reports nothing | wrong log format or threshold too high | confirm JSON lines/array; lower `--threshold` |
+| Vault sealed and refusing requests | restart without auto-unseal | follow Unseal procedure (below) — quorum of key holders or KMS auto-unseal |
+| Audit devices all failed → Vault refuses requests | file+syslog both down | restore at least one audit device; this fail-closed behavior is by design |
 
 ## Emergency Procedures
 
@@ -315,8 +367,6 @@ Use `audit_log_analyzer.py` to parse Vault or cloud audit logs for these signals
 5. Check active leases and token validity
 
 See `references/emergency_procedures.md` for complete playbooks.
-
----
 
 ## CI/CD Integration
 
@@ -376,8 +426,6 @@ Eliminate long-lived secrets in CI by using OIDC federation:
       secret/data/ci/deploy db_password | DB_PASSWORD
 ```
 
----
-
 ## Anti-Patterns
 
 | Anti-Pattern | Risk | Correct Approach |
@@ -391,17 +439,21 @@ Eliminate long-lived secrets in CI by using OIDC federation:
 | No audit device configured | Zero visibility into access | Dual audit devices (file + syslog) |
 | Wildcard policies (`path "*"`) | Over-permissioned, violates least privilege | Explicit path-based policies per service |
 
----
+## Parameter quick reference
 
-## Tools
+| Script | Key parameters | Notes |
+|---|---|---|
+| `scripts/vault_config_generator.py` | `--app-name`, `--auth-method approle\|kubernetes\|oidc`, `--secrets` (comma-separated types), `--environment`, `--namespace`, `--json` | renders Vault policy + auth config |
+| `scripts/rotation_planner.py` | `--inventory <json>`, `--policy 30d\|60d\|90d`, `--json` | missing/invalid `last_rotated` → marked overdue |
+| `scripts/audit_log_analyzer.py` | `--log-file <file>`, `--threshold <n>` (lower = more sensitive, default 5), `--json`, `--sample` | JSON lines or JSON array logs |
 
-| Script | Purpose |
-|--------|---------|
-| `vault_config_generator.py` | Generate Vault policy and auth config from application requirements |
-| `rotation_planner.py` | Create rotation schedule from a secret inventory file |
-| `audit_log_analyzer.py` | Analyze audit logs for anomalies and compliance gaps |
+## References
 
----
+Read the reference only when the corresponding situation applies:
+
+- `references/vault_patterns.md` — read when designing Vault architecture, auth methods, or policies beyond the patterns above.
+- `references/cloud_secret_stores.md` — read when choosing or integrating AWS/Azure/GCP secret stores (SDK details, rotation hooks, IAM wiring).
+- `references/emergency_procedures.md` — read during a leak/seal incident — complete response playbooks, not background reading.
 
 ## Cross-References
 
@@ -410,3 +462,13 @@ Eliminate long-lived secrets in CI by using OIDC federation:
 - **ci-cd-pipeline-builder** — Pipeline design where secrets are consumed
 - **docker-development** — Container secret injection patterns
 - **helm-chart-builder** — Kubernetes secret management in Helm charts
+
+## Deliverables and success criteria
+
+A run of this skill is done when:
+
+- Rotation plan saved as `rotation_schedule_<policy>_<date>.json|md` (from `rotation_planner.py --json` plus human annotations) in the team's security workspace; every overdue secret has an owner and a date.
+- Vault config saved as `<app>_<auth-method>_config.hcl`; applied only after the Step 4 least-privilege review; `vault policy read` matches the reviewed file.
+- Audit analysis saved as `audit_analysis_<date>.json|md`; anomaly findings triaged with dispositions.
+- Verification of completeness: re-running each script with the same inputs reproduces the saved artifacts (deterministic); a test token for the new policy reads exactly its intended paths and nothing else.
+- Boundary: this skill never stores, prints, or reads real secret values — workflow design only.

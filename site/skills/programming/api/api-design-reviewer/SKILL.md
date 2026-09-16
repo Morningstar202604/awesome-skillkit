@@ -14,449 +14,119 @@ metadata:
 
 # API Design Reviewer
 
-**Tier:** POWERFUL
-**Category:** Engineering / Architecture
-**Maintainer:** Claude Skills Team
+Review REST API designs with three tools — lint an OpenAPI spec for convention violations, detect breaking changes between versions, and score overall design quality — then report findings with the tool outputs attached.
 
-## Overview
+## 输入清单
 
-The API Design Reviewer skill provides comprehensive analysis and review of API designs, focusing on REST conventions, best practices, and industry standards. This skill helps engineering teams build consistent, maintainable, and well-designed APIs through automated linting, breaking change detection, and design scorecards.
+| 输入 | 必需 | 说明 |
+|---|---|---|
+| OpenAPI/Swagger spec（JSON） | 是 | 当前版规范文件路径，如 `openapi.json`；无 spec 时可用 `--sample` 内置样例 |
+| 旧版 spec | 仅破坏性变更检测时 | 与新版对比的旧规范文件路径 |
+| 最低通过等级 | 否 | `api_scorecard.py --min-grade A\|B\|C\|D\|F`，默认无门槛 |
+| 输出格式 | 否 | `--format text\|json`，CI 场景用 json |
 
-## Quick Start — run the tools first
+输入缺失时一次性问齐："请提供：① 待审查的 OpenAPI/Swagger JSON 文件路径；② 若要做破坏性变更检测，旧版 spec 路径；③ 最低通过等级（不填默认 B）。"
+
+## 前置自检
+
+逐条执行，任一失败 → 按修复处置后 STOP：
 
 ```bash
-# 1. Lint an OpenAPI/Swagger spec for convention violations
-python3 scripts/api_linter.py openapi.json --format json -o lint.json
+# 1. Python 3 可用
+python3 --version
+# 预期：Python 3.8+。
 
-# 2. Detect breaking changes between two spec versions (gate: exits non-zero with --exit-on-breaking)
-python3 scripts/breaking_change_detector.py openapi-v1.json openapi-v2.json --format json --exit-on-breaking -o breaking.json
+# 2. 三个工具脚本存在
+ls scripts/api_linter.py scripts/breaking_change_detector.py scripts/api_scorecard.py
+# 预期：三个文件名（在技能目录内执行）。失败→cd 到技能目录后重试；仍缺→STOP 回报。
 
-# 3. Score overall design quality (gate: --min-grade fails below threshold)
-python3 scripts/api_scorecard.py openapi.json --format json --min-grade B -o scorecard.json
+# 3. spec 文件可读且为合法 JSON
+python3 -c "import json,sys; json.load(open('<spec>'))" && echo OK
+# 预期：OK。失败→向用户确认正确的 spec 路径/格式，STOP。
 ```
 
-Review flow: run all three, report linter findings + breaking changes + grade to the user, fix, then re-run until the linter is clean, `--exit-on-breaking` passes (or breaking changes are version-bumped), and the scorecard meets the agreed `--min-grade`. Never sign off an API review on prose alone — attach the tool outputs.
+## 工作流
 
-## Core Capabilities
+命令在技能目录（`skills/programming/api/api-design-reviewer/`）内执行。无现成 spec 时，先跑 `python3 scripts/api_linter.py --sample` 熟悉输出结构。
 
-### 1. API Linting and Convention Analysis
+### 步骤 1：Lint 规范
 
-- **Resource Naming Conventions**: Enforces kebab-case for resources, camelCase for fields
-- **HTTP Method Usage**: Validates proper use of GET, POST, PUT, PATCH, DELETE
-- **URL Structure**: Analyzes endpoint patterns for consistency and RESTful design
-- **Status Code Compliance**: Ensures appropriate HTTP status codes are used
-- **Error Response Formats**: Validates consistent error response structures
-- **Documentation Coverage**: Checks for missing descriptions and documentation gaps
-
-### 2. Breaking Change Detection
-
-- **Endpoint Removal**: Detects removed or deprecated endpoints
-- **Response Shape Changes**: Identifies modifications to response structures
-- **Field Removal**: Tracks removed or renamed fields in API responses
-- **Type Changes**: Catches field type modifications that could break clients
-- **Required Field Additions**: Flags new required fields that could break existing integrations
-- **Status Code Changes**: Detects changes to expected status codes
-
-### 3. API Design Scoring and Assessment
-
-- **Consistency Analysis** (30%): Evaluates naming conventions, response patterns, and structural consistency
-- **Documentation Quality** (20%): Assesses completeness and clarity of API documentation
-- **Security Implementation** (20%): Reviews authentication, authorization, and security headers
-- **Usability Design** (15%): Analyzes ease of use, discoverability, and developer experience
-- **Performance Patterns** (15%): Evaluates caching, pagination, and efficiency patterns
-
-## REST Design Principles
-
-### Resource Naming Conventions
-```text
-✓ Good Examples:
-- /api/v1/users
-- /api/v1/user-profiles
-- /api/v1/orders/123/line-items
-
-✗ Bad Examples:
-- /api/v1/getUsers
-- /api/v1/user_profiles
-- /api/v1/orders/123/lineItems
+```bash
+python3 scripts/api_linter.py openapi.json --format json --output lint.json
 ```
 
-### HTTP Method Usage
+- **动作**：检查资源命名（资源 kebab-case、字段 camelCase）、HTTP 方法用法、URL 结构、状态码合规、错误响应结构一致性、文档覆盖度。
+- **预期**：生成 `lint.json`；无致命项时退出码 0。
+- **若失败**：JSON 内含 violation 明细 → 逐条整理为发现清单（含文件/路径定位），进入步骤 3 一并报告。
 
-- **GET**: Retrieve resources (safe, idempotent)
-- **POST**: Create new resources (not idempotent)
-- **PUT**: Replace entire resources (idempotent)
-- **PATCH**: Partial resource updates (not necessarily idempotent)
-- **DELETE**: Remove resources (idempotent)
+### 步骤 2：破坏性变更检测
 
-### URL Structure Best Practices
-```text
-Collection Resources: /api/v1/users
-Individual Resources: /api/v1/users/123
-Nested Resources: /api/v1/users/123/orders
-Actions: /api/v1/users/123/activate (POST)
-Filtering: /api/v1/users?status=active&role=admin
+```bash
+python3 scripts/breaking_change_detector.py openapi-v1.json openapi-v2.json --format json --exit-on-breaking --output breaking.json
 ```
 
-## Versioning Strategies
+- **动作**：对比两版 spec，检出端点删除、响应结构变化、字段删除/改名、类型变更、新增必填字段、状态码变更，并给出影响严重度。
+- **预期**：退出码 0（无破坏性变更）；或破坏项已全部被版本号提升（version bump）覆盖。
+- **若失败**：`--exit-on-breaking` 使其检出破坏项时以非零退出 → 把每项破坏性变更列入报告，标记"需 version bump 或回退"。
 
-### 1. URL Versioning (Recommended)
-```text
-/api/v1/users
-/api/v2/users
-```
-**Pros**: Clear, explicit, easy to route
-**Cons**: URL proliferation, caching complexity
+### 步骤 3：设计评分
 
-### 2. Header Versioning
-```text
-GET /api/users
-Accept: application/vnd.api+json;version=1
-```
-**Pros**: Clean URLs, content negotiation
-**Cons**: Less visible, harder to test manually
-
-### 3. Media Type Versioning
-```text
-GET /api/users
-Accept: application/vnd.myapi.v1+json
-```
-**Pros**: RESTful, supports multiple representations
-**Cons**: Complex, harder to implement
-
-### 4. Query Parameter Versioning
-```text
-/api/users?version=1
-```
-**Pros**: Simple to implement
-**Cons**: Not RESTful, can be ignored
-
-## Pagination Patterns
-
-### Offset-Based Pagination
-```json
-{
-  "data": [...],
-  "pagination": {
-    "offset": 20,
-    "limit": 10,
-    "total": 150,
-    "hasMore": true
-  }
-}
+```bash
+python3 scripts/api_scorecard.py openapi.json --format json --min-grade B --output scorecard.json
 ```
 
-### Cursor-Based Pagination
-```json
-{
-  "data": [...],
-  "pagination": {
-    "nextCursor": "eyJpZCI6MTIzfQ==",
-    "hasMore": true
-  }
-}
-```
+- **动作**：五维评分——Consistency 30%、Documentation 20%、Security 20%、Usability 15%、Performance 15%，输出 0-100 分与 A-F 等级、改进建议。
+- **预期**：等级 ≥ `--min-grade`（上例 B），退出码 0。
+- **若失败**：等级低于门槛 → 输出报告但裁决为 "not approved"，附 scorecard 中的改进项。
 
-### Page-Based Pagination
-```json
-{
-  "data": [...],
-  "pagination": {
-    "page": 3,
-    "pageSize": 10,
-    "totalPages": 15,
-    "totalItems": 150
-  }
-}
-```
+### 步骤 4：汇总裁决
 
-## Error Response Formats
+- **动作**：向用户报告 lint 发现 + 破坏性变更 + 等级。禁止仅凭文字评审签收——必须附三个工具的输出。
+- **预期**：lint 无 violation（或已全部接受）、`--exit-on-breaking` 通过（或破坏项已 version bump）、等级 ≥ 约定门槛，三项齐备裁决 "approved"。
+- **若失败**：用户修复 spec 后，从步骤 1 重跑全流程。
 
-### Standard Error Structure
-```json
-{
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "message": "The request contains invalid parameters",
-    "details": [
-      {
-        "field": "email",
-        "code": "INVALID_FORMAT",
-        "message": "Email address is not valid"
-      }
-    ],
-    "requestId": "req-123456",
-    "timestamp": "2026-02-16T13:00:00Z"
-  }
-}
-```
+## 参数速查表
 
-### HTTP Status Code Usage
+| 参数 | 取值 | 说明 |
+|---|---|---|
+| `--format` | text / json | 输出格式；CI 用 json |
+| `--output` | 文件路径 | 写入文件（三脚本均无 `-o` 短选项，必须用全称） |
+| `--exit-on-breaking` | 布尔 | breaking_change_detector 检出破坏项时非零退出，作 CI 门禁 |
+| `--min-grade` | A / B / C / D / F | api_scorecard 低于该等级非零退出，作 CI 门禁 |
+| `--sample` | 布尔 | api_linter 用内置样例 spec，无需输入文件 |
+| `--raw-endpoints` | 布尔 | api_linter 接受原始端点清单 JSON 而非完整 spec |
 
-- **400 Bad Request**: Invalid request syntax or parameters
-- **401 Unauthorized**: Authentication required
-- **403 Forbidden**: Access denied (authenticated but not authorized)
-- **404 Not Found**: Resource not found
-- **409 Conflict**: Resource conflict (duplicate, version mismatch)
-- **422 Unprocessable Entity**: Valid syntax but semantic errors
-- **429 Too Many Requests**: Rate limit exceeded
-- **500 Internal Server Error**: Unexpected server error
+## 失败处置表
 
-## Authentication and Authorization Patterns
+| 现象/错误码 | 原因 | 处置 |
+|---|---|---|
+| `unrecognized arguments: -o` | 用了不存在的短选项 | 改用 `--output` |
+| `json.decoder.JSONDecodeError` | spec 非 JSON（可能是 YAML） | 请用户提供 JSON 格式 spec 或先转换，STOP |
+| 退出码非 0 且无输出文件 | 检出门禁失败项（`--exit-on-breaking`/`--min-grade`） | 读 stdout/JSON 报告，属正常门禁行为，按发现项处置 |
+| `FileNotFoundError` | 不在技能目录执行 | `cd` 到技能目录，或改用脚本绝对路径 |
+| breaking 项无法修复 | 上游接口约束 | 报告给用户决策：version bump 或接受并书面记录 |
 
-### Bearer Token Authentication
-```text
-Authorization: Bearer <token>
-```
+## 交付标准
 
-### API Key Authentication
-```text
-X-API-Key: <api-key>
-Authorization: Api-Key <api-key>
-```
+- 成功定义：三工具全部运行完毕，报告含 lint 发现清单、破坏性变更清单、等级分数；裁决词只能是 "approved" 或 "not approved"（附依据）。
+- 产物命名：`lint.json`、`breaking.json`、`scorecard.json`（或用户指定名）。
+- 保存位置：默认当前目录，或用户指定的输出目录。
+- 完整性验证：三个文件均可被 `json.load` 解析且非空；报告引用了各文件的 `overall_score`/等级原文。
 
-### OAuth 2.0 Flow
-```text
-Authorization: Bearer <oauth-access-token>
-```
+## 参考
 
-### Role-Based Access Control (RBAC)
-```json
-{
-  "user": {
-    "id": "123",
-    "roles": ["admin", "editor"],
-    "permissions": ["read:users", "write:orders"]
-  }
-}
-```
+- `references/rest_design_rules.md` — REST 命名、方法、状态码、分页、错误格式的完整规则集；解读 lint violation 或回答"应该怎么改"时读。
+- `references/api_antipatterns.md` — 常见反模式及修复方案；lint 大量命中或用户要求"找出反模式"时读。
 
-## Rate Limiting Implementation
+## CI Integration
 
-### Headers
-```text
-X-RateLimit-Limit: 1000
-X-RateLimit-Remaining: 999
-X-RateLimit-Reset: 1640995200
-```
-
-### Response on Limit Exceeded
-```json
-{
-  "error": {
-    "code": "RATE_LIMIT_EXCEEDED",
-    "message": "Too many requests",
-    "retryAfter": 3600
-  }
-}
-```
-
-## HATEOAS (Hypermedia as the Engine of Application State)
-
-### Example Implementation
-```json
-{
-  "id": "123",
-  "name": "John Doe",
-  "email": "john@example.com",
-  "_links": {
-    "self": { "href": "/api/v1/users/123" },
-    "orders": { "href": "/api/v1/users/123/orders" },
-    "profile": { "href": "/api/v1/users/123/profile" },
-    "deactivate": {
-      "href": "/api/v1/users/123/deactivate",
-      "method": "POST"
-    }
-  }
-}
-```
-
-## Idempotency
-
-### Idempotent Methods
-
-- **GET**: Always safe and idempotent
-- **PUT**: Should be idempotent (replace entire resource)
-- **DELETE**: Should be idempotent (same result)
-- **PATCH**: May or may not be idempotent
-
-### Idempotency Keys
-```text
-POST /api/v1/payments
-Idempotency-Key: 123e4567-e89b-12d3-a456-426614174000
-```
-
-## Backward Compatibility Guidelines
-
-### Safe Changes (Non-Breaking)
-
-- Adding optional fields to requests
-- Adding fields to responses
-- Adding new endpoints
-- Making required fields optional
-- Adding new enum values (with graceful handling)
-
-### Breaking Changes (Require Version Bump)
-
-- Removing fields from responses
-- Making optional fields required
-- Changing field types
-- Removing endpoints
-- Changing URL structures
-- Modifying error response formats
-
-## OpenAPI/Swagger Validation
-
-### Required Components
-
-- **API Information**: Title, description, version
-- **Server Information**: Base URLs and descriptions
-- **Path Definitions**: All endpoints with methods
-- **Parameter Definitions**: Query, path, header parameters
-- **Request/Response Schemas**: Complete data models
-- **Security Definitions**: Authentication schemes
-- **Error Responses**: Standard error formats
-
-### Best Practices
-
-- Use consistent naming conventions
-- Provide detailed descriptions for all components
-- Include examples for complex objects
-- Define reusable components and schemas
-- Validate against OpenAPI specification
-
-## Performance Considerations
-
-### Caching Strategies
-```text
-Cache-Control: public, max-age=3600
-ETag: "123456789"
-Last-Modified: Wed, 21 Oct 2015 07:28:00 GMT
-```
-
-### Efficient Data Transfer
-
-- Use appropriate HTTP methods
-- Implement field selection (`?fields=id,name,email`)
-- Support compression (gzip)
-- Implement efficient pagination
-- Use ETags for conditional requests
-
-### Resource Optimization
-
-- Avoid N+1 queries
-- Implement batch operations
-- Use async processing for heavy operations
-- Support partial updates (PATCH)
-
-## Security Best Practices
-
-### Input Validation
-
-- Validate all input parameters
-- Sanitize user data
-- Use parameterized queries
-- Implement request size limits
-
-### Authentication Security
-
-- Use HTTPS everywhere
-- Implement secure token storage
-- Support token expiration and refresh
-- Use strong authentication mechanisms
-
-### Authorization Controls
-
-- Implement principle of least privilege
-- Use resource-based permissions
-- Support fine-grained access control
-- Audit access patterns
-
-## Tools and Scripts
-
-### api_linter.py
-
-Analyzes API specifications for compliance with REST conventions and best practices.
-
-**Features:**
-- OpenAPI/Swagger spec validation
-- Naming convention checks
-- HTTP method usage validation
-- Error format consistency
-- Documentation completeness analysis
-
-### breaking_change_detector.py
-
-Compares API specification versions to identify breaking changes.
-
-**Features:**
-- Endpoint comparison
-- Schema change detection
-- Field removal/modification tracking
-- Migration guide generation
-- Impact severity assessment
-
-### api_scorecard.py
-
-Provides comprehensive scoring of API design quality.
-
-**Features:**
-- Multi-dimensional scoring
-- Detailed improvement recommendations
-- Letter grade assessment (A-F)
-- Benchmark comparisons
-- Progress tracking
-
-## Integration Examples
-
-### CI/CD Integration
 ```yaml
 - name: "api-linting"
-  run: python scripts/api_linter.py openapi.json
+  run: python scripts/api_linter.py openapi.json --output lint.json
 
 - name: "breaking-change-detection"
-  run: python scripts/breaking_change_detector.py openapi-v1.json openapi-v2.json
+  run: python scripts/breaking_change_detector.py openapi-v1.json openapi-v2.json --exit-on-breaking
 
 - name: "api-scorecard"
-  run: python scripts/api_scorecard.py openapi.json
+  run: python scripts/api_scorecard.py openapi.json --min-grade B
 ```
-
-### Pre-commit Hooks
-```bash
-#!/bin/bash
-python engineering/skills/api-design-reviewer/scripts/api_linter.py api/openapi.json
-if [ $? -ne 0 ]; then
-  echo "API linting failed. Please fix the issues before committing."
-  exit 1
-fi
-```
-
-## Best Practices Summary
-
-1. **Consistency First**: Maintain consistent naming, response formats, and patterns
-2. **Documentation**: Provide comprehensive, up-to-date API documentation
-3. **Versioning**: Plan for evolution with clear versioning strategies
-4. **Error Handling**: Implement consistent, informative error responses
-5. **Security**: Build security into every layer of the API
-6. **Performance**: Design for scale and efficiency from the start
-7. **Backward Compatibility**: Minimize breaking changes and provide migration paths
-8. **Testing**: Implement comprehensive testing including contract testing
-9. **Monitoring**: Add observability for API usage and performance
-10. **Developer Experience**: Prioritize ease of use and clear documentation
-
-## Common Anti-Patterns to Avoid
-
-1. **Verb-based URLs**: Use nouns for resources, not actions
-2. **Inconsistent Response Formats**: Maintain standard response structures
-3. **Over-nesting**: Avoid deeply nested resource hierarchies
-4. **Ignoring HTTP Status Codes**: Use appropriate status codes for different scenarios
-5. **Poor Error Messages**: Provide actionable, specific error information
-6. **Missing Pagination**: Always paginate list endpoints
-7. **No Versioning Strategy**: Plan for API evolution from day one
-8. **Exposing Internal Structure**: Design APIs for external consumption, not internal convenience
-9. **Missing Rate Limiting**: Protect your API from abuse and overload
-10. **Inadequate Testing**: Test all aspects including error cases and edge conditions
-
-
-Regular use of the linting, breaking change detection, and scoring tools ensures continuous improvement and helps maintain API quality throughout the development lifecycle.
-
-lint 通过后，**接着说："接口规范已定稿，继续调用 api-test-suite-builder 生成契约测试"——链条自动展开**。

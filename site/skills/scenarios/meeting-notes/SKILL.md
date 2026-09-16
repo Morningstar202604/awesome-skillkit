@@ -34,6 +34,12 @@ If the transcript is missing, ask ONCE:
 > 请粘贴会议文字记录（语音转写稿即可）。可选告知：日期、参会人、
 > 会议目标，以及纪要发给谁。
 
+## Preflight self-check
+
+No environment to probe — no dependencies, no endpoints, no env vars. The
+self-check is input-side: transcript present? If not, ask ONCE (above) and
+STOP. Do not start from an assumption of what the meeting "probably" decided.
+
 ## Workflow
 
 ### Step 1: Segment before summarizing

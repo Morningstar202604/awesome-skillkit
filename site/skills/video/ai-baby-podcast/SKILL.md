@@ -49,6 +49,15 @@ If topic is missing, ask ONCE:
 > 请给出这期主题（蹭什么热梗/聊什么观点）。可选：用已有角色还是新建、
 > 单人还是双人对话、发哪个平台（默认抖音竖屏）。
 
+## Preflight self-check
+
+- 系列模式（沿用既有角色）：`character_bible.md` 与锁定的参考图在盘上吗？
+  （`ls <角色卡目录>/`）不在 → 当作新建角色走 Step 1，不要凭记忆重画。
+- 做系列账号前确认漂移纪律文档在盘：`test -f references/character-consistency.md`，
+  缺失 → STOP 并回报仓库不完整。
+- 口型工具可用吗（即梦"对口型"/Hedra 任一）？都不可用 → Step 4 无法完成，
+  提前告知用户卡点，STOP。
+
 ## Character lock discipline (do this once, reuse forever)
 
 Create `character_bible.md` containing:

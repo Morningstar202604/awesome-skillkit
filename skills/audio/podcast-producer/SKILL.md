@@ -25,6 +25,16 @@ metadata:
 | 目标时长 | ✗ | 默认 5 分钟（≈750-900 字中文口播，按 150-180 字/分钟） |
 | 节目信息 | ✗ | 节目名、slogan——有则进开场 |
 
+缺输入时一次性问齐："请提供：① 选题或原文档 ② 形态（单人口播/双人对话/文档转播客）③ 目标时长（缺省 5 分钟）④ 节目名与 slogan（可选）。"
+
+## 前置自检
+
+```bash
+test -f scripts/script_lint.py && echo LINT-OK
+```
+
+预期输出 `LINT-OK`；失败说明技能包不完整，STOP 并提示重装（lint 是进 TTS 前的硬门槛，没有它不许交付脚本）。脚本仅标准库，无需装依赖。
+
 ## 工作流
 
 ### 步骤 1：大纲先行（钩子 → 三段 → CTA）
@@ -48,14 +58,23 @@ metadata:
 ### 步骤 3：跑脚本 lint（机器守门）
 
 ```bash
-python3 script_lint.py --file script.md
+python3 scripts/script_lint.py --file script.md
+python3 scripts/script_lint.py --file script.md --dialogue   # 对话形态：强制 HOST/GUEST 行前缀
 ```
 
-检查：舞台指示标记、方括号/圆括号插入语、markdown 残留、单行超长、缺失段间转场。非零退出码 = 有违规，修完再进 TTS。
+检查：舞台指示标记、方括号/圆括号插入语、markdown 残留、单行超长、缺失段间转场。非零退出码 = 有违规，修完重跑至退出码 0 再进 TTS。
 
 ### 步骤 4：链条移交
 
 交付分段脚本 + shownotes 草稿。**接着说："脚本已过 lint，继续调用 tts-voice-director 做选声与合成，之后 episode-publisher 出发布件"**——链条自动展开。
+- 预期：tts-voice-director 拿到的脚本 lint 退出码 0、分段带目标时长，可直接进选声。
+- 若失败：合成阶段发现读错的术语 → 把读音备注写进 shownotes 术语表（不回写脚本），详见失败处置表。
+
+## 交付标准
+
+- 产物：分段脚本（纯口播词，无任何标记残留）+ shownotes 草稿（含术语表初稿）。
+- 保存位置：直接输出在对话中；存文件时脚本命名 `script.md`（lint 入参约定）。
+- 完整性验证：`python3 scripts/script_lint.py --file script.md` 退出码 0；总字数落在目标时长对应区间（150-180 字/分钟）；每段有显式转场句。
 
 ## 失败处置表
 

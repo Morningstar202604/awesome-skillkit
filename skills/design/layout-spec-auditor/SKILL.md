@@ -24,14 +24,26 @@ metadata:
 | 声明尺寸 | 二选一 | 只有计划时的 W×H（纯审计计算） |
 | 设计规格单 | ✓ | design-brief-interpreter 的产出，platform 字段为准 |
 
+缺输入时一次性问齐："请提供：① 实际图片文件路径（有图时）或声明 W×H（仅计划阶段）② 目标平台名（决定验收规格）。"
+
+## 前置自检
+
+```bash
+test -f scripts/spec_audit.py && echo SCRIPT-OK
+python3 -c "import PIL" 2>/dev/null && echo PIL-OK || echo PIL-MISSING
+```
+
+- 预期：`SCRIPT-OK` 必须出现；失败说明技能包不完整，STOP 并提示重装技能包。
+- `PIL-OK` 仅在审计真实图片文件时必需；输出 `PIL-MISSING` 时修复二选一：`pip install pillow`，或改走声明尺寸模式（`--width/--height` 纯计算，不读图）。
+
 ## 工作流
 
 ### 步骤 1：跑规格审计脚本
 
 ```bash
-python3 spec_audit.py --image cover.png --platform wechat-header
-python3 spec_audit.py --width 1080 --height 1440 --platform xhs
-python3 spec_audit.py --image cover.png --platform wechat-header --text-chars 14
+python3 scripts/spec_audit.py --image cover.png --platform wechat-header
+python3 scripts/spec_audit.py --width 1080 --height 1440 --platform xhs-portrait
+python3 scripts/spec_audit.py --image cover.png --platform wechat-header --text-chars 14
 ```
 
 输出 JSON：每项 `pass/fail` 与修复建议。非零退出码 = 有 fail 项。
@@ -52,6 +64,12 @@ python3 spec_audit.py --image cover.png --platform wechat-header --text-chars 14
 
 尺寸错 → 回 design-brief-interpreter 改规格单 platform 字段再重走链；
 文字超预算 → 回 image-prompt-engineer 改 text 段；**audit 不过，不许交付**。
+
+## 交付标准
+
+- 产物：审计结果 JSON（含每项 pass/fail 与建议）+ 结论一句话（全 pass 可交付 / 列出 fail 项与回流去向）。
+- 保存位置：直接输出在对话中；被审计的图片文件位置不变。
+- 完整性验证：脚本退出码 0 = 全部通过；退出码非 0 时必须逐项给出处置，不允许"带病交付"。
 
 ## 失败处置表
 

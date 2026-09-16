@@ -116,7 +116,7 @@ claiming success. Report the absolute path to the user.
 
 ## Delivery standard
 
-Success = a local `.mp4`, size > 0, named `video_YYYYMMDD_HHHHMMSS.mp4`
+Success = a local `.mp4`, size > 0, named `video_YYYYMMDD_HHMMSS.mp4`
 (timestamped), path reported to the user together with duration/ratio used.
 Anything else is not done — say so plainly and show the failure row above.
 

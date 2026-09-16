@@ -1,8 +1,15 @@
 ---
 name: tdd-guide
-description: "Test-driven development skill for writing unit tests, generating test fixtures and mocks, analyzing coverage gaps, and guiding red-green-refactor workflows across Jest, Pytest, JUnit, Vitest, and Mocha. Use when the user asks to write tests, improve test coverage, practice TDD, generate mocks or stubs, or mentions testing frameworks like Jest, pytest, or JUnit. 当用户要求 写测试 / TDD / 先写测试再写实现 时使用。 Do NOT use for skipping the red-green-refactor cycle."
+description: >-
+  Test-driven development skill for writing unit tests, generating test fixtures
+  and mocks, analyzing coverage gaps, and guiding red-green-refactor workflows
+  across Jest, Pytest, JUnit, Vitest, and Mocha. Use when the user asks to write
+  tests, improve test coverage, practice TDD, generate mocks or stubs, run the
+  red-green-refactor cycle, or mentions testing frameworks like Jest, pytest, or
+  JUnit. 当用户要求 写测试 / TDD / 先写测试再写实现 / 提升测试覆盖率 / 生成 mock
+  时使用。 Do NOT use for skipping the red-green-refactor cycle.
 license: Apache-2.0
-compatibility: Pure prompt-based; may read project structure via Bash.
+compatibility: Pure prompt-based; the bundled scripts require Python 3.10+. May read project structure via Bash.
 metadata:
   version: "1.0"
   author: awesome-skillkit
@@ -14,18 +21,44 @@ metadata:
 
 # TDD Guide
 
-Test-driven development skill for generating tests, analyzing coverage, and guiding red-green-refactor workflows across Jest, Pytest, JUnit, and Vitest.
+Test-driven development across Jest, Pytest, JUnit, and Vitest: generate tests,
+analyze coverage gaps, and drive red-green-refactor cycles through one CLI.
 
 ---
 
-## Workflows
+## Inputs
 
-### Unified CLI (`scripts/tdd_cli.py`)
+| Input | Required | Notes |
+|-------|----------|-------|
+| Source / requirement | Yes | A source file, a `req.json`, or a feature requirement string. |
+| Target framework | No | `jest` \| `pytest` \| `junit` \| `vitest` \| `mocha` (auto-detected). |
+| Coverage report | No | LCOV / JSON / XML path for gap analysis. |
+| Coverage threshold | No | Percent (default `80`). |
+| Phase (workflow) | No | `red` \| `green` \| `refactor`. |
 
-All 8 library modules are reachable through one entry point (`0 = ok / 2 = bad input / 1 = internal error`):
+If a required input is missing, ask once:
+
+> 请提供：① 待测源码或需求描述；② 目标测试框架（Jest/Pytest/JUnit/Vitest/Mocha）。
+> 其余采用默认值：coverage-threshold=80%、phase 由工作流自动推进。
+
+## Pre-flight Self-check
 
 ```bash
-python scripts/tdd_cli.py workflow --requirement "实现用户登录"          # 红-绿-重构循环 + 阶段指引
+# 1. Entry-point script present?
+test -f scripts/tdd_cli.py || { echo "ERROR: scripts/tdd_cli.py missing"; exit 1; }
+# 2. Python available?
+command -v python3 >/dev/null 2>&1 || { echo "ERROR: python3 not found"; exit 1; }
+# 3. If a coverage report was supplied, it exists:
+test -z "$REPORT" || test -f "$REPORT" || { echo "ERROR: report $REPORT not found"; exit 1; }
+```
+
+## Unified CLI (`scripts/tdd_cli.py`)
+
+All library modules are reachable through one entry point (exit codes:
+`0` = ok, `2` = bad input, `1` = internal error):
+
+```bash
+python scripts/tdd_cli.py workflow --requirement "实现用户登录"            # 红-绿-重构循环 + 阶段指引
 python scripts/tdd_cli.py detect --file src/service.py                  # 语言/框架/测试模式检测
 python scripts/tdd_cli.py gen-tests --requirements req.json --framework pytest   # 需求 → 测试用例
 python scripts/tdd_cli.py fixtures --mode boundary --type int           # 边界值/边缘场景/mock 数据
@@ -34,103 +67,69 @@ python scripts/tdd_cli.py metrics --source src/a.py --test tests/test_a.py      
 python scripts/tdd_cli.py stub --framework pytest --name test_login     # 测试骨架渲染
 ```
 
-`format_detector` / `framework_adapter` / `output_formatter` 通过 `detect` / `stub` / `coverage --format text` 间接暴露；也可以继续作为库 `import` 使用（模块均无独立 `__main__`，请勿直接执行）。
+`format_detector` / `framework_adapter` / `output_formatter` are exposed
+indirectly via `detect` / `stub` / `coverage --format text`; they may also be
+`import`ed as libraries (no standalone `__main__`, do not execute directly).
 
-### Generate Tests from Code
+## Workflow
 
-1. Provide source code (TypeScript, JavaScript, Python, Java)
-2. Specify target framework (Jest, Pytest, JUnit, Vitest)
-3. Run `test_generator.py` with requirements
-4. Review generated test stubs
-5. **Validation:** Tests compile and cover happy path, error cases, edge cases
+### Step 1: Detect language & framework
 
-### Analyze Coverage Gaps
-
-1. Generate coverage report from test runner (`npm test -- --coverage`)
-2. Run `coverage_analyzer.py` on LCOV/JSON/XML report
-3. Review prioritized gaps (P0/P1/P2)
-4. Generate missing tests for uncovered paths
-5. **Validation:** Coverage meets target threshold (typically 80%+)
-
-### TDD New Feature
-
-1. Write failing test first (RED)
-2. Run `tdd_cli.py workflow --requirement "<feature>"` to start the cycle and get phase guidance
-3. Implement minimal code to pass (GREEN)
-4. Validate implementation with `tdd_cli.py metrics` / `detect` as you go
-5. Refactor while keeping tests green (REFACTOR)
-6. **Validation:** All tests pass after each cycle
-
----
-
-## Examples
-
-### Test Generation — Input → Output (Pytest)
-
-**Input source function (`math_utils.py`):**
-```python
-def divide(a: float, b: float) -> float:
-    if b == 0:
-        raise ValueError("Cannot divide by zero")
-    return a / b
-```
-
-**Command:**
 ```bash
+python scripts/tdd_cli.py detect --file src/service.py
+```
+
+Expected: prints detected language, test framework, and existing test pattern.
+If failed: unsupported extension → specify `--framework` explicitly.
+
+### Step 2: Generate tests from code / requirement
+
+```bash
+# From a source file
 python scripts/test_generator.py --input math_utils.py --framework pytest
+# From a requirement JSON via the CLI
+python scripts/tdd_cli.py gen-tests --requirements req.json --framework pytest
 ```
 
-**Generated test output (`test_math_utils.py`):**
-```python
-import pytest
-from math_utils import divide
+Expected: emitted test stubs covering happy path, error cases, edge cases.
+If failed: empty output → check `--framework` value and that the input parses.
 
-class TestDivide:
-    def test_divide_positive_numbers(self):
-        assert divide(10, 2) == 5.0
+### Step 3: Analyze coverage gaps
 
-    def test_divide_negative_numerator(self):
-        assert divide(-10, 2) == -5.0
-
-    def test_divide_float_result(self):
-        assert divide(1, 3) == pytest.approx(0.333, rel=1e-3)
-
-    def test_divide_by_zero_raises_value_error(self):
-        with pytest.raises(ValueError, match="Cannot divide by zero"):
-            divide(10, 0)
-
-    def test_divide_zero_numerator(self):
-        assert divide(0, 5) == 0.0
-```
-
----
-
-### Coverage Analysis — Sample P0/P1/P2 Output
-
-**Command:**
 ```bash
 python scripts/coverage_analyzer.py --report lcov.info --threshold 80
+# or via the CLI
+python scripts/tdd_cli.py coverage --report coverage.xml --threshold 80
 ```
 
-**Sample output:**
-```text
-Coverage Report — Overall: 63% (threshold: 80%)
+Expected: prioritized gaps tagged P0 (critical, e.g. uncovered error paths) /
+P1 (core-branch) / P2 (utility), with a recommendation to reach the threshold.
+If failed: unsupported report format → convert to LCOV/JSON/XML first.
 
-P0 — Critical gaps (uncovered error paths):
-  auth/login.py:42-58   handle_expired_token()       0% covered
-  payments/process.py:91-110  handle_payment_failure()   0% covered
+### Step 4: Drive red-green-refactor
 
-P1 — High-value gaps (core logic branches):
-  users/service.py:77   update_profile() — else branch  0% covered
-  orders/cart.py:134    apply_discount() — zero-qty guard  0% covered
-
-P2 — Low-risk gaps (utility / helper functions):
-  utils/formatting.py:12  format_currency()            0% covered
-
-Recommended: Generate tests for P0 items first to reach 80% threshold.
+```bash
+python scripts/tdd_cli.py workflow --requirement "<feature>"   # start cycle, get phase guidance
+python scripts/tdd_workflow.py --phase red   --test test_auth.py   # write failing test
+python scripts/tdd_workflow.py --phase green --test test_auth.py   # implement minimally
+python scripts/tdd_cli.py metrics --source src/a.py --test tests/test_a.py  # verify
 ```
 
----
+Expected: every cycle ends with all targeted tests passing; `metrics` shows no
+regression. If failed: a test stays red after the minimal implementation → the
+implementation, not the test, is at fault; revisit the requirement.
+
+## Parameter Cheat-sheet
+
+| Subcommand | Key flag | Values |
+|------------|----------|--------|
+| `workflow` | `--requirement` | feature description string |
+| `detect` | `--file` | source file path |
+| `gen-tests` | `--requirements` / `--framework` | req JSON / jest\|pytest\|junit\|vitest\|mocha |
+| `fixtures` | `--mode` / `--type` | boundary\|edge\|mock / int\|float\|str |
+| `coverage` | `--report` / `--threshold` | LCOV\|JSON\|XML / percent |
+| `metrics` | `--source` / `--test` | source / test paths |
+| `stub` | `--framework` / `--name` | framework / test name |
 
 ## Key Tools
 
@@ -141,147 +140,59 @@ Recommended: Generate tests for P0 items first to reach 80% threshold.
 | `tdd_workflow.py` | Guide red-green-refactor cycles | `python scripts/tdd_workflow.py --phase red --test test_auth.py` |
 | `fixture_generator.py` | Generate test data and mocks | `python scripts/fixture_generator.py --entity User --count 5` |
 
-Additional scripts: `framework_adapter.py` (convert between frameworks), `metrics_calculator.py` (quality metrics), `format_detector.py` (detect language/framework), `output_formatter.py` (CLI/desktop/CI output).
+Additional scripts: `framework_adapter.py` (convert between frameworks),
+`metrics_calculator.py` (quality metrics), `format_detector.py` (detect
+language/framework), `output_formatter.py` (CLI/desktop/CI output).
 
----
+## Bounded Autonomy Rules
 
-## Input Requirements
+**Stop and ask when:** ambiguous acceptance criteria; missing boundary values
+that need domain knowledge; test count would exceed 50 (present a summary and
+ask which areas to prioritize); external dependencies are undocumented;
+security-sensitive logic (auth, authz, encryption, payments) needs sign-off.
 
-**For Test Generation:**
-- Source code (file path or pasted content)
-- Target framework (Jest, Pytest, JUnit, Vitest)
-- Coverage scope (unit, integration, edge cases)
+**Continue autonomously when:** a clear spec with numbered acceptance criteria;
+straightforward CRUD; well-defined API contracts (OpenAPI/typed interfaces);
+pure functions; existing test patterns to follow.
 
-**For Coverage Analysis:**
-- Coverage report file (LCOV, JSON, or XML format)
-- Optional: Source code for context
-- Optional: Target threshold percentage
-
-**For TDD Workflow:**
-- Feature requirements or user story
-- Current phase (RED, GREEN, REFACTOR)
-- Test code and implementation status
-
----
-
-## Spec-First Workflow
-
-TDD is most effective when driven by a written spec. The flow:
-
-1. **Write or receive a spec** — stored in `specs/<feature>.md`
-2. **Extract acceptance criteria** — each criterion becomes one or more test cases
-3. **Write failing tests (RED)** — one test per acceptance criterion
-4. **Implement minimal code (GREEN)** — satisfy each test in order
-5. **Refactor** — clean up while all tests stay green
-
-### Spec Directory Convention
-
-```text
-project/
-├── specs/
-│   ├── user-auth.md          # Feature spec with acceptance criteria
-│   ├── payment-processing.md
-│   └── notification-system.md
-├── tests/
-│   ├── test_user_auth.py     # Tests derived from specs/user-auth.md
-│   ├── test_payments.py
-│   └── test_notifications.py
-└── src/
-```
-
-### Extracting Tests from Specs
-
-Each acceptance criterion in a spec maps to at least one test:
-
-| Spec Criterion | Test Case |
-|---------------|-----------|
-| "User can log in with valid credentials" | `test_login_valid_credentials_returns_token` |
-| "Invalid password returns 401" | `test_login_invalid_password_returns_401` |
-| "Account locks after 5 failed attempts" | `test_login_locks_after_five_failures` |
-
-**Tip:** Number your acceptance criteria in the spec. Reference the number in the test docstring for traceability (`# AC-3: Account locks after 5 failed attempts`).
-
-> **Cross-reference:** See `engineering/spec-driven-workflow` for the full spec methodology, including spec templates and review checklists.
-
----
-
-## Red-Green-Refactor Examples Per Language
+## Red-Green-Refactor Examples
 
 ### TypeScript / Jest
 
 ```typescript
-// test/cart.test.ts
 describe("Cart", () => {
   describe("addItem", () => {
     it("should add a new item to an empty cart", () => {
       const cart = new Cart();
       cart.addItem({ id: "sku-1", name: "Widget", price: 9.99, qty: 1 });
-
       expect(cart.items).toHaveLength(1);
       expect(cart.items[0].id).toBe("sku-1");
     });
-
-    it("should increment quantity when adding an existing item", () => {
-      const cart = new Cart();
-      cart.addItem({ id: "sku-1", name: "Widget", price: 9.99, qty: 1 });
-      cart.addItem({ id: "sku-1", name: "Widget", price: 9.99, qty: 2 });
-
-      expect(cart.items).toHaveLength(1);
-      expect(cart.items[0].qty).toBe(3);
-    });
-
     it("should throw when quantity is zero or negative", () => {
       const cart = new Cart();
-      expect(() =>
-        cart.addItem({ id: "sku-1", name: "Widget", price: 9.99, qty: 0 })
-      ).toThrow("Quantity must be positive");
+      expect(() => cart.addItem({ id: "sku-1", name: "Widget", price: 9.99, qty: 0 }))
+        .toThrow("Quantity must be positive");
     });
   });
 });
 ```
 
-### Python / Pytest (Advanced Patterns)
+### Python / Pytest
 
 ```python
-# tests/conftest.py — shared fixtures
-import pytest
-from app.db import create_engine, Session
-
-@pytest.fixture(scope="session")
-def db_engine():
-    engine = create_engine("sqlite:///:memory:")
-    yield engine
-    engine.dispose()
-
-@pytest.fixture
-def db_session(db_engine):
-    session = Session(bind=db_engine)
-    yield session
-    session.rollback()
-    session.close()
-
-# tests/test_pricing.py — parametrize for multiple cases
 import pytest
 from app.pricing import calculate_discount
 
 @pytest.mark.parametrize("subtotal, expected_discount", [
-    (50.0, 0.0),       # Below threshold — no discount
-    (100.0, 5.0),      # 5% tier
-    (250.0, 25.0),     # 10% tier
-    (500.0, 75.0),     # 15% tier
+    (50.0, 0.0), (100.0, 5.0), (250.0, 25.0), (500.0, 75.0),
 ])
 def test_calculate_discount(subtotal, expected_discount):
     assert calculate_discount(subtotal) == pytest.approx(expected_discount)
 ```
 
-### Go — Table-Driven Tests
+### Go — Table-Driven
 
 ```go
-// cart_test.go
-package cart
-
-import "testing"
-
 func TestApplyDiscount(t *testing.T) {
     tests := []struct {
         name     string
@@ -290,15 +201,12 @@ func TestApplyDiscount(t *testing.T) {
     }{
         {"no discount below threshold", 50.0, 0.0},
         {"5 percent tier", 100.0, 5.0},
-        {"10 percent tier", 250.0, 25.0},
         {"15 percent tier", 500.0, 75.0},
         {"zero subtotal", 0.0, 0.0},
     }
-
     for _, tt := range tests {
         t.Run(tt.name, func(t *testing.T) {
-            got := ApplyDiscount(tt.subtotal)
-            if got != tt.want {
+            if got := ApplyDiscount(tt.subtotal); got != tt.want {
                 t.Errorf("ApplyDiscount(%v) = %v, want %v", tt.subtotal, got, tt.want)
             }
         })
@@ -306,123 +214,35 @@ func TestApplyDiscount(t *testing.T) {
 }
 ```
 
----
+## Failure Handling
 
-## Bounded Autonomy Rules
+| Symptom | Cause | Action |
+|---------|-------|--------|
+| `exit 2` from CLI | bad input argument | re-check required flags per cheat-sheet |
+| Empty generated tests | unsupported `--framework` | use one of the 5 supported frameworks |
+| Coverage tool errors on report | unsupported format | convert to LCOV/JSON/XML |
+| Test stays red after minimal impl | requirement unclear | stop and ask the user (bounded-autonomy rule) |
 
-When generating tests autonomously, follow these rules to decide when to stop and ask the user:
+## Delivery Standard
 
-### Stop and Ask When
+Success = generated tests that compile and cover happy/error/edge paths, plus a
+coverage report meeting the threshold.
 
-- **Ambiguous requirements** — the spec or user story has conflicting or unclear acceptance criteria
-- **Missing edge cases** — you cannot determine boundary values without domain knowledge (e.g., max allowed transaction amount)
-- **Test count exceeds 50** — large test suites need human review before committing; present a summary and ask which areas to prioritize
-- **External dependencies unclear** — the feature relies on third-party APIs or services with undocumented behavior
-- **Security-sensitive logic** — authentication, authorization, encryption, or payment flows require human sign-off on test scenarios
+- Save location: `tests/` for generated tests; `coverage.<fmt>` for reports.
+- Verify: run the project's test runner and confirm the threshold is met
+  (typically ≥80%); for P0 items generate tests first.
+- Tests are scaffolding requiring human review for complex logic — this skill
+  does not push or commit.
 
-### Continue Autonomously When
+## References
 
-- **Clear spec with numbered acceptance criteria** — each criterion maps directly to tests
-- **Straightforward CRUD operations** — create, read, update, delete with well-defined models
-- **Well-defined API contracts** — OpenAPI spec or typed interfaces available
-- **Pure functions** — deterministic input/output with no side effects
-- **Existing test patterns** — the codebase already has similar tests to follow
+- `references/framework-guide.md` — read when choosing adapter patterns or
+  converting between Jest/Pytest/JUnit/Vitest/Mocha.
+- `references/tdd-best-practices.md` — read for property-based and mutation
+  testing guidance and deeper TDD patterns.
+- `references/ci-integration.md` — read when wiring the CLI into CI (coverage
+  gates, JUnit XML reporting).
 
----
-
-## Property-Based Testing
-
-Property-based testing generates random inputs to verify invariants instead of relying on hand-picked examples. Use it when the input space is large and the expected behavior can be described as a property.
-
-### Python — Hypothesis
-
-```python
-from hypothesis import given, strategies as st
-from app.serializers import serialize, deserialize
-
-@given(st.text())
-def test_roundtrip_serialization(data):
-    """Serialization followed by deserialization returns the original."""
-    assert deserialize(serialize(data)) == data
-
-@given(st.integers(), st.integers())
-def test_addition_is_commutative(a, b):
-    assert a + b == b + a
-```
-
-### TypeScript — fast-check
-
-```typescript
-import fc from "fast-check";
-import { encode, decode } from "./codec";
-
-test("encode/decode roundtrip", () => {
-  fc.assert(
-    fc.property(fc.string(), (input) => {
-      expect(decode(encode(input))).toBe(input);
-    })
-  );
-});
-```
-
-### When to Use Property-Based Over Example-Based
-
-| Use Property-Based | Example |
-|-------------------|---------|
-| Data transformations | Serialize/deserialize roundtrips |
-| Mathematical properties | Commutativity, associativity, idempotency |
-| Encoding/decoding | Base64, URL encoding, compression |
-| Sorting and filtering | Output is sorted, length preserved |
-| Parser correctness | Valid input always parses without error |
-
----
-
-## Mutation Testing
-
-Mutation testing modifies your production code (creates "mutants") and checks whether your tests catch the changes. If a mutant survives (tests still pass), your tests have a gap that coverage alone cannot reveal.
-
-### Tools
-
-| Language | Tool | Command |
-|----------|------|---------|
-| TypeScript/JavaScript | **Stryker** | `npx stryker run` |
-| Python | **mutmut** | `mutmut run --paths-to-mutate=src/` |
-| Java | **PIT** | `mvn org.pitest:pitest-maven:mutationCoverage` |
-
-### Why Mutation Testing Matters
-
-- **100% line coverage != good tests** — coverage tells you code was executed, not that it was verified
-- **Catches weak assertions** — tests that run code but assert nothing meaningful
-- **Finds missing boundary tests** — mutants that change `<` to `<=` expose off-by-one gaps
-- **Quantifiable quality metric** — mutation score (% mutants killed) is a stronger signal than coverage %
-
-**Recommendation:** Run mutation testing on critical paths (auth, payments, data processing) even if overall coverage is high. Target 85%+ mutation score on P0 modules.
-
----
-
-## Cross-References
-
-| Skill | Relationship |
-|-------|-------------|
-| `engineering/spec-driven-workflow` | Spec → acceptance criteria → test extraction pipeline |
-| `engineering-team/focused-fix` | Phase 5 (Verify) uses TDD to confirm the fix with a regression test |
-| `engineering-team/senior-qa` | Broader QA strategy; TDD is one layer in the test pyramid |
-| `engineering-team/code-reviewer` | Review generated tests for assertion quality and coverage completeness |
-| `engineering-team/senior-fullstack` | Project scaffolders include testing infrastructure compatible with TDD workflows |
-
----
-
-## Limitations
-
-| Scope | Details |
-|-------|---------|
-| Unit test focus | Integration and E2E tests require different patterns |
-| Static analysis | Cannot execute tests or measure runtime behavior |
-| Language support | Best for TypeScript, JavaScript, Python, Java |
-| Report formats | LCOV, JSON, XML only; other formats need conversion |
-| Generated tests | Provide scaffolding; require human review for complex logic |
-
-**When to use other tools:**
-- E2E testing: Playwright, Cypress, Selenium
-- Performance testing: k6, JMeter, Locust
-- Security testing: OWASP ZAP, Burp Suite
+Sample fixtures: `assets/sample_coverage_report.lcov`,
+`assets/sample_input_python.json`, `assets/sample_input_typescript.json`,
+`assets/expected_output.json`.

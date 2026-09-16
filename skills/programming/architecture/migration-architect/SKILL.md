@@ -14,427 +14,130 @@ metadata:
 
 # Migration Architect
 
-**Tier:** POWERFUL
-**Category:** Engineering - Migration Strategy
-**Purpose:** Zero-downtime migration planning, compatibility validation, and rollback strategy generation
+Plan zero-downtime migrations, validate schema/API compatibility, and generate rollback runbooks with three tools — producing a phased plan, a compatibility report, and per-phase rollback procedures.
 
-## Overview
+## 输入清单
 
-The Migration Architect skill provides comprehensive tools and methodologies for planning, executing, and validating complex system migrations with minimal business impact. This skill combines proven migration patterns with automated planning tools to ensure successful transitions between systems, databases, and infrastructure.
+| 输入 | 必需 | 说明 |
+|---|---|---|
+| 迁移规格 JSON | 是 | 描述迁移内容的 spec 文件；无现成文件时从 `assets/sample_database_migration.json` 复制改写 |
+| 迁移类型 | 是 | database / service / infrastructure（决定兼容性检查 `--type`） |
+| 前后 schema/API 文件 | 兼容性检查必需 | `--before` 旧版、`--after` 新版 JSON；样例在 `assets/` |
+| 输出目录 | 否 | 三个产物的落盘位置，缺省当前目录 |
 
-## Core Capabilities
+输入缺失时一次性问齐："请提供：① 迁移规格 JSON 路径（没有的话我基于 assets 样例帮你起草，需你确认迁移内容）；② 迁移类型（database/service/infrastructure）；③ 做兼容性检查所需的旧/新 schema 文件路径。"
 
-### 1. Migration Strategy Planning
+## 前置自检
 
-- **Phased Migration Planning:** Break complex migrations into manageable phases with clear validation gates
-- **Risk Assessment:** Identify potential failure points and mitigation strategies before execution
-- **Timeline Estimation:** Generate realistic timelines based on migration complexity and resource constraints
-- **Stakeholder Communication:** Create communication templates and progress dashboards
-
-### 2. Compatibility Analysis
-
-- **Schema Evolution:** Analyze database schema changes for backward compatibility issues
-- **API Versioning:** Detect breaking changes in REST/GraphQL APIs and microservice interfaces
-- **Data Type Validation:** Identify data format mismatches and conversion requirements
-- **Constraint Analysis:** Validate referential integrity and business rule changes
-
-### 3. Rollback Strategy Generation
-
-- **Automated Rollback Plans:** Generate comprehensive rollback procedures for each migration phase
-- **Data Recovery Scripts:** Create point-in-time data restoration procedures
-- **Service Rollback:** Plan service version rollbacks with traffic management
-- **Validation Checkpoints:** Define success criteria and rollback triggers
-
-## Quick Start — plan → check compatibility → generate rollback
-
-All paths relative to this skill folder; sample inputs in `assets/`, expected shapes in `expected_outputs/`.
+逐条执行，任一失败 → 按修复处置后 STOP：
 
 ```bash
-# 1. Generate the migration plan from a spec (copy assets/sample_database_migration.json)
+# 1. Python 3 可用
+python3 --version
+# 预期：Python 3.8+。
+
+# 2. 三个工具脚本存在
+ls scripts/migration_planner.py scripts/compatibility_checker.py scripts/rollback_generator.py
+# 预期：三个文件名（在技能目录内执行）。失败→cd 到技能目录；仍缺→STOP 回报。
+
+# 3. 迁移规格可解析
+python3 -c "import json; json.load(open('<migration_spec.json>'))" && echo OK
+# 预期：OK。失败→向用户确认 spec 文件，或改用 assets 样例起草，STOP。
+
+# 4. 样例资产在位
+ls assets/sample_database_migration.json assets/database_schema_before.json assets/database_schema_after.json
+# 预期：三个文件名。缺失→确认仓库完整性后 STOP。
+```
+
+## 工作流
+
+命令在技能目录（`skills/programming/architecture/migration-architect/`）内执行。
+
+### 步骤 1：生成迁移计划
+
+```bash
 python3 scripts/migration_planner.py --input migration_spec.json --format json -o migration_plan.json
+```
 
-# 2. Check schema/API compatibility — exits non-zero unless fully compatible (CI gate)
+- **动作**：从迁移规格生成分阶段计划（`phases`）、风险清单（`risks`）、预估时长（`estimated_duration_hours`）。
+- **预期**：`migration_plan.json` 生成且含 `phases` 数组（非空）。
+- **若失败**：`--validate` 复跑可检查 spec 结构；仍失败 → spec 字段缺失，对照 `assets/sample_database_migration.json` 修正字段后重试。
+
+### 步骤 2：兼容性检查
+
+```bash
 python3 scripts/compatibility_checker.py --before assets/database_schema_before.json --after assets/database_schema_after.json --type database --format json -o compatibility.json
+```
 
-# 3. Generate the rollback runbook from the plan
+- **动作**：对比前后 schema/API（`--type database|api`），输出 `overall_compatibility` 与 `breaking_changes_count` / `potentially_breaking_count`。
+- **预期**：退出码 0 且 `overall_compatibility: compatible`。
+- **若失败**：非 compatible → 列出每个 breaking/potentially-breaking 项交用户决策：修复 schema 重跑，或所有者书面明确接受。**门禁**：两项之一满足前迁移不批准。
+
+### 步骤 3：生成回滚手册
+
+```bash
 python3 scripts/rollback_generator.py --input migration_plan.json --format both -o rollback_runbook
 ```
 
-Outputs chain: `migration_plan.json` (`phases`, `risks`, `estimated_duration_hours`) feeds step 3; `compatibility.json` reports `overall_compatibility` plus `breaking_changes_count` / `potentially_breaking_count`.
+- **动作**：从步骤 1 的计划生成回滚 runbook（json + text 两种格式）。
+- **预期**：生成 `rollback_runbook.json` 与 `rollback_runbook.txt`；手册覆盖计划中的每一个 phase。
+- **若失败**：报告 `input file missing phases` 类错误 → 说明步骤 1 产物损坏，重跑步骤 1。
 
-**Gate:** the migration is not approved until (a) `compatibility_checker` exits 0 (`overall_compatibility: compatible`) or every breaking/potentially-breaking item is explicitly accepted by the owner in writing, and (b) a rollback runbook exists for every phase in the plan. Re-run both checks after any schema revision.
+### 步骤 4：交付与执行前门禁
 
-## Migration Patterns
+- **动作**：交付三产物，并逐项核对执行前门禁：① 兼容性通过（步骤 2）；② 每个 phase 有回滚手册（步骤 3）；③ 回滚步骤已在 staging 演练过；④ 监控与告警就位。
+- **预期**：门禁四项全部满足，向用户明确声明"计划就绪，尚未执行迁移"（本技能只产出计划与脚本，不执行迁移）。
+- **若失败**：任一门禁不满足 → 列出缺口，STOP；schema 修订后从步骤 1 重跑全部检查。
 
-### Database Migrations
+## 参数速查表
 
-#### Schema Evolution Patterns
+| 参数 | 取值 | 说明 |
+|---|---|---|
+| `--input, -i` | JSON 文件 | migration_planner 读迁移规格；rollback_generator 读迁移计划 |
+| `--before / --after` | JSON 文件 | compatibility_checker 的旧/新版本文件 |
+| `--type` | database / api | 兼容性检查对象类型 |
+| `--format` | json / text / both | 三脚本通用 |
+| `--output, -o` | 文件路径前缀 | 产物落盘位置 |
+| `--validate` | 布尔 | migration_planner 校验 spec 结构 |
 
-1. **Expand-Contract Pattern**
-   - **Expand:** Add new columns/tables alongside existing schema
-   - **Dual Write:** Application writes to both old and new schema
-   - **Migration:** Backfill historical data to new schema
-   - **Contract:** Remove old columns/tables after validation
+## 失败处置表
 
-2. **Parallel Schema Pattern**
-   - Run new schema in parallel with existing schema
-   - Use feature flags to route traffic between schemas
-   - Validate data consistency between parallel systems
-   - Cutover when confidence is high
+| 现象/错误码 | 原因 | 处置 |
+|---|---|---|
+| compatibility 退出码非 0 | 检出 breaking changes | 交用户决策：修 schema 重跑或书面接受；不得静默放行 |
+| rollback 手册缺 phase | 步骤 1 计划产物损坏 | 重跑步骤 1 再生成手册 |
+| `--validate` 报错 | 迁移 spec 字段缺失 | 对照 `assets/sample_database_migration.json` 逐字段补齐 |
+| `FileNotFoundError` | 不在技能目录执行 | `cd` 到技能目录或改用脚本绝对路径 |
 
-3. **Event Sourcing Migration**
-   - Capture all changes as events during migration window
-   - Apply events to new schema for consistency
-   - Enable replay capability for rollback scenarios
+## 迁移模式速查（选型用）
 
-#### Data Migration Strategies
+| 场景 | 模式 | 关键动作 |
+|---|---|---|
+| 加列/加表 | Expand-Contract | 先加新结构 → 双写 → 回填 → 验证后删旧结构 |
+| 大数据集零停机 | CDC / Incremental Sync | 流式捕获变更到目标库，最终一致 |
+| 服务替换 | Strangler Fig | 网关分流 → 新服务增量实现 → 旧组件退役 |
+| 新旧并行验证 | Parallel Run | 双执行 + 结果比对 → 按置信度切流 |
+| 渐进发布 | Canary | 小流量起步 → 盯延迟/错误率/KPI → 分级放量 |
+| 新系统劣化自动兜底 | Circuit Breaker | 失败超阈值即回落旧系统，半开探测恢复 |
 
-1. **Bulk Data Migration**
-   - **Snapshot Approach:** Full data copy during maintenance window
-   - **Incremental Sync:** Continuous data synchronization with change tracking
-   - **Stream Processing:** Real-time data transformation pipelines
+详细说明与数据对账（行数校验、checksum、delta SQL）见参考文件。
 
-2. **Dual-Write Pattern**
-   - Write to both source and target systems during migration
-   - Implement compensation patterns for write failures
-   - Use distributed transactions where consistency is critical
+## 交付标准
 
-3. **Change Data Capture (CDC)**
-   - Stream database changes to target system
-   - Maintain eventual consistency during migration
-   - Enable zero-downtime migrations for large datasets
+- 成功定义：`migration_plan.json`（含非空 `phases`/`risks`）、`compatibility.json`（`overall_compatibility` 为 compatible 或破坏项被书面接受）、`rollback_runbook.json` + `.txt`（覆盖全部 phase）三者齐备，且执行前门禁四项满足。
+- 产物命名：`migration_plan.json`、`compatibility.json`、`rollback_runbook.{json,txt}`（或用户指定前缀）。
+- 保存位置：当前目录或用户指定目录。
+- 完整性验证：三个 JSON 均可被 `json.load` 解析；plan 的 phase 列表与 runbook 覆盖的 phase 一一对应。
 
-### Service Migrations
+## 参考
 
-#### Strangler Fig Pattern
+- `references/data_reconciliation_strategies.md` — 数据对账策略（行数、checksum、delta 查询、自动修复）；生成计划后设计验证/对账环节时读。
+- `assets/sample_database_migration.json`、`assets/sample_service_migration.json` — 迁移 spec 样例；用户无现成 spec 时复制改写。
+- `assets/database_schema_before.json` / `database_schema_after.json` — 兼容性检查样例输入。
+- `expected_outputs/` — 各工具样例输出的正确形态，用于核对产物格式。
 
-1. **Intercept Requests:** Route traffic through proxy/gateway
-2. **Gradually Replace:** Implement new service functionality incrementally
-3. **Legacy Retirement:** Remove old service components as new ones prove stable
-4. **Monitoring:** Track performance and error rates throughout transition
+## CI/CD Integration
 
-```mermaid
-graph TD
-    A[Client Requests] --> B[API Gateway]
-    B --> C{Route Decision}
-    C -->|Legacy Path| D[Legacy Service]
-    C -->|New Path| E[New Service]
-    D --> F[Legacy Database]
-    E --> G[New Database]
-```
-
-#### Parallel Run Pattern
-
-1. **Dual Execution:** Run both old and new services simultaneously
-2. **Shadow Traffic:** Route production traffic to both systems
-3. **Result Comparison:** Compare outputs to validate correctness
-4. **Gradual Cutover:** Shift traffic percentage based on confidence
-
-#### Canary Deployment Pattern
-
-1. **Limited Rollout:** Deploy new service to small percentage of users
-2. **Monitoring:** Track key metrics (latency, errors, business KPIs)
-3. **Gradual Increase:** Increase traffic percentage as confidence grows
-4. **Full Rollout:** Complete migration once validation passes
-
-### Infrastructure Migrations
-
-#### Cloud-to-Cloud Migration
-
-1. **Assessment Phase**
-   - Inventory existing resources and dependencies
-   - Map services to target cloud equivalents
-   - Identify vendor-specific features requiring refactoring
-
-2. **Pilot Migration**
-   - Migrate non-critical workloads first
-   - Validate performance and cost models
-   - Refine migration procedures
-
-3. **Production Migration**
-   - Use infrastructure as code for consistency
-   - Implement cross-cloud networking during transition
-   - Maintain disaster recovery capabilities
-
-#### On-Premises to Cloud Migration
-
-1. **Lift and Shift**
-   - Minimal changes to existing applications
-   - Quick migration with optimization later
-   - Use cloud migration tools and services
-
-2. **Re-architecture**
-   - Redesign applications for cloud-native patterns
-   - Adopt microservices, containers, and serverless
-   - Implement cloud security and scaling practices
-
-3. **Hybrid Approach**
-   - Keep sensitive data on-premises
-   - Migrate compute workloads to cloud
-   - Implement secure connectivity between environments
-
-## Feature Flags for Migrations
-
-### Progressive Feature Rollout
-```python
-# Example feature flag implementation
-class MigrationFeatureFlag:
-    def __init__(self, flag_name, rollout_percentage=0):
-        self.flag_name = flag_name
-        self.rollout_percentage = rollout_percentage
-
-    def is_enabled_for_user(self, user_id):
-        hash_value = hash(f"{self.flag_name}:{user_id}")
-        return (hash_value % 100) < self.rollout_percentage
-
-    def gradual_rollout(self, target_percentage, step_size=10):
-        while self.rollout_percentage < target_percentage:
-            self.rollout_percentage = min(
-                self.rollout_percentage + step_size,
-                target_percentage
-            )
-            yield self.rollout_percentage
-```
-
-### Circuit Breaker Pattern
-
-Implement automatic fallback to legacy systems when new systems show degraded performance:
-
-```python
-class MigrationCircuitBreaker:
-    def __init__(self, failure_threshold=5, timeout=60):
-        self.failure_count = 0
-        self.failure_threshold = failure_threshold
-        self.timeout = timeout
-        self.last_failure_time = None
-        self.state = 'CLOSED'  # CLOSED, OPEN, HALF_OPEN
-
-    def call_new_service(self, request):
-        if self.state == 'OPEN':
-            if self.should_attempt_reset():
-                self.state = 'HALF_OPEN'
-            else:
-                return self.fallback_to_legacy(request)
-
-        try:
-            response = self.new_service.process(request)
-            self.on_success()
-            return response
-        except Exception as e:
-            self.on_failure()
-            return self.fallback_to_legacy(request)
-```
-
-## Data Validation and Reconciliation
-
-### Validation Strategies
-
-1. **Row Count Validation**
-   - Compare record counts between source and target
-   - Account for soft deletes and filtered records
-   - Implement threshold-based alerting
-
-2. **Checksums and Hashing**
-   - Generate checksums for critical data subsets
-   - Compare hash values to detect data drift
-   - Use sampling for large datasets
-
-3. **Business Logic Validation**
-   - Run critical business queries on both systems
-   - Compare aggregate results (sums, counts, averages)
-   - Validate derived data and calculations
-
-### Reconciliation Patterns
-
-1. **Delta Detection**
-   ```sql
-   -- Example delta query for reconciliation
-   SELECT 'missing_in_target' as issue_type, source_id
-   FROM source_table s
-   WHERE NOT EXISTS (
-       SELECT 1 FROM target_table t
-       WHERE t.id = s.id
-   )
-   UNION ALL
-   SELECT 'extra_in_target' as issue_type, target_id
-   FROM target_table t
-   WHERE NOT EXISTS (
-       SELECT 1 FROM source_table s
-       WHERE s.id = t.id
-   );
-   ```
-
-2. **Automated Correction**
-   - Implement data repair scripts for common issues
-   - Use idempotent operations for safe re-execution
-   - Log all correction actions for audit trails
-
-## Rollback Strategies
-
-### Database Rollback
-
-1. **Schema Rollback**
-   - Maintain schema version control
-   - Use backward-compatible migrations when possible
-   - Keep rollback scripts for each migration step
-
-2. **Data Rollback**
-   - Point-in-time recovery using database backups
-   - Transaction log replay for precise rollback points
-   - Maintain data snapshots at migration checkpoints
-
-### Service Rollback
-
-1. **Blue-Green Deployment**
-   - Keep previous service version running during migration
-   - Switch traffic back to blue environment if issues arise
-   - Maintain parallel infrastructure during migration window
-
-2. **Rolling Rollback**
-   - Gradually shift traffic back to previous version
-   - Monitor system health during rollback process
-   - Implement automated rollback triggers
-
-### Infrastructure Rollback
-
-1. **Infrastructure as Code**
-   - Version control all infrastructure definitions
-   - Maintain rollback terraform/CloudFormation templates
-   - Test rollback procedures in staging environments
-
-2. **Data Persistence**
-   - Preserve data in original location during migration
-   - Implement data sync back to original systems
-   - Maintain backup strategies across both environments
-
-## Risk Assessment Framework
-
-### Risk Categories
-
-1. **Technical Risks**
-   - Data loss or corruption
-   - Service downtime or degraded performance
-   - Integration failures with dependent systems
-   - Scalability issues under production load
-
-2. **Business Risks**
-   - Revenue impact from service disruption
-   - Customer experience degradation
-   - Compliance and regulatory concerns
-   - Brand reputation impact
-
-3. **Operational Risks**
-   - Team knowledge gaps
-   - Insufficient testing coverage
-   - Inadequate monitoring and alerting
-   - Communication breakdowns
-
-### Risk Mitigation Strategies
-
-1. **Technical Mitigations**
-   - Comprehensive testing (unit, integration, load, chaos)
-   - Gradual rollout with automated rollback triggers
-   - Data validation and reconciliation processes
-   - Performance monitoring and alerting
-
-2. **Business Mitigations**
-   - Stakeholder communication plans
-   - Business continuity procedures
-   - Customer notification strategies
-   - Revenue protection measures
-
-3. **Operational Mitigations**
-   - Team training and documentation
-   - Runbook creation and testing
-   - On-call rotation planning
-   - Post-migration review processes
-
-## Migration Runbooks
-
-### Pre-Migration Checklist
-
-- [ ] Migration plan reviewed and approved
-- [ ] Rollback procedures tested and validated
-- [ ] Monitoring and alerting configured
-- [ ] Team roles and responsibilities defined
-- [ ] Stakeholder communication plan activated
-- [ ] Backup and recovery procedures verified
-- [ ] Test environment validation complete
-- [ ] Performance benchmarks established
-- [ ] Security review completed
-- [ ] Compliance requirements verified
-
-### During Migration
-
-- [ ] Execute migration phases in planned order
-- [ ] Monitor key performance indicators continuously
-- [ ] Validate data consistency at each checkpoint
-- [ ] Communicate progress to stakeholders
-- [ ] Document any deviations from plan
-- [ ] Execute rollback if success criteria not met
-- [ ] Coordinate with dependent teams
-- [ ] Maintain detailed execution logs
-
-### Post-Migration
-
-- [ ] Validate all success criteria met
-- [ ] Perform comprehensive system health checks
-- [ ] Execute data reconciliation procedures
-- [ ] Monitor system performance over 72 hours
-- [ ] Update documentation and runbooks
-- [ ] Decommission legacy systems (if applicable)
-- [ ] Conduct post-migration retrospective
-- [ ] Archive migration artifacts
-- [ ] Update disaster recovery procedures
-
-## Tools and Technologies
-
-### Migration Planning Tools
-
-- **migration_planner.py:** Automated migration plan generation
-- **compatibility_checker.py:** Schema and API compatibility analysis
-- **rollback_generator.py:** Comprehensive rollback procedure generation
-
-### Validation Tools
-
-- Database comparison utilities (schema and data)
-- API contract testing frameworks
-- Performance benchmarking tools
-- Data quality validation pipelines
-
-### Monitoring and Alerting
-
-- Real-time migration progress dashboards
-- Automated rollback trigger systems
-- Business metric monitoring
-- Stakeholder notification systems
-
-## Best Practices
-
-### Planning Phase
-
-1. **Start with Risk Assessment:** Identify all potential failure modes before planning
-2. **Design for Rollback:** Every migration step should have a tested rollback procedure
-3. **Validate in Staging:** Execute full migration process in production-like environment
-4. **Plan for Gradual Rollout:** Use feature flags and traffic routing for controlled migration
-
-### Execution Phase
-
-1. **Monitor Continuously:** Track both technical and business metrics throughout
-2. **Communicate Proactively:** Keep all stakeholders informed of progress and issues
-3. **Document Everything:** Maintain detailed logs for post-migration analysis
-4. **Stay Flexible:** Be prepared to adjust timeline based on real-world performance
-
-### Validation Phase
-
-1. **Automate Validation:** Use automated tools for data consistency and performance checks
-2. **Business Logic Testing:** Validate critical business processes end-to-end
-3. **Load Testing:** Verify system performance under expected production load
-4. **Security Validation:** Ensure security controls function properly in new environment
-
-## Integration with Development Lifecycle
-
-### CI/CD Integration
 ```yaml
 # Example migration pipeline stage
 migration_validation:
@@ -447,19 +150,3 @@ migration_validation:
       - compatibility_report.json
       - migration_plan.json
 ```
-
-### Infrastructure as Code
-```terraform
-# Example Terraform for blue-green infrastructure
-resource "aws_instance" "blue_environment" {
-  count = var.migration_phase == "preparation" ? var.instance_count : 0
-  # Blue environment configuration
-}
-
-resource "aws_instance" "green_environment" {
-  count = var.migration_phase == "execution" ? var.instance_count : 0
-  # Green environment configuration
-}
-```
-
-This Migration Architect skill provides a comprehensive framework for planning, executing, and validating complex system migrations while minimizing business impact and technical risk. The combination of automated tools, proven patterns, and detailed procedures enables organizations to confidently undertake even the most complex migration projects.

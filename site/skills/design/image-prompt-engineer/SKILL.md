@@ -25,6 +25,18 @@ metadata:
 | 目标模型 | ✗ | 默认通用结构；指定则套方言（见 references/model-dialects.md） |
 | 待审 prompt | audit ✓ | 原文粘贴 |
 
+缺输入时一次性问齐："请提供：① 模式（write 写新 prompt / audit 审已有 prompt）② design-brief-interpreter 的 7 字段规格单（write 必需）③ 目标模型（可选）④ 待审 prompt 原文（audit 必需）。"
+
+## 前置自检
+
+本技能纯 prompt 驱动：无运行时依赖、无端点、无环境变量。唯一自检点：
+
+```bash
+test -f references/model-dialects.md && echo OK
+```
+
+预期输出 `OK`；失败说明技能包不完整——通用五段结构（步骤 1）仍可用，但跳过步骤 2 的方言查询，并在交付时注明方言表缺失。输入不全（缺模式、或 write 缺规格单、或 audit 缺原文）→ 先问齐再 STOP，不猜。
+
 ## 工作流
 
 ### 步骤 1（write）：按五段结构填空
@@ -52,6 +64,15 @@ metadata:
 ### 步骤 4：交付与链条移交
 
 交付 prompt 原文 + 五段标注版。**生成后立即移交 layout-spec-auditor 按设计规格审计尺寸与安全区**——链条继续，不等用户发话。
+- 预期：下游拿到的东西可逐字使用——prompt 原文可直接粘贴进生图模型，标注版每段有段名。
+- 若失败：用户只想自己拿去用（不进链条）→ 交付 prompt 原文即止，标注版附后备查。
+
+## 交付标准
+
+- 产物（write）：prompt 原文一段 + 五段标注版（每段标 `canvas/subject/composition/style/text`）。
+- 产物（audit）：核对清单（每段 hit/miss）+ 修复前后对比。
+- 保存位置：直接输出在对话中（本技能不写文件）。
+- 完整性验证：五段齐全；图上文字逐字双引号包裹；负向约束为名词列表（无 "no xxx" 句式）；style 段与规格单 style 字段逐字一致。
 
 ## 五段词典（最快查表）
 

@@ -25,82 +25,105 @@ metadata:
 
 # 微博 Publisher
 
-微博发布/管理自动化客户端，支持两种模式：
-1. **官方开放平台 API** —— 需申请 AppKey，适合生产系统集成
-2. **Web 内部 API** —— 仅需 Cookie，适合个人账号自动化
+双模式发布客户端：官方 API 发微博、Web 内部接口发微博、图片上传；默认 dry-run，确认后才真正联网。
 
-## 功能
+所有命令在本技能 `scripts/` 目录内执行（先 `cd skills/writing/social/weibo-publisher/scripts`）。
 
-- `post-official` —— 官方 API 发布微博（文本 + 图片）
-- `post-web` —— Web 内部 API 发布微博（仅需 Cookie）
-- `repost` —— 转发微博
-- `comment` —— 评论微博
-- `delete` —— 删除微博
-- `upload-image` —— 上传图片（返回 pic_id）
+## 输入清单
 
-## 安全设计
+| 输入 | 必需 | 说明 |
+|------|------|------|
+| 动作 | 是 | `post-official` / `post-web` / `upload-image`（注：原始描述标注 `repost`/`comment`/`delete` 脚本未实现，调用前先 dry-run 验证） |
+| `--text` | 发微博必需 | 微博正文，支持 `#话题#` |
+| `--pic-ids` | post-official 可选 | 已上传图片的 pic_id，逗号分隔 |
+| `WEIBO_ACCESS_TOKEN` 或 `WEIBO_APPKEY`+`WEIBO_APPSECRET` | post-official 必需 | 官方 API 凭据 |
+| `WEIBO_COOKIE` 或 `--cookie-file` | post-web 必需 | Web 内部接口凭据 |
 
-- **默认 dry-run**：所有写操作默认只打印请求计划，不联网；加 `--execute` 才真正发送。
-- **凭据隔离**：
-  - 官方 API：`WEIBO_APPKEY`、`WEIBO_APPSECRET`、`WEIBO_ACCESS_TOKEN` 环境变量
-  - Web API：`WEIBO_COOKIE` 环境变量或 `--cookie-file`
-- **端点声明**：所有端点在常量中集中维护。
+缺任意必需项时一次性问齐：
 
-## 使用示例
+> 请告诉我：(1) 官方 API 发 / Web Cookie 发 / 仅上传图片？(2) 微博正文与配图？(3) 凭据用 `WEIBO_ACCESS_TOKEN`（官方）还是 `WEIBO_COOKIE` / `--cookie-file`（Web）？
 
-```bash
-# 官方 API 模式
-export WEIBO_ACCESS_TOKEN="your_token"
-python weibo_publisher.py post-official --execute \
-  --text "Hello 微博！#话题#" \
-  --pic-ids "pic_id1,pic_id2"
+## 前置自检
 
-# Web Cookie 模式（个人账号自动化）
-export WEIBO_COOKIE="SUB=xxx; SSOLoginState=xxx; ..."
-python weibo_publisher.py post-web --execute \
-  --text "Hello 微博！#话题#"
-```
+1. **Python**：`python3 --version` —— 预期 `3.8` 及以上；否则安装 Python 3.8+，STOP。
+2. **脚本**：`test -f weibo_publisher.py && echo OK` —— 预期 `OK`；否则仓库损坏，STOP。
+3. **凭据**：
+   - 官方：`test -n "$WEIBO_ACCESS_TOKEN" -o -n "$WEIBO_APPKEY" && echo OK` —— 否则 STOP。
+   - Web：`test -n "$WEIBO_COOKIE" -o -f ~/.weibo_cookie && echo OK` —— 否则 STOP，提示设置 `WEIBO_COOKIE` 或后续用 `--cookie-file`。
 
-## 认证
+任一失败即 STOP，修复后再继续。
 
-**官方 API**：
-- `WEIBO_ACCESS_TOKEN` — 直接使用 access_token
-- 或 `WEIBO_APPKEY` + `WEIBO_APPSECRET` — 需自行实现 OAuth2 刷新
+## 工作流
 
-**Web 内部 API**：
-- `WEIBO_COOKIE` — 包含 `SUB`、`SSOLoginState` 等字段的完整 Cookie
-- 或 `--cookie-file` 指定文件路径
+### 步骤 1：注入凭据
 
-```bash
-export WEIBO_COOKIE="SUB=xxx; SSOLoginState=xxx; ..."
-# 或
-python weibo_publisher.py post-web --cookie-file ~/.weibo_cookie ...
-```
+- **动作**：`export WEIBO_ACCESS_TOKEN="your_token"`（官方）或 `export WEIBO_COOKIE="SUB=xxx; SSOLoginState=xxx; ..."`（Web）；或 Web 命令加 `--cookie-file ~/.weibo_cookie`。
+- **预期**：对应环境变量非空。
+- **若失败**：未设置 → 退出码 1 报凭据缺失；STOP 并补齐。
 
-## 端点核对（Web 模式首次使用必做）
+### 步骤 2：dry-run 预览（默认，不联网）
 
-Web 内部 API 无官方文档，端点可能随时变更。首次使用前请在浏览器 DevTools 核对。
+- **动作**：`python weibo_publisher.py post-web --text "Hello 微博！#话题#"`
+- **预期**：打印请求计划（method / url / body），**不发生网络请求**。
+- **若失败**：参数错误 → 退出码 1 提示缺 `--text`；补齐后重跑。
 
-当前端点（需核对）：
-- 官方发布: `POST https://api.weibo.com/2/statuses/update.json`
-- 官方上传: `POST https://api.weibo.com/2/statuses/upload.json`
-- Web 发布: `POST https://weibo.com/ajax/statuses/build`
-- Web 上传: `POST https://weibo.com/ajax/statuses/upload`
+### 步骤 3：--execute 真正发布
 
-## 退出码
+- **动作**：在步骤 2 命令后追加 `--execute`。
+- **预期**：退出码 `0`，输出发布结果（含微博 ID / 链接）。
+- **若失败**：API 错误 → 退出码 1；见「失败处置表」。
 
-- `0` 成功
-- `1` API 错误或参数错误
+### 步骤 4：核对返回
+
+- **动作**：打开输出链接确认微博可见。
+- **预期**：内容已发布。
+- **若失败**：返回成功但不可见 → Token/Cookie 失效；刷新凭据后重试。
+
+## 参数速查表
+
+| 命令 | 关键参数 | 说明 |
+|------|----------|------|
+| `post-official` | `--text --pic-ids --execute` | 官方 API 发微博（文本+图片） |
+| `post-web` | `--text --execute` | Web 内部接口发微博（仅需 Cookie） |
+| `upload-image` | `--execute`（演示） | 上传图片返回 pic_id（dry-run 仅打印计划） |
+| （通用） | `--cookie-file <path>` | Web 模式用文件替代 `WEIBO_COOKIE` |
+
+> 说明：`repost`/`comment`/`delete` 在原始描述中标注为脚本未实现；如需使用，先 dry-run 验证是否可用，不可用则改用平台 UI。
+
+## 端点核对（VERIFY BEFORE USE）
+
+Web 内部 API 无官方文档，端点可能随时变更。首次使用必须按 SKILL.md 在浏览器 DevTools 核对：
+
+- 官方发布：`POST https://api.weibo.com/2/statuses/update.json`
+- 官方上传：`POST https://api.weibo.com/2/statuses/upload.json`
+- Web 发布：`POST https://weibo.com/ajax/statuses/build`
+- Web 上传：`POST https://weibo.com/ajax/statuses/upload`
+
+所有端点集中在脚本常量中维护。
+
+## 失败处置表
+
+| 现象 / 错误码 | 原因 | 处置 |
+|---------------|------|------|
+| 退出码 1 + 参数错误 | 缺 `--text` 等 | 补齐参数后重跑 dry-run |
+| 退出码 1 + API 错误 | Token/Cookie 失效或端点变更 | 刷新 `WEIBO_ACCESS_TOKEN`/`WEIBO_COOKIE`；Web 重核端点 |
+| 端点返回 4xx/5xx | Web 端点已调整 | 按 DevTools 更新端点常量 |
+
+## 交付标准
+
+- **成功定义**：退出码 `0` 且输出含微博 ID / 链接。
+- **产物**：发布后的微博链接。
+- **保存位置**：不落本地文件，链接回传用户。
+- **完整性验证**：微博主页确认可见、配图正常。
+
+## 安全红线
+
+- 默认 dry-run：所有写操作不加 `--execute` 只打印请求计划，绝不联网。
+- 凭据隔离：Token/Cookie 走环境变量或 `--cookie-file`，**绝不入库、绝不写入仓库**。
+- 端点 VERIFY BEFORE USE：Web 端点发布前在 DevTools 核对。
+- 不可逆操作前确认：先 dry-run 展示计划，用户确认后再 `--execute`。
 
 ## 依赖
 
-- Python 3.8+
-- 标准库
-- `publish_common`（打包后与技能目录平级的 `_common/publish_common.py`；仓库内位于 `skills/writing/_common/`）
-
-## 相关技能
-
-- `xiaohongshu-publisher` — 小红书发布
-- `csdn-publisher` — CSDN 发布
-- `juejin-publisher` — 掘金发布
-- `cross-post-orchestrator` — 多平台编排
+- Python 3.8+，标准库。
+- `publish_common`（与技能目录平级的 `_common/publish_common.py`；仓库内位于 `skills/writing/_common/`）。

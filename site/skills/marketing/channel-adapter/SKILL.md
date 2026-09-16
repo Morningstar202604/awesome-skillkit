@@ -24,6 +24,16 @@ metadata:
 | 目标渠道 | ✓ | xhs / douyin-spoken / moments / email-subject / search-ad（可多选） |
 | 渠道角色 | ✗ | campaign-designer 的渠道矩阵角色（拉新/承接/私域） |
 
+缺输入时一次性问齐："请提供：① 基础文案原文 ② 目标渠道（xhs / douyin-spoken / moments / email-subject / search-ad，可多选）。"
+
+## 前置自检
+
+```bash
+test -f scripts/channel_fit_check.py && echo SCRIPT-OK
+```
+
+预期输出 `SCRIPT-OK`；失败说明技能包不完整，STOP 并提示重装。脚本仅标准库，无第三方依赖，无需装环境。目标渠道名不在 `{xhs, douyin-spoken, moments, email-subject, search-ad}` 集合内时脚本会直接报错，先核对拼写。
+
 ## 工作流
 
 ### 步骤 1：查渠道约束表（脚本内置，改写前先看）
@@ -45,8 +55,8 @@ metadata:
 ### 步骤 3：跑适配校验（机器守门）
 
 ```bash
-python3 channel_fit_check.py --file variant.md --channel xhs
-python3 channel_fit_check.py --text "30 字内的搜索标题" --channel search-ad
+python3 scripts/channel_fit_check.py --file variant.md --channel xhs
+python3 scripts/channel_fit_check.py --text "30 字内的搜索标题" --channel search-ad
 ```
 
 输出 JSON：字数/行数/CTA 数逐项 pass/fail + 修复建议。非零退出码 = 有 fail，改完重跑。
@@ -54,6 +64,14 @@ python3 channel_fit_check.py --text "30 字内的搜索标题" --channel search-
 ### 步骤 4：交付与链条闭环
 
 交付：渠道变体包（每渠道一份 + 校验报告）。**链条收口**——"文案 → 战役 → 渠道变体"三步走完；某渠道表现差时带数据回 campaign-designer 调矩阵。
+- 预期：每个变体对应一次校验通过记录，逐渠道可独立投放。
+- 若失败：某渠道校验反复不过 → 回 product-copywriter 补证据链（见失败处置表末行），不硬塞。
+
+## 交付标准
+
+- 产物：每渠道一份变体（渠道名对应文件名/小节标题）+ 校验报告（JSON 的 pass/fail 摘要）。
+- 保存位置：直接输出在对话中；存文件时一个渠道一个文件（如 `variant-xhs.md`）。
+- 完整性验证：每个渠道变体都跑过 `python3 scripts/channel_fit_check.py` 且退出码 0；源文案的证据链数字逐条保留。
 
 ## 失败处置表
 

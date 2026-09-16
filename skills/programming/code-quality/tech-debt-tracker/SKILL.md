@@ -14,47 +14,55 @@ metadata:
 
 # Tech Debt Tracker
 
-**Tier**: POWERFUL
-**Category**: Engineering Process Automation
-**Expertise**: Code Quality, Technical Debt Management, Software Engineering
+Scan a codebase for technical debt signals, prioritize the backlog with a cost-of-delay framework, and track trends across dated snapshots. This skill tracks and plans debt work — it does not perform the refactors.
 
-## Overview
+Pipeline: `debt_scanner.py` → `debt_prioritizer.py` → `debt_dashboard.py`. The scanner's JSON output feeds the prioritizer directly; dated inventory snapshots feed the dashboard.
 
-Tech debt is one of the most insidious challenges in software development - it compounds over time, slowing down development velocity, increasing maintenance costs, and reducing code quality. This skill provides a comprehensive framework for identifying, analyzing, prioritizing, and tracking technical debt across codebases.
+## 输入清单
 
-Tech debt isn't just about messy code - it encompasses architectural shortcuts, missing tests, outdated dependencies, documentation gaps, and infrastructure compromises. Like financial debt, it accrues "interest" through increased development time, higher bug rates, and reduced team velocity.
+| Input | Required | Description |
+|-------|----------|-------------|
+| Codebase directory | Required | Path passed to the scanner; must exist and be readable |
+| Prioritization framework | Optional | `cost_of_delay` (default), `wsjf`, or `rice` |
+| `--team-size` | Optional | Headcount for sprint allocation (prioritizer default: 5) |
+| `--sprint-capacity` | Optional | Sprint capacity in hours (prioritizer default: 80) |
+| Snapshot history | Optional | Dated inventory JSONs (`debt_YYYY-MM-DD.json`) for trend tracking |
 
-## What This Skill Provides
+Collect missing inputs in one shot: "Please provide: ① the codebase directory to scan ② framework choice (cost_of_delay/wsjf/rice, default cost_of_delay) ③ team size and sprint capacity for sprint allocation ④ any prior snapshot files for trend analysis. Everything else I'll default."
 
-This skill offers three interconnected tools that form a complete tech debt management system:
+## 前置自检
 
-1. **Debt Scanner** - Automatically identifies tech debt signals in your codebase
-2. **Debt Prioritizer** - Analyzes and prioritizes debt items using cost-of-delay frameworks
-3. **Debt Dashboard** - Tracks debt trends over time and provides executive reporting
+Probe before running; on any failure, give the fix and STOP:
 
-Together, these tools enable engineering teams to make data-driven decisions about tech debt, balancing new feature development with maintenance work.
+```bash
+python3 --version   # expect 3.8+; fail: install python3
+python3 scripts/debt_scanner.py --help >/dev/null 2>&1       # expect exit 0; fail: script missing → check skill dir
+python3 scripts/debt_prioritizer.py --help >/dev/null 2>&1
+python3 scripts/debt_dashboard.py --help >/dev/null 2>&1
+test -d <codebase-directory>   # expect exit 0; fail: wrong path → ask user for the correct directory
+```
 
-## Quick Start — scan → prioritize → dashboard
+## 工作流
 
-All paths relative to this skill folder. The scanner's JSON output feeds the prioritizer directly; dated inventory snapshots feed the dashboard.
-
-### 1. Scan the codebase
+### 步骤 1: Scan the codebase
 
 ```bash
 python3 scripts/debt_scanner.py /path/to/codebase --format json --output debt_inventory.json
 ```
 
-Emits `debt_inventory.json` with `scan_metadata`, `summary`, `debt_items[]`, `file_statistics`, and `recommendations`. Report the `summary` counts to the user. (Dry run: `assets/sample_codebase`.)
+Expected: `debt_inventory.json` is created and contains `scan_metadata`, `summary`, `debt_items[]`, `file_statistics`, and `recommendations`. Report the `summary` counts to the user. Dry run: point the scanner at `assets/sample_codebase`.
+If it fails: empty `debt_items[]` → the directory may have no scannable source files; confirm the path contains code, not just docs/config.
 
-### 2. Prioritize the backlog
+### 步骤 2: Prioritize the backlog
 
 ```bash
 python3 scripts/debt_prioritizer.py debt_inventory.json --framework wsjf --team-size 6 --sprint-capacity 20 --format json --output debt_priorities.json
 ```
 
-Frameworks: `cost_of_delay` (default), `wsjf`, `rice`. Output contains `prioritized_backlog` (work top-down), `sprint_allocation` (paste into sprint planning), and `insights`.
+Expected: `debt_priorities.json` contains `prioritized_backlog` (work top-down), `sprint_allocation` (paste into sprint planning), and `insights`.
+If it fails: invalid inventory JSON → re-run step 1; unknown framework name → use one of `cost_of_delay`, `wsjf`, `rice`.
 
-### 3. Track trends over time
+### 步骤 3: Track trends over time
 
 Keep dated snapshots (`debt_YYYY-MM-DD.json`), then:
 
@@ -62,53 +70,57 @@ Keep dated snapshots (`debt_YYYY-MM-DD.json`), then:
 python3 scripts/debt_dashboard.py --input-dir snapshots/ --period monthly --format both --output debt_dashboard
 ```
 
-Or pass files explicitly (samples: `assets/historical_debt_2024-01-15.json assets/historical_debt_2024-02-01.json`). The dashboard reports trend direction and executive-ready summaries — use it to verify a cleanup sprint actually reduced debt.
+Or pass files explicitly:
 
-### Verification loop
+```bash
+python3 scripts/debt_dashboard.py assets/historical_debt_2024-01-15.json assets/historical_debt_2024-02-01.json --period monthly
+```
 
-After a remediation sprint: re-run step 1, re-run step 3 with the new snapshot, and assert the targeted categories' counts dropped. A cleanup that doesn't move the dashboard is rework, not debt paydown.
+Expected: dashboard reports trend direction plus an executive-ready summary. Use it to verify a cleanup sprint actually reduced debt.
+If it fails: `--input-dir` has no inventory files → pass files explicitly as positional arguments; snapshot naming inconsistent → filenames must contain a parseable date.
 
-## Technical Debt Classification Framework
+### 步骤 4: Verification loop
 
-→ See references/debt-frameworks.md for details (also: references/debt-classification-taxonomy.md, references/prioritization-framework.md, references/stakeholder-communication-templates.md)
-
-## Common Pitfalls and How to Avoid Them
-
-### 1. Analysis Paralysis
-
-**Problem**: Spending too much time analyzing debt instead of fixing it.
-**Solution**: Set time limits for analysis, use "good enough" scoring for most items.
-
-### 2. Perfectionism
-
-**Problem**: Trying to eliminate all debt instead of managing it.
-**Solution**: Focus on high-impact debt, accept that some debt is acceptable.
-
-### 3. Ignoring Business Context
-
-**Problem**: Prioritizing technical elegance over business value.
-**Solution**: Always tie debt work to business outcomes and customer impact.
-
-### 4. Inconsistent Application
-
-**Problem**: Some teams adopt practices while others ignore them.
-**Solution**: Make debt tracking part of standard development workflow.
-
-### 5. Tool Over-Engineering
-
-**Problem**: Building complex debt management systems that nobody uses.
-**Solution**: Start simple, iterate based on actual usage patterns.
-
-Technical debt management is not just about writing better code - it's about creating sustainable development practices that balance short-term delivery pressure with long-term system health. Use these tools and frameworks to make informed decisions about when and how to invest in debt reduction.
-
----
+After a remediation sprint: re-run 步骤 1 to produce a new snapshot, re-run 步骤 3 including it, and assert the targeted categories' counts dropped. A cleanup that doesn't move the dashboard is rework, not debt paydown.
 
 ## Debt Severity Scoring
 
 | Factor | Weight | Description |
 |--------|--------|-------------|
-| **Impact** | 30% | How many users/services are affected? |
-| **Risk** | 25% | Security, data loss, or compliance risk? |
-| **Effort** | 20% | How much work to fix? (inverse) |
-| **Frequency** | 15% | How often does this cause issues? |
-| **Age** | 10% | How long has this debt existed? |
+| Impact | 30% | How many users/services are affected? |
+| Risk | 25% | Security, data loss, or compliance risk? |
+| Effort | 20% | How much work to fix? (inverse) |
+| Frequency | 15% | How often does this cause issues? |
+| Age | 10% | How long has this debt existed? |
+
+Framework guidance (WSJF, RICE, classification taxonomy) lives in the references below — read them when the user challenges a score or asks for a specific framework's rationale.
+
+## 失败处置表
+
+| Symptom / Error | Cause | Fix |
+|-----------------|-------|-----|
+| Scanner output has empty `debt_items[]` | Directory has no scannable source files | Confirm the path contains code; ask user for the right directory |
+| Prioritizer rejects the inventory file | Inventory JSON malformed or truncated | Re-run 步骤 1 and check `scan_metadata` for scan errors |
+| Dashboard prints no trend | Only one snapshot available | Collect at least two dated snapshots, or generate one now and compare later |
+| `--output` file not written | `--format both` writes prefixed files (e.g. `.json`/`.txt`) | Check for both extensions next to the output base name |
+| Scores look wrong to the user | Default weights don't match team context | Adjust via scanner `--config` JSON, or override priorities manually in the report |
+
+## 交付标准
+
+Success definition: inventory (counts + itemized debt), a priority-ordered backlog with sprint allocation, and — when history exists — a trend summary.
+Artifact naming: `debt_inventory.json`, `debt_priorities.json`, `debt_dashboard.json` / `debt_dashboard.txt`, snapshots `debt_YYYY-MM-DD.json`.
+Save location: working directory root, or a `snapshots/` folder when building history.
+Verify completeness: inventory `summary` totals match `len(debt_items)`; every backlog entry traces back to an inventory item ID; trend output covers every snapshot file passed in.
+
+## 安全红线
+
+- Read-only on the target codebase: the scanner never modifies scanned files. Do not "fix" debt items as part of this skill.
+- Snapshot files are audit history — never overwrite an existing dated snapshot; create a new one instead.
+- Scope: analysis and planning only. Executing refactors, dependency upgrades, or cleanups belongs to other skills and requires explicit user confirmation.
+
+## 参考
+
+- `references/debt-frameworks.md` — read when choosing or explaining a scoring framework
+- `references/debt-classification-taxonomy.md` — read when users dispute how an item is categorized
+- `references/prioritization-framework.md` — read when producing or defending the backlog order
+- `references/stakeholder-communication-templates.md` — read when writing executive summaries or sprint-plan communications
