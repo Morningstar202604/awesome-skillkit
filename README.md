@@ -6,11 +6,11 @@
 ![Skills](https://img.shields.io/badge/skills-143-brightgreen)
 ![Packs](https://img.shields.io/badge/packs-36-blue)
 ![Chains](https://img.shields.io/badge/chains-18%20domains%20%2F%2058-orange)
-![Version](https://img.shields.io/badge/version-0.18.0-success)
+![Version](https://img.shields.io/badge/version-0.19.0-success)
 
 **English** | [中文](README.zh-CN.md) | [日本語](README.ja.md)
 
-> 🌐 **Browse / download**: site source repo (enable GitCode Pages for a live site, already synced to v0.18.0):
+> 🌐 **Browse / download**: site source repo (enable GitCode Pages for a live site, already synced to v0.19.0):
 > [gitcode.com/badhope/skillkit-site](https://gitcode.com/badhope/skillkit-site).
 > Per-pack and full `_all.zip` are on each platform's Releases (see "Platform sync status" below).
 > Deploy guide: [docs/DEPLOY-SITE.md](docs/DEPLOY-SITE.md)
@@ -37,7 +37,7 @@ flowchart LR
 
 ## By the numbers
 
-> **143 skills** · **36 scene packs** · **18 chain domains / 58 skill chains** · v0.18.0 · Apache-2.0
+> **143 skills** · **36 scene packs** · **18 chain domains / 58 skill chains** · v0.19.0 · Apache-2.0
 
 **Source breakdown**:
 
@@ -250,10 +250,10 @@ flowchart LR
 
 | Platform | Repo | Code sync | Release / assets | Status |
 |----------|------|:---:|:---:|--------|
-| GitCode | `badhope/awesome-skillkit` | ✅ through `0.18.0` | ✅ created | OK |
-| Gitee | `badhope/awesome-skillkit` | ✅ through `0.18.0` | ✅ v0.18.0, 32 zip assets | OK |
+| GitCode | `badhope/awesome-skillkit` | ✅ through `0.19.0` | ✅ created | OK |
+| Gitee | `badhope/awesome-skillkit` | ✅ through `0.19.0` | ✅ v0.19.0, 36 zip assets | OK |
 | GitHub | `x33834/awesome-skillkit` | ⚠️ push from local | ⚠️ none | Sandbox egress ACL cuts TLS; run `git push origin main --follow-tags` locally (token needs repo+workflow) |
-| Site | `badhope/skillkit-site` | ✅ synced v0.18.0 | — | Enable GitCode Pages to go live |
+| Site | `badhope/skillkit-site` | ✅ synced v0.19.0 | — | Enable GitCode Pages to go live |
 
 ## Directory layout
 
@@ -279,7 +279,7 @@ Two tracks, fully attributed per-skill in [manifest.json](manifest.json), each `
 
 ```bash
 python3 build.py                           # single build entry: dist/*.zip per pack + dist/_all.zip
-python3 tools/release.py 0.18.0 --commit   # validate CHANGELOG → bump → commit → tag
+python3 tools/release.py 0.19.0 --commit   # validate CHANGELOG → bump → commit → tag
 git push origin main --follow-tags            # push code + three version tags
 # Create the release on Gitee / GitCode and upload dist/*.zip (manifest.json version is the single source of truth)
 ```

@@ -6,11 +6,11 @@
 ![Skills](https://img.shields.io/badge/skills-143-brightgreen)
 ![Packs](https://img.shields.io/badge/packs-36-blue)
 ![Chains](https://img.shields.io/badge/chains-18%20domains%20%2F%2058-orange)
-![Version](https://img.shields.io/badge/version-0.18.0-success)
+![Version](https://img.shields.io/badge/version-0.19.0-success)
 
 [English](README.md) | [中文](README.zh-CN.md) | **日本語**
 
-> 🌐 **閲覧 / ダウンロード**: サイトのソースリポジトリ（GitCode で Pages を有効化すると公開サイトになります。v0.18.0 まで同期済み）:
+> 🌐 **閲覧 / ダウンロード**: サイトのソースリポジトリ（GitCode で Pages を有効化すると公開サイトになります。v0.19.0 まで同期済み）:
 > [gitcode.com/badhope/skillkit-site](https://gitcode.com/badhope/skillkit-site)
 > パックごとの zip と全量 `_all.zip` は各プラットフォームの Releases にあります（下記「プラットフォーム同期状況」参照）。
 > デプロイ手順: [docs/DEPLOY-SITE.md](docs/DEPLOY-SITE.md)
@@ -37,7 +37,7 @@ flowchart LR
 
 ## 数字で見る
 
-> **143 skills** · **36 シナリオパック** · **18 チェーンドメイン / 58 スキルチェーン** · v0.18.0 · Apache-2.0
+> **143 skills** · **36 シナリオパック** · **18 チェーンドメイン / 58 スキルチェーン** · v0.19.0 · Apache-2.0
 
 **出典の内訳**:
 
@@ -252,10 +252,10 @@ flowchart LR
 
 | プラットフォーム | リポジトリ | コード同期 | Release / 添付 | 状態 |
 |----------------|-----------|:---:|:---:|------|
-| GitCode | `badhope/awesome-skillkit` | ✅ `0.18.0` まで | ✅ 作成済 | OK |
-| Gitee | `badhope/awesome-skillkit` | ✅ `0.18.0` まで | ✅ v0.18.0、zip 添付 32 個 | OK |
+| GitCode | `badhope/awesome-skillkit` | ✅ `0.19.0` まで | ✅ 作成済 | OK |
+| Gitee | `badhope/awesome-skillkit` | ✅ `0.19.0` まで | ✅ v0.19.0、zip 添付 32 個 | OK |
 | GitHub | `x33834/awesome-skillkit` | ⚠️ ローカルからプッシュ | ⚠️ なし | サンドボックスの出口 ACL が TLS を遮断。ローカルで `git push origin main --follow-tags`（token は repo+workflow 権限必要）を実行 |
-| サイト | `badhope/skillkit-site` | ✅ v0.18.0 同期済 | — | GitCode Pages を有効化で公開 |
+| サイト | `badhope/skillkit-site` | ✅ v0.19.0 同期済 | — | GitCode Pages を有効化で公開 |
 
 > GitHub は構築環境の出口 ACL が TLS ハンドシェイク層で遮断するため、本環境から直接プッシュできません。コードと Release の内容は GitCode / Gitee で完全にホスト済みです。ローカルで 1 コマンド実行すれば GitHub も補完できます。
 
@@ -283,7 +283,7 @@ dist/               # ビルド成果物：パックごと 1 zip（gitignored）
 
 ```bash
 python3 build.py                           # 単一ビルド入口: パックごと dist/*.zip + dist/_all.zip
-python3 tools/release.py 0.18.0 --commit   # CHANGELOG 検証 → 昇格 → コミット → タグ
+python3 tools/release.py 0.19.0 --commit   # CHANGELOG 検証 → 昇格 → コミット → タグ
 git push origin main --follow-tags            # コード + 3 バージョンタグをプッシュ
 # Gitee / GitCode で Release を作成し dist/*.zip をアップロード（manifest.json の version が単一の真実）
 ```

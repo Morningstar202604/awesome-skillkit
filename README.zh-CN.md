@@ -6,11 +6,11 @@
 ![Skills](https://img.shields.io/badge/skills-143-brightgreen)
 ![Packs](https://img.shields.io/badge/packs-36-blue)
 ![Chains](https://img.shields.io/badge/chains-18%20domains%20%2F%2058-orange)
-![Version](https://img.shields.io/badge/version-0.18.0-success)
+![Version](https://img.shields.io/badge/version-0.19.0-success)
 
 [English](README.md) | **中文** | [日本語](README.ja.md)
 
-> 🌐 **在线浏览 / 下载**：站点源码仓库（在 GitCode 开启 Pages 即得可访问站点，内容已同步至 v0.18.0）：
+> 🌐 **在线浏览 / 下载**：站点源码仓库（在 GitCode 开启 Pages 即得可访问站点，内容已同步至 v0.19.0）：
 > [gitcode.com/badhope/skillkit-site](https://gitcode.com/badhope/skillkit-site)
 > 单包 zip 与全量 `_all.zip` 见各平台 Release（见下方「三平台同步状态」）。
 > 部署说明：[docs/DEPLOY-SITE.md](docs/DEPLOY-SITE.md)
@@ -37,7 +37,7 @@ flowchart LR
 
 ## 数字一览
 
-> **143 个 skill** · **36 个场景包** · **18 个链域 / 58 条技能链** · v0.18.0 · Apache-2.0
+> **143 个 skill** · **36 个场景包** · **18 个链域 / 58 条技能链** · v0.19.0 · Apache-2.0
 
 **来源构成**（自研为主，上游为辅，全部可溯源）：
 
@@ -252,10 +252,10 @@ flowchart LR
 
 | 平台 | 仓库 | 代码同步 | Release / 附件 | 状态 |
 |------|------|:---:|:---:|------|
-| GitCode | `badhope/awesome-skillkit` | ✅ 至 `0.18.0` | ✅ 已建 | 正常 |
-| Gitee | `badhope/awesome-skillkit` | ✅ 至 `0.18.0` | ✅ v0.18.0 共 32 个 zip 附件 | 正常 |
+| GitCode | `badhope/awesome-skillkit` | ✅ 至 `0.19.0` | ✅ 已建 | 正常 |
+| Gitee | `badhope/awesome-skillkit` | ✅ 至 `0.19.0` | ✅ v0.19.0 共 32 个 zip 附件 | 正常 |
 | GitHub | `x33834/awesome-skillkit` | ⚠️ 待本地推送 | ⚠️ 无 | 沙箱网络层限制，需你本地 `git push origin main --follow-tags`（token 需 repo+workflow 权限） |
-| 站点 | `badhope/skillkit-site` | ✅ 已同步 v0.18.0 | — | 在 GitCode 开启 Pages 即可访问 |
+| 站点 | `badhope/skillkit-site` | ✅ 已同步 v0.19.0 | — | 在 GitCode 开启 Pages 即可访问 |
 
 > GitHub 因构建环境出口 ACL 在 TLS 握手层切断，无法从本环境直推；代码与 Release 内容已通过 GitCode / Gitee 完整托管，本地一条命令即可补齐 GitHub。
 
@@ -283,7 +283,7 @@ dist/               # 构建产物：每包一个 zip（gitignored）
 
 ```bash
 python3 build.py            # 单一构建入口：生成 dist/*.zip（每包一个），并输出 dist/_all.zip
-python3 tools/release.py 0.18.0 --commit   # 校验 CHANGELOG → 升版 → 提交 → 打 tag
+python3 tools/release.py 0.19.0 --commit   # 校验 CHANGELOG → 升版 → 提交 → 打 tag
 git push origin main --follow-tags            # 推代码 + 三个版本 tag
 # 在 Gitee / GitCode 建 Release 并上传 dist/*.zip（manifest.json 的 version 为唯一事实来源）
 ```
