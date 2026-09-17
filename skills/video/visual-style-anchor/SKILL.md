@@ -81,12 +81,16 @@ a young woman, short black bob hair, tired but sharp eyes, black oversized hoodi
 ```
 
 预期：身份行 ≤25 词（太长塞不进每个 prompt）。
+若失败：身份行超 25 词 → 砍掉非辨识度特征（服装细节留到 wardrobe 段），只保留定脸要素；身份行里出现否定句（"not wearing hat"）→ 改写为肯定式或移进「禁改 forbidden」段；用户给不出参考图 → 仍产出文字版身份行，并注明「参考图未定稿，漂移风险自担」。
 
 ### 步骤 3：写复用说明
 
 在两个文件末尾各加一段「如何使用」：
 - style-anchor → 每个 prompt 的 style 槽位整段引用
 - character-card 的身份行 → 每个含角色 prompt 的 subject 槽位原样嵌入，禁止改写措辞（改一个词，模型就可能换脸）
+
+预期：两个文件的「如何使用」段落都已写入，且明确写了「原样引用/禁止改写」。
+若失败：用户的项目不需要复用（单张图一次性）→ 省略本步，并在交付标准里注明「非复用场景，未附复用说明」。
 
 ### 步骤 4：交付核对
 
@@ -95,6 +99,9 @@ a young woman, short black bob hair, tired but sharp eyes, black oversized hoodi
 | 五槽位齐全 | 色彩有 HEX、光线有光源类型 |
 | 身份行可用 | ≤25 词、无否定句（「not wearing hat」模型会生成 hat）|
 | 禁改清单存在 | 每角色 ≥3 条 |
+
+预期：三项全部通过，方可交付。
+若失败：任一项不通过 → 回对应步骤（五槽位缺 → 回步骤 1；身份行不合格 → 回步骤 2；禁改清单不足 3 条 → 补足后重核），不带着不合格项交付。
 
 ## 失败处置表
 

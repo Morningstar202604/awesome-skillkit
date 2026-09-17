@@ -55,6 +55,7 @@ neon spill and wet-reflective asphalt, cinematic live-action look,
 - 数字一律显式（"5 seconds"），不写 "a few seconds"
 
 预期：产出 prompt 含全部 6 槽位；跑 `python3 scripts/prompt_audit.py --prompt "<文本>" --mode write` 返回 6/6。
+若失败：自检返回 <6/6 → 读缺失清单逐槽补词后才交付，不带着 miss 项进下一步；某槽位实在填不出（如场景描述里没有光影信息）→ 回输入清单问用户要环境/时段，不要编；动作槽写成两个动词 → 拆成两个 prompt，不许合并。
 
 ### 步骤 2（audit）：跑结构审计
 
@@ -63,17 +64,19 @@ python3 scripts/prompt_audit.py --prompt "<待审文本>"
 ```
 
 预期：输出 JSON，含每个槽位 `hit/miss` 与缺失清单。miss 项按下方处置表补齐。
+若失败：`--prompt` 传空/只有空白 → 脚本报错，回输入清单向用户要 prompt 原文；JSON 无法解析 → 确认 prompt 里的引号已转义（命令行下用单引号包裹，或把 prompt 存文件后再传）。
 
 ### 步骤 3：套模型方言（仅当指定了模型）
 
 查 [model-dialects.md](references/model-dialects.md) 对应模型的语法差异（标记符号、参考图槽位、音频槽位）。**所有方言条目均为 2026-09 网络调研值，执行前按文档内给出的官方 prompt guide 链接核实（VERIFY BEFORE USE）**——模型语法月度级更新。
 
 预期：prompt 已按该模型方言改写，且文档内官方核实链接已点开确认。
-若失败：核实链接失效或文档缺失 → 按通用六槽位结构交付，并在交付物中注明「方言未核实」。
+若失败：核实链接失效或文档缺失 → 按通用六槽位结构交付，并在交付物中注明「方言未核实」。文档里查不到用户指定的模型 → 同上按通用结构交付并注明，不要凭记忆发明该模型的语法。
 
 ### 步骤 4：交付
 
 write 模式交付 prompt 原文 + 槽位标注版；audit 模式交付 JSON 报告 + 修复后的 prompt 对比版。
+若失败：用户只想要 prompt 原文、不要槽位标注 → 交付原文即止，标注版附后备查，不因格式分歧卡住交付。
 
 ## 六槽位词典（最快查表）
 

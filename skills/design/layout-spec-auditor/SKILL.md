@@ -34,7 +34,7 @@ python3 -c "import PIL" 2>/dev/null && echo PIL-OK || echo PIL-MISSING
 ```
 
 - 预期：`SCRIPT-OK` 必须出现；失败说明技能包不完整，STOP 并提示重装技能包。
-- `PIL-OK` 仅在审计真实图片文件时必需；输出 `PIL-MISSING` 时修复二选一：`pip install pillow`，或改走声明尺寸模式（`--width/--height` 纯计算，不读图）。
+- `PIL-OK` 仅在审计真实图片文件（`--image`）时必需；输出 `PIL-MISSING` 时修复二选一：`pip install pillow`，或改走声明尺寸模式（`--width/--height` 纯计算，不读图）。本机实测 `spec_audit.py` 无 `--image` 时不 import PIL，声明尺寸模式确实不依赖 Pillow。
 
 ## 工作流
 
@@ -44,13 +44,16 @@ python3 -c "import PIL" 2>/dev/null && echo PIL-OK || echo PIL-MISSING
 python3 scripts/spec_audit.py --image cover.png --platform wechat-header
 python3 scripts/spec_audit.py --width 1080 --height 1440 --platform xhs-portrait
 python3 scripts/spec_audit.py --image cover.png --platform wechat-header --text-chars 14
+python3 scripts/spec_audit.py --width 896 --height 384 --expect 900x383 --file-mb 0.4
 ```
 
 输出 JSON：每项 `pass/fail` 与修复建议。非零退出码 = 有 fail 项。
 
+**参数纪律（实测）**：`--width/--height` 与 `--image` **必须给其一**——只传 `--expect 900x383` 会返回 `{"error": "need --image or --width/--height"}` 并 exit 2。`--expect` 是「平台不在库内时的自定义目标」，必须与 `--width/--height`（或 `--image`）搭配使用，不能单独替代待审尺寸。
+
 ### 步骤 2：按平台规格表核对（脚本内置）
 
-内置规格库覆盖主流中文平台与海外平台（公众号头图 900x383 / 小红书 3:4 竖 1080x1440 与 1:1 方图 / B 站封面 1146x717 / 抖音竖版 1080x1920 / YouTube 缩略图 1280x720 ≤2MB 等）。平台不在库内时手动声明目标 W×H 走 `--expect WxH`。
+内置规格库覆盖主流中文平台与海外平台（公众号头图 900x383 / 小红书 3:4 竖 1080x1440 与 1:1 方图 / B 站封面 1146x717 / 抖音竖版 1080x1920 / YouTube 缩略图 1280x720 ≤2MB 等）。平台不在库内时，用 `--expect WxH` **配合** `--width/--height` 声明目标 W×H（见步骤 1 第 4 条示例）。
 
 ### 步骤 3：文字安全区人工复核
 

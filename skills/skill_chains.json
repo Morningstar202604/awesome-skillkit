@@ -404,7 +404,8 @@
         "resume-tailor",
         "docx-writer",
         "pdf-pipeline",
-        "internal-comms-writer"
+        "internal-comms-writer",
+        "epub-builder"
       ],
       "chains": {
         "document_pipeline": [
@@ -416,6 +417,10 @@
         ],
         "pdf_pipeline": [
           "pdf-pipeline"
+        ],
+        "ebook_pipeline": [
+          "docx-writer?",
+          "epub-builder"
         ]
       }
     },

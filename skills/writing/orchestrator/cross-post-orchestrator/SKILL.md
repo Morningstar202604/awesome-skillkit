@@ -46,7 +46,7 @@ import json, os, sys
 m = json.load(open("post.manifest.json", encoding="utf-8"))
 sys.exit(0 if os.path.exists(os.path.join(os.path.dirname(os.path.abspath("post.manifest.json")), m["markdown"])) else 1)
 EOF
-python3 scripts/cross_post.py plan --manifest post.manifest.json   # 就绪检查（零网络）
+python3 scripts/cross_post.py --manifest post.manifest.json plan   # 就绪检查（零网络）
 ```
 
 任一失败 → 修复对应项（补凭据 / 补文件 / 修正 manifest 字段）→ 重跑，通过前 STOP，不进入执行步骤。
@@ -62,7 +62,7 @@ python3 scripts/cross_post.py plan --manifest post.manifest.json   # 就绪检�
 ### 步骤 2：生成计划（默认动作，零网络请求）
 
 ```bash
-python3 scripts/cross_post.py plan --manifest post.manifest.json
+python3 scripts/cross_post.py --manifest post.manifest.json plan
 ```
 
 预期：表格输出每个平台状态 `ready` / `missing-credentials` / `blocked-md-missing` / `skipped`，退出码 0。
@@ -77,16 +77,16 @@ python3 scripts/cross_post.py plan --manifest post.manifest.json
 ### 步骤 4：逐平台执行
 
 ```bash
-python3 scripts/cross_post.py run --manifest post.manifest.json --only juejin
+python3 scripts/cross_post.py --manifest post.manifest.json run --only juejin
 ```
 
 预期：脚本化平台打印 `[RUN] python <子技能脚本> --execute ...` 并继承其安全约定（真发由子技能自身控制）；成功后自动追加台账。无脚本平台打印 `[MANUAL]` 精确操作清单，整体退出码 2 提示需人工介入。
-若失败：`[FAIL] <platform> 退出码 N` → 用该平台子技能脚本单独重跑定位；`[SKIP] wechat_mp 需要 article.html 与 thumb_media_id` → 在工作目录准备 article.html 并在 manifest 填 thumb_media_id。
+若失败：`[FAIL] <platform> 退出码 N` → 用该平台子技能脚本单独重跑定位；`[SKIP] wechat_mp 需要 article.html 与 thumb_media_id` → 在工作目录准备 article.html 并在 manifest 填 thumb_media_id；`FileNotFoundError: ... article.md` → 确认 manifest.markdown 指向的文件确实存在于 manifest 同目录。
 
 ### 步骤 5：核对台账
 
 ```bash
-python3 scripts/cross_post.py ledger --manifest post.manifest.json
+python3 scripts/cross_post.py --manifest post.manifest.json ledger
 ```
 
 预期：JSON 输出台账条目（时间戳/平台/标题/状态），每个成功平台一条。
@@ -96,7 +96,7 @@ python3 scripts/cross_post.py ledger --manifest post.manifest.json
 
 | 参数 | 取值 | 说明 |
 |------|------|------|
-| `--manifest` | 文件路径 | 必填，post.manifest.json |
+| `--manifest` | 文件路径 | 必填，post.manifest.json；**全局参数，必须写在子命令之前**（`cross_post.py --manifest x.json plan`） |
 | 子命令 `plan` | — | 生成计划，零网络，退出码 0/1 |
 | 子命令 `run` | `--only <platform>` | 逐平台执行；--only 缺省则跑全部 enabled 平台 |
 | 子命令 `ledger` | — | 打印 published.ledger.json 内容 |
@@ -107,6 +107,7 @@ python3 scripts/cross_post.py ledger --manifest post.manifest.json
 | 现象/错误码 | 原因 | 处置 |
 |-------------|------|------|
 | `FileNotFoundError: manifest 不存在` | --manifest 路径错误 | 核对路径后重跑 |
+| `error: the following arguments are required: --manifest` | `--manifest` 写在了子命令之后 | 改为 `cross_post.py --manifest <path> <plan/run/ledger>` |
 | `ValueError: manifest 缺少必填字段: <key>` | 缺 title/markdown/targets | 补字段 |
 | `ValueError: 不支持的平台: <x>` | platform 拼写不在四平台内 | 改为支持的值 |
 | plan 退出码 1 | 有 missing-credentials / blocked-md-missing | 按 detail 补凭据或文件 |
@@ -124,7 +125,7 @@ python3 scripts/cross_post.py ledger --manifest post.manifest.json
 
 - 成功定义：每个目标平台返回 ready 且发布成功，或输出可执行的手工清单。
 - 产物：`published.ledger.json`（manifest 同目录，每次成功发布自动追加时间戳/平台/标题/状态）。
-- 验证完整性：`python3 scripts/cross_post.py ledger --manifest post.manifest.json` 能列出所有已发布平台的条目。
+- 验证完整性：`python3 scripts/cross_post.py --manifest post.manifest.json ledger` 能列出所有已发布平台的条目。
 
 ## 扩展新平台
 

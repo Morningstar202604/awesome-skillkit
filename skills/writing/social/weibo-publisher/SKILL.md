@@ -10,7 +10,7 @@ description: >
   post to Weibo / publish a Weibo status / update my Weibo.
   Do NOT use for 转发、评论、删除微博与私信（脚本未实现这些子命令），
   不用于定时发布、超话与粉丝群运营，也不用于小红书、B 站等其他平台发布。
-description_zh: 微博发布、转发、评论、删除、图片上传，支持官方开放平台与 Web 内部接口
+description_zh: 微博发布与图片上传，支持官方开放平台与 Web 内部接口（转发/评论/删除子命令未实现）
 version: 1.0.0
 author: skillkit authors
 license: Apache-2.0
@@ -35,7 +35,8 @@ metadata:
 |------|------|------|
 | 动作 | 是 | `post-official` / `post-web` / `upload-image`（注：原始描述标注 `repost`/`comment`/`delete` 脚本未实现，调用前先 dry-run 验证） |
 | `--text` | 发微博必需 | 微博正文，支持 `#话题#` |
-| `--pic-ids` | post-official 可选 | 已上传图片的 pic_id，逗号分隔 |
+| `--pic-ids` | 发微博可选 | 已上传图片的 pic_id，逗号分隔（`post-official` 与 `post-web` 均支持） |
+| `file` | upload-image 必需 | 位置参数，待上传的图片文件路径 |
 | `WEIBO_ACCESS_TOKEN` 或 `WEIBO_APPKEY`+`WEIBO_APPSECRET` | post-official 必需 | 官方 API 凭据 |
 | `WEIBO_COOKIE` 或 `--cookie-file` | post-web 必需 | Web 内部接口凭据 |
 
@@ -84,8 +85,8 @@ metadata:
 | 命令 | 关键参数 | 说明 |
 |------|----------|------|
 | `post-official` | `--text --pic-ids --execute` | 官方 API 发微博（文本+图片） |
-| `post-web` | `--text --execute` | Web 内部接口发微博（仅需 Cookie） |
-| `upload-image` | `--execute`（演示） | 上传图片返回 pic_id（dry-run 仅打印计划） |
+| `post-web` | `--text --pic-ids --execute` | Web 内部接口发微博（仅需 Cookie，同样支持配图） |
+| `upload-image <file>` | `file --execute`（演示） | 上传图片返回 pic_id（dry-run 仅打印计划），file 为必填位置参数 |
 | （通用） | `--cookie-file <path>` | Web 模式用文件替代 `WEIBO_COOKIE` |
 
 > 说明：`repost`/`comment`/`delete` 在原始描述中标注为脚本未实现；如需使用，先 dry-run 验证是否可用，不可用则改用平台 UI。

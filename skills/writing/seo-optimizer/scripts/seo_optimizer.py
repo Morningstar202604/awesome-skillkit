@@ -3,7 +3,9 @@
 
 用法:
   python3 seo_optimizer.py --title "FastAPI 性能优化" --content article.md
-  python3 seo_optimizer.py --json '{"title":"...","content":"...","platform":"csdn"}'
+  python3 seo_optimizer.py --title "标题" --content "正文文本" --platform juejin --output seo_result.json
+
+平台: csdn(默认) / juejin / wechat / baijiahao / toutiao
 """
 import argparse
 import json
@@ -105,7 +107,12 @@ def main():
     parser = argparse.ArgumentParser(description="SEO optimizer")
     parser.add_argument("--title", default="")
     parser.add_argument("--content", help="Content file or text")
-    parser.add_argument("--platform", default="csdn")
+    parser.add_argument(
+        "--platform",
+        default="csdn",
+        choices=sorted(PLATFORM_META),
+        help="目标平台（决定标题/描述/标签长度规则）",
+    )
     parser.add_argument("--output", help="Output JSON file")
     args = parser.parse_args()
 

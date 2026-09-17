@@ -14,7 +14,7 @@
 ## 概述
 
 博客园文章配图分两步：
-1. 用 `baidu-image-gen` 技能生成图片到本地
+1. 用 `ai-cover-generator` 技能生成图片到本地
 2. 用 Python urllib 直接 POST 上传到博客园图床获取 URL
 
 上传方式有两种：
@@ -52,27 +52,20 @@ Aspect ratio 3:2.
 
 ## 2. 生成配图
 
-使用 `baidu-image-gen` 技能：
+使用 `ai-cover-generator` 技能（默认 dry-run，确认后再加 `--execute`）：
 
 ```bash
-# 步骤1：安全检查
-cd /path/to/baidu-image-gen
-python3 scripts/prompt_filter.py --prompt "你的图片描述"
-
-# 步骤2：提交生成任务
-python3 scripts/submit.py \
-  --prompt "图片描述" \
-  --model "dumate-image2.1" \
-  --resolution "high" \
-  --aspect_ratio "1536x1024" \
-  --output "/path/to/output.png"
-
-# 步骤3：轮询结果
-python3 scripts/poll.py \
-  --task_id "{task_id}" \
-  --model "dumate-image2.1" \
-  --output "/path/to/output.png"
+# 生成图片（尺寸须为 16 的倍数，1536x1024 满足）
+python3 skills/writing/assets/ai-cover-generator/scripts/generate_cover.py \
+  --prompt "Dark theme technology illustration, background color #0d1117, flat design style, no gradient, no 3D effect. Main colors: green #238636 and blue #58a6ff. [具体内容描述] Clean lines, minimal style, professional infographic look. Aspect ratio 3:2." \
+  --size 1536x1024 \
+  --quality high \
+  --out /path/to/output.png \
+  --execute
 ```
+
+生成后确认 `/path/to/output.png` 已落盘（脚本退出码 0），再进入第 3 节上传。
+若失败：`--size` 报错 → 改用 16 的倍数（如 1536x1024 / 1024x1024）；未加 `--execute` 只打印 PLAN → 追加 `--execute` 重跑。
 
 ### 注意事项
 

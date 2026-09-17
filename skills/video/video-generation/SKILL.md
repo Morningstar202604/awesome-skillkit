@@ -37,13 +37,14 @@ metadata:
 
 ## 前置自检
 
-最先执行（BASE 取自工作流步骤 1）：
+最先执行——先解析网关基址（与工作流步骤 1 同一句），再探活：
 
 ```bash
+VIDEO_GATEWAY_BASE="${VIDEO_GATEWAY_BASE:-http://127.0.0.1:30080}"
 curl -s -o /dev/null -w "%{http_code}" --max-time 5 "$VIDEO_GATEWAY_BASE/api/video/status?task_id=0"
 ```
 
-预期：打印出任意 HTTP 码（网关可达）。curl 连接失败（退出码非 0）：告知用户 $VIDEO_GATEWAY_BASE 不可达，请其启动网关，STOP。不要退回本地渲染工具。
+预期：打印出任意 HTTP 码（网关可达）。若失败：curl 退出码非 0（连接失败）→ 告知用户 `$VIDEO_GATEWAY_BASE` 不可达，请其启动网关，STOP；HTTP 404 → 路由名与部署不符，对照网关文档核实端点后再继续。不要退回本地渲染工具。
 
 ## 工作流
 
@@ -54,7 +55,8 @@ VIDEO_GATEWAY_BASE="${VIDEO_GATEWAY_BASE:-http://127.0.0.1:30080}"
 echo "$VIDEO_GATEWAY_BASE"
 ```
 
-预期：打印出一个 URL。展开后为空说明 shell 异常——停止。
+预期：打印出一个 URL，且与前置自检探活通过的地址一致。
+若失败：展开后为空说明 shell 异常——停止。URL 与前置自检不一致 → 以前置自检通过的值为准，不要中途换地址。
 
 ### 步骤 2：撰写 prompt
 
@@ -72,7 +74,7 @@ curl -s -X POST "$VIDEO_GATEWAY_BASE/api/video/generate" \
 
 图生视频在 `params` 里追加 `"images":["<url>"]`。
 
-预期：返回含任务 ID（`task_id`）的 JSON，提取并记住它。失败分支——HTTP 错误或返回 HTML 而非 JSON：原样重跑一次；再失败则向用户报告状态行并停止（见失败处置表）。
+预期：返回含任务 ID（`task_id`）的 JSON，提取并记住它。若失败：HTTP 错误或返回 HTML 而非 JSON → 按失败处置表重查步骤 1 的 base 值后原样重跑一次；再失败则向用户报告状态行并停止。
 
 ### 步骤 4：轮询至终态
 
@@ -81,6 +83,7 @@ curl -s "$VIDEO_GATEWAY_BASE/api/video/status?task_id=<TASK_ID>"
 ```
 
 每 10 秒轮询一次。成功条件：`is_final == true` 且 `state == "success"`，此时 `result_url` 即下载地址。`is_final == true` 但 state 为其他值即失败——查下方失败处置表。轮询不超过 60 次（10 分钟）；超时须给出清晰报告。
+若失败：`state == "failed"` → 按 prompt 配方重写后重交一次；超 10 分钟仍 `pending` → 报告 `task_id` 并建议重新提交；成功但缺 `result_url` → 端点标记「使用前核实」，原始 JSON 报给维护者。
 
 ### 步骤 5：下载交付
 
@@ -90,6 +93,7 @@ ls -lh video_*.mp4
 ```
 
 预期：工作目录出现非空 .mp4。确认文件大小 > 0 再宣布成功。向用户报告绝对路径。
+若失败：文件 0 字节 → `result_url` 已过期，重新轮询拿新 URL 再下载一次；仍为 0 → 如实报告未完成，附原始响应。
 
 ## 失败处置表
 

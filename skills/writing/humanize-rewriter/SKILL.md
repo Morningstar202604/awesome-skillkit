@@ -34,8 +34,11 @@ AI 代笔的文字工整但冷冰冰。本技能把它的表达层拆掉重装�
 需要探测一项环境：复检依赖 ai-trace-auditor 技能目录内的 trace_scanner.py（纯标准库脚本，随该技能 bundle 交付）。
 
 ```bash
-python3 --version && python3 <ai-trace-auditor目录>/scripts/trace_scanner.py --help 2>/dev/null; echo "check=$?"
+SCANNER="<ai-trace-auditor目录>/scripts/trace_scanner.py"
+python3 --version && test -f "$SCANNER" && printf '探针句。\n' | python3 "$SCANNER" - >/dev/null && echo "check=ok"
 ```
+
+（用管道喂一行探针文本而非 `--help`：该脚本以位置参数收文件，`--help` 会被当成文件名报错；且不要用 `| head`，否则 `$?` 恒为 0 失去意义。）
 
 脚本能跑 → 走标准流程；不能跑（无 python3 / 脚本缺失）→ 全程用人工清单（见步骤 1 若失败），交付时标注 `manual_mode: true`。输入侧自检：文本拿到了吗？低于 100 字 → 如实告知改写空间不足，不建议开工。改写强度未声明 → 按深度人格化执行并在首条回复中说明，不等用户第二轮确认。
 

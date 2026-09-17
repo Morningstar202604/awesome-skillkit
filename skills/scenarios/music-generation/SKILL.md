@@ -38,11 +38,14 @@ metadata:
 
 ## 前置自检
 
+先解析网关基址（与工作流步骤 1 同一句），再探活：
+
 ```bash
+MUSIC_GATEWAY_BASE="${MUSIC_GATEWAY_BASE:-http://127.0.0.1:30080}"
 curl -s -o /dev/null -w "%{http_code}" --max-time 5 "$MUSIC_GATEWAY_BASE/api/music/status?task_id=0"
 ```
 
-预期：打印一个 HTTP 状态码。若连接失败或路径返回 404：报告 $MUSIC_GATEWAY_BASE 处音乐端点不可用，展示确切状态码，然后 STOP。绝不改用本地合成顶替。
+预期：打印一个 HTTP 状态码。若失败：连接失败（curl 退出码非 0）→ 报告 `$MUSIC_GATEWAY_BASE` 处音乐端点不可用，请用户启动网关，STOP；返回 404 → 该网关路由名不同，查网关文档更新本文件常量并告知用户，STOP。绝不改用本地合成顶替。
 
 ## 工作流
 
@@ -53,7 +56,8 @@ MUSIC_GATEWAY_BASE="${MUSIC_GATEWAY_BASE:-http://127.0.0.1:30080}"
 echo "$MUSIC_GATEWAY_BASE"
 ```
 
-预期：打印一个 URL。
+预期：打印一个 URL，且与前置自检探活通过的地址一致。
+若失败：展开为空说明 shell 异常 → 停止；与前置自检不一致 → 以前置自检通过的值为准。
 
 ### 步骤 2：组织音乐简报
 
@@ -66,6 +70,9 @@ echo "$MUSIC_GATEWAY_BASE"
 示例："轻快的流行电子风，钢琴与合成器主导，用于产品发布会的开场暖场，
 积极向上。" 不要点名艺术家；改用声音特征描述。
 
+预期：简报三槽位齐全，未点名任何艺术家。
+若失败：某槽位填不出来（只有"好听的背景音乐"）→ 回输入清单问齐风格/乐器/情绪；完整词库见 [music-style-lexicon.md](references/music-style-lexicon.md)，用五槽位 Style 公式与情绪×BPM 对照补全。
+
 ### 步骤 3：提交任务
 
 ```bash
@@ -76,8 +83,7 @@ curl -s -X POST "$MUSIC_GATEWAY_BASE/api/music/generate" \
 
 带歌词：加 `"instrumental":false` 和 `"lyrics":"<LYRICS>"`。
 
-预期：JSON 含 `task_id`。失败分支——HTTP 错误或返回 HTML：
-原样重试一次，然后报告并停止。
+预期：JSON 含 `task_id`。若失败：HTTP 错误或返回 HTML → 原样重试一次，然后报告并停止；带歌词被拒（参数不匹配）→ 显式设 `"instrumental":false` 后重提交一次。
 
 ### 步骤 4：轮询到终态
 
@@ -87,6 +93,7 @@ curl -s "$MUSIC_GATEWAY_BASE/api/music/status?task_id=<TASK_ID>"
 
 每 10 秒轮询一次。成功条件：`is_final == true` 且
 `state == "success"`；取 `result_url`。上限 60 次（10 分钟）。
+若失败：`state == "failed"` → 把简报改具体或缩短歌词后重试一次；超 10 分钟仍 `pending` → 回报 `task_id` 并建议重提交。
 
 ### 步骤 5：下载并交付
 
@@ -97,6 +104,7 @@ ls -lh music_*.mp3
 
 预期：非空音频文件。声称成功前先验证大小 > 0；
 回报绝对路径和所用简报。
+若失败：文件 0 字节 → `result_url` 已过期，重新轮询拿新 URL 再下载一次；仍为 0 → 如实报告未完成，不要用占位音频冒充。
 
 ## 失败处置表
 

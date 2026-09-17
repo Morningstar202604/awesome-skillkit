@@ -11,10 +11,10 @@
                  无脚本的平台（cnblogs/zhihu）输出精确的手工执行清单
   4. `ledger` —— 查看发布台账
 
-用法：
-  python cross_post.py plan   --manifest post.manifest.json
-  python cross_post.py run    --manifest post.manifest.json [--only wechat_mp]
-  python cross_post.py ledger --manifest post.manifest.json
+用法（注意 --manifest 是全局参数，必须写在子命令之前）：
+  python cross_post.py --manifest post.manifest.json plan
+  python cross_post.py --manifest post.manifest.json run [--only wechat_mp]
+  python cross_post.py --manifest post.manifest.json ledger
 
 退出码：0 全部就绪/完成；1 配置错误；2 存在需要人工介入的平台。
 """
@@ -40,10 +40,14 @@ from publish_common import load_json, dump_json
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# 各平台对应的兄弟技能脚本（相对本文件）
+# 各平台对应的兄弟技能脚本（相对本文件：scripts/ -> 技能目录 -> orchestrator/ -> writing/）
 ADAPTERS = {
     "wechat_mp": (
-        "../wechat/wechat-mp-publisher/scripts/wechat_mp_publish.py",
+        "../../../wechat/wechat-mp-publisher/scripts/wechat_mp_publish.py",
+        ["--title", "{title}"],
+    ),
+    "juejin": (
+        "../../../juejin/juejin-publisher/scripts/juejin_publish.py",
         ["--title", "{title}"],
     ),
 }
@@ -214,7 +218,8 @@ def cmd_run(args):
                 sys.executable,
                 script,
                 "publish",
-                t.get("article_id", "0"),
+                str(t.get("article_id", "0")),
+                "--execute",
                 "--title",
                 manifest["title"],
                 "--markdown-file",

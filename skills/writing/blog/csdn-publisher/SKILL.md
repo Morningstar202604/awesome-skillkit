@@ -35,7 +35,7 @@ CSDN 博客发布/管理自动化客户端，基于 CSDN Web 端内部接口（�
 | 子命令 | 是 | `categories` / `draft-save` / `publish` / `edit` / `delete` / `list` |
 | Cookie | 是 | 环境变量 `CSDN_COOKIE` 或 `--cookie-file` 二选一 |
 | 文章标题 | draft-save/publish/edit 时必需 | `--title` |
-| 正文 | draft-save/publish/edit 时必需 | `--markdown`（文本）或 `--markdown-file`（文件）二选一 |
+| 正文 | draft-save/publish/edit 时必需 | draft-save 与 publish 用 `--markdown`（文本）；edit 用 `--markdown-file`（文件路径） |
 | `category_id` | draft-save/publish 时必需 | 先用 `categories` 子命令拉取 |
 | 文章 ID | publish/edit/delete 时必需 | draft-save 返回的 article_id |
 | `--execute` | 否 | 不加则 dry-run，只打印请求计划不联网 |
@@ -127,7 +127,7 @@ python csdn_publisher.py list --execute --page 1 --size 20
 
 ### 步骤 2：保存草稿
 
-- **动作**：`python csdn_publisher.py draft-save --execute --title "标题" --markdown "# 正文..." --brief "摘要" --category-id "<步骤1取的id>" --tags "A,B"`（也可用 `--markdown-file article.md`）。
+- **动作**：`python csdn_publisher.py draft-save --execute --title "标题" --markdown "# 正文..." --brief "摘要" --category-id "<步骤1取的id>" --tags "A,B"`（draft-save/publish 只接受 `--markdown`；`--markdown-file` 仅 edit 子命令支持）。
 - **预期**：退出码 0，返回 JSON 中含 `article_id`（草稿 ID），记录它供步骤 3 使用。
 - **若失败**：先跑一次不带 `--execute` 的 dry-run 核对请求计划；payload 结构与"端点核对"中 DevTools 观察到的不一致 → 修 `ENDPOINTS`/payload 后重试。
 
@@ -186,7 +186,8 @@ python csdn_publisher.py draft-save --cookie-file ~/.csdn_cookie ...
 | `--cookie-file` | Cookie 文件路径 | 如 `~/.csdn_cookie` |
 | `--execute` | 开关 | 缺省 dry-run 只打印请求计划 |
 | `--title` | 字符串 | draft-save/publish/edit 需要 |
-| `--markdown` / `--markdown-file` | 文本 / 路径 | 正文二选一 |
+| `--markdown` | 文本 | 正文（draft-save / publish 使用，必填） |
+| `--markdown-file` | 文件路径 | 正文文件（edit 使用，必填） |
 | `--brief` | 字符串 | 文章摘要（draft-save/publish） |
 | `--category-id` | 字符串 | `categories` 拉取到的分类 ID（draft-save/publish） |
 | `--tags` | 逗号分隔 | 如 `Python,AI` |
