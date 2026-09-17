@@ -3,9 +3,9 @@
 # awesome-skillkit
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-![Skills](https://img.shields.io/badge/skills-151-brightgreen)
+![Skills](https://img.shields.io/badge/skills-143-brightgreen)
 ![Packs](https://img.shields.io/badge/packs-36-blue)
-![Chains](https://img.shields.io/badge/chains-18%20domains%20%2F%2057-orange)
+![Chains](https://img.shields.io/badge/chains-18%20domains%20%2F%2058-orange)
 ![Version](https://img.shields.io/badge/version-0.18.0-success)
 
 **English** | [中文](README.zh-CN.md) | [日本語](README.ja.md)
@@ -37,12 +37,12 @@ flowchart LR
 
 ## By the numbers
 
-> **151 skills** · **36 scene packs** · **18 chain domains / 57 skill chains** · v0.18.0 · Apache-2.0
+> **143 skills** · **36 scene packs** · **18 chain domains / 58 skill chains** · v0.18.0 · Apache-2.0
 
 **Source breakdown**:
 
 ```mermaid
-pie title Skill sources (n=151)
+pie title Skill sources (n=143)
     "Self-authored scenario skills" : 105
     "Upstream curated (alirezarezvani/claude-skills, MIT)" : 36
     "Other open-source distilled" : 10
@@ -244,7 +244,7 @@ flowchart LR
     end
 ```
 
-`skill_chains.json` ships **18 chain domains / 57 chains**, pinning "who runs first, who hands off to whom" so cross-module calls never get lost.
+`skill_chains.json` ships **18 chain domains / 58 chains**, pinning "who runs first, who hands off to whom" so cross-module calls never get lost.
 
 ## Platform sync status
 

@@ -3,9 +3,9 @@
 # awesome-skillkit · 渡
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-![Skills](https://img.shields.io/badge/skills-151-brightgreen)
+![Skills](https://img.shields.io/badge/skills-143-brightgreen)
 ![Packs](https://img.shields.io/badge/packs-36-blue)
-![Chains](https://img.shields.io/badge/chains-18%20domains%20%2F%2057-orange)
+![Chains](https://img.shields.io/badge/chains-18%20domains%20%2F%2058-orange)
 ![Version](https://img.shields.io/badge/version-0.18.0-success)
 
 [English](README.md) | **中文** | [日本語](README.ja.md)
@@ -37,12 +37,12 @@ flowchart LR
 
 ## 数字一览
 
-> **151 个 skill** · **36 个场景包** · **18 个链域 / 57 条技能链** · v0.18.0 · Apache-2.0
+> **143 个 skill** · **36 个场景包** · **18 个链域 / 58 条技能链** · v0.18.0 · Apache-2.0
 
 **来源构成**（自研为主，上游为辅，全部可溯源）：
 
 ```mermaid
-pie title 技能来源（n=151）
+pie title 技能来源（n=143）
     "自研场景技能" : 105
     "上游 curated（alirezarezvani/claude-skills, MIT）" : 36
     "其他开源蒸馏" : 10
@@ -246,7 +246,7 @@ flowchart LR
     end
 ```
 
-`skill_chains.json` 内置 **18 个链域 / 57 条链**，把"该先调谁、谁接谁"固化下来，跨模块交叉调用不迷路。
+`skill_chains.json` 内置 **18 个链域 / 58 条链**，把"该先调谁、谁接谁"固化下来，跨模块交叉调用不迷路。
 
 ## 三平台同步状态
 

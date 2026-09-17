@@ -3,9 +3,9 @@
 # awesome-skillkit
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-![Skills](https://img.shields.io/badge/skills-151-brightgreen)
+![Skills](https://img.shields.io/badge/skills-143-brightgreen)
 ![Packs](https://img.shields.io/badge/packs-36-blue)
-![Chains](https://img.shields.io/badge/chains-18%20domains%20%2F%2057-orange)
+![Chains](https://img.shields.io/badge/chains-18%20domains%20%2F%2058-orange)
 ![Version](https://img.shields.io/badge/version-0.18.0-success)
 
 [English](README.md) | [中文](README.zh-CN.md) | **日本語**
@@ -37,12 +37,12 @@ flowchart LR
 
 ## 数字で見る
 
-> **151 skills** · **36 シナリオパック** · **18 チェーンドメイン / 57 スキルチェーン** · v0.18.0 · Apache-2.0
+> **143 skills** · **36 シナリオパック** · **18 チェーンドメイン / 58 スキルチェーン** · v0.18.0 · Apache-2.0
 
 **出典の内訳**:
 
 ```mermaid
-pie title スキルの出典（n=151）
+pie title スキルの出典（n=143）
     "自作シナリオスキル" : 105
     "上流 curated（alirezarezvani/claude-skills, MIT）" : 36
     "その他オープンソース蒸留" : 10
@@ -246,7 +246,7 @@ flowchart LR
     end
 ```
 
-`skill_chains.json` には **18 チェーンドメイン / 57 チェーン** が組み込まれ、「誰を先に呼ぶか、誰に渡すか」を固定し、モジュール間のクロスコールでも迷いません。
+`skill_chains.json` には **18 チェーンドメイン / 58 チェーン** が組み込まれ、「誰を先に呼ぶか、誰に渡すか」を固定し、モジュール間のクロスコールでも迷いません。
 
 ## プラットフォーム同期状況
 
