@@ -58,7 +58,7 @@ python3 scripts/trace_scanner.py 文本文件路径        # 或 cat 文本 | py
 ```
 
 - **预期：** stdout 输出单个 JSON 对象 `{stats, findings[]}`，退出码 0。stats 含 sentences、mean_sentence_len、std_sentence_len、cv、list_ratio、enumerator_count、ai_word_hits、score、verdict 十余字段；findings 每条含 pos/type/evidence/fix_hint 四字段。
-- **若失败：** python3 缺失或脚本不可跑 → 降级为手工模式：按 references 里的词表逐词核对、目测句长是否均匀、数列表行占比，报告整体标注 `manual_mode: true`，score 字段填 null 并说明原因。
+- **若失败：** python3 缺失或脚本不可跑 → 降级为手工模式：打开 `scripts/trace_scanner.py` 里的 `AI_PATTERNS` 词表逐词核对、目测句长是否均匀、数列表行占比，报告整体标注 `manual_mode: true`，score 字段填 null 并说明原因。
 
 ### 步骤 2：解读 stats
 

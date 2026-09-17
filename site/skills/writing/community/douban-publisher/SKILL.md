@@ -37,7 +37,7 @@ metadata:
 | 动作 | 是 | `note-create`（日记）、`status-post`（广播）、`group-topic`（小组话题）三选一 |
 | `--title` | note-create / group-topic 必需 | 日记或话题标题 |
 | `--content` | 是 | 正文，纯文本 |
-| `--privacy` | note-create 可选 | 可见范围：`0`=公开 / 其他取值见平台；VERIFY BEFORE USE |
+| `--privacy` | note-create 可选 | 可见范围：`0`=公开 / `1`=仅自己可见 / `2`=好友可见；VERIFY BEFORE USE |
 | `<group_id>` | group-topic 必需 | 小组 ID，作为位置参数传入（如 `123456`） |
 | `DOUBAN_COOKIE` 或 `--cookie-file` | 是 | 登录态凭据，二选一 |
 

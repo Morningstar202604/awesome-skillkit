@@ -91,6 +91,9 @@ rotate 打印被旋转的页号。
 - OCR 质量依赖扫描分辨率，300dpi 以下效果差，需向用户说明。
 
 预期：用户确认后才执行外部 OCR 命令；本技能不代装 OCR 工具。
+若失败：用户机器上没有 `ocrmypdf`/`tesseract` → 给出安装命令（`pip install ocrmypdf`、
+`brew install tesseract tesseract-lang`）并说明本技能不代装，请用户装好或改用其他路径；
+OCR 结果仍是乱码 → 扫描分辨率不足或语言包缺失，回到步骤 2 换成"先截图再 OCR"。
 
 ### 步骤 4：提取文本（带页码标注）
 
@@ -117,6 +120,10 @@ python3 scripts/pdf_ops.py meta merged.pdf --set Title="Q3 报告" \
 报出每个产物路径 + 页数，并用一句话说明来源（哪个文件、哪些页）。
 写操作默认不覆盖原文件（rotate/split/merge 都要求显式 `--output`），
 原地写（meta 缺省）要先提醒用户已备份或确认。
+
+预期：每个产物路径都由 `meta` 读回核对过页数，用户能对着来源页号自行抽查。
+若失败：产物路径写不出来（如用户只要 stdout 结果）→ 直接把 stdout 内容作为交付物，
+说明"未落盘"；用户对页数有异议 → 回到对应步骤重跑并附上 `meta` 读回结果。
 
 ## 交付标准
 

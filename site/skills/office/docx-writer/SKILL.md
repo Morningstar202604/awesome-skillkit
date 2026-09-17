@@ -114,6 +114,10 @@ python3 scripts/docx_ops.py inspect output.docx --preview 12
 告知用户文件绝对路径、章节结构（把 inspect 的样式统计转述成一段话），
 并说明：内容源在 `content.md`，后续改动优先改草稿再重渲染。
 
+预期：用户拿到能直接打开的 .docx 与可复用的 `content.md`。
+若失败：用户打开后发现排版不符 → 别改 .docx，回到步骤 1 改 `content.md` 后重跑步骤 2-4；
+`inspect` 与用户所见不一致 → 以用户所见为准，按失败处置表逐条排查。
+
 ## 交付标准
 
 - 产物：一个可被 Word/WPS 打开的 .docx 文件。

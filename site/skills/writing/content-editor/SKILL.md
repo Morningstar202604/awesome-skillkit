@@ -88,16 +88,24 @@ metadata:
 输出：
 ```json
 {
+  "style": "technical",
+  "title": "文章标题",
   "score": 82,
   "issues": [
     {"type": "banned_word", "word": "我觉得", "line": 12},
     {"type": "long_sentence", "chars": 78, "limit": 40, "line": 25}
   ],
   "suggestions": ["Add transition phrase between sections 2 and 3"],
+  "long_sentences": 3,
+  "total_sentences": 20,
+  "word_count": 850,
+  "edited": "改写后的正文全文（纯文本）",
   "sections_edited": 5,
   "status": "reviewed"
 }
 ```
+
+> 下游衔接：`edited` 是给人看的改写后正文；`title` + `sections_edited` 便于回填结构。若下游（seo-optimizer / 平台发布技能）需要结构化 sections，请回传步骤 1 的 `draft.json` 中的 `sections`，本技能输出以纯文本 `edited` 为准。
 
 ## 文风规则表
 

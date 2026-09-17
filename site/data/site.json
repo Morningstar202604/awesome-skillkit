@@ -9,7 +9,7 @@
   "n_skills_on_disk": 144,
   "n_packs": 36,
   "n_domains": 18,
-  "n_chains": 57,
+  "n_chains": 58,
   "github": {
    "repo": "x33834/awesome-skillkit",
    "url": "https://github.com/x33834/awesome-skillkit",
@@ -336,8 +336,8 @@
    "id": "office",
    "label": "office",
    "entry": "",
-   "n_skills": 6,
-   "n_chains": 2,
+   "n_skills": 7,
+   "n_chains": 3,
    "chains": [
     {
      "name": "document_pipeline",
@@ -347,6 +347,13 @@
       "excel-assistant",
       "meeting-notes?",
       "pdf-pipeline"
+     ]
+    },
+    {
+     "name": "ebook_pipeline",
+     "steps": [
+      "docx-writer?",
+      "epub-builder"
      ]
     },
     {
@@ -3727,7 +3734,7 @@
    "dist_exists": true
   },
   {
-   "id": "data-viz-studio",
+   "id": "dataviz-studio",
    "name": "Data Viz Studio",
    "name_zh": "数据可视化工作室",
    "desc": "From raw CSV to a shippable dashboard: profile columns, recommend a layout, and emit a self-contained single-file HTML dashboard with zero external requests. Plus a chart-selection lexicon covering encoding priority, per-chart-type caveats, and the classic mistakes.",
@@ -3738,11 +3745,11 @@
     "dashboard-designer",
     "chart-recommender"
    ],
-   "local_url": "packs/data-viz-studio.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/data-viz-studio.zip",
+   "local_url": "packs/dataviz-studio.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/dataviz-studio.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/data-viz-studio.zip",
-   "dist_exists": false
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/dataviz-studio.zip",
+   "dist_exists": true
   },
   {
    "id": "de-ai-writing",

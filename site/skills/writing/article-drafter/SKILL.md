@@ -90,19 +90,26 @@ python3 scripts/drafter.py --outline outline.json --audience intermediate --outp
 ```json
 {
   "title": "FastAPI 性能优化",
+  "hook": "开篇钩子段落",
   "sections": [
     {
       "id": 1,
       "heading": "为什么慢",
       "draft": "FastAPI 默认使用 async/await，但很多开发者...",
-      "word_count": 320
+      "word_count": 320,
+      "target": 300,
+      "status": "ok",
+      "note": ""
     }
   ],
-  "total_words": 1850,
+  "conclusion": "总结段落",
+  "total_words_target": 1850,
   "status": "draft",
   "needs_review": true
 }
 ```
+
+> 下游衔接：`content-editor` 的 `--draft` 直接读本文件，要求顶层含 `title` 与 `sections[]`（每项含 `heading`/`draft`），本输出满足。
 
 ## 受众风格规则
 

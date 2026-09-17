@@ -526,7 +526,7 @@
       "sha256": "1311c4cb149b45764730c82512c7438b28e37576f464899864cc673598024f4a"
     },
     {
-      "id": "data-viz-studio",
+      "id": "dataviz-studio",
       "name": "Data Viz Studio",
       "name_zh": "数据可视化工作室",
       "description": "From raw CSV to a shippable dashboard: profile columns, recommend a layout, and emit a self-contained single-file HTML dashboard with zero external requests. Plus a chart-selection lexicon covering encoding priority, per-chart-type caveats, and the classic mistakes.",

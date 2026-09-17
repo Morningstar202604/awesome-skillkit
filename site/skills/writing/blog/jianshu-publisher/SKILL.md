@@ -35,7 +35,7 @@ metadata:
 | 子命令 | 是 | `draft-save` / `publish` / `edit` / `delete`（无 list/分类查询子命令） |
 | Cookie | 是 | 环境变量 `JIANSHU_COOKIE` 或 `--cookie-file` 二选一 |
 | 文章标题 | draft-save/edit 时必需 | `--title` |
-| 正文 | draft-save/edit 时必需 | `--markdown`（文本）或 `--markdown-file`（文件）二选一 |
+| 正文 | draft-save/edit 时必需 | draft-save 用 `--markdown`（文本）；edit 用 `--markdown-file`（文件路径） |
 | `note_id` | publish/edit/delete 时必需 | draft-save 返回的草稿 ID |
 | `--execute` | 否 | 不加则 dry-run，只打印请求计划不联网 |
 
@@ -107,7 +107,7 @@ python jianshu_publisher.py delete --execute <note_id>
 
 ### 步骤 1：保存草稿
 
-- **动作**：`python jianshu_publisher.py draft-save --execute --title "标题" --markdown "# 正文..." --brief "摘要" --tags "A,B"`（也可用 `--markdown-file article.md`）。
+- **动作**：`python jianshu_publisher.py draft-save --execute --title "标题" --markdown "# 正文..." --brief "摘要" --tags "A,B"`（draft-save 只接受 `--markdown`；`--markdown-file` 仅 edit 子命令支持）。
 - **预期**：退出码 0，返回 JSON 中含 `note_id`（草稿 ID），记录它供后续步骤使用。
 - **若失败**：先跑一次不带 `--execute` 的 dry-run 核对请求计划；payload 结构与"端点核对"中 DevTools 观察到的不一致 → 修 `ENDPOINTS`/payload 后重试。
 
@@ -170,7 +170,8 @@ python jianshu_publisher.py draft-save --cookie-file ~/.jianshu_cookie ...
 | `--cookie-file` | Cookie 文件路径 | 如 `~/.jianshu_cookie` |
 | `--execute` | 开关 | 缺省 dry-run 只打印请求计划 |
 | `--title` | 字符串 | draft-save/edit 需要 |
-| `--markdown` / `--markdown-file` | 文本 / 路径 | 正文二选一 |
+| `--markdown` | 文本 | 正文（draft-save 使用，必填） |
+| `--markdown-file` | 文件路径 | 正文文件（edit 使用，必填） |
 | `--brief` | 字符串 | 文章摘要（draft-save） |
 | `--tags` | 逗号分隔 | 如 `Python,AI` |
 | `--cover-image` | URL | 封面图（draft-save） |

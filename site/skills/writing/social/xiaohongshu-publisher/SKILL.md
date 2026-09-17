@@ -35,10 +35,10 @@ metadata:
 |------|------|------|
 | 动作 | 是 | `draft-save` / `publish` / `edit` / `delete` |
 | `--title` | draft-save / edit 必需 | 标题 |
-| `--content` | 是 | 正文 |
+| `--content` | draft-save / edit 必需 | 正文（`publish` / `delete` 不接收该参数，只需 `note_id`） |
 | `--tags` | 可选 | 话题标签，逗号分隔，如 `"Python,AI"` |
-| `--images` | draft-save 可选 | 多图 URL，逗号分隔 |
-| `--cover-image` | draft-save 可选 | 封面图 URL |
+| `--images` | draft-save / edit 可选 | 多图 URL，逗号分隔 |
+| `--cover-image` | draft-save / edit 可选 | 封面图 URL |
 | `<note_id>` | publish / edit / delete 必需 | 笔记 ID，作为位置参数 |
 | `XHS_COOKIE` 或 `--cookie-file` | 是 | 登录态凭据 |
 
@@ -86,7 +86,7 @@ metadata:
 |------|----------|------|
 | `draft-save` | `--title --content --tags --images --cover-image --execute` | 存草稿，返回 `note_id` |
 | `publish <note_id>` | `--execute` | 发布草稿笔记 |
-| `edit <note_id>` | `--title --content --execute` | 编辑已发布笔记 |
+| `edit <note_id>` | `--title --content --tags --images --cover-image --execute` | 编辑已发布笔记（与 draft-save 同参数集） |
 | `delete <note_id>` | `--execute` | 删除笔记 |
 | （通用） | `--cookie-file <path>` | 用文件替代 `XHS_COOKIE` |
 

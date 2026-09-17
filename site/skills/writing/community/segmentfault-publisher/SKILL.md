@@ -37,9 +37,9 @@ metadata:
 | 动作 | 是 | `article-save`（草稿）/ `article-publish`（发布）/ `question-ask`（提问） |
 | `--title` | 是 | 标题 |
 | `--content` | 是 | 正文，支持 Markdown |
-| `--summary` | article-save 可选 | 文章摘要 |
+| `--summary` | article-save / article-publish 可选 | 文章摘要 |
 | `--tags` | 可选 | 逗号分隔标签，如 `"Python,AI"` |
-| `--cover-image` | article-save 可选 | 封面图 URL |
+| `--cover-image` | article-save / article-publish 可选 | 封面图 URL |
 | `SF_COOKIE` 或 `--cookie-file` | 是 | 登录态凭据 |
 
 缺任意必需项时一次性问齐：
@@ -85,7 +85,7 @@ metadata:
 | 命令 | 关键参数 | 说明 |
 |------|----------|------|
 | `article-save` | `--title --content --summary --tags --cover-image --execute` | 存草稿，返回 `article_id` |
-| `article-publish` | `--title --content --tags --execute` | 直接发布文章 |
+| `article-publish` | `--title --content --summary --tags --cover-image --execute` | 直接发布文章 |
 | `question-ask` | `--title --content --tags --execute` | 发布提问 |
 | （通用） | `--cookie-file <path>` | 用文件替代 `SF_COOKIE` |
 

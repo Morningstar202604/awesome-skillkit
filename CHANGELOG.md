@@ -16,6 +16,62 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.19.0] - 2026-09-17
+
+### Added
+
+- **全库逐技能逻辑链条审计（143 技能全覆盖）**——把每个技能按「输入清单 → 前置自检 →
+  工作流 → 交付标准 → 失败处置表 → 参考」六要素逐项验，并用真实样例实测全部 `scripts/*.py`
+  （正例 rc=0、异常样例 rc≠0），共发现并修复 **50+ 处缺陷**：
+
+  **P0 链路必坏 / 失败被吞（8 处）**
+  - `tools/file-organizer`、`tools/batch-renamer`：`plan`/`apply` 以相对路径调用时
+    `dst.relative_to(root)` 抛 `ValueError` —— 而 SKILL.md 的示例命令正是相对路径写法，**照抄必崩**。
+  - `tools/format-converter`：`media` 路径未知扩展直接透传 ffmpeg 返回码 **234**，
+    文档承诺的 rc=3 根本没实现。
+  - `integrations/cloud-drive-manager`：空目录或全被 `--exclude` 排除时返回 **rc=0**，
+    把"零产出"当成功上报，流水线会带着空计划往下走。
+  - `programming/math/model-solver`：LP 路径 100% 崩溃（`result.iter` 应为 `result.nit`）。
+  - `programming/data/data_ml_pipeline`：`SCRIPTS["ml"]` 指向 `ml/pipeline/`（实际是 `ml/ml-pipeline/`），
+    第 3 步 100% FileNotFoundError。
+  - `programming/planning/code-intent-planner`：L2 不可达时 `{"error": ...}` 仍 rc=0。
+  - `programming/math/result-visualizer`：数据文件缺失打印 skipped 却 rc=0。
+  - `video/storyboard-designer`：交付标准里的 `beat-sheet.md`/`continuity.md` 无任何步骤产出。
+
+  **P1（不可执行命令 / 死链 / 与文档矛盾，50+ 处）**
+  - `writing/orchestrator/cross-post-orchestrator`：`ADAPTERS` 路径少一层 `..` 致
+    wechat_mp 调度**从未生效**（100% 走 `[MANUAL]`）；缺 juejin 注册；
+    juejin 分支重建 `cmd` 时**丢失 `--execute`** 造成"台账记 `ok` 但实际未发布"的静默失败；
+    5 处示例 `--manifest` 参数顺序错误。
+  - `design/layout-spec-auditor`：文档给的 `--expect` 命令实测 exit 2，不可执行。
+  - `writing/humanize-rewriter`：前置自检 `--help | head; echo check=$?` 管道后 `$?` 恒为 0，
+    探测完全失效。
+  - `writing/blog/cnblogs-skill`：`references/image-guide.md` 4 处死链指向不存在的技能。
+  - `audio/episode-publisher` 跨目录相对引用死链；`design/image-prompt-engineer` 等
+    3 个生成技能前置自检用了尚未赋值的网关变量（顺序断裂）。
+  - `writing/seo-optimizer` docstring 宣传不存在的 `--json '{"..."}'` 用法。
+  - `integration/notion-workspace`、`dataviz/dashboard-designer` 等步骤缺「若失败」；
+    全库补齐 **43 处**缺失的三件套分支。
+
+  **结构性修复**
+  - `programming/database/sql-database-assistant`：正文 518 行超硬门禁，
+    外移 111 行到 `references/dialect_and_orm.md`（正文 → 421 行）。
+
+### Fixed
+
+- **技能发现口径统一（3 个工具此前互相矛盾）**：`skills/writing/assets/ai-cover-generator`
+  是被 `ai-media-toolkit` / `content-publishing` / `image-studio` **三个包真实引用**的技能，
+  却因 `assets/` 被当作垃圾目录而被 `validate_skills.py`、`skill-finder`、`skill-linter`
+  静默跳过 —— 它长期逃过深度校验。现三处口径统一为「只跳过 `_common/`、`templates/`
+  与 `sample-*`」，纳入后 **143 技能全绿**（此前 142）。
+- **包 `id` 与产物文件名不一致**：`packs/dataviz-studio/pack.json` 的 `id` 是
+  `data-viz-studio`，但 `dist/` 里的 zip 与目录名都是 `dataviz-studio`，
+  导致站点生成 **失效下载链接**（`packs/data-viz-studio.zip` 不存在）。
+  统一为 `dataviz-studio`，下载链接恢复可解析。
+- **`epub-builder` 未登记**：补入 `office` 域并新增 `ebook_pipeline` 链。
+- **3 个词库文件补目录**：`visual-detail-lexicon.md` / `music-style-lexicon.md` /
+  `cinematography-lexicon.md` 超 100 行却无 TOC，`validate` 的警告清零。
+
 ## [0.18.0] - 2026-09-17
 
 ### Added

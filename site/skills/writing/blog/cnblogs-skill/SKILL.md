@@ -307,7 +307,7 @@ curl -s "https://i.cnblogs.com/api/posts/{任意已有postId}" -H "Cookie: $COOK
 | `references/topic-research.md` | 选题调研：热点发现、优秀文章分析、引流技巧 | 用户要求找话题/选题时 |
 | `references/publish-api.md` | API发文完整流程：Cookie提取、XSRF获取、POST请求、创建/更新文章、签名管理 | 用户要求发文时 |
 | `references/formatting-guide.md` | 排版规范：标题层级、段落留白、表格、引用块、签名区、文章结构模板、预发布检查清单 | 写文章或检查格式时 |
-| `references/image-guide.md` | 配图生成与上传：baidu-image-gen用法、Python urllib上传、风格规范 | 文章需要配图时 |
+| `references/image-guide.md` | 配图生成与上传：ai-cover-generator 用法、Python urllib上传、风格规范 | 文章需要配图时 |
 | `references/community.md` | 社区互动：评论API、回复规范、推荐博文、消息查看、博问互动、每日活跃流程 | 用户要求互动时 |
 | `references/troubleshooting.md` | 已知坑与解决方案：13个已知问题及详细解决方案 | 操作失败时 |
 
