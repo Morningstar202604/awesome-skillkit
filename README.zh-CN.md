@@ -4,7 +4,7 @@
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 ![Skills](https://img.shields.io/badge/skills-135-brightgreen)
-![Packs](https://img.shields.io/badge/packs-31-blue)
+![Packs](https://img.shields.io/badge/packs-32-blue)
 ![Chains](https://img.shields.io/badge/chains-13%20domains%20%2F%2048-orange)
 ![Version](https://img.shields.io/badge/version-0.16.1-success)
 

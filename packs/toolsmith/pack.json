@@ -1,0 +1,13 @@
+{
+  "id": "toolsmith",
+  "name": "Toolsmith",
+  "name_zh": "工具与自动化",
+  "description": "Local file and automation chores done safely: reorganize a messy directory with a dry-run planner, batch-rename files with one-command rollback, convert documents/images/media, and schedule recurring jobs across cron/launchd/Task Scheduler.",
+  "description_zh": "本地文件与自动化的四件顺手工具：目录体检与整理（含快速判重）、批量重命名（EXIF 日期 + 日志回滚）、文档/图片/音视频格式转换统一入口、定时任务（cron 表达式翻译 + 三平台落地）。全部默认 dry-run、只读优先。",
+  "skills": [
+    { "name": "file-organizer", "source": "self-authored" },
+    { "name": "batch-renamer", "source": "self-authored" },
+    { "name": "format-converter", "source": "self-authored" },
+    { "name": "task-scheduler", "source": "self-authored" }
+  ]
+}

@@ -16,6 +16,62 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.17.0] - 2026-09-17
+
+### Added
+
+- **新场景包 ×2 — 补齐「工具与自动化」与「元技能」两个空白域**（对标 6 个主流 skill 生态来源的分布调研，
+  见 [docs/SKILL-GAP-PLAN.md](docs/SKILL-GAP-PLAN.md)）：
+
+  **`Toolsmith`（工具与自动化，4 技能，全部含实测脚本）**
+  - `file-organizer`：目录体检（扩展名分布 + 1KB 快速判重）、整理计划（type/date）、执行（默认 dry-run）、
+    重复文件处置建议；路径越界（`../`、绝对路径、符号链接外逃）全部拦截。
+  - `batch-renamer`：模板序号 / 正则 / 前后缀 / EXIF 拍摄日期（无则回退 mtime）；两阶段改名支持互换；
+    变更日志 + 一键 `--undo` 回滚。
+  - `format-converter`：文档（pandoc）/ 图片（Pillow，含缩放质量）/ 音视频（ffmpeg）统一入口，
+    依赖缺失给安装指引；拒绝跨管线转换（如 mp4→jpg）并给出正确做法。
+  - `task-scheduler`：cron 表达式 → 中文描述（含 `@reboot`、闰年 2 月 29 日边界）、crontab 解析、
+    三平台落地差异表（cron / launchd / 任务计划程序）；只生成不写入，避免不可撤销的误操作。
+
+  **`Skill Forge`（技能锻造厂，3 技能）**
+  - `skill-author`：一次性问齐 5 问 → 生成合规 SKILL.md；内联十诫；附可填空模板。
+  - `skill-linter`：8 项静态检查（frontmatter / 命名 / 描述与触发词 / 骨架章节 / 行数 / 中文占比 /
+    参考文件存在性 / 失败处置表行数），返回可做 CI 门禁的退出码。**首跑即抓出全仓 52 个技能的真实规范缺口。**
+  - `skill-finder`：基于真实数据检索（名称加权 > 描述 > 正文）、按技能组合反查所属包、仓库统计。
+
+- 新增链域 ×2：`tools`（messy_folder_cleanup / recurring_automation）、`meta`（new_skill_pipeline /
+  discover_and_compose），全库 **15 链域 / 52 条链**。
+
+### Changed
+
+- 三语言 README 徽章与计数刷新：**140 技能 / 33 包 / 15 链域 52 链**。
+
+### Known issues
+
+- `skill-linter` 全仓扫描报 52 个 FAIL，集中在内容发布类技能（16 个平台技能普遍缺 `## 参考` 章节、
+  失败处置表仅 3 行）。这是历史技能与现行骨架标准的差异，已记入下一批修复计划，不影响仓库门禁
+  （`validate_skills.py` 仍为 0 error）。
+
+### Added
+
+- **新场景包 `Toolsmith`（工具与自动化，4 技能，全部自研）** —— 补齐长期空白的「工具与自动化」域。
+  四技能共享同一套操作契约：**只读优先、dry-run 默认、不可逆动作需显式确认、留痕可回滚**。
+  - `file-organizer`：目录体检（扩展名分布/体积分档/重复文件）、整理计划、执行、去重建议四子命令。
+    判重用「文件大小 + 前 1KB 哈希」做预筛，避免全量读取大文件；`plan` 打印"将把 X 移到 Y"完整清单；
+    `apply` 默认 dry-run，仅 `--yes` 落盘。`_resolve_within` 用 canonicalize-then-check 挡住
+    `../` 与逃逸符号链接；冲突自动加 `_1` 序号；**永不删除文件**。
+  - `batch-renamer`：`--pattern`（`{n}/{ext}/{stem}/{date}`）/`--regex`/`--prefix`/`--suffix`/
+    `--exif-date`/`--lower`/`--upper` 多规则组合；**两阶段改名**（先临时名再终名）消除
+    a↔b 互换的中途撞名；冲突一律跳过并报告；执行写 `rename-log.txt`（JSONL），`--undo` 逆序回滚。
+  - `format-converter`：文档（pandoc）/图片（Pillow，含等比缩放与质量）/音视频（ffmpeg）/批量
+    四子命令统一入口。每个子命令先探测外部依赖，缺失时按当前操作系统打印确切安装命令（退出码 4）；
+    拒绝输入输出同路径；批量模式拦截跨管线转换（如 `.mp4`→`.jpg` 需抽帧，属另一类任务）。
+  - `task-scheduler`：`cron-add` 生成 crontab 行+安装步骤（**不自动写入**，定时任务无撤销栈）、
+    `cron-list` 解析 `crontab -l` 为可读表格、`cron-check` 把表达式翻成中文（如 `0 9 * * 1`
+    → 每周一 09:00）并预测下次触发。SKILL.md 含 cron/launchd/schtasks 三平台差异表与
+    「定时任务失败三大原因」（环境变量缺失、路径非绝对、权限不足）。croniter 可选，缺失时降级为
+    内置解析器描述。
+
 ## [0.16.1] - 2026-09-16
 
 ### Added

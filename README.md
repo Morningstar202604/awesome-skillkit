@@ -4,7 +4,7 @@
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 ![Skills](https://img.shields.io/badge/skills-135-brightgreen)
-![Packs](https://img.shields.io/badge/packs-31-blue)
+![Packs](https://img.shields.io/badge/packs-32-blue)
 ![Chains](https://img.shields.io/badge/chains-13%20domains%20%2F%2048-orange)
 ![Version](https://img.shields.io/badge/version-0.16.1-success)
 
@@ -37,7 +37,7 @@ flowchart LR
 
 ## By the numbers
 
-> **135 skills** · **31 scene packs** · **13 chain domains / 48 skill chains** · v0.16.1 · Apache-2.0
+> **139 skills** · **32 scene packs** · **13 chain domains / 48 skill chains** · v0.16.1 · Apache-2.0
 
 **Source breakdown**:
 
@@ -83,6 +83,7 @@ pie title Skill sources (n=135)
 | Viral Entertainment | 2 | ██ |
 | Chat Prompt Craft | 1 | █ |
 | Performance Profiling | 1 | █ |
+| Toolsmith | 4 | ████ |
 
 ## Getting started (30 seconds)
 
@@ -181,6 +182,12 @@ pie title Skill sources (n=135)
 | Scene pack | Skills | Scenario | Source |
 |--------|:---:|------|:---:|
 | Memory Systems | 4 | 长期记忆：设计/抽取/管理/检索（mem0/letta 蒸馏） | 自研 |
+
+### 工具与自动化
+
+| Scene pack | Skills | Scenario | Source |
+|--------|:---:|------|:---:|
+| Toolsmith | 4 | 目录整理（判重）、批量重命名（可回滚）、格式转换、定时任务（三平台） | 自研 |
 
 ## Detail lexicons (the differentiator)
 

@@ -209,6 +209,13 @@ python3 build.py         # 唯一构建入口
 
 ## 历史 / History
 
+- 2026-09-17：**新增 `toolsmith` 场景包（4 技能，全部自研）** —— 首次补齐「工具与自动化」域。
+  `file-organizer` / `batch-renamer` / `format-converter` / `task-scheduler` 四技能均为原创实现，
+  共享「只读优先、dry-run 默认、不可逆动作需显式确认」的操作契约。四个脚本仅用标准库实现，
+  可选依赖（Pillow / pandoc / ffmpeg / croniter）缺失时均给出针对性安装指引或自动降级。
+  各技能 `references/sources-and-methodology.md` 记录了方法论蒸馏来源（如两阶段改名、
+  canonicalize-then-check 路径校验、WAL 式变更日志）与所用库的官方文档链接。
+
 - 2026-09-15：**全量测试轮**——三层测试（chains 静态一致性 / 9 编排器 ×19 情景 dry-run /
   139 个本地脚本 ×约 90 用例深测）修复 27 项缺陷（4 P0：paper 13 脚本返回码丢弃致编排层
   门禁被绕过、video 链文件交接断裂、math solver LP 必崩、data_ml 编排器路径错）。链条

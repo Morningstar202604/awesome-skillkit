@@ -1,0 +1,21 @@
+{
+  "id": "skill-forge",
+  "name": "Skill Forge",
+  "name_zh": "技能锻造厂",
+  "description": "Meta skills about skills themselves: author a new SKILL.md from a one-batch clarification, lint an existing one against the repo spec with an exit code CI can gate on, and search/pack/stats this repo from real data. Idea in, compliant shipped skill out.",
+  "description_zh": "关于技能本身的元技能三件套：一次性问齐需求后生成合规 SKILL.md（skill-author）、八项静态检查并返回可做 CI 门禁的退出码（skill-linter）、基于真实数据检索技能与装配组合（skill-finder）。想法进、可提交的技能出。",
+  "skills": [
+    {
+      "name": "skill-author",
+      "source": "self-authored"
+    },
+    {
+      "name": "skill-linter",
+      "source": "self-authored"
+    },
+    {
+      "name": "skill-finder",
+      "source": "self-authored"
+    }
+  ]
+}

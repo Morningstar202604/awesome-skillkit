@@ -495,6 +495,44 @@
           "memory-retriever"
         ]
       }
+    },
+    "tools": {
+      "entry": "skills/tools/file-organizer",
+      "skills": [
+        "file-organizer",
+        "batch-renamer",
+        "format-converter",
+        "task-scheduler"
+      ],
+      "chains": {
+        "messy_folder_cleanup": [
+          "file-organizer",
+          "batch-renamer",
+          "format-converter"
+        ],
+        "recurring_automation": [
+          "task-scheduler",
+          "file-organizer?"
+        ]
+      }
+    },
+    "meta": {
+      "entry": "skills/meta/skill-author",
+      "skills": [
+        "skill-author",
+        "skill-linter",
+        "skill-finder"
+      ],
+      "chains": {
+        "new_skill_pipeline": [
+          "skill-author",
+          "skill-linter"
+        ],
+        "discover_and_compose": [
+          "skill-finder",
+          "skill-linter?"
+        ]
+      }
     }
   }
 }

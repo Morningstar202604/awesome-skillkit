@@ -1,7 +1,7 @@
 {
   "hub": "awesome-skillkit",
   "version": "0.16.1",
-  "updated": "2026-09-16",
+  "updated": "2026-09-17",
   "description": "Curated scene packs for AI tools: each pack = one real-world scenario, containing multiple skills. Download zip -> unzip -> drag the skill folders into your AI tool's skills directory.",
   "description_zh": "精选场景包合集：每个场景包 = 一个真实场景，内含多个 skill。下载 zip -> 解压 -> 把 skill 文件夹拖进 AI 工具的 skills 目录即可使用。",
   "source_notes": {
@@ -826,6 +826,30 @@
       "sha256": "f3d45963ea77a884a5a88bd2b4a66d6233f26b282965168a60cba2202f5c583a"
     },
     {
+      "id": "skill-forge",
+      "name": "Skill Forge",
+      "name_zh": "技能锻造厂",
+      "description": "Meta skills about skills themselves: author a new SKILL.md from a one-batch clarification, lint an existing one against the repo spec with an exit code CI can gate on, and search/pack/stats this repo from real data. Idea in, compliant shipped skill out.",
+      "description_zh": "关于技能本身的元技能三件套：一次性问齐需求后生成合规 SKILL.md（skill-author）、八项静态检查并返回可做 CI 门禁的退出码（skill-linter）、基于真实数据检索技能与装配组合（skill-finder）。想法进、可提交的技能出。",
+      "file": "dist/skill-forge.zip",
+      "skills": [
+        {
+          "name": "skill-author",
+          "source": "self-authored"
+        },
+        {
+          "name": "skill-linter",
+          "source": "self-authored"
+        },
+        {
+          "name": "skill-finder",
+          "source": "self-authored"
+        }
+      ],
+      "size_kb": 42,
+      "sha256": "f7bde046dfd87fd504b1209d7909e8558331ebf2dfab78cb5834d9b504c72fc3"
+    },
+    {
       "id": "tdd",
       "name": "Test-Driven Development",
       "name_zh": "测试驱动开发",
@@ -844,6 +868,34 @@
         }
       ],
       "sha256": "1bb03d51effeb5be94f1a579296a6ec5d5ebb0f834066d544ce2dd27e45324a4"
+    },
+    {
+      "id": "toolsmith",
+      "name": "Toolsmith",
+      "name_zh": "工具与自动化",
+      "description": "Local file and automation chores done safely: reorganize a messy directory with a dry-run planner, batch-rename files with one-command rollback, convert documents/images/media, and schedule recurring jobs across cron/launchd/Task Scheduler.",
+      "description_zh": "本地文件与自动化的四件顺手工具：目录体检与整理（含快速判重）、批量重命名（EXIF 日期 + 日志回滚）、文档/图片/音视频格式转换统一入口、定时任务（cron 表达式翻译 + 三平台落地）。全部默认 dry-run、只读优先。",
+      "file": "dist/toolsmith.zip",
+      "skills": [
+        {
+          "name": "file-organizer",
+          "source": "self-authored"
+        },
+        {
+          "name": "batch-renamer",
+          "source": "self-authored"
+        },
+        {
+          "name": "format-converter",
+          "source": "self-authored"
+        },
+        {
+          "name": "task-scheduler",
+          "source": "self-authored"
+        }
+      ],
+      "size_kb": 49,
+      "sha256": "a3129663881a2172b7bbaf08d2b8ec0da87c56da81d4137c2c8d2c3c45686022"
     },
     {
       "id": "video-design-studio",
