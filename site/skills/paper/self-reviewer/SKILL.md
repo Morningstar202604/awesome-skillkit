@@ -1,6 +1,6 @@
 ---
 name: self-reviewer
-description: "Simulate a peer review pass on your own draft: section completeness (abstract, 4+ sections, citations, baselines, limitations), word-count floor, and a verdict of ready / needs_work. Use before submitting or after finishing a draft. 当用户要求 模拟审稿 / 自查论文 / 投稿前检查 / 审稿人视角检查 / 论文结构自查 / paper self review / 检查够不够投稿 时使用。 Fails with rc=1 when the paper file does not exist."
+description: "Simulate a peer review pass on your own draft: section completeness (abstract, 4+ sections, citations, baselines, limitations), word-count floor, and a verdict of ready / needs_work. Use before submitting or after finishing a draft. 当用户要求 模拟审稿 / 自查论文 / 投稿前检查 / 审稿人视角检查 / 论文结构自查 / paper self review / 检查够不够投稿 时使用。 Fails with rc=1 when the paper file does not exist. 何时使用：论文初稿写完、准备投稿或收到审稿意见需要自查时。触发场景（中/英）：模拟审稿 / 自查论文 / 投稿前检查 / 审稿人视角 / paper self review / pre-submission check。排除项：不修正 LaTeX 格式与宏包问题（交给 latex-formatter），不换期刊模板（交给 journal-adapt）。Use when the user asks 模拟审稿 / 自查论文 / 投稿前检查 / 论文结构自查 / paper self review / pre-submission check. Do NOT use when the task is LaTeX formatting cleanup (use latex-formatter) or adapting to a journal template (use journal-adapt)."
 license: Apache-2.0
 compatibility: Stdlib only; reads .tex or plain-text drafts.
 metadata:

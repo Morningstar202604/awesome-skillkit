@@ -3,14 +3,14 @@
 # awesome-skillkit
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-![Skills](https://img.shields.io/badge/skills-142-brightgreen)
-![Packs](https://img.shields.io/badge/packs-33-blue)
-![Chains](https://img.shields.io/badge/chains-15%20domains%20%2F%2052-orange)
-![Version](https://img.shields.io/badge/version-0.17.0-success)
+![Skills](https://img.shields.io/badge/skills-151-brightgreen)
+![Packs](https://img.shields.io/badge/packs-36-blue)
+![Chains](https://img.shields.io/badge/chains-18%20domains%20%2F%2057-orange)
+![Version](https://img.shields.io/badge/version-0.18.0-success)
 
 **English** | [中文](README.zh-CN.md) | [日本語](README.ja.md)
 
-> 🌐 **Browse / download**: site source repo (enable GitCode Pages for a live site, already synced to v0.17.0):
+> 🌐 **Browse / download**: site source repo (enable GitCode Pages for a live site, already synced to v0.18.0):
 > [gitcode.com/badhope/skillkit-site](https://gitcode.com/badhope/skillkit-site).
 > Per-pack and full `_all.zip` are on each platform's Releases (see "Platform sync status" below).
 > Deploy guide: [docs/DEPLOY-SITE.md](docs/DEPLOY-SITE.md)
@@ -37,25 +37,25 @@ flowchart LR
 
 ## By the numbers
 
-> **142 skills** · **33 scene packs** · **15 chain domains / 52 skill chains** · v0.17.0 · Apache-2.0
+> **151 skills** · **36 scene packs** · **18 chain domains / 57 skill chains** · v0.18.0 · Apache-2.0
 
 **Source breakdown**:
 
 ```mermaid
-pie title Skill sources (n=142)
-    "Self-authored scenario skills" : 96
+pie title Skill sources (n=151)
+    "Self-authored scenario skills" : 105
     "Upstream curated (alirezarezvani/claude-skills, MIT)" : 36
     "Other open-source distilled" : 10
 ```
 
-**Pack size distribution** (█ = 1 skill, 33 packs total):
+**Pack size distribution** (█ = 1 skill, 36 packs total):
 
 | 场景包 | 技能数 | 规模 |
 |--------|:---:|------|
 | AI Research & Writing | 19 | ███████████████████ |
 | Content Publishing Automation | 18 | ██████████████████ |
+| Office Productivity | 8 | ████████ |
 | Data, ML & Scientific Computing | 7 | ███████ |
-| Office Productivity | 7 | ███████ |
 | AI Video Pipeline | 6 | ██████ |
 | AI Agent Development | 5 | █████ |
 | Code Review | 5 | █████ |
@@ -65,6 +65,7 @@ pie title Skill sources (n=142)
 | Toolsmith | 4 | ████ |
 | Video Design Studio | 4 | ████ |
 | Visual Design Studio | 4 | ████ |
+| Workspace Integrations | 4 | ████ |
 | System Architecture | 3 | ███ |
 | Audio Studio | 3 | ███ |
 | CI/CD Pipeline | 3 | ███ |
@@ -80,6 +81,8 @@ pie title Skill sources (n=142)
 | Skill Forge | 3 | ███ |
 | API Development & Testing | 2 | ██ |
 | Database Design & Management | 2 | ██ |
+| Data Viz Studio | 2 | ██ |
+| Knowledge Base | 2 | ██ |
 | Security & Secrets | 2 | ██ |
 | Test-Driven Development | 2 | ██ |
 | Viral Entertainment | 2 | ██ |
@@ -163,7 +166,7 @@ pie title Skill sources (n=142)
 
 | Scene pack | Skills | Scenario | Source |
 |--------|:---:|------|:---:|
-| Office Productivity | 7 | PPT、Excel、Word、PDF、简历、纪要、内部通讯 | 自研 |
+| Office Productivity | 8 | PPT、Excel、Word、PDF、简历、纪要、内部通讯 | 自研 |
 
 ### 增长营销
 
@@ -196,6 +199,24 @@ pie title Skill sources (n=142)
 |--------|:---:|------|:---:|
 | Skill Forge | 3 | 技能生成、规范校验（CI 门禁）、技能检索与装配 | 自研 |
 
+### 外部集成
+
+| Scene pack | Skills | Scenario | Source |
+|--------|:---:|------|:---:|
+| Workspace Integrations | 4 | Notion / 飞书·钉钉·企业微信 / Jira·Linear·GitHub Issues / 云盘归档 | 自研 |
+
+### 个人知识库
+
+| Scene pack | Skills | Scenario | Source |
+|--------|:---:|------|:---:|
+| Knowledge Base | 2 | 笔记库构建（索引/检索/体检）、知识图谱抽取与导出 | 自研 |
+
+### 数据可视化
+
+| Scene pack | Skills | Scenario | Source |
+|--------|:---:|------|:---:|
+| Data Viz Studio | 2 | CSV 剖析 → 仪表盘生成（零外部依赖）、图表选择词库 | 自研 |
+
 ## Detail lexicons (the differentiator)
 
 Generation-quality skills live or die on *how detailed the prompt is*. We ship **high-density detail lexicons** — term + effect/mood + when-to-use + example — to consult before writing a prompt:
@@ -223,16 +244,16 @@ flowchart LR
     end
 ```
 
-`skill_chains.json` ships **15 chain domains / 52 chains**, pinning "who runs first, who hands off to whom" so cross-module calls never get lost.
+`skill_chains.json` ships **18 chain domains / 57 chains**, pinning "who runs first, who hands off to whom" so cross-module calls never get lost.
 
 ## Platform sync status
 
 | Platform | Repo | Code sync | Release / assets | Status |
 |----------|------|:---:|:---:|--------|
-| GitCode | `badhope/awesome-skillkit` | ✅ through `0.17.0` | ✅ created | OK |
-| Gitee | `badhope/awesome-skillkit` | ✅ through `0.17.0` | ✅ v0.17.0, 32 zip assets | OK |
+| GitCode | `badhope/awesome-skillkit` | ✅ through `0.18.0` | ✅ created | OK |
+| Gitee | `badhope/awesome-skillkit` | ✅ through `0.18.0` | ✅ v0.18.0, 32 zip assets | OK |
 | GitHub | `x33834/awesome-skillkit` | ⚠️ push from local | ⚠️ none | Sandbox egress ACL cuts TLS; run `git push origin main --follow-tags` locally (token needs repo+workflow) |
-| Site | `badhope/skillkit-site` | ✅ synced v0.17.0 | — | Enable GitCode Pages to go live |
+| Site | `badhope/skillkit-site` | ✅ synced v0.18.0 | — | Enable GitCode Pages to go live |
 
 ## Directory layout
 
@@ -250,7 +271,7 @@ dist/               # build output: one zip per pack (gitignored)
 
 Two tracks, fully attributed per-skill in [manifest.json](manifest.json), each `packs/*/pack.json`, and [SOURCES.md](SOURCES.md):
 
-- **Self-authored (96)**: `skills/writing/`, `scenarios/`, `design/`, `audio/` etc. — China-platform automation, video/image/audio pipelines, de-AI writing, memory systems, homework autopilot, all original workflows with executable lint scripts + unit tests, dry-run by default.
+- **Self-authored (105)**: `skills/writing/`, `scenarios/`, `design/`, `audio/` etc. — China-platform automation, video/image/audio pipelines, de-AI writing, memory systems, homework autopilot, all original workflows with executable lint scripts + unit tests, dry-run by default.
 - **Upstream curated (36, MIT)**: [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) for programming/engineering skills.
 - **Other distilled (10)**: methodology distilled from Anthropic public skills docs, mem0/letta/Claude memory tool, Kokoro/Qwen3-TTS ecosystem — all credited in `references/sources-and-methodology.md`, **zero content copied**.
 
@@ -258,7 +279,7 @@ Two tracks, fully attributed per-skill in [manifest.json](manifest.json), each `
 
 ```bash
 python3 build.py                           # single build entry: dist/*.zip per pack + dist/_all.zip
-python3 tools/release.py 0.17.0 --commit   # validate CHANGELOG → bump → commit → tag
+python3 tools/release.py 0.18.0 --commit   # validate CHANGELOG → bump → commit → tag
 git push origin main --follow-tags            # push code + three version tags
 # Create the release on Gitee / GitCode and upload dist/*.zip (manifest.json version is the single source of truth)
 ```

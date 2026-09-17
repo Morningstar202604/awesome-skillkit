@@ -73,6 +73,9 @@ python3 scripts/arch_diagram.py --type nn --layers "input,hidden(256),hidden(128
 | 输出文件为空 / 未生成 | 无 `--output` 且 `/tmp` 不可写 | 显式指定可写 `--output` |
 | TikZ 编译报错 | preamble 缺 tikz 包 | 在 LaTeX 文档加 `\usepackage{tikz}` |
 | SVG 在编辑器打不开 | 未用 `--format svg` | 加 `--format svg` 重跑 |
+| TikZ 文本溢出节点框 | 节点文字过长，未设换行 | 在节点里用 `\\` 手动换行，或缩短标签后重生成 |
+| 编译后箭头穿框压字 | 默认 anchor 与节点间距不足 | 调整 `node distance` 与锚点，给密集区域留出间距 |
+| SVG 中文字体显示为方块 | 预览环境缺中文衬线字体 | 用图内英文标签，或先装字体再打开 SVG |
 
 ## 交付标准
 

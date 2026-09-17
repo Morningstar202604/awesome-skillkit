@@ -1,15 +1,15 @@
 {
  "meta": {
   "hub": "awesome-skillkit",
-  "version": "0.17.0",
+  "version": "0.18.0",
   "updated": "2026-09-17",
   "desc": "Curated scene packs for AI tools: each pack = one real-world scenario, containing multiple skills. Download zip -> unzip -> drag the skill folders into your AI tool's skills directory.",
   "desc_zh": "精选场景包合集：每个场景包 = 一个真实场景，内含多个 skill。下载 zip -> 解压 -> 把 skill 文件夹拖进 AI 工具的 skills 目录即可使用。",
-  "n_skills": 134,
-  "n_skills_on_disk": 135,
-  "n_packs": 33,
-  "n_domains": 15,
-  "n_chains": 52,
+  "n_skills": 143,
+  "n_skills_on_disk": 144,
+  "n_packs": 36,
+  "n_domains": 18,
+  "n_chains": 57,
   "github": {
    "repo": "x33834/awesome-skillkit",
    "url": "https://github.com/x33834/awesome-skillkit",
@@ -69,6 +69,22 @@
      "name": "prompt_audit",
      "steps": [
       "chat-prompt-engineer"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "dataviz",
+   "label": "dataviz",
+   "entry": "skills/dataviz/dashboard-designer",
+   "n_skills": 2,
+   "n_chains": 1,
+   "chains": [
+    {
+     "name": "csv_to_dashboard",
+     "steps": [
+      "chart-recommender",
+      "dashboard-designer"
      ]
     }
    ]
@@ -170,6 +186,53 @@
       "course-designer",
       "exercise-generator",
       "feynman-explainer"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "integrations",
+   "label": "integrations",
+   "entry": "skills/integrations/notion-workspace",
+   "n_skills": 4,
+   "n_chains": 3,
+   "chains": [
+    {
+     "name": "deliverable_archive",
+     "steps": [
+      "cloud-drive-manager",
+      "feishu-dingtalk-bridge?"
+     ]
+    },
+    {
+     "name": "meeting_notes_distribution",
+     "steps": [
+      "notion-workspace",
+      "feishu-dingtalk-bridge"
+     ]
+    },
+    {
+     "name": "weekly_status_broadcast",
+     "steps": [
+      "issue-tracker-sync",
+      "feishu-dingtalk-bridge",
+      "notion-workspace?"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "knowledge",
+   "label": "knowledge",
+   "entry": "skills/knowledge/personal-wiki",
+   "n_skills": 2,
+   "n_chains": 1,
+   "chains": [
+    {
+     "name": "build_personal_kb",
+     "steps": [
+      "personal-wiki",
+      "knowledge-graph-builder"
      ]
     }
    ]
@@ -655,13 +718,13 @@
    "domain": "writing",
    "path": "skills/writing/assets/ai-cover-generator",
    "file": "skills/writing/assets/ai-cover-generator/SKILL.md",
-   "desc": "技术文章封面图/配图生成。对接本地图片生成服务（127.0.0.1:30080，GPT Image 2 模型）：提交文生图任务、轮询状态、下载结果、可选 PIL 压缩为 <1MB JPG 供平台上传。内置平台尺寸约束校验（16倍数、宽高比、总像素）。当用户提到生成封面图、文章配图、给文章加图时使用。默认 dry-run，服务不可达时报错而非伪造结果。",
-   "license": "",
-   "compatibility": "",
-   "version": "",
-   "tier": "",
-   "pattern": "",
-   "verified": "",
+   "desc": "技术文章封面图/配图生成。对接本地图片生成服务（127.0.0.1:30080，GPT Image 2 模型）：提交文生图任务、轮询状态、下载结果、可选 PIL 压缩为 <1MB JPG 供平台上传。内置平台尺寸约束校验（16倍数、宽高比、总像素）。当用户提到生成封面图、文章配图、给文章加图时使用。默认 dry-run，服务不可达时报错而非伪造结果。 何时使用：发文流程里需要封面图或正文配图时。触发场景（中/英）：生成封面图 / 文章配图 / 给文章加图 / 生成题图 / generate a cover image / create a blog illustration。排除项：不生成视频封面与动图，不做图片裁剪、修图与 OCR（交给本地图像工具）。 Use when the user asks 生成封面图 / 文章配图 / 给文章加图 / 生成题图 / generate a cover image / create a blog illustration. Do NOT use when the task is cropping or editing existing images, OCR, or video cover generation.",
+   "license": "Apache-2.0",
+   "compatibility": "Python 3.8+（标准库即可运行；`--jpg` 压缩功能需 Pillow）",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-17",
    "repo_file": "skills/writing/assets/ai-cover-generator/SKILL.md",
    "packs": [
     "ai-media-toolkit",
@@ -791,7 +854,7 @@
    "domain": "writing",
    "path": "skills/writing/article-drafter",
    "file": "skills/writing/article-drafter/SKILL.md",
-   "desc": "Generate article first draft from an approved outline. Fills in each section with prose based on key points, audience level, and style. Use after the outline is approved, before editing/SEO. 当用户要求 写文章初稿 / 起草正文 / 帮我写这篇 / 把大纲扩写成文章 时使用。 Do NOT use for publishing the finished draft to platforms, or for building the outline itself (use article-outliner).",
+   "desc": "Generate article first draft from an approved outline. Fills in each section with prose based on key points, audience level, and style. Use after the outline is approved, before editing/SEO. 当用户要求 写文章初稿 / 起草正文 / 帮我写这篇 / 把大纲扩写成文章 时使用。 Also triggers on / 正文起草 / 写初稿 / 扩写大纲 / draft article / write first draft. Do NOT use for publishing the finished draft to platforms, or for building the outline itself (use article-outliner).",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based drafting; LLM generates prose. Optional helper scripts/drafter.py requires Python 3.8+ (stdlib only). No API keys required.",
    "version": "1.0",
@@ -958,6 +1021,25 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/channel-adapter/SKILL.md"
   },
   {
+   "name": "chart-recommender",
+   "domain": "dataviz",
+   "path": "skills/dataviz/chart-recommender",
+   "file": "skills/dataviz/chart-recommender/SKILL.md",
+   "desc": ">",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型，无需任何运行时；词库为本地 Markdown。",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-17",
+   "repo_file": "skills/dataviz/chart-recommender/SKILL.md",
+   "packs": [
+    "dataviz-studio"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/dataviz/chart-recommender/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/dataviz/chart-recommender/SKILL.md"
+  },
+  {
    "name": "chat-prompt-engineer",
    "domain": "chat",
    "path": "skills/chat/chat-prompt-engineer",
@@ -996,6 +1078,25 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/cicd/ci-cd-pipeline-builder/SKILL.md"
   },
   {
+   "name": "cloud-drive-manager",
+   "domain": "integrations",
+   "path": "skills/integrations/cloud-drive-manager",
+   "file": "skills/integrations/cloud-drive-manager/SKILL.md",
+   "desc": "Plan and verify cloud-drive archives: enumerate a local directory into an upload manifest with per-file chunk strategy, generate sha256/md5 checksum lists for post-upload comparison, and render Baidu / Aliyun / OneDrive listing responses as readable tables. Use when the user asks to 归档到网盘 / 上传到百度网盘 / 备份到阿里云盘 / 同步到 OneDrive / 网盘文件清单 / 校验上传完整性 / archive to cloud drive / upload to Baidu Netdisk / backup to Aliyun Drive / sync to OneDrive. Do NOT use for Notion pages (use notion-workspace), chat notifications (use feishu-dingtalk-bridge), or local-only file organization (use file-organizer).",
+   "license": "Apache-2.0",
+   "compatibility": "Python 3.8+ stdlib only for the helper script (hashlib/json/pathlib). Live uploads need outbound HTTPS plus BAIDU_ACCESS_TOKEN / ALIYUN_REFRESH_TOKEN / ONEDRIVE_ACCESS_TOKEN in environment variables; the bundled script never contacts a network or deletes anything.",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-17",
+   "repo_file": "skills/integrations/cloud-drive-manager/SKILL.md",
+   "packs": [
+    "workspace-integrations"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/integrations/cloud-drive-manager/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/cloud-drive-manager/SKILL.md"
+  },
+  {
    "name": "cnblogs-skill",
    "domain": "writing",
    "path": "skills/writing/blog/cnblogs-skill",
@@ -1019,7 +1120,7 @@
    "domain": "programming",
    "path": "skills/programming/planning/code-generator",
    "file": "skills/programming/planning/code-generator/SKILL.md",
-   "desc": "两层代码生成（L1 模板引擎 + L2 LLM），把结构化计划转为可运行代码。支持 Python FastAPI、TypeScript Express、Go Gin 的 CRUD 模板与项目分析。何时使用：需把 code-intent-planner 产出的计划落为实际代码文件时。触发场景（中/英）：生成代码 / 按计划写实现 / 把方案变成代码 / generate code / implement from plan / turn plan into code。排除项：不审查或调试已有代码（仅从计划生成）。",
+   "desc": "两层代码生成（L1 模板引擎 + L2 LLM），把结构化计划转为可运行代码。支持 Python FastAPI、TypeScript Express、Go Gin 的 CRUD 模板与项目分析。何时使用：需把 code-intent-planner 产出的计划落为实际代码文件时。触发场景（中/英）：生成代码 / 按计划写实现 / 把方案变成代码 / generate code / implement from plan / turn plan into code。排除项：不审查或调试已有代码（仅从计划生成）。 何时使用：已有一份结构化实现计划、需要落成可运行代码文件时。触发场景（中/英）：生成代码 / 按计划写实现 / 把方案变成代码 / 生成 CRUD 脚手架 / generate code / implement from plan / turn plan into code.排除项：不审查或调试已有代码，不制定实现计划（交给 code-intent-planner）。Use when the user asks 生成代码 / 按计划写实现 / 把方案变成代码 / 生成 CRUD 脚手架 / generate code / implement from plan / turn plan into code. Do NOT use when the ask is reviewing or debugging existing code, or when the plan itself still needs to be produced (use code-intent-planner).",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; may read project structure via Bash.",
    "version": "1.0",
@@ -1146,6 +1247,25 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/blog/csdn-publisher/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/blog/csdn-publisher/SKILL.md"
+  },
+  {
+   "name": "dashboard-designer",
+   "domain": "dataviz",
+   "path": "skills/dataviz/dashboard-designer",
+   "file": "skills/dataviz/dashboard-designer/SKILL.md",
+   "desc": ">",
+   "license": "Apache-2.0",
+   "compatibility": "需要 python3 3.8+；脚本纯标准库。产出 HTML 零外部依赖，离线可看。",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-17",
+   "repo_file": "skills/dataviz/dashboard-designer/SKILL.md",
+   "packs": [
+    "dataviz-studio"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/dataviz/dashboard-designer/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/dataviz/dashboard-designer/SKILL.md"
   },
   {
    "name": "database-designer",
@@ -1338,6 +1458,25 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/audio/episode-publisher/SKILL.md"
   },
   {
+   "name": "epub-builder",
+   "domain": "office",
+   "path": "skills/office/epub-builder",
+   "file": "skills/office/epub-builder/SKILL.md",
+   "desc": ">",
+   "license": "Apache-2.0",
+   "compatibility": "需要 python3 3.8+；脚本纯标准库（zipfile + ElementTree），无第三方依赖。",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-17",
+   "repo_file": "skills/office/epub-builder/SKILL.md",
+   "packs": [
+    "office-productivity"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/office/epub-builder/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/office/epub-builder/SKILL.md"
+  },
+  {
    "name": "etl-builder",
    "domain": "programming",
    "path": "skills/programming/data/etl-builder",
@@ -1418,7 +1557,7 @@
    "domain": "programming",
    "path": "skills/programming/data/feature-engineer",
    "file": "skills/programming/data/feature-engineer/SKILL.md",
-   "desc": "Design feature engineering plans: identify feature types, suggest transforms, detect data quality issues, plan interactions. Outputs a feature spec for ML training. Use after ETL, before model training. 当用户要求 做特征工程 / 设计特征 / 特征变换 时使用。 Do NOT use for model training or hyperparameter tuning.",
+   "desc": "Design feature engineering plans: identify feature types, suggest transforms, detect data quality issues, plan interactions. Outputs a feature spec for ML training. Use after ETL, before model training. 当用户要求 做特征工程 / 设计特征 / 特征变换 时使用。 Also triggers on / 特征设计 / 特征变换方案 / 数据质量检查 / feature spec / feature transformation. Do NOT use for model training or hyperparameter tuning.",
    "license": "Apache-2.0",
    "compatibility": "Pure Python standard library. No sklearn required for planning.",
    "version": "1.0",
@@ -1450,6 +1589,25 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/ai-engineering/feature-flags-architect/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/ai-engineering/feature-flags-architect/SKILL.md"
+  },
+  {
+   "name": "feishu-dingtalk-bridge",
+   "domain": "integrations",
+   "path": "skills/integrations/feishu-dingtalk-bridge",
+   "file": "skills/integrations/feishu-dingtalk-bridge/SKILL.md",
+   "desc": "Compose and parse chat messages across Feishu (Lark), DingTalk, and WeCom group robots, normalizing three different auth and payload protocols behind one workflow. Use when the user asks to 发飞书机器人 / 发钉钉通知 / 发企业微信消息 / 群里推一条通知 / 机器人告警推送 / 日报推送到群 / send to Feishu bot / DingTalk webhook / WeCom group robot / push alert to chat group. Do NOT use for Notion pages (use notion-workspace), issue trackers (use issue-tracker-sync), or file archiving (use cloud-drive-manager).",
+   "license": "Apache-2.0",
+   "compatibility": "Python 3.8+ stdlib only for the helper script. Live execution needs outbound HTTPS to open.feishu.cn / oapi.dingtalk.com / qyapi.weixin.qq.com and the webhook token, access_token or sign secret in environment variables.",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-17",
+   "repo_file": "skills/integrations/feishu-dingtalk-bridge/SKILL.md",
+   "packs": [
+    "workspace-integrations"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/integrations/feishu-dingtalk-bridge/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/feishu-dingtalk-bridge/SKILL.md"
   },
   {
    "name": "feynman-explainer",
@@ -1682,6 +1840,25 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/internal-comms-writer/SKILL.md"
   },
   {
+   "name": "issue-tracker-sync",
+   "domain": "integrations",
+   "path": "skills/integrations/issue-tracker-sync",
+   "file": "skills/integrations/issue-tracker-sync/SKILL.md",
+   "desc": "Compose issue-create requests for Jira, Linear, and GitHub Issues from one input, map priorities and statuses across the three models, and render a grouped weekly report. Use when the user asks to 建 issue / 提 bug 单 / 同步任务到 Jira / 生成周报 / 跨平台 issue 同步 / 任务状态汇总 / create Jira ticket / create Linear issue / open GitHub issue / weekly engineering report. Do NOT use for chat notifications (use feishu-dingtalk-bridge), Notion databases (use notion-workspace), or code review comments on pull requests.",
+   "license": "Apache-2.0",
+   "compatibility": "Python 3.8+ stdlib only for the helper script. Live execution needs outbound HTTPS to your Jira site, api.linear.app or api.github.com, plus JIRA_TOKEN / LINEAR_API_KEY / GITHUB_TOKEN in environment variables.",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-17",
+   "repo_file": "skills/integrations/issue-tracker-sync/SKILL.md",
+   "packs": [
+    "workspace-integrations"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/integrations/issue-tracker-sync/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/issue-tracker-sync/SKILL.md"
+  },
+  {
    "name": "jianshu-publisher",
    "domain": "writing",
    "path": "skills/writing/blog/jianshu-publisher",
@@ -1739,6 +1916,25 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/juejin/juejin-publisher/SKILL.md"
   },
   {
+   "name": "knowledge-graph-builder",
+   "domain": "knowledge",
+   "path": "skills/knowledge/knowledge-graph-builder",
+   "file": "skills/knowledge/knowledge-graph-builder/SKILL.md",
+   "desc": ">",
+   "license": "Apache-2.0",
+   "compatibility": "需要 python3 3.8+；脚本纯标准库。渲染 DOT 需本地 graphviz（可选，校验用）。",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-17",
+   "repo_file": "skills/knowledge/knowledge-graph-builder/SKILL.md",
+   "packs": [
+    "knowledge-base"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/knowledge/knowledge-graph-builder/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/knowledge/knowledge-graph-builder/SKILL.md"
+  },
+  {
    "name": "kubernetes-operator",
    "domain": "programming",
    "path": "skills/programming/infrastructure/kubernetes-operator",
@@ -1763,7 +1959,7 @@
    "domain": "paper",
    "path": "skills/paper/latex-formatter",
    "file": "skills/paper/latex-formatter/SKILL.md",
-   "desc": "Check and normalize paper LaTeX: document class/template sniffing (IEEE etc), balanced environments, unescaped special chars, bibliography presence. Use when the user asks 检查 LaTeX / 论文格式检查 / tex 编译前检查 / 排版论文 / 修 LaTeX 报错. 当用户要求 按模板规整 tex / 查未闭合环境 时使用。Fails with rc=1 when the input file does not exist.",
+   "desc": "Check and normalize paper LaTeX: document class/template sniffing (IEEE etc), balanced environments, unescaped special chars, bibliography presence. Use when the user asks 检查 LaTeX / 论文格式检查 / tex 编译前检查 / 排版论文 / 修 LaTeX 报错. 当用户要求 按模板规整 tex / 查未闭合环境 时使用。Fails with rc=1 when the input file does not exist. Also triggers on / 论文排版检查 / 模板规整 / 检查未闭合环境 / check paper formatting / normalize LaTeX / fix LaTeX errors. Do NOT use for writing paper content or generating figures (use figure-maker / article-drafter).",
    "license": "Apache-2.0",
    "compatibility": "Stdlib only; requires python3; static checks on .tex files, no compiler needed.",
    "version": "1.0",
@@ -1801,7 +1997,7 @@
    "domain": "paper",
    "path": "skills/paper/lit-review",
    "file": "skills/paper/lit-review/SKILL.md",
-   "desc": "Literature review helper: scan a topic across venues, build a citation relationship map, and produce a structured summary with research-gap callouts. Use at the start of a paper project or when the user asks for 文献综述 / 相关工作梳理 / 找参考文献 / 调研某方向论文 / 写相关工作. 当用户要求 综述某主题 / 生成 citation graph 时使用。Do NOT use for topic selection (use paper-topic-selector first).",
+   "desc": "Literature review helper: scan a topic across venues, build a citation relationship map, and produce a structured summary with research-gap callouts. Use at the start of a paper project or when the user asks for 文献综述 / 相关工作梳理 / 找参考文献 / 调研某方向论文 / 写相关工作. 当用户要求 综述某主题 / 生成 citation graph 时使用。 Also triggers on / 综述文献 / literature survey / related work draft / citation graph / 找相关工作.Do NOT use for topic selection (use paper-topic-selector first).",
    "license": "Apache-2.0",
    "compatibility": "Stdlib only. --arxiv makes a real HTTPS call to export.arxiv.org (20s timeout, one 429 backoff retry); on any network/parse failure it falls back to MOCK data and flags it via top-level data_source/warning. SKILLKIT_MOCK=1 forces mock (no network).",
    "version": "1.0",
@@ -1953,7 +2149,7 @@
    "domain": "programming",
    "path": "skills/programming/ml/ml-pipeline",
    "file": "skills/programming/ml/ml-pipeline/SKILL.md",
-   "desc": "端到端训练、评估与调优 ML 模型：支持 RandomForest、GradientBoosting、LogisticRegression，输出 accuracy/F1/ROC-AUC 与交叉验证。何时使用：特征工程已完成、需要训练与对比模型时。触发场景（中/英）：搭 ML 训练流水线 / 模型训练流程 / 调超参 / train an ML model / build a training pipeline / tune hyperparameters。排除项：不用于深度学习研究（仅表格 sklearn/XGBoost 工作流）。",
+   "desc": "端到端训练、评估与调优 ML 模型：支持 RandomForest、GradientBoosting、LogisticRegression，输出 accuracy/F1/ROC-AUC 与交叉验证。何时使用：特征工程已完成、需要训练与对比模型时。触发场景（中/英）：搭 ML 训练流水线 / 模型训练流程 / 调超参 / train an ML model / build a training pipeline / tune hyperparameters。排除项：不用于深度学习研究（仅表格 sklearn/XGBoost 工作流）。 何时使用：特征工程已完成、需要训练、评估与调优表格模型时。触发场景（中/英）：搭 ML 训练流水线 / 训练表格模型 / 调超参 / 模型对比 / train an ML model / build a training pipeline / tune hyperparameters.排除项：不做深度学习研究（仅表格 sklearn/XGBoost），不做特征工程本身（交给 feature-engineer）。Use when the user asks 搭 ML 训练流水线 / 训练表格模型 / 调超参 / 模型对比 / train an ML model / build a training pipeline / tune hyperparameters. Do NOT use when the ask is deep-learning research or feature engineering itself (use feature-engineer).",
    "license": "Apache-2.0",
    "compatibility": "Requires scikit-learn, pandas, numpy. No API keys required.",
    "version": "1.0",
@@ -1972,7 +2168,7 @@
    "domain": "programming",
    "path": "skills/programming/math/model-formulator",
    "file": "skills/programming/math/model-formulator/SKILL.md",
-   "desc": "将自然语言问题形式化为数学模型：识别变量、约束、目标函数与模型类型（ODE/ILP/随机/Bayesian），输出可供 model-solver 消费的模型规格。何时使用：问题已用文字描述但缺乏数学结构时。触发场景（中/英）：数学建模 / 把问题写成模型 / 定义变量与约束 / formalize a problem / write a math model / define variables and constraints。排除项：不对已形式化模型做数值求解（交给 model-solver）。",
+   "desc": "将自然语言问题形式化为数学模型：识别变量、约束、目标函数与模型类型（ODE/ILP/随机/Bayesian），输出可供 model-solver 消费的模型规格。何时使用：问题已用文字描述但缺乏数学结构时。触发场景（中/英）：数学建模 / 把问题写成模型 / 定义变量与约束 / formalize a problem / write a math model / define variables and constraints。排除项：不对已形式化模型做数值求解（交给 model-solver）。 何时使用：已有文字描述、需要先定变量与目标再求解时。触发场景（中/英）：数学建模 / 把问题写成模型 / 定义变量与约束 / 形式化问题 / formalize a problem / write a math model.排除项：不做数值求解（交给 model-solver），不画结果图（交给 result-visualizer）。Use when the user asks 数学建模 / 把问题写成模型 / 定义变量与约束 / 形式化问题 / formalize a problem / write a math model. Do NOT use when a formal model already exists and only numerical solving (use model-solver) or plotting (use result-visualizer) is needed.",
    "license": "Apache-2.0",
    "compatibility": "Pure Python + LLM assistance. No external solver needed at this step.",
    "version": "1.0",
@@ -1991,7 +2187,7 @@
    "domain": "programming",
    "path": "skills/programming/math/model-solver",
    "file": "skills/programming/math/model-solver/SKILL.md",
-   "desc": "对数学模型做数值求解：LP/MIP（scipy/cvxpy）、ODE/PDE（scipy.integrate）、蒙特卡洛（numpy）。消费 model-formulator 输出的模型规格，返回解与收敛信息。何时使用：模型规格已就绪、需要最优解或积分/抽样结果时。触发场景（中/英）：求解模型 / 选求解器 / 优化问题求解 / solve a model / pick a solver / optimize the problem。排除项：不解释结果或制作展示材料（交给 result-visualizer）。",
+   "desc": "对数学模型做数值求解：LP/MIP（scipy/cvxpy）、ODE/PDE（scipy.integrate）、蒙特卡洛（numpy）。消费 model-formulator 输出的模型规格，返回解与收敛信息。何时使用：模型规格已就绪、需要最优解或积分/抽样结果时。触发场景（中/英）：求解模型 / 选求解器 / 优化问题求解 / solve a model / pick a solver / optimize the problem。排除项：不解释结果或制作展示材料（交给 result-visualizer）。 何时使用：模型规格已就绪，需要最优解、积分或抽样结果时。触发场景（中/英）：求解模型 / 选求解器 / 优化问题求解 / 算数值解 / solve a model / pick a solver / optimize the problem.排除项：不把文字问题形式化成模型（交给 model-formulator），不解释结果或出图表（交给 result-visualizer）。Use when the user asks 求解模型 / 选求解器 / 优化问题求解 / 算数值解 / solve a model / pick a solver / optimize the problem. Do NOT use when the problem is still in prose and needs formalizing (use model-formulator) or when the ask is result interpretation and charts (use result-visualizer).",
    "license": "Apache-2.0",
    "compatibility": "Requires scipy, numpy. Optional: cvxpy, pulp, ortools.",
    "version": "1.0",
@@ -2080,6 +2276,25 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/paper/neural-net-draw/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/paper/neural-net-draw/SKILL.md"
+  },
+  {
+   "name": "notion-workspace",
+   "domain": "integrations",
+   "path": "skills/integrations/notion-workspace",
+   "file": "skills/integrations/notion-workspace/SKILL.md",
+   "desc": "Build and parse Notion API payloads offline: page creation bodies, database query filters with cursor pagination, and block-to-Markdown rendering. Use when the user asks to 写入 Notion / 同步到 Notion / 建 Notion 页面 / 查询 Notion 数据库 / 导出 Notion 页面 / Notion 工作区整理 / write to Notion / create Notion page / query Notion database / export Notion page / sync notes to Notion. Do NOT use for Slack or Feishu messaging (use feishu-dingtalk-bridge), issue trackers (use issue-tracker-sync), or local Markdown files that never leave disk.",
+   "license": "Apache-2.0",
+   "compatibility": "Python 3.8+ stdlib only for the helper script. Live execution needs a Notion internal integration token in NOTION_TOKEN plus outbound HTTPS to api.notion.com — the bundled script never sends requests and runs fully offline.",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-17",
+   "repo_file": "skills/integrations/notion-workspace/SKILL.md",
+   "packs": [
+    "workspace-integrations"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/integrations/notion-workspace/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/notion-workspace/SKILL.md"
   },
   {
    "name": "observability-designer",
@@ -2181,7 +2396,7 @@
    "domain": "programming",
    "path": "skills/programming/performance/performance-profiler",
    "file": "skills/programming/performance/performance-profiler/SKILL.md",
-   "desc": "对 Node.js、Python、Go 应用做系统性性能剖析：定位 CPU/内存/I/O 瓶颈、生成火焰图、分析包体积、优化数据库查询、用 k6 与 Artillery 跑压测。始终先测后改。何时使用：排查慢接口、规划性能预算或定位内存泄漏时。触发场景（中/英）：性能分析 / 找瓶颈 / 优化慢代码 / profile performance / find bottleneck / optimize slow code。排除项：不改业务代码修复热点（仅做剖析）。",
+   "desc": "对 Node.js、Python、Go 应用做系统性性能剖析：定位 CPU/内存/I/O 瓶颈、生成火焰图、分析包体积、优化数据库查询、用 k6 与 Artillery 跑压测。始终先测后改。何时使用：排查慢接口、规划性能预算或定位内存泄漏时。触发场景（中/英）：性能分析 / 找瓶颈 / 优化慢代码 / profile performance / find bottleneck / optimize slow code。排除项：不改业务代码修复热点（仅做剖析）。 何时使用：接口变慢、内存持续增长或需要定性能预算时。触发场景（中/英）：性能分析 / 找瓶颈 / 优化慢代码 / 内存泄漏排查 / profile performance / find bottleneck / optimize slow code.排除项：不直接改业务代码修复热点（仅做剖析与建议）。Use when the user asks 性能分析 / 找瓶颈 / 优化慢代码 / 内存泄漏排查 / profile performance / find bottleneck / optimize slow code. Do NOT use when the ask is to patch business logic or refactor the hot path directly (this skill only diagnoses).",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; may read project structure via Bash.",
    "version": "1.0",
@@ -2213,6 +2428,25 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/personal-voice-profile/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/personal-voice-profile/SKILL.md"
+  },
+  {
+   "name": "personal-wiki",
+   "domain": "knowledge",
+   "path": "skills/knowledge/personal-wiki",
+   "file": "skills/knowledge/personal-wiki/SKILL.md",
+   "desc": ">",
+   "license": "Apache-2.0",
+   "compatibility": "需要 python3 3.8+；本技能脚本只用标准库，无第三方依赖。",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-17",
+   "repo_file": "skills/knowledge/personal-wiki/SKILL.md",
+   "packs": [
+    "knowledge-base"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/knowledge/personal-wiki/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/knowledge/personal-wiki/SKILL.md"
   },
   {
    "name": "podcast-producer",
@@ -2315,7 +2549,7 @@
    "domain": "programming",
    "path": "skills/programming/math/result-visualizer",
    "file": "skills/programming/math/result-visualizer/SKILL.md",
-   "desc": "将模型结果绘制成图：折线、散点、直方图、热力图、柱状图，输出 PNG/SVG 供报告与展示。何时使用：模型已求解或仿真已完成、需要可视化呈现时。触发场景（中/英）：画结果图 / 数据可视化 / 出图表 / plot results / visualize data / make a chart。排除项：不做超出给定结果的统计推断。",
+   "desc": "将模型结果绘制成图：折线、散点、直方图、热力图、柱状图，输出 PNG/SVG 供报告与展示。何时使用：模型已求解或仿真已完成、需要可视化呈现时。触发场景（中/英）：画结果图 / 数据可视化 / 出图表 / plot results / visualize data / make a chart。排除项：不做超出给定结果的统计推断。 何时使用：模型已求解或仿真已完成、需要可视化呈现时。触发场景（中/英）：画结果图 / 数据可视化 / 出图表 / 画折线散点热力图 / plot results / visualize data / make a chart.排除项：不做统计推断，不求解模型（交给 model-solver）。Use when the user asks 画结果图 / 数据可视化 / 出图表 / 画折线散点热力图 / plot results / visualize data / make a chart. Do NOT use when numerical solving (use model-solver) or formalizing the model (use model-formulator) is still pending.",
    "license": "Apache-2.0",
    "compatibility": "Requires matplotlib. No API keys required.",
    "version": "1.0",
@@ -2429,7 +2663,7 @@
    "domain": "paper",
    "path": "skills/paper/self-reviewer",
    "file": "skills/paper/self-reviewer/SKILL.md",
-   "desc": "Simulate a peer review pass on your own draft: section completeness (abstract, 4+ sections, citations, baselines, limitations), word-count floor, and a verdict of ready / needs_work. Use before submitting or after finishing a draft. 当用户要求 模拟审稿 / 自查论文 / 投稿前检查 / 审稿人视角检查 / 论文结构自查 / paper self review / 检查够不够投稿 时使用。 Fails with rc=1 when the paper file does not exist.",
+   "desc": "Simulate a peer review pass on your own draft: section completeness (abstract, 4+ sections, citations, baselines, limitations), word-count floor, and a verdict of ready / needs_work. Use before submitting or after finishing a draft. 当用户要求 模拟审稿 / 自查论文 / 投稿前检查 / 审稿人视角检查 / 论文结构自查 / paper self review / 检查够不够投稿 时使用。 Fails with rc=1 when the paper file does not exist. 何时使用：论文初稿写完、准备投稿或收到审稿意见需要自查时。触发场景（中/英）：模拟审稿 / 自查论文 / 投稿前检查 / 审稿人视角 / paper self review / pre-submission check。排除项：不修正 LaTeX 格式与宏包问题（交给 latex-formatter），不换期刊模板（交给 journal-adapt）。Use when the user asks 模拟审稿 / 自查论文 / 投稿前检查 / 论文结构自查 / paper self review / pre-submission check. Do NOT use when the task is LaTeX formatting cleanup (use latex-formatter) or adapting to a journal template (use journal-adapt).",
    "license": "Apache-2.0",
    "compatibility": "Stdlib only; reads .tex or plain-text drafts.",
    "version": "1.0",
@@ -2448,7 +2682,7 @@
    "domain": "programming",
    "path": "skills/programming/architecture/senior-architect",
    "file": "skills/programming/architecture/senior-architect/SKILL.md",
-   "desc": "This skill should be used when the user asks to \"design system architecture\", \"evaluate microservices vs monolith\", \"create architecture diagrams\", \"analyze dependencies\", \"choose a database\", \"plan for scalability\", \"make technical decisions\", or \"review system design\". Use for architecture decision records (ADRs), tech stack evaluation, system design reviews, dependency analysis, and generating architecture diagrams in Mermaid, PlantUML, or ASCII format. 当用户要求 设计系统架构 / 技术选型 / 架构评审 时使用。 Do NOT use for writing detailed implementation code (output stays at architecture level).",
+   "desc": "This skill should be used when the user asks to \"design system architecture\", \"evaluate microservices vs monolith\", \"create architecture diagrams\", \"analyze dependencies\", \"choose a database\", \"plan for scalability\", \"make technical decisions\", or \"review system design\". Use for architecture decision records (ADRs), tech stack evaluation, system design reviews, dependency analysis, and generating architecture diagrams in Mermaid, PlantUML, or ASCII format. 当用户要求 设计系统架构 / 技术选型 / 架构评审 时使用。 Also triggers on / 架构决策记录 / ADR 编写 / 系统设计评审 / 微服务拆分 / system design review. Do NOT use for writing detailed implementation code (output stays at architecture level).",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; runs Python stdlib scripts via Bash. No API keys required.",
    "version": "1.0",
@@ -2486,7 +2720,7 @@
    "domain": "programming",
    "path": "skills/programming/cicd/ship-gate",
    "file": "skills/programming/cicd/ship-gate/SKILL.md",
-   "desc": "Pre-production audit that scans a codebase for security, database, deployment, code quality, AI/LLM, dependency, frontend, and observability issues. Intercepts deploy commands and blocks until critical items pass. 当用户要求 上线前检查 / 发布门禁 / 发布前把关 时使用。 Do NOT use for fixing the failures it reports (this skill only gates and reports).",
+   "desc": "Pre-production audit that scans a codebase for security, database, deployment, code quality, AI/LLM, dependency, frontend, and observability issues. Intercepts deploy commands and blocks until critical items pass. 当用户要求 上线前检查 / 发布门禁 / 发布前把关 时使用。 Also triggers on / 上线检查 / 发布前审计 / 部署门禁 / pre-deploy audit / release checklist. Do NOT use for fixing the failures it reports (this skill only gates and reports).",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; runs Python stdlib scanner via Bash. No API keys required.",
    "version": "1.0",
@@ -2524,7 +2758,7 @@
    "domain": "programming",
    "path": "skills/programming/math/simulation-runner",
    "file": "skills/programming/math/simulation-runner/SKILL.md",
-   "desc": "运行仿真：参数扫描、蒙特卡洛、敏感性分析（OAT）与模型解的压测。何时使用：模型已求解、需要在变化条件下测试鲁棒性时。触发场景（中/英）：跑仿真 / 蒙特卡洛模拟 / 敏感性分析 / run a simulation / Monte Carlo / sensitivity analysis。排除项：不用于生产级仿真负载（仅本地实验运行）。",
+   "desc": "运行仿真：参数扫描、蒙特卡洛、敏感性分析（OAT）与模型解的压测。何时使用：模型已求解、需要在变化条件下测试鲁棒性时。触发场景（中/英）：跑仿真 / 蒙特卡洛模拟 / 敏感性分析 / run a simulation / Monte Carlo / sensitivity analysis。排除项：不用于生产级仿真负载（仅本地实验运行）。 何时使用：模型已求解、需要测试鲁棒性或做参数扫描时。触发场景（中/英）：跑仿真 / 蒙特卡洛模拟 / 敏感性分析 / 参数扫描 / run a simulation / Monte Carlo / sensitivity analysis.排除项：不做生产级压测，不求解确定性模型（交给 model-solver）。Use when the user asks 跑仿真 / 蒙特卡洛模拟 / 敏感性分析 / 参数扫描 / run a simulation / Monte Carlo / sensitivity analysis. Do NOT use when the ask is deterministic solving (use model-solver) or production load testing.",
    "license": "Apache-2.0",
    "compatibility": "Requires numpy, random. No external solver needed.",
    "version": "1.0",
@@ -2809,7 +3043,7 @@
    "domain": "paper",
    "path": "skills/paper/tex-cleaner",
    "file": "skills/paper/tex-cleaner/SKILL.md",
-   "desc": "Pre-flight cleanup for arXiv/venue submission: strip comments, flag unused packages, external file deps, undefined refs, TOC leftovers, non-ASCII in TeX source. 学习自 google-research/arxiv-latex-cleaner (7k stars). Use when the user asks arXiv 提交前清理 / 清理 LaTeX 工程 / tex 瘦身 / 删 tex 注释 / 检查未定义引用 / latex cleanup / 提交打包前检查. Fails with rc=1 when the input file does not exist.",
+   "desc": "Pre-flight cleanup for arXiv/venue submission: strip comments, flag unused packages, external file deps, undefined refs, TOC leftovers, non-ASCII in TeX source. 学习自 google-research/arxiv-latex-cleaner (7k stars). Use when the user asks arXiv 提交前清理 / 清理 LaTeX 工程 / tex 瘦身 / 删 tex 注释 / 检查未定义引用 / latex cleanup / 提交打包前检查. Fails with rc=1 when the input file does not exist. Also triggers on / 清理 tex 工程 / 删多余宏包 / 检查未定义引用 / arxiv 打包 / strip latex comments. Do NOT use for fixing LaTeX compilation errors (use latex-formatter) or for writing paper content.",
    "license": "Apache-2.0",
    "compatibility": "Stdlib only; static scan/clean on .tex files.",
    "version": "1.0",
@@ -2885,7 +3119,7 @@
    "domain": "video",
    "path": "skills/video/video-editor",
    "file": "skills/video/video-editor/SKILL.md",
-   "desc": "Assemble video clips with transitions, mix audio tracks, add effects, and produce final video. Supports FFmpeg-based real editing and mock mode. Use after lip-sync clips are ready, before subtitle/thumbnail steps. 当用户要求 剪辑视频 / 拼接片段 / 合成成片 / 加背景音乐 时使用。 Do NOT use for generating footage from text (use video-generation).",
+   "desc": "Assemble video clips with transitions, mix audio tracks, add effects, and produce final video. Supports FFmpeg-based real editing and mock mode. Use after lip-sync clips are ready, before subtitle/thumbnail steps. 当用户要求 剪辑视频 / 拼接片段 / 合成成片 / 加背景音乐 时使用。 Also triggers on / 视频合成 / 加转场 / 音频混音 / cut video / stitch clips. Do NOT use for generating footage from text (use video-generation).",
    "license": "Apache-2.0",
    "compatibility": "Requires FFmpeg for real editing; mock mode works without. No API keys required.",
    "version": "1.0",
@@ -3184,9 +3418,9 @@
     "skill-tester"
    ],
    "local_url": "packs/ai-agent-development.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/ai-agent-development.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/ai-agent-development.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/ai-agent-development.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/ai-agent-development.zip",
    "dist_exists": true
   },
   {
@@ -3195,7 +3429,7 @@
    "name_zh": "AI 媒体生成工具箱",
    "desc": "Generate videos, images, covers, and music from prompts through a local generation gateway.",
    "desc_zh": "通过本地生成网关用提示词生成视频、图片、封面与配乐：文生/图生全流程（提交、轮询、下载交付）。",
-   "size_kb": 24,
+   "size_kb": 26,
    "n_skills": 4,
    "skills": [
     "video-generation",
@@ -3204,9 +3438,9 @@
     "ai-cover-generator"
    ],
    "local_url": "packs/ai-media-toolkit.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/ai-media-toolkit.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/ai-media-toolkit.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/ai-media-toolkit.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/ai-media-toolkit.zip",
    "dist_exists": true
   },
   {
@@ -3215,7 +3449,7 @@
    "name_zh": "AI 研究与写作",
    "desc": "Research a topic and turn it into a structured article: multi-round search, outline, draft, edit, SEO.",
    "desc_zh": "从选题调研到成稿发布的长文生产链路：多轮检索与报告综合、大纲搭建、初稿撰写、风格润色、关键词与平台规则优化，以及学术选题的研究空白识别与投稿匹配。",
-   "size_kb": 157,
+   "size_kb": 160,
    "n_skills": 19,
    "skills": [
     "deep-research",
@@ -3239,9 +3473,9 @@
     "pub-plotter"
    ],
    "local_url": "packs/ai-research-writing.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/ai-research-writing.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/ai-research-writing.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/ai-research-writing.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/ai-research-writing.zip",
    "dist_exists": true
   },
   {
@@ -3261,9 +3495,9 @@
     "video-thumbnail"
    ],
    "local_url": "packs/ai-video-pipeline.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/ai-video-pipeline.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/ai-video-pipeline.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/ai-video-pipeline.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/ai-video-pipeline.zip",
    "dist_exists": true
   },
   {
@@ -3279,9 +3513,9 @@
     "api-test-suite-builder"
    ],
    "local_url": "packs/api-development.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/api-development.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/api-development.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/api-development.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/api-development.zip",
    "dist_exists": true
   },
   {
@@ -3298,9 +3532,9 @@
     "monorepo-navigator"
    ],
    "local_url": "packs/architecture.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/architecture.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/architecture.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/architecture.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/architecture.zip",
    "dist_exists": true
   },
   {
@@ -3317,9 +3551,9 @@
     "episode-publisher"
    ],
    "local_url": "packs/audio-studio.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/audio-studio.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/audio-studio.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/audio-studio.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/audio-studio.zip",
    "dist_exists": true
   },
   {
@@ -3334,9 +3568,9 @@
     "chat-prompt-engineer"
    ],
    "local_url": "packs/chat-prompt-craft.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/chat-prompt-craft.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/chat-prompt-craft.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/chat-prompt-craft.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/chat-prompt-craft.zip",
    "dist_exists": true
   },
   {
@@ -3353,9 +3587,9 @@
     "spec-driven-workflow"
    ],
    "local_url": "packs/ci-cd.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/ci-cd.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/ci-cd.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/ci-cd.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/ci-cd.zip",
    "dist_exists": true
   },
   {
@@ -3372,9 +3606,9 @@
     "debug-diagnoser"
    ],
    "local_url": "packs/code-planning.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/code-planning.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/code-planning.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/code-planning.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/code-planning.zip",
    "dist_exists": true
   },
   {
@@ -3393,9 +3627,9 @@
     "dependency-auditor"
    ],
    "local_url": "packs/code-review.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/code-review.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/code-review.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/code-review.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/code-review.zip",
    "dist_exists": true
   },
   {
@@ -3412,9 +3646,9 @@
     "kubernetes-operator"
    ],
    "local_url": "packs/containers.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/containers.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/containers.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/containers.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/containers.zip",
    "dist_exists": true
   },
   {
@@ -3423,7 +3657,7 @@
    "name_zh": "内容多平台发布自动化",
    "desc": "Publish, edit and manage articles/videos on Chinese platforms (Zhihu, cnblogs, WeChat MP, Juejin, CSDN, Jianshu, Bilibili, Toutiao, Baijiahao, Xiaohongshu, Weibo, Douban, V2EX, SegmentFault, OSChina, Douban, Static Blogs) with battle-tested platform knowledge, plus a cross-post orchestrator and AI cover-image generation.",
    "desc_zh": "在知乎、博客园、微信公众号、掘金、CSDN、简书、B站、头条、百家号、小红书、微博、豆瓣、V2EX、SegmentFault、开源中国、静态博客等中文平台发布、编辑、管理内容，沉淀实战平台经验；附跨平台发布编排器与 AI 封面图生成。",
-   "size_kb": 158,
+   "size_kb": 163,
    "n_skills": 18,
    "skills": [
     "zhihu-content-manager",
@@ -3446,9 +3680,9 @@
     "ai-cover-generator"
    ],
    "local_url": "packs/content-publishing.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/content-publishing.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/content-publishing.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/content-publishing.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/content-publishing.zip",
    "dist_exists": true
   },
   {
@@ -3457,7 +3691,7 @@
    "name_zh": "数据科学与科学计算",
    "desc": "Data pipelines, feature engineering, mathematical modeling, simulation, and ML training workflows.",
    "desc_zh": "数据与建模的完整工具箱：ETL 清洗变换、特征工程、数学建模与求解器选型、蒙特卡洛仿真、结果可视化、ML 训练流水线与超参调优、指标体系解读。",
-   "size_kb": 77,
+   "size_kb": 79,
    "n_skills": 7,
    "skills": [
     "etl-builder",
@@ -3469,9 +3703,9 @@
     "ml-pipeline"
    ],
    "local_url": "packs/data-ml-science.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/data-ml-science.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/data-ml-science.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/data-ml-science.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/data-ml-science.zip",
    "dist_exists": true
   },
   {
@@ -3480,17 +3714,35 @@
    "name_zh": "数据库设计与管理",
    "desc": "Design schemas, ERD diagrams, migrations, and optimize SQL queries.",
    "desc_zh": "设计表结构、ERD 图、迁移方案，并优化 SQL 查询。",
-   "size_kb": 106,
+   "size_kb": 107,
    "n_skills": 2,
    "skills": [
     "database-designer",
     "sql-database-assistant"
    ],
    "local_url": "packs/database.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/database.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/database.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/database.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/database.zip",
    "dist_exists": true
+  },
+  {
+   "id": "data-viz-studio",
+   "name": "Data Viz Studio",
+   "name_zh": "数据可视化工作室",
+   "desc": "From raw CSV to a shippable dashboard: profile columns, recommend a layout, and emit a self-contained single-file HTML dashboard with zero external requests. Plus a chart-selection lexicon covering encoding priority, per-chart-type caveats, and the classic mistakes.",
+   "desc_zh": "从原始 CSV 到能交付的仪表盘：列类型推断与分布摘要、布局推荐、生成零外部依赖的自包含单文件 HTML。另附图表选择词库（视觉编码优先级、各图型适用与反例、截断坐标轴等经典错误清单）。",
+   "size_kb": 31,
+   "n_skills": 2,
+   "skills": [
+    "dashboard-designer",
+    "chart-recommender"
+   ],
+   "local_url": "packs/data-viz-studio.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/data-viz-studio.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/data-viz-studio.zip",
+   "dist_exists": false
   },
   {
    "id": "de-ai-writing",
@@ -3506,9 +3758,9 @@
     "personal-voice-profile"
    ],
    "local_url": "packs/de-ai-writing.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/de-ai-writing.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/de-ai-writing.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/de-ai-writing.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/de-ai-writing.zip",
    "dist_exists": true
   },
   {
@@ -3525,9 +3777,9 @@
     "feynman-explainer"
    ],
    "local_url": "packs/edu-craft.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/edu-craft.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/edu-craft.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/edu-craft.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/edu-craft.zip",
    "dist_exists": true
   },
   {
@@ -3544,9 +3796,9 @@
     "pr-review-expert"
    ],
    "local_url": "packs/github-workflow.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/github-workflow.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/github-workflow.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/github-workflow.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/github-workflow.zip",
    "dist_exists": true
   },
   {
@@ -3563,9 +3815,9 @@
     "channel-adapter"
    ],
    "local_url": "packs/growth-marketing.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/growth-marketing.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/growth-marketing.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/growth-marketing.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/growth-marketing.zip",
    "dist_exists": true
   },
   {
@@ -3582,9 +3834,9 @@
     "own-voice-rewrite"
    ],
    "local_url": "packs/homework-autopilot.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/homework-autopilot.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/homework-autopilot.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/homework-autopilot.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/homework-autopilot.zip",
    "dist_exists": true
   },
   {
@@ -3593,7 +3845,7 @@
    "name_zh": "画图工作台",
    "desc": "End-to-end image creation workspace: prompt engineering, style anchoring, generation via gateway, cover art.",
    "desc_zh": "端到端画图工作台：生图提示词工程、风格锚定、网关生图执行、封面图生成。把散落的生图技能组装成一条龙。",
-   "size_kb": 31,
+   "size_kb": 33,
    "n_skills": 4,
    "skills": [
     "image-prompt-engineer",
@@ -3602,9 +3854,9 @@
     "ai-cover-generator"
    ],
    "local_url": "packs/image-studio.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/image-studio.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/image-studio.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/image-studio.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/image-studio.zip",
    "dist_exists": true
   },
   {
@@ -3621,9 +3873,9 @@
     "slo-architect"
    ],
    "local_url": "packs/incident-response.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/incident-response.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/incident-response.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/incident-response.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/incident-response.zip",
    "dist_exists": true
   },
   {
@@ -3640,9 +3892,27 @@
     "kubernetes-operator"
    ],
    "local_url": "packs/infrastructure.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/infrastructure.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/infrastructure.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/infrastructure.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/infrastructure.zip",
+   "dist_exists": true
+  },
+  {
+   "id": "knowledge-base",
+   "name": "Knowledge Base",
+   "name_zh": "个人知识库",
+   "desc": "Turn scattered notes into a searchable base and a queryable graph: build a sharded-index wiki with orphan/broken-link linting, and extract entities plus relations from Markdown into Mermaid or Graphviz output.",
+   "desc_zh": "把零散笔记变成可检索的知识库与可查询的图谱：分片索引 wiki（含孤儿笔记、断链、空笔记体检）与实体关系抽取（可导出 Mermaid / Graphviz，附度中心性与连通分量分析）。",
+   "size_kb": 27,
+   "n_skills": 2,
+   "skills": [
+    "personal-wiki",
+    "knowledge-graph-builder"
+   ],
+   "local_url": "packs/knowledge-base.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/knowledge-base.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/knowledge-base.zip",
    "dist_exists": true
   },
   {
@@ -3660,9 +3930,9 @@
     "memory-retriever"
    ],
    "local_url": "packs/memory-systems.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/memory-systems.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/memory-systems.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/memory-systems.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/memory-systems.zip",
    "dist_exists": true
   },
   {
@@ -3671,8 +3941,8 @@
    "name_zh": "办公效率工具箱",
    "desc": "Daily office work: decks, spreadsheets, resumes, meeting minutes.",
    "desc_zh": "日常办公四件套：PPT 制作、Excel 清洗分析、简历岗位定制、会议纪要结构化。",
-   "size_kb": 36,
-   "n_skills": 7,
+   "size_kb": 51,
+   "n_skills": 8,
    "skills": [
     "ppt-builder",
     "excel-assistant",
@@ -3680,12 +3950,13 @@
     "meeting-notes",
     "internal-comms-writer",
     "docx-writer",
-    "pdf-pipeline"
+    "pdf-pipeline",
+    "epub-builder"
    ],
    "local_url": "packs/office-productivity.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/office-productivity.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/office-productivity.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/office-productivity.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/office-productivity.zip",
    "dist_exists": true
   },
   {
@@ -3700,9 +3971,9 @@
     "performance-profiler"
    ],
    "local_url": "packs/performance.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/performance.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/performance.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/performance.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/performance.zip",
    "dist_exists": true
   },
   {
@@ -3718,9 +3989,9 @@
     "env-secrets-manager"
    ],
    "local_url": "packs/security.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/security.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/security.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/security.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/security.zip",
    "dist_exists": true
   },
   {
@@ -3737,9 +4008,9 @@
     "skill-finder"
    ],
    "local_url": "packs/skill-forge.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/skill-forge.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/skill-forge.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/skill-forge.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/skill-forge.zip",
    "dist_exists": true
   },
   {
@@ -3755,9 +4026,9 @@
     "webapp-flow-tester"
    ],
    "local_url": "packs/tdd.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/tdd.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/tdd.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/tdd.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/tdd.zip",
    "dist_exists": true
   },
   {
@@ -3775,9 +4046,9 @@
     "task-scheduler"
    ],
    "local_url": "packs/toolsmith.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/toolsmith.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/toolsmith.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/toolsmith.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/toolsmith.zip",
    "dist_exists": true
   },
   {
@@ -3795,9 +4066,9 @@
     "visual-style-anchor"
    ],
    "local_url": "packs/video-design-studio.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/video-design-studio.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/video-design-studio.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/video-design-studio.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/video-design-studio.zip",
    "dist_exists": true
   },
   {
@@ -3813,9 +4084,9 @@
     "nailong-laugh-shorts"
    ],
    "local_url": "packs/viral-entertainment.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/viral-entertainment.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/viral-entertainment.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/viral-entertainment.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/viral-entertainment.zip",
    "dist_exists": true
   },
   {
@@ -3824,7 +4095,7 @@
    "name_zh": "视觉设计工作室",
    "desc": "AI visual design chain: interpret a vague brief into a design spec (purpose, platform size, style anchor), engineer text-to-image prompts with model dialects and text-rendering rules, and audit output against platform layout specs (safe areas, ratios, text budgets). One brief flows through spec -> prompt -> audit without leaving the chain.",
    "desc_zh": "AI 视觉设计链条：把模糊需求翻译成设计规格单（用途/平台尺寸/风格锚），按模型方言与文字渲染规则写文生图 prompt，并按平台版面规格（比例/安全区/文字预算）审计产出。一条需求从规格到 prompt 到审计全程不出链。方法论借鉴 Anthropic canvas-design / designskills / Replicate prompting 指南并已署名。",
-   "size_kb": 30,
+   "size_kb": 31,
    "n_skills": 4,
    "skills": [
     "design-brief-interpreter",
@@ -3833,9 +4104,29 @@
     "frontend-design-director"
    ],
    "local_url": "packs/visual-design-studio.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.17.0/visual-design-studio.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.17.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.17.0/visual-design-studio.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/visual-design-studio.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/visual-design-studio.zip",
+   "dist_exists": true
+  },
+  {
+   "id": "workspace-integrations",
+   "name": "Workspace Integrations",
+   "name_zh": "外部集成工具箱",
+   "desc": "Connect an AI session to the tools a team already lives in: Notion pages and databases, Feishu / DingTalk / WeCom group robots, Jira / Linear / GitHub Issues, and Baidu / Aliyun / OneDrive cloud drives. Every write path is dry-run by default, credentials live only in environment variables, and the bundled scripts build and parse payloads offline so they can be tested without a network.",
+   "desc_zh": "把 AI 会话接到团队真正在用的工具上：Notion 页面与数据库、飞书/钉钉/企业微信群机器人、Jira/Linear/GitHub Issues 协同与周报、百度网盘/阿里云盘/OneDrive 归档校验。四条链路共享同一套操作契约——写操作默认 dry-run 先出负载、凭证只走环境变量、脚本离线构造与解析（不发网络请求），未接凭证即可完整演练。",
+   "size_kb": 61,
+   "n_skills": 4,
+   "skills": [
+    "notion-workspace",
+    "feishu-dingtalk-bridge",
+    "issue-tracker-sync",
+    "cloud-drive-manager"
+   ],
+   "local_url": "packs/workspace-integrations.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.18.0/workspace-integrations.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.18.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.18.0/workspace-integrations.zip",
    "dist_exists": true
   }
  ]

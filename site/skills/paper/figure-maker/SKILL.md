@@ -72,6 +72,9 @@ python3 scripts/figure_maker.py --data results.json --type heatmap --output fig4
 | `rendered: false` | matplotlib 未安装 | `pip install matplotlib` 后重跑 |
 | `status: unsupported` | 选了 heatmap | 改用 bar/line/boxplot |
 | 输出文件未生成 | `--output` 不可写 | 换可写目录或省略该参数 |
+| 中文标签变方块 | matplotlib 默认字体不含中文 | 改用英文轴标签，或显式指定系统中文 TTF 字体 |
+| 图例挡住数据曲线 | 图例位置取默认值 | 把图例移到图外或改 `loc`，必要时缩小画布留白 |
+| PDF 插入 LaTeX 后字号偏小 | 字号按屏幕尺寸设定而非论文栏宽 | 按目标栏宽设 figsize，字号对齐正文 8-9pt |
 
 ## 交付标准
 

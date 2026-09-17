@@ -208,3 +208,7 @@ python jianshu_publisher.py draft-save --cookie-file ~/.jianshu_cookie ...
 - `juejin-publisher` — 掘金发布
 - `cross-post-orchestrator` — 多平台编排
 - `ai-cover-generator` — AI 封面图生成
+
+## 参考
+
+- 本技能为纯提示型，无需外部参考文件。

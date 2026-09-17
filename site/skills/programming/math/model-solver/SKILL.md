@@ -1,6 +1,6 @@
 ---
 name: model-solver
-description: "对数学模型做数值求解：LP/MIP（scipy/cvxpy）、ODE/PDE（scipy.integrate）、蒙特卡洛（numpy）。消费 model-formulator 输出的模型规格，返回解与收敛信息。何时使用：模型规格已就绪、需要最优解或积分/抽样结果时。触发场景（中/英）：求解模型 / 选求解器 / 优化问题求解 / solve a model / pick a solver / optimize the problem。排除项：不解释结果或制作展示材料（交给 result-visualizer）。"
+description: "对数学模型做数值求解：LP/MIP（scipy/cvxpy）、ODE/PDE（scipy.integrate）、蒙特卡洛（numpy）。消费 model-formulator 输出的模型规格，返回解与收敛信息。何时使用：模型规格已就绪、需要最优解或积分/抽样结果时。触发场景（中/英）：求解模型 / 选求解器 / 优化问题求解 / solve a model / pick a solver / optimize the problem。排除项：不解释结果或制作展示材料（交给 result-visualizer）。 何时使用：模型规格已就绪，需要最优解、积分或抽样结果时。触发场景（中/英）：求解模型 / 选求解器 / 优化问题求解 / 算数值解 / solve a model / pick a solver / optimize the problem.排除项：不把文字问题形式化成模型（交给 model-formulator），不解释结果或出图表（交给 result-visualizer）。Use when the user asks 求解模型 / 选求解器 / 优化问题求解 / 算数值解 / solve a model / pick a solver / optimize the problem. Do NOT use when the problem is still in prose and needs formalizing (use model-formulator) or when the ask is result interpretation and charts (use result-visualizer)."
 license: Apache-2.0
 compatibility: Requires scipy, numpy. Optional: cvxpy, pulp, ortools.
 metadata:

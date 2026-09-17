@@ -97,3 +97,7 @@ deadline 缺失写 `<待定>`；每行必须能在 T 编号中找到出处。
 ## 链条衔接（下游建议）
 
 本技能属 office / productivity 类单点技能；产出的 action items 可继续喂给 excel-assistant 做跟踪表，或作为 resume-tailor 的项目经历素材。建议在 skill_chains.json 中新增 office（或 productivity）域并登记本技能。衔接仅为文字描述。
+
+## 参考
+
+- 本技能为纯提示型，无需外部参考文件。

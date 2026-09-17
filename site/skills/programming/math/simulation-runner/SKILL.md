@@ -1,6 +1,6 @@
 ---
 name: simulation-runner
-description: "运行仿真：参数扫描、蒙特卡洛、敏感性分析（OAT）与模型解的压测。何时使用：模型已求解、需要在变化条件下测试鲁棒性时。触发场景（中/英）：跑仿真 / 蒙特卡洛模拟 / 敏感性分析 / run a simulation / Monte Carlo / sensitivity analysis。排除项：不用于生产级仿真负载（仅本地实验运行）。"
+description: "运行仿真：参数扫描、蒙特卡洛、敏感性分析（OAT）与模型解的压测。何时使用：模型已求解、需要在变化条件下测试鲁棒性时。触发场景（中/英）：跑仿真 / 蒙特卡洛模拟 / 敏感性分析 / run a simulation / Monte Carlo / sensitivity analysis。排除项：不用于生产级仿真负载（仅本地实验运行）。 何时使用：模型已求解、需要测试鲁棒性或做参数扫描时。触发场景（中/英）：跑仿真 / 蒙特卡洛模拟 / 敏感性分析 / 参数扫描 / run a simulation / Monte Carlo / sensitivity analysis.排除项：不做生产级压测，不求解确定性模型（交给 model-solver）。Use when the user asks 跑仿真 / 蒙特卡洛模拟 / 敏感性分析 / 参数扫描 / run a simulation / Monte Carlo / sensitivity analysis. Do NOT use when the ask is deterministic solving (use model-solver) or production load testing."
 license: Apache-2.0
 compatibility: Requires numpy, random. No external solver needed.
 metadata:
@@ -105,6 +105,9 @@ python3 scripts/simulation.py --sensitivity rate,noise,decay --perturbation 0.1
 | `--range` 参数数量错 | 未给 LO HI | 补两个浮点 |
 | `p_exceed` 越界 | 量级不匹配 | 复核 `--sigma`/`--threshold` |
 | 参数不在 spec | 名称拼写错 | 对齐 `--sensitivity` 与 spec 字段 |
+| 多次仿真结果不可复现 | 随机种子未固定 | 显式固定 seed 并记录在输出里，重跑两次比对 |
+| 扫描点数过多跑不完 | 参数网格未设步长上限 | 先用粗网格定位敏感区，再对敏感区加密 |
+| `p_exceed` 恒为 0 或 1 | 阈值远远偏离分布支撑集 | 先看图分布范围，再据此设阈值重跑 |
 
 ## 交付标准
 

@@ -76,6 +76,9 @@ python3 scripts/experiment_runner.py --n-runs 5 --seed 42 --output results.json
 | 配置文件 JSON 解析错误 | `--config` 非合法 JSON | 用 `python3 -c "import json;json.load(open('<cfg>'))"` 校验 |
 | `mode` 非 `simulated` | 误接入真实数据 | 本脚本恒为 simulated，确认勿当真实结果 |
 | 输出非 JSON | 写入被中断 | 检查 `--output` 路径可写后重试 |
+| 同一 config 两次结果不一致 | seed 未写进 config，走了随机初值 | 把 seed 显式写入 config 并固定，重跑两次比对确认可复现 |
+| `n_runs` 太大跑不完 | 单次运行耗时高且未设上限 | 先用小 `n_runs` 试跑估时，再决定是否放大 |
+| mean/std 明显离谱 | 指标量纲不同被合并统计 | 按指标逐个看，先确认各指标单位一致再读统计量 |
 
 ## 交付标准
 

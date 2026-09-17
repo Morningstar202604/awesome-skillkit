@@ -1,6 +1,6 @@
 ---
 name: performance-profiler
-description: "对 Node.js、Python、Go 应用做系统性性能剖析：定位 CPU/内存/I/O 瓶颈、生成火焰图、分析包体积、优化数据库查询、用 k6 与 Artillery 跑压测。始终先测后改。何时使用：排查慢接口、规划性能预算或定位内存泄漏时。触发场景（中/英）：性能分析 / 找瓶颈 / 优化慢代码 / profile performance / find bottleneck / optimize slow code。排除项：不改业务代码修复热点（仅做剖析）。"
+description: "对 Node.js、Python、Go 应用做系统性性能剖析：定位 CPU/内存/I/O 瓶颈、生成火焰图、分析包体积、优化数据库查询、用 k6 与 Artillery 跑压测。始终先测后改。何时使用：排查慢接口、规划性能预算或定位内存泄漏时。触发场景（中/英）：性能分析 / 找瓶颈 / 优化慢代码 / profile performance / find bottleneck / optimize slow code。排除项：不改业务代码修复热点（仅做剖析）。 何时使用：接口变慢、内存持续增长或需要定性能预算时。触发场景（中/英）：性能分析 / 找瓶颈 / 优化慢代码 / 内存泄漏排查 / profile performance / find bottleneck / optimize slow code.排除项：不直接改业务代码修复热点（仅做剖析与建议）。Use when the user asks 性能分析 / 找瓶颈 / 优化慢代码 / 内存泄漏排查 / profile performance / find bottleneck / optimize slow code. Do NOT use when the ask is to patch business logic or refactor the hot path directly (this skill only diagnoses)."
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:

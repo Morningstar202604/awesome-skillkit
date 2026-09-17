@@ -1,6 +1,6 @@
 ---
 name: lit-review
-description: "Literature review helper: scan a topic across venues, build a citation relationship map, and produce a structured summary with research-gap callouts. Use at the start of a paper project or when the user asks for 文献综述 / 相关工作梳理 / 找参考文献 / 调研某方向论文 / 写相关工作. 当用户要求 综述某主题 / 生成 citation graph 时使用。Do NOT use for topic selection (use paper-topic-selector first)."
+description: "Literature review helper: scan a topic across venues, build a citation relationship map, and produce a structured summary with research-gap callouts. Use at the start of a paper project or when the user asks for 文献综述 / 相关工作梳理 / 找参考文献 / 调研某方向论文 / 写相关工作. 当用户要求 综述某主题 / 生成 citation graph 时使用。 Also triggers on / 综述文献 / literature survey / related work draft / citation graph / 找相关工作.Do NOT use for topic selection (use paper-topic-selector first)."
 license: Apache-2.0
 compatibility: Stdlib only. --arxiv makes a real HTTPS call to export.arxiv.org (20s timeout, one 429 backoff retry); on any network/parse failure it falls back to MOCK data and flags it via top-level data_source/warning. SKILLKIT_MOCK=1 forces mock (no network).
 metadata:
@@ -75,6 +75,9 @@ SKILLKIT_MOCK=1 python3 scripts/lit_review.py --topic "LLM agents" --output revi
 | `warning` 含"已回退为 MOCK" | `--arxiv` 网络/解析失败 | 结果按 mock 标注；重试或离线用 `SKILLKIT_MOCK=1` |
 | `data_source: mock` 但自称真实 | 误读来源 | 强制标注"模拟数据" |
 | `status: empty` | 无命中 | 放宽主题/venue 后重试 |
+| 引用图出现孤立节点 | 该文献与其余文献无共同作者/主题 | 确认是真实关联后再连边，确实孤立就在图注里说明 |
+| 主题太宽泛命中上千篇 | 关键词未加限定 | 加 venue、年份与任务限定词后重跑，缩小到可读范围 |
+| 被引次数与官方库对不上 | 数据源口径或抓取时间不同 | 在报告中标注来源与抓取日期，勿当权威统计使用 |
 
 ## 交付标准
 

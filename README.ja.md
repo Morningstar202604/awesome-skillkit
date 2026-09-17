@@ -3,14 +3,14 @@
 # awesome-skillkit
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-![Skills](https://img.shields.io/badge/skills-142-brightgreen)
-![Packs](https://img.shields.io/badge/packs-33-blue)
-![Chains](https://img.shields.io/badge/chains-15%20domains%20%2F%2052-orange)
-![Version](https://img.shields.io/badge/version-0.17.0-success)
+![Skills](https://img.shields.io/badge/skills-151-brightgreen)
+![Packs](https://img.shields.io/badge/packs-36-blue)
+![Chains](https://img.shields.io/badge/chains-18%20domains%20%2F%2057-orange)
+![Version](https://img.shields.io/badge/version-0.18.0-success)
 
 [English](README.md) | [中文](README.zh-CN.md) | **日本語**
 
-> 🌐 **閲覧 / ダウンロード**: サイトのソースリポジトリ（GitCode で Pages を有効化すると公開サイトになります。v0.17.0 まで同期済み）:
+> 🌐 **閲覧 / ダウンロード**: サイトのソースリポジトリ（GitCode で Pages を有効化すると公開サイトになります。v0.18.0 まで同期済み）:
 > [gitcode.com/badhope/skillkit-site](https://gitcode.com/badhope/skillkit-site)
 > パックごとの zip と全量 `_all.zip` は各プラットフォームの Releases にあります（下記「プラットフォーム同期状況」参照）。
 > デプロイ手順: [docs/DEPLOY-SITE.md](docs/DEPLOY-SITE.md)
@@ -37,25 +37,25 @@ flowchart LR
 
 ## 数字で見る
 
-> **142 skills** · **33 シナリオパック** · **15 チェーンドメイン / 52 スキルチェーン** · v0.17.0 · Apache-2.0
+> **151 skills** · **36 シナリオパック** · **18 チェーンドメイン / 57 スキルチェーン** · v0.18.0 · Apache-2.0
 
 **出典の内訳**:
 
 ```mermaid
-pie title スキルの出典（n=142）
-    "自作シナリオスキル" : 96
+pie title スキルの出典（n=151）
+    "自作シナリオスキル" : 105
     "上流 curated（alirezarezvani/claude-skills, MIT）" : 36
     "その他オープンソース蒸留" : 10
 ```
 
-**パック規模の分布**（█ = 1 skill、全 33 パック）:
+**パック規模の分布**（█ = 1 skill、全 36 パック）:
 
 | 场景包 | 技能数 | 规模 |
 |--------|:---:|------|
 | AI Research & Writing | 19 | ███████████████████ |
 | Content Publishing Automation | 18 | ██████████████████ |
+| Office Productivity | 8 | ████████ |
 | Data, ML & Scientific Computing | 7 | ███████ |
-| Office Productivity | 7 | ███████ |
 | AI Video Pipeline | 6 | ██████ |
 | AI Agent Development | 5 | █████ |
 | Code Review | 5 | █████ |
@@ -65,6 +65,7 @@ pie title スキルの出典（n=142）
 | Toolsmith | 4 | ████ |
 | Video Design Studio | 4 | ████ |
 | Visual Design Studio | 4 | ████ |
+| Workspace Integrations | 4 | ████ |
 | System Architecture | 3 | ███ |
 | Audio Studio | 3 | ███ |
 | CI/CD Pipeline | 3 | ███ |
@@ -80,6 +81,8 @@ pie title スキルの出典（n=142）
 | Skill Forge | 3 | ███ |
 | API Development & Testing | 2 | ██ |
 | Database Design & Management | 2 | ██ |
+| Data Viz Studio | 2 | ██ |
+| Knowledge Base | 2 | ██ |
 | Security & Secrets | 2 | ██ |
 | Test-Driven Development | 2 | ██ |
 | Viral Entertainment | 2 | ██ |
@@ -163,7 +166,7 @@ pie title スキルの出典（n=142）
 
 | シナリオパック | スキル数 | シナリオ | 出典 |
 |--------|:---:|------|:---:|
-| Office Productivity | 7 | PPT、Excel、Word、PDF、履歴書、議事録、社内報 | 自研 |
+| Office Productivity | 8 | PPT、Excel、Word、PDF、履歴書、議事録、社内報 | 自研 |
 
 ### グロースマーケティング
 
@@ -196,6 +199,24 @@ pie title スキルの出典（n=142）
 |--------|:---:|------|:---:|
 | Skill Forge | 3 | スキル生成、仕様チェック（CI ゲート）、スキル検索と組み立て | 自研 |
 
+### 外部連携
+
+| シナリオパック | スキル数 | シナリオ | 出典 |
+|--------|:---:|------|:---:|
+| Workspace Integrations | 4 | Notion / 飛書・釘釘・WeCom / Jira・Linear・GitHub Issues / クラウドストレージ | 自研 |
+
+### 個人ナレッジベース
+
+| シナリオパック | スキル数 | シナリオ | 出典 |
+|--------|:---:|------|:---:|
+| Knowledge Base | 2 | ノート庫の構築（索引・検索・点検）、ナレッジグラフの抽出と出力 | 自研 |
+
+### データ可視化
+
+| シナリオパック | スキル数 | シナリオ | 出典 |
+|--------|:---:|------|:---:|
+| Data Viz Studio | 2 | CSV 分析 → ダッシュボード生成（外部依存ゼロ）、グラフ選択辞書 | 自研 |
+
 ## ディテール辞書（本リポジトリの差別化ポイント）
 
 生成系 skill の成否は「記述がどれだけ細かいか」にかかっています。高頻度シナリオ向けに**高密度のディテール辞書**を整備しました——用語 + 効果・感情 + 使いどき + 例。prompt を書く前にまず引いてください:
@@ -225,16 +246,16 @@ flowchart LR
     end
 ```
 
-`skill_chains.json` には **15 チェーンドメイン / 52 チェーン** が組み込まれ、「誰を先に呼ぶか、誰に渡すか」を固定し、モジュール間のクロスコールでも迷いません。
+`skill_chains.json` には **18 チェーンドメイン / 57 チェーン** が組み込まれ、「誰を先に呼ぶか、誰に渡すか」を固定し、モジュール間のクロスコールでも迷いません。
 
 ## プラットフォーム同期状況
 
 | プラットフォーム | リポジトリ | コード同期 | Release / 添付 | 状態 |
 |----------------|-----------|:---:|:---:|------|
-| GitCode | `badhope/awesome-skillkit` | ✅ `0.17.0` まで | ✅ 作成済 | OK |
-| Gitee | `badhope/awesome-skillkit` | ✅ `0.17.0` まで | ✅ v0.17.0、zip 添付 32 個 | OK |
+| GitCode | `badhope/awesome-skillkit` | ✅ `0.18.0` まで | ✅ 作成済 | OK |
+| Gitee | `badhope/awesome-skillkit` | ✅ `0.18.0` まで | ✅ v0.18.0、zip 添付 32 個 | OK |
 | GitHub | `x33834/awesome-skillkit` | ⚠️ ローカルからプッシュ | ⚠️ なし | サンドボックスの出口 ACL が TLS を遮断。ローカルで `git push origin main --follow-tags`（token は repo+workflow 権限必要）を実行 |
-| サイト | `badhope/skillkit-site` | ✅ v0.17.0 同期済 | — | GitCode Pages を有効化で公開 |
+| サイト | `badhope/skillkit-site` | ✅ v0.18.0 同期済 | — | GitCode Pages を有効化で公開 |
 
 > GitHub は構築環境の出口 ACL が TLS ハンドシェイク層で遮断するため、本環境から直接プッシュできません。コードと Release の内容は GitCode / Gitee で完全にホスト済みです。ローカルで 1 コマンド実行すれば GitHub も補完できます。
 
@@ -254,7 +275,7 @@ dist/               # ビルド成果物：パックごと 1 zip（gitignored）
 
 2 つのトラックを採用し、すべて [manifest.json](manifest.json)、各 `packs/*/pack.json`、[SOURCES.md](SOURCES.md) で skill ごとに署名:
 
-- **自作シナリオスキル（96 個）**: `skills/writing/`、`scenarios/`、`design/`、`audio/` など。中国系プラットフォーム自動化、動画/画像/音声パイプライン、AI 感低減ライティング、メモリシステム、宿題オートパイロットなど——いずれも上流がカバーしていないオリジナルワークフローで、実行可能な lint スクリプトと単体テストを備え、デフォルトで dry-run。
+- **自作シナリオスキル（105 個）**: `skills/writing/`、`scenarios/`、`design/`、`audio/` など。中国系プラットフォーム自動化、動画/画像/音声パイプライン、AI 感低減ライティング、メモリシステム、宿題オートパイロットなど——いずれも上流がカバーしていないオリジナルワークフローで、実行可能な lint スクリプトと単体テストを備え、デフォルトで dry-run。
 - **上流 curated（36 個、MIT）**: [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) 由来のプログラミング・エンジニアリング系スキル。
 - **その他オープンソース蒸留（10 個）**: Anthropic 公開 skills ドキュメント、mem0/letta/Claude memory tool、Kokoro/Qwen3-TTS エコシステムから方法論を蒸留。いずれも `references/sources-and-methodology.md` で署名、**内容のコピーはゼロ**。
 
@@ -262,7 +283,7 @@ dist/               # ビルド成果物：パックごと 1 zip（gitignored）
 
 ```bash
 python3 build.py                           # 単一ビルド入口: パックごと dist/*.zip + dist/_all.zip
-python3 tools/release.py 0.17.0 --commit   # CHANGELOG 検証 → 昇格 → コミット → タグ
+python3 tools/release.py 0.18.0 --commit   # CHANGELOG 検証 → 昇格 → コミット → タグ
 git push origin main --follow-tags            # コード + 3 バージョンタグをプッシュ
 # Gitee / GitCode で Release を作成し dist/*.zip をアップロード（manifest.json の version が単一の真実）
 ```
