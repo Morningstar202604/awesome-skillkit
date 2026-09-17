@@ -3,14 +3,14 @@
 # awesome-skillkit · 渡
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-![Skills](https://img.shields.io/badge/skills-135-brightgreen)
-![Packs](https://img.shields.io/badge/packs-32-blue)
-![Chains](https://img.shields.io/badge/chains-13%20domains%20%2F%2048-orange)
-![Version](https://img.shields.io/badge/version-0.16.1-success)
+![Skills](https://img.shields.io/badge/skills-142-brightgreen)
+![Packs](https://img.shields.io/badge/packs-33-blue)
+![Chains](https://img.shields.io/badge/chains-15%20domains%20%2F%2052-orange)
+![Version](https://img.shields.io/badge/version-0.17.0-success)
 
 [English](README.md) | **中文** | [日本語](README.ja.md)
 
-> 🌐 **在线浏览 / 下载**：站点源码仓库（在 GitCode 开启 Pages 即得可访问站点，内容已同步至 v0.16.1）：
+> 🌐 **在线浏览 / 下载**：站点源码仓库（在 GitCode 开启 Pages 即得可访问站点，内容已同步至 v0.17.0）：
 > [gitcode.com/badhope/skillkit-site](https://gitcode.com/badhope/skillkit-site)
 > 单包 zip 与全量 `_all.zip` 见各平台 Release（见下方「三平台同步状态」）。
 > 部署说明：[docs/DEPLOY-SITE.md](docs/DEPLOY-SITE.md)
@@ -37,18 +37,18 @@ flowchart LR
 
 ## 数字一览
 
-> **135 个 skill** · **31 个场景包** · **13 个链域 / 48 条技能链** · v0.16.1 · Apache-2.0
+> **142 个 skill** · **33 个场景包** · **15 个链域 / 52 条技能链** · v0.17.0 · Apache-2.0
 
 **来源构成**（自研为主，上游为辅，全部可溯源）：
 
 ```mermaid
-pie title 技能来源（n=135）
-    "自研场景技能" : 89
+pie title 技能来源（n=142）
+    "自研场景技能" : 96
     "上游 curated（alirezarezvani/claude-skills, MIT）" : 36
     "其他开源蒸馏" : 10
 ```
 
-**按场景包规模分布**（█ = 1 个 skill，共 31 包）：
+**按场景包规模分布**（█ = 1 个 skill，共 33 包）：
 
 | 场景包 | 技能数 | 规模 |
 |--------|:---:|------|
@@ -62,6 +62,7 @@ pie title 技能来源（n=135）
 | AI Media Toolkit | 4 | ████ |
 | Image Studio | 4 | ████ |
 | Memory Systems | 4 | ████ |
+| Toolsmith | 4 | ████ |
 | Video Design Studio | 4 | ████ |
 | Visual Design Studio | 4 | ████ |
 | System Architecture | 3 | ███ |
@@ -76,6 +77,7 @@ pie title 技能来源（n=135）
 | Homework Autopilot | 3 | ███ |
 | Incident Response & SRE | 3 | ███ |
 | Infrastructure as Code | 3 | ███ |
+| Skill Forge | 3 | ███ |
 | API Development & Testing | 2 | ██ |
 | Database Design & Management | 2 | ██ |
 | Security & Secrets | 2 | ██ |
@@ -182,6 +184,18 @@ pie title 技能来源（n=135）
 |--------|:---:|------|:---:|
 | Memory Systems | 4 | 长期记忆：设计/抽取/管理/检索（mem0/letta 蒸馏） | 自研 |
 
+### 工具与自动化
+
+| 场景包 | 技能数 | 场景 | 来源 |
+|--------|:---:|------|:---:|
+| Toolsmith | 4 | 文件整理、批量重命名、格式转换、定时任务（全部 dry-run 优先） | 自研 |
+
+### 元技能
+
+| 场景包 | 技能数 | 场景 | 来源 |
+|--------|:---:|------|:---:|
+| Skill Forge | 3 | 技能生成、规范校验（CI 门禁）、技能检索与装配 | 自研 |
+
 ## 细节词库（本仓库差异化亮点）
 
 很多生成类 skill 的成败在"描述够不够细"。我们为高频场景沉淀了**高密度细节词库**——术语 + 效果/情绪 + 何时用 + 示例，写 prompt 前先查：
@@ -211,16 +225,16 @@ flowchart LR
     end
 ```
 
-`skill_chains.json` 内置 **13 个链域 / 48 条链**，把"该先调谁、谁接谁"固化下来，跨模块交叉调用不迷路。
+`skill_chains.json` 内置 **15 个链域 / 52 条链**，把"该先调谁、谁接谁"固化下来，跨模块交叉调用不迷路。
 
 ## 三平台同步状态
 
 | 平台 | 仓库 | 代码同步 | Release / 附件 | 状态 |
 |------|------|:---:|:---:|------|
-| GitCode | `badhope/awesome-skillkit` | ✅ 至 `0.16.1` | ✅ 已建 | 正常 |
-| Gitee | `badhope/awesome-skillkit` | ✅ 至 `0.16.1` | ✅ v0.16.1 共 32 个 zip 附件 | 正常 |
+| GitCode | `badhope/awesome-skillkit` | ✅ 至 `0.17.0` | ✅ 已建 | 正常 |
+| Gitee | `badhope/awesome-skillkit` | ✅ 至 `0.17.0` | ✅ v0.17.0 共 32 个 zip 附件 | 正常 |
 | GitHub | `x33834/awesome-skillkit` | ⚠️ 待本地推送 | ⚠️ 无 | 沙箱网络层限制，需你本地 `git push origin main --follow-tags`（token 需 repo+workflow 权限） |
-| 站点 | `badhope/skillkit-site` | ✅ 已同步 v0.16.1 | — | 在 GitCode 开启 Pages 即可访问 |
+| 站点 | `badhope/skillkit-site` | ✅ 已同步 v0.17.0 | — | 在 GitCode 开启 Pages 即可访问 |
 
 > GitHub 因构建环境出口 ACL 在 TLS 握手层切断，无法从本环境直推；代码与 Release 内容已通过 GitCode / Gitee 完整托管，本地一条命令即可补齐 GitHub。
 
@@ -240,7 +254,7 @@ dist/               # 构建产物：每包一个 zip（gitignored）
 
 两条来源轨道，全部在 [manifest.json](manifest.json)、各 `packs/*/pack.json` 与 [SOURCES.md](SOURCES.md) 中逐 skill 署名：
 
-- **自研场景技能（89 个）**：`skills/writing/`、`scenarios/`、`design/`、`audio/` 等。中国平台自动化、视频/图像/音频流水线、去 AI 味写作、记忆系统、作业自动驾驶等——均为上游未覆盖的原创工作流，自带可执行检查脚本与单测，默认 dry-run。
+- **自研场景技能（96 个）**：`skills/writing/`、`scenarios/`、`design/`、`audio/` 等。中国平台自动化、视频/图像/音频流水线、去 AI 味写作、记忆系统、作业自动驾驶等——均为上游未覆盖的原创工作流，自带可执行检查脚本与单测，默认 dry-run。
 - **上游 curated（36 个，MIT）**：来自 [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills)，覆盖编程/工程类技能。
 - **其他开源蒸馏（10 个）**：方法论蒸馏自 Anthropic 公开技能文档、mem0/letta/Claude memory tool、Kokoro/Qwen3-TTS 生态等，均在 `references/sources-and-methodology.md` 署名，**零内容复制**。
 
@@ -248,7 +262,7 @@ dist/               # 构建产物：每包一个 zip（gitignored）
 
 ```bash
 python3 build.py            # 单一构建入口：生成 dist/*.zip（每包一个），并输出 dist/_all.zip
-python3 tools/release.py 0.16.1 --commit   # 校验 CHANGELOG → 升版 → 提交 → 打 tag
+python3 tools/release.py 0.17.0 --commit   # 校验 CHANGELOG → 升版 → 提交 → 打 tag
 git push origin main --follow-tags            # 推代码 + 三个版本 tag
 # 在 Gitee / GitCode 建 Release 并上传 dist/*.zip（manifest.json 的 version 为唯一事实来源）
 ```

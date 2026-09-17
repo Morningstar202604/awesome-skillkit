@@ -3,14 +3,14 @@
 # awesome-skillkit
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-![Skills](https://img.shields.io/badge/skills-135-brightgreen)
-![Packs](https://img.shields.io/badge/packs-32-blue)
-![Chains](https://img.shields.io/badge/chains-13%20domains%20%2F%2048-orange)
-![Version](https://img.shields.io/badge/version-0.16.1-success)
+![Skills](https://img.shields.io/badge/skills-142-brightgreen)
+![Packs](https://img.shields.io/badge/packs-33-blue)
+![Chains](https://img.shields.io/badge/chains-15%20domains%20%2F%2052-orange)
+![Version](https://img.shields.io/badge/version-0.17.0-success)
 
 [English](README.md) | [中文](README.zh-CN.md) | **日本語**
 
-> 🌐 **閲覧 / ダウンロード**: サイトのソースリポジトリ（GitCode で Pages を有効化すると公開サイトになります。v0.16.1 まで同期済み）:
+> 🌐 **閲覧 / ダウンロード**: サイトのソースリポジトリ（GitCode で Pages を有効化すると公開サイトになります。v0.17.0 まで同期済み）:
 > [gitcode.com/badhope/skillkit-site](https://gitcode.com/badhope/skillkit-site)
 > パックごとの zip と全量 `_all.zip` は各プラットフォームの Releases にあります（下記「プラットフォーム同期状況」参照）。
 > デプロイ手順: [docs/DEPLOY-SITE.md](docs/DEPLOY-SITE.md)
@@ -37,18 +37,18 @@ flowchart LR
 
 ## 数字で見る
 
-> **139 skills** · **32 シナリオパック** · **13 チェーンドメイン / 48 スキルチェーン** · v0.16.1 · Apache-2.0
+> **142 skills** · **33 シナリオパック** · **15 チェーンドメイン / 52 スキルチェーン** · v0.17.0 · Apache-2.0
 
 **出典の内訳**:
 
 ```mermaid
-pie title スキルの出典（n=135）
-    "自作シナリオスキル" : 89
+pie title スキルの出典（n=142）
+    "自作シナリオスキル" : 96
     "上流 curated（alirezarezvani/claude-skills, MIT）" : 36
     "その他オープンソース蒸留" : 10
 ```
 
-**パック規模の分布**（█ = 1 skill、全 31 パック）:
+**パック規模の分布**（█ = 1 skill、全 33 パック）:
 
 | 场景包 | 技能数 | 规模 |
 |--------|:---:|------|
@@ -62,6 +62,7 @@ pie title スキルの出典（n=135）
 | AI Media Toolkit | 4 | ████ |
 | Image Studio | 4 | ████ |
 | Memory Systems | 4 | ████ |
+| Toolsmith | 4 | ████ |
 | Video Design Studio | 4 | ████ |
 | Visual Design Studio | 4 | ████ |
 | System Architecture | 3 | ███ |
@@ -76,6 +77,7 @@ pie title スキルの出典（n=135）
 | Homework Autopilot | 3 | ███ |
 | Incident Response & SRE | 3 | ███ |
 | Infrastructure as Code | 3 | ███ |
+| Skill Forge | 3 | ███ |
 | API Development & Testing | 2 | ██ |
 | Database Design & Management | 2 | ██ |
 | Security & Secrets | 2 | ██ |
@@ -182,6 +184,18 @@ pie title スキルの出典（n=135）
 |--------|:---:|------|:---:|
 | Memory Systems | 4 | 長期記憶：設計/抽出/管理/検索（mem0/letta から蒸留） | 自研 |
 
+### ツールと自動化
+
+| シナリオパック | スキル数 | シナリオ | 出典 |
+|--------|:---:|------|:---:|
+| Toolsmith | 4 | ファイル整理、一括リネーム、形式変換、定期タスク（すべて dry-run 優先） | 自研 |
+
+### メタスキル
+
+| シナリオパック | スキル数 | シナリオ | 出典 |
+|--------|:---:|------|:---:|
+| Skill Forge | 3 | スキル生成、仕様チェック（CI ゲート）、スキル検索と組み立て | 自研 |
+
 ## ディテール辞書（本リポジトリの差別化ポイント）
 
 生成系 skill の成否は「記述がどれだけ細かいか」にかかっています。高頻度シナリオ向けに**高密度のディテール辞書**を整備しました——用語 + 効果・感情 + 使いどき + 例。prompt を書く前にまず引いてください:
@@ -211,16 +225,16 @@ flowchart LR
     end
 ```
 
-`skill_chains.json` には **13 チェーンドメイン / 48 チェーン** が組み込まれ、「誰を先に呼ぶか、誰に渡すか」を固定し、モジュール間のクロスコールでも迷いません。
+`skill_chains.json` には **15 チェーンドメイン / 52 チェーン** が組み込まれ、「誰を先に呼ぶか、誰に渡すか」を固定し、モジュール間のクロスコールでも迷いません。
 
 ## プラットフォーム同期状況
 
 | プラットフォーム | リポジトリ | コード同期 | Release / 添付 | 状態 |
 |----------------|-----------|:---:|:---:|------|
-| GitCode | `badhope/awesome-skillkit` | ✅ `0.16.1` まで | ✅ 作成済 | OK |
-| Gitee | `badhope/awesome-skillkit` | ✅ `0.16.1` まで | ✅ v0.16.1、zip 添付 32 個 | OK |
+| GitCode | `badhope/awesome-skillkit` | ✅ `0.17.0` まで | ✅ 作成済 | OK |
+| Gitee | `badhope/awesome-skillkit` | ✅ `0.17.0` まで | ✅ v0.17.0、zip 添付 32 個 | OK |
 | GitHub | `x33834/awesome-skillkit` | ⚠️ ローカルからプッシュ | ⚠️ なし | サンドボックスの出口 ACL が TLS を遮断。ローカルで `git push origin main --follow-tags`（token は repo+workflow 権限必要）を実行 |
-| サイト | `badhope/skillkit-site` | ✅ v0.16.1 同期済 | — | GitCode Pages を有効化で公開 |
+| サイト | `badhope/skillkit-site` | ✅ v0.17.0 同期済 | — | GitCode Pages を有効化で公開 |
 
 > GitHub は構築環境の出口 ACL が TLS ハンドシェイク層で遮断するため、本環境から直接プッシュできません。コードと Release の内容は GitCode / Gitee で完全にホスト済みです。ローカルで 1 コマンド実行すれば GitHub も補完できます。
 
@@ -240,7 +254,7 @@ dist/               # ビルド成果物：パックごと 1 zip（gitignored）
 
 2 つのトラックを採用し、すべて [manifest.json](manifest.json)、各 `packs/*/pack.json`、[SOURCES.md](SOURCES.md) で skill ごとに署名:
 
-- **自作シナリオスキル（89 個）**: `skills/writing/`、`scenarios/`、`design/`、`audio/` など。中国系プラットフォーム自動化、動画/画像/音声パイプライン、AI 感低減ライティング、メモリシステム、宿題オートパイロットなど——いずれも上流がカバーしていないオリジナルワークフローで、実行可能な lint スクリプトと単体テストを備え、デフォルトで dry-run。
+- **自作シナリオスキル（96 個）**: `skills/writing/`、`scenarios/`、`design/`、`audio/` など。中国系プラットフォーム自動化、動画/画像/音声パイプライン、AI 感低減ライティング、メモリシステム、宿題オートパイロットなど——いずれも上流がカバーしていないオリジナルワークフローで、実行可能な lint スクリプトと単体テストを備え、デフォルトで dry-run。
 - **上流 curated（36 個、MIT）**: [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) 由来のプログラミング・エンジニアリング系スキル。
 - **その他オープンソース蒸留（10 個）**: Anthropic 公開 skills ドキュメント、mem0/letta/Claude memory tool、Kokoro/Qwen3-TTS エコシステムから方法論を蒸留。いずれも `references/sources-and-methodology.md` で署名、**内容のコピーはゼロ**。
 
@@ -248,7 +262,7 @@ dist/               # ビルド成果物：パックごと 1 zip（gitignored）
 
 ```bash
 python3 build.py                           # 単一ビルド入口: パックごと dist/*.zip + dist/_all.zip
-python3 tools/release.py 0.16.1 --commit   # CHANGELOG 検証 → 昇格 → コミット → タグ
+python3 tools/release.py 0.17.0 --commit   # CHANGELOG 検証 → 昇格 → コミット → タグ
 git push origin main --follow-tags            # コード + 3 バージョンタグをプッシュ
 # Gitee / GitCode で Release を作成し dist/*.zip をアップロード（manifest.json の version が単一の真実）
 ```
