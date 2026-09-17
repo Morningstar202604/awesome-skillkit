@@ -1,14 +1,19 @@
-<p align="center"><img src="docs/logo.svg" alt="Awesome SkillKit Logo" width="200" height="60" /></p>
+<p align="center"><img src="docs/logo.svg" alt="awesome-skillkit" width="200" height="60" /></p>
 
 # awesome-skillkit
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Skills](https://img.shields.io/badge/skills-113-brightgreen) ![Packs](https://img.shields.io/badge/scenes-27-blue)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+![Skills](https://img.shields.io/badge/skills-135-brightgreen)
+![Packs](https://img.shields.io/badge/packs-31-blue)
+![Chains](https://img.shields.io/badge/chains-13%20domains%20%2F%2048-orange)
+![Version](https://img.shields.io/badge/version-0.16.1-success)
 
 **English** | [中文](README.zh-CN.md) | [日本語](README.ja.md)
 
-> 🌐 **Browse online** — search all 113 skills and download any single `SKILL.md` or a whole pack zip:
-> [GitHub Pages](https://x33834.github.io/awesome-skillkit/) · [GitCode Pages](https://gitcode.host/badhope/awesome-skillkit) · [Gitee Pages](https://badhope.gitee.io/awesome-skillkit/site/)
-> (deploy guide: [docs/DEPLOY-SITE.md](docs/DEPLOY-SITE.md))
+> 🌐 **Browse / download**: site source repo (enable GitCode Pages for a live site, already synced to v0.16.1):
+> [gitcode.com/badhope/skillkit-site](https://gitcode.com/badhope/skillkit-site).
+> Per-pack and full `_all.zip` are on each platform's Releases (see "Platform sync status" below).
+> Deploy guide: [docs/DEPLOY-SITE.md](docs/DEPLOY-SITE.md)
 
 Curated **scene packs** for AI tools. **Each pack = one real-world scenario, containing multiple hand-picked skills.** Download a zip → unzip → drag the skill folders into your AI tool's skills directory → it just works.
 
@@ -16,433 +21,234 @@ Curated **scene packs** for AI tools. **Each pack = one real-world scenario, con
 
 **The scenario is the answer — grounded in platform + tool.**
 
-- 🎯 Each pack maps to one **concrete scenario** ("review a pull request", "build a CI/CD pipeline", "post to my blog"), not a broad domain.
-- 🧩 Each pack bundles **the skills that work together for that scenario** — from a focused pair to a full 18-skill suite (`content-publishing` covers 16 Chinese platforms end-to-end) — no more hunting through a hundred standalone skills.
-- 🏷️ Every skill's **source is clearly attributed** (see the Source column), so you always know where it came from.
-
-## Scene Packs
-
-| Pack | Scenario | Skills | Size |
-|------|----------|--------|------|
-| ai-agent-development | AI Agent Development | 5 | 151 KB |
-| ai-media-toolkit | AI Media Generation | 4 | 19 KB |
-| ai-research-writing | AI Research & Writing | 19 | 129 KB |
-| ai-video-pipeline | AI Video Pipeline | 6 | 61 KB |
-| video-design-studio | Video Design Studio (pre-production) | 4 | 32 KB |
-| visual-design-studio | Visual Design Studio | 3 | 14 KB |
-| audio-studio | Audio Studio (podcast chain) | 3 | 14 KB |
-| growth-marketing | Growth Marketing (e-commerce) | 3 | 15 KB |
-| edu-craft | Edu Craft (mastery teaching) | 3 | 15 KB |
-| chat-prompt-craft | Chat Prompt Craft | 1 | 8 KB |
-| api-development | API Development & Testing | 2 | 50 KB |
-| architecture | System Architecture | 3 | 109 KB |
-| ci-cd | CI/CD Pipeline | 3 | 64 KB |
-| code-planning | Code Planning & Generation | 3 | 74 KB |
-| code-review | Code Review | 5 | 246 KB |
-| containers | Containers & Orchestration | 3 | 67 KB |
-| content-publishing | Content Publishing Automation | 18 | 132 KB |
-| data-ml-science | Data, ML & Scientific Computing | 7 | 63 KB |
-| database | Database Design & Management | 2 | 102 KB |
-| github-workflow | GitHub Collaboration | 3 | 39 KB |
-| incident-response | Incident Response & SRE | 3 | 123 KB |
-| infrastructure | Infrastructure as Code | 3 | 95 KB |
-| office-productivity | Office Productivity | 4 | 11 KB |
-| performance | Performance Profiling | 1 | 11 KB |
-| security | Security & Secrets | 2 | 46 KB |
-| tdd | Test-Driven Development | 1 | 50 KB |
-| viral-entertainment | Viral Entertainment (meme shorts) | 2 | 9 KB |
-
-**27 packs · 113 skills.** Project docs: [Direction v2](docs/DIRECTION-V2.md) · [Skill Standard](docs/SKILL-STANDARD-v2.md) · [Versioning & Release policy](docs/VERSIONING.md) · [Video landscape research](docs/VIDEO-LANDSCAPE.md) 
-
-## Pack Details
-
-### AI Agent Development (`ai-agent-development`) — 151 KB
-
-**Build production-grade AI agents, design multi-agent workflows, MCP servers, feature flags, and self-evaluation.**
-
-| Skill | Source |
-|-------|--------|
-| agent-designer | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| mcp-server-builder | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| feature-flags-architect | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| self-eval | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| skill-tester | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-
-### API Development & Testing (`api-development`) — 50 KB
-
-**Review REST API designs and generate integration/contract test suites.**
-
-| Skill | Source |
-|-------|--------|
-| api-design-reviewer | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| api-test-suite-builder | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-
-### System Architecture (`architecture`) — 109 KB
-
-**Design system architecture, plan zero-downtime migrations, and navigate monorepos.**
-
-| Skill | Source |
-|-------|--------|
-| senior-architect | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| migration-architect | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| monorepo-navigator | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-
-### CI/CD Pipeline (`ci-cd`) — 64 KB
-
-**Generate pragmatic CI/CD pipelines, release gates, and spec-driven development workflows.**
-
-| Skill | Source |
-|-------|--------|
-| ci-cd-pipeline-builder | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| ship-gate | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| spec-driven-workflow | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-
-### Content Publishing Automation (`content-publishing`) — 132 KB
-
-**Publish, edit and manage articles/videos on Chinese platforms (Zhihu, cnblogs, WeChat MP, Juejin, CSDN, Jianshu, Bilibili, Toutiao, Baijiahao, Xiaohongshu, Weibo, Douban, V2EX, SegmentFault, OSChina, Static Blogs) — battle-tested platform knowledge, a cross-post orchestrator, and AI cover-image generation.**
-
-| Skill | Source |
-|-------|--------|
-| zhihu-content-manager | skillkit authors (self-authored) |
-| cnblogs-skill | skillkit authors (self-authored) |
-| wechat-mp-publisher | skillkit authors (self-authored) |
-| juejin-publisher | skillkit authors (self-authored) |
-| csdn-publisher | skillkit authors (self-authored) |
-| jianshu-publisher | skillkit authors (self-authored) |
-| bilibili-publisher | skillkit authors (self-authored) |
-| toutiao-publisher | skillkit authors (self-authored) |
-| baijiahao-publisher | skillkit authors (self-authored) |
-| xiaohongshu-publisher | skillkit authors (self-authored) |
-| weibo-publisher | skillkit authors (self-authored) |
-| douban-publisher | skillkit authors (self-authored) |
-| v2ex-publisher | skillkit authors (self-authored) |
-| segmentfault-publisher | skillkit authors (self-authored) |
-| oschina-publisher | skillkit authors (self-authored) |
-| static-blog-deploy | skillkit authors (self-authored) |
-| cross-post-orchestrator | skillkit authors (self-authored) |
-| ai-cover-generator | skillkit authors (self-authored) |
-
-### Code Review (`code-review`) — 246 KB
-
-**Review pull requests, analyze code quality, audit dependencies and tech debt across languages.**
-
-| Skill | Source |
-|-------|--------|
-| pr-review-expert | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| code-reviewer | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| api-design-reviewer | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| tech-debt-tracker | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| dependency-auditor | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-
-### Containers & Orchestration (`containers`) — 68 KB
-
-**Dockerfile optimization, docker-compose, Helm charts, and Kubernetes operators.**
-
-| Skill | Source |
-|-------|--------|
-| docker-development | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| helm-chart-builder | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| kubernetes-operator | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-
-### Database Design & Management (`database`) — 102 KB
-
-**Design schemas, ERD diagrams, migrations, and optimize SQL queries.**
-
-| Skill | Source |
-|-------|--------|
-| database-designer | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| sql-database-assistant | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-
-### GitHub Collaboration (`github-workflow`) — 39 KB
-
-**Parallel worktrees, conventional-commit changelogs, and PR review on GitHub.**
-
-| Skill | Source |
-|-------|--------|
-| git-worktree-manager | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| changelog-generator | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| pr-review-expert | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-
-### Incident Response & SRE (`incident-response`) — 123 KB
-
-**Command incidents, generate runbooks, and define SLOs/error budgets.**
-
-| Skill | Source |
-|-------|--------|
-| incident-commander | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| runbook-generator | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| slo-architect | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-
-### Infrastructure as Code (`infrastructure`) — 95 KB
-
-**Terraform patterns, observability design, and Kubernetes operators.**
-
-| Skill | Source |
-|-------|--------|
-| terraform-patterns | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| observability-designer | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| kubernetes-operator | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-
-### Performance Profiling (`performance`) — 11 KB
-
-**Profile CPU/memory/I/O bottlenecks in Node.js, Python, and Go.**
-
-| Skill | Source |
-|-------|--------|
-| performance-profiler | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-
-### Security & Secrets (`security`) — 46 KB
-
-**Set up secret vaults and manage environment-variable hygiene.**
-
-| Skill | Source |
-|-------|--------|
-| secrets-vault-manager | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-| env-secrets-manager | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-
-### Test-Driven Development (`tdd`) — 50 KB
-
-**Write unit tests, fixtures, mocks, and guide red-green-refactor cycles.**
-
-| Skill | Source |
-|-------|--------|
-| tdd-guide | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT) |
-
-### AI Media Generation (`ai-media-toolkit`) — 19 KB
-
-**Text/image-to-video, text/image-to-image generation, music generation, and cover-image creation through a local generation gateway — full submit/poll/download workflows with failure handling.**
-
-| Skill | Source |
-|-------|--------|
-| video-generation | self-authored |
-| image-generation | self-authored |
-| music-generation | self-authored |
-| ai-cover-generator | self-authored |
-
-### Office Productivity (`office-productivity`) — 11 KB
-
-**Daily office work: real .pptx deck builder, Excel clean-and-analyze with before/after evidence, JD-driven resume tailoring with anti-fabrication rules, and structured meeting minutes.**
-
-| Skill | Source |
-|-------|--------|
-| ppt-builder | self-authored |
-| excel-assistant | self-authored |
-| resume-tailor | self-authored |
-| meeting-notes | self-authored |
-
-### Viral Entertainment (`viral-entertainment`) — 9 KB
-
-**Special entertainment scenarios: talking-baby podcast pipeline and "laughing mascot" meme shorts (nailong style) — character consistency discipline and platform-compliance built in.**
-
-| Skill | Source |
-|-------|--------|
-| ai-baby-podcast | self-authored |
-| nailong-laugh-shorts | self-authored |
-
-### Video Design Studio (`video-design-studio`) — 32 KB
-
-**Pre-production design layer: storyboard with continuity contracts, shot lists from 12 recipe cards, cross-model video-prompt engineering with a structural auditor, and visual style anchors with character consistency cards. Methodology credited to open-source projects (video-storyboard / video-shotcraft / visual-skills) — see each skill's sources-and-methodology.md.**
-
-| Skill | Source |
-|-------|--------|
-| storyboard-designer | self-authored |
-| shot-recipe-designer | self-authored |
-| video-prompt-engineer | self-authored |
-| visual-style-anchor | self-authored |
-
-### Visual Design Studio (`visual-design-studio`) — 14 KB
-
-**AI visual-design chain: brief -> spec -> prompt -> layout audit. design-brief-interpreter turns a vague request into a 7-field machine-checkable spec, image-prompt-engineer writes five-segment text-to-image prompts with per-model dialects and text-rendering rules, layout-spec-auditor checks ratio/resolution/safe-area/text-budget against a built-in platform spec table. Methodology credited to Anthropic canvas-design / designskills / Replicate prompting guide — see sources-and-methodology.md.**
-
-| Skill | Source |
-|-------|--------|
-| design-brief-interpreter | self-authored |
-| image-prompt-engineer | self-authored |
-| layout-spec-auditor | self-authored |
-
-### Audio Studio (`audio-studio`) — 14 KB
-
-**AI podcast chain: topic/document -> script -> voice -> publishable episode. podcast-producer writes segmented spoken-words-only scripts with a TTS-safety linter, tts-voice-director casts voices from a cross-engine catalog and plans ffmpeg stitching, episode-publisher emits shownotes, timestamped chapters and platform metadata with the AI-disclosure line. Methodology credited to Kokoro/Qwen3-TTS ecosystem practice (Podify / inference.sh) — see sources-and-methodology.md.**
-
-| Skill | Source |
-|-------|--------|
-| podcast-producer | self-authored |
-| tts-voice-director | self-authored |
-| episode-publisher | self-authored |
-
-### Growth Marketing (`growth-marketing`) — 15 KB
-
-**E-commerce marketing chain: product-copywriter picks a conversion framework (FAB/PAS/AIDA) with objection handling and ad-law fact hygiene; campaign-designer plans calendar + channel matrix + single-variable A/B pairs; channel-adapter rewrites per-channel with a built-in constraint table audited by channel_fit_check.py. Methodology credited to direct-response frameworks and the open marketing-skills ecosystem — see sources-and-methodology.md.**
-
-| Skill | Source |
-|-------|--------|
-| product-copywriter | self-authored |
-| campaign-designer | self-authored |
-| channel-adapter | self-authored |
-
-### Edu Craft (`edu-craft`) — 15 KB
-
-**Mastery-teaching chain: course-designer turns a topic into a learning contract + dependency-ordered checkpoints; exercise-generator emits open-ended strict exercises (MCQ banned) with rubrics, linted by exercise_lint.py; feynman-explainer runs the six-beat Feynman loop for failed checkpoints until re-test passes. Methodology credited to the Feynman/mastery-learning ecosystem — see sources-and-methodology.md.**
-
-| Skill | Source |
-|-------|--------|
-| course-designer | self-authored |
-| exercise-generator | self-authored |
-| feynman-explainer | self-authored |
-
-
-
-### AI Video Pipeline (`ai-video-pipeline`) — 62 KB
-
-**The whole short-video line in one pack: script → voice → lip-sync → assembly → subtitles → thumbnail. Six skills that hand off to each other, ending in a publish-ready vertical video.**
-
-| Skill | Source |
-|-------|--------|
-| video-script-writer | self-authored |
-| video-voice-synth | self-authored |
-| video-lip-sync | self-authored |
-| video-editor | self-authored |
-| video-subtitles | self-authored |
-| video-thumbnail | self-authored |
-
-### AI Research & Writing (`ai-research-writing`) — 129 KB
-
-**From question to finished long-form piece: multi-round research and report synthesis, academic topic selection, outline, draft, style editing, and keyword/platform-rule optimization.**
-
-| Skill | Source |
-|-------|--------|
-| deep-research | self-authored |
-| web-search | self-authored |
-| paper-topic-selector | self-authored |
-| article-outliner | self-authored |
-| article-drafter | self-authored |
-| content-editor | self-authored |
-| seo-optimizer | self-authored |
-| lit-review | self-authored |
-| experiment-runner | self-authored |
-| figure-maker | self-authored |
-| arch-diagram | self-authored |
-| neural-net-draw | self-authored |
-| latex-formatter | self-authored |
-| self-reviewer | self-authored |
-| journal-adapt | self-authored |
-| anti-defensive | self-authored |
-| ai-humanizer | self-authored |
-| tex-cleaner | self-authored |
-| pub-plotter | self-authored |
-
-### Code Planning & Generation (`code-planning`) — 72 KB
-
-**Turn a vague request into working code: three-layer waterfall intent recognition, structured implementation plans, two-tier generation (Jinja2 template engine + LLM), and systematic failure diagnosis with runnable Jinja2 templates bundled.**
-
-| Skill | Source |
-|-------|--------|
-| code-intent-planner | self-authored |
-| code-generator | self-authored |
-| debug-diagnoser | self-authored |
-
-### Data, ML & Scientific Computing (`data-ml-science`) — 63 KB
-
-**Data and modeling end to end: ETL cleaning and transforms, feature engineering with leakage warnings, mathematical formulation and solver selection, Monte Carlo simulation, result visualization, ML training pipelines with hyperparameter tuning, and metric interpretation.**
-
-| Skill | Source |
-|-------|--------|
-| etl-builder | self-authored |
-| feature-engineer | self-authored |
-| model-formulator | self-authored |
-| model-solver | self-authored |
-| simulation-runner | self-authored |
-| result-visualizer | self-authored |
-| ml-pipeline | self-authored |
-
-### Chat Prompt Craft (`chat-prompt-craft`) — 8 KB
-
-**Prompt engineering for conversational AI assistants (Doubao, ChatGPT, Kimi, DeepSeek, etc.): one-shot task prompts built on the five-element formula (role + background + task + requirements + format), agent/persona system prompts, reverse constraints that kill filler, and a heuristic structural audit.**
-
-| Skill | Source |
-|-------|--------|
-| chat-prompt-engineer | self-authored |
-
-## Directory Layout
-
-```
-packs/                          # scene pack definitions (one dir per scenario)
-├── code-review/                #   pack.json: scenario metadata + skill list + sources
-├── ci-cd/
-├── containers/
-├── database/
-├── api-development/
-├── github-workflow/
-├── architecture/
-├── incident-response/
-├── infrastructure/
-├── ai-agent-development/
-├── security/
-├── performance/
-└── tdd/
-skills/                         # single source of truth for all skill code
-├── programming/                # curated from upstream (multi-level taxonomy)
-└── writing/                    # self-authored scenario skills
-    ├── blog/                   #   cnblogs / csdn / jianshu / static-blog-deploy
-    ├── zhihu/  wechat/  juejin/ #   per-platform publishers
-    ├── social/                 #   xiaohongshu / weibo
-    ├── video/  news/           #   bilibili / toutiao / baijiahao
-    ├── community/              #   v2ex / segmentfault / oschina / douban
-    ├── assets/  orchestrator/  #   ai-cover-generator / cross-post-orchestrator
-    └── _common/                #   shared HTTP/dry-run/credential helpers (not a skill)
-dist/                           # build output: one zip per scene pack (gitignored)
+```mermaid
+flowchart LR
+    A[Real-world scenario] --> B[Scene pack<br/>1 pack = 1 scenario]
+    B --> C[Group of collaborating skills<br/>2–18 of them]
+    C --> D[Drop into AI tool<br/>skills dir]
+    D --> E[Works in new session]
+    style A fill:#eaf2ff,stroke:#5b8def
+    style E fill:#eafaea,stroke:#4caf72
 ```
 
-## Getting Started (30 seconds)
+- Every pack maps to a **concrete scenario** ("review a PR", "build CI/CD", "post to my blog"), not a broad domain.
+- Every pack bundles **the skills that work together for that scenario** — from a focused pair to an 18-skill suite (`Content Publishing Automation` covers 16 Chinese platforms end-to-end).
+- Every skill's **source is clearly attributed** (upstream curated / self-authored / open-source distilled).
+
+## By the numbers
+
+> **135 skills** · **31 scene packs** · **13 chain domains / 48 skill chains** · v0.16.1 · Apache-2.0
+
+**Source breakdown**:
+
+```mermaid
+pie title Skill sources (n=135)
+    "Self-authored scenario skills" : 89
+    "Upstream curated (alirezarezvani/claude-skills, MIT)" : 36
+    "Other open-source distilled" : 10
+```
+
+**Pack size distribution** (█ = 1 skill, 31 packs total):
+
+| 场景包 | 技能数 | 规模 |
+|--------|:---:|------|
+| AI Research & Writing | 19 | ███████████████████ |
+| Content Publishing Automation | 18 | ██████████████████ |
+| Data, ML & Scientific Computing | 7 | ███████ |
+| Office Productivity | 7 | ███████ |
+| AI Video Pipeline | 6 | ██████ |
+| AI Agent Development | 5 | █████ |
+| Code Review | 5 | █████ |
+| AI Media Toolkit | 4 | ████ |
+| Image Studio | 4 | ████ |
+| Memory Systems | 4 | ████ |
+| Video Design Studio | 4 | ████ |
+| Visual Design Studio | 4 | ████ |
+| System Architecture | 3 | ███ |
+| Audio Studio | 3 | ███ |
+| CI/CD Pipeline | 3 | ███ |
+| Code Planning & Generation | 3 | ███ |
+| Containers & Orchestration | 3 | ███ |
+| De-AI Writing | 3 | ███ |
+| Edu Craft | 3 | ███ |
+| GitHub Collaboration | 3 | ███ |
+| Growth Marketing | 3 | ███ |
+| Homework Autopilot | 3 | ███ |
+| Incident Response & SRE | 3 | ███ |
+| Infrastructure as Code | 3 | ███ |
+| API Development & Testing | 2 | ██ |
+| Database Design & Management | 2 | ██ |
+| Security & Secrets | 2 | ██ |
+| Test-Driven Development | 2 | ██ |
+| Viral Entertainment | 2 | ██ |
+| Chat Prompt Craft | 1 | █ |
+| Performance Profiling | 1 | █ |
+
+## Getting started (30 seconds)
 
 1. 📦 Download the zip for the **scene** you need from **Releases** (or run `python3 build.py` to build `dist/*.zip` locally).
-2. 📂 Unzip it — you get **multiple skill folders** (each containing `SKILL.md`).
-3. 🧲 **Drag** the skill folders into your AI tool's skills directory:
-   - Claude Code: `~/.claude/skills/` (global) or `.claude/skills/` in your project (project-only)
-   - Other tools with skills support: use their corresponding skills directory
-4. 🚀 Start a new session — it works immediately, no configuration needed.
+2. 📂 Unzip — you get **multiple skill folders** (each with `SKILL.md`).
+3. 🧲 **Drag** the folders into your AI tool's skills directory:
+   - Claude Code: `~/.claude/skills/` (global) or `.claude/skills/` (project)
+   - Other tools with skills support: use their skills directory
+4. 🚀 Start a new session — works immediately, no config.
 
-## Build & Release
+## Scene pack catalog
 
-Source lives in `skills/`; scene packs are defined in `packs/*/pack.json`; zips are published via platform Releases on Gitee / GitCode (`dist/` is gitignored).
 
-```bash
-# Generate dist/*.zip (one zip per scene pack)
-python3 build.py     # single build entry; cross-platform; also emits dist/_all.zip with every skill
+### 工程与编程
 
-# Release flow (formal releases use tools/release.py, see docs/VERSIONING.md)
-python3 tools/release.py 0.13.1 --commit   # validate CHANGELOG → bump → commit → tag
-git push origin main --follow-tags
-# Create the release on Gitee / GitCode and upload dist/*.zip
-# (manifest.json's version field is the single source of truth — avoid manual tags)
+| 场景包 | 技能数 | 场景 | 来源 |
+|--------|:---:|------|:---:|
+| AI Agent Development | 5 | 生产级 Agent、多智能体、MCP、特性开关、自评估 | 上游 |
+| Code Review | 5 | PR 审查、代码质量、依赖审计、技术债 | 上游 |
+| System Architecture | 3 | 系统架构、零停机迁移、monorepo | 上游 |
+| CI/CD Pipeline | 3 | CI/CD 流水线、发布门、spec 驱动开发 | 上游 |
+| Code Planning & Generation | 3 | 模糊需求→结构化计划→生成→失败诊断 | 自研 |
+| Containers & Orchestration | 3 | Dockerfile、compose、Helm、K8s operator | 上游 |
+| GitHub Collaboration | 3 | 并行 worktree、约定式 changelog、PR 审查 | 上游 |
+| Incident Response & SRE | 3 | 事故指挥、runbook、SLO/错误预算 | 上游 |
+| Infrastructure as Code | 3 | Terraform 模式、可观测性、K8s | 上游 |
+| API Development & Testing | 2 | REST API 设计审查、契约/集成测试 | 上游 |
+| Database Design & Management | 2 | 库设计、ERD、迁移、SQL 优化 | 上游 |
+| Security & Secrets | 2 | 密钥库、环境变量卫生 | 上游 |
+| Test-Driven Development | 2 | 单测、fixture、mock、红绿重构、Playwright 流程测试 | 上游 |
+| Chat Prompt Craft | 1 | 对话 AI 提示词工程：五要素公式、agent 系统提示、反向约束 | 自研 |
+| Performance Profiling | 1 | Node/Python/Go 的 CPU/内存/IO 剖析 | 上游 |
+
+### 研究与写作
+
+| 场景包 | 技能数 | 场景 | 来源 |
+|--------|:---:|------|:---:|
+| AI Research & Writing | 19 | 从问题到成稿：多轮研究、选题、大纲、草稿、润色、SEO、图表、LaTeX | 自研 |
+| De-AI Writing | 3 | AI 痕迹审计、人声改写、个人声纹档案（降低 AI 感） | 自研 |
+
+### 内容发布
+
+| 场景包 | 技能数 | 场景 | 来源 |
+|--------|:---:|------|:---:|
+| Content Publishing Automation | 18 | 16+ 中文平台文章/视频发布、编辑、跨平台分发、AI 封面 | 自研 |
+
+### 视频创作
+
+| 场景包 | 技能数 | 场景 | 来源 |
+|--------|:---:|------|:---:|
+| AI Video Pipeline | 6 | 短视频全链路：脚本→配音→对口型→剪辑→字幕→封面→发布 | 自研 |
+| AI Media Toolkit | 4 | 文/图生视频、生图、生乐、封面（本地生成网关） | 自研 |
+| Video Design Studio | 4 | 视频前期：分镜、镜头配方、prompt 工程、风格锚点 | 自研 |
+| Viral Entertainment | 2 | 会说话宝宝播客、龙崽 meme 短片（角色一致性） | 自研 |
+
+### 图像与设计
+
+| 场景包 | 技能数 | 场景 | 来源 |
+|--------|:---:|------|:---:|
+| Image Studio | 4 | 图像创作工作台：prompt、重绘、扩图、超分 | 自研 |
+| Visual Design Studio | 4 | brief→spec→prompt→layout 审计，设计总监两遍工作流 | 自研 |
+
+### 音频
+
+| 场景包 | 技能数 | 场景 | 来源 |
+|--------|:---:|------|:---:|
+| Audio Studio | 3 | 播客链：脚本→配音→发布（Kokoro/Qwen3-TTS） | 自研 |
+
+### 数据科学
+
+| 场景包 | 技能数 | 场景 | 来源 |
+|--------|:---:|------|:---:|
+| Data, ML & Scientific Computing | 7 | ETL、特征工程、建模求解、仿真、可视化、ML 流水线 | 自研 |
+
+### 办公生产力
+
+| 场景包 | 技能数 | 场景 | 来源 |
+|--------|:---:|------|:---:|
+| Office Productivity | 7 | PPT、Excel、Word、PDF、简历、纪要、内部通讯 | 自研 |
+
+### 增长营销
+
+| 场景包 | 技能数 | 场景 | 来源 |
+|--------|:---:|------|:---:|
+| Growth Marketing | 3 | 电商营销链：文案框架、活动策划、渠道适配 | 自研 |
+
+### 教育
+
+| 场景包 | 技能数 | 场景 | 来源 |
+|--------|:---:|------|:---:|
+| Edu Craft | 3 | 精通教学链：课程→练习→费曼讲解 | 自研 |
+| Homework Autopilot | 3 | 一键作业完成（有温度版，降低冷血感） | 自研 |
+
+### 记忆系统
+
+| 场景包 | 技能数 | 场景 | 来源 |
+|--------|:---:|------|:---:|
+| Memory Systems | 4 | 长期记忆：设计/抽取/管理/检索（mem0/letta 蒸馏） | 自研 |
+
+## Detail lexicons (the differentiator)
+
+Generation-quality skills live or die on *how detailed the prompt is*. We ship **high-density detail lexicons** — term + effect/mood + when-to-use + example — to consult before writing a prompt:
+
+| Lexicon | Domain | Coverage |
+|---------|:---:|---------|
+| `cinematography-lexicon.md` | 视频 | 17 种转场 / 动作动词空间语义 / 微表情表演 / 速度节奏 / 五模型方言 / 迭代修复对照 ||| `visual-detail-lexicon.md` | 图像 | 三层光照 30+ 词条 / 构图 / 焦段透视性格 / 材质堆叠公式 / 静态图动势词 ||| `music-style-lexicon.md` | 音乐 | 五槽位 Style 公式 / 曲风族谱 / 情绪×BPM 禁配 / 结构·人声·乐器 tag 全集 / 负面清单 ||| `emotion-delivery-lexicon.md` | 语音 | 情绪→文案手法 / 标点停顿层级 / 重音位置 / 双人对话节奏 ||| `copywriting-formulas.md` | 文案 | 10 型标题公式 / PAS·FAB·AIDA 结构 / CTA 按场景 / 四平台调性差异 ||| `layout-and-chart-rules.md` | PPT | 字号层级表 / 每页信息密度红线 / 图表选择决策树 / WCAG 对比度 ||| `camera-vocabulary.md` | 视频 | 运镜景别 / 基础转场（入门层） ||| `rest_design_rules.md` | API | REST 设计审查规则集 ||| `bounded_autonomy_rules.md` | CI/CD | 边界自治规则（人类审批节点） ||| `platform-rules.md` | SEO | 各平台发布规则与敏感词 |
+
+## Representative skill chains (pipelines, not single points)
+
+```mermaid
+flowchart LR
+    subgraph Short-video pipeline
+    S[video-script-writer] --> V[video-voice-synth]
+    V --> L[video-lip-sync] --> E[video-editor]
+    E --> SUB[video-subtitles] --> T[video-thumbnail] --> P[Publish]
+    end
+    subgraph Research-writing chain
+    R[deep-research] --> O[article-outliner] --> D[article-drafter]
+    D --> C[content-editor] --> Q[seo-optimizer]
+    end
+    subgraph Publishing chain
+    W[Article/Video] --> A[ai-cover-generator] --> X[cross-post-orchestrator]
+    X --> Z[16+ platforms]
+    end
 ```
 
-## Sources & Updates
+`skill_chains.json` ships **13 chain domains / 48 chains**, pinning "who runs first, who hands off to whom" so cross-module calls never get lost.
 
-This repository maintains two tracks:
+## Platform sync status
 
-**1. Upstream curation** — update from there:
+| Platform | Repo | Code sync | Release / assets | Status |
+|----------|------|:---:|:---:|--------|
+| GitCode | `badhope/awesome-skillkit` | ✅ through `0.16.1` | ✅ created | OK |
+| Gitee | `badhope/awesome-skillkit` | ✅ through `0.16.1` | ✅ v0.16.1, 32 zip assets | OK |
+| GitHub | `x33834/awesome-skillkit` | ⚠️ push from local | ⚠️ none | Sandbox egress ACL cuts TLS; run `git push origin main --follow-tags` locally (token needs repo+workflow) |
+| Site | `badhope/skillkit-site` | ✅ synced v0.16.1 | — | Enable GitCode Pages to go live |
 
-- **Upstream**: [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT license) — all 33 programming skills.
-- Two upstream near-duplicates (`database-schema-designer`, `agent-workflow-designer`) were merged into their siblings; their unique material was preserved as reference docs inside the surviving skill.
+## Directory layout
 
-To pull upstream updates: clone the upstream repo, re-copy the corresponding skill folders into `skills/programming/...`, then re-run `python3 build.py`.
+```
+packs/              # scene pack definitions (one dir per scenario; pack.json = metadata + skill list + sources)
+skills/             # single source of truth for all skills (multi-level taxonomy)
+  ├─ programming/   # upstream curated (alirezarezvani, 33 programming skills)
+  ├─ writing/       # self-authored scenario skills
+  ├─ video/ design/ audio/ marketing/ education/ scenarios/ …
+  └─ skill_chains.json  # 13 domains / 48 chains
+dist/               # build output: one zip per pack (gitignored)
+```
 
-**2. Self-authored scenario skills** (`skills/writing/`, pack `content-publishing`):
+## Sources & attribution
 
-- `zhihu-content-manager` / `cnblogs-skill` / `wechat-mp-publisher` / `juejin-publisher` / `csdn-publisher` / `jianshu-publisher` / `bilibili-publisher` / `toutiao-publisher` / `baijiahao-publisher` / `xiaohongshu-publisher` / `weibo-publisher` / `douban-publisher` / `v2ex-publisher` / `segmentfault-publisher` / `oschina-publisher` / `static-blog-deploy` / `cross-post-orchestrator` / `ai-cover-generator` encode China-platform-specific automation knowledge that upstream does not cover. Maintained in this repo; each ships executable pre-publish check scripts with unit tests, defaulting to dry-run.
+Two tracks, fully attributed per-skill in [manifest.json](manifest.json), each `packs/*/pack.json`, and [SOURCES.md](SOURCES.md):
 
-Full per-skill attribution is in [manifest.json](manifest.json), each `packs/*/pack.json`, and [SOURCES.md](SOURCES.md).
+- **Self-authored (89)**: `skills/writing/`, `scenarios/`, `design/`, `audio/` etc. — China-platform automation, video/image/audio pipelines, de-AI writing, memory systems, homework autopilot, all original workflows with executable lint scripts + unit tests, dry-run by default.
+- **Upstream curated (36, MIT)**: [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) for programming/engineering skills.
+- **Other distilled (10)**: methodology distilled from Anthropic public skills docs, mem0/letta/Claude memory tool, Kokoro/Qwen3-TTS ecosystem — all credited in `references/sources-and-methodology.md`, **zero content copied**.
 
-## Notes
+## Build & release
 
-- Non-core files (`.github`, `.gitignore`, `docker-compose.yml`, etc.) are excluded from the zips; runtime-required content (`SKILL.md`, `references/`, `scripts/`, `templates/`) is kept.
-- Per-skill dependencies (e.g. Playwright, login state) are documented in each skill's own `SKILL.md`.
+```bash
+python3 build.py                           # single build entry: dist/*.zip per pack + dist/_all.zip
+python3 tools/release.py 0.16.1 --commit   # validate CHANGELOG → bump → commit → tag
+git push origin main --follow-tags            # push code + three version tags
+# Create the release on Gitee / GitCode and upload dist/*.zip (manifest.json version is the single source of truth)
+```
 
 ## License
 
 [Apache License 2.0](LICENSE) © 2026 Morningstar202604
-
----
-
-
