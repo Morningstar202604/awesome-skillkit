@@ -154,3 +154,7 @@ python3 bilibili_publisher.py dynamic-post --execute \
 - `xiaohongshu-publisher` — 小红书发布
 - `weibo-publisher` — 微博发布
 - `cross-post-orchestrator` — 多平台编排
+
+## 参考
+
+- 本技能为纯提示型，无需外部参考文件。

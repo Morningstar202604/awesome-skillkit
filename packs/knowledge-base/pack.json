@@ -1,0 +1,17 @@
+{
+  "id": "knowledge-base",
+  "name": "Knowledge Base",
+  "name_zh": "个人知识库",
+  "description": "Turn scattered notes into a searchable base and a queryable graph: build a sharded-index wiki with orphan/broken-link linting, and extract entities plus relations from Markdown into Mermaid or Graphviz output.",
+  "description_zh": "把零散笔记变成可检索的知识库与可查询的图谱：分片索引 wiki（含孤儿笔记、断链、空笔记体检）与实体关系抽取（可导出 Mermaid / Graphviz，附度中心性与连通分量分析）。",
+  "skills": [
+    {
+      "name": "personal-wiki",
+      "source": "self-authored"
+    },
+    {
+      "name": "knowledge-graph-builder",
+      "source": "self-authored"
+    }
+  ]
+}

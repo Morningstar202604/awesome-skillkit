@@ -103,6 +103,9 @@ metadata:
 | 退出码 1 + 参数错误 | 缺 `--title` / `--content` 等 | 补齐参数后重跑 dry-run |
 | 退出码 1 + API 错误 | Cookie 失效或端点变更 | 刷新 `DOUBAN_COOKIE`；按 DevTools 更新端点常量 |
 | 端点返回 4xx/5xx | 端点已被豆瓣调整 | 重核对端点，更新脚本顶部常量 |
+| 登录态过期 / 提示登录后可见 | Cookie 超时或被风控清除 | 重新导出 `DOUBAN_COOKIE` 后重跑；先 dry-run 验证再 `--execute` |
+| 日记保存成功但列表里看不到 | 误选了「仅自己可见」 | 改 `--privacy` 为公开，或在网页端修改可见范围 |
+| 小组发帖被判定为广告 | 新号或正文含外链、联系方式 | 删去外链与推广话术，改用小组长文或稍后重试 |
 
 ## 交付标准
 
@@ -122,3 +125,7 @@ metadata:
 
 - Python 3.8+，标准库。
 - `publish_common`（与技能目录平级的 `_common/publish_common.py`）。
+
+## 参考
+
+- 本技能为纯提示型，无需外部参考文件。

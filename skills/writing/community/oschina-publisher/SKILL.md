@@ -106,6 +106,9 @@ Web 内部 API 无官方文档，端点可能随时变更。首次使用必须�
 | 退出码 1 + 参数错误 | 缺 `--title` / `--catalog` 等 | 补齐参数后重跑 dry-run |
 | 退出码 1 + API 错误 | Token/Cookie 失效或端点变更 | 刷新 `OSCHINA_ACCESS_TOKEN`/`OSCHINA_COOKIE`；重核端点 |
 | 端点返回 4xx/5xx | Web 端点已调整 | 按 DevTools 更新端点常量 |
+| 博客发布返回分类不存在 | `--catalog` 传了其他账号的 category ID | 调分类查询接口取本账号 ID，重跑 dry-run 后发布 |
+| 提问被拒绝，提示等级不足 | 新账号或权限不够 | 先在社区完成基础互动，等权限放开再发 |
+| 动态带图上传失败 | 图片超过平台体积或格式限制 | 压缩为 JPG 并小于限制体积后重传 |
 
 ## 交付标准
 
@@ -125,3 +128,7 @@ Web 内部 API 无官方文档，端点可能随时变更。首次使用必须�
 
 - Python 3.8+，标准库。
 - `publish_common`（与技能目录平级的 `_common/publish_common.py`）。
+
+## 参考
+
+- 本技能为纯提示型，无需外部参考文件。

@@ -1,10 +1,11 @@
 # SOURCES — 技能来源与更新指引 / Skill Sources & Updates
 
-> 本仓库维护两条线（截至 v0.13，共 **112 个技能 / 27 个场景包**）：
+> 本仓库维护两条线（截至 v0.18，共 **137 个技能 / 34 个场景包**）：
 > 1. **上游精选**（`skills/programming/` 下 13 个分类目录，33 个）——全部来自下方上游项目；
-> 2. **自建场景技能**（79 个）——分布在 `skills/writing/`、`skills/video/`、`skills/scenarios/`、
->    `skills/paper/`、`skills/ppt/` 及 `skills/programming/` 下的 5 个自建子目录
->    （`data/`、`debug/`、`math/`、`ml/`、`planning/`），本仓库原创维护。
+> 2. **自建场景技能**（83 个）——分布在 `skills/writing/`、`skills/video/`、`skills/scenarios/`、
+>    `skills/paper/`、`skills/ppt/`、`skills/tools/`、`skills/integrations/` 及
+>    `skills/programming/` 下的 5 个自建子目录（`data/`、`debug/`、`math/`、`ml/`、`planning/`），
+>    本仓库原创维护。
 
 ## 上游仓库 / Upstream（skills/programming/ 的 13 个分类目录）
 
@@ -35,7 +36,7 @@ git clone https://github.com/alirezarezvani/claude-skills.git D:\_upstream\claud
 python3 build.py         # 唯一构建入口
 ```
 
-## 自建场景技能 / Self-authored scenarios（79 个）
+## 自建场景技能 / Self-authored scenarios（83 个）
 
 ### 内容发布与写作（skills/writing/，22 个）
 
@@ -146,9 +147,18 @@ python3 build.py         # 唯一构建入口
 | tex-cleaner | ai-research-writing | arXiv 提交前清理五类检查（学习自 arxiv-latex-cleaner） |
 | pub-plotter | ai-research-writing | SciencePlots 风格学术图（学习自 garrettj403/SciencePlots） |
 
-以上 79 个技能不来自上游，由本仓库原创维护，更新即改本仓库。
+### 外部集成（skills/integrations/，4 个）
 
-## 全部技能清单（112 = 上游 33 + 自建 79）
+| Skill | 场景包 | 说明 |
+|-------|--------|------|
+| notion-workspace | workspace-integrations | Notion API 请求构造与响应解析（版本头/游标分页/3 req/s 限速/块类型白名单），脚本离线不发请求 |
+| feishu-dingtalk-bridge | workspace-integrations | 飞书/钉钉/企业微信三家消息负载构造与回调解析，含协议差异对照表与钉钉加签算法 |
+| issue-tracker-sync | workspace-integrations | Jira/Linear/GitHub Issues 建单请求构造 + 跨平台状态语义映射 + 离线周报生成 |
+| cloud-drive-manager | workspace-integrations | 云盘归档：上传计划（分片策略）、sha256/md5 校验清单、三家列表响应解析；不提供删除命令 |
+
+以上 83 个技能不来自上游，由本仓库原创维护，更新即改本仓库。
+
+## 全部技能清单（116 = 上游 33 + 自建 83）
 
 ### 上游精选（33）
 
@@ -208,6 +218,16 @@ python3 build.py         # 唯一构建入口
 | `skills/programming/planning/pipeline_orchestrator.py` | 代码计划域编排器：意图→计划→生成 |
 
 ## 历史 / History
+
+- 2026-09-17：**新增 `workspace-integrations` 场景包（4 技能，全部自研）** —— 首次补齐
+  「外部集成」域（此前仅 git/GitHub 有覆盖）。`notion-workspace` / `feishu-dingtalk-bridge` /
+  `issue-tracker-sync` / `cloud-drive-manager` 四技能共享一套操作契约：**写操作默认 dry-run
+  先出负载、凭证只从环境变量读取、脚本只做「请求构造 + 响应解析」的纯函数**——
+  四个脚本仅用标准库（json/argparse/hashlib/pathlib），**不发任何 HTTP 请求**，
+  因此无凭证、无网络也可完整实测；真实执行时由 AI 用 curl/SDK 注入凭证。
+  各技能 `references/sources-and-methodology.md` 记录了方法论蒸馏来源（两阶段 plan/apply、
+  canonical model 语义中介、verify-after-write、十二要素 config）与所用 API 官方文档链接。
+  同时新增 `integrations` 链域（3 条链）。
 
 - 2026-09-17：**新增 `toolsmith` 场景包（4 技能，全部自研）** —— 首次补齐「工具与自动化」域。
   `file-organizer` / `batch-renamer` / `format-converter` / `task-scheduler` 四技能均为原创实现，

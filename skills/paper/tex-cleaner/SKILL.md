@@ -1,6 +1,6 @@
 ---
 name: tex-cleaner
-description: "Pre-flight cleanup for arXiv/venue submission: strip comments, flag unused packages, external file deps, undefined refs, TOC leftovers, non-ASCII in TeX source. 学习自 google-research/arxiv-latex-cleaner (7k stars). Use when the user asks arXiv 提交前清理 / 清理 LaTeX 工程 / tex 瘦身 / 删 tex 注释 / 检查未定义引用 / latex cleanup / 提交打包前检查. Fails with rc=1 when the input file does not exist."
+description: "Pre-flight cleanup for arXiv/venue submission: strip comments, flag unused packages, external file deps, undefined refs, TOC leftovers, non-ASCII in TeX source. 学习自 google-research/arxiv-latex-cleaner (7k stars). Use when the user asks arXiv 提交前清理 / 清理 LaTeX 工程 / tex 瘦身 / 删 tex 注释 / 检查未定义引用 / latex cleanup / 提交打包前检查. Fails with rc=1 when the input file does not exist. Also triggers on / 清理 tex 工程 / 删多余宏包 / 检查未定义引用 / arxiv 打包 / strip latex comments. Do NOT use for fixing LaTeX compilation errors (use latex-formatter) or for writing paper content."
 license: Apache-2.0
 compatibility: Stdlib only; static scan/clean on .tex files.
 metadata:

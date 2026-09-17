@@ -1,6 +1,6 @@
 ---
 name: model-formulator
-description: "将自然语言问题形式化为数学模型：识别变量、约束、目标函数与模型类型（ODE/ILP/随机/Bayesian），输出可供 model-solver 消费的模型规格。何时使用：问题已用文字描述但缺乏数学结构时。触发场景（中/英）：数学建模 / 把问题写成模型 / 定义变量与约束 / formalize a problem / write a math model / define variables and constraints。排除项：不对已形式化模型做数值求解（交给 model-solver）。"
+description: "将自然语言问题形式化为数学模型：识别变量、约束、目标函数与模型类型（ODE/ILP/随机/Bayesian），输出可供 model-solver 消费的模型规格。何时使用：问题已用文字描述但缺乏数学结构时。触发场景（中/英）：数学建模 / 把问题写成模型 / 定义变量与约束 / formalize a problem / write a math model / define variables and constraints。排除项：不对已形式化模型做数值求解（交给 model-solver）。 何时使用：已有文字描述、需要先定变量与目标再求解时。触发场景（中/英）：数学建模 / 把问题写成模型 / 定义变量与约束 / 形式化问题 / formalize a problem / write a math model.排除项：不做数值求解（交给 model-solver），不画结果图（交给 result-visualizer）。Use when the user asks 数学建模 / 把问题写成模型 / 定义变量与约束 / 形式化问题 / formalize a problem / write a math model. Do NOT use when a formal model already exists and only numerical solving (use model-solver) or plotting (use result-visualizer) is needed."
 license: Apache-2.0
 compatibility: Pure Python + LLM assistance. No external solver needed at this step.
 metadata:
@@ -121,6 +121,9 @@ python3 scripts/model_formulator.py \
 | `error: argument --domain: invalid choice` | domain 拼写错 | 用 `--help` 核对 5 个合法值 |
 | 输出缺少 `constraints` | 问题表述无边界条件 | 退回输入清单补齐约束描述 |
 | `solver_hint` 与 `model_type` 不符 | 决策树判定错 | 手动核对决策树并重写规格 |
+| 问题描述有歧义，无法定变量 | 输入只有结论诉求，没有数据与决策对象 | 退回用户补齐决策变量、取值范围与约束来源，再形式化 |
+| `objective` 方向写反 | min/max 与业务语义相反 | 对照目标描述重核方向，改后重新生成规格 |
+| 模型类型选成 LP 但含整数变量 | 忽略了下标或计数型变量 | 改判为 ILP/MIP 并补 `integrality` 字段 |
 
 ## 交付标准
 

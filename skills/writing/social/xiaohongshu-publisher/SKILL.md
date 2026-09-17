@@ -106,6 +106,9 @@ metadata:
 | 退出码 1 + 参数错误 | 缺 `--title` / `--content` / `note_id` 等 | 补齐参数后重跑 dry-run |
 | 退出码 1 + API 错误 | Cookie 失效或端点变更 | 刷新 `XHS_COOKIE`；重核端点 |
 | 端点返回 4xx/5xx | 端点已调整 | 按 DevTools 更新端点常量 |
+| 发布后笔记仅自己可见 | 命中违规词或判定为疑似营销 | 改掉绝对化用词与导流话术后重发 |
+| 多图上传中断 | 图片过大或上传超时 | 单张压缩到平台限制内并逐张上传 |
+| 草稿未保存成功 | note_id 未返回，Cookie 已失效 | 刷新 `XHS_COOKIE` 后重新保存并确认返回 note_id |
 
 ## 交付标准
 
@@ -125,3 +128,7 @@ metadata:
 
 - Python 3.8+，标准库。
 - `publish_common`（与技能目录平级的 `_common/publish_common.py`）。
+
+## 参考
+
+- 本技能为纯提示型，无需外部参考文件。

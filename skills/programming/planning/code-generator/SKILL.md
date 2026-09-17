@@ -1,6 +1,6 @@
 ---
 name: code-generator
-description: "两层代码生成（L1 模板引擎 + L2 LLM），把结构化计划转为可运行代码。支持 Python FastAPI、TypeScript Express、Go Gin 的 CRUD 模板与项目分析。何时使用：需把 code-intent-planner 产出的计划落为实际代码文件时。触发场景（中/英）：生成代码 / 按计划写实现 / 把方案变成代码 / generate code / implement from plan / turn plan into code。排除项：不审查或调试已有代码（仅从计划生成）。"
+description: "两层代码生成（L1 模板引擎 + L2 LLM），把结构化计划转为可运行代码。支持 Python FastAPI、TypeScript Express、Go Gin 的 CRUD 模板与项目分析。何时使用：需把 code-intent-planner 产出的计划落为实际代码文件时。触发场景（中/英）：生成代码 / 按计划写实现 / 把方案变成代码 / generate code / implement from plan / turn plan into code。排除项：不审查或调试已有代码（仅从计划生成）。 何时使用：已有一份结构化实现计划、需要落成可运行代码文件时。触发场景（中/英）：生成代码 / 按计划写实现 / 把方案变成代码 / 生成 CRUD 脚手架 / generate code / implement from plan / turn plan into code.排除项：不审查或调试已有代码，不制定实现计划（交给 code-intent-planner）。Use when the user asks 生成代码 / 按计划写实现 / 把方案变成代码 / 生成 CRUD 脚手架 / generate code / implement from plan / turn plan into code. Do NOT use when the ask is reviewing or debugging existing code, or when the plan itself still needs to be produced (use code-intent-planner)."
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:

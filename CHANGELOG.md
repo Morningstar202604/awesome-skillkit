@@ -16,6 +16,97 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.18.0] - 2026-09-17
+
+### Added
+
+- **新场景包 ×3 — 覆盖外部集成、个人知识库、数据可视化三个主流域**：
+
+  **`Workspace Integrations`（外部集成，4 技能）** — 此前只有 git/GitHub，本轮补齐：
+  - `notion-workspace`：页面/数据库读写、blocks↔Markdown 双向转换；覆盖 API 版本头、
+    分页（has_more/next_cursor）、rate limit（3 req/s）与 10 种 block 类型映射。
+  - `feishu-dingtalk-bridge`：飞书 / 钉钉 / 企业微信三家协议差异对照（鉴权方式、消息格式、
+    Webhook 安全设置）——飞书 content 是字符串化 JSON、钉钉是独立 markdown 对象 + 顶层 at、
+    企微标题内联进 content，三家结构差异一次讲清。
+  - `issue-tracker-sync`：Jira / Linear / GitHub Issues 三向字段映射（Jira 嵌套 fields、
+    Linear GraphQL variables、GitHub 扁平 body）+ 跨平台状态映射表 + 周报生成。
+  - `cloud-drive-manager`：上传计划、sha256 校验清单、云盘响应解析；覆盖分片阈值、秒传原理、
+    百度/阿里/OneDrive 差异。**有意不提供删除命令**——删除是唯一不可逆且后果随规模放大的操作。
+  - 四个技能共同红线：凭证零硬编码（只读环境变量）、写操作默认 dry-run、脚本不发真实网络请求、
+    显式标注所需 scope 与"不要申请什么"。
+
+  **`Knowledge Base`（个人知识库，2 技能）**
+  - `personal-wiki`：init/index/search/lint/stats 一套；检索权重实测生效（标题 17 分 vs 正文 1 分）；
+    lint 抓孤儿笔记、断链、空笔记。
+  - `knowledge-graph-builder`：从 Markdown 提取实体关系（`[[wiki链接]]` 作边），导出
+    Mermaid/Graphviz/DOT；分析度中心性、连通分量、孤立节点。
+
+  **`Data Viz Studio`（数据可视化，2 技能）**
+  - `dashboard-designer`：CSV 列类型推断 + 分布摘要 → 布局推荐 → 生成**零外部请求**的自包含
+    单文件 HTML 仪表盘（经 Chromium 渲染验证图形真实存在）。
+  - `chart-recommender`：图表选择词库（137 行）——数据类型→图型映射、每种图型的适用与反例、
+    视觉编码优先级、截断 y 轴/双轴滥用/3D 饼图等经典错误清单、三类色板适用场景。
+
+- **office-productivity 补强**：`epub-builder`（仅标准库实现，Markdown → 标准 EPUB；
+  严格遵守 `mimetype` 必须为首个未压缩条目的规范，已用 zipfile 独立复核）。
+
+- 新增链域 ×3：`integrations`（3 链）、`knowledge`、`dataviz`，全库
+  **18 链域 / 57 条链**。
+
+### Fixed
+
+- **全仓骨架规范整治（52 → 0 FAIL）**：以 `skill-linter` 为标尺逐项修复 46 个技能：
+  - 补 `## 参考` 章节 ×20（有参考文件的列真实链接，纯提示型写明确说明，禁止编造链接）
+  - 失败处置表补足至 ≥4 行 ×24（补的行按平台实况撰写，如微博风控限流、小红书多图上传中断、
+    LaTeX 的 TikZ 箭头压字，非套话）
+  - description 补齐 `Use when` / `Do NOT` 路由与 ≥5 个中英双语触发词 ×10
+  - 补 `## 工作流` 总纲章节 ×3（原有流水线内容保留，新增流程索引）
+- **`sql-database-assistant` 正文瘦身**：518 行超门禁硬线（<500），将「多数据库支持」与
+  「ORM 模式」两段共 111 行参考型知识外移到 `references/dialect_and_orm.md`，正文留导航，
+  压至 421 行——修正了该技能与自身 references 内容重复的问题。
+
+### Changed
+
+- 三语言 README 数据刷新：**143 技能 / 37 包 / 18 链域 57 链**（新增 5 个主题分组）。
+
+### Verified
+
+- `validate_skills.py`：142 技能 / **0 error** / PASSED
+- `skill-linter` 全仓：**0 FAIL**（整治前 52）
+- `pytest`：271 passed
+- `build.py`：37 个压缩包
+
+### Added
+
+- **新场景包 `Workspace Integrations`（外部集成，4 技能，全部自研）** —— 补齐长期空白的
+  「外部集成」域（此前只有 git/GitHub 有覆盖）。四技能共享同一套操作契约：
+  **写操作默认 dry-run 先出负载、凭证只从环境变量读取、脚本只做「请求构造 + 响应解析」
+  的纯函数**——四个脚本仅用标准库（json/argparse/hashlib/pathlib），**不发任何 HTTP 请求**，
+  因此在无凭证、无网络的环境下可完整实测；真实执行时由 AI/用户用 curl/SDK 注入凭证。
+  - `notion-workspace`：`build-page`（构造创建页面请求体，区分 page/database 两种 `parent` 结构）、
+    `build-database-query`（filter/sorts/游标分页，`page_size` 上限 100 本地拦截）、
+    `parse-page`（10+ 种属性类型压平成 Markdown 表格）、`blocks-to-markdown`（9 种块类型映射，
+    未映射类型渲染成 HTML 注释留痕）。SKILL.md 覆盖 `Notion-Version` 版本头、`has_more`/`next_cursor`
+    游标分页、约 3 req/s 限速与退避、以及「未授权页面返回 404 而非 403」这一高频误判点。
+  - `feishu-dingtalk-bridge`：`build-message` 按三家**各自**的协议构造负载（不做"通用负载再翻译"
+    的伪抽象），`parse-webhook` 解析回调/响应并给出错误码定向解释（`310000`、`300001`、`19002`、
+    `93000`、`45009`）。SKILL.md 含 13 行协议差异对照表（鉴权/加签/令牌周期/Markdown 支持/
+    内容容器类型/@ 人实现/文本上限/成功判定/回调形态/频率限制）。钉钉加签算法以参考函数形式提供，
+    脚本本身不持有密钥。
+  - `issue-tracker-sync`：`build` 构造三家建单请求（Jira 嵌套 `fields` / Linear GraphQL mutation /
+    GitHub 扁平 REST），`field-map` 打印优先级-状态-字段三张映射表（支持 `--json` 供程序消费），
+    `weekly-report` 从 issue 列表离线渲染周报（按状态分组 + **阻塞项引用块置顶高亮**，
+    兼容三家不同的响应包装层级）。SKILL.md 给出跨平台**状态语义映射表**——强调
+    "语义对齐而非字符串对拷"，并记录 Jira `customfield_NNNNN` 与 Linear `labelIds` 需 UUID 等陷阱。
+  - `cloud-drive-manager`：`plan-upload` 生成上传计划（文件清单 + 体积 + 目标路径 + 分片策略，
+    可落 manifest JSON）、`checksum-plan` 生成**可被 `sha256sum -c` 直接消费**的校验清单、
+    `parse-list` 归一化百度/阿里云盘/OneDrive 三家列表响应。SKILL.md 含三家 API 差异对照表、
+    分片阈值依据（4MB / 100MB / 250MB，OneDrive 分片须为 320KiB 倍数）、**秒传原理说明**
+    （哈希算法因平台而异，用错则永不命中），以及**删除操作的双重确认要求**——
+    本技能**有意不提供删除命令**，只提供"看清将删什么"的能力。
+- 新增链域 `integrations`（3 条链：weekly_status_broadcast / meeting_notes_distribution /
+  deliverable_archive），全库 **16 链域 / 55 条链**。
+
 ## [0.17.0] - 2026-09-17
 
 ### Added

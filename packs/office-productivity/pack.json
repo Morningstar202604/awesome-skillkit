@@ -3,7 +3,7 @@
   "name": "Office Productivity",
   "name_zh": "办公效率工具箱",
   "description": "Daily office work: decks, spreadsheets, resumes, meeting minutes.",
-  "description_zh": "日常办公全家桶：PPT 制作、Excel 清洗分析、Word 文档生成、PDF 管线（合并/拆分/提取/表单）、简历岗位定制、会议纪要结构化、内部通讯写作（周报/公告/FAQ）。",
+  "description_zh": "日常办公全家桶：PPT 制作、Excel 清洗分析、Word 文档生成、PDF 管线（合并/拆分/提取/表单）、简历岗位定制、会议纪要结构化、内部通讯写作（周报/公告/FAQ）、EPUB 电子书生成（Markdown → 标准 EPUB）。",
   "skills": [
     {
       "name": "ppt-builder",
@@ -31,6 +31,10 @@
     },
     {
       "name": "pdf-pipeline",
+      "source": "self-authored"
+    },
+    {
+      "name": "epub-builder",
       "source": "self-authored"
     }
   ]

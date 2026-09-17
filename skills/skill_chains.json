@@ -533,6 +533,56 @@
           "skill-linter?"
         ]
       }
+    },
+    "integrations": {
+      "entry": "skills/integrations/notion-workspace",
+      "skills": [
+        "notion-workspace",
+        "feishu-dingtalk-bridge",
+        "issue-tracker-sync",
+        "cloud-drive-manager"
+      ],
+      "chains": {
+        "weekly_status_broadcast": [
+          "issue-tracker-sync",
+          "feishu-dingtalk-bridge",
+          "notion-workspace?"
+        ],
+        "meeting_notes_distribution": [
+          "notion-workspace",
+          "feishu-dingtalk-bridge"
+        ],
+        "deliverable_archive": [
+          "cloud-drive-manager",
+          "feishu-dingtalk-bridge?"
+        ]
+      }
+    },
+    "knowledge": {
+      "entry": "skills/knowledge/personal-wiki",
+      "skills": [
+        "personal-wiki",
+        "knowledge-graph-builder"
+      ],
+      "chains": {
+        "build_personal_kb": [
+          "personal-wiki",
+          "knowledge-graph-builder"
+        ]
+      }
+    },
+    "dataviz": {
+      "entry": "skills/dataviz/dashboard-designer",
+      "skills": [
+        "dashboard-designer",
+        "chart-recommender"
+      ],
+      "chains": {
+        "csv_to_dashboard": [
+          "chart-recommender",
+          "dashboard-designer"
+        ]
+      }
     }
   }
 }

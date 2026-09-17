@@ -16,6 +16,18 @@ metadata:
 
 database-designer 的日常操作搭档。**database-designer** 聚焦 Schema 架构、ERD 建模与多租户模式；本技能覆盖日常：写查询、优化性能、生成迁移、打通应用代码与数据库引擎之间的鸿沟。
 
+## 工作流
+
+本技能按以下主流程推进，各环节详细规则见后续对应章节：
+
+1. **接需求**：区分是"写成 SQL"、"优化已有 SQL"还是"设计/迁移 schema"（见 自然语言转 SQL / 查询优化 / 迁移生成）
+2. **摸 schema**：确认表结构与字段类型，不靠猜（见 Schema 探索）
+3. **产出**：给出 SQL 或迁移脚本，并说明假设条件（见 交付标准）
+4. **优化与校验**：有性能问题时走索引与执行计划分析（见 查询优化）
+5. **自检**：对着 安全红线 与 失败处置表 过一遍再交付
+
+> 目标数据库不同时，先按 多数据库支持 章节确认方言差异，避免语法不兼容。
+
 ## 核心能力
 
 - **自然语言转 SQL** — 把需求翻译成正确且高效的查询
@@ -284,116 +296,18 @@ python3 scripts/migration_generator.py --change "rename column name to full_name
 
 预期：按 `--format`（`sql`/`prisma`/`alembic`）输出 up/down 迁移模板（SQL）或 Alembic/Prisma 模板；`--output` 写文件而非 stdout。若失败：变更措辞无法识别 → 改述为 "add/drop/rename column X to/in table Y"；方言不支持 → 从上述四种中选一。
 
-## 多数据库支持
+## 多数据库支持与 ORM
 
-### 方言差异
+不同引擎的方言差异（UPSERT / 布尔 / 自增 / JSON / 窗口函数等 9 项对照）与四大 ORM
+（Prisma / SQLAlchemy / TypeORM / GORM）的 schema 定义、迁移命令与查询 API，
+已整理到参考文件，需要时再读：
 
-| 特性 | PostgreSQL | MySQL | SQLite | SQL Server |
-|------|-----------|-------|--------|------------|
-| UPSERT | `ON CONFLICT DO UPDATE` | `ON DUPLICATE KEY UPDATE` | `ON CONFLICT DO UPDATE` | `MERGE` |
-| 布尔 | 原生 `BOOLEAN` | `TINYINT(1)` | `INTEGER` | `BIT` |
-| 自增 | `SERIAL` / `GENERATED` | `AUTO_INCREMENT` | `INTEGER PRIMARY KEY` | `IDENTITY` |
-| JSON | `JSONB`（可索引） | `JSON` | 文本（扩展） | `NVARCHAR(MAX)` |
-| 数组 | 原生 `ARRAY` | 不支持 | 不支持 | 不支持 |
-| CTE（递归） | 完整支持 | 8.0+ | 3.8.3+ | 完整支持 |
-| 窗口函数 | 完整支持 | 8.0+ | 3.25.0+ | 完整支持 |
-| 全文检索 | `tsvector` + GIN | `FULLTEXT` 索引 | FTS5 扩展 | 全文目录 |
-| LIMIT/OFFSET | `LIMIT n OFFSET m` | `LIMIT n OFFSET m` | `LIMIT n OFFSET m` | `OFFSET m ROWS FETCH NEXT n ROWS ONLY` |
+- [dialect_and_orm.md](references/dialect_and_orm.md) —— 方言对照表 + 兼容性要点 + ORM 模式
+- [orm_patterns.md](references/orm_patterns.md) —— ORM 深度模式与关联查询
+- [optimization_guide.md](references/optimization_guide.md) —— 索引与执行计划优化
+- [query_patterns.md](references/query_patterns.md) —— 常用查询写法
 
-### 兼容性要点
-
-- **始终用参数化查询** — 所有方言下防 SQL 注入
-- **共享代码避免方言专属函数** — 用适配层封装
-- **在目标引擎上测迁移** — `information_schema` 各引擎不同
-- **用 ISO 日期格式** — `'YYYY-MM-DD'` 到处可用
-- **给标识符加引号** — 双引号（SQL 标准）或反引号（MySQL）
-
-## ORM 模式
-
-### Prisma
-
-**Schema 定义**
-
-```prisma
-model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String?
-  posts     Post[]
-  createdAt DateTime @default(now())
-}
-
-model Post {
-  id       Int    @id @default(autoincrement())
-  title    String
-  author   User   @relation(fields: [authorId], references: [id])
-  authorId Int
-}
-```
-
-**迁移**：`npx prisma migrate dev --name add_user_email`
-
-**查询 API**：`prisma.user.findMany({ where: { email: { contains: '@' } }, include: { posts: true } })`
-
-**原生 SQL 逃生通道**：`prisma.$queryRaw\`SELECT * FROM users WHERE id = ${userId}\``
-
-### Drizzle
-
-**Schema 优先定义**
-
-```typescript
-export const users = pgTable('users', {
-  id: serial('id').primaryKey(),
-  email: varchar('email', { length: 255 }).notNull().unique(),
-  name: text('name'),
-  createdAt: timestamp('created_at').defaultNow(),
-});
-```
-
-**查询构造器**：`db.select().from(users).where(eq(users.email, email))`
-
-**迁移**：`npx drizzle-kit generate:pg` 后接 `npx drizzle-kit push:pg`
-
-### TypeORM
-
-**实体装饰器**
-
-```typescript
-@Entity()
-export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ unique: true })
-  email: string;
-
-  @OneToMany(() => Post, post => post.author)
-  posts: Post[];
-}
-```
-
-**Repository 模式**：`userRepo.find({ where: { email }, relations: ['posts'] })`
-
-**迁移**：`npx typeorm migration:generate -n AddUserEmail`
-
-### SQLAlchemy
-
-**声明式模型**
-
-```python
-class User(Base):
-    __tablename__ = 'users'
-    id = Column(Integer, primary_key=True)
-    email = Column(String(255), unique=True, nullable=False)
-    name = Column(String(255))
-    posts = relationship('Post', back_populates='author')
-```
-
-**Session 管理**：始终用 `with Session() as session:` 上下文管理器
-
-**Alembic 迁移**：`alembic revision --autogenerate -m "add user email"`
-
-> 各 ORM 并排对比与迁移工作流见 references/orm_patterns.md。
+> 跨引擎迁移前，先按方言对照表确认语法兼容；写 ORM 代码前，确认目标 ORM 的迁移命令形态。
 
 ## 数据完整性
 

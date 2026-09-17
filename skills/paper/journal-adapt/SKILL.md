@@ -72,6 +72,9 @@ python3 scripts/journal_adapt.py --input draft.tex --target neurips --output ada
 | `invalid choice: '<x>'` | `--target` 非法 | 改用 5 个合法 venue 之一 |
 | `issues` 全为 banned | 命中 venue 禁词 | 按 issue.phrase 逐条替换/删除 |
 | 输出非 JSON | 写入中断 | 检查 `--output` 可写后重试 |
+| 摘要超出 venue 字数上限 | 原稿按别的模板写的，长了几十个词 | 按 venue 上限压缩摘要，删冗余修饰而非删结论 |
+| 章节顺序与模板不符 | 原稿顺序沿用了上一个 venue | 按目标 venue 的 section 顺序重排，再跑一次适配检查 |
+| 参考文献格式被标不合规 | bib 仍是上一套风格（编号 vs 作者年） | 改用目标 venue 的 style 文件重新生成参考文献 |
 
 ## 交付标准
 

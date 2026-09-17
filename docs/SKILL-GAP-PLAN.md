@@ -134,6 +134,6 @@
 - [ ] P0-A：Toolsmith 包 4 技能
 - [ ] P0-B：Skill Forge 包 3 技能
 - [ ] 注册 manifest + skill_chains + CHANGELOG，发版 v0.17.0
-- [ ] P1：Workspace Integrations 4 技能 → v0.18.0
+- [x] P1：Workspace Integrations 4 技能 → v0.18.0
 - [ ] P2：Knowledge Base 2 + Data Viz 2 + 补强 3 → v0.19.0
 - [ ] 三语言 README 数据刷新（每次发版）

@@ -71,6 +71,9 @@ python3 scripts/anti_defensive.py --file draft_section.md --output anti_defensiv
 | `Need --text or --file` | 未提供输入 | 回到输入清单补齐 |
 | 空 `issues` 但 score 偏低 | 命中未列规则 | 人工复核，必要时补 `DEFENSIVE_PATTERNS` |
 | 文件读取失败 | 路径不存在 / 编码错误 | 校验 `--file` 路径真实存在 |
+| 改写后语气过硬、像断言 | 把 double hedge 直接删成裸断言 | 保留一处限定条件（样本/范围），只删重复与自我贬低措辞 |
+| 该保守的结论被改掉 | 'may' 本身是合理的统计限定 | 统计上不确定的结论必须保留限定语，只改语言性弱化 |
+| 同一 `fix` 反复命中 | 改写文本未写回 `--file` 指向的原文件 | 确认改动落盘后重跑，避免对着旧文本重复改写 |
 
 ## 交付标准
 

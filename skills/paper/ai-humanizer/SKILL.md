@@ -73,6 +73,9 @@ python3 scripts/ai_humanizer.py --file draft.tex --output humanize_report.json
 | `Need --text or --file` | 未提供输入 | 回到输入清单补齐 |
 | 空 `issues` 但 score 偏低 | 命中未列规则 | 人工复核，必要时补 `AI_PATTERNS` |
 | 文件读取失败 | 路径不存在 / 编码错误 | 校验 `--file` 路径真实存在 |
+| 改写后分数不升反降 | 删掉旧措辞又引入了新的模板句式 | 重新跑检测，重点看新出现的 high severity 项，别只看总分 |
+| 中文段落被误报 | 词表以英文 AI 高频词为主，中文规则较粗 | 人工判断中文命中项，确属误报则在报告中标注忽略理由 |
+| score 正常但读起来仍像 AI 写的 | 静态词表查不出句式节奏与信息密度问题 | 本工具只负责词面层；交人工做结构调整，不要只信分数 |
 
 ## 交付标准
 

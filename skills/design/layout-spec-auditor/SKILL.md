@@ -92,3 +92,8 @@ python3 scripts/spec_audit.py --image cover.png --platform wechat-header --text-
 | 知乎文章头图 | 横图 16:9 | 16:9 | — |
 
 完整表与更新方法见脚本内 `PLATFORM_SPECS`（PR 直接改表 + 跑测试）。
+
+## 参考
+
+- [scripts/spec_audit.py](scripts/spec_audit.py) —— 跑平台规格审计：比例/分辨率/安全区/文件大小，输出逐项 pass/fail JSON
+- [scripts/test_smoke_layout_spec_auditor.py](scripts/test_smoke_layout_spec_auditor.py) —— 冒烟测试，改规格表或审计逻辑后先跑它

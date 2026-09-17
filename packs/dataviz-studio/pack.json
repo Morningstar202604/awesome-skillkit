@@ -1,0 +1,17 @@
+{
+  "id": "data-viz-studio",
+  "name": "Data Viz Studio",
+  "name_zh": "数据可视化工作室",
+  "description": "From raw CSV to a shippable dashboard: profile columns, recommend a layout, and emit a self-contained single-file HTML dashboard with zero external requests. Plus a chart-selection lexicon covering encoding priority, per-chart-type caveats, and the classic mistakes.",
+  "description_zh": "从原始 CSV 到能交付的仪表盘：列类型推断与分布摘要、布局推荐、生成零外部依赖的自包含单文件 HTML。另附图表选择词库（视觉编码优先级、各图型适用与反例、截断坐标轴等经典错误清单）。",
+  "skills": [
+    {
+      "name": "dashboard-designer",
+      "source": "self-authored"
+    },
+    {
+      "name": "chart-recommender",
+      "source": "self-authored"
+    }
+  ]
+}

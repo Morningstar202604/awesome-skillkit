@@ -48,7 +48,7 @@
       "description": "Generate videos, images, covers, and music from prompts through a local generation gateway.",
       "description_zh": "通过本地生成网关用提示词生成视频、图片、封面与配乐：文生/图生全流程（提交、轮询、下载交付）。",
       "file": "dist/ai-media-toolkit.zip",
-      "size_kb": 24,
+      "size_kb": 26,
       "skills": [
         {
           "name": "video-generation",
@@ -67,7 +67,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "c2fcc960d9eb6223aaea0cb8bf4b262b68897b80250208539d04469332fa4cb0"
+      "sha256": "59d1387fa80f18d5d8eb8f5bd941a555a40a4f1c729aab9eeda3c3c55e46590f"
     },
     {
       "id": "ai-research-writing",
@@ -154,8 +154,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 157,
-      "sha256": "bfb9bc4b8e4519f189c3fffcc06b676375fce4e698794c00a7ea2efdee95b9e0"
+      "size_kb": 160,
+      "sha256": "af881f39a5a46aaa68038d2f5cb8e5a1b51f06e4845733adb21c93a4e0ffb211"
     },
     {
       "id": "ai-video-pipeline",
@@ -191,7 +191,7 @@
         }
       ],
       "size_kb": 74,
-      "sha256": "80bed5edf0bb470e1d078dbe1f5bc3cb3d103c6b94143d8135a37ef6f702772d"
+      "sha256": "a60c260b5da69be4511dd737c64d9cb89cec5ca052fa8c846e616c1921e03800"
     },
     {
       "id": "api-development",
@@ -235,7 +235,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "748348c76a4d82c4ae42b5b43d7a2577ab898373c26d787bb257569975a8077c"
+      "sha256": "cf144dc9d50ad4b15ab2787ae5145de09d7bd122d0e23d6a94d204834e5df088"
     },
     {
       "id": "audio-studio",
@@ -299,7 +299,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "249f35df46ecad5c9bf061b163c25e4114a251646c6b110fa4b60387e0bfad61"
+      "sha256": "ac3d1b68055ced2550fc56dc689a7eeddc4cda38eb3a774973a20f3b0effc316"
     },
     {
       "id": "code-planning",
@@ -323,7 +323,7 @@
         }
       ],
       "size_kb": 77,
-      "sha256": "908ef36567e40e5345c19912f3705e98ce88a81071dfb300beb353777cf3ba29"
+      "sha256": "690ab52e32bc6be868308921f4d9e01eeceff2bfd58dbecbf50f0d7164ef9f03"
     },
     {
       "id": "code-review",
@@ -386,7 +386,7 @@
       "name": "Content Publishing Automation",
       "name_zh": "内容多平台发布自动化",
       "file": "dist/content-publishing.zip",
-      "size_kb": 158,
+      "size_kb": 163,
       "description": "Publish, edit and manage articles/videos on Chinese platforms (Zhihu, cnblogs, WeChat MP, Juejin, CSDN, Jianshu, Bilibili, Toutiao, Baijiahao, Xiaohongshu, Weibo, Douban, V2EX, SegmentFault, OSChina, Douban, Static Blogs) with battle-tested platform knowledge, plus a cross-post orchestrator and AI cover-image generation.",
       "description_zh": "在知乎、博客园、微信公众号、掘金、CSDN、简书、B站、头条、百家号、小红书、微博、豆瓣、V2EX、SegmentFault、开源中国、静态博客等中文平台发布、编辑、管理内容，沉淀实战平台经验；附跨平台发布编排器与 AI 封面图生成。",
       "skills": [
@@ -463,7 +463,7 @@
           "source": "skillkit authors (self-authored)"
         }
       ],
-      "sha256": "c4e82d741be6a7e8586bdfcc3be856f15cbad2a82135801fd7901d0f116b4ca7"
+      "sha256": "123855cf19d780c53912a3da6908d436812cb503ecda9fa90e53a8a76ec3b25b"
     },
     {
       "id": "data-ml-science",
@@ -502,15 +502,15 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 77,
-      "sha256": "67208ae4486b0b0128544729e4c5f8714fd8cf1d727e267c1e8e199e2c2ab0df"
+      "size_kb": 79,
+      "sha256": "329699222af17ab1a56b44a6e6b0f47f50a6751235e5f500d6180af730fab052"
     },
     {
       "id": "database",
       "name": "Database Design & Management",
       "name_zh": "数据库设计与管理",
       "file": "dist/database.zip",
-      "size_kb": 106,
+      "size_kb": 107,
       "description": "Design schemas, ERD diagrams, migrations, and optimize SQL queries.",
       "description_zh": "设计表结构、ERD 图、迁移方案，并优化 SQL 查询。",
       "skills": [
@@ -523,7 +523,27 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "70e69832bc4834405089b52072f76968857c226fd27c5c401c8187ad3c28020b"
+      "sha256": "1311c4cb149b45764730c82512c7438b28e37576f464899864cc673598024f4a"
+    },
+    {
+      "id": "data-viz-studio",
+      "name": "Data Viz Studio",
+      "name_zh": "数据可视化工作室",
+      "description": "From raw CSV to a shippable dashboard: profile columns, recommend a layout, and emit a self-contained single-file HTML dashboard with zero external requests. Plus a chart-selection lexicon covering encoding priority, per-chart-type caveats, and the classic mistakes.",
+      "description_zh": "从原始 CSV 到能交付的仪表盘：列类型推断与分布摘要、布局推荐、生成零外部依赖的自包含单文件 HTML。另附图表选择词库（视觉编码优先级、各图型适用与反例、截断坐标轴等经典错误清单）。",
+      "file": "dist/dataviz-studio.zip",
+      "skills": [
+        {
+          "name": "dashboard-designer",
+          "source": "self-authored"
+        },
+        {
+          "name": "chart-recommender",
+          "source": "self-authored"
+        }
+      ],
+      "size_kb": 31,
+      "sha256": "de340d095c832b7406dff2a95c6b63ea1e527ba4d4c9b0e2282cd257afd20bd8"
     },
     {
       "id": "de-ai-writing",
@@ -670,8 +690,8 @@
           "source": "existing (writing/assets)"
         }
       ],
-      "size_kb": 31,
-      "sha256": "62a0a74cf99ded8d990bcbd4a6eee3abda34dd11b998cc26fc702df4d5ac194f"
+      "size_kb": 33,
+      "sha256": "0e0c296c439a4e07871e9d7d3b4454898cefcbca8c86bdf3d590dedbb5fc385a"
     },
     {
       "id": "incident-response",
@@ -695,7 +715,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "a818c9d7946abf05c4f7223182a02fa99231e64c33fabc0fe383144ba688a50d"
+      "sha256": "82492afaa5be357aa78a74a3f8733e37f49148cc4083103e701a9b4f701e927f"
     },
     {
       "id": "infrastructure",
@@ -720,6 +740,26 @@
         }
       ],
       "sha256": "d34f0f82d72765b65e7004d6c7493444b59d9a8699882195faba9f760b1573c7"
+    },
+    {
+      "id": "knowledge-base",
+      "name": "Knowledge Base",
+      "name_zh": "个人知识库",
+      "description": "Turn scattered notes into a searchable base and a queryable graph: build a sharded-index wiki with orphan/broken-link linting, and extract entities plus relations from Markdown into Mermaid or Graphviz output.",
+      "description_zh": "把零散笔记变成可检索的知识库与可查询的图谱：分片索引 wiki（含孤儿笔记、断链、空笔记体检）与实体关系抽取（可导出 Mermaid / Graphviz，附度中心性与连通分量分析）。",
+      "file": "dist/knowledge-base.zip",
+      "skills": [
+        {
+          "name": "personal-wiki",
+          "source": "self-authored"
+        },
+        {
+          "name": "knowledge-graph-builder",
+          "source": "self-authored"
+        }
+      ],
+      "size_kb": 27,
+      "sha256": "9eb9e01fde604c7adea09319f2790997664ca4640b13f9cee54d80342ef0f0b1"
     },
     {
       "id": "memory-systems",
@@ -756,7 +796,7 @@
       "description": "Daily office work: decks, spreadsheets, resumes, meeting minutes.",
       "description_zh": "日常办公四件套：PPT 制作、Excel 清洗分析、简历岗位定制、会议纪要结构化。",
       "file": "dist/office-productivity.zip",
-      "size_kb": 36,
+      "size_kb": 51,
       "skills": [
         {
           "name": "ppt-builder",
@@ -785,9 +825,13 @@
         {
           "name": "pdf-pipeline",
           "source": "self-authored"
+        },
+        {
+          "name": "epub-builder",
+          "source": "self-authored"
         }
       ],
-      "sha256": "2a02ebb06c06cfbd26ff32bafe6763af289e49de3181d3857af22134fd0cffe8"
+      "sha256": "6d7a6c2136d76318320b473aab60ee3a2ca1dd808463b90979bb9b1d7bdfd931"
     },
     {
       "id": "performance",
@@ -803,7 +847,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "c72a314dee7e116b02a98d2dbe4f9233997b6454d00812651cce3bfb9a1d1943"
+      "sha256": "eb14376c05de9278681b5237058f4c7371fbb4905d72846b6d8d2005d8042fab"
     },
     {
       "id": "security",
@@ -895,7 +939,7 @@
         }
       ],
       "size_kb": 49,
-      "sha256": "a3129663881a2172b7bbaf08d2b8ec0da87c56da81d4137c2c8d2c3c45686022"
+      "sha256": "ff8bf464141d1dc85834743a72101782dabcb8f1351c456ccbb6352786e19f48"
     },
     {
       "id": "video-design-studio",
@@ -943,7 +987,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "e56146b886dd34483578afa435b49a208e86ec086cc4d08a83b452c2ee4b7c79"
+      "sha256": "04755893d46393b8e57b4d1d75320559b130fd39349693eba6523f73a5988538"
     },
     {
       "id": "visual-design-studio",
@@ -970,8 +1014,36 @@
           "source": "methodology distilled from Anthropic public skills (no content copied)"
         }
       ],
-      "size_kb": 30,
-      "sha256": "564c87c154fd10106a46f35ba2212e3de3598860fe6f563ffaef32f7d848e602"
+      "size_kb": 31,
+      "sha256": "baf5033965ce45d968fef4b6d6a2f40aee383728630a2694f46f8a4d936564a1"
+    },
+    {
+      "id": "workspace-integrations",
+      "name": "Workspace Integrations",
+      "name_zh": "外部集成工具箱",
+      "description": "Connect an AI session to the tools a team already lives in: Notion pages and databases, Feishu / DingTalk / WeCom group robots, Jira / Linear / GitHub Issues, and Baidu / Aliyun / OneDrive cloud drives. Every write path is dry-run by default, credentials live only in environment variables, and the bundled scripts build and parse payloads offline so they can be tested without a network.",
+      "description_zh": "把 AI 会话接到团队真正在用的工具上：Notion 页面与数据库、飞书/钉钉/企业微信群机器人、Jira/Linear/GitHub Issues 协同与周报、百度网盘/阿里云盘/OneDrive 归档校验。四条链路共享同一套操作契约——写操作默认 dry-run 先出负载、凭证只走环境变量、脚本离线构造与解析（不发网络请求），未接凭证即可完整演练。",
+      "file": "dist/workspace-integrations.zip",
+      "skills": [
+        {
+          "name": "notion-workspace",
+          "source": "self-authored"
+        },
+        {
+          "name": "feishu-dingtalk-bridge",
+          "source": "self-authored"
+        },
+        {
+          "name": "issue-tracker-sync",
+          "source": "self-authored"
+        },
+        {
+          "name": "cloud-drive-manager",
+          "source": "self-authored"
+        }
+      ],
+      "size_kb": 61,
+      "sha256": "8891b6890fe706e8a27f4aa40e6e5c8b4aa0da183cd431b56da7d77601eea564"
     }
   ]
 }

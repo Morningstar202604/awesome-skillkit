@@ -1,0 +1,25 @@
+{
+  "id": "workspace-integrations",
+  "name": "Workspace Integrations",
+  "name_zh": "外部集成工具箱",
+  "description": "Connect an AI session to the tools a team already lives in: Notion pages and databases, Feishu / DingTalk / WeCom group robots, Jira / Linear / GitHub Issues, and Baidu / Aliyun / OneDrive cloud drives. Every write path is dry-run by default, credentials live only in environment variables, and the bundled scripts build and parse payloads offline so they can be tested without a network.",
+  "description_zh": "把 AI 会话接到团队真正在用的工具上：Notion 页面与数据库、飞书/钉钉/企业微信群机器人、Jira/Linear/GitHub Issues 协同与周报、百度网盘/阿里云盘/OneDrive 归档校验。四条链路共享同一套操作契约——写操作默认 dry-run 先出负载、凭证只走环境变量、脚本离线构造与解析（不发网络请求），未接凭证即可完整演练。",
+  "skills": [
+    {
+      "name": "notion-workspace",
+      "source": "self-authored"
+    },
+    {
+      "name": "feishu-dingtalk-bridge",
+      "source": "self-authored"
+    },
+    {
+      "name": "issue-tracker-sync",
+      "source": "self-authored"
+    },
+    {
+      "name": "cloud-drive-manager",
+      "source": "self-authored"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 ---
 name: latex-formatter
-description: "Check and normalize paper LaTeX: document class/template sniffing (IEEE etc), balanced environments, unescaped special chars, bibliography presence. Use when the user asks 检查 LaTeX / 论文格式检查 / tex 编译前检查 / 排版论文 / 修 LaTeX 报错. 当用户要求 按模板规整 tex / 查未闭合环境 时使用。Fails with rc=1 when the input file does not exist."
+description: "Check and normalize paper LaTeX: document class/template sniffing (IEEE etc), balanced environments, unescaped special chars, bibliography presence. Use when the user asks 检查 LaTeX / 论文格式检查 / tex 编译前检查 / 排版论文 / 修 LaTeX 报错. 当用户要求 按模板规整 tex / 查未闭合环境 时使用。Fails with rc=1 when the input file does not exist. Also triggers on / 论文排版检查 / 模板规整 / 检查未闭合环境 / check paper formatting / normalize LaTeX / fix LaTeX errors. Do NOT use for writing paper content or generating figures (use figure-maker / article-drafter)."
 license: Apache-2.0
 compatibility: Stdlib only; requires python3; static checks on .tex files, no compiler needed.
 metadata:
@@ -75,6 +75,9 @@ python3 scripts/latex_formatter.py --input draft.tex --template neurips
 | 退出码 1 + File not found | `--input` 不存在 | 校验路径真实存在后重试 |
 | `Unbalanced environments: ±N` | `\begin`/`\end` 不配对 | 逐对补齐环境 |
 | `Raw & needs escaping` | 正文未转义特殊字符 | 改为 `\&`/`\%`/`\#` |
+| 编译报 `Undefined control sequence` | 用了模板未定义的宏包命令 | 在 preamble 补对应 `\usepackage`，或改用模板已有命令 |
+| 图片路径找不到 | 用了相对路径，编译目录与源文件目录不同 | 改成相对 tex 文件的路径，或用 `\graphicspath` 声明目录 |
+| 中文编译乱码 | 引擎与字体设置不匹配 | 改用 xelatex/lualatex 并配 `ctex` 宏包后重编 |
 
 ## 交付标准
 

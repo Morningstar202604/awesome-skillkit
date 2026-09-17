@@ -71,6 +71,9 @@ python3 scripts/runbook_generator.py payments-api --owner platform --output docs
 |------------|------|------|
 | `--output` 写失败 | 父目录不存在 | `mkdir -p` 目标目录后重跑 |
 | 服务名缺失 | 未传位置参数 | 补全服务名 |
+| runbook 步骤复制到线上报错 | 占位命令未替换成真实服务名/路径 | 把 `<service>` 等占位符全部替换，并在 staging 逐条实跑验证 |
+| 回滚步骤在演练中失败 | 回滚脚本依赖的旧版本镜像已被清理 | 核对镜像保留策略，回滚脚本改引用长期保留的 tag |
+| on-call 联系人不正确 | 模板里的 owner 是占位值或已离职 | 从值班表取当值人写入，并订上季度复核提醒 |
 
 ## 交付标准
 

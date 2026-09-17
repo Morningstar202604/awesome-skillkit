@@ -1,6 +1,6 @@
 ---
 name: ml-pipeline
-description: "端到端训练、评估与调优 ML 模型：支持 RandomForest、GradientBoosting、LogisticRegression，输出 accuracy/F1/ROC-AUC 与交叉验证。何时使用：特征工程已完成、需要训练与对比模型时。触发场景（中/英）：搭 ML 训练流水线 / 模型训练流程 / 调超参 / train an ML model / build a training pipeline / tune hyperparameters。排除项：不用于深度学习研究（仅表格 sklearn/XGBoost 工作流）。"
+description: "端到端训练、评估与调优 ML 模型：支持 RandomForest、GradientBoosting、LogisticRegression，输出 accuracy/F1/ROC-AUC 与交叉验证。何时使用：特征工程已完成、需要训练与对比模型时。触发场景（中/英）：搭 ML 训练流水线 / 模型训练流程 / 调超参 / train an ML model / build a training pipeline / tune hyperparameters。排除项：不用于深度学习研究（仅表格 sklearn/XGBoost 工作流）。 何时使用：特征工程已完成、需要训练、评估与调优表格模型时。触发场景（中/英）：搭 ML 训练流水线 / 训练表格模型 / 调超参 / 模型对比 / train an ML model / build a training pipeline / tune hyperparameters.排除项：不做深度学习研究（仅表格 sklearn/XGBoost），不做特征工程本身（交给 feature-engineer）。Use when the user asks 搭 ML 训练流水线 / 训练表格模型 / 调超参 / 模型对比 / train an ML model / build a training pipeline / tune hyperparameters. Do NOT use when the ask is deep-learning research or feature engineering itself (use feature-engineer)."
 license: Apache-2.0
 compatibility: Requires scikit-learn, pandas, numpy. No API keys required.
 metadata:
@@ -108,6 +108,9 @@ python3 scripts/ml_pipeline.py --data data/clean.csv --target label --model rand
 | `FileNotFoundError` | data 路径错 | 核对路径 |
 | `KeyError: '<target>'` | 标签列缺失 | 用 `--target` 指定正确列名 |
 | test 指标远低于 train | 过拟合/数据泄漏 | 参考 metrics-explained.md 选指标与正则 |
+| ROC-AUC 报错只在二分类可用 | 多分类任务里指定了 `roc_auc` | 改选 accuracy/F1，或转成 one-vs-rest 后再算 AUC |
+| 训练集很小，交叉验证不稳 | 样本量不足而折数过大 | 减小折数或改分层抽样，并在报告里标注样本量 |
+| 类别极不平衡，准确率虚高 | 全预测多数类也有高准确率 | 改用 F1/PR-AUC 作为主指标，并设 `class_weight` |
 
 ## 交付标准
 

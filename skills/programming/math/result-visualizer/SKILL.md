@@ -1,6 +1,6 @@
 ---
 name: result-visualizer
-description: "将模型结果绘制成图：折线、散点、直方图、热力图、柱状图，输出 PNG/SVG 供报告与展示。何时使用：模型已求解或仿真已完成、需要可视化呈现时。触发场景（中/英）：画结果图 / 数据可视化 / 出图表 / plot results / visualize data / make a chart。排除项：不做超出给定结果的统计推断。"
+description: "将模型结果绘制成图：折线、散点、直方图、热力图、柱状图，输出 PNG/SVG 供报告与展示。何时使用：模型已求解或仿真已完成、需要可视化呈现时。触发场景（中/英）：画结果图 / 数据可视化 / 出图表 / plot results / visualize data / make a chart。排除项：不做超出给定结果的统计推断。 何时使用：模型已求解或仿真已完成、需要可视化呈现时。触发场景（中/英）：画结果图 / 数据可视化 / 出图表 / 画折线散点热力图 / plot results / visualize data / make a chart.排除项：不做统计推断，不求解模型（交给 model-solver）。Use when the user asks 画结果图 / 数据可视化 / 出图表 / 画折线散点热力图 / plot results / visualize data / make a chart. Do NOT use when numerical solving (use model-solver) or formalizing the model (use model-formulator) is still pending."
 license: Apache-2.0
 compatibility: Requires matplotlib. No API keys required.
 metadata:
@@ -107,6 +107,9 @@ python3 scripts/visualizer.py --data results.json --type scatter --x t --y y
 | `FileNotFoundError` | data 路径错误 | 核对路径或退回输入清单 |
 | `KeyError: 'x'` | 散点字段缺失 | 显式指定 `--x`/`--y` |
 | `no display / backend` | 无 GUI 环境 | 设 `MPLBACKEND=Agg` 后重跑 |
+| 中文标签显示为方块 | matplotlib 默认字体缺中文 | 改英文标签，或显式指定系统中文字体文件 |
+| 热力图配色掩盖差异 | 默认色阶对量级不敏感 | 改用发散/对数色阶，并标注 colorbar 单位 |
+| 图例与曲线重叠不可读 | 图例位置取默认值 | 把图例移到图外或调整 `loc` 与边距 |
 
 ## 交付标准
 
