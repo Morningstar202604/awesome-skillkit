@@ -98,7 +98,7 @@ pie title Skill sources (n=135)
 
 ### 工程与编程
 
-| 场景包 | 技能数 | 场景 | 来源 |
+| Scene pack | Skills | Scenario | Source |
 |--------|:---:|------|:---:|
 | AI Agent Development | 5 | 生产级 Agent、多智能体、MCP、特性开关、自评估 | 上游 |
 | Code Review | 5 | PR 审查、代码质量、依赖审计、技术债 | 上游 |
@@ -118,20 +118,20 @@ pie title Skill sources (n=135)
 
 ### 研究与写作
 
-| 场景包 | 技能数 | 场景 | 来源 |
+| Scene pack | Skills | Scenario | Source |
 |--------|:---:|------|:---:|
 | AI Research & Writing | 19 | 从问题到成稿：多轮研究、选题、大纲、草稿、润色、SEO、图表、LaTeX | 自研 |
 | De-AI Writing | 3 | AI 痕迹审计、人声改写、个人声纹档案（降低 AI 感） | 自研 |
 
 ### 内容发布
 
-| 场景包 | 技能数 | 场景 | 来源 |
+| Scene pack | Skills | Scenario | Source |
 |--------|:---:|------|:---:|
 | Content Publishing Automation | 18 | 16+ 中文平台文章/视频发布、编辑、跨平台分发、AI 封面 | 自研 |
 
 ### 视频创作
 
-| 场景包 | 技能数 | 场景 | 来源 |
+| Scene pack | Skills | Scenario | Source |
 |--------|:---:|------|:---:|
 | AI Video Pipeline | 6 | 短视频全链路：脚本→配音→对口型→剪辑→字幕→封面→发布 | 自研 |
 | AI Media Toolkit | 4 | 文/图生视频、生图、生乐、封面（本地生成网关） | 自研 |
@@ -140,45 +140,45 @@ pie title Skill sources (n=135)
 
 ### 图像与设计
 
-| 场景包 | 技能数 | 场景 | 来源 |
+| Scene pack | Skills | Scenario | Source |
 |--------|:---:|------|:---:|
 | Image Studio | 4 | 图像创作工作台：prompt、重绘、扩图、超分 | 自研 |
 | Visual Design Studio | 4 | brief→spec→prompt→layout 审计，设计总监两遍工作流 | 自研 |
 
 ### 音频
 
-| 场景包 | 技能数 | 场景 | 来源 |
+| Scene pack | Skills | Scenario | Source |
 |--------|:---:|------|:---:|
 | Audio Studio | 3 | 播客链：脚本→配音→发布（Kokoro/Qwen3-TTS） | 自研 |
 
 ### 数据科学
 
-| 场景包 | 技能数 | 场景 | 来源 |
+| Scene pack | Skills | Scenario | Source |
 |--------|:---:|------|:---:|
 | Data, ML & Scientific Computing | 7 | ETL、特征工程、建模求解、仿真、可视化、ML 流水线 | 自研 |
 
 ### 办公生产力
 
-| 场景包 | 技能数 | 场景 | 来源 |
+| Scene pack | Skills | Scenario | Source |
 |--------|:---:|------|:---:|
 | Office Productivity | 7 | PPT、Excel、Word、PDF、简历、纪要、内部通讯 | 自研 |
 
 ### 增长营销
 
-| 场景包 | 技能数 | 场景 | 来源 |
+| Scene pack | Skills | Scenario | Source |
 |--------|:---:|------|:---:|
 | Growth Marketing | 3 | 电商营销链：文案框架、活动策划、渠道适配 | 自研 |
 
 ### 教育
 
-| 场景包 | 技能数 | 场景 | 来源 |
+| Scene pack | Skills | Scenario | Source |
 |--------|:---:|------|:---:|
 | Edu Craft | 3 | 精通教学链：课程→练习→费曼讲解 | 自研 |
 | Homework Autopilot | 3 | 一键作业完成（有温度版，降低冷血感） | 自研 |
 
 ### 记忆系统
 
-| 场景包 | 技能数 | 场景 | 来源 |
+| Scene pack | Skills | Scenario | Source |
 |--------|:---:|------|:---:|
 | Memory Systems | 4 | 长期记忆：设计/抽取/管理/检索（mem0/letta 蒸馏） | 自研 |
 
