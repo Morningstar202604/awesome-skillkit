@@ -124,3 +124,4 @@ python3 scripts/script_writer.py --json-input script.json --output out.json
 
 - `references/script-templates.md` — 各类型成品模板，写脚本前照抄骨架。
 - `references/timing-guide.md` — 节奏 / beat 规则与时长分配。
+- [cinematography-lexicon.md](../video-prompt-engineer/references/cinematography-lexicon.md) — 镜头语言词库（转场/动作/表演细节）：脚本里的镜头指示词直接从这张选。
