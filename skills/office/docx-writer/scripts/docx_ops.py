@@ -135,6 +135,8 @@ def _flush_table(buf):
 
 def cmd_create(args):
     src = Path(args.input)
+    if not src.exists():
+        sys.exit(f"ERROR: 输入文件不存在：{src}")
     doc = Document()
     if src.suffix.lower() == ".json":
         data = json.loads(src.read_text(encoding="utf-8"))
@@ -153,7 +155,12 @@ def cmd_create(args):
 
 
 def cmd_inspect(args):
-    doc = Document(args.file)
+    if not Path(args.file).exists():
+        sys.exit(f"ERROR: 文件不存在：{args.file}")
+    try:
+        doc = Document(args.file)
+    except Exception as exc:  # 非 .docx 或损坏的包
+        sys.exit(f"ERROR: 不是合法的 .docx 文件：{args.file}（{exc}）")
     paras = doc.paragraphs
     tables = doc.tables
     style_counter = {}
@@ -188,7 +195,12 @@ def set_east_asia(style, font_name):
 
 
 def cmd_styles(args):
-    doc = Document(args.file)
+    if not Path(args.file).exists():
+        sys.exit(f"ERROR: 文件不存在：{args.file}")
+    try:
+        doc = Document(args.file)
+    except Exception as exc:  # 非 .docx 或损坏的包
+        sys.exit(f"ERROR: 不是合法的 .docx 文件：{args.file}（{exc}）")
     heading_prefixes = ("Heading", "Title")
     changed = []
     for style in doc.styles:
@@ -232,8 +244,8 @@ def main(argv=None):
     p.set_defaults(func=cmd_styles)
 
     args = parser.parse_args(argv)
-    args.func(args)
+    return args.func(args)
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

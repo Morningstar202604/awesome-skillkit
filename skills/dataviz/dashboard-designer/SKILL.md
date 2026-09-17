@@ -156,6 +156,11 @@ with sync_playwright() as pw:
 `build` 报告的 `external: 0`（离线可用）、以及**数据注意事项**里的每一条。
 提醒用户：改数据要重新 `build`，HTML 本身不含数据源，是纯快照。
 
+- **预期**：交付说明覆盖上述四件事，且 `external: 0` 与数据注意事项已逐条转述。
+- **若失败**：拿不到绝对路径（用户环境与生成环境不同）→ 用 `python3 -c
+  "import os;print(os.path.abspath('<out>'))"` 打印后给出；`external` 不为 0 →
+  不得交付，回步骤 3 排查外部引用来源（本技能承诺零外部依赖）。
+
 ## 交付标准
 
 - 产物：一个可双击打开的自包含 `dashboard.html`。

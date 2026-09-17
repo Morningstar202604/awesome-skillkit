@@ -104,6 +104,11 @@ crontab -l                        # 确认已写入
 
 见下方三平台差异表，把同一语义翻译过去。
 
+预期：用户在目标平台上拿到等价的定时配置（plist / schtasks 命令）。
+若失败：目标平台与表达式语义无法一一对应（如 launchd 的 `StartCalendarInterval` 不支持
+纯"每 N 分钟且限定时段"以外的复杂组合）→ 拆成多条触发器或改用 `StartInterval`，
+并如实告知用户该平台的能力边界，不要硬凑一条看似等价的配置。
+
 ## 三平台差异表
 
 | 维度 | Linux cron | macOS launchd | Windows 任务计划程序 |

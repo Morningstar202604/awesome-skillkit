@@ -59,6 +59,19 @@ def _resolve_within(root: Path, target: Path) -> Path:
     return target_real
 
 
+def _rel(path: Path, root: Path) -> Path:
+    """把 path 显示为相对 root 的路径。
+
+    compute_plan 经由 `_resolve_within` 返回**绝对**路径，而 root 可能是
+    `.` 或相对路径；直接 `path.relative_to(root)` 会抛 ValueError。这里先把
+    两侧都 resolve 再比，保证 `.`/相对/绝对三种入参都能正常显示。
+    """
+    try:
+        return path.resolve().relative_to(root.resolve())
+    except ValueError:
+        return path
+
+
 def _iter_files(root: Path):
     for dirpath, dirnames, filenames in sorted(__import__("os").walk(root)):
         dirnames[:] = [d for d in dirnames if d not in SKIP_DIR_NAMES]
@@ -233,11 +246,33 @@ def _detect_conflicts(root: Path, plan: list) -> tuple:
 # --------------------------------------------------------------------------
 # preview / apply
 # --------------------------------------------------------------------------
+def _has_rule(args) -> bool:
+    """是否给了至少一种改名规则（SKILL.md 把「改名规则」列为必填输入）。"""
+    return any((
+        args.pattern, args.regex, args.prefix, args.suffix,
+        args.exif_date, args.lower, args.upper,
+    ))
+
+
+def _require_rule(args) -> int:
+    """缺规则时报错返回 2；规则齐备返回 0。两个命令入口共用。"""
+    if _has_rule(args):
+        return 0
+    print("ERROR: 至少给一种改名规则："
+          "--pattern / --regex / --prefix / --suffix / --exif-date / --lower / --upper。",
+          file=sys.stderr)
+    print("例：preview <dir> --pattern 'IMG_{n:03d}.{ext}'", file=sys.stderr)
+    return 2
+
+
 def cmd_preview(args) -> int:
     root = Path(args.dir)
     if not root.is_dir():
         print(f"ERROR: 不是目录: {root}", file=sys.stderr)
         return 1
+    rc = _require_rule(args)
+    if rc:
+        return rc
     plan = compute_plan(root, args)
     print(f"# 重命名预览: {root.resolve()}")
     print("（本命令不执行任何改动）")
@@ -246,7 +281,7 @@ def cmd_preview(args) -> int:
         print("无需改名：所有文件名都符合目标规则。")
         return 0
     ok, conflicts = _detect_conflicts(root, plan)
-    pairs = [(src.relative_to(root).as_posix(), dst.relative_to(root).as_posix())
+    pairs = [(_rel(src, root).as_posix(), _rel(dst, root).as_posix())
              for src, dst, _ in ok]
     width = max((len(a) for a, _ in pairs), default=10)
     for (rel_s, rel_d), (_, _, note) in zip(pairs, ok):
@@ -255,8 +290,8 @@ def cmd_preview(args) -> int:
         print()
         print(f"## 冲突跳过 {len(conflicts)} 项（不会执行）")
         for src, dst, _, why in conflicts:
-            print(f"  [skip:{why}] {src.relative_to(root)} -> "
-                  f"{dst.relative_to(root)}")
+            print(f"  [skip:{why}] {_rel(src, root)} -> "
+                  f"{_rel(dst, root)}")
     print()
     print(f"合计：将改名 {len(ok)} 项，跳过 {len(conflicts)} 项。")
     print(f"确认后执行：apply {root} <相同规则> --yes")
@@ -285,6 +320,9 @@ def cmd_apply(args) -> int:
         print("先跑 preview 检视计划：")
         print(f"  preview {root} <相同规则>")
         return 2
+    rc = _require_rule(args)
+    if rc:
+        return rc
 
     plan = compute_plan(root, args)
     if not plan:
@@ -305,21 +343,21 @@ def cmd_apply(args) -> int:
                 src.rename(tmp)
                 staged.append((src, tmp, dst, note))
             except (BoundaryError, OSError) as e:
-                print(f"[skip] {src.relative_to(root)} 暂存失败: {e}", file=sys.stderr)
+                print(f"[skip] {_rel(src, root)} 暂存失败: {e}", file=sys.stderr)
         # 阶段二：临时名 -> 终名
         for src, tmp, dst, note in staged:
             try:
                 if dst.exists():
-                    print(f"[skip] 目标已出现，回退: {dst.relative_to(root)}",
+                    print(f"[skip] 目标已出现，回退: {_rel(dst, root)}",
                           file=sys.stderr)
                     tmp.rename(src)
                     continue
                 tmp.rename(dst)
-                print(f"[ok] {src.relative_to(root)} -> {dst.relative_to(root)} {note}")
-                done.append((src.relative_to(root).as_posix(),
-                             dst.relative_to(root).as_posix()))
+                print(f"[ok] {_rel(src, root)} -> {_rel(dst, root)} {note}")
+                done.append((_rel(src, root).as_posix(),
+                             _rel(dst, root).as_posix()))
             except OSError as e:
-                print(f"[skip] {src.relative_to(root)} 改名失败: {e}", file=sys.stderr)
+                print(f"[skip] {_rel(src, root)} 改名失败: {e}", file=sys.stderr)
                 if tmp.exists():
                     tmp.rename(src)
     except KeyboardInterrupt:
@@ -340,7 +378,7 @@ def cmd_apply(args) -> int:
         print()
         print(f"## 冲突跳过 {len(conflicts)} 项")
         for src, dst, _, why in conflicts:
-            print(f"  [skip:{why}] {src.relative_to(root)} -> {dst.relative_to(root)}")
+            print(f"  [skip:{why}] {_rel(src, root)} -> {_rel(dst, root)}")
     return 0
 
 

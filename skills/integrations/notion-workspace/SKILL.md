@@ -153,6 +153,12 @@ python3 scripts/notion_ops.py build-database-query \
 报告：操作对象与 ID、影响条目数、产物文件路径。写操作附上响应里的 `url`，
 方便用户点开核对。若只做了 dry-run，明确说明"未发送任何请求"。
 
+预期：交付说明含对象 ID、条目数、产物路径三项；写操作附 `url`；只做 dry-run 时
+明确写"未发送任何请求"。
+若失败：`url` 缺失（响应被裁剪）→ 用页面 ID 拼
+`https://www.notion.so/<32位hex>` 给用户核对；产物路径写不出 → 说明当前只做了
+dry-run、尚未落盘，不要用"已完成"含糊带过。
+
 ## 块类型映射表
 
 | 本地 JSON `type` | Notion 块 | 必填字段 | 渲染回 Markdown |

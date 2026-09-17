@@ -122,7 +122,9 @@ def _run(cmd: list, action: str) -> int:
         tail = (proc.stderr or proc.stdout or "").strip().splitlines()
         for line in tail[-12:]:
             print(f"  | {line}", file=sys.stderr)
-        return proc.returncode
+        # 外部工具返回码可能超出 [0,255]（信号为负、ffmpeg 可返回 234 等），
+        # sys.exit() 只接受 0-255，越界会被截断成令人困惑的值；统一归为 1。
+        return 0 if proc.returncode == 0 else 1
     return 0
 
 
@@ -132,7 +134,6 @@ def _run(cmd: list, action: str) -> int:
 def cmd_doc(args) -> int:
     inp, outp = Path(args.input), Path(args.output)
     _guard(inp, outp)
-    pandoc = require_binary("pandoc", "文档转换需要它")
 
     src_fmt = DOC_FORMATS.get(inp.suffix.lower())
     dst_fmt = DOC_FORMATS.get(outp.suffix.lower())
@@ -143,6 +144,9 @@ def cmd_doc(args) -> int:
         print(f"  支持：{' '.join(sorted(set(DOC_FORMATS)))}", file=sys.stderr)
         print("  其他格式请显式指定：pandoc -f <from> -t <to>", file=sys.stderr)
         return 3
+
+    # 依赖探测放在扩展名校验之后：格式错不该先报「找不到 pandoc」误导用户
+    pandoc = require_binary("pandoc", "文档转换需要它")
 
     cmd = [pandoc, str(inp)]
     # 显式指定 -f/-t：pandoc 对 .tex/.rst 的自动识别在部分版本上不一致
@@ -198,6 +202,14 @@ def cmd_image(args) -> int:
 def cmd_media(args) -> int:
     inp, outp = Path(args.input), Path(args.output)
     _guard(inp, outp)
+    dst_ext = outp.suffix.lower()
+    if dst_ext not in MEDIA_EXTS:
+        print(f"ERROR: 无法从扩展名推断格式（{inp.suffix} -> {outp.suffix}）。",
+              file=sys.stderr)
+        print(f"  媒体输出支持：{' '.join(sorted(MEDIA_EXTS))}", file=sys.stderr)
+        print("  其他格式请直接调用 ffmpeg -i <in> <out> 显式指定封装格式。",
+              file=sys.stderr)
+        return 3
     ffmpeg = require_binary("ffmpeg", "音视频转换需要它")
     cmd = [ffmpeg, "-hide_banner", "-loglevel", "error", "-y", "-i", str(inp)]
     if args.vcodec:

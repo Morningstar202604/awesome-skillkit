@@ -195,8 +195,13 @@ def cmd_plan_upload(args) -> int:
     print()
 
     if not files:
-        print("目录内没有可上传的文件（或全部被 --exclude 排除）。")
-        return 0
+        # 空清单不是成功：没有可上传的文件意味着这次归档什么都不会发生，
+        # 直接返回 0 会让调用方误以为"计划已就绪"。返回非 0 并写明原因，
+        # 让流水线在这里就停下（否则会带着空计划走到上传步骤才发现）。
+        return _die(
+            f"目录 {root.resolve()} 内没有可上传的文件（或全部被 --exclude 排除）。"
+            "请核对源目录路径与 --exclude 通配符是否过宽。"
+        )
 
     manifest = build_manifest(root, args.remote, args.provider, files)
 
@@ -260,8 +265,13 @@ def cmd_checksum_plan(args) -> int:
 
     files = collect_files(root, "", exclude)
     if not files:
-        print("目录内没有可计算的文件。")
-        return 0
+        # 同 plan-upload：算不出任何摘要不是成功，而是"源目录选错了或全被排除"。
+        # 返回 0 会让调用方把空清单当成有效的校验基准，后续 sha256sum -c 会
+        # 以 0 行全部通过而掩盖真实问题。
+        return _die(
+            f"目录 {root.resolve()} 内没有可计算的文件（或全部被 --exclude 排除）。"
+            "请核对源目录路径与 --exclude 通配符。"
+        )
 
     lines = []
     total = 0

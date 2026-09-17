@@ -280,9 +280,19 @@ def validate_skill(skill_md: Path):
 
 
 def iter_skills():
+    """枚举需要深度校验的技能。
+
+    跳过 `_common/`（共享片段，非技能）与 `templates/`（模板素材）。
+    **不跳过 `assets/`**：`skills/writing/assets/ai-cover-generator` 是被
+    ai-media-toolkit / content-publishing / image-studio 三个 pack 真实引用的技能，
+    跳过它会让该技能长期逃过深度校验（历史遗留问题，已修）。
+    仅排除明确标注为样例/模板的技能目录（`sample-*`），它们不参与发布。
+    """
     for p in sorted(SKILLS_DIR.rglob("SKILL.md")):
         parts = set(p.parts)
-        if "_common" in parts or "assets" in parts:
+        if "_common" in parts or "templates" in parts:
+            continue
+        if p.parent.name.startswith("sample-"):
             continue
         yield p
 

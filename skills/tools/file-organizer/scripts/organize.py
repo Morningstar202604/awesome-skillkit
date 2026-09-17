@@ -198,7 +198,7 @@ def cmd_scan(args) -> int:
         for idx, (fp, paths) in enumerate(groups, 1):
             print(f"  [{idx}] {_fmt_size(fp[0])} x{len(paths)}")
             for p in paths:
-                print(f"        {p.relative_to(root)}")
+                print(f"        {_rel(p, root)}")
         print()
         print("提示：运行 `dedupe <dir>` 获取保留建议。")
     return 0
@@ -248,6 +248,18 @@ def _build_moves(root: Path, by: str):
     return sorted(moves, key=lambda m: str(m[0]))
 
 
+def _rel(path: Path, root: Path) -> Path:
+    """把 path 显示成相对 root 的路径；两侧统一解析为绝对路径再比较。
+
+    直接 `path.relative_to(root)` 在 `root` 是相对路径、`path` 是绝对路径时
+    （`_resolve_within` 返回绝对路径）会抛 ValueError，因此这里先解析两侧。
+    """
+    try:
+        return path.resolve().relative_to(root.resolve())
+    except ValueError:
+        return path
+
+
 def cmd_plan(args) -> int:
     root = Path(args.dir)
     if not root.is_dir():
@@ -261,7 +273,7 @@ def cmd_plan(args) -> int:
     print(f"共 {len(moves)} 项移动，以下为完整清单（本命令不执行任何移动）：")
     print()
     for src, dst in moves:
-        print(f"将把 {src.relative_to(root)} 移到 {dst.relative_to(root)}")
+        print(f"将把 {_rel(src, root)} 移到 {_rel(dst, root)}")
     print()
     print(f"确认无误后执行：apply {root} --by {args.by} --yes")
     return 0
@@ -295,8 +307,8 @@ def cmd_apply(args) -> int:
     print()
     moved = skipped = 0
     for src, dst in moves:
-        rel_src = src.relative_to(root)
-        rel_dst = dst.relative_to(root)
+        rel_src = _rel(src, root)
+        rel_dst = _rel(dst, root)
         if dry:
             print(f"[dry-run] {rel_src} -> {rel_dst}")
             continue
@@ -347,9 +359,9 @@ def cmd_dedupe(args) -> int:
     for idx, (fp, paths) in enumerate(groups, 1):
         keep, drop = _keep_recommendation(paths)
         print(f"[{idx}] 大小 {_fmt_size(fp[0])}，{len(paths)} 份")
-        print(f"    保留: {keep.relative_to(root)}  （最旧 / 路径最短）")
+        print(f"    保留: {_rel(keep, root)}  （最旧 / 路径最短）")
         for p in drop:
-            print(f"    可清理: {p.relative_to(root)}")
+            print(f"    可清理: {_rel(p, root)}")
         print()
 
     print("清理建议（请人工确认后再执行，本脚本不代劳）：")

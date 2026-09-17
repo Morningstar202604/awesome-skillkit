@@ -32,7 +32,8 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-#: 仓库根 = 本脚本上溯三级（scripts/ -> skill-finder/ -> meta/ -> skills/ -> root）
+#: 仓库根 = 本脚本上溯四级
+#: （scripts/ -> skill-finder/ -> meta/ -> skills/ -> 仓库根）
 ROOT = Path(__file__).resolve().parents[4]
 
 # 相关度权重
@@ -122,9 +123,12 @@ def first_paragraph(body):
 def load_skills(root=ROOT):
     """扫描 skills/**/SKILL.md，返回技能记录列表。
 
-    跳过 _common / assets / templates / __pycache__ 下的同名文件。
+    跳过 _common / templates / __pycache__ 下的同名文件。
+    注意：`assets/` **不跳过**——`skills/writing/assets/ai-cover-generator`
+    是被 pack 真实引用的技能，跳过它会导致检索/装配结果与 manifest 不一致。
+    `assets/` 下若只是纯资源（无 SKILL.md）本就不会被本函数枚举。
     """
-    skip = {"_common", "assets", "templates", "__pycache__"}
+    skip = {"_common", "templates", "__pycache__"}
     records = []
     for md in sorted(root.glob("skills/**/SKILL.md")):
         if any(part in skip for part in md.parts):

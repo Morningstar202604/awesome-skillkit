@@ -70,8 +70,10 @@ FENCE_RE = re.compile(r"^\s*```")
 H2_RE = re.compile(r"^##\s+(.+?)\s*$")
 REF_LINK_RE = re.compile(r"`(references/[A-Za-z0-9._\-/]+\.md)`")
 REF_BULLET_RE = re.compile(r"^\s*[-*]\s+`?(references/[A-Za-z0-9._\-/]+\.md)")
-#: 目录名里出现这些时不是技能目录，跳过（避免把 assets 里的示例当技能报错）。
-SKIP_DIR_NAMES = {"_common", "__pycache__", "assets", "templates"}
+#: 目录名里出现这些时不是技能目录，跳过（避免把模板/共享片段当技能报错）。
+#: 注意：**不含 `assets`**——`skills/writing/assets/ai-cover-generator` 是被
+#: 三个 pack 真实引用的技能，跳过它会让它长期逃过 lint（与 validate_skills.py 口径一致）。
+SKIP_DIR_NAMES = {"_common", "__pycache__", "templates"}
 
 
 class Finding:
@@ -405,6 +407,9 @@ def iter_skill_files(target: Path):
     out = []
     for p in sorted(target.rglob("SKILL.md")):
         if any(part in SKIP_DIR_NAMES for part in p.parts):
+            continue
+        # 样例/模板技能（sample-*）不参与发布，与 validate_skills.py 口径一致。
+        if p.parent.name.startswith("sample-"):
             continue
         out.append(p)
     return out

@@ -23,6 +23,21 @@ except ImportError:
 META_KEYS = ("Title", "Author", "Subject", "Keywords", "Creator", "Producer")
 
 
+def open_reader(path):
+    """Open a PDF, turning missing/encrypted/broken files into a clean exit(1)."""
+    if not Path(path).exists():
+        sys.exit(f"ERROR: 文件不存在：{path}")
+    try:
+        reader = PdfReader(path)
+        if reader.is_encrypted:
+            sys.exit(f"ERROR: {path} 有口令保护，请提供解密后的副本")
+        return reader
+    except SystemExit:
+        raise
+    except Exception as exc:
+        sys.exit(f"ERROR: 无法读取 {path}（{exc}）")
+
+
 def parse_pages(spec, total):
     """Turn '1-3,5' (1-based, inclusive) into a sorted 0-based page list."""
     picked = set()
@@ -54,7 +69,7 @@ def cmd_merge(args):
     writer = PdfWriter()
     total = 0
     for path in args.inputs:
-        reader = PdfReader(path)
+        reader = open_reader(path)
         writer.append(reader)
         total += len(reader.pages)
         print(f"  + {path} ({len(reader.pages)} pages)")
@@ -63,7 +78,7 @@ def cmd_merge(args):
 
 
 def cmd_split(args):
-    reader = PdfReader(args.input)
+    reader = open_reader(args.input)
     total = len(reader.pages)
     base = Path(args.input).stem
     outdir = Path(args.outdir)
@@ -90,7 +105,7 @@ def cmd_split(args):
 
 
 def cmd_extract(args):
-    reader = PdfReader(args.input)
+    reader = open_reader(args.input)
     total = len(reader.pages)
     pages = parse_pages(args.pages, total) if args.pages else range(total)
     chunks = []
@@ -113,7 +128,7 @@ def cmd_extract(args):
 
 
 def cmd_meta(args):
-    reader = PdfReader(args.input)
+    reader = open_reader(args.input)
     info = reader.metadata or {}
     print(f"file: {args.input}")
     print(f"pages: {len(reader.pages)}")
@@ -146,7 +161,7 @@ def cmd_meta(args):
 
 
 def cmd_rotate(args):
-    reader = PdfReader(args.input)
+    reader = open_reader(args.input)
     total = len(reader.pages)
     if args.degrees % 90 != 0:
         sys.exit("degrees must be a multiple of 90")
@@ -201,8 +216,8 @@ def main(argv=None):
     p.set_defaults(func=cmd_rotate)
 
     args = parser.parse_args(argv)
-    args.func(args)
+    return args.func(args)
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
