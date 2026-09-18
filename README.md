@@ -1,19 +1,33 @@
-<p align="center"><img src="docs/logo.svg" alt="awesome-skillkit" width="200" height="60" /></p>
+<p align="center"><img src="docs/logo.svg" alt="awesome-skillkit" width="220" /></p>
 
-# awesome-skillkit
+<h1 align="center">awesome-skillkit</h1>
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-![Skills](https://img.shields.io/badge/skills-143-brightgreen)
-![Packs](https://img.shields.io/badge/packs-36-blue)
-![Chains](https://img.shields.io/badge/chains-18%20domains%20%2F%2058-orange)
-![Version](https://img.shields.io/badge/version-0.19.0-success)
+<p align="center">
+  <b>36 real-world scene packs · 143 curated skills · unzip &amp; drop-in —<br>your AI tool instantly knows the job.</b>
+</p>
 
-**English** | [中文](README.zh-CN.md) | [日本語](README.ja.md)
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
+  <img src="https://img.shields.io/badge/skills-143-brightgreen?style=flat-square" alt="Skills" />
+  <img src="https://img.shields.io/badge/packs-36-blue?style=flat-square" alt="Packs" />
+  <img src="https://img.shields.io/badge/chains-18%20domains%20%2F%2058-orange?style=flat-square" alt="Chains" />
+  <img src="https://img.shields.io/badge/version-0.19.0-success?style=flat-square" alt="Version" />
+</p>
 
-> 🌐 **Browse / download**: site source repo (enable GitCode Pages for a live site, already synced to v0.19.0):
-> [gitcode.com/badhope/skillkit-site](https://gitcode.com/badhope/skillkit-site).
-> Per-pack and full `_all.zip` are on each platform's Releases (see "Platform sync status" below).
-> Deploy guide: [docs/DEPLOY-SITE.md](docs/DEPLOY-SITE.md)
+<p align="center">
+  <a href="https://x33834.github.io/awesome-skillkit/"><img src="https://img.shields.io/badge/%F0%9F%8C%90_Official_Site-Browse-brightgreen?style=flat-square" alt="Official Site" /></a>
+  <a href="https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip"><img src="https://img.shields.io/badge/%E2%AC%87%EF%B8%8F_Download-_all.zip-blue?style=flat-square" alt="Download all packs" /></a>
+  <a href="https://gitcode.com/badhope/awesome-skillkit"><img src="https://img.shields.io/badge/GitCode-Mirror-3A72BE?style=flat-square" alt="GitCode" /></a>
+  <a href="https://gitee.com/badhope/awesome-skillkit"><img src="https://img.shields.io/badge/Gitee-Mirror-C71D23?style=flat-square" alt="Gitee" /></a>
+</p>
+
+<p align="center"><strong>English</strong> | <a href="README.zh-CN.md">中文</a> | <a href="README.ja.md">日本語</a></p>
+
+> 🌐 **Browse / download**: the official site is live on GitHub Pages →
+> [x33834.github.io/awesome-skillkit](https://x33834.github.io/awesome-skillkit/).
+> Per-pack zips and the full `_all.zip` are attached to each platform's Release
+> (GitHub / Gitee serve direct links; GitCode links to its Release page).
+> Self-hosting guide: [docs/DEPLOY-SITE.md](docs/DEPLOY-SITE.md)
 
 Curated **scene packs** for AI tools. **Each pack = one real-world scenario, containing multiple hand-picked skills.** Download a zip → unzip → drag the skill folders into your AI tool's skills directory → it just works.
 
