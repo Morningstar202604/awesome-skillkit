@@ -10,8 +10,8 @@
 
 [English](README.md) | [中文](README.zh-CN.md) | **日本語**
 
-> 🌐 **閲覧 / ダウンロード**: サイトのソースリポジトリ（GitCode で Pages を有効化すると公開サイトになります。v0.19.0 まで同期済み）:
-> [gitcode.com/badhope/skillkit-site](https://gitcode.com/badhope/skillkit-site)
+> 🌐 **閲覧 / ダウンロード**: 公式サイトは GitHub Pages で公開中（両アカウント、内容同一）：
+> [x33834.github.io/awesome-skillkit](https://x33834.github.io/awesome-skillkit/) · [morningstar202604.github.io/awesome-skillkit](https://morningstar202604.github.io/awesome-skillkit/)
 > パックごとの zip と全量 `_all.zip` は各プラットフォームの Releases にあります（下記「プラットフォーム同期状況」参照）。
 > デプロイ手順: [docs/DEPLOY-SITE.md](docs/DEPLOY-SITE.md)
 
@@ -250,14 +250,16 @@ flowchart LR
 
 ## プラットフォーム同期状況
 
+四プラットフォームで並列同期（ブランチ / タグ / HEAD 完全一致）：
+
 | プラットフォーム | リポジトリ | コード同期 | Release / 添付 | 状態 |
 |----------------|-----------|:---:|:---:|------|
+| GitHub | `x33834/awesome-skillkit` | ✅ `0.19.0` まで | ✅ v0.19.0 + サイト | OK |
+| GitHub | `Morningstar202604/awesome-skillkit` | ✅ `0.19.0` まで | ✅ サイト | OK |
 | GitCode | `badhope/awesome-skillkit` | ✅ `0.19.0` まで | ✅ 作成済 | OK |
 | Gitee | `badhope/awesome-skillkit` | ✅ `0.19.0` まで | ✅ v0.19.0、zip 添付 32 個 | OK |
-| GitHub | `x33834/awesome-skillkit` | ⚠️ ローカルからプッシュ | ⚠️ なし | サンドボックスの出口 ACL が TLS を遮断。ローカルで `git push origin main --follow-tags`（token は repo+workflow 権限必要）を実行 |
-| サイト | `badhope/skillkit-site` | ✅ v0.19.0 同期済 | — | GitCode Pages を有効化で公開 |
 
-> GitHub は構築環境の出口 ACL が TLS ハンドシェイク層で遮断するため、本環境から直接プッシュできません。コードと Release の内容は GitCode / Gitee で完全にホスト済みです。ローカルで 1 コマンド実行すれば GitHub も補完できます。
+サイト（GitHub Pages 両アカウント、内容同一）：<https://x33834.github.io/awesome-skillkit/> · <https://morningstar202604.github.io/awesome-skillkit/>
 
 ## ディレクトリ構成
 

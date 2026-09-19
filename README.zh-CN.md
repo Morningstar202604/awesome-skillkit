@@ -10,9 +10,9 @@
 
 [English](README.md) | **中文** | [日本語](README.ja.md)
 
-> 🌐 **在线浏览 / 下载**：站点源码仓库（在 GitCode 开启 Pages 即得可访问站点，内容已同步至 v0.19.0）：
-> [gitcode.com/badhope/skillkit-site](https://gitcode.com/badhope/skillkit-site)
-> 单包 zip 与全量 `_all.zip` 见各平台 Release（见下方「三平台同步状态」）。
+> 🌐 **在线浏览 / 下载**：官网已上线 GitHub Pages（双号部署，内容一致）：
+> [x33834.github.io/awesome-skillkit](https://x33834.github.io/awesome-skillkit/) · [morningstar202604.github.io/awesome-skillkit](https://morningstar202604.github.io/awesome-skillkit/)
+> 单包 zip 与全量 `_all.zip` 见各平台 Release（见下方「四平台同步状态」）。
 > 部署说明：[docs/DEPLOY-SITE.md](docs/DEPLOY-SITE.md)
 
 面向 AI 工具的精选**场景技能包**合集。**一个场景包 = 一个真实工作场景，里面是一组协同工作的 skill。** 下载 zip → 解压 → 把 skill 文件夹拖进 AI 工具的 skills 目录 → 开箱即用。
@@ -248,16 +248,18 @@ flowchart LR
 
 `skill_chains.json` 内置 **18 个链域 / 58 条链**，把"该先调谁、谁接谁"固化下来，跨模块交叉调用不迷路。
 
-## 三平台同步状态
+## 四平台同步状态
+
+四平台并列（分支 / 标签 / HEAD 完全一致），不偏心任何一个：
 
 | 平台 | 仓库 | 代码同步 | Release / 附件 | 状态 |
 |------|------|:---:|:---:|------|
+| GitHub | `x33834/awesome-skillkit` | ✅ 至 `0.19.0` | ✅ v0.19.0 + 站点 | 正常 |
+| GitHub | `Morningstar202604/awesome-skillkit` | ✅ 至 `0.19.0` | ✅ 站点 | 正常 |
 | GitCode | `badhope/awesome-skillkit` | ✅ 至 `0.19.0` | ✅ 已建 | 正常 |
 | Gitee | `badhope/awesome-skillkit` | ✅ 至 `0.19.0` | ✅ v0.19.0 共 32 个 zip 附件 | 正常 |
-| GitHub | `x33834/awesome-skillkit` | ⚠️ 待本地推送 | ⚠️ 无 | 沙箱网络层限制，需你本地 `git push origin main --follow-tags`（token 需 repo+workflow 权限） |
-| 站点 | `badhope/skillkit-site` | ✅ 已同步 v0.19.0 | — | 在 GitCode 开启 Pages 即可访问 |
 
-> GitHub 因构建环境出口 ACL 在 TLS 握手层切断，无法从本环境直推；代码与 Release 内容已通过 GitCode / Gitee 完整托管，本地一条命令即可补齐 GitHub。
+站点（GitHub Pages 双号，内容一致）：<https://x33834.github.io/awesome-skillkit/> · <https://morningstar202604.github.io/awesome-skillkit/>
 
 ## 目录结构
 

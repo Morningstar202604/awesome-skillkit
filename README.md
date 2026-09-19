@@ -19,12 +19,14 @@
   <a href="https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip"><img src="https://img.shields.io/badge/%E2%AC%87%EF%B8%8F_Download-_all.zip-blue?style=flat-square" alt="Download all packs" /></a>
   <a href="https://gitcode.com/badhope/awesome-skillkit"><img src="https://img.shields.io/badge/GitCode-Mirror-3A72BE?style=flat-square" alt="GitCode" /></a>
   <a href="https://gitee.com/badhope/awesome-skillkit"><img src="https://img.shields.io/badge/Gitee-Mirror-C71D23?style=flat-square" alt="Gitee" /></a>
+  <a href="https://github.com/Morningstar202604/awesome-skillkit"><img src="https://img.shields.io/badge/GitHub-Mirror-24292F?style=flat-square&logo=github" alt="GitHub Mirror" /></a>
 </p>
 
 <p align="center"><strong>English</strong> | <a href="README.zh-CN.md">中文</a> | <a href="README.ja.md">日本語</a></p>
 
-> 🌐 **Browse / download**: the official site is live on GitHub Pages →
-> [x33834.github.io/awesome-skillkit](https://x33834.github.io/awesome-skillkit/).
+> 🌐 **Browse / download**: the official sites are live on GitHub Pages (both accounts, identical) →
+> [x33834.github.io/awesome-skillkit](https://x33834.github.io/awesome-skillkit/) ·
+> [morningstar202604.github.io/awesome-skillkit](https://morningstar202604.github.io/awesome-skillkit/).
 > Per-pack zips and the full `_all.zip` are attached to each platform's Release
 > (GitHub / Gitee serve direct links; GitCode links to its Release page).
 > Self-hosting guide: [docs/DEPLOY-SITE.md](docs/DEPLOY-SITE.md)
@@ -262,12 +264,16 @@ flowchart LR
 
 ## Platform sync status
 
+Four platforms in parallel (same branches, tags, and HEAD) — no favorites:
+
 | Platform | Repo | Code sync | Release / assets | Status |
 |----------|------|:---:|:---:|--------|
+| GitHub | `x33834/awesome-skillkit` | ✅ through `0.19.0` | ✅ v0.19.0 + site | OK |
+| GitHub | `Morningstar202604/awesome-skillkit` | ✅ through `0.19.0` | ✅ site | OK |
 | GitCode | `badhope/awesome-skillkit` | ✅ through `0.19.0` | ✅ created | OK |
 | Gitee | `badhope/awesome-skillkit` | ✅ through `0.19.0` | ✅ v0.19.0, 36 zip assets | OK |
-| GitHub | `x33834/awesome-skillkit` | ⚠️ push from local | ⚠️ none | Sandbox egress ACL cuts TLS; run `git push origin main --follow-tags` locally (token needs repo+workflow) |
-| Site | `badhope/skillkit-site` | ✅ synced v0.19.0 | — | Enable GitCode Pages to go live |
+
+Sites (GitHub Pages, both accounts): <https://x33834.github.io/awesome-skillkit/> · <https://morningstar202604.github.io/awesome-skillkit/>
 
 ## Directory layout
 
