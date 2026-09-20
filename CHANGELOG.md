@@ -18,6 +18,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **paper 域 SOTA 加强（标杆块）—— 3 技能脚本/文档/测试全升级到 2026 最佳实践**（`skills/paper/`）：
+  内容深度补强（「能跑」→「写得好」）；方法论对齐当前最佳工具链，全部保留离线回退且诚实标注 method/来源：
+  - **experiment-runner**：假阈值「显著」→ 真 Welch t-test（scipy，缺失时纯 stdlib 回退）含 `p_value`/Cohen's d/95% CI；新增 `--mode real`（`--metric module:func` 跑真实指标）、多后端 seed、`env` 指纹、mlflow autolog 钩子。SKILL.md 1.0→2.0。
+  - **lit-review**：顺序连接引用图 + 硬编码趋势 → Semantic Scholar 真实引用/被引（`--s2`）+ 共同引用图（co-cited）+ LLM 合成（model_route）/ 关键词共现兜底 + 诚实 `data_source`（s2/arxiv/mock）标注。SKILL.md 1.0→2.0。
+  - **pub-plotter**：手拍 figsize、无字体嵌入、非色盲安全 → 真实期刊物理宽度（`--journal nature_single|science|ieee|acm|neurips`）+ `pdf.fonttype=42` 字体嵌入 + 默认色盲安全色板 + 可选官方 `scienceplots`；`--data` 缺失改为报错退出（不再静默演示数据）。SKILL.md 1.0→2.0。
+  - 三技能弱冒烟 `test_smoke_all.py` 升级为**手搓强测试**（真输入+真断言）共 16 断言全绿；全库 `run_skill_smoke.py` 复跑 **121/121 pass（offline=0、dep=0、0 警告）** 未退化。
+  - 新增规范 `docs/SKILL-SOTA-STRENGTHENING.md`（SOTA 加强模板 + 评审清单 + 反模式）与基准 `tests/_full_test_artifacts/paper_sota_benchmark.md`（before/after 量化），作为横向推广到其余域的统一尺子。
+
 - **新增 `agent-eval-harness`（验证型技能：把 agent 行为量化成 0-100 分）**（`skills/meta/`）：
   5 个可自动判定维度（format/grounding/no_hallu/consistency/safety）加权成 0-100 分 +
   `pass/fail/warn` 判定，让"agent 改 prompt 后悄悄退化"可回归、可 CI 门禁。
