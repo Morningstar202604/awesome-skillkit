@@ -18,6 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **paper 域 SOTA 加强第二批（neural-net-draw / latex-formatter / self-reviewer）**（`skills/paper/`，对标 2026 学术工具链）：
+  - **neural-net-draw**：纯宽度层级图 → 叠加 **PlotNeuralNet 层类型**（conv/pool/residual/linear/attention/dropout）`typed-blocks` 画法（`--layers "w:type"`，`--style auto`）；保留 per-neuron 兼容；层高层高封顶 3cm（修 784 节点层失控 470cm）；未知类型硬 `ValueError`。SKILL.md 1.0→2.0。
+  - **latex-formatter**：粗环境计数 → **按名 begin/end 配对**（Counter）；新增**跨文件 undefined `\cite` 检查**（`--refs refs.bib`）；裸 `&`/`%`/`#` 转义检查；**可选 chktex 真实 lint**（缺失时 stdlib 回退，`method` 如实标 `stdlib-fallback`/`external-lint`）。SKILL.md 1.0→2.0。
+  - **self-reviewer**：裸结构检查 → **ML 可复现性 rubric**（p 值/CI、ablation、baselines≥2、seeds/code/data）；每项产出**可复核 evidence 片段**；**LLM 证据双轨**（`--llm-evidence`，置信度≥0.6 计 passed，否则留 uncertain）+ 关键词回退；`ready` 必须 uncertain 为空。SKILL.md 1.0→2.0。
+  - 3 个弱 `test_smoke_all.py` 升级为手搓强测试（22 断言全绿）；全库 `run_skill_smoke.py` 复跑 **121/121 pass（offline=0 dep=0 0 警告）**，门禁未退化；更新 `paper_sota_benchmark.md`（追加第二批 before/after）。
+
 - **paper 域 SOTA 加强（标杆块）—— 3 技能脚本/文档/测试全升级到 2026 最佳实践**（`skills/paper/`）：
   内容深度补强（「能跑」→「写得好」）；方法论对齐当前最佳工具链，全部保留离线回退且诚实标注 method/来源：
   - **experiment-runner**：假阈值「显著」→ 真 Welch t-test（scipy，缺失时纯 stdlib 回退）含 `p_value`/Cohen's d/95% CI；新增 `--mode real`（`--metric module:func` 跑真实指标）、多后端 seed、`env` 指纹、mlflow autolog 钩子。SKILL.md 1.0→2.0。
