@@ -1,6 +1,6 @@
 # music-generation · 全量测试过程全量记录
 
-- 域: music | 时间: 2026-09-20 15:55:49 UTC
+- 域: music | 时间: 2026-09-20 16:48:56 UTC
 - 结果: **pass** | 真实可播放音乐小样（C-Am-F-G）+ 乐理参数 JSON
 
 ### 思维链 / 过程
@@ -20,7 +20,7 @@ $ C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\Lib\site-packages\i
 
 **stderr**:
 ```
-[aist#0:0/pcm_s16le @ 000002acde4fd480] Guessed Channel Layout: stereo
+[aist#0:0/pcm_s16le @ 000002023f088bc0] Guessed Channel Layout: stereo
 Input #0, wav, from 'C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_full_test_artifacts\music\music-generation\chords.wav':
   Duration: 00:00:00.60, bitrate: 1411 kb/s
   Stream #0:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 44100 Hz, stereo, s16, 1411 kb/s
@@ -33,8 +33,8 @@ Output #0, null, to 'pipe:':
   Stream #0:0: Audio: pcm_s16le, 44100 Hz, stereo, s16, 1411 kb/s
       Metadata:
         encoder         : Lavc61.19.100 pcm_s16le
-[out#0/null @ 000002acde4fd640] video:0KiB audio:103KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
-size=N/A time=00:00:00.60 bitrate=N/A speed= 159x
+[out#0/null @ 000002023f08ba80] video:0KiB audio:103KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
+size=N/A time=00:00:00.60 bitrate=N/A speed= 272x
 ```
 
 ## 遇到的问题（全量记录）

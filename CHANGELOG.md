@@ -63,6 +63,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - 两个脚本均纯 Python 无网络依赖，已独立实测（PII 正/反例、注入 benign/critical/indirect 三组）。
   - `packs/security/pack.json`、`manifest.json`（security pack）、`skills/skill_chains.json`（programming domain）同步登记。
 
+- **质量自审 + 第二代「真实技能」测试体系（回应"质量太差"反馈）**：
+  - **根因**：第一代 `tools/full_skill_test.py` 手搓了 20 个**合成技能名**的代理 task，与仓库 117 个真实技能脱钩——19/20 pass 只证明"代理实现能跑"，不能证明"技能包能跑"。属测试方法缺陷，非技能逻辑缺陷。
+  - **修复第一代 bug**：`tools/tasks/tools_task.py` 调 `organize_invoices.py` 误用位置参数 `src`（脚本要求 `--src`）→ 改为 `--src/--dst/--ledger` 全命名参数，校验归档目录树 + 台账 CSV（实测 pass）；补 `scikit-learn 1.9.1` 环境依赖（paper/data-ml 复跑 pass）。
+  - **第二代驱动器 `tools/run_skill_smoke.py`**：直接发现并 `pytest` 跑真实技能自带的 `test_smoke_*.py`（28 个技能 ship 了冒烟测试）。结果 **28/28 全部 pass（离线=0、缺依赖=0）**——这才是技能包质量的真硬指标。详见 `tests/_full_test_artifacts/skill_smoke_report.md`。
+  - **生成式媒体路由 helper `skills/meta/_shared/model_route.py`**：`offline_or_model(prompt, kind, offline_fn, env_key)`——env 设且网关可达走真模型（diffusion/TTS/musicgen），否则走 PIL/numpy 离线兜底（可移植性特性，非缺陷）。已离线自测 4/4（兜底/路由/异常回退）。生成式技能按此模式接入即消除"A 类保真度弱项"。
+  - **诚实结论**：技能仓库逻辑经得起跑；最大真问题 = ①89 个真实技能未 ship 冒烟测试（P0 补 `test_smoke_*.py`），②生成式媒体保真度受本机无 GPU/网关宕机所限（P1 model_route 已落地）。完整 SOTA 对标见 `tests/_full_test_artifacts/report.md` 第六章。
+
 ## [0.19.0] - 2026-09-17
 
 ### Added

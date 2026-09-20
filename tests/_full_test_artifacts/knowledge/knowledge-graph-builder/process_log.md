@@ -1,6 +1,6 @@
 # knowledge-graph-builder · 全量测试过程全量记录
 
-- 域: knowledge | 时间: 2026-09-20 15:55:48 UTC
+- 域: knowledge | 时间: 2026-09-20 16:48:55 UTC
 - 结果: **pass** | 真实知识图谱 3 节点/0 边 + 可打开 SVG 可视化
 
 ### 思维链 / 过程

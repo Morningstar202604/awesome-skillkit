@@ -1,6 +1,6 @@
 # video-creative-suite · 全量测试过程全量记录
 
-- 域: video | 时间: 2026-09-20 15:55:41 UTC
+- 域: video | 时间: 2026-09-20 16:48:39 UTC
 - 结果: **pass** | 生成可播放 mp4（7 KB），45 帧/15fps
 
 ### 思维链 / 过程
@@ -38,9 +38,9 @@ Input #0, image2, from 'C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-ski
 Stream mapping:
   Stream #0:0 -> #0:0 (png (native) -> h264 (libx264))
 Press [q] to stop, [?] for help
-[libx264 @ 0000018239102ec0] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 BMI2 AVX2 AVX512
-[libx264 @ 0000018239102ec0] profile High, level 1.2, 4:2:0, 8-bit
-[libx264 @ 0000018239102ec0] 264 - core 164 r3192 c24e06c - H.264/MPEG-4 AVC codec - Copyleft 2003-2024 - http://www.videolan.org/x264.html - options: cabac=1 ref=3 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=7 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=1 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=-2 threads=6 lookahead_threads=1 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=1 weightb=1 open_gop=0 weightp=2 keyint=250 keyint_min=15 scenecut=40 intra_refresh=0 rc_lookahead=40 rc=crf mbtree=1 crf=23.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00
+[libx264 @ 0000020ffa9d2ec0] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 BMI2 AVX2 AVX512
+[libx264 @ 0000020ffa9d2ec0] profile High, level 1.2, 4:2:0, 8-bit
+[libx264 @ 0000020ffa9d2ec0] 264 - core 164 r3192 c24e06c - H.264/MPEG-4 AVC codec - Copyleft 2003-2024 - http://www.videolan.org/x264.html - options: cabac=1 ref=3 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=7 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=1 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=-2 threads=6 lookahead_threads=1 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=1 weightb=1 open_gop=0 weightp=2 keyint=250 keyint_min=15 scenecut=40 intra_refresh=0 rc_lookahead=40 rc=crf mbtree=1 crf=23.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00
 Output #0, mp4, to 'C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_full_test_artifacts\video\video-creative-suite\demo.mp4':
   Metadata:
     encoder         : Lavf61.7.100
@@ -49,15 +49,15 @@ Output #0, mp4, to 'C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillki
         encoder         : Lavc61.19.100 libx264
       Side data:
         cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
-[out#0/mp4 @ 0000018239156a00] video:6KiB audio:0KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 20.282589%
-frame=   45 fps=0.0 q=-1.0 Lsize=       8KiB time=00:00:02.86 bitrate=  22.1kbits/s speed=75.4x    
-[libx264 @ 0000018239102ec0] frame I:1     Avg QP:27.23  size:   443
-[libx264 @ 0000018239102ec0] frame P:27    Avg QP:25.34  size:   150
-[libx264 @ 0000018239102ec0] frame B:17    Avg QP:27.32  size:    82
-[libx264 @ 0000018239102ec0] consecutive B-frames: 28.9% 57.8% 13.3%  0.0%
-[libx264 @ 0000018239102ec0] mb I  I16..4:  0.4% 94.2%  5.4%
-[libx264 @ 0000018239102ec0] mb P  I16..4:  0.6%  1.4%  0.5%  P16..4:  9.1%  0.6%  0.0%  0.0%  0.0%    skip:87.8%
-[libx264 @ 0000018239102ec0] mb B  I16..4:  0.1%  0.0%  0.0%  B16..8:  5.1%  0.3%  0.0%  direc
+[out#0/mp4 @ 0000020ffa9e5a00] video:6KiB audio:0KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 20.282589%
+frame=   45 fps=0.0 q=-1.0 Lsize=       8KiB time=00:00:02.86 bitrate=  22.1kbits/s speed=60.8x    
+[libx264 @ 0000020ffa9d2ec0] frame I:1     Avg QP:27.23  size:   443
+[libx264 @ 0000020ffa9d2ec0] frame P:27    Avg QP:25.34  size:   150
+[libx264 @ 0000020ffa9d2ec0] frame B:17    Avg QP:27.32  size:    82
+[libx264 @ 0000020ffa9d2ec0] consecutive B-frames: 28.9% 57.8% 13.3%  0.0%
+[libx264 @ 0000020ffa9d2ec0] mb I  I16..4:  0.4% 94.2%  5.4%
+[libx264 @ 0000020ffa9d2ec0] mb P  I16..4:  0.6%  1.4%  0.5%  P16..4:  9.1%  0.6%  0.0%  0.0%  0.0%    skip:87.8%
+[libx264 @ 0000020ffa9d2ec0] mb B  I16..4:  0.1%  0.0%  0.0%  B16..8:  5.1%  0.3%  0.0%  direc
 ```
 
 ### 思维链 / 过程

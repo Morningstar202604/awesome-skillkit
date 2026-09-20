@@ -1,6 +1,6 @@
 # cloud-drive-manager · 全量测试过程全量记录
 
-- 域: integrations | 时间: 2026-09-20 15:55:50 UTC
+- 域: integrations | 时间: 2026-09-20 16:48:56 UTC
 - 结果: **pass** | 可运行文件组织器：docs/data/images/misc 分类全命中
 
 ### 思维链 / 过程

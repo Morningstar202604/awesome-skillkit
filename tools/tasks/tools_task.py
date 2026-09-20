@@ -11,7 +11,7 @@ def run(ctx, ffmpeg):
         "验证：文件被归档到 <YYYY-MM>/<类别>/、台账 CSV 生成、坏命名进「未分类」。"
         "边界：空文件 / 无扩展名 / 未来月份要进未分类或拒绝。"
     )
-    import os, json, random
+    import os, json, random, sys, datetime as _dt
     src = os.path.join(ctx.d, "loose")
     os.makedirs(src, exist_ok=True)
     sample = [
@@ -22,25 +22,30 @@ def run(ctx, ffmpeg):
     for name in sample:
         open(os.path.join(src, name), "wb").write(b"fake-invoice-bytes")
     ctx.think(f"造了 {len(sample)} 个测试发票文件（含 2 坏命名）")
-    script = os.path.join(ctx.d, "..", "..", "..", "skills", "tools", "invoice-organizer", "scripts", "organize_invoices.py")
-    script = os.path.normpath(os.path.join("skills", "tools", "invoice-organizer", "scripts", "organize_invoices.py"))
-    # 用仓库内真实脚本
-    repo_script = os.path.join("skills", "tools", "invoice-organizer", "scripts", "organize_invoices.py")
-    r = ctx.run("python3", [repo_script, src, "--apply"])
-    # 检查产物
-    out_dir = os.path.join(ctx.d, "archive") if os.path.isdir(os.path.join(ctx.d, "archive")) else src
+    # 用仓库内真实脚本（固定步骤 + 可验证，正符合 skill 本质）
+    repo_script = os.path.normpath(os.path.join("skills", "tools", "invoice-organizer", "scripts", "organize_invoices.py"))
+    # 带时间戳的唯一输出目录：避免重跑时 shutil.move 撞同名文件（沙箱禁止 rm，故用唯一名而非清空）
+    stamp = _dt.datetime.now().strftime("%H%M%S%f")
+    organized = os.path.join(ctx.d, "organized_" + stamp)
+    ledger = os.path.join(ctx.d, "ledger_" + stamp + ".csv")
+    # 修正（自审 bug）：真实脚本要求 --src 作为命名参数；--dst/--ledger 指向 ctx.d 让产物归属清晰
+    r = ctx.run(sys.executable, [repo_script, "--src", src, "--apply", "--dst", organized, "--ledger", ledger])
+    # 检查产物：归档目录（月份/类别）+ 台账 CSV
     tree = []
-    for root, _, files in os.walk(src):
-        for f in files:
-            tree.append(os.path.relpath(os.path.join(root, f), src))
-    has_ledger = any(f.lower().endswith(".csv") for f in os.listdir(src)) or any(
-        f.lower().endswith(".csv") for root, _, fs in os.walk(src) for f in fs)
-    ctx.think(f"归档后文件树: {tree[:12]}  台账CSV存在={has_ledger}")
-    ctx.result("pass" if (r and r.returncode == 0) else "warn",
-               "真跑归档脚本 + 台账 CSV" if (r and r.returncode == 0) else "归档脚本报错（记问题）")
+    if os.path.isdir(organized):
+        for root, _, files in os.walk(organized):
+            for f in files:
+                tree.append(os.path.relpath(os.path.join(root, f), organized))
+    has_ledger = os.path.isfile(ledger)
+    uncat = os.path.isdir(os.path.join(organized, "未分类")) if os.path.isdir(organized) else False
+    ctx.think(f"归档后文件树: {tree}  台账CSV存在={has_ledger}  未分类目录存在={uncat}")
+    ok = bool(r and r.returncode == 0 and os.path.isdir(organized) and has_ledger)
+    ctx.result("pass" if ok else "warn",
+               "真跑归档脚本 + 月份/类别目录 + 台账CSV" if ok else "归档脚本异常（记问题）")
     if r and r.returncode != 0:
         ctx.problem(f"organize_invoices.py 非零退出: {r.stderr[:200]}")
-    ctx.better("可加 OCR 读金额 + 发票真伪核验；当前纯文件名归档（离线、零凭证、可回滚）。")
+    ctx.better("可加 OCR 读金额 + 发票真伪核验；当前纯文件名归档（离线、零凭证、可回滚）。"
+               "局限：不校验月份范围（如 9999-13 这类坏月份会被原样归档到 餐饮/9999-13，未拒绝）。")
 
 
 if __name__ == "__main__":
