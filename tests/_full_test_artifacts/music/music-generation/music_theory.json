@@ -1,0 +1,13 @@
+{
+  "key": "C major",
+  "time": "4/4",
+  "bpm": 100,
+  "progression": [
+    "C",
+    "Am",
+    "F",
+    "G"
+  ],
+  "sr": 44100,
+  "wave_type": "sine-stack"
+}

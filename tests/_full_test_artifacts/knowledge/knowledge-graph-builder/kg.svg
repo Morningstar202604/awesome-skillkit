@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="380" style="background:#10121a">
+<circle cx="400" cy="190" r="26" fill="#6366f1"/>
+<text x="400" y="194" text-anchor="middle" fill="#fff" font-size="13">chain</text>
+<circle cx="175" cy="303" r="26" fill="#6366f1"/>
+<text x="175" y="307" text-anchor="middle" fill="#fff" font-size="13">eval</text>
+<circle cx="175" cy="77" r="26" fill="#6366f1"/>
+<text x="175" y="81" text-anchor="middle" fill="#fff" font-size="13">skill</text>
+</svg>
