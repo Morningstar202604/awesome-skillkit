@@ -2,7 +2,7 @@
 
 > 本仓库维护两条线（截至 v0.18，共 **137 个技能 / 34 个场景包**）：
 > 1. **上游精选**（`skills/programming/` 下 13 个分类目录，33 个）——全部来自下方上游项目；
-> 2. **自建场景技能**（83 个）——分布在 `skills/writing/`、`skills/video/`、`skills/scenarios/`、
+> 2. **自建场景技能**（83 个）——分布在 `skills/writing/`、`skills/video/`、`skills/office/`、`skills/music/`、
 >    `skills/paper/`、`skills/ppt/`、`skills/tools/`、`skills/integrations/` 及
 >    `skills/programming/` 下的 5 个自建子目录（`data/`、`debug/`、`math/`、`ml/`、`planning/`），
 >    本仓库原创维护。
@@ -101,7 +101,7 @@ python3 build.py         # 唯一构建入口
 | deep-research | ai-research-writing | 深度研究流水线 |
 | web-search | ai-research-writing | 网络检索聚合 |
 
-### 办公/研究/娱乐（skills/scenarios/ + skills/paper/ + skills/ppt/，6 个）
+### 办公/研究/娱乐（skills/office/ + skills/music/ + skills/paper/ + skills/ppt/，6 个）
 
 | Skill | 场景包 | 说明 |
 |-------|--------|------|

@@ -2,8 +2,8 @@
   "id": "security",
   "name": "Security & Secrets",
   "name_zh": "安全与密钥管理",
-  "description": "Set up secret vaults and manage environment-variable hygiene.",
-  "description_zh": "搭建密钥库并管理环境变量卫生。",
+  "description": "Set up secret vaults, manage environment-variable hygiene, redact PII, and defend against prompt injection / jailbreak.",
+  "description_zh": "搭建密钥库、管理环境变量卫生、PII 脱敏与提示注入/越狱防御。",
   "skills": [
     {
       "name": "secrets-vault-manager",
@@ -12,6 +12,14 @@
     {
       "name": "env-secrets-manager",
       "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "pii-redactor",
+      "source": "self-authored"
+    },
+    {
+      "name": "prompt-injection-guard",
+      "source": "self-authored"
     }
   ]
 }

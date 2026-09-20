@@ -36,6 +36,14 @@
     {
       "name": "epub-builder",
       "source": "self-authored"
+    },
+    {
+      "name": "docx-template-fill",
+      "source": "self-authored"
+    },
+    {
+      "name": "career-ops-lite",
+      "source": "self-authored (adapted from santifer/career-ops, MIT)"
     }
   ]
 }

@@ -2,14 +2,14 @@
  "meta": {
   "hub": "awesome-skillkit",
   "version": "0.19.0",
-  "updated": "2026-09-17",
+  "updated": "2026-09-20",
   "desc": "Curated scene packs for AI tools: each pack = one real-world scenario, containing multiple skills. Download zip -> unzip -> drag the skill folders into your AI tool's skills directory.",
   "desc_zh": "精选场景包合集：每个场景包 = 一个真实场景，内含多个 skill。下载 zip -> 解压 -> 把 skill 文件夹拖进 AI 工具的 skills 目录即可使用。",
-  "n_skills": 143,
-  "n_skills_on_disk": 144,
+  "n_skills": 154,
+  "n_skills_on_disk": 155,
   "n_packs": 36,
   "n_domains": 18,
-  "n_chains": 58,
+  "n_chains": 62,
   "github": {
    "repo": "x33834/awesome-skillkit",
    "url": "https://github.com/x33834/awesome-skillkit",
@@ -93,7 +93,7 @@
    "id": "design",
    "label": "design",
    "entry": "skills/design/design_pipeline.py",
-   "n_skills": 4,
+   "n_skills": 5,
    "n_chains": 6,
    "chains": [
     {
@@ -298,9 +298,23 @@
    "id": "meta",
    "label": "meta",
    "entry": "skills/meta/skill-author",
-   "n_skills": 3,
-   "n_chains": 2,
+   "n_skills": 6,
+   "n_chains": 5,
    "chains": [
+    {
+     "name": "agent_eval",
+     "steps": [
+      "agent-eval-harness"
+     ]
+    },
+    {
+     "name": "agent_eval_gate",
+     "steps": [
+      "webapp-e2e-harness?",
+      "agent-eval-harness",
+      "ci-cd-pipeline-builder?"
+     ]
+    },
     {
      "name": "discover_and_compose",
      "steps": [
@@ -313,6 +327,12 @@
      "steps": [
       "skill-author",
       "skill-linter"
+     ]
+    },
+    {
+     "name": "weekly_status",
+     "steps": [
+      "weekly-report-generator"
      ]
     }
    ]
@@ -336,7 +356,7 @@
    "id": "office",
    "label": "office",
    "entry": "",
-   "n_skills": 7,
+   "n_skills": 9,
    "n_chains": 3,
    "chains": [
     {
@@ -435,7 +455,7 @@
    "id": "programming",
    "label": "programming",
    "entry": "skills/programming/planning/pipeline_orchestrator.py",
-   "n_skills": 45,
+   "n_skills": 48,
    "n_chains": 13,
    "chains": [
     {
@@ -571,9 +591,16 @@
    "id": "tools",
    "label": "tools",
    "entry": "skills/tools/file-organizer",
-   "n_skills": 4,
-   "n_chains": 2,
+   "n_skills": 6,
+   "n_chains": 3,
    "chains": [
+    {
+     "name": "expense_filing",
+     "steps": [
+      "invoice-organizer",
+      "bank-statement-reconcile?"
+     ]
+    },
     {
      "name": "messy_folder_cleanup",
      "steps": [
@@ -700,6 +727,25 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/workflow/agent-designer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/workflow/agent-designer/SKILL.md"
+  },
+  {
+   "name": "agent-eval-harness",
+   "domain": "meta",
+   "path": "skills/meta/agent-eval-harness",
+   "file": "skills/meta/agent-eval-harness/SKILL.md",
+   "desc": ">",
+   "license": "Apache-2.0",
+   "compatibility": "纯 Python 离线脚本（只写文件，不发网络请求）；模式 B 的 LLM-as-judge 只产出可复制的评审 prompt，真正调模型由用户自己接（凭证走 env）",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "script",
+   "verified": "2026-09-20",
+   "repo_file": "skills/meta/agent-eval-harness/SKILL.md",
+   "packs": [
+    "tdd"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/meta/agent-eval-harness/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/meta/agent-eval-harness/SKILL.md"
   },
   {
    "name": "ai-baby-podcast",
@@ -933,6 +979,25 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/news/baijiahao-publisher/SKILL.md"
   },
   {
+   "name": "bank-statement-reconcile",
+   "domain": "tools",
+   "path": "skills/tools/bank-statement-reconcile",
+   "file": "skills/tools/bank-statement-reconcile/SKILL.md",
+   "desc": ">",
+   "license": "Apache-2.0",
+   "compatibility": "纯本地 CSV；不联网、不连银行；默认 dry-run；匹配是启发式（金额+月+对方），需人工复核未匹配项",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "script",
+   "verified": "2026-09-20",
+   "repo_file": "skills/tools/bank-statement-reconcile/SKILL.md",
+   "packs": [
+    "toolsmith"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/tools/bank-statement-reconcile/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/tools/bank-statement-reconcile/SKILL.md"
+  },
+  {
    "name": "batch-renamer",
    "domain": "tools",
    "path": "skills/tools/batch-renamer",
@@ -988,6 +1053,25 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/marketing/campaign-designer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/campaign-designer/SKILL.md"
+  },
+  {
+   "name": "career-ops-lite",
+   "domain": "office",
+   "path": "skills/office/career-ops-lite",
+   "file": "skills/office/career-ops-lite/SKILL.md",
+   "desc": ">",
+   "license": "Apache-2.0",
+   "compatibility": "纯文本 + Python 离线；无需网络、无需 Playwright；评分是启发式词面匹配，最终判断仍靠人",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "script",
+   "verified": "2026-09-20",
+   "repo_file": "skills/office/career-ops-lite/SKILL.md",
+   "packs": [
+    "office-productivity"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/office/career-ops-lite/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/office/career-ops-lite/SKILL.md"
   },
   {
    "name": "changelog-generator",
@@ -1389,6 +1473,25 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/containers/docker-development/SKILL.md"
   },
   {
+   "name": "docx-template-fill",
+   "domain": "office",
+   "path": "skills/office/docx-template-fill",
+   "file": "skills/office/docx-template-fill/SKILL.md",
+   "desc": ">",
+   "license": "Apache-2.0",
+   "compatibility": "需要 python3 + python-docx（pip install python-docx）；缺失时降级为\"只打印占位符清单\"",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "script",
+   "verified": "2026-09-20",
+   "repo_file": "skills/office/docx-template-fill/SKILL.md",
+   "packs": [
+    "office-productivity"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/office/docx-template-fill/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/office/docx-template-fill/SKILL.md"
+  },
+  {
    "name": "docx-writer",
    "domain": "office",
    "path": "skills/office/docx-writer",
@@ -1504,9 +1607,9 @@
   },
   {
    "name": "excel-assistant",
-   "domain": "scenarios",
-   "path": "skills/scenarios/excel-assistant",
-   "file": "skills/scenarios/excel-assistant/SKILL.md",
+   "domain": "office",
+   "path": "skills/office/excel-assistant",
+   "file": "skills/office/excel-assistant/SKILL.md",
    "desc": ">",
    "license": "Apache-2.0",
    "compatibility": "Works best with python3 + pandas + openpyxl; degrades to manual guidance.",
@@ -1514,12 +1617,12 @@
    "tier": "",
    "pattern": "",
    "verified": "2026-08-26",
-   "repo_file": "skills/scenarios/excel-assistant/SKILL.md",
+   "repo_file": "skills/office/excel-assistant/SKILL.md",
    "packs": [
     "office-productivity"
    ],
-   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/scenarios/excel-assistant/SKILL.md",
-   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/scenarios/excel-assistant/SKILL.md"
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/office/excel-assistant/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/office/excel-assistant/SKILL.md"
   },
   {
    "name": "exercise-generator",
@@ -1693,6 +1796,25 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/tools/format-converter/SKILL.md"
   },
   {
+   "name": "frontend-component-lab",
+   "domain": "design",
+   "path": "skills/design/frontend-component-lab",
+   "file": "skills/design/frontend-component-lab/SKILL.md",
+   "desc": ">",
+   "license": "Apache-2.0",
+   "compatibility": "产出 .tsx/.css/.json 源码文件；需用户自接 TS 工程（不联网、不装 npm 也能生成）",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "script",
+   "verified": "2026-09-20",
+   "repo_file": "skills/design/frontend-component-lab/SKILL.md",
+   "packs": [
+    "visual-design-studio"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/design/frontend-component-lab/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/design/frontend-component-lab/SKILL.md"
+  },
+  {
    "name": "frontend-design-director",
    "domain": "design",
    "path": "skills/design/frontend-design-director",
@@ -1829,9 +1951,9 @@
   },
   {
    "name": "internal-comms-writer",
-   "domain": "writing",
-   "path": "skills/writing/internal-comms-writer",
-   "file": "skills/writing/internal-comms-writer/SKILL.md",
+   "domain": "office",
+   "path": "skills/office/internal-comms-writer",
+   "file": "skills/office/internal-comms-writer/SKILL.md",
    "desc": "Draft company internal communications in four standard genres — recurring team updates, all-hands announcements, FAQ answers, and cross-team request emails — after pinning down audience, event, expected action and deadline. Use when the user asks to 写周报 / 写内部通知 / 发公司公告 / 回复员工 FAQ / 给其他团队发协调邮件 / team update / company announcement / internal comms / company newsletter / FAQ answer / cross-team request. Do NOT use for external customer-facing copy, marketing material, or legal/PR statements that require sign-off from comms or legal teams.",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; no runtime deps.",
@@ -1839,12 +1961,31 @@
    "tier": "standard",
    "pattern": "single-task",
    "verified": "2026-09-16",
-   "repo_file": "skills/writing/internal-comms-writer/SKILL.md",
+   "repo_file": "skills/office/internal-comms-writer/SKILL.md",
    "packs": [
     "office-productivity"
    ],
-   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/internal-comms-writer/SKILL.md",
-   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/internal-comms-writer/SKILL.md"
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/office/internal-comms-writer/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/office/internal-comms-writer/SKILL.md"
+  },
+  {
+   "name": "invoice-organizer",
+   "domain": "tools",
+   "path": "skills/tools/invoice-organizer",
+   "file": "skills/tools/invoice-organizer/SKILL.md",
+   "desc": ">",
+   "license": "Apache-2.0",
+   "compatibility": "纯本地文件系统 + CSV；不联网；默认 dry-run；移动操作可手动回滚",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "script",
+   "verified": "2026-09-20",
+   "repo_file": "skills/tools/invoice-organizer/SKILL.md",
+   "packs": [
+    "toolsmith"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/tools/invoice-organizer/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/tools/invoice-organizer/SKILL.md"
   },
   {
    "name": "issue-tracker-sync",
@@ -2039,9 +2180,9 @@
   },
   {
    "name": "meeting-notes",
-   "domain": "scenarios",
-   "path": "skills/scenarios/meeting-notes",
-   "file": "skills/scenarios/meeting-notes/SKILL.md",
+   "domain": "office",
+   "path": "skills/office/meeting-notes",
+   "file": "skills/office/meeting-notes/SKILL.md",
    "desc": ">",
    "license": "Apache-2.0",
    "compatibility": "No special environment; accepts pasted transcript or notes.",
@@ -2049,12 +2190,12 @@
    "tier": "",
    "pattern": "",
    "verified": "2026-08-26",
-   "repo_file": "skills/scenarios/meeting-notes/SKILL.md",
+   "repo_file": "skills/office/meeting-notes/SKILL.md",
    "packs": [
     "office-productivity"
    ],
-   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/scenarios/meeting-notes/SKILL.md",
-   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/scenarios/meeting-notes/SKILL.md"
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/office/meeting-notes/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/office/meeting-notes/SKILL.md"
   },
   {
    "name": "memory-architect",
@@ -2229,9 +2370,9 @@
   },
   {
    "name": "music-generation",
-   "domain": "scenarios",
-   "path": "skills/scenarios/music-generation",
-   "file": "skills/scenarios/music-generation/SKILL.md",
+   "domain": "music",
+   "path": "skills/music/music-generation",
+   "file": "skills/music/music-generation/SKILL.md",
    "desc": ">",
    "license": "Apache-2.0",
    "compatibility": "Requires curl and network access to the generation gateway endpoint.",
@@ -2239,12 +2380,12 @@
    "tier": "",
    "pattern": "",
    "verified": "2026-08-26",
-   "repo_file": "skills/scenarios/music-generation/SKILL.md",
+   "repo_file": "skills/music/music-generation/SKILL.md",
    "packs": [
     "ai-media-toolkit"
    ],
-   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/scenarios/music-generation/SKILL.md",
-   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/scenarios/music-generation/SKILL.md"
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/music/music-generation/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/music/music-generation/SKILL.md"
   },
   {
    "name": "nailong-laugh-shorts",
@@ -2456,6 +2597,25 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/knowledge/personal-wiki/SKILL.md"
   },
   {
+   "name": "pii-redactor",
+   "domain": "programming",
+   "path": "skills/programming/security/pii-redactor",
+   "file": "skills/programming/security/pii-redactor/SKILL.md",
+   "desc": ">",
+   "license": "Apache-2.0",
+   "compatibility": "Pure Python 3 stdlib (no third-party deps). Read-only scan by default; redaction writes a NEW output file, never mutates the source. Credentials not required.",
+   "version": "1.0",
+   "tier": "powerful",
+   "pattern": "script",
+   "verified": "2026-09-20",
+   "repo_file": "skills/programming/security/pii-redactor/SKILL.md",
+   "packs": [
+    "security"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/security/pii-redactor/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/security/pii-redactor/SKILL.md"
+  },
+  {
    "name": "podcast-producer",
    "domain": "audio",
    "path": "skills/audio/podcast-producer",
@@ -2533,6 +2693,25 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/product-copywriter/SKILL.md"
   },
   {
+   "name": "prompt-injection-guard",
+   "domain": "programming",
+   "path": "skills/programming/security/prompt-injection-guard",
+   "file": "skills/programming/security/prompt-injection-guard/SKILL.md",
+   "desc": ">",
+   "license": "Apache-2.0",
+   "compatibility": "Pure Python 3 stdlib, offline, zero deps, zero network. Read-only: only reads the target text and writes a verdict report; never mutates input. No credentials required.",
+   "version": "1.0",
+   "tier": "powerful",
+   "pattern": "script",
+   "verified": "2026-09-20",
+   "repo_file": "skills/programming/security/prompt-injection-guard/SKILL.md",
+   "packs": [
+    "security"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/security/prompt-injection-guard/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/security/prompt-injection-guard/SKILL.md"
+  },
+  {
    "name": "pub-plotter",
    "domain": "paper",
    "path": "skills/paper/pub-plotter",
@@ -2572,9 +2751,9 @@
   },
   {
    "name": "resume-tailor",
-   "domain": "scenarios",
-   "path": "skills/scenarios/resume-tailor",
-   "file": "skills/scenarios/resume-tailor/SKILL.md",
+   "domain": "office",
+   "path": "skills/office/resume-tailor",
+   "file": "skills/office/resume-tailor/SKILL.md",
    "desc": ">",
    "license": "Apache-2.0",
    "compatibility": "No special environment needed; accepts plain text or pasted resume.",
@@ -2582,12 +2761,12 @@
    "tier": "",
    "pattern": "",
    "verified": "2026-08-26",
-   "repo_file": "skills/scenarios/resume-tailor/SKILL.md",
+   "repo_file": "skills/office/resume-tailor/SKILL.md",
    "packs": [
     "office-productivity"
    ],
-   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/scenarios/resume-tailor/SKILL.md",
-   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/scenarios/resume-tailor/SKILL.md"
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/office/resume-tailor/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/office/resume-tailor/SKILL.md"
   },
   {
    "name": "runbook-generator",
@@ -2721,6 +2900,25 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/seo-optimizer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/seo-optimizer/SKILL.md"
+  },
+  {
+   "name": "session-handoff",
+   "domain": "meta",
+   "path": "skills/meta/session-handoff",
+   "file": "skills/meta/session-handoff/SKILL.md",
+   "desc": ">",
+   "license": "Apache-2.0",
+   "compatibility": "纯本地 Markdown 生成；离线、无网络、无凭证；默认 dry-run",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "script",
+   "verified": "2026-09-20",
+   "repo_file": "skills/meta/session-handoff/SKILL.md",
+   "packs": [
+    "skill-forge"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/meta/session-handoff/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/meta/session-handoff/SKILL.md"
   },
   {
    "name": "ship-gate",
@@ -3313,6 +3511,25 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/planning/web-search/SKILL.md"
   },
   {
+   "name": "webapp-e2e-harness",
+   "domain": "programming",
+   "path": "skills/programming/testing/webapp-e2e-harness",
+   "file": "skills/programming/testing/webapp-e2e-harness/SKILL.md",
+   "desc": ">",
+   "license": "Apache-2.0",
+   "compatibility": "产出 Python 测试脚手架；跑测试需用户 `pip install pytest playwright` + `playwright install chromium`（脚本本身离线，不下载二进制）",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "script",
+   "verified": "2026-09-20",
+   "repo_file": "skills/programming/testing/webapp-e2e-harness/SKILL.md",
+   "packs": [
+    "tdd"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/testing/webapp-e2e-harness/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/testing/webapp-e2e-harness/SKILL.md"
+  },
+  {
    "name": "webapp-flow-tester",
    "domain": "programming",
    "path": "skills/programming/testing/webapp-flow-tester",
@@ -3349,6 +3566,25 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/wechat/wechat-mp-publisher/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/wechat/wechat-mp-publisher/SKILL.md"
+  },
+  {
+   "name": "weekly-report-generator",
+   "domain": "meta",
+   "path": "skills/meta/weekly-report-generator",
+   "file": "skills/meta/weekly-report-generator/SKILL.md",
+   "desc": ">",
+   "license": "Apache-2.0",
+   "compatibility": "纯本地 git 操作；不联网、不碰 remote；默认 dry-run；需 python3 + git",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "script",
+   "verified": "2026-09-20",
+   "repo_file": "skills/meta/weekly-report-generator/SKILL.md",
+   "packs": [
+    "skill-forge"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/meta/weekly-report-generator/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/meta/weekly-report-generator/SKILL.md"
   },
   {
    "name": "weibo-publisher",
@@ -3415,7 +3651,7 @@
    "name_zh": "AI Agent 开发",
    "desc": "Build production-grade AI agents, design multi-agent workflows, MCP servers, feature flags, and self-evaluation.",
    "desc_zh": "构建生产级 AI Agent、设计多 Agent 工作流、MCP 服务、功能开关与自评。",
-   "size_kb": 157,
+   "size_kb": 158,
    "n_skills": 5,
    "skills": [
     "agent-designer",
@@ -3436,7 +3672,7 @@
    "name_zh": "AI 媒体生成工具箱",
    "desc": "Generate videos, images, covers, and music from prompts through a local generation gateway.",
    "desc_zh": "通过本地生成网关用提示词生成视频、图片、封面与配乐：文生/图生全流程（提交、轮询、下载交付）。",
-   "size_kb": 26,
+   "size_kb": 28,
    "n_skills": 4,
    "skills": [
     "video-generation",
@@ -3456,7 +3692,7 @@
    "name_zh": "AI 研究与写作",
    "desc": "Research a topic and turn it into a structured article: multi-round search, outline, draft, edit, SEO.",
    "desc_zh": "从选题调研到成稿发布的长文生产链路：多轮检索与报告综合、大纲搭建、初稿撰写、风格润色、关键词与平台规则优化，以及学术选题的研究空白识别与投稿匹配。",
-   "size_kb": 160,
+   "size_kb": 161,
    "n_skills": 19,
    "skills": [
     "deep-research",
@@ -3491,7 +3727,7 @@
    "name_zh": "AI 短视频生产流水线",
    "desc": "End-to-end short-video production: script, voice, lip-sync, assembly, subtitles, thumbnail.",
    "desc_zh": "从脚本到成片的一条龙短视频生产线：脚本撰写、配音合成、口型对齐、剪辑合成、字幕、封面图。六个技能按序衔接，输出可直接发布的竖屏视频。",
-   "size_kb": 74,
+   "size_kb": 75,
    "n_skills": 6,
    "skills": [
     "video-script-writer",
@@ -3531,7 +3767,7 @@
    "name_zh": "系统架构设计",
    "desc": "Design system architecture, plan zero-downtime migrations, and navigate monorepos.",
    "desc_zh": "设计系统架构、规划零停机迁移、驾驭 monorepo。",
-   "size_kb": 108,
+   "size_kb": 109,
    "n_skills": 3,
    "skills": [
     "senior-architect",
@@ -3550,7 +3786,7 @@
    "name_zh": "音频工作室",
    "desc": "AI audio production chain: turn a topic or document into a segmented podcast script (spoken words only - TTS reads everything), direct voice synthesis with a voice catalog and per-character casting, and publish with shownotes, timestamped chapters, and platform metadata. Topic in, publishable episode out, no step left dangling.",
    "desc_zh": "AI 音频生产链条：把选题或文档变成分段播客脚本（纯口播词——TTS 会把一切都读出来），按声音目录做角色选声与合成参数执导，并以 shownotes、时间戳章节、平台元数据收尾发布。选题进、可发布节目出，链条不断头。方法论借鉴 Kokoro/Qwen3-TTS 生态与 Podify/inference.sh 实践并已署名。",
-   "size_kb": 17,
+   "size_kb": 18,
    "n_skills": 3,
    "skills": [
     "podcast-producer",
@@ -3586,7 +3822,7 @@
    "name_zh": "CI/CD 流水线",
    "desc": "Generate pragmatic CI/CD pipelines, release gates, and spec-driven development workflows.",
    "desc_zh": "生成务实的 CI/CD 流水线、发布门禁与规范驱动开发流程。",
-   "size_kb": 66,
+   "size_kb": 67,
    "n_skills": 3,
    "skills": [
     "ci-cd-pipeline-builder",
@@ -3624,7 +3860,7 @@
    "name_zh": "代码审查",
    "desc": "Review pull requests, analyze code quality, audit dependencies and tech debt across languages.",
    "desc_zh": "审查 PR、分析代码质量、审计依赖与技术债，覆盖多语言。",
-   "size_kb": 247,
+   "size_kb": 249,
    "n_skills": 5,
    "skills": [
     "pr-review-expert",
@@ -3664,7 +3900,7 @@
    "name_zh": "内容多平台发布自动化",
    "desc": "Publish, edit and manage articles/videos on Chinese platforms (Zhihu, cnblogs, WeChat MP, Juejin, CSDN, Jianshu, Bilibili, Toutiao, Baijiahao, Xiaohongshu, Weibo, Douban, V2EX, SegmentFault, OSChina, Douban, Static Blogs) with battle-tested platform knowledge, plus a cross-post orchestrator and AI cover-image generation.",
    "desc_zh": "在知乎、博客园、微信公众号、掘金、CSDN、简书、B站、头条、百家号、小红书、微博、豆瓣、V2EX、SegmentFault、开源中国、静态博客等中文平台发布、编辑、管理内容，沉淀实战平台经验；附跨平台发布编排器与 AI 封面图生成。",
-   "size_kb": 163,
+   "size_kb": 165,
    "n_skills": 18,
    "skills": [
     "zhihu-content-manager",
@@ -3721,7 +3957,7 @@
    "name_zh": "数据库设计与管理",
    "desc": "Design schemas, ERD diagrams, migrations, and optimize SQL queries.",
    "desc_zh": "设计表结构、ERD 图、迁移方案，并优化 SQL 查询。",
-   "size_kb": 107,
+   "size_kb": 108,
    "n_skills": 2,
    "skills": [
     "database-designer",
@@ -3814,7 +4050,7 @@
    "name_zh": "增长营销",
    "desc": "E-commerce and growth marketing chain: framework-driven product copy (FAB/PAS/AIDA with objection handling), campaign design with single-variable A/B variant pairs, and channel adaptation with machine-checked fit rules (word budgets, CTA counts per platform). Product facts in, launch-ready channel variants out.",
    "desc_zh": "电商与增长营销链条：框架驱动的商品文案（FAB/PAS/AIDA + 异议处理）、单变量 A/B 变体对的活动策划、附机器适配校验（各平台字数预算与 CTA 约束）的渠道适配。商品事实进、可投放渠道变体出。方法论借鉴 AIDA/PAS/FAB 直复营销框架与开源营销技能生态并已署名。",
-   "size_kb": 15,
+   "size_kb": 16,
    "n_skills": 3,
    "skills": [
     "product-copywriter",
@@ -3852,7 +4088,7 @@
    "name_zh": "画图工作台",
    "desc": "End-to-end image creation workspace: prompt engineering, style anchoring, generation via gateway, cover art.",
    "desc_zh": "端到端画图工作台：生图提示词工程、风格锚定、网关生图执行、封面图生成。把散落的生图技能组装成一条龙。",
-   "size_kb": 33,
+   "size_kb": 35,
    "n_skills": 4,
    "skills": [
     "image-prompt-engineer",
@@ -3872,7 +4108,7 @@
    "name_zh": "故障响应与 SRE",
    "desc": "Command incidents, generate runbooks, and define SLOs/error budgets.",
    "desc_zh": "事故指挥、生成 runbook、定义 SLO 与错误预算。",
-   "size_kb": 124,
+   "size_kb": 125,
    "n_skills": 3,
    "skills": [
     "incident-commander",
@@ -3891,7 +4127,7 @@
    "name_zh": "基础设施即代码",
    "desc": "Terraform patterns, observability design, and Kubernetes operators.",
    "desc_zh": "Terraform 模式、可观测性设计与 Kubernetes Operator。",
-   "size_kb": 100,
+   "size_kb": 101,
    "n_skills": 3,
    "skills": [
     "terraform-patterns",
@@ -3948,8 +4184,8 @@
    "name_zh": "办公效率工具箱",
    "desc": "Daily office work: decks, spreadsheets, resumes, meeting minutes.",
    "desc_zh": "日常办公四件套：PPT 制作、Excel 清洗分析、简历岗位定制、会议纪要结构化。",
-   "size_kb": 51,
-   "n_skills": 8,
+   "size_kb": 64,
+   "n_skills": 10,
    "skills": [
     "ppt-builder",
     "excel-assistant",
@@ -3958,7 +4194,9 @@
     "internal-comms-writer",
     "docx-writer",
     "pdf-pipeline",
-    "epub-builder"
+    "epub-builder",
+    "docx-template-fill",
+    "career-ops-lite"
    ],
    "local_url": "packs/office-productivity.zip",
    "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.19.0/office-productivity.zip",
@@ -3987,13 +4225,15 @@
    "id": "security",
    "name": "Security & Secrets",
    "name_zh": "安全与密钥管理",
-   "desc": "Set up secret vaults and manage environment-variable hygiene.",
-   "desc_zh": "搭建密钥库并管理环境变量卫生。",
-   "size_kb": 52,
-   "n_skills": 2,
+   "desc": "Set up secret vaults and manage environment-variable hygiene, plus two self-scanners: a PII redactor (dry-run first) and a prompt-injection auditor.",
+   "desc_zh": "搭建密钥库并管理环境变量卫生，附两个自扫描器：PII 脱敏（默认 dry-run）与提示词注入审计。",
+   "size_kb": 68,
+   "n_skills": 4,
    "skills": [
     "secrets-vault-manager",
-    "env-secrets-manager"
+    "env-secrets-manager",
+    "pii-redactor",
+    "prompt-injection-guard"
    ],
    "local_url": "packs/security.zip",
    "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.19.0/security.zip",
@@ -4007,12 +4247,14 @@
    "name_zh": "技能锻造厂",
    "desc": "Meta skills about skills themselves: author a new SKILL.md from a one-batch clarification, lint an existing one against the repo spec with an exit code CI can gate on, and search/pack/stats this repo from real data. Idea in, compliant shipped skill out.",
    "desc_zh": "关于技能本身的元技能三件套：一次性问齐需求后生成合规 SKILL.md（skill-author）、八项静态检查并返回可做 CI 门禁的退出码（skill-linter）、基于真实数据检索技能与装配组合（skill-finder）。想法进、可提交的技能出。",
-   "size_kb": 42,
-   "n_skills": 3,
+   "size_kb": 52,
+   "n_skills": 5,
    "skills": [
     "skill-author",
     "skill-linter",
-    "skill-finder"
+    "skill-finder",
+    "session-handoff",
+    "weekly-report-generator"
    ],
    "local_url": "packs/skill-forge.zip",
    "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.19.0/skill-forge.zip",
@@ -4026,11 +4268,13 @@
    "name_zh": "测试驱动开发",
    "desc": "Write unit tests, fixtures, mocks, and guide red-green-refactor cycles.",
    "desc_zh": "编写单元测试、fixture、mock，并引导红绿重构循环。",
-   "size_kb": 61,
-   "n_skills": 2,
+   "size_kb": 67,
+   "n_skills": 4,
    "skills": [
     "tdd-guide",
-    "webapp-flow-tester"
+    "webapp-flow-tester",
+    "webapp-e2e-harness",
+    "agent-eval-harness"
    ],
    "local_url": "packs/tdd.zip",
    "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.19.0/tdd.zip",
@@ -4042,15 +4286,17 @@
    "id": "toolsmith",
    "name": "Toolsmith",
    "name_zh": "工具与自动化",
-   "desc": "Local file and automation chores done safely: reorganize a messy directory with a dry-run planner, batch-rename files with one-command rollback, convert documents/images/media, and schedule recurring jobs across cron/launchd/Task Scheduler.",
-   "desc_zh": "本地文件与自动化的四件顺手工具：目录体检与整理（含快速判重）、批量重命名（EXIF 日期 + 日志回滚）、文档/图片/音视频格式转换统一入口、定时任务（cron 表达式翻译 + 三平台落地）。全部默认 dry-run、只读优先。",
-   "size_kb": 49,
-   "n_skills": 4,
+   "desc": "Local file and automation chores done safely: reorganize a messy directory with a dry-run planner, batch-rename files with one-command rollback, convert documents/images/media, schedule recurring jobs across cron/launchd/Task Scheduler, organize invoices/receipts into a month/category tree, and reconcile a bank statement against your expense ledger.",
+   "desc_zh": "本地文件与自动化的六件顺手工具：目录体检与整理（含快速判重）、批量重命名（EXIF 日期 + 日志回滚）、文档/图片/音视频格式转换统一入口、定时任务（cron 表达式翻译 + 三平台落地）、发票/报销按月份类别归档 + 台账、银行流水 vs 记账账单逐笔对账。全部默认 dry-run、只读优先、不删文件。",
+   "size_kb": 61,
+   "n_skills": 6,
    "skills": [
     "file-organizer",
     "batch-renamer",
     "format-converter",
-    "task-scheduler"
+    "task-scheduler",
+    "invoice-organizer",
+    "bank-statement-reconcile"
    ],
    "local_url": "packs/toolsmith.zip",
    "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.19.0/toolsmith.zip",
@@ -4064,7 +4310,7 @@
    "name_zh": "视频设计工作室",
    "desc": "Pre-production design layer for AI video: storyboards with continuity contracts, cinematic shot lists from recipe cards, cross-model text-to-video prompt engineering with structural audit, and reusable visual style anchors with character consistency cards.",
    "desc_zh": "AI 视频的前期设计层：分镜设计（节拍表 + 逐场景 prompt 对 + 连续性约束表，附机器校验）、12 卡镜头清单设计、跨模型文生视频提示词工程（六槽位结构 + 机器审计）、视觉风格锚与角色一致性卡。方法论借鉴 video-storyboard / video-shotcraft / visual-skills 等开源项目并已署名。",
-   "size_kb": 40,
+   "size_kb": 42,
    "n_skills": 4,
    "skills": [
     "storyboard-designer",
@@ -4084,7 +4330,7 @@
    "name_zh": "爆款娱乐场景",
    "desc": "Special entertainment scenarios: talking-character viral shorts.",
    "desc_zh": "特别娱乐场景：AI 宝宝播客等会说话角色的病毒式短视频完整流水线（含合规标识与角色一致性纪律）。",
-   "size_kb": 9,
+   "size_kb": 10,
    "n_skills": 2,
    "skills": [
     "ai-baby-podcast",
@@ -4102,13 +4348,14 @@
    "name_zh": "视觉设计工作室",
    "desc": "AI visual design chain: interpret a vague brief into a design spec (purpose, platform size, style anchor), engineer text-to-image prompts with model dialects and text-rendering rules, and audit output against platform layout specs (safe areas, ratios, text budgets). One brief flows through spec -> prompt -> audit without leaving the chain.",
    "desc_zh": "AI 视觉设计链条：把模糊需求翻译成设计规格单（用途/平台尺寸/风格锚），按模型方言与文字渲染规则写文生图 prompt，并按平台版面规格（比例/安全区/文字预算）审计产出。一条需求从规格到 prompt 到审计全程不出链。方法论借鉴 Anthropic canvas-design / designskills / Replicate prompting 指南并已署名。",
-   "size_kb": 31,
-   "n_skills": 4,
+   "size_kb": 38,
+   "n_skills": 5,
    "skills": [
     "design-brief-interpreter",
     "image-prompt-engineer",
     "layout-spec-auditor",
-    "frontend-design-director"
+    "frontend-design-director",
+    "frontend-component-lab"
    ],
    "local_url": "packs/visual-design-studio.zip",
    "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.19.0/visual-design-studio.zip",
@@ -4122,7 +4369,7 @@
    "name_zh": "外部集成工具箱",
    "desc": "Connect an AI session to the tools a team already lives in: Notion pages and databases, Feishu / DingTalk / WeCom group robots, Jira / Linear / GitHub Issues, and Baidu / Aliyun / OneDrive cloud drives. Every write path is dry-run by default, credentials live only in environment variables, and the bundled scripts build and parse payloads offline so they can be tested without a network.",
    "desc_zh": "把 AI 会话接到团队真正在用的工具上：Notion 页面与数据库、飞书/钉钉/企业微信群机器人、Jira/Linear/GitHub Issues 协同与周报、百度网盘/阿里云盘/OneDrive 归档校验。四条链路共享同一套操作契约——写操作默认 dry-run 先出负载、凭证只走环境变量、脚本离线构造与解析（不发网络请求），未接凭证即可完整演练。",
-   "size_kb": 61,
+   "size_kb": 62,
    "n_skills": 4,
    "skills": [
     "notion-workspace",

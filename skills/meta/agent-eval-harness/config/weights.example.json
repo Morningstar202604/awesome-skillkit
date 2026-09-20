@@ -1,0 +1,7 @@
+{
+  "format": 30,
+  "grounding": 30,
+  "no_hallu": 15,
+  "consistency": 15,
+  "safety": 10
+}

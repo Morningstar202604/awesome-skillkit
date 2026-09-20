@@ -1,5 +1,7 @@
 # 逐技能逻辑链条审计报告（v0.19.0）
 
+> **⚠️ 历史快照**：本报告记录 2026-09-17 审计时点的目录布局，其中 `skills/scenarios/`（含 excel-assistant / meeting-notes / music-generation / resume-tailor）及 `skills/writing/internal-comms-writer` 的引用对应迁移前的物理路径。v0.19.x 域归属统一后，物理目录已调整为 `skills/office/`（4 办公技能 + internal-comms-writer）与 `skills/music/`（music-generation），`scenarios/` 目录已移除；详见 `awesome-skillkit-content-review.md` 第七节。下文第 214/440/672 行保留原始历史命令记录，不随目录迁移改写。
+>
 > 审计日期：2026-09-17 ｜ 覆盖：**143 个技能，全覆盖无抽样**
 > 审计标准：每个技能按「输入清单 → 前置自检 → 工作流 → 交付标准 → 失败处置表 → 参考」
 > 六要素验链条闭合性，并用真实样例实测全部 `scripts/*.py`（正例 rc=0 / 异常样例 rc≠0）。

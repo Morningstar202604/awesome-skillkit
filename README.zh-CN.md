@@ -1,6 +1,6 @@
 <p align="center"><img src="docs/logo.svg" alt="awesome-skillkit" width="200" height="60" /></p>
 
-# awesome-skillkit · 渡
+# awesome-skillkit
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 ![Skills](https://img.shields.io/badge/skills-143-brightgreen)

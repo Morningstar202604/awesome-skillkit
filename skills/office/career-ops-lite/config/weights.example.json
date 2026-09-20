@@ -1,0 +1,7 @@
+{
+  "requirement_match": 0.35,
+  "level_fit": 0.2,
+  "comp_band": 0.15,
+  "domain_match": 0.2,
+  "stability": 0.1
+}

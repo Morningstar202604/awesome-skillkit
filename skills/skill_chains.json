@@ -20,6 +20,8 @@
         "debug-diagnoser",
         "env-secrets-manager",
         "secrets-vault-manager",
+        "pii-redactor",
+        "prompt-injection-guard",
         "api-design-reviewer",
         "api-test-suite-builder",
         "etl-builder",
@@ -49,7 +51,8 @@
         "changelog-generator",
         "git-worktree-manager",
         "pr-review-expert",
-        "webapp-flow-tester"
+        "webapp-flow-tester",
+        "webapp-e2e-harness"
       ],
       "chains": {
         "full_project": [
@@ -274,7 +277,8 @@
         "design-brief-interpreter",
         "image-prompt-engineer",
         "layout-spec-auditor",
-        "frontend-design-director"
+        "frontend-design-director",
+        "frontend-component-lab"
       ],
       "chains": {
         "cover": [
@@ -405,7 +409,9 @@
         "docx-writer",
         "pdf-pipeline",
         "internal-comms-writer",
-        "epub-builder"
+        "epub-builder",
+        "docx-template-fill",
+        "career-ops-lite"
       ],
       "chains": {
         "document_pipeline": [
@@ -507,7 +513,9 @@
         "file-organizer",
         "batch-renamer",
         "format-converter",
-        "task-scheduler"
+        "task-scheduler",
+        "invoice-organizer",
+        "bank-statement-reconcile"
       ],
       "chains": {
         "messy_folder_cleanup": [
@@ -518,6 +526,10 @@
         "recurring_automation": [
           "task-scheduler",
           "file-organizer?"
+        ],
+        "expense_filing": [
+          "invoice-organizer",
+          "bank-statement-reconcile?"
         ]
       }
     },
@@ -526,7 +538,10 @@
       "skills": [
         "skill-author",
         "skill-linter",
-        "skill-finder"
+        "skill-finder",
+        "session-handoff",
+        "weekly-report-generator",
+        "agent-eval-harness"
       ],
       "chains": {
         "new_skill_pipeline": [
@@ -536,6 +551,17 @@
         "discover_and_compose": [
           "skill-finder",
           "skill-linter?"
+        ],
+        "weekly_status": [
+          "weekly-report-generator"
+        ],
+        "agent_eval": [
+          "agent-eval-harness"
+        ],
+        "agent_eval_gate": [
+          "webapp-e2e-harness?",
+          "agent-eval-harness",
+          "ci-cd-pipeline-builder?"
         ]
       }
     },

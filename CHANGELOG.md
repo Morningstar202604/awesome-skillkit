@@ -16,6 +16,53 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **新增 `agent-eval-harness`（验证型技能：把 agent 行为量化成 0-100 分）**（`skills/meta/`）：
+  5 个可自动判定维度（format/grounding/no_hallu/consistency/safety）加权成 0-100 分 +
+  `pass/fail/warn` 判定，让"agent 改 prompt 后悄悄退化"可回归、可 CI 门禁。
+  默认离线规则评分（不填 `evidence`/`forbidden` 即宽松模式）；填 `expects.evidence` 防幻觉真正咬住、
+  填 `forbidden` 让危险操作扣分。模式 B 生成 LLM-as-judge 评审 prompt（只产出文本，不替用户调模型，凭证走 env）。
+  纯离线、dry-run 默认、零拷贝。登记：`tdd` pack + `skill_chains.json`（meta 域 + `agent_eval`/`agent_eval_gate` 链）+ `manifest.json`。
+  判定原则延续"只把固定步骤做成 skill"：验证/回归属固定可规定流程，与 e2e（测能不能跑通）互补（测对不对）。
+
+- **补齐 3 个「死流程」生活/办公技能（步骤固定、易漏、模型不会主动想到）**：
+  - `weekly-report-generator`（`skills/meta/`）：从 `git log` + `git diff --stat` 拉本周 commit，
+    自动填「做了什么」段，「卡点/下周」留占位人工补。纯本地 git，不联网不 push，dry-run 默认。
+  - `invoice-organizer`（`skills/tools/`）：把散落的发票/收据按「月份/类别」归档成目录树 + 出台账 CSV。
+    文件名正则推断类别（餐饮/交通/住宿/办公/通讯/发票/未分类），可 `--map-json` 补规则；
+    `shutil.move` 不删文件可回滚；不做 OCR/不读内容。
+  - `bank-statement-reconcile`（`skills/tools/`）：银行流水 CSV vs 记账账单 CSV 逐笔对账，
+    金额 ±0.01 + 同月 + 可选交易对方，输出三张清单（匹配/仅流水/仅账单）+ 匹配率；
+    纯启发式，未匹配项必须人工复核；不连银行、不发网络、不用凭证。
+  - 三个 pack 登记：`skill-forge`（+weekly-report-generator）、`toolsmith`（+invoice-organizer +bank-statement-reconcile）；
+    `skill_chains.json`（meta + tools 域）同步。
+  - 判定原则：只把「步骤死、可规定、容易漏、模型不会主动想到」的固定流程做成 skill；
+    需要灵活判断/审美/自由创作的不做（放大 AI 价值，不限制发挥）。
+
+- **补齐 5 个基础/前端/办公缺口技能（改造自明星开源项目，离线可测）**：
+  - `docx-template-fill`（`skills/office/`）：把 JSON 数据填进已有 Word 模板的 `{{占位符}}`，
+    可选追加修订批注；默认 dry-run，源模板永不改动（未装 python-docx 时降级打印占位符清单）。
+  - `frontend-component-lab`（`skills/design/`）：离线生成 React/TS 组件 + CSS Modules + 设计 token 文件，
+    附「前端八宗罪」审查清单（堵魔法数字/内联样式/无类型 props/缺 a11y）。改造自 mattpocock `frontend-design` + ECC `frontend-patterns`。
+  - `webapp-e2e-harness`（`skills/programming/testing/`）：生成可跑 Playwright e2e 脚手架（Python，无 node），
+    内置语义优先选择器 / 登录态复用 / 反爬礼仪。改造自 anthropics `webapp-testing`。
+  - `career-ops-lite`（`skills/office/`）：JD × 简历逐条 A-F 打分 + 0-5 总分 + 决策建议，纯离线不碰登录态、不自动申请。
+    改造自 santifer/career-ops（MIT）的「评估优先」理念，裁剪为无网络版。
+  - `session-handoff`（`skills/meta/`）：把长会话压成冷启动交接文档（目标/已完成/下一步/已知坑/关键文件/一页纸速记）。
+    改造自 mattpocock `handoff`。
+  - 全部默认 dry-run、零网络、凭证走 env；四个 pack（office-productivity / visual-design-studio / tdd / skill-forge）+
+    `skill_chains.json`（office/design/programming/meta）+ `manifest.json` 同步登记。
+
+- **两个安全自扫描器落地 `security` pack（补齐 GAP-PLAN 缺失项）**：
+  - `pii-redactor`（`skills/programming/security/`）：检测 8 类 PII（身份证/银行卡/手机号/邮箱/统一社会信用代码/IP 地址等），
+    默认 `--dry-run` 只报告不落盘，`--redact` 才输出脱敏版（`-o` 指定目标，源文件永不改动）。
+    身份证用 GB 11643-1999 mod-11 校验位、银行卡 Luhn、统一社会信用代码首两位须含字母（避免误吞 18 位纯数字身份证）。
+  - `prompt-injection-guard`（`skills/programming/security/`）：7 类注入模式（直接越权/角色扮演 jailbreak/编码载荷/间接注入/数据外泄/系统冒充/多语言诱引），
+    加权 0-100 评分，输出 clean/low/medium/high/critical 五档 JSON 判定；间接注入（`<tool_result>` 等包装）额外加权。
+  - 两个脚本均纯 Python 无网络依赖，已独立实测（PII 正/反例、注入 benign/critical/indirect 三组）。
+  - `packs/security/pack.json`、`manifest.json`（security pack）、`skills/skill_chains.json`（programming domain）同步登记。
+
 ## [0.19.0] - 2026-09-17
 
 ### Added
@@ -46,7 +93,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `design/layout-spec-auditor`：文档给的 `--expect` 命令实测 exit 2，不可执行。
   - `writing/humanize-rewriter`：前置自检 `--help | head; echo check=$?` 管道后 `$?` 恒为 0，
     探测完全失效。
-  - `writing/blog/cnblogs-skill`：`references/image-guide.md` 4 处死链指向不存在的技能。
+  - `writing/blog/cnblogs-skill`：`references/image-guide.md` 4 处死链指向不存在的技能（**已修复**，现该文件仅引用真实存在的 `ai-cover-generator`，无死链）。
   - `audio/episode-publisher` 跨目录相对引用死链；`design/image-prompt-engineer` 等
     3 个生成技能前置自检用了尚未赋值的网关变量（顺序断裂）。
   - `writing/seo-optimizer` docstring 宣传不存在的 `--json '{"..."}'` 用法。

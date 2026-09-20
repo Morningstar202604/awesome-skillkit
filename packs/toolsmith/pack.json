@@ -2,12 +2,14 @@
   "id": "toolsmith",
   "name": "Toolsmith",
   "name_zh": "工具与自动化",
-  "description": "Local file and automation chores done safely: reorganize a messy directory with a dry-run planner, batch-rename files with one-command rollback, convert documents/images/media, and schedule recurring jobs across cron/launchd/Task Scheduler.",
-  "description_zh": "本地文件与自动化的四件顺手工具：目录体检与整理（含快速判重）、批量重命名（EXIF 日期 + 日志回滚）、文档/图片/音视频格式转换统一入口、定时任务（cron 表达式翻译 + 三平台落地）。全部默认 dry-run、只读优先。",
+  "description": "Local file and automation chores done safely: reorganize a messy directory with a dry-run planner, batch-rename files with one-command rollback, convert documents/images/media, schedule recurring jobs across cron/launchd/Task Scheduler, organize invoices/receipts into a month/category tree, and reconcile a bank statement against your expense ledger.",
+  "description_zh": "本地文件与自动化的六件顺手工具：目录体检与整理（含快速判重）、批量重命名（EXIF 日期 + 日志回滚）、文档/图片/音视频格式转换统一入口、定时任务（cron 表达式翻译 + 三平台落地）、发票/报销按月份类别归档 + 台账、银行流水 vs 记账账单逐笔对账。全部默认 dry-run、只读优先、不删文件。",
   "skills": [
     { "name": "file-organizer", "source": "self-authored" },
     { "name": "batch-renamer", "source": "self-authored" },
     { "name": "format-converter", "source": "self-authored" },
-    { "name": "task-scheduler", "source": "self-authored" }
+    { "name": "task-scheduler", "source": "self-authored" },
+    { "name": "invoice-organizer", "source": "self-authored" },
+    { "name": "bank-statement-reconcile", "source": "self-authored" }
   ]
 }

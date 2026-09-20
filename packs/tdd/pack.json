@@ -12,6 +12,14 @@
     {
       "name": "webapp-flow-tester",
       "source": "self-authored"
+    },
+    {
+      "name": "webapp-e2e-harness",
+      "source": "self-authored (adapted from anthropics/skills webapp-testing + skill-forge Playwright patterns)"
+    },
+    {
+      "name": "agent-eval-harness",
+      "source": "self-authored (verification-type agent behavior scoring: 5-dim 0-100 rubric + LLM-as-judge prompt, offline)"
     }
   ]
 }

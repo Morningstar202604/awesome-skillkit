@@ -20,6 +20,10 @@
     {
       "name": "frontend-design-director",
       "source": "methodology distilled from Anthropic public skills (no content copied)"
+    },
+    {
+      "name": "frontend-component-lab",
+      "source": "self-authored (adapted from mattpocock/skills frontend-design + ECC frontend-patterns)"
     }
   ]
 }

@@ -81,6 +81,7 @@ description: >
 - 路径一律正斜杠相对路径；禁止绝对路径（公开审计中"作者机器才能解析的路径"是高频缺陷）
 - 文件名描述内容（`prompt-recipes.md` ✓，`doc2.md` ✗）
 - 禁止 `@import` 语法（仅 CLAUDE.md 支持）；禁止跨技能依赖——**每个技能自包含**
+- **跨 skill 共享引用（受控例外）**：允许 `references/` 用 `../<skill>/references/...` 复用他技能的既有方法论文档（如 `video/storyboard-designer` 共享 `video/video-prompt-engineer/references/cinematography-lexicon.md`），前提是目标文件真实存在且本技能不因此产生运行时依赖。这是"内容共享"而非"逻辑依赖"——被引用文件须可在不运行被引用 skill 的情况下独立阅读。引用后请在 `validate_skills.py` 路径核查中保持目标可达（当前仓库 4 处此类引用均已通过门禁）。
 
 ---
 

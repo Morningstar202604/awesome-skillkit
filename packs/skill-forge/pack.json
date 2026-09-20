@@ -16,6 +16,14 @@
     {
       "name": "skill-finder",
       "source": "self-authored"
+    },
+    {
+      "name": "session-handoff",
+      "source": "self-authored (adapted from mattpocock/skills handoff)"
+    },
+    {
+      "name": "weekly-report-generator",
+      "source": "self-authored"
     }
   ]
 }
