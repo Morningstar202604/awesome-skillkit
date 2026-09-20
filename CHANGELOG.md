@@ -69,6 +69,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **第二代驱动器 `tools/run_skill_smoke.py`**：直接发现并 `pytest` 跑真实技能自带的 `test_smoke_*.py`（28 个技能 ship 了冒烟测试）。结果 **28/28 全部 pass（离线=0、缺依赖=0）**——这才是技能包质量的真硬指标。详见 `tests/_full_test_artifacts/skill_smoke_report.md`。
   - **生成式媒体路由 helper `skills/meta/_shared/model_route.py`**：`offline_or_model(prompt, kind, offline_fn, env_key)`——env 设且网关可达走真模型（diffusion/TTS/musicgen），否则走 PIL/numpy 离线兜底（可移植性特性，非缺陷）。已离线自测 4/4（兜底/路由/异常回退）。生成式技能按此模式接入即消除"A 类保真度弱项"。
   - **诚实结论**：技能仓库逻辑经得起跑；最大真问题 = ①89 个真实技能未 ship 冒烟测试（P0 补 `test_smoke_*.py`），②生成式媒体保真度受本机无 GPU/网关宕机所限（P1 model_route 已落地）。完整 SOTA 对标见 `tests/_full_test_artifacts/report.md` 第六章。
+  - **P0 扩展收口（`gen_smoke.py` + 121/121）**：新增 `tools/gen_smoke.py` 递归发现「有脚本但缺 `test_smoke_*.py`」的真实技能，自动生成保守冒烟 `scripts/test_smoke_all.py`（只验证 import 不崩 + `--help` 不崩）。当前仓库 121 个脚本化技能目录 **全部 ship 冒烟测试**（28 手搓强测试 + 93 自动弱测试），`tools/run_skill_smoke.py` 复跑 **121/121 pass（offline=0、dep=0、0 警告）**。补 `pypdf 6.19.0` 依赖修掉 `office/pdf-pipeline` 缺包告警；模板 `SyntaxWarning`（`\d`/`\c` 非法转义）经 `--force` 重生成已清零。`gen_smoke.py` 支持 `--dry`/`--force`（--force 仅覆盖自身产物，不碰手搓测试）。
 
 ## [0.19.0] - 2026-09-17
 
