@@ -94,6 +94,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **诚实结论**：技能仓库逻辑经得起跑；最大真问题 = ①89 个真实技能未 ship 冒烟测试（P0 补 `test_smoke_*.py`），②生成式媒体保真度受本机无 GPU/网关宕机所限（P1 model_route 已落地）。完整 SOTA 对标见 `tests/_full_test_artifacts/report.md` 第六章。
   - **P0 扩展收口（`gen_smoke.py` + 121/121）**：新增 `tools/gen_smoke.py` 递归发现「有脚本但缺 `test_smoke_*.py`」的真实技能，自动生成保守冒烟 `scripts/test_smoke_all.py`（只验证 import 不崩 + `--help` 不崩）。当前仓库 121 个脚本化技能目录 **全部 ship 冒烟测试**（28 手搓强测试 + 93 自动弱测试），`tools/run_skill_smoke.py` 复跑 **121/121 pass（offline=0、dep=0、0 警告）**。补 `pypdf 6.19.0` 依赖修掉 `office/pdf-pipeline` 缺包告警；模板 `SyntaxWarning`（`\d`/`\c` 非法转义）经 `--force` 重生成已清零。`gen_smoke.py` 支持 `--dry`/`--force`（--force 仅覆盖自身产物，不碰手搓测试）。
 
+### Changed
+
+- **paper 域去重：`figure-maker` → `pub-plotter` 弃用薄壳（去重审计收口）**（`skills/paper/`）——同一份 `line`/`bar`/`boxplot` 实现此前存在两份，已收敛为一份：
+  - **审计结论**：`pub-plotter` 是 `figure-maker` 的**严格超集**（同款数据 JSON，额外有期刊真实物理宽度、Type-42 字体嵌入、色盲安全色板、真实 heatmap）；`figure-maker` 的 `heatmap` **永远是 `status:"unsupported"`**（宣传了但从未实现），`--data` 不存在时**静默用演示数据**。
+  - **执行**：`figure_maker.py` 自实现删除，改为**薄壳委托** pub-plotter——CLI（`--data` / `--type bar|line|boxplot|heatmap` / `--output`）与 JSON 契约不变，输出追加 `deprecated: true` / `superseded_by: "pub-plotter"` / `deprecation_note`，新增 `--journal` / `--no-colorblind` 透传，非法数据（如 heatmap 非二维阵）改为干净 JSON + rc=2（原先抛 traceback）。SKILL.md 升至 v3.0 / `tier: deprecated`。
+  - **修复 3 个静默错误**（「跑得通、返回 0、结果悄悄不对」，是 121/121 冒烟全绿也测不出的那一类）：①`--journal nature_single` 曾**悄悄回退 IEEE 3.5" 宽度**却报 success（旧代码把宽度指令当风格名查 `STYLES`，`nature_single`/`science` 不在表内）→ `setup_style` 拆分 **style（字号/线宽/网格）与 journal（仅物理宽度）**，未知 journal 硬报 rc=2，四种图型统一回报 `width_inches`；②`--style science` 是合法选项却无 `STYLES` 条目 → 补真实 4.76" 几何；③薄壳 `except ValueError`。
+  - **下游迁移**：`paper_pipeline.py` 的 figures 阶段由 `figure-maker` 改为直接调 `pub-plotter` + `--journal ieee`（实测 6/6 步 success，产物 `font_embedded: true`、不再带 `deprecated`）。
+  - **验证**：两技能 27 条强断言全绿（pub-plotter 14 + figure-maker 13）；端到端读 PDF `/MediaBox` 实测 `science(4.76") = 316.2pt` vs `ieee(3.5") = 245.9pt`（比值 1.29），证明宽度**真的**施加到画布而非只回报常量；全库 `run_skill_smoke.py` 复跑 **121/121 pass（offline=0、dep=0、0 警告）**，门禁未退化；`paper_sota_benchmark.md` 追加第五批记录。
+  - **保留而非删除的理由**：仓库内**代码**消费者已迁移，但技能名仍被 `manifest.json`、`packs/ai-research-writing/pack.json`、`skills/skill_chains.json`、生成站点 `site/` 引用，且外部可能已固定其 CLI；弃用薄壳 = 去掉重复实现 + 不破坏消费者 + 显式暴露弃用。删除留待下一轮大版本与上述索引协同改动（SKILL.md 已写明条件）。
+
 ## [0.19.0] - 2026-09-17
 
 ### Added

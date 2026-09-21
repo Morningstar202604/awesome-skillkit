@@ -39,17 +39,28 @@ STYLES = {
                 "line_width": 1.5, "markers": ["o", "s", "^", "D", "P"], "grid": "horizontal"},
     "nature": {"figure_width": JOURNAL_WIDTHS["nature_single"], "font_size": 7, "tick_size": 6,
                "line_width": 0.8, "markers": ["o", "s", "^", "D"], "grid": "none"},
+    # --style science 曾被列为合法选项却没有 STYLES 条目 → 静默套用 ieee 几何（同 journal 那类静默错误）。
+    # 这里补齐真实条目：Science 单栏 4.76 in，几何交给 scienceplots（未装则内置等价 rcParams）。
+    "science": {"figure_width": JOURNAL_WIDTHS["science"], "font_size": 7, "tick_size": 6,
+                "line_width": 1.0, "markers": ["o", "s", "^", "D"], "grid": "none"},
     "colorblind_safe": {"figure_width": 6.0, "font_size": 10, "tick_size": 8,
                         "line_width": 1.5, "markers": ["o", "s", "^", "D"], "grid": "both"},
 }
 
 
-def setup_style(style_name: str, colorblind: bool = True):
+def setup_style(style_name: str, colorblind: bool = True, journal: str = None):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
     conf = STYLES.get(style_name, STYLES["ieee"]).copy()
+    # --journal 是「宽度指令」：必须真正覆盖风格预设宽度。
+    # （旧版把 journal 塞进 style 名，nature_single/science 不在 STYLES 里 → 悄悄回退 ieee 宽度，
+    #   等于没按版面出图；这是静默错误，故显式覆盖并在返回值里回报。）
+    if journal:
+        if journal not in JOURNAL_WIDTHS:
+            raise ValueError(f"unknown journal width: {journal}")
+        conf["figure_width"] = JOURNAL_WIDTHS[journal]
     rc = {
         "font.size": conf["font_size"],
         "xtick.labelsize": conf["tick_size"],
@@ -85,7 +96,8 @@ def setup_style(style_name: str, colorblind: bool = True):
         plt.rcParams["axes.grid"] = True
 
     return plt, {"width": conf["figure_width"], "marker": conf["markers"],
-                 "tick": conf["tick_size"], "colors": colors, "scienceplots": sci}
+                 "tick": conf["tick_size"], "colors": colors, "scienceplots": sci,
+                 "journal": journal}
 
 
 def _save(fig, out):
@@ -98,8 +110,9 @@ def _save(fig, out):
     return str(out)
 
 
-def plot_line(data: dict, style="ieee", output=None, colorblind=True) -> dict:
-    plt, c = setup_style(style, colorblind)
+def plot_line(data: dict, style="ieee", output=None, colorblind=True,
+              journal: str = None) -> dict:
+    plt, c = setup_style(style, colorblind, journal)
     out = Path(output or "/tmp/fig_pub_line.pdf")
     fig, ax = plt.subplots(figsize=(c["width"], c["width"] * 0.7))
     series = data.get("series", [{"name": "Ours", "values": data.get("y", [0.7, 0.8, 0.9])}])
@@ -113,14 +126,15 @@ def plot_line(data: dict, style="ieee", output=None, colorblind=True) -> dict:
     ax.set_ylabel(data.get("ylabel", "Accuracy"))
     if series:
         ax.legend(fontsize=c["tick"], frameon=False)
-    res = {"output": _save(fig, out), "style": style, "type": "line",
+    res = {"output": _save(fig, out), "style": style, "journal": journal, "type": "line",
            "rendered": True, "width_inches": c["width"],
            "font_embedded": True, "colorblind_safe": colorblind}
     return res
 
 
-def plot_bar(data: dict, style="ieee", output=None, colorblind=True) -> dict:
-    plt, c = setup_style(style, colorblind)
+def plot_bar(data: dict, style="ieee", output=None, colorblind=True,
+             journal: str = None) -> dict:
+    plt, c = setup_style(style, colorblind, journal)
     out = Path(output or "/tmp/fig_pub_bar.pdf")
     fig, ax = plt.subplots(figsize=(c["width"], c["width"] * 0.7))
     labels = data.get("labels", ["A", "B", "C", "D"])
@@ -134,12 +148,14 @@ def plot_bar(data: dict, style="ieee", output=None, colorblind=True) -> dict:
     ax.set_ylabel(data.get("ylabel", "Score"))
     for sp in ("top", "right"):
         ax.spines[sp].set_visible(False)
-    return {"output": _save(fig, out), "style": style, "type": "bar",
-            "rendered": True, "font_embedded": True, "colorblind_safe": colorblind}
+    return {"output": _save(fig, out), "style": style, "journal": journal, "type": "bar",
+            "rendered": True, "width_inches": c["width"],
+            "font_embedded": True, "colorblind_safe": colorblind}
 
 
-def plot_boxplot(data: dict, style="ieee", output=None, colorblind=True) -> dict:
-    plt, c = setup_style(style, colorblind)
+def plot_boxplot(data: dict, style="ieee", output=None, colorblind=True,
+                 journal: str = None) -> dict:
+    plt, c = setup_style(style, colorblind, journal)
     out = Path(output or "/tmp/fig_pub_box.pdf")
     fig, ax = plt.subplots(figsize=(c["width"], c["width"] * 0.7))
     groups = data.get("groups", ["Baseline", "Ours"])
@@ -153,14 +169,74 @@ def plot_boxplot(data: dict, style="ieee", output=None, colorblind=True) -> dict
     ax.set_ylabel(data.get("ylabel", "Score"))
     for sp in ("top", "right"):
         ax.spines[sp].set_visible(False)
-    return {"output": _save(fig, out), "style": style, "type": "boxplot",
-            "rendered": True, "font_embedded": True, "colorblind_safe": colorblind}
+    return {"output": _save(fig, out), "style": style, "journal": journal, "type": "boxplot",
+            "rendered": True, "width_inches": c["width"],
+            "font_embedded": True, "colorblind_safe": colorblind}
+
+
+def plot_heatmap(data: dict, style="ieee", output=None, colorblind=True,
+                 journal: str = None) -> dict:
+    """热力图：全正 → cividis（色盲安全顺序色）；含负值 → RdBu_r（发散色）。
+
+    数据契约: {"matrix": [[...]], "rows": [...], "cols": [...], "annotate": true, "cmap": "?"}
+    """
+    plt, c = setup_style(style, colorblind, journal)
+    try:
+        import numpy as np
+    except ImportError:
+        return {"status": "skipped", "note": "numpy not available (required by matplotlib)"}
+    out = Path(output or "/tmp/fig_pub_heatmap.pdf")
+    matrix = data.get("matrix", [[0.80, 0.72, 0.65], [0.68, 0.85, 0.79]])
+    m = np.asarray(matrix, dtype=float)
+    if m.ndim != 2:
+        raise ValueError(f"heatmap 'matrix' must be 2-D, got shape {m.shape}")
+    rows = data.get("rows", [f"r{i}" for i in range(m.shape[0])])
+    cols = data.get("cols", [f"c{j}" for j in range(m.shape[1])])
+    vmin, vmax = float(m.min()), float(m.max())
+
+    # 色盲安全默认：全正用 cividis；跨零用发散色 RdBu_r（可被 data.cmap 覆盖）
+    if data.get("cmap"):
+        cmap = data["cmap"]
+    elif vmin < 0:
+        cmap = "RdBu_r"
+    elif colorblind:
+        cmap = "cividis"
+    else:
+        cmap = "viridis"
+
+    fig, ax = plt.subplots(figsize=(c["width"] * 0.75, c["width"] * 0.55))
+    im = ax.imshow(m, cmap=cmap, vmin=vmin, vmax=vmax, aspect="auto")
+    ax.set_xticks(range(len(cols)))
+    ax.set_xticklabels(cols, fontsize=c["tick"], rotation=45, ha="right")
+    ax.set_yticks(range(len(rows)))
+    ax.set_yticklabels(rows, fontsize=c["tick"])
+    if data.get("annotate", True):
+        span = (vmax - vmin) or 1.0
+        for i in range(m.shape[0]):
+            for j in range(m.shape[1]):
+                frac = (float(m[i, j]) - vmin) / span
+                ax.text(j, i, f"{m[i, j]:.2f}", ha="center", va="center",
+                        fontsize=max(c["tick"] - 1, 5),
+                        color="black" if frac > 0.55 else "white")
+    cb = fig.colorbar(im, ax=ax)
+    cb.ax.tick_params(labelsize=c["tick"])
+    if data.get("xlabel"):
+        ax.set_xlabel(data["xlabel"])
+    if data.get("ylabel"):
+        ax.set_ylabel(data["ylabel"])
+    return {"output": _save(fig, out), "style": style, "journal": journal, "type": "heatmap",
+            "rendered": True, "width_inches": c["width"],
+            "font_embedded": True, "colorblind_safe": colorblind,
+            "cmap": cmap, "shape": [int(m.shape[0]), int(m.shape[1])],
+            "value_range": [vmin, vmax], "annotated": bool(data.get("annotate", True))}
 
 
 def main():
     ap = argparse.ArgumentParser(description="Publication-quality plotter (SOTA)")
-    ap.add_argument("--type", default="line", choices=["line", "bar", "boxplot"])
-    ap.add_argument("--style", default="ieee", choices=list(STYLES.keys()) + ["science"])
+    ap.add_argument("--type", default="line",
+                    choices=["line", "bar", "boxplot", "heatmap"])
+    ap.add_argument("--style", default="ieee",
+                    choices=sorted(set(list(STYLES.keys()) + ["science"])))
     ap.add_argument("--journal", help="按真实期刊宽度出图: nature_single|science|ieee|acm|neurips")
     ap.add_argument("--no-colorblind", action="store_true", help="关闭色盲安全色板")
     ap.add_argument("--data", help="Data JSON file")
@@ -176,24 +252,28 @@ def main():
                          ensure_ascii=False))
         return 2
 
+    # --style 与 --journal 职责分离：style 管字号/线宽/网格，journal 只覆盖**物理宽度**
     style = args.style
-    if args.journal:
-        if args.journal not in JOURNAL_WIDTHS:
-            print(json.dumps({"status": "error", "error": f"未知 --journal: {args.journal}"},
-                             ensure_ascii=False))
-            return 2
-        style = args.journal if args.journal in STYLES else "ieee"
+    if args.journal and args.journal not in JOURNAL_WIDTHS:
+        print(json.dumps({"status": "error", "error": f"未知 --journal: {args.journal}"},
+                         ensure_ascii=False))
+        return 2
     colorblind = not args.no_colorblind
 
     try:
         if args.type == "line":
-            res = plot_line(data, style, args.output, colorblind)
+            res = plot_line(data, style, args.output, colorblind, args.journal)
         elif args.type == "bar":
-            res = plot_bar(data, style, args.output, colorblind)
+            res = plot_bar(data, style, args.output, colorblind, args.journal)
+        elif args.type == "heatmap":
+            res = plot_heatmap(data, style, args.output, colorblind, args.journal)
         else:
-            res = plot_boxplot(data, style, args.output, colorblind)
+            res = plot_boxplot(data, style, args.output, colorblind, args.journal)
     except ImportError:
         res = {"status": "skipped", "note": "matplotlib not available；pip install matplotlib"}
+    except ValueError as e:
+        print(json.dumps({"status": "error", "error": str(e)}, ensure_ascii=False))
+        return 2
 
     res["status"] = "success" if res.get("rendered") else "mock"
     print(json.dumps(res, ensure_ascii=False, indent=2))

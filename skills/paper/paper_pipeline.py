@@ -19,7 +19,9 @@ SCRIPTS = {
     "topic": BASE / "paper-topic-selector" / "scripts" / "topic_selector.py",
     "lit": BASE / "lit-review" / "scripts" / "lit_review.py",
     "experiment": BASE / "experiment-runner" / "scripts" / "experiment_runner.py",
-    "figures": BASE / "figure-maker" / "scripts" / "figure_maker.py",
+    # figures 正典为 pub-plotter（严格超集：含 heatmap + 期刊真实宽度 + Type-42 字体嵌入）。
+    # 曾指向 figure-maker —— 那是 pub-plotter 的弃用薄壳，走它等于多一层转发且丢掉版面控制。
+    "figures": BASE / "pub-plotter" / "scripts" / "pub_plotter.py",
     "latex": BASE / "latex-formatter" / "scripts" / "latex_formatter.py",
     "review": BASE / "self-reviewer" / "scripts" / "self_reviewer.py",
 }
@@ -66,9 +68,10 @@ def run_pipeline(topic: str, dry_run: bool = False) -> dict:
                                          "--n-runs", "5",
                                          "--output", str(exp_file)], dry_run))
 
-    # 4. Make figures
+    # 4. Make figures（按 IEEE 单栏真实物理宽度出图，字体 Type-42 嵌入，arXiv 可直接收录）
     steps.append(run_step("figures", [sys.executable, str(SCRIPTS["figures"]),
                                       "--data", str(exp_file), "--type", "bar",
+                                      "--journal", "ieee",
                                       "--output", str(out_dir / "fig1.pdf")], dry_run))
 
     # 5. LaTeX check

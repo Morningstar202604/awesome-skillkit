@@ -1,108 +1,104 @@
 #!/usr/bin/env python3
-"""Figure Maker — 生成论文图表 (bar/line/heatmap/box plot)。
+"""Figure Maker — **DEPRECATED**：本技能已并入 `pub-plotter`。
 
-用法:
-  python3 figure_maker.py --data results.json --type bar --output fig1.pdf
+保留原有 CLI 与 JSON 契约（`--data` / `--type bar|line|boxplot|heatmap` / `--output`），
+内部**委托** `pub-plotter/scripts/pub_plotter.py`，因此：
+  - 既有外部调用方无需改动即可继续跑；
+  - 但会多出 `deprecated: true` / `superseded_by: "pub-plotter"` 字段，且 `heatmap`
+    从「返回 unsupported」变为**真实渲染**（pub-plotter 已实现）。
+
+为什么不直接删：仓库内索引（manifest.json / packs / skill_chains.json / 生成站点 site/）
+仍按名字引用本技能，且外部可能已固定本 CLI；直接删除会打断它们。
+（仓库内**代码**消费者 `paper_pipeline.py` 已迁到 pub-plotter。）
+保留薄壳 = 去重实现 + 不破坏消费者 + 显式暴露弃用。
+
+迁移方式：把调用直接换成
+  python3 ../pub-plotter/scripts/pub_plotter.py --type heatmap --journal ieee --data d.json
 """
 import argparse
+import importlib.util
 import json
 import sys
 from pathlib import Path
 
+PURPLE = "../../pub-plotter/scripts/pub_plotter.py"  # scripts/ -> figure-maker/ -> paper/pub-plotter/
 
-def make_bar_chart(data: dict, output: str = None) -> dict:
-    out = Path(output or "/tmp/fig_bar.pdf")
-    try:
-        import matplotlib
-        matplotlib.use("Agg")
-        import matplotlib.pyplot as plt
-
-        labels = data.get("labels", ["A", "B", "C"])
-        values = data.get("values", [0.8, 0.85, 0.9])
-        colors = ["#4C72B0", "#55A868", "#C44E52"]
-
-        fig, ax = plt.subplots(figsize=(4, 3))
-        ax.bar(range(len(values)), values, color=colors[:len(values)])
-        ax.set_xticks(range(len(labels)))
-        ax.set_xticklabels(labels, fontsize=8)
-        ax.set_ylabel("Score", fontsize=9)
-        ax.spines["top"].set_visible(False)
-        ax.spines["right"].set_visible(False)
-        fig.tight_layout()
-        fig.savefig(str(out), bbox_inches="tight")
-        plt.close(fig)
-        return {"output": str(out), "type": "bar", "rendered": True}
-    except ImportError:
-        return {"output": str(out), "rendered": False, "note": "matplotlib not available"}
+_DISPATCH = {"line": "plot_line", "bar": "plot_bar",
+             "boxplot": "plot_boxplot", "heatmap": "plot_heatmap"}
 
 
-def make_line_chart(data: dict, output: str = None) -> dict:
-    out = Path(output or "/tmp/fig_line.pdf")
-    try:
-        import matplotlib
-        matplotlib.use("Agg")
-        import matplotlib.pyplot as plt
-
-        xs = data.get("x", list(range(10)))
-        series = data.get("series", [{"name": "Ours", "values": [0.7, 0.8, 0.85, 0.9]}])
-        fig, ax = plt.subplots(figsize=(4, 3))
-        for s in series:
-            ax.plot(xs, s["values"], label=s.get("name", ""), linewidth=1.5)
-        ax.legend(fontsize=7, frameon=False)
-        ax.set_xlabel("Epoch", fontsize=8)
-        ax.set_ylabel("Accuracy", fontsize=8)
-        ax.tick_params(labelsize=7)
-        fig.tight_layout()
-        fig.savefig(str(out), bbox_inches="tight")
-        plt.close(fig)
-        return {"output": str(out), "type": "line", "rendered": True}
-    except ImportError:
-        return {"output": str(out), "rendered": False}
-
-
-def make_boxplot(data: dict, output: str = None) -> dict:
-    out = Path(output or "/tmp/fig_box.pdf")
-    try:
-        import matplotlib
-        matplotlib.use("Agg")
-        import matplotlib.pyplot as plt
-
-        groups = data.get("groups", ["baseline", "ours"])
-        data_per_group = data.get("data", [[0.8, 0.82, 0.78], [0.88, 0.91, 0.85]])
-        fig, ax = plt.subplots(figsize=(3.5, 3))
-        ax.boxplot(data_per_group, labels=groups, patch_artist=True)
-        ax.set_ylabel("Score", fontsize=8)
-        ax.tick_params(labelsize=7)
-        fig.tight_layout()
-        fig.savefig(str(out), bbox_inches="tight")
-        plt.close(fig)
-        return {"output": str(out), "type": "boxplot", "rendered": True}
-    except ImportError:
-        return {"output": str(out), "rendered": False}
+def _load_pub_plotter():
+    """按相对路径加载 pub-plotter 的实现（不依赖 sys.path 污染，也不要求包结构）。"""
+    target = (Path(__file__).resolve().parent / PURPLE).resolve()
+    if not target.exists():
+        return None, target
+    spec = importlib.util.spec_from_file_location("pub_plotter_impl", target)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod, target
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Paper figure generator")
+    parser = argparse.ArgumentParser(
+        description="Paper figure generator (DEPRECATED — delegates to pub-plotter)")
     parser.add_argument("--data", help="Data JSON file")
-    parser.add_argument("--type", default="bar", choices=["bar", "line", "boxplot", "heatmap"])
+    parser.add_argument("--type", default="bar",
+                        choices=["bar", "line", "boxplot", "heatmap"])
     parser.add_argument("--output", help="Output file (.pdf/.png)")
+    parser.add_argument("--journal", help="透传给 pub-plotter: nature_single|science|ieee|acm|neurips")
+    parser.add_argument("--no-colorblind", action="store_true",
+                        help="透传给 pub-plotter：关闭色盲安全色板")
     args = parser.parse_args()
 
     data = {}
-    if args.data and Path(args.data).exists():
-        data = json.loads(Path(args.data).read_text(encoding="utf-8"))
+    if args.data:
+        p = Path(args.data)
+        if not p.exists():
+            print(json.dumps({"status": "error",
+                              "error": f"--data 文件不存在: {args.data}"},
+                             ensure_ascii=False))
+            return 2
+        data = json.loads(p.read_text(encoding="utf-8"))
 
-    if args.type == "bar":
-        result = make_bar_chart(data, args.output)
-    elif args.type == "line":
-        result = make_line_chart(data, args.output)
-    elif args.type == "boxplot":
-        result = make_boxplot(data, args.output)
-    else:
-        result = {"status": "unsupported", "type": args.type}
+    mod, target = _load_pub_plotter()
+    if mod is None:
+        # 诚实降级：委托目标缺失时明确报错，绝不假装成功
+        print(json.dumps({"status": "error",
+                          "error": f"delegation target missing: {target}",
+                          "deprecated": True, "superseded_by": "pub-plotter"},
+                         ensure_ascii=False, indent=2))
+        return 1
 
-    result["status"] = "success" if result.get("status") != "unsupported" else "unsupported"
-    print(json.dumps(result, ensure_ascii=False, indent=2))
+    style = "ieee"
+    journal = None
+    if args.journal:
+        if args.journal not in mod.JOURNAL_WIDTHS:
+            print(json.dumps({"status": "error", "error": f"未知 --journal: {args.journal}",
+                              "deprecated": True, "superseded_by": "pub-plotter"},
+                             ensure_ascii=False, indent=2))
+            return 2
+        journal = args.journal
+
+    fn = getattr(mod, _DISPATCH[args.type])
+    try:
+        res = fn(data, style, args.output, not args.no_colorblind, journal)
+    except ImportError:
+        res = {"status": "skipped", "note": "matplotlib not available；pip install matplotlib"}
+    except ValueError as e:
+        # 与 pub-plotter 同口径：非法数据（如 heatmap 非二维阵）必须报错，不允许悄悄出图
+        print(json.dumps({"status": "error", "error": str(e),
+                          "deprecated": True, "superseded_by": "pub-plotter"},
+                         ensure_ascii=False, indent=2))
+        return 2
+
+    res["status"] = "success" if res.get("rendered") else "mock"
+    res["deprecated"] = True
+    res["superseded_by"] = "pub-plotter"
+    res["deprecation_note"] = (
+        "figure-maker is a compatibility shim; call pub-plotter directly "
+        "(it additionally supports --journal widths and full type coverage).")
+    print(json.dumps(res, ensure_ascii=False, indent=2))
+    return 0
 
 
 if __name__ == "__main__":

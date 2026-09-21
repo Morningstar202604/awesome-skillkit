@@ -92,3 +92,66 @@
 - **paper 域 13 个技能已全部 SOTA 化**（3+3+3+3 共四批，含 figure-maker 合并入 pub-plotter）。
 - paper 域剩余可选项：给 `figure-maker` 是否仍独立存在做一次去重审计（与 pub-plotter 职责重叠）。
 - 横向推广：writing / programming / meta 等域尚未开始，`docs/SKILL-SOTA-STRENGTHENING.md` 可直接复用。
+
+---
+
+## 第五批：figure-maker ↔ pub-plotter 去重审计（2026-09-21）
+
+收尾时挂起的**去重审计**结论与执行记录。
+
+### 审计结论：pub-plotter 是 figure-maker 的严格超集
+
+| 维度 | figure-maker (v1) | pub-plotter | 判定 |
+|------|-------------------|-------------|------|
+| `line`/`bar`/`boxplot` | 自实现，手拍 figsize，无字体嵌入 | ✅ 同款数据 JSON | 重叠 |
+| `heatmap` | **永远返回 `status:"unsupported"`**（宣传了但从未实现） | ✅ 真实渲染（cividis / RdBu_r） | pub-plotter 胜 |
+| 期刊真实物理宽度 | ❌ | ✅ `JOURNAL_WIDTHS`（Nature 89mm / Science 4.76" …） | pub-plotter 胜 |
+| 字体嵌入 | ❌ | ✅ `pdf.fonttype=42`（arXiv/LaTeX 可收录） | pub-plotter 胜 |
+| 色盲安全色板 | ❌ | ✅ Okabe-Ito 默认开 | pub-plotter 胜 |
+| `--data` 路径不存在 | **静默用演示数据** | rc=2 报错 | pub-plotter 胜 |
+
+→ 保留两个实现毫无价值，但**直接删会打断消费者**。选择**去重实现 + 保留弃用薄壳**。
+
+### 顺带挖出并修掉的真 bug（静默错误）
+
+| # | 症状 | 根因 | 修法 |
+|---|------|------|------|
+| 1 | `--journal nature_single` **悄悄回退 IEEE 3.5" 宽度**却报 success | 旧代码 `style = args.journal if args.journal in STYLES else "ieee"`——把「宽度指令」当成「风格名」查表，`nature_single`/`science` 不在 `STYLES` 里 → 静默吃默认值 | `setup_style(style, colorblind, journal)`：**style 管字号/线宽/网格，journal 只管物理宽度**，二者分离；未知 journal → rc=2；四种图型统一回报 `width_inches` |
+| 2 | `--style science` 是合法选项却无 `STYLES` 条目 → 静默套 ieee 几何 | 同 #1 的同一类静默回退 | 补 `STYLES["science"] = {figure_width: 4.76, …}`；`--style` 选项集改为 `sorted(set(STYLES) + ["science"])` |
+| 3 | 薄壳遇非法数据（heatmap 非二维阵）抛 traceback | 只 catch `ImportError` | 补 `except ValueError` → 干净 JSON + rc=2 |
+
+**关键教训**：这三处都属于「跑得通、返回 0、但结果悄悄不对」的静默错误——正是「121/121 冒烟全绿」也测不出来的那一类。后续所有 SOTA 化都要专门针对**静默回退**：
+
+> 凡「用户给了参数 A，代码静默用了默认值 B」都算缺陷，必须(a)要么真生效，(b)要么硬报错，并在输出里**回报实际生效值**供核对。
+
+修 #1 时还差点被假绿测试骗过：早期断言用 `3.504 == 3.5` 这类比较，而 nature_single(3.504) 与 ieee(3.5) 数值极近，**媒体盒几乎一样宽**（245.9pt vs 246.1pt），无法证伪。最终用**差异显著的** `science(4.76) vs ieee(3.5)` + 直接读 PDF `/MediaBox` 做端到端铁证（实测 316.2pt vs 245.9pt，比值 1.29）。
+
+### 量化
+
+| 项目 | 变化 |
+|------|------|
+| `pub-plotter` 脚本 | 175 → 245 行（新增 `plot_heatmap` 真实实现、journal/style 职责分离、四型统一 `width_inches`、未知值 rc=2） |
+| `figure-maker` 脚本 | ~139 行自实现 → 100 行**薄壳**（保留 CLI/JSON 契约，委托 pub-plotter，输出 `deprecated:true` / `superseded_by`） |
+| 两技能测试 | 弱 `test_smoke_all.py`(figure-maker) + 现有 → **27 条强断言**（pub-plotter 14 + figure-maker 13），全绿 |
+| `paper_pipeline.py` | figures 阶段 `figure-maker` → **pub-plotter + `--journal ieee`**（实测 6/6 步 success，产物含 `font_embedded:true`、不再带 `deprecated`） |
+| 复数实现的 `line`/`bar`/`boxplot` 代码 | 2 份 → **1 份** |
+
+### 端到端验证（不只跑测试）
+
+```text
+journal=None           -> reported 3.5  in | PDF MediaBox  245.9pt
+journal=nature_single  -> reported 3.504in | PDF MediaBox  246.1pt
+journal=science        -> reported 4.76 in | PDF MediaBox  316.2pt   ← 铁证
+journal=acm            -> reported 6.5  in | PDF MediaBox  413.3pt
+journal=neurips        -> reported 6.0  in | PDF MediaBox  385.4pt
+style=science          -> reported 4.76 in | PDF MediaBox  315.2pt   ← 修 #2 后生效
+paper_pipeline --topic X --json -> 6/6 步 success，figures 步 width_inches=3.5 font_embedded=true
+```
+
+### 为什么不去掉 figure-maker
+
+仓库内**代码**消费者已迁移，但名字仍被 `manifest.json`、`packs/ai-research-writing/pack.json`、`skills/skill_chains.json`、生成站点 `site/` 引用；且本仓库面向使用者分发，外部可能已固定其 CLI。**弃用薄壳是行业标准做法**（保契约 + 暴露弃用 + 去掉重复实现）；删除留到下一轮大版本，与上述索引一起协同改动。SKILL.md 已如实写清这一状态与删除条件。
+
+### 遗留项
+- `figure-maker` 可删除，但需同步 `manifest.json` / packs / `skill_chains.json` + 重建 `site/`（下一轮大版本）。
+- 横向推广 writing / programming / meta 域仍待启动。
