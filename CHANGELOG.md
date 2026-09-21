@@ -14,9 +14,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > 另：0.4.0 – 0.6.1 发布于重置整理期，其内容随后被 squash 进 0.6.2 对应的提交
 > （`21769cb`），独立提交已不可考，故这四个版本没有对应的 git tag。
 
-## [Unreleased]
+## [0.20.0] - 2026-09-21
 
 ### Added
+
+- **场景级真实验收体系（双层 154/154 全绿）**（`tools/scenario_harness.py` + `tools/scenario_overrides.py` + `tools/real_scenario_test.py` + `tools/quality_audit.py`）——在 121/121 冒烟（证明"能跑"）之上补第二层验收（证明"在真实场景下产出合格"）：
+  - **静态模式**：无 API key 可跑，20 个技能脚本离线化修复（网络调用加 mock/降级，不再假死）；
+  - **LLM 模式**：34 个 prompt 型技能真调模型，质量门 = 长度 / 拒答 / 占位符 / 指定产物名，**门禁失败自动重采一次**（temperature 0.4 有方差，门禁标准不变；实测温度 0 反而输出塌短，弃用）；
+  - **占位符门豁免白名单**：自审声明（`placeholders: []` / `无需待补充`）与功能语境（`模板占位符` / `可用占位符` / `占位符列表`）按行豁免，真 TODO 照拦；
+  - **场景输入完备化**：`assignment-intake`（交付物本就是"列待确认项"）、`visual-style-anchor`（补足项目设定 + 明示不追问）——先分清"模型不行"还是"输入不行"再改门禁；
+  - **终验**：scenario 154/154 | smoke 121/121 | validate 0 错 0 警 | site 构建通过；逐技能场景输出入库 `tests/_scenario_artifacts/`，合并报告 `tests/_full_test_artifacts/scenario_report.md`。
+- **文档数字勘误（本版本随附）**：三语 README 徽章 `skills-143`→`154`、自研计数 `105`→`116`；`SOURCES.md` 头部 v0.18 时代数字（137 技能/34 包/自建 83）更新为 154 技能/36 包（上游精选 33 + 上游改造 5 + 自研 116），并补 v0.16 以来新增技能归属；`docs/FULL-TEST-REPORT.md` 补第八节「场景级真实验收」。
 
 - **paper 域 SOTA 加强第三批（tex-cleaner / journal-adapt / ai-humanizer / anti-defensive / paper-topic-selector / arch-diagram）**（`skills/paper/`）——paper 域 13 技能至此全覆盖：
   - **tex-cleaner**：注释剥离改**转义 + verbatim 感知**（旧版只认行首 `%`）；未用宏包改**命令→宏包映射**；新增**资源清单**（`\input`/`\bibliography`/`\includegraphics` 存在性）；`--clean` 缺 `--output` 改 rc=1。SKILL.md 1.0→2.0。

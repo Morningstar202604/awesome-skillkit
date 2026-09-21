@@ -3,9 +3,9 @@
 # awesome-skillkit
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-![Skills](https://img.shields.io/badge/skills-143-brightgreen)
+![Skills](https://img.shields.io/badge/skills-154-brightgreen)
 ![Packs](https://img.shields.io/badge/packs-36-blue)
-![Chains](https://img.shields.io/badge/chains-18%20domains%20%2F%2058-orange)
+![Chains](https://img.shields.io/badge/chains-18%20domains%20%2F%2062-orange)
 ![Version](https://img.shields.io/badge/version-0.19.0-success)
 
 [English](README.md) | **中文** | [日本語](README.ja.md)
@@ -37,15 +37,15 @@ flowchart LR
 
 ## 数字一览
 
-> **143 个 skill** · **36 个场景包** · **18 个链域 / 58 条技能链** · v0.19.0 · Apache-2.0
+> **154 个 skill** · **36 个场景包** · **18 个链域 / 62 条技能链** · v0.20.0 · Apache-2.0
 
 **来源构成**（自研为主，上游为辅，全部可溯源）：
 
 ```mermaid
-pie title 技能来源（n=143）
-    "自研场景技能" : 105
-    "上游 curated（alirezarezvani/claude-skills, MIT）" : 36
-    "其他开源蒸馏" : 10
+pie title 技能来源（n=154）
+    "自研场景技能" : 116
+    "上游 curated（alirezarezvani/claude-skills, MIT）" : 33
+    "其他开源蒸馏" : 5
 ```
 
 **按场景包规模分布**（█ = 1 个 skill，共 36 包）：
@@ -246,7 +246,7 @@ flowchart LR
     end
 ```
 
-`skill_chains.json` 内置 **18 个链域 / 58 条链**，把"该先调谁、谁接谁"固化下来，跨模块交叉调用不迷路。
+`skill_chains.json` 内置 **18 个链域 / 62 条链**，把"该先调谁、谁接谁"固化下来，跨模块交叉调用不迷路。
 
 ## 四平台同步状态
 
@@ -256,7 +256,7 @@ flowchart LR
 |------|------|:---:|:---:|------|
 | GitHub | `x33834/awesome-skillkit` | ✅ 至 `0.19.0` | ✅ v0.19.0 + 站点 | 正常 |
 | GitHub | `Morningstar202604/awesome-skillkit` | ✅ 至 `0.19.0` | ✅ 站点 | 正常 |
-| GitCode | `badhope/awesome-skillkit` | ✅ 至 `0.19.0` | ✅ 已建 | 正常 |
+| GitCode | `badhope/awesome-skillkit` | ✅ 至 `0.20.0` | ✅ v0.20.0 标签 | 正常 |
 | Gitee | `badhope/awesome-skillkit` | ✅ 至 `0.19.0` | ✅ v0.19.0 共 32 个 zip 附件 | 正常 |
 
 站点（GitHub Pages 双号，内容一致）：<https://x33834.github.io/awesome-skillkit/> · <https://morningstar202604.github.io/awesome-skillkit/>
@@ -277,7 +277,7 @@ dist/               # 构建产物：每包一个 zip（gitignored）
 
 两条来源轨道，全部在 [manifest.json](manifest.json)、各 `packs/*/pack.json` 与 [SOURCES.md](SOURCES.md) 中逐 skill 署名：
 
-- **自研场景技能（105 个）**：`skills/writing/`、`scenarios/`、`design/`、`audio/` 等。中国平台自动化、视频/图像/音频流水线、去 AI 味写作、记忆系统、作业自动驾驶等——均为上游未覆盖的原创工作流，自带可执行检查脚本与单测，默认 dry-run。
+- **自研场景技能（116 个）**：`skills/writing/`、`scenarios/`、`design/`、`audio/` 等。中国平台自动化、视频/图像/音频流水线、去 AI 味写作、记忆系统、作业自动驾驶等——均为上游未覆盖的原创工作流，自带可执行检查脚本与单测，默认 dry-run。
 - **上游 curated（36 个，MIT）**：来自 [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills)，覆盖编程/工程类技能。
 - **其他开源蒸馏（10 个）**：方法论蒸馏自 Anthropic 公开技能文档、mem0/letta/Claude memory tool、Kokoro/Qwen3-TTS 生态等，均在 `references/sources-and-methodology.md` 署名，**零内容复制**。
 

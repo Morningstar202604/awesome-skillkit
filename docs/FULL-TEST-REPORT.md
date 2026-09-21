@@ -120,11 +120,39 @@ design / audio / marketing / education 四域 SKILL.md 的移交话术核查通�
    迁移（ALTER + 回滚 + 零停机 expand-contract），sql-database-assistant 版做
    自然语言 → up/down 迁移模板。双方 SKILL.md 与 docstring 已加 Boundary 互指说明。
 
-## 7. 复现
+## 8. 场景级真实验收（2026-09-21，v0.20.0）
+
+冒烟（121/121）只证明「能跑」；本节记录在此之上补的第二层验收——「在真实场景输入下，
+产出过质量门」。工具链 4 件套：`tools/scenario_harness.py`（主驱动）、
+`tools/scenario_overrides.py`（逐技能场景覆盖）、`tools/real_scenario_test.py`、
+`tools/quality_audit.py`。
+
+**双层设计**：
+- 静态模式（无 API key 可跑）：120 个脚本型技能以真实场景输入执行，20 个技能脚本为此
+  做了离线化修复（网络调用加 mock/降级，不再假死）；
+- LLM 模式：34 个 prompt 型技能以 SKILL.md 为 system、场景为 user 真调模型，过四道
+  质量门——长度 / 拒答 / 占位符 / 指定产物名；门禁失败自动重采一次（temperature 0.4
+  有方差，门禁标准不变；实测温度 0 会使输出塌短，弃用）。
+
+**终验**：scenario **154/154 pass** | smoke 121/121 | validate 0 错 0 警 | site 构建通过。
+
+**方法论要点**（调通过程沉淀）：
+1. 先分清「模型不行」还是「场景输入不行」再动门禁——`assignment-intake` 交付物本就是
+   「解析含糊作业 + 列待确认项」，触发拒答门是场景输入不完备；`visual-style-anchor`
+   反问项目信息同理。补足输入 + 明示「直接产出」后即过。
+2. 占位符门按行豁免白名单（自审声明 / 功能语境如「可用占位符列表」），真 TODO 照拦；
+   豁免逐例收敛，不做全开放。
+3. 逐技能场景输出入库 `tests/_scenario_artifacts/`（含 LLM 输出与重采产物），合并报告
+   `tests/_full_test_artifacts/scenario_report.md`（每技能模式/模型/耗时/门禁明细）。
+
+## 9. 复现
 
 ```bash
-python3 -m pytest skills -q              # 257 passed, 1 skipped
-python3 tools/validate_skills.py         # 111 skills, 0 errors, 0 warnings
-python3 build.py                         # 28 archives, _all bundle 112 skills
-# 编排器抽样（SKILLKIT_MOCK=1 真跑 / --dry-run 规划）见 docs 各域 SKILL.md
+python3 -m pytest skills -q                        # 全部单测通过
+python3 tools/validate_skills.py                   # 154 skills, 0 errors, 0 warnings
+python3 tools/run_skill_smoke.py                   # 121/121 pass (offline=0 dep=0)
+python3 tools/scenario_harness.py                  # 静态+LLM 双层 154/154（LLM 层需 model_route 可用）
+python3 tools/scenario_harness.py --llm-only       # 仅 LLM 层
+python3 build.py                                   # 重建 dist，回填 manifest size/sha256
+python3 tools/build_site.py                        # 重建 site（154 skills / 36 packs / 18 domains / 62 chains）
 ```

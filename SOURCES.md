@@ -1,11 +1,15 @@
 # SOURCES — 技能来源与更新指引 / Skill Sources & Updates
 
-> 本仓库维护两条线（截至 v0.18，共 **137 个技能 / 34 个场景包**）：
+> 本仓库维护三条线（截至 v0.20，共 **154 个技能 / 36 个场景包** = 上游精选 33 + 上游改造 5 + 自建 116）：
 > 1. **上游精选**（`skills/programming/` 下 13 个分类目录，33 个）——全部来自下方上游项目；
-> 2. **自建场景技能**（83 个）——分布在 `skills/writing/`、`skills/video/`、`skills/office/`、`skills/music/`、
->    `skills/paper/`、`skills/ppt/`、`skills/tools/`、`skills/integrations/` 及
->    `skills/programming/` 下的 5 个自建子目录（`data/`、`debug/`、`math/`、`ml/`、`planning/`），
->    本仓库原创维护。
+> 2. **上游改造**（5 个：`docx-template-fill`、`frontend-component-lab`、`career-ops-lite`、
+>    `session-handoff`、`webapp-e2e-harness`，改造自其他开源项目，见「上游改造」一节）；
+> 3. **自建场景技能**（116 个）——分布在 `skills/writing/`、`skills/video/`、`skills/office/`、`skills/music/`、
+>    `skills/paper/`、`skills/ppt/`、`skills/tools/`、`skills/integrations/`、`skills/memory/`、`skills/knowledge/`、
+>    `skills/education/`、`skills/meta/`、`skills/dataviz/`、`skills/design/` 等，及
+>    `skills/programming/` 下的 5 个自建子目录（`data/`、`debug/`、`math/`、`ml/`、`planning/`）
+>    与 3 个编在上游目录里的自建技能（`security/pii-redactor`、`security/prompt-injection-guard`、
+>    `testing/webapp-flow-tester`），本仓库原创维护。
 
 ## 上游仓库 / Upstream（skills/programming/ 的 13 个分类目录）
 
@@ -17,7 +21,9 @@
 - 与上游的差异：上游两个近似重复项 `database-schema-designer`、`agent-workflow-designer`
   已合并进同源兄弟 skill，其独有内容以参考文档形式保留在对应 skill 内。
 - ⚠️ 注意：`skills/programming/` 下的 `data/`、`debug/`、`math/`、`ml/`、`planning/`
-  五个目录是**自建**技能（共 12 个），不属于上游——更新上游时请勿覆盖。
+  五个目录是**自建**技能（共 12 个），不属于上游——更新上游时请勿覆盖。另有 3 个自建技能
+  编在上游目录里（`security/pii-redactor`、`security/prompt-injection-guard`、
+  `testing/webapp-flow-tester`），同步上游时同样勿覆盖。
 
 ## 更新方法 / How to update
 
@@ -36,7 +42,22 @@ git clone https://github.com/alirezarezvani/claude-skills.git D:\_upstream\claud
 python3 build.py         # 唯一构建入口
 ```
 
-## 自建场景技能 / Self-authored scenarios（83 个）
+## 上游改造 / Upstream-adapted（5 个）
+
+改造自其他开源项目（非 `alirezarezvani/claude-skills` 上游主线），核心工作流保留、按本仓库
+工程规范重写（离线可测 / dry-run 默认 / 自带冒烟测试）。来源项目：mattpocock、ECC、
+anthropics、santifer-career-ops——逐技能对应关系以各技能 `references/` 与 commit `3a39242`
+登记为准。
+
+| Skill | 目录 |
+|-------|------|
+| docx-template-fill | `skills/office/docx-template-fill` |
+| frontend-component-lab | `skills/design/frontend-component-lab` |
+| career-ops-lite | `skills/office/career-ops-lite` |
+| session-handoff | `skills/meta/session-handoff` |
+| webapp-e2e-harness | `skills/programming/testing/webapp-e2e-harness` |
+
+## 自建场景技能 / Self-authored scenarios（116 个）
 
 ### 内容发布与写作（skills/writing/，22 个）
 
@@ -156,9 +177,49 @@ python3 build.py         # 唯一构建入口
 | issue-tracker-sync | workspace-integrations | Jira/Linear/GitHub Issues 建单请求构造 + 跨平台状态语义映射 + 离线周报生成 |
 | cloud-drive-manager | workspace-integrations | 云盘归档：上传计划（分片策略）、sha256/md5 校验清单、三家列表响应解析；不提供删除命令 |
 
-以上 83 个技能不来自上游，由本仓库原创维护，更新即改本仓库。
+### v0.16–v0.20 新增自研（33 个）
 
-## 全部技能清单（116 = 上游 33 + 自建 83）
+v0.18 发版后新增、未及登记进上文分域表格的技能，此处补齐：
+
+| Skill | 场景包 | 目录 |
+|-------|--------|------|
+| agent-eval-harness | Test-Driven Development | `meta/agent-eval-harness` |
+| ai-trace-auditor | De-AI Writing | `writing/ai-trace-auditor` |
+| assignment-intake | Homework Autopilot | `education/assignment-intake` |
+| bank-statement-reconcile | Toolsmith | `tools/bank-statement-reconcile` |
+| batch-renamer | Toolsmith | `tools/batch-renamer` |
+| chart-recommender | Data Viz Studio | `dataviz/chart-recommender` |
+| dashboard-designer | Data Viz Studio | `dataviz/dashboard-designer` |
+| docx-writer | Office Productivity | `office/docx-writer` |
+| epub-builder | Office Productivity | `office/epub-builder` |
+| file-organizer | Toolsmith | `tools/file-organizer` |
+| format-converter | Toolsmith | `tools/format-converter` |
+| frontend-design-director | Visual Design Studio | `design/frontend-design-director` |
+| humanize-rewriter | De-AI Writing | `writing/humanize-rewriter` |
+| internal-comms-writer | Office Productivity | `office/internal-comms-writer` |
+| invoice-organizer | Toolsmith | `tools/invoice-organizer` |
+| knowledge-graph-builder | Knowledge Base | `knowledge/knowledge-graph-builder` |
+| memory-architect | Memory Systems | `memory/memory-architect` |
+| memory-extractor | Memory Systems | `memory/memory-extractor` |
+| memory-manager | Memory Systems | `memory/memory-manager` |
+| memory-retriever | Memory Systems | `memory/memory-retriever` |
+| own-voice-rewrite | Homework Autopilot | `education/own-voice-rewrite` |
+| pdf-pipeline | Office Productivity | `office/pdf-pipeline` |
+| personal-voice-profile | De-AI Writing | `writing/personal-voice-profile` |
+| personal-wiki | Knowledge Base | `knowledge/personal-wiki` |
+| pii-redactor | Security & Secrets | `programming/security/pii-redactor` |
+| prompt-injection-guard | Security & Secrets | `programming/security/prompt-injection-guard` |
+| skill-author | Skill Forge | `meta/skill-author` |
+| skill-finder | Skill Forge | `meta/skill-finder` |
+| skill-linter | Skill Forge | `meta/skill-linter` |
+| solution-drafter | Homework Autopilot | `education/solution-drafter` |
+| task-scheduler | Toolsmith | `tools/task-scheduler` |
+| webapp-flow-tester | Test-Driven Development | `programming/testing/webapp-flow-tester` |
+| weekly-report-generator | Skill Forge | `meta/weekly-report-generator` |
+
+以上 116 个自建技能不来自上游（另 5 个上游改造见上文），由本仓库原创维护，更新即改本仓库。
+
+## 全部技能清单（154 = 上游 33 + 上游改造 5 + 自建 116）
 
 ### 上游精选（33）
 
@@ -218,6 +279,11 @@ python3 build.py         # 唯一构建入口
 | `skills/programming/planning/pipeline_orchestrator.py` | 代码计划域编排器：意图→计划→生成 |
 
 ## 历史 / History
+
+- 2026-09-21（v0.20.0）：**SOURCES 数字对账 + 归属补登记**——总数 137→154、场景包 34→36；
+  口径从「两条线」改为「三条线」（上游精选 33 + 上游改造 5 + 自建 116）；补登记 v0.16 以来
+  未入表的 33 个自研技能与 5 个上游改造技能；三语 README 徽章 `skills-143`→`154`、
+  自研计数 `105`→`116`。账目 154 = 33+5+116，与 `manifest.json` 逐一对齐。
 
 - 2026-09-17：**新增 `workspace-integrations` 场景包（4 技能，全部自研）** —— 首次补齐
   「外部集成」域（此前仅 git/GitHub 有覆盖）。`notion-workspace` / `feishu-dingtalk-bridge` /

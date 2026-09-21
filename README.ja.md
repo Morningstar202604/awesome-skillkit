@@ -3,9 +3,9 @@
 # awesome-skillkit
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-![Skills](https://img.shields.io/badge/skills-143-brightgreen)
+![Skills](https://img.shields.io/badge/skills-154-brightgreen)
 ![Packs](https://img.shields.io/badge/packs-36-blue)
-![Chains](https://img.shields.io/badge/chains-18%20domains%20%2F%2058-orange)
+![Chains](https://img.shields.io/badge/chains-18%20domains%20%2F%2062-orange)
 ![Version](https://img.shields.io/badge/version-0.19.0-success)
 
 [English](README.md) | [中文](README.zh-CN.md) | **日本語**
@@ -37,15 +37,15 @@ flowchart LR
 
 ## 数字で見る
 
-> **143 skills** · **36 シナリオパック** · **18 チェーンドメイン / 58 スキルチェーン** · v0.19.0 · Apache-2.0
+> **154 skills** · **36 シナリオパック** · **18 チェーンドメイン / 62 スキルチェーン** · v0.20.0 · Apache-2.0
 
 **出典の内訳**:
 
 ```mermaid
-pie title スキルの出典（n=143）
-    "自作シナリオスキル" : 105
-    "上流 curated（alirezarezvani/claude-skills, MIT）" : 36
-    "その他オープンソース蒸留" : 10
+pie title スキルの出典（n=154）
+    "自作シナリオスキル" : 116
+    "上流 curated（alirezarezvani/claude-skills, MIT）" : 33
+    "その他オープンソース蒸留" : 5
 ```
 
 **パック規模の分布**（█ = 1 skill、全 36 パック）:
@@ -256,7 +256,7 @@ flowchart LR
 |----------------|-----------|:---:|:---:|------|
 | GitHub | `x33834/awesome-skillkit` | ✅ `0.19.0` まで | ✅ v0.19.0 + サイト | OK |
 | GitHub | `Morningstar202604/awesome-skillkit` | ✅ `0.19.0` まで | ✅ サイト | OK |
-| GitCode | `badhope/awesome-skillkit` | ✅ `0.19.0` まで | ✅ 作成済 | OK |
+| GitCode | `badhope/awesome-skillkit` | ✅ `0.20.0` まで | ✅ v0.20.0 タグ | OK |
 | Gitee | `badhope/awesome-skillkit` | ✅ `0.19.0` まで | ✅ v0.19.0、zip 添付 32 個 | OK |
 
 サイト（GitHub Pages 両アカウント、内容同一）：<https://x33834.github.io/awesome-skillkit/> · <https://morningstar202604.github.io/awesome-skillkit/>
@@ -277,7 +277,7 @@ dist/               # ビルド成果物：パックごと 1 zip（gitignored）
 
 2 つのトラックを採用し、すべて [manifest.json](manifest.json)、各 `packs/*/pack.json`、[SOURCES.md](SOURCES.md) で skill ごとに署名:
 
-- **自作シナリオスキル（105 個）**: `skills/writing/`、`scenarios/`、`design/`、`audio/` など。中国系プラットフォーム自動化、動画/画像/音声パイプライン、AI 感低減ライティング、メモリシステム、宿題オートパイロットなど——いずれも上流がカバーしていないオリジナルワークフローで、実行可能な lint スクリプトと単体テストを備え、デフォルトで dry-run。
+- **自作シナリオスキル（116 個）**: `skills/writing/`、`scenarios/`、`design/`、`audio/` など。中国系プラットフォーム自動化、動画/画像/音声パイプライン、AI 感低減ライティング、メモリシステム、宿題オートパイロットなど——いずれも上流がカバーしていないオリジナルワークフローで、実行可能な lint スクリプトと単体テストを備え、デフォルトで dry-run。
 - **上流 curated（36 個、MIT）**: [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) 由来のプログラミング・エンジニアリング系スキル。
 - **その他オープンソース蒸留（10 個）**: Anthropic 公開 skills ドキュメント、mem0/letta/Claude memory tool、Kokoro/Qwen3-TTS エコシステムから方法論を蒸留。いずれも `references/sources-and-methodology.md` で署名、**内容のコピーはゼロ**。
 

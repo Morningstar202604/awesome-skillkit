@@ -3,14 +3,14 @@
 <h1 align="center">awesome-skillkit</h1>
 
 <p align="center">
-  <b>36 real-world scene packs · 143 curated skills · unzip &amp; drop-in —<br>your AI tool instantly knows the job.</b>
+  <b>36 real-world scene packs · 154 curated skills · unzip &amp; drop-in —<br>your AI tool instantly knows the job.</b>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
-  <img src="https://img.shields.io/badge/skills-143-brightgreen?style=flat-square" alt="Skills" />
+  <img src="https://img.shields.io/badge/skills-154-brightgreen?style=flat-square" alt="Skills" />
   <img src="https://img.shields.io/badge/packs-36-blue?style=flat-square" alt="Packs" />
-  <img src="https://img.shields.io/badge/chains-18%20domains%20%2F%2058-orange?style=flat-square" alt="Chains" />
+  <img src="https://img.shields.io/badge/chains-18%20domains%20%2F%2062-orange?style=flat-square" alt="Chains" />
   <img src="https://img.shields.io/badge/version-0.19.0-success?style=flat-square" alt="Version" />
 </p>
 
@@ -53,15 +53,15 @@ flowchart LR
 
 ## By the numbers
 
-> **143 skills** · **36 scene packs** · **18 chain domains / 58 skill chains** · v0.19.0 · Apache-2.0
+> **154 skills** · **36 scene packs** · **18 chain domains / 62 skill chains** · v0.20.0 · Apache-2.0
 
 **Source breakdown**:
 
 ```mermaid
-pie title Skill sources (n=143)
-    "Self-authored scenario skills" : 105
-    "Upstream curated (alirezarezvani/claude-skills, MIT)" : 36
-    "Other open-source distilled" : 10
+pie title Skill sources (n=154)
+    "Self-authored scenario skills" : 116
+    "Upstream curated (alirezarezvani/claude-skills, MIT)" : 33
+    "Other open-source distilled" : 5
 ```
 
 **Pack size distribution** (█ = 1 skill, 36 packs total):
@@ -270,10 +270,12 @@ Four platforms in parallel (same branches, tags, and HEAD) — no favorites:
 |----------|------|:---:|:---:|--------|
 | GitHub | `x33834/awesome-skillkit` | ✅ through `0.19.0` | ✅ v0.19.0 + site | OK |
 | GitHub | `Morningstar202604/awesome-skillkit` | ✅ through `0.19.0` | ✅ site | OK |
-| GitCode | `badhope/awesome-skillkit` | ✅ through `0.19.0` | ✅ created | OK |
+| GitCode | `badhope/awesome-skillkit` | ✅ through `0.20.0` | ✅ v0.20.0 tag | OK |
 | Gitee | `badhope/awesome-skillkit` | ✅ through `0.19.0` | ✅ v0.19.0, 36 zip assets | OK |
 
 Sites (GitHub Pages, both accounts): <https://x33834.github.io/awesome-skillkit/> · <https://morningstar202604.github.io/awesome-skillkit/>
+
+> 2026-09-21: GitCode synced to **v0.20.0**; GitHub/Gitee mirrors remain at v0.19.0 pending next sync.
 
 ## Directory layout
 

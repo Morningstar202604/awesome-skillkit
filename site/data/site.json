@@ -2,7 +2,7 @@
  "meta": {
   "hub": "awesome-skillkit",
   "version": "0.19.0",
-  "updated": "2026-09-20",
+  "updated": "2026-09-21",
   "desc": "Curated scene packs for AI tools: each pack = one real-world scenario, containing multiple skills. Download zip -> unzip -> drag the skill folders into your AI tool's skills directory.",
   "desc_zh": "精选场景包合集：每个场景包 = 一个真实场景，内含多个 skill。下载 zip -> 解压 -> 把 skill 文件夹拖进 AI 工具的 skills 目录即可使用。",
   "n_skills": 154,
@@ -3651,7 +3651,7 @@
    "name_zh": "AI Agent 开发",
    "desc": "Build production-grade AI agents, design multi-agent workflows, MCP servers, feature flags, and self-evaluation.",
    "desc_zh": "构建生产级 AI Agent、设计多 Agent 工作流、MCP 服务、功能开关与自评。",
-   "size_kb": 158,
+   "size_kb": 162,
    "n_skills": 5,
    "skills": [
     "agent-designer",
@@ -3672,7 +3672,7 @@
    "name_zh": "AI 媒体生成工具箱",
    "desc": "Generate videos, images, covers, and music from prompts through a local generation gateway.",
    "desc_zh": "通过本地生成网关用提示词生成视频、图片、封面与配乐：文生/图生全流程（提交、轮询、下载交付）。",
-   "size_kb": 28,
+   "size_kb": 29,
    "n_skills": 4,
    "skills": [
     "video-generation",
@@ -3692,7 +3692,7 @@
    "name_zh": "AI 研究与写作",
    "desc": "Research a topic and turn it into a structured article: multi-round search, outline, draft, edit, SEO.",
    "desc_zh": "从选题调研到成稿发布的长文生产链路：多轮检索与报告综合、大纲搭建、初稿撰写、风格润色、关键词与平台规则优化，以及学术选题的研究空白识别与投稿匹配。",
-   "size_kb": 161,
+   "size_kb": 225,
    "n_skills": 19,
    "skills": [
     "deep-research",
@@ -3727,7 +3727,7 @@
    "name_zh": "AI 短视频生产流水线",
    "desc": "End-to-end short-video production: script, voice, lip-sync, assembly, subtitles, thumbnail.",
    "desc_zh": "从脚本到成片的一条龙短视频生产线：脚本撰写、配音合成、口型对齐、剪辑合成、字幕、封面图。六个技能按序衔接，输出可直接发布的竖屏视频。",
-   "size_kb": 75,
+   "size_kb": 79,
    "n_skills": 6,
    "skills": [
     "video-script-writer",
@@ -3749,7 +3749,7 @@
    "name_zh": "API 开发与测试",
    "desc": "Review REST API designs and generate integration/contract test suites.",
    "desc_zh": "审查 REST API 设计并生成集成/契约测试套件。",
-   "size_kb": 49,
+   "size_kb": 50,
    "n_skills": 2,
    "skills": [
     "api-design-reviewer",
@@ -3767,7 +3767,7 @@
    "name_zh": "系统架构设计",
    "desc": "Design system architecture, plan zero-downtime migrations, and navigate monorepos.",
    "desc_zh": "设计系统架构、规划零停机迁移、驾驭 monorepo。",
-   "size_kb": 109,
+   "size_kb": 112,
    "n_skills": 3,
    "skills": [
     "senior-architect",
@@ -3822,7 +3822,7 @@
    "name_zh": "CI/CD 流水线",
    "desc": "Generate pragmatic CI/CD pipelines, release gates, and spec-driven development workflows.",
    "desc_zh": "生成务实的 CI/CD 流水线、发布门禁与规范驱动开发流程。",
-   "size_kb": 67,
+   "size_kb": 69,
    "n_skills": 3,
    "skills": [
     "ci-cd-pipeline-builder",
@@ -3841,7 +3841,7 @@
    "name_zh": "代码规划与生成",
    "desc": "Turn vague requests into structured plans, then into working code; diagnose and fix failures.",
    "desc_zh": "把模糊需求变成可执行代码：三层瀑布式意图识别、结构化实施计划、两档代码生成（模板引擎 + LLM）、运行时故障诊断与调试清单。",
-   "size_kb": 77,
+   "size_kb": 79,
    "n_skills": 3,
    "skills": [
     "code-intent-planner",
@@ -3860,7 +3860,7 @@
    "name_zh": "代码审查",
    "desc": "Review pull requests, analyze code quality, audit dependencies and tech debt across languages.",
    "desc_zh": "审查 PR、分析代码质量、审计依赖与技术债，覆盖多语言。",
-   "size_kb": 249,
+   "size_kb": 253,
    "n_skills": 5,
    "skills": [
     "pr-review-expert",
@@ -3881,7 +3881,7 @@
    "name_zh": "容器与编排",
    "desc": "Dockerfile optimization, docker-compose, Helm charts, and Kubernetes operators.",
    "desc_zh": "Dockerfile 优化、docker-compose、Helm Chart 与 Kubernetes Operator。",
-   "size_kb": 74,
+   "size_kb": 77,
    "n_skills": 3,
    "skills": [
     "docker-development",
@@ -3900,7 +3900,7 @@
    "name_zh": "内容多平台发布自动化",
    "desc": "Publish, edit and manage articles/videos on Chinese platforms (Zhihu, cnblogs, WeChat MP, Juejin, CSDN, Jianshu, Bilibili, Toutiao, Baijiahao, Xiaohongshu, Weibo, Douban, V2EX, SegmentFault, OSChina, Douban, Static Blogs) with battle-tested platform knowledge, plus a cross-post orchestrator and AI cover-image generation.",
    "desc_zh": "在知乎、博客园、微信公众号、掘金、CSDN、简书、B站、头条、百家号、小红书、微博、豆瓣、V2EX、SegmentFault、开源中国、静态博客等中文平台发布、编辑、管理内容，沉淀实战平台经验；附跨平台发布编排器与 AI 封面图生成。",
-   "size_kb": 165,
+   "size_kb": 181,
    "n_skills": 18,
    "skills": [
     "zhihu-content-manager",
@@ -3934,7 +3934,7 @@
    "name_zh": "数据科学与科学计算",
    "desc": "Data pipelines, feature engineering, mathematical modeling, simulation, and ML training workflows.",
    "desc_zh": "数据与建模的完整工具箱：ETL 清洗变换、特征工程、数学建模与求解器选型、蒙特卡洛仿真、结果可视化、ML 训练流水线与超参调优、指标体系解读。",
-   "size_kb": 79,
+   "size_kb": 80,
    "n_skills": 7,
    "skills": [
     "etl-builder",
@@ -3957,7 +3957,7 @@
    "name_zh": "数据库设计与管理",
    "desc": "Design schemas, ERD diagrams, migrations, and optimize SQL queries.",
    "desc_zh": "设计表结构、ERD 图、迁移方案，并优化 SQL 查询。",
-   "size_kb": 108,
+   "size_kb": 110,
    "n_skills": 2,
    "skills": [
     "database-designer",
@@ -3975,7 +3975,7 @@
    "name_zh": "数据可视化工作室",
    "desc": "From raw CSV to a shippable dashboard: profile columns, recommend a layout, and emit a self-contained single-file HTML dashboard with zero external requests. Plus a chart-selection lexicon covering encoding priority, per-chart-type caveats, and the classic mistakes.",
    "desc_zh": "从原始 CSV 到能交付的仪表盘：列类型推断与分布摘要、布局推荐、生成零外部依赖的自包含单文件 HTML。另附图表选择词库（视觉编码优先级、各图型适用与反例、截断坐标轴等经典错误清单）。",
-   "size_kb": 31,
+   "size_kb": 32,
    "n_skills": 2,
    "skills": [
     "dashboard-designer",
@@ -3993,7 +3993,7 @@
    "name_zh": "去 AI 味写作",
    "desc": "Rewrite AI-generated text into natural human writing: trace auditing, humanized rewriting, personal voice profiling.",
    "desc_zh": "把 AI 生成文本改写成自然的人味文字：AI 痕迹审计、人性化重写、个人风格画像对齐。让 AI 代笔的内容读起来像你自己写的。",
-   "size_kb": 26,
+   "size_kb": 27,
    "n_skills": 3,
    "skills": [
     "ai-trace-auditor",
@@ -4031,7 +4031,7 @@
    "name_zh": "GitHub 协作工作流",
    "desc": "Parallel worktrees, conventional-commit changelogs, and PR review on GitHub.",
    "desc_zh": "并行 worktree、Conventional Commits 变更日志与 GitHub PR 审查。",
-   "size_kb": 39,
+   "size_kb": 41,
    "n_skills": 3,
    "skills": [
     "git-worktree-manager",
@@ -4088,7 +4088,7 @@
    "name_zh": "画图工作台",
    "desc": "End-to-end image creation workspace: prompt engineering, style anchoring, generation via gateway, cover art.",
    "desc_zh": "端到端画图工作台：生图提示词工程、风格锚定、网关生图执行、封面图生成。把散落的生图技能组装成一条龙。",
-   "size_kb": 35,
+   "size_kb": 36,
    "n_skills": 4,
    "skills": [
     "image-prompt-engineer",
@@ -4108,7 +4108,7 @@
    "name_zh": "故障响应与 SRE",
    "desc": "Command incidents, generate runbooks, and define SLOs/error budgets.",
    "desc_zh": "事故指挥、生成 runbook、定义 SLO 与错误预算。",
-   "size_kb": 125,
+   "size_kb": 128,
    "n_skills": 3,
    "skills": [
     "incident-commander",
@@ -4127,7 +4127,7 @@
    "name_zh": "基础设施即代码",
    "desc": "Terraform patterns, observability design, and Kubernetes operators.",
    "desc_zh": "Terraform 模式、可观测性设计与 Kubernetes Operator。",
-   "size_kb": 101,
+   "size_kb": 103,
    "n_skills": 3,
    "skills": [
     "terraform-patterns",
@@ -4146,7 +4146,7 @@
    "name_zh": "个人知识库",
    "desc": "Turn scattered notes into a searchable base and a queryable graph: build a sharded-index wiki with orphan/broken-link linting, and extract entities plus relations from Markdown into Mermaid or Graphviz output.",
    "desc_zh": "把零散笔记变成可检索的知识库与可查询的图谱：分片索引 wiki（含孤儿笔记、断链、空笔记体检）与实体关系抽取（可导出 Mermaid / Graphviz，附度中心性与连通分量分析）。",
-   "size_kb": 27,
+   "size_kb": 29,
    "n_skills": 2,
    "skills": [
     "personal-wiki",
@@ -4184,7 +4184,7 @@
    "name_zh": "办公效率工具箱",
    "desc": "Daily office work: decks, spreadsheets, resumes, meeting minutes.",
    "desc_zh": "日常办公四件套：PPT 制作、Excel 清洗分析、简历岗位定制、会议纪要结构化。",
-   "size_kb": 64,
+   "size_kb": 69,
    "n_skills": 10,
    "skills": [
     "ppt-builder",
@@ -4210,7 +4210,7 @@
    "name_zh": "性能优化",
    "desc": "Profile CPU/memory/I/O bottlenecks in Node.js, Python, and Go.",
    "desc_zh": "剖析 Node.js、Python、Go 的 CPU/内存/IO 瓶颈。",
-   "size_kb": 12,
+   "size_kb": 13,
    "n_skills": 1,
    "skills": [
     "performance-profiler"
@@ -4227,7 +4227,7 @@
    "name_zh": "安全与密钥管理",
    "desc": "Set up secret vaults and manage environment-variable hygiene, plus two self-scanners: a PII redactor (dry-run first) and a prompt-injection auditor.",
    "desc_zh": "搭建密钥库并管理环境变量卫生，附两个自扫描器：PII 脱敏（默认 dry-run）与提示词注入审计。",
-   "size_kb": 68,
+   "size_kb": 71,
    "n_skills": 4,
    "skills": [
     "secrets-vault-manager",
@@ -4247,7 +4247,7 @@
    "name_zh": "技能锻造厂",
    "desc": "Meta skills about skills themselves: author a new SKILL.md from a one-batch clarification, lint an existing one against the repo spec with an exit code CI can gate on, and search/pack/stats this repo from real data. Idea in, compliant shipped skill out.",
    "desc_zh": "关于技能本身的元技能三件套：一次性问齐需求后生成合规 SKILL.md（skill-author）、八项静态检查并返回可做 CI 门禁的退出码（skill-linter）、基于真实数据检索技能与装配组合（skill-finder）。想法进、可提交的技能出。",
-   "size_kb": 52,
+   "size_kb": 54,
    "n_skills": 5,
    "skills": [
     "skill-author",
@@ -4268,7 +4268,7 @@
    "name_zh": "测试驱动开发",
    "desc": "Write unit tests, fixtures, mocks, and guide red-green-refactor cycles.",
    "desc_zh": "编写单元测试、fixture、mock，并引导红绿重构循环。",
-   "size_kb": 76,
+   "size_kb": 81,
    "n_skills": 4,
    "skills": [
     "tdd-guide",
@@ -4288,7 +4288,7 @@
    "name_zh": "工具与自动化",
    "desc": "Local file and automation chores done safely: reorganize a messy directory with a dry-run planner, batch-rename files with one-command rollback, convert documents/images/media, schedule recurring jobs across cron/launchd/Task Scheduler, organize invoices/receipts into a month/category tree, and reconcile a bank statement against your expense ledger.",
    "desc_zh": "本地文件与自动化的六件顺手工具：目录体检与整理（含快速判重）、批量重命名（EXIF 日期 + 日志回滚）、文档/图片/音视频格式转换统一入口、定时任务（cron 表达式翻译 + 三平台落地）、发票/报销按月份类别归档 + 台账、银行流水 vs 记账账单逐笔对账。全部默认 dry-run、只读优先、不删文件。",
-   "size_kb": 61,
+   "size_kb": 67,
    "n_skills": 6,
    "skills": [
     "file-organizer",
@@ -4348,7 +4348,7 @@
    "name_zh": "视觉设计工作室",
    "desc": "AI visual design chain: interpret a vague brief into a design spec (purpose, platform size, style anchor), engineer text-to-image prompts with model dialects and text-rendering rules, and audit output against platform layout specs (safe areas, ratios, text budgets). One brief flows through spec -> prompt -> audit without leaving the chain.",
    "desc_zh": "AI 视觉设计链条：把模糊需求翻译成设计规格单（用途/平台尺寸/风格锚），按模型方言与文字渲染规则写文生图 prompt，并按平台版面规格（比例/安全区/文字预算）审计产出。一条需求从规格到 prompt 到审计全程不出链。方法论借鉴 Anthropic canvas-design / designskills / Replicate prompting 指南并已署名。",
-   "size_kb": 38,
+   "size_kb": 39,
    "n_skills": 5,
    "skills": [
     "design-brief-interpreter",
@@ -4369,7 +4369,7 @@
    "name_zh": "外部集成工具箱",
    "desc": "Connect an AI session to the tools a team already lives in: Notion pages and databases, Feishu / DingTalk / WeCom group robots, Jira / Linear / GitHub Issues, and Baidu / Aliyun / OneDrive cloud drives. Every write path is dry-run by default, credentials live only in environment variables, and the bundled scripts build and parse payloads offline so they can be tested without a network.",
    "desc_zh": "把 AI 会话接到团队真正在用的工具上：Notion 页面与数据库、飞书/钉钉/企业微信群机器人、Jira/Linear/GitHub Issues 协同与周报、百度网盘/阿里云盘/OneDrive 归档校验。四条链路共享同一套操作契约——写操作默认 dry-run 先出负载、凭证只走环境变量、脚本离线构造与解析（不发网络请求），未接凭证即可完整演练。",
-   "size_kb": 62,
+   "size_kb": 66,
    "n_skills": 4,
    "skills": [
     "notion-workspace",
