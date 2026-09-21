@@ -15,7 +15,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.26,
+          "seconds": 0.41,
           "step": 1,
           "mode": "script"
         },
@@ -26,7 +26,7 @@
           "rc": 0,
           "attempts": 2,
           "out_files": [],
-          "seconds": 0.75,
+          "seconds": 0.51,
           "step": 2,
           "mode": "script"
         },
@@ -37,7 +37,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 1.8,
+          "seconds": 0.99,
           "step": 3,
           "mode": "script"
         },
@@ -48,7 +48,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.36,
+          "seconds": 0.4,
           "step": 4,
           "mode": "script"
         },
@@ -61,7 +61,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\programming\\full_project\\05-code-reviewer\\inputs\\scene_input.md"
           ],
-          "seconds": 0.64,
+          "seconds": 0.48,
           "step": 5,
           "mode": "script"
         },
@@ -72,7 +72,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.34,
+          "seconds": 0.4,
           "step": 6,
           "mode": "script"
         },
@@ -83,7 +83,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.34,
+          "seconds": 0.37,
           "step": 7,
           "mode": "script"
         },
@@ -105,7 +105,7 @@
           "rc": 0,
           "attempts": 2,
           "out_files": [],
-          "seconds": 0.59,
+          "seconds": 0.46,
           "step": 9,
           "mode": "script"
         }
@@ -134,7 +134,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.25,
+          "seconds": 0.33,
           "step": 1,
           "mode": "script"
         },
@@ -145,7 +145,7 @@
           "rc": 0,
           "attempts": 2,
           "out_files": [],
-          "seconds": 0.64,
+          "seconds": 0.53,
           "step": 2,
           "mode": "script"
         },
@@ -156,7 +156,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 1.7,
+          "seconds": 0.94,
           "step": 3,
           "mode": "script"
         },
@@ -167,7 +167,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.33,
+          "seconds": 0.39,
           "step": 4,
           "mode": "script"
         },
@@ -180,7 +180,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\programming\\bug_fix\\05-code-reviewer\\inputs\\scene_input.md"
           ],
-          "seconds": 0.63,
+          "seconds": 0.48,
           "step": 5,
           "mode": "script"
         }
@@ -216,7 +216,7 @@
           "rc": 0,
           "attempts": 2,
           "out_files": [],
-          "seconds": 0.54,
+          "seconds": 0.45,
           "step": 2,
           "mode": "script"
         },
@@ -227,7 +227,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.32,
+          "seconds": 0.33,
           "step": 3,
           "mode": "script"
         },
@@ -238,7 +238,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 1.89,
+          "seconds": 1.03,
           "step": 4,
           "mode": "script"
         },
@@ -249,7 +249,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.5,
+          "seconds": 0.38,
           "step": 5,
           "mode": "script"
         },
@@ -260,7 +260,7 @@
           "rc": 1,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.51,
+          "seconds": 0.38,
           "step": 6,
           "mode": "script"
         }
@@ -286,7 +286,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.46,
+          "seconds": 0.39,
           "step": 1,
           "mode": "script"
         },
@@ -297,7 +297,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.46,
+          "seconds": 0.36,
           "step": 2,
           "mode": "script"
         },
@@ -308,7 +308,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.34,
+          "seconds": 0.33,
           "step": 3,
           "mode": "script"
         },
@@ -319,7 +319,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 2.65,
+          "seconds": 0.94,
           "step": 4,
           "mode": "script"
         },
@@ -330,7 +330,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.45,
+          "seconds": 0.38,
           "step": 5,
           "mode": "script"
         },
@@ -343,7 +343,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\programming\\security_fix\\06-code-reviewer\\inputs\\scene_input.md"
           ],
-          "seconds": 0.9,
+          "seconds": 0.52,
           "step": 6,
           "mode": "script"
         },
@@ -354,7 +354,7 @@
           "rc": 1,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.59,
+          "seconds": 0.38,
           "step": 7,
           "mode": "script"
         }
@@ -381,7 +381,7 @@
           "rc": 0,
           "attempts": 2,
           "out_files": [],
-          "seconds": 0.99,
+          "seconds": 0.46,
           "step": 1,
           "mode": "script"
         },
@@ -392,7 +392,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.37,
+          "seconds": 0.34,
           "step": 2,
           "mode": "script"
         },
@@ -403,7 +403,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 2.46,
+          "seconds": 0.94,
           "step": 3,
           "mode": "script"
         },
@@ -416,7 +416,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\programming\\debug_hotfix\\04-code-reviewer\\inputs\\scene_input.md"
           ],
-          "seconds": 0.8,
+          "seconds": 0.48,
           "step": 4,
           "mode": "script"
         },
@@ -427,7 +427,7 @@
           "rc": 1,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.52,
+          "seconds": 0.39,
           "step": 5,
           "mode": "script"
         }
@@ -474,7 +474,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 13.67,
+          "seconds": 2.9,
           "step": 3,
           "mode": "script"
         }
@@ -497,7 +497,7 @@
           "rc": 0,
           "attempts": 2,
           "out_files": [],
-          "seconds": 0.81,
+          "seconds": 0.46,
           "step": 1,
           "mode": "script"
         },
@@ -508,7 +508,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 2.86,
+          "seconds": 1.1,
           "step": 2,
           "mode": "script"
         },
@@ -519,7 +519,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.46,
+          "seconds": 0.4,
           "step": 3,
           "mode": "script"
         },
@@ -532,7 +532,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\programming\\math_modeling\\04-result-visualizer\\inputs\\scene_input.json"
           ],
-          "seconds": 3.06,
+          "seconds": 1.42,
           "step": 4,
           "mode": "script"
         }
@@ -556,7 +556,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.42,
+          "seconds": 0.37,
           "step": 1,
           "mode": "script"
         },
@@ -567,7 +567,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.52,
+          "seconds": 0.37,
           "step": 2,
           "mode": "script"
         },
@@ -576,7 +576,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 3214,
+          "chars": 3268,
           "step": 3,
           "mode": "llm"
         },
@@ -587,7 +587,7 @@
           "rc": 1,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.55,
+          "seconds": 0.38,
           "step": 4,
           "mode": "script"
         }
@@ -611,7 +611,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.47,
+          "seconds": 0.35,
           "step": 1,
           "mode": "script"
         },
@@ -622,7 +622,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.49,
+          "seconds": 0.42,
           "step": 2,
           "mode": "script"
         },
@@ -633,7 +633,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.45,
+          "seconds": 0.37,
           "step": 3,
           "mode": "script"
         },
@@ -644,7 +644,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.44,
+          "seconds": 0.37,
           "step": 4,
           "mode": "script"
         },
@@ -655,7 +655,7 @@
           "rc": 1,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.57,
+          "seconds": 0.41,
           "step": 5,
           "mode": "script"
         }
@@ -680,7 +680,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.54,
+          "seconds": 0.43,
           "step": 1,
           "mode": "script"
         },
@@ -691,7 +691,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.46,
+          "seconds": 0.41,
           "step": 2,
           "mode": "script"
         },
@@ -725,7 +725,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.34,
+          "seconds": 0.38,
           "step": 1,
           "mode": "script"
         },
@@ -736,7 +736,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.49,
+          "seconds": 0.38,
           "step": 2,
           "mode": "script"
         },
@@ -747,7 +747,7 @@
           "rc": 0,
           "attempts": 2,
           "out_files": [],
-          "seconds": 0.82,
+          "seconds": 0.49,
           "step": 3,
           "mode": "script"
         },
@@ -758,7 +758,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.52,
+          "seconds": 0.39,
           "step": 4,
           "mode": "script"
         }
@@ -782,7 +782,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.49,
+          "seconds": 0.43,
           "step": 1,
           "mode": "script"
         },
@@ -793,7 +793,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.41,
+          "seconds": 0.38,
           "step": 2,
           "mode": "script"
         },
@@ -804,7 +804,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.51,
+          "seconds": 0.38,
           "step": 3,
           "mode": "script"
         },
@@ -815,7 +815,7 @@
           "rc": 1,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.48,
+          "seconds": 0.38,
           "step": 4,
           "mode": "script"
         },
@@ -826,7 +826,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.41,
+          "seconds": 0.37,
           "step": 5,
           "mode": "script"
         }
@@ -862,7 +862,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 1.67,
+          "seconds": 0.53,
           "step": 2,
           "mode": "script"
         }
@@ -884,7 +884,7 @@
           "rc": 0,
           "attempts": 2,
           "out_files": [],
-          "seconds": 0.73,
+          "seconds": 0.53,
           "step": 1,
           "mode": "script"
         },
@@ -907,7 +907,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.32,
+          "seconds": 0.39,
           "step": 4,
           "mode": "script"
         },
@@ -918,7 +918,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.3,
+          "seconds": 0.35,
           "step": 5,
           "mode": "script"
         },
@@ -929,7 +929,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.39,
+          "seconds": 0.41,
           "step": 6,
           "mode": "script"
         }
@@ -956,7 +956,7 @@
           "rc": 0,
           "attempts": 2,
           "out_files": [],
-          "seconds": 0.71,
+          "seconds": 0.56,
           "step": 1,
           "mode": "script"
         },
@@ -979,7 +979,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.28,
+          "seconds": 0.37,
           "step": 4,
           "mode": "script"
         },
@@ -990,7 +990,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.31,
+          "seconds": 0.37,
           "step": 5,
           "mode": "script"
         },
@@ -1028,7 +1028,7 @@
           "rc": 0,
           "attempts": 2,
           "out_files": [],
-          "seconds": 0.79,
+          "seconds": 0.52,
           "step": 1,
           "mode": "script"
         },
@@ -1045,7 +1045,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.34,
+          "seconds": 0.37,
           "step": 3,
           "mode": "script"
         },
@@ -1056,7 +1056,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.36,
+          "seconds": 0.37,
           "step": 4,
           "mode": "script"
         },
@@ -1091,7 +1091,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 3113,
+          "chars": 2925,
           "step": 1,
           "mode": "llm"
         },
@@ -1102,7 +1102,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.32,
+          "seconds": 0.35,
           "step": 2,
           "mode": "script"
         },
@@ -1111,7 +1111,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 993,
+          "chars": 968,
           "step": 3,
           "mode": "llm"
         },
@@ -1122,7 +1122,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.32,
+          "seconds": 0.35,
           "step": 4,
           "mode": "script"
         },
@@ -1133,7 +1133,7 @@
           "rc": 0,
           "attempts": 2,
           "out_files": [],
-          "seconds": 0.69,
+          "seconds": 0.54,
           "step": 5,
           "mode": "script"
         }
@@ -1158,7 +1158,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.27,
+          "seconds": 0.38,
           "step": 1,
           "mode": "script"
         },
@@ -1169,7 +1169,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.26,
+          "seconds": 0.35,
           "step": 2,
           "mode": "script"
         },
@@ -1180,7 +1180,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.26,
+          "seconds": 0.37,
           "step": 3,
           "mode": "script"
         },
@@ -1191,7 +1191,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.27,
+          "seconds": 0.35,
           "step": 4,
           "mode": "script"
         },
@@ -1208,7 +1208,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.38,
+          "seconds": 0.39,
           "step": 6,
           "mode": "script"
         }
@@ -1235,7 +1235,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.24,
+          "seconds": 0.35,
           "step": 1,
           "mode": "script"
         },
@@ -1246,7 +1246,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.26,
+          "seconds": 0.34,
           "step": 2,
           "mode": "script"
         },
@@ -1257,7 +1257,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.25,
+          "seconds": 0.35,
           "step": 3,
           "mode": "script"
         },
@@ -1268,7 +1268,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.3,
+          "seconds": 0.36,
           "step": 4,
           "mode": "script"
         },
@@ -1279,7 +1279,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.35,
+          "seconds": 0.39,
           "step": 5,
           "mode": "script"
         }
@@ -1304,7 +1304,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.25,
+          "seconds": 0.34,
           "step": 1,
           "mode": "script"
         },
@@ -1313,7 +1313,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 2910,
+          "chars": 2437,
           "step": 2,
           "mode": "llm"
         },
@@ -1322,7 +1322,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 2950,
+          "chars": 2993,
           "step": 3,
           "mode": "llm"
         }
@@ -1345,7 +1345,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.88,
+          "seconds": 0.56,
           "step": 1,
           "mode": "script"
         }
@@ -1378,9 +1378,9 @@
         {
           "skill": "design/design-brief-interpreter",
           "verdict": "pass",
-          "reason_class": "retry_pass",
+          "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 1458,
+          "chars": 775,
           "step": 1,
           "mode": "llm"
         },
@@ -1389,7 +1389,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 4100,
+          "chars": 4635,
           "step": 2,
           "mode": "llm"
         },
@@ -1400,7 +1400,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.3,
+          "seconds": 0.36,
           "step": 3,
           "mode": "script"
         }
@@ -1421,7 +1421,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 490,
+          "chars": 1902,
           "step": 1,
           "mode": "llm"
         },
@@ -1430,7 +1430,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 5067,
+          "chars": 2600,
           "step": 2,
           "mode": "llm"
         },
@@ -1441,7 +1441,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.3,
+          "seconds": 0.34,
           "step": 3,
           "mode": "script"
         }
@@ -1462,7 +1462,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 771,
+          "chars": 877,
           "step": 1,
           "mode": "llm"
         },
@@ -1471,7 +1471,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 2587,
+          "chars": 4761,
           "step": 2,
           "mode": "llm"
         },
@@ -1482,7 +1482,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.3,
+          "seconds": 0.37,
           "step": 3,
           "mode": "script"
         }
@@ -1501,9 +1501,9 @@
         {
           "skill": "design/design-brief-interpreter",
           "verdict": "pass",
-          "reason_class": "retry_pass",
+          "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 1785,
+          "chars": 1404,
           "step": 1,
           "mode": "llm"
         },
@@ -1512,7 +1512,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 2902,
+          "chars": 3392,
           "step": 2,
           "mode": "llm"
         },
@@ -1523,7 +1523,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.3,
+          "seconds": 0.4,
           "step": 3,
           "mode": "script"
         }
@@ -1544,7 +1544,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 1181,
+          "chars": 1885,
           "step": 1,
           "mode": "llm"
         },
@@ -1553,7 +1553,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 3010,
+          "chars": 3812,
           "step": 2,
           "mode": "llm"
         },
@@ -1564,7 +1564,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.26,
+          "seconds": 0.34,
           "step": 3,
           "mode": "script"
         }
@@ -1585,7 +1585,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 1450,
+          "chars": 802,
           "step": 1,
           "mode": "llm"
         },
@@ -1594,7 +1594,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 3965,
+          "chars": 1721,
           "step": 2,
           "mode": "llm"
         }
@@ -1616,7 +1616,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.32,
+          "seconds": 0.33,
           "step": 1,
           "mode": "script"
         },
@@ -1631,7 +1631,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 1363,
+          "chars": 1914,
           "step": 3,
           "mode": "llm"
         }
@@ -1655,7 +1655,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.3,
+          "seconds": 0.33,
           "step": 1,
           "mode": "script"
         },
@@ -1670,7 +1670,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 1664,
+          "chars": 1901,
           "step": 3,
           "mode": "llm"
         }
@@ -1698,7 +1698,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 1042,
+          "chars": 2159,
           "step": 2,
           "mode": "llm"
         }
@@ -1719,7 +1719,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 2628,
+          "chars": 2548,
           "step": 1,
           "mode": "llm"
         },
@@ -1728,7 +1728,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 2389,
+          "chars": 3318,
           "step": 2,
           "mode": "llm"
         },
@@ -1739,7 +1739,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.27,
+          "seconds": 0.34,
           "step": 3,
           "mode": "script"
         }
@@ -1760,7 +1760,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 2565,
+          "chars": 2432,
           "step": 1,
           "mode": "llm"
         },
@@ -1771,7 +1771,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.3,
+          "seconds": 0.34,
           "step": 2,
           "mode": "script"
         }
@@ -1791,7 +1791,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 2858,
+          "chars": 2830,
           "step": 1,
           "mode": "llm"
         },
@@ -1802,7 +1802,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.28,
+          "seconds": 0.4,
           "step": 2,
           "mode": "script"
         }
@@ -1822,7 +1822,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 2998,
+          "chars": 2945,
           "step": 1,
           "mode": "llm"
         },
@@ -1833,7 +1833,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.27,
+          "seconds": 0.4,
           "step": 2,
           "mode": "script"
         },
@@ -1842,7 +1842,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 574,
+          "chars": 531,
           "step": 3,
           "mode": "llm"
         }
@@ -1863,7 +1863,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 1023,
+          "chars": 448,
           "step": 1,
           "mode": "llm"
         }
@@ -1880,9 +1880,9 @@
         {
           "skill": "education/assignment-intake",
           "verdict": "pass",
-          "reason_class": "retry_pass",
+          "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 3393,
+          "chars": 3386,
           "step": 1,
           "mode": "llm"
         },
@@ -1891,7 +1891,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 1141,
+          "chars": 2467,
           "step": 2,
           "mode": "llm"
         },
@@ -1900,7 +1900,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 3209,
+          "chars": 888,
           "step": 3,
           "mode": "llm"
         }
@@ -1921,7 +1921,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 3459,
+          "chars": 1633,
           "step": 1,
           "mode": "llm"
         },
@@ -1930,7 +1930,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 411,
+          "chars": 940,
           "step": 2,
           "mode": "llm"
         }
@@ -1952,7 +1952,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.27,
+          "seconds": 0.37,
           "step": 1,
           "mode": "script"
         }
@@ -1971,7 +1971,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 1132,
+          "chars": 510,
           "step": 1,
           "mode": "llm"
         },
@@ -1982,7 +1982,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.65,
+          "seconds": 0.56,
           "step": 2,
           "mode": "script"
         },
@@ -1991,7 +1991,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 2805,
+          "chars": 3024,
           "step": 3,
           "mode": "llm"
         },
@@ -2000,7 +2000,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 1094,
+          "chars": 919,
           "step": 4,
           "mode": "llm"
         },
@@ -2011,7 +2011,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 1.15,
+          "seconds": 0.91,
           "step": 5,
           "mode": "script"
         }
@@ -2036,7 +2036,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.8,
+          "seconds": 0.77,
           "step": 1,
           "mode": "script"
         }
@@ -2057,7 +2057,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.63,
+          "seconds": 0.64,
           "step": 1,
           "mode": "script"
         },
@@ -2068,7 +2068,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.4,
+          "seconds": 0.77,
           "step": 2,
           "mode": "script"
         }
@@ -2090,7 +2090,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.31,
+          "seconds": 0.56,
           "step": 1,
           "mode": "script"
         },
@@ -2101,7 +2101,7 @@
           "rc": 0,
           "attempts": 2,
           "out_files": [],
-          "seconds": 0.72,
+          "seconds": 0.77,
           "step": 2,
           "mode": "script"
         },
@@ -2112,7 +2112,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 5.26,
+          "seconds": 3.69,
           "step": 3,
           "mode": "script"
         },
@@ -2123,7 +2123,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 2.48,
+          "seconds": 1.97,
           "step": 4,
           "mode": "script"
         },
@@ -2134,7 +2134,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.31,
+          "seconds": 0.65,
           "step": 5,
           "mode": "script"
         },
@@ -2145,7 +2145,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.27,
+          "seconds": 0.61,
           "step": 6,
           "mode": "script"
         },
@@ -2158,7 +2158,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\paper\\full_paper\\07-latex-formatter\\inputs\\scene_input.md"
           ],
-          "seconds": 0.63,
+          "seconds": 0.86,
           "step": 7,
           "mode": "script"
         },
@@ -2171,7 +2171,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\paper\\full_paper\\08-self-reviewer\\inputs\\scene_input.md"
           ],
-          "seconds": 0.57,
+          "seconds": 0.83,
           "step": 8,
           "mode": "script"
         },
@@ -2184,7 +2184,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\paper\\full_paper\\09-journal-adapt\\inputs\\scene_input.md"
           ],
-          "seconds": 0.55,
+          "seconds": 0.86,
           "step": 9,
           "mode": "script"
         },
@@ -2197,7 +2197,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\paper\\full_paper\\10-anti-defensive\\inputs\\scene_input.tex"
           ],
-          "seconds": 0.51,
+          "seconds": 0.74,
           "step": 10,
           "mode": "script"
         },
@@ -2210,7 +2210,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\paper\\full_paper\\11-ai-humanizer\\inputs\\scene_input.tex"
           ],
-          "seconds": 0.59,
+          "seconds": 0.69,
           "step": 11,
           "mode": "script"
         },
@@ -2223,7 +2223,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\paper\\full_paper\\12-tex-cleaner\\inputs\\scene_input.md"
           ],
-          "seconds": 0.68,
+          "seconds": 0.65,
           "step": 12,
           "mode": "script"
         }
@@ -2255,7 +2255,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.28,
+          "seconds": 0.51,
           "step": 1,
           "mode": "script"
         },
@@ -2266,7 +2266,7 @@
           "rc": 0,
           "attempts": 2,
           "out_files": [],
-          "seconds": 0.75,
+          "seconds": 0.72,
           "step": 2,
           "mode": "script"
         },
@@ -2279,7 +2279,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\paper\\quick_draft\\03-latex-formatter\\inputs\\scene_input.md"
           ],
-          "seconds": 0.66,
+          "seconds": 0.82,
           "step": 3,
           "mode": "script"
         },
@@ -2292,7 +2292,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\paper\\quick_draft\\04-self-reviewer\\inputs\\scene_input.md"
           ],
-          "seconds": 0.57,
+          "seconds": 0.62,
           "step": 4,
           "mode": "script"
         },
@@ -2305,7 +2305,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\paper\\quick_draft\\05-tex-cleaner\\inputs\\scene_input.md"
           ],
-          "seconds": 0.51,
+          "seconds": 0.7,
           "step": 5,
           "mode": "script"
         }
@@ -2332,7 +2332,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\paper\\polish_only\\01-anti-defensive\\inputs\\scene_input.tex"
           ],
-          "seconds": 0.53,
+          "seconds": 0.62,
           "step": 1,
           "mode": "script"
         },
@@ -2345,7 +2345,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\paper\\polish_only\\02-ai-humanizer\\inputs\\scene_input.tex"
           ],
-          "seconds": 0.62,
+          "seconds": 0.63,
           "step": 2,
           "mode": "script"
         },
@@ -2358,7 +2358,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\paper\\polish_only\\03-tex-cleaner\\inputs\\scene_input.md"
           ],
-          "seconds": 0.53,
+          "seconds": 0.52,
           "step": 3,
           "mode": "script"
         }
@@ -2383,7 +2383,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\paper\\submit_ready\\01-self-reviewer\\inputs\\scene_input.md"
           ],
-          "seconds": 0.51,
+          "seconds": 0.67,
           "step": 1,
           "mode": "script"
         },
@@ -2396,7 +2396,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\paper\\submit_ready\\02-journal-adapt\\inputs\\scene_input.md"
           ],
-          "seconds": 0.54,
+          "seconds": 0.7,
           "step": 2,
           "mode": "script"
         },
@@ -2409,7 +2409,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\paper\\submit_ready\\03-tex-cleaner\\inputs\\scene_input.md"
           ],
-          "seconds": 0.51,
+          "seconds": 0.66,
           "step": 3,
           "mode": "script"
         }
@@ -2430,7 +2430,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 3471,
+          "chars": 3511,
           "step": 1,
           "mode": "llm"
         },
@@ -2439,7 +2439,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 1845,
+          "chars": 1530,
           "step": 2,
           "mode": "llm"
         },
@@ -2448,7 +2448,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 3021,
+          "chars": 3428,
           "step": 3,
           "mode": "llm"
         },
@@ -2457,7 +2457,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 2821,
+          "chars": 2896,
           "step": 4,
           "mode": "llm"
         }
@@ -2479,7 +2479,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 3641,
+          "chars": 3555,
           "step": 1,
           "mode": "llm"
         },
@@ -2488,7 +2488,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 3292,
+          "chars": 411,
           "step": 2,
           "mode": "llm"
         }
@@ -2508,7 +2508,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 3341,
+          "chars": 2049,
           "step": 1,
           "mode": "llm"
         },
@@ -2517,7 +2517,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 2897,
+          "chars": 3185,
           "step": 2,
           "mode": "llm"
         },
@@ -2526,7 +2526,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 1823,
+          "chars": 1281,
           "step": 3,
           "mode": "llm"
         }
@@ -2549,7 +2549,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.3,
+          "seconds": 0.44,
           "step": 1,
           "mode": "script"
         },
@@ -2560,7 +2560,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.28,
+          "seconds": 0.39,
           "step": 2,
           "mode": "script"
         },
@@ -2571,7 +2571,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.66,
+          "seconds": 0.61,
           "step": 3,
           "mode": "script"
         }
@@ -2594,7 +2594,7 @@
           "rc": 0,
           "attempts": 3,
           "out_files": [],
-          "seconds": 0.89,
+          "seconds": 0.65,
           "step": 1,
           "mode": "script"
         },
@@ -2605,7 +2605,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.29,
+          "seconds": 0.4,
           "step": 2,
           "mode": "script"
         }
@@ -2627,7 +2627,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.3,
+          "seconds": 0.42,
           "step": 1,
           "mode": "script"
         },
@@ -2638,7 +2638,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.37,
+          "seconds": 0.41,
           "step": 2,
           "mode": "script"
         }
@@ -2656,9 +2656,9 @@
         {
           "skill": "meta/skill-author",
           "verdict": "pass",
-          "reason_class": "retry_pass",
+          "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 3293,
+          "chars": 3105,
           "step": 1,
           "mode": "llm"
         },
@@ -2669,7 +2669,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.28,
+          "seconds": 0.43,
           "step": 2,
           "mode": "script"
         }
@@ -2691,7 +2691,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.63,
+          "seconds": 0.64,
           "step": 1,
           "mode": "script"
         },
@@ -2702,7 +2702,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.29,
+          "seconds": 0.42,
           "step": 2,
           "mode": "script"
         }
@@ -2724,7 +2724,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.54,
+          "seconds": 0.66,
           "step": 1,
           "mode": "script"
         }
@@ -2745,7 +2745,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.28,
+          "seconds": 0.42,
           "step": 1,
           "mode": "script"
         }
@@ -2766,7 +2766,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.32,
+          "seconds": 0.44,
           "step": 1,
           "mode": "script"
         },
@@ -2777,7 +2777,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.27,
+          "seconds": 0.46,
           "step": 2,
           "mode": "script"
         },
@@ -2788,7 +2788,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.35,
+          "seconds": 0.42,
           "step": 3,
           "mode": "script"
         }
@@ -2811,7 +2811,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.27,
+          "seconds": 0.42,
           "step": 1,
           "mode": "script"
         },
@@ -2824,7 +2824,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\integrations\\weekly_status_broadcast\\02-feishu-dingtalk-bridge\\inputs\\scene_input.tex"
           ],
-          "seconds": 1.2,
+          "seconds": 0.87,
           "step": 2,
           "mode": "script"
         },
@@ -2871,7 +2871,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\integrations\\meeting_notes_distribution\\02-feishu-dingtalk-bridge\\inputs\\scene_input.tex"
           ],
-          "seconds": 1.25,
+          "seconds": 0.95,
           "step": 2,
           "mode": "script"
         }
@@ -2893,7 +2893,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.3,
+          "seconds": 0.43,
           "step": 1,
           "mode": "script"
         },
@@ -2906,7 +2906,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\integrations\\deliverable_archive\\02-feishu-dingtalk-bridge\\inputs\\scene_input.tex"
           ],
-          "seconds": 1.18,
+          "seconds": 0.99,
           "step": 2,
           "mode": "script"
         }
@@ -2928,7 +2928,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.36,
+          "seconds": 0.44,
           "step": 1,
           "mode": "script"
         },
@@ -2939,7 +2939,7 @@
           "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.34,
+          "seconds": 0.42,
           "step": 2,
           "mode": "script"
         }
@@ -2959,7 +2959,7 @@
           "verdict": "pass",
           "reason_class": "",
           "model": "agnes-2.5-flash",
-          "chars": 2033,
+          "chars": 2410,
           "step": 1,
           "mode": "llm"
         },
@@ -2972,7 +2972,7 @@
           "out_files": [
             "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\tests\\_e2e_artifacts\\dataviz\\csv_to_dashboard\\02-dashboard-designer\\inputs\\scene_input.csv"
           ],
-          "seconds": 1.92,
+          "seconds": 0.88,
           "step": 2,
           "mode": "script"
         }

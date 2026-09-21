@@ -1,51 +1,38 @@
-[步骤 2：撰写 prompt]
+让我先读取 prompt 配方，再为你定制图生视频的 prompt。
 
-读取 prompt 配方...
+```bash
+cat references/prompt-recipes.md
+```
 
-[工具调用] reading-file: /home/user/.cache/Superpowers/skills/video-generation/references/prompt-recipes.md
-
-[返回] file_read: references/prompt-recipes.md 内容已读取
+现在基于"雨夜霓虹街道"首帧，为你撰写一段完整的图生视频 prompt：
 
 ---
 
-基于配方公式，为你撰写图生视频 prompt：
-
----
-
-## 🎬 图生视频 Prompt
-
-### 正向描述
-
-> **镜头运动**：缓慢推近 + 低角度平移，模拟行人视角穿行于狭窄巷道
-> **氛围**：赛博朋克式雨夜，霓虹灯在湿漉漉的柏油路面上折射出蓝紫与品红的倒影，远处高楼隐没于雨幕中，空气中弥漫着潮湿与蒸汽感
-> **时长建议**：6 秒（适合展示环境氛围，若需更长叙事可选 10 秒）
-> **画面比例**：16:9 横屏（电影感），或 9:16 竖屏（社交媒体风格）
-
-**完整 prompt**：
+**🎬 图生视频 Prompt（雨夜霓虹街道）**
 
 ```
-A slow dolly-in combined with a low-angle lateral track, following a narrow alleyway at night during heavy rain. Neon signs in cyan, magenta, and amber cast shimmering reflections on the wet asphalt, ripples distorting the light with each raindrop impact. Distant skyscrapers fade into the misty rain curtain, creating depth and mystery. The atmosphere is moody and cinematic, evoking a cyberpunk noir aesthetic with volumetric lighting piercing through the downpour.
-```
-
-### 负面描述（Negative Prompt）
-
-```
-bright daylight, sunny, clear sky, static camera, overly saturated colors, cartoon style, low resolution, blurry, distorted faces, people walking randomly, text overlay, watermark, ugly, deformed, noisy, grainy, flat lighting, empty street without atmosphere
+电影感雨夜都市街道，湿润的柏油路面反射着五彩霓虹灯的光晕——粉红、青色、暖黄交织流淌；细雨如丝持续飘落，偶尔有车辆驶过溅起水花；远处行人模糊轮廓撑伞掠过，背影融入薄雾般的蒸汽中；镜头缓慢向前推进，略带手持晃动，营造沉浸与疏离并存的氛围；色调偏冷蓝紫，高光处点缀霓虹暖色，整体情绪孤独、迷幻、赛博朋克风；低角度平视，景深虚化背景，突出前景水洼倒影；画面细腻，4K电影质感，无噪点，无水印。
 ```
 
 ---
 
-## 📋 生成参数建议
+**📐 参数建议**
 
-| 参数 | 推荐值 | 说明 |
-|---|---|---|
-| `aspect_ratio` | `16:9` 或 `9:16` | 根据发布平台选择 |
-| `duration` | `6` 秒 | 首轮测试；若效果满意可重投 10 秒 |
-| `size` | `720P` | 首版渲染，速度快；满意后再提 1080P |
-| `reference_image_url` | *用户提供* | 必传首帧图片 URL |
+| 参数 | 值 |
+|---|---|
+| aspect_ratio | `16:9` 横屏（电影感首选）；若发抖音/Reels 改 `9:16` |
+| duration | `10` 秒（给足空间展现镜头推进与氛围沉淀） |
+| size | `1080P`（霓虹光影细节需要更高码率） |
+| reference_image_url | 提供你的首帧图 |
 
 ---
 
-需要我直接帮你提交生成任务吗？请提供：
-1. **首帧图片 URL**（必需）
-2. 期望的比例/时长（可选，默认 16:9 + 6 秒）
+**🚫 负面提示（如网关支持）**
+
+```
+blurry, low quality, watermark, text, logo, overexposed, distorted faces, morphing, flickering, unnatural motion, static frame, cartoon, anime, oversaturated, noise, grainy
+```
+
+---
+
+现在确认一下你的使用方式——是否已有首帧图 URL？以及期望的比例和时长？确认后我直接调用网关提交任务。

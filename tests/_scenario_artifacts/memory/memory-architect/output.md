@@ -1,108 +1,97 @@
-基于您的输入，以下是针对"多项目开发 + 私活"场景的分层长期记忆架构方案。
+收到完整输入。以下按工作流直接产出架构决策记录与可执行方案。
 
 ---
 
-## 一、记什么：五类需求画像
+## 一、需求画像表（五类 × 四要素）
 
-| 类型 | 内容示例 | 写入方 | 读取方 | 生命周期 | 隐私等级 |
-|---|---|---|---|---|---|
-| **事实 (fact)** | 你的技术栈偏好（如：Vue+TypeScript）、常使用的 CLI 工具、代码风格规范 | Agent | Agent | 永久（除非用户修改） | 低 |
-| **偏好 (preference)** | 回复风格（简洁 vs 详尽）、文档语言（中文/英文）、沟通语气 | Agent | Agent | 永久 | 低 |
-| **决策 (decision)** | "项目 A 决定用 Zustand 而非 Redux"、"私活客户 B 要求每周五汇报" | Agent | Agent | 90 天 TTL（过时失效） | 低 |
-| **项目状态 (project_status)** | 各项目当前进度、待办事项、关键技术债务、架构约束 | Agent | Agent | 项目结束 + 30 天 | 中（内部代码逻辑） |
-| **关系 (relation)** | **客户姓名、联系方式、合同金额、服务期限** | Agent | Agent | 永久（需删除权） | **高（PII）** |
-
-> **红线处置**：`关系` 类中所有 PII 字段（姓名、电话、邮箱、身份证、银行卡等）必须单独脱敏存储，或仅存索引 ID，原始数据不进记忆库。
-
----
-
-## 二、记哪层：三层映射 + 存储选型
-
-### 分层设计
-
-| 层 | 放什么 | 生命周期 | 存储介质 | 实现方式 |
+| 记忆类别 | 写入方 | 读取方 | 生命周期 | 隐私等级 |
 |---|---|---|---|---|
-| **Working** | 当前对话的临时上下文（本次任务中间状态） | 单次任务 | 内存（不落盘） | 会话变量，任务结束自动清除 |
-| **Core** | 常驻上下文的少量关键事实（<50 条） | 长期、可自更新 | 纯文件：`MEMORY.md` | Claude/Swift 式索引文件，每次会话开头注入 |
-| **Archival** | 全量持久记忆，按需检索（项目详情、客户档案、历史决策） | 永久到 TTL 到期 | SQLite（FTS5 全文索引） | 本地 `memories.db`，按 type/user_id/tags 过滤 |
+| **项目状态** | memory-extractor / agent 自写入 | agent 自身（启动时） | 单项目存续期，结束后归档；活跃期 ~30–90 天 | PII-排除（不含客户名） |
+| **偏好** | memory-extractor | agent 自身（启动时 + 对话中） | 永久，直到显式覆盖 | PII-脱敏（仅记风格，不记身份） |
+| **决策** | memory-extractor | agent 自身（审计/回溯） | 永久 | PII-排除 |
+| **事实**（技术栈、环境配置） | memory-extractor | agent 自身（任务启动时） | 永久或技术栈变更时更新 | 无 PII |
+| **关系**（与谁对接什么） | memory-extractor | agent 自身（分配任务时） | 关系存续期 ~1 年，过期清理 | **含 PII → 强制脱敏**，客户真实姓名不入记忆，改用 alias_id；schema.pii=true |
 
-### 存储选型结论
-
-- **条数 < 2000 → 纯文件 + SQLite FTS5**（符合您的千级规模 + 无向量库条件）
-- **Core 层**：`MEMORY.md` 文本文件，git 可版本化，便于审计
-- **Archival 层**：SQLite 单文件数据库，FTS5 提供毫秒级关键词检索，无需外部服务
-- **降级路径**：若 SQLite 不可用，退化为纯文件 + 正则扫描（性能劣化，但可行）
+> 注：读取方均为 agent 自身，无外部系统；任何可能含客户真实信息的字段（公司名、联系人、项目代号若可反查）一律走脱敏路径。
 
 ---
 
-## 三、Schema 设计（冻结版）
+## 二、分层映射 + 存储选型
+
+| 层 | 存放内容 | 生命周期 | 存储介质 | 说明 |
+|---|---|---|---|---|
+| **working** | 当前任务中间状态、临时笔记 | 单次任务 | agent 运行时变量，不落盘 | 不写入持久层 |
+| **core** | 每个项目的"关键上下文"（技术栈、当前里程碑、近期决策、偏好摘要）+ 全局偏好 | 长期常驻，agent 可自编辑 | **SQLite core 表**，每条记录软删除（updated_at + status='archived'） | 每次会话注入，上限 4000 字符 |
+| **archival** | 全量决策日志、历史项目状态快照、客户沟通要点（脱敏版）、关系记录 | 永久到 TTL 到期 | **SQLite archival 表**，FTS5 全文索引 | 按需检索，不常驻上下文 |
+
+**选型理由：**
+- 千级条目 < 2000 条的上限边缘，但考虑到 3 个项目并行 + 私活，条目增长较快，纯文件全文扫描性能不可接受。
+- SQLite 单文件、零服务依赖、FTS5 毫秒级关键词检索，运维成本极低。
+- 无向量库，语义检索降级为：FTS5 + 同义词表（如 "React" ↔ "Frontend"，"部署" ↔ "发布"）。
+- core 层用同一张 SQLite 数据库的不同表（`core_memories` / `archival_memories`），物理隔离便于按层查询。
+
+---
+
+## 三、Schema 冻结版
 
 ```json
 {
   "id": "mem_20260916_0001",
-  "content": "项目 Alpha：基于 Next.js 14 的 SaaS 平台，当前处于 MVP 开发阶段，核心模块：认证、订阅、仪表盘",
-  "type": "project_status",
-  "user_id": "u_001",
+  "content": "用户对代码格式要求：始终使用 Prettier，禁止分号",
+  "type": "preference",
+  "user_id": "u_private_contractor_A",
   "created_at": "2026-09-16T10:00:00Z",
   "updated_at": "2026-09-16T10:00:00Z",
   "confidence": 0.9,
-  "ttl": "2027-03-16",
-  "source": "conversation:2026-09-16",
-  "pii": false,
-  "tags": ["project:alpha", "techstack:nextjs"]
-}
-```
-
-```json
-{
-  "id": "mem_20260916_0002",
-  "content": "客户 B：某跨境电商公司，偏好英文沟通，每周例会周一 10:00 UTC+8",
-  "type": "relation",
-  "user_id": "u_001",
-  "created_at": "2026-09-16T10:05:00Z",
-  "updated_at": "2026-09-16T10:05:00Z",
-  "confidence": 0.95,
   "ttl": null,
   "source": "conversation:2026-09-16",
   "pii": true,
-  "pii_fields": ["customer_name", "contact_email"],
-  "pii_hash": "sha256:abc123...",
-  "tags": ["client:b", "external"]
+  "tags": ["formatting", "private-project-a"],
+  "layer": "core",
+  "status": "active"
 }
 ```
 
-**字段说明**：
-- `pii`：true 时，`content` 必须脱敏，原始数据存独立加密字段或外部密钥管理器
-- `pii_hash`：对敏感字段的哈希值，用于查找并删除全部相关条目
-- `ttl`：null 表示永久；项目状态类建议设 90 天
+**字段约束：**
+- `id`：`mem_YYYYMMDD_NNNN`，全局唯一，永不复用。
+- `type`：限定五类之一。
+- `pii`：true 时，`content` 中不得出现真实姓名、邮箱、电话；客户标识只能用 `alias_id`（由 memory-extractor 在抽取阶段替换）。
+- `ttl`：preference/decision/fact 类可为 null（永久）；project_status/relation 类默认 180 天。
+- `layer`：`core` 或 `archival`，写入时由写入方决定。
+- `status`：`active` / `archived` / `deleted`（软删除）。
 
 ---
 
 ## 四、写读路径
 
-### 写入时机
-- **增量抽取**：每轮对话后，由 `memory-extractor` 识别新信息，写入 Archival 层
-- **批量写回**：会话结束时，整理 core 层需更新的条目（如项目进度变化）
-- **受控写入**：`pii=true` 的条目只能由管线写入，agent 不可自编辑
-
-### 载入预算
-- **Core 层**：每次会话注入 `MEMORY.md`，上限 **4000 字符**（您的预算）
-  - 若超限，按优先级截断：事实 > 偏好 > 决策 > 项目状态
-- **Archival 层**：按检索结果注入，每次最多 5 条相关记忆，单条约 800 字符
-
-### 编辑权限
-- **Core 层**：Agent 可自编辑（非 PII 条目）
-- **Archival 层**：
-  - `pii=false`：Agent 可追加/更新
-  - `pii=true`：仅允许删除或标记过期，不允许修改内容
+| 决策项 | 规则 |
+|---|---|
+| **写入时机** | 每轮对话后由 memory-extractor 增量抽取，batch 写入；不实时写入 |
+| **载入预算** | core 层每次会话注入上限 **4000 字符**（已确认） |
+| **core 层编辑权限** | agent 可自编辑 core 层非 PII 条目；PII 条目（pii=true）只允许 agent 发起**删除请求**，由管线执行实际删除 |
+| **archival 层编辑权限** | 受控，仅 pipeline 可写入；agent 只能读取 |
+| **PII 处理路径** | 1. 抽取时检测含 PII 内容 → 标记 `pii=true`；2. 写入前调用脱敏函数替换客户真实标识；3. 删除时按 `user_id` 批量软删除 |
 
 ---
 
 ## 五、遗忘机制
 
-| 策略 | 规则 | 触发时机 |
+| 规则 | 触发条件 | 动作 |
 |---|---|---|
-| **TTL 到期** | `ttl` 字段小于当前日期 → 标记为 `expired`，7 天后物理删除 | 每次写入后顺带检查 |
-| **降权衰减** | 90 天未命中且 `confidence < 0.7` → 降低权重，不在检索结果前列 | 每次检索后 |
-| **删除权** | 用户要求"忘掉客户 B" → 按 `pii_hash` 定位并删除所有关联条目 | 即时响应 |
-| **项目结项** | 用户确认项目完成 →
+| **TTL 到期** | `ttl` 字段日期已过 | 软删除，`status='deleted'`，日志记录 |
+| **降权** | `ttl` 未到期但 `confidence < 0.7` 且 **90 天未被检索** | `confidence *= 0.5`，低于 0.3 时触发 TTL=30 天 |
+| **core 层溢出** | core 层总字符 > 4000 | 按 `updated_at` 倒序，删除最早的非关键条目（优先级：preference > decision > fact > project_status） |
+| **项目结束** | 用户显式标记项目完成 | 该项目所有 `tags` 含该项目 ID 的条目迁移至 archival，TTL 设为 30 天 |
+| **检查频率** | 每次写入后顺带执行 TTL 检查 | 也可定时批处理（每日一次） |
+
+---
+
+## 六、架构决策记录（ADR）
+
+```json
+{
+  "project": "cross-session-memory-arch",
+  "date": "2026-09-16",
+  "requirements": [
+    {"kind": "project_status", "lifespan": "short", "privacy": "no-pii"},
+    {"

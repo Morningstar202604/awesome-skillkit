@@ -190,8 +190,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 79,
-      "sha256": "4319845ec33cb2e688349585e20e667d312e72518a835050c9103aa673ff3167"
+      "size_kb": 81,
+      "sha256": "4edf7aab95101d1287c2941a9cced9eff9c900ea62707ef5f8b1598be4b466af"
     },
     {
       "id": "api-development",
@@ -690,8 +690,8 @@
           "source": "existing (writing/assets)"
         }
       ],
-      "size_kb": 36,
-      "sha256": "2bf75e890c9746cb9d668dddef785f471431035db384b93d049bde257d631d2f"
+      "size_kb": 39,
+      "sha256": "53596670f34af1925d2a73113c901a0a604f71f8bbb81857f6704b373f4df0ef"
     },
     {
       "id": "incident-response",
@@ -1006,8 +1006,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 42,
-      "sha256": "c5e4a8759a23a78c0d5849937058f1116ca5ab13bce38266a89cf0632684cec0"
+      "size_kb": 45,
+      "sha256": "feb66a9597830fe3b3f0b062a3310a0e92f396a12e47d7766cb2ea2b09f137f0"
     },
     {
       "id": "viral-entertainment",
@@ -1058,8 +1058,8 @@
           "source": "self-authored (adapted from mattpocock/skills frontend-design + ECC frontend-patterns)"
         }
       ],
-      "size_kb": 39,
-      "sha256": "99f0bfab1c5a869546b478f4dafd1c4b02079b216c213a481157f8233faf9c46"
+      "size_kb": 43,
+      "sha256": "3d25cbfe7d402589dbf7e7d685ab91e51b20c4eab01e6f5f96d910be31dcee65"
     },
     {
       "id": "workspace-integrations",

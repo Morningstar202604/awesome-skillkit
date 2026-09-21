@@ -1,122 +1,138 @@
-收到 brief，输入已齐全，开工。
+# 设计计划
 
----
+## Token 系统
 
-## 步骤 1：设计计划
-
-**主题提炼**
-
-重度终端用户 = 开发者/工程师。他们不看"营销话术"，看数字、看参数、看 benchmark。品牌想传达的「快、稳、不花哨」不是口号，是工程信仰——这个页面本身就应该像他们用的工具：执行、静默、结果导向。
-
-- **材料与触感**：冷金属 + 代码终端 + 性能仪表。不是温暖的手作感，而是精密仪器。
-- **使用状态**：用户在评估是否接入自己的生产环境，心里有戒备心（"又一个吹牛的 SaaS"）。页面要像一份技术文档——证据先行，废话归零。
-- **现成素材**：benchmark 数字、延迟毫秒数、吞吐量曲线——这些就是视觉资产。
-
-```markdown
-## Design Plan
-- subject:   开发者工具落地页；受众=重度终端用户；核心信息=快、稳、不花哨；决策场景=生产环境接入评估
-- palette:   深渊黑 #0A0E17 · 终端绿 #2ECC71 · 铝银 #C4CBD6 · 警告琥珀 #E8A838 · 极白 #F4F6F9
-- type:      标题族：JetBrains Mono（等宽，代码体感，大字号做视觉骨架）；正文族：Inter（系统级清晰，无装饰）
-- layout:    单栏纵向，全宽 hero + 参数区块，无容器卡片；左对齐为主，关键数字跨全宽居中放大；移动端保持等宽字可识别
-- principle: 页面本身是"证据展示"：数字和 benchmark 是主角，UI 元素隐退；任何装饰性元素必须有工程意义
-```
+| 字段 | 值 |
+|------|-----|
+| subject | 开发者工具官网落地页——受众是重度终端用户（开发者/工程师），品牌性格"快、稳、不花哨"，视觉语言需匹配技术产品的冷峻质感 |
+| palette | **黑板灰** #0D0F12 · **电路铜** #C49A6C · **终端绿** #4ADE80 · **冷光白** #E5E7EB · **深空蓝** #1E293B |
+| type | 标题用等宽字体族（JetBrains Mono / Fira Code）——呼应代码气质；正文用无衬线族（Inter）——保证长文可读性 |
+| layout | 左侧大标题+CTA的硬边布局，右侧代码预览区；所有分区明确边界（1px 分割线），无卡片式软容器；移动端单列堆叠 |
+| principle | 页面本身就是个终端界面——用代码编辑器式的排版与节奏，把"速度感"通过字符间距、行高、等宽字体传递出来，而不是靠动画或渐变 |
 
 ```text
 +--------------------------------------------------------------+
-|  [品牌]  终端绿 |  参数  |  文档  |  [接入]                    |
+|  [logo]              nav links (等宽小字)    [cta btn]       |
 +--------------------------------------------------------------+
 |                                                              |
-|   启动到就绪                                            0.8ms  |
-|   [ JetBrain Mono 超大字号跨全宽 ]                           |
+|   快、稳、不花哨          ████████████████████               |
 |                                                              |
-|   不是宣传语，是第一条 benchmark。                            |
-|   第二行参数在下一屏继续展开。                                |
+|   新一代开发者工具          [Install Now >]                  |
+|   0.8s 启动 · 零依赖        性能测试数据（等宽数字阵列）      |
 |                                                              |
+|   ┌──────────────────────────────┐  ┌─────────────────────┐  |
+|   │  $ npm install @fasttool/core │  │  功能矩阵（表格）   │  |
+|   │  ✅ installed in 0.3s        │  │  ├ 编译速度 ────────┤  |
+|   └──────────────────────────────┘  │  ├ 内存占用 ────────┤  |
+|                                     │  └ 错误率 ─────────┘  │  |
+|                                     └─────────────────────┘  |
 +--------------------------------------------------------------+
-|   ────────────────────────────────────────────────────────    |
-|   LATENCY    THROUGHPUT    UPTIME    ERROR RATE               |
-|   0.8ms      120k/s       99.99%     0.001%                   |
-|   [等宽数字，铝银色，无容器包围]                              |
-+--------------------------------------------------------------+
-|   代码片段 / 集成示例（终端风格背景，终端绿光标的闪烁点）      |
-|   $ install tool@latest                                    |
-|   $ run benchmark                                        |
-+--------------------------------------------------------------+
-|   极简 footer：文档链接 | GitHub | Changelog                  |
+|  © 2025 FastTool · Documentation · GitHub · License          |
 +--------------------------------------------------------------+
 ```
 
 ---
 
-## 步骤 2：默认味自查
-
-对照 AI 设计特征清单逐条过：
+## AI 味自查
 
 | 清单命中 | 判定 | 处置 |
 |----------|------|------|
-| 万物皆圆角卡片容器 | 默认值 | 全部砍掉，区块之间用细分隔线或留白呼吸，无 container padding 包裹 |
-| 渐变背景装饰（hero 区蓝紫渐变） | 默认值 | 换为深渊黑纯色背景，hero 唯一的"光"来自终端绿高亮的数字 |
-| 全大写小字眉标（"TRUSTED BY 10K+ DEVS"） | 默认值 | 删除；把数字直接变成主视觉（"120k/s throughput"本身就是证据，不需要标语包装） |
-| 英雄区人物/插画插图 | 默认值 | 删除；重度终端用户不需要情感化插图，需要的是参数 |
-| 每个功能区块同款淡入上浮动画 | 默认值 | 取消全页滚动动画；唯一动效 = 终端光标闪烁 + benchmark 数字从 0 计数到目标值（一次编排，执行后立即停） |
-| 两栏图文交替布局 | 保留 | 单栏纵向更适合"读文档"的心智模型；不强行拆两栏 |
-| 导航悬停下划线动效 | 保留 | 简单即可，但颜色用铝银而非品牌绿（品牌绿留给数据，不浪费在导航上） |
-| 按钮大面积渐变色 | 默认值 | "接入"按钮改为终端绿实心矩形，无渐变无阴影，hover 仅变深一级色度 |
-
-**自查结论**：替换了 6 处默认值，保留了 2 处合理选择（单栏布局、导航下划线）。计划已足够反模板，进入实现。
+| 万物皆圆角卡片 | 默认值 | **改为硬边**：所有分区用1px细线分隔，背景色块对比，无任何border-radius |
+| 渐变色+玻璃态 | 默认值 | **完全移除**：只用纯色块，电路铜仅用于关键数据和高亮行 |
+| 全大写小字眉标 | 默认值 | **删除**：眉标信息直接以等宽字体写入正文首句 |
+| 对齐永远居中 | 默认值 | **保留部分居中**：仅开场口号居中（"扉页"感），其余全部左对齐——模仿代码编辑器的左对齐阅读流 |
+| 每个元素都淡入上浮 | 默认值 | **限制动效**：页面加载时仅 CTA 按钮有0.2s 的"打字机"式逐字出现效果，其余全部静态 |
+| 图标一律线性风格 | 默认值 | **保留混合**：功能矩阵用等宽字符绘制（▸ ○ —），不用图标库 |
+| 背景全是纯白/纯黑 | 默认值 | **替换**：背景用黑板灰 #0D0F12，正文区用深空蓝 #1E293B 做层次区分 |
 
 ---
 
-## 步骤 3：实现
+## 实现代码
 
 ```html
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>工具名称 — 快、稳、不花哨</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --black: #0A0E17;
-      --green: #2ECC71;
-      --silver: #C4CBD6;
-      --amber: #E8A838;
-      --white: #F4F6F9;
-      --green-dim: #1A9D5C;
-      --border: #1E2638;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FastTool — 新一代开发者工具</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #0D0F12;
+    --bg-secondary: #1E293B;
+    --text-primary: #E5E7EB;
+    --text-muted: #94A3B8;
+    --accent-copper: #C49A6C;
+    --accent-green: #4ADE80;
+    --border: #2A3341;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    --font-sans: 'Inter', -apple-system, sans-serif;
+  }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    body {
-      background: var(--black);
-      color: var(--silver);
-      font-family: 'Inter', system-ui, sans-serif;
-      font-size: 16px;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
 
-    /* 导航：极简，铝银，无多余动效 */
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 40px;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      background: rgba(10, 14, 23, 0.95);
-      backdrop-filter: blur(4px);
-      z-index: 100;
-    }
+  /* ── Nav ── */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 48px;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+  }
 
-    .brand {
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 700;
-      font-size: 18px;
-      color: var(--white
+  .logo {
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--accent-green);
+    letter-spacing: 0.05em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .nav-links a:hover { color: var(--text-primary); }
+
+  .btn-install {
+    background: var(--accent-copper);
+    color: var(--bg-primary);
+    border: none;
+    padding: 10px 24px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-install:hover { background: #d4aa7c; }
+
+  /* ── Hero ── */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: calc(100vh - 73px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero

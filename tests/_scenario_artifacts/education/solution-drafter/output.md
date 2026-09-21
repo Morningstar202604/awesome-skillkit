@@ -1,127 +1,98 @@
-> **自检提示**：本题属于"代码/算法题"，需路由至 `solution-drafter-code-design`。用户明确要求第一版草稿（只破题与定状态），符合"不写完整代码"限制。
+# 解题草稿（破题与定状态）
+
+## 1. 审题
+
+**已知：**
+- 任务集合：$V = \{A, B, C, D, E\}$
+- 耗时：$t_A=3,\ t_B=2,\ t_C=4,\ t_D=2,\ t_E=3$（单位：秒）
+- 依赖关系：
+  - $B \rightarrow A$（B 等 A 完成）
+  - $C \rightarrow A$（C 等 A 完成）
+  - $D \rightarrow B, D \rightarrow C$（D 等 B、C 都完成）
+  - $E \rightarrow D$（E 等 D 完成）
+- 规则：无依赖的任务可并行，求最小总时长
+
+**求：** 从开始到所有任务完成的最短时间
 
 ---
 
-## 第一版解题草稿（破题 + 定状态）
+## 2. 列式（建模为关键路径问题）
 
-### 1. 破题
+这是一个**有向无环图（DAG）的关键路径问题**。
 
-**核心模型**：任务调度，依赖关系构成 **DAG（有向无环图）**，求最小总时长即求 **关键路径（Critical Path）**。
+定义最早开始时间 $ES$ 和最早完成时间 $EF$：
+- $ES(A) = 0$
+- $ES(v) = \max_{u \in \text{pre}(v)} EF(u)$，其中 $\text{pre}(v)$ 是 $v$ 的前驱
+- $EF(v) = ES(v) + t_v$
 
-**已知信息整理**：
-| 任务 | 耗时(s) | 依赖任务 |
-|------|--------|----------|
-| A    | 3      | 无       |
-| B    | 2      | A        |
-| C    | 4      | A        |
-| D    | 2      | B, C     |
-| E    | 3      | D        |
-
-**关键判断**：
-- 起始任务：A（无前驱）
-- 结束任务：E（无后继）
-- 并行机会：B 与 C 可同时执行（都只依赖 A）
-- 串行约束：D 必须等 B **和** C 都完成；E 必须等 D 完成
+最终答案 = $\max_v EF(v)$
 
 ---
 
-### 2. 定状态
+## 3. 逐步计算
 
-#### 状态定义
-```
-earliest_start(task) : 任务最早开始时间
-earliest_finish(task): 任务最早完成时间 = earliest_start(task) + duration(task)
-```
+### 第一步：A（起点，无前驱）
+$$ES(A) = 0$$
+$$EF(A) = 0 + 3 = 3$$
 
-#### 状态转移方程
-```
-earliest_start(A) = 0                                    // 无依赖，从0开始
-earliest_start(X) = max(earliest_finish(P) for P in predecessors(X))  // 取所有前驱完成时间的最大值
-earliest_finish(X) = earliest_start(X) + duration(X)
-```
+### 第二步：B、C（都只依赖 A，可并行）
+$$ES(B) = EF(A) = 3 \quad \Rightarrow \quad EF(B) = 3 + 2 = 5$$
+$$ES(C) = EF(A) = 3 \quad \Rightarrow \quad EF(C) = 3 + 4 = 7$$
 
-#### 目标状态
-```
-min_total_time = earliest_finish(E)
-```
+### 第三步：D（依赖 B 和 C，必须等两者都完成）
+$$ES(D) = \max(EF(B),\ EF(C)) = \max(5,\ 7) = 7$$
+$$EF(D) = 7 + 2 = 9$$
 
----
+> **关键观察**：C 比 B 慢，D 的启动被 C 拖住，C→D 是关键链的一部分。
 
-### 3. 状态计算（手动推导）
-
-| 任务 | earliest_start | earliest_finish | 计算说明 |
-|------|---------------|-----------------|----------|
-| A    | 0             | 0+3 = **3**     | 起始任务 |
-| B    | 3             | 3+2 = **5**     | 依赖A，等A完成(3s) |
-| C    | 3             | 3+4 = **7**     | 依赖A，等A完成(3s)，与B并行 |
-| D    | **7**         | 7+2 = **9**     | 依赖B和C，取max(5,7)=7 |
-| E    | 9             | 9+3 = **12**    | 依赖D，等D完成(9s) |
+### 第四步：E（依赖 D）
+$$ES(E) = EF(D) = 9$$
+$$EF(E) = 9 + 3 = 12$$
 
 ---
 
-### 4. 结果验证
+## 4. 验算
 
-**关键路径**：A → C → D → E（路径长度 = 3+4+2+3 = 12s）
+| 任务 | ES | EF | 是否关键？ |
+|------|----|----|-----------|
+| A    | 0  | 3  | ✓（起点）  |
+| B    | 3  | 5  | ✗（有 slack）|
+| C    | 3  | 7  | ✓          |
+| D    | 7  | 9  | ✓          |
+| E    | 9  | 12 | ✓          |
 
-**并行分析**：
-- 时间 0-3s：仅执行 A
-- 时间 3-7s：B 和 C 并行执行（B 在 5s 完成，C 在 7s 完成）
-- 时间 7-9s：执行 D（等 B、C 都完成）
-- 时间 9-12s：执行 E
+**关键路径**：$A \rightarrow C \rightarrow D \rightarrow E$  
+**总时长**：$3 + 4 + 2 + 3 = 12$ 秒 ✓
 
-**验算**：
-- 所有依赖满足 ✓
-- 无循环依赖 ✓
-- 总时长 = **12 秒**
+验证 B 的 slack：
+- B 最早 5 完成，D 最早 7 开始，B 有 $7 - 5 = 2$ 秒浮动时间
+- 若 B 延迟 ≤ 2s，不影响总工期
 
 ---
 
-### 5. 第一版输出（伪代码骨架）
+## 5. 最终答案
 
-```python
-# 数据结构定义
-tasks = {
-    'A': {'duration': 3, 'deps': []},
-    'B': {'duration': 2, 'deps': ['A']},
-    'C': {'duration': 4, 'deps': ['A']},
-    'D': {'duration': 2, 'deps': ['B', 'C']},
-    'E': {'duration': 3, 'deps': ['D']}
+$$\boxed{最小总时长 = 12 \text{ 秒}}$$
+
+---
+
+## 6. 用于草稿 JSON 的字段
+
+```json
+{
+  "content": "最小总时长为 12 秒。关键路径 A→C→D→E，总耗时 3+4+2+3=12。B 有 2 秒浮动时间，不影响最终工期。",
+  "checklist_pass": {
+    "列出所有任务耗时": "pass",
+    "画出依赖关系": "pass",
+    "计算每个任务的最早开始/完成时间": "pass",
+    "找出关键路径": "pass",
+    "给出最小总时长": "pass",
+    "验算关键路径总和": "pass"
+  },
+  "used_materials": [
+    "用户提供的题目数据：A=3s, B=2s, C=4s, D=2s, E=3s；依赖 B→A, C→A, D→B&C, E→D"
+  ],
+  "outline": "关键路径分析四步：①列已知→②建 DAG 模型→③逐层计算 ES/EF→④验算关键路径",
+  "verify_line": "关键路径 A→C→D→E：3+4+2+3=12 ✓；B 的 slack=2s，验证：5+2=7=ES(D) ✓"
 }
-
-# 状态表
-earliest_start = {}
-earliest_finish = {}
-
-# 拓扑排序后依次计算（保证前驱已处理）
-def compute(task):
-    if task in earliest_finish:
-        return earliest_finish[task]
-    
-    deps = tasks[task]['deps']
-    if not deps:
-        start = 0
-    else:
-        start = max(compute(dep) for dep in deps)
-    
-    finish = start + tasks[task]['duration']
-    earliest_start[task] = start
-    earliest_finish[task] = finish
-    return finish
-
-# 求解
-result = compute('E')
-print(f"最小总时长: {result}")  # 预期输出 12
 ```
-
----
-
-### 6. 待后续完善（第二版预留）
-
-- [ ] 加入入度检测，排除无效输入（循环依赖、孤立节点）
-- [ ] 改为迭代式拓扑排序（避免递归深度问题）
-- [ ] 输出关键路径具体任务序列
-- [ ] 添加单元测试覆盖边界情况
-
----
-
-**初稿完成，工整但带 AI 味，继续调用 own-voice-rewrite 学生化。**
