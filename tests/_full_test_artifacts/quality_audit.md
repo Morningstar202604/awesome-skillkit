@@ -1,0 +1,273 @@
+# 全库内容级质量审计（quality_audit）
+
+> 生成：2026-09-21 03:24 UTC　|　P0=0　P1=108　P2=155
+> 口径：跑得通 ≠ 写得对。专找静默回退 / 假宣传 / 吞错 / 退出码契约 / 弱测试。
+
+## P1（108 条）
+
+- **`integrations/feishu-dingtalk-bridge`** `SKILL.md` — 宣传了 --data 但本技能脚本未实现（假宣传/待核对）
+- **`integrations/issue-tracker-sync`** `SKILL.md` — 宣传了 --data 但本技能脚本未实现（假宣传/待核对）
+- **`integrations/notion-workspace`** `SKILL.md` — 宣传了 --data 但本技能脚本未实现（假宣传/待核对）
+- **`integrations/notion-workspace`** `scripts/notion_ops.py:438` — 未完成实现（状态字面量/NotImplementedError）：elif btype == "unsupported":
+- **`paper/experiment-runner`** `SKILL.md` — 宣传了 --data 但本技能脚本未实现（假宣传/待核对）
+- **`paper/figure-maker`** `scripts/test_smoke_figure_maker.py:77` — 未完成实现（状态字面量/NotImplementedError）：assert o.get("status") != "unsupported", o
+- **`programming/mcp-server-builder`** `scripts/mcp_validator.py` — def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过
+- **`programming/mcp-server-builder`** `scripts/openapi_to_mcp.py` — def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过
+- **`programming/migration-architect`** `SKILL.md` — 宣传了 --config 但本技能脚本未实现（假宣传/待核对）
+- **`programming/monorepo-navigator`** `SKILL.md` — 宣传了 --summarize 但本技能脚本未实现（假宣传/待核对）
+- **`programming/monorepo-navigator`** `scripts/monorepo_analyzer.py` — def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过
+- **`programming/senior-architect`** `scripts/architecture_diagram_generator.py:226` — 未完成实现（状态字面量/NotImplementedError）：raise NotImplementedError
+- **`programming/senior-architect`** `scripts/architecture_diagram_generator.py:229` — 未完成实现（状态字面量/NotImplementedError）：raise NotImplementedError
+- **`programming/senior-architect`** `scripts/architecture_diagram_generator.py:232` — 未完成实现（状态字面量/NotImplementedError）：raise NotImplementedError
+- **`programming/senior-architect`** `scripts/architecture_diagram_generator.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/senior-architect`** `scripts/dependency_analyzer.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/senior-architect`** `scripts/project_architect.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/ci-cd-pipeline-builder`** `scripts/pipeline_generator.py` — def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过
+- **`programming/ci-cd-pipeline-builder`** `scripts/stack_detector.py` — def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过
+- **`programming/ship-gate`** `scripts/ship_gate_scanner.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/spec-driven-workflow`** `scripts/spec_generator.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/spec-driven-workflow`** `scripts/test_extractor.py:199` — 未完成实现（状态字面量/NotImplementedError）：lines.append('        raise NotImplementedError("Implement this test")')
+- **`programming/spec-driven-workflow`** `scripts/test_extractor.py:212` — 未完成实现（状态字面量/NotImplementedError）：lines.append('        raise NotImplementedError("Implement this test")')
+- **`programming/spec-driven-workflow`** `scripts/test_extractor.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/code-reviewer`** `scripts/code_quality_checker.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/code-reviewer`** `scripts/pr_analyzer.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/code-reviewer`** `scripts/review_report_generator.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/dependency-auditor`** `SKILL.md` — 宣传了 --vulnerable 但本技能脚本未实现（假宣传/待核对）
+- **`programming/dependency-auditor`** `scripts/dep_scanner.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/dependency-auditor`** `scripts/license_checker.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/dependency-auditor`** `scripts/upgrade_planner.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/tdd-guide`** `SKILL.md` — 宣传了 --entity 但本技能脚本未实现（假宣传/待核对）
+- **`programming/tdd-guide`** `SKILL.md` — 宣传了 --phase 但本技能脚本未实现（假宣传/待核对）
+- **`programming/tech-debt-tracker`** `scripts/debt_dashboard.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/tech-debt-tracker`** `scripts/debt_prioritizer.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/tech-debt-tracker`** `scripts/debt_scanner.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/docker-development`** `SKILL.md` — 宣传了 --from 但本技能脚本未实现（假宣传/待核对）
+- **`programming/docker-development`** `SKILL.md` — 宣传了 --host 但本技能脚本未实现（假宣传/待核对）
+- **`programming/docker-development`** `SKILL.md` — 宣传了 --mount 但本技能脚本未实现（假宣传/待核对）
+- **`programming/docker-development`** `SKILL.md` — 宣传了 --port 但本技能脚本未实现（假宣传/待核对）
+- **`programming/docker-development`** `SKILL.md` — 宣传了 --privileged 但本技能脚本未实现（假宣传/待核对）
+- **`programming/docker-development`** `scripts/compose_validator.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/docker-development`** `scripts/dockerfile_analyzer.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/helm-chart-builder`** `scripts/chart_analyzer.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/helm-chart-builder`** `scripts/values_validator.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/etl-builder`** `scripts/etl_builder.py` — def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过
+- **`programming/feature-engineer`** `scripts/feature_engineer.py` — def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过
+- **`programming/database-designer`** `SKILL.md` — 宣传了 --schema-only 但本技能脚本未实现（假宣传/待核对）
+- **`programming/sql-database-assistant`** `SKILL.md` — 宣传了 --clean 但本技能脚本未实现（假宣传/待核对）
+- **`programming/sql-database-assistant`** `SKILL.md` — 宣传了 --no-owner 但本技能脚本未实现（假宣传/待核对）
+- **`programming/sql-database-assistant`** `SKILL.md` — 宣传了 --routines 但本技能脚本未实现（假宣传/待核对）
+- **`programming/sql-database-assistant`** `SKILL.md` — 宣传了 --single-transaction 但本技能脚本未实现（假宣传/待核对）
+- **`programming/sql-database-assistant`** `SKILL.md` — 宣传了 --start-datetime 但本技能脚本未实现（假宣传/待核对）
+- **`programming/sql-database-assistant`** `SKILL.md` — 宣传了 --triggers 但本技能脚本未实现（假宣传/待核对）
+- **`programming/sql-database-assistant`** `scripts/migration_generator.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/sql-database-assistant`** `scripts/query_optimizer.py` — def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过
+- **`programming/changelog-generator`** `scripts/commit_linter.py` — def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过
+- **`programming/changelog-generator`** `scripts/generate_changelog.py` — def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过
+- **`programming/changelog-generator`** `scripts/version_bumper.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/git-worktree-manager`** `scripts/worktree_cleanup.py` — def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过
+- **`programming/git-worktree-manager`** `scripts/worktree_manager.py` — def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过
+- **`programming/incident-commander`** `scripts/incident_classifier.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/incident-commander`** `scripts/pir_generator.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/incident-commander`** `scripts/timeline_reconstructor.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/runbook-generator`** `scripts/runbook_generator.py` — def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过
+- **`programming/kubernetes-operator`** `SKILL.md` — 宣传了 --domain 但本技能脚本未实现（假宣传/待核对）
+- **`programming/kubernetes-operator`** `SKILL.md` — 宣传了 --group 但本技能脚本未实现（假宣传/待核对）
+- **`programming/kubernetes-operator`** `SKILL.md` — 宣传了 --kind 但本技能脚本未实现（假宣传/待核对）
+- **`programming/kubernetes-operator`** `SKILL.md` — 宣传了 --repo 但本技能脚本未实现（假宣传/待核对）
+- **`programming/observability-designer`** `scripts/alert_optimizer.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/observability-designer`** `scripts/dashboard_generator.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/terraform-patterns`** `scripts/tf_module_analyzer.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/terraform-patterns`** `scripts/tf_security_scanner.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/simulation-runner`** `SKILL.md` — 宣传了 --perturbation 但本技能脚本未实现（假宣传/待核对）
+- **`programming/simulation-runner`** `scripts/simulation.py:114` — 可选性静默换默认：args.range 未给时静默用默认值，需确认是否硬报错更合适：lo, hi = args.range if args.range else [0.1, 5.0]
+- **`programming/ml-pipeline`** `scripts/ml_pipeline.py` — def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过
+- **`programming/performance-profiler`** `scripts/performance_profiler.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/code-generator`** `SKILL.md` — 宣传了 --mode 但本技能脚本未实现（假宣传/待核对）
+- **`programming/code-generator`** `SKILL.md` — 宣传了 --source 但本技能脚本未实现（假宣传/待核对）
+- **`programming/code-intent-planner`** `scripts/plan_renderer.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/code-intent-planner`** `scripts/test_cases.py` — def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过
+- **`programming/deep-research`** `scripts/research_agent.py` — def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过
+- **`programming/web-search`** `scripts/search_client.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/env-secrets-manager`** `SKILL.md` — 宣传了 --all-files 但本技能脚本未实现（假宣传/待核对）
+- **`programming/env-secrets-manager`** `SKILL.md` — 宣传了 --baseline 但本技能脚本未实现（假宣传/待核对）
+- **`programming/env-secrets-manager`** `SKILL.md` — 宣传了 --report-path 但本技能脚本未实现（假宣传/待核对）
+- **`programming/env-secrets-manager`** `SKILL.md` — 宣传了 --source 但本技能脚本未实现（假宣传/待核对）
+- **`programming/secrets-vault-manager`** `scripts/audit_log_analyzer.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/secrets-vault-manager`** `scripts/rotation_planner.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/secrets-vault-manager`** `scripts/vault_config_generator.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/agent-designer`** `scripts/agent_evaluator.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/agent-designer`** `scripts/agent_planner.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/agent-designer`** `scripts/tool_schema_generator.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`programming/agent-designer`** `scripts/workflow_scaffolder.py` — def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过
+- **`video/video-editor`** `scripts/editor.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`video/video-lip-sync`** `scripts/lip_sync.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`video/video-thumbnail`** `scripts/thumbnail.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`video/video-voice-synth`** `scripts/voice_synth.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`writing/article-drafter`** `SKILL.md` — 宣传了 --draft 但本技能脚本未实现（假宣传/待核对）
+- **`writing/cnblogs-skill`** `scripts/cnblogs-pre-publish-check.py` — __main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）
+- **`writing/static-blog-deploy`** `SKILL.md` — 宣传了 --minify 但本技能脚本未实现（假宣传/待核对）
+- **`writing/static-blog-deploy`** `SKILL.md` — 宣传了 --prod 但本技能脚本未实现（假宣传/待核对）
+- **`writing/baijiahao-publisher`** `SKILL.md` — 宣传了 --cookie-file 但本技能脚本未实现（假宣传/待核对）
+- **`writing/cross-post-orchestrator`** `SKILL.md` — 宣传了 --execute 但本技能脚本未实现（假宣传/待核对）
+- **`writing/zhihu-content-manager`** `SKILL.md` — 宣传了 --disable-blink-features 但本技能脚本未实现（假宣传/待核对）
+- **`writing/zhihu-content-manager`** `SKILL.md` — 宣传了 --disable-dev-shm-usage 但本技能脚本未实现（假宣传/待核对）
+- **`writing/zhihu-content-manager`** `SKILL.md` — 宣传了 --disable-gpu 但本技能脚本未实现（假宣传/待核对）
+- **`writing/zhihu-content-manager`** `scripts/zhihu_html_lint.py` — def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过
+
+## P2（155 条）
+
+- **`audio/podcast-producer`** `SKILL.md` — 脚本实现但文档未提的 flag：--text
+- **`chat/chat-prompt-engineer`** `SKILL.md` — 脚本实现但文档未提的 flag：--file
+- **`dataviz/dashboard-designer`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`design/frontend-component-lab`** `SKILL.md` — 脚本实现但文档未提的 flag：--force
+- **`design/frontend-component-lab`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`design/layout-spec-auditor`** `SKILL.md` — 脚本实现但文档未提的 flag：--text-budget
+- **`integrations/cloud-drive-manager`** `SKILL.md` — 脚本实现但文档未提的 flag：--json
+- **`integrations/cloud-drive-manager`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`integrations/feishu-dingtalk-bridge`** `SKILL.md` — 脚本实现但文档未提的 flag：--json
+- **`integrations/feishu-dingtalk-bridge`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`integrations/issue-tracker-sync`** `SKILL.md` — 脚本实现但文档未提的 flag：--json
+- **`integrations/issue-tracker-sync`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`integrations/notion-workspace`** `SKILL.md` — 脚本实现但文档未提的 flag：--json, --raw
+- **`integrations/notion-workspace`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`knowledge/knowledge-graph-builder`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`knowledge/personal-wiki`** `SKILL.md` — 脚本实现但文档未提的 flag：--force, --limit
+- **`knowledge/personal-wiki`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`meta/agent-eval-harness`** `SKILL.md` — 脚本实现但文档未提的 flag：--force
+- **`meta/agent-eval-harness`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`meta/session-handoff`** `SKILL.md` — 脚本实现但文档未提的 flag：--author, --blocker, --verify
+- **`meta/session-handoff`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`meta/skill-finder`** `SKILL.md` — 脚本实现但文档未提的 flag：--json
+- **`meta/skill-linter`** `SKILL.md` — 脚本实现但文档未提的 flag：--json
+- **`meta/weekly-report-generator`** `SKILL.md` — 脚本实现但文档未提的 flag：--blockers, --next
+- **`meta/weekly-report-generator`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`office/career-ops-lite`** `SKILL.md` — 脚本实现但文档未提的 flag：--jd
+- **`office/career-ops-lite`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`office/docx-template-fill`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`office/docx-writer`** `SKILL.md` — 脚本实现但文档未提的 flag：--latin-font
+- **`office/docx-writer`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`office/epub-builder`** `SKILL.md` — 脚本实现但文档未提的 flag：--lang
+- **`office/epub-builder`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`office/pdf-pipeline`** `SKILL.md` — 脚本实现但文档未提的 flag：--per-page
+- **`office/pdf-pipeline`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`paper/figure-maker`** `scripts/figure_maker.py:94` — mock 轨（确认 SKILL.md 有诚实声明）：res["status"] = "success" if res.get("rendered") else "mock"
+- **`paper/lit-review`** `SKILL.md` — 脚本实现但文档未提的 flag：--s2
+- **`paper/pub-plotter`** `scripts/pub_plotter.py:12` — mock 轨（确认 SKILL.md 有诚实声明）：双轨语义（诚实）：matplotlib 缺失 → status="mock"，无图片产生，MUST 告知用户；
+- **`paper/pub-plotter`** `scripts/pub_plotter.py:278` — mock 轨（确认 SKILL.md 有诚实声明）：res["status"] = "success" if res.get("rendered") else "mock"
+- **`ppt/ppt-builder`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/feature-flags-architect`** `SKILL.md` — 脚本实现但文档未提的 flag：--start-date
+- **`programming/feature-flags-architect`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/mcp-server-builder`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/sample-skill`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/skill-tester`** `SKILL.md` — 脚本实现但文档未提的 flag：--fail-under, --json, --limit, --min-score, --no-security
+- **`programming/skill-tester`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/api-design-reviewer`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/migration-architect`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/monorepo-navigator`** `SKILL.md` — 脚本实现但文档未提的 flag：--json
+- **`programming/monorepo-navigator`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/senior-architect`** `SKILL.md` — 脚本实现但文档未提的 flag：--json, --save
+- **`programming/senior-architect`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/ci-cd-pipeline-builder`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/ship-gate`** `SKILL.md` — 脚本实现但文档未提的 flag：--json, --version
+- **`programming/ship-gate`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/spec-driven-workflow`** `SKILL.md` — 脚本实现但文档未提的 flag：--json
+- **`programming/spec-driven-workflow`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/code-reviewer`** `SKILL.md` — 脚本实现但文档未提的 flag：--json, --recursive
+- **`programming/code-reviewer`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/dependency-auditor`** `SKILL.md` — 脚本实现但文档未提的 flag：--inventory, --output, --warn-conflicts
+- **`programming/dependency-auditor`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/tdd-guide`** `SKILL.md` — 脚本实现但文档未提的 flag：--body, --code, --constraints, --context, --coverage-format, --language, --module, --out, --scenario, --schema, --seed, --suite
+- **`programming/tdd-guide`** `scripts/test_generator.py:225` — TODO/FIXME 待办标记：# TODO: Set up test data and dependencies
+- **`programming/tdd-guide`** `scripts/test_generator.py:228` — TODO/FIXME 待办标记：# TODO: Execute the code under test
+- **`programming/tdd-guide`** `scripts/test_generator.py:231` — TODO/FIXME 待办标记：# TODO: Verify expected behavior
+- **`programming/tdd-guide`** `scripts/test_generator.py:296` — TODO/FIXME 待办标记：# TODO: Implement test
+- **`programming/tdd-guide`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/tech-debt-tracker`** `scripts/debt_scanner.py:251` — TODO/FIXME 待办标记：# TODO/FIXME comments
+- **`programming/tech-debt-tracker`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/docker-development`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/helm-chart-builder`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/database-designer`** `SKILL.md` — 宣传了 --change 但本技能脚本未实现（假宣传/待核对）
+- **`programming/database-designer`** `SKILL.md` — 脚本实现但文档未提的 flag：--include-validations, --output
+- **`programming/database-designer`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/sql-database-assistant`** `SKILL.md` — 宣传了 --current 但本技能脚本未实现（假宣传/待核对）
+- **`programming/sql-database-assistant`** `SKILL.md` — 宣传了 --target 但本技能脚本未实现（假宣传/待核对）
+- **`programming/sql-database-assistant`** `SKILL.md` — 脚本实现但文档未提的 flag：--json
+- **`programming/sql-database-assistant`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/changelog-generator`** `SKILL.md` — 脚本实现但文档未提的 flag：--analysis, --custom-rules, --date, --ignore-types, --include-files, --input-format, --output
+- **`programming/changelog-generator`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/git-worktree-manager`** `SKILL.md` — 脚本实现但文档未提的 flag：--app-base, --db-base, --force, --redis-base, --stride
+- **`programming/git-worktree-manager`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/incident-commander`** `SKILL.md` — 脚本实现但文档未提的 flag：--interactive, --min-events, --template-type
+- **`programming/incident-commander`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/runbook-generator`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/slo-architect`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/kubernetes-operator`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/observability-designer`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/terraform-patterns`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/result-visualizer`** `SKILL.md` — 脚本实现但文档未提的 flag：--x, --y
+- **`programming/simulation-runner`** `SKILL.md` — 脚本实现但文档未提的 flag：--mu, --n
+- **`programming/ml-pipeline`** `SKILL.md` — 脚本实现但文档未提的 flag：--cv
+- **`programming/ml-pipeline`** `scripts/ml_pipeline.py:22` — mock 轨（确认 SKILL.md 有诚实声明）：return {"status": "mock", "model": model,
+- **`programming/ml-pipeline`** `scripts/ml_pipeline.py:71` — mock 轨（确认 SKILL.md 有诚实声明）："status": "mock",
+- **`programming/performance-profiler`** `SKILL.md` — 脚本实现但文档未提的 flag：--json
+- **`programming/performance-profiler`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/code-generator`** `SKILL.md` — 脚本实现但文档未提的 flag：--dry-run, --format, --json, --no-mock, --plan, --plan-stdin, --project, --root
+- **`programming/code-generator`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/code-intent-planner`** `SKILL.md` — 脚本实现但文档未提的 flag：--default, --input, --layer, --stdin
+- **`programming/code-intent-planner`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/deep-research`** `SKILL.md` — 脚本实现但文档未提的 flag：--no-cache
+- **`programming/deep-research`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/web-search`** `SKILL.md` — 脚本实现但文档未提的 flag：--no-cache
+- **`programming/web-search`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/env-secrets-manager`** `SKILL.md` — 脚本实现但文档未提的 flag：--json
+- **`programming/env-secrets-manager`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/pii-redactor`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/prompt-injection-guard`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/secrets-vault-manager`** `SKILL.md` — 脚本实现但文档未提的 flag：--json
+- **`programming/secrets-vault-manager`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/webapp-e2e-harness`** `SKILL.md` — 脚本实现但文档未提的 flag：--force
+- **`programming/webapp-e2e-harness`** `scripts/e2e_scaffold.py:48` — TODO/FIXME 待办标记：# TODO: assert on a STABLE selector (role/label > testid > css).
+- **`programming/webapp-e2e-harness`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/webapp-flow-tester`** `SKILL.md` — 脚本实现但文档未提的 flag：--host
+- **`programming/webapp-flow-tester`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`programming/agent-designer`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`tools/bank-statement-reconcile`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`tools/batch-renamer`** `SKILL.md` — 脚本实现但文档未提的 flag：--log, --yes
+- **`tools/batch-renamer`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`tools/file-organizer`** `SKILL.md` — 脚本实现但文档未提的 flag：--by, --yes
+- **`tools/file-organizer`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`tools/format-converter`** `SKILL.md` — 脚本实现但文档未提的 flag：--kind, --pdf-engine, --to, --yes
+- **`tools/format-converter`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`tools/invoice-organizer`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`tools/task-scheduler`** `SKILL.md` — 脚本实现但文档未提的 flag：--count, --file
+- **`tools/task-scheduler`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`video/video-prompt-engineer`** `SKILL.md` — 脚本实现但文档未提的 flag：--json
+- **`video/video-script-writer`** `SKILL.md` — 脚本实现但文档未提的 flag：--no-llm
+- **`video/video-thumbnail`** `SKILL.md` — 脚本实现但文档未提的 flag：--gateway-url
+- **`writing/ai-trace-auditor`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`writing/ai-cover-generator`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`writing/cnblogs-skill`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`writing/csdn-publisher`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`writing/jianshu-publisher`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`writing/static-blog-deploy`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`writing/douban-publisher`** `SKILL.md` — 脚本实现但文档未提的 flag：--cookie
+- **`writing/douban-publisher`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`writing/oschina-publisher`** `SKILL.md` — 脚本实现但文档未提的 flag：--cookie
+- **`writing/oschina-publisher`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`writing/segmentfault-publisher`** `SKILL.md` — 脚本实现但文档未提的 flag：--cookie
+- **`writing/segmentfault-publisher`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`writing/v2ex-publisher`** `SKILL.md` — 脚本实现但文档未提的 flag：--cookie
+- **`writing/v2ex-publisher`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`writing/juejin-publisher`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`writing/baijiahao-publisher`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`writing/toutiao-publisher`** `SKILL.md` — 脚本实现但文档未提的 flag：--cookie
+- **`writing/toutiao-publisher`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`writing/cross-post-orchestrator`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`writing/weibo-publisher`** `SKILL.md` — 脚本实现但文档未提的 flag：--cookie
+- **`writing/weibo-publisher`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`writing/xiaohongshu-publisher`** `SKILL.md` — 脚本实现但文档未提的 flag：--cookie
+- **`writing/xiaohongshu-publisher`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`writing/bilibili-publisher`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`writing/wechat-mp-publisher`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py
+- **`writing/zhihu-content-manager`** `SKILL.md` — 脚本实现但文档未提的 flag：--json
+- **`writing/zhihu-content-manager`** `scripts` — 弱冒烟测试（自动生成 2 断言）：test_smoke_all.py

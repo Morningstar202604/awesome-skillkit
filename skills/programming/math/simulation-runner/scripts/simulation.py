@@ -114,9 +114,18 @@ def main():
         lo, hi = args.range if args.range else [0.1, 5.0]
         result = param_scan(spec, args.param, lo, hi, args.steps)
     elif args.sensitivity:
-        result = sensitivity({}, args.sensitivity, {})
+        # 空 spec 跑敏感性 = 无意义的演示输出；旧版会照跑并标 success（静默降级）。
+        # 现在硬报错：敏感性分析必须提供真实 spec。
+        print(json.dumps({"status": "error",
+                          "error": "--sensitivity 需要配合 --spec 提供真实参数定义，"
+                                   "空 spec 跑出的敏感性结果无意义（旧版会静默降级）"},
+                         ensure_ascii=False))
+        return 2
     else:
+        # 什么都没给 → 演示轨，如实标注 demo，避免被当真实实验结果引用
         result = monte_carlo()
+        result["demo"] = True
+        result["note"] = "未指定任何运行参数，这是内置演示分布(mu=0,sigma=1,n=10000)；"                          "请勿当作真实实验结果引用。真实运行请给 --n/--mu/--sigma/--threshold 或 --spec。"
 
     output = json.dumps(result, ensure_ascii=False, indent=2)
     if args.output:

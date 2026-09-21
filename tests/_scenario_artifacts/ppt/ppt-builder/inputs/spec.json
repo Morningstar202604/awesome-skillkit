@@ -1,0 +1,1 @@
+{"deck_title": "季度技术分享", "slides": [{"title": "背景", "bullets": ["流量翻倍", "故障率持平"], "notes": "开场"}, {"title": "方案", "bullets": ["缓存前置", "读写分离"], "notes": "重点"}]}

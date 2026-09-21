@@ -1,0 +1,1 @@
+{"description": "Database connection timeouts spiking since 14:02", "service": "user-service", "affected_users": "80%", "business_impact": "high"}

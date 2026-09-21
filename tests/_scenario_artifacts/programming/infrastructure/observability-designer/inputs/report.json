@@ -1,0 +1,82 @@
+{
+  "summary": {
+    "total_alerts": 2,
+    "analysis_timestamp": "2026-09-21T07:10:45.795384Z"
+  },
+  "noisy_alerts": [],
+  "coverage_gaps": {
+    "missing_categories": [
+      "resource_utilization",
+      "error_rate",
+      "business_metrics",
+      "security"
+    ],
+    "missing_golden_signals": [
+      "traffic",
+      "saturation",
+      "errors"
+    ],
+    "service_coverage_gaps": [],
+    "critical_gaps": [
+      "Missing error rate monitoring",
+      "Missing error signal monitoring"
+    ],
+    "recommendations": [
+      "Add CPU, memory, and disk utilization monitoring",
+      "Add error rate and HTTP status code monitoring",
+      "Add business KPI monitoring",
+      "Add security monitoring (auth failures, suspicious activity)",
+      "Implement traffic monitoring (Golden Signal)",
+      "Implement saturation monitoring (Golden Signal)",
+      "Implement errors monitoring (Golden Signal)",
+      "Address critical monitoring gaps as highest priority"
+    ]
+  },
+  "duplicate_alerts": [],
+  "threshold_analysis": [
+    {
+      "alert_name": "HighLatency",
+      "current_expression": "latency_p99 > 1s",
+      "threshold_issues": [
+        "Hard-coded threshold value",
+        "No hysteresis (for clause)"
+      ],
+      "recommendations": [
+        "Consider parameterizing thresholds",
+        "Add \"for\" clause to prevent alert flapping"
+      ]
+    },
+    {
+      "alert_name": "Down",
+      "current_expression": "up == 0",
+      "threshold_issues": [
+        "Hard-coded threshold value"
+      ],
+      "recommendations": [
+        "Consider parameterizing thresholds"
+      ]
+    }
+  ],
+  "alert_fatigue_assessment": {
+    "total_alerts": 2,
+    "risk_level": "medium",
+    "risk_factors": [
+      "Many alerts lack runbooks"
+    ],
+    "metrics": {
+      "severity_distribution": {
+        "unknown": 2
+      },
+      "estimated_daily_alerts": 3
+    },
+    "recommendations": [
+      "Create runbooks for alerts to improve response efficiency"
+    ]
+  },
+  "overall_recommendations": [
+    "HIGH PRIORITY: Address critical monitoring gaps",
+    "Implement proper alert routing and escalation policies",
+    "Create runbooks for all production alerts",
+    "Set up alert effectiveness monitoring and regular reviews"
+  ]
+}

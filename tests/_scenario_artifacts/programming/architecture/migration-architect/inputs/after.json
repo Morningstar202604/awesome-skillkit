@@ -1,0 +1,1 @@
+{"tables": {"users": {"columns": {"id": {"type": "int"}, "email": {"type": "varchar"}, "email_verified": {"type": "boolean"}}}}}

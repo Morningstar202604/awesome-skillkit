@@ -112,7 +112,8 @@ def main():
         print(f"Outline written to: {args.output}", file=sys.stderr)
     else:
         print(output)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

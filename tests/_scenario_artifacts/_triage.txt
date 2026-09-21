@@ -1,0 +1,546 @@
+### audio/podcast-producer (attempts=1, rc=2)
+CMD: \WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\audio\podcast-producer\scripts\script_lint.py
+TAIL: {"error": "empty script"}
+
+
+### chat/chat-prompt-engineer (attempts=1, rc=2)
+CMD: kBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\chat\chat-prompt-engineer\scripts\prompt_audit.py
+TAIL: {"error": "empty prompt"}
+
+
+### design/frontend-component-lab (attempts=2, rc=2)
+CMD: 6-09-19-21-05-15\awesome-skillkit\skills\design\frontend-component-lab\scripts\scaffold_component.py --name 批量重命名文件的技能规格
+TAIL: [ERROR] --name must be PascalCase alnum, got '批量重命名文件的技能规格'
+
+
+### design/layout-spec-auditor (attempts=1, rc=2)
+CMD: rkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\design\layout-spec-auditor\scripts\spec_audit.py
+TAIL: {"error": "need --image or --width/--height"}
+
+
+### education/exercise-generator (attempts=1, rc=2)
+CMD: dy\2026-09-19-21-05-15\awesome-skillkit\skills\education\exercise-generator\scripts\exercise_lint.py
+TAIL: {"error": "empty bank"}
+
+
+### integrations/cloud-drive-manager (attempts=3, rc=2)
+CMD: dy\2026-09-19-21-05-15\awesome-skillkit\skills\integrations\cloud-drive-manager\scripts\drive_ops.py plan-upload --dir 批量重命名文件的技能规格 --remote 批量重命名文件的技能规格
+TAIL: ERROR: 不是目录: 批量重命名文件的技能规格
+
+
+### integrations/issue-tracker-sync (attempts=4, rc=2)
+CMD: dy\2026-09-19-21-05-15\awesome-skillkit\skills\integrations\issue-tracker-sync\scripts\issue_sync.py build --title 批量重命名文件的技能规格 --tracker jira
+TAIL: ERROR: Jira 必须提供 --project（项目 key，如 ENG）
+
+
+### integrations/notion-workspace (attempts=2, rc=2)
+CMD: uddy\2026-09-19-21-05-15\awesome-skillkit\skills\integrations\notion-workspace\scripts\notion_ops.py 批量重命名文件的技能规格
+TAIL: usage: notion_ops.py [-h]
+                     {build-page,build-database-query,parse-page,blocks-to-markdown} ...
+notion_ops.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'build-page', 'build-database-query', 'parse-page', 'blocks-to-markdown')
+
+
+### knowledge/knowledge-graph-builder (attempts=3, rc=1)
+CMD: 2026-09-19-21-05-15\awesome-skillkit\skills\knowledge\knowledge-graph-builder\scripts\graph_build.py analyze 批量重命名文件的技能规格
+TAIL: ERROR: 目录不存在：C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\批量重命名文件的技能规格
+
+
+### knowledge/personal-wiki (attempts=3, rc=1)
+CMD: \WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\knowledge\personal-wiki\scripts\wiki_build.py lint 批量重命名文件的技能规格
+TAIL: ERROR: 目录不存在：C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\批量重命名文件的技能规格（先跑 init）
+
+
+### marketing/channel-adapter (attempts=3, rc=2)
+CMD: y\2026-09-19-21-05-15\awesome-skillkit\skills\marketing\channel-adapter\scripts\channel_fit_check.py --channel douyin-spoken
+TAIL: {"error": "empty copy"}
+
+
+### meta/agent-eval-harness (attempts=2, rc=1)
+CMD: orkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\meta\agent-eval-harness\scripts\eval_harness.py --input C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\meta\agent-eval-harness\inputs\scene_input.md
+TAIL:        ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\Lib\json\decoder.py", line 363, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+
+### meta/skill-finder (attempts=3, rc=1)
+CMD: \X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\meta\skill-finder\scripts\find_skill.py search 批量重命名文件的技能规格
+TAIL: 未命中：'批量重命名文件的技能规格'。可试 `stats` 看全仓分布，或换更短的词。
+
+
+### meta/skill-linter (attempts=2, rc=2)
+CMD: \X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\meta\skill-linter\scripts\lint_skill.py C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\meta\skill-linter\inputs\scene_input.md
+TAIL: 未找到任何 SKILL.md：C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\meta\skill-linter\inputs\scene_input.md
+
+
+### office/career-ops-lite (attempts=2, rc=2)
+CMD: 2\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\office\career-ops-lite\scripts\job_scorer.py --jd 批量重命名文件的技能规格 --resume C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\office\career-ops-lite\inputs\scene_input.md
+TAIL: [ERROR] jd/resume file(s) not found
+
+
+### office/docx-template-fill (attempts=2, rc=1)
+CMD: Buddy\2026-09-19-21-05-15\awesome-skillkit\skills\office\docx-template-fill\scripts\fill_template.py --template C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\office\docx-template-fill\inputs\scene_input.md --data C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\office\docx-template-fill\inputs\scene_input.json
+TAIL: kg.py", line 21, in __new__
+    raise PackageNotFoundError("Package not found at '%s'" % pkg_file)
+docx.opc.exceptions.PackageNotFoundError: Package not found at 'C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\office\docx-template-fill\inputs\scene_input.md'
+
+
+### office/docx-writer (attempts=3, rc=1)
+CMD: s\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\office\docx-writer\scripts\docx_ops.py inspect C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\office\docx-writer\inputs\scene_input.md
+TAIL: R: 不是合法的 .docx 文件：C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\office\docx-writer\inputs\scene_input.md（Package not found at 'C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\office\docx-writer\inputs\scene_input.md'）
+
+
+### office/epub-builder (attempts=3, rc=1)
+CMD: 1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\office\epub-builder\scripts\epub_build.py inspect 批量重命名文件的技能规格
+TAIL: ERROR: EPUB 不存在：批量重命名文件的技能规格
+
+
+### office/pdf-pipeline (attempts=3, rc=1)
+CMD: s\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\office\pdf-pipeline\scripts\pdf_ops.py merge C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\office\pdf-pipeline\inputs\scene_input.md --output C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\office\pdf-pipeline\artifact_output.json
+TAIL: invalid pdf header: b'# \xe6\x89\xb9'
+EOF marker not found
+ERROR: 无法读取 C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\office\pdf-pipeline\inputs\scene_input.md（Stream has ended unexpectedly）
+
+
+### paper/neural-net-draw (attempts=2, rc=1)
+CMD: rkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\paper\neural-net-draw\scripts\neural_net_draw.py --layers 批量重命名文件的技能规格
+TAIL: ayers = _parse_layers(spec)
+  File "C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\paper\neural-net-draw\scripts\neural_net_draw.py", line 60, in _parse_layers
+    out.append((int(w), t))
+                ~~~^^^
+ValueError: invalid literal for int() with base 10: '批量重命名文件的技能规格'
+
+
+### paper/paper-topic-selector (attempts=1, rc=2)
+CMD: ddy\2026-09-19-21-05-15\awesome-skillkit\skills\paper\paper-topic-selector\scripts\topic_selector.py
+TAIL: {
+  "status": "error",
+  "error": "provide --topic (repeatable) and/or --candidates FILE"
+}
+
+
+### ppt/ppt-builder (attempts=1, rc=2)
+CMD: ers\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\ppt\ppt-builder\scripts\make_pptx.py
+TAIL: ck (ppt-builder skill).
+
+Usage:
+    python make_pptx.py <spec.json> <output.pptx>
+
+Spec schema:
+    {"deck_title": str,
+     "slides": [{"title": str, "bullets": [str, ...], "notes": str}]}
+
+Exit codes:
+    0 = wrote output
+    2 = spec invalid (details on stderr)
+    3 = python-pptx not installed
+
+
+
+### programming/ai-engineering/mcp-server-builder (attempts=1, rc=2)
+CMD: 05-15\awesome-skillkit\skills\programming\ai-engineering\mcp-server-builder\scripts\mcp_validator.py
+TAIL: ERROR: No input provided. Use --input or pipe manifest JSON via stdin.
+
+
+### programming/ai-engineering/skill-tester (attempts=2, rc=2)
+CMD: -19-21-05-15\awesome-skillkit\skills\programming\ai-engineering\skill-tester\scripts\audit_skills.py 批量重命名文件的技能规格
+TAIL: 错误：目录不存在: C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\批量重命名文件的技能规格
+
+
+### programming/api/api-design-reviewer (attempts=1, rc=2)
+CMD: 026-09-19-21-05-15\awesome-skillkit\skills\programming\api\api-design-reviewer\scripts\api_linter.py
+TAIL: usage: api_linter.py [-h] [--sample] [--format {text,json}] [--raw-endpoints]
+                     [--output OUTPUT]
+                     [input_file]
+api_linter.py: error: input_file is required (or use --sample)
+
+
+### programming/architecture/migration-architect (attempts=2, rc=1)
+CMD: wesome-skillkit\skills\programming\architecture\migration-architect\scripts\compatibility_checker.py --before 批量重命名文件的技能规格 --after 批量重命名文件的技能规格
+TAIL: Error: File not found: [Errno 2] No such file or directory: '批量重命名文件的技能规格'
+
+
+### programming/architecture/monorepo-navigator (attempts=2, rc=1)
+CMD: -15\awesome-skillkit\skills\programming\architecture\monorepo-navigator\scripts\monorepo_analyzer.py C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\programming\architecture\monorepo-navigator\inputs\scene_input.md
+TAIL: Path is not a directory: C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\programming\architecture\monorepo-navigator\inputs\scene_input.md
+
+
+### programming/architecture/senior-architect (attempts=2, rc=1)
+CMD: -skillkit\skills\programming\architecture\senior-architect\scripts\architecture_diagram_generator.py C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\programming\architecture\senior-architect\inputs\scene_input.md
+TAIL: Error: Project path is not a directory: C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\programming\architecture\senior-architect\inputs\scene_input.md
+
+
+### programming/cicd/ci-cd-pipeline-builder (attempts=3, rc=2)
+CMD: -05-15\awesome-skillkit\skills\programming\cicd\ci-cd-pipeline-builder\scripts\pipeline_generator.py --platform github
+TAIL: ERROR: Provide stack input via --input/stdin or set --repo for auto-detection.
+
+
+### programming/cicd/ship-gate (attempts=1, rc=1)
+CMD: \2026-09-19-21-05-15\awesome-skillkit\skills\programming\cicd\ship-gate\scripts\ship_gate_scanner.py
+TAIL: irmed
+  FAIL   [DEPLOY-05] Rollback plan exists
+          Not confirmed
+  FAIL   [DEPLOY-06] Staging test passed before production
+          Not confirmed
+  FAIL   [OBS-05] Uptime monitoring configured
+          Not confirmed
+
+VERDICT: DO NOT SHIP (12 critical issues)
+Fix critical items and re-run.
+
+
+### programming/code-quality/dependency-auditor (attempts=2, rc=1)
+CMD: -21-05-15\awesome-skillkit\skills\programming\code-quality\dependency-auditor\scripts\dep_scanner.py text
+TAIL: Error: Project path does not exist: text
+
+
+### programming/code-quality/tdd-guide (attempts=1, rc=0)
+CMD: -19-21-05-15\awesome-skillkit\skills\programming\code-quality\tdd-guide\scripts\coverage_analyzer.py
+TAIL: 
+
+### programming/code-quality/tech-debt-tracker (attempts=1, rc=1)
+CMD: 1-05-15\awesome-skillkit\skills\programming\code-quality\tech-debt-tracker\scripts\debt_dashboard.py
+TAIL: Error: Must specify either files or --input-dir
+
+
+### programming/data/etl-builder (attempts=1, rc=0)
+CMD: uddy\2026-09-19-21-05-15\awesome-skillkit\skills\programming\data\etl-builder\scripts\etl_builder.py
+TAIL: {
+  "status": "error",
+  "error": "Source not found: data/raw.csv"
+}
+
+
+### programming/database/database-designer (attempts=5, rc=2)
+CMD: 9-21-05-15\awesome-skillkit\skills\programming\database\database-designer\scripts\index_optimizer.py --schema/-s 批量重命名文件的技能规格 --queries/-q 批量重命名文件的技能规格 --schema/-s 批量重命名文件的技能规格 --queries/-q 批量重命名文件的技能规格 --schema/-s 批量重命名文件的技能规格 --queries/-q 批量重命名文件的技能规格 --schema/-s 批量重命名文件的技能规格 --queries/-q 批量重命名文件的技能规格
+TAIL: usage: index_optimizer.py [-h] --schema SCHEMA --queries QUERIES
+                          [--output OUTPUT] [--format {json,text}]
+                          [--analyze-existing] [--min-priority MIN_PRIORITY]
+index_optimizer.py: error: the following arguments are required: --schema/-s, --queries/-q
+
+
+### programming/database/sql-database-assistant (attempts=2, rc=1)
+CMD: 5\awesome-skillkit\skills\programming\database\sql-database-assistant\scripts\migration_generator.py --change 批量重命名文件的技能规格
+TAIL: Error: Could not parse change description: '批量重命名文件的技能规格'
+Run with --help to see supported patterns.
+
+
+### programming/github/changelog-generator (attempts=1, rc=2)
+CMD: -19-21-05-15\awesome-skillkit\skills\programming\github\changelog-generator\scripts\commit_linter.py
+TAIL: ERROR: No commit input found. Use --input, stdin, or --to-ref.
+
+
+### programming/incident/incident-commander (attempts=1, rc=2)
+CMD: 05-15\awesome-skillkit\skills\programming\incident\incident-commander\scripts\incident_classifier.py
+TAIL: usage: incident_classifier.py [-h] [--input INPUT] [--format {json,text}]
+                              [--interactive] [--output OUTPUT]
+incident_classifier.py: error: No input specified. Use --input, --interactive, or pipe data to stdin.
+
+
+### programming/incident/slo-architect (attempts=1, rc=2)
+CMD: -05-15\awesome-skillkit\skills\programming\incident\slo-architect\scripts\error_budget_calculator.py
+TAIL: usage: error_budget_calculator.py [-h] [--target TARGET]
+                                  [--window-days WINDOW_DAYS]
+                                  [--format {text,json}] [--sample]
+error_budget_calculator.py: error: --target is required (or use --sample)
+
+
+### programming/infrastructure/kubernetes-operator (attempts=2, rc=2)
+CMD: 5-15\awesome-skillkit\skills\programming\infrastructure\kubernetes-operator\scripts\crd_validator.py --crd 批量重命名文件的技能规格
+TAIL: ERROR: not found: 批量重命名文件的技能规格
+
+
+### programming/infrastructure/observability-designer (attempts=5, rc=2)
+CMD: awesome-skillkit\skills\programming\infrastructure\observability-designer\scripts\alert_optimizer.py --input/-i C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\programming\infrastructure\observability-designer\inputs\scene_input.md --input/-i C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\programming\infrastructure\observability-designer\inputs\scene_input.md --input/-i C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\programming\infrastructure\observability-designer\inputs\scene_input.md --input/-i C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\programming\infrastructure\observability-designer\inputs\scene_input.md
+TAIL: usage: alert_optimizer.py [-h] --input INPUT [--output OUTPUT]
+                          [--report REPORT] [--format {json,html}]
+                          [--analyze-only]
+alert_optimizer.py: error: the following arguments are required: --input/-i
+
+
+### programming/math/model-solver (attempts=2, rc=1)
+CMD: dy\2026-09-19-21-05-15\awesome-skillkit\skills\programming\math\model-solver\scripts\model_solver.py --spec 批量重命名文件的技能规格
+TAIL: Error: spec file not found: 批量重命名文件的技能规格
+
+
+### programming/ml/ml-pipeline (attempts=2, rc=0)
+CMD: kBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\programming\ml\ml-pipeline\scripts\ml_pipeline.py --data C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\programming\ml\ml-pipeline\inputs\scene_input.json
+TAIL: {
+  "status": "error",
+  "error": "All arrays must be of the same length"
+}
+
+
+### programming/performance/performance-profiler (attempts=2, rc=1)
+CMD: awesome-skillkit\skills\programming\performance\performance-profiler\scripts\performance_profiler.py C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\programming\performance\performance-profiler\inputs\scene_input.md
+TAIL: Error: C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\programming\performance\performance-profiler\inputs\scene_input.md is not a directory
+
+
+### programming/planning/web-search (attempts=1, rc=1)
+CMD: 2026-09-19-21-05-15\awesome-skillkit\skills\programming\planning\web-search\scripts\search_client.py
+TAIL:               搜索查询
+
+options:
+  -h, --help            show this help message and exit
+  --engine, -e {searxng,ddg,brave}
+  --language, -l LANGUAGE
+  --max-results, -m MAX_RESULTS
+  --format, -f {markdown,json}
+  --no-cache            禁用缓存
+  --deep, -d            多轮深度搜索
+  --rounds, -r ROUNDS   深度搜索轮次
+
+
+### programming/security/env-secrets-manager (attempts=2, rc=2)
+CMD: -19-21-05-15\awesome-skillkit\skills\programming\security\env-secrets-manager\scripts\env_auditor.py 批量重命名文件的技能规格
+TAIL: error: repo path is not a directory: 批量重命名文件的技能规格
+
+
+### programming/security/pii-redactor (attempts=2, rc=1)
+CMD: dy\2026-09-19-21-05-15\awesome-skillkit\skills\programming\security\pii-redactor\scripts\pii_scan.py mask
+TAIL: PATH NOT FOUND: mask
+
+
+### programming/security/secrets-vault-manager (attempts=1, rc=2)
+CMD: -15\awesome-skillkit\skills\programming\security\secrets-vault-manager\scripts\audit_log_analyzer.py
+TAIL: usage: audit_log_analyzer.py [-h] [--log-file LOG_FILE]
+                             [--threshold THRESHOLD] [--json] [--sample]
+audit_log_analyzer.py: error: --log-file is required (or use --sample)
+
+
+### programming/testing/webapp-flow-tester (attempts=5, rc=2)
+CMD: 09-19-21-05-15\awesome-skillkit\skills\programming\testing\webapp-flow-tester\scripts\with_server.py --cmd 批量重命名文件的技能规格 --port 批量重命名文件的技能规格
+TAIL: usage: with_server.py [-h] --cmd CMD --port PORT [--host HOST]
+                      [--ready-path READY_PATH] [--timeout TIMEOUT]
+                      ...
+with_server.py: error: argument --port: invalid int value: '批量重命名文件的技能规格'
+
+
+### programming/workflow/agent-designer (attempts=2, rc=1)
+CMD: 9-19-21-05-15\awesome-skillkit\skills\programming\workflow\agent-designer\scripts\agent_evaluator.py json
+TAIL: Error: [Errno 2] No such file or directory: 'json'
+
+
+### tools/bank-statement-reconcile (attempts=2, rc=3)
+CMD: uddy\2026-09-19-21-05-15\awesome-skillkit\skills\tools\bank-statement-reconcile\scripts\reconcile.py --statement C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\tools\bank-statement-reconcile\inputs\scene_input.md --billing C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\tools\bank-statement-reconcile\inputs\scene_input.md
+TAIL: [ERROR] cannot locate amount/date columns (amt_s=None, amt_b=None, date_s=None, date_b=None)
+
+
+### tools/batch-renamer (attempts=3, rc=1)
+CMD: rs\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\tools\batch-renamer\scripts\rename.py preview 批量重命名文件的技能规格
+TAIL: ERROR: 不是目录: 批量重命名文件的技能规格
+
+
+### tools/file-organizer (attempts=3, rc=1)
+CMD: X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\tools\file-organizer\scripts\organize.py plan type
+TAIL: ERROR: 不是目录: type
+
+
+### tools/format-converter (attempts=3, rc=3)
+CMD: 1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\tools\format-converter\scripts\convert.py doc C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\tools\format-converter\inputs\scene_input.md C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\tools\format-converter\artifact_output.json
+TAIL: ERROR: 无法从扩展名推断格式（.md -> .json）。
+  支持：.docx .epub .htm .html .markdown .md .odt .rst .rtf .tex .txt
+  其他格式请显式指定：pandoc -f <from> -t <to>
+
+
+### tools/invoice-organizer (attempts=2, rc=2)
+CMD: ddy\2026-09-19-21-05-15\awesome-skillkit\skills\tools\invoice-organizer\scripts\organize_invoices.py --src C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\tools\invoice-organizer\inputs\scene_input.md
+TAIL: [ERROR] src not found: C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\tools\invoice-organizer\inputs\scene_input.md
+
+
+### video/storyboard-designer (attempts=2, rc=1)
+CMD: orkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\video\storyboard-designer\scripts\scene_lint.py 批量重命名文件的技能规格
+TAIL: ERROR: 目录不存在: 批量重命名文件的技能规格
+
+
+### video/video-editor (attempts=1, rc=2)
+CMD: ers\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\video\video-editor\scripts\editor.py
+TAIL: y [-h] [--clips [CLIPS ...]] [--audio [AUDIO ...]]
+                 [--script SCRIPT] [--clips-dir CLIPS_DIR]
+                 [--audio-dir AUDIO_DIR] [--output OUTPUT]
+                 [--transitions [TRANSITIONS ...]] [--mock]
+editor.py: error: 需要 --script 或 --clips；仅给 --audio 时也必须给 --clips 作为视频轨
+
+
+### video/video-lip-sync (attempts=3, rc=3)
+CMD: X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\video\video-lip-sync\scripts\lip_sync.py --face 批量重命名文件的技能规格 --audio 批量重命名文件的技能规格
+TAIL: [ERROR] 角色图不存在: 批量重命名文件的技能规格
+
+
+### video/video-prompt-engineer (attempts=5, rc=2)
+CMD: uddy\2026-09-19-21-05-15\awesome-skillkit\skills\video\video-prompt-engineer\scripts\prompt_audit.py --prompt/-p 批量重命名文件的技能规格 --prompt/-p 批量重命名文件的技能规格 --prompt/-p 批量重命名文件的技能规格 --prompt/-p 批量重命名文件的技能规格
+TAIL: usage: prompt_audit.py [-h] --prompt PROMPT [--mode {audit,write}] [--json]
+prompt_audit.py: error: the following arguments are required: --prompt/-p
+
+
+### video/video-subtitles (attempts=2, rc=2)
+CMD: 882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\video\video-subtitles\scripts\subtitles.py --script 批量重命名文件的技能规格
+TAIL: {"status": "error", "error": "--script 文件不存在: 批量重命名文件的技能规格"}
+
+
+### video/video-thumbnail (attempts=2, rc=2)
+CMD: 882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\video\video-thumbnail\scripts\thumbnail.py --video 批量重命名文件的技能规格
+TAIL: [ERROR] 真实模式需要外部工具 ffmpeg，但 PATH 中未找到。
+安装指引:
+  Debian/Ubuntu : sudo apt update && sudo apt install -y ffmpeg
+  macOS         : brew install ffmpeg
+  校验          : ffmpeg -version
+若只需联调下游流程，可加 --mock（产物为占位，不会真实生成文件）。
+
+
+### video/video-voice-synth (attempts=2, rc=4)
+CMD: WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\video\video-voice-synth\scripts\voice_synth.py --text C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\video\video-voice-synth\inputs\scene_input.tex
+TAIL: ttp://127.0.0.1:30081 （URLError: <urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>）
+排查步骤:
+  1) 确认服务已启动: curl -sS -m 5 -o /dev/null -w '%{http_code}\n' http://127.0.0.1:30081/
+  2) 确认地址正确  : export GATEWAY_BASE_URL=http://<host>:<port>  (不带尾斜杠)
+  3) 若只需联调下游: 加 --mock 或 SKILLKIT_MOCK=1（产物是静音占位，不可交付）
+
+
+### writing/ai-trace-auditor (attempts=1, rc=2)
+CMD: kBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\ai-trace-auditor\scripts\trace_scanner.py
+TAIL: usage: python3 scripts/trace_scanner.py <file>  (or pipe text via stdin '-')
+
+
+### writing/article-drafter (attempts=2, rc=1)
+CMD: 882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\article-drafter\scripts\drafter.py --outline C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\writing\article-drafter\artifact_outline.json
+TAIL: [ERROR] 大纲文件不存在: C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\writing\article-drafter\artifact_outline.json
+
+
+### writing/article-outliner (attempts=1, rc=2)
+CMD: 2\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\article-outliner\scripts\outliner.py
+TAIL: chnical,blog,news,listicle,tutorial,opinion}]
+                   [--length {short,medium,long}] [--audience AUDIENCE]
+                   [--points [POINTS ...]] [--platforms [PLATFORMS ...]]
+                   [--json-input JSON_INPUT] [--output OUTPUT]
+outliner.py: error: 需要 --topic 或 --json-input
+
+
+### writing/blog/cnblogs-skill (attempts=2, rc=1)
+CMD: -19-21-05-15\awesome-skillkit\skills\writing\blog\cnblogs-skill\scripts\cnblogs-pre-publish-check.py C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\writing\blog\cnblogs-skill\inputs\scene_input.md
+TAIL: 1 类问题：
+
+【H1 标题检查】
+  行 1: 发现 h1 标题 -> '# 批量重命名文件的技能规格'
+         修复方法: 将 '# ' 改为 '## '
+  行 11: 发现 h1 标题 -> '# 批量重命名文件的技能规格'
+         修复方法: 将 '# ' 改为 '## '
+  行 21: 发现 h1 标题 -> '# 批量重命名文件的技能规格'
+         修复方法: 将 '# ' 改为 '## '
+
+============================================================
+共 1 类问题，请修复后再发布。
+
+
+### writing/blog/csdn-publisher (attempts=2, rc=2)
+CMD: dy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\blog\csdn-publisher\scripts\csdn_publisher.py 批量重命名文件的技能规格
+TAIL: ge: csdn_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                         {categories,draft-save,publish,edit,delete,list} ...
+csdn_publisher.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'categories', 'draft-save', 'publish', 'edit', 'delete', 'list')
+
+
+### writing/blog/jianshu-publisher (attempts=2, rc=2)
+CMD: 6-09-19-21-05-15\awesome-skillkit\skills\writing\blog\jianshu-publisher\scripts\jianshu_publisher.py 批量重命名文件的技能规格
+TAIL: usage: jianshu_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                            {draft-save,publish,edit,delete} ...
+jianshu_publisher.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'draft-save', 'publish', 'edit', 'delete')
+
+
+### writing/blog/static-blog-deploy (attempts=2, rc=2)
+CMD: 09-19-21-05-15\awesome-skillkit\skills\writing\blog\static-blog-deploy\scripts\static_blog_deploy.py 批量重命名文件的技能规格
+TAIL: 
+                             {hexo-deploy,hugo-deploy,github-pages,gitlab-pages,vercel-deploy,netlify-deploy} ...
+static_blog_deploy.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'hexo-deploy', 'hugo-deploy', 'github-pages', 'gitlab-pages', 'vercel-deploy', 'netlify-deploy')
+
+
+### writing/community/douban-publisher (attempts=2, rc=2)
+CMD: 9-19-21-05-15\awesome-skillkit\skills\writing\community\douban-publisher\scripts\douban_publisher.py 批量重命名文件的技能规格
+TAIL: usage: douban_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                           {note-create,status-post,group-topic} ...
+douban_publisher.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'note-create', 'status-post', 'group-topic')
+
+
+### writing/community/oschina-publisher (attempts=2, rc=2)
+CMD: 19-21-05-15\awesome-skillkit\skills\writing\community\oschina-publisher\scripts\oschina_publisher.py 批量重命名文件的技能规格
+TAIL: usage: oschina_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                            {blog-publish,question-ask,dynamic-post} ...
+oschina_publisher.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'blog-publish', 'question-ask', 'dynamic-post')
+
+
+### writing/community/segmentfault-publisher (attempts=2, rc=2)
+CMD: 5\awesome-skillkit\skills\writing\community\segmentfault-publisher\scripts\segmentfault_publisher.py 批量重命名文件的技能规格
+TAIL: cookie COOKIE]
+                                 [--cookie-file COOKIE_FILE]
+                                 {article-save,article-publish,question-ask} ...
+segmentfault_publisher.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'article-save', 'article-publish', 'question-ask')
+
+
+### writing/community/v2ex-publisher (attempts=2, rc=2)
+CMD: 26-09-19-21-05-15\awesome-skillkit\skills\writing\community\v2ex-publisher\scripts\v2ex_publisher.py 批量重命名文件的技能规格
+TAIL: usage: v2ex_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                         {topic-create,reply-create,node-list} ...
+v2ex_publisher.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'topic-create', 'reply-create', 'node-list')
+
+
+### writing/content-editor (attempts=2, rc=2)
+CMD: X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\content-editor\scripts\editor.py --draft 批量重命名文件的技能规格
+TAIL: {"status": "error", "error": "--draft 文件不存在: 批量重命名文件的技能规格"}
+
+
+### writing/juejin/juejin-publisher (attempts=2, rc=2)
+CMD: 026-09-19-21-05-15\awesome-skillkit\skills\writing\juejin\juejin-publisher\scripts\juejin_publish.py 批量重命名文件的技能规格
+TAIL: usage: juejin_publish.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                         {categories,tags,draft-save,publish} ...
+juejin_publish.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'categories', 'tags', 'draft-save', 'publish')
+
+
+### writing/news/baijiahao-publisher (attempts=2, rc=2)
+CMD: -19-21-05-15\awesome-skillkit\skills\writing\news\baijiahao-publisher\scripts\baijiahao_publisher.py 批量重命名文件的技能规格
+TAIL: usage: baijiahao_publisher.py [-h]
+                              {article-publish,video-publish,draft-save} ...
+baijiahao_publisher.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'article-publish', 'video-publish', 'draft-save')
+
+
+### writing/news/toutiao-publisher (attempts=2, rc=2)
+CMD: 6-09-19-21-05-15\awesome-skillkit\skills\writing\news\toutiao-publisher\scripts\toutiao_publisher.py 批量重命名文件的技能规格
+TAIL: usage: toutiao_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                            {article-publish,micro-post} ...
+toutiao_publisher.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'article-publish', 'micro-post')
+
+
+### writing/orchestrator/cross-post-orchestrator (attempts=2, rc=1)
+CMD: -21-05-15\awesome-skillkit\skills\writing\orchestrator\cross-post-orchestrator\scripts\cross_post.py --manifest 批量重命名文件的技能规格 plan
+TAIL: ad_manifest(args.manifest)
+  File "C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\orchestrator\cross-post-orchestrator\scripts\cross_post.py", line 62, in load_manifest
+    raise FileNotFoundError("manifest 不存在: %s" % path)
+FileNotFoundError: manifest 不存在: 批量重命名文件的技能规格
+
+
+### writing/social/weibo-publisher (attempts=2, rc=2)
+CMD: 026-09-19-21-05-15\awesome-skillkit\skills\writing\social\weibo-publisher\scripts\weibo_publisher.py 批量重命名文件的技能规格
+TAIL: usage: weibo_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                          {post-official,post-web,upload-image} ...
+weibo_publisher.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'post-official', 'post-web', 'upload-image')
+
+
+### writing/social/xiaohongshu-publisher (attempts=2, rc=2)
+CMD: -05-15\awesome-skillkit\skills\writing\social\xiaohongshu-publisher\scripts\xiaohongshu_publisher.py 批量重命名文件的技能规格
+TAIL: _publisher.py [-h] [--cookie COOKIE]
+                                [--cookie-file COOKIE_FILE]
+                                {draft-save,publish,edit,delete} ...
+xiaohongshu_publisher.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'draft-save', 'publish', 'edit', 'delete')
+
+
+### writing/video/bilibili-publisher (attempts=2, rc=2)
+CMD: 9-19-21-05-15\awesome-skillkit\skills\writing\video\bilibili-publisher\scripts\bilibili_publisher.py 60 秒修仙短片脚本
+TAIL: [--cookie-file COOKIE_FILE]
+                             {video-upload,video-submit,article-save,article-publish,dynamic-post} ...
+bilibili_publisher.py: error: argument cmd: invalid choice: '60 秒修仙短片脚本' (choose from 'video-upload', 'video-submit', 'article-save', 'article-publish', 'dynamic-post')
+
+
+### writing/wechat/wechat-mp-publisher (attempts=2, rc=2)
+CMD: -19-21-05-15\awesome-skillkit\skills\writing\wechat\wechat-mp-publisher\scripts\wechat_mp_publish.py 批量重命名文件的技能规格
+TAIL: usage: wechat_mp_publish.py [-h] [--appid APPID] [--secret SECRET]
+                            {token,upload-img,add-thumb,add-draft,publish} ...
+wechat_mp_publish.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'token', 'upload-img', 'add-thumb', 'add-draft', 'publish')
+

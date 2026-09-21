@@ -168,7 +168,7 @@ class FormatDetector:
                 import json
                 json.loads(content_stripped)
                 return "json"
-            except:
+            except ValueError:  # 不是合法 JSON → 继续探测下一种格式
                 pass
 
         # XML format

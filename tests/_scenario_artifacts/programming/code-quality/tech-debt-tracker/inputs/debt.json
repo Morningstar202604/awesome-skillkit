@@ -1,0 +1,1 @@
+{"debt_items": [{"file_path": "a.py", "type": "long_function", "severity": "medium", "effort_hours": 3, "description": "函数 120 行"}, {"file_path": "b.py", "type": "duplication", "severity": "low", "effort_hours": 1, "description": "重复工具函数"}], "scan_metadata": {"scan_date": "2026-09-01"}}

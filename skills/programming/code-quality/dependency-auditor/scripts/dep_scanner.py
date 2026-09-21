@@ -287,7 +287,7 @@ class DependencyScanner:
                 max_part = parts[1].strip()
                 return (self._compare_versions(version, min_part) >= 0 and 
                        self._compare_versions(version, max_part) < 0)
-        except:
+        except Exception:  # 版本区间解析失败（畸形 spec）→ 按不在区间内处理
             pass
         
         return False
@@ -307,7 +307,7 @@ class DependencyScanner:
                 return 1
             else:
                 return 0
-        except:
+        except Exception:  # 解析失败 → 保守计 0
             return 0
     
     # Package file parsers

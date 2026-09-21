@@ -1,0 +1,31 @@
+{
+  "requirements": {
+    "岗位职责：负责后端服务开发（Python），要求 3 年以上经验，熟悉异步编程（asyncio）、单元测试与 CI；有高并发服务经验优先。": "D",
+    "任职要求：本科及以上，能独立交付。": "F"
+  },
+  "grade_counts": {
+    "A": 0,
+    "B": 0,
+    "C": 0,
+    "D": 1,
+    "F": 1
+  },
+  "level": null,
+  "dimension_scores": {
+    "requirement_match": 0.0,
+    "level_fit": 0.4,
+    "comp_band": 0.5,
+    "domain_match": 0.5,
+    "stability": 0.5
+  },
+  "weights": {
+    "requirement_match": 0.35,
+    "level_fit": 0.2,
+    "comp_band": 0.15,
+    "domain_match": 0.2,
+    "stability": 0.1
+  },
+  "overall_0_1": 0.305,
+  "score_5": 1.52,
+  "verdict": "WEAK"
+}

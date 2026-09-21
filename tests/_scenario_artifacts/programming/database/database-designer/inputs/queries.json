@@ -1,0 +1,1 @@
+{"queries": [{"id": "q1", "table": "users", "type": "SELECT", "where_conditions": [{"column": "email", "operator": "="}], "frequency": 1000}, {"id": "q2", "table": "users", "type": "SELECT", "where_conditions": [{"column": "id", "operator": "="}], "frequency": 5000}]}

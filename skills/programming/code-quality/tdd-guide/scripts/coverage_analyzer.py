@@ -7,6 +7,8 @@ Identify gaps, calculate metrics, and provide actionable recommendations.
 
 from typing import Dict, List, Any, Optional, Tuple
 import json
+import sys
+from pathlib import Path
 import xml.etree.ElementTree as ET
 
 
@@ -424,7 +426,7 @@ class CoverageAnalyzer:
             try:
                 json.loads(content_stripped)
                 return CoverageFormat.JSON
-            except:
+            except ValueError:  # 不是合法 JSON → 继续探测下一种格式
                 pass
 
         # Check for XML format
@@ -432,3 +434,59 @@ class CoverageAnalyzer:
             return CoverageFormat.XML
 
         raise ValueError("Unable to detect coverage report format")
+
+
+def main(argv=None):
+    """CLI：分析一个或多个覆盖率报告文件，输出 JSON 摘要 + 缺口。"""
+    import argparse
+    import sys as _sys
+
+    ap = argparse.ArgumentParser(
+        description="Analyze coverage reports (lcov/json/xml/cobertura)")
+    ap.add_argument("reports", nargs="+", help="coverage report files")
+    ap.add_argument("--threshold", type=float, default=80.0,
+                    help="gap threshold percentage (default 80)")
+    ap.add_argument("-o", "--output", help="write JSON here instead of stdout")
+    args = ap.parse_args(argv)
+
+    analyzer = CoverageAnalyzer()
+    parsed_any = False
+    for path in args.reports:
+        f = Path(path)
+        if not f.exists():
+            print(json.dumps({"status": "error",
+                              "error": f"report not found: {path}"},
+                             ensure_ascii=False))
+            return 2
+        content = f.read_text(encoding="utf-8", errors="replace")
+        try:
+            fmt = analyzer.detect_format(content)
+        except ValueError as e:
+            print(json.dumps({"status": "error",
+                              "error": f"{path}: {e}"}, ensure_ascii=False))
+            return 2
+        analyzer.parse_coverage_report(content, fmt)
+        parsed_any = True
+
+    if not parsed_any:
+        print(json.dumps({"status": "error", "error": "no reports given"},
+                         ensure_ascii=False))
+        return 2
+
+    result = {
+        "status": "success",
+        "reports": [Path(r).name for r in args.reports],
+        "summary": analyzer.calculate_summary(),
+        "gaps": analyzer.identify_gaps(threshold=args.threshold),
+    }
+    out = json.dumps(result, ensure_ascii=False, indent=2)
+    if args.output:
+        Path(args.output).write_text(out, encoding="utf-8")
+        print(f"Coverage analysis written to: {args.output}", file=_sys.stderr)
+    else:
+        print(out)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

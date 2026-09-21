@@ -1,0 +1,2418 @@
+{
+  "generated": "2026-09-21T03:24:14.984595+00:00",
+  "counts": {
+    "P0": 0,
+    "P1": 108,
+    "P2": 155
+  },
+  "findings": [
+    {
+      "sev": "P2",
+      "skill": "audio/podcast-producer",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--text"
+    },
+    {
+      "sev": "P2",
+      "skill": "chat/chat-prompt-engineer",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--file"
+    },
+    {
+      "sev": "P2",
+      "skill": "dataviz/dashboard-designer",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "design/frontend-component-lab",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--force"
+    },
+    {
+      "sev": "P2",
+      "skill": "design/frontend-component-lab",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "design/layout-spec-auditor",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--text-budget"
+    },
+    {
+      "sev": "P2",
+      "skill": "integrations/cloud-drive-manager",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--json"
+    },
+    {
+      "sev": "P2",
+      "skill": "integrations/cloud-drive-manager",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "integrations/feishu-dingtalk-bridge",
+      "where": "SKILL.md",
+      "msg": "宣传了 --data 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P2",
+      "skill": "integrations/feishu-dingtalk-bridge",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--json"
+    },
+    {
+      "sev": "P2",
+      "skill": "integrations/feishu-dingtalk-bridge",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "integrations/issue-tracker-sync",
+      "where": "SKILL.md",
+      "msg": "宣传了 --data 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P2",
+      "skill": "integrations/issue-tracker-sync",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--json"
+    },
+    {
+      "sev": "P2",
+      "skill": "integrations/issue-tracker-sync",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "integrations/notion-workspace",
+      "where": "SKILL.md",
+      "msg": "宣传了 --data 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P2",
+      "skill": "integrations/notion-workspace",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--json, --raw"
+    },
+    {
+      "sev": "P1",
+      "skill": "integrations/notion-workspace",
+      "where": "scripts/notion_ops.py:438",
+      "msg": "未完成实现（状态字面量/NotImplementedError）：elif btype == \"unsupported\":"
+    },
+    {
+      "sev": "P2",
+      "skill": "integrations/notion-workspace",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "knowledge/knowledge-graph-builder",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "knowledge/personal-wiki",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--force, --limit"
+    },
+    {
+      "sev": "P2",
+      "skill": "knowledge/personal-wiki",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "meta/agent-eval-harness",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--force"
+    },
+    {
+      "sev": "P2",
+      "skill": "meta/agent-eval-harness",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "meta/session-handoff",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--author, --blocker, --verify"
+    },
+    {
+      "sev": "P2",
+      "skill": "meta/session-handoff",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "meta/skill-finder",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--json"
+    },
+    {
+      "sev": "P2",
+      "skill": "meta/skill-linter",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--json"
+    },
+    {
+      "sev": "P2",
+      "skill": "meta/weekly-report-generator",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--blockers, --next"
+    },
+    {
+      "sev": "P2",
+      "skill": "meta/weekly-report-generator",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "office/career-ops-lite",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--jd"
+    },
+    {
+      "sev": "P2",
+      "skill": "office/career-ops-lite",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "office/docx-template-fill",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "office/docx-writer",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--latin-font"
+    },
+    {
+      "sev": "P2",
+      "skill": "office/docx-writer",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "office/epub-builder",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--lang"
+    },
+    {
+      "sev": "P2",
+      "skill": "office/epub-builder",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "office/pdf-pipeline",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--per-page"
+    },
+    {
+      "sev": "P2",
+      "skill": "office/pdf-pipeline",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "paper/experiment-runner",
+      "where": "SKILL.md",
+      "msg": "宣传了 --data 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P2",
+      "skill": "paper/figure-maker",
+      "where": "scripts/figure_maker.py:94",
+      "msg": "mock 轨（确认 SKILL.md 有诚实声明）：res[\"status\"] = \"success\" if res.get(\"rendered\") else \"mock\""
+    },
+    {
+      "sev": "P1",
+      "skill": "paper/figure-maker",
+      "where": "scripts/test_smoke_figure_maker.py:77",
+      "msg": "未完成实现（状态字面量/NotImplementedError）：assert o.get(\"status\") != \"unsupported\", o"
+    },
+    {
+      "sev": "P2",
+      "skill": "paper/lit-review",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--s2"
+    },
+    {
+      "sev": "P2",
+      "skill": "paper/pub-plotter",
+      "where": "scripts/pub_plotter.py:12",
+      "msg": "mock 轨（确认 SKILL.md 有诚实声明）：双轨语义（诚实）：matplotlib 缺失 → status=\"mock\"，无图片产生，MUST 告知用户；"
+    },
+    {
+      "sev": "P2",
+      "skill": "paper/pub-plotter",
+      "where": "scripts/pub_plotter.py:278",
+      "msg": "mock 轨（确认 SKILL.md 有诚实声明）：res[\"status\"] = \"success\" if res.get(\"rendered\") else \"mock\""
+    },
+    {
+      "sev": "P2",
+      "skill": "ppt/ppt-builder",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/feature-flags-architect",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--start-date"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/feature-flags-architect",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/mcp-server-builder",
+      "where": "scripts/mcp_validator.py",
+      "msg": "def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/mcp-server-builder",
+      "where": "scripts/openapi_to_mcp.py",
+      "msg": "def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/mcp-server-builder",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/sample-skill",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/skill-tester",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--fail-under, --json, --limit, --min-score, --no-security"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/skill-tester",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/api-design-reviewer",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/migration-architect",
+      "where": "SKILL.md",
+      "msg": "宣传了 --config 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/migration-architect",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/monorepo-navigator",
+      "where": "SKILL.md",
+      "msg": "宣传了 --summarize 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/monorepo-navigator",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--json"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/monorepo-navigator",
+      "where": "scripts/monorepo_analyzer.py",
+      "msg": "def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/monorepo-navigator",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/senior-architect",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--json, --save"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/senior-architect",
+      "where": "scripts/architecture_diagram_generator.py:226",
+      "msg": "未完成实现（状态字面量/NotImplementedError）：raise NotImplementedError"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/senior-architect",
+      "where": "scripts/architecture_diagram_generator.py:229",
+      "msg": "未完成实现（状态字面量/NotImplementedError）：raise NotImplementedError"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/senior-architect",
+      "where": "scripts/architecture_diagram_generator.py:232",
+      "msg": "未完成实现（状态字面量/NotImplementedError）：raise NotImplementedError"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/senior-architect",
+      "where": "scripts/architecture_diagram_generator.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/senior-architect",
+      "where": "scripts/dependency_analyzer.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/senior-architect",
+      "where": "scripts/project_architect.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/senior-architect",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/ci-cd-pipeline-builder",
+      "where": "scripts/pipeline_generator.py",
+      "msg": "def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/ci-cd-pipeline-builder",
+      "where": "scripts/stack_detector.py",
+      "msg": "def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/ci-cd-pipeline-builder",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/ship-gate",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--json, --version"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/ship-gate",
+      "where": "scripts/ship_gate_scanner.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/ship-gate",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/spec-driven-workflow",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--json"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/spec-driven-workflow",
+      "where": "scripts/spec_generator.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/spec-driven-workflow",
+      "where": "scripts/test_extractor.py:199",
+      "msg": "未完成实现（状态字面量/NotImplementedError）：lines.append('        raise NotImplementedError(\"Implement this test\")')"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/spec-driven-workflow",
+      "where": "scripts/test_extractor.py:212",
+      "msg": "未完成实现（状态字面量/NotImplementedError）：lines.append('        raise NotImplementedError(\"Implement this test\")')"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/spec-driven-workflow",
+      "where": "scripts/test_extractor.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/spec-driven-workflow",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/code-reviewer",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--json, --recursive"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/code-reviewer",
+      "where": "scripts/code_quality_checker.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/code-reviewer",
+      "where": "scripts/pr_analyzer.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/code-reviewer",
+      "where": "scripts/review_report_generator.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/code-reviewer",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/dependency-auditor",
+      "where": "SKILL.md",
+      "msg": "宣传了 --vulnerable 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/dependency-auditor",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--inventory, --output, --warn-conflicts"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/dependency-auditor",
+      "where": "scripts/dep_scanner.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/dependency-auditor",
+      "where": "scripts/license_checker.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/dependency-auditor",
+      "where": "scripts/upgrade_planner.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/dependency-auditor",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/tdd-guide",
+      "where": "SKILL.md",
+      "msg": "宣传了 --entity 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/tdd-guide",
+      "where": "SKILL.md",
+      "msg": "宣传了 --phase 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/tdd-guide",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--body, --code, --constraints, --context, --coverage-format, --language, --module, --out, --scenario, --schema, --seed, --suite"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/tdd-guide",
+      "where": "scripts/test_generator.py:225",
+      "msg": "TODO/FIXME 待办标记：# TODO: Set up test data and dependencies"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/tdd-guide",
+      "where": "scripts/test_generator.py:228",
+      "msg": "TODO/FIXME 待办标记：# TODO: Execute the code under test"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/tdd-guide",
+      "where": "scripts/test_generator.py:231",
+      "msg": "TODO/FIXME 待办标记：# TODO: Verify expected behavior"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/tdd-guide",
+      "where": "scripts/test_generator.py:296",
+      "msg": "TODO/FIXME 待办标记：# TODO: Implement test"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/tdd-guide",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/tech-debt-tracker",
+      "where": "scripts/debt_dashboard.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/tech-debt-tracker",
+      "where": "scripts/debt_prioritizer.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/tech-debt-tracker",
+      "where": "scripts/debt_scanner.py:251",
+      "msg": "TODO/FIXME 待办标记：# TODO/FIXME comments"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/tech-debt-tracker",
+      "where": "scripts/debt_scanner.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/tech-debt-tracker",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/docker-development",
+      "where": "SKILL.md",
+      "msg": "宣传了 --from 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/docker-development",
+      "where": "SKILL.md",
+      "msg": "宣传了 --host 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/docker-development",
+      "where": "SKILL.md",
+      "msg": "宣传了 --mount 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/docker-development",
+      "where": "SKILL.md",
+      "msg": "宣传了 --port 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/docker-development",
+      "where": "SKILL.md",
+      "msg": "宣传了 --privileged 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/docker-development",
+      "where": "scripts/compose_validator.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/docker-development",
+      "where": "scripts/dockerfile_analyzer.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/docker-development",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/helm-chart-builder",
+      "where": "scripts/chart_analyzer.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/helm-chart-builder",
+      "where": "scripts/values_validator.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/helm-chart-builder",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/etl-builder",
+      "where": "scripts/etl_builder.py",
+      "msg": "def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/feature-engineer",
+      "where": "scripts/feature_engineer.py",
+      "msg": "def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/database-designer",
+      "where": "SKILL.md",
+      "msg": "宣传了 --change 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/database-designer",
+      "where": "SKILL.md",
+      "msg": "宣传了 --schema-only 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/database-designer",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--include-validations, --output"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/database-designer",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/sql-database-assistant",
+      "where": "SKILL.md",
+      "msg": "宣传了 --clean 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/sql-database-assistant",
+      "where": "SKILL.md",
+      "msg": "宣传了 --current 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/sql-database-assistant",
+      "where": "SKILL.md",
+      "msg": "宣传了 --no-owner 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/sql-database-assistant",
+      "where": "SKILL.md",
+      "msg": "宣传了 --routines 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/sql-database-assistant",
+      "where": "SKILL.md",
+      "msg": "宣传了 --single-transaction 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/sql-database-assistant",
+      "where": "SKILL.md",
+      "msg": "宣传了 --start-datetime 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/sql-database-assistant",
+      "where": "SKILL.md",
+      "msg": "宣传了 --target 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/sql-database-assistant",
+      "where": "SKILL.md",
+      "msg": "宣传了 --triggers 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/sql-database-assistant",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--json"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/sql-database-assistant",
+      "where": "scripts/migration_generator.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/sql-database-assistant",
+      "where": "scripts/query_optimizer.py",
+      "msg": "def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/sql-database-assistant",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/changelog-generator",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--analysis, --custom-rules, --date, --ignore-types, --include-files, --input-format, --output"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/changelog-generator",
+      "where": "scripts/commit_linter.py",
+      "msg": "def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/changelog-generator",
+      "where": "scripts/generate_changelog.py",
+      "msg": "def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/changelog-generator",
+      "where": "scripts/version_bumper.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/changelog-generator",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/git-worktree-manager",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--app-base, --db-base, --force, --redis-base, --stride"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/git-worktree-manager",
+      "where": "scripts/worktree_cleanup.py",
+      "msg": "def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/git-worktree-manager",
+      "where": "scripts/worktree_manager.py",
+      "msg": "def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/git-worktree-manager",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/incident-commander",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--interactive, --min-events, --template-type"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/incident-commander",
+      "where": "scripts/incident_classifier.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/incident-commander",
+      "where": "scripts/pir_generator.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/incident-commander",
+      "where": "scripts/timeline_reconstructor.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/incident-commander",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/runbook-generator",
+      "where": "scripts/runbook_generator.py",
+      "msg": "def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/runbook-generator",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/slo-architect",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/kubernetes-operator",
+      "where": "SKILL.md",
+      "msg": "宣传了 --domain 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/kubernetes-operator",
+      "where": "SKILL.md",
+      "msg": "宣传了 --group 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/kubernetes-operator",
+      "where": "SKILL.md",
+      "msg": "宣传了 --kind 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/kubernetes-operator",
+      "where": "SKILL.md",
+      "msg": "宣传了 --repo 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/kubernetes-operator",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/observability-designer",
+      "where": "scripts/alert_optimizer.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/observability-designer",
+      "where": "scripts/dashboard_generator.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/observability-designer",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/terraform-patterns",
+      "where": "scripts/tf_module_analyzer.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/terraform-patterns",
+      "where": "scripts/tf_security_scanner.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/terraform-patterns",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/result-visualizer",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--x, --y"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/simulation-runner",
+      "where": "SKILL.md",
+      "msg": "宣传了 --perturbation 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/simulation-runner",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--mu, --n"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/simulation-runner",
+      "where": "scripts/simulation.py:114",
+      "msg": "可选性静默换默认：args.range 未给时静默用默认值，需确认是否硬报错更合适：lo, hi = args.range if args.range else [0.1, 5.0]"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/ml-pipeline",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--cv"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/ml-pipeline",
+      "where": "scripts/ml_pipeline.py:22",
+      "msg": "mock 轨（确认 SKILL.md 有诚实声明）：return {\"status\": \"mock\", \"model\": model,"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/ml-pipeline",
+      "where": "scripts/ml_pipeline.py:71",
+      "msg": "mock 轨（确认 SKILL.md 有诚实声明）：\"status\": \"mock\","
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/ml-pipeline",
+      "where": "scripts/ml_pipeline.py",
+      "msg": "def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/performance-profiler",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--json"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/performance-profiler",
+      "where": "scripts/performance_profiler.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/performance-profiler",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/code-generator",
+      "where": "SKILL.md",
+      "msg": "宣传了 --mode 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/code-generator",
+      "where": "SKILL.md",
+      "msg": "宣传了 --source 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/code-generator",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--dry-run, --format, --json, --no-mock, --plan, --plan-stdin, --project, --root"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/code-generator",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/code-intent-planner",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--default, --input, --layer, --stdin"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/code-intent-planner",
+      "where": "scripts/plan_renderer.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/code-intent-planner",
+      "where": "scripts/test_cases.py",
+      "msg": "def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/code-intent-planner",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/deep-research",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--no-cache"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/deep-research",
+      "where": "scripts/research_agent.py",
+      "msg": "def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/deep-research",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/web-search",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--no-cache"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/web-search",
+      "where": "scripts/search_client.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/web-search",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/env-secrets-manager",
+      "where": "SKILL.md",
+      "msg": "宣传了 --all-files 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/env-secrets-manager",
+      "where": "SKILL.md",
+      "msg": "宣传了 --baseline 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/env-secrets-manager",
+      "where": "SKILL.md",
+      "msg": "宣传了 --report-path 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/env-secrets-manager",
+      "where": "SKILL.md",
+      "msg": "宣传了 --source 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/env-secrets-manager",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--json"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/env-secrets-manager",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/pii-redactor",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/prompt-injection-guard",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/secrets-vault-manager",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--json"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/secrets-vault-manager",
+      "where": "scripts/audit_log_analyzer.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/secrets-vault-manager",
+      "where": "scripts/rotation_planner.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/secrets-vault-manager",
+      "where": "scripts/vault_config_generator.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/secrets-vault-manager",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/webapp-e2e-harness",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--force"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/webapp-e2e-harness",
+      "where": "scripts/e2e_scaffold.py:48",
+      "msg": "TODO/FIXME 待办标记：# TODO: assert on a STABLE selector (role/label > testid > css)."
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/webapp-e2e-harness",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/webapp-flow-tester",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--host"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/webapp-flow-tester",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/agent-designer",
+      "where": "scripts/agent_evaluator.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/agent-designer",
+      "where": "scripts/agent_planner.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/agent-designer",
+      "where": "scripts/tool_schema_generator.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P1",
+      "skill": "programming/agent-designer",
+      "where": "scripts/workflow_scaffolder.py",
+      "msg": "def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过"
+    },
+    {
+      "sev": "P2",
+      "skill": "programming/agent-designer",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "tools/bank-statement-reconcile",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "tools/batch-renamer",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--log, --yes"
+    },
+    {
+      "sev": "P2",
+      "skill": "tools/batch-renamer",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "tools/file-organizer",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--by, --yes"
+    },
+    {
+      "sev": "P2",
+      "skill": "tools/file-organizer",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "tools/format-converter",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--kind, --pdf-engine, --to, --yes"
+    },
+    {
+      "sev": "P2",
+      "skill": "tools/format-converter",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "tools/invoice-organizer",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "tools/task-scheduler",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--count, --file"
+    },
+    {
+      "sev": "P2",
+      "skill": "tools/task-scheduler",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "video/video-editor",
+      "where": "scripts/editor.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P1",
+      "skill": "video/video-lip-sync",
+      "where": "scripts/lip_sync.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P2",
+      "skill": "video/video-prompt-engineer",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--json"
+    },
+    {
+      "sev": "P2",
+      "skill": "video/video-script-writer",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--no-llm"
+    },
+    {
+      "sev": "P2",
+      "skill": "video/video-thumbnail",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--gateway-url"
+    },
+    {
+      "sev": "P1",
+      "skill": "video/video-thumbnail",
+      "where": "scripts/thumbnail.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P1",
+      "skill": "video/video-voice-synth",
+      "where": "scripts/voice_synth.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/ai-trace-auditor",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "writing/article-drafter",
+      "where": "SKILL.md",
+      "msg": "宣传了 --draft 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/ai-cover-generator",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "writing/cnblogs-skill",
+      "where": "scripts/cnblogs-pre-publish-check.py",
+      "msg": "__main__ 守卫未用 sys.exit 收尾 → 失败恒退出 0（sys.exit 只出现在别处，如生成模板）"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/cnblogs-skill",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/csdn-publisher",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/jianshu-publisher",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "writing/static-blog-deploy",
+      "where": "SKILL.md",
+      "msg": "宣传了 --minify 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P1",
+      "skill": "writing/static-blog-deploy",
+      "where": "SKILL.md",
+      "msg": "宣传了 --prod 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/static-blog-deploy",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/douban-publisher",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--cookie"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/douban-publisher",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/oschina-publisher",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--cookie"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/oschina-publisher",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/segmentfault-publisher",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--cookie"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/segmentfault-publisher",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/v2ex-publisher",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--cookie"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/v2ex-publisher",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/juejin-publisher",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "writing/baijiahao-publisher",
+      "where": "SKILL.md",
+      "msg": "宣传了 --cookie-file 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/baijiahao-publisher",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/toutiao-publisher",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--cookie"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/toutiao-publisher",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "writing/cross-post-orchestrator",
+      "where": "SKILL.md",
+      "msg": "宣传了 --execute 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/cross-post-orchestrator",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/weibo-publisher",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--cookie"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/weibo-publisher",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/xiaohongshu-publisher",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--cookie"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/xiaohongshu-publisher",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/bilibili-publisher",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/wechat-mp-publisher",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    },
+    {
+      "sev": "P1",
+      "skill": "writing/zhihu-content-manager",
+      "where": "SKILL.md",
+      "msg": "宣传了 --disable-blink-features 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P1",
+      "skill": "writing/zhihu-content-manager",
+      "where": "SKILL.md",
+      "msg": "宣传了 --disable-dev-shm-usage 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P1",
+      "skill": "writing/zhihu-content-manager",
+      "where": "SKILL.md",
+      "msg": "宣传了 --disable-gpu 但本技能脚本未实现（假宣传/待核对）"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/zhihu-content-manager",
+      "where": "SKILL.md",
+      "msg": "脚本实现但文档未提的 flag：--json"
+    },
+    {
+      "sev": "P1",
+      "skill": "writing/zhihu-content-manager",
+      "where": "scripts/zhihu_html_lint.py",
+      "msg": "def main() 存在但无 sys.exit(main()) → 失败恒退出 0，编排层门禁被绕过"
+    },
+    {
+      "sev": "P2",
+      "skill": "writing/zhihu-content-manager",
+      "where": "scripts",
+      "msg": "弱冒烟测试（自动生成 2 断言）：test_smoke_all.py"
+    }
+  ],
+  "stats": {
+    "audio/episode-publisher": {
+      "kind": "prompt-only"
+    },
+    "audio/podcast-producer": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "audio/tts-voice-director": {
+      "kind": "prompt-only"
+    },
+    "chat/chat-prompt-engineer": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "dataviz/chart-recommender": {
+      "kind": "prompt-only"
+    },
+    "dataviz/dashboard-designer": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "design/design-brief-interpreter": {
+      "kind": "prompt-only"
+    },
+    "design/frontend-component-lab": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "design/frontend-design-director": {
+      "kind": "prompt-only"
+    },
+    "design/image-prompt-engineer": {
+      "kind": "prompt-only"
+    },
+    "design/layout-spec-auditor": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "education/assignment-intake": {
+      "kind": "prompt-only"
+    },
+    "education/course-designer": {
+      "kind": "prompt-only"
+    },
+    "education/exercise-generator": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "education/feynman-explainer": {
+      "kind": "prompt-only"
+    },
+    "education/own-voice-rewrite": {
+      "kind": "prompt-only"
+    },
+    "education/solution-drafter": {
+      "kind": "prompt-only"
+    },
+    "integrations/cloud-drive-manager": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "integrations/feishu-dingtalk-bridge": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "integrations/issue-tracker-sync": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "integrations/notion-workspace": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "knowledge/knowledge-graph-builder": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "knowledge/personal-wiki": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "marketing/campaign-designer": {
+      "kind": "prompt-only"
+    },
+    "marketing/channel-adapter": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "marketing/product-copywriter": {
+      "kind": "prompt-only"
+    },
+    "memory/memory-architect": {
+      "kind": "prompt-only"
+    },
+    "memory/memory-extractor": {
+      "kind": "prompt-only"
+    },
+    "memory/memory-manager": {
+      "kind": "prompt-only"
+    },
+    "memory/memory-retriever": {
+      "kind": "prompt-only"
+    },
+    "meta/agent-eval-harness": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "meta/session-handoff": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "meta/skill-author": {
+      "kind": "prompt-only"
+    },
+    "meta/skill-finder": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "meta/skill-linter": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "meta/weekly-report-generator": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "music/music-generation": {
+      "kind": "prompt-only"
+    },
+    "office/career-ops-lite": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "office/docx-template-fill": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "office/docx-writer": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "office/epub-builder": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "office/excel-assistant": {
+      "kind": "prompt-only"
+    },
+    "office/internal-comms-writer": {
+      "kind": "prompt-only"
+    },
+    "office/meeting-notes": {
+      "kind": "prompt-only"
+    },
+    "office/pdf-pipeline": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "office/resume-tailor": {
+      "kind": "prompt-only"
+    },
+    "paper/ai-humanizer": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "paper/anti-defensive": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "paper/arch-diagram": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "paper/experiment-runner": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "paper/figure-maker": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "paper/journal-adapt": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "paper/latex-formatter": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "paper/lit-review": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "paper/neural-net-draw": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "paper/paper-topic-selector": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "paper/pub-plotter": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "paper/self-reviewer": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "paper/tex-cleaner": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "ppt/ppt-builder": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/feature-flags-architect": {
+      "kind": "scripted",
+      "scripts": 4,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/mcp-server-builder": {
+      "kind": "scripted",
+      "scripts": 3,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/self-eval": {
+      "kind": "prompt-only"
+    },
+    "programming/sample-skill": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/skill-tester": {
+      "kind": "scripted",
+      "scripts": 6,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/api-design-reviewer": {
+      "kind": "scripted",
+      "scripts": 4,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/api-test-suite-builder": {
+      "kind": "prompt-only"
+    },
+    "programming/migration-architect": {
+      "kind": "scripted",
+      "scripts": 4,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/monorepo-navigator": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/senior-architect": {
+      "kind": "scripted",
+      "scripts": 4,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/ci-cd-pipeline-builder": {
+      "kind": "scripted",
+      "scripts": 3,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/ship-gate": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/spec-driven-workflow": {
+      "kind": "scripted",
+      "scripts": 3,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/code-reviewer": {
+      "kind": "scripted",
+      "scripts": 4,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/dependency-auditor": {
+      "kind": "scripted",
+      "scripts": 4,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/tdd-guide": {
+      "kind": "scripted",
+      "scripts": 10,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/tech-debt-tracker": {
+      "kind": "scripted",
+      "scripts": 4,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/docker-development": {
+      "kind": "scripted",
+      "scripts": 3,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/helm-chart-builder": {
+      "kind": "scripted",
+      "scripts": 3,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/etl-builder": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "programming/feature-engineer": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "programming/database-designer": {
+      "kind": "scripted",
+      "scripts": 4,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/sql-database-assistant": {
+      "kind": "scripted",
+      "scripts": 4,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/debug-diagnoser": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "programming/changelog-generator": {
+      "kind": "scripted",
+      "scripts": 4,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/git-worktree-manager": {
+      "kind": "scripted",
+      "scripts": 3,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/pr-review-expert": {
+      "kind": "prompt-only"
+    },
+    "programming/incident-commander": {
+      "kind": "scripted",
+      "scripts": 4,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/runbook-generator": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/slo-architect": {
+      "kind": "scripted",
+      "scripts": 4,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/kubernetes-operator": {
+      "kind": "scripted",
+      "scripts": 4,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/observability-designer": {
+      "kind": "scripted",
+      "scripts": 3,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/terraform-patterns": {
+      "kind": "scripted",
+      "scripts": 3,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/model-formulator": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "programming/model-solver": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "programming/result-visualizer": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "programming/simulation-runner": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "programming/ml-pipeline": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "programming/performance-profiler": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/code-generator": {
+      "kind": "scripted",
+      "scripts": 4,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/code-intent-planner": {
+      "kind": "scripted",
+      "scripts": 9,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/deep-research": {
+      "kind": "scripted",
+      "scripts": 3,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/web-search": {
+      "kind": "scripted",
+      "scripts": 3,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/env-secrets-manager": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/pii-redactor": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/prompt-injection-guard": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/secrets-vault-manager": {
+      "kind": "scripted",
+      "scripts": 4,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/webapp-e2e-harness": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/webapp-flow-tester": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "programming/agent-designer": {
+      "kind": "scripted",
+      "scripts": 5,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "tools/bank-statement-reconcile": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "tools/batch-renamer": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "tools/file-organizer": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "tools/format-converter": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "tools/invoice-organizer": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "tools/task-scheduler": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "video/ai-baby-podcast": {
+      "kind": "prompt-only"
+    },
+    "video/image-generation": {
+      "kind": "prompt-only"
+    },
+    "video/nailong-laugh-shorts": {
+      "kind": "prompt-only"
+    },
+    "video/shot-recipe-designer": {
+      "kind": "prompt-only"
+    },
+    "video/storyboard-designer": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "video/video-editor": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "video/video-generation": {
+      "kind": "prompt-only"
+    },
+    "video/video-lip-sync": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "video/video-prompt-engineer": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "video/video-script-writer": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "video/video-subtitles": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "video/video-thumbnail": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "video/video-voice-synth": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "video/visual-style-anchor": {
+      "kind": "prompt-only"
+    },
+    "writing/ai-trace-auditor": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "writing/article-drafter": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "writing/article-outliner": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "writing/ai-cover-generator": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "writing/cnblogs-skill": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "writing/csdn-publisher": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "writing/jianshu-publisher": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "writing/static-blog-deploy": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "writing/douban-publisher": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "writing/oschina-publisher": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "writing/segmentfault-publisher": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "writing/v2ex-publisher": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "writing/content-editor": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "writing/humanize-rewriter": {
+      "kind": "prompt-only"
+    },
+    "writing/juejin-publisher": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "writing/baijiahao-publisher": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "writing/toutiao-publisher": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "writing/cross-post-orchestrator": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "writing/personal-voice-profile": {
+      "kind": "prompt-only"
+    },
+    "writing/seo-optimizer": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 0
+    },
+    "writing/weibo-publisher": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "writing/xiaohongshu-publisher": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "writing/bilibili-publisher": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "writing/wechat-mp-publisher": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    },
+    "writing/zhihu-content-manager": {
+      "kind": "scripted",
+      "scripts": 2,
+      "tests": 1,
+      "weak_tests": 1
+    }
+  }
+}

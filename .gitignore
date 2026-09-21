@@ -24,3 +24,7 @@ Thumbs.db
 # 但【必须进 main】：GitCode Pages 直接从 main 的 /site 目录部署，
 # 副本不在仓库里 = 站点下载按钮全部失效。site.json 供文本 diff，副本供下载。
 # （dist/ 依旧不进仓库，Release 走 Release 附件）
+.aqg/
+
+# WorkBuddy 项目记忆目录
+.workbuddy/

@@ -119,7 +119,18 @@ def main():
     content = ""
     if args.content:
         p = Path(args.content)
-        content = p.read_text(encoding="utf-8") if p.exists() else args.content
+        if p.exists():
+            content = p.read_text(encoding="utf-8")
+        elif re.search(r"\.(md|txt|markdown|rst|html?)$", args.content) \
+                or "/" in args.content or "\\" in args.content:
+            # 长得像路径却不存在 → 硬报错。旧版会把路径字符串本身当正文分析，
+            # 对着 "article.md" 七个字符算出一份假 SEO 报告还返回 0。
+            print(json.dumps({"status": "error",
+                              "error": f"--content 文件不存在: {args.content}"},
+                             ensure_ascii=False))
+            return 2
+        else:
+            content = args.content  # 纯文本（无路径特征）才允许当字面正文
 
     result = {
         "title": optimize_title(args.title, extract_keywords(content), args.platform),
@@ -131,7 +142,8 @@ def main():
         Path(args.output).write_text(output, encoding="utf-8")
     else:
         print(output)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

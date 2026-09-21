@@ -191,7 +191,7 @@ class DebtDashboard:
         try:
             mtime = os.path.getmtime(file_path)
             return datetime.fromtimestamp(mtime).isoformat()
-        except:
+        except OSError:  # 取不到 mtime（文件消失/权限）→ 标现在时间
             return datetime.now().isoformat()
     
     def generate_dashboard(self, period: str = "monthly") -> Dict[str, Any]:

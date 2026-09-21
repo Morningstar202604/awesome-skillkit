@@ -1,0 +1,236 @@
+##### chat/chat-prompt-engineer
+usage: prompt_audit.py [-h] [--prompt PROMPT] [--file FILE]
+  --prompt PROMPT      prompt text to audit
+  --file FILE          read prompt text from a file instead
+  --mode {task,agent}
+
+##### integrations/issue-tracker-sync
+usage: issue_sync.py [-h] {build,field-map,weekly-report} ...
+positional arguments:
+  {build,field-map,weekly-report}
+
+##### integrations/notion-workspace
+usage: notion_ops.py [-h]
+                     {build-page,build-database-query,parse-page,blocks-to-markdown} ...
+positional arguments:
+  {build-page,build-database-query,parse-page,blocks-to-markdown}
+
+##### marketing/channel-adapter
+usage: channel_fit_check.py [-h] [--file FILE] [--text TEXT]
+                            --channel {douyin-spoken,email-subject,moments,search-ad,xhs}
+  --file FILE           copy file
+  --text TEXT           copy text inline
+  --channel {douyin-spoken,email-subject,moments,search-ad,xhs}
+
+##### office/docx-writer
+usage: docx_ops.py [-h] {create,inspect,styles} ...
+positional arguments:
+  {create,inspect,styles}
+
+##### paper/paper-topic-selector
+usage: topic_selector.py [-h] [--topic TOPIC] [--candidates CANDIDATES]
+  --topic TOPIC         Research topic (repeatable)
+  --candidates CANDIDATES
+  --constraints CONSTRAINTS
+  --lit-review-json LIT_REVIEW_JSON
+  --top-n TOP_N
+  --output OUTPUT       Output file
+
+##### programming/architecture/migration-architect
+usage: compatibility_checker.py [-h] --before BEFORE --after AFTER
+  --before BEFORE       Before schema file (JSON)
+  --after AFTER         After schema file (JSON)
+  --type {database,api}
+  --output, -o OUTPUT   Output file for compatibility report (JSON)
+  --format, -f {json,text,both}
+
+##### programming/cicd/ship-gate
+usage: ship_gate_scanner.py [-h] [--json] [--no-color] [--no-interactive]
+positional arguments:
+  --json            Output as JSON
+  --no-color        Disable color output
+  --no-interactive  Skip manual confirmation prompts
+  --category CAT    Only run one category: SEC, DB, CODE, DEP, AI, DEPLOY, FE,
+  --verbose         Show PASS and SKIP results in addition to failures
+  --version         show program's version number and exit
+
+##### programming/code-quality/tdd-guide
+
+
+##### programming/code-quality/tech-debt-tracker
+usage: debt_dashboard.py [-h] [--input-dir INPUT_DIR] [--output OUTPUT]
+positional arguments:
+  --input-dir INPUT_DIR
+  --output OUTPUT       Output file path
+  --format {json,text,both}
+  --period {weekly,monthly,quarterly}
+  --team-size TEAM_SIZE
+
+##### programming/database/database-designer
+usage: index_optimizer.py [-h] --schema SCHEMA --queries QUERIES
+  --schema, -s SCHEMA   Schema definition JSON file
+  --queries, -q QUERIES
+  --output, -o OUTPUT   Output file (default: stdout)
+  --format, -f {json,text}
+  --analyze-existing, -e
+  --min-priority, -p MIN_PRIORITY
+
+##### programming/math/model-solver
+usage: model_solver.py [-h] --spec SPEC [--method METHOD] [--output OUTPUT]
+  --spec SPEC      Model spec JSON file
+  --method METHOD  Force solver method
+  --output OUTPUT  Output file
+
+##### programming/planning/web-search
+usage: search_client.py [-h] [--engine {searxng,ddg,brave}]
+positional arguments:
+  --engine, -e {searxng,ddg,brave}
+  --language, -l LANGUAGE
+  --max-results, -m MAX_RESULTS
+  --format, -f {markdown,json}
+  --no-cache            禁用缓存
+  --deep, -d            多轮深度搜索
+  --rounds, -r ROUNDS   深度搜索轮次
+
+##### programming/workflow/agent-designer
+usage: agent_evaluator.py [-h] [-o OUTPUT] [--format {json,both}] [--detailed]
+positional arguments:
+  --format {json,both}  Output format
+  --detailed            Include detailed analysis in output
+
+##### tools/batch-renamer
+usage: rename.py [-h] {preview,apply,undo} ...
+positional arguments:
+  {preview,apply,undo}
+
+##### video/storyboard-designer
+usage: scene_lint.py [-h] directory
+positional arguments:
+
+##### writing/article-drafter
+usage: drafter.py [-h] [--outline OUTLINE] [--topic TOPIC] [--section SECTION]
+  --outline OUTLINE    Outline JSON file
+  --topic TOPIC        Quick topic (no outline)
+  --section SECTION    Draft single section
+  --audience AUDIENCE
+  --output OUTPUT      Output file
+
+##### writing/blog/cnblogs-skill
+usage: cnblogs-pre-publish-check.py [-h] [--title TITLE] filepath
+positional arguments:
+  --title TITLE  文章标题（可选）
+
+##### writing/blog/csdn-publisher
+usage: csdn_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                         {categories,draft-save,publish,edit,delete,list} ...
+positional arguments:
+  {categories,draft-save,publish,edit,delete,list}
+  --cookie COOKIE       完整 Cookie 字符串
+  --cookie-file COOKIE_FILE
+
+##### writing/blog/jianshu-publisher
+usage: jianshu_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                            {draft-save,publish,edit,delete} ...
+positional arguments:
+  {draft-save,publish,edit,delete}
+  --cookie COOKIE       完整 Cookie 字符串
+  --cookie-file COOKIE_FILE
+
+##### writing/blog/static-blog-deploy
+usage: static_blog_deploy.py [-h] [--cwd CWD]
+                             {hexo-deploy,hugo-deploy,github-pages,gitlab-pages,vercel-deploy,netlify-deploy} ...
+positional arguments:
+  {hexo-deploy,hugo-deploy,github-pages,gitlab-pages,vercel-deploy,netlify-deploy}
+  --cwd CWD             项目根目录
+
+##### writing/community/douban-publisher
+usage: douban_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                           {note-create,status-post,group-topic} ...
+positional arguments:
+  {note-create,status-post,group-topic}
+  --cookie COOKIE       完整 Cookie 字符串
+  --cookie-file COOKIE_FILE
+
+##### writing/community/oschina-publisher
+usage: oschina_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                            {blog-publish,question-ask,dynamic-post} ...
+positional arguments:
+  {blog-publish,question-ask,dynamic-post}
+  --cookie COOKIE       Web Cookie 字符串
+  --cookie-file COOKIE_FILE
+
+##### writing/community/segmentfault-publisher
+usage: segmentfault_publisher.py [-h] [--cookie COOKIE]
+                                 {article-save,article-publish,question-ask} ...
+positional arguments:
+  {article-save,article-publish,question-ask}
+  --cookie COOKIE       完整 Cookie 字符串
+  --cookie-file COOKIE_FILE
+
+##### writing/community/v2ex-publisher
+usage: v2ex_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                         {topic-create,reply-create,node-list} ...
+positional arguments:
+  {topic-create,reply-create,node-list}
+  --cookie COOKIE       完整 Cookie 字符串
+  --cookie-file COOKIE_FILE
+
+##### writing/juejin/juejin-publisher
+usage: juejin_publish.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                         {categories,tags,draft-save,publish} ...
+positional arguments:
+  {categories,tags,draft-save,publish}
+  --cookie COOKIE       完整 Cookie 字符串
+  --cookie-file COOKIE_FILE
+
+##### writing/news/baijiahao-publisher
+usage: baijiahao_publisher.py [-h]
+                              {article-publish,video-publish,draft-save} ...
+positional arguments:
+  {article-publish,video-publish,draft-save}
+
+##### writing/news/toutiao-publisher
+usage: toutiao_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                            {article-publish,micro-post} ...
+positional arguments:
+  {article-publish,micro-post}
+  --cookie COOKIE       Web Cookie 字符串
+  --cookie-file COOKIE_FILE
+
+##### writing/orchestrator/cross-post-orchestrator
+usage: cross_post.py [-h] --manifest MANIFEST {plan,run,ledger} ...
+positional arguments:
+  {plan,run,ledger}
+  --manifest MANIFEST  post.manifest.json 路径
+
+##### writing/social/weibo-publisher
+usage: weibo_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                          {post-official,post-web,upload-image} ...
+positional arguments:
+  {post-official,post-web,upload-image}
+  --cookie COOKIE       Web Cookie 字符串
+  --cookie-file COOKIE_FILE
+
+##### writing/social/xiaohongshu-publisher
+usage: xiaohongshu_publisher.py [-h] [--cookie COOKIE]
+                                {draft-save,publish,edit,delete} ...
+positional arguments:
+  {draft-save,publish,edit,delete}
+  --cookie COOKIE       完整 Cookie 字符串
+  --cookie-file COOKIE_FILE
+
+##### writing/video/bilibili-publisher
+usage: bilibili_publisher.py [-h] [--cookie COOKIE]
+                             {video-upload,video-submit,article-save,article-publish,dynamic-post} ...
+positional arguments:
+  {video-upload,video-submit,article-save,article-publish,dynamic-post}
+  --cookie COOKIE       Web Cookie 字符串
+  --cookie-file COOKIE_FILE
+
+##### writing/wechat/wechat-mp-publisher
+usage: wechat_mp_publish.py [-h] [--appid APPID] [--secret SECRET]
+                            {token,upload-img,add-thumb,add-draft,publish} ...
+positional arguments:
+  {token,upload-img,add-thumb,add-draft,publish}
+  --appid APPID
+  --secret SECRET

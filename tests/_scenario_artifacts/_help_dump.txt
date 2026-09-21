@@ -1,0 +1,1500 @@
+##### audio/podcast-producer
+$ help:
+usage: script_lint.py [-h] [--file FILE] [--text TEXT] [--dialogue]
+
+TTS-safety lint for podcast scripts.
+
+options:
+  -h, --help   show this help message and exit
+  --file FILE  script file (markdown/txt)
+  --text TEXT  script text inline
+  --dialogue   enforce HOST/GUEST line prefixes
+
+
+##### chat/chat-prompt-engineer
+$ help:
+usage: prompt_audit.py [-h] [--prompt PROMPT] [--file FILE]
+                       [--mode {task,agent}]
+
+Audit a chat prompt's structure.
+
+options:
+  -h, --help           show this help message and exit
+  --prompt PROMPT      prompt text to audit
+  --file FILE          read prompt text from a file instead
+  --mode {task,agent}
+
+
+##### design/frontend-component-lab
+$ help:
+usage: scaffold_component.py [-h] --name NAME [--out OUT] [--props PROPS]
+                             [--tokens TOKENS] [--force] [--write]
+
+Scaffold a React/TS component + design tokens (offline)
+
+options:
+  -h, --help       show this help message and exit
+  --name NAME      PascalCase component name, e.g. PricingCard
+  --out OUT        output directory
+  --props PROPS    comma-separated string props, e.g. title,price
+  --tokens TOKENS  path to a JSON overriding design tokens
+  --force          overwrite if files exist
+  --write          actually write; default is dry-run
+
+
+##### design/layout-spec-auditor
+$ help:
+usage: spec_audit.py [-h] [--image IMAGE] [--width WIDTH] [--height HEIGHT]
+                     [--platform {bilibili-cover,douyin-vertical,wechat-footer,wechat-header,xhs-portrait,xhs-square,youtube-thumb,zhihu-header}]
+                     [--expect EXPECT] [--file-mb FILE_MB]
+                     [--text-chars TEXT_CHARS] [--text-budget TEXT_BUDGET]
+
+Platform layout spec audit.
+
+options:
+  -h, --help            show this help message and exit
+  --image IMAGE         image file to audit (needs Pillow)
+  --width WIDTH         declared width if no file
+  --height HEIGHT       declared height if no file
+  --platform {bilibili-cover,douyin-vertical,wechat-footer,wechat-header,xhs-portrait,xhs-square,youtube-thumb,zhihu-header}
+  --expect EXPECT       custom target WxH, e.g. 900x383
+  --file-mb FILE_MB     file size in MB
+  --text-chars TEXT_CHARS
+  --text-budget TEXT_BUDGET
+
+
+##### education/exercise-generator
+$ help:
+usage: exercise_lint.py [-h] [--file FILE] [--text TEXT] [--allow-mcq]
+
+Mastery-format lint for exercise banks.
+
+options:
+  -h, --help   show this help message and exit
+  --file FILE  exercise bank file (markdown)
+  --text TEXT  exercise bank inline
+  --allow-mcq  permit multiple-choice questions (default: banned)
+
+
+##### integrations/cloud-drive-manager
+$ help:
+usage: drive_ops.py [-h] {plan-upload,checksum-plan,parse-list} ...
+
+云盘上传计划、校验清单与列表解析（离线只读，不上传不删除）
+
+positional arguments:
+  {plan-upload,checksum-plan,parse-list}
+    plan-upload         生成上传计划（不执行上传）
+    checksum-plan       生成 sha256/md5/sha1 校验清单
+    parse-list          解析云盘列表响应为可读表格
+
+options:
+  -h, --help            show this help message and exit
+
+
+##### integrations/issue-tracker-sync
+$ help:
+usage: issue_sync.py [-h] {build,field-map,weekly-report} ...
+
+Jira / Linear / GitHub Issues 请求构造与周报生成（离线，不发请求）
+
+positional arguments:
+  {build,field-map,weekly-report}
+    build               构造 issue 创建请求并打印
+    field-map           打印三家字段/状态映射表
+    weekly-report       从 issue 列表生成周报 Markdown
+
+options:
+  -h, --help            show this help message and exit
+
+
+##### integrations/notion-workspace
+$ help:
+usage: notion_ops.py [-h]
+                     {build-page,build-database-query,parse-page,blocks-to-markdown} ...
+
+Notion 请求构造与响应解析（离线纯函数，不发网络请求）
+
+positional arguments:
+  {build-page,build-database-query,parse-page,blocks-to-markdown}
+    build-page          构造创建页面请求体并打印（不发送）
+    build-database-query
+                        构造数据库查询请求体并打印
+    parse-page          解析页面/查询响应为 Markdown
+    blocks-to-markdown  把块响应转 Markdown
+
+options:
+  -h, --help            show this help message and exit
+
+
+##### knowledge/knowledge-graph-builder
+$ help:
+usage: graph_build.py [-h] {extract,export,analyze} ...
+
+从 Markdown 笔记抽取知识图谱并导出/分析（纯标准库）
+
+positional arguments:
+  {extract,export,analyze}
+    extract             抽取实体与关系 → graph.json
+    export              导出图数据
+    analyze             图指标：中心性/连通分量/孤立节点
+
+options:
+  -h, --help            show this help message and exit
+
+示例：python3 graph_build.py extract notes/ && python3 graph_build.py export
+notes/ --format mermaid
+
+
+##### knowledge/personal-wiki
+$ help:
+usage: wiki_build.py [-h] {init,index,search,lint,stats} ...
+
+个人知识库构建器：初始化 / 索引 / 检索 / 体检 / 统计（纯标准库）
+
+positional arguments:
+  {init,index,search,lint,stats}
+    init                初始化 wiki 目录结构
+    index               扫描 raw/ 与 notes/ 重建 index.json
+    search              在索引上检索（标题>标签>正文）
+    lint                检查孤儿/断链/空笔记（有发现则退出码 1）
+    stats               输出总量、标签分布与链接密度
+
+options:
+  -h, --help            show this help message and exit
+
+示例：python3 wiki_build.py init mywiki && python3 wiki_build.py index mywiki
+
+
+##### marketing/channel-adapter
+$ help:
+usage: channel_fit_check.py [-h] [--file FILE] [--text TEXT]
+                            --channel {douyin-spoken,email-subject,moments,search-ad,xhs}
+
+Channel fit audit for marketing copy.
+
+options:
+  -h, --help            show this help message and exit
+  --file FILE           copy file
+  --text TEXT           copy text inline
+  --channel {douyin-spoken,email-subject,moments,search-ad,xhs}
+
+
+##### meta/agent-eval-harness
+$ help:
+usage: eval_harness.py [-h] --input INPUT [--index INDEX]
+                       [--mode {offline,judge}] [--weights-json WEIGHTS_JSON]
+                       [--forbidden-json FORBIDDEN_JSON] [--out OUT] [--force]
+                       [--write]
+
+agent-eval-harness (offline)
+
+options:
+  -h, --help            show this help message and exit
+  --input INPUT         JSONL 用例文件
+  --index INDEX         用第 N 行（0-based）
+  --mode {offline,judge}
+  --weights-json WEIGHTS_JSON
+                        覆盖维度权重
+  --forbidden-json FORBIDDEN_JSON
+                        追加禁用串列表（JSON array）
+  --out OUT             结果输出路径
+  --force
+  --write               真正落盘；默认 dry-run
+
+
+##### meta/skill-finder
+$ help:
+usage: find_skill.py [-h] {search,pack,stats} ...
+
+在本仓库检索技能、装配技能组合、输出仓库统计（数据来自真实文件）。
+
+positional arguments:
+  {search,pack,stats}
+    search             按关键词检索技能
+    pack               查共同所属的包，或建议临时组合
+    stats              输出仓库统计
+
+options:
+  -h, --help           show this help message and exit
+
+
+##### meta/skill-linter
+$ help:
+usage: lint_skill.py [-h] [--json] [--verbose] target
+
+校验 SKILL.md 是否符合 awesome-skillkit 规范，输出 PASS/WARN/FAIL 报告。
+
+positional arguments:
+  target      SKILL.md 路径、技能目录，或含多个技能的父目录
+
+options:
+  -h, --help  show this help message and exit
+  --json      输出机器可读 JSON
+  --verbose   文本模式下也打印 PASS 项
+
+
+##### office/career-ops-lite
+$ help:
+usage: job_scorer.py [-h] --jd JD --resume RESUME [--weights WEIGHTS] [-o OUT]
+                     [--write]
+
+Score a JD against your resume (offline, dry-run by default)
+
+options:
+  -h, --help         show this help message and exit
+  --jd JD            path to JD text file
+  --resume RESUME    path to your resume text file
+  --weights WEIGHTS  optional JSON overriding dimension weights
+  -o, --out OUT      report path (only with --write)
+  --write            write JSON report; default dry-run
+
+
+##### office/docx-template-fill
+$ help:
+usage: fill_template.py [-h] --template TEMPLATE --data DATA [-o OUT]
+                        [--apply] [--note-author NOTE_AUTHOR]
+                        [--note-text NOTE_TEXT] [--list-only]
+
+Fill a Word template with JSON data (dry-run by default)
+
+options:
+  -h, --help            show this help message and exit
+  --template TEMPLATE   path to .docx template with {{placeholders}}
+  --data DATA           path to JSON data file
+  -o, --out OUT         output path (only with --apply)
+  --apply               actually write; default is dry-run
+  --note-author NOTE_AUTHOR
+                        author name for review note
+  --note-text NOTE_TEXT
+                        optional review note text to append
+  --list-only           only print placeholders found, then exit
+
+
+##### office/docx-writer
+$ help:
+usage: docx_ops.py [-h] {create,inspect,styles} ...
+
+docx_ops.py — a small .docx toolkit built on python-docx.
+
+Subcommands:
+  create   Build a .docx from a markdown-ish text file or a structured JSON list.
+  inspect  Print a structural summary of an existing .docx.
+  styles   Apply CJK fonts (eastAsia) to the paragraph styles of a .docx.
+
+Original code written for the awesome-skillkit collection (Apache-2.0).
+
+positional arguments:
+  {create,inspect,styles}
+    create              build .docx from markdown-ish text or JSON
+    inspect             print structural summary of a .docx
+    styles              apply CJK fonts to paragraph styles
+
+options:
+  -h, --help            show this help message and exit
+
+
+##### office/epub-builder
+$ help:
+usage: epub_build.py [-h] {build,inspect} ...
+
+Markdown → EPUB 3，以及 EPUB 读回检查（纯标准库）
+
+positional arguments:
+  {build,inspect}
+    build          把 Markdown 转成 EPUB
+    inspect        读回 EPUB，输出元数据与章节清单
+
+options:
+  -h, --help       show this help message and exit
+
+示例：python3 epub_build.py build book.md --out book.epub --title 我的书 --author 张三
+
+
+##### office/pdf-pipeline
+$ help:
+usage: pdf_ops.py [-h] {merge,split,extract,meta,rotate} ...
+
+pdf_ops.py — page-level PDF operations built on pypdf.
+
+Subcommands:
+  merge    Concatenate several PDFs into one.
+  split    Cut one PDF into several files by page ranges (or per page).
+  extract  Pull text out, each page tagged with its page number.
+  meta     Read or rewrite document metadata; probe AcroForm fields.
+  rotate   Turn selected pages by 90/180/270 degrees.
+
+Original code written for the awesome-skillkit collection (Apache-2.0).
+
+positional arguments:
+  {merge,split,extract,meta,rotate}
+    merge               concatenate PDFs into one
+    split               split by page ranges or per page
+    extract             extract text with page tags
+    meta                read/rewrite metadata, probe form fields
+    rotate              rotate pages by 90/180/270
+
+options:
+  -h, --help            show this help message
+
+##### paper/neural-net-draw
+$ help:
+usage: neural_net_draw.py [-h] --layers LAYERS [--label LABEL]
+                          [--activation ACTIVATION]
+                          [--style {auto,per-neuron,typed-blocks}]
+                          [--output OUTPUT]
+
+Neural network diagram (TikZ)
+
+options:
+  -h, --help            show this help message and exit
+  --layers LAYERS       Comma-separated; bare int (old) or 'width:type'
+                        (types: input,conv,pool,residual,linear,fc,attention,d
+                        ropout,output)
+  --label LABEL
+  --activation ACTIVATION
+  --style {auto,per-neuron,typed-blocks}
+                        auto=有类型走 typed-blocks 否则 per-neuron (default)
+  --output OUTPUT       Output .tex file (default /tmp/nn_model.tex)
+
+
+##### paper/paper-topic-selector
+$ help:
+usage: topic_selector.py [-h] [--topic TOPIC] [--candidates CANDIDATES]
+                         [--constraints CONSTRAINTS]
+                         [--lit-review-json LIT_REVIEW_JSON] [--top-n TOP_N]
+                         [--output OUTPUT]
+
+Evaluate & rank research topics (SOTA)
+
+options:
+  -h, --help            show this help message and exit
+  --topic TOPIC         Research topic (repeatable)
+  --candidates CANDIDATES
+                        JSON file: list or {candidates:[...]}
+  --constraints CONSTRAINTS
+                        JSON constraints: time / gpu / venue
+  --lit-review-json LIT_REVIEW_JSON
+                        lit-review output JSON to verify gaps
+  --top-n TOP_N
+  --output OUTPUT       Output file
+
+
+##### ppt/ppt-builder
+$ help:
+Render slides_spec.json into a .pptx deck (ppt-builder skill).
+
+Usage:
+    python make_pptx.py <spec.json> <output.pptx>
+
+Spec schema:
+    {"deck_title": str,
+     "slides": [{"title": str, "bullets": [str, ...], "notes": str}]}
+
+Exit codes:
+    0 = wrote output
+    2 = spec invalid (details on stderr)
+    3 = python-pptx not installed
+
+
+
+##### programming/ai-engineering/mcp-server-builder
+$ help:
+usage: mcp_validator.py [-h] [--input INPUT] [--strict] [--format {text,json}]
+
+Validate MCP tool definitions.
+
+options:
+  -h, --help            show this help message and exit
+  --input INPUT         Path to manifest JSON file. If omitted, reads from
+                        stdin.
+  --strict              Exit non-zero when errors are found.
+  --format {text,json}  Output format.
+
+
+##### programming/ai-engineering/skill-tester
+$ help:
+usage: audit_skills.py [-h] [--json] [--min-score MIN_SCORE] [--fail-under]
+                       [--no-security] [--limit LIMIT]
+                       root
+
+对目录下全部技能批量审计（校验 + 打分 + 安全）
+
+positional arguments:
+  root                  技能根目录，或单个技能目录
+
+options:
+  -h, --help            show this help message and exit
+  --json                输出机器可读 JSON
+  --min-score MIN_SCORE
+                        质量分下限，用于标记未达标
+  --fail-under          有项目低于 --min-score 或校验失败时以退出码 1 结束（供 CI 使用）
+  --no-security         跳过安全评分（更快）
+  --limit LIMIT         只审计前 N 个技能（调试用）
+
+
+##### programming/api/api-design-reviewer
+$ help:
+usage: api_linter.py [-h] [--sample] [--format {text,json}] [--raw-endpoints]
+                     [--output OUTPUT]
+                     [input_file]
+
+Analyze OpenAPI/Swagger specifications for REST conventions and best practices
+
+positional arguments:
+  input_file            Input file: OpenAPI/Swagger JSON file or raw endpoints
+                        JSON
+
+options:
+  -h, --help            show this help message and exit
+  --sample              Lint an embedded sample OpenAPI spec (no input file
+                        needed)
+  --format {text,json}  Output format (default: text)
+  --raw-endpoints       Treat input as raw endpoint definitions instead of
+                        OpenAPI spec
+  --output OUTPUT       Output file (default: stdout)
+
+Examples:
+  python api_linter.py openapi.json
+  python api_linter.py --format json openapi.json > report.json
+  python api_linter.py --raw-endp
+
+##### programming/architecture/migration-architect
+$ help:
+usage: compatibility_checker.py [-h] --before BEFORE --after AFTER
+                                [--type {database,api}] [--output OUTPUT]
+                                [--format {json,text,both}]
+
+Analyze schema and API compatibility between versions
+
+options:
+  -h, --help            show this help message and exit
+  --before BEFORE       Before schema file (JSON)
+  --after AFTER         After schema file (JSON)
+  --type {database,api}
+                        Schema type to analyze
+  --output, -o OUTPUT   Output file for compatibility report (JSON)
+  --format, -f {json,text,both}
+                        Output format
+
+
+##### programming/architecture/monorepo-navigator
+$ help:
+usage: monorepo_analyzer.py [-h] [--json] path
+
+Analyze monorepo type, workspaces, and internal dependency graph.
+
+positional arguments:
+  path        Monorepo root path
+
+options:
+  -h, --help  show this help message and exit
+  --json      Output JSON
+
+
+##### programming/architecture/senior-architect
+$ help:
+usage: architecture_diagram_generator.py [-h]
+                                         [--format {mermaid,plantuml,ascii}]
+                                         [--type {component,layer,deployment}]
+                                         [--output OUTPUT] [--verbose]
+                                         [--json]
+                                         project_path
+
+Generate architecture diagrams from project structure
+
+positional arguments:
+  project_path          Path to the project directory
+
+options:
+  -h, --help            show this help message and exit
+  --format, -f {mermaid,plantuml,ascii}
+                        Output format (default: mermaid)
+  --type, -t {component,layer,deployment}
+                        Diagram type (default: component)
+  --output, -o OUTPUT   Output file path (prints to stdout if not specified)
+  --verbose, -v         Enable verbose output
+  --j
+
+##### programming/cicd/ci-cd-pipeline-builder
+$ help:
+usage: pipeline_generator.py [-h] [--input INPUT] [--repo REPO]
+                             --platform {github,gitlab} [--output OUTPUT]
+                             [--format {text,json}]
+
+Generate CI/CD pipeline YAML from detected stack.
+
+options:
+  -h, --help            show this help message and exit
+  --input INPUT         Stack report JSON file. If omitted, can read stdin
+                        JSON.
+  --repo REPO           Repository path for auto-detection fallback.
+  --platform {github,gitlab}
+                        Target CI platform.
+  --output OUTPUT       Write YAML to this file; otherwise print to stdout.
+  --format {text,json}  Summary output format.
+
+
+##### programming/cicd/ship-gate
+$ help:
+usage: ship_gate_scanner.py [-h] [--json] [--no-color] [--no-interactive]
+                            [--category CAT] [--verbose] [--version]
+                            [path]
+
+Ship Gate — pre-production audit scanner
+
+positional arguments:
+  path              Project root directory (default: current directory)
+
+options:
+  -h, --help        show this help message and exit
+  --json            Output as JSON
+  --no-color        Disable color output
+  --no-interactive  Skip manual confirmation prompts
+  --category CAT    Only run one category: SEC, DB, CODE, DEP, AI, DEPLOY, FE,
+                    OBS
+  --verbose         Show PASS and SKIP results in addition to failures
+  --version         show program's version number and exit
+
+
+##### programming/code-quality/dependency-auditor
+$ help:
+usage: dep_scanner.py [-h] [--format {text,json}] [--output OUTPUT]
+                      [--fail-on-high] [--quick-scan]
+                      project_path
+
+Scan project dependencies for vulnerabilities and security issues
+
+positional arguments:
+  project_path          Path to the project directory to scan
+
+options:
+  -h, --help            show this help message and exit
+  --format {text,json}  Output format (default: text)
+  --output, -o OUTPUT   Output file path (default: stdout)
+  --fail-on-high        Exit with error code if high-severity vulnerabilities
+                        found
+  --quick-scan          Perform quick scan (skip transitive dependencies)
+
+Examples:
+  python dep_scanner.py /path/to/project
+  python dep_scanner.py . --format json --output results.json
+  python dep_scanner.py /app --fail-on-high
+        
+
+
+##### programming/code-quality/tdd-guide
+$ help:
+
+
+##### programming/code-quality/tech-debt-tracker
+$ help:
+usage: debt_dashboard.py [-h] [--input-dir INPUT_DIR] [--output OUTPUT]
+                         [--format {json,text,both}]
+                         [--period {weekly,monthly,quarterly}]
+                         [--team-size TEAM_SIZE]
+                         [files ...]
+
+Generate technical debt dashboard
+
+positional arguments:
+  files                 Debt inventory files
+
+options:
+  -h, --help            show this help message and exit
+  --input-dir INPUT_DIR
+                        Directory containing debt inventory files
+  --output OUTPUT       Output file path
+  --format {json,text,both}
+                        Output format
+  --period {weekly,monthly,quarterly}
+                        Analysis period
+  --team-size TEAM_SIZE
+                        Team size
+
+
+##### programming/data/etl-builder
+$ help:
+usage: etl_builder.py [-h] [--source SOURCE] [--target TARGET]
+                      [--transform TRANSFORM] [--output OUTPUT]
+
+ETL pipeline
+
+options:
+  -h, --help            show this help message and exit
+  --source SOURCE       Input data path
+  --target TARGET       Output data path
+  --transform TRANSFORM
+                        Comma-separated transforms
+  --output OUTPUT       Report output
+
+
+##### programming/database/database-designer
+$ help:
+usage: index_optimizer.py [-h] --schema SCHEMA --queries QUERIES
+                          [--output OUTPUT] [--format {json,text}]
+                          [--analyze-existing] [--min-priority MIN_PRIORITY]
+
+Optimize database indexes based on schema and query patterns
+
+options:
+  -h, --help            show this help message and exit
+  --schema, -s SCHEMA   Schema definition JSON file
+  --queries, -q QUERIES
+                        Query patterns JSON file
+  --output, -o OUTPUT   Output file (default: stdout)
+  --format, -f {json,text}
+                        Output format
+  --analyze-existing, -e
+                        Include analysis of existing indexes
+  --min-priority, -p MIN_PRIORITY
+                        Minimum priority level to include (1=highest,
+                        4=lowest)
+
+
+##### programming/database/sql-database-assistant
+$ help:
+usage: migration_generator.py [-h] --change CHANGE
+                              [--dialect {postgres,mysql,sqlite,sqlserver}]
+                              [--format {sql,prisma,alembic}]
+                              [--output OUTPUT] [--json]
+
+Generate database migration templates from change descriptions.
+
+options:
+  -h, --help            show this help message and exit
+  --change CHANGE       Natural-language description of the schema change
+  --dialect {postgres,mysql,sqlite,sqlserver}
+                        Target database dialect (default: postgres)
+  --format {sql,prisma,alembic}
+                        Output format (default: sql)
+  --output OUTPUT       Write migration to file instead of stdout
+  --json                Output as JSON
+
+Supported change descriptions:
+  "add email_verified boolean to users"
+  "drop column legacy_flag from accounts"
+  "rename column name to full_n
+
+##### programming/github/changelog-generator
+$ help:
+usage: commit_linter.py [-h] [--input INPUT] [--from-ref FROM_REF]
+                        [--to-ref TO_REF] [--strict] [--format {text,json}]
+
+Validate conventional commit subjects.
+
+options:
+  -h, --help            show this help message and exit
+  --input INPUT         File with commit subjects (one per line).
+  --from-ref FROM_REF   Git ref start (exclusive).
+  --to-ref TO_REF       Git ref end (inclusive).
+  --strict              Exit non-zero when violations exist.
+  --format {text,json}  Output format.
+
+
+##### programming/incident/incident-commander
+$ help:
+usage: incident_classifier.py [-h] [--input INPUT] [--format {json,text}]
+                              [--interactive] [--output OUTPUT]
+
+Classify incidents and provide response recommendations
+
+options:
+  -h, --help            show this help message and exit
+  --input, -i INPUT     Input file path (JSON format) or '-' for stdin
+  --format, -f {json,text}
+                        Output format (default: json)
+  --interactive         Run in interactive mode
+  --output, -o OUTPUT   Output file path (default: stdout)
+
+Examples:
+  python incident_classifier.py --input incident.json
+  echo "Database is down" | python incident_classifier.py --format text
+  python incident_classifier.py --interactive
+  
+Input JSON format:
+  {
+    "description": "Database connection timeouts",
+    "service": "user-service",
+    "affected_users": "80%",
+    "business_impact": "high"
+  }
+        
+
+
+##### programming/incident/slo-architect
+$ help:
+usage: error_budget_calculator.py [-h] [--target TARGET]
+                                  [--window-days WINDOW_DAYS]
+                                  [--format {text,json}] [--sample]
+
+Compute error budget and multi-window burn-rate alert thresholds.
+
+Per Google SRE Workbook (Chapter 5: Alerting on SLOs), reliable burn-rate
+alerting uses TWO windows: a fast window (1h) for catastrophic burn and a
+slow window (6h) to filter false positives. Optionally a 3-day window for
+ticket-only (non-paging) alerts.
+
+Outputs:
+  - Allowed downtime in the SLO window
+  - Burn-rate thresholds for fast/slow/ticket alert windows
+  - PromQL-shaped alert rules ready to paste
+
+References:
+  https://sre.google/workbook/alerting-on-slos/
+
+options:
+  -h, --help            show this help message and exit
+  --target TARGET       Target percent (e.g., 99.9)
+  --window-days WINDOW_DAYS
+                        Windo
+
+##### programming/infrastructure/kubernetes-operator
+$ help:
+usage: crd_validator.py [-h] --crd CRD [--format {text,json}]
+
+Validate a Kubernetes CRD YAML against operator-pattern best practices.
+
+Checks for status subresource, structural schema, conditions support, printer
+columns, version policy, and other operator-grade design rules. Stdlib-only —
+parses YAML via a minimal embedded reader (no PyYAML dependency).
+
+options:
+  -h, --help            show this help message and exit
+  --crd CRD             Path to a CRD YAML file or a directory of YAMLs
+  --format {text,json}
+
+
+##### programming/infrastructure/observability-designer
+$ help:
+usage: alert_optimizer.py [-h] --input INPUT [--output OUTPUT]
+                          [--report REPORT] [--format {json,html}]
+                          [--analyze-only]
+
+Analyze and optimize alert configurations
+
+options:
+  -h, --help            show this help message and exit
+  --input, -i INPUT     Input alert configuration JSON file
+  --output, -o OUTPUT   Output optimized configuration JSON file
+  --report, -r REPORT   Generate analysis report file
+  --format {json,html}  Report format (json or html)
+  --analyze-only        Only perform analysis, do not generate optimized
+                        config
+
+Examples:
+    # Analyze alert configuration
+    python alert_optimizer.py --input alerts.json --analyze-only
+    
+    # Generate optimized configuration
+    python alert_optimizer.py --input alerts.json --output optimized_alerts.json
+    
+    # Generate HTML report
+    python aler
+
+##### programming/math/model-solver
+$ help:
+usage: model_solver.py [-h] --spec SPEC [--method METHOD] [--output OUTPUT]
+
+Solve math model
+
+options:
+  -h, --help       show this help message and exit
+  --spec SPEC      Model spec JSON file
+  --method METHOD  Force solver method
+  --output OUTPUT  Output file
+
+
+##### programming/ml/ml-pipeline
+$ help:
+usage: ml_pipeline.py [-h] --data DATA [--target TARGET]
+                      [--model {random_forest,gradient_boosting,logistic}]
+                      [--cv CV] [--output OUTPUT]
+
+ML pipeline
+
+options:
+  -h, --help            show this help message and exit
+  --data DATA           Training data path
+  --target TARGET
+  --model {random_forest,gradient_boosting,logistic}
+  --cv CV
+  --output OUTPUT       Output file
+
+
+##### programming/performance/performance-profiler
+$ help:
+usage: performance_profiler.py [-h] [--json]
+                               [--large-file-threshold-kb LARGE_FILE_THRESHOLD_KB]
+                               project_path
+
+Scan project for performance risk indicators
+
+positional arguments:
+  project_path          Path to project root
+
+options:
+  -h, --help            show this help message and exit
+  --json                Output as JSON
+  --large-file-threshold-kb LARGE_FILE_THRESHOLD_KB
+                        Large file threshold in KB (default: 500)
+
+
+##### programming/planning/web-search
+$ help:
+usage: search_client.py [-h] [--engine {searxng,ddg,brave}]
+                        [--language LANGUAGE] [--max-results MAX_RESULTS]
+                        [--format {markdown,json}] [--no-cache] [--deep]
+                        [--rounds ROUNDS]
+                        [query]
+
+Web Search — 免费搜索引擎客户端
+
+positional arguments:
+  query                 搜索查询
+
+options:
+  -h, --help            show this help message and exit
+  --engine, -e {searxng,ddg,brave}
+  --language, -l LANGUAGE
+  --max-results, -m MAX_RESULTS
+  --format, -f {markdown,json}
+  --no-cache            禁用缓存
+  --deep, -d            多轮深度搜索
+  --rounds, -r ROUNDS   深度搜索轮次
+
+
+##### programming/security/env-secrets-manager
+$ help:
+usage: env_auditor.py [-h] [--json] [--max-filesize MAX_FILESIZE] repo
+
+Scan a repo working tree for likely secret leaks (redacted output).
+
+positional arguments:
+  repo                  Path to the repository/project root
+
+options:
+  -h, --help            show this help message and exit
+  --json                Emit machine-readable JSON
+  --max-filesize MAX_FILESIZE
+                        Skip files larger than N KB
+
+
+##### programming/security/pii-redactor
+$ help:
+usage: pii_scan.py [-h] [--dry-run] [--strategy {mask,hash,replace}]
+                   [--out OUT] [--categories CATEGORIES] [--no-heuristics]
+                   path
+
+positional arguments:
+  path
+
+options:
+  -h, --help            show this help message and exit
+  --dry-run
+  --strategy {mask,hash,replace}
+  --out OUT
+  --categories CATEGORIES
+  --no-heuristics
+
+
+##### programming/security/secrets-vault-manager
+$ help:
+usage: audit_log_analyzer.py [-h] [--log-file LOG_FILE]
+                             [--threshold THRESHOLD] [--json] [--sample]
+
+Analyze Vault/cloud secret manager audit logs for anomalies.
+
+options:
+  -h, --help            show this help message and exit
+  --log-file LOG_FILE   Path to audit log file (JSON lines or JSON array)
+  --threshold THRESHOLD
+                        Anomaly sensitivity threshold — lower = more sensitive
+                        (default: 5)
+  --json                Output as JSON
+  --sample              Analyze an embedded synthetic audit log
+
+The analyzer detects:
+  - Volume spikes (identity accessing secrets above threshold * average)
+  - Multi-IP access (single identity from many source IPs)
+  - Failed access attempts (repeated auth/access failures)
+  - Off-hours access (before 6 AM or after 10 PM)
+  - Broad path access (single identity accessing many distinct
+
+##### programming/testing/webapp-flow-tester
+$ help:
+usage: with_server.py [-h] --cmd CMD --port PORT [--host HOST]
+                      [--ready-path READY_PATH] [--timeout TIMEOUT]
+                      ...
+
+positional arguments:
+  test_cmd              test command to run after '--'
+
+options:
+  -h, --help            show this help message and exit
+  --cmd CMD             server start command (run via shell)
+  --port PORT           port to poll for readiness
+  --host HOST           host to poll (default 127.0.0.1)
+  --ready-path READY_PATH
+                        optional HTTP path; readiness requires GET 200 on it
+  --timeout TIMEOUT     readiness timeout in seconds (default 60)
+
+
+##### programming/workflow/agent-designer
+$ help:
+usage: agent_evaluator.py [-h] [-o OUTPUT] [--format {json,both}] [--detailed]
+                          input_file
+
+Multi-Agent System Performance Evaluator
+
+positional arguments:
+  input_file            JSON file with execution logs
+
+options:
+  -h, --help            show this help message and exit
+  -o, --output OUTPUT   Output file prefix (default: evaluation_report)
+  --format {json,both}  Output format
+  --detailed            Include detailed analysis in output
+
+
+##### tools/bank-statement-reconcile
+$ help:
+usage: reconcile.py [-h] --statement STATEMENT --billing BILLING
+                    [--amount-col AMOUNT_COL] [--date-col DATE_COL]
+                    [--party-col PARTY_COL] [-o OUT] [--write]
+
+Reconcile two CSV ledgers (offline, dry-run by default)
+
+options:
+  -h, --help            show this help message and exit
+  --statement STATEMENT
+                        流水 CSV
+  --billing BILLING     账单 CSV
+  --amount-col AMOUNT_COL
+                        金额列名
+  --date-col DATE_COL   日期列名
+  --party-col PARTY_COL
+                        交易对方列名（可选，增强匹配）
+  -o, --out OUT         报告路径（仅 --write 时）
+  --write
+
+
+##### tools/batch-renamer
+$ help:
+usage: rename.py [-h] {preview,apply,undo} ...
+
+批量重命名（preview 默认 / apply 需 --yes / undo 回滚）
+
+positional arguments:
+  {preview,apply,undo}
+    preview             预览重命名结果（默认动作，不执行）
+    apply               执行重命名（必须 --yes）
+    undo                依据 rename-log.txt 回滚
+
+options:
+  -h, --help            show this help message and exit
+
+
+##### tools/file-organizer
+$ help:
+usage: organize.py [-h] {scan,plan,apply,dedupe} ...
+
+目录体检与整理计划器（默认只读，apply 需 --yes）
+
+positional arguments:
+  {scan,plan,apply,dedupe}
+    scan                扫描目录：扩展名分布、体积、重复文件
+    plan                生成整理计划（不执行）
+    apply               执行整理（默认 dry-run，--yes 才真正移动）
+    dedupe              列出重复文件组与保留建议
+
+options:
+  -h, --help            show this help message and exit
+
+
+##### tools/format-converter
+$ help:
+usage: convert.py [-h] {doc,image,media,batch} ...
+
+格式转换统一入口（文档/图片/音视频/批量），依赖缺失时给出安装指引
+
+positional arguments:
+  {doc,image,media,batch}
+    doc                 文档转换（pandoc）
+    image               图片转换/缩放（Pillow）
+    media               音视频转换（ffmpeg）
+    batch               目录内批量转换（默认 dry-run）
+
+options:
+  -h, --help            show this help message and exit
+
+
+##### tools/invoice-organizer
+$ help:
+usage: organize_invoices.py [-h] --src SRC [--dst DST] [--apply]
+                            [--map-json MAP_JSON] [--ledger LEDGER]
+
+Organize invoices/receipts into month/category + CSV ledger (dry-run by
+default)
+
+options:
+  -h, --help           show this help message and exit
+  --src SRC            directory holding loose invoice files
+  --dst DST            destination root (created if missing)
+  --apply              actually move; default is dry-run
+  --map-json MAP_JSON  optional JSON: list of [regex, category]
+  --ledger LEDGER      ledger CSV path (only with --apply)
+
+
+##### video/storyboard-designer
+$ help:
+usage: scene_lint.py [-h] directory
+
+storyboard 目录校验器（scene_lint）
+
+positional arguments:
+  directory   storyboard 目录路径（含 scene-NN.md）
+
+options:
+  -h, --help  show this help message and exit
+
+
+##### video/video-editor
+$ help:
+usage: editor.py [-h] [--clips [CLIPS ...]] [--audio [AUDIO ...]]
+                 [--script SCRIPT] [--clips-dir CLIPS_DIR]
+                 [--audio-dir AUDIO_DIR] [--output OUTPUT]
+                 [--transitions [TRANSITIONS ...]] [--mock]
+
+Video editor / assembler
+
+options:
+  -h, --help            show this help message and exit
+  --clips [CLIPS ...]   Clip files to assemble
+  --audio [AUDIO ...]   Audio files to mix
+  --script SCRIPT       Script JSON for full pipeline
+  --clips-dir CLIPS_DIR
+  --audio-dir AUDIO_DIR
+  --output OUTPUT
+  --transitions [TRANSITIONS ...]
+                        Transition types
+  --mock                只输出元数据不调用 ffmpeg（等价 SKILLKIT_MOCK=1）
+
+
+##### video/video-lip-sync
+$ help:
+usage: lip_sync.py [-h] --face FACE [--audio AUDIO] [--script SCRIPT]
+                   [--audio-dir AUDIO_DIR] [--output OUTPUT]
+                   [--mouth-width MOUTH_WIDTH] [--mouth-height MOUTH_HEIGHT]
+                   [--gateway-url GATEWAY_URL] [--mock]
+
+Lip sync face to audio
+
+options:
+  -h, --help            show this help message and exit
+  --face FACE           Face/character image path
+  --audio AUDIO         Audio file path
+  --script SCRIPT       Script JSON (batch mode)
+  --audio-dir AUDIO_DIR
+                        Audio directory for batch
+  --output OUTPUT       Output path
+  --mouth-width MOUTH_WIDTH
+  --mouth-height MOUTH_HEIGHT
+  --gateway-url GATEWAY_URL
+                        网关根地址（默认取 GATEWAY_BASE_URL）
+  --mock                只输出元数据不调用网关（等价 SKILLKIT_MOCK=1）
+
+
+##### video/video-prompt-engineer
+$ help:
+usage: prompt_audit.py [-h] --prompt PROMPT [--mode {audit,write}] [--json]
+
+六槽位视频 prompt 结构审计（subject/action/camera/lighting/style/duration）
+
+options:
+  -h, --help            show this help message and exit
+  --prompt, -p PROMPT   待审计的 prompt 文本
+  --mode {audit,write}  audit=审计报告（默认）；write=写后自检（同一检查，输出措辞不同）
+  --json                仅输出 JSON
+
+
+##### video/video-subtitles
+$ help:
+usage: subtitles.py [-h] [--script SCRIPT] [--text TEXT] [--start START]
+                    [--end END] [--output OUTPUT] [--platform PLATFORM]
+
+Generate subtitles/captions
+
+options:
+  -h, --help           show this help message and exit
+  --script SCRIPT      Script JSON file
+  --text TEXT          Single text for caption
+  --start START
+  --end END
+  --output OUTPUT      Output SRT file
+  --platform PLATFORM
+
+
+##### video/video-thumbnail
+$ help:
+usage: thumbnail.py [-h] [--title TITLE]
+                    [--style {funny,professional,dramatic,cute}]
+                    [--platform PLATFORM] [--character CHARACTER]
+                    [--video VIDEO] [--timestamp TIMESTAMP] [--output OUTPUT]
+                    [--gateway-url GATEWAY_URL] [--mock]
+
+Video thumbnail designer
+
+options:
+  -h, --help            show this help message and exit
+  --title TITLE         Video title
+  --style {funny,professional,dramatic,cute}
+  --platform PLATFORM
+  --character CHARACTER
+                        Character image path
+  --video VIDEO         Extract frame from video
+  --timestamp TIMESTAMP
+                        抽帧时间点（秒），避开片头黑场建议 >=1.0
+  --output OUTPUT       Output path
+  --gateway-url GATEWAY_URL
+                        网关根地址（默认取 GATEWAY_BASE_URL）
+  --mock                只输出元数据不调用网关/ffmpeg（等价 SKILLKIT_MOCK=1）
+
+
+##### video/video-voice-synth
+$ help:
+usage: voice_synth.py [-h] [--text TEXT]
+                      [--voice {baby_f01,baby_f02,adult_m01,adult_f01,mascot_01,narrator_01}]
+                      [--speed SPEED] [--pitch PITCH] [--script SCRIPT]
+                      [--output OUTPUT] [--audio-dir AUDIO_DIR]
+                      [--gateway-url GATEWAY_URL] [--mock]
+
+TTS voice synthesis
+
+options:
+  -h, --help            show this help message and exit
+  --text TEXT           Text to synthesize
+  --voice {baby_f01,baby_f02,adult_m01,adult_f01,mascot_01,narrator_01}
+  --speed SPEED
+  --pitch PITCH
+  --script SCRIPT       Script JSON file (batch mode)
+  --output OUTPUT       Output file
+  --audio-dir AUDIO_DIR
+                        Batch mode: directory to write scene_<id>.wav
+  --gateway-url GATEWAY_URL
+                        网关根地址（默认取 GATEWAY_BASE_URL）
+  --mock                生成静音占位，不调用网关（等价 SKILLKIT_MOCK=1）
+
+
+##### writing/ai-trace-auditor
+$ help:
+error: cannot read --help: [Errno 2] No such file or directory: '--help'
+
+
+##### writing/article-drafter
+$ help:
+usage: drafter.py [-h] [--outline OUTLINE] [--topic TOPIC] [--section SECTION]
+                  [--audience AUDIENCE] [--output OUTPUT]
+
+Draft article from outline
+
+options:
+  -h, --help           show this help message and exit
+  --outline OUTLINE    Outline JSON file
+  --topic TOPIC        Quick topic (no outline)
+  --section SECTION    Draft single section
+  --audience AUDIENCE
+  --output OUTPUT      Output file
+
+
+##### writing/article-outliner
+$ help:
+usage: outliner.py [-h] [--topic TOPIC]
+                   [--type {technical,blog,news,listicle,tutorial,opinion}]
+                   [--length {short,medium,long}] [--audience AUDIENCE]
+                   [--points [POINTS ...]] [--platforms [PLATFORMS ...]]
+                   [--json-input JSON_INPUT] [--output OUTPUT]
+
+Generate article outline
+
+options:
+  -h, --help            show this help message and exit
+  --topic TOPIC         文章主题（与 --json-input 二选一；给 --json-input 时可省略）
+  --type {technical,blog,news,listicle,tutorial,opinion}
+  --length {short,medium,long}
+  --audience AUDIENCE
+  --points [POINTS ...]
+                        Key points
+  --platforms [PLATFORMS ...]
+                        Target platforms
+  --json-input JSON_INPUT
+                        Full JSON input
+  --output OUTPUT       Output file
+
+
+##### writing/blog/cnblogs-skill
+$ help:
+usage: cnblogs-pre-publish-check.py [-h] [--title TITLE] filepath
+
+博客园文章发布前格式检查
+
+positional arguments:
+  filepath       Markdown 文件路径
+
+options:
+  -h, --help     show this help message and exit
+  --title TITLE  文章标题（可选）
+
+
+##### writing/blog/csdn-publisher
+$ help:
+usage: csdn_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                         {categories,draft-save,publish,edit,delete,list} ...
+
+CSDN 博客发布客户端（默认 dry-run）
+
+positional arguments:
+  {categories,draft-save,publish,edit,delete,list}
+
+options:
+  -h, --help            show this help message and exit
+  --cookie COOKIE       完整 Cookie 字符串
+  --cookie-file COOKIE_FILE
+
+
+##### writing/blog/jianshu-publisher
+$ help:
+usage: jianshu_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                            {draft-save,publish,edit,delete} ...
+
+简书发布客户端（默认 dry-run）
+
+positional arguments:
+  {draft-save,publish,edit,delete}
+
+options:
+  -h, --help            show this help message and exit
+  --cookie COOKIE       完整 Cookie 字符串
+  --cookie-file COOKIE_FILE
+
+
+##### writing/blog/static-blog-deploy
+$ help:
+usage: static_blog_deploy.py [-h] [--cwd CWD]
+                             {hexo-deploy,hugo-deploy,github-pages,gitlab-pages,vercel-deploy,netlify-deploy} ...
+
+静态博客部署工具（默认 dry-run）
+
+positional arguments:
+  {hexo-deploy,hugo-deploy,github-pages,gitlab-pages,vercel-deploy,netlify-deploy}
+
+options:
+  -h, --help            show this help message and exit
+  --cwd CWD             项目根目录
+
+
+##### writing/community/douban-publisher
+$ help:
+usage: douban_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                           {note-create,status-post,group-topic} ...
+
+豆瓣发布客户端（默认 dry-run）
+
+positional arguments:
+  {note-create,status-post,group-topic}
+
+options:
+  -h, --help            show this help message and exit
+  --cookie COOKIE       完整 Cookie 字符串
+  --cookie-file COOKIE_FILE
+
+
+##### writing/community/oschina-publisher
+$ help:
+usage: oschina_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                            {blog-publish,question-ask,dynamic-post} ...
+
+开源中国发布客户端（默认 dry-run）
+
+positional arguments:
+  {blog-publish,question-ask,dynamic-post}
+
+options:
+  -h, --help            show this help message and exit
+  --cookie COOKIE       Web Cookie 字符串
+  --cookie-file COOKIE_FILE
+
+
+##### writing/community/segmentfault-publisher
+$ help:
+usage: segmentfault_publisher.py [-h] [--cookie COOKIE]
+                                 [--cookie-file COOKIE_FILE]
+                                 {article-save,article-publish,question-ask} ...
+
+SegmentFault 发布客户端（默认 dry-run）
+
+positional arguments:
+  {article-save,article-publish,question-ask}
+
+options:
+  -h, --help            show this help message and exit
+  --cookie COOKIE       完整 Cookie 字符串
+  --cookie-file COOKIE_FILE
+
+
+##### writing/community/v2ex-publisher
+$ help:
+usage: v2ex_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                         {topic-create,reply-create,node-list} ...
+
+V2EX 发帖/回复客户端（默认 dry-run）
+
+positional arguments:
+  {topic-create,reply-create,node-list}
+
+options:
+  -h, --help            show this help message and exit
+  --cookie COOKIE       完整 Cookie 字符串
+  --cookie-file COOKIE_FILE
+
+
+##### writing/content-editor
+$ help:
+usage: editor.py [-h] [--draft DRAFT] [--text TEXT]
+                 [--style {technical,casual,news}] [--output OUTPUT]
+
+Edit/proofread content
+
+options:
+  -h, --help            show this help message and exit
+  --draft DRAFT         Draft JSON file
+  --text TEXT           Raw text to edit
+  --style {technical,casual,news}
+  --output OUTPUT       Output file
+
+
+##### writing/juejin/juejin-publisher
+$ help:
+usage: juejin_publish.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                         {categories,tags,draft-save,publish} ...
+
+掘金发布客户端（默认 dry-run）
+
+positional arguments:
+  {categories,tags,draft-save,publish}
+
+options:
+  -h, --help            show this help message and exit
+  --cookie COOKIE       完整 Cookie 字符串
+  --cookie-file COOKIE_FILE
+
+
+##### writing/news/baijiahao-publisher
+$ help:
+usage: baijiahao_publisher.py [-h]
+                              {article-publish,video-publish,draft-save} ...
+
+百家号发布客户端（默认 dry-run）
+
+positional arguments:
+  {article-publish,video-publish,draft-save}
+
+options:
+  -h, --help            show this help message and exit
+
+
+##### writing/news/toutiao-publisher
+$ help:
+usage: toutiao_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                            {article-publish,micro-post} ...
+
+今日头条/抖音发布客户端（默认 dry-run）
+
+positional arguments:
+  {article-publish,micro-post}
+
+options:
+  -h, --help            show this help message and exit
+  --cookie COOKIE       Web Cookie 字符串
+  --cookie-file COOKIE_FILE
+
+
+##### writing/orchestrator/cross-post-orchestrator
+$ help:
+usage: cross_post.py [-h] --manifest MANIFEST {plan,run,ledger} ...
+
+多平台发布编排器
+
+positional arguments:
+  {plan,run,ledger}
+
+options:
+  -h, --help           show this help message and exit
+  --manifest MANIFEST  post.manifest.json 路径
+
+
+##### writing/social/weibo-publisher
+$ help:
+usage: weibo_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                          {post-official,post-web,upload-image} ...
+
+微博发布客户端（默认 dry-run）
+
+positional arguments:
+  {post-official,post-web,upload-image}
+
+options:
+  -h, --help            show this help message and exit
+  --cookie COOKIE       Web Cookie 字符串
+  --cookie-file COOKIE_FILE
+
+
+##### writing/social/xiaohongshu-publisher
+$ help:
+usage: xiaohongshu_publisher.py [-h] [--cookie COOKIE]
+                                [--cookie-file COOKIE_FILE]
+                                {draft-save,publish,edit,delete} ...
+
+小红书发布客户端（默认 dry-run）
+
+positional arguments:
+  {draft-save,publish,edit,delete}
+
+options:
+  -h, --help            show this help message and exit
+  --cookie COOKIE       完整 Cookie 字符串
+  --cookie-file COOKIE_FILE
+
+
+##### writing/video/bilibili-publisher
+$ help:
+usage: bilibili_publisher.py [-h] [--cookie COOKIE]
+                             [--cookie-file COOKIE_FILE]
+                             {video-upload,video-submit,article-save,article-publish,dynamic-post} ...
+
+B 站发布客户端（默认 dry-run）
+
+positional arguments:
+  {video-upload,video-submit,article-save,article-publish,dynamic-post}
+
+options:
+  -h, --help            show this help message and exit
+  --cookie COOKIE       Web Cookie 字符串
+  --cookie-file COOKIE_FILE
+
+
+##### writing/wechat/wechat-mp-publisher
+$ help:
+usage: wechat_mp_publish.py [-h] [--appid APPID] [--secret SECRET]
+                            {token,upload-img,add-thumb,add-draft,publish} ...
+
+微信公众号草稿箱/发布客户端（默认 dry-run）
+
+positional arguments:
+  {token,upload-img,add-thumb,add-draft,publish}
+
+options:
+  -h, --help            show this help message and exit
+  --appid APPID
+  --secret SECRET
+

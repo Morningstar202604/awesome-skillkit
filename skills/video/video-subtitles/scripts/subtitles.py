@@ -68,16 +68,31 @@ def main():
     args = parser.parse_args()
 
     if args.script:
-        script = json.loads(Path(args.script).read_text(encoding="utf-8"))
+        p = Path(args.script)
+        if not p.exists():
+            print(json.dumps({"status": "error",
+                              "error": f"--script 文件不存在: {args.script}"},
+                             ensure_ascii=False))
+            return 2
+        try:
+            script = json.loads(p.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as e:
+            print(json.dumps({"status": "error", "error": f"--script 不是合法 JSON: {e}"},
+                             ensure_ascii=False))
+            return 2
         result = generate_srt(script.get("scenes", []), args.output)
         result["caption"] = script.get("caption", "")
+        result["status"] = "success"
         print(json.dumps(result, ensure_ascii=False, indent=2))
     elif args.text:
         result = generate_captions(args.text, args.platform)
+        result["status"] = "success"
         print(json.dumps(result, ensure_ascii=False, indent=2))
     else:
         parser.error("Need --script or --text")
+        return 2
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

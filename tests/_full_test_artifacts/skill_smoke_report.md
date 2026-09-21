@@ -1,6 +1,6 @@
 # 第二代 · 真实技能冒烟测试全量报告
 
-> 生成时间：2026-09-21 02:51:04 UTC
+> 生成时间：2026-09-21 07:22:10 UTC
 > 口径：**直接运行真实技能自带的 `test_smoke_*.py`**（pytest），取代第一代手搓代理 task。
 > 这是真正意义上的「技能质量门禁」——测的是仓库里 117 个真实技能中 ship 了冒烟测试的 28 个。
 
@@ -90,7 +90,7 @@
 | `programming\math` | pass | 1 | 0 | 0 | 0 | — |
 | `programming\math` | pass | 1 | 0 | 0 | 0 | — |
 | `programming\math` | pass | 1 | 0 | 0 | 0 | — |
-| `programming\math` | pass | 1 | 0 | 0 | 0 | — |
+| `programming\math` | pass | 4 | 0 | 0 | 0 | — |
 | `programming\ml` | pass | 1 | 0 | 0 | 0 | — |
 | `programming\performance` | pass | 2 | 0 | 0 | 0 | — |
 | `programming\planning` | pass | 2 | 0 | 0 | 0 | — |
@@ -114,13 +114,13 @@
 | `video\video-editor` | pass | 1 | 0 | 0 | 0 | — |
 | `video\video-lip-sync` | pass | 1 | 0 | 0 | 0 | — |
 | `video\video-prompt-engineer` | pass | 3 | 0 | 0 | 0 | — |
-| `video\video-script-writer` | pass | 1 | 0 | 0 | 0 | — |
-| `video\video-subtitles` | pass | 1 | 0 | 0 | 0 | — |
+| `video\video-script-writer` | pass | 6 | 0 | 0 | 0 | — |
+| `video\video-subtitles` | pass | 3 | 0 | 0 | 0 | — |
 | `video\video-thumbnail` | pass | 1 | 0 | 0 | 0 | — |
 | `video\video-voice-synth` | pass | 1 | 0 | 0 | 0 | — |
 | `writing\ai-trace-auditor` | pass | 2 | 0 | 0 | 0 | — |
 | `writing\article-drafter` | pass | 1 | 0 | 0 | 0 | — |
-| `writing\article-outliner` | pass | 1 | 0 | 0 | 0 | — |
+| `writing\article-outliner` | pass | 2 | 0 | 0 | 0 | — |
 | `writing\assets` | pass | 2 | 0 | 0 | 0 | — |
 | `writing\blog` | pass | 2 | 0 | 0 | 0 | — |
 | `writing\blog` | pass | 2 | 0 | 0 | 0 | — |
@@ -130,12 +130,12 @@
 | `writing\community` | pass | 2 | 0 | 0 | 0 | — |
 | `writing\community` | pass | 2 | 0 | 0 | 0 | — |
 | `writing\community` | pass | 2 | 0 | 0 | 0 | — |
-| `writing\content-editor` | pass | 1 | 0 | 0 | 0 | — |
+| `writing\content-editor` | pass | 3 | 0 | 0 | 0 | — |
 | `writing\juejin` | pass | 2 | 0 | 0 | 0 | — |
 | `writing\news` | pass | 2 | 0 | 0 | 0 | — |
 | `writing\news` | pass | 2 | 0 | 0 | 0 | — |
 | `writing\orchestrator` | pass | 2 | 0 | 0 | 0 | — |
-| `writing\seo-optimizer` | pass | 1 | 0 | 0 | 0 | — |
+| `writing\seo-optimizer` | pass | 3 | 0 | 0 | 0 | — |
 | `writing\social` | pass | 2 | 0 | 0 | 0 | — |
 | `writing\social` | pass | 2 | 0 | 0 | 0 | — |
 | `writing\video` | pass | 2 | 0 | 0 | 0 | — |

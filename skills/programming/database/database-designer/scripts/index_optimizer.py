@@ -210,7 +210,13 @@ class IndexOptimizer:
         if 'queries' not in query_data:
             raise ValueError("Query data must contain 'queries' key")
         
-        for query_def in query_data['queries']:
+        for i, query_def in enumerate(query_data['queries']):
+            for req in ('id', 'table'):
+                if req not in query_def:
+                    raise ValueError(
+                        "queries[%d] missing required field '%s' "
+                        "(need id/table; where_conditions/join_conditions/order_by/group_by optional)"
+                        % (i, req))
             pattern = QueryPattern(
                 query_id=query_def['id'],
                 query_type=query_def.get('type', 'SELECT').upper(),

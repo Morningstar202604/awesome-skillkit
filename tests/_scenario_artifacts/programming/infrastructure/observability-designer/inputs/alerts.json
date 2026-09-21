@@ -1,0 +1,1 @@
+{"alerts": [{"name": "HighLatency", "expr": "latency_p99 > 1s", "for": "5m", "severity": "warning"}, {"name": "Down", "expr": "up == 0", "for": "1m", "severity": "critical"}]}

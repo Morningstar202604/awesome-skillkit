@@ -297,7 +297,22 @@ def main():
             print(json.dumps({"status": "error",
                               "error": "real 模式需要 --metric module:func"}, ensure_ascii=False))
             return 2
-        run = run_real(args.metric, args.baseline, config)
+        try:
+            run = run_real(args.metric, args.baseline, config)
+        except ModuleNotFoundError as e:
+            # 用户给的 module:func 加载不到 → 干净报错并给排查方向，
+            # 不允许裸 traceback（旧版直接崩，编排层只看到 rc=1 无 JSON）
+            print(json.dumps({"status": "error",
+                              "error": f"--metric/--baseline 指向的模块加载失败: {e}；"
+                                       f"请确认模块在 sys.path（可在 --config 同目录下运行或设 PYTHONPATH）",
+                              "hint": "先单独验证: python3 -c \"import <module>; print(<module>.<func>)\""},
+                             ensure_ascii=False))
+            return 2
+        except (ValueError, AttributeError, TypeError) as e:
+            print(json.dumps({"status": "error",
+                              "error": f"--metric/--baseline 无效: {e}"},
+                             ensure_ascii=False))
+            return 2
     else:
         run = run_simulated(config)
 

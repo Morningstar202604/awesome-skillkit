@@ -139,16 +139,19 @@ def parse_searxng_results(data: Dict) -> List[Dict]:
 
 # ── DuckDuckGo 搜索 ─────────────────────────────────────────
 
-def search_ddg(query: str) -> List[Dict]:
+def search_ddg(query: str, language: str = "zh") -> List[Dict]:
     """
     使用 DuckDuckGo HTML 抓取搜索
-    
+
     DuckDuckGo 不提供官方 API，通过 HTML 页面解析结果。
+    language 映射到 region 参数（kl）：zh→cn-cn，en→wt-wt，其余原样小写。
     """
     import httpx
-    
+
+    region_map = {"zh": "cn-cn", "en": "wt-wt"}
+    region = region_map.get((language or "").lower(), (language or "cn-cn").lower().replace("_", "-"))
     url = "https://html.duckduckgo.com/html/"
-    data = {"q": query, "kl": "cn-cn"}
+    data = {"q": query, "kl": region}
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
                       "AppleWebKit/537.36 (KHTML, like Gecko) "

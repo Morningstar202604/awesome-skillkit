@@ -83,20 +83,34 @@ def main():
     args = parser.parse_args()
 
     if args.draft:
-        article = json.loads(Path(args.draft).read_text(encoding="utf-8"))
+        p = Path(args.draft)
+        if not p.exists():
+            # 旧版直接抛 FileNotFoundError traceback（rc=1 无 JSON）；改为干净错误
+            print(json.dumps({"status": "error",
+                              "error": f"--draft 文件不存在: {args.draft}"},
+                             ensure_ascii=False))
+            return 2
+        try:
+            article = json.loads(p.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as e:
+            print(json.dumps({"status": "error",
+                              "error": f"--draft 不是合法 JSON: {e}"},
+                             ensure_ascii=False))
+            return 2
         result = edit_article(article, args.style)
     elif args.text:
         result = edit_text(args.text, args.style)
     else:
         parser.error("Need --draft or --text")
-        return
+        return 2
 
     output = json.dumps(result, ensure_ascii=False, indent=2)
     if args.output:
         Path(args.output).write_text(output, encoding="utf-8")
     else:
         print(output)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

@@ -1,0 +1,254 @@
+### chat/chat-prompt-engineer (att=1, rc=1)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\chat\chat-prompt-engineer\scripts\prompt_audit.py --prompt 帮我写一个爬取新闻的程序。要求：① 只爬公开站点 ② 限速 ③ 失败重试 3 次 ④ 输出 JSON。如果站点 robots.txt 禁止就跳过。
+TAIL: {
+  "mode": "task",
+  "score": "3/5",
+  "elements": {
+    "role": false,
+    "background": false,
+    "task": true,
+    "requirement": true,
+    "format": true
+  },
+  "missing": [
+    "role",
+    "background"
+  ]
+}
+
+
+### integrations/issue-tracker-sync (att=1, rc=2)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\integrations\issue-tracker-sync\scripts\issue_sync.py build --title 修复分页在第二页报 500 --tracker github --body 复现步骤：翻到第二页即 500。期望：正常返回。
+TAIL: ERROR: GitHub 必须提供 --repo owner/name
+
+
+### integrations/notion-workspace (att=2, rc=2)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\integrations\notion-workspace\scripts\notion_ops.py build-page --title 九月复盘
+TAIL: ERROR: 必须提供 --parent（父页面 ID；workspace 根不支持 API 建页）
+
+
+### marketing/channel-adapter (att=1, rc=1)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\marketing\channel-adapter\scripts\channel_fit_check.py --channel moments --text 用了三年终于把备份流程自动化了：一条命令，本地加密，增量上传。省下的时间陪家人。链接见评论区。
+TAIL: x": "keep exactly one CTA — two CTAs equal zero"
+    },
+    {
+      "check": "hook_first_line",
+      "pass": true,
+      "detail": "first line: '用了三年终于把备份流程自动化了：一条命令，本地加'",
+      "fix": null
+    }
+  ],
+  "missing": [
+    "cta_count"
+  ],
+  "status": "fail"
+}
+
+
+### office/docx-writer (att=5, rc=2)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\office\docx-writer\scripts\docx_ops.py create C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\office\docx-writer\artifact_output.json --input
+TAIL: usage: docx_ops.py create [-h] --input INPUT --output OUTPUT [--title TITLE]
+docx_ops.py create: error: argument --input: expected one argument
+
+
+### paper/paper-topic-selector (att=1, rc=2)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\paper\paper-topic-selector\scripts\topic_selector.py --candidates C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\paper\paper-topic-selector\inputs\cands.json --constraints C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\paper\paper-topic-selector\inputs\cons.json --top-n 2
+TAIL: {
+  "status": "error",
+  "error": "invalid --constraints JSON: Expecting value: line 1 column 1 (char 0)"
+}
+
+
+### programming/architecture/migration-architect (att=1, rc=1)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\programming\architecture\migration-architect\scripts\compatibility_checker.py --before C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\programming\architecture\migration-architect\inputs\before.json --after C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\programming\architecture\migration-architect\inputs\after.json --type database --format json
+TAIL: Error: list indices must be integers or slices, not dict
+
+
+### programming/cicd/ship-gate (att=1, rc=1)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\programming\cicd\ship-gate\scripts\ship_gate_scanner.py C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit/tools --json --no-interactive --category SEC
+TAIL: everity": "HIGH",
+      "category": "SEC",
+      "status": "MANUAL",
+      "message": "Not confirmed (run without --no-interactive to answer)",
+      "findings": []
+    }
+  ],
+  "summary": {
+    "critical": 4,
+    "high": 3,
+    "verdict": "DO_NOT_SHIP"
+  }
+}
+
+
+### programming/code-quality/tdd-guide (att=1, rc=0)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\programming\code-quality\tdd-guide\scripts\coverage_analyzer.py
+TAIL: 
+
+### programming/code-quality/tech-debt-tracker (att=1, rc=1)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\programming\code-quality\tech-debt-tracker\scripts\debt_dashboard.py --format json C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\programming\code-quality\tech-debt-tracker\inputs/debt.json
+TAIL: amming\code-quality\tech-debt-tracker\inputs/debt.json: Unrecognized data format in C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\programming\code-quality\tech-debt-tracker\inputs/debt.json
+No valid data files loaded.
+
+
+### programming/database/database-designer (att=1, rc=1)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\programming\database\database-designer\scripts\index_optimizer.py --schema C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\programming\database\database-designer\inputs\schema.json --queries C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\programming\database\database-designer\inputs\queries.json --format json
+TAIL: Error: 'list' object has no attribute 'items'
+
+
+### programming/math/model-solver (att=1, rc=0)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\programming\math\model-solver\scripts\model_solver.py --spec C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\programming\math\model-solver\inputs\spec.json --output C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\programming\math\model-solver\inputs/solution.json
+TAIL: 
+
+### programming/planning/web-search (att=1, rc=None)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\programming\planning\web-search\scripts\search_client.py --engine searxng --max-results 3 awesome-skillkit
+TAIL: timeout 60s
+
+### programming/workflow/agent-designer (att=1, rc=1)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\programming\workflow\agent-designer\scripts\agent_evaluator.py C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\programming\workflow\agent-designer\inputs/logs.json -o C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\programming\workflow\agent-designer\inputs/eval --format json
+TAIL: No valid execution logs found in input file
+
+
+### tools/batch-renamer (att=1, rc=2)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\tools\batch-renamer\scripts\rename.py preview C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\tools\batch-renamer\inputs\scene_dir
+TAIL: ERROR: 至少给一种改名规则：--pattern / --regex / --prefix / --suffix / --exif-date / --lower / --upper。
+例：preview <dir> --pattern 'IMG_{n:03d}.{ext}'
+
+
+### video/storyboard-designer (att=1, rc=1)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\video\storyboard-designer\scripts\scene_lint.py C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\video\storyboard-designer\inputs/scenes
+TAIL: 「时长」
+ - FIELD: scene-02.md 缺少字段「画幅」
+ - FIELD: scene-02.md 缺少字段「景别」
+ - FIELD: scene-02.md 缺少字段「画面」
+ - FIELD: scene-02.md 缺少字段「运镜」
+ - FIELD: scene-02.md 缺少字段「光影」
+ - FIELD: scene-02.md 缺少字段「声音」
+ - FIELD: scene-02.md 缺少字段「视频 prompt」
+ - FIELD: scene-02.md 缺少字段「转场」
+
+
+### writing/article-drafter (att=1, rc=0)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\article-drafter\scripts\drafter.py --topic 为什么你的单元测试总是测不到真正的 bug --audience 初级到中级工程师 --output C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\writing\article-drafter\inputs/draft.md
+TAIL: Draft written to: C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\writing\article-drafter\inputs/draft.md
+
+
+### writing/blog/cnblogs-skill (att=1, rc=1)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\blog\cnblogs-skill\scripts\cnblogs-pre-publish-check.py --title 发布前检查 C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\writing\blog\cnblogs-skill\inputs\post.md
+TAIL: ========================
+博客园文章发布前格式检查
+============================================================
+
+发现 1 类问题：
+
+【H1 标题检查】
+  行 1: 发现 h1 标题 -> '# 发布前检查'
+         修复方法: 将 '# ' 改为 '## '
+
+============================================================
+共 1 类问题，请修复后再发布。
+
+
+### writing/blog/csdn-publisher (att=2, rc=2)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\blog\csdn-publisher\scripts\csdn_publisher.py 批量重命名文件的技能规格
+TAIL: KIE] [--cookie-file COOKIE_FILE]
+                         {categories,draft-save,publish,edit,delete,list} ...
+csdn_publisher.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'categories', 'draft-save', 'publish', 'edit', 'delete', 'list')
+
+
+### writing/blog/jianshu-publisher (att=2, rc=2)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\blog\jianshu-publisher\scripts\jianshu_publisher.py 批量重命名文件的技能规格
+TAIL: _publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                            {draft-save,publish,edit,delete} ...
+jianshu_publisher.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'draft-save', 'publish', 'edit', 'delete')
+
+
+### writing/blog/static-blog-deploy (att=2, rc=2)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\blog\static-blog-deploy\scripts\static_blog_deploy.py 批量重命名文件的技能规格
+TAIL: oy,hugo-deploy,github-pages,gitlab-pages,vercel-deploy,netlify-deploy} ...
+static_blog_deploy.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'hexo-deploy', 'hugo-deploy', 'github-pages', 'gitlab-pages', 'vercel-deploy', 'netlify-deploy')
+
+
+### writing/community/douban-publisher (att=2, rc=2)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\community\douban-publisher\scripts\douban_publisher.py 批量重命名文件的技能规格
+TAIL: isher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                           {note-create,status-post,group-topic} ...
+douban_publisher.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'note-create', 'status-post', 'group-topic')
+
+
+### writing/community/oschina-publisher (att=2, rc=2)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\community\oschina-publisher\scripts\oschina_publisher.py 批量重命名文件的技能规格
+TAIL:  [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                            {blog-publish,question-ask,dynamic-post} ...
+oschina_publisher.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'blog-publish', 'question-ask', 'dynamic-post')
+
+
+### writing/community/segmentfault-publisher (att=2, rc=2)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\community\segmentfault-publisher\scripts\segmentfault_publisher.py 批量重命名文件的技能规格
+TAIL:         [--cookie-file COOKIE_FILE]
+                                 {article-save,article-publish,question-ask} ...
+segmentfault_publisher.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'article-save', 'article-publish', 'question-ask')
+
+
+### writing/community/v2ex-publisher (att=2, rc=2)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\community\v2ex-publisher\scripts\v2ex_publisher.py 批量重命名文件的技能规格
+TAIL: publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                         {topic-create,reply-create,node-list} ...
+v2ex_publisher.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'topic-create', 'reply-create', 'node-list')
+
+
+### writing/juejin/juejin-publisher (att=2, rc=2)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\juejin\juejin-publisher\scripts\juejin_publish.py 批量重命名文件的技能规格
+TAIL: _publish.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                         {categories,tags,draft-save,publish} ...
+juejin_publish.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'categories', 'tags', 'draft-save', 'publish')
+
+
+### writing/news/baijiahao-publisher (att=2, rc=2)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\news\baijiahao-publisher\scripts\baijiahao_publisher.py 批量重命名文件的技能规格
+TAIL: usage: baijiahao_publisher.py [-h]
+                              {article-publish,video-publish,draft-save} ...
+baijiahao_publisher.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'article-publish', 'video-publish', 'draft-save')
+
+
+### writing/news/toutiao-publisher (att=2, rc=2)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\news\toutiao-publisher\scripts\toutiao_publisher.py 批量重命名文件的技能规格
+TAIL: usage: toutiao_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                            {article-publish,micro-post} ...
+toutiao_publisher.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'article-publish', 'micro-post')
+
+
+### writing/orchestrator/cross-post-orchestrator (att=1, rc=1)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\orchestrator\cross-post-orchestrator\scripts\cross_post.py --manifest C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\tests\_scenario_artifacts\writing\orchestrator\cross-post-orchestrator\inputs\post.manifest.json plan
+TAIL: t)
+  File "C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\orchestrator\cross-post-orchestrator\scripts\cross_post.py", line 66, in load_manifest
+    raise ValueError("manifest 缺少必填字段: %s" % key)
+ValueError: manifest 缺少必填字段: title
+
+
+### writing/social/weibo-publisher (att=2, rc=2)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\social\weibo-publisher\scripts\weibo_publisher.py 批量重命名文件的技能规格
+TAIL: blisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]
+                          {post-official,post-web,upload-image} ...
+weibo_publisher.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'post-official', 'post-web', 'upload-image')
+
+
+### writing/social/xiaohongshu-publisher (att=2, rc=2)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\social\xiaohongshu-publisher\scripts\xiaohongshu_publisher.py 批量重命名文件的技能规格
+TAIL:                              [--cookie-file COOKIE_FILE]
+                                {draft-save,publish,edit,delete} ...
+xiaohongshu_publisher.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'draft-save', 'publish', 'edit', 'delete')
+
+
+### writing/video/bilibili-publisher (att=2, rc=2)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\video\bilibili-publisher\scripts\bilibili_publisher.py 60 秒修仙短片脚本
+TAIL:                  {video-upload,video-submit,article-save,article-publish,dynamic-post} ...
+bilibili_publisher.py: error: argument cmd: invalid choice: '60 秒修仙短片脚本' (choose from 'video-upload', 'video-submit', 'article-save', 'article-publish', 'dynamic-post')
+
+
+### writing/wechat/wechat-mp-publisher (att=2, rc=2)
+CMD: C:\Users\X1882\.workbuddy\binaries\python\versions\3.13.12\python.exe C:\Users\X1882\WorkBuddy\2026-09-19-21-05-15\awesome-skillkit\skills\writing\wechat\wechat-mp-publisher\scripts\wechat_mp_publish.py 批量重命名文件的技能规格
+TAIL: [--appid APPID] [--secret SECRET]
+                            {token,upload-img,add-thumb,add-draft,publish} ...
+wechat_mp_publish.py: error: argument cmd: invalid choice: '批量重命名文件的技能规格' (choose from 'token', 'upload-img', 'add-thumb', 'add-draft', 'publish')
+

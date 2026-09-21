@@ -1,0 +1,1 @@
+{"model_type": "LP", "name": "预算分配", "objective_coeffs": [3.0, 2.0], "A_ub": [[1.0, 2.0], [2.0, 1.0]], "b_ub": [40.0, 30.0], "bounds": [[0, null], [0, null]]}

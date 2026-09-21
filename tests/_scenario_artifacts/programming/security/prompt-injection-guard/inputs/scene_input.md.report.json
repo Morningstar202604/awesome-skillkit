@@ -1,0 +1,11 @@
+{
+  "score": 0,
+  "verdict": "clean",
+  "source": "web",
+  "threshold": 50,
+  "n_hits": 0,
+  "hits": [],
+  "recommendations": [
+    "No high-severity hit; log and monitor."
+  ]
+}

@@ -1,0 +1,1 @@
+{"prompt": "总结这段日志", "response": "## 结论\n服务在 14:02 出现连接超时。\n| 指标 | 值 |\n|---|---|\n| 超时率 | 12% |\n来源：内部监控 2026-09 摘要。", "expects": {"min_length": 30, "must_include": ["超时"], "evidence": ["14:02", "连接超时"], "forbidden": ["rm -rf /"]}}

@@ -1,0 +1,241 @@
+{
+  "summary": {
+    "evaluation_period": {
+      "start_time": "2026-09-01T10:00:00",
+      "end_time": "2026-09-01T10:05:00",
+      "total_duration_hours": 0.08333333333333333
+    },
+    "overall_health": "good",
+    "key_findings": [
+      "Success rate (50.0%) below target",
+      "1 critical bottlenecks found"
+    ],
+    "critical_issues": 1,
+    "improvement_opportunities": 2
+  },
+  "system_metrics": {
+    "total_tasks": 2,
+    "successful_tasks": 1,
+    "failed_tasks": 1,
+    "partial_tasks": 0,
+    "timeout_tasks": 0,
+    "success_rate": 0.5,
+    "failure_rate": 0.5,
+    "average_duration_ms": 0.0,
+    "median_duration_ms": 0.0,
+    "percentile_95_duration_ms": 0.0,
+    "min_duration_ms": 0,
+    "max_duration_ms": 0,
+    "total_tokens_used": 0,
+    "average_tokens_per_task": 0.0,
+    "total_cost_usd": 0.0,
+    "average_cost_per_task": 0.0,
+    "cost_per_token": 0.0,
+    "throughput_tasks_per_hour": 24.0,
+    "error_rate": 0.0,
+    "retry_rate": 0.0
+  },
+  "agent_metrics": {
+    "planner": {
+      "total_tasks": 1,
+      "successful_tasks": 1,
+      "failed_tasks": 0,
+      "partial_tasks": 0,
+      "timeout_tasks": 0,
+      "success_rate": 1.0,
+      "failure_rate": 0.0,
+      "average_duration_ms": 0.0,
+      "median_duration_ms": 0.0,
+      "percentile_95_duration_ms": 0.0,
+      "min_duration_ms": 0,
+      "max_duration_ms": 0,
+      "total_tokens_used": 0,
+      "average_tokens_per_task": 0.0,
+      "total_cost_usd": 0.0,
+      "average_cost_per_task": 0.0,
+      "cost_per_token": 0.0,
+      "throughput_tasks_per_hour": 0.0,
+      "error_rate": 0.0,
+      "retry_rate": 0.0
+    },
+    "executor": {
+      "total_tasks": 1,
+      "successful_tasks": 0,
+      "failed_tasks": 1,
+      "partial_tasks": 0,
+      "timeout_tasks": 0,
+      "success_rate": 0.0,
+      "failure_rate": 1.0,
+      "average_duration_ms": 0.0,
+      "median_duration_ms": 0.0,
+      "percentile_95_duration_ms": 0.0,
+      "min_duration_ms": 0,
+      "max_duration_ms": 0,
+      "total_tokens_used": 0,
+      "average_tokens_per_task": 0.0,
+      "total_cost_usd": 0.0,
+      "average_cost_per_task": 0.0,
+      "cost_per_token": 0.0,
+      "throughput_tasks_per_hour": 0.0,
+      "error_rate": 0.0,
+      "retry_rate": 0.0
+    }
+  },
+  "task_type_metrics": {
+    "unknown": {
+      "total_tasks": 2,
+      "successful_tasks": 1,
+      "failed_tasks": 1,
+      "partial_tasks": 0,
+      "timeout_tasks": 0,
+      "success_rate": 0.5,
+      "failure_rate": 0.5,
+      "average_duration_ms": 0.0,
+      "median_duration_ms": 0.0,
+      "percentile_95_duration_ms": 0.0,
+      "min_duration_ms": 0,
+      "max_duration_ms": 0,
+      "total_tokens_used": 0,
+      "average_tokens_per_task": 0.0,
+      "total_cost_usd": 0.0,
+      "average_cost_per_task": 0.0,
+      "cost_per_token": 0.0,
+      "throughput_tasks_per_hour": 24.0,
+      "error_rate": 0.0,
+      "retry_rate": 0.0
+    }
+  },
+  "tool_usage_analysis": {},
+  "error_analysis": [],
+  "bottleneck_analysis": [
+    {
+      "bottleneck_type": "agent",
+      "location": "executor",
+      "severity": "critical",
+      "description": "Agent executor has low success rate (0.0%)",
+      "impact_on_performance": {
+        "success_rate_impact": 95.0,
+        "cost_impact": 0.0
+      },
+      "affected_workflows": [
+        "unknown"
+      ],
+      "optimization_suggestions": [
+        "Review and improve agent logic",
+        "Add better error handling",
+        "Optimize tool usage",
+        "Consider agent specialization"
+      ],
+      "estimated_improvement": {
+        "success_rate_gain": 0.15,
+        "cost_reduction": 0.0
+      }
+    }
+  ],
+  "optimization_recommendations": [
+    {
+      "category": "reliability",
+      "priority": "high",
+      "title": "Improve System Reliability",
+      "description": "System success rate is 50.0%, below target of 90%",
+      "implementation_effort": "medium",
+      "expected_impact": {
+        "success_rate_improvement": 0.1,
+        "cost_reduction": 0.0
+      },
+      "estimated_cost_savings": 0.0,
+      "estimated_performance_gain": 1.2,
+      "implementation_steps": [
+        "Identify and fix top error patterns",
+        "Implement better error handling and retries",
+        "Add comprehensive monitoring and alerting",
+        "Implement graceful degradation patterns"
+      ],
+      "risks": [
+        "Temporary increase in complexity",
+        "Potential initial performance overhead"
+      ],
+      "prerequisites": [
+        "Error analysis completion",
+        "Monitoring infrastructure"
+      ]
+    },
+    {
+      "category": "performance",
+      "priority": "high",
+      "title": "Address Agent Bottleneck",
+      "description": "Agent executor has low success rate (0.0%)",
+      "implementation_effort": "medium",
+      "expected_impact": {
+        "success_rate_gain": 0.15,
+        "cost_reduction": 0.0
+      },
+      "estimated_cost_savings": null,
+      "estimated_performance_gain": 0.15,
+      "implementation_steps": [
+        "Review and improve agent logic",
+        "Add better error handling",
+        "Optimize tool usage",
+        "Consider agent specialization"
+      ],
+      "risks": [
+        "System downtime during implementation",
+        "Potential cascade effects"
+      ],
+      "prerequisites": [
+        "Impact assessment",
+        "Rollback plan"
+      ]
+    }
+  ],
+  "trends_analysis": {},
+  "cost_breakdown": {
+    "total_cost": 0.0,
+    "cost_by_agent": {
+      "planner": 0.0,
+      "executor": 0.0
+    },
+    "cost_by_task_type": {
+      "unknown": 0.0
+    },
+    "cost_per_token": 0,
+    "top_cost_drivers": [
+      [
+        "unknown",
+        0.0
+      ]
+    ]
+  },
+  "sla_compliance": {
+    "overall_compliant": false,
+    "sla_details": {
+      "success_rate": {
+        "target": 0.95,
+        "actual": 0.5,
+        "compliant": false,
+        "gap": 0.44999999999999996
+      },
+      "average_latency": {
+        "target": 10000,
+        "actual": 0.0,
+        "compliant": true,
+        "gap": 0
+      },
+      "error_rate": {
+        "target": 0.05,
+        "actual": 0.0,
+        "compliant": true,
+        "gap": 0
+      }
+    },
+    "compliance_score": 0.6666666666666666
+  },
+  "metadata": {
+    "generated_at": "2026-09-21T15:10:48.472589",
+    "evaluator_version": "1.0",
+    "total_logs_processed": 2,
+    "agents_analyzed": 2,
+    "task_types_analyzed": 1,
+    "analysis_completeness": "full"
+  }
+}
