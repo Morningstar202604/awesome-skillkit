@@ -2890,10 +2890,10 @@
    "desc": "Optimize article for search: extract keywords, generate meta tags, score SEO quality, and adapt titles/captions per platform. Use after editing, before publishing to specific platforms. Use when the user asks to 做 SEO 优化 / 选关键词 / 优化标题 / 检查关键词密度 / 生成 meta 描述 / optimize SEO / extract keywords / SEO score / meta description / platform title limits. Do NOT use for paid advertising strategy, ad bidding, or writing the article itself.",
    "license": "Apache-2.0",
    "compatibility": "Pure Python analysis. No API keys required.",
-   "version": "1.0",
-   "tier": "basic",
+   "version": "2.0",
+   "tier": "sota",
    "pattern": "single-task",
-   "verified": "2026-09-09",
+   "verified": "2026-09-21",
    "repo_file": "skills/writing/seo-optimizer/SKILL.md",
    "packs": [
     "ai-research-writing"
