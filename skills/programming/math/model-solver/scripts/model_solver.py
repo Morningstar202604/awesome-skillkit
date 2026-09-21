@@ -26,8 +26,10 @@ def solve_lp(spec: dict) -> dict:
     bounds = spec.get("bounds", [(0, None)] * len(c))
 
     result = linprog(c, A_ub=A_ub, b_ub=b_ub, bounds=bounds, method="highs")
+    # status: 0=success 1=iteration limit 2=infeasible 3=unbounded —— 不可行与无界不可混报
+    status_map = {0: "success", 1: "iteration_limit", 2: "infeasible", 3: "unbounded"}
     return {
-        "status": "success" if result.success else "infeasible",
+        "status": status_map.get(result.status, "failed"),
         "solution": result.x.tolist() if result.x is not None else None,
         "objective_value": float(result.fun) if result.fun is not None else None,
         "iterations": result.nit,
@@ -51,13 +53,15 @@ def solve_ode(spec: dict) -> dict:
     t_span = spec.get("t_span", [0, 10])
     y0 = spec.get("y0", [1.0])
     t_eval = np.linspace(t_span[0], t_span[1], 100)
+    # 积分方法可按 spec 指定：刚性系统用 Radau/BDF，高精度用 DOP853
+    ode_method = spec.get("ode_method", "RK45")
 
-    sol = solve_ivp(ode_func, t_span, y0, t_eval=t_eval)
+    sol = solve_ivp(ode_func, t_span, y0, t_eval=t_eval, method=ode_method)
     return {
         "status": "success" if sol.success else "error",
         "t": sol.t.tolist(),
         "y": sol.y[0].tolist() if sol.y.size > 0 else [],
-        "solver": "scipy.solve_ivp (RK45)",
+        "solver": "scipy.solve_ivp (%s)" % ode_method,
     }
 
 
@@ -87,10 +91,21 @@ def solve_monte_carlo(spec: dict) -> dict:
 
 def solve(spec: dict, method: str = None) -> dict:
     """Dispatch to appropriate solver."""
+    t0 = time.perf_counter()
     method = method or spec.get("solver_hint", "scipy")
     model_type = spec.get("model_type", "LP").upper()
 
-    if "LP" in model_type or "ILP" in model_type or "MIP" in model_type:
+    # 整数约束必须最先判定：linprog 是纯连续 LP 求解器，会把 MIP 当 LP 解出
+    # 一个"看似成功"的连续解——整数最优常常与连续最优不同，这是最危险的静默误解。
+    if any(k in model_type for k in ("MIP", "MILP", "ILP")):
+        result = {
+            "status": "unsupported",
+            "model_type": model_type,
+            "error": "integer constraints (MIP/MILP/ILP) not supported by scipy.linprog",
+            "note": "install a MILP solver and provide an integer-capable path: "
+                    "pip install pulp  (or ortools / mip); see SKILL.md failure table",
+        }
+    elif "LP" in model_type:
         result = solve_lp(spec)
     elif "ODE" in model_type or "PDE" in model_type:
         result = solve_ode(spec)
@@ -101,7 +116,7 @@ def solve(spec: dict, method: str = None) -> dict:
                   "note": "Add solver for this model type"}
 
     result["model_type"] = model_type
-    result["elapsed_ms"] = 0
+    result["elapsed_ms"] = round((time.perf_counter() - t0) * 1000, 2)
     return result
 
 
@@ -129,6 +144,11 @@ def main():
     if result.get("status") == "error":
         print(f"Error: {result.get('error')}", file=sys.stderr)
         return 1
+    if result.get("status") == "unsupported":
+        # 诚实失败：打印完整 JSON 便于人工排查，但用非零码让流水线感知
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        print("Error: model type unsupported — see 'note' in JSON above", file=sys.stderr)
+        return 2
 
     output = json.dumps(result, ensure_ascii=False, indent=2)
     if args.output:

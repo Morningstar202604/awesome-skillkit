@@ -1,30 +1,49 @@
-**主题：【重要】GitLab 服务器迁移通知及操作指引**
+## 全员公告：内部 GitLab 服务器迁移通知
 
-各位同事：
+**收件人：** 全体员工  
+**生效时间：** 2026年9月26日（周六）22:00-24:00
 
-**结论先行**
-公司内部 GitLab 服务器将于 **2026年9月26日（本周六）22:00 - 24:00** 进行迁移。届时服务将完全中断，恢复后域名将由 `git.corp.example.com` 变更为 `gitnew.corp.example.com`。
+---
 
-**影响范围**
-迁移窗口期内（22:00-24:00）：
-- 无法访问 GitLab Web 界面
-- 无法执行 push / pull / merge 操作
-- CI/CD 流水线暂停
+### 核心结论
 
-**关键动作（请提前准备）**
-1. **停止推送**：建议在 **9月26日 21:30 前** 完成所有代码推送与合并请求。
-2. **切换远程地址**：服务恢复后，请使用新域名重新配置本地仓库：
-   ```bash
-   git remote set-url origin git@gitnew.corp.example.com:<组名>/<项目名>.git
-   ```
-3. **更新 IDE 配置**：如使用 GitKraken、SourceTree 等客户端，请同步更新远程仓库地址。
+本周六晚 22:00-24:00，内部 GitLab 将执行服务器迁移，期间服务完全不可用。
 
-**FAQ 与支持**
-- 详细迁移说明与常见问题：[https://wiki.corp.example.com/gitlab-migration](https://wiki.corp.example.com/gitlab-migration)
-- IT 支持联系人：赵六（分机 8021）
-- 如遇连接问题，请优先检查本地 git remote 地址是否已更新为新域名。
+---
 
-感谢大家的配合！
+### 影响范围
 
-IT 基础设施部  
-2026年9月
+- **旧域名** `git.corp.example.com` 停止解析
+- **新域名** `gitnew.corp.example.com` 于 24:00 后上线
+- 迁移期间（22:00-24:00）：无法 push、merge、查看 CI 状态
+- 迁移完成后：新域名生效，原仓库内容完整保留
+
+---
+
+### 你需要做什么
+
+| 时间 | 操作 |
+|---|---|
+| 本周六 22:00 前 | 完成当前未推送的 commit，避免丢失 |
+| 22:00-24:00 | 无需操作，服务维护中 |
+| 24:00 后 | 更新本地 git remote 地址：`git remote set-url origin https://gitnew.corp.example.com/<项目路径>` |
+
+---
+
+### 常见问题
+
+详细 FAQ 与操作指引见：https://wiki.corp.example.com/gitlab-migration
+
+---
+
+### 支持渠道
+
+- IT 联系人：赵六（分机 8021）
+- 紧急问题请在 #it-help 频道提单
+
+---
+
+> **交付说明**  
+> - 文体类型：全员公告  
+> - 未确认假设：无（所有信息已按用户提供内容填充）  
+> - 建议发送渠道：公司全员邮件列表 + 企业微信/飞书全员推送

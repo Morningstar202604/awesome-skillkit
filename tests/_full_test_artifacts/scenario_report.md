@@ -1,11 +1,11 @@
 # 第三代 · 场景化全量测试报告（每技能 × 定制真实任务）
 
-> 生成时间：2026-09-21 15:06:46 UTC
+> 生成时间：2026-09-21 15:57:15 UTC
 > 口径：脚本型 = 真实 CLI + 场景输入 + 契约/产物/无静默回退校验；prompt 型 = SKILL.md 全文当 system + 场景输入调真模型 + 质量门。
 > LLM：使用（agnes-2.5-flash）
 
 ## 总览
-- 技能总数：**1**，pass=**1**，fail=**0**
+- 技能总数：**154**，pass=**154**，fail=**0**
 
 ## 失败分类（查漏补缺清单）
 
@@ -14,4 +14,157 @@
 
 | 技能 | 模式 | 判定 | 耗时s | 失败分类 | 备注 |
 |---|---|---|---|---|---|
-| `meta/skill-author` | llm | pass | 19.7 | — | agnes-2.5-flash |
+| `audio/podcast-producer` | script | pass | 0.48 | — | — |
+| `chat/chat-prompt-engineer` | script | pass | 0.61 | — | — |
+| `dataviz/dashboard-designer` | script | pass | 0.9 | non_json_output | — |
+| `design/frontend-component-lab` | script | pass | 0.53 | non_json_output | — |
+| `design/layout-spec-auditor` | script | pass | 0.55 | — | — |
+| `education/exercise-generator` | script | pass | 0.58 | — | — |
+| `integrations/cloud-drive-manager` | script | pass | 0.45 | non_json_output | — |
+| `integrations/feishu-dingtalk-bridge` | script | pass | 0.96 | non_json_output | — |
+| `integrations/issue-tracker-sync` | script | pass | 0.46 | — | — |
+| `integrations/notion-workspace` | script | pass | 0.61 | — | — |
+| `knowledge/knowledge-graph-builder` | script | pass | 0.47 | non_json_output | — |
+| `knowledge/personal-wiki` | script | pass | 0.47 | non_json_output | — |
+| `marketing/channel-adapter` | script | pass | 0.46 | — | — |
+| `meta/agent-eval-harness` | script | pass | 0.46 | — | — |
+| `meta/session-handoff` | script | pass | 0.45 | non_json_output | — |
+| `meta/skill-finder` | script | pass | 0.59 | non_json_output | — |
+| `meta/skill-linter` | script | pass | 0.44 | — | — |
+| `meta/weekly-report-generator` | script | pass | 0.64 | non_json_output | — |
+| `office/career-ops-lite` | script | pass | 0.45 | non_json_output | — |
+| `office/docx-template-fill` | script | pass | 0.76 | non_json_output | — |
+| `office/docx-writer` | script | pass | 0.64 | non_json_output | — |
+| `office/epub-builder` | script | pass | 0.52 | non_json_output | — |
+| `office/pdf-pipeline` | script | pass | 0.93 | non_json_output | — |
+| `paper/ai-humanizer` | script | pass | 0.63 | — | — |
+| `paper/anti-defensive` | script | pass | 0.58 | — | — |
+| `paper/arch-diagram` | script | pass | 0.44 | — | — |
+| `paper/experiment-runner` | script | pass | 3.01 | — | — |
+| `paper/figure-maker` | script | pass | 1.5 | — | bar |
+| `paper/journal-adapt` | script | pass | 0.59 | — | — |
+| `paper/latex-formatter` | script | pass | 0.61 | — | — |
+| `paper/lit-review` | script | pass | 0.67 | — | — |
+| `paper/neural-net-draw` | script | pass | 0.43 | — | — |
+| `paper/paper-topic-selector` | script | pass | 0.45 | — | — |
+| `paper/pub-plotter` | script | pass | 1.54 | — | line |
+| `paper/self-reviewer` | script | pass | 0.56 | — | — |
+| `paper/tex-cleaner` | script | pass | 0.56 | — | — |
+| `ppt/ppt-builder` | script | pass | 0.79 | non_json_output | — |
+| `programming/ai-engineering/feature-flags-architect` | script | pass | 1.02 | non_json_output | — |
+| `programming/ai-engineering/mcp-server-builder` | script | pass | 0.46 | — | — |
+| `programming/ai-engineering/skill-tester` | script | pass | 0.93 | — | — |
+| `programming/api/api-design-reviewer` | script | pass | 0.49 | — | — |
+| `programming/architecture/migration-architect` | script | pass | 0.51 | — | — |
+| `programming/architecture/monorepo-navigator` | script | pass | 0.47 | — | — |
+| `programming/architecture/senior-architect` | script | pass | 0.48 | non_json_output | — |
+| `programming/cicd/ci-cd-pipeline-builder` | script | pass | 0.5 | non_json_output | — |
+| `programming/cicd/ship-gate` | script | pass | 0.52 | honest_negative(rc=1) | — |
+| `programming/cicd/spec-driven-workflow` | script | pass | 0.6 | non_json_output | — |
+| `programming/code-quality/code-reviewer` | script | pass | 0.64 | non_json_output | — |
+| `programming/code-quality/dependency-auditor` | script | pass | 0.5 | — | — |
+| `programming/code-quality/tdd-guide` | script | pass | 0.49 | — | — |
+| `programming/code-quality/tech-debt-tracker` | script | pass | 0.54 | — | — |
+| `programming/containers/docker-development` | script | pass | 0.46 | non_json_output | — |
+| `programming/containers/helm-chart-builder` | script | pass | 0.52 | non_json_output | — |
+| `programming/data/etl-builder` | script | pass | 0.51 | — | — |
+| `programming/data/feature-engineer` | script | pass | 0.5 | — | — |
+| `programming/database/database-designer` | script | pass | 0.57 | — | — |
+| `programming/database/sql-database-assistant` | script | pass | 0.55 | — | — |
+| `programming/debug/debug-diagnoser` | script | pass | 0.69 | — | — |
+| `programming/github/changelog-generator` | script | pass | 0.52 | — | — |
+| `programming/github/git-worktree-manager` | script | pass | 1.05 | non_json_output | — |
+| `programming/incident/incident-commander` | script | pass | 0.5 | non_json_output | — |
+| `programming/incident/runbook-generator` | script | pass | 0.61 | non_json_output | — |
+| `programming/incident/slo-architect` | script | pass | 0.48 | — | — |
+| `programming/infrastructure/kubernetes-operator` | script | pass | 0.45 | — | — |
+| `programming/infrastructure/observability-designer` | script | pass | 0.47 | non_json_output | — |
+| `programming/infrastructure/terraform-patterns` | script | pass | 0.46 | non_json_output | — |
+| `programming/math/model-formulator` | script | pass | 0.62 | — | — |
+| `programming/math/model-solver` | script | pass | 1.34 | — | — |
+| `programming/math/result-visualizer` | script | pass | 1.55 | — | line |
+| `programming/math/simulation-runner` | script | pass | 0.5 | — | — |
+| `programming/ml/ml-pipeline` | script | pass | 4.63 | — | — |
+| `programming/performance/performance-profiler` | script | pass | 0.52 | — | — |
+| `programming/planning/code-generator` | script | pass | 1.3 | non_json_output | — |
+| `programming/planning/code-intent-planner` | script | pass | 0.42 | — | — |
+| `programming/planning/deep-research` | script | pass | 0.61 | non_json_output | — |
+| `programming/planning/web-search` | script | pass | 15.86 | — | — |
+| `programming/security/env-secrets-manager` | script | pass | 0.48 | — | — |
+| `programming/security/pii-redactor` | script | pass | 0.44 | non_json_output | — |
+| `programming/security/prompt-injection-guard` | script | pass | 0.59 | non_json_output | — |
+| `programming/security/secrets-vault-manager` | script | pass | 0.45 | — | — |
+| `programming/testing/webapp-e2e-harness` | script | pass | 0.45 | non_json_output | — |
+| `programming/testing/webapp-flow-tester` | script | pass | 1.64 | non_json_output | — |
+| `programming/workflow/agent-designer` | script | pass | 0.48 | non_json_output | — |
+| `tools/bank-statement-reconcile` | script | pass | 0.46 | non_json_output | — |
+| `tools/batch-renamer` | script | pass | 0.41 | non_json_output | — |
+| `tools/file-organizer` | script | pass | 0.41 | non_json_output | — |
+| `tools/format-converter` | script | pass | 0.59 | non_json_output | — |
+| `tools/invoice-organizer` | script | pass | 0.41 | non_json_output | — |
+| `tools/task-scheduler` | script | pass | 0.71 | non_json_output | — |
+| `video/storyboard-designer` | script | pass | 0.45 | non_json_output | — |
+| `video/video-editor` | script | pass | 0.44 | — | — |
+| `video/video-lip-sync` | script | pass | 0.48 | — | — |
+| `video/video-prompt-engineer` | script | pass | 0.46 | non_json_output | — |
+| `video/video-script-writer` | script | pass | 0.65 | — | — |
+| `video/video-subtitles` | script | pass | 0.42 | — | — |
+| `video/video-thumbnail` | script | pass | 0.46 | — | — |
+| `video/video-voice-synth` | script | pass | 0.48 | — | — |
+| `writing/ai-trace-auditor` | script | pass | 0.42 | — | — |
+| `writing/article-drafter` | script | pass | 0.43 | — | — |
+| `writing/article-outliner` | script | pass | 0.43 | — | technical |
+| `writing/assets/ai-cover-generator` | script | pass | 0.69 | — | — |
+| `writing/blog/cnblogs-skill` | script | pass | 0.45 | non_json_output | — |
+| `writing/blog/csdn-publisher` | script | pass | 0.51 | — | — |
+| `writing/blog/jianshu-publisher` | script | pass | 0.5 | — | — |
+| `writing/blog/static-blog-deploy` | script | pass | 0.49 | non_json_output | — |
+| `writing/community/douban-publisher` | script | pass | 0.48 | — | — |
+| `writing/community/oschina-publisher` | script | pass | 0.48 | — | — |
+| `writing/community/segmentfault-publisher` | script | pass | 0.48 | — | — |
+| `writing/community/v2ex-publisher` | script | pass | 0.48 | — | — |
+| `writing/content-editor` | script | pass | 0.44 | — | — |
+| `writing/juejin/juejin-publisher` | script | pass | 0.48 | — | — |
+| `writing/news/baijiahao-publisher` | script | pass | 0.49 | — | — |
+| `writing/news/toutiao-publisher` | script | pass | 0.47 | — | — |
+| `writing/orchestrator/cross-post-orchestrator` | script | pass | 0.49 | non_json_output | — |
+| `writing/seo-optimizer` | script | pass | 0.44 | — | — |
+| `writing/social/weibo-publisher` | script | pass | 0.46 | — | — |
+| `writing/social/xiaohongshu-publisher` | script | pass | 0.45 | — | — |
+| `writing/video/bilibili-publisher` | script | pass | 0.45 | — | — |
+| `writing/wechat/wechat-mp-publisher` | script | pass | 0.45 | — | — |
+| `writing/zhihu/zhihu-content-manager` | script | pass | 0.5 | non_json_output | — |
+| `audio/episode-publisher` | llm | pass | 11.0 | — | agnes-2.5-flash |
+| `audio/tts-voice-director` | llm | pass | 13.0 | — | agnes-2.5-flash |
+| `dataviz/chart-recommender` | llm | pass | 11.1 | — | agnes-2.5-flash |
+| `design/design-brief-interpreter` | llm | pass | 6.9 | — | agnes-2.5-flash |
+| `design/frontend-design-director` | llm | pass | 9.7 | — | agnes-2.5-flash |
+| `design/image-prompt-engineer` | llm | pass | 11.3 | — | agnes-2.5-flash |
+| `education/assignment-intake` | llm | pass | 10.9 | — | agnes-2.5-flash |
+| `education/course-designer` | llm | pass | 13.6 | — | agnes-2.5-flash |
+| `education/feynman-explainer` | llm | pass | 3.2 | — | agnes-2.5-flash |
+| `education/own-voice-rewrite` | llm | pass | 1.8 | — | agnes-2.5-flash |
+| `education/solution-drafter` | llm | pass | 13.0 | — | agnes-2.5-flash |
+| `marketing/campaign-designer` | llm | pass | 13.8 | retry_pass | agnes-2.5-flash |
+| `marketing/product-copywriter` | llm | pass | 12.5 | — | agnes-2.5-flash |
+| `memory/memory-architect` | llm | pass | 12.8 | — | agnes-2.5-flash |
+| `memory/memory-extractor` | llm | pass | 5.2 | — | agnes-2.5-flash |
+| `memory/memory-manager` | llm | pass | 14.2 | — | agnes-2.5-flash |
+| `memory/memory-retriever` | llm | pass | 8.6 | — | agnes-2.5-flash |
+| `meta/skill-author` | llm | pass | 17.1 | — | agnes-2.5-flash |
+| `music/music-generation` | llm | pass | 10.8 | — | agnes-2.5-flash |
+| `office/excel-assistant` | llm | pass | 13.5 | — | agnes-2.5-flash |
+| `office/internal-comms-writer` | llm | pass | 4.3 | — | agnes-2.5-flash |
+| `office/meeting-notes` | llm | pass | 8.3 | — | agnes-2.5-flash |
+| `office/resume-tailor` | llm | pass | 6.6 | — | agnes-2.5-flash |
+| `programming/ai-engineering/self-eval` | llm | pass | 3.1 | — | agnes-2.5-flash |
+| `programming/api/api-test-suite-builder` | llm | pass | 14.3 | — | agnes-2.5-flash |
+| `programming/github/pr-review-expert` | llm | pass | 5.4 | — | agnes-2.5-flash |
+| `video/ai-baby-podcast` | llm | pass | 11.5 | — | agnes-2.5-flash |
+| `video/image-generation` | llm | pass | 7.0 | — | agnes-2.5-flash |
+| `video/nailong-laugh-shorts` | llm | pass | 11.5 | — | agnes-2.5-flash |
+| `video/shot-recipe-designer` | llm | pass | 11.9 | — | agnes-2.5-flash |
+| `video/video-generation` | llm | pass | 10.4 | — | agnes-2.5-flash |
+| `video/visual-style-anchor` | llm | pass | 11.3 | — | agnes-2.5-flash |
+| `writing/humanize-rewriter` | llm | pass | 4.1 | — | agnes-2.5-flash |
+| `writing/personal-voice-profile` | llm | pass | 13.3 | — | agnes-2.5-flash |

@@ -154,8 +154,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 227,
-      "sha256": "16dfea99a7f5ace31a78607815066e14adb194142b9cb28865871384e28e4bcb"
+      "size_kb": 234,
+      "sha256": "f276b886e44b9e5b886e42c247c758f6f2c004bc8f47393060da383c8bdda335"
     },
     {
       "id": "ai-video-pipeline",
@@ -322,8 +322,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 79,
-      "sha256": "1f471a5f762832f88d67db3ef0272a4cedeac25af88f822f08fb88096bef4c36"
+      "size_kb": 80,
+      "sha256": "2ca1d789882fefa577a49c9e4c662afd78a8163f0a6424a8eda20632bd502273"
     },
     {
       "id": "code-review",
@@ -502,8 +502,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 80,
-      "sha256": "c608cbb4e31dc5588f849c95fddd12a27339e4365b22a1e371d183647f3b0e19"
+      "size_kb": 82,
+      "sha256": "37a4cee88baf123df3bdf8f7f029c88511357463957cf69e2d54a44d31742869"
     },
     {
       "id": "database",
@@ -862,7 +862,7 @@
       "name": "Security & Secrets",
       "name_zh": "安全与密钥管理",
       "file": "dist/security.zip",
-      "size_kb": 71,
+      "size_kb": 73,
       "description": "Set up secret vaults and manage environment-variable hygiene, plus two self-scanners: a PII redactor (dry-run first) and a prompt-injection auditor.",
       "description_zh": "搭建密钥库并管理环境变量卫生，附两个自扫描器：PII 脱敏（默认 dry-run）与提示词注入审计。",
       "skills": [
@@ -883,7 +883,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "96326c5b16fca9a18f24e81f0fc6e71bb795de3d87e334fae05c9630087a8976"
+      "sha256": "eb85e0bc48231ead4b440b63ef8ad4fb45588cddccb6d0101d6a1419e6f3d947"
     },
     {
       "id": "skill-forge",

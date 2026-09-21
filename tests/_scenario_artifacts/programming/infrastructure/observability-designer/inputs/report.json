@@ -1,20 +1,20 @@
 {
   "summary": {
     "total_alerts": 2,
-    "analysis_timestamp": "2026-09-21T14:53:21.496344Z"
+    "analysis_timestamp": "2026-09-21T15:49:34.965471Z"
   },
   "noisy_alerts": [],
   "coverage_gaps": {
     "missing_categories": [
-      "error_rate",
-      "resource_utilization",
       "security",
-      "business_metrics"
+      "business_metrics",
+      "error_rate",
+      "resource_utilization"
     ],
     "missing_golden_signals": [
-      "errors",
+      "saturation",
       "traffic",
-      "saturation"
+      "errors"
     ],
     "service_coverage_gaps": [],
     "critical_gaps": [
@@ -22,13 +22,13 @@
       "Missing error signal monitoring"
     ],
     "recommendations": [
-      "Add error rate and HTTP status code monitoring",
-      "Add CPU, memory, and disk utilization monitoring",
       "Add security monitoring (auth failures, suspicious activity)",
       "Add business KPI monitoring",
-      "Implement errors monitoring (Golden Signal)",
-      "Implement traffic monitoring (Golden Signal)",
+      "Add error rate and HTTP status code monitoring",
+      "Add CPU, memory, and disk utilization monitoring",
       "Implement saturation monitoring (Golden Signal)",
+      "Implement traffic monitoring (Golden Signal)",
+      "Implement errors monitoring (Golden Signal)",
       "Address critical monitoring gaps as highest priority"
     ]
   },

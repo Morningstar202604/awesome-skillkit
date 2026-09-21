@@ -11,12 +11,12 @@ description: >
 license: Apache-2.0
 compatibility: Pure Python 3 stdlib (no third-party deps). Read-only scan by default; redaction writes a NEW output file, never mutates the source. Credentials not required.
 metadata:
-  version: "1.0"
+  version: "1.1"
   author: awesome-skillkit
   category: security
   pattern: script
   tier: powerful
-  verified-date: "2026-09-20"
+  verified-date: "2026-09-21"
 ---
 
 # PII Redactor
@@ -85,6 +85,24 @@ python3 -c "import sys; sys.exit(0 if sys.version_info>=(3,8) else 1)" \
 | `name` | 仅启发式（上下文含"姓名/联系人"键） | `[NAME MASKED]` |
 
 > `name` 与 `address` 为启发式类，误报率最高，默认不单独启用，需显式 `--categories name,address`。
+
+## 脱敏策略暗知识（选错策略 = 白脱敏）
+
+1. **三种策略的安全语义完全不同，按数据敏感级选，不要按习惯选**：
+   - `mask`（`138****5678`）：保留首尾位。适合**人工核对场景**（客服回访要认得出号码段），但末 4 位 + 号段组合在实名场景仍可缩小人群。
+   - `hash`（SHA-256 前 8 位）：**不是匿名化**。中国手机号空间只有 ~10¹⁰，攻击者可离线穷举全部号码建彩虹表反查（算力成本极低）；银行卡/身份证同理。hash 只防"肉眼直接读"，不防"有意反查"。
+   - `replace`（`[REDACTED:phone]`）：零残留，**对外发布/公开分享前唯一安全的选择**。代价是丢失格式信息，无法回溯。
+2. **校验位是误报第一道闸**：身份证走 mod11 校验、银行卡走 Luhn——随机数字串大概率被拦下。但 `phone` 只校验首位（1[3-9]），工单号、订单号这类长数字串容易误命中，复核步骤不能省。
+3. **dry-run 的 stdout 每行只报该行首个命中**，一行业多类 PII 不会重复报行；总量以末行 `SUMMARY` 为准。
+4. **复扫验证是交付的一部分**：脱敏产物重跑 dry-run，强校验类（id_card/bank_card/credit_code）命中必须为 0；`replace` 策略下全部类别都应为 0。
+
+## 红线（做了就违背技能初衷）
+
+1. **永不改写源文件**——脱敏只写新文件，源文件字节不变（`git status` 可验）。
+2. **不把 mask/hash 产物称为"匿名化数据"**——合规语境（GDPR/个保法）下它们仍是个人数据，只是"去标识化"；真正匿名化需 replace 级别 + 无法复原。
+3. **不默认开 name/address 启发式**——误报率高，且 free text 中的姓名无法穷举，开了也兜不住。
+4. **不承诺"检测完备"**——本技能降低泄露面，不构成合规认证；未识别的 PII（如口语化昵称、间接标识符）始终存在。
+5. **多文件合并输出必须保留 `===== 文件名 =====` 边界行**（v1.1 起脚本自动加）——脱敏后丢文件归属等于制造新的数据混乱。
 
 ## 失败处置表
 

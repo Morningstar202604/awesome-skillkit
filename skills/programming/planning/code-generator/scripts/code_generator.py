@@ -619,8 +619,11 @@ def main():
     # 写入文件
     if not args.dry_run and args.format == "json":
         files = result.get("files", {})
-        output_dir = args.output or "."
-        
+        # v1.1：代码目录独立于报告路径（--output），避免把报告文件路径当目录用
+        output_dir = args.output_dir or "."
+        if args.output_dir:
+            print(f"代码输出目录: {output_dir}", file=sys.stderr)
+
         for path, content in files.items():
             full_path = Path(output_dir) / path
             full_path.parent.mkdir(parents=True, exist_ok=True)

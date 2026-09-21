@@ -76,7 +76,13 @@ def scan_line(line, cats, no_heur):
     return hits
 def apply_hits(line, hits, strategy):
     for start, end, cat, val in sorted(hits, reverse=True):
-        repl = hashlib.sha256(val.encode()).hexdigest()[:8] if strategy == "hash" else MASKERS[cat](val)
+        if strategy == "hash":
+            repl = hashlib.sha256(val.encode()).hexdigest()[:8]
+        elif strategy == "replace":
+            # 完全占位符：不留任何原值片段（mask 会保留首尾位，hash 保留可关联指纹）
+            repl = "[REDACTED:%s]" % cat
+        else:
+            repl = MASKERS[cat](val)
         line = line[:start] + repl + line[end:]
     return line
 def collect_files(path):
@@ -131,7 +137,14 @@ def main():
     if a.dry_run:
         print("SUMMARY: %d hits across %d files" % (total, len(files)))
     else:
-        payload = "\n".join(redact_buf) if len(files) > 1 else redact_buf[0]
+        if len(files) > 1:
+            # 多文件合并输出必须保留文件边界，否则消费方无法还原归属
+            parts = []
+            for f, buf in zip(files, redact_buf):
+                parts.append("===== %s =====\n%s" % (str(f).replace("\n", "_"), buf))
+            payload = "\n".join(parts)
+        else:
+            payload = redact_buf[0]
         pathlib.Path(a.out).write_text(payload, encoding="utf-8")
         print("REDACTED: %s (%d hits %s)" % (a.out, total, a.strategy))
     return 0

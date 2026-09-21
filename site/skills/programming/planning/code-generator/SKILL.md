@@ -1,30 +1,48 @@
 ---
 name: code-generator
-description: "两层代码生成（L1 模板引擎 + L2 LLM），把结构化计划转为可运行代码。支持 Python FastAPI、TypeScript Express、Go Gin 的 CRUD 模板与项目分析。何时使用：需把 code-intent-planner 产出的计划落为实际代码文件时。触发场景（中/英）：生成代码 / 按计划写实现 / 把方案变成代码 / generate code / implement from plan / turn plan into code。排除项：不审查或调试已有代码（仅从计划生成）。 何时使用：已有一份结构化实现计划、需要落成可运行代码文件时。触发场景（中/英）：生成代码 / 按计划写实现 / 把方案变成代码 / 生成 CRUD 脚手架 / generate code / implement from plan / turn plan into code.排除项：不审查或调试已有代码，不制定实现计划（交给 code-intent-planner）。Use when the user asks 生成代码 / 按计划写实现 / 把方案变成代码 / 生成 CRUD 脚手架 / generate code / implement from plan / turn plan into code. Do NOT use when the ask is reviewing or debugging existing code, or when the plan itself still needs to be produced (use code-intent-planner)."
+description: "两层代码生成（L1 脚本模板引擎 + L2 agent 生成），把结构化计划转为可运行代码。L1 脚本覆盖 Python FastAPI CRUD、Bug 修复骨架、测试桩三类；L2 复杂逻辑由 agent 按项目上下文生成。何时使用：已有一份结构化实现计划、需要落成可运行代码文件时。触发场景（中/英）：生成代码 / 按计划写实现 / 把方案变成代码 / 生成 CRUD 脚手架 / generate code / implement from plan / turn plan into code。排除项：不审查或调试已有代码，不制定实现计划（交给 code-intent-planner）。"
 license: Apache-2.0
-compatibility: Pure prompt-based; may read project structure via Bash.
+compatibility: Pure Python 3.8+ stdlib（脚本零依赖）；L2 生成由运行技能的 agent 承担，无需 API key。
 metadata:
-  version: "1.0"
+  version: "1.1"
   author: awesome-skillkit
   category: planning
   pattern: code-generator
   tier: powerful
-  verified-date: "2026-09-09"
+  verified-date: "2026-09-21"
 ---
 
 # Code Generator — 从计划到代码的自动化生成器
 
-把 code-intent-planner 的任务计划转化为可运行代码文件。两层架构：L1 模板引擎（快，覆盖常见模式） + L2 LLM 生成（灵活，处理复杂逻辑）。
+把 code-intent-planner 的任务计划转化为可运行代码文件。两层架构：**L1 脚本模板引擎**（快，覆盖常见模式） + **L2 agent 生成**（灵活，处理复杂逻辑）。
+
+## 适用决策表
+
+| 情况 | 用不用本技能 | 走哪层 |
+|------|------------|--------|
+| plan 是 Python FastAPI 的 CRUD 实现 | ✅ L1 脚本直出 | `code_generator.py --plan ... --format json` |
+| plan 是 bug 修复 / 测试桩 | ✅ L1 脚本出骨架 | 同上（`fix`/`test` 意图） |
+| TypeScript/Go 的 CRUD | ⚠️ 脚本 L1 不覆盖，agent 按 .j2 模板手工渲染 | `references/templates/typescript_express_crud.ts.j2` |
+| 自定义/复杂业务逻辑 | ⚠️ L2 由 agent 生成（见诚实声明） | agent 按「L2 生成纪律」执行 |
+| 还没有实现计划 | ❌ 先走 code-intent-planner | — |
+| 审查/调试已有代码 | ❌ 超范围 | — |
+
+## 诚实声明（先读，本节与脚本实际行为逐条对齐）
+
+- **L2 在脚本里是 Mock**。`code_generator.py` 的 L2 路径（`generate_l2`）不做任何 LLM 调用：对 `implement` 意图恒返回一份 FastAPI CRUD 脚手架，其他意图返回空。`--no-mock` 参数只是标记位，**不存在真实 LLM 后端**。真正的"LLM 生成"由运行本技能的 agent（你）执行——脚本的角色是 L1 加速器 + 结构化报告器。
+- **脚本不做代码验证**。返回 JSON 里 `validation` 字段恒为 `"skip (mock mode)"`；`py_compile`/`tsc`/`black` 等检查由 agent 在文件落盘后自行执行（工作流步骤 4），报告里的"✓ 已生成"只代表"内容已产出"，**不代表可用**。
+- **脚本不读 `references/templates/` 下的 .j2 文件**。脚本用内置内存模板（3 族）；.j2 文件是给 agent 与测试做 Jinja2 渲染的参考材料（4 个），两套体系不要混淆。
+- **脚手架 ≠ 产品**。L1 产出的 service 层是内存 list 存储、无鉴权、无持久化——它是起点不是终点，交付前必须按项目真实需求改造（见暗知识 1）。
 
 ## 输入清单
 
 | 输入 | 必需 | 说明 | 来源 |
 |------|------|------|------|
-| plan_json | 是 | code-intent-planner 输出的完整 JSON | code-intent-planner |
+| plan_json | 是 | code-intent-planner 输出的完整 JSON（文件路径或内联 JSON） | code-intent-planner |
 | project_root | 否 | 项目根目录 | 自动探测 |
-| output_dir | 否 | 代码输出目录 | 当前工作目录 |
-| session_id | 否 | 会话标识（跨轮复用） | 自动生成 |
-| dry_run | 否 | 只输出计划不写入文件 | false |
+| output | 否 | 报告输出文件路径（markdown/json 报告落盘） | — |
+| output_dir | 否 | 代码文件输出目录（仅 `--format json` 且非 dry-run 时写代码文件） | 默认当前目录 |
+| dry_run | 否 | 只输出报告不写入任何文件 | false |
 
 缺失时询问模板：「请提供：① code-intent-planner 输出的 JSON（或 plan 文件路径）。项目目录自动探测。」
 
@@ -33,200 +51,138 @@ metadata:
 ```bash
 # 1. plan 来源可读
 test -f "$PLAN_JSON" && echo "OK plan present" || echo "NEED plan_json"
-# 2. 项目根可探测（任一群存在即视为命中）
-for f in package.json pyproject.toml go.mod Cargo.toml pom.xml build.gradle requirements.txt; do
-  ls "$project_root/$f" >/dev/null 2>&1 && echo "tech=$f" && break
+# 2. 项目根可探测（任一存在即命中）
+for f in package.json pyproject.toml go.mod Cargo.toml requirements.txt; do
+  test -f "$project_root/$f" && echo "tech=$f" && break
 done
-# 3. 模板库存在
-test -d references/templates && echo "OK templates present"
+# 3. 脚本与模板库在位
+test -f scripts/code_generator.py && test -d references/templates && echo "OK skill complete"
 ```
 
-- 预期：plan 文件存在；项目根至少命中一个配置文件或标 `unknown`；模板库存在。
-- 若失败：plan 缺失 → STOP，回到输入清单索取；模板库缺失 → STOP，回报技能未完整分发。
+- 预期：plan 存在；项目根至少命中一个配置文件或标 `unknown`；脚本与模板库在位。
+- 若失败：plan 缺失 → STOP 回到输入清单索取；技能文件不全 → STOP 回报未完整分发。
 
-## 两层架构
+## L1 真实覆盖表（脚本内置 3 族，与代码逐一对应）
 
-### L1 模板引擎（零 LLM，<50ms）
+| 意图类型 | 脚本键 | 产出文件 | 说明 |
+|---------|--------|---------|------|
+| implement + python/fastapi | `implement.python_fastapi_crud` | `src/{target}/models.py` + `service.py` + `api.py` | Pydantic v2 模型 + 内存存储 service + FastAPI 路由 |
+| fix（任意技术栈，实际产出 Python） | `fix.runtime` | `src/{target}/{module}.py` | guard-clause 修复骨架，槽位需填 function_name/params/root_cause 等 |
+| test（任意技术栈，实际产出 Python） | `test.coverage` | `tests/test_{module}.py` | pytest 测试桩，槽位需填 module_path/ClassName/method 等 |
 
-覆盖常见代码模式，直接填充模板生成代码：
-
-| 意图类型 | 覆盖模式 | 示例 |
-|---------|---------|------|
-| implement.feature | CRUD 模型 + service + API | 用户注册/登录 |
-| implement.api | REST controller + DTO + 参数校验 | 订单接口 |
-| implement.component | UI 组件（React/Vue/Svelte） | 登录表单 |
-| fix.runtime | Bug 修复模板 + 补丁 | 空指针修复 |
-| test.coverage | 测试桩生成 | 覆盖率补全 |
-| refactor | 重构骨架 + 检查清单 | 模块重构 |
-
-**模式匹配规则**（按优先级）：① 技术栈→语言/框架决定模板语言；② 意图类型→决定代码结构；③ 槽位 target→决定文件名与模块名；④ 项目已有代码→决定风格一致性。
-
-### L2 LLM 生成（灵活，支持复杂逻辑）
-
-触发条件（满足任一）：① L1 无匹配模板；② 任务描述含「自定义/特殊/复杂」；③ 项目有独特架构约定；④ L1 生成代码通过编译/格式检查失败。
-
-**上下文注入**（每次 L2 调用前必读）：项目技术栈（package.json / pyproject.toml 等）、现有代码风格（读取 2-3 个代表性文件）、已有模块结构（目录树）、关键依赖版本。
+- 匹配顺序：精确键 `{intent}.{tech_stack.replace('/','_')}` → `{intent}.default` → 意图兜底（fix→修复骨架，test→测试桩，implement+python*→CRUD）→ 无匹配返回 `no_template`。
+- TypeScript Express 的 CRUD 由 agent 用 `references/templates/typescript_express_crud.ts.j2` 渲染（需 Jinja2，或按占位符手工替换）。
+- 渲染机制是**朴素占位符替换**（`{{key}}` 与 `{key}` 都替换），不是 Jinja2——模板里不要用控制流语法。
 
 ## 工作流
 
 ### 步骤 1：项目上下文分析
 
-- 动作：探测技术栈、目录结构（前 3 层）、关键配置文件、2-3 个代码风格样本。
-- 预期输出：
-```json
-{
-  "tech_stack": "python/fastapi",
-  "directory_structure": ["src/models/", "src/services/", "src/api/"],
-  "code_style_samples": ["..."],
-  "existing_modules": ["auth", "users", "orders"]
-}
-```
-- 若失败：无配置文件 → `tech_stack` 标 `unknown`，继续（L2 时再读样本）；目录不可读 → STOP 回报权限问题。
-
-### 步骤 2：L1 模板匹配
-
-按以下顺序尝试匹配：
-
-| 优先级 | 检查项 | 命中后动作 |
-|--------|--------|-----------|
-| 1 | intent_type + tech_stack 组合 | 加载对应模板 |
-| 2 | sub_tasks 关键词 | 微调模板参数 |
-| 3 | project 已有代码风格 | 自适应格式 |
-| 4 | 默认 fallback | 生成基础骨架 |
-
-- 动作：按优先级加载 `references/templates/` 下对应 `.j2`，无命中转 L2。
-- 预期：命中则拿到模板；否则进入 L2。
-- 若失败：模板渲染变量缺失 → 检查 plan 的 slots 是否齐全（name/tech_stack/target）。
-
-### 步骤 3：代码生成
-
-**L1 模式（模板填充）：**
-```python
-def generate_from_template(template, context):
-    """用 context 中的变量填充 Jinja2 模板"""
-    return template.render(
-        module_name=context["target"],
-        tech_stack=context["tech_stack"],
-        tasks=context["sub_tasks"],
-        constraints=context["constraints"],
-        project_style=context["code_style_samples"],
-    )
+```bash
+python3 scripts/code_generator.py --project <project_root> --format json --dry-run
 ```
 
-**L2 模式（LLM 生成）：**
-```python
-def generate_with_llm(plan, project_context):
-    """调用 LLM，注入完整项目上下文"""
-    prompt = build_generation_prompt(plan, project_context)
-    return parse_code_output(call_llm(prompt, temperature=0.2))
+- 动作：脚本调用 project_analyzer 探测技术栈与目录结构；agent 另读 2-3 个代表性代码文件确认风格（缩进/命名/导入习惯）。
+- 预期：JSON 含 `tech_stack`、`files`、`context`。
+- 若失败：无配置文件 → `tech_stack` 标 `unknown` 继续；目录不可读 → STOP 回报权限。
+
+### 步骤 2：L1 模板生成（脚本）
+
+```bash
+# 生成报告（markdown，不写代码）
+python3 scripts/code_generator.py --plan plan.json --project . --format markdown
+# 落盘代码 + JSON 报告
+python3 scripts/code_generator.py --plan plan.json --format json --output report.json --output-dir .
 ```
 
-- 动作：按 L1/L2 路径产出代码字符串。
-- 预期：产出对应文件内容，结构与 plan 的 sub_tasks 对应。
-- 若失败：L1 渲染异常 → 校验 context；L2 输出非代码 → 重试 L2（最多 2 次）。
+- 预期：`status:"success"` 且 `files` 含 3 个文件（CRUD 情形）；`no_template` → 转 L2。
+- 若失败：plan 缺 slots 的 `target` → 模板渲染退化为 `module`，先补 plan 再跑。
 
-### 步骤 4：代码验证
+### 步骤 3：L2 agent 生成（L1 未覆盖时）
+
+agent 按以下纪律生成，不依赖脚本的 mock L2：
+
+1. 注入上下文：技术栈配置、2-3 个风格样本、目录树、关键依赖版本；
+2. 先写测试桩或接口签名，再填实现（与 tdd-guide 的 RED→GREEN 对齐）；
+3. 产出必须通过步骤 4 验证才允许落盘交付；
+4. 失败重试上限 2 次，仍失败则列入"需人工介入"清单，不许静默降级为脚手架。
+
+### 步骤 4：代码验证（agent 执行，脚本不做）
 
 | 验证项 | 方法 | 失败处理 |
 |--------|------|---------|
-| 语法检查 | `python -m py_compile` / `tsc --noEmit` | L2 重新生成 |
-| 格式检查 | `black` / `prettier` / `go fmt` | 自动格式化 |
-| 导入检查 | `pyflakes` / `eslint --fix` | 修复后重试 |
-| 依赖检查 | `pip install -r requirements.txt` | 报告缺失依赖 |
+| 语法 | `python -m py_compile` / `tsc --noEmit` | 修正或重生成 |
+| 格式 | `black --check` / `prettier --check` / `go fmt` | 自动格式化后复验 |
+| 导入 | `pyflakes` / `eslint` | 修复后复验 |
+| 冒烟 | 生成的测试桩跑 `pytest --collect-only` | 收集失败=桩不可用，回 L2 |
 
-- 动作：逐项校验，全部通过才写入文件。
-- 预期：全部 ✓；任一失败进入对应处理。
-- 若失败：连续 2 次 L2 仍失败 → 标记该文件需人工介入（见进度报告）。
+- 预期：全部通过才宣布交付；任何一项失败都写进进度报告的"验证失败"节。
 
-### 步骤 5：测试桩生成
+### 步骤 5：测试桩生成（真实可调）
 
-调用 tdd-guide 技能的 test_generator（路径以 tdd-guide 技能目录为基准，不是本技能目录）：
+tdd-guide 技能（位于技能库 code-quality 域）的 test_generator.py 真实存在，路径以 tdd-guide 技能目录为基准：
 
 ```bash
-# <tdd-guide>/scripts/test_generator.py
 python "<tdd-guide>/scripts/test_generator.py" \
   --source src/auth/service.py \
   --framework pytest \
   --output tests/test_auth_service.py
 ```
 
-- 动作：为已生成模块生成测试桩。
-- 预期：在 `tests/` 下生成对应测试文件。
-- 若失败：tdd-guide 未安装 → 跳过此步并标注，不阻断主流程。
+- 若失败：tdd-guide 未安装 → 跳过并标注，不阻断主流程。
 
 ### 步骤 6：进度报告
 
-```markdown
-## 生成报告 — {session_id}
-**意图类型：** {intent_type}  **生成层：** L1 / L2
-### 已生成文件（{n} 个）
-| 文件 | 行数 | 验证 |
-| src/auth/model.py | 42 | ✓ 语法OK |
-### 待生成文件（{m} 个）
-| 文件 | 原因 |
-| src/auth/api.py | 依赖 src/auth/service.py |
-### 验证失败（{k} 个，需人工介入）
-| 文件 | 错误 | 建议 |
-| src/auth/service.py | import error: no module named 'jwt' | pip install pyjwt |
-```
+脚本 markdown 模式自动产出（含已生成文件清单与行数）；agent 追加两类信息：**验证结果**（步骤 4）与**待改造项**（见暗知识 1 的清单）。报告里"已生成"与"验证通过"是两个不同状态，不许合并表述。
 
-## 代码模式模板库
+## 代码生成暗知识（从模板与真实工程里来的坑）
 
-真实模板位于 `references/templates/`（Jinja2，按意图+技术栈命名）：
+1. **脚手架的三张欠条**：L1 CRUD 脚手架固定有三处必须改造——① `service.py` 是内存 list 存储（重启即丢），要换真实持久层；② 无鉴权/权限检查，`api.py` 的路由裸奔；③ 无分页，`find_all` 在数据量上来后是事故。交付说明里必须列出这三项，把"欠条"显式化。
+2. **命名派生链一错全错**：`target` 槽位决定 `Model = target.capitalize()`、`Service = target + "Service"`、`id_param = target 去尾 s + "_id"`。`target` 用复数（如 `orders`）则 Model 变 `Orders`、id_param 变 `order_id`——先用单数模块名再考虑表名复数，或在 plan 的 slots 里显式覆盖。
+3. **模板先行的边界**：模板覆盖的是"形状"（分层、命名、路由写法），永远不覆盖业务规则、鉴权、并发控制。判断一个需求能不能走 L1：如果 sub_tasks 里出现"校验库存/风控/通知"这类词，直接 L2。
+4. **落盘前必须验证**：报告"✓ 已生成"只是内容产出，py_compile 都过不了的东西落盘会污染项目——agent 的验证步骤（步骤 4）不可跳过，宁可重来。
+5. **风格一致性靠样本不靠想象**：L2 生成前读 2-3 个真实文件（缩进、引号、import 排序、异常处理习惯），生成的代码要像"这个项目里的人写的"，不是像教科书。
 
-| 意图类型 | 模板文件 |
-|---------|---------|
-| implement.feature — Python FastAPI | `references/templates/python_fastapi_crud.py.j2` |
-| implement.feature — TypeScript Express | `references/templates/typescript_express_crud.ts.j2` |
-| fix.runtime — Bug Fix | `references/templates/fix_runtime.py.j2` |
-| test.coverage — Test Stub | `references/templates/test_stub.py.j2` |
+## 红线
 
-示例（`references/templates/python_fastapi_crud.py.j2` 渲染片段）：
-```python
-# src/{target}/models.py
-from datetime import datetime
-from pydantic import BaseModel, Field
-
-class {Model}Create(BaseModel):
-    {fields}
-
-class {Model}({Model}Base):
-    class Config:
-        from_attributes = True
-```
+1. **不冒充验证**：没有跑过 py_compile/tsc 的代码，报告里不得出现"验证通过"。
+2. **不静默降级**：L2 重试 2 次失败就列入"需人工介入"，不许拿脚手架顶替复杂逻辑交付。
+3. **不覆盖已有文件**：目标文件存在时先读取合并（或征得同意），不许直接覆写。
+4. **不伪造交付清单**：报告里的"已生成 + 待生成 + 失败"三类计数必须与实际产物一一对应。
+5. **不做计划外发挥**：plan 之外的功能不顺手实现；有建议写进报告。
 
 ## 失败处置表
 
 | 现象 | 原因 | 处置 |
 |------|------|------|
-| L1 无匹配模板 | 意图类型或技术栈不在模板库 | 升级 L2 |
-| L1 生成代码语法错误 | 模板变量填充错误 | 重新渲染，检查 context |
-| L2 生成代码编译失败 | LLM 幻觉 / 语法错误 | 重试 L2（最多 2 次） |
-| 依赖缺失 | 模板使用了未安装的包 | 报告缺失依赖，建议安装 |
-| 风格不一致 | 项目有特定约定 | 读取更多样本文件，调整 L2 prompt |
-| 文件冲突 | 目标文件已存在 | 先读取现有文件，合并变更 |
+| `no_template` | 意图类型或技术栈不在 3 族覆盖内 | 转 L2（agent 生成）；或按 .j2 模板渲染 |
+| 渲染后代码含未替换占位符 | plan slots 缺 `target` 等键 | 补齐 plan 的 slots 再跑 |
+| L2 生成代码编译失败 | 逻辑错误/幻觉 | 重试 L2（≤2 次），仍失败列入人工介入 |
+| 依赖缺失 | 模板 import 了未安装的包 | 报告列出缺失依赖，征得同意后安装 |
+| 文件冲突 | 目标文件已存在 | 先读取现有文件合并，不覆写 |
+| `--output` 指向不存在的深层目录 | 路径问题 | 脚本会自动创建父目录；仍失败改用相对路径 |
 
 ## 与 tdd-guide 的协作
 
 code-generator 生成代码后，可自动调用 tdd-guide：
 
 ```text
-code-generator → 生成代码文件 → tdd-guide (test_generator.py) → 生成测试桩 → 验证测试桩语法 → 完成报告
+code-generator → 生成代码文件 → agent 验证（步骤 4）→ tdd-guide (test_generator.py) → 生成测试桩 → 验证测试桩语法 → 完成报告
 ```
 
-**TDD 优先模式**（可选）：先生成测试桩（RED）→ 实现代码使测试通过（GREEN）→ 重构（REFACTOR）。
-启用方式：`--mode tdd` 或 plan 中含 `tdd: true`。
+**TDD 优先模式**（可选）：先生成测试桩（RED）→ 实现代码使测试通过（GREEN）→ 重构（REFACTOR）。启用方式：plan 中含 `tdd: true`。
 
 ## 交付标准
 
-- 成功定义：所有 plan 中可生成的 sub_tasks 均产出文件，且语法/格式/导入验证通过（或明确列出需人工介入项）。
-- 产物命名：按 plan 的 target 与模块约定（如 `src/{target}/model.py`、`src/{target}/service.py`、`tests/test_{target}_service.py`）。
-- 保存位置：`output_dir`（默认当前工作目录）。
-- 验证完整性：重跑步骤 4 的四项检查全 ✓；对照进度报告确认「已生成 + 待生成 + 失败」三类计数与 plan 一致。
+- 成功定义：plan 中可生成的 sub_tasks 均产出文件，且**agent 验证**（步骤 4）通过或明确列入"需人工介入"。
+- 产物命名：按 plan 的 target 与模块约定（如 `src/{target}/model.py`、`tests/test_{target}_service.py`）。
+- 保存位置：代码 → `--output-dir`（默认当前目录）；报告 → `--output`（缺省打印 stdout）。
+- 验证完整性：重跑步骤 4 全 ✓；"已生成 + 待生成 + 失败"计数与实际产物一致；脚手架三张欠条写入交付说明。
 
 ## 参考
 
-- references/templates/ — 代码模板（Jinja2，真实可渲染文件）
-- references/patterns.md — 常见代码模式速查
-- references/gotchas.md — 生成陷阱与规避
-- references/examples.md — 真实生成案例
+- `references/templates/` — 4 个 Jinja2 模板（agent 渲染用；脚本 L1 用内置内存模板，两套并行）
+- `references/patterns.md` — 常见代码模式速查
+- `references/gotchas.md` — 生成陷阱与规避
+- `references/examples.md` — 真实生成案例
+- `scripts/test_code_generator.py` — 8 项单元测试（含 .j2 渲染产物 py_compile 检查），改动脚本后必跑

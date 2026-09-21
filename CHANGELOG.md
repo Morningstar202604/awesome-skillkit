@@ -14,6 +14,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > 另：0.4.0 – 0.6.1 发布于重置整理期，其内容随后被 squash 进 0.6.2 对应的提交
 > （`21769cb`），独立提交已不可考，故这四个版本没有对应的 git tag。
 
+## [0.20.3] - 2026-09-21
+
+### Changed
+
+- **内容配方 v2 第三批落地（写作域 + 审计 P0 设计缺陷修复）**——延续批次纪律：主观写作方法论一律引真实出版物（多源交叉核对），中文语境做批判性适配并注明；文档与脚本行为逐条对齐，虚构交付物清零：
+  - **article-drafter 1.0→2.0（全文重写）**：适用决策表 + 六条带出处起草暗知识（初稿的任务是存在——Anne Lamott《Bird by Bird》"shitty first drafts"；改稿预期做减法——Stephen King《On Writing》第二稿=第一稿−10%、关门写开门改；意义先于措辞——George Orwell《Politics and the English Language》(1946)"先用画面和感觉把意思想清楚再挑词"，预制短语批判的中文对应物=赋能/抓手/闭环；砍冗词——Strunk & White 规则 17；filter words 与句长节奏——Jane Friedman；研究先于动笔——Robert Caro《Working》）+ 红线 5 条。**诚实性修复**：旧文档的"输出初稿"示例展示的是脚本根本产不出的成品正文（虚构交付物），v2.0 拆成"真实脚本输出（占位骨架）"与"agent 填充后"双示例；修正 `--topic` 模式 sections 为空的设计行为说明与 audience 枚举归一职责（脚本不校验，agent 负责）。信源落盘 `references/sources-and-methodology.md`（含英文规则→中文的批判性适配记录：被动语态禁令不机械移植）。
+  - **content-editor 1.0→1.1**：诚实声明四连（`score` 是机械可编辑性风险分不是质量分；脚本 `edited` 字段是原文原样返回、改写由 agent 执行；`issues[].line` 实为字符偏移不是行号；禁用词扫描是子串匹配无上下文判断）+ 五条带出处编辑暗知识（禁用词的本质是"预制短语"批判——Orwell；编辑第一遍永远做减法、杀副词——King；omit needless words 判据是删掉不损义——Strunk & White；句长上限是触发阈值不是"超过即错"——Friedman；编辑不做事实核查但必须标注可疑数据）+ 红线 4 条（不做机械同义词替换等）。
+  - **code-generator 1.0→1.1（全文重写，审计 P0"虚构交付物"修复）**：诚实声明把脚本真实能力讲透——L2 在脚本里是 Mock（`--no-mock` 无真实 LLM 后端，真 L2 由 agent 执行）、`validation` 恒为 skip、脚本不读 references/templates 下 .j2（脚本用内置内存模板 3 族，.j2 是 agent/测试材料）、L1 覆盖表与代码逐一对应。暗知识 5 条（脚手架三张欠条：内存存储/无鉴权/无分页必须在交付说明显式化；命名派生链 target→Model/Service/id_param；模板先行的边界；落盘前必须验证；风格一致性靠样本）。脚本加法修复：新增 `--output-dir`（json 模式代码输出目录独立于报告路径，修掉"报告文件路径被当目录用"的怪癖，向后兼容）。
+  - **pii-redactor 1.0→1.1（审计 P0"replace 空实现"修复）**：脚本实现 `--strategy replace`（替换为 `[REDACTED:<类别>]` 占位符，零残留——此前静默落回 mask 行为，属安全语义欺骗）；多文件合并输出补 `===== 文件名 =====` 边界行（修掉脱敏后丢文件归属的隐患）。SKILL.md 注入脱敏策略安全语义暗知识（mask 保首尾位/hash 可被穷举反查——中国手机号空间 ~10¹⁰ 可离线建彩虹表/replace 才是对外发布唯一安全选择；校验位是误报第一道闸）+ 红线 5 条（mask/hash 产物不得称为"匿名化数据"等）。
+  - **model-solver 1.0→1.1（审计 P0"MIP 静默误解"修复）**：脚本四处修复——MIP/MILP/ILP 显式拒绝（此前静默进 linprog 解出"看似成功"的连续假解；现返回 unsupported + **退出码 2**）；`elapsed_ms` 从硬编码 0 改为 perf_counter 实测；linprog status 2/3 分开报 infeasible/unbounded（此前混报，二者处置相反）；ODE 支持 spec.`ode_method`（RK45/Radau/BDF，兑现文档"调 Radau"的承诺——此前 `--method` 收了不用）。SKILL.md 新增适用决策表 + 诚实声明（pulp/cvxpy 是生态不是脚本内置）+ 求解器暗知识 4 条 + 失败处置表补 MIP/iteration_limit 行。
+  - **评审闭环**：外部评审员因 429 频率限制不可用，双轨评审由主 agent 亲自执行——QA 侧逐条核对契约（replace/mask 语义、MIP rc=2、--output-dir 向后兼容、validate 引用规则）并跑取证；内容侧自纠 2 处（"整数背包差距常达 10-30%"无出处伪精确→降格为"差距取决于问题结构，没有普适数字"；"+10~15% 余量"→绑定 King 的 −10% 定律）。AI 腔/标点/引文忠实度扫描通过（Orwell 六规则、King −10%、Lamott shitty first drafts 均与检索原文核对一致）。
+- **测试记录（全层绿）**：validate 154/154（0 错 0 警）| smoke 121/121 | pytest 573 通过 1 跳过 | scenario 154/154 | chain_e2e 62 链 209 步：全量跑 60/62 链全绿，2 链 LLM 质量门方差（api-test-suite-builder 长度 259<500、image-prompt-engineer 含占位符——均不在本批改动面）单链复跑双双 PASS 确认非回归；10 步 pending_realgen（媒体生成端点按设计留待真实生成）；0 真实失败。
+
 ## [0.20.2] - 2026-09-21
 
 ### Changed
