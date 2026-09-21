@@ -154,8 +154,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 225,
-      "sha256": "35a77711f7b4d1f3b4f06e363c54c55b239361c2136ef3bc06d43a38ab5faefe"
+      "size_kb": 227,
+      "sha256": "16dfea99a7f5ace31a78607815066e14adb194142b9cb28865871384e28e4bcb"
     },
     {
       "id": "ai-video-pipeline",
@@ -566,8 +566,8 @@
           "source": "original"
         }
       ],
-      "size_kb": 27,
-      "sha256": "7a3a3f5b3ebcf6f294b1c6ee4ebaa82f4f466ee81292f73266b1239d4aeea71b"
+      "size_kb": 31,
+      "sha256": "ad1b6baa1f12cc26e62cca7f8e1753bd41fa80dc96d9614ee6858e7acad30dff"
     },
     {
       "id": "edu-craft",
@@ -638,8 +638,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 16,
-      "sha256": "098b2e53e331e0b526b1c6ace136931992616e45d37e4855b283d8bebc9a392d"
+      "size_kb": 17,
+      "sha256": "0a316a5563d879362579c6cdd3c5c4a9764593cfc3bca4e24f27e83ffb443972"
     },
     {
       "id": "homework-autopilot",
@@ -978,8 +978,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 67,
-      "sha256": "78ef979c0dcd0f5517a5bdbcf094ea40a935bb48bce2430061592d355727ec57"
+      "size_kb": 68,
+      "sha256": "f5fdd4148236c7bd9042db19b7d8f879d06620e00cd8ada57b9ab49a50639c67"
     },
     {
       "id": "video-design-studio",

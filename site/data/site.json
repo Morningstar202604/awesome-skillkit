@@ -814,10 +814,10 @@
    "desc": "Audit a text for AI-writing fingerprints: scan built-in Chinese/English AI高频词 lists, measure sentence-length variance (std/mean), list/parallelism density and structural cliches, then report a 0-100 score with per-finding locations as machine-parseable JSON. Use when the user asks to 检测AI味 / AI痕迹检测 / 查一下这段像不像AI写的 / 体检AI率 / audit AI traces / detect AI writing / scan for AI style / de-AI check. Do NOT use as an official AI detector for academic-integrity arbitration — heuristic self-check only.",
    "license": "Apache-2.0",
    "compatibility": "Needs Python 3.8+ (stdlib only) for scripts/trace_scanner.py; if Python is unavailable, degrade to the manual checklist and mark the report manual_mode.",
-   "version": "1.0",
+   "version": "2.0",
    "tier": "standard",
    "pattern": "single-task",
-   "verified": "2026-09-16",
+   "verified": "2026-09-21",
    "repo_file": "skills/writing/ai-trace-auditor/SKILL.md",
    "packs": [
     "de-ai-writing"
@@ -1765,10 +1765,10 @@
    "desc": "Audit and reorganize a messy directory with a dry-run-first planner: extension/date/size statistics, fast duplicate detection (size + first-1KB hash), and a reviewable move plan before anything touches disk. Use when the user asks to 整理文件夹 / 整理目录 / 文件分类归档 / 找出重复文件 / 清理下载文件夹 / organize my files / file cleanup / find duplicate files / sort downloads folder. Do NOT use for deleting files, renaming in place, syncing between machines, or touching system/VCS directories.",
    "license": "Apache-2.0",
    "compatibility": "Python 3.8+ stdlib only (no third-party packages). Reads and moves files inside the directory you pass; apply is dry-run unless --yes is given.",
-   "version": "1.0",
+   "version": "1.1",
    "tier": "standard",
    "pattern": "single-task",
-   "verified": "2026-09-17",
+   "verified": "2026-09-21",
    "repo_file": "skills/tools/file-organizer/SKILL.md",
    "packs": [
     "toolsmith"
@@ -1879,10 +1879,10 @@
    "desc": "Rewrite AI-flavored text into natural human writing: inject burstiness (long-short sentence rhythm), upgrade abstractions to concrete details, add first-person reaction and controlled imperfection, while freezing all facts, numbers, terms and conclusions. Use when the user asks to 去AI味 / 人性化改写 / 改得像人写的 / 降AI率重写 / humanize this text / make it sound human / rewrite the AI draft. Do NOT use for legal, medical or academic-submission texts, and never invent facts the source does not contain.",
    "license": "Apache-2.0",
    "compatibility": "Needs Python 3.8+ (stdlib only) for the baseline/rescan step via the ai-trace-auditor bundle scanner; if unavailable, degrade to its manual checklist and mark the report manual_mode.",
-   "version": "1.0",
+   "version": "2.0",
    "tier": "powerful",
    "pattern": "workflow",
-   "verified": "2026-09-16",
+   "verified": "2026-09-21",
    "repo_file": "skills/writing/humanize-rewriter/SKILL.md",
    "packs": [
     "de-ai-writing"
@@ -2681,10 +2681,10 @@
    "desc": "Write conversion-focused e-commerce product copy from raw product facts: framework selection (FAB / PAS / AIDA), benefit-first headlines, objection-handling section, and fact hygiene (no invented specs). Chain entry of growth-marketing — its copy feeds campaign-designer and channel-adapter directly. Use when the user asks to 写商品文案 / 详情页 / 卖点 / 产品描述 / sales copy / product description / 种草文案. Do NOT use for full campaign calendars (campaign-designer), nor per-platform reformatting of finished copy (channel-adapter).",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; no runtime dependencies.",
-   "version": "1.0",
+   "version": "1.1",
    "tier": "standard",
    "pattern": "single-task",
-   "verified": "2026-09-14",
+   "verified": "2026-09-21",
    "repo_file": "skills/marketing/product-copywriter/SKILL.md",
    "packs": [
     "growth-marketing"
