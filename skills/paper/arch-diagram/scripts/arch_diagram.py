@@ -1,135 +1,240 @@
 #!/usr/bin/env python3
-"""Architecture Diagram Generator — 生成论文用架构图/框架图。
+"""Architecture Diagram Generator — 论文用架构图/框架图（TikZ + 可编辑 SVG）。
 
-学习自: torchdiagram + archscope + PlotNeuralNet
-输出: TikZ/LaTeX 代码 + SVG (editable)
+修复 v1 的三个硬伤：
+  1. TikZ 里写了 `\\sffootnotesize`——**不是合法 LaTeX 命令**，编译必报 Undefined control sequence；
+     改为 `\\footnotesize`。
+  2. SVG 用了 `marker-end="url(#arrow)"` 却**从未定义 #arrow**——箭头在浏览器/Inkscape 里不显示；
+     现在会输出 `<defs><marker id="arrow">`。
+  3. 所有块排成一条直线——新增布局 `row` / `wrap`（`--per-row`）/ `stack`。
+另：块标签自动转义 LaTeX 特殊字符（& % # _ $ { } ~ ^ \\）；配色为色盲安全调色板。
 
 用法:
-  python3 arch_diagram.py --type pipeline --blocks "Encoder,Attention,Decoder" --output arch.tex
-  python3 arch_diagram.py --type nn --layers "input,hidden(256),hidden(128),output"
+  python3 arch_diagram.py --type pipeline --blocks "Encoder,Decoder,Head" --output arch.tex
+  python3 arch_diagram.py --type pipeline --blocks "A,B,C,D,E" --layout wrap --per-row 3 --format svg
 """
 import argparse
 import json
+import math
 import sys
 from pathlib import Path
 
+# 色盲安全调色板（与 pub-plotter 同源）
+PALETTE = {
+    "blue": ("#0072B2", "blue!15"), "orange": ("#E69F00", "orange!20"),
+    "green": ("#009E73", "green!15"), "red": ("#D55E00", "red!15"),
+    "purple": ("#CC79A7", "purple!15"), "gray": ("#7F7F7F", "gray!20"),
+    "yellow": ("#F0E442", "yellow!25"), "cyan": ("#56B4E9", "cyan!20"),
+}
+LATEX_SPECIAL = {"&": r"\&", "%": r"\%", "#": r"\#", "_": r"\_", "$": r"\$",
+                 "{": r"\{", "}": r"\}", "~": r"\textasciitilde{}",
+                 "^": r"\textasciicircum{}", "\\": r"\textbackslash{}"}
 
-def generate_tikz_pipeline(blocks: list, output: str = None) -> dict:
-    """Generate TikZ code for a pipeline/architecture diagram."""
+
+def escape_latex(s: str) -> str:
+    """转义标签里的 LaTeX 特殊字符（顺序敏感：先处理反斜杠）。"""
+    out = s.replace("\\", "\x00")
+    for ch, rep in LATEX_SPECIAL.items():
+        if ch == "\\":
+            continue
+        out = out.replace(ch, rep)
+    return out.replace("\x00", LATEX_SPECIAL["\\"])
+
+
+def escape_xml(s: str) -> str:
+    return (s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            .replace('"', "&quot;"))
+
+
+def parse_blocks(spec: str) -> list:
+    """`A,B,C` 或 `A#red,B#blue`（# 后接调色板名）。返回 [(label, color), ...]。"""
+    blocks = []
+    for raw in spec.split(","):
+        raw = raw.strip()
+        if not raw:
+            continue
+        if "#" in raw:
+            label, _, color = raw.rpartition("#")
+            label, color = label.strip(), color.strip().lower()
+            if color not in PALETTE:
+                color = "blue"
+        else:
+            label, color = raw, None
+        blocks.append((label, color))
+    return blocks
+
+
+def _positions(n: int, layout: str, per_row: int) -> list:
+    """返回每块的 (row, col)，用于 row / wrap / stack 布局。"""
+    if layout == "stack":
+        return [(i, 0) for i in range(n)]
+    if layout == "wrap":
+        return [(i // per_row, i % per_row) for i in range(n)]
+    return [(0, i) for i in range(n)]
+
+
+def _auto_colors(blocks: list) -> list:
+    """未显式指定颜色时按顺序取调色板（保证相邻不同色）。"""
+    keys = list(PALETTE)
+    return [b[1] or keys[i % len(keys)] for i, b in enumerate(blocks)]
+
+
+def generate_tikz_pipeline(blocks: list, output: str = None, layout: str = "row",
+                           per_row: int = 3) -> dict:
     n = len(blocks)
-    spacing = 2.0
+    colors = _auto_colors(blocks)
+    pos = _positions(n, layout, per_row)
+    bw, bh, gx, gy = 3.0, 1.0, 1.2, 1.4
 
-    tikz_parts = []
-    tikz_parts.append("\\begin{tikzpicture}[node distance=" + str(spacing) + "cm]")
-    tikz_parts.append("% Auto-generated architecture diagram")
-    for i, block in enumerate(blocks):
-        node_num = i + 1
-        x_pos = (i + 1) * spacing
-        tikz_parts.append(
-            f"\\node[draw, rounded corners, minimum width=1.5cm, minimum height=0.8cm, "
-            f"fill=blue!5, font=\\sffootnotesize] (b{node_num}) at ({x_pos},0) {{{block}}};\n"
-        )
+    parts = [
+        "% Auto-generated architecture diagram (TikZ)",
+        "% Requires \\usepackage{tikz} + \\usetikzlibrary{arrows.meta,positioning}",
+        "\\begin{tikzpicture}[",
+        "  archblock/.style={draw, rounded corners=2pt, minimum width=3.0cm,",
+        "    minimum height=1.0cm, align=center, font=\\footnotesize},",
+        "  archarrow/.style={-{Stealth[length=2.5mm]}, thick}",
+        "]",
+    ]
+    for i, (label, _) in enumerate(blocks):
+        r, c = pos[i]
+        x = c * (bw + gx)
+        y = -r * (bh + gy)
+        parts.append(
+            f"\\node[archblock, fill={PALETTE[colors[i]][1]}] (b{i}) "
+            f"at ({x:.2f},{y:.2f}) {{{escape_latex(label)}}};")
     for i in range(n - 1):
-        tikz_parts.append(f"\\draw[-{{>}}] (b{i+1}) -- (b{i+2});\n")
-    tikz_parts.append("\\end{tikzpicture}")
+        (r1, c1), (r2, c2) = pos[i], pos[i + 1]
+        if r1 == r2:  # 同行 → 水平箭头
+            parts.append(f"\\draw[archarrow] (b{i}.east) -- (b{i+1}.west);")
+        else:         # 换行 → 先到下再折向
+            parts.append(f"\\draw[archarrow] (b{i}.south) |- (b{i+1}.west);")
+    parts.append("\\end{tikzpicture}")
+    tikz = "\n".join(parts) + "\n"
 
-    tikz = "\n".join(tikz_parts)
     out = Path(output or "/tmp/arch.tex")
+    out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(tikz, encoding="utf-8")
+    return {"output": str(out), "format": "tikz", "layout": layout, "n_blocks": n,
+            "blocks": [b[0] for b in blocks], "escaped": any(
+                any(ch in b[0] for ch in LATEX_SPECIAL) for b in blocks),
+            "font_command": "\\footnotesize", "compilable": True,
+            "note": "Requires \\usepackage{tikz} and \\usetikzlibrary{arrows.meta,positioning}"}
 
-    return {
-        "output": str(out),
-        "format": "tikz",
-        "n_blocks": n,
-        "blocks": blocks,
-        "compilable": True,
-    }
+
+def generate_svg_pipeline(blocks: list, output: str = None, layout: str = "row",
+                          per_row: int = 3) -> dict:
+    n = len(blocks)
+    colors = _auto_colors(blocks)
+    pos = _positions(n, layout, per_row)
+    bw, bh, gx, gy = 150, 54, 46, 40
+    n_rows = max(r for r, _ in pos) + 1
+    n_cols = max(c for _, c in pos) + 1
+    width = n_cols * (bw + gx) + 20
+    height = n_rows * (bh + gy) + 20
+
+    svg = [f'<svg xmlns="http://www.w3.org/2000/svg" '
+           f'xmlns:xlink="http://www.w3.org/1999/xlink" '
+           f'width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
+           '  <defs>',
+           '    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" '
+           'markerWidth="6" markerHeight="6" orient="auto-start-reverse">',
+           '      <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333"/>',
+           '    </marker>',
+           '  </defs>']
+    boxes = []
+    for i, (label, _) in enumerate(blocks):
+        r, c = pos[i]
+        x = 10 + c * (bw + gx)
+        y = 10 + r * (bh + gy)
+        boxes.append((x, y, x + bw, y + bh))
+        svg.append(f'  <rect x="{x}" y="{y}" width="{bw}" height="{bh}" rx="6" '
+                   f'fill="{PALETTE[colors[i]][0]}" fill-opacity="0.9"/>')
+        svg.append(f'  <text x="{x + bw // 2}" y="{y + bh // 2 + 5}" text-anchor="middle" '
+                   f'fill="white" font-family="sans-serif" font-size="14">'
+                   f'{escape_xml(label)}</text>')
+    for i in range(n - 1):
+        (r1, c1), (r2, c2) = pos[i], pos[i + 1]
+        x1, y1, x2, y2 = boxes[i]
+        x3, y3, _, _ = boxes[i + 1]
+        if r1 == r2:
+            svg.append(f'  <line x1="{x2}" y1="{(y1 + y2) // 2}" x2="{x3 - 6}" '
+                       f'y2="{(y1 + y2) // 2}" stroke="#333333" stroke-width="2" '
+                       f'marker-end="url(#arrow)"/>')
+        else:
+            mid_y = y3 + bh // 2
+            svg.append(f'  <polyline points="{(x1 + x2) // 2},{(y1 + y2) // 2} '
+                       f'{(x1 + x2) // 2},{mid_y} {x3 - 6},{mid_y}" fill="none" '
+                       f'stroke="#333333" stroke-width="2" marker-end="url(#arrow)"/>')
+    svg.append("</svg>")
+    content = "\n".join(svg) + "\n"
+
+    out = Path(output or "/tmp/arch.svg")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(content, encoding="utf-8")
+    return {"output": str(out), "format": "svg", "layout": layout, "n_blocks": n,
+            "blocks": [b[0] for b in blocks], "has_marker_def": "<marker id=\"arrow\"" in content,
+            "valid_root": content.startswith("<svg") and content.rstrip().endswith("</svg>"),
+            "editable": True}
 
 
 def generate_neural_net(layers: list, output: str = None) -> dict:
-    """Generate TikZ neural network diagram (simplified PlotNeuralNet style)."""
+    """简化层叠图。**神经元级网络结构图请优先用 neural-net-draw**（本函数只画示意点阵）。"""
     out = Path(output or "/tmp/nn_diagram.tex")
-
-    layers_info = []
+    info = []
     for layer in layers:
-        parts = layer.split("(")
-        name = parts[0]
-        size = int(parts[1].rstrip(")")) if len(parts) > 1 else None
-        layers_info.append({"name": name, "size": size or 4})
+        name, _, size = layer.partition("(")
+        info.append({"name": name.strip(), "size": int(size.rstrip(")")) if size else 4})
 
-    tikz = """\\begin{tikzpicture}[>=stealth, thick,
-  node/.style={circle, draw, minimum size=0.5cm, font=\\tiny},
-  layer/.style={draw, rectangle, dashed, opacity=0.3, fill=gray!5}]
-"""
-    x_pos = 0
-    for i, layer in enumerate(layers_info):
-        n_nodes = min(layer["size"] or 4, 6)
-        layer_width = n_nodes * 0.6
-        tikz += f"\\node[draw=none] (l{i}) at ({x_pos},0) {{}};\n"
+    lines = ["% Simplified layer stack — for neuron-level figures use the neural-net-draw skill",
+             "\\begin{tikzpicture}[>=stealth, thick,",
+             "  nnnode/.style={circle, draw, minimum size=0.5cm, font=\\tiny},",
+             "  nnlayer/.style={draw, rectangle, dashed, opacity=0.3, fill=gray!5}]"]
+    x_pos = 0.0
+    for i, layer in enumerate(info):
+        n_nodes = min(layer["size"], 6)
+        lines.append(f"\\node[nnlayer, minimum width=0.7cm, minimum height="
+                     f"{max(n_nodes * 0.7, 1.0):.1f}cm] at ({x_pos:.1f},0) {{}};")
         for j in range(n_nodes):
             y = j * 0.7 - (n_nodes - 1) * 0.35
-            tikz += f"\\node[node, fill={'blue!10' if i > 0 else 'white'}] at ({x_pos},{y}) {{\\tiny {j+1}}};\n"
+            fill = "blue!10" if i > 0 else "white"
+            lines.append(f"\\node[nnnode, fill={fill}] at ({x_pos:.1f},{y:.2f}) "
+                         f"{{\\tiny {j + 1}}};")
+        lines.append(f"\\node[font=\\tiny, below] at ({x_pos:.1f},-1.2) "
+                     f"{{{escape_latex(layer['name'])}}};")
         x_pos += 2.0
-
-    tikz += """\\end{tikzpicture}"""
-    out.write_text(tikz, encoding="utf-8")
-
-    return {
-        "output": str(out),
-        "format": "tikz",
-        "layers": layers,
-        "n_layers": len(layers),
-        "compilable": True,
-    }
-
-
-def generate_svg_pipeline(blocks: list, output: str = None) -> dict:
-    """Generate editable SVG (for Figma/Inkscape import)."""
-    out = Path(output or "/tmp/arch.svg")
-    box_w, box_h, gap = 120, 50, 40
-    total_w = len(blocks) * (box_w + gap)
-
-    svg = f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_w}" height="{box_h + 40}">\n'
-    for i, block in enumerate(blocks):
-        x = i * (box_w + gap) + 20
-        svg += f'  <rect x="{x}" y="20" width="{box_w}" height="{box_h}" rx="8" fill="#4C72B0" opacity="0.8"/>\n'
-        svg += f'  <text x="{x + box_w//2}" y="{20 + box_h//2 + 5}" text-anchor="middle" fill="white" font-size="14">{block}</text>\n'
-        if i < len(blocks) - 1:
-            ax = x + box_w + 5
-            svg += f'  <line x1="{ax}" y1="{20 + box_h//2}" x2="{ax + gap - 10}" y2="{20 + box_h//2}" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>\n'
-    svg += '</svg>\n'
-    out.write_text(svg, encoding="utf-8")
-
-    return {"output": str(out), "format": "svg", "n_blocks": len(blocks), "editable": True}
+    lines.append("\\end{tikzpicture}")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return {"output": str(out), "format": "tikz", "n_layers": len(info),
+            "layers": [la["name"] for la in info], "compilable": True,
+            "note": "Simplified stack; use neural-net-draw for publication-grade "
+                    "neuron-level diagrams"}
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Architecture diagram generator")
+    parser = argparse.ArgumentParser(description="Architecture diagram generator (SOTA)")
     parser.add_argument("--type", default="pipeline", choices=["pipeline", "nn", "svg"])
-    parser.add_argument("--blocks", default="", help="Comma-separated block names")
-    parser.add_argument("--layers", nargs="*", help="Layer specs for NN")
+    parser.add_argument("--blocks", default="", help="Comma-separated labels; "
+                                                     "optional 'Label#color' (blue/orange/green/red/"
+                                                     "purple/gray/yellow/cyan)")
+    parser.add_argument("--layers", nargs="*", help="Layer specs for NN, e.g. input(4) hidden(8)")
+    parser.add_argument("--layout", default="row", choices=["row", "wrap", "stack"])
+    parser.add_argument("--per-row", type=int, default=3, help="Blocks per row when --layout wrap")
     parser.add_argument("--format", default="tikz", choices=["tikz", "svg"])
     parser.add_argument("--output", help="Output file")
     args = parser.parse_args()
 
-    # Parse comma-separated blocks
-    if args.blocks:
-        blocks_list = [b.strip() for b in args.blocks.split(",") if b.strip()]
-    else:
-        blocks_list = []
+    blocks = parse_blocks(args.blocks) if args.blocks else []
 
     if args.type == "nn":
-        layers = args.layers or ["input(4)", "hidden(8)", "hidden(4)", "output(2)"]
-        result = generate_neural_net(layers, args.output)
-    elif args.type == "svg":
-        blocks = blocks_list or ["Input", "Encoder", "Decoder", "Output"]
-        result = generate_svg_pipeline(blocks, args.output)
+        result = generate_neural_net(
+            args.layers or ["input(4)", "hidden(8)", "hidden(4)", "output(2)"], args.output)
+    elif args.type == "svg" or args.format == "svg":
+        bl = blocks or [("Input", None), ("Encoder", None), ("Decoder", None), ("Output", None)]
+        result = generate_svg_pipeline(bl, args.output, args.layout, args.per_row)
     else:
-        blocks = blocks_list or ["Data", "Feature", "Model", "Loss"]
-        if args.format == "svg":
-            result = generate_svg_pipeline(blocks, args.output)
-        else:
-            result = generate_tikz_pipeline(blocks, args.output)
+        bl = blocks or [("Data", None), ("Feature", None), ("Model", None), ("Loss", None)]
+        result = generate_tikz_pipeline(bl, args.output, args.layout, args.per_row)
 
     print(json.dumps(result, ensure_ascii=False, indent=2))
 

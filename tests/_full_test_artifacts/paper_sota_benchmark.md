@@ -60,3 +60,35 @@
 ### 遗留项更新（非阻塞）
 - paper 域剩余未加强技能：tex-cleaner / journal-adapt / ai-humanizer / anti-defensive / paper-topic-selector / arch-diagram。
 - 第三批（本次 3 技能）均离线可复现，无新增网络/外部依赖门禁风险。
+
+---
+
+## 第三批 before/after（2026-09-21，收尾：paper 域 13/13 全覆盖）
+
+按同一模板收尾 paper 域最后 6 个技能：tex-cleaner / journal-adapt / ai-humanizer / anti-defensive / paper-topic-selector / arch-diagram。
+
+### 量化
+
+| 技能 | SKILL.md | 脚本 | 测试 | 引入的 SOTA 能力 |
+|------|---------|------|------|------------------|
+| tex-cleaner | 1.0→2.0（109行） | 243行（前 ~125） | 8 断言 | 注释剥离改为**转义 + verbatim 感知**（旧版只认行首 `%`，漏掉全部行尾注释）；未用宏包改**命令→宏包映射**（旧版硬编码 3 条）；新增**资源清单** `assets{groups,missing}`（`\input`/`\bibliography`/`\includegraphics` 存在性）；`--clean` 缺 `--output` 改为 rc=1（旧版静默无操作） |
+| journal-adapt | 1.0→2.0（107行） | 216行（前 ~95） | 12 断言 | 页数从 `words/500` 一刀切 → **分栏感知模型**（NeurIPS 1 栏 600 词/页 vs IEEE/ACM 2 栏 950–1000）+ **参考文献页扣减**（venue 是否计 refs，按 `\bibitem` 45 条/页）+ 摘要字数上限 + venue 必填章节（含 NeurIPS/ACL 的 Limitations）+ 引用风格 + **双盲匿名检查** + venue 别名 + `--template-year` |
+| ai-humanizer | 1.0→2.0（104行） | 234行（前 ~124） | 9 断言 | 纯词表 → 叠加**结构层**：句长 burstiness、句首重复（连续 ≥3 同开头）、TTR 词汇多样性、重复 5-gram；全部命中带 `line:col`；新增 `llm_verb_spam`（delve/leverage/pivotal…）；固化的**诚实声明**（检测器不可靠、不得用于指控） |
+| anti-defensive | 1.0→2.0（104行） | 178行（前 ~98） | 9 断言 | 从「所有限定都扣分」→ **retain/tighten 分类器**：命中落在统计不确定语境（CI/p 值/方差/样本量/分布漂移）附近时标 `retain` 且**不扣分**（删掉它是学术错误）；新增**对冲密度**（每百词）；命中定位 |
+| paper-topic-selector | 1.0→2.0（136行） | 239行（前 ~69） | 10 断言 | 单题关键词打分 → **多候选排序**（`--topic` 可重复 + `--candidates`）配 SKILL.md 的四因子权重 40/30/20/10；**真实可行性模型** `1 - workload_weeks/deadline_weeks`（工期单位解析 + 复杂度词 + from-scratch 惩罚 + 少卡折扣）；**诚实 novelty 来源**（`novelty_source: heuristic-keyword` 默认未查新；给了 `--lit-review-json` 且 gap 命中才升 `lit-review` + `novelty_verified=true`）；输出 `ranked_topics[]` + `rejected[]`（带 reason） |
+| arch-diagram | 1.0→2.0（106行） | 244行（前 ~139） | 11 断言 | 修两个**编译/渲染硬伤**：`\sffootnotesize`（非法 LaTeX 命令）→ `\footnotesize`；SVG `url(#arrow)` 无 marker 定义 → 补 `<defs><marker>`（旧版箭头根本不显示）；新增布局 `row/wrap/stack` + `--per-row`；色盲安全配色（与 pub-plotter 同源）；标签自动 **LaTeX + XML 转义** |
+
+### 测试强度升级
+
+6 个弱 `test_smoke_all.py` 升级为 **59 断言**手搓强测试（8+12+9+9+10+11），全绿；全库 `run_skill_smoke.py` 复跑 **121/121 pass（offline=0、dep=0、0 警告）**，门禁未退化。
+
+### 经验（第三批新增）
+- 修「老脚本」最高杠杆的往往不是加功能，而是**修正错误断言/无效语法**：`\sffootnotesize` 与未定义 SVG marker 都是「跑得通、编译/渲染必炸」的隐性硬伤。
+- 「所有 X 都是坏事」的单向规则（anti-defensive 的限定语）必须加**语境分类器**，否则会把统计上必须保留的限定删成裸断言——这是学术错误而非风格问题。
+- 涉及伦理的检测类工具（ai-humanizer）必须在**输出结构里**固化免责声明（`detector_note`），而不是只写在 SKILL.md。
+- 估算类指标（页数、工作量）应把**中间量暴露出来**（`workload_weeks`/`deadline_weeks`/`ref_pages`）供人工复核，而不是只给一个最终分。
+
+### 遗留项（收尾后）
+- **paper 域 13 个技能已全部 SOTA 化**（3+3+3+3 共四批，含 figure-maker 合并入 pub-plotter）。
+- paper 域剩余可选项：给 `figure-maker` 是否仍独立存在做一次去重审计（与 pub-plotter 职责重叠）。
+- 横向推广：writing / programming / meta 等域尚未开始，`docs/SKILL-SOTA-STRENGTHENING.md` 可直接复用。

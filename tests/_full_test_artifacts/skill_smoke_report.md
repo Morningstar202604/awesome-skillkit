@@ -1,6 +1,6 @@
 # 第二代 · 真实技能冒烟测试全量报告
 
-> 生成时间：2026-09-20 18:24:03 UTC
+> 生成时间：2026-09-21 02:31:35 UTC
 > 口径：**直接运行真实技能自带的 `test_smoke_*.py`**（pytest），取代第一代手搓代理 task。
 > 这是真正意义上的「技能质量门禁」——测的是仓库里 117 个真实技能中 ship 了冒烟测试的 28 个。
 
@@ -43,19 +43,19 @@
 | `office\docx-writer` | pass | 2 | 0 | 0 | 0 | — |
 | `office\epub-builder` | pass | 2 | 0 | 0 | 0 | — |
 | `office\pdf-pipeline` | pass | 2 | 0 | 0 | 0 | — |
-| `paper\ai-humanizer` | pass | 2 | 0 | 0 | 0 | — |
-| `paper\anti-defensive` | pass | 2 | 0 | 0 | 0 | — |
-| `paper\arch-diagram` | pass | 2 | 0 | 0 | 0 | — |
+| `paper\ai-humanizer` | pass | 9 | 0 | 0 | 0 | — |
+| `paper\anti-defensive` | pass | 9 | 0 | 0 | 0 | — |
+| `paper\arch-diagram` | pass | 11 | 0 | 0 | 0 | — |
 | `paper\experiment-runner` | pass | 6 | 0 | 0 | 0 | — |
 | `paper\figure-maker` | pass | 2 | 0 | 0 | 0 | — |
-| `paper\journal-adapt` | pass | 2 | 0 | 0 | 0 | — |
+| `paper\journal-adapt` | pass | 12 | 0 | 0 | 0 | — |
 | `paper\latex-formatter` | pass | 8 | 0 | 0 | 0 | — |
 | `paper\lit-review` | pass | 5 | 0 | 0 | 0 | — |
 | `paper\neural-net-draw` | pass | 7 | 0 | 0 | 0 | — |
-| `paper\paper-topic-selector` | pass | 1 | 0 | 0 | 0 | — |
+| `paper\paper-topic-selector` | pass | 10 | 0 | 0 | 0 | — |
 | `paper\pub-plotter` | pass | 5 | 0 | 0 | 0 | — |
 | `paper\self-reviewer` | pass | 7 | 0 | 0 | 0 | — |
-| `paper\tex-cleaner` | pass | 2 | 0 | 0 | 0 | — |
+| `paper\tex-cleaner` | pass | 8 | 0 | 0 | 0 | — |
 | `ppt\ppt-builder` | pass | 2 | 0 | 0 | 0 | — |
 | `programming\ai-engineering` | pass | 2 | 0 | 0 | 0 | — |
 | `programming\ai-engineering` | pass | 2 | 0 | 0 | 0 | — |

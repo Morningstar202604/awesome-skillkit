@@ -18,6 +18,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **paper 域 SOTA 加强第三批（tex-cleaner / journal-adapt / ai-humanizer / anti-defensive / paper-topic-selector / arch-diagram）**（`skills/paper/`）——paper 域 13 技能至此全覆盖：
+  - **tex-cleaner**：注释剥离改**转义 + verbatim 感知**（旧版只认行首 `%`）；未用宏包改**命令→宏包映射**；新增**资源清单**（`\input`/`\bibliography`/`\includegraphics` 存在性）；`--clean` 缺 `--output` 改 rc=1。SKILL.md 1.0→2.0。
+  - **journal-adapt**：页数从 `words/500` → **分栏感知模型** + **参考文献页扣减** + 摘要字数上限 + venue 必填章节（NeurIPS/ACL 的 Limitations）+ 引用风格 + **双盲检查** + 别名 + `--template-year`。SKILL.md 1.0→2.0。
+  - **ai-humanizer**：纯词表 → 叠加**结构层**（句长 burstiness / 句首重复 / TTR / 重复 5-gram）+ `line:col` 定位 + `llm_verb_spam`；输出内固化**检测器不可靠**的诚实声明。SKILL.md 1.0→2.0。
+  - **anti-defensive**：单向「限定=坏事」→ **retain/tighten 语境分类器**（统计语境附近的限定保留且不扣分）+ **对冲密度**指标 + 定位。SKILL.md 1.0→2.0。
+  - **paper-topic-selector**：单题打分 → **多候选排序**（四因子权重 40/30/20/10）+ **可行性模型**（工期 vs 工作量）+ **诚实 novelty 来源**（heuristic / lit-review 校验）+ `ranked_topics[]`/`rejected[]`。SKILL.md 1.0→2.0。
+  - **arch-diagram**：修两个硬伤（非法 `\sffootnotesize`、SVG 未定义 marker）→ 加 `row/wrap/stack` 布局 + 色盲安全配色 + 标签自动 LaTeX/XML 转义。SKILL.md 1.0→2.0。
+  - 6 个弱 `test_smoke_all.py` 升级为 **59 断言**强测试；全库 `run_skill_smoke.py` 复跑 **121/121 pass（offline=0 dep=0 0 警告）**，门禁未退化；`paper_sota_benchmark.md` 追加第三批 before/after。
+
 - **paper 域 SOTA 加强第二批（neural-net-draw / latex-formatter / self-reviewer）**（`skills/paper/`，对标 2026 学术工具链）：
   - **neural-net-draw**：纯宽度层级图 → 叠加 **PlotNeuralNet 层类型**（conv/pool/residual/linear/attention/dropout）`typed-blocks` 画法（`--layers "w:type"`，`--style auto`）；保留 per-neuron 兼容；层高层高封顶 3cm（修 784 节点层失控 470cm）；未知类型硬 `ValueError`。SKILL.md 1.0→2.0。
   - **latex-formatter**：粗环境计数 → **按名 begin/end 配对**（Counter）；新增**跨文件 undefined `\cite` 检查**（`--refs refs.bib`）；裸 `&`/`%`/`#` 转义检查；**可选 chktex 真实 lint**（缺失时 stdlib 回退，`method` 如实标 `stdlib-fallback`/`external-lint`）。SKILL.md 1.0→2.0。
