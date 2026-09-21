@@ -28,3 +28,7 @@ Thumbs.db
 
 # WorkBuddy 项目记忆目录
 .workbuddy/
+
+# 链级 E2E 真出活儿产物（视频/图片体积大，不入库，仅留报告）
+tests/_e2e_artifacts/**/
+!tests/_e2e_artifacts/chain_e2e_report.json
