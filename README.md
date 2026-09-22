@@ -53,7 +53,7 @@ flowchart LR
 
 ## By the numbers
 
-> **154 skills** · **36 scene packs** · **18 chain domains / 62 skill chains** · v0.20.0 · Apache-2.0
+> **154 skills** · **36 scene packs** · **18 chain domains / 62 skill chains** · v0.22.0 · Apache-2.0
 
 **Source breakdown**:
 
@@ -268,14 +268,14 @@ Four platforms in parallel (same branches, tags, and HEAD) — no favorites:
 
 | Platform | Repo | Code sync | Release / assets | Status |
 |----------|------|:---:|:---:|--------|
-| GitHub | `x33834/awesome-skillkit` | ✅ through `0.19.0` | ✅ v0.19.0 + site | OK |
-| GitHub | `Morningstar202604/awesome-skillkit` | ✅ through `0.19.0` | ✅ site | OK |
-| GitCode | `badhope/awesome-skillkit` | ✅ through `0.20.0` | ✅ v0.20.0 tag | OK |
-| Gitee | `badhope/awesome-skillkit` | ✅ through `0.19.0` | ✅ v0.19.0, 36 zip assets | OK |
+| GitHub | `x33834/awesome-skillkit` | ✅ through `0.22.0` | ✅ v0.22.0 + 37 zip assets | OK |
+| GitHub | `Morningstar202604/awesome-skillkit` | ✅ through `0.22.0` | ✅ site | OK |
+| GitCode | `badhope/awesome-skillkit` | ✅ through `0.22.0` | ✅ v0.22.0 release | OK |
+| Gitee | `badhope/awesome-skillkit` | ✅ through `0.22.0` | ✅ v0.22.0, 37 zip assets | OK |
 
 Sites (GitHub Pages, both accounts): <https://x33834.github.io/awesome-skillkit/> · <https://morningstar202604.github.io/awesome-skillkit/>
 
-> 2026-09-21: GitCode synced to **v0.20.0**; GitHub/Gitee mirrors remain at v0.19.0 pending next sync.
+> 2026-09-22: all four mirrors synced to **v0.22.0** (code + tags). v0.22.0 assets: GitHub 37 zips, Gitee 37 zips, GitCode auto source archives.
 
 ## Directory layout
 

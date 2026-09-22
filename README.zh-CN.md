@@ -37,7 +37,7 @@ flowchart LR
 
 ## 数字一览
 
-> **154 个 skill** · **36 个场景包** · **18 个链域 / 62 条技能链** · v0.20.0 · Apache-2.0
+> **154 个 skill** · **36 个场景包** · **18 个链域 / 62 条技能链** · v0.22.0 · Apache-2.0
 
 **来源构成**（自研为主，上游为辅，全部可溯源）：
 
@@ -254,10 +254,10 @@ flowchart LR
 
 | 平台 | 仓库 | 代码同步 | Release / 附件 | 状态 |
 |------|------|:---:|:---:|------|
-| GitHub | `x33834/awesome-skillkit` | ✅ 至 `0.19.0` | ✅ v0.19.0 + 站点 | 正常 |
-| GitHub | `Morningstar202604/awesome-skillkit` | ✅ 至 `0.19.0` | ✅ 站点 | 正常 |
-| GitCode | `badhope/awesome-skillkit` | ✅ 至 `0.20.0` | ✅ v0.20.0 标签 | 正常 |
-| Gitee | `badhope/awesome-skillkit` | ✅ 至 `0.19.0` | ✅ v0.19.0 共 32 个 zip 附件 | 正常 |
+| GitHub | `x33834/awesome-skillkit` | ✅ 至 `0.22.0` | ✅ v0.22.0 + 37 个 zip 附件 | 正常 |
+| GitHub | `Morningstar202604/awesome-skillkit` | ✅ 至 `0.22.0` | ✅ 站点 | 正常 |
+| GitCode | `badhope/awesome-skillkit` | ✅ 至 `0.22.0` | ✅ v0.22.0 发布 | 正常 |
+| Gitee | `badhope/awesome-skillkit` | ✅ 至 `0.22.0` | ✅ v0.22.0 共 37 个 zip 附件 | 正常 |
 
 站点（GitHub Pages 双号，内容一致）：<https://x33834.github.io/awesome-skillkit/> · <https://morningstar202604.github.io/awesome-skillkit/>
 

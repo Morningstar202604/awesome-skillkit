@@ -37,7 +37,7 @@ flowchart LR
 
 ## 数字で見る
 
-> **154 skills** · **36 シナリオパック** · **18 チェーンドメイン / 62 スキルチェーン** · v0.20.0 · Apache-2.0
+> **154 skills** · **36 シナリオパック** · **18 チェーンドメイン / 62 スキルチェーン** · v0.22.0 · Apache-2.0
 
 **出典の内訳**:
 
@@ -254,10 +254,10 @@ flowchart LR
 
 | プラットフォーム | リポジトリ | コード同期 | Release / 添付 | 状態 |
 |----------------|-----------|:---:|:---:|------|
-| GitHub | `x33834/awesome-skillkit` | ✅ `0.19.0` まで | ✅ v0.19.0 + サイト | OK |
-| GitHub | `Morningstar202604/awesome-skillkit` | ✅ `0.19.0` まで | ✅ サイト | OK |
-| GitCode | `badhope/awesome-skillkit` | ✅ `0.20.0` まで | ✅ v0.20.0 タグ | OK |
-| Gitee | `badhope/awesome-skillkit` | ✅ `0.19.0` まで | ✅ v0.19.0、zip 添付 32 個 | OK |
+| GitHub | `x33834/awesome-skillkit` | ✅ `0.22.0` まで | ✅ v0.22.0 + zip 37 個 | OK |
+| GitHub | `Morningstar202604/awesome-skillkit` | ✅ `0.22.0` まで | ✅ サイト | OK |
+| GitCode | `badhope/awesome-skillkit` | ✅ `0.22.0` まで | ✅ v0.22.0 リリース | OK |
+| Gitee | `badhope/awesome-skillkit` | ✅ `0.22.0` まで | ✅ v0.22.0、zip 添付 37 個 | OK |
 
 サイト（GitHub Pages 両アカウント、内容同一）：<https://x33834.github.io/awesome-skillkit/> · <https://morningstar202604.github.io/awesome-skillkit/>
 
