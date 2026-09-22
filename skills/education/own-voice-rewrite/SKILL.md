@@ -1,20 +1,33 @@
 ---
 name: own-voice-rewrite
-description: "Rewrite a homework draft in the student's own voice: calibrate wording to grade level (primary / middle / high-school vocabulary, sentence-length caps, rhetoric depth), force-inject the student's real personal materials in place of generic filler, add restrained human touches (burstiness, concrete scenes, one natural flaw), then re-audit with ai-trace-auditor and deliver with a read-through-before-submitting reminder. The human-warmth core of the homework-autopilot chain. Use when the user asks to 学生口吻重写 / 改得像我写的 / 去掉作文腔 / rewrite in student voice / make it sound like me / 降维到我的水平 / 像学生写的. Do NOT use for experiences the student never had, nor as a guarantee against AI detection."
+description: "Rewrite a homework draft in the student's own voice. Two calibration paths: if a real writing sample from the student is available, extract distributional voice features (sentence-length band, punctuation rhythm, connective preferences) and a negative-constraint list; otherwise fall back to grade-level calibration (primary / middle / high-school vocabulary, sentence-length caps) and declare it as a proxy. Then force-inject the student's real materials in place of generic filler, add restrained human touches, re-audit with ai-trace-auditor, and deliver with a read-through-before-submitting reminder plus an append-only calibration record. The human-warmth core of the homework-autopilot chain. Use when the user asks to 学生口吻重写 / 改得像我写的 / 去掉作文腔 / rewrite in student voice / make it sound like me / 降维到我的水平 / 像学生写的. Do NOT use for experiences the student never had, nor as a guarantee against AI detection."
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime dependencies.
 metadata:
-  version: "1.0"
+  version: "2.0"
   author: awesome-skillkit
   category: education
   pattern: workflow
   tier: powerful
-  verified-date: "2026-09-16"
+  verified-date: "2026-09-22"
 ---
 
 # Own Voice Rewrite（学生口吻重写）
 
-AI 初稿工整但冷血，一眼机器。本技能是 homework-autopilot 链条的"有温度"核心：把 solution-drafter 的初稿降维到学生本人的语言水平，用真实素材替换空话，再交给 ai-trace-auditor 复检——终稿必须经得起老师追问"这段你自己写的？说说你怎么想的"。
+AI 初稿工整但冷血，一眼机器。本技能是 homework-autopilot 链条的"有温度"核心：把 solution-drafter 的初稿改成学生本人的语言，用真实素材替换空话，再交给 ai-trace-auditor 复检——终稿必须经得起老师追问"这段你自己写的？说说你怎么想的"。
+
+**v2.0 的关键升级**：原版只会"按年级档位降维"——那只能让她写得**像个初中生**，不能让她写得**像她自己**。新版加了一条真正的校准路径：只要学生能提供一段自己以前写的东西，就用它抽取语言指纹；给不出样本时，才退回年级档位，并如实声明这是**代理**而非对齐。
+
+## 适用决策表
+
+| 你的处境 | 本技能的位置 | 去向 |
+|----------|--------------|------|
+| 有初稿要改得像学生自己写的 | ✅ 本技能 | 这里 |
+| 要从零写一篇（没有初稿） | ❌ 顺序不对 | solution-drafter 先出 draft |
+| 只要降 AI 痕迹，不在乎"像谁" | ⚠️ 可用但更低配 | humanize-rewriter 更直接 |
+| 要检查终稿还剩多少机器痕迹 | ✅ 步骤 4 会用 | ai-trace-auditor |
+| 学生给不出任何自己的旧文字 | ⚠️ 走年级档位代理路径，并声明局限 | 步骤 0 分支 B |
+| 要求"保证过 AI 检测" | ❌ 拒绝 | 红线 4 |
 
 ## 输入清单
 
@@ -22,34 +35,98 @@ AI 初稿工整但冷血，一眼机器。本技能是 homework-autopilot 链条
 |---|---|---|
 | draft | 是 | solution-drafter 的 draft JSON；须含 content / used_materials / checklist_pass |
 | 年级与学科 | 是 | "初中二年级语文"——决定语言水平校准档位 |
+| **声音样本** | 否（但强烈建议） | 学生自己以前写的文字（随笔/周记/朋友圈长文均可）；有它才走"声音对齐"路径（步骤 0） |
 | 补充素材 | 否 | 重写中发现的素材缺口，允许中途补一轮 |
 
-缺输入时一次性问齐：
+缺输入时的处理（**只有 ①② 是阻塞项**）：
 
-> 请提供：① 初稿（draft JSON 或全文）② 年级和学科。
-> 另外确认一下：初稿里的经历都是你的真实经历吗？有出入现在指出。
+> ① 初稿、② 年级与学科缺失 → 一次性问齐：请提供 ① 初稿（draft JSON 或全文）② 年级和学科。
+> ③ 经历真实性、④ 声音样本**缺失不阻塞**：③ 未说明即按"经历真实"处理并在交付中提示用户核对；④ 无样本即走年级代理路径（步骤 0 分支 B），`voice_alignment.mode` 标 `grade-proxy`。
+> **禁止因为缺可选输入（尤其声音样本）而把任务退回用户或只输出一句询问**——先交付可用结果，再在交付说明里列出"补一段你自己的文字可以让它更像你"这类可补强项。
 
 ## 前置自检
 
-本技能纯 prompt 驱动：无脚本、无端点、无环境变量。三点核对：
+本技能纯 prompt 驱动：无脚本、无端点、无环境变量。四点核对：
 
-1. draft 里有 used_materials 吗？——空数组意味着正文不该有任何个人经历，重写只做语言降维。
+1. draft 里有 used_materials 吗？——空数组意味着正文不该有任何个人经历，重写只做语言校准。
 2. 年级明确吗？——不明确则语言校准失去基准，必须先问，不猜学段。
 3. 正文里有没有用户没提供过的经历？——有则先核对（红线 1），核对不过就删。
+4. **有声音样本吗？**——有 → 步骤 0 分支 A（声音对齐）；无 → 分支 B（年级代理），并在交付时按诚实声明 4 说明局限。
+
+## 暗知识（"像她写的"到底难在哪）
+
+### 1. 声音指纹在分布特征里，不在"爱用的词"里
+
+计量文体学（stylometry）几十年的结论：**最能区分写作者的是函数词频率、句长分布、标点节奏这类无意识习惯**——它们跨主题稳定、难以刻意模仿。而"她爱用某个词"这种表层特征，恰恰是最容易伪装、也最不像的层次。
+
+**实践含义**：只把 AI 稿里的词换成"学生会用的词"，得到的是**穿戏服的声音**（costume）——老师一句"这不像你写的"就打回。要动的是句子节奏：句长带（她习惯多长的句子）、连接词习惯（"然后"还是"后来"）、标点密度（用不用感叹号、逗号连不连句）。
+
+### 2. 样本纪律：太短的样本建不起指纹
+
+stylometry 的样本量纪律：**样本太短，频率不稳定，结论不可靠**（短文本的文体特征噪声大）。可操作规则：
+
+| 样本量 | 可用程度 | 交付时的说法 |
+|---|---|---|
+| ≥800 字，且与作业同体裁（都是记叙/议论） | 可靠 | 可以说"按你的语言习惯对齐" |
+| 200–800 字 | 有限 | 只能说"部分对齐"，标出对不齐的段落 |
+| <200 字，或跨体裁（拿聊天记录对作文） | 不可用 | 退回年级代理路径，如实说明 |
+
+### 3. 负面清单比正面指令更有效
+
+一份公开的真实 AI 代笔系统（为真人代写社媒内容）公布的复盘里，最反直觉的发现是：**"她绝不会怎么写"的负面约束清单，比"要怎么写"的正面指令更有用**。
+
+映射到学生场景：**"她从不用感叹号""她从不写排比句""她从不引用名言"** 这类排除项，比"多用成语"更能逼近她的声音。做法：从声音样本里抽取 3–5 条负面约束（她没做过的、与她学段不符的花哨表达），写成清单，改写时逐条兑现。
+
+### 4. 可编辑的风格规则 > 原始样本堆
+
+显式写出来的风格规则（"句子控制在 15 字上下""连接词用'然后'不用'此外'”）**可以被学生逐条否决和修正**；而"我模仿了你这三篇文章"是隐式的，学生说"还是不像"时无从下手。
+
+**交付纪律**：把对齐用的特征清单随终稿交付（产出规格里的 `voice_alignment.features`），让学生能说"这条不对"。
+
+### 5. 校准是追加式的，不是重训练
+
+同一系统还证明了：**记录每次改动、追加到校准档案里**，比"重新学习"更有效。对应本技能：终稿交付时请学生回传"我读的时候改了哪里"——把 `changes` 列表与学生回传的修改一起存下，下次重写直接用这份档案。
+
+### 6. 素材强制注入：感受必须落到场景
+
+（沿用本组原创机制）空话句（"我明白了坚持的意义"）必须用 used_materials 里的真实素材替换或锚定——否则一切语言处理都是给空壳化妆。对照示例见工作流步骤 2。
+
+### 7. 人味微调是表达层手术，不许碰信息层
+
+burstiness（连续两个长句后接一个 ≤8 字短句）、抽象换具体、允许一处合理口语——这些只动表达层。数字、术语、结论、引用一律不动（红线 5）。
 
 ## 红线（硬性禁令，不可协商）
 
-1. 不虚构用户未提供的经历：重写只能调度 used_materials 里已有的素材，缺料处保留占位并提示用户补充。
-2. 终稿保留学生可复述的难度：改写完成后学生必须能复述全文大意与关键细节——答不上老师追问 = 失败交付。
-3. 交付物必须附"建议通读一遍再提交"：终稿附誊写建议，建议学生读一遍、顺手改成自己的习惯用词，再手抄或提交。
-4. 不担保过 AI 检测：复检分数下降是设计目标，但禁止向用户承诺"老师看不出来"。
-5. 信息层只减不加：数字、术语、结论、引用不可动（对齐 humanize-rewriter 禁改清单），改写只动表达层。
+1. **不虚构用户未提供的经历**：重写只能调度 used_materials 里已有的素材，缺料处保留占位并提示用户补充。
+2. **终稿保留学生可复述的难度**：改写完成后学生必须能复述全文大意与关键细节——答不上老师追问 = 失败交付。
+3. **交付物必须附"建议通读一遍再提交"**：终稿附誊写建议，建议学生读一遍、顺手改成自己的习惯用词，再手抄或提交。
+4. **不担保过 AI 检测**：复检分数下降是设计目标，但禁止向用户承诺"老师看不出来"。
+5. **信息层只减不加**：数字、术语、结论、引用不可动（对齐 humanize-rewriter 禁改清单），改写只动表达层。
+6. **不声称超出样本能支撑的对齐程度**：样本不足时如实降级表述（暗知识 2 的表），把"年级代理"说成"你的声音"属于虚假交付。
+
+## 诚实声明
+
+1. **语言校准档位表（20/30/40 字句长上限、成语数量）是经验值**，不是课程标准原文数字；课标只提供学段划分依据，阈值可按学生实际水平调整。
+2. **声音对齐的可靠度取决于样本量与体裁匹配**（暗知识 2）：短样本或跨体裁样本给出的结论是方向性的，不是"指纹级"的。
+3. **复检分数来自同仓 ai-trace-auditor 的启发式口径**，命中与否都不是官方判定；本技能与任何 AI 检测器无隶属关系。
+4. **走年级代理路径时，只能声称"符合学段水平"，不能声称"像你写的"**——这是两条不同的验收标准。
+5. 本技能对齐的是**语言习惯层**，不建模方言、网络用语等个性风格（那是 personal-voice-profile 的职责，面向用户本人授权的历史文本）。
+6. 本技能不重写信息层，也不改善"素材本身的质量"——素材不够撑起字数时，正确动作是请用户补料，不是注水。
 
 ## 工作流
 
-### 步骤 1：语言水平降维
+### 步骤 0：定校准路径（声音样本采集）
 
-- **动作：** 按年级档位校准全文（参照表如下；上限均为经验值，可调）：
+- **分支 A（有样本）**：从样本中抽取对齐特征，至少覆盖四项：
+  1. **句长带**：样本的典型句长区间（如"8–18 字，偶有 25 字长句"）
+  2. **标点节奏**：逗号密度、是否用感叹号/省略号、有无断句习惯
+  3. **连接词偏好**：样本里实际出现的连接词（如"然后/后来/反正"），连同**不出现的**书面连接词（"此外/然而/综上所述"）
+  4. **负面清单**：3–5 条"她不会这样写"的排除项（暗知识 3）
+- **分支 B（无样本）**：用下方年级档位表，并在 `voice_alignment.mode` 标注 `grade-proxy`。
+- **预期：** `voice_alignment.mode` 为 `sample` 或 `grade-proxy`，`features` 非空。
+- **若失败：** 样本不足 200 字或体裁不匹配 → 按暗知识 2 的规则降级或转分支 B，不要硬凑特征。
+
+年级档位表（分支 B 用；上限均为经验值，可调）：
 
 | 学段 | 词汇上限 | 单句长度上限 | 修辞深度 | 禁用腔调 |
 |---|---|---|---|---|
@@ -57,8 +134,10 @@ AI 初稿工整但冷血，一眼机器。本技能是 homework-autopilot 链条
 | 初中 | 成语与书面语可用 | ≤30 字 | 排比、引用课文可用 | "综上所述"式总结、政论腔 |
 | 高中 | 抽象概念可用 | ≤40 字 | 辩证、让步、反问可用 | 空洞口号、堆砌名言 |
 
-- **动作（续）：** 逐句扫描——超限句拆短；超档词换同义常用词；命中禁用腔调整句重写。
-- **预期：** 全文无超档词与超限长句；高中生作文里不出现"综上所述，本文构建了……"。
+### 步骤 1：语言校准（按步骤 0 的路径执行）
+
+- **动作：** 分支 A → 按抽取的特征逐句校准（句长带、标点、连接词）；分支 B → 按档位表逐句扫描：超限句拆短、超档词换同义常用词、命中禁用腔调整句重写。**两种路径都必须兑现负面清单**。
+- **预期：** 全文无超档词与超限长句；高中生作文里不出现"综上所述，本文构建了……"；负面清单逐条兑现。
 - **若失败：** 某术语无法降维（如数学专名）→ 保留术语，并确保上下文给了白话解释。
 
 ### 步骤 2：素材注入替换空话
@@ -85,7 +164,7 @@ AI 初稿工整但冷血，一眼机器。本技能是 homework-autopilot 链条
 
 ### 步骤 3：人味微调（克制版）
 
-- **动作：** 沿用 humanize-rewriter 的手法但更克制——连续两个长句后接一个 ≤8 字短句（burstiness）；抽象概括换具体名词与数字；允许一处合理的口语化表达、一个不算华丽的排比；留一点"想写但没写透"的余地。
+- **动作：** 沿用 humanize-rewriter 的手法但更克制——连续两个长句后接一个 ≤8 字短句（burstiness）；抽象概括换具体名词与数字；允许一处合理的口语化表达、一个不算华丽的排比；留一点"想写但没写透"的余地。**分支 A 时，本步服从步骤 0 抽取的句长带，不机械套 ≤8 字。**
 - **预期：** 全篇满分作文腔消失；但不刻意堆口语——学生腔是"真诚的平实"，不是"扮嫩"。
 - **若失败：** 改过头（口语密度过高）→ 回滚上一版，降低改动密度重试。
 
@@ -95,10 +174,10 @@ AI 初稿工整但冷血，一眼机器。本技能是 homework-autopilot 链条
 - **预期：** 复检分数必须低于改写前；verdict 至少提升一档。
 - **若失败：** 分数不降反升 → 按 findings 定位回步骤 3 针对性再改；两轮仍不过则如实告知剩余痕迹。
 
-### 步骤 5：输出终稿与誊写建议
+### 步骤 5：输出终稿、誊写建议与校准记录
 
-- **动作：** 汇总为 final JSON（结构见产出规格），结尾必须附提示："建议通读一遍再提交——读出声，别扭的地方改成你自己的说法，老师问起来你也答得顺。"
-- **预期：** JSON 可被 json.loads 解析；reaudit.after 大于 reaudit.before；read_through_note 存在。
+- **动作：** 汇总为 final JSON（结构见产出规格），结尾必须附提示："建议通读一遍再提交——读出声，别扭的地方改成你自己的说法，老师问起来你也答得顺。"**并请学生回传"你改了哪里"**，把回传内容追加进 `calibration_log`（暗知识 5）。
+- **预期：** JSON 可被 json.loads 解析；reaudit.after 大于 reaudit.before；read_through_note 与 voice_alignment 在场。
 - **若失败：** 字数跌破 requirements 下限 → 用素材细节补足后重跑步骤 4，禁止注水空话。
 
 可复述性快测（红线 2 的落点，30 秒完成）：
@@ -122,7 +201,16 @@ final JSON 结构：
   "reaudit": {"before": 42, "after": 78},
   "read_through_note": "建议通读一遍再提交：读出声，别扭处改成自己的说法",
   "placeholders": ["<<material:春游感受>>"],
-  "grade_check": "小学档：无超 20 字长句，成语 2 个"
+  "grade_check": "小学档：无超 20 字长句，成语 2 个",
+  "voice_alignment": {
+    "mode": "sample",
+    "features": ["句长带 8-18 字", "几乎不用感叹号", "连接词偏好：然后/后来", "逗号连句少"],
+    "negative_list": ["不写排比", "不引用名言", "不用'综上所述'"],
+    "confidence_note": "样本约 600 字且同为记叙文 → 部分对齐；第 4 段素材非样本来源，按年级档位处理"
+  },
+  "calibration_log": [
+    {"round": 1, "student_edits": ["把'我有点想哭'改成了'我眼睛有点酸'"], "next_time_rule": "情绪表达用身体感受词，不用'想哭'这类直陈"}
+  ]
 }
 ```
 
@@ -132,6 +220,20 @@ final JSON 结构：
 | reaudit.after | 必须大于 before（ai-trace-auditor 分数越高越像人写） |
 | read_through_note | 必填（红线 3） |
 | grade_check | 写明所用学段档位与核对结论 |
+| voice_alignment.mode | `sample` 或 `grade-proxy`（诚实声明 4 的落点） |
+| voice_alignment.negative_list | 非空（暗知识 3）；grade-proxy 时为学段禁用腔调清单 |
+| calibration_log | 首次交付可为空数组；学生回传修改后追加（暗知识 5） |
+
+## 内置验证步骤（交付前逐条打勾）
+
+- [ ] **素材溯源**：每个场景、数字、感受都能溯源到 used_materials，无编造（红线 1）
+- [ ] **可复述性**：学生能完成复述快测（红线 2）
+- [ ] **信息层完好**：数字/术语/结论/引用与初稿一致（红线 5）
+- [ ] **校准一致性**：句长与标点符合步骤 0 的特征（分支 A）或档位表（分支 B）
+- [ ] **负面清单兑现**：`negative_list` 逐条检查无一违反（暗知识 3）
+- [ ] **诚实标注**：`voice_alignment.mode` 如实；样本不足时已按暗知识 2 降级表述
+- [ ] **占位清理**：全文搜 `<<material:`，有残留则提示补料或删除该段
+- [ ] **复检对比**：reaudit.after > before
 
 ## 失败处置表
 
@@ -139,7 +241,9 @@ final JSON 结构：
 |---|---|---|
 | 复检分数不降反升 | 降维时引入新套话 | 按 findings 定位回改，两轮不过如实告知剩余痕迹 |
 | 素材撑不起全文 | 用户给料太少 | 一次性列缺口请补；补不齐保留占位，禁止编造 |
-| 学生说"不像我写的" | 校准档位错或口头禅没对齐 | 请学生给一段自己写的文字对照，重新校准后重改 |
+| 学生说"不像我写的" | 校准路径错或负面清单没抽对 | 请学生给一段自己写的文字（哪怕 200 字），重走步骤 0 分支 A |
+| 学生给不出样本 | 常见情形 | 走年级代理，交付时按诚实声明 4 只声称"符合学段水平"，不声称"像你写的" |
+| 样本是聊天记录/跨体裁 | 体裁不匹配 | 按暗知识 2 降级（只能部分对齐），或转年级代理 |
 | 字数跌破下限 | 删空话删过头 | 补真实细节（素材展开），不加空话 |
 | 学生怕老师追问 | 可复述性不达标 | 让学生对终稿做一次复述练习，卡壳处简化到能复述为止 |
 | 高年级仍带论文腔 | 步骤 1 档位没用对 | 按禁用腔调清单逐句重扫 |
@@ -154,15 +258,16 @@ final JSON 结构：
 - final JSON 可被 json.loads 解析，reaudit.after 大于 reaudit.before。
 - changes 可逐条回溯：每条 before 能在初稿定位，after 能在终稿定位。
 - 全文无虚构素材：每个场景、数字、感受都能溯源到 used_materials。
-- 年级校准通过：无超档词汇、无超限长句、无禁用腔调命中。
+- 校准通过：无超档词汇、无超限长句、无禁用腔调命中；负面清单逐条兑现。
+- `voice_alignment` 三件套在场（mode/features/negative_list），mode 与实际样本情况一致。
 - read_through_note 在场；学生对照终稿能完成一次复述。
 
 ## 参考
 
-- `references/sources-and-methodology.md` —— 需要说明年级语言水平校准依据、burstiness 手法来源或对外署名时读。
+- `references/sources-and-methodology.md` —— 声音对齐的计量文体学依据、负面清单与追加式校准的来源、年级校准依据与诚实边界。**对外署名或需要解释"为什么这样对齐"时必读。**
 
 ## 链路位置
 
 - 上游：solution-drafter（必接——本技能只吃 draft JSON）。
-- 联动：ai-trace-auditor（改后复检，步骤 4）；humanize-rewriter（writing 域同源手法，本技能更克制）。
+- 联动：ai-trace-auditor（改后复检，步骤 4）；humanize-rewriter（writing 域同源手法，本技能更克制且多了声音对齐层）。
 - 下游：feynman-explainer 闭环——把终稿复述给他人听一遍（复述 = 内化），讲不顺的段落回炉。

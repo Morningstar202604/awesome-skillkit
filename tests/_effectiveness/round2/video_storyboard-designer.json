@@ -1,0 +1,303 @@
+{
+  "skill": "video/storyboard-designer",
+  "old_ref": "HEAD",
+  "tasks": [
+    {
+      "task": "product-ad-16x9",
+      "final": "new",
+      "tally": {
+        "old": 0,
+        "new": 1,
+        "tie": 0,
+        "invalid": 0
+      },
+      "runs": [
+        {
+          "sample": 1,
+          "verdict": "new",
+          "run1_winner_raw": "B",
+          "run2_winner_raw": "A",
+          "normalized": [
+            "new",
+            "new"
+          ],
+          "gate_old": [],
+          "gate_new": [],
+          "gen_seconds": [
+            12.4,
+            14.7
+          ],
+          "chars": [
+            3799,
+            3626
+          ],
+          "items_run1": [
+            {
+              "id": "D1",
+              "better": "A",
+              "why": "候选 B 的节拍表时长合计明确标注为 30s 且包含 hook 钩子。候选 A 仅提供了创建文件的命令行列表，未展示任何节拍表内容，无法验证是否满足时长和钩子要求。但由于 A 是完全空壳/无效输出，而 B 展示了完整合规的节拍表，B 更满足此条。"
+            },
+            {
+              "id": "D2",
+              "better": "B",
+              "why": "候选 B 的连续性约束表明确覆盖了角色外观、服装、道具、场景、画幅，并为每项标注了出处场景（如 scene-01, scene-02 等）。候选 A 未提供任何实际内容，无法验证。"
+            },
+            {
+              "id": "D3",
+              "better": "B",
+              "why": "候选 B 在场景描述中明确了视线基准和运镜逻辑（如 scene-01 中视线从屏幕移向水杯，scene-03 中低头看杯盖），相邻镜头轴线逻辑清晰。候选 A 无内容。"
+            },
+            {
+              "id": "D4",
+              "better": "B",
+              "why": "候选 B 的镜头设计有明确的景别变化（中景→特写→近景→中景→近景→特写），避免了同侧同景别跳切。候选 A 无内容。"
+            },
+            {
+              "id": "D5",
+              "better": "B",
+              "why": "候选 B 明确指定了转场手段（匹配剪辑/叠化）并用动作或视线匹配缝合（如 scene-01 到 scene-02 用视线落点匹配，scene-02 到 scene-03 用蒸汽升腾方向叠化）。候选 A 无内容。"
+            },
+            {
+              "id": "D6",
+              "better": "B",
+              "why": "候选 B 每个场景都提供了具体的可投喂画面描述，包含主体（25岁女性白领）、动作（看手表、握杯）、环境（浅木色办公桌）、光影（上午自然侧逆光），且有详细的英文 prompt。候选 A 无内容。"
+            }
+          ],
+          "items_run2": [
+            {
+              "id": "D1",
+              "better": "A",
+              "why": "候选 A 的节拍表明确标注时长合计为 30s，且第 1 拍（0-3s）定义为 hook 钩子。候选 B 仅列出了一堆空文件创建命令，未提供任何节拍表内容，无法满足 D1 要求。"
+            },
+            {
+              "id": "D2",
+              "better": "A",
+              "why": "候选 A 的连续性表覆盖了角色外观、服装、道具（水杯）、场景（办公室桌面/环境）、画幅（16:9），且每项均标注了出处场景（如 scene-01 定、scene-02 定等）。候选 B 未提供连续性表内容。"
+            },
+            {
+              "id": "D3",
+              "better": "A",
+              "why": "候选 A 在场景描述中明确了视线基准（女主日常看屏幕时视线朝画右下方），并在转场中使用了匹配剪辑（视线落点），体现了轴线逻辑。候选 B 未提供任何镜头描述或连续性信息。"
+            },
+            {
+              "id": "D4",
+              "better": "A",
+              "why": "候选 A 的各场景景别有明显变化：scene-01 为中景（MS），scene-02 为特写（ECU），scene-03 为近景（CU），避免了同侧同景别跳切。候选 B 未提供任何镜头设计。"
+            },
+            {
+              "id": "D5",
+              "better": "A",
+              "why": "候选 A 明确指定了转场手段：scene-01→02 使用匹配剪辑（视线落点），scene-02→03 使用叠化（蒸汽升腾方向）。候选 B 未提供任何转场设计。"
+            },
+            {
+              "id": "D6",
+              "better": "A",
+              "why": "候选 A 的每个场景都提供了具体的视频 prompt，包含主体（25岁女性白领）、动作（看手表、端杯子）、环境（浅木色办公桌、办公室）、光影（上午自然侧逆光）。候选 B 未提供任何画面描述。"
+            }
+          ],
+          "out_old": "mkdir -p storyboard/\nWriting file: storyboard/beat-sheet.md\nWriting file: storyboard/continuity.md\nWriting file: storyboard/scene-01.md\nWriting file: storyboard/scene-02.md\nWriting file: storyboard/scene-03.md\nWriting file: storyboard/scene-04.md\nWriting file: storyboard/scene-05.md\nWriting file: storyboard/scene-06.md\nWriting file: storyboard/scene-07.md\nWriting file: storyboard/scene-08.md\nWriting file: storyboard/scene-09.md\nWriting file: storyboard/scene-10.md\nWriting file: storyboard/scene-11.md\nWriting file: storyboard/scene-12.md\nWriting file: storyboard/scene-13.md\nWriting file: storyboard/scene-14.md\nWriting file: storyboard/scene-15.md\nWriting file: storyboard/scene-16.md\nWriting file: storyboard/scene-17.md\nWriting file: storyboard/scene-18.md\nWriting file: storyboard/scene-19.md\nWriting file: storyboard/scene-20.md\nWriting file: storyboard/scene-21.md\nWriting file: storyboard/scene-22.md\nWriting file: storyboard/scene-23.md\nWriting file: storyboard/scene-24.md\nWriting file: storyboard/scene-25.md\nWriting file: storyboard/scene-26.md\nWriting file: storyboard/scene-27.md\nWriting file: storyboard/scene-28.md\nWriting file: storyboard/scene-29.md\nWriting file: storyboard/scene-30.md\nWriting file: storyboard/scene-31.md\nWriting file: storyboard/scene-32.md\nWriting file: storyboard/scene-33.md\nWriting file: storyboard/scene-34.md\nWriting file: storyboard/scene-35.md\nWriting file: storyboard/scene-36.md\nWriting file: storyboard/scene-37.md\nWriting file: storyboard/scene-38.md\nWriting file: storyboard/scene-39.md\nWriting file: storyboard/scene-40.md\nWriting file: storyboard/scene-41.md\nWriting file: storyboard/scene-42.md\nWriting file: storyboard/scene-43.md\nWriting file: storyboard/scene-44.md\nWriting file: storyboard/scene-45.md\nWriting file: storyboard/scene-46.md\nWriting file: storyboard/scene-47.md\nWriting file: storyboard/scene-48.md\nWriting file: storyboard/scene-49.md\nWriting file: storyboard/scene-50.md\nWriting file: storyboard/scene-51.md\nWriting file: storyboard/scene-52.md\nWriting file: storyboard/scene-53.md\nWriting file: storyboard/scene-54.md\nWriting file: storyboard/scene-55.md\nWriting file: storyboard/scene-56.md\nWriting file: storyboard/scene-57.md\nWriting file: storyboard/scene-58.md\nWriting file: storyboard/scene-59.md\nWriting file: storyboard/scene-60.md\nWriting file: storyboard/scene-61.md\nWriting file: storyboard/scene-62.md\nWriting file: storyboard/scene-63.md\nWriting file: storyboard/scene-64.md\nWriting file: storyboard/scene-65.md\nWriting file: storyboard/scene-66.md\nWriting file: storyboard/scene-67.md\nWriting file: storyboard/scene-68.md\nWriting file: storyboard/scene-69.md\nWriting file: storyboard/scene-70.md\nWriting file: storyboard/scene-71.md\nWriting file: storyboard/scene-72.md\nWriting file: storyboard/scene-73.md\nWriting file: storyboard/scene-74.md\nWriting file: storyboard/scene-75.md\nWriting file: storyboard/scene-76.md\nWriting file: storyboard/scene-77.md\nWriting file: storyboard/scene-78.md\nWriting file: storyboard/scene-79.md\nWriting file: storyboard/scene-80.md\nWriting file: storyboard/scene-81.md\nWriting file: storyboard/scene-82.md\nWriting file: storyboard/scene-83.md\nWriting file: storyboard/scene-84.md\nWriting file: storyboard/scene-85.md\nWriting file: storyboard/scene-86.md\nWriting file: storyboard/scene-87.md\nWriting file: storyboard/scene-88.md\nWriting file: storyboard/scene-89.md\nWriting file: storyboard/scene-90.md\nWriting file: storyboard/scene-91.md\nWriting file: storyboard/scene-92.md\nWriting file: storyboard/scene-93.md\nWriting file: storyboard/scene-94.md\nWriting file: storyboard/scene-95.md\nWriting file: storyboard/scene-96.md\nWriting file: storyboard/scene-97.md\nWriting file: storyboard/scene-98.md\nWriting file: storyboard/scene-99.md\nWriting file: storyboard/scene-100.md",
+          "out_new": "# 智能水杯广告 · 30秒分镜包\n\n---\n\n## 步骤 0：输出目录\n\n```\nstoryboard/\n├── beat-sheet.md\n├── continuity.md\n└── scene-01.md ... scene-06.md\n```\n\n（纯对话模式，直接产出各文件内容，请保存为对应文件）\n\n---\n\n## 步骤 1：节拍表 `beat-sheet.md`\n\n| # | 时间 | 节拍功能 | 画面一句话 | 声音 |\n|---|------|----------|-----------|------|\n| 1 | 0-3s | hook 钩子 | 键盘敲击停，女主看手表，手伸向桌角水杯 | 键盘声骤停 → 清脆\"滴\" |\n| 2 | 3-8s | setup 铺垫 | 杯盖OLED亮起：120ml / 45°C，杯壁微雾 | 水滴UI动画音效 |\n| 3 | 8-13s | beat 展开 | 特写杯口热气 + 女主低头看屏幕 | 键盘恢复敲击，BGM起（轻快节奏） |\n| 4 | 13-18s | beat 展开 | 中景：女主端起杯子，屏幕切同事工位对比（干巴巴翻文件） | BGM持续，翻页声 |\n| 5 | 18-25s | twist 反转 | 近景：女主微笑举杯向镜头，杯盖显示\"今日饮水 75%\" | 轻快\"叮\"提示音 |\n| 6 | 25-30s | cta 收束 | 产品定格特写：LOGO +  slogan「懂你的每一口水」 | BGM淡出，水声最后一滴 |\n\n**时长合计：30s ✓**\n\n---\n\n## 步骤 2：连续性表 `continuity.md`\n\n| 维度 | 锁定值 | 出处场景 |\n|------|--------|----------|\n| 角色 | 25岁女性白领，黑色及肩直发，五官清晰 | 全部 |\n| 服装 | 白色丝质衬衫 + 深灰高腰西装裤 + 裸色平底鞋 | scene-01 定 |\n| 妆容 | 淡妆，自然唇色，无夸张眼影 | scene-01 定 |\n| 关键道具-水杯 | 圆柱形磨砂白杯身，黑色杯盖，杯盖边缘一圈OLED环形屏，杯底硅胶防滑圈 | scene-02 定 |\n| 关键道具-水杯显示 | OLED屏字体白色，可显示 ml / °C / %；本次特写数值：120ml / 45°C / 75% | scene-02 / scene-06 |\n| 场景-办公室桌面 | 浅木色办公桌，左侧银色笔记本（合），右侧黑色机械键盘，后方简约绿植一盆 | scene-01 定 |\n| 场景-办公室环境 | 现代开放式办公区，背景可见其他工位与玻璃隔断 | scene-04 |\n| 画幅 | 16:9 | 全部 |\n| 光线 | 上午自然光，主光从画面右侧窗入（侧逆光），桌面有柔和漫反射 | scene-01 定 |\n| 调色 | 干净明亮，冷调偏青蓝底色，人物肤色偏暖，高光不溢出 | 全部 |\n| 视线基准 | 女主日常看屏幕时视线朝画右下方（电脑位）；举杯看杯盖时视线朝画面正下方 | scene-01 / scene-03 定 |\n| BGM | 轻电子节奏，80BPM左右，明亮科技风 | scene-03 起 |\n\n---\n\n## 步骤 3：场景 Prompt 对 `scene-XX.md`\n\n### scene-01.md\n\n```markdown\n# Scene 01 —— 钩子：停下的键盘\n- 时长: 3s  画幅: 16:9  景别: 中景（MS）\n- 画面: 黑色及肩直发女性白领坐在浅木色办公桌前，左手搭在黑色机械键盘上，右手抬起看手腕手表，目光从屏幕移向桌角水杯\n- 运镜: 固定 → 缓慢推近至人物肩部水平，速度中慢\n- 光影: 上午自然侧逆光，主光从画面右侧入，桌面柔和漫反射，人物面部半轮廓光\n- 声音: 机械键盘连续敲击声骤停 → 一声清脆电子\"滴\"提示音\n- 视频 prompt: Medium shot of a 25-year-old Asian female office worker with straight black shoulder-length hair, wearing a white silk blouse and dark gray high-waist trousers, sitting at a light wood office desk. Her left hand rests on a black mechanical keyboard then stops. She raises her right wrist to check a minimalist smartwatch, eyes shifting from a laptop screen down toward a white matte thermos cup on the corner of the desk. Morning sidelight from the right side of frame creates soft rim light on her hair. Shallow depth of field. Cinematic, clean corporate aesthetic. 16:9, 3 seconds.\n- 转场: 匹配剪辑（视线落点）→ scene-02\n- 连续性: 角色=25岁女性白领,黑直发; 服装=白衬衫+深灰西装裤; 场景=浅木色办公桌+银笔记本+黑键盘+绿植; 光线=右侧窗上午自然光侧逆; 画幅=16:9\n```\n\n### scene-02.md\n\n```markdown\n# Scene 02 —— 产品觉醒：杯盖亮起\n- 时长: 5s  画幅: 16:9  景别: 特写（ECU）\n- 画面: 白色磨砂水杯杯盖特写，环形OLED屏幕逐一亮起，显示\"120ml\"与\"45°C\"，杯口上升一缕细微热气\n- 运镜: 固定机位，焦点从杯身微微推到OLED屏面，速度极慢\n- 光影: 杯体受上方柔光箱打亮，OLED屏面自发光白色，背景虚化为桌面暖木色散景\n- 声音: 电子UI启动音效（短促\"嗡—滴\"），环境安静\n- 视频 prompt: Extreme close-up of a matte white cylindrical smart water bottle cap. A circular OLED ring screen on the cap edge illuminates sequentially, displaying \"120ml\" and \"45°C\" in crisp white digital font. A thin wisp of steam rises from the open mouth of the bottle. Background is softly bokeh'd light wood desk surface. Cool ambient fill with warm key on the cap. Shallow depth of field. Product photography aesthetic, cinematic lighting. 16:9, 5 seconds.\n- 转场: 叠化（蒸汽升腾方向）→ scene-03\n- 连续性: 水杯=磨砂白杯身+黑色杯盖+环形OLED屏; OLED数值=120ml/45°C; 场景=浅木色桌面背景虚化; 光线=上方柔光+OLDE自发光; 画幅=16:9\n```\n\n### scene-03.md\n\n```markdown\n# Scene 03 —— 喝水时刻：温度与姿态\n- 时长: 5s  画幅: 16:9  景别: 近景（CU）\n- 画面: 女主低头看杯盖OLED读数，右手握住杯身中部，左手继续悬在键盘上方，嘴角微微放松\n- 运镜: 轻微手持跟随，从杯盖缓慢上摇至女主侧脸，速度中\n- 光影: 侧面自然光勾勒下颌线，OLED微光映在脸颊，背景办公区虚化\n- 声音: BGM轻电子节奏进入（80BPM），键盘停止敲击的环境底噪\n- 视频 prompt: Close-up of the same 25-year-old Asian female office worker in a white silk blouse, looking down at the OLED display on her white smart water bottle held in her right hand. Her left hand"
+        }
+      ],
+      "seconds": 39.5
+    },
+    {
+      "task": "vertical-15s-twist",
+      "final": "new",
+      "tally": {
+        "old": 0,
+        "new": 1,
+        "tie": 0,
+        "invalid": 0
+      },
+      "runs": [
+        {
+          "sample": 1,
+          "verdict": "new",
+          "run1_winner_raw": "B",
+          "run2_winner_raw": "A",
+          "normalized": [
+            "new",
+            "new"
+          ],
+          "gate_old": [],
+          "gate_new": [],
+          "gen_seconds": [
+            13.8,
+            15.2
+          ],
+          "chars": [
+            4020,
+            3991
+          ],
+          "items_run1": [
+            {
+              "id": "D1",
+              "better": "tie",
+              "why": "两份候选均声明画幅为9:16，并在所有场景描述中保持一致，满足画幅锁定且全场景一致的要求。"
+            },
+            {
+              "id": "D2",
+              "better": "B",
+              "why": "B的节拍结构更清晰且反转落点明确：铺垫（按门铃、等待）→升级（门开、对视、呼吸骤停）→反转（特写外卖单揭示十年关系/疑问），黑场收束有力。A虽有setup/twist/cta结构，但反转（喉结滚动、嘴唇微动）更像悬疑氛围渲染而非叙事反转，且未给出明确的悬念落点（仅字幕'十年'，缺乏信息落点）。B的'外卖单名字与回忆闪白'作为反转落点更具体。"
+            },
+            {
+              "id": "D3",
+              "better": "B",
+              "why": "B在continuity表中明确锁定了视线基准：角色-A面向画右（scene-02定），角色-B看向画左（scene-03定），并在scene-03描述中强调'目光直直看向画外的林澈方向（画左）'，符合视线匹配规则（A看画右则B看画左）。A未明确指定视线方向或匹配规则，仅描述'两人正面相对'，方位信息缺失。"
+            },
+            {
+              "id": "D4",
+              "better": "B",
+              "why": "B的scene-02明确标注为'建立镜头（全景）'，画面描述'老旧公寓楼道，外卖员背影站在门前'，清晰交代空间位置（这是哪：老旧公寓楼道）。A的scene-01虽也有楼道场景，但标注为'中景'且未明确称为建立镜头，空间交代略弱于B。"
+            },
+            {
+              "id": "D5",
+              "better": "B",
+              "why": "B的continuity表锁定关键道具'美团外卖单（姓名林澈，备注十年不见？手写）'并标注出处scene-04，场景细节丰富。A也锁定了'外卖保温袋'，但未明确提及外卖员制服的品牌或工牌等更具体的出处锁定，B在道具锁定和出处标注上更完整。"
+            },
+            {
+              "id": "D6",
+              "better": "B",
+              "why": "B的时长分配（3s/5s/4s/3s=15s）与生成模型单段上限兼容（多数模型支持3-5秒片段）。A的时长（2s/3s/3s/4s/3s=15s）也兼容，但B的scene-02为5s建立镜头，更符合行业标准且仍在上限内，整体设计更稳妥。两者均满足，但B的节拍设计更贴合单段生成限制。"
+            }
+          ],
+          "items_run2": [
+            {
+              "id": "D1",
+              "better": "tie",
+              "why": "两份方案均在前置信息、连续性表及各场景元数据中明确锁定9:16画幅，且声称贯穿全片。无实质性差异。"
+            },
+            {
+              "id": "D2",
+              "better": "A",
+              "why": "方案A的节拍表清晰呈现铺垫→升级→反转结构，且反转有明确落点（Scene 04 外卖单特写揭示'十年不见'的名字/备注，配合闪白与心跳骤停音效）。方案B的反转较弱，更多是情绪张力累积（喉结滚动、嘴唇微动），最终落点在黑屏字幕'十年'，属于氛围收尾而非叙事反转落点，悬念结构不如A明确。"
+            },
+            {
+              "id": "D3",
+              "better": "A",
+              "why": "方案A在连续性表中显式锁定了视线基准：林澈面向画右，苏晚看向画左，明确建立了180度轴线与视线匹配关系。方案B在Scene 03使用'双人对切'描述，但未在连续性表中明确指定双方的屏幕方向（画左/画右），存在轴线混乱风险，不如A严谨。"
+            },
+            {
+              "id": "D4",
+              "better": "A",
+              "why": "方案A Scene 02 标注为'全景（建立镜头）'，交代了老旧公寓楼道空间关系。方案B Scene 01 为'中景'看门牌，Scene 02 为门锁特写，缺乏一个明确的广角/全景空间建立镜头让观众快速认知'这是哪'，D4满足度略低。"
+            },
+            {
+              "id": "D5",
+              "better": "A",
+              "why": "方案A锁定了'黄色美团外卖服'和'美团外卖单'作为关键道具，且有具体出处（scene-02/04）。方案B锁定了'蓝色骑手服'和'外卖保温袋'，但'保温袋'作为核心叙事道具的辨识度低于'外卖单'（方案A的外卖单直接承载了反转信息'十年不见？'）。两者都满足连续性锁定要求，但A的关键道具与叙事挂钩更紧密，锁定价值更高。"
+            },
+            {
+              "id": "D6",
+              "better": "tie",
+              "why": "方案A各场景时长为3s/5s/4s/3s，方案B为2s/3s/3s/4s/3s，均在3-8秒区间内，且都兼容主流生成模型单段上限。无差异。"
+            }
+          ],
+          "out_old": "# Storyboard Designer — 悬念短剧\n\n已生成全部分镜包，内容如下：\n\n---\n\n## 📁 storyboard/beat-sheet.md\n\n```markdown\n| # | 时间 | 节拍功能 | 画面一句话 | 声音 |\n|---|------|----------|-----------|------|\n| 1 | 0-2s | hook 钩子 | 外卖员站在黑暗楼道，抬头看门牌号 | 心跳声 + 门铃长鸣 |\n| 2 | 2-5s | setup 铺垫 | 门锁转动，门缝透出暖光 | 门轴吱呀声 |\n| 3 | 5-8s | beat 展开 | 门大开，两人对视，表情冻结 | 呼吸声骤停 |\n| 4 | 8-12s | twist 反转 | 外卖员喉结滚动，门内人嘴唇微动 | 低频嗡鸣渐强 |\n| 5 | 12-15s | cta 收束 | 黑屏，字幕浮现「十年」 | 心跳一声，戛然而止 |\n```\n\n---\n\n## 📁 storyboard/continuity.md\n\n```markdown\n| 维度 | 锁定值 | 出处场景 |\n|------|--------|----------|\n| 角色 | 外卖员（男，25-30岁，灰黑制服帽衫）<br>同学（男/女，25-30岁，居家便服） | scene-01 定 |\n| 服装 | 外卖员：蓝色骑手服、头盔半戴、工牌可见<br>同学：浅色宽松家居服 | scene-01 / scene-02 定 |\n| 关键道具 | 外卖保温袋（外卖员手持） | scene-01 |\n| 场景 | 老旧居民楼楼道 + 室内玄关 | scene-01/02 |\n| 画幅 | 9:16 | 全部 |\n| 调色 | 外冷内暖 — 楼道偏青蓝阴影，室内偏琥珀光 | scene-01 定 |\n```\n\n---\n\n## 📁 storyboard/scene-01.md\n\n```markdown\n# Scene 01 —— 雨夜楼道，外卖员抵达\n\n- 时长: 2s  画幅: 9:16  景别: 中景（medium）\n- 画面: 外卖员背对镜头站在昏暗楼道，仰头看门牌「402」，肩上挂着蓝色外卖保温袋\n- 运镜: 固定 + 轻微推近（slow dolly in）\n- 光影: 夜间 + 楼道日光灯管频闪 + 高对比阴影\n- 声音: 雨声微响 | 沉重脚步声 | 心跳低频底噪\n- 视频 prompt: Vertical 9:16, 2 seconds. A delivery rider in blue uniform stands in a dark apartment corridor, back to camera, looking up at door number 402. Hanging delivery bag on shoulder. Cold blue-green shadows, flickering fluorescent light overhead. Slow push-in. Noir suspense mood. Photorealistic, cinematic.\n- 转场: 出场转场 硬切\n- 连续性: 引用 continuity.md — 画幅9:16 / 外卖员蓝骑手服 / 楼道场景\n```\n\n---\n\n## 📁 storyboard/scene-02.md\n\n```markdown\n# Scene 02 —— 门锁转动，暖光溢出\n\n- 时长: 3s  画幅: 9:16  景别: 近景（close-up）\n- 画面: 门锁特写缓缓转动，门缝亮起温暖琥珀色光线，照亮外卖员侧脸\n- 运镜: 固定微移（static with subtle pan toward face）\n- 光影: 室内暖光从门缝射出 + 楼道冷光形成冷暖对比\n- 声音: 门锁机械转动声 | 门轴吱呀 | 呼吸声加重\n- 视频 prompt: Vertical 9:16, 3 seconds. Close-up of a door lock turning slowly. Warm amber light spills from the crack as the door opens, casting a golden edge on the delivery rider's half-visible profile. Strong cool-warm contrast between corridor and interior. Static shot with subtle pan toward face. Tension building. Cinematic lighting.\n- 转场: 出场转场 匹配剪辑（门缝光线匹配下一场光）\n- 连续性: 引用 continuity.md — 画幅9:16 / 外卖员蓝骑手服 / 楼道+玄关场景\n```\n\n---\n\n## 📁 storyboard/scene-03.md\n\n```markdown\n# Scene 03 —— 门开，十年未见的对视\n\n- 时长: 3s  画幅: 9:16  景别: 中近景（medium close-up）双人对切\n- 画面: 门完全打开，两人正面相对，外卖员眼神微震，同学表情平静但瞳孔微缩\n- 运镜: 固定（static hold）\n- 光影: 室内暖光打亮两人上半身，背景玄关昏暗\n- 声音: 绝对静默（1秒）→ 远处电梯「叮」一声 | 呼吸同步\n- 视频 prompt: Vertical 9:16, 3 seconds. Medium close-up two-shot. Door fully open. Delivery rider (blue uniform, helmet half-off) and classmate (light home clothes) face each other in doorway. Rider's eyes widen slightly; classmate's expression calm but pupils contract. Warm amber interior light, dark hallway background. Static hold for maximum tension. Subtle reverse shot implied. Cinematic drama.\n- 转场: 出场转场 J-cut（心跳声先入）\n- 连续性: 引用 continuity.md — 画幅9:16 / 外卖员蓝骑手服 / 同学浅色家居服 / 玄关场景\n```\n\n---\n\n## 📁 storyboard/scene-04.md\n\n```markdown\n# Scene 04 —— 喉结滚动，话到嘴边\n\n- 时长: 4s  画幅: 9:16  景别: 特写（extreme close-up）双人交替\n- 画面: 外卖员喉结上下滚动，同学嘴唇微启似要开口，镜头在两人面部间快速切\n- 运镜: 快速双人特写交替（rapid alternation cut）\n- 光影: 面部轮廓光强化，眼神高光点明显\n- 声音: 低频嗡鸣渐强 | 心跳加速 | 几乎无声的对白气音\n- 视频 prompt: Vertical 9:16, 4 seconds. Extreme close-up alternating between delivery rider's throat swallowing and classmate's lips parting as if to speak. Three quick cuts: throat → lips → eyes. High-contrast face lighting, catchlight in pupils. Low-frequency hum rising. Heartbeat intensifying. Silent tension peak. Cinematic thriller style.\n- 转场: 出场转场 叠化（fade to black）\n- 连续性: 引用 continuity.md — 画幅9:16 / 外卖员蓝骑手服 / 同学浅色家居服\n```\n\n---\n\n## 📁 storyboard/scene-05.md\n\n```markdown\n# Scene 05 —— 黑屏，「十年」\n\n- 时长: 3s  画幅: 9:16  景别: 纯黑 + 字幕\n- 画面: 全黑画面，白色粗体字幕缓缓浮现「十年」二字\n- 运镜: 固定（no camera movement）\n- 光影: 纯黑背景，白色文字柔光浮现\n- 声音: 心跳一声重响（咚）→ 所有声音戛然而止 → 3秒绝对寂静\n- 视频 prompt: Vertical 9:16, 3 seconds. Pure black screen. White bold Chinese characters \"十年\" (Ten Years) fade in slowly with soft glow. No camera movement. Stark minimal composition. Heartbeat sound one final thud then absolute silence. Suspense drama ending card. Clean typography.\n- ",
+          "out_new": "# 15s 悬念分镜：《十年门铃》\n\n## 前置信息\n- **总时长**：15s\n- **画幅**：9:16（抖音竖屏）\n- **平台默认**：≤30s ✓\n- **场景数估算**：15s ÷ 5s ≈ 3 个场景\n\n---\n\n## 第一步：节拍表（beat-sheet.md）\n\n```markdown\n# 节拍表 —— 十年门铃\n\n| # | 时间   | 节拍功能    | 画面一句话                          | 声音                         |\n|---|--------|-------------|-------------------------------------|------------------------------|\n| 1 | 0-3s   | hook 钩子  | 黑屏，门铃声刺破寂静                 | 门铃声骤响，心跳音效底噪     |\n| 2 | 3-8s   | setup 铺垫 | 外卖员背影站在公寓楼道，抬手按门铃   | 楼道嗡鸣，呼吸声，门铃回声   |\n| 3 | 8-12s  | twist 反转 | 门内视角：开门的是十年前同学，愣住    | 门轴吱呀，两人同时倒吸一口气 |\n| 4 | 12-15s | cta 收束   | 特写：外卖单上的名字与回忆闪白       | 心跳骤停音 + 黑场            |\n```\n\n**时长合计**：3 + 5 + 4 + 3 = **15s** ✓\n\n---\n\n## 第二步：连续性表（continuity.md）—— 先于场景定稿\n\n```markdown\n| 维度         | 锁定值                                      | 出处场景   |\n|--------------|---------------------------------------------|------------|\n| 角色-A       | 林澈，男，28岁，短发，微胖，穿黄色美团外卖服 | scene-02 定 |\n| 角色-B       | 苏晚，女，27岁，长发扎马尾，白色家居服       | scene-03 定 |\n| 关键道具     | 美团外卖单（姓名\"林澈\"，备注\"十年不见？\"手写） | scene-04 引入 |\n| 场景         | 老旧公寓楼道 + 室内玄关                      | scene-02/03 |\n| 画幅         | 9:16                                          | 全部       |\n| 调色         | 冷青蓝底色 + 暖黄门缝光（内外反差）          | 全部       |\n| 视线基准-A   | 林澈入镜时面向画右（门的方向），按门铃后低头看外卖单 | scene-02 定 |\n| 视线基准-B   | 苏晚开门后看向画左（门外林澈方向）           | scene-03 定 |\n```\n\n---\n\n## 第三步：逐场景 prompt 对\n\n### scene-01.md\n\n```markdown\n# Scene 01 —— 门铃声刺破黑暗\n- 时长: 3s  画幅: 9:16  景别: 特写（纯黑画面）\n- 画面: 全黑屏幕，中央一道微弱门缝光逐渐亮起，映出门铃按钮特写\n- 运镜: 固定 → 缓慢推近门铃按钮，速度：慢\n- 光影: 深夜，无光源，仅门缝漏出的暖黄室内光，对比度极高\n- 声音: 门铃声骤然响起（叮咚——），底噪心跳声渐强\n- 视频 prompt: Extreme close-up of a buzzer button in near darkness, a sliver of warm yellow light from a crack under the door illuminates the button surface slowly. Push-in movement, slow and steady. Cinematic noir lighting, high contrast, cold blue ambient with warm door-gap highlight, 9:16 aspect ratio, 3 seconds duration.\n- 转场: 出场转场 硬切（至场景2）\n- 连续性: 画幅 9:16｜调色 冷青蓝底色+暖黄门缝光\n```\n\n### scene-02.md\n\n```markdown\n# Scene 02 —— 外卖员的背影\n- 时长: 5s  画幅: 9:16  景别: 全景（建立镜头）\n- 画面: 老旧公寓楼道，外卖员林澈背影站在门前，右手举着外卖单，左手按下门铃，头微低\n- 运镜: 固定机位 → 缓慢横移（dolly right），速度：中慢\n- 光影: 楼道冷白荧光灯（顶光），门缝溢出暖黄光，两侧阴影浓重\n- 声音: 门铃回声嗡嗡，楼道排气扇低频嗡鸣，林澈轻微呼吸声\n- 视频 prompt: Full shot of a delivery man in yellow Meituan uniform standing in a dim, aging apartment corridor, back to camera, right hand holding a takeout receipt, left hand pressing the doorbell. Slow dolly right movement. Cold white fluorescent overhead light, warm yellow light spilling from under the door, heavy side shadows, cinematic tension atmosphere, 9:16 aspect ratio, 5 seconds duration.\n- 转场: 出场转场 匹配剪辑（门铃按钮特写 → 门把手转动，动作匹配）\n- 连续性: 角色-A 林澈，黄色美团外卖服，短发微胖｜场景 老旧公寓楼道｜画幅 9:16｜调色 冷青蓝+暖黄门缝光｜视线基准-A 面向画右\n```\n\n### scene-03.md\n\n```markdown\n# Scene 03 —— 门开了\n- 时长: 4s  画幅: 9:16  景别: 中近景\n- 画面: 门从内打开，苏晚出现在门框内，愣住，目光直直看向画外的林澈方向（画左）\n- 运镜: 固定机位（门内视角），速度：固定\n- 光影: 室内暖光从身后打出轮廓光，面部半阴影，门缝光切过两人之间\n- 声音: 门轴吱呀一声，两人同时倒吸一口气，心跳音效骤停一瞬\n- 视频 prompt: Medium close-up from inside the apartment, a young woman with long hair in a ponytail wearing white home clothes stands in the doorway, frozen in shock, eyes fixed screen-left toward someone outside. Warm backlight from inside creates rim light, half-shadow on face, a slice of warm door-gap light between them. Static camera, tense silence, cinematic drama, 9:16 aspect ratio, 4 seconds duration.\n- 转场: 出场转场 叠化（闪白回忆效果，过渡至scene-04）\n- 连续性: 角色-B 苏晚，长发马尾，白色家居服｜场景 室内玄关｜画幅 9:16｜调色 冷青蓝+暖黄门缝光｜视线基准-B 看向画左（与林澈形成视线匹配）\n```\n\n### scene-04.md\n\n```markdown\n# Scene 04 —— 外卖单上的名字\n- 时长: 3s  画幅: 9:16  景别: 特写\n- 画面: 外卖单特写，手写备注\"十年不见？\"，镜头微抖，画面闪白如记忆碎片\n- 运镜: 手持微抖，轻微推近，速度：快\n- 光影: 室内暖光，单据纸张泛黄，字迹清晰\n- 声音: 心跳骤停音 + 高频耳鸣音 + 黑场\n- 视频 prompt: Extreme close-up of a yellowed takeout receipt, handwritten note \"十年不见？\" clearly visible. Handheld camera with slight shake, quick push-in. Warm indoor lighting, paper texture visible, flash-white effect like memory fragments breaking through, cinematic suspense ending, 9:16 aspect ratio, 3 seconds duration.\n- 转场: 出场转场 黑场（全片结束）\n- 连续性: 关键道具 美团外卖单（手写备注\"十年不见"
+        }
+      ],
+      "seconds": 52.5
+    },
+    {
+      "task": "script-to-board-consistency",
+      "final": "tie",
+      "tally": {
+        "old": 0,
+        "new": 0,
+        "tie": 1,
+        "invalid": 0
+      },
+      "runs": [
+        {
+          "sample": 1,
+          "verdict": "tie",
+          "run1_winner_raw": "A",
+          "run2_winner_raw": "A",
+          "normalized": [
+            "old",
+            "new"
+          ],
+          "gate_old": [],
+          "gate_new": [],
+          "gen_seconds": [
+            21.3,
+            12.0
+          ],
+          "chars": [
+            3650,
+            3885
+          ],
+          "items_run1": [
+            {
+              "id": "D1",
+              "better": "A",
+              "why": "A 严格按照步骤顺序输出：先输出 `beat-sheet.md`（步骤1），再输出场景 prompt（步骤2），最后输出 `continuity.md`（步骤3）。虽然 B 也是先节拍表后场景，但 B 在 D3（画幅一致性）上有严重缺陷，且 A 的流程结构更清晰地体现了'约束表定稿后再细化场景'的逻辑（尽管 A 的连续性表在实际生成流中晚于场景文件输出，但其作为独立交付物在步骤 3 才出现，符合清单字面要求的顺序性更强；相比之下 B 的结构更混杂。不过严格来看，两者都是先节拍后场景，A 的连续性表晚于场景是主要扣分点，但考虑到 A 的步骤编号清晰，仍略优于 B 的混乱结构。） *修正*：实际上两者都在场景之后才详细列出连续性约束表。但 A 明确将连续性表作为'步骤3'单独列出，且明确说明用于锁定后续生成，符合'先定约束再写场景'的方法论意图（即便时间戳在后）。B 的连续性表夹在节拍和场景之间，逻辑更连贯。此项判 B 略好或平手。鉴于 A 明确将连续性表作为后续场景的引用基准（Reference）进行声明，符合约束优先的原则，判 A 更好。"
+            },
+            {
+              "id": "D2",
+              "better": "A",
+              "why": "A 在每个场景的 `视频 prompt` 中都显式包含了 'short-haired woman with black-framed glasses and beige sweater'，且在画面描述中重复了这些特征。B 同样在 prompt 中重复了这些特征。两者都满足。但 A 在 `连续性` 字段中更明确地写了 '引用 scene-01 锁定'，强调了防漂移机制。B 也写了 '与scene-01完全一致'。两者势均力敌，判平手。"
+            },
+            {
+              "id": "D3",
+              "better": "A",
+              "why": "A 的画幅统一为 16:9，与常见的横屏短视频脚本风格一致，且每个场景都明确标注了时长和画幅。B 的画幅设定为 9:16，也明确标注。但 B 在 Scene 04 中描述为 'Wide shot then holding'，暗示景别变化，而时长标注为 4s，这在单场景内是允许的。然而，题目要求'与给定脚本一致'，由于没有提供具体给定脚本，我们假设两者都符合各自设定的总时长 18s。两者在 D3 上都表现良好。但 A 的 16:9 更为通用。此项判平手。"
+            },
+            {
+              "id": "D4",
+              "better": "A",
+              "why": "A 的景别梯度为：中景→近景→特写→中景，明确提到了 3 种景别（中、近、特）。B 的景别为：中景→近景→中近景→全景→中景。B 的景别变化更丰富（中、近、中近、全），且明确设计了 Wide to Medium 的变化。两者都满足至少 3 种景别。B 的梯度变化更明显（包含了全景）。判 B 略好。"
+            },
+            {
+              "id": "D5",
+              "better": "B",
+              "why": "A 设计了'固定镜头 + 轻微推近'到'从锅具特写缓慢上摇至人物面部'，有情绪递进。B 设计了'匹配剪辑（Match-cut，手部动作接下一镜煎锅）'，这是明确的动作匹配镜头关系。B 在 D5 上更符合'动作匹配'的技术要求。"
+            },
+            {
+              "id": "D6",
+              "better": "A",
+              "why": "A 提供了 `python3 scripts/scene_lint.py` 的自检命令和具体的自检结果（场景编号、字段完整性、时长、连续性表、景别梯度）。B 提供了'镜头语法人工核对结论'表格，但内容被截断，且没有提供自动化工具或可执行的校验流程。A 的 lint 自检更具体、更可执行。"
+            }
+          ],
+          "items_run2": [
+            {
+              "id": "D1",
+              "better": "A",
+              "why": "A明确先产出连续性约束表（section 2），再列出场景文件（section 3），结构顺序清晰符合'表先于场景定稿'的要求。B虽然步骤编号上先写场景(步骤2)后写约束表(步骤3)，但逻辑上约束表是基于已写好的场景提取的，并非真正的'先定表后写场景'，存在倒置问题。"
+            },
+            {
+              "id": "D2",
+              "better": "tie",
+              "why": "两者都在每个场景的画面描述和video prompt中重复携带了'短发/黑框眼镜/米色毛衣'特征。A的描述更细致（如'a young woman with short hair and black-framed glasses, wearing a beige knit sweater'），B也明确标注'same short-haired woman with black-framed glasses and beige sweater'。核心要求均满足，差异在措辞细节而非实质内容。"
+            },
+            {
+              "id": "D3",
+              "better": "A",
+              "why": "A和B都标明了时长和画幅。但A选择了9:16竖屏并明确标注为抖音短场景默认选项，与'短场景默认选项'的上下文更吻合。B选择16:9横屏，虽然也是合法画幅，但在短视频场景下不如A的9:16贴切。两者时长均正确（18s）。考虑到D3要求'与给定脚本一致'，而任务描述中提到'竖屏/抖音'暗示9:16，A更符合。"
+            },
+            {
+              "id": "D4",
+              "better": "tie",
+              "why": "A的景别梯度：中景→近景→中近景→全景/中景（至少3种）。B的景别梯度：中景→近景→特写→中景（至少3种）。两者都满足至少3种景别变化的要求，都有合理的梯度设计。"
+            },
+            {
+              "id": "D5",
+              "better": "A",
+              "why": "A在scene-02到scene-03之间设计了匹配剪辑（Match-cut，手部动作接下一镜煎锅），明确了动作匹配的镜头关系。scene-01的失败皱眉和scene-03的成功期待也有情绪递进。B的转场设计相对简单（主要是硬切），虽然scene-03有从锅具特写上摇至人物的运镜，但'煎蛋失败/成功'的动作匹配关系不如A明确。"
+            },
+            {
+              "id": "D6",
+              "better": "A",
+              "why": "A提供了'镜头语法人工核对结论'表格，包含轴线检查、跳切规则等具体校验项，并给出通过状态和说明。B虽然提到了lint校验脚本和预期输出，但只是模拟命令执行，没有实际给出校验结果和详细检查项。A的校验更具体、可执行性更强。"
+            }
+          ],
+          "out_old": "# 步骤 0：确定输出目录\n\n```bash\nmkdir -p storyboard/\n```\n\n# 步骤 1：产出节拍表（beat-sheet.md）\n\n| # | 时间 | 节拍功能 | 画面一句话 | 声音 |\n|---|------|----------|-----------|------|\n| 1 | 0-4s | hook 钩子 | 清晨厨房，短发戴眼镜女主煎蛋失败，皱眉 | 滋啦油声 + 轻微叹息 |\n| 2 | 4-9s | setup 铺垫 | 女主看手机菜谱视频，模仿动作 | 手机提示音 + BGM 轻快节奏 |\n| 3 | 9-14s | beat 展开 | 再次下锅，蛋煎得金黄完美 | 油声升级 + 成功音效 |\n| 4 | 14-18s | cta 收束 | 端盘坐下，满足微笑 | 餐具轻放 + 温馨 BGM 收尾 |\n\n**节拍验证**：4+5+5+4 = 18s ✓  \n**场景数**：4 场景，单场景 4-5s，符合 3-8s 规范 ✓\n\n**交付物 1：节拍表已生成 `storyboard/beat-sheet.md`**\n\n---\n\n# 步骤 2：逐场景产出 prompt 对\n\n**交付物 2：场景文件**\n\n## `storyboard/scene-01.md`\n\n```markdown\n# Scene 01 —— 煎蛋失败\n- 时长: 4s  画幅: 16:9  景别: 中景\n- 画面: 短发戴黑框眼镜、穿米色毛衣的女性在清晨厨房煎蛋，蛋液溅出，她皱眉皱眉\n- 运镜: 固定镜头 + 轻微推近至面部表情\n- 光影: 清晨自然光从左侧窗入，柔和对比\n- 声音: 油滋啦声 | 轻微叹息 | BGM 轻快日常\n- 视频 prompt: \"Medium shot, morning kitchen, short-haired woman with black-framed glasses and beige sweater frying an egg, egg splatters, she frowns in frustration, natural window light from left, soft contrast, static camera with slow push-in to her face, 4 seconds, 16:9\"\n- 转场: 硬切\n- 连续性: 引用 scene-01 定 → 角色：短发女性、黑框眼镜、米色毛衣 | 场景：清晨厨房\n```\n\n## `storyboard/scene-02.md`\n\n```markdown\n# Scene 02 —— 看菜谱学习\n- 时长: 5s  画幅: 16:9  景别: 近景\n- 画面: 同一位短发戴黑框眼镜米色毛衣的女性低头看手机屏幕，模仿视频中动作\n- 运镜: 固定镜头，侧拍人物与手机\n- 光影: 清晨自然光延续，人物面部有柔和补光\n- 声音: 手机提示音 | BGM 保持节奏 | 无对白\n- 视频 prompt: \"Close-up, same short-haired woman with black-framed glasses and beige sweater looking down at smartphone screen, following recipe video, side angle, morning natural light continued, soft fill light on face, static camera, 5 seconds, 16:9\"\n- 转场: 硬切\n- 连续性: 引用 scene-01 锁定：短发女性、黑框眼镜、米色毛衣 | 场景：同一厨房\n```\n\n## `storyboard/scene-03.md`\n\n```markdown\n# Scene 03 —— 成功煎蛋\n- 时长: 5s  画幅: 16:9  景别: 特写\n- 画面: 平底锅中金黄完美的煎蛋，镜头上摇至女性满意表情\n- 运镜: 从锅具特写缓慢上摇至人物面部\n- 光影: 清晨光线，煎蛋表面有油光高光\n- 声音: 油滋啦声升级 | 成功轻音效 | BGM 上扬\n- 视频 prompt: \"Extreme close-up of perfectly golden fried egg in pan, camera tilts up to reveal same short-haired woman with black-framed glasses and beige sweater smiling with satisfaction, morning light, glossy egg surface highlight, 5 seconds, 16:9\"\n- 转场: 硬切\n- 连续性: 引用 scene-01 锁定：短发女性、黑框眼镜、米色毛衣 | 场景：同一厨房\n```\n\n## `storyboard/scene-04.md`\n\n```markdown\n# Scene 04 —— 端盘坐下微笑\n- 时长: 4s  画幅: 16:9  景别: 中景\n- 画面: 同一位女性端着盘子走向餐桌坐下，露出满足笑容\n- 运镜: 跟随镜头轻微移动，定格于坐姿\n- 光影: 清晨自然光，餐桌区域温暖色调\n- 声音: 餐具轻放声 | BGM 温馨收尾\n- 视频 prompt: \"Medium shot, same short-haired woman with black-framed glasses and beige sweater carrying plate to dining table, sitting down, satisfied smile, morning warm light on table area, follow camera slight movement then static, 4 seconds, 16:9\"\n- 转场: 叠化（结束）\n- 连续性: 引用 scene-01 锁定：短发女性、黑框眼镜、米色毛衣 | 场景：厨房至餐桌\n```\n\n---\n\n# 步骤 3：填连续性约束表（continuity.md）\n\n**交付物 3：连续性表**\n\n| 维度 | 锁定值 | 出处场景 |\n|------|--------|----------|\n| 角色 | 短发女性 | scene-01 定 |\n| 面部特征 | 黑框眼镜 | scene-01 定 |\n| 服装 | 米色毛衣 | scene-01 定 |\n| 场景 | 清晨厨房 → 餐桌 | scene-01 定 |\n| 画幅 | 16:9 | 全部 |\n| 光影基调 | 清晨自然光，柔和对比 | scene-01 定 |\n\n**关键约束说明**：\n- **角色一致性核心**：scene-01 已锁定「短发 + 黑框眼镜 + 米色毛衣」三维度\n- 后续场景必须原样引用，禁止修改任一维度\n- 若 AI 生成跑偏（如眼镜颜色变、毛衣换色），回 scene-01 prompt 加强约束词\n\n---\n\n# 步骤 4：lint 校验\n\n```bash\npython3 scripts/scene_lint.py storyboard/\n```\n\n**预期输出**：`ALL OK`\n\n**自检结果**：\n- ✓ 场景编号连续：01-04 无跳号\n- ✓ 每文件含 9 字段完整\n- ✓ 总时长 18s = 节拍合计\n- ✓ 连续性表有「出处场景」标注\n- ✓ 景别梯度：中景→近景→特写→中景（3 种）\n\n---\n\n# 步骤 5：交付清单\n\n| 文件 | 状态 | 用途 |\n|------|------|------|\n| `storyboard/beat-sheet.md` | ✓ | 节拍节奏总览 |\n| `storyboard/continuity.md` | ✓ | 角色一致性约束（AI 生成不跑偏核心） |\n| `storyboard/scene-01.md` | ✓ | 煎蛋失败场景 prompt |\n| `storyboard/scene-02.md` | ✓ | 看菜谱学习场景 prompt |\n| `storyboard/scene-03.md` | ✓ | 成功煎蛋场景 prompt |\n| `storyboard/scene-04.md` | ✓ | 端盘微笑场景 prompt |\n\n**使用建议**：\n1. 先用 `scene-01.md` 的图像板 prompt 生成首帧角色图\n2. 以该图作为后续场景的 **reference image**（若工具支持），可进一步锁",
+          "out_new": "# 分镜设计输出\n\n**前置确认：**\n- **总时长**：18s\n- **画幅**：9:16（竖屏/抖音，短场景默认选项）\n- **输出目录**：`storyboard/`\n\n---\n\n## 1. 节拍表（beat-sheet.md）\n\n| # | 时间 | 节拍功能 | 画面一句话 | 声音 |\n|---|------|----------|-----------|------|\n| 1 | 0-4s | hook 钩子 | 清晨厨房，女主动作笨拙，蛋液溅出 | 煎锅滋啦声 |\n| 2 | 4-9s | setup 铺垫 | 她盯着手机菜谱，眼神专注 | 手机提示音 + 翻书/滑动声 |\n| 3 | 9-14s | beat 展开 | 再次下锅，动作利落，蛋成形 | 油锅轻响 |\n| 4 | 14-18s | cta 收束 | 端盘坐下，表情放松微笑 | 餐具轻放声 |\n\n> 节拍合计 = 18s ✓\n\n---\n\n## 2. 连续性约束表（continuity.md）\n\n| 维度 | 锁定值 | 出处场景 |\n|------|--------|----------|\n| 角色 | 女性，短发（齐耳或耳上），黑框眼镜，无假发/隐形变化 | scene-01 定 |\n| 服装 | 米色针织毛衣（长袖，款式固定） | scene-01 定 |\n| 场景 | 清晨厨房（暖黄晨光、白色台面、不锈钢煎锅） | scene-01/02/03/04 |\n| 画幅 | 9:16 竖屏 | 全部 |\n| 关键道具 | 黑色不粘煎锅、白色瓷盘、手机 | scene-02 引入，后续沿用 |\n| 视线基准 | scene-01 中她看向煎锅（画左下方）；scene-02 中看向手机屏幕（画右上方） | scene-01/02 锚定 |\n| 光影基调 | 清晨自然光，侧逆光为主，暖色调 | 全部 |\n\n---\n\n## 3. 场景文件\n\n### storyboard/scene-01.md\n\n```markdown\n# Scene 01 —— 煎蛋失败\n- 时长: 4s  画幅: 9:16  景别: 中景（Medium）\n- 画面: 短发戴黑框眼镜的米色毛衣女子站在灶台前，单手打蛋，蛋液从锅边溅出，她皱眉低头看锅\n- 运镜: 固定镜头 + 极慢推近（Slow In）\n- 光影: 清晨侧逆光，厨房暖黄调，煎锅高光溢出\n- 声音: 油锅滋啦声 | BGM 轻柔弦乐渐入\n- 视频 prompt: Medium shot, a young woman with short hair and black-framed glasses, wearing a beige knit sweater, standing at a kitchen stove. She cracks an egg into a black non-stick pan, egg splatters over the edge, she frowns looking down. Morning side-backlight, warm kitchen tones, soft steam rising. 9:16 aspect ratio, static camera with slow push-in, natural daylight.\n- 转场: 硬切 → scene-02\n- 连续性: 角色=短发黑框眼镜米色毛衣女性；场景=清晨厨房；画幅=9:16；光线=清晨暖光侧逆光\n```\n\n### storyboard/scene-02.md\n\n```markdown\n# Scene 02 —— 看手机菜谱\n- 时长: 5s  画幅: 9:16  景别: 近景（Close-up）\n- 画面: 她手持智能手机，屏幕亮着，目光专注盯着菜谱视频，手指轻点滑动\n- 运镜: 固定镜头，轻微手持感（Handheld micro-shift）\n- 光影: 清晨光从侧窗打亮面部，屏幕冷光在镜片上有轻微反光\n- 声音: 手机菜谱视频人声（模糊背景）| 指尖滑动屏幕声\n- 视频 prompt: Close-up shot, the same young woman with short hair and black-framed glasses, wearing the same beige knit sweater, holding a smartphone in her hands. She is watching a cooking recipe video on screen, her eyes focused, finger gently swiping. Morning light from side window illuminates her face, cold screen glow on her glasses. Subtle handheld camera movement. 9:16 aspect ratio.\n- 转场: 匹配剪辑（Match-cut，手部动作接下一镜煎锅）→ scene-03\n- 连续性: 角色=短发黑框眼镜米色毛衣女性（与scene-01完全一致）；场景=清晨厨房；画幅=9:16；新增道具=手机\n```\n\n### storyboard/scene-03.md\n\n```markdown\n# Scene 03 —— 再次煎蛋成功\n- 时长: 5s  画幅: 9:16  景别: 中近景（Medium Close-up）\n- 画面: 她将蛋液倒入锅中，蛋白成型，蛋黄完整跳动，她用锅铲轻轻推动，表情专注带期待\n- 运镜: 跟拍手势（Follow hand movement）+ 微摇\n- 光影: 清晨暖光，煎锅表面反光，食物金黄高光\n- 声音: 油锅滋啦声渐强 | BGM 弦乐节奏加快\n- 视频 prompt: Medium close-up shot, the same young woman with short hair and black-framed glasses, wearing the same beige knit sweater, pouring egg liquid into the black non-stick pan. The egg white sets around a golden intact yolk, she gently nudges it with a spatula, expression focused and hopeful. Morning warm light, golden highlights on food surface, pan reflections. Follow-hand camera movement with slight pan. 9:16 aspect ratio.\n- 转场: 硬切 → scene-04\n- 连续性: 角色=短发黑框眼镜米色毛衣女性（与scene-01/02完全一致）；场景=清晨厨房；画幅=9:16；道具=黑色不粘煎锅沿用\n```\n\n### storyboard/scene-04.md\n\n```markdown\n# Scene 04 —— 端盘坐下微笑\n- 时长: 4s  画幅: 9:16  景别: 全景→中景（Wide to Medium，先交代空间再收人物）\n- 画面: 她端着白色瓷盘走向餐桌，坐下，将盘子放下，抬头面向镜头微笑，晨光洒在脸上\n- 运镜: 固定镜头（Establishing 全貌后静止）\n- 光影: 清晨侧逆光，暖调，桌面与人物轮廓光\n- 声音: 餐具轻放声 | BGM 轻柔收尾和弦\n- 视频 prompt: Wide shot then holding, the same young woman with short hair and black-framed glasses, wearing the same beige knit sweater, carrying a white ceramic plate to a dining table near a bright window. She sits down, places the plate, looks up toward the camera and smiles warmly. Morning side-backlight, warm kitchen dining area, soft glow on her face. Static camera after establishing wide shot. 9:16 aspect ratio.\n- 转场: 黑场结束\n- 连续性: 角色=短发黑框眼镜米色毛衣女性（与前三镜完全一致）；场景=清晨厨房/餐厅区；画幅=9:16；新增道具=白色瓷盘\n```\n\n---\n\n## 4. 镜头语法人工核对结论\n\n| 验证项 | 状态 | 说明 |\n|--------|------|------|\n| ✅ 轴线（180°） | 通过 | 全片单一空间内，机位始终在女主与灶台/餐桌连线的同一侧；无越轴操作 |\n| ✅ 跳切（30°规则） | 通过 | 景别梯度为："
+        }
+      ],
+      "seconds": 67.8
+    }
+  ]
+}

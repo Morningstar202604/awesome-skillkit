@@ -1,0 +1,303 @@
+{
+  "skill": "design/image-prompt-engineer",
+  "old_ref": "HEAD",
+  "tasks": [
+    {
+      "task": "write-photo-hero",
+      "final": "new",
+      "tally": {
+        "old": 0,
+        "new": 1,
+        "tie": 0,
+        "invalid": 0
+      },
+      "runs": [
+        {
+          "sample": 1,
+          "verdict": "new",
+          "run1_winner_raw": "B",
+          "run2_winner_raw": "A",
+          "normalized": [
+            "new",
+            "new"
+          ],
+          "gate_old": [],
+          "gate_new": [],
+          "gen_seconds": [
+            5.7,
+            1.9
+          ],
+          "chars": [
+            2664,
+            836
+          ],
+          "items_run1": [
+            {
+              "id": "D1",
+              "better": "A",
+              "why": "A的prompt正文中主体描述（subject）位于第二行，紧随画幅之后，结构清晰且主体靠前；B虽然也是顺序排列，但使用了key:value格式，整体在JSON呈现上A的prompt文本更符合'主体信息置于前部'的视觉权重感，且A在分析表中明确标注了五段结构，主体在第二段即展开。两者差异较小，但A的结构标注更明确。"
+            },
+            {
+              "id": "D2",
+              "better": "B",
+              "why": "D2要求'光源方向、性质、时段/色温至少两项'。A提到'soft natural window light'和'golden hour tones'，但未明确光源方向；B明确写出'backlit by the cold blue glow of a laptop screen late at night'，包含了光源方向（backlit）、性质（cold blue glow）、时段（late at night）三项，完全满足可执行要求。B更优。"
+            },
+            {
+              "id": "D3",
+              "better": "B",
+              "why": "D3要求'焦段或光圈或胶片'支撑照片感。A提到了'Kodak Portra 800'（胶片），B提到了'visible film grain'（胶片颗粒）但无具体胶片型号。然而B还提到了'rule of thirds'和'wide landscape framing'，而A也有类似的构图描述。从镜头语言来看，两者都没有明确的焦段或光圈数值，但A明确指定了Kodak Portra 800胶片，这比B的'film grain'更具摄影专业性。实际上A在这方面略优，因为Portra 800是具体的胶片型号，提供了更明确的视觉参考。改判A更好。"
+            },
+            {
+              "id": "D4",
+              "better": "tie",
+              "why": "D4要求没有beautiful/masterpiece/8K/超高清等空词。检查A的prompt：无此类词汇。检查B的prompt：无此类词汇。两者都符合要求，平手。"
+            },
+            {
+              "id": "D5",
+              "better": "B",
+              "why": "D5要求'构图与画幅明确（景别、主体位置、留白），且与2.35:1匹配'。A提到了'centered horizontal composition'但又说'subject slightly off-center to the right'，存在矛盾；'generous negative space on both sides'较模糊。B明确写出'wide landscape framing'、'subject positioned slightly off-center following the rule of thirds'、'cinematic negative space'，构图指令更一致且具体。B更优。"
+            },
+            {
+              "id": "D6",
+              "better": "B",
+              "why": "D6要求'负向约束短而具体，且没有把不要文字写成会被渲染的句式'。A的负向约束是'no text, no words, no typography, no letters'，重复冗长；同时A在正向上写了'no text on image'，又用'no text'作为负向，句式重复。B的负向约束是'blurry, watermark, extra fingers, garbled text, overexposed'，短而具体，且用'(no text on image)'简洁表达，没有被渲染的风险。B更优。"
+            }
+          ],
+          "items_run2": [
+            {
+              "id": "D1",
+              "better": "A",
+              "why": "A 将关键参数（canvas、subject、composition、style）直接置于提示词前部，结构紧凑，权重分布合理。B 包含大量元分析内容（五段结构分析、设计说明等），真正的 prompt 被埋在末尾的 code block 中，且前部的分析文字干扰了主体信息的权重位置。"
+            },
+            {
+              "id": "D2",
+              "better": "A",
+              "why": "A 明确指定了光源性质（cold blue glow）、方向（backlit）和时段（late at night），具体且可执行。B 虽然也写了光源（soft natural window light, golden hour tones），但 'golden hour' 和 'soft natural window light' 相对常规，且 A 的背光+蓝光组合更具画面张力和具体可执行性。两者都达标，但 A 的光影描述更具明确的视觉指引。"
+            },
+            {
+              "id": "D3",
+              "better": "A",
+              "why": "A 提到了 'visible film grain' 和 'shallow depth of field'，有胶片感和景深支撑。B 也提到了 'Kodak Portra 800'、'film grain'、'shallow depth of field' 和 'low-angle'。B 在镜头语言上其实更丰富（具体胶卷型号、角度）。但 D3 要求的是'支撑照片感'，两者都满足。平手。"
+            },
+            {
+              "id": "D4",
+              "better": "tie",
+              "why": "A 和 B 都没有使用 beautiful/masterpiece/8K/超高清 这类空词。A 用了 'photorealistic'，B 用了 'photorealistic'，两者都合规。平手。"
+            },
+            {
+              "id": "D5",
+              "better": "A",
+              "why": "A 明确指定 'wide landscape framing' 且 subject 'slightly off-center following the rule of thirds'，与 2.35:1 宽银幕比例匹配良好，并提到 'cinematic negative space'。B 也指定了 'centered horizontal composition' 和 'rule of thirds framing with subject slightly off-center to the right'，同样匹配。但 B 的 'generous negative space on both sides for headline overlay' 更明确地服务于 2.35:1 的宽幅留白需求。两者都好，但 B 的构图描述更细致地考虑了宽画幅特性。略偏向 B，但差距很小。考虑到 A 的 'cinematic negative space' 也足够明确，判为平手更稳妥。"
+            },
+            {
+              "id": "D6",
+              "better": "A",
+              "why": "A 的负向约束是 'blurry, watermark, extra fingers, garbled text, overexposed'，短而具体。B 的负向约束是 'no text, no words, no typography, no letters'，虽然具体但重复冗长，且 'no text' 在前面的 canvas 中已经说过，存在冗余。A 的写法更简洁有效。"
+            }
+          ],
+          "out_old": "## Write Mode：远程工作 5 年头图文生图 Prompt\n\n### 五段结构分析\n| 段 | 内容 |\n|---|---|\n| **Canvas** | 2.35:1 宽银幕比例，无文字 |\n| **Subject** | 有情绪的人物特写 |\n| **Composition** | 横向宽幅布局 |\n| **Style** | 摄影感、情绪片 |\n| **Text** | 无（明确不要文字） |\n\n---\n\n### 产出 Prompt\n\n```text\n2.35:1 widescreen cinematic aspect ratio, no text on image\n\na mid-30s woman with slightly tired but warm expression, wearing a cozy oversized knit sweater, sitting at a home office desk with soft natural window light filtering through sheer curtains behind her, a half-finished coffee cup and a laptop visible on the desk, gentle smile with subtle eye fatigue that speaks of 5 years working remotely, quiet satisfaction mixed with loneliness\n\ncentered horizontal composition, generous negative space on both sides for headline overlay, shallow depth of field blurring the background home interior into soft bokeh, rule of thirds framing with subject slightly off-center to the right, low-angle intimate shot capturing genuine emotion\n\nphotorealistic editorial photography style, warm Kodak Portra 800 color palette with soft golden hour tones, natural window light with soft shadows, subtle film grain, emotional documentary photography aesthetic inspired by Maggie Steber and Annie Leibovitz portraiture\n\nno text, no words, no typography, no letters\n```\n\n---\n\n### 五段标注版\n\n```\n[canvas] 2.35:1 widescreen cinematic aspect ratio, no text on image\n[subject] a mid-30s woman with slightly tired but warm expression, wearing a cozy oversized knit sweater, sitting at a home office desk with soft natural window light filtering through sheer curtains behind her, a half-finished coffee cup and a laptop visible on the desk, gentle smile with subtle eye fatigue that speaks of 5 years working remotely, quiet satisfaction mixed with loneliness\n[composition] centered horizontal composition, generous negative space on both sides for headline overlay, shallow depth of field blurring the background home interior into soft bokeh, rule of thirds framing with subject slightly off-center to the right, low-angle intimate shot capturing genuine emotion\n[style] photorealistic editorial photography style, warm Kodak Portra 800 color palette with soft golden hour tones, natural window light with soft shadows, subtle film grain, emotional documentary photography aesthetic inspired by Maggie Steber and Annie Leibovitz portraiture\n[text] no text, no words, no typography, no letters\n```\n\n---\n\n### 设计说明\n- **人物情绪**：「tired but warm」「5 years working remotely」的疲劳与满足并存，避免过度正面或消极\n- **宽幅留白**：2.35:1 + generous negative space，为后续公众号标题排版预留充足空间\n- **无字底图**：text 段明确列出无文字要求，同时负向约束中再次强调\n- **风格锚定**：Portra 800 胶片色调 + Annie Leibovitz 式情绪人像，确保「摄影感」落地而非空洞指令",
+          "out_new": "**canvas**: 2.35:1 ultra-wide aspect ratio\n**subject**: a Chinese woman in her early thirties, sitting alone at a messy home desk, backlit by the cold blue glow of a laptop screen late at night, looking away from the camera with an exhausted but resigned expression, wearing an oversized knit sweater, coffee cup and scattered papers visible\n**composition**: wide landscape framing, shallow depth of field blurring the dark apartment background, subject positioned slightly off-center following the rule of thirds, cinematic negative space\n**style anchor**: photorealistic editorial photography, muted desaturated color palette with blue-teal contrast, visible film grain, candid documentary aesthetic, natural skin texture and pores\n**text**: (no text on image)\n**negative**: blurry, watermark, extra fingers, garbled text, overexposed"
+        }
+      ],
+      "seconds": 20.8
+    },
+    {
+      "task": "audit-bad-prompt",
+      "final": "new",
+      "tally": {
+        "old": 0,
+        "new": 1,
+        "tie": 0,
+        "invalid": 0
+      },
+      "runs": [
+        {
+          "sample": 1,
+          "verdict": "new",
+          "run1_winner_raw": "B",
+          "run2_winner_raw": "A",
+          "normalized": [
+            "new",
+            "new"
+          ],
+          "gate_old": [],
+          "gate_new": [],
+          "gen_seconds": [
+            7.6,
+            13.1
+          ],
+          "chars": [
+            1964,
+            2795
+          ],
+          "items_run1": [
+            {
+              "id": "D1",
+              "better": "A",
+              "why": "A 明确指出了 'beautiful/震撼/masterpiece/8K' 等词不携带视觉信息，属于无效堆砌（在风格锚段落详细列出并判定）。B 虽然也列出了这些词（美丽的、震撼的、masterpiece、8K、超高清等），但用户提供的原 prompt 中并未包含 'beautiful/震撼' 或 '8K' 等英文词汇（只有 '最好看最美最棒' 和 'masterpiece'）。不过仔细看 B 的列表包含了中文翻译和额外词汇，而 A 更精准地对应了原 prompt 中的实际词汇。但关键在于 B 将 '专业摄影感' 归类到评价词堆砌中，而 D3 单独指出该问题。A 将 '专业摄影感' 归入风格锚问题，同时也指出了评价词堆砌。两者都完成了 D1 的核心要求，但 A 的表述更贴合原 prompt 实际内容，B 引入了原 prompt 中不存在的词汇（如 '8K'、'超高清'），虽为一般性建议但略有偏离。综合来看 A 更精准，判 A 略优。"
+            },
+            {
+              "id": "D2",
+              "better": "B",
+              "why": "B 明确指出了 'no xxx' 句式会被模型当正文渲染的问题，并提供了机制解释（暗知识 7），同时建议改为名词列表。A 也指出了负向约束写成 `no xxx` 的问题，但 B 的解释更清晰、更直接地回应了清单要求，且改写的负向列表格式更规范。B 在这方面略胜一筹。"
+            },
+            {
+              "id": "D3",
+              "better": "B",
+              "why": "B 明确指出了 '咖啡很好喝的感觉' 是味觉/情绪无法被生图模型直接渲染，属无效指令。A 也指出了 '咖啡很好喝的感觉' 是抽象感受，模型无法渲染。两者都完成了 D3 的要求，但 B 的解释更详细，明确点出了'味觉/情绪'这一不可执行的具体原因。判 B 略优。"
+            },
+            {
+              "id": "D4",
+              "better": "B",
+              "why": "B 的改写版明确保留了原意（女性喝咖啡、照片感），并特别说明了'不擅自改变设计方向'。A 的改写版虽然也保留了核心元素，但擅自将主题从人物喝咖啡改为了咖啡特写（'假设场景：一杯手冲咖啡的特写'），这偏离了原 prompt 的主体描述。B 更好地遵守了'不擅自换设计'的要求。"
+            },
+            {
+              "id": "D5",
+              "better": "B",
+              "why": "B 的改写版补齐了可执行要素：主体特征（late 20s, brown hair, beige knit sweater）、光照（warm ambient light, soft rim light）、镜头/画幅（85mm f/1.8）。A 的改写版虽然也包含这些要素，但如前所述，A 擅自改变了主题（变成了咖啡静物而非人物），导致主体特征缺失。B 在保留原意的基础上补齐要素，更符合 D5 的要求。"
+            },
+            {
+              "id": "D6",
+              "better": "B",
+              "why": "B 在负向约束部分明确提到了'名词式，4 个，符合暗知识 7 规范'，暗示了短而具体的原则。但 B 并未明确说明'长清单会渗入正向语义'这一观点。A 同样未明确提及这一点。两者均未充分满足 D6 的要求，但 B 至少提到了规范限制数量，略优于 A。"
+            }
+          ],
+          "items_run2": [
+            {
+              "id": "D1",
+              "better": "A",
+              "why": "A 在独立章节明确列出了 beautiful/震撼/masterpiece/8K 等词属于'评价词堆砌'且'不携带任何可执行视觉信息'，诊断更为集中和清晰。B 虽然在 Style 段落中提到了部分（如 masterpiece），但未像 A 那样全面点名所有无效堆砌词汇。"
+            },
+            {
+              "id": "D2",
+              "better": "A",
+              "why": "A 明确指出了 `no xxx` 句式会被模型当正文渲染（召唤进画面），并给出了机制解释。B 也指出了句式错误，但 A 的解释更具体且直接对应了'改为名词列表或独立负向字段'的建议。两者都符合，但 A 的因果逻辑阐述更完整。"
+            },
+            {
+              "id": "D3",
+              "better": "A",
+              "why": "A 专门列出'抽象感受不可渲染'，指出'咖啡很好喝的感觉'属无效指令。B 也在 Subject 段落提到了这一点，但 A 将其单独列为核心问题之一，强调更充分。"
+            },
+            {
+              "id": "D4",
+              "better": "A",
+              "why": "A 严格保留了原意'女性喝咖啡'，改写版主体为'woman... sitting at a wooden café table with a steaming cup of coffee'。B 擅自将主体改为'一杯手冲咖啡的特写... a woman's hand'，从人物肖像变成了静物/美食摄影，偏离了原 prompt 的核心意图。"
+            },
+            {
+              "id": "D5",
+              "better": "A",
+              "why": "A 的改写版补齐了主体特征（年龄、发型、衣着）、光照（warm ambient light, rim light）和镜头参数（85mm f/1.8），且保留了人物主体。B 虽然也补齐了要素，但因主体变更（见 D4），其改写不符合'保留原意'的前提。"
+            },
+            {
+              "id": "D6",
+              "better": "tie",
+              "why": "A 在改写后的负向约束说明中提到'名词式，4 个，符合暗知识 7 规范'，隐含了短而具体的原则。B 也提供了名词列表形式的负向约束。两者都遵循了该原则，A 未显式论述'长清单渗入正向语义'的理论原因，B 也未显式论述，但在实际操作上都做到了短而具体。鉴于清单要求'说明了'这一动作，两者均未深入理论说明，仅体现在实践上，故判平手。"
+            }
+          ],
+          "out_old": "# 提示词审计 & 改写\n\n## 一、问题诊断（对照五段结构）\n\n| 段落 | 现状 | 判定 |\n|------|------|------|\n| **Canvas 画布** | 缺失 | ❌ Miss |\n| **Subject 主体** | \"一个女的在喝咖啡\" | ⚠️ 模糊：缺发型/年龄/服饰等唯一标识；\"咖啡很好喝的感觉\"是抽象感受，模型无法渲染 |\n| **Composition 构图** | 缺失 | ❌ Miss |\n| **Style 风格锚** | \"masterpiece 风格 / 专业摄影感 / 最好看最美最棒\" | ❌ 关键词堆砌+主观赞美词；\"masterpiece\"是污染词，现代模型已免疫或反效果；\"专业摄影感\"太笼统，无法复现 |\n| **Text 文字** | \"no text\" | ⚠️ 句式错误：应用名词列表而非否定指令；且本 prompt 本就要求无字，可合并进负向约束 |\n| **Negative 负向** | \"no blurry, no bad hands, no watermark, 不要变形\" | ❌ 全为指令式句式；混入中英；中文片段可能被忽略或误渲染 |\n\n**核心病灶：**\n1. 没有五段结构，纯堆砌形容词\n2. 负向约束写成 `no xxx`，模型可能把 \"blurry\" 这个词渲染进画面\n3. 风格锚无效（抽象感受词 + 赞美词）\n4. 主体缺乏可复现的视觉特征\n\n---\n\n## 二、改写版本\n\n> **假设场景：** 一杯手冲咖啡的特写，温暖晨光，文艺杂志风格（若你的实际场景不同，请替换主体描述）\n\n```\n3:4 portrait, 1080x1440, a ceramic white cup of steaming pour-over coffee on a reclaimed wood table, morning sunlight from a nearby window casting soft directional rays, a woman's hand resting beside the cup, centered composition with generous negative space around the subject, shallow depth of field at 50mm f/1.4, warm amber and cream tones with a single terracotta accent, flat editorial food photography style, quiet and cozy atmosphere, soft natural lighting, film grain texture\n```\n\n**负向约束（单独提供，供模型使用）：**\n\n```\nblurry, watermark, extra fingers, garbled text, deformed objects, oversaturated, studio lighting\n```\n\n---\n\n## 三、改写前后对比\n\n| 项目 | 原 prompt | 改写后 |\n|------|-----------|--------|\n| 画布 | 无 | `3:4 portrait, 1080x1440` |\n| 主体 | \"一个女的在喝咖啡，咖啡很好喝的感觉\" | 具体到器物、光影、氛围 |\n| 构图 | 无 | `centered composition, generous negative space, shallow depth of field at 50mm f/1.4` |\n| 风格锚 | \"masterpiece/专业摄影感/最美\" | `flat editorial food photography style, warm amber and cream tones...` |\n| 负向 | `no blurry, no bad hands...` | 名词列表：`blurry, watermark, extra fingers...` |\n\n---\n\n## 四、后续建议\n\n1. **明确场景**：请补充你的实际拍摄主题（人物肖像 / 产品静物 / 建筑 / 其他），我可以针对性重写\n2. **目标模型**：若需指定具体模型（如 Midjourney / Flux / DALL-E / Stable Diffusion），请告知，我会套对应方言调整权重格式\n3. **五段齐全后可移交** layout-spec-auditor 做尺寸与安全区审计",
+          "out_new": "# 审查报告\n\n## 一、五段核对清单\n\n| 段 | 结果 | 问题诊断 |\n|----|------|----------|\n| **画布** | ❌ miss | 无比例、无尺寸，模型默认输出往往偏平庸 |\n| **主体** | ❌ miss | \"一个女的\"过于模糊；\"喝咖啡\"缺动作细节 |\n| **构图** | ❌ miss | 无景别、无镜头语言 |\n| **风格锚** | ❌ miss | 无具体风格描述 |\n| **文字** | ⚠️ 存在负向 | `no blurry, no text, no bad hands, no watermark` 均为指令式负向（红线 2） |\n\n---\n\n## 二、具体问题逐条点名\n\n### 1. 评价词堆砌（严重）\n原 prompt 里以下短语**不携带任何可执行视觉信息**：\n- `美丽的`\n- `震撼的`\n- `masterpiece`\n- `8K`\n- `超高清`\n- `专业摄影感`\n- `最好看`\n- `最美`\n- `最棒`\n\n> 判定标准：另一个人拿着这条 prompt 能复现出相似图吗？**答不上**。这些词只表达了\"我想要好看的\"，却没有任何镜头/光线/构图指令。\n\n### 2. 抽象感受不可渲染\n- `咖啡很好喝的感觉` —— 味觉/情绪无法被生图模型直接渲染，属无效指令。\n\n### 3. 代词缺失描述\n- `一个女的` —— 无发型、无衣着、无年龄范围，模型会随机填充，每张脸都不一样。\n\n### 4. 负向约束全是指令式（机制性崩盘）\n- `no blurry` → 模型可能把\"模糊\"当正文渲染成画面元素\n- `no text` → 同上\n- `no bad hands` → 同上\n- `no watermark` → 同上\n\n> **机制解释**（暗知识 7）：扩散模型没有\"否定\"概念，`no xxx` 句式会被当成正向关键词处理，反而把坏东西\"召唤\"进画面。\n\n### 5. 主体优先级严重靠后\n整个 prompt 前 90% 篇幅在堆质量词，真正决定画面的主体描述排在第 10 位之后。多数模型对**前部 token 权重更高**（暗知识 1），等于把最核心的东西淹没在噪音里。\n\n### 6. 无焦段/光圈/布光\n\"专业摄影感\"一句话抵不上 `shot on 85mm, f/1.8` 一个具体参数。\n\n---\n\n## 三、改写版（整合稿）\n\n> **改写原则**：保留原意（写实人像·咖啡场景·干净无字），补齐五段结构与可执行细节，不擅自改变设计方向。\n\n```text\nportrait photo of a woman in her late 20s with medium-length brown hair and a casual beige knit sweater, sitting at a wooden café table with a steaming cup of coffee in front of her, centered composition with shallow depth of field blurring the café interior behind her, warm ambient light from large windows creating soft rim light on her hair and a gentle reflection in the coffee surface, shot on 85mm f/1.8, film grain texture, Kodak Portra 400 color palette, generous negative space around the subject\n\n--neg blurry, watermark, extra fingers, garbled text\n```\n\n### 五段拆解对照\n\n| 段 | 内容 |\n|----|------|\n| **canvas** | （未指定，默认正方形；如需横/竖比请补充） |\n| **subject** | `portrait photo of a woman in her late 20s with medium-length brown hair and a casual beige knit sweater, sitting at a wooden café table with a steaming cup of coffee in front of her` |\n| **composition** | `centered composition with shallow depth of field blurring the café interior behind her, generous negative space around the subject` |\n| **style** | `warm ambient light from large windows creating soft rim light on her hair and a gentle reflection in the coffee surface, shot on 85mm f/1.8, film grain texture, Kodak Portra 400 color palette` |\n| **text** | `--neg blurry, watermark, extra fingers, garbled text`（名词式，4 个，符合暗知识 7 规范） |\n\n---\n\n## 四、修复优先级说明（供参考）\n\n| 优先级 | 问题 | 修复方式 |\n|--------|------|----------|\n| 🔴 高 | 负向指令式 `no xxx` | 改为名词列表 `blurry, watermark, extra fingers` |\n| 🔴 高 | 主体含糊 + 代词 | 写死外貌特征清单（年龄/发型/衣着） |\n| 🟡 中 | 评价词堆砌 | 全部替换为可观察细节（布光/焦段/材质） |\n| 🟡 中 | 主体权重靠后 | 移入 prompt 前部（已完成） |\n| 🟢 低 | 无画布规格 | 建议补充比例，如 `3:4 portrait, 1080x1440` |\n\n---\n\n**注意**：本 prompt 不含图上文字需求，故未查询 `references/model-dialects.md` 方言表。若后续需加文字，请先确认目标模型的文字渲染能力。"
+        }
+      ],
+      "seconds": 37.5
+    },
+    {
+      "task": "poster-with-text",
+      "final": "new",
+      "tally": {
+        "old": 0,
+        "new": 1,
+        "tie": 0,
+        "invalid": 0
+      },
+      "runs": [
+        {
+          "sample": 1,
+          "verdict": "new",
+          "run1_winner_raw": "B",
+          "run2_winner_raw": "A",
+          "normalized": [
+            "new",
+            "new"
+          ],
+          "gate_old": [],
+          "gate_new": [],
+          "gen_seconds": [
+            2.0,
+            4.3
+          ],
+          "chars": [
+            426,
+            1975
+          ],
+          "items_run1": [
+            {
+              "id": "D1",
+              "better": "B",
+              "why": "候选 B 在 prompt 及表格中明确使用双引号逐字包裹了文字内容（\"AI VIDEO 2026\" 和 \"从 0 到 1 做视频\"），完全符合。候选 A 未提供具体 prompt，无法验证此条，故判定 B 更好。"
+            },
+            {
+              "id": "D2",
+              "better": "B",
+              "why": "候选 B 明确描述了版式关系：标题位于顶部居中（top center, large scale），副标题位于标题下方（Below the title），且字体宽度匹配。候选 A 未提供具体画面描述。"
+            },
+            {
+              "id": "D3",
+              "better": "B",
+              "why": "候选 B 明确提示了模型选择层面的取舍，指出中文字符渲染依赖模型，并推荐 GPT Image / Midjourney v6+ 等文字渲染可靠的模型，同时建议备选方案（生成无字底图+后期排版）。候选 A 仅提及目标模型会影响方言套用，未针对文字渲染的具体模型能力做关键取舍提示。"
+            },
+            {
+              "id": "D4",
+              "better": "B",
+              "why": "候选 B 提供了具体的风格锚点：50mm镜头、f/8光圈、强锈蚀质感（heavy patina, visible rust）、暖色轮廓光（warm rim light）、暗调背景（Dark moody background）、胶片颗粒感（subtle grain texture）。候选 A 未提供具体画面内容。"
+            },
+            {
+              "id": "D5",
+              "better": "B",
+              "why": "候选 B 直接描述主体为“大型复古金属胶片卷盘”（A large vintage metal film reel...），特征写死，未使用代词指代模糊对象。候选 A 无画面描述。"
+            },
+            {
+              "id": "D6",
+              "better": "B",
+              "why": "候选 B 结构清晰，分为 Prompt 正文、五段标注表（canvas/subject/composition/style/text）和交付说明，可直接投喂。候选 A 为交互请求，非可直接投喂的 prompt 交付物。"
+            }
+          ],
+          "items_run2": [
+            {
+              "id": "D1",
+              "better": "A",
+              "why": "候选 A 在 prompt 和表格中明确用引号包裹了文字 'AI VIDEO 2026' 和 '从 0 到 1 做视频'；候选 B 未生成任何 prompt，无法判断。"
+            },
+            {
+              "id": "D2",
+              "better": "A",
+              "why": "候选 A 明确说明了标题在 top center，副标题在标题下方（below the title），具有清晰的层级关系；候选 B 未生成内容。"
+            },
+            {
+              "id": "D3",
+              "better": "A",
+              "why": "候选 A 明确提示了文字渲染需选择可靠模型（GPT Image / Midjourney v6+ / Flux），并说明了风险；候选 B 未给出任何模型取舍建议。"
+            },
+            {
+              "id": "D4",
+              "better": "A",
+              "why": "候选 A 指定了镜头型号(50mm)、光圈(f/8)、布光方式(studio lighting with warm rim light)、胶片感(subtle grain texture)等可复现细节；候选 B 未生成内容。"
+            },
+            {
+              "id": "D5",
+              "better": "A",
+              "why": "候选 A 的主体描述使用了具体名词和形容词（vintage metal film reel, heavy patina, visible rust details），未使用代词指代模糊主体；候选 B 未生成内容。"
+            },
+            {
+              "id": "D6",
+              "better": "A",
+              "why": "候选 A 整体结构分段清晰（canvas/subject/composition/style/text），可直接投喂；候选 B 未交付 prompt。"
+            }
+          ],
+          "out_old": "请提供 design-brief-interpreter 的 **7 字段规格单**。\n\n当前任务（write 模式）缺少核心输入。基于你给出的信息，我只能生成**草稿**，但按技能文档规范，我无法确认规格单中的风格锚点（如具体配色、材质质感、光影细节）和构图要求，直接落笔可能导致风格漂移。\n\n请补充以下任意一种方式之一，我将立即交付：\n\n1. **粘贴完整的 7 字段规格单**（最推荐，可一次命中所有细节）\n2. 或告诉我：\n   - **目标生图模型**（如 Midjourney / Stable Diffusion / DALL-E 等，影响方言套用）\n   - **风格关键词补充**（如 \"Kodak Portra 400\"、\"Rembrandt 光\"、\"极简排版\" 等，规格单未提供时我需依据你的偏好补充）\n\n若你希望我现在就用已有信息写出初版 prompt，请回复 **\"直接用已有信息写\"**，我将基于五段结构补全合理假设并交付。",
+          "out_new": "**Mode**: write  \n**Target**: 3:4 poster, text \"AI VIDEO 2026\" + \"从 0 到 1 做视频\", subject: retro film reel  \n**Text Rendering Warning**: Chinese characters and specific English text rendering depends heavily on the model. GPT Image / Midjourney v6+ are recommended. This prompt assumes a text-capable model.\n\n---\n\n### Prompt (English)\n\n```text\n3:4 vertical poster layout, centered composition.\n\nA large vintage metal film reel in the visual center, heavy patina, visible rust details on edges, dust particles floating in the air around it. Shot on 50mm lens, f/8 for sharp focus on texture. Studio lighting with warm rim light from behind to highlight the metallic curves. Dark moody background with subtle grain texture.\n\nBold condensed sans-serif title \"AI VIDEO 2026\" at top center, large scale. Below the title, smaller subtitle \"从 0 到 1 做视频\" in clean modern font, matching width.\n\nNegative: blurry, watermark, extra fingers, garbled text, oversaturated\n```\n\n---\n\n### 五段标注版\n\n| 段 | 内容 |\n|----|------|\n| **canvas** | 3:4 vertical poster layout |\n| **subject** | A large vintage metal film reel in the visual center, heavy patina, visible rust details on edges, dust particles floating in the air around it. Shot on 50mm lens, f/8 for sharp focus on texture. Studio lighting with warm rim light from behind to highlight the metallic curves. Dark moody background with subtle grain texture. |\n| **composition** | centered composition. |\n| **style** | Bold condensed sans-serif title \"AI VIDEO 2026\" at top center, large scale. Below the title, smaller subtitle \"从 0 到 1 做视频\" in clean modern font, matching width. |\n| **text** | `\"AI VIDEO 2026\"` + `\"从 0 到 1 做视频\"` — 均为双引号逐字包裹 |\n\n---\n\n### 交付说明\n\n- **文字渲染**：中文副标题「从 0 到 1 做视频」在多数模型上仍有较高崩坏风险。建议优先选用 **GPT Image**、**Midjourney v6** 或 **Flux** 等文字渲染能力强的模型。如文字效果不佳，可退一步策略：**生成无字底图 + 后期排版**（更稳妥）。\n- **方言表快照日期**：2026-09-14（模型能力以实际出图为基准，建议执行前再次核实）。\n- **负向约束**：名词式列表，3–8 个，已精简至 5 项高价值词。\n- **下一步**：如需调整构图位置、字体风格、或光照氛围，请提供具体方向后迭代（每次只改一个变量）。"
+        }
+      ],
+      "seconds": 24.3
+    }
+  ]
+}

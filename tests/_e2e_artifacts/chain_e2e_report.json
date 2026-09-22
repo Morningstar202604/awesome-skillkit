@@ -5,58 +5,34 @@
   "pending_realgen_steps": 0,
   "results": [
     {
-      "chain": "programming/api_design",
-      "steps": 4,
+      "chain": "meta/new_skill_pipeline",
+      "steps": 2,
       "results": [
         {
-          "skill": "programming/planning/code-intent-planner",
+          "skill": "meta/skill-author",
           "verdict": "pass",
-          "reason_class": "",
-          "rc": 0,
-          "attempts": 1,
-          "out_files": [],
-          "seconds": 0.42,
-          "step": 1,
-          "mode": "script"
-        },
-        {
-          "skill": "programming/api/api-design-reviewer",
-          "verdict": "pass",
-          "reason_class": "",
-          "rc": 0,
-          "attempts": 1,
-          "out_files": [],
-          "seconds": 0.48,
-          "step": 2,
-          "mode": "script"
-        },
-        {
-          "skill": "programming/api/api-test-suite-builder",
-          "verdict": "pass",
-          "reason_class": "",
+          "reason_class": "retry_pass",
           "model": "agnes-2.5-flash",
-          "chars": 721,
-          "step": 3,
+          "chars": 2383,
+          "step": 1,
           "mode": "llm"
         },
         {
-          "skill": "programming/cicd/ship-gate",
+          "skill": "meta/skill-linter",
           "verdict": "pass",
-          "reason_class": "honest_negative(rc=1)",
-          "rc": 1,
+          "reason_class": "",
+          "rc": 0,
           "attempts": 1,
           "out_files": [],
-          "seconds": 0.43,
-          "step": 4,
+          "seconds": 0.39,
+          "step": 2,
           "mode": "script"
         }
       ],
       "pending_realgen": [],
       "artifacts": [
-        "01-code-intent-planner\\_stdout_output.txt",
-        "02-api-design-reviewer\\_stdout_output.txt",
-        "03-api-test-suite-builder\\output.md",
-        "04-ship-gate\\_stdout_output.txt"
+        "01-skill-author\\output.md",
+        "02-skill-linter\\_stdout_output.txt"
       ]
     }
   ]

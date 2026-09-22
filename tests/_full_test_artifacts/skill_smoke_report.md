@@ -1,6 +1,6 @@
 # 第二代 · 真实技能冒烟测试全量报告
 
-> 生成时间：2026-09-21 15:49:08 UTC
+> 生成时间：2026-09-22 00:51:45 UTC
 > 口径：**直接运行真实技能自带的 `test_smoke_*.py`**（pytest），取代第一代手搓代理 task。
 > 这是真正意义上的「技能质量门禁」——测的是仓库里 117 个真实技能中 ship 了冒烟测试的 28 个。
 
@@ -114,13 +114,13 @@
 | `video\video-editor` | pass | 1 | 0 | 0 | 0 | — |
 | `video\video-lip-sync` | pass | 1 | 0 | 0 | 0 | — |
 | `video\video-prompt-engineer` | pass | 3 | 0 | 0 | 0 | — |
-| `video\video-script-writer` | pass | 6 | 0 | 0 | 0 | — |
+| `video\video-script-writer` | pass | 7 | 0 | 0 | 0 | — |
 | `video\video-subtitles` | pass | 3 | 0 | 0 | 0 | — |
 | `video\video-thumbnail` | pass | 1 | 0 | 0 | 0 | — |
 | `video\video-voice-synth` | pass | 1 | 0 | 0 | 0 | — |
 | `writing\ai-trace-auditor` | pass | 2 | 0 | 0 | 0 | — |
 | `writing\article-drafter` | pass | 1 | 0 | 0 | 0 | — |
-| `writing\article-outliner` | pass | 2 | 0 | 0 | 0 | — |
+| `writing\article-outliner` | pass | 3 | 0 | 0 | 0 | — |
 | `writing\assets` | pass | 2 | 0 | 0 | 0 | — |
 | `writing\blog` | pass | 2 | 0 | 0 | 0 | — |
 | `writing\blog` | pass | 2 | 0 | 0 | 0 | — |

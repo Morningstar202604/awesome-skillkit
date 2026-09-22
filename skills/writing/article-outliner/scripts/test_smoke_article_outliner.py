@@ -32,3 +32,19 @@ def test_main_returns_zero_and_writes_file(tmp_path):
     assert r.returncode == 0, r.stderr
     o = json.loads(out.read_text(encoding="utf-8"))
     assert o["total_words_target"] > 0 and len(o["sections"]) >= 5
+
+
+def test_no_point_drop_and_budget_identity(tmp_path):
+    """要点多于节数时不丢点；word_count_target 之和恒等于 total_words_target；
+    占位字段有显式标记（防把骨架当成品交付）。"""
+    import subprocess, sys, json
+    out = tmp_path / "o2.json"
+    r = subprocess.run([sys.executable, str(SP / "outliner.py"), "--topic", "T",
+                        "--points", "a", "b", "c", "d", "e", "f", "g",
+                        "--output", str(out)], capture_output=True, text=True, timeout=60)
+    assert r.returncode == 0, r.stderr
+    o = json.loads(out.read_text(encoding="utf-8"))
+    got = sorted(p for s in o["sections"] for p in s["points"])
+    assert got == ["a", "b", "c", "d", "e", "f", "g"], got
+    assert sum(s["word_count_target"] for s in o["sections"]) == o["total_words_target"]
+    assert o["placeholders"], "占位字段标记缺失（title/hook/conclusion/heading）"

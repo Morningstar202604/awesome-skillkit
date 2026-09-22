@@ -1,8 +1,8 @@
 {
  "meta": {
   "hub": "awesome-skillkit",
-  "version": "0.20.2",
-  "updated": "2026-09-21",
+  "version": "0.20.3",
+  "updated": "2026-09-22",
   "desc": "Curated scene packs for AI tools: each pack = one real-world scenario, containing multiple skills. Download zip -> unzip -> drag the skill folders into your AI tool's skills directory.",
   "desc_zh": "精选场景包合集：每个场景包 = 一个真实场景，内含多个 skill。下载 zip -> 解压 -> 把 skill 文件夹拖进 AI 工具的 skills 目录即可使用。",
   "n_skills": 154,
@@ -926,13 +926,13 @@
    "domain": "writing",
    "path": "skills/writing/article-outliner",
    "file": "skills/writing/article-outliner/SKILL.md",
-   "desc": "Create article outlines: structure, section hierarchy, key points, and reading flow. Supports blog posts, technical articles, news, and listicles. Use when the topic is defined but structure is needed before drafting. 当用户要求 搭文章大纲 / 列提纲 / 规划结构 / 帮我理一下文章框架 时使用。 Do NOT use for writing full prose (outline only — use article-drafter for that).",
+   "desc": "Create article outlines: structure, section hierarchy, key points, and reading flow. Supports blog posts, technical articles, news, listicles, and opinion pieces. Also audits an existing draft's structure with reverse outlining, and de-duplicates listicle entries (MECE check). Use when the topic is defined but structure is needed before drafting. 当用户要求 搭文章大纲 / 列提纲 / 规划结构 / 帮我理一下文章框架 / 检查文章结构有没有问题 时使用。 Do NOT use for writing full prose (outline only — use article-drafter for that), nor for line-level editing of a finished draft (use content-editor).",
    "license": "Apache-2.0",
-   "compatibility": "Pure prompt-based structuring; LLM may assist generation. Optional helper scripts/outliner.py requires Python 3.8+ (stdlib only). No API keys required.",
-   "version": "1.0",
+   "compatibility": "Pure prompt-based structuring. Optional scripts/outliner.py is a deterministic skeleton generator (Python 3.8+, stdlib only) — it emits template headings and field scaffolding, NOT content; the real outlining work happens in prompt mode. No API keys required.",
+   "version": "2.0",
    "tier": "standard",
-   "pattern": "single-task",
-   "verified": "2026-09-09",
+   "pattern": "dual-mode",
+   "verified": "2026-09-22",
    "repo_file": "skills/writing/article-outliner/SKILL.md",
    "packs": [
     "ai-research-writing"
@@ -1915,13 +1915,13 @@
    "domain": "design",
    "path": "skills/design/image-prompt-engineer",
    "file": "skills/design/image-prompt-engineer/SKILL.md",
-   "desc": "Engineer text-to-image prompts from a design spec: five-segment structure (canvas + subject + composition + style anchor + text spec), photography vocabulary, text-rendering rules (quote exact strings, match length), negative terms as nouns, and per-model dialects including the text-rendering rule of thumb. Write or audit modes. Use when the user asks to 写生图 prompt / image prompt / 文生图提示词 / 让图更专业 / prompt audit 图片. Do NOT use for video prompts (video-prompt-engineer), nor for choosing canvas sizes (design-brief-interpreter already fixed them).",
+   "desc": "Engineer text-to-image prompts from a design spec: five-segment structure (canvas + subject + composition + style anchor + text spec), prompt-priority ordering (position = weight), lighting and camera physics vocabulary, text-rendering rules (quote exact strings, match length), negative terms as nouns, and per-model dialects including the text-rendering rule of thumb. Write or audit modes. Use when the user asks to 写生图 prompt / image prompt / 文生图提示词 / 让图更专业 / prompt audit 图片. Do NOT use for video prompts (video-prompt-engineer), nor for choosing canvas sizes (design-brief-interpreter already fixed them).",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; no runtime dependencies.",
-   "version": "1.0",
+   "version": "2.0",
    "tier": "standard",
    "pattern": "dual-mode",
-   "verified": "2026-09-14",
+   "verified": "2026-09-22",
    "repo_file": "skills/design/image-prompt-engineer/SKILL.md",
    "packs": [
     "image-studio",
@@ -2487,13 +2487,13 @@
    "domain": "education",
    "path": "skills/education/own-voice-rewrite",
    "file": "skills/education/own-voice-rewrite/SKILL.md",
-   "desc": "Rewrite a homework draft in the student's own voice: calibrate wording to grade level (primary / middle / high-school vocabulary, sentence-length caps, rhetoric depth), force-inject the student's real personal materials in place of generic filler, add restrained human touches (burstiness, concrete scenes, one natural flaw), then re-audit with ai-trace-auditor and deliver with a read-through-before-submitting reminder. The human-warmth core of the homework-autopilot chain. Use when the user asks to 学生口吻重写 / 改得像我写的 / 去掉作文腔 / rewrite in student voice / make it sound like me / 降维到我的水平 / 像学生写的. Do NOT use for experiences the student never had, nor as a guarantee against AI detection.",
+   "desc": "Rewrite a homework draft in the student's own voice. Two calibration paths: if a real writing sample from the student is available, extract distributional voice features (sentence-length band, punctuation rhythm, connective preferences) and a negative-constraint list; otherwise fall back to grade-level calibration (primary / middle / high-school vocabulary, sentence-length caps) and declare it as a proxy. Then force-inject the student's real materials in place of generic filler, add restrained human touches, re-audit with ai-trace-auditor, and deliver with a read-through-before-submitting reminder plus an append-only calibration record. The human-warmth core of the homework-autopilot chain. Use when the user asks to 学生口吻重写 / 改得像我写的 / 去掉作文腔 / rewrite in student voice / make it sound like me / 降维到我的水平 / 像学生写的. Do NOT use for experiences the student never had, nor as a guarantee against AI detection.",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; no runtime dependencies.",
-   "version": "1.0",
+   "version": "2.0",
    "tier": "powerful",
    "pattern": "workflow",
-   "verified": "2026-09-16",
+   "verified": "2026-09-22",
    "repo_file": "skills/education/own-voice-rewrite/SKILL.md",
    "packs": [
     "homework-autopilot"
@@ -3153,13 +3153,13 @@
    "domain": "video",
    "path": "skills/video/storyboard-designer",
    "file": "skills/video/storyboard-designer/SKILL.md",
-   "desc": "Design scene-by-scene storyboards for short videos: beat sheet with timings, per-scene prompt pairs (image board + video-generation prompt), and a continuity constraint table covering character, wardrobe, props, location, and aspect ratio. Use when the user asks to 分镜设计 / 画分镜 / 做 storyboard / 场景拆解 / 出镜头表 / 把脚本拆成分镜 before video generation. Do NOT use for generating the video or images themselves (outputs are prompt scripts — feed them to video-generation / image-generation), nor for writing dialogue (use video-script-writer).",
+   "desc": "Design scene-by-scene storyboards for short videos: beat sheet with timings, per-scene prompt pairs (image board + video-generation prompt), and a continuity constraint table covering character, wardrobe, props, location, and aspect ratio. Applies real film grammar (180-degree axis, 30-degree rule, eyeline match, match-on-action, establishing shot, shot-size progression) so AI-generated shots cut together. Use when the user asks to 分镜设计 / 画分镜 / 做 storyboard / 场景拆解 / 出镜头表 / 把脚本拆成分镜 before video generation. Do NOT use for generating the video or images themselves (outputs are prompt scripts — feed them to video-generation / image-generation), nor for writing dialogue (use video-script-writer).",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based design skill; the bundled scene_lint.py needs Python 3.8+ only.",
-   "version": "1.0",
+   "version": "2.0",
    "tier": "standard",
    "pattern": "single-task",
-   "verified": "2026-09-14",
+   "verified": "2026-09-22",
    "repo_file": "skills/video/storyboard-designer/SKILL.md",
    "packs": [
     "video-design-studio"
@@ -3400,13 +3400,13 @@
    "domain": "video",
    "path": "skills/video/video-script-writer",
    "file": "skills/video/video-script-writer/SKILL.md",
-   "desc": "Write video scripts: dialogue, narration, shot descriptions, timing markers, and platform-compliant titles/captions. Supports multiple video types (talking character, meme, tutorial, vlog, short). Use when the user needs a script for a video before production. 当用户要求 写视频脚本 / 短视频文案 / 分镜脚本 时使用。 Do NOT use for generating video files (script text only).",
+   "desc": "Write video scripts: dialogue, narration, shot descriptions, timing markers, and platform-compliant titles/captions. Supports multiple video types (talking character, meme, tutorial, vlog, short). Includes a golden-3-second hook discipline, single-CTA rule, and speaking-rate word budgeting. Use when the user needs a script for a video before production. 当用户要求 写视频脚本 / 短视频文案 / 分镜脚本 / 口播稿时使用。 Do NOT use for generating video files (script text only), nor for scene-by-scene storyboards and prompt pairs (use storyboard-designer).",
    "license": "Apache-2.0",
-   "compatibility": "Pure prompt-based; may call LLM for generation. No API keys required.",
-   "version": "1.0",
+   "compatibility": "Prompt-based with an optional helper script. scripts/script_writer.py (Python 3.8+, stdlib only) generates a deterministic scene skeleton and — if SKILLKIT_LLM_URL/KEY env vars are set — calls an OpenAI-compatible gateway to write real dialogue. Without the gateway it emits template placeholder lines and labels them honestly (dialogue_source=template). No API keys required.",
+   "version": "2.0",
    "tier": "standard",
    "pattern": "single-task",
-   "verified": "2026-09-09",
+   "verified": "2026-09-22",
    "repo_file": "skills/video/video-script-writer/SKILL.md",
    "packs": [
     "ai-video-pipeline"
@@ -3661,9 +3661,9 @@
     "skill-tester"
    ],
    "local_url": "packs/ai-agent-development.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/ai-agent-development.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/ai-agent-development.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/ai-agent-development.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/ai-agent-development.zip",
    "dist_exists": true
   },
   {
@@ -3681,9 +3681,9 @@
     "ai-cover-generator"
    ],
    "local_url": "packs/ai-media-toolkit.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/ai-media-toolkit.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/ai-media-toolkit.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/ai-media-toolkit.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/ai-media-toolkit.zip",
    "dist_exists": true
   },
   {
@@ -3692,7 +3692,7 @@
    "name_zh": "AI 研究与写作",
    "desc": "Research a topic and turn it into a structured article: multi-round search, outline, draft, edit, SEO.",
    "desc_zh": "从选题调研到成稿发布的长文生产链路：多轮检索与报告综合、大纲搭建、初稿撰写、风格润色、关键词与平台规则优化，以及学术选题的研究空白识别与投稿匹配。",
-   "size_kb": 234,
+   "size_kb": 242,
    "n_skills": 19,
    "skills": [
     "deep-research",
@@ -3716,9 +3716,9 @@
     "pub-plotter"
    ],
    "local_url": "packs/ai-research-writing.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/ai-research-writing.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/ai-research-writing.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/ai-research-writing.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/ai-research-writing.zip",
    "dist_exists": true
   },
   {
@@ -3727,7 +3727,7 @@
    "name_zh": "AI 短视频生产流水线",
    "desc": "End-to-end short-video production: script, voice, lip-sync, assembly, subtitles, thumbnail.",
    "desc_zh": "从脚本到成片的一条龙短视频生产线：脚本撰写、配音合成、口型对齐、剪辑合成、字幕、封面图。六个技能按序衔接，输出可直接发布的竖屏视频。",
-   "size_kb": 81,
+   "size_kb": 90,
    "n_skills": 6,
    "skills": [
     "video-script-writer",
@@ -3738,9 +3738,9 @@
     "video-thumbnail"
    ],
    "local_url": "packs/ai-video-pipeline.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/ai-video-pipeline.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/ai-video-pipeline.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/ai-video-pipeline.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/ai-video-pipeline.zip",
    "dist_exists": true
   },
   {
@@ -3756,9 +3756,9 @@
     "api-test-suite-builder"
    ],
    "local_url": "packs/api-development.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/api-development.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/api-development.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/api-development.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/api-development.zip",
    "dist_exists": true
   },
   {
@@ -3775,9 +3775,9 @@
     "monorepo-navigator"
    ],
    "local_url": "packs/architecture.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/architecture.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/architecture.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/architecture.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/architecture.zip",
    "dist_exists": true
   },
   {
@@ -3794,9 +3794,9 @@
     "episode-publisher"
    ],
    "local_url": "packs/audio-studio.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/audio-studio.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/audio-studio.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/audio-studio.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/audio-studio.zip",
    "dist_exists": true
   },
   {
@@ -3811,9 +3811,9 @@
     "chat-prompt-engineer"
    ],
    "local_url": "packs/chat-prompt-craft.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/chat-prompt-craft.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/chat-prompt-craft.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/chat-prompt-craft.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/chat-prompt-craft.zip",
    "dist_exists": true
   },
   {
@@ -3830,9 +3830,9 @@
     "spec-driven-workflow"
    ],
    "local_url": "packs/ci-cd.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/ci-cd.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/ci-cd.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/ci-cd.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/ci-cd.zip",
    "dist_exists": true
   },
   {
@@ -3849,9 +3849,9 @@
     "debug-diagnoser"
    ],
    "local_url": "packs/code-planning.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/code-planning.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/code-planning.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/code-planning.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/code-planning.zip",
    "dist_exists": true
   },
   {
@@ -3870,9 +3870,9 @@
     "dependency-auditor"
    ],
    "local_url": "packs/code-review.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/code-review.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/code-review.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/code-review.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/code-review.zip",
    "dist_exists": true
   },
   {
@@ -3889,9 +3889,9 @@
     "kubernetes-operator"
    ],
    "local_url": "packs/containers.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/containers.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/containers.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/containers.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/containers.zip",
    "dist_exists": true
   },
   {
@@ -3923,9 +3923,9 @@
     "ai-cover-generator"
    ],
    "local_url": "packs/content-publishing.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/content-publishing.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/content-publishing.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/content-publishing.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/content-publishing.zip",
    "dist_exists": true
   },
   {
@@ -3946,9 +3946,9 @@
     "ml-pipeline"
    ],
    "local_url": "packs/data-ml-science.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/data-ml-science.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/data-ml-science.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/data-ml-science.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/data-ml-science.zip",
    "dist_exists": true
   },
   {
@@ -3964,9 +3964,9 @@
     "sql-database-assistant"
    ],
    "local_url": "packs/database.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/database.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/database.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/database.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/database.zip",
    "dist_exists": true
   },
   {
@@ -3982,9 +3982,9 @@
     "chart-recommender"
    ],
    "local_url": "packs/dataviz-studio.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/dataviz-studio.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/dataviz-studio.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/dataviz-studio.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/dataviz-studio.zip",
    "dist_exists": true
   },
   {
@@ -4001,9 +4001,9 @@
     "personal-voice-profile"
    ],
    "local_url": "packs/de-ai-writing.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/de-ai-writing.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/de-ai-writing.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/de-ai-writing.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/de-ai-writing.zip",
    "dist_exists": true
   },
   {
@@ -4020,9 +4020,9 @@
     "feynman-explainer"
    ],
    "local_url": "packs/edu-craft.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/edu-craft.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/edu-craft.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/edu-craft.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/edu-craft.zip",
    "dist_exists": true
   },
   {
@@ -4039,9 +4039,9 @@
     "pr-review-expert"
    ],
    "local_url": "packs/github-workflow.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/github-workflow.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/github-workflow.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/github-workflow.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/github-workflow.zip",
    "dist_exists": true
   },
   {
@@ -4058,9 +4058,9 @@
     "channel-adapter"
    ],
    "local_url": "packs/growth-marketing.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/growth-marketing.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/growth-marketing.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/growth-marketing.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/growth-marketing.zip",
    "dist_exists": true
   },
   {
@@ -4069,7 +4069,7 @@
    "name_zh": "作业自动驾驶",
    "desc": "One-shot homework completion pipeline with a human voice: assignment intake, per-type solution drafting, rewrite in the student's own words.",
    "desc_zh": "一键完成老师布置的任务，但保住人味：审题拆解、分题型作答、再用学生自己的口吻重写。真实素材注入、年级语言水平校准，拒绝冷血模板文。",
-   "size_kb": 19,
+   "size_kb": 24,
    "n_skills": 3,
    "skills": [
     "assignment-intake",
@@ -4077,9 +4077,9 @@
     "own-voice-rewrite"
    ],
    "local_url": "packs/homework-autopilot.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/homework-autopilot.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/homework-autopilot.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/homework-autopilot.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/homework-autopilot.zip",
    "dist_exists": true
   },
   {
@@ -4088,7 +4088,7 @@
    "name_zh": "画图工作台",
    "desc": "End-to-end image creation workspace: prompt engineering, style anchoring, generation via gateway, cover art.",
    "desc_zh": "端到端画图工作台：生图提示词工程、风格锚定、网关生图执行、封面图生成。把散落的生图技能组装成一条龙。",
-   "size_kb": 39,
+   "size_kb": 46,
    "n_skills": 4,
    "skills": [
     "image-prompt-engineer",
@@ -4097,9 +4097,9 @@
     "ai-cover-generator"
    ],
    "local_url": "packs/image-studio.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/image-studio.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/image-studio.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/image-studio.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/image-studio.zip",
    "dist_exists": true
   },
   {
@@ -4116,9 +4116,9 @@
     "slo-architect"
    ],
    "local_url": "packs/incident-response.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/incident-response.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/incident-response.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/incident-response.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/incident-response.zip",
    "dist_exists": true
   },
   {
@@ -4135,9 +4135,9 @@
     "kubernetes-operator"
    ],
    "local_url": "packs/infrastructure.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/infrastructure.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/infrastructure.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/infrastructure.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/infrastructure.zip",
    "dist_exists": true
   },
   {
@@ -4153,9 +4153,9 @@
     "knowledge-graph-builder"
    ],
    "local_url": "packs/knowledge-base.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/knowledge-base.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/knowledge-base.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/knowledge-base.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/knowledge-base.zip",
    "dist_exists": true
   },
   {
@@ -4173,9 +4173,9 @@
     "memory-retriever"
    ],
    "local_url": "packs/memory-systems.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/memory-systems.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/memory-systems.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/memory-systems.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/memory-systems.zip",
    "dist_exists": true
   },
   {
@@ -4184,7 +4184,7 @@
    "name_zh": "办公效率工具箱",
    "desc": "Daily office work: decks, spreadsheets, resumes, meeting minutes.",
    "desc_zh": "日常办公四件套：PPT 制作、Excel 清洗分析、简历岗位定制、会议纪要结构化。",
-   "size_kb": 69,
+   "size_kb": 96,
    "n_skills": 10,
    "skills": [
     "ppt-builder",
@@ -4199,9 +4199,9 @@
     "career-ops-lite"
    ],
    "local_url": "packs/office-productivity.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/office-productivity.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/office-productivity.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/office-productivity.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/office-productivity.zip",
    "dist_exists": true
   },
   {
@@ -4216,9 +4216,9 @@
     "performance-profiler"
    ],
    "local_url": "packs/performance.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/performance.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/performance.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/performance.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/performance.zip",
    "dist_exists": true
   },
   {
@@ -4236,9 +4236,9 @@
     "prompt-injection-guard"
    ],
    "local_url": "packs/security.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/security.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/security.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/security.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/security.zip",
    "dist_exists": true
   },
   {
@@ -4257,9 +4257,9 @@
     "weekly-report-generator"
    ],
    "local_url": "packs/skill-forge.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/skill-forge.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/skill-forge.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/skill-forge.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/skill-forge.zip",
    "dist_exists": true
   },
   {
@@ -4277,9 +4277,9 @@
     "agent-eval-harness"
    ],
    "local_url": "packs/tdd.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/tdd.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/tdd.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/tdd.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/tdd.zip",
    "dist_exists": true
   },
   {
@@ -4299,9 +4299,9 @@
     "bank-statement-reconcile"
    ],
    "local_url": "packs/toolsmith.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/toolsmith.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/toolsmith.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/toolsmith.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/toolsmith.zip",
    "dist_exists": true
   },
   {
@@ -4310,7 +4310,7 @@
    "name_zh": "视频设计工作室",
    "desc": "Pre-production design layer for AI video: storyboards with continuity contracts, cinematic shot lists from recipe cards, cross-model text-to-video prompt engineering with structural audit, and reusable visual style anchors with character consistency cards.",
    "desc_zh": "AI 视频的前期设计层：分镜设计（节拍表 + 逐场景 prompt 对 + 连续性约束表，附机器校验）、12 卡镜头清单设计、跨模型文生视频提示词工程（六槽位结构 + 机器审计）、视觉风格锚与角色一致性卡。方法论借鉴 video-storyboard / video-shotcraft / visual-skills 等开源项目并已署名。",
-   "size_kb": 45,
+   "size_kb": 52,
    "n_skills": 4,
    "skills": [
     "storyboard-designer",
@@ -4319,9 +4319,9 @@
     "visual-style-anchor"
    ],
    "local_url": "packs/video-design-studio.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/video-design-studio.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/video-design-studio.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/video-design-studio.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/video-design-studio.zip",
    "dist_exists": true
   },
   {
@@ -4337,9 +4337,9 @@
     "nailong-laugh-shorts"
    ],
    "local_url": "packs/viral-entertainment.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/viral-entertainment.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/viral-entertainment.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/viral-entertainment.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/viral-entertainment.zip",
    "dist_exists": true
   },
   {
@@ -4348,7 +4348,7 @@
    "name_zh": "视觉设计工作室",
    "desc": "AI visual design chain: interpret a vague brief into a design spec (purpose, platform size, style anchor), engineer text-to-image prompts with model dialects and text-rendering rules, and audit output against platform layout specs (safe areas, ratios, text budgets). One brief flows through spec -> prompt -> audit without leaving the chain.",
    "desc_zh": "AI 视觉设计链条：把模糊需求翻译成设计规格单（用途/平台尺寸/风格锚），按模型方言与文字渲染规则写文生图 prompt，并按平台版面规格（比例/安全区/文字预算）审计产出。一条需求从规格到 prompt 到审计全程不出链。方法论借鉴 Anthropic canvas-design / designskills / Replicate prompting 指南并已署名。",
-   "size_kb": 43,
+   "size_kb": 50,
    "n_skills": 5,
    "skills": [
     "design-brief-interpreter",
@@ -4358,9 +4358,9 @@
     "frontend-component-lab"
    ],
    "local_url": "packs/visual-design-studio.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/visual-design-studio.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/visual-design-studio.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/visual-design-studio.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/visual-design-studio.zip",
    "dist_exists": true
   },
   {
@@ -4378,9 +4378,9 @@
     "cloud-drive-manager"
    ],
    "local_url": "packs/workspace-integrations.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.2/workspace-integrations.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.2",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.2/workspace-integrations.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.20.3/workspace-integrations.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.20.3",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.20.3/workspace-integrations.zip",
    "dist_exists": true
   }
  ]

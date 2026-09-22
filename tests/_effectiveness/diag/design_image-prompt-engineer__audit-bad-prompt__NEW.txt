@@ -1,0 +1,56 @@
+### Audit Report
+
+**Diagnosis: Critical**
+This prompt is the textbook example of "keyword shouting" (2023-era style) combined with "empty adjectives" and command-style negatives. It tells the model *what you want it to feel*, but not *what the image actually looks like*.
+
+**Checklist:**
+| Segment | Status | Issue |
+| :--- | :--- | :--- |
+| **Canvas** | ❌ Miss | No aspect ratio or resolution specified. |
+| **Subject** | ❌ Miss | "A woman" is too vague. No hair, clothes, age, or pose details. |
+| **Composition** | ❌ Miss | No camera angle, framing, or depth of field. |
+| **Style Anchor** | ⚠️ Partial | "Professional photography" is an empty claim. |
+| **Text** | ✅ Pass | Explicitly negative (`no text`), though syntax is wrong. |
+| **Negatives** | ❌ Fail | Command-style ("no blurry") renders as positive concepts. |
+| **Quality Words** | ❌ Fail | `beautiful`, `stunning`, `masterpiece`, `8K`, `super HD` are all weight-diluting noise. |
+
+**Key Fixes Needed:**
+1.  **Remove Subjective Adjectives:** Delete `美丽的`, `震撼的`, `最好看`, `最美`, `最棒`. They carry zero visual data.
+2.  **Fix Negatives:** Change `no blurry` to `sharp focus` (positive instruction). Change `no bad hands` to `anatomically correct hands` (only if specific; otherwise omit).
+3.  **Add Visual Concrete Details:** Replace "drinking coffee" with *how* (holding cup, steam, gaze). Replace "professional photography" with specific gear/lens settings.
+
+---
+
+### Rewritten Prompt (Audit Mode)
+
+Here is a version that transforms the vague desires into actionable visual instructions. I have assumed a **cinematic portrait** context. If you intended a different vibe, adjust the [brackets].
+
+#### Option 1: Photorealistic Portrait (Recommended)
+> **A close-up portrait of a young woman in a cozy café, holding a steaming white ceramic cup with both hands, gentle smile, soft natural window light from the side, shot on 85mm f/1.8, shallow depth of field, bokeh background, Kodak Portra 400 film grain, high resolution, no text**
+
+#### Option 2: Editorial/Fashion Style
+> **Full-body shot of a stylish woman in black attire standing near a sunny café window, holding a coffee cup, wind-swept hair, golden hour lighting, shot on 35mm lens, f/5.6, sharp focus on subject, film aesthetic, no text**
+
+---
+
+### Five-Segment Breakdown (Option 1)
+
+*   **Canvas:** (Implicitly 3:4 or 4:5 for portrait)
+*   **Subject:** A young woman in a cozy café, holding a steaming white ceramic cup with both hands, gentle smile
+*   **Composition:** Close-up portrait, soft natural window light from the side
+*   **Style Anchor:** Shot on 85mm f/1.8, shallow depth of field, bokeh background, Kodak Portra 400 film grain
+*   **Text:** no text
+
+---
+
+### Comparison: Before vs. After
+
+| Element | Original (Broken) | Revised (Fixed) | Why? |
+| :--- | :--- | :--- | :--- |
+| **Subject** | "一个女的" (a woman) | "Young woman... holding cup with both hands... gentle smile" | Specificity reduces hallucination. |
+| **Atmosphere** | "coffee很好喝的感觉" (tastes good vibe) | "steaming white ceramic cup... cozy café" | Visual proxies for sensory experiences. |
+| **Quality** | "masterpiece, 8K, super HD" | (Removed) | Empty filler. Replaced by lens specs. |
+| **Photography** | "专业摄影感" (pro photo feel) | "Shot on 85mm f/1.8, bokeh" | Tangible camera physics. |
+| **Negatives** | "no blurry, no text..." | "sharp focus... no text" | Positive instructions are more reliable. |
+
+**Note:** If you need **readable text** on the image (e.g., a sign), please specify the exact string, and I will rewrite using the text-rendering rules. As written, this prompt explicitly excludes text.

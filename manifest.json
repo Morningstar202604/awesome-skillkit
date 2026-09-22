@@ -154,8 +154,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 234,
-      "sha256": "f276b886e44b9e5b886e42c247c758f6f2c004bc8f47393060da383c8bdda335"
+      "size_kb": 242,
+      "sha256": "f815e8b656fa6e60c48b3f320675594ad1b05fb1086decd9c4b318b6ec39cb51"
     },
     {
       "id": "ai-video-pipeline",
@@ -190,8 +190,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 81,
-      "sha256": "4edf7aab95101d1287c2941a9cced9eff9c900ea62707ef5f8b1598be4b466af"
+      "size_kb": 90,
+      "sha256": "77999839d34543500c00389447f3524d26642e91132a0cdd1bf0ca350488f156"
     },
     {
       "id": "api-development",
@@ -662,8 +662,8 @@
           "source": "original, pairs with ai-trace-auditor"
         }
       ],
-      "size_kb": 19,
-      "sha256": "dadfdc495e998ddf38cd4430c6b3871270ce1c1742b057a313f3ab6a7a473c01"
+      "size_kb": 24,
+      "sha256": "36bb9e8b3256937c3b32e94cd25c47b46d30433ab97241c962216942d188ea69"
     },
     {
       "id": "image-studio",
@@ -690,8 +690,8 @@
           "source": "existing (writing/assets)"
         }
       ],
-      "size_kb": 39,
-      "sha256": "53596670f34af1925d2a73113c901a0a604f71f8bbb81857f6704b373f4df0ef"
+      "size_kb": 46,
+      "sha256": "60dcc91a092ab04aaec523c5b468ce38fc8caaaf8cdbf8de74d65b0fbe1af2b7"
     },
     {
       "id": "incident-response",
@@ -796,7 +796,7 @@
       "description": "Daily office work: decks, spreadsheets, resumes, meeting minutes.",
       "description_zh": "日常办公四件套：PPT 制作、Excel 清洗分析、简历岗位定制、会议纪要结构化。",
       "file": "dist/office-productivity.zip",
-      "size_kb": 69,
+      "size_kb": 96,
       "skills": [
         {
           "name": "ppt-builder",
@@ -839,7 +839,7 @@
           "source": "self-authored (adapted from santifer/career-ops, MIT)"
         }
       ],
-      "sha256": "044b40c81bd23d05f730670818839cdab2fb76675a46b9c53b7d96f137a29c58"
+      "sha256": "da76cd8bacaaef3ab0e4299f5651cd6176e6597fba5a955f7c86ff0b5ed297d3"
     },
     {
       "id": "performance",
@@ -1006,8 +1006,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 45,
-      "sha256": "feb66a9597830fe3b3f0b062a3310a0e92f396a12e47d7766cb2ea2b09f137f0"
+      "size_kb": 52,
+      "sha256": "dff201b8353a3bf0a1a2844f35c775ab24a2d08337508da10c9f6adf8387c43c"
     },
     {
       "id": "viral-entertainment",
@@ -1058,8 +1058,8 @@
           "source": "self-authored (adapted from mattpocock/skills frontend-design + ECC frontend-patterns)"
         }
       ],
-      "size_kb": 43,
-      "sha256": "3d25cbfe7d402589dbf7e7d685ab91e51b20c4eab01e6f5f96d910be31dcee65"
+      "size_kb": 50,
+      "sha256": "18bf9b81ba16ab9d280d6590546847c993e5c1a96752668588e4bbd9f1b09f20"
     },
     {
       "id": "workspace-integrations",

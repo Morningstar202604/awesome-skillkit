@@ -32,3 +32,7 @@ Thumbs.db
 # 链级 E2E 真出活儿产物（视频/图片体积大，不入库，仅留报告）
 tests/_e2e_artifacts/**/
 !tests/_e2e_artifacts/chain_e2e_report.json
+
+# 场景台架写在工作目录的输入残留（正经输入在 tests/_scenario_artifacts/<domain>/<skill>/inputs/ 下）
+# 防止它污染仓库根目录并干扰 release.py 的「工作区必须干净」检查
+/scene_input.json

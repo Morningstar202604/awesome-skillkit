@@ -45,19 +45,22 @@ def generate_outline(topic: str, article_type: str = "technical",
     structure = STRUCTURES.get(article_type, STRUCTURES["technical"])
     sections = []
 
+    n_sec = len(structure["sections"])
+    target_words = {"short": 800, "medium": 2000, "long": 5000}.get(target_length, 2000)
+    reading_time = target_words // 250
+    base, extra = divmod(target_words, n_sec)  # 均分；余数前移到前 extra 节，保证求和恒等
+
     for i, sec_name in enumerate(structure["sections"]):
-        points = []
-        if key_points and i < len(key_points):
-            points = [key_points[i]]
+        # 要点轮转分配：第 k 条要点 → 第 (k % n_sec) 节。
+        # 旧实现 i < len(key_points) 会在 key_points 多于节数时静默丢弃尾部要点。
+        points = [kp for k, kp in enumerate(key_points or []) if k % n_sec == i]
         sections.append({
             "id": i + 1,
             "heading": sec_name,
             "level": 2,
             "points": points,
+            "word_count_target": base + (1 if i < extra else 0),
         })
-
-    target_words = {"short": 800, "medium": 2000, "long": 5000}.get(target_length, 2000)
-    reading_time = target_words // 250
 
     outline = {
         "title": f"{topic}：从入门到精通",
@@ -69,6 +72,9 @@ def generate_outline(topic: str, article_type: str = "technical",
         "type": article_type,
         "audience": audience,
         "platforms": platforms or ["csdn"],
+        # 占位标记：下列字段为模板骨架文本，交付前必须重写（SKILL.md 诚实声明 1-2）
+        "placeholders": ["title", "hook", "conclusion", "sections[].heading"],
+        "placeholder_note": "上述字段是模板骨架文本，不是成品；请按 SKILL.md 工作流 A 步骤 6 与参考模板重写",
     }
     return outline
 

@@ -1,0 +1,297 @@
+{
+  "skill": "design/image-prompt-engineer",
+  "old_ref": "HEAD",
+  "tasks": [
+    {
+      "task": "write-photo-hero",
+      "final": "new",
+      "tally": {
+        "old": 0,
+        "new": 1,
+        "tie": 0,
+        "invalid": 0
+      },
+      "runs": [
+        {
+          "sample": 1,
+          "verdict": "new",
+          "run1_winner_raw": "B",
+          "run2_winner_raw": "A",
+          "normalized": [
+            "new",
+            "new"
+          ],
+          "gate_old": [],
+          "gate_new": [],
+          "gen_seconds": [
+            8.8,
+            5.1
+          ],
+          "chars": [
+            1463,
+            1709
+          ],
+          "items_run1": [
+            {
+              "id": "D1",
+              "better": "B",
+              "why": "A 的 prompt 以画幅参数开头，主体信息滞后；B 的 prompt 直接以 'a mid-30s remote worker...' 开头，主体信息置于首位，更符合'位置即权重'的原则。"
+            },
+            {
+              "id": "D2",
+              "better": "B",
+              "why": "两者都提到了暖台灯与冷窗光的双色配置。B 额外明确了 'after 5 PM'（时段）和 'single warm desk lamp'（光源性质/数量），信息颗粒度更细，可执行性更强。"
+            },
+            {
+              "id": "D3",
+              "better": "B",
+              "why": "B 明确指定了 'shot on 35mm f/1.8'，同时包含焦段（35mm）和光圈（f/1.8）两项镜头语言指标；A 仅提及 'Kodak Portra 400' 和 'shallow depth of field'，缺乏具体的焦距或光圈数值支撑。"
+            },
+            {
+              "id": "D4",
+              "better": "A",
+              "why": "A 使用了 'realistic photography'，而 B 使用了 'realistic pores... visible'。虽然两者都避开了 'beautiful'、'masterpiece'、'8K' 等典型空词，但 B 的 'realistic' 仍带有质量形容词的性质（尽管比空词具体）。A 的表述相对更克制。此项差异较小，但 A 略优。"
+            },
+            {
+              "id": "D5",
+              "better": "B",
+              "why": "B 明确指定了 'centered-low composition'（中心偏低构图）和 'generous negative space above and to the left'（左上方留白），主体位置与留白方向均明确，且更详细地说明了为公众号排版预留空间；A 仅提到 'empty negative space on sides'，位置较模糊。"
+            },
+            {
+              "id": "D6",
+              "better": "tie",
+              "why": "两者均使用简短明确的 'no text, no typography/logos' 作为负向约束，无冗余描述，均满足要求。"
+            }
+          ],
+          "items_run2": [
+            {
+              "id": "D1",
+              "better": "A",
+              "why": "A 的主体信息（主体描述、光照、构图）紧密排列在 prompt 开头位置，符合权重优先原则；B 虽然也包含主体，但 prompt 混合了参数与描述，且部分关键视觉信息被后置或稀释。"
+            },
+            {
+              "id": "D2",
+              "better": "A",
+              "why": "A 明确指定了光源方向（desk lamp front/side vs window behind）、性质（warm/cool contrast）、时段（after 5 PM/dusk），执行性极强；B 虽提及光色，但细节稍逊（如未明确光束性质或色温数值感）。"
+            },
+            {
+              "id": "D3",
+              "better": "A",
+              "why": "A 明确标注了焦段与光圈（35mm f/1.8）及胶片类型（Kodak Portra 400），相机语言具体；B 仅提到 f/1.8 未提焦段，且 2.35:1 与 16:9 并列在 D5 中有冲突风险。"
+            },
+            {
+              "id": "D4",
+              "better": "A",
+              "why": "B 使用了 'realistic photography' 和 'cinematic color grading' 等较模糊的修饰词，虽不算完全空泛，但 A 用 'Kodak Portra 400 colour palette — desaturated teal shadows, warm amber highlights' 等具体词汇替代了空洞的质量堆砌，更符合 D4 要求。"
+            },
+            {
+              "id": "D5",
+              "better": "A",
+              "why": "A 明确指定 'generous negative space above and to the left'，与 2.35:1 超宽画幅及公众号排版需求高度匹配；B 仅说 'empty negative space on sides'，且将 16:9 与 2.35:1 并列，画幅定义混乱，构图指引不如 A 具体。"
+            },
+            {
+              "id": "D6",
+              "better": "tie",
+              "why": "两者均使用 'no text, no logos/typography' 作为负向约束，简短且明确，均未出现会被渲染成文字的句式。"
+            }
+          ]
+        }
+      ],
+      "seconds": 36.6
+    },
+    {
+      "task": "audit-bad-prompt",
+      "final": "new",
+      "tally": {
+        "old": 0,
+        "new": 1,
+        "tie": 0,
+        "invalid": 0
+      },
+      "runs": [
+        {
+          "sample": 1,
+          "verdict": "new",
+          "run1_winner_raw": "B",
+          "run2_winner_raw": "A",
+          "normalized": [
+            "new",
+            "new"
+          ],
+          "gate_old": [],
+          "gate_new": [],
+          "gen_seconds": [
+            11.4,
+            11.5
+          ],
+          "chars": [
+            2821,
+            3951
+          ],
+          "items_run1": [
+            {
+              "id": "D1",
+              "better": "A",
+              "why": "A 明确列出了 '8K, 超高清, masterpiece' 属于 '关键词堆砌残留' 并解释现代模型不依赖这些词。B 虽然也指出了这些是空洞词，但 D1 的表述更直接对应清单中 '指出...属于无效堆砌' 的要求，且 A 将其归类为特定质量问题（空泛赞美/分辨率误用），分析更精准。"
+            },
+            {
+              "id": "D2",
+              "better": "A",
+              "why": "A 明确指出 'no xxx' 是 '指令式句式'，违反技能规则，并说明会被模型当正文渲染的风险，同时给出了正确的名词列表改法。B 也指出了这个问题，但 A 的解释更侧重于 '句式违规' 这一核心机制，与清单描述 '负向约束应改为名词列表或独立负向字段' 的对应关系更强。"
+            },
+            {
+              "id": "D3",
+              "better": "A",
+              "why": "A 明确点名 '咖啡很好喝的感觉' 为 '不可见主观描述'，并建议替换为视觉化替代。B 也指出了这点，但 A 单独列出并明确对应了清单中的 '主观评价不可执行' 这一关键点，表述更为清晰。"
+            },
+            {
+              "id": "D4",
+              "better": "tie",
+              "why": "两者都保留了 '女性喝咖啡' 和 '照片感' 的核心意图，并用描述性语言替换了评价性语言。A 补充了短发黑衣、白色陶瓷杯等细节；B 补充了棕色及肩发、针织衫、木桌等细节。两者都未擅自更换设计主题（如换成其他饮料或场景），均符合要求。"
+            },
+            {
+              "id": "D5",
+              "better": "B",
+              "why": "B 的改写版明确包含了更具体的 '主体特征'（棕色及肩发、针织衫）、 '镜头/画幅'（85mm f/1.8, 浅景深, bokeh）和 '光照'（温暖琥珀色侧光）。A 也包含了这些要素（短发、85mm等效描述、自然窗光），但 B 在 '可执行要素' 的丰富度和专业性上略胜一筹，特别是明确提到了 'shot on 85mm f/1.8' 这样的具体相机参数，更符合 '补齐可执行要素' 的要求。"
+            },
+            {
+              "id": "D6",
+              "better": "B",
+              "why": "B 明确提到了 '负向列表过长...违反短而具体原则'，并在改动说明中指出 '控制在6项名词式'。A 也提到了负向约束违规，但未明确强调 '长清单会渗入正向语义' 这一具体风险点，而是更多强调 'no xxx' 句式问题。B 对 D6 的要求覆盖更全面。"
+            }
+          ],
+          "items_run2": [
+            {
+              "id": "D1",
+              "better": "tie",
+              "why": "A和B都指出了 beautiful/震撼/masterpiece/8K 等词不携带视觉信息且属于无效堆砌。A列出8个具体词汇并强调互相打架稀释权重；B指出这些是'2023年前的写法'。两者均满足条目要求，水平相当。"
+            },
+            {
+              "id": "D2",
+              "better": "A",
+              "why": "A明确指出了「no xxx」句式会被模型当正文渲染的问题（引用'红线2'），并建议改为名词式列表。B也指出了相同问题并给出修正建议。两者都满足，但A更清晰地解释了'会被模型当正文渲染'这一机制原因，略胜一筹。"
+            },
+            {
+              "id": "D3",
+              "better": "A",
+              "why": "A明确指出「咖啡很好喝的感觉」「专业摄影感」这类主观评价不可执行，应换成可观察描述，并提供了具体的改写示例（steam curling from the coffee）。B也指出了「咖啡很好喝的感觉」不可见并建议删除或替换，但未提及「专业摄影感」这一条。A更完整。"
+            },
+            {
+              "id": "D4",
+              "better": "A",
+              "why": "A的改写版保留了原意（女性喝咖啡、照片感），用描述替代评价，如用'warm amber light...soft side-lighting'替代'专业摄影感'，用'steam curling'替代'咖啡很好喝的感觉'。B的改写版虽然也保留了主体，但擅自添加了原文没有的文字元素（'COFFEE BREAK'标题），这属于擅自换设计，不符合'不擅自换设计'的要求。A更好。"
+            },
+            {
+              "id": "D5",
+              "better": "A",
+              "why": "A的改写版补齐了可执行要素：主体特征（shoulder-length brown hair, beige knit sweater）、光照（warm amber light from window, soft side-lighting）、镜头/画幅（85mm f/1.8, shallow DOF, bokeh）。B的改写版也补齐了部分要素，但缺少具体的镜头参数（只说了medium shot），且A的光照和镜头描述更具体、更符合'专业摄影感'的原意。A更好。"
+            },
+            {
+              "id": "D6",
+              "better": "A",
+              "why": "A明确说明了负向列表宜短而具体，长清单会渗入正向语义（引用暗知识7）。B也提到了负向约束的修正，但未明确解释'长清单会渗入正向语义'这一原理。A更完整地满足了该条目。"
+            }
+          ]
+        }
+      ],
+      "seconds": 41.4
+    },
+    {
+      "task": "poster-with-text",
+      "final": "tie",
+      "tally": {
+        "old": 0,
+        "new": 0,
+        "tie": 1,
+        "invalid": 0
+      },
+      "runs": [
+        {
+          "sample": 1,
+          "verdict": "tie",
+          "run1_winner_raw": "A",
+          "run2_winner_raw": "A",
+          "normalized": [
+            "old",
+            "new"
+          ],
+          "gate_old": [],
+          "gate_new": [],
+          "gen_seconds": [
+            3.3,
+            14.0
+          ],
+          "chars": [
+            1443,
+            3467
+          ],
+          "items_run1": [
+            {
+              "id": "D1",
+              "better": "tie",
+              "why": "两位候选均将图上文字用双引号逐字包裹（A: \"AI VIDEO 2026\", \"从 0 到 1 做视频\", \"FILM ROLLE 35MM\"；B: \"AI VIDEO 2026\", \"从 0 到 1 做视频\"），均满足要求。"
+            },
+            {
+              "id": "D2",
+              "better": "tie",
+              "why": "A明确指定了标题位置（top-left）、副标题位置（directly below）及标签位置（curved along the canister edge），版式关系清晰。B指定了标题位置（top-left area）和副标题位置（below or beside），但副标题位置使用了模糊选项。A的位置描述更具体、层级更明确。"
+            },
+            {
+              "id": "D3",
+              "better": "B",
+              "why": "B专门提供了\"文字渲染模型选择\"的红色警示和详细对比表格，明确指出需选择文字渲染可靠的模型（如GPT Image、Midjourney v6+），并警告避免使用Gemini系等。A的prompt中完全没有提及模型选择层面的关键取舍。"
+            },
+            {
+              "id": "D4",
+              "better": "A",
+              "why": "A明确指定了\"Kodak Portra 400 color palette\"和\"subtle silver halide grain\"，胶片型号具体可复现。B仅使用\"retro analog aesthetic\"等泛化描述，未指定具体胶片型号或年代方向。"
+            },
+            {
+              "id": "D5",
+              "better": "A",
+              "why": "A全程使用具体名词描述（vintage silver film canister, exposed black leader strip），无代词。B也使用了具体名词（vintage film reel, visible sprocket holes），同样无代词。两者均满足，但A的主体特征描写更细致丰富。"
+            },
+            {
+              "id": "D6",
+              "better": "A",
+              "why": "A直接提供了结构化的五段标注（Canvas/Subject/Composition/Style/Text），格式清晰，可直接投喂。B虽然也提供了五段标注表格，但包裹了大量额外内容（模型对比表、下一步建议等），不够简洁直接。"
+            }
+          ],
+          "items_run2": [
+            {
+              "id": "D1",
+              "better": "A",
+              "why": "A 在 Prompt 正文中用双引号明确包裹了 'AI VIDEO 2026' 和 '从 0 到 1 做视频'，并在验证打勾中确认。B 同样包裹了这两处文字。两者都满足 D1，但 A 的结构更清晰地分离了 Prompt 本体与解释，且 B 额外增加了图中未明确要求的第三句文字 'FILM ROLLE 35MM'，可能引入噪音。考虑到 D1 的核心是 '逐字包裹写进 prompt'，两者均达标，但 A 对原文文字的忠实度更高（未随意添加），故 A 略好。"
+            },
+            {
+              "id": "D2",
+              "better": "A",
+              "why": "A 明确描述了标题 'positioned at the top-left area' 和副标题 'below or beside the title'，并提供了 'Symmetrical composition, generous negative space around the reel for text placement' 的版式关系说明。B 也描述了位置 'top-left' 和 'directly below'。两者都提供了位置/层级信息。A 的说明更详尽（包括留白意图），且 B 添加的 'FILM ROLLE 35MM' 的位置描述（curved along the canister edge）属于额外创作。就清晰度而言，A 更佳。"
+            },
+            {
+              "id": "D3",
+              "better": "A",
+              "why": "A 专门设立了 '关键提醒：文字渲染模型选择' 章节，详细列出了不同模型族（GPT Image, Midjourney, SD, Gemini 等）的文字渲染能力对比，并给出了具体的建议操作。这是非常明确地提示了模型选择层面的关键取舍。B 完全没有提及模型选择或文字渲染可靠性的问题。因此 A 远优于 B。"
+            },
+            {
+              "id": "D4",
+              "better": "A",
+              "why": "A 的风格锚是 'Flat editorial illustration style, warm cream base color, single coral accent, retro analog aesthetic'，属于插画风格，并非具体胶片型号。B 明确指定了 'Kodak Portra 400 color palette, subtle silver halide grain, soft focus cinematic bokeh'，这符合 '胶片型号/年代/色调方向' 的具体要求。虽然 A 的 'retro analog aesthetic' 较为模糊，但 B 的 Kodak Portra 400 更具体可复现。然而，A 的风格描述与其生成的 'flat editorial illustration' 一致，而 B 的 'vintage silver film canister' 与 'low-angle hero shot' 结合 Kodak Portra 400 更具摄影感。D4 要求 '不是「复古感」'，B 提供了具体胶片型号，比 A 的通用风格描述更符合要求。因此 B 在 D4 上略好。"
+            },
+            {
+              "id": "D5",
+              "better": "A",
+              "why": "A 的检查列表中明确声明 '无代词（全部用具体名词）'，且 Prompt 中确实使用了 'A vintage film reel', 'Bold condensed sans-serif title' 等具体名词。B 的 Prompt 中也未使用代词，如 'a vintage silver film canister', 'bold condensed sans-serif title'。两者都避免了代词。但 A 主动验证并确认了这一点，显示更高的合规意识。不过从实际内容看，两者均无代词。鉴于 A 的额外验证步骤，A 略好。"
+            },
+            {
+              "id": "D6",
+              "better": "A",
+              "why": "A 提供了完整的 '五段标注版' 表格，清晰地将 Canvas/Subject/Composition/Style Anchor/Text Spec/Lighting/Camera/Post/Negative 分开，并可直接投喂。B 提供了简化的五段描述（Canvas/Subject/Composition/Style/Text）和一个合并的 '五段标注版' 字符串。A 的结构更清晰、分段更细致（包括 Light 和 Post 分离），更符合 '整体结构分段清晰...可直接投喂' 的要求。B 的格式稍显简陋。因此 A 更好。"
+            }
+          ]
+        }
+      ],
+      "seconds": 32.0
+    }
+  ]
+}

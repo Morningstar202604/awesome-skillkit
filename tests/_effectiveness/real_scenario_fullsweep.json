@@ -1,0 +1,3081 @@
+{
+  "generated": "2026-09-22T01:19:44.782488+00:00",
+  "with_llm": true,
+  "counts": {
+    "total": 169,
+    "pass": 63,
+    "fail": 78,
+    "error": 3,
+    "no_example": 25,
+    "spec_error": 0
+  },
+  "results": [
+    {
+      "skill": "audio/podcast-producer",
+      "script": "skills\\audio\\podcast-producer\\scripts\\script_lint.py",
+      "scenario": "--file script.md --dialogue",
+      "argv": [
+        "--file",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_script.md",
+        "--dialogue"
+      ],
+      "notes": [
+        "合成文本输入(1704 字)"
+      ],
+      "rc": 1,
+      "seconds": 0.11,
+      "stdout_tail": "l\": \"282 chars > 90: split into shorter lines\"\n    },\n    {\n      \"line\": 13,\n      \"rule\": \"speaker_label\",\n      \"detail\": \"dialogue mode: missing HOST/GUEST prefix\"\n    },\n    {\n      \"line\": 13,\n      \"rule\": \"overlong_line\",\n      \"detail\": \"266 chars > 90: split into shorter lines\"\n    }\n  ],\n  \"count\": 12,\n  \"rules\": [\n    \"overlong_line\",\n    \"speaker_label\"\n  ],\n  \"status\": \"violation\"\n}\n",
+      "stderr_tail": "",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "chat/chat-prompt-engineer",
+      "script": "skills\\chat\\chat-prompt-engineer\\scripts\\prompt_audit.py",
+      "scenario": "--prompt <system prompt> --mode agent",
+      "argv": [
+        "--prompt",
+        "<system prompt>",
+        "--mode",
+        "agent"
+      ],
+      "notes": [],
+      "rc": 1,
+      "seconds": 0.11,
+      "stdout_tail": "{\n  \"mode\": \"agent\",\n  \"score\": \"0/5\",\n  \"elements\": {\n    \"persona\": false,\n    \"capability-flow\": false,\n    \"constraints\": false,\n    \"output-format\": false,\n    \"boundary\": false\n  },\n  \"missing\": [\n    \"persona\",\n    \"capability-flow\",\n    \"constraints\",\n    \"output-format\",\n    \"boundary\"\n  ]\n}\n",
+      "stderr_tail": "",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "dataviz/dashboard-designer",
+      "script": "skills\\dataviz\\dashboard-designer\\scripts\\dashboard.py",
+      "scenario": "build <data.csv> --out dashboard.html --title 季度销售看板",
+      "argv": [
+        "build",
+        "<data.csv>",
+        "--out",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_out.json",
+        "--title",
+        "季度销售看板"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 1,
+      "seconds": 0.13,
+      "stdout_tail": "",
+      "stderr_tail": "ERROR: CSV 不存在：<data.csv>\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "design/frontend-component-lab",
+      "script": "skills\\design\\frontend-component-lab\\scripts\\scaffold_component.py",
+      "scenario": "--name PricingCard --props title,price,cta --out ./src/ui",
+      "argv": [
+        "--name",
+        "PricingCard",
+        "--props",
+        "title,price,cta",
+        "--out",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_out.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.11,
+      "stdout_tail": "']\nFiles to produce:\n  C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_out.json\\PricingCard.tsx\n  C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_out.json\\PricingCard.module.css\n  C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_out.json\\design-tokens.json\n\n[DRY-RUN] no file written. Re-run with --write (and --force to overwrite) to emit.\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "design/layout-spec-auditor",
+      "script": "skills\\design\\layout-spec-auditor\\scripts\\spec_audit.py",
+      "scenario": "--width 896 --height 384 --expect 900x383",
+      "argv": [
+        "--width",
+        "896",
+        "--height",
+        "384",
+        "--expect",
+        "900x383",
+        "--file-mb",
+        "0.4"
+      ],
+      "notes": [],
+      "rc": 1,
+      "seconds": 0.11,
+      "stdout_tail": "resolution\",\n      \"pass\": false,\n      \"detail\": \"got 896x384, minimum 900x383\",\n      \"fix\": \"regenerate at target size; upscaling is banned\"\n    }\n  ],\n  \"safe_area\": {\n    \"safe_margin_ratio\": 0.08,\n    \"bottom_float_zone\": 0.15,\n    \"advice\": \"keep text away from bottom 15% (platform overlay zone); margin >= 8% of the short edge\"\n  },\n  \"missing\": [\n    \"resolution\"\n  ],\n  \"status\": \"fail\"\n}\n",
+      "stderr_tail": "",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "education/exercise-generator",
+      "script": "skills\\education\\exercise-generator\\scripts\\exercise_lint.py",
+      "scenario": "--text ; echo exit=$?",
+      "argv": [
+        "--text",
+        ";",
+        "echo",
+        "exit=$?"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.1,
+      "stdout_tail": "",
+      "stderr_tail": "usage: exercise_lint.py [-h] [--file FILE] [--text TEXT] [--allow-mcq]\nexercise_lint.py: error: unrecognized arguments: echo exit=$?\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "integrations/cloud-drive-manager",
+      "script": "skills\\integrations\\cloud-drive-manager\\scripts\\drive_ops.py",
+      "scenario": "parse-list --json cloud_list.json --provider baidu",
+      "argv": [
+        "parse-list",
+        "--json",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_cloud_list.json",
+        "--provider",
+        "baidu"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.11,
+      "stdout_tail": "# baidu 列表：0 个条目\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "integrations/feishu-dingtalk-bridge",
+      "script": "skills\\integrations\\feishu-dingtalk-bridge\\scripts\\im_bridge.py",
+      "scenario": "--help >/dev/null && echo CLI_OK",
+      "argv": [
+        ">/dev/null",
+        "&&",
+        "echo",
+        "CLI_OK"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.12,
+      "stdout_tail": "",
+      "stderr_tail": "usage: im_bridge.py [-h] {build-message,parse-webhook} ...\nim_bridge.py: error: argument cmd: invalid choice: '>/dev/null' (choose from 'build-message', 'parse-webhook')\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "integrations/issue-tracker-sync",
+      "script": "skills\\integrations\\issue-tracker-sync\\scripts\\issue_sync.py",
+      "scenario": "field-map >/dev/null && echo FIELD_MAP_OK",
+      "argv": [
+        "field-map",
+        ">/dev/null",
+        "&&",
+        "echo",
+        "FIELD_MAP_OK"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "usage: issue_sync.py [-h] {build,field-map,weekly-report} ...\nissue_sync.py: error: unrecognized arguments: >/dev/null && echo FIELD_MAP_OK\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "integrations/notion-workspace",
+      "script": "skills\\integrations\\notion-workspace\\scripts\\notion_ops.py",
+      "scenario": "--help >/dev/null && echo CLI_OK",
+      "argv": [
+        ">/dev/null",
+        "&&",
+        "echo",
+        "CLI_OK"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.1,
+      "stdout_tail": "",
+      "stderr_tail": "usage: notion_ops.py [-h]\n                     {build-page,build-database-query,parse-page,blocks-to-markdown} ...\nnotion_ops.py: error: argument cmd: invalid choice: '>/dev/null' (choose from 'build-page', 'build-database-query', 'parse-page', 'blocks-to-markdown')\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "knowledge/knowledge-graph-builder",
+      "script": "skills\\knowledge\\knowledge-graph-builder\\scripts\\graph_build.py",
+      "scenario": "export <notes-dir> --format dot --out graph.dot",
+      "argv": [
+        "export",
+        "<notes-dir>",
+        "--format",
+        "dot",
+        "--out",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_out.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 1,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "ERROR: 目录不存在：C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\knowledge\\knowledge-graph-builder\\<notes-dir>\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "knowledge/personal-wiki",
+      "script": "skills\\knowledge\\personal-wiki\\scripts\\wiki_build.py",
+      "scenario": "--help >/dev/null && echo script ok",
+      "argv": [
+        ">/dev/null",
+        "&&",
+        "echo",
+        "script ok"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.12,
+      "stdout_tail": "",
+      "stderr_tail": "usage: wiki_build.py [-h] {init,index,search,lint,stats} ...\nwiki_build.py: error: argument cmd: invalid choice: '>/dev/null' (choose from 'init', 'index', 'search', 'lint', 'stats')\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "marketing/channel-adapter",
+      "script": "skills\\marketing\\channel-adapter\\scripts\\channel_fit_check.py",
+      "scenario": "--file variant.md --channel xhs",
+      "argv": [
+        "--file",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_variant.md",
+        "--channel",
+        "xhs"
+      ],
+      "notes": [
+        "合成文本输入(1704 字)"
+      ],
+      "rc": 1,
+      "seconds": 0.11,
+      "stdout_tail": " \"trim to the channel's word budget; cut evidence only as last resort\"\n    },\n    {\n      \"check\": \"cta_count\",\n      \"pass\": true,\n      \"detail\": \"0 CTA-ish tokens vs cap 1\",\n      \"fix\": null\n    },\n    {\n      \"check\": \"hook_first_line\",\n      \"pass\": true,\n      \"detail\": \"first line: '# FastAPI 性能优化实战'\",\n      \"fix\": null\n    }\n  ],\n  \"missing\": [\n    \"word_budget\"\n  ],\n  \"status\": \"fail\"\n}\n",
+      "stderr_tail": "",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "meta/agent-eval-harness",
+      "script": "skills\\meta\\agent-eval-harness\\scripts\\eval_harness.py",
+      "scenario": "--input cases.jsonl --index 0 --mode judge",
+      "argv": [
+        "--input",
+        "cases.jsonl",
+        "--index",
+        "0",
+        "--mode",
+        "judge",
+        "--out",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_out.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 1,
+      "seconds": 0.13,
+      "stdout_tail": "",
+      "stderr_tail": "th open(path, encoding=\"utf-8\") as fh:\n         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\X1882\\AppData\\Roaming\\Python\\Python313\\site-packages\\sitecustomize.py\", line 28, in utf8_open\n    return original_open(*args, **kwargs)\nFileNotFoundError: [Errno 2] No such file or directory: 'cases.jsonl'\n",
+      "verdict": "error"
+    },
+    {
+      "skill": "meta/session-handoff",
+      "script": "skills\\meta\\session-handoff\\scripts\\make_handoff.py",
+      "scenario": "--input handoff.json --write -o handoff.md",
+      "argv": [
+        "--input",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_handoff.json",
+        "--write",
+        "-o",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.1,
+      "stdout_tail": "ion\n\n> 生成：2026-09-22 · 作者 agent：agent · 目的：让**另一个** agent 无上下文接手\n\n## 1. 目标（原始意图）\n[待填：原始目标]\n\n## 2. 已完成\n- [待填]\n\n## 3. 下一步（按序）\n- [待填]\n\n## 4. 已知坑 / 不要重蹈\n- [待填]\n\n## 5. 关键文件与路径\n- [待填]\n\n## 6. 给接手 agent 的一页纸速记\n- 仓库/项目：[repo]\n- 运行/验证方式：[how to run / verify]\n- 当前卡点：[none / describe current stuck point]\n\n--- preview above ---\n[WRITE] C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "meta/skill-finder",
+      "script": "skills\\meta\\skill-finder\\scripts\\find_skill.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "meta/skill-linter",
+      "script": "skills\\meta\\skill-linter\\scripts\\lint_skill.py",
+      "scenario": "$d --json > /dev/null || exit",
+      "argv": [
+        "$d",
+        "--json",
+        ">",
+        "/dev/null",
+        "||",
+        "exit",
+        "1"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "usage: lint_skill.py [-h] [--json] [--verbose] target\nlint_skill.py: error: unrecognized arguments: > /dev/null || exit 1\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "meta/weekly-report-generator",
+      "script": "skills\\meta\\weekly-report-generator\\scripts\\gen_report.py",
+      "scenario": "--days 7 --input report.json --write -o",
+      "argv": [
+        "--days",
+        "7",
+        "--input",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_report.json",
+        "--write",
+        "-o",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json"
+      ],
+      "notes": [
+        "合成 JSON 输入 ← SKILL.md 示例(259B)",
+        "合成 JSON 输入 ← SKILL.md 示例(259B)"
+      ],
+      "rc": 2,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "[ERROR] . is not a git repo\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "office/career-ops-lite",
+      "script": "skills\\office\\career-ops-lite\\scripts\\job_scorer.py",
+      "scenario": "--jd ./jd.txt --resume ./me.txt",
+      "argv": [
+        "--jd",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_jd.txt",
+        "--resume",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_me.txt"
+      ],
+      "notes": [
+        "合成文本输入(1704 字)",
+        "合成文本输入(1704 字)"
+      ],
+      "rc": 0,
+      "seconds": 0.1,
+      "stdout_tail": "Level signal: (none detected)\nRequirements extracted: 0\n\nGrade counts: {'A': 0, 'B': 0, 'C': 0, 'D': 0, 'F': 0}\nOverall: 0.305  =>  score/5: 1.52  (WEAK)\n\n[DRY-RUN] no file written. Re-run with --write -o 'job_score.json'.\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "office/docx-template-fill",
+      "script": "skills\\office\\docx-template-fill\\scripts\\fill_template.py",
+      "scenario": "--template ./tpl.docx --data ./data.json --list-only",
+      "argv": [
+        "--template",
+        "./tpl.docx",
+        "--data",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_data.json",
+        "--list-only"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 2,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "[ERROR] template not found: ./tpl.docx\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "office/docx-writer",
+      "script": "skills\\office\\docx-writer\\scripts\\docx_ops.py",
+      "scenario": "create --input content.md --output output.docx --title",
+      "argv": [
+        "create",
+        "--input",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_content.md",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json",
+        "--title",
+        "文档标题"
+      ],
+      "notes": [
+        "合成文本输入(1704 字)",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.23,
+      "stdout_tail": "created: C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "office/epub-builder",
+      "script": "skills\\office\\epub-builder\\scripts\\epub_build.py",
+      "scenario": "--help >/dev/null && echo script ok",
+      "argv": [
+        ">/dev/null",
+        "&&",
+        "echo",
+        "script ok"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.13,
+      "stdout_tail": "",
+      "stderr_tail": "usage: epub_build.py [-h] {build,inspect} ...\nepub_build.py: error: argument cmd: invalid choice: '>/dev/null' (choose from 'build', 'inspect')\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "office/pdf-pipeline",
+      "script": "skills\\office\\pdf-pipeline\\scripts\\pdf_ops.py",
+      "scenario": "rotate merged.pdf --degrees 90 --pages 1-2",
+      "argv": [
+        "rotate",
+        "merged.pdf",
+        "--degrees",
+        "90",
+        "--pages",
+        "1-2",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 1,
+      "seconds": 0.29,
+      "stdout_tail": "",
+      "stderr_tail": "ERROR: 文件不存在：merged.pdf\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "paper/ai-humanizer",
+      "script": "skills\\paper\\ai-humanizer\\scripts\\ai_humanizer.py",
+      "scenario": "--file draft.tex --output humanize_report.json",
+      "argv": [
+        "--file",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_draft.tex",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成文本输入(1704 字)",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.12,
+      "stdout_tail": "",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "paper/anti-defensive",
+      "script": "skills\\paper\\anti-defensive\\scripts\\anti_defensive.py",
+      "scenario": "--file draft_section.md",
+      "argv": [
+        "--file",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_draft_section.md"
+      ],
+      "notes": [
+        "合成文本输入(1704 字)"
+      ],
+      "rc": 0,
+      "seconds": 0.1,
+      "stdout_tail": "0,\n  \"status\": \"clean\",\n  \"issues\": [],\n  \"n_flags\": 0,\n  \"n_retained_only\": 0,\n  \"hedge_density_per_100w\": 0.0,\n  \"hedges_total\": 0,\n  \"words\": 157,\n  \"tighten_hits\": 0,\n  \"retain_hits\": 0,\n  \"method\": \"pattern+context-classifier\",\n  \"note\": \"'retain' items sit next to statistical-uncertainty context (CI / p-value / variance / sample size). Deleting them is an academic error, not a style fix.\"\n}\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "paper/arch-diagram",
+      "script": "skills\\paper\\arch-diagram\\scripts\\arch_diagram.py",
+      "scenario": "--type pipeline --blocks A,B,C,D,E --layout wrap",
+      "argv": [
+        "--type",
+        "pipeline",
+        "--blocks",
+        "A,B,C,D,E",
+        "--layout",
+        "wrap",
+        "--per-row",
+        "3",
+        "--format",
+        "svg",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.1,
+      "stdout_tail": "{\n  \"output\": \"C:\\\\Users\\\\X1882\\\\AppData\\\\Local\\\\Temp\\\\skillkit_scenario_ezbzeej1\\\\in_out_output.json\",\n  \"format\": \"svg\",\n  \"layout\": \"wrap\",\n  \"n_blocks\": 5,\n  \"blocks\": [\n    \"A\",\n    \"B\",\n    \"C\",\n    \"D\",\n    \"E\"\n  ],\n  \"has_marker_def\": true,\n  \"valid_root\": true,\n  \"editable\": true\n}\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "paper/experiment-runner",
+      "script": "skills\\paper\\experiment-runner\\scripts\\experiment_runner.py",
+      "scenario": "--n-runs 8 --seed 42",
+      "argv": [
+        "--n-runs",
+        "8",
+        "--seed",
+        "42"
+      ],
+      "notes": [],
+      "rc": 0,
+      "seconds": 1.95,
+      "stdout_tail": ": 3.0983,\n    \"ci95_diff\": [\n      0.0274,\n      0.0563\n    ],\n    \"significant\": true\n  },\n  \"config\": {\n    \"n_runs\": 8,\n    \"seed\": 42,\n    \"baseline_metric\": 0.8,\n    \"improvement_target\": 0.05\n  },\n  \"seed_backends\": [\n    \"random\",\n    \"numpy 2.5.3\"\n  ],\n  \"env\": {\n    \"python\": \"3.13.14\",\n    \"numpy\": \"2.5.3\",\n    \"scipy\": \"1.18.1\",\n    \"sklearn\": \"1.9.1\",\n    \"cuda_available\": false\n  }\n}\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "paper/figure-maker",
+      "script": "skills\\paper\\figure-maker\\scripts\\figure_maker.py",
+      "scenario": "弃用薄壳走 heatmap 透传（真实渲染而非 unsupported）",
+      "argv": [
+        "--type",
+        "heatmap",
+        "--data",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_ov_1.json",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\ov_fm.pdf"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.86,
+      "stdout_tail": "font_embedded\": true,\n  \"colorblind_safe\": true,\n  \"cmap\": \"cividis\",\n  \"shape\": [\n    2,\n    2\n  ],\n  \"value_range\": [\n    0.2,\n    0.9\n  ],\n  \"annotated\": true,\n  \"status\": \"success\",\n  \"deprecated\": true,\n  \"superseded_by\": \"pub-plotter\",\n  \"deprecation_note\": \"figure-maker is a compatibility shim; call pub-plotter directly (it additionally supports --journal widths and full type coverage).\"\n}\n",
+      "stderr_tail": "",
+      "artifacts": [
+        "ov_fm.pdf:10427B"
+      ],
+      "verdict": "pass"
+    },
+    {
+      "skill": "paper/journal-adapt",
+      "script": "skills\\paper\\journal-adapt\\scripts\\journal_adapt.py",
+      "scenario": "--input draft.tex --target nature --output adapt_report.json",
+      "argv": [
+        "--input",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_draft.tex",
+        "--target",
+        "nature",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成文本输入(1704 字)",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "paper/latex-formatter",
+      "script": "skills\\paper\\latex-formatter\\scripts\\latex_formatter.py",
+      "scenario": "--input draft.tex --template ieee --refs refs.bib",
+      "argv": [
+        "--input",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_draft.tex",
+        "--template",
+        "ieee",
+        "--refs",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_refs.bib",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成文本输入(1704 字)",
+        "合成文本输入(1704 字)",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.14,
+      "stdout_tail": "",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "paper/lit-review",
+      "script": "skills\\paper\\lit-review\\scripts\\lit_review.py",
+      "scenario": "--topic LLM agents",
+      "argv": [
+        "--topic",
+        "LLM agents"
+      ],
+      "notes": [],
+      "rc": 0,
+      "seconds": 0.14,
+      "stdout_tail": "itations\": 120\n      },\n      {\n        \"id\": \"P002\",\n        \"title\": \"LLM Agent Benchmarking\",\n        \"citations\": 85\n      }\n    ],\n    \"trends\": \"高频主题词: Agent, LLM, Multi-Agent, Coordination（基于 5 篇标题共现，非 LLM）\",\n    \"gaps_identified\": [\n      \"高频词 'LLM' 在 2025 年文献中未再出现，可能是未被跟进的方向\",\n      \"高频词 'Multi-Agent' 在 2025 年文献中未再出现，可能是未被跟进的方向\"\n    ],\n    \"synthesis_method\": \"keyword-cooccurrence\"\n  }\n}\n",
+      "stderr_tail": "[model_route] llm: 离线兜底（SKILLKIT_MODEL_URL 未设/不可达）\n",
+      "verdict": "pass"
+    },
+    {
+      "skill": "paper/neural-net-draw",
+      "script": "skills\\paper\\neural-net-draw\\scripts\\neural_net_draw.py",
+      "scenario": "--layers 784,512,256,10,1 --label CNN+MLP --output net.tex",
+      "argv": [
+        "--layers",
+        "784,512,256,10,1",
+        "--label",
+        "CNN+MLP",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.11,
+      "stdout_tail": "{\n  \"output\": \"C:\\\\Users\\\\X1882\\\\AppData\\\\Local\\\\Temp\\\\skillkit_scenario_ezbzeej1\\\\in_out_output.json\",\n  \"label\": \"CNN+MLP\",\n  \"layers\": [\n    \"784:fc\",\n    \"512:fc\",\n    \"256:fc\",\n    \"10:fc\",\n    \"1:fc\"\n  ],\n  \"activation\": \"relu\",\n  \"n_params_est\": \"~535.8K\",\n  \"method\": \"per-neuron\",\n  \"compilable\": true,\n  \"note\": \"Requires pgfplots + tikz in LaTeX preamble\"\n}\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "paper/paper-topic-selector",
+      "script": "skills\\paper\\paper-topic-selector\\scripts\\topic_selector.py",
+      "scenario": "--topic A --topic B --topic C",
+      "argv": [
+        "--topic",
+        "A",
+        "--topic",
+        "B",
+        "--topic",
+        "C",
+        "--constraints",
+        "{\"time\":\"6mo\",\"gpu\":\"8xA100\"}"
+      ],
+      "notes": [],
+      "rc": 0,
+      "seconds": 0.11,
+      "stdout_tail": "mantic Scholar) before committing\",\n      \"rank\": 3\n    }\n  ],\n  \"rejected\": [],\n  \"n_candidates\": 3,\n  \"novelty_source\": \"heuristic-keyword\",\n  \"weights\": {\n    \"novelty\": 0.4,\n    \"feasibility\": 0.3,\n    \"impact\": 0.2,\n    \"buildability\": 0.1\n  },\n  \"honesty_note\": \"Novelty is a keyword heuristic unless --lit-review-json supplied; never cite an unverified novelty score as a literature claim.\"\n}\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "paper/pub-plotter",
+      "script": "skills\\paper\\pub-plotter\\scripts\\pub_plotter.py",
+      "scenario": "按 Science 单栏真实版面(4.76in)画热力图（含负值→发散色）",
+      "argv": [
+        "--type",
+        "heatmap",
+        "--journal",
+        "science",
+        "--data",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_ov_1.json",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\ov_pub.pdf"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.89,
+      "stdout_tail": "{\n  \"output\": \"C:\\\\Users\\\\X1882\\\\AppData\\\\Local\\\\Temp\\\\skillkit_scenario_ezbzeej1\\\\ov_pub.pdf\",\n  \"style\": \"ieee\",\n  \"journal\": \"science\",\n  \"type\": \"heatmap\",\n  \"rendered\": true,\n  \"width_inches\": 4.76,\n  \"font_embedded\": true,\n  \"colorblind_safe\": true,\n  \"cmap\": \"RdBu_r\",\n  \"shape\": [\n    2,\n    2\n  ],\n  \"value_range\": [\n    -0.3,\n    0.9\n  ],\n  \"annotated\": true,\n  \"status\": \"success\"\n}\n",
+      "stderr_tail": "",
+      "artifacts": [
+        "ov_pub.pdf:11679B"
+      ],
+      "verdict": "pass"
+    },
+    {
+      "skill": "paper/self-reviewer",
+      "script": "skills\\paper\\self-reviewer\\scripts\\self_reviewer.py",
+      "scenario": "--paper draft.tex --checklist",
+      "argv": [
+        "--paper",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_draft.tex",
+        "--checklist"
+      ],
+      "notes": [
+        "合成文本输入(1704 字)"
+      ],
+      "rc": 0,
+      "seconds": 0.11,
+      "stdout_tail": "o present (code, data, seeds)\"\n  ],\n  \"writing\": [\n    \"No first-person 'we' abuse\",\n    \"Claim supported by evidence\",\n    \"No unsupported superlatives ('best','state-of-the-art')\",\n    \"Figures/tables have captions\",\n    \"Math notation consistent\"\n  ],\n  \"formatting\": [\n    \"Within page limit for venue\",\n    \"Font size correct\",\n    \"Figures not clipped\",\n    \"References in correct style\"\n  ]\n}\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "paper/tex-cleaner",
+      "script": "skills\\paper\\tex-cleaner\\scripts\\tex_cleaner.py",
+      "scenario": "--input draft.tex --clean --output draft_clean.tex",
+      "argv": [
+        "--input",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_draft.tex",
+        "--clean",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成文本输入(1704 字)",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.12,
+      "stdout_tail": " \"了\"\n      ],\n      \"fix\": \"Replace with LaTeX commands or remove\"\n    }\n  ],\n  \"unused_packages\": [],\n  \"assets\": {\n    \"groups\": {},\n    \"missing\": []\n  },\n  \"removed_comments\": 0,\n  \"full_line_comments_removed\": 0,\n  \"n_lines_original\": 13,\n  \"n_lines_cleaned\": 13,\n  \"arxiv_ready\": false,\n  \"cleaned_to\": \"C:\\\\Users\\\\X1882\\\\AppData\\\\Local\\\\Temp\\\\skillkit_scenario_ezbzeej1\\\\in_out_output.json\"\n}\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "ppt/ppt-builder",
+      "script": "skills\\ppt\\ppt-builder\\scripts\\make_pptx.py",
+      "scenario": "slides_spec.json deck.pptx",
+      "argv": [
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_slides_spec.json",
+        "deck.pptx"
+      ],
+      "notes": [
+        "合成 JSON 输入 ← SKILL.md 示例(213B)"
+      ],
+      "rc": 0,
+      "seconds": 0.3,
+      "stdout_tail": "wrote deck.pptx (1 slides + cover)\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/ai-engineering/feature-flags-architect",
+      "script": "skills\\programming\\ai-engineering\\feature-flags-architect\\scripts\\flag_debt_scanner.py",
+      "scenario": "--repo . --max-age-days 60 --format json",
+      "argv": [
+        "--repo",
+        ".",
+        "--max-age-days",
+        "60",
+        "--format",
+        "json"
+      ],
+      "notes": [],
+      "rc": 0,
+      "seconds": 0.11,
+      "stdout_tail": "[]\n",
+      "stderr_tail": "WARN: C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\programming\\ai-engineering\\feature-flags-architect is not a git repo; age detection disabled\n",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/ai-engineering/feature-flags-architect",
+      "script": "skills\\programming\\ai-engineering\\feature-flags-architect\\scripts\\kill_switch_audit.py",
+      "scenario": "--repo . --flag-doc runbooks/flags.md --format json",
+      "argv": [
+        "--repo",
+        ".",
+        "--flag-doc",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_flags.md",
+        "--format",
+        "json"
+      ],
+      "notes": [
+        "合成文本输入(1704 字)"
+      ],
+      "rc": 0,
+      "seconds": 0.1,
+      "stdout_tail": "{\n  \"code_flags\": [],\n  \"documented_flags\": [],\n  \"undocumented\": [],\n  \"incomplete\": [],\n  \"orphaned_in_doc\": []\n}\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/ai-engineering/feature-flags-architect",
+      "script": "skills\\programming\\ai-engineering\\feature-flags-architect\\scripts\\rollout_planner.py",
+      "scenario": "--population 100000 --target-percent 100 --duration-days 14",
+      "argv": [
+        "--population",
+        "100000",
+        "--target-percent",
+        "100",
+        "--duration-days",
+        "14",
+        "--strategy",
+        "ring"
+      ],
+      "notes": [],
+      "rc": 0,
+      "seconds": 0.12,
+      "stdout_tail": "— | error_rate > baseline + 1pp OR p99_latency > baseline * 1.2 | compare metrics dashboard against control |\n| 4 | 2026-10-01 | 50% | 50,000 | — | error_rate > baseline + 1pp OR p99_latency > baseline * 1.2 | compare metrics dashboard against control |\n| 5 | 2026-10-04 | 100% | 100,000 | — | error_rate > baseline + 1pp OR p99_latency > baseline * 1.2 | compare metrics dashboard against control |\n",
+      "stderr_tail": "112: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  start = datetime.fromisoformat(args.start_date) if args.start_date else datetime.utcnow()\n",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/ai-engineering/mcp-server-builder",
+      "script": "skills\\programming\\ai-engineering\\mcp-server-builder\\scripts\\mcp_validator.py",
+      "scenario": "--input out/tool_manifest.json --strict --format text",
+      "argv": [
+        "--input",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_tool_manifest.json",
+        "--strict",
+        "--format",
+        "text"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 2,
+      "seconds": 0.12,
+      "stdout_tail": "",
+      "stderr_tail": "ERROR: Manifest must include a 'tools' array.\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "programming/ai-engineering/mcp-server-builder",
+      "script": "skills\\programming\\ai-engineering\\mcp-server-builder\\scripts\\openapi_to_mcp.py",
+      "scenario": "--server-name billing-mcp --language typescript",
+      "argv": [
+        "--server-name",
+        "billing-mcp",
+        "--language",
+        "typescript"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.12,
+      "stdout_tail": "",
+      "stderr_tail": "ERROR: No input provided. Use --input <spec-file> or pipe OpenAPI via stdin.\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "programming/ai-engineering/skill-tester/assets/sample-skill",
+      "script": "skills\\programming\\ai-engineering\\skill-tester\\assets\\sample-skill\\scripts\\text_processor.py",
+      "scenario": "batch text_files/ --format json --output batch_results.json",
+      "argv": [
+        "batch",
+        "text_files/",
+        "--format",
+        "json",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 2,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "t {json,text}] [--output OUTPUT]\n                         [--encoding ENCODING] [--verbose]\n                         {analyze,transform,batch} ...\ntext_processor.py: error: unrecognized arguments: --format json --output C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "programming/ai-engineering/skill-tester",
+      "script": "skills\\programming\\ai-engineering\\skill-tester\\scripts\\audit_skills.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "programming/ai-engineering/skill-tester",
+      "script": "skills\\programming\\ai-engineering\\skill-tester\\scripts\\quality_scorer.py",
+      "scenario": "<技能路径> --json --detailed --minimum-score 75",
+      "argv": [
+        "<技能路径>",
+        "--json",
+        "--detailed",
+        "--minimum-score",
+        "75"
+      ],
+      "notes": [],
+      "rc": 1,
+      "seconds": 0.12,
+      "stdout_tail": "",
+      "stderr_tail": "{\"error\": \"error: path not found: <\\u6280\\u80fd\\u8def\\u5f84>\"}\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/ai-engineering/skill-tester",
+      "script": "skills\\programming\\ai-engineering\\skill-tester\\scripts\\script_tester.py",
+      "scenario": "$skill",
+      "argv": [
+        "$skill"
+      ],
+      "notes": [],
+      "rc": 1,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "error: skill path is not a directory: $skill\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/ai-engineering/skill-tester",
+      "script": "skills\\programming\\ai-engineering\\skill-tester\\scripts\\security_scorer.py",
+      "scenario": "<技能路径",
+      "argv": [
+        "<技能路径"
+      ],
+      "notes": [],
+      "rc": 1,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "error: target not found: <技能路径\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/ai-engineering/skill-tester",
+      "script": "skills\\programming\\ai-engineering\\skill-tester\\scripts\\skill_validator.py",
+      "scenario": "$skill --json",
+      "argv": [
+        "$skill",
+        "--json"
+      ],
+      "notes": [],
+      "rc": 1,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "{\"error\": \"error: skill path is not a directory: $skill\"}\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/api/api-design-reviewer",
+      "script": "skills\\programming\\api\\api-design-reviewer\\scripts\\api_linter.py",
+      "scenario": "openapi.json --format json --output lint.json",
+      "argv": [
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_openapi.json",
+        "--format",
+        "json",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 1,
+      "seconds": 0.13,
+      "stdout_tail": "Report written to C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json\n",
+      "stderr_tail": "",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/api/api-design-reviewer",
+      "script": "skills\\programming\\api\\api-design-reviewer\\scripts\\api_scorecard.py",
+      "scenario": "openapi.json --format json --min-grade B --output",
+      "argv": [
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_openapi.json",
+        "--format",
+        "json",
+        "--min-grade",
+        "B",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 1,
+      "seconds": 0.13,
+      "stdout_tail": "Scorecard written to C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json\n",
+      "stderr_tail": "Grade F is below minimum required grade B\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/api/api-design-reviewer",
+      "script": "skills\\programming\\api\\api-design-reviewer\\scripts\\breaking_change_detector.py",
+      "scenario": "openapi-v1.json openapi-v2.json --format json --exit-on-breaking --output",
+      "argv": [
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_openapi-v1.json",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_openapi-v2.json",
+        "--format",
+        "json",
+        "--exit-on-breaking",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）",
+        "合成空 JSON 输入（文档无 JSON 示例）",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.13,
+      "stdout_tail": "Breaking change report written to C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/architecture/migration-architect",
+      "script": "skills\\programming\\architecture\\migration-architect\\scripts\\compatibility_checker.py",
+      "scenario": "--before assets/database_schema_before.json --after assets/database_schema_after.json --type database",
+      "argv": [
+        "--before",
+        "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\programming\\architecture\\migration-architect\\assets\\database_schema_before.json",
+        "--after",
+        "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\programming\\architecture\\migration-architect\\assets\\database_schema_after.json",
+        "--type",
+        "database",
+        "--format",
+        "json",
+        "-o",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 1,
+      "seconds": 0.13,
+      "stdout_tail": "Compatibility report saved to C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json\n",
+      "stderr_tail": "",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/architecture/migration-architect",
+      "script": "skills\\programming\\architecture\\migration-architect\\scripts\\migration_planner.py",
+      "scenario": "--input migration_spec.json --format json -o migration_plan.json",
+      "argv": [
+        "--input",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_migration_spec.json",
+        "--format",
+        "json",
+        "-o",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 1,
+      "seconds": 0.12,
+      "stdout_tail": "",
+      "stderr_tail": "Error: Missing required field 'type' in specification\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/architecture/migration-architect",
+      "script": "skills\\programming\\architecture\\migration-architect\\scripts\\rollback_generator.py",
+      "scenario": "--input migration_plan.json --format both -o rollback_runbook",
+      "argv": [
+        "--input",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_migration_plan.json",
+        "--format",
+        "both",
+        "-o",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 1,
+      "seconds": 0.14,
+      "stdout_tail": "",
+      "stderr_tail": "Error: Migration plan must contain migration_id or source field\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/architecture/monorepo-navigator",
+      "script": "skills\\programming\\architecture\\monorepo-navigator\\scripts\\monorepo_analyzer.py",
+      "scenario": "/path/to/monorepo --json",
+      "argv": [
+        "/path/to/monorepo",
+        "--json"
+      ],
+      "notes": [],
+      "rc": 1,
+      "seconds": 0.1,
+      "stdout_tail": "",
+      "stderr_tail": "Path is not a directory: C:\\path\\to\\monorepo\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/architecture/senior-architect",
+      "script": "skills\\programming\\architecture\\senior-architect\\scripts\\architecture_diagram_generator.py",
+      "scenario": "./my-project --format mermaid --type component",
+      "argv": [
+        "./my-project",
+        "--format",
+        "mermaid",
+        "--type",
+        "component"
+      ],
+      "notes": [],
+      "rc": 1,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "Error: Project path does not exist: C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\programming\\architecture\\senior-architect\\my-project\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/architecture/senior-architect",
+      "script": "skills\\programming\\architecture\\senior-architect\\scripts\\dependency_analyzer.py",
+      "scenario": "./my-project --output json",
+      "argv": [
+        "./my-project",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 2,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "r,coupling}] [--verbose]\n                              [--save SAVE]\n                              project_path\ndependency_analyzer.py: error: argument --output/-o: invalid choice: 'C:\\\\Users\\\\X1882\\\\AppData\\\\Local\\\\Temp\\\\skillkit_scenario_ezbzeej1\\\\in_out_output.json' (choose from 'human', 'json')\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "programming/architecture/senior-architect",
+      "script": "skills\\programming\\architecture\\senior-architect\\scripts\\project_architect.py",
+      "scenario": "./my-project --verbose",
+      "argv": [
+        "./my-project",
+        "--verbose"
+      ],
+      "notes": [],
+      "rc": 1,
+      "seconds": 0.12,
+      "stdout_tail": "",
+      "stderr_tail": "Error: Project path does not exist: C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\programming\\architecture\\senior-architect\\my-project\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/cicd/ci-cd-pipeline-builder",
+      "script": "skills\\programming\\cicd\\ci-cd-pipeline-builder\\scripts\\pipeline_generator.py",
+      "scenario": "--repo . --platform gitlab --output .gitlab-ci.yml",
+      "argv": [
+        "--repo",
+        ".",
+        "--platform",
+        "gitlab",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.13,
+      "stdout_tail": "Pipeline generated\n- platform: gitlab\n- output: C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json\n- stages: lint, test, build\n- languages: none\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/cicd/ci-cd-pipeline-builder",
+      "script": "skills\\programming\\cicd\\ci-cd-pipeline-builder\\scripts\\stack_detector.py",
+      "scenario": "--repo . --format json",
+      "argv": [
+        "--repo",
+        ".",
+        "--format",
+        "json"
+      ],
+      "notes": [],
+      "rc": 0,
+      "seconds": 0.12,
+      "stdout_tail": "\n    \"github\",\n    \"gitlab\"\n  ],\n  \"test_commands\": [],\n  \"build_commands\": [],\n  \"lint_commands\": [],\n  \"signals\": {\n    \"package_json\": false,\n    \"pnpm_lock\": false,\n    \"yarn_lock\": false,\n    \"npm_lock\": false,\n    \"pyproject\": false,\n    \"requirements\": false,\n    \"go_mod\": false,\n    \"dockerfile\": false,\n    \"terraform\": false,\n    \"vercel\": false,\n    \"helm\": false,\n    \"k8s\": false\n  }\n}\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/cicd/ship-gate",
+      "script": "skills\\programming\\cicd\\ship-gate\\scripts\\ship_gate_scanner.py",
+      "scenario": "<项目根目录> --json --no-interactive",
+      "argv": [
+        "<项目根目录>",
+        "--json",
+        "--no-interactive"
+      ],
+      "notes": [],
+      "rc": 1,
+      "seconds": 0.13,
+      "stdout_tail": "",
+      "stderr_tail": "Error: 'C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\programming\\cicd\\ship-gate\\<项目根目录>' is not a directory\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/cicd/spec-driven-workflow",
+      "script": "skills\\programming\\cicd\\spec-driven-workflow\\scripts\\spec_generator.py",
+      "scenario": "--name User Authentication --description OAuth 2.0 login flow --output specs/auth.md",
+      "argv": [
+        "--name",
+        "User Authentication",
+        "--description",
+        "OAuth 2.0 login flow",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "Spec template written to C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json\n",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/code-quality/code-reviewer",
+      "script": "skills\\programming\\code-quality\\code-reviewer\\scripts\\code_quality_checker.py",
+      "scenario": ". --language java",
+      "argv": [
+        ".",
+        "--language",
+        "java"
+      ],
+      "notes": [],
+      "rc": 0,
+      "seconds": 0.12,
+      "stdout_tail": "ons: 0\n\n--- FILES BY QUALITY ---\n   68/100 [D] C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\programming\\code-quality\\code-reviewer\\assets\\sample_java_smells.java\n  100/100 [A] C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\programming\\code-quality\\code-reviewer\\assets\\sample_java_clean.java\n\n============================================================\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/code-quality/code-reviewer",
+      "script": "skills\\programming\\code-quality\\code-reviewer\\scripts\\pr_analyzer.py",
+      "scenario": ". --base main --head feature-branch",
+      "argv": [
+        ".",
+        "--base",
+        "main",
+        "--head",
+        "feature-branch"
+      ],
+      "notes": [],
+      "rc": 1,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "Error: C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\programming\\code-quality\\code-reviewer is not a git repository\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/code-quality/code-reviewer",
+      "script": "skills\\programming\\code-quality\\code-reviewer\\scripts\\review_report_generator.py",
+      "scenario": ". --format markdown --output review.md",
+      "argv": [
+        ".",
+        "--format",
+        "markdown",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.39,
+      "stdout_tail": "Report written to C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/code-quality/dependency-auditor",
+      "script": "skills\\programming\\code-quality\\dependency-auditor\\scripts\\dep_scanner.py",
+      "scenario": "/path/to/project --format json --fail-on-high -o scan.json",
+      "argv": [
+        "/path/to/project",
+        "--format",
+        "json",
+        "--fail-on-high",
+        "-o",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 1,
+      "seconds": 0.13,
+      "stdout_tail": "",
+      "stderr_tail": "Error: Project path does not exist: \\path\\to\\project\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/code-quality/dependency-auditor",
+      "script": "skills\\programming\\code-quality\\dependency-auditor\\scripts\\license_checker.py",
+      "scenario": "/path/to/project --policy strict --format json -o",
+      "argv": [
+        "/path/to/project",
+        "--policy",
+        "strict",
+        "--format",
+        "json",
+        "-o",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.12,
+      "stdout_tail": "Compliance report saved to C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/code-quality/dependency-auditor",
+      "script": "skills\\programming\\code-quality\\dependency-auditor\\scripts\\upgrade_planner.py",
+      "scenario": "scan.json --risk-threshold medium --timeline 90 --format",
+      "argv": [
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_scan.json",
+        "--risk-threshold",
+        "medium",
+        "--timeline",
+        "90",
+        "--format",
+        "json",
+        "-o",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 1,
+      "seconds": 0.14,
+      "stdout_tail": "Warning: Unexpected inventory format\n",
+      "stderr_tail": "Error: 'by_risk'\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/code-quality/tdd-guide",
+      "script": "skills\\programming\\code-quality\\tdd-guide\\scripts\\tdd_cli.py",
+      "scenario": "coverage --report coverage.xml --threshold 80",
+      "argv": [
+        "coverage",
+        "--report",
+        "coverage.xml",
+        "--threshold",
+        "80"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.14,
+      "stdout_tail": "",
+      "stderr_tail": "error: 文件不存在: coverage.xml\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "programming/code-quality/tech-debt-tracker",
+      "script": "skills\\programming\\code-quality\\tech-debt-tracker\\scripts\\debt_dashboard.py",
+      "scenario": "--input-dir snapshots/ --period monthly --format both",
+      "argv": [
+        "--input-dir",
+        "snapshots/",
+        "--period",
+        "monthly",
+        "--format",
+        "both",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 1,
+      "seconds": 0.14,
+      "stdout_tail": "Directory does not exist: snapshots/\n",
+      "stderr_tail": "",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/code-quality/tech-debt-tracker",
+      "script": "skills\\programming\\code-quality\\tech-debt-tracker\\scripts\\debt_prioritizer.py",
+      "scenario": "debt_inventory.json --framework wsjf --team-size 6 --sprint-capacity",
+      "argv": [
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_debt_inventory.json",
+        "--framework",
+        "wsjf",
+        "--team-size",
+        "6",
+        "--sprint-capacity",
+        "20",
+        "--format",
+        "json",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 1,
+      "seconds": 0.12,
+      "stdout_tail": "Error loading debt inventory: Invalid debt inventory format\n",
+      "stderr_tail": "",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/code-quality/tech-debt-tracker",
+      "script": "skills\\programming\\code-quality\\tech-debt-tracker\\scripts\\debt_scanner.py",
+      "scenario": "/path/to/codebase --format json --output debt_inventory.json",
+      "argv": [
+        "/path/to/codebase",
+        "--format",
+        "json",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 1,
+      "seconds": 0.12,
+      "stdout_tail": "Scan failed: Directory does not exist: /path/to/codebase\n",
+      "stderr_tail": "",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/containers/docker-development",
+      "script": "skills\\programming\\containers\\docker-development\\scripts\\compose_validator.py",
+      "scenario": "docker-compose.yml --output json",
+      "argv": [
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_docker-compose.yml",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成文本输入(1704 字)",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 2,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "usage: compose_validator.py [-h] [--output {text,json}] [--strict]\n                            [composefile]\ncompose_validator.py: error: argument --output/-o: invalid choice: 'C:\\\\Users\\\\X1882\\\\AppData\\\\Local\\\\Temp\\\\skillkit_scenario_ezbzeej1\\\\in_out_output.json' (choose from 'text', 'json')\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "programming/containers/docker-development",
+      "script": "skills\\programming\\containers\\docker-development\\scripts\\dockerfile_analyzer.py",
+      "scenario": "--help >/dev/null 2>&1",
+      "argv": [
+        ">/dev/null",
+        "2>&1"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.1,
+      "stdout_tail": "",
+      "stderr_tail": "usage: dockerfile_analyzer.py [-h] [--output {text,json}] [--security]\n                              [dockerfile]\ndockerfile_analyzer.py: error: unrecognized arguments: 2>&1\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "programming/containers/helm-chart-builder",
+      "script": "skills\\programming\\containers\\helm-chart-builder\\scripts\\chart_analyzer.py",
+      "scenario": "--help >/dev/null 2>&1",
+      "argv": [
+        ">/dev/null",
+        "2>&1"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.1,
+      "stdout_tail": "",
+      "stderr_tail": "usage: chart_analyzer.py [-h] [--output {text,json}] [--security] [chartdir]\nchart_analyzer.py: error: unrecognized arguments: 2>&1\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "programming/containers/helm-chart-builder",
+      "script": "skills\\programming\\containers\\helm-chart-builder\\scripts\\values_validator.py",
+      "scenario": "mychart/values.yaml --output json",
+      "argv": [
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_values.yaml",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成文本输入(1704 字)",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 2,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "usage: values_validator.py [-h] [--output {text,json}] [--strict] [valuesfile]\nvalues_validator.py: error: argument --output/-o: invalid choice: 'C:\\\\Users\\\\X1882\\\\AppData\\\\Local\\\\Temp\\\\skillkit_scenario_ezbzeej1\\\\in_out_output.json' (choose from 'text', 'json')\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "programming/data/etl-builder",
+      "script": "skills\\programming\\data\\etl-builder\\scripts\\etl_builder.py",
+      "scenario": "--source data/raw.csv --target data/clean.csv",
+      "argv": [
+        "--source",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_raw.csv",
+        "--target",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_clean.csv"
+      ],
+      "notes": [
+        "合成文本输入(1704 字)",
+        "合成文本输入(1704 字)"
+      ],
+      "rc": 0,
+      "seconds": 0.11,
+      "stdout_tail": "   \"columns\": [\n      \"# FastAPI 性能优化实战\"\n    ],\n    \"source\": \"C:\\\\Users\\\\X1882\\\\AppData\\\\Local\\\\Temp\\\\skillkit_scenario_ezbzeej1\\\\in_raw.csv\"\n  },\n  \"transform\": {\n    \"transforms_applied\": [\n      \"Removed null values\"\n    ],\n    \"status\": \"transformed\"\n  },\n  \"load\": {\n    \"target\": \"C:\\\\Users\\\\X1882\\\\AppData\\\\Local\\\\Temp\\\\skillkit_scenario_ezbzeej1\\\\in_clean.csv\",\n    \"status\": \"loaded\"\n  }\n}\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/data/feature-engineer",
+      "script": "skills\\programming\\data\\feature-engineer\\scripts\\feature_engineer.py",
+      "scenario": "--data data/clean.csv --target label",
+      "argv": [
+        "--data",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_clean.csv",
+        "--target",
+        "label"
+      ],
+      "notes": [
+        "合成文本输入(1704 字)"
+      ],
+      "rc": 0,
+      "seconds": 0.11,
+      "stdout_tail": "    \"n_rows\": 100,\n    \"issues\": [],\n    \"quality_score\": 100\n  },\n  \"features\": {\n    \"target\": \"label\",\n    \"n_features\": 1,\n    \"features\": [\n      {\n        \"name\": \"# FastAPI 性能优化实战\",\n        \"type\": \"auto\",\n        \"transforms\": []\n      }\n    ],\n    \"interactions_suggested\": [\n      \"product of top-2 numeric features\",\n      \"ratio of count features\"\n    ],\n    \"status\": \"plan_ready\"\n  }\n}\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/database/database-designer",
+      "script": "skills\\programming\\database\\database-designer\\scripts\\index_optimizer.py",
+      "scenario": "--schema assets/sample_schema.json --queries assets/sample_query_patterns.json --analyze-existing --format",
+      "argv": [
+        "--schema",
+        "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\programming\\database\\database-designer\\assets\\sample_schema.json",
+        "--queries",
+        "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\programming\\database\\database-designer\\assets\\sample_query_patterns.json",
+        "--analyze-existing",
+        "--format",
+        "json",
+        "-o",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.13,
+      "stdout_tail": "",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/database/database-designer",
+      "script": "skills\\programming\\database\\database-designer\\scripts\\migration_generator.py",
+      "scenario": "--current current_schema.json --target target_schema.json --zero-downtime --format",
+      "argv": [
+        "--current",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_current_schema.json",
+        "--target",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_target_schema.json",
+        "--zero-downtime",
+        "--format",
+        "sql",
+        "-o",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）",
+        "合成空 JSON 输入（文档无 JSON 示例）",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.13,
+      "stdout_tail": "No schema changes detected.\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/database/database-designer",
+      "script": "skills\\programming\\database\\database-designer\\scripts\\schema_analyzer.py",
+      "scenario": "--input schema.sql --generate-erd --output-format json -o",
+      "argv": [
+        "--input",
+        "schema.sql",
+        "--generate-erd",
+        "--output-format",
+        "json",
+        "-o",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 1,
+      "seconds": 0.12,
+      "stdout_tail": "",
+      "stderr_tail": "Error: [Errno 2] No such file or directory: 'schema.sql'\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/database/sql-database-assistant",
+      "script": "skills\\programming\\database\\sql-database-assistant\\scripts\\migration_generator.py",
+      "scenario": "--change rename column name to full_name in customers --dialect mysql --format alembic",
+      "argv": [
+        "--change",
+        "rename column name to full_name in customers",
+        "--dialect",
+        "mysql",
+        "--format",
+        "alembic",
+        "--json"
+      ],
+      "notes": [],
+      "rc": 0,
+      "seconds": 0.12,
+      "stdout_tail": "lembic import op\\nimport sqlalchemy as sa\\n\\nrevision = '202609220919'\\ndown_revision = None  # Set to previous revision\\n\\n\\ndef upgrade():\\n    op.execute(\\\"\\\"\\\"\\n        ALTER TABLE customers RENAME COLUMN name TO full_name;\\n    \\\"\\\"\\\")\\n\\n\\ndef downgrade():\\n    op.execute(\\\"\\\"\\\"\\n        ALTER TABLE customers RENAME COLUMN full_name TO name;\\n    \\\"\\\"\\\")\\n\",\n  \"down\": \"\",\n  \"warnings\": []\n}\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/database/sql-database-assistant",
+      "script": "skills\\programming\\database\\sql-database-assistant\\scripts\\query_optimizer.py",
+      "scenario": "--query queries.sql --dialect mysql --json",
+      "argv": [
+        "--query",
+        "queries.sql",
+        "--dialect",
+        "mysql",
+        "--json"
+      ],
+      "notes": [],
+      "rc": 0,
+      "seconds": 0.12,
+      "stdout_tail": "{\n  \"analyses\": [\n    {\n      \"query\": \"queries.sql;\",\n      \"issues\": [],\n      \"issue_count\": 0,\n      \"score\": 100\n    }\n  ],\n  \"total_queries\": 1\n}\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/database/sql-database-assistant",
+      "script": "skills\\programming\\database\\sql-database-assistant\\scripts\\schema_explorer.py",
+      "scenario": "--sqlite app.db --table users --json",
+      "argv": [
+        "--sqlite",
+        "app.db",
+        "--table",
+        "users",
+        "--json"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.12,
+      "stdout_tail": "",
+      "stderr_tail": "错误：SQLite 文件不存在: app.db\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "programming/debug/debug-diagnoser",
+      "script": "skills\\programming\\debug\\debug-diagnoser\\scripts\\diagnoser.py",
+      "scenario": "--file error.log --output diagnosis.json",
+      "argv": [
+        "--file",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_error.log",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成文本输入(1704 字)",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/github/changelog-generator",
+      "script": "skills\\programming\\github\\changelog-generator\\scripts\\commit_linter.py",
+      "scenario": "--from-ref origin/main --to-ref HEAD --strict --format",
+      "argv": [
+        "--from-ref",
+        "origin/main",
+        "--to-ref",
+        "HEAD",
+        "--strict",
+        "--format",
+        "text"
+      ],
+      "notes": [],
+      "rc": 0,
+      "seconds": 0.14,
+      "stdout_tail": "Conventional commit lint report\n- total: 23\n- valid: 23\n- invalid: 0\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/github/changelog-generator",
+      "script": "skills\\programming\\github\\changelog-generator\\scripts\\generate_changelog.py",
+      "scenario": "--input commits.txt --next-version v1.4.0 --format json",
+      "argv": [
+        "--input",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_commits.txt",
+        "--next-version",
+        "v1.4.0",
+        "--format",
+        "json"
+      ],
+      "notes": [
+        "合成文本输入(1704 字)"
+      ],
+      "rc": 2,
+      "seconds": 0.13,
+      "stdout_tail": "",
+      "stderr_tail": "ERROR: No valid conventional commit messages found in input.\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "programming/github/changelog-generator",
+      "script": "skills\\programming\\github\\changelog-generator\\scripts\\version_bumper.py",
+      "scenario": "--current-version 1.3.0 --output-format json",
+      "argv": [
+        "--current-version",
+        "1.3.0",
+        "--output-format",
+        "json"
+      ],
+      "notes": [],
+      "rc": 1,
+      "seconds": 0.12,
+      "stdout_tail": "",
+      "stderr_tail": "No input data provided\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/github/git-worktree-manager",
+      "script": "skills\\programming\\github\\git-worktree-manager\\scripts\\worktree_cleanup.py",
+      "scenario": "--repo . --stale-days 14 --format text",
+      "argv": [
+        "--repo",
+        ".",
+        "--stale-days",
+        "14",
+        "--format",
+        "text"
+      ],
+      "notes": [],
+      "rc": 0,
+      "seconds": 0.27,
+      "stdout_tail": "Worktree cleanup report\n- C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit | branch=main | age=0d | stale=False dirty=True merged=False\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/github/git-worktree-manager",
+      "script": "skills\\programming\\github\\git-worktree-manager\\scripts\\worktree_manager.py",
+      "scenario": "--input config.json --format json",
+      "argv": [
+        "--input",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_config.json",
+        "--format",
+        "json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 2,
+      "seconds": 0.12,
+      "stdout_tail": "",
+      "stderr_tail": "ERROR: Missing required values: --branch and --name (or provide via JSON input).\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "programming/incident/incident-commander",
+      "script": "skills\\programming\\incident\\incident-commander\\scripts\\incident_classifier.py",
+      "scenario": "--help >/dev/null 2>&1",
+      "argv": [
+        ">/dev/null",
+        "2>&1"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.12,
+      "stdout_tail": "",
+      "stderr_tail": "usage: incident_classifier.py [-h] [--input INPUT] [--format {json,text}]\n                              [--interactive] [--output OUTPUT]\nincident_classifier.py: error: unrecognized arguments: >/dev/null 2>&1\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "programming/incident/incident-commander",
+      "script": "skills\\programming\\incident\\incident-commander\\scripts\\pir_generator.py",
+      "scenario": "--incident assets/sample_incident_data.json --timeline timeline.md --output pir.md",
+      "argv": [
+        "--incident",
+        "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\programming\\incident\\incident-commander\\assets\\sample_incident_data.json",
+        "--timeline",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_timeline.md",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成文本输入(1704 字)",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 1,
+      "seconds": 0.12,
+      "stdout_tail": "",
+      "stderr_tail": "Error: Invalid JSON - Expecting value: line 1 column 1 (char 0)\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/incident/incident-commander",
+      "script": "skills\\programming\\incident\\incident-commander\\scripts\\timeline_reconstructor.py",
+      "scenario": "--input assets/sample_timeline_events.json --output timeline.md",
+      "argv": [
+        "--input",
+        "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\programming\\incident\\incident-commander\\assets\\sample_timeline_events.json",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.12,
+      "stdout_tail": "",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/incident/runbook-generator",
+      "script": "skills\\programming\\incident\\runbook-generator\\scripts\\runbook_generator.py",
+      "scenario": "payments-api --owner platform --output docs/runbooks/payments-api.md",
+      "argv": [
+        "payments-api",
+        "--owner",
+        "platform",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.1,
+      "stdout_tail": "",
+      "stderr_tail": "Runbook written to: C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json\n",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/incident/slo-architect",
+      "script": "skills\\programming\\incident\\slo-architect\\scripts\\error_budget_calculator.py",
+      "scenario": "--target 99.95 --window-days 7 --format json",
+      "argv": [
+        "--target",
+        "99.95",
+        "--window-days",
+        "7",
+        "--format",
+        "json"
+      ],
+      "notes": [],
+      "rc": 0,
+      "seconds": 0.11,
+      "stdout_tail": "\",\n      \"severity\": \"ticket\",\n      \"long_window\": \"3d\",\n      \"short_window\": \"6h\",\n      \"budget_pct_consumed\": 10.0,\n      \"burn_rate_threshold\": 0.233,\n      \"rationale\": \"10% of monthly budget burned in 3d => trending bad\",\n      \"promql\": \"# ticket_burn (ticket)\\n# Burn rate threshold: 0.233\\n(\\n  sli:rate3d > 0.233 * (1 - 0.9995)\\n  AND\\n  sli:rate6h > 0.233 * (1 - 0.9995)\\n)\"\n    }\n  ]\n}\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/incident/slo-architect",
+      "script": "skills\\programming\\incident\\slo-architect\\scripts\\slo_designer.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "programming/incident/slo-architect",
+      "script": "skills\\programming\\incident\\slo-architect\\scripts\\slo_review.py",
+      "scenario": "--slo-doc docs/slos/",
+      "argv": [
+        "--slo-doc",
+        "docs/slos/"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.1,
+      "stdout_tail": "",
+      "stderr_tail": "ERROR: not found: docs/slos/\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "programming/infrastructure/kubernetes-operator",
+      "script": "skills\\programming\\infrastructure\\kubernetes-operator\\scripts\\crd_validator.py",
+      "scenario": "--crd config/crd/ --format json",
+      "argv": [
+        "--crd",
+        "config/crd/",
+        "--format",
+        "json"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "ERROR: not found: config/crd/\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "programming/infrastructure/kubernetes-operator",
+      "script": "skills\\programming\\infrastructure\\kubernetes-operator\\scripts\\operator_capability_audit.py",
+      "scenario": "--operator-dir .",
+      "argv": [
+        "--operator-dir",
+        "."
+      ],
+      "notes": [],
+      "rc": 0,
+      "seconds": 0.11,
+      "stdout_tail": "Operator Capability Audit — .\nCurrent level: BELOW_L1 (no operator structure detected)\n\n  ✗ L1 Basic Install: pass=2 miss=1\n      - missing: deployment_present\n\nNext: advance to L1 (Basic Install) by addressing:\n  - deployment_present\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/infrastructure/kubernetes-operator",
+      "script": "skills\\programming\\infrastructure\\kubernetes-operator\\scripts\\reconcile_lint.py",
+      "scenario": "--controller controllers/myapp_controller.go",
+      "argv": [
+        "--controller",
+        "controllers/myapp_controller.go"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "ERROR: not found: controllers/myapp_controller.go\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "programming/infrastructure/observability-designer",
+      "script": "skills\\programming\\infrastructure\\observability-designer\\scripts\\alert_optimizer.py",
+      "scenario": "--input alerts.json --analyze-only --report alert_report.json",
+      "argv": [
+        "--input",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_alerts.json",
+        "--analyze-only",
+        "--report",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_alert_report.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.12,
+      "stdout_tail": "ng Categories: 6\n  Missing Golden Signals: 4\n  Critical Gaps: 3\n\nDuplicate Alerts: 0 groups\n\nTop Recommendations:\n  1. HIGH PRIORITY: Address critical monitoring gaps\n  2. Implement proper alert routing and escalation policies\n  3. Create runbooks for all production alerts\n  4. Set up alert effectiveness monitoring and regular reviews\n\n============================================================\n\n",
+      "stderr_tail": "gner\\scripts\\alert_optimizer.py:831: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  'analysis_timestamp': datetime.utcnow().isoformat() + 'Z'\n",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/infrastructure/observability-designer",
+      "script": "skills\\programming\\infrastructure\\observability-designer\\scripts\\dashboard_generator.py",
+      "scenario": "--service-type api --name payments --criticality critical",
+      "argv": [
+        "--service-type",
+        "api",
+        "--name",
+        "payments",
+        "--criticality",
+        "critical",
+        "--role",
+        "sre",
+        "--format",
+        "grafana",
+        "-o",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json",
+        "--doc-output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_doc-output.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.12,
+      "stdout_tail": "nels (13):\n  stat: 2\n  gauge: 3\n  timeseries: 6\n  table: 1\n  heatmap: 1\n\nTemplate Variables (3):\n  environment (query)\n  instance (query)\n  handler (query)\n\nDrill-down Paths: 4\n\nKey Features:\n  • Golden Signals monitoring\n  • Resource utilization tracking\n  • Alert integration\n  • Role-optimized layout\n  • Service-type specific panels\n\n============================================================\n\n",
+      "stderr_tail": "igner\\scripts\\dashboard_generator.py:159: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  'generated_at': datetime.utcnow().isoformat() + 'Z',\n",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/infrastructure/terraform-patterns",
+      "script": "skills\\programming\\infrastructure\\terraform-patterns\\scripts\\tf_module_analyzer.py",
+      "scenario": "./terraform --output json",
+      "argv": [
+        "./terraform",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 2,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "usage: tf_module_analyzer.py [-h] [--output {text,json}] [directory]\ntf_module_analyzer.py: error: argument --output/-o: invalid choice: 'C:\\\\Users\\\\X1882\\\\AppData\\\\Local\\\\Temp\\\\skillkit_scenario_ezbzeej1\\\\in_out_output.json' (choose from 'text', 'json')\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "programming/infrastructure/terraform-patterns",
+      "script": "skills\\programming\\infrastructure\\terraform-patterns\\scripts\\tf_security_scanner.py",
+      "scenario": "./terraform --output json",
+      "argv": [
+        "./terraform",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 2,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "usage: tf_security_scanner.py [-h] [--output {text,json}] [--strict] [target]\ntf_security_scanner.py: error: argument --output/-o: invalid choice: 'C:\\\\Users\\\\X1882\\\\AppData\\\\Local\\\\Temp\\\\skillkit_scenario_ezbzeej1\\\\in_out_output.json' (choose from 'text', 'json')\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "programming/math/model-formulator",
+      "script": "skills\\programming\\math\\model-formulator\\scripts\\model_formulator.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "programming/math/model-solver",
+      "script": "skills\\programming\\math\\model-solver\\scripts\\model_solver.py",
+      "scenario": "--spec model_spec.json --output solution.json",
+      "argv": [
+        "--spec",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_model_spec.json",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成 JSON 输入 ← SKILL.md 示例(122B)",
+        "合成 JSON 输入 ← SKILL.md 示例(122B)"
+      ],
+      "rc": 0,
+      "seconds": 0.75,
+      "stdout_tail": "",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/math/result-visualizer",
+      "script": "skills\\programming\\math\\result-visualizer\\scripts\\visualizer.py",
+      "scenario": "--data results.json --type scatter --x t",
+      "argv": [
+        "--data",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_results.json",
+        "--type",
+        "scatter",
+        "--x",
+        "t",
+        "--y",
+        "y"
+      ],
+      "notes": [
+        "合成 JSON 输入 ← SKILL.md 示例(61B)"
+      ],
+      "rc": 0,
+      "seconds": 0.67,
+      "stdout_tail": "{\n  \"output\": \"\\\\tmp\\\\plot_scatter.png\",\n  \"type\": \"scatter\",\n  \"rendered\": true,\n  \"status\": \"success\"\n}\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/math/simulation-runner",
+      "script": "skills\\programming\\math\\simulation-runner\\scripts\\simulation.py",
+      "scenario": "真实蒙特卡洛（n=5000, mu=1, sigma=2, threshold=3），禁止 demo 标注",
+      "argv": [
+        "--monte-carlo",
+        "--n",
+        "5000",
+        "--mu",
+        "1",
+        "--sigma",
+        "2",
+        "--threshold",
+        "3",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\ov_sim.json"
+      ],
+      "notes": [],
+      "rc": 0,
+      "seconds": 0.12,
+      "stdout_tail": "",
+      "stderr_tail": "",
+      "artifacts": [
+        "ov_sim.json:203B"
+      ],
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/ml/ml-pipeline",
+      "script": "skills\\programming\\ml\\ml-pipeline\\scripts\\ml_pipeline.py",
+      "scenario": "--data data/clean.csv --target label --model random_forest",
+      "argv": [
+        "--data",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_clean.csv",
+        "--target",
+        "label",
+        "--model",
+        "random_forest",
+        "--cv",
+        "5"
+      ],
+      "notes": [
+        "合成文本输入(1704 字)"
+      ],
+      "rc": 0,
+      "seconds": 2.88,
+      "stdout_tail": "{\n  \"status\": \"error\",\n  \"error\": \"\\\"['label'] not found in axis\\\"\"\n}\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/performance/performance-profiler",
+      "script": "skills\\programming\\performance\\performance-profiler\\scripts\\performance_profiler.py",
+      "scenario": "/path/to/project --large-file-threshold-kb 256",
+      "argv": [
+        "/path/to/project",
+        "--large-file-threshold-kb",
+        "256"
+      ],
+      "notes": [],
+      "rc": 1,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "Error: C:\\path\\to\\project is not a directory\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/planning/code-generator",
+      "script": "skills\\programming\\planning\\code-generator\\scripts\\code_generator.py",
+      "scenario": "--plan plan.json --format json --output report.json",
+      "argv": [
+        "--plan",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_plan.json",
+        "--format",
+        "json",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json",
+        "--output-dir",
+        "."
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 2,
+      "seconds": 0.12,
+      "stdout_tail": "",
+      "stderr_tail": "usage: code_generator.py [-h] [--plan PLAN] [--plan-stdin] [--project PROJECT]\n                         [--output OUTPUT] [--format {markdown,json}]\n                         [--dry-run] [--no-mock]\ncode_generator.py: error: unrecognized arguments: --output-dir .\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "programming/planning/code-generator",
+      "script": "skills\\programming\\planning\\code-generator\\scripts\\project_analyzer.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "programming/planning/code-intent-planner",
+      "script": "skills\\programming\\planning\\code-intent-planner\\scripts\\l1_matcher.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "programming/planning/code-intent-planner",
+      "script": "skills\\programming\\planning\\code-intent-planner\\scripts\\llm_client.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "programming/planning/code-intent-planner",
+      "script": "skills\\programming\\planning\\code-intent-planner\\scripts\\normalizer.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "programming/planning/code-intent-planner",
+      "script": "skills\\programming\\planning\\code-intent-planner\\scripts\\pipeline.py",
+      "scenario": "继续，加上注册 -s session_20260916_100000 --format json",
+      "argv": [
+        "继续，加上注册",
+        "-s",
+        "session_20260916_100000",
+        "--format",
+        "json"
+      ],
+      "notes": [],
+      "rc": 0,
+      "seconds": 0.13,
+      "stdout_tail": "    \"T4\"\n  ],\n  \"parallel_groups\": [],\n  \"solution\": \"先设计 schema，再实现 model/service，最后加 API\",\n  \"assumptions\": [\n    {\n      \"text\": \"使用 JWT 认证\",\n      \"impact\": \"high\",\n      \"evidence\": \"verified\"\n    },\n    {\n      \"text\": \"使用 PostgreSQL\",\n      \"impact\": \"medium\",\n      \"evidence\": \"provisional\"\n    }\n  ],\n  \"session_id\": \"session_20260916_100000\",\n  \"timestamp\": \"2026-09-22T09:19:19.906996\"\n}\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/planning/code-intent-planner",
+      "script": "skills\\programming\\planning\\code-intent-planner\\scripts\\plan_renderer.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "programming/planning/code-intent-planner",
+      "script": "skills\\programming\\planning\\code-intent-planner\\scripts\\session_manager.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "programming/planning/deep-research",
+      "script": "skills\\programming\\planning\\deep-research\\scripts\\research_agent.py",
+      "scenario": "FastAPI vs Flask 该选哪个 --rounds 3 --format both",
+      "argv": [
+        "FastAPI vs Flask 该选哪个",
+        "--rounds",
+        "3",
+        "--format",
+        "both"
+      ],
+      "notes": [],
+      "rc": 0,
+      "seconds": 0.12,
+      "stdout_tail": "# | 标题 | URL | 可信度 |\n|---|------|-----|--------|\n\n---\n*由 deep-research v1.0 生成*\n\n--- JSON ---\n\n{\n  \"error\": \"web-search skill not found\",\n  \"results\": [],\n  \"markdown_report\": \"# 深度研究报告：Unknown Topic\\n\\n**生成时间：** 2026-09-22 09:19\\n**搜索查询数：** 0\\n**信源数量：** 0\\n\\n---\\n\\n## 摘要\\n\\n*未找到相关结果*\\n\\n## 核心发现\\n\\n## 完整来源\\n\\n| # | 标题 | URL | 可信度 |\\n|---|------|-----|--------|\\n\\n---\\n*由 deep-research v1.0 生成*\"\n}\n",
+      "stderr_tail": "\n结果已保存到: research_677e03a8.json\n",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/planning/web-search",
+      "script": "skills\\programming\\planning\\web-search\\scripts\\search_client.py",
+      "scenario": "Python FastAPI best practices -e ddg --format json",
+      "argv": [
+        "Python FastAPI best practices",
+        "-e",
+        "ddg",
+        "--format",
+        "json"
+      ],
+      "notes": [],
+      "rc": 0,
+      "seconds": 15.35,
+      "stdout_tail": "{\n  \"query\": \"Python FastAPI best practices\",\n  \"error\": \"DuckDuckGo 搜索失败: timed out\",\n  \"results\": [],\n  \"total_results\": 0\n}\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/security/env-secrets-manager",
+      "script": "skills\\programming\\security\\env-secrets-manager\\scripts\\env_auditor.py",
+      "scenario": "/path/to/repo --json",
+      "argv": [
+        "/path/to/repo",
+        "--json"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.12,
+      "stdout_tail": "",
+      "stderr_tail": "{\"error\": \"error: repo path is not a directory: \\\\path\\\\to\\\\repo\"}\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "programming/security/pii-redactor",
+      "script": "skills\\programming\\security\\pii-redactor\\scripts\\pii_scan.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "programming/security/prompt-injection-guard",
+      "script": "skills\\programming\\security\\prompt-injection-guard\\scripts\\injection_scan.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "programming/security/secrets-vault-manager",
+      "script": "skills\\programming\\security\\secrets-vault-manager\\scripts\\audit_log_analyzer.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "programming/security/secrets-vault-manager",
+      "script": "skills\\programming\\security\\secrets-vault-manager\\scripts\\rotation_planner.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "programming/security/secrets-vault-manager",
+      "script": "skills\\programming\\security\\secrets-vault-manager\\scripts\\vault_config_generator.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "programming/testing/webapp-e2e-harness",
+      "script": "skills\\programming\\testing\\webapp-e2e-harness\\scripts\\e2e_scaffold.py",
+      "scenario": "--url http://127.0.0.1:8000 --out e2e --write",
+      "argv": [
+        "--url",
+        "http://127.0.0.1:8000",
+        "--out",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_out.json",
+        "--write"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 1,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": " 114, in main\n    os.makedirs(args.out, exist_ok=True) if args.write else None\n    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<frozen os>\", line 228, in makedirs\nFileExistsError: [WinError 183] 当文件已存在时，无法创建该文件。: 'C:\\\\Users\\\\X1882\\\\AppData\\\\Local\\\\Temp\\\\skillkit_scenario_ezbzeej1\\\\in_out_out.json'\n",
+      "verdict": "error"
+    },
+    {
+      "skill": "programming/testing/webapp-flow-tester",
+      "script": "skills\\programming\\testing\\webapp-flow-tester\\scripts\\with_server.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "programming/workflow/agent-designer",
+      "script": "skills\\programming\\workflow\\agent-designer\\scripts\\agent_evaluator.py",
+      "scenario": "execution_logs.json --detailed -o eval",
+      "argv": [
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_execution_logs.json",
+        "--detailed",
+        "-o",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 1,
+      "seconds": 0.14,
+      "stdout_tail": "",
+      "stderr_tail": "No valid execution logs found in input file\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/workflow/agent-designer",
+      "script": "skills\\programming\\workflow\\agent-designer\\scripts\\agent_planner.py",
+      "scenario": "requirements.json --format json -o arch",
+      "argv": [
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_requirements.json",
+        "--format",
+        "json",
+        "-o",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 1,
+      "seconds": 0.12,
+      "stdout_tail": "",
+      "stderr_tail": "Error: SystemRequirements.__init__() missing 9 required positional arguments: 'goal', 'description', 'tasks', 'constraints', 'team_size', 'performance_requirements', 'safety_requirements', 'integration_requirements', and 'scale_requirements'\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "programming/workflow/agent-designer",
+      "script": "skills\\programming\\workflow\\agent-designer\\scripts\\tool_schema_generator.py",
+      "scenario": "tool_descriptions.json --validate -o tools",
+      "argv": [
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_tool_descriptions.json",
+        "--validate",
+        "-o",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.12,
+      "stdout_tail": "on_anthropic.json\nValidation rules written to C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json_validation.json\nUsage examples written to C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json_examples.json\n\nSchema Generation Summary:\nTools processed: 0\nTotal input parameters: 0\nTotal validation rules: 0\nTotal examples generated: 0\n\nValidation Results:\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "programming/workflow/agent-designer",
+      "script": "skills\\programming\\workflow\\agent-designer\\scripts\\workflow_scaffolder.py",
+      "scenario": "orchestrator --name incident-triage --output workflows/incident-triage.json",
+      "argv": [
+        "orchestrator",
+        "--name",
+        "incident-triage",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.11,
+      "stdout_tail": "Wrote workflow config to C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "tools/bank-statement-reconcile",
+      "script": "skills\\tools\\bank-statement-reconcile\\scripts\\reconcile.py",
+      "scenario": "--statement ./bank.csv --billing ./my_expenses.csv",
+      "argv": [
+        "--statement",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_bank.csv",
+        "--billing",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_my_expenses.csv"
+      ],
+      "notes": [
+        "合成文本输入(1704 字)",
+        "合成文本输入(1704 字)"
+      ],
+      "rc": 3,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "[ERROR] cannot locate amount/date columns (amt_s=None, amt_b=None, date_s=None, date_b=None)\n",
+      "verdict": "fail",
+      "reason": "rc=3"
+    },
+    {
+      "skill": "tools/batch-renamer",
+      "script": "skills\\tools\\batch-renamer\\scripts\\rename.py",
+      "scenario": "apply $TARGET_DIR --pattern IMG_{n:03d}.{ext} --yes",
+      "argv": [
+        "apply",
+        "$TARGET_DIR",
+        "--pattern",
+        "IMG_{n:03d}.{ext}",
+        "--yes"
+      ],
+      "notes": [],
+      "rc": 1,
+      "seconds": 0.12,
+      "stdout_tail": "",
+      "stderr_tail": "ERROR: 不是目录: $TARGET_DIR\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "tools/file-organizer",
+      "script": "skills\\tools\\file-organizer\\scripts\\organize.py",
+      "scenario": "apply $TARGET_DIR --by type --dry-run",
+      "argv": [
+        "apply",
+        "$TARGET_DIR",
+        "--by",
+        "type",
+        "--dry-run"
+      ],
+      "notes": [],
+      "rc": 1,
+      "seconds": 0.12,
+      "stdout_tail": "",
+      "stderr_tail": "ERROR: 不是目录: $TARGET_DIR\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "tools/format-converter",
+      "script": "skills\\tools\\format-converter\\scripts\\convert.py",
+      "scenario": "image photo.png photo.jpg --width 800 --quality",
+      "argv": [
+        "image",
+        "photo.png",
+        "photo.jpg",
+        "--width",
+        "800",
+        "--quality",
+        "85"
+      ],
+      "notes": [],
+      "rc": 1,
+      "seconds": 0.13,
+      "stdout_tail": "",
+      "stderr_tail": "ERROR: 输入文件不存在: photo.png\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "tools/invoice-organizer",
+      "script": "skills\\tools\\invoice-organizer\\scripts\\organize_invoices.py",
+      "scenario": "--src ./loose_invoices --dst ./organized",
+      "argv": [
+        "--src",
+        "./loose_invoices",
+        "--dst",
+        "./organized"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.1,
+      "stdout_tail": "",
+      "stderr_tail": "[ERROR] src not found: ./loose_invoices\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "tools/task-scheduler",
+      "script": "skills\\tools\\task-scheduler\\scripts\\schedule_helper.py",
+      "scenario": "cron-check 0 9 * * 1",
+      "argv": [
+        "cron-check",
+        "0 9 * * 1"
+      ],
+      "notes": [],
+      "rc": 0,
+      "seconds": 0.11,
+      "stdout_tail": "表达式: 0 9 * * 1\n含义  : 每周一 09:00\n\n下次触发时间: 无法精确计算（croniter 未安装）\n  → 精确预测需要 croniter：python3 -m pip install croniter\n  → 上面的中文描述由内置解析器给出，仍是可靠的。\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "video/storyboard-designer",
+      "script": "skills\\video\\storyboard-designer\\scripts\\scene_lint.py",
+      "scenario": "<storyboard 目录>",
+      "argv": [
+        "<storyboard",
+        "目录>"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "usage: scene_lint.py [-h] directory\nscene_lint.py: error: unrecognized arguments: 目录>\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "video/video-editor",
+      "script": "skills\\video\\video-editor\\scripts\\editor.py",
+      "scenario": "--clips clip1.mp4 clip2.mp4 --audio bgm.mp3 --output",
+      "argv": [
+        "--clips",
+        "clip1.mp4",
+        "clip2.mp4",
+        "--audio",
+        "bgm.mp3",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json",
+        "--transitions",
+        "fade",
+        "cut"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 2,
+      "seconds": 0.12,
+      "stdout_tail": "",
+      "stderr_tail": "[ERROR] 真实模式需要外部工具 ffmpeg，但 PATH 中未找到。\n安装指引:\n  Debian/Ubuntu : sudo apt update && sudo apt install -y ffmpeg\n  macOS         : brew install ffmpeg\n  校验          : ffmpeg -version\n若只需联调下游流程，可加 --mock（产物为占位，不会真实生成文件）。\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "video/video-lip-sync",
+      "script": "skills\\video\\video-lip-sync\\scripts\\lip_sync.py",
+      "scenario": "--face character.png --script script.json --audio-dir tts/",
+      "argv": [
+        "--face",
+        "character.png",
+        "--script",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_script.json",
+        "--audio-dir",
+        "tts/",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）",
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.14,
+      "stdout_tail": "{\n  \"total_scenes\": 0,\n  \"results\": [],\n  \"all_generated\": false,\n  \"mock\": false\n}\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "video/video-prompt-engineer",
+      "script": "skills\\video\\video-prompt-engineer\\scripts\\prompt_audit.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "video/video-script-writer",
+      "script": "skills\\video\\video-script-writer\\scripts\\script_writer.py",
+      "scenario": "60 秒教程脚本；配了 LLM 网关时台词必须由真模型生成",
+      "argv": [
+        "--concept",
+        "打工人用 AI 一周做完一个月的活",
+        "--type",
+        "tutorial",
+        "--duration",
+        "60",
+        "--platform",
+        "bilibili",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\ov_script.json"
+      ],
+      "notes": [],
+      "rc": 0,
+      "seconds": 3.22,
+      "stdout_tail": "",
+      "stderr_tail": "Script written to: C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\ov_script.json\n",
+      "artifacts": [
+        "ov_script.json:1735B"
+      ],
+      "llm": true,
+      "verdict": "pass"
+    },
+    {
+      "skill": "video/video-subtitles",
+      "script": "skills\\video\\video-subtitles\\scripts\\subtitles.py",
+      "scenario": "--text 你们猜我花了多少钱？ --start 0 --end 3",
+      "argv": [
+        "--text",
+        "你们猜我花了多少钱？",
+        "--start",
+        "0",
+        "--end",
+        "3",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.11,
+      "stdout_tail": "{\n  \"caption\": \"你们猜我花了多少钱？\\n\\n#视频 #内容 #你们猜我花了多少\",\n  \"platform\": \"douyin\",\n  \"length\": 29,\n  \"status\": \"success\"\n}\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "video/video-thumbnail",
+      "script": "skills\\video\\video-thumbnail\\scripts\\thumbnail.py",
+      "scenario": "--title 宝宝测评iPhone 16 --style funny",
+      "argv": [
+        "--title",
+        "宝宝测评iPhone 16",
+        "--style",
+        "funny"
+      ],
+      "notes": [],
+      "rc": 4,
+      "seconds": 2.2,
+      "stdout_tail": "",
+      "stderr_tail": " http://127.0.0.1:30080 （URLError: <urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>）\n排查步骤:\n  1) 确认服务已启动: curl -sS -m 5 -o /dev/null -w '%{http_code}\\n' http://127.0.0.1:30080/\n  2) 确认地址正确  : export GATEWAY_BASE_URL=http://<host>:<port>  (不带尾斜杠)\n  3) 若只需联调下游: 加 --mock 或 SKILLKIT_MOCK=1（产物为占位，不可交付）\n",
+      "verdict": "fail",
+      "reason": "rc=4"
+    },
+    {
+      "skill": "video/video-voice-synth",
+      "script": "skills\\video\\video-voice-synth\\scripts\\voice_synth.py",
+      "scenario": "--script script.json --audio-dir audio/",
+      "argv": [
+        "--script",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_script.json",
+        "--audio-dir",
+        "audio/"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.14,
+      "stdout_tail": "{\n  \"total_scenes\": 0,\n  \"results\": [],\n  \"all_generated\": true,\n  \"mock\": false\n}\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "writing/ai-trace-auditor",
+      "script": "skills\\writing\\ai-trace-auditor\\scripts\\trace_scanner.py",
+      "scenario": "文本文件路径",
+      "argv": [
+        "文本文件路径"
+      ],
+      "notes": [],
+      "rc": 1,
+      "seconds": 0.09,
+      "stdout_tail": "",
+      "stderr_tail": "error: cannot read 文本文件路径: [Errno 2] No such file or directory: '文本文件路径'\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "writing/article-drafter",
+      "script": "skills\\writing\\article-drafter\\scripts\\drafter.py",
+      "scenario": "--outline outline.json --audience intermediate --output draft.json",
+      "argv": [
+        "--outline",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_outline.json",
+        "--audience",
+        "intermediate",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成 JSON 输入 ← SKILL.md 示例(269B)",
+        "合成 JSON 输入 ← SKILL.md 示例(269B)"
+      ],
+      "rc": 0,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "Draft written to: C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json\n",
+      "verdict": "pass"
+    },
+    {
+      "skill": "writing/article-outliner",
+      "script": "skills\\writing\\article-outliner\\scripts\\outliner.py",
+      "scenario": "--topic FastAPI 性能优化 --type technical --output outline.json",
+      "argv": [
+        "--topic",
+        "FastAPI 性能优化",
+        "--type",
+        "technical",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 0,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "Outline written to: C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json\n",
+      "verdict": "pass"
+    },
+    {
+      "skill": "writing/assets/ai-cover-generator",
+      "script": "skills\\writing\\assets\\ai-cover-generator\\scripts\\generate_cover.py",
+      "scenario": "--prompt ... --size 1536x1024",
+      "argv": [
+        "--prompt",
+        "...",
+        "--size",
+        "1536x1024"
+      ],
+      "notes": [],
+      "rc": 0,
+      "seconds": 0.14,
+      "stdout_tail": "[DRY-RUN] 未发送任何请求。确认无误后追加 --execute 真正执行。\n[PLAN] POST http://127.0.0.1:30080/api/image/generate\n{\n  \"model\": \"gpt-image-2\",\n  \"prompt\": \"...\",\n  \"params\": {\n    \"size\": \"1536x1024\",\n    \"quality\": \"auto\",\n    \"n\": 1\n  }\n}\n",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "writing/blog/cnblogs-skill",
+      "script": "skills\\writing\\blog\\cnblogs-skill\\scripts\\cnblogs-pre-publish-check.py",
+      "scenario": "<markdown_file> --title 文章标题",
+      "argv": [
+        "<markdown_file>",
+        "--title",
+        "文章标题"
+      ],
+      "notes": [],
+      "rc": 1,
+      "seconds": 0.11,
+      "stdout_tail": "错误: 文件不存在 - <markdown_file>\n",
+      "stderr_tail": "",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "writing/blog/csdn-publisher",
+      "script": "skills\\writing\\blog\\csdn-publisher\\scripts\\csdn_publisher.py",
+      "scenario": "--version && test -f scripts/csdn_publisher.py &&",
+      "argv": [
+        "--version",
+        "&&",
+        "test",
+        "-f",
+        "scripts/csdn_publisher.py",
+        "&&",
+        "echo",
+        "OK"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.14,
+      "stdout_tail": "",
+      "stderr_tail": "usage: csdn_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]\n                         {categories,draft-save,publish,edit,delete,list} ...\ncsdn_publisher.py: error: argument cmd: invalid choice: '&&' (choose from 'categories', 'draft-save', 'publish', 'edit', 'delete', 'list')\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "writing/blog/jianshu-publisher",
+      "script": "skills\\writing\\blog\\jianshu-publisher\\scripts\\jianshu_publisher.py",
+      "scenario": "--version && test -f scripts/jianshu_publisher.py &&",
+      "argv": [
+        "--version",
+        "&&",
+        "test",
+        "-f",
+        "scripts/jianshu_publisher.py",
+        "&&",
+        "echo",
+        "OK"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.13,
+      "stdout_tail": "",
+      "stderr_tail": "usage: jianshu_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]\n                            {draft-save,publish,edit,delete} ...\njianshu_publisher.py: error: argument cmd: invalid choice: '&&' (choose from 'draft-save', 'publish', 'edit', 'delete')\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "writing/blog/static-blog-deploy",
+      "script": "skills\\writing\\blog\\static-blog-deploy\\scripts\\static_blog_deploy.py",
+      "scenario": "--version && test -f scripts/static_blog_deploy.py &&",
+      "argv": [
+        "--version",
+        "&&",
+        "test",
+        "-f",
+        "scripts/static_blog_deploy.py",
+        "&&",
+        "echo",
+        "OK"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.14,
+      "stdout_tail": "",
+      "stderr_tail": "--cwd CWD]\n                             {hexo-deploy,hugo-deploy,github-pages,gitlab-pages,vercel-deploy,netlify-deploy} ...\nstatic_blog_deploy.py: error: argument cmd: invalid choice: '&&' (choose from 'hexo-deploy', 'hugo-deploy', 'github-pages', 'gitlab-pages', 'vercel-deploy', 'netlify-deploy')\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "writing/community/douban-publisher",
+      "script": "skills\\writing\\community\\douban-publisher\\scripts\\douban_publisher.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "writing/community/oschina-publisher",
+      "script": "skills\\writing\\community\\oschina-publisher\\scripts\\oschina_publisher.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "writing/community/segmentfault-publisher",
+      "script": "skills\\writing\\community\\segmentfault-publisher\\scripts\\segmentfault_publisher.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "writing/community/v2ex-publisher",
+      "script": "skills\\writing\\community\\v2ex-publisher\\scripts\\v2ex_publisher.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "writing/content-editor",
+      "script": "skills\\writing\\content-editor\\scripts\\editor.py",
+      "scenario": "--draft draft.json --style technical --output edited.json",
+      "argv": [
+        "--draft",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_draft.json",
+        "--style",
+        "technical",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+      ],
+      "notes": [
+        "合成 JSON 输入 ← SKILL.md 示例(160B)",
+        "合成 JSON 输入 ← SKILL.md 示例(160B)"
+      ],
+      "rc": 0,
+      "seconds": 0.11,
+      "stdout_tail": "",
+      "stderr_tail": "",
+      "verdict": "pass"
+    },
+    {
+      "skill": "writing/juejin/juejin-publisher",
+      "script": "skills\\writing\\juejin\\juejin-publisher\\scripts\\juejin_publish.py",
+      "scenario": "--execute categories | head -5",
+      "argv": [
+        "--execute",
+        "categories",
+        "|",
+        "head",
+        "-5"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.14,
+      "stdout_tail": "",
+      "stderr_tail": "usage: juejin_publish.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]\n                         {categories,tags,draft-save,publish} ...\njuejin_publish.py: error: unrecognized arguments: --execute | head -5\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "writing/news/baijiahao-publisher",
+      "script": "skills\\writing\\news\\baijiahao-publisher\\scripts\\baijiahao_publisher.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "writing/news/toutiao-publisher",
+      "script": "skills\\writing\\news\\toutiao-publisher\\scripts\\toutiao_publisher.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "writing/orchestrator/cross-post-orchestrator",
+      "script": "skills\\writing\\orchestrator\\cross-post-orchestrator\\scripts\\cross_post.py",
+      "scenario": "--manifest post.manifest.json run --only juejin",
+      "argv": [
+        "--manifest",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_post.manifest.json",
+        "run",
+        "--only",
+        "juejin"
+      ],
+      "notes": [
+        "合成空 JSON 输入（文档无 JSON 示例）"
+      ],
+      "rc": 1,
+      "seconds": 0.15,
+      "stdout_tail": "",
+      "stderr_tail": "   manifest = load_manifest(args.manifest)\n  File \"C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\writing\\orchestrator\\cross-post-orchestrator\\scripts\\cross_post.py\", line 66, in load_manifest\n    raise ValueError(\"manifest 缺少必填字段: %s\" % key)\nValueError: manifest 缺少必填字段: title\n",
+      "verdict": "error"
+    },
+    {
+      "skill": "writing/seo-optimizer",
+      "script": "skills\\writing\\seo-optimizer\\scripts\\seo_optimizer.py",
+      "scenario": "给一篇真实长文算 SEO 分并给关键词",
+      "argv": [
+        "--title",
+        "FastAPI 性能优化实战 2026",
+        "--content",
+        "# FastAPI 性能优化实战\n\n在高并发场景下，FastAPI 的性能优化需要从异步模型、连接池、缓存三层入手。实测表明，合理配置 uvicorn worker 数量能把吞吐量提升两倍以上：worker 数应接近 CPU 核心数，而不是盲目调大。第二步是数据库连接池，SQLAlchemy 的 pool_size 与 max_overflow 要按 QPS 峰值估算，连接复用能显著降低 P99 延迟。第三层是缓存，热点接口加 Redis 缓存后平均响应时间从 180ms 降到 23ms。最后，别忘了开启 GZip 中间件与响应模型过滤，序列化开销同样不可忽视。# FastAPI 性能优化实战\n\n在高并发场景下，FastAPI 的性能优化需要从异步模型、连接池、缓存三层入手。实测表明，合理配置 uvicorn worker 数量能把吞吐量提升两倍以上：worker 数应接近 CPU 核心数，而不是盲目调大。第二步是数据库连接池，SQLAlchemy 的 pool_size 与 max_overflow 要按 QPS 峰值估算，连接复用能显著降低 P99 延迟。第三层是缓存，热点接口加 Redis 缓存后平均响应时间从 180ms 降到 23ms。最后，别忘了开启 GZip 中间件与响应模型过滤，序列化开销同样不可忽视。# FastAPI 性能优化实战\n\n在高并发场景下，FastAPI 的性能优化需要从异步模型、连接池、缓存三层入手。实测表明，合理配置 uvicorn worker 数量能把吞吐量提升两倍以上：worker 数应接近 CPU 核心数，而不是盲目调大。第二步是数据库连接池，SQLAlchemy 的 pool_size 与 max_overflow 要按 QPS 峰值估算，连接复用能显著降低 P99 延迟。第三层是缓存，热点接口加 Redis 缓存后平均响应时间从 180ms 降到 23ms。最后，别忘了开启 GZip 中间件与响应模型过滤，序列化开销同样不可忽视。# FastAPI 性能优化实战\n\n在高并发场景下，FastAPI 的性能优化需要从异步模型、连接池、缓存三层入手。实测表明，合理配置 uvicorn worker 数量能把吞吐量提升两倍以上：worker 数应接近 CPU 核心数，而不是盲目调大。第二步是数据库连接池，SQLAlchemy 的 pool_size 与 max_overflow 要按 QPS 峰值估算，连接复用能显著降低 P99 延迟。第三层是缓存，热点接口加 Redis 缓存后平均响应时间从 180ms 降到 23ms。最后，别忘了开启 GZip 中间件与响应模型过滤，序列化开销同样不可忽视。# FastAPI 性能优化实战\n\n在高并发场景下，FastAPI 的性能优化需要从异步模型、连接池、缓存三层入手。实测表明，合理配置 uvicorn worker 数量能把吞吐量提升两倍以上：worker 数应接近 CPU 核心数，而不是盲目调大。第二步是数据库连接池，SQLAlchemy 的 pool_size 与 max_overflow 要按 QPS 峰值估算，连接复用能显著降低 P99 延迟。第三层是缓存，热点接口加 Redis 缓存后平均响应时间从 180ms 降到 23ms。最后，别忘了开启 GZip 中间件与响应模型过滤，序列化开销同样不可忽视。# FastAPI 性能优化实战\n\n在高并发场景下，FastAPI 的性能优化需要从异步模型、连接池、缓存三层入手。实测表明，合理配置 uvicorn worker 数量能把吞吐量提升两倍以上：worker 数应接近 CPU 核心数，而不是盲目调大。第二步是数据库连接池，SQLAlchemy 的 pool_size 与 max_overflow 要按 QPS 峰值估算，连接复用能显著降低 P99 延迟。第三层是缓存，热点接口加 Redis 缓存后平均响应时间从 180ms 降到 23ms。最后，别忘了开启 GZip 中间件与响应模型过滤，序列化开销同样不可忽视。",
+        "--output",
+        "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\ov_seo.json"
+      ],
+      "notes": [],
+      "rc": 0,
+      "seconds": 0.12,
+      "stdout_tail": "",
+      "stderr_tail": "",
+      "artifacts": [
+        "ov_seo.json:778B"
+      ],
+      "verdict": "pass"
+    },
+    {
+      "skill": "writing/social/weibo-publisher",
+      "script": "skills\\writing\\social\\weibo-publisher\\scripts\\weibo_publisher.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "writing/social/xiaohongshu-publisher",
+      "script": "skills\\writing\\social\\xiaohongshu-publisher\\scripts\\xiaohongshu_publisher.py",
+      "verdict": "no-example",
+      "reason": "SKILL.md 无可解析用法示例"
+    },
+    {
+      "skill": "writing/video/bilibili-publisher",
+      "script": "skills\\writing\\video\\bilibili-publisher\\scripts\\bilibili_publisher.py",
+      "scenario": "article-save --execute --title ... --content ...",
+      "argv": [
+        "article-save",
+        "--execute",
+        "--title",
+        "...",
+        "--content",
+        "..."
+      ],
+      "notes": [],
+      "rc": 1,
+      "seconds": 0.14,
+      "stdout_tail": "",
+      "stderr_tail": "缺少认证：设置环境变量 BILI_COOKIE 或提供凭据文件\n",
+      "verdict": "fail",
+      "reason": "rc=1"
+    },
+    {
+      "skill": "writing/wechat/wechat-mp-publisher",
+      "script": "skills\\writing\\wechat\\wechat-mp-publisher\\scripts\\wechat_mp_publish.py",
+      "scenario": "--execute add-thumb cover.jpg",
+      "argv": [
+        "--execute",
+        "add-thumb",
+        "cover.jpg"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.13,
+      "stdout_tail": "",
+      "stderr_tail": "usage: wechat_mp_publish.py [-h] [--appid APPID] [--secret SECRET]\n                            {token,upload-img,add-thumb,add-draft,publish} ...\nwechat_mp_publish.py: error: unrecognized arguments: --execute\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    },
+    {
+      "skill": "writing/zhihu/zhihu-content-manager",
+      "script": "skills\\writing\\zhihu\\zhihu-content-manager\\scripts\\zhihu_html_lint.py",
+      "scenario": "--help > /dev/null && echo lint-ok",
+      "argv": [
+        ">",
+        "/dev/null",
+        "&&",
+        "echo",
+        "lint-ok"
+      ],
+      "notes": [],
+      "rc": 2,
+      "seconds": 0.1,
+      "stdout_tail": "",
+      "stderr_tail": "usage: zhihu_html_lint.py [-h] [--json] [--strict] html_file\nzhihu_html_lint.py: error: unrecognized arguments: /dev/null && echo lint-ok\n",
+      "verdict": "fail",
+      "reason": "rc=2"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+## 审核报告：对照五段结构
+
+| 段 | 状态 | 问题诊断 |
+|---|---|---|
+| **Canvas** | ❌ miss | 无比例、无尺寸（"8K"是分辨率而非画布比例） |
+| **Subject** | ⚠️ partial | "一个女的在喝咖啡"过于模糊，无年龄/发型/衣着等可复现特征 |
+| **Composition** | ❌ miss | 无景别、无布局、无视角 |
+| **Style** | ⚠️ partial | "专业摄影感"是空洞形容词；"masterpiece, 8K, super high definition"属于早期关键词念经，现代模型会过度放大这些词导致过曝/塑料感 |
+| **Text** | ⚠️ partial | "no text"是**指令式负向**，应改为名词列表 `text, watermark, subtitle` |
+| **Negative** | ❌ miss | 存在 "no blurry", "no bad hands", "no watermark", "不要变形" 等指令式写法——模型会把 "blurry / bad hands / watermark" 当作内容渲染进去 |
+
+### 核心硬伤
+1. **指令式负向**：`no xxx` 句式会让模型反而关注 "xxx"，必须改为纯名词列表
+2. **风格锚缺失**："专业摄影感" 无法复现，需替换为具体相机/胶片/镜头/布光参数
+3. **主体无特征**：模特外观未锁定，每张图脸和穿着都会变
+4. **画布无比例**：无法控制画面裁切
+
+---
+
+## 改写版（通用结构）
+
+**Prompt 原文：**
+
+```
+3:4 portrait, 1080x1440, a woman in her late 20s with shoulder-length brown hair wearing a cream knit sweater, seated at a wooden café table holding a white ceramic cup of coffee, warm morning light streaming through a window from the left, shot on Fujifilm GFX 100 with a 63mm f/2.8 lens, shallow depth of field with the background softly blurred, centered composition with generous negative space on the right third, intimate candid photography style reminiscent of Mario Testino's editorial portraits, soft warm color grading with a cream base and single amber accent
+```
+
+**负向约束（单独提交）：**
+
+```
+blurry, watermark, text, subtitle, extra fingers, deformed hands, plastic skin, oversaturated, overexposed, ugly, disfigured
+```
+
+---
+
+## 五段标注版
+
+| 段 | 内容 |
+|---|---|
+| **Canvas** | `3:4 portrait, 1080x1440` |
+| **Subject** | `a woman in her late 20s with shoulder-length brown hair wearing a cream knit sweater, seated at a wooden café table holding a white ceramic cup of coffee` |
+| **Composition** | `warm morning light streaming through a window from the left, centered composition with generous negative space on the right third` |
+| **Style** | `shot on Fujifilm GFX 100 with a 63mm f/2.8 lens, shallow depth of field, intimate candid photography style reminiscent of Mario Testino's editorial portraits, soft warm color grading with a cream base and single amber accent` |
+| **Text** | 无（本图无需图上文字） |
+
+---
+
+### 改写要点说明
+- 将 **"专业摄影感"** 替换为具体器材（Fujifilm GFX 100 + 63mm f/2.8）+ 风格参照（Mario Testino）+ 色彩方案（cream base + amber accent），确保可复现
+- 将 **"no blurry/no bad hands/no watermark"** 全部改为**名词列表**形式，避免模型反向渲染
+- 锁死主体外观：**年龄/发型/衣着**三要素齐全，减少每轮随机性
+- 补全画布比例（3:4 portrait）和留白声明（generous negative space），防止元素过挤
+- 删除 "masterpiece/8K/超高清/最美/最棒" 等空洞形容词，这些词在现代模型中无实质指导意义，反而会导致风格漂移

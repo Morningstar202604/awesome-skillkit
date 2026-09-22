@@ -86,3 +86,28 @@ def test_llm_parse_tolerates_code_fence(monkeypatch):
     spec.loader.exec_module(sw)
     raw = '好的，这是台词：\n```json\n{"lines": [{"role": "hook", "dialogue": "3 秒抓住眼球"}]}\n```\n希望有帮助'
     assert sw._parse_json_loose(raw)["lines"][0]["role"] == "hook"
+
+
+def test_duration_invariants_no_zero_second_scene():
+    """时长不变量（回归测试）：每场 ≥1s；各场之和 == total_duration；
+    平台截断与小目标抬升都必须写进 duration_note，不静默改用户输入。"""
+    spec = importlib.util.spec_from_file_location("sw5", SP / "script_writer.py")
+    sw = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(sw)
+    for vt in ("talking_character", "meme", "tutorial", "vlog", "short"):
+        for d in range(1, 61):
+            r = sw.generate_script("C", vt, d, "douyin", use_llm=False)
+            durs = [s["duration_sec"] for s in r["scenes"]]
+            assert min(durs) >= 1, (vt, d, durs)
+            assert sum(durs) == r["total_duration"], (vt, d, durs)
+    # 平台截断：120s 抖音 → 60s，且如实记录
+    r = sw.generate_script("C", "talking_character", 120, "douyin", use_llm=False)
+    assert r["total_duration"] == 60 and r["requested_duration"] == 120
+    assert r["duration_note"] and "截断" in r["duration_note"]
+    # 目标小于场景数：抬升到场景数，且如实记录
+    r2 = sw.generate_script("C", "talking_character", 3, "douyin", use_llm=False)
+    assert r2["total_duration"] == 4 and min(
+        s["duration_sec"] for s in r2["scenes"]) == 1
+    assert r2["duration_note"] and "抬升" in r2["duration_note"]
+    # caption 合规核对字段在场
+    assert r2["caption_check"]["ok"] is True and r2["caption_check"]["limit"] == 50

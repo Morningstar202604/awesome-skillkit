@@ -1,20 +1,33 @@
 ---
 name: storyboard-designer
-description: "Design scene-by-scene storyboards for short videos: beat sheet with timings, per-scene prompt pairs (image board + video-generation prompt), and a continuity constraint table covering character, wardrobe, props, location, and aspect ratio. Use when the user asks to 分镜设计 / 画分镜 / 做 storyboard / 场景拆解 / 出镜头表 / 把脚本拆成分镜 before video generation. Do NOT use for generating the video or images themselves (outputs are prompt scripts — feed them to video-generation / image-generation), nor for writing dialogue (use video-script-writer)."
+description: "Design scene-by-scene storyboards for short videos: beat sheet with timings, per-scene prompt pairs (image board + video-generation prompt), and a continuity constraint table covering character, wardrobe, props, location, and aspect ratio. Applies real film grammar (180-degree axis, 30-degree rule, eyeline match, match-on-action, establishing shot, shot-size progression) so AI-generated shots cut together. Use when the user asks to 分镜设计 / 画分镜 / 做 storyboard / 场景拆解 / 出镜头表 / 把脚本拆成分镜 before video generation. Do NOT use for generating the video or images themselves (outputs are prompt scripts — feed them to video-generation / image-generation), nor for writing dialogue (use video-script-writer)."
 license: Apache-2.0
 compatibility: Pure prompt-based design skill; the bundled scene_lint.py needs Python 3.8+ only.
 metadata:
   author: "awesome-skillkit"
-  version: "1.0"
+  version: "2.0"
   category: video
   pattern: single-task
   tier: standard
-  verified-date: "2026-09-14"
+  verified-date: "2026-09-22"
 ---
 
 # Storyboard Designer
 
-把一段视频概念拆成可执行的逐场景分镜包：节拍表 + 每场景「图像板 prompt + 视频 prompt」成对产出 + 连续性约束表。分镜是设计与生成的合同——合同写得越死，生成越不跑偏。
+把一段视频概念拆成可执行的逐场景分镜包：节拍表 + 每场景「图像板 prompt + 视频 prompt」成对产出 + 连续性约束表。**分镜是设计与生成的合同——合同写得越死，生成越不跑偏。**
+
+但"合同"只有格式合规是没用的：**一串格式完美却违反镜头语法的分镜，剪起来会精神分裂**。本技能因此内置了两层：格式层（scene_lint.py 把门）+ 语法层（真人分镜师的镜头规则，人工核对）。
+
+## 适用决策表
+
+| 你的处境 | 本技能的位置 | 去向 |
+|----------|--------------|------|
+| 有脚本/概念，要逐场景可生成的分镜包 | ✅ 本技能 | 这里 |
+| 只要台词与节奏，不要镜头设计 | ❌ 越界 | video-script-writer |
+| 要单条视频生成 prompt（非分镜包） | ❌ 越界 | video-prompt-engineer |
+| 要一张静态海报/封面 | ❌ 越界 | image-prompt-engineer（借道本技能无意义） |
+| 用户要"分镜图"（PNG） | ⚠️ 本技能只产 prompt；图由图像模型的执行方生成 | 说明用途后照常交付 prompt |
+| 概念 15s 内讲不完 | ⚠️ 先砍概念或提时长，二选一问用户 | 工作流步骤 1 |
 
 ## 输入清单
 
@@ -32,7 +45,69 @@ metadata:
 ## 前置自检
 
 - 概念是否可在总时长内讲完？场景数 ≈ 总时长 ÷ 单场景时长（默认 5s/场景）。
+- **单场景时长的两个数**：`scene_lint.py` 的硬边界是 **1–10s**（超出即失败）；**推荐区间 3–8s**（生成模型可用质量 + 剪辑节奏的经验区间，lint 不检查）。超 10s 必须切场景。
+- **脚本自检（可运行）**：`examples/` 是随包样例（两镜 demo，展示 10 行字段的写法与连续性写法）。跑一遍确认环境与格式没问题：
+
+```bash
+python3 scripts/scene_lint.py examples/
+```
+
+预期输出 `ALL OK`、退出码 0。你的真实分镜目录用工作区里的 `storyboard/`。
 - 输出目录 `storyboard/` 是否已存在同名 scene 文件？有则先询问是否覆盖（防误删已确认稿）。
+
+## 暗知识（镜头语法：让不同场景真的能剪在一起）
+
+### 1. 180° 线（轴线）：全片方位感的命根子
+
+一段对手戏 / 追逐戏里，摄像机必须待在两个角色连线的**同一侧**。越轴（跑到另一侧拍）会让观众方位感崩塌——A 明明在画面左边，下一镜突然到了右边，观众以为空间变了。
+
+**合法越轴只有两条路**：插入骑轴的中性镜头（正面近景/纯环境空镜）过渡，或用运动镜头当场跨越轴线。分镜文件里表现为：相邻场景的 `运镜` 与角色朝向不能出现"左右互换"而无过渡。
+
+### 2. 30° 规则：避免跳切（jump cut）
+
+相邻两个镜头若**机位变化小于 30° 且景别相近**，剪在一起会像画面"跳了一下"（同样的空间、同样的位置，人却闪了一下）。避免手段二选一：机位转够 30° 以上，或改变景别跨档。
+
+### 3. 视线匹配（eyeline match）：AI 生成最容易翻车的一条
+
+A 看向画右 → B 就应看向画左（两人视线在画外相接）。**AI 生图/生视频的高发故障**：两个角色都朝同一侧看（像在盯同一个方向），或都盯着镜头（对手戏变成两个人在各自自白）。写 prompt 时必须显式写视线方向（`looking screen-left` / `gazing off-screen right`），不能只说"在对视"。
+
+### 4. 动作匹配（match-on-action）：缝合剪辑点的首选
+
+把一个连续动作**切在中间**（手伸到一半、身体转向一半），下一镜接着做完——观众的眼睛被动作带走，看不见剪辑点。对 AI 生成尤其重要：单段普遍 ≤10s，长动作必须拆段，**拆点就切在动作中间**，而不是"等这个动作做完再切"。
+
+### 5. 建立镜头（establishing shot）：新场景先交代"这是哪"
+
+进入一个新场景，先给一个环境全貌（远的、广的），再进人物的近景。缺建立镜头，观众会把注意力花在猜空间关系上，而不是剧情上。
+
+### 6. 景别梯度：相邻镜头至少跨一档
+
+远 → 全 → 中 → 近 → 特的顺序（或反向）递进；相邻两镜景别相同且同机位 = 跳切（见规则 2）。全片**至少 3 种景别**（经验阈值：本组对"避免视觉催眠"的可操作化，非行业数字；lint 不检查，属人工核对项）。
+
+### 7. AI 生成的三条额外约束
+
+1. **连续性表 = 生成模型的 prompt 前缀词表**：它不只是文档纪律。生成时每个场景的 prompt 都要把角色的外观特征（发型/眼镜/服装）原样重复一遍，表就是复制的来源。
+2. **单段 3–8s 是可用质量区间**：不是电影语法要求，是当前生成模型的工程约束（长段易漂移）。
+3. **动作匹配是拆段的默认手法**（规则 4），拆点必须在动作中间。
+
+## 红线（硬性禁令）
+
+1. **禁止用代码/SVG 画假分镜图充数**：本技能只产 prompt 脚本；分镜图必须由图像模型生成，画一张"示意图"冒充分镜图属于伪造交付物。
+2. **不编造用户没给的画面设定**：角色外观、服装、道具一旦在连续性表锁定，后续场景只能引用；需要改动时先问用户，不自行"优化"。
+3. **节拍表时长合计必须等于总时长**：不为凑场景加时长，也不为凑时长塞场景。
+4. **不越界生成视频/图片**：交付物是 prompt 脚本与约束表。
+5. **不得把 `ALL OK` 当质量证明**：lint 是形状检查（见诚实声明 1）——交付时必须说明内容层未经机器校验。
+
+## 诚实声明（scene_lint.py 的实际边界，2026-09-22 探针实测）
+
+1. **lint 是形状检查，不是内容检查**：9 个必需字段只要满足「`字段名: 任意非空值`」即通过——实测把**所有字段值都填成字母 `x`**，lint 依然报 `ALL OK`。内容质量、语法正确性、创意全部不在机器校验范围内。
+2. **lint 不检查 `continuity.md` 与 `beat-sheet.md` 是否存在**：实测目录里只有 scene 文件（无这两个文件）同样 `ALL OK`。
+3. **本次修正**：旧版文档声称结构公式为"9 个字段"但公式实际列出 10 行。准确说法是——**lint 检查 9 个字段（不含 `连续性`）**；`连续性` 是本技能的交付要求，由人工核对。
+4. **`时长: x` 这类不可解析值会跳过时长校验**（正则匹配不到数字即不检查），不是报错。
+5. **时长硬边界 1–10s**（超界即 FAIL）；**推荐区间 3–8s 不被 lint 检查**。
+6. **lint 完全不检查**：景别梯度、视线方向、轴线（180°）、连续性表一致性——即本技能暗知识 1–7 全靠人工/评审核对。
+7. 退出码：0 = 全部通过；1 = 有问题（逐条列出）或目录不存在。
+
+> 探测记录与镜头语法出处见 `references/sources-and-methodology.md`。
 
 ## 工作流
 
@@ -44,6 +119,7 @@ mkdir -p storyboard/
 
 预期：`storyboard/` 就绪，后续 scene-NN.md 全部落在此目录。
 若失败：`mkdir` 报权限/路径错误 → 向用户确认可写目录后改用该路径，并同步告知用户最终路径与本技能后文命令的差异。
+**纯对话模式（无法执行 shell）**：把 `storyboard/` 视为逻辑路径约定即可——直接产出各文件内容，并说明"请保存为 `scene-NN.md`"，**不要因为无法建目录而退回任务**。
 
 ### 步骤 1：产出节拍表（beat sheet）
 
@@ -59,14 +135,7 @@ mkdir -p storyboard/
 预期：节拍表时长合计 = 总时长，否则回到本步重切。
 若失败：概念讲不完 → 建议「砍概念」或「提时长」，二选一问用户，不要自行加时长。
 
-### 步骤 2：逐场景产出 prompt 对
-
-每个场景输出两个文件（编号两位数字，从 01 起）：
-
-- `scene-01.md`（存放在输出目录 `storyboard/` 下）—— 场景 prompt 脚本（结构见下节公式）
-- 场景的图像板描述段（若用户有图像生成工具，按此段生成 scene-01.png 存入同目录；本技能只产 prompt，不产图——禁止用代码/SVG 画假分镜图充数）
-
-### 步骤 3：填连续性约束表
+### 步骤 2：先定连续性表（在写任何 scene 之前）
 
 输出到输出目录（`storyboard/`）下，命名为 continuity.md：
 
@@ -79,11 +148,21 @@ mkdir -p storyboard/
 | 场景 | 雨夜便利店门口 | scene-01/02 |
 | 画幅 | 9:16 | 全部 |
 | 调色 | 青橙对比、夜景高光溢出 | 全部 |
+| 视线基准 | 走在主视角左侧 → 看向画右 | scene-01 定 |
 ```
 
 每个维度必须有「出处场景」——后面场景只能引用已锁定的值，不允许 scene-05 突然换装。
-预期：连续性表先于场景 prompt 定稿；任何场景 prompt 与表冲突即重写该场景。
+预期：连续性表**先于场景 prompt 定稿**；任何场景 prompt 与表冲突即重写该场景。
 若失败：某维度找不到「出处场景」（如道具到结尾才出现却无人锁定）→ 回步骤 1 在节拍表里补出该道具的引入拍，再回本步填表，不要直接写进场景。
+
+### 步骤 3：逐场景产出 prompt 对
+
+每个场景输出两个文件（编号两位数字，从 01 起）：
+
+- `scene-01.md`（存放在输出目录 `storyboard/` 下）—— 场景 prompt 脚本（结构见下节公式）
+- 场景的图像板描述段（若用户有图像生成工具，按此段生成 scene-01.png 存入同目录；本技能只产 prompt，不产图——禁止用代码/SVG 画假分镜图充数）
+
+写每个场景时对照暗知识 1–7 与连续性表；相邻场景的机位/景别安排按 30° 规则（规则 2）与景别梯度（规则 6）。
 
 ### 步骤 4：跑 lint 校验
 
@@ -94,9 +173,9 @@ python3 scripts/scene_lint.py storyboard/
 预期：`ALL OK`。非 0 退出按输出逐条修。
 若失败：报「场景编号不连续」→ 重排文件编号；「字段缺失」→ 按下方「场景文件结构公式」补该字段；「时长超出安全区」→ 把该场景切分或调至 3-8s 后重跑。反复不通过 → 报告具体文件名与缺失字段给用户。
 
-### 步骤 5：交付
+### 步骤 5：人工语法核对 + 交付
 
-按「交付标准」核对后，向用户输出：节拍表 + 连续性表 + 场景文件清单。
+lint 只把形状关（诚实声明 1），交付前必须逐条过「内置验证步骤」的语法项。向用户输出：节拍表 + 连续性表 + 场景文件清单 + **语法核对结论**。
 若失败：清单与盘上文件不一致 → 以 `ls storyboard/` 的实际结果为准重新核对，不得凭记忆报清单。
 
 ## 场景文件结构公式（scene-XX.md）
@@ -113,34 +192,73 @@ python3 scripts/scene_lint.py storyboard/
 - 连续性: 引用连续性表的行 <原样复制值>
 ```
 
+共 10 行字段；其中 lint 机器校验 9 行（不含 `连续性`，见诚实声明 3），`连续性` 由人工核对。
+
 ## 参数速查表
 
 | 参数 | 取值 | 说明 |
 |------|------|------|
-| 单场景时长 | 3-8s | 生成模型单段普遍 ≤10s，超长必须切场景 |
-| 场景数 | 时长÷5s | 30s → 5-7 场景 |
-| 景别梯度 | 全片至少 3 种 | 全片同一景别 = 视觉催眠，lint 不查但审查必打回 |
+| 单场景时长 | 硬边界 1-10s；推荐 3-8s | 生成模型单段普遍 ≤10s，超长必须切场景 |
+| 场景数 | 时长÷5s | 30s → 5-7 场景（经验值） |
+| 景别梯度 | 全片至少 3 种（经验阈值） | 全片同一景别 = 视觉催眠，lint 不查但审查必打回 |
+| 相邻镜头差异 | 机位 >30° 或景别跨档 | 否则剪起来是跳切（暗知识 2） |
+
+## 内置验证步骤（交付前逐条打勾）
+
+**形状项（lint 可查）**
+- [ ] 场景编号连号，从 01 起
+- [ ] 每场景 9 个机器校验字段齐全；时长均在 1–10s
+- [ ] `scene_lint.py` 退出码 0
+
+**语法项（人工核对，lint 不查）**
+- [ ] **轴线**：对手戏/追逐戏全片在同一侧，无未过渡的越轴
+- [ ] **跳切**：相邻镜头的机位变化 >30° 或景别跨档
+- [ ] **视线匹配**：对手戏双方视线方向相反且相接（左/右写明）
+- [ ] **动作匹配**：跨场景的连续动作切在动作中间，不切在动作完成后
+- [ ] **建立镜头**：每个新场景有环境交代
+- [ ] **景别梯度**：全片 ≥3 种景别（经验阈值），无同景别到底
+- [ ] **连续性一致性**：每个场景的 `画面` 与 `视频 prompt` 与 continuity.md 逐值一致（尤其外观特征被重复携带）
+- [ ] **节拍吻合**：场景的时间切分与 beat-sheet.md 一致
 
 ## 失败处置表
 
 | 现象 | 原因 | 处置 |
 |------|------|------|
 | 节拍合计 ≠ 总时长 | 切分粗糙 | 按 1s 粒度重切，先定 hook 和 cta 两端 |
-| 场景间角色变脸 | 连续性表后补 | 推倒：先定表再写场景 |
-| prompt 超模型时长上限 | 单场景 >10s | 一分为二，插入匹配剪辑转场 |
+| 场景间角色变脸 | 连续性表后补 | 推倒：先定表再写场景（步骤 2 置于步骤 3 之前） |
+| prompt 超模型时长上限 | 单场景 >10s | 一分为二，**切入动作中间**（暗知识 4），转场用匹配剪辑 |
+| 对手戏两人看同一方向 | 视线没写死 | 补 `looking screen-right` / `screen-left`，按视线匹配重写两镜 |
+| 剪起来"跳了一下" | 同机位同景别相邻 | 按 30° 规则改机位或改景别 |
+| 观众说"看晕了" | 越轴无过渡 | 插入骑轴中性镜头或运动跨轴镜头 |
 | 用户只要分镜图不要 prompt | 理解偏差 | 仍产出 .md（prompt 是图的放大器），说明用途 |
+| lint 说 ALL OK 但内容很差 | lint 是形状检查 | 按「内置验证步骤」语法项人工核对（诚实声明 1） |
 
 ## 交付标准
 
 - `storyboard/scene-01.md ... scene-NN.md`，NN 连号无跳号
-- 每个文件含上述 9 个字段，缺一即不合格
+- 每个文件含上述 10 行字段（9 行机器校验 + `连续性`），缺一即不合格
 - 节拍表 + 连续性表随交付（存为输出目录下的 `beat-sheet.md` 与 `continuity.md`）
 - `scene_lint.py` 退出码 0
+- **语法核对结论随交付**（内置验证步骤的 8 个语法项逐条给结论，不许省略）
+
+## 附录：CLI 契约（scene_lint.py）
+
+```bash
+# 校验 storyboard/ 目录（需已存在；随包样例则用 examples/）
+python3 scripts/scene_lint.py storyboard/
+```
+
+| 参数 | 说明 |
+|------|------|
+| `directory`（位置参数） | storyboard 目录路径（含 scene-NN.md） |
+
+退出码：`0` = 全部通过；`1` = 有问题（逐条列出）或目录不存在。
+检查项与不检查项见上方「诚实声明」1–7（形状检查，非内容检查）。
 
 ## 参考
 
 - [cinematography-lexicon.md](../video-prompt-engineer/references/cinematography-lexicon.md) — 镜头语言深度词库：17 种转场、动作动词空间语义、微表情表演、速度节奏（分镜卡"镜头指示"列从这张选词）
-- [sources-and-methodology.md](references/sources-and-methodology.md) —— 分镜方法论的开源出处与致谢（必读，理解为何这样设计）
+- [sources-and-methodology.md](references/sources-and-methodology.md) —— 分镜方法论的开源出处、镜头语法的来源与致谢、lint 探针实测记录（必读）
 - 同包的 `shot-recipe-designer` 技能（注意：跨技能禁止链接引用，此处仅文字提及）——需要更细的运镜/转场设计时单独调用它
 
 ## 链条衔接（下游建议）

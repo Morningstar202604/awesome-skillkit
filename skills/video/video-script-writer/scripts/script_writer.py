@@ -6,7 +6,7 @@
 
 用法:
   python3 script_writer.py --concept "宝宝测评手机" --type talking_character --duration 30
-  python3 script_writer.py --json '{"concept":"...","video_type":"meme","duration_seconds":15}'
+  python3 script_writer.py --json-input '{"concept":"...","video_type":"meme","duration_seconds":15}'
 
 台词双轨（诚实标注 source）:
   - env 设了 SKILLKIT_LLM_URL + SKILLKIT_LLM_KEY（可选 SKILLKIT_LLM_MODEL）→ 调
@@ -158,9 +158,23 @@ def generate_script(concept: str, video_type: str = "talking_character",
     """生成结构化脚本。use_llm=None 时自动探测 env；LLM 失败自动落回模板并如实标注。"""
     platform = platform if platform in PLATFORM_RULES else "douyin"
     rules = PLATFORM_RULES[platform]
-    duration = min(duration, rules["max_duration"])
-
     template = TEMPLATES.get(video_type, TEMPLATES["short"])
+
+    # 时长三段处理：平台截断 → 场景数下限抬升（每场至少 1s）→ 两条都写进 duration_note，
+    # 不静默改变用户给的目标时长。
+    duration_notes = []
+    requested_duration = duration
+    if duration > rules["max_duration"]:
+        duration_notes.append(
+            f"目标时长 {requested_duration}s 超出 {platform} 上限 "
+            f"{rules['max_duration']}s，已截断为 {rules['max_duration']}s")
+        duration = rules["max_duration"]
+    n_scenes = len(template["scenes_base"])
+    if duration < n_scenes:
+        duration_notes.append(
+            f"目标时长 {requested_duration}s 小于场景数 {n_scenes}，"
+            f"已抬升至 {n_scenes}s（每场至少 1 秒）")
+        duration = n_scenes
     llm_lines, llm_note = {}, None
     if use_llm is None:
         use_llm = llm_configured()
@@ -176,10 +190,11 @@ def generate_script(concept: str, video_type: str = "talking_character",
     scenes = []
     remaining = duration
     for i, base in enumerate(template["scenes_base"]):
-        if i == len(template["scenes_base"]) - 1:
-            dur = remaining
+        if i == n_scenes - 1:
+            dur = remaining                      # 收尾场吃余量（≥1s，由上面的抬升保证）
         else:
-            dur = max(1, int(duration * base["ratio"]))
+            reserve = n_scenes - 1 - i           # 后续每场至少保留 1 秒，避免 0 秒场景
+            dur = max(1, min(int(duration * base["ratio"]), remaining - reserve))
             remaining -= dur
 
         if base["role"] in llm_lines:
@@ -207,7 +222,13 @@ def generate_script(concept: str, video_type: str = "talking_character",
         "hook": scenes[0]["dialogue"] if scenes else "",
         "scenes": scenes,
         "caption": caption,
+        "caption_check": {"length": len(caption),
+                          "limit": rules["caption_limit"],
+                          "tags": caption.count("#"),
+                          "ok": len(caption) <= rules["caption_limit"]},
         "total_duration": duration,
+        "requested_duration": requested_duration,
+        "duration_note": "; ".join(duration_notes) or None,
         "platform": platform,
         "video_type": video_type,
         "character": character or {},
