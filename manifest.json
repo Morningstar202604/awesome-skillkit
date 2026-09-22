@@ -14,7 +14,7 @@
       "name": "AI Agent Development",
       "name_zh": "AI Agent 开发",
       "file": "dist/ai-agent-development.zip",
-      "size_kb": 162,
+      "size_kb": 175,
       "description": "Build production-grade AI agents, design multi-agent workflows, MCP servers, feature flags, and self-evaluation.",
       "description_zh": "构建生产级 AI Agent、设计多 Agent 工作流、MCP 服务、功能开关与自评。",
       "skills": [
@@ -39,7 +39,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "9ae0abcb318fdd2568156af6327fdfabb0cac2dadc520cde2b03f0e98690e03d"
+      "sha256": "3dbf014a16f3875ad05df9d98fc2a23b0c84c1a331456c17aac014aad8de549c"
     },
     {
       "id": "ai-media-toolkit",
@@ -191,14 +191,14 @@
         }
       ],
       "size_kb": 90,
-      "sha256": "77999839d34543500c00389447f3524d26642e91132a0cdd1bf0ca350488f156"
+      "sha256": "88da9190126f9b900e55a2cc8acf33b10fd6fb6ae8b4e47fc25882098f105813"
     },
     {
       "id": "api-development",
       "name": "API Development & Testing",
       "name_zh": "API 开发与测试",
       "file": "dist/api-development.zip",
-      "size_kb": 50,
+      "size_kb": 51,
       "description": "Review REST API designs and generate integration/contract test suites.",
       "description_zh": "审查 REST API 设计并生成集成/契约测试套件。",
       "skills": [
@@ -211,14 +211,14 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "a4f08bfa07f18a136e94c825cad3568d6779c97c35d6ec49bd3547c46e047c49"
+      "sha256": "eaac2d194e42dadd82d706e8f9f45dedf78b5b7f4c2962fd3490fbb9739c3566"
     },
     {
       "id": "architecture",
       "name": "System Architecture",
       "name_zh": "系统架构设计",
       "file": "dist/architecture.zip",
-      "size_kb": 112,
+      "size_kb": 117,
       "description": "Design system architecture, plan zero-downtime migrations, and navigate monorepos.",
       "description_zh": "设计系统架构、规划零停机迁移、驾驭 monorepo。",
       "skills": [
@@ -235,7 +235,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "c4d3a56625f217d412f03a021db7a8aff1da37a85520126cf78d45bb02c85630"
+      "sha256": "7d90bd0a266053749f933d838600097159e4b56fa2bff955878a0f8375825895"
     },
     {
       "id": "audio-studio",
@@ -258,8 +258,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 18,
-      "sha256": "d8a9652536082beaa2391b01c709e9ebb2611723651b3af34b1ecffc25a88486"
+      "size_kb": 19,
+      "sha256": "35a7f992db4bca128dbb2661953db382be0dda320e26f29e0d2c6d8a0d285223"
     },
     {
       "id": "chat-prompt-craft",
@@ -274,15 +274,15 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 11,
-      "sha256": "856956a48b63e123ec0a1729c6ed6bb0441e746324a03fef3015e1fda629c40f"
+      "size_kb": 12,
+      "sha256": "dd0e3cfcd97b5608f8f6b5b3926e3eea34e0d14313861b7412ebbf51da575749"
     },
     {
       "id": "ci-cd",
       "name": "CI/CD Pipeline",
       "name_zh": "CI/CD 流水线",
       "file": "dist/ci-cd.zip",
-      "size_kb": 69,
+      "size_kb": 70,
       "description": "Generate pragmatic CI/CD pipelines, release gates, and spec-driven development workflows.",
       "description_zh": "生成务实的 CI/CD 流水线、发布门禁与规范驱动开发流程。",
       "skills": [
@@ -299,7 +299,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "9778e9d6d806ffc55df25308134ec31d3d8bf9f50e5014aa962b57bf5cf0c95a"
+      "sha256": "184ed0e57a2aca841d878144f53e91671a4ca121a180b90269e819b85486cfee"
     },
     {
       "id": "code-planning",
@@ -322,15 +322,15 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 80,
-      "sha256": "2ca1d789882fefa577a49c9e4c662afd78a8163f0a6424a8eda20632bd502273"
+      "size_kb": 81,
+      "sha256": "96520ae64212cced5cf390313cf7256831aa36fb9f5bd69831c3b7132991c129"
     },
     {
       "id": "code-review",
       "name": "Code Review",
       "name_zh": "代码审查",
       "file": "dist/code-review.zip",
-      "size_kb": 253,
+      "size_kb": 259,
       "description": "Review pull requests, analyze code quality, audit dependencies and tech debt across languages.",
       "description_zh": "审查 PR、分析代码质量、审计依赖与技术债，覆盖多语言。",
       "skills": [
@@ -355,14 +355,14 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "4b4ee19b6580e19c48384b7952f9e6b5b09c4626bbcfe099b6d66d0fe15307e0"
+      "sha256": "c100d75819e94b0d0ebbc4da90198653dedb1797a8a968fb5aaa65692e742f76"
     },
     {
       "id": "containers",
       "name": "Containers & Orchestration",
       "name_zh": "容器与编排",
       "file": "dist/containers.zip",
-      "size_kb": 77,
+      "size_kb": 79,
       "description": "Dockerfile optimization, docker-compose, Helm charts, and Kubernetes operators.",
       "description_zh": "Dockerfile 优化、docker-compose、Helm Chart 与 Kubernetes Operator。",
       "skills": [
@@ -379,14 +379,14 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "09593e3a80acab53aae1a4d717b719563df92c2e9e1667f122655135152645d2"
+      "sha256": "a9a28d75ccc19c5e68b30864bdf52e3d3459e6b16295236f72b8a805a941d1d1"
     },
     {
       "id": "content-publishing",
       "name": "Content Publishing Automation",
       "name_zh": "内容多平台发布自动化",
       "file": "dist/content-publishing.zip",
-      "size_kb": 181,
+      "size_kb": 183,
       "description": "Publish, edit and manage articles/videos on Chinese platforms (Zhihu, cnblogs, WeChat MP, Juejin, CSDN, Jianshu, Bilibili, Toutiao, Baijiahao, Xiaohongshu, Weibo, Douban, V2EX, SegmentFault, OSChina, Douban, Static Blogs) with battle-tested platform knowledge, plus a cross-post orchestrator and AI cover-image generation.",
       "description_zh": "在知乎、博客园、微信公众号、掘金、CSDN、简书、B站、头条、百家号、小红书、微博、豆瓣、V2EX、SegmentFault、开源中国、静态博客等中文平台发布、编辑、管理内容，沉淀实战平台经验；附跨平台发布编排器与 AI 封面图生成。",
       "skills": [
@@ -463,7 +463,7 @@
           "source": "skillkit authors (self-authored)"
         }
       ],
-      "sha256": "eb29f8ec398d287927f2eeb066c5f320dac3278b5c71b7c82be95b75d4e70df4"
+      "sha256": "def1512edb4d6da45e1504a63a4280a83735f01b8164d153737b0e754c8b5a3d"
     },
     {
       "id": "data-ml-science",
@@ -510,7 +510,7 @@
       "name": "Database Design & Management",
       "name_zh": "数据库设计与管理",
       "file": "dist/database.zip",
-      "size_kb": 110,
+      "size_kb": 112,
       "description": "Design schemas, ERD diagrams, migrations, and optimize SQL queries.",
       "description_zh": "设计表结构、ERD 图、迁移方案，并优化 SQL 查询。",
       "skills": [
@@ -523,7 +523,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "ca2965fb634ee8b476f633d5c8141d3f4438e7125cfc9081e5ffde99a9194b0c"
+      "sha256": "11e87597d8261db48a83443942aac8dadafca9c69d22b999f9c5c51f6dcb03d0"
     },
     {
       "id": "dataviz-studio",
@@ -542,8 +542,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 32,
-      "sha256": "caa716a26f6d2d119956fedbec54c74f50639b0bbf84d8d67fa1f1070113187c"
+      "size_kb": 35,
+      "sha256": "ab51a6bbdbaa57130f95b3dc8675d0282ecf3e9a54030f41b5a8b19df956f61c"
     },
     {
       "id": "de-ai-writing",
@@ -567,7 +567,7 @@
         }
       ],
       "size_kb": 31,
-      "sha256": "ad1b6baa1f12cc26e62cca7f8e1753bd41fa80dc96d9614ee6858e7acad30dff"
+      "sha256": "df18610e8fa5772dda7cc40ef483df8ec6f9a3244596f92cbd1265712289a180"
     },
     {
       "id": "edu-craft",
@@ -590,15 +590,15 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 12,
-      "sha256": "15ffa927713642ec52b4a23fa858813abee460b287a9beb4df8abcf67edb40e8"
+      "size_kb": 13,
+      "sha256": "4e99e46ca00dc5be35151d5067293e0577e611bf995c21116f475c5ae95fba2d"
     },
     {
       "id": "github-workflow",
       "name": "GitHub Collaboration",
       "name_zh": "GitHub 协作工作流",
       "file": "dist/github-workflow.zip",
-      "size_kb": 41,
+      "size_kb": 43,
       "description": "Parallel worktrees, conventional-commit changelogs, and PR review on GitHub.",
       "description_zh": "并行 worktree、Conventional Commits 变更日志与 GitHub PR 审查。",
       "skills": [
@@ -615,7 +615,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "0abcaab9b2a6fd76ce0de620bc93794969b3d5e9cfcf7c0f34b070c6126f8829"
+      "sha256": "0a0b9d78b51c76f6580681eb6bbe93302bfd272b09f0e5e9edf67d8c501ce6f9"
     },
     {
       "id": "growth-marketing",
@@ -638,8 +638,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 17,
-      "sha256": "0a316a5563d879362579c6cdd3c5c4a9764593cfc3bca4e24f27e83ffb443972"
+      "size_kb": 18,
+      "sha256": "04625cb854af633bcf0d9b1fd158e664ae6ca8631c4f92149b0dcceda0127644"
     },
     {
       "id": "homework-autopilot",
@@ -698,7 +698,7 @@
       "name": "Incident Response & SRE",
       "name_zh": "故障响应与 SRE",
       "file": "dist/incident-response.zip",
-      "size_kb": 128,
+      "size_kb": 132,
       "description": "Command incidents, generate runbooks, and define SLOs/error budgets.",
       "description_zh": "事故指挥、生成 runbook、定义 SLO 与错误预算。",
       "skills": [
@@ -715,14 +715,14 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "9e37b5c349183d43b202943aa8b6ec9e5b760dccd8c30d1253a8bb11b0ae03d9"
+      "sha256": "c3346eb1975977e5f41b4d45d9062135d7c1d53eaa7446a981c1304fab040db5"
     },
     {
       "id": "infrastructure",
       "name": "Infrastructure as Code",
       "name_zh": "基础设施即代码",
       "file": "dist/infrastructure.zip",
-      "size_kb": 103,
+      "size_kb": 105,
       "description": "Terraform patterns, observability design, and Kubernetes operators.",
       "description_zh": "Terraform 模式、可观测性设计与 Kubernetes Operator。",
       "skills": [
@@ -739,7 +739,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "87f0d3bb5fa90892491813e0474e30d3a81c0d5c9e1be8750a414127763f0b4c"
+      "sha256": "aff7ef31da3fc574792bce3e3b413bd458b4f7d25d5ae5fba6db7036c1e4dec2"
     },
     {
       "id": "knowledge-base",
@@ -758,8 +758,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 29,
-      "sha256": "bde3fcf542c957853aa1bfe25ea31ea04b8b69ed6efb5098f290fe0793a014fd"
+      "size_kb": 32,
+      "sha256": "a5f5e07a38ceb936effa34adf9d22048a4247995180ace175f294ce730dbb490"
     },
     {
       "id": "memory-systems",
@@ -796,7 +796,7 @@
       "description": "Daily office work: decks, spreadsheets, resumes, meeting minutes.",
       "description_zh": "日常办公四件套：PPT 制作、Excel 清洗分析、简历岗位定制、会议纪要结构化。",
       "file": "dist/office-productivity.zip",
-      "size_kb": 96,
+      "size_kb": 136,
       "skills": [
         {
           "name": "ppt-builder",
@@ -839,14 +839,14 @@
           "source": "self-authored (adapted from santifer/career-ops, MIT)"
         }
       ],
-      "sha256": "da76cd8bacaaef3ab0e4299f5651cd6176e6597fba5a955f7c86ff0b5ed297d3"
+      "sha256": "1f1d2b53256f281649d464331b43a106aacee813f24e180085346dafdf86a979"
     },
     {
       "id": "performance",
       "name": "Performance Profiling",
       "name_zh": "性能优化",
       "file": "dist/performance.zip",
-      "size_kb": 13,
+      "size_kb": 14,
       "description": "Profile CPU/memory/I/O bottlenecks in Node.js, Python, and Go.",
       "description_zh": "剖析 Node.js、Python、Go 的 CPU/内存/IO 瓶颈。",
       "skills": [
@@ -855,7 +855,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "d5b62bf93c8876603f243873a7f82df28696f1555f66b7a5ea8fc1beb53bc779"
+      "sha256": "f82b3371b48601f0911cfe93d67ee725bbbc2d6aa63f732a2e44c8e2efdc14fd"
     },
     {
       "id": "security",
@@ -883,7 +883,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "eb85e0bc48231ead4b440b63ef8ad4fb45588cddccb6d0101d6a1419e6f3d947"
+      "sha256": "ee45a379df6ee594d3bb59cd26c1c19db8adc22caf6832c102e150e66e5ab51a"
     },
     {
       "id": "skill-forge",
@@ -915,14 +915,14 @@
         }
       ],
       "size_kb": 54,
-      "sha256": "ece77aa609574c1886a830ab7c4b110e01d44f857be61901741ea53d8e3a81b4"
+      "sha256": "5c8b2745532504e0625f93dbaab36587bc874ef45e70b307e6f697bee9dc39f7"
     },
     {
       "id": "tdd",
       "name": "Test-Driven Development",
       "name_zh": "测试驱动开发",
       "file": "dist/tdd.zip",
-      "size_kb": 81,
+      "size_kb": 83,
       "description": "Write unit tests, fixtures, mocks, and guide red-green-refactor cycles.",
       "description_zh": "编写单元测试、fixture、mock，并引导红绿重构循环。",
       "skills": [
@@ -943,7 +943,7 @@
           "source": "self-authored (verification-type agent behavior scoring: 5-dim 0-100 rubric + LLM-as-judge prompt, offline)"
         }
       ],
-      "sha256": "4cf62a5f4fe64e4d909b94b1795ea90b8ed29a3791924f4a9ed88cd0362a248d"
+      "sha256": "e24eb84c6498a5bb6dc962d025bea7fa9ed4d06c71ceb065348064c06a76cde4"
     },
     {
       "id": "toolsmith",
@@ -978,8 +978,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 68,
-      "sha256": "f5fdd4148236c7bd9042db19b7d8f879d06620e00cd8ada57b9ab49a50639c67"
+      "size_kb": 72,
+      "sha256": "82e7fd388c0c5518ee9c884cf2ea75b26e4d9ec560222f8604114b8027fdcfd0"
     },
     {
       "id": "video-design-studio",
@@ -1059,7 +1059,7 @@
         }
       ],
       "size_kb": 50,
-      "sha256": "18bf9b81ba16ab9d280d6590546847c993e5c1a96752668588e4bbd9f1b09f20"
+      "sha256": "ae873212340b28620433e0dc6aa210fcd33c5213f00ea2b1abe779d87bcd12c5"
     },
     {
       "id": "workspace-integrations",
@@ -1087,7 +1087,7 @@
         }
       ],
       "size_kb": 66,
-      "sha256": "f6ee9cc4bb6559148469ddf553ad479c8b44821e220f7a26b7bfd8eddfec08ac"
+      "sha256": "5d15860378415099af2b08962aca5e48f8c035c2030cd7bcd10a8553aafb6f32"
     }
   ]
 }

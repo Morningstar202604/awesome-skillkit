@@ -3651,7 +3651,7 @@
    "name_zh": "AI Agent 开发",
    "desc": "Build production-grade AI agents, design multi-agent workflows, MCP servers, feature flags, and self-evaluation.",
    "desc_zh": "构建生产级 AI Agent、设计多 Agent 工作流、MCP 服务、功能开关与自评。",
-   "size_kb": 162,
+   "size_kb": 175,
    "n_skills": 5,
    "skills": [
     "agent-designer",
@@ -3749,7 +3749,7 @@
    "name_zh": "API 开发与测试",
    "desc": "Review REST API designs and generate integration/contract test suites.",
    "desc_zh": "审查 REST API 设计并生成集成/契约测试套件。",
-   "size_kb": 50,
+   "size_kb": 51,
    "n_skills": 2,
    "skills": [
     "api-design-reviewer",
@@ -3767,7 +3767,7 @@
    "name_zh": "系统架构设计",
    "desc": "Design system architecture, plan zero-downtime migrations, and navigate monorepos.",
    "desc_zh": "设计系统架构、规划零停机迁移、驾驭 monorepo。",
-   "size_kb": 112,
+   "size_kb": 117,
    "n_skills": 3,
    "skills": [
     "senior-architect",
@@ -3786,7 +3786,7 @@
    "name_zh": "音频工作室",
    "desc": "AI audio production chain: turn a topic or document into a segmented podcast script (spoken words only - TTS reads everything), direct voice synthesis with a voice catalog and per-character casting, and publish with shownotes, timestamped chapters, and platform metadata. Topic in, publishable episode out, no step left dangling.",
    "desc_zh": "AI 音频生产链条：把选题或文档变成分段播客脚本（纯口播词——TTS 会把一切都读出来），按声音目录做角色选声与合成参数执导，并以 shownotes、时间戳章节、平台元数据收尾发布。选题进、可发布节目出，链条不断头。方法论借鉴 Kokoro/Qwen3-TTS 生态与 Podify/inference.sh 实践并已署名。",
-   "size_kb": 18,
+   "size_kb": 19,
    "n_skills": 3,
    "skills": [
     "podcast-producer",
@@ -3805,7 +3805,7 @@
    "name_zh": "聊天提示词工艺",
    "desc": "Prompt engineering for conversational AI assistants (Doubao, ChatGPT, Kimi, DeepSeek, etc.): one-shot task prompts built on the five-element formula (role + background + task + requirements + format), agent/persona system prompts on the five-section skeleton, reverse constraints that kill filler, and heuristic structural audit.",
    "desc_zh": "面向对话式 AI 助手（豆包、ChatGPT、Kimi、DeepSeek 等）的提示词工程：五要素公式（角色 + 背景 + 任务 + 要求 + 格式）写一次性任务提示词，五段骨架写智能体人设 system prompt，反向约束砍废话，附启发式结构审计脚本。方法论提炼自豆包官方教程与 Coze 最佳实践并已署名。",
-   "size_kb": 11,
+   "size_kb": 12,
    "n_skills": 1,
    "skills": [
     "chat-prompt-engineer"
@@ -3822,7 +3822,7 @@
    "name_zh": "CI/CD 流水线",
    "desc": "Generate pragmatic CI/CD pipelines, release gates, and spec-driven development workflows.",
    "desc_zh": "生成务实的 CI/CD 流水线、发布门禁与规范驱动开发流程。",
-   "size_kb": 69,
+   "size_kb": 70,
    "n_skills": 3,
    "skills": [
     "ci-cd-pipeline-builder",
@@ -3841,7 +3841,7 @@
    "name_zh": "代码规划与生成",
    "desc": "Turn vague requests into structured plans, then into working code; diagnose and fix failures.",
    "desc_zh": "把模糊需求变成可执行代码：三层瀑布式意图识别、结构化实施计划、两档代码生成（模板引擎 + LLM）、运行时故障诊断与调试清单。",
-   "size_kb": 80,
+   "size_kb": 81,
    "n_skills": 3,
    "skills": [
     "code-intent-planner",
@@ -3860,7 +3860,7 @@
    "name_zh": "代码审查",
    "desc": "Review pull requests, analyze code quality, audit dependencies and tech debt across languages.",
    "desc_zh": "审查 PR、分析代码质量、审计依赖与技术债，覆盖多语言。",
-   "size_kb": 253,
+   "size_kb": 259,
    "n_skills": 5,
    "skills": [
     "pr-review-expert",
@@ -3881,7 +3881,7 @@
    "name_zh": "容器与编排",
    "desc": "Dockerfile optimization, docker-compose, Helm charts, and Kubernetes operators.",
    "desc_zh": "Dockerfile 优化、docker-compose、Helm Chart 与 Kubernetes Operator。",
-   "size_kb": 77,
+   "size_kb": 79,
    "n_skills": 3,
    "skills": [
     "docker-development",
@@ -3900,7 +3900,7 @@
    "name_zh": "内容多平台发布自动化",
    "desc": "Publish, edit and manage articles/videos on Chinese platforms (Zhihu, cnblogs, WeChat MP, Juejin, CSDN, Jianshu, Bilibili, Toutiao, Baijiahao, Xiaohongshu, Weibo, Douban, V2EX, SegmentFault, OSChina, Douban, Static Blogs) with battle-tested platform knowledge, plus a cross-post orchestrator and AI cover-image generation.",
    "desc_zh": "在知乎、博客园、微信公众号、掘金、CSDN、简书、B站、头条、百家号、小红书、微博、豆瓣、V2EX、SegmentFault、开源中国、静态博客等中文平台发布、编辑、管理内容，沉淀实战平台经验；附跨平台发布编排器与 AI 封面图生成。",
-   "size_kb": 181,
+   "size_kb": 183,
    "n_skills": 18,
    "skills": [
     "zhihu-content-manager",
@@ -3957,7 +3957,7 @@
    "name_zh": "数据库设计与管理",
    "desc": "Design schemas, ERD diagrams, migrations, and optimize SQL queries.",
    "desc_zh": "设计表结构、ERD 图、迁移方案，并优化 SQL 查询。",
-   "size_kb": 110,
+   "size_kb": 112,
    "n_skills": 2,
    "skills": [
     "database-designer",
@@ -3975,7 +3975,7 @@
    "name_zh": "数据可视化工作室",
    "desc": "From raw CSV to a shippable dashboard: profile columns, recommend a layout, and emit a self-contained single-file HTML dashboard with zero external requests. Plus a chart-selection lexicon covering encoding priority, per-chart-type caveats, and the classic mistakes.",
    "desc_zh": "从原始 CSV 到能交付的仪表盘：列类型推断与分布摘要、布局推荐、生成零外部依赖的自包含单文件 HTML。另附图表选择词库（视觉编码优先级、各图型适用与反例、截断坐标轴等经典错误清单）。",
-   "size_kb": 32,
+   "size_kb": 35,
    "n_skills": 2,
    "skills": [
     "dashboard-designer",
@@ -4012,7 +4012,7 @@
    "name_zh": "教育工艺",
    "desc": "Teaching and knowledge-product chain: learning-contract-driven course design with checkpoint breakdown, strict exercise generation (open-ended questions, MCQ banned, rubric included), and a Feynman loop explainer (diagnose, repair, teach-back, transfer). Topic in, mastery-ready course kit out.",
    "desc_zh": "教学与知识产品链条：学习契约驱动的课程设计（checkpoint 分解）、严格习题生成（开放题防蒙、附评分标准）、费曼循环讲解器（诊断→修复→回讲→迁移）。主题进、可交付掌握式课程包出。方法论借鉴费曼学习法生态与掌握式学习实践并已署名。",
-   "size_kb": 12,
+   "size_kb": 13,
    "n_skills": 3,
    "skills": [
     "course-designer",
@@ -4031,7 +4031,7 @@
    "name_zh": "GitHub 协作工作流",
    "desc": "Parallel worktrees, conventional-commit changelogs, and PR review on GitHub.",
    "desc_zh": "并行 worktree、Conventional Commits 变更日志与 GitHub PR 审查。",
-   "size_kb": 41,
+   "size_kb": 43,
    "n_skills": 3,
    "skills": [
     "git-worktree-manager",
@@ -4050,7 +4050,7 @@
    "name_zh": "增长营销",
    "desc": "E-commerce and growth marketing chain: framework-driven product copy (FAB/PAS/AIDA with objection handling), campaign design with single-variable A/B variant pairs, and channel adaptation with machine-checked fit rules (word budgets, CTA counts per platform). Product facts in, launch-ready channel variants out.",
    "desc_zh": "电商与增长营销链条：框架驱动的商品文案（FAB/PAS/AIDA + 异议处理）、单变量 A/B 变体对的活动策划、附机器适配校验（各平台字数预算与 CTA 约束）的渠道适配。商品事实进、可投放渠道变体出。方法论借鉴 AIDA/PAS/FAB 直复营销框架与开源营销技能生态并已署名。",
-   "size_kb": 17,
+   "size_kb": 18,
    "n_skills": 3,
    "skills": [
     "product-copywriter",
@@ -4108,7 +4108,7 @@
    "name_zh": "故障响应与 SRE",
    "desc": "Command incidents, generate runbooks, and define SLOs/error budgets.",
    "desc_zh": "事故指挥、生成 runbook、定义 SLO 与错误预算。",
-   "size_kb": 128,
+   "size_kb": 132,
    "n_skills": 3,
    "skills": [
     "incident-commander",
@@ -4127,7 +4127,7 @@
    "name_zh": "基础设施即代码",
    "desc": "Terraform patterns, observability design, and Kubernetes operators.",
    "desc_zh": "Terraform 模式、可观测性设计与 Kubernetes Operator。",
-   "size_kb": 103,
+   "size_kb": 105,
    "n_skills": 3,
    "skills": [
     "terraform-patterns",
@@ -4146,7 +4146,7 @@
    "name_zh": "个人知识库",
    "desc": "Turn scattered notes into a searchable base and a queryable graph: build a sharded-index wiki with orphan/broken-link linting, and extract entities plus relations from Markdown into Mermaid or Graphviz output.",
    "desc_zh": "把零散笔记变成可检索的知识库与可查询的图谱：分片索引 wiki（含孤儿笔记、断链、空笔记体检）与实体关系抽取（可导出 Mermaid / Graphviz，附度中心性与连通分量分析）。",
-   "size_kb": 29,
+   "size_kb": 32,
    "n_skills": 2,
    "skills": [
     "personal-wiki",
@@ -4184,7 +4184,7 @@
    "name_zh": "办公效率工具箱",
    "desc": "Daily office work: decks, spreadsheets, resumes, meeting minutes.",
    "desc_zh": "日常办公四件套：PPT 制作、Excel 清洗分析、简历岗位定制、会议纪要结构化。",
-   "size_kb": 96,
+   "size_kb": 136,
    "n_skills": 10,
    "skills": [
     "ppt-builder",
@@ -4210,7 +4210,7 @@
    "name_zh": "性能优化",
    "desc": "Profile CPU/memory/I/O bottlenecks in Node.js, Python, and Go.",
    "desc_zh": "剖析 Node.js、Python、Go 的 CPU/内存/IO 瓶颈。",
-   "size_kb": 13,
+   "size_kb": 14,
    "n_skills": 1,
    "skills": [
     "performance-profiler"
@@ -4268,7 +4268,7 @@
    "name_zh": "测试驱动开发",
    "desc": "Write unit tests, fixtures, mocks, and guide red-green-refactor cycles.",
    "desc_zh": "编写单元测试、fixture、mock，并引导红绿重构循环。",
-   "size_kb": 81,
+   "size_kb": 83,
    "n_skills": 4,
    "skills": [
     "tdd-guide",
@@ -4288,7 +4288,7 @@
    "name_zh": "工具与自动化",
    "desc": "Local file and automation chores done safely: reorganize a messy directory with a dry-run planner, batch-rename files with one-command rollback, convert documents/images/media, schedule recurring jobs across cron/launchd/Task Scheduler, organize invoices/receipts into a month/category tree, and reconcile a bank statement against your expense ledger.",
    "desc_zh": "本地文件与自动化的六件顺手工具：目录体检与整理（含快速判重）、批量重命名（EXIF 日期 + 日志回滚）、文档/图片/音视频格式转换统一入口、定时任务（cron 表达式翻译 + 三平台落地）、发票/报销按月份类别归档 + 台账、银行流水 vs 记账账单逐笔对账。全部默认 dry-run、只读优先、不删文件。",
-   "size_kb": 68,
+   "size_kb": 72,
    "n_skills": 6,
    "skills": [
     "file-organizer",
