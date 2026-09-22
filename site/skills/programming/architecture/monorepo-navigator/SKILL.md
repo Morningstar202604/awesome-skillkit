@@ -50,8 +50,8 @@ ls scripts/monorepo_analyzer.py
 ### 步骤 1：分析工作区
 
 ```bash
-python3 scripts/monorepo_analyzer.py /path/to/monorepo
-python3 scripts/monorepo_analyzer.py /path/to/monorepo --json
+python3 scripts/monorepo_analyzer.py examples/sample-monorepo   # 随包样例 monorepo（npm workspaces 三包）；你的真实项目换成仓库根
+python3 scripts/monorepo_analyzer.py examples/sample-monorepo --json
 ```
 
 - **动作**：判定 monorepo 类型（Turborepo/Nx/pnpm/Lerna）、workspace 成员、内部依赖图。

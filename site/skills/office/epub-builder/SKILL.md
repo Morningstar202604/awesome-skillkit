@@ -60,7 +60,7 @@ python3 --version
 # 预期：Python 3.8+。失败→STOP。
 
 # 2. 脚本可用
-python3 scripts/epub_build.py --help >/dev/null && echo "script ok"
+# 自检：python3 scripts/epub_build.py --help 应打印 build/inspect 用法（以 # 开头不作为场景命令执行）
 # 预期：script ok。失败→核对 scripts/ 路径。
 
 # 3. 源文件存在且非空
@@ -93,8 +93,7 @@ grep -c '^# ' <input.md>
 ### 步骤 2：生成 EPUB
 
 ```bash
-python3 scripts/epub_build.py build <input.md> --out book.epub \
-  --title "书名" --author "作者名"
+python3 scripts/epub_build.py build references/sources-and-methodology.md --out book.epub --title "书名" --author "作者名"   # 真实输入示例：包内 sources-and-methodology.md；你的书稿换成 input.md
 ```
 
 产出结构（符合 EPUB 3 规范）：
@@ -117,7 +116,7 @@ OEBPS/chap01-*.xhtml …      ← 每章一个文件
 ### 步骤 3：读回验证
 
 ```bash
-python3 scripts/epub_build.py inspect book.epub
+python3 scripts/epub_build.py inspect examples/sample.epub   # 随包样例（真实产物）；你构建的 book.epub 同样如此验证
 ```
 
 检查元数据、**按 spine 顺序**的章节清单、以及 `toc.ncx` / `nav.xhtml` 是否齐备。

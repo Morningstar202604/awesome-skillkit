@@ -62,8 +62,7 @@ metadata:
 
 ```bash
 python3 --version   # 预期 3.8+；失败：安装 python3
-python3 scripts/chart_analyzer.py --help >/dev/null 2>&1     # 预期退出码 0；失败：脚本缺失 → 检查技能目录
-python3 scripts/values_validator.py --help >/dev/null 2>&1
+# 自检：python3 scripts/chart_analyzer.py --help 与 values_validator.py --help 均预期退出码 0
 helm version --short >/dev/null 2>&1   # 预期退出码 0；失败：helm 未安装 → 安装 helm CLI，或只交付静态评审
 test -d <chart-dir>/templates   # review/security 任务预期退出码 0；失败：不是 chart → 向用户要 chart 根目录
 ```
@@ -128,9 +127,9 @@ values.yaml 规则：每个值都带行内注释；开发默认值合理；能�
 ### 步骤 3：校验 chart
 
 ```bash
-python3 scripts/chart_analyzer.py mychart/               # 静态分析
-python3 scripts/chart_analyzer.py mychart/ --output json
-python3 scripts/chart_analyzer.py mychart/ --security
+python3 scripts/chart_analyzer.py examples/mychart/               # 随包样例 chart；你的真实项目换成 mychart/
+python3 scripts/chart_analyzer.py examples/mychart/ --output json
+python3 scripts/chart_analyzer.py examples/mychart/ --security
 helm lint mychart/
 helm template mychart/ --debug
 ```
@@ -165,7 +164,7 @@ helm template mychart/ --debug
 values 质量：
 
 ```bash
-python3 scripts/values_validator.py mychart/values.yaml             # 文本报告
+python3 scripts/values_validator.py examples/mychart/values.yaml             # 随包样例 values
 python3 scripts/values_validator.py mychart/values.yaml --output json
 python3 scripts/values_validator.py mychart/values.yaml --strict
 ```

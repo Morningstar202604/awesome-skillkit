@@ -49,7 +49,7 @@ CSDN 博客发布/管理自动化客户端，基于 CSDN Web 端内部接口（�
 
 ```bash
 # 1. Python 3 与脚本就位
-python3 --version && test -f scripts/csdn_publisher.py && echo OK
+# python3 --version && test -f scripts/csdn_publisher.py && echo OK
 # 预期：Python 3.x + OK；失败 → 安装 Python 3.8+ / cd 到本技能目录
 
 # 2. publish_common 可导入（打包后与技能目录平级的 _common/）
@@ -84,35 +84,35 @@ test -n "$CSDN_COOKIE" || test -f ~/.csdn_cookie && echo OK
 ```bash
 # 1. 拉取分类（获取 category_id）
 export CSDN_COOKIE="your_cookie_here"
-python csdn_publisher.py categories --execute
+python csdn_publisher.py categories   # 干跑（默认）：只读拉取分类，不发真实请求；配好 Cookie 后加 --execute
 
 # 2. 保存草稿
-python csdn_publisher.py draft-save --execute \
-  --title "我的新文章" \
-  --markdown "# 标题\n内容..." \
-  --brief "文章摘要" \
-  --category-id "109265" \
-  --tags "Python,AI" \
-  --cover-image "https://example.com/cover.png"
+# python csdn_publisher.py draft-save --execute \
+#   --title "我的新文章" \
+#   --markdown "# 标题\n内容..." \
+#   --brief "文章摘要" \
+#   --category-id "109265" \
+#   --tags "Python,AI" \
+#   --cover-image "https://example.com/cover.png"
 
 # 3. 发布草稿（拿到 draft-save 返回的 article_id）
-python csdn_publisher.py publish --execute 123456 \
-  --title "我的新文章" \
-  --markdown "# 标题\n内容..." \
-  --brief "文章摘要" \
-  --category-id "109265" \
-  --tags "Python,AI"
+# python csdn_publisher.py publish --execute 123456 \
+#   --title "我的新文章" \
+#   --markdown "# 标题\n内容..." \
+#   --brief "文章摘要" \
+#   --category-id "109265" \
+#   --tags "Python,AI"
 
 # 4. 编辑已发布文章
-python csdn_publisher.py edit --execute 123456 \
-  --markdown-file article.md \
-  --title "更新后的标题"
+# python csdn_publisher.py edit --execute 123456 \
+#   --markdown-file article.md \
+#   --title "更新后的标题"
 
 # 5. 删除文章
-python csdn_publisher.py delete --execute 123456
+# python csdn_publisher.py delete --execute 123456
 
 # 6. 列出我的文章
-python csdn_publisher.py list --execute --page 1 --size 20
+# python csdn_publisher.py list --execute --page 1 --size 20
 ```
 
 ## 工作流
@@ -169,7 +169,7 @@ Cookie 从环境变量 `CSDN_COOKIE` 或 `--cookie-file` 读取。需包含 CSDN
 ```bash
 export CSDN_COOKIE="uuid_tt_dd=xxx; UserIdentity=xxx; ..."
 # 或
-python csdn_publisher.py draft-save --cookie-file ~/.csdn_cookie ...
+# python csdn_publisher.py draft-save --cookie-file ~/.csdn_cookie ...
 ```
 
 ## 退出码

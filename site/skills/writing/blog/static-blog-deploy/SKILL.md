@@ -48,7 +48,7 @@ metadata:
 
 ```bash
 # 1. Python 3 与脚本就位
-python3 --version && test -f scripts/static_blog_deploy.py && echo OK
+# python3 --version && test -f scripts/static_blog_deploy.py && echo OK
 # 预期：Python 3.x + OK；失败 → 安装 Python 3.8+ / cd 到本技能目录
 
 # 2. 项目目录是有效的站点项目（以 Hexo/Hugo 为例）
@@ -85,12 +85,12 @@ command -v hexo hugo git vercel netlify rsync | cat
 ```bash
 # Hexo 部署
 cd /path/to/hexo-blog
-python static_blog_deploy.py hexo-deploy --execute
+python static_blog_deploy.py hexo-deploy   # 干跑（默认）：校验博客目录与部署配置、不推送；配好后加 --execute
 
 # Hugo 部署（同步到服务器）
 cd /path/to/hugo-blog
-python static_blog_deploy.py hugo-deploy --execute \
-  --target user@host:/var/www/blog
+# python static_blog_deploy.py hugo-deploy --execute \
+#   --target user@host:/var/www/blog
 
 # Hugo 部署（同步到 S3）
 python static_blog_deploy.py hugo-deploy --execute \
@@ -98,10 +98,10 @@ python static_blog_deploy.py hugo-deploy --execute \
 
 # GitHub Pages（推送到 gh-pages 分支）
 cd /path/to/repo
-python static_blog_deploy.py github-pages --execute \
-  --method branch \
-  --branch gh-pages \
-  --commit-msg "chore: deploy"
+# python static_blog_deploy.py github-pages --execute \
+#   --method branch \
+#   --branch gh-pages \
+#   --commit-msg "chore: deploy"
 
 # GitHub Pages（触发 GitHub Actions）
 python static_blog_deploy.py github-pages --execute \
@@ -109,15 +109,15 @@ python static_blog_deploy.py github-pages --execute \
   --workflow deploy.yml
 
 # GitLab Pages
-python static_blog_deploy.py gitlab-pages --execute --method branch
+# python static_blog_deploy.py gitlab-pages --execute --method branch
 
 # Vercel 部署
 export VERCEL_TOKEN="your_token"
-python static_blog_deploy.py vercel-deploy --execute --scope my-team
+# python static_blog_deploy.py vercel-deploy --execute --scope my-team
 
 # Netlify 部署
 export NETLIFY_AUTH_TOKEN="your_token"
-python static_blog_deploy.py netlify-deploy --execute --site my-site
+# python static_blog_deploy.py netlify-deploy --execute --site my-site
 ```
 
 ## 工作流

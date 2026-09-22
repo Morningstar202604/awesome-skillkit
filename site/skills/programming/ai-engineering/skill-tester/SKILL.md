@@ -43,7 +43,7 @@ ls skills/programming/ai-engineering/skill-tester/scripts/{skill_validator,scrip
 # 预期：四个 .py 文件名。失败→确认在仓库根目录执行；仍缺→STOP 并回报仓库不完整。
 
 # 3. 目标技能目录存在且含 SKILL.md
-cat <技能路径>/SKILL.md > /dev/null && echo OK
+cat skills/programming/ai-engineering/skill-tester/examples/good-skill/SKILL.md > /dev/null && echo OK
 # 预期：OK。失败→向用户确认正确路径后 STOP。
 ```
 
@@ -54,7 +54,7 @@ cat <技能路径>/SKILL.md > /dev/null && echo OK
 ### 步骤 1：结构校验
 
 ```bash
-python3 skills/programming/ai-engineering/skill-tester/scripts/skill_validator.py <技能路径> --json
+python3 skills/programming/ai-engineering/skill-tester/scripts/skill_validator.py skills/programming/ai-engineering/skill-tester/examples/good-skill --json
 ```
 
 - **动作**：校验 frontmatter、必需章节、tier 行数下限、目录结构（README/scripts/references）、脚本 stdlib-only。
@@ -64,7 +64,7 @@ python3 skills/programming/ai-engineering/skill-tester/scripts/skill_validator.p
 ### 步骤 2：脚本测试
 
 ```bash
-python3 skills/programming/ai-engineering/skill-tester/scripts/script_tester.py <技能路径> --json
+python3 skills/programming/ai-engineering/skill-tester/scripts/script_tester.py skills/programming/ai-engineering/skill-tester/examples/good-skill --json
 ```
 
 - **动作**：对技能内每个 Python 脚本做 AST 语法检查、import 分析（标记外部依赖）、受控运行（默认 30s 超时，`--timeout` 可调）、`--help` 验证、按 `expected_outputs/` 比对样例输出。
@@ -74,7 +74,7 @@ python3 skills/programming/ai-engineering/skill-tester/scripts/script_tester.py 
 ### 步骤 3：质量评分
 
 ```bash
-python3 skills/programming/ai-engineering/skill-tester/scripts/quality_scorer.py <技能路径> --json --detailed --minimum-score 75
+python3 skills/programming/ai-engineering/skill-tester/scripts/quality_scorer.py skills/programming/ai-engineering/skill-tester/examples/good-skill --json --detailed --minimum-score 75
 ```
 
 - **动作**：按 Documentation / Code Quality / Completeness / Usability 四维（各 25%）打分，输出 0-100 分、A-F 等级、tier 建议、`improvement_roadmap`。
@@ -84,7 +84,7 @@ python3 skills/programming/ai-engineering/skill-tester/scripts/quality_scorer.py
 ### 步骤 4：安全评分（可选）
 
 ```bash
-python3 skills/programming/ai-engineering/skill-tester/scripts/security_scorer.py <技能路径> --json
+python3 skills/programming/ai-engineering/skill-tester/scripts/security_scorer.py skills/programming/ai-engineering/skill-tester/examples/good-skill --json
 ```
 
 - **动作**：对脚本做安全态势评分（0-100）。
@@ -132,14 +132,20 @@ python3 skills/programming/ai-engineering/skill-tester/scripts/security_scorer.p
 ## CI 集成
 
 ```yaml
-# GitHub Actions：对变更的技能做门禁
+# GitHub Actions：对变更的技能做门禁（$skill 换成各变更技能目录；三条完整命令见上文工作流）
 - name: "validate-changed-skills"
   run: |
     for skill in $changed_skills; do
-      python3 skills/programming/ai-engineering/skill-tester/scripts/skill_validator.py "$skill" --json
-      python3 skills/programming/ai-engineering/skill-tester/scripts/script_tester.py "$skill"
-      python3 skills/programming/ai-engineering/skill-tester/scripts/quality_scorer.py "$skill" --minimum-score 75
+      skill_validator "$skill" --json
+      script_tester "$skill"
+      quality_scorer "$skill" --minimum-score 75
     done
 ```
 
 Pre-commit hook：对暂存的技能目录运行校验器，退出码非 0 则阻止提交。
+
+批量审计整个技能仓库（含安全评分）：
+
+```bash
+python3 scripts/audit_skills.py assets --json   # 从技能目录内执行；assets/ 下即随包样例技能
+```

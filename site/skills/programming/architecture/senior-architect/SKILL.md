@@ -50,7 +50,7 @@ ls <项目目录> > /dev/null && echo OK
 ### 步骤 1：生成架构图
 
 ```bash
-python3 scripts/architecture_diagram_generator.py ./my-project --format mermaid --type component
+python3 scripts/architecture_diagram_generator.py examples/sample-project --format mermaid --type component   # 随包样例项目；你的真实项目换成项目根
 # PlantUML:   --format plantuml --type layer
 # ASCII:      --format ascii
 # 保存到文件: --output architecture.md（或 -o）
@@ -63,7 +63,7 @@ python3 scripts/architecture_diagram_generator.py ./my-project --format mermaid 
 ### 步骤 2：依赖分析
 
 ```bash
-python3 scripts/dependency_analyzer.py ./my-project --output json
+python3 scripts/dependency_analyzer.py examples/sample-project --output json
 # 仅查循环依赖: --check circular
 # 带建议的详细模式: --verbose
 ```
@@ -75,7 +75,7 @@ python3 scripts/dependency_analyzer.py ./my-project --output json
 ### 步骤 3：架构评估
 
 ```bash
-python3 scripts/project_architect.py ./my-project --verbose
+python3 scripts/project_architect.py examples/sample-project --verbose
 # 只查分层违规: --check layers
 ```
 

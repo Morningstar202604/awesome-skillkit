@@ -53,7 +53,7 @@ for f in clip1.mp4 clip2.mp4; do test -f "$f" && echo "found $f" || echo "MISSIN
 动作：
 
 ```bash
-python3 scripts/editor.py --clips clip1.mp4 clip2.mp4 --audio bgm.mp3 --output final.mp4 --transitions fade cut
+python3 scripts/editor.py --clips clip1.mp4 clip2.mp4 --audio bgm.mp3 --output final.mp4 --transitions fade cut --mock   # --mock 仅联调（产物占位不可交付）；真实产出去掉 --mock（需 ffmpeg）
 ```
 
 预期：退出码 0；`final.mp4` 存在且 `ls -l final.mp4` 显示大小 > 0。

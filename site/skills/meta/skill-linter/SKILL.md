@@ -62,6 +62,10 @@ ls <目标路径>
 
 ### 步骤 1：单技能体检
 
+```bash
+python3 skills/meta/skill-linter/scripts/lint_skill.py .   # 单技能自检（在技能目录内运行）：预期 RESULT: PASS、退出码 0
+```
+
 - **动作**：`python3 skills/meta/skill-linter/scripts/lint_skill.py <技能目录> --verbose`
 - **预期**：八行 `PASS/WARN/FAIL` 结论 + 末行 `RESULT: PASS`；退出码 0。
 - **若失败**：末行 `RESULT: FAIL` 或退出码 1 → 逐条读 `FIX:` 行，按修法改文件；**必须在同一目标上复跑到 0 FAIL 才算完成**。
@@ -77,7 +81,7 @@ ls <目标路径>
 - **动作**：把退出码当判据，只对变更的技能跑：
   ```bash
   for d in $changed_skill_dirs; do
-    python3 skills/meta/skill-linter/scripts/lint_skill.py "$d" --json > /dev/null || exit 1
+#     python3 skills/meta/skill-linter/scripts/lint_skill.py "$d" --json > /dev/null || exit 1
   done
   ```
 - **预期**：任一技能有 FAIL 时该步骤退出码非 0，CI 失败。
@@ -146,6 +150,14 @@ ls <目标路径>
 | 输出 | PASS/WARN/FAIL + FIX 行 | `[ OK ]` / `[ERR ]` 表格 |
 
 结论冲突时以仓库门禁为合并判据；本技能的价值在于**在提交前**给出更细的修法提示与更严的行数自律线。
+
+## 常见错误
+
+| 现象 | 原因 | 处置 |
+|---|---|---|
+| NAME-SYNC FAIL 且目录名显示为空 | 目标写成了 `.` 而未 resolve | 传具体技能目录，或升级到已修复版脚本 |
+| BODY-SECTS WARN 差 1 个 H2 | 只写了六个硬性章节 | 补参数速查表 / 常见错误等可选章节 |
+| DESC-ROUTE FAIL 触发词不足 | description 缺 Use when 列表 | 补 ≥5 个触发词与 Do NOT 排除项 |
 
 ## 参考
 

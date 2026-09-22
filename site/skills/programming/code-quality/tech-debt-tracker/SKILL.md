@@ -36,9 +36,7 @@ metadata:
 
 ```bash
 python3 --version   # 预期 3.8+；失败：安装 python3
-python3 scripts/debt_scanner.py --help >/dev/null 2>&1       # 预期退出码 0；失败：脚本缺失 → 检查技能目录
-python3 scripts/debt_prioritizer.py --help >/dev/null 2>&1
-python3 scripts/debt_dashboard.py --help >/dev/null 2>&1
+# 自检：python3 scripts/debt_scanner.py --help / debt_prioritizer.py / debt_dashboard.py 均预期退出码 0
 test -d <codebase-directory>   # 预期退出码 0；失败：路径不对 → 向用户要正确目录
 ```
 
@@ -47,7 +45,7 @@ test -d <codebase-directory>   # 预期退出码 0；失败：路径不对 → �
 ### 步骤 1：扫描代码库
 
 ```bash
-python3 scripts/debt_scanner.py /path/to/codebase --format json --output debt_inventory.json
+python3 scripts/debt_scanner.py examples/sample-codebase --format json --output snapshots/2026-09.json   # 随包样例代码库；你的真实项目换成代码库根
 ```
 
 预期：生成 `debt_inventory.json`，含 `scan_metadata`、`summary`、`debt_items[]`、`file_statistics` 与 `recommendations`。把 `summary` 计数报给用户。演练：把扫描器指向 `assets/sample_codebase`。若失败：`debt_items[]` 为空 → 目录里可能没有可扫描的源码文件；确认路径里是代码，不只是文档/配置。
@@ -55,7 +53,7 @@ python3 scripts/debt_scanner.py /path/to/codebase --format json --output debt_in
 ### 步骤 2：给待办排序
 
 ```bash
-python3 scripts/debt_prioritizer.py debt_inventory.json --framework wsjf --team-size 6 --sprint-capacity 20 --format json --output debt_priorities.json
+python3 scripts/debt_prioritizer.py examples/snapshots/2026-09.json --framework wsjf --team-size 6 --sprint-capacity 20 --format json --output snapshots/priorities.json   # 输入为上一步扫描产物（随包含样例）
 ```
 
 预期：`debt_priorities.json` 含 `prioritized_backlog`（自上而下执行）、`sprint_allocation`（直接贴进冲刺计划）与 `insights`。若失败：清单 JSON 非法 → 重跑步骤 1；框架名未知 → 从 `cost_of_delay`、`wsjf`、`rice` 中选一。
@@ -65,7 +63,7 @@ python3 scripts/debt_prioritizer.py debt_inventory.json --framework wsjf --team-
 保留带日期的快照（`debt_YYYY-MM-DD.json`），然后：
 
 ```bash
-python3 scripts/debt_dashboard.py --input-dir snapshots/ --period monthly --format both --output debt_dashboard
+python3 scripts/debt_dashboard.py --input-dir examples/snapshots/ --period monthly --format both --output debt_dashboard   # 随包快照目录（两期对比）；你的真实快照换成 snapshots/
 ```
 
 或显式传文件：

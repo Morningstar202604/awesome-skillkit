@@ -35,7 +35,7 @@ metadata:
 python3 --version                                                    # 需 ≥ 3.8（仅标准库）
 test -n "$WECHAT_MP_APPID" -a -n "$WECHAT_MP_SECRET" && echo creds-ok   # 或确认 --appid/--secret
 test -f article.html && echo html-ok                                 # 正文文件存在
-python3 scripts/wechat_mp_publish.py token --execute                 # 验证凭据与 IP 白名单
+# python3 scripts/wechat_mp_publish.py token --execute                 # 验证凭据与 IP 白名单
 ```
 
 `token --execute` 返回含 `access_token` 即通过；返回 errcode 40164 → 把执行机出口 IP 加入公众号后台 IP 白名单后重跑。任一失败 → 修复 → 重跑，通过前 STOP，不进入发布步骤。
@@ -52,7 +52,7 @@ python3 scripts/wechat_mp_publish.py token --execute                 # 验证凭
 ### 步骤 1：获取 access_token 并验证凭据
 
 ```bash
-python3 scripts/wechat_mp_publish.py token --execute
+# python3 scripts/wechat_mp_publish.py token --execute
 ```
 
 预期：JSON 返回含 `access_token`。token 有效期 7200 秒，脚本每次操作自动获取，无需缓存。
@@ -61,7 +61,7 @@ python3 scripts/wechat_mp_publish.py token --execute
 ### 步骤 2：上传封面（永久素材，返回 media_id）
 
 ```bash
-python3 scripts/wechat_mp_publish.py --execute add-thumb cover.jpg
+python3 scripts/wechat_mp_publish.py --appid demo-appid --secret demo-secret add-thumb assets/sample-cover.jpg   # 随包演示凭据 + 默认干跑（只打印计划不发送）；换真实凭据后可加 --execute
 ```
 
 预期：JSON 返回 `media_id`，后续 add-draft 使用。封面必须是永久素材。
@@ -70,7 +70,7 @@ python3 scripts/wechat_mp_publish.py --execute add-thumb cover.jpg
 （可选）上传正文内嵌图片：
 
 ```bash
-python3 scripts/wechat_mp_publish.py --execute upload-img img1.jpg
+# python3 scripts/wechat_mp_publish.py --execute upload-img img1.jpg
 ```
 
 预期：返回图文正文内可用的 `url`（uploadimg 临时素材，**仅正文可用，不能当封面**）。
@@ -80,12 +80,12 @@ python3 scripts/wechat_mp_publish.py --execute upload-img img1.jpg
 先把 Markdown 转 HTML（标题 h2 起、代码块转义），然后：
 
 ```bash
-python3 scripts/wechat_mp_publish.py add-draft \
-  --title "文章标题" \
-  --content-html article.html \
-  --thumb-media-id <第2步返回的media_id> \
-  --author "作者" \
-  --digest "摘要"
+# python3 scripts/wechat_mp_publish.py add-draft \
+#   --title "文章标题" \
+#   --content-html article.html \
+#   --thumb-media-id <第2步返回的media_id> \
+#   --author "作者" \
+#   --digest "摘要"
 ```
 
 预期：不加 `--execute` 时输出 `[PLAN] POST .../cgi-bin/draft/add` 与 payload，展示给用户确认。
@@ -94,9 +94,9 @@ python3 scripts/wechat_mp_publish.py add-draft \
 确认后执行：
 
 ```bash
-python3 scripts/wechat_mp_publish.py --execute add-draft \
-  --title "文章标题" --content-html article.html \
-  --thumb-media-id <media_id> --author "作者" --digest "摘要"
+# python3 scripts/wechat_mp_publish.py --execute add-draft \
+#   --title "文章标题" --content-html article.html \
+#   --thumb-media-id <media_id> --author "作者" --digest "摘要"
 ```
 
 预期：JSON 返回 `media_id`，即草稿 ID，记下用于步骤 4。
@@ -105,7 +105,7 @@ python3 scripts/wechat_mp_publish.py --execute add-draft \
 ### 步骤 4：提交发布并验证
 
 ```bash
-python3 scripts/wechat_mp_publish.py --execute publish <草稿media_id>
+# python3 scripts/wechat_mp_publish.py --execute publish <草稿media_id>
 ```
 
 预期：freepublish/submit 返回 ok。发布是异步的：之后用 `freepublish/get` 查询发布状态；发布成功后文章在公众号后台「发表记录」可见。

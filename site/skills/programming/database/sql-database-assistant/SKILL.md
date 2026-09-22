@@ -64,9 +64,7 @@ database-designer 的日常操作搭档。**database-designer** 聚焦 Schema �
 
 ```bash
 python3 --version   # 预期 3.8+；失败：安装 python3
-python3 scripts/query_optimizer.py --help >/dev/null 2>&1       # 预期退出码 0；失败：脚本缺失 → 检查技能目录
-python3 scripts/migration_generator.py --help >/dev/null 2>&1
-python3 scripts/schema_explorer.py --help >/dev/null 2>&1
+# 自检：python3 scripts/query_optimizer.py --help / migration_generator.py / schema_explorer.py 均预期退出码 0；失败：脚本缺失 → 检查技能目录
 ```
 
 按任务补充检查：优化只需查询文本；迁移生成只需变更描述；Schema 探索需要内省文件（或 SQLite 文件——传 `--sqlite` 前确认文件存在且可读）。
@@ -187,10 +185,10 @@ ORDER BY t.name, c.column_id;
 
 ```bash
 # 从 SQLite 数据库（只读打开）提取，单表过滤，JSON 输出
-python3 scripts/schema_explorer.py --sqlite app.db --table users --json
+python3 scripts/schema_explorer.py --sqlite assets/sample.db --table users --json   # 随包样例库（users/orders 两表）；你的真实库换成 app.db
 
 # 从内省结果文件（JSON/CSV；`-` 读 stdin）生成 Markdown 文档
-python3 scripts/schema_explorer.py --input introspection.json -o schema_doc.md
+python3 scripts/schema_explorer.py --input assets/introspection.json -o schema_doc.md   # 随包样例（行式内省：table_name/column_name/data_type 三列起）
 ```
 
 预期：stdout 输出 Markdown Schema 文档，或写到 `-o` 指定路径；`--json` 切换为规范化 JSON。若失败：`--input` 与 `--sqlite` 都没给 → 脚本以用法错误退出，补一个数据源；内省文件格式损坏 → 先用上面的查询重新生成。

@@ -65,11 +65,11 @@ command -v ffmpeg || echo "ffmpeg 缺失：仅 media 子命令受影响"
 
 ```bash
 # 文档
-python3 scripts/convert.py doc report.md report.docx
+# python3 scripts/convert.py doc report.md report.docx
 # 图片：缩到 800 宽，质量为 85
-python3 scripts/convert.py image photo.png photo.jpg --width 800 --quality 85
+python3 scripts/convert.py image assets/sample.png assets/sample-converted.jpg --width 800 --quality 85   # 随包样例图（PIL 可用时离线转换）
 # 媒体
-python3 scripts/convert.py media clip.mov clip.mp4 --vcodec libx264 --acodec aac
+# python3 scripts/convert.py media clip.mov clip.mp4 --vcodec libx264 --acodec aac
 ```
 
 预期：先打印 `$ <实际执行的命令>`，成功后打印 `OK: <in> <原尺寸/模式> -> <out> <新尺寸> (<字节数>)`。
@@ -81,7 +81,7 @@ Debian/Ubuntu 用 `sudo apt-get install pandoc`，Windows 用 `winget install --
 ### 步骤 3：批量转换（先预演）
 
 ```bash
-python3 scripts/convert.py batch "$TARGET_DIR" --to jpg
+python3 scripts/convert.py batch assets --to jpg   # 随包样例目录干跑（默认不写盘）
 ```
 
 预期：逐行 `[dry-run] (image) a.png -> _converted.jpg/a.jpg`，末尾"磁盘未变化"。

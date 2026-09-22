@@ -56,7 +56,7 @@ python3 -c "import os;print(len(os.listdir('$TARGET_DIR')))"   # 先看规模，
 ### 步骤 1：体检现状
 
 ```bash
-python3 scripts/organize.py scan "$TARGET_DIR"
+python3 scripts/organize.py scan assets/sample-files   # 随包样例目录（scan 只读）
 ```
 
 预期：打印扩展名分布表（数量 + 体积）、体积分档计数、重复文件组。
@@ -67,7 +67,7 @@ python3 scripts/organize.py scan "$TARGET_DIR"
 ### 步骤 2：审查重复文件
 
 ```bash
-python3 scripts/organize.py dedupe "$TARGET_DIR"
+python3 scripts/organize.py dedupe assets/sample-files
 ```
 
 预期：每个重复组列出"保留"与"可清理"两栏，保留项按**最旧 mtime → 最短路径**排序（若 mtime 已被工具重写过，该排序仅供参考——保留哪个最终由用户定）。
@@ -80,7 +80,7 @@ python3 scripts/organize.py dedupe "$TARGET_DIR"
 ### 步骤 3：生成整理计划
 
 ```bash
-python3 scripts/organize.py plan "$TARGET_DIR" --by type
+python3 scripts/organize.py plan assets/sample-files --by type
 ```
 
 预期：逐行 `将把 <相对路径> 移到 <相对路径>`，末尾给出下一步命令。
@@ -91,7 +91,7 @@ python3 scripts/organize.py plan "$TARGET_DIR" --by type
 ### 步骤 4：dry-run 复核
 
 ```bash
-python3 scripts/organize.py apply "$TARGET_DIR" --by type --dry-run
+python3 scripts/organize.py apply assets/sample-files --by type --dry-run
 ```
 
 预期：每行前缀 `[dry-run]`，结尾打印"磁盘未发生任何变化"。
@@ -102,7 +102,7 @@ python3 scripts/organize.py apply "$TARGET_DIR" --by type --dry-run
 ### 步骤 5：确认后执行
 
 ```bash
-python3 scripts/organize.py apply "$TARGET_DIR" --by type --yes
+# python3 scripts/organize.py apply "$TARGET_DIR" --by type --yes
 ```
 
 预期：每行前缀 `[ok]`，结尾打印"完成：移动 N 项，跳过 M 项"。

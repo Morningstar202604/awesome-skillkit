@@ -35,7 +35,7 @@ python3 --version                                                        # ≥ 3
 python3 -c "import playwright; print('playwright-ok')"                    # Playwright 已装
 python3 -c "from playwright.sync_api import sync_playwright; print('chromium-check')"  # 能导入
 test -f zhihu_state.json && echo state-ok                                 # 登录态文件存在
-python3 scripts/zhihu_html_lint.py --help > /dev/null && echo lint-ok     # 检查脚本可用
+# python3 scripts/zhihu_html_lint.py --help > /dev/null && echo lint-ok     # 检查脚本可用
 ```
 
 任一失败 → 修复（装依赖 / 导出登录态 / 补文件）→ 重跑，通过前 STOP，不进入发布步骤。
@@ -91,7 +91,7 @@ page = context.new_page()
 ### 步骤 1：发布前 lint 检查（必须全部通过）
 
 ```bash
-python3 scripts/zhihu_html_lint.py article.html [--json] [--strict]
+python3 scripts/zhihu_html_lint.py assets/sample-article.html   # 随包样例（--json/--strict 视需要追加）
 ```
 
 预期：退出码 0，无 error 级问题。

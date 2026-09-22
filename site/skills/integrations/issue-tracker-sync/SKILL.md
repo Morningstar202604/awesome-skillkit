@@ -64,7 +64,7 @@ for v in JIRA_BASE_URL JIRA_TOKEN LINEAR_API_KEY GITHUB_TOKEN; do
   printf '%s: ' "$v"; test -n "$(printenv $v)" && echo present || echo missing
 done
 test -n "$GITHUB_TOKEN" || gh auth status 2>/dev/null && echo "gh-cli available"
-python3 scripts/issue_sync.py field-map >/dev/null && echo FIELD_MAP_OK
+# 自检：python3 scripts/issue_sync.py field-map 应打印三家字段对照表
 ```
 
 | 结果 | 判读 |
@@ -111,17 +111,17 @@ curl -sS -u "$JIRA_EMAIL:$JIRA_TOKEN" "$JIRA_BASE_URL/rest/api/2/field" | head -
 ### 步骤 2：构造建单请求（dry-run）
 
 ```bash
-python3 scripts/issue_sync.py build --tracker jira \
-  --title "修复 CSV 导出乱码" --body "导出时中文乱码" --priority P1 \
-  --project ENG --labels "bug,导出" --assignee <accountId>
+# python3 scripts/issue_sync.py build --tracker jira \
+#   --title "修复 CSV 导出乱码" --body "导出时中文乱码" --priority P1 \
+#   --project ENG --labels "bug,导出" --assignee <accountId>
 
-python3 scripts/issue_sync.py build --tracker linear \
-  --title "修复 CSV 导出乱码" --priority P1 --team <teamUUID> \
-  --labels "<labelUUID>,<labelUUID>"
+# python3 scripts/issue_sync.py build --tracker linear \
+#   --title "修复 CSV 导出乱码" --priority P1 --team <teamUUID> \
+#   --labels "<labelUUID>,<labelUUID>"
 
-python3 scripts/issue_sync.py build --tracker github \
-  --title "修复 CSV 导出乱码" --priority P1 --repo owner/name \
-  --labels bug --assignee octocat
+# python3 scripts/issue_sync.py build --tracker github \
+#   --title "修复 CSV 导出乱码" --priority P1 --repo owner/name \
+#   --labels bug --assignee octocat
 ```
 
 预期：打印完整的 method/url/headers/body，凭证位置全是 `$VAR` 占位。

@@ -46,14 +46,14 @@ metadata:
 
 ```bash
 # 1. 干跑：看会怎么分
-python3 scripts/organize_invoices.py --src ./loose_invoices
+python3 scripts/organize_invoices.py --src assets/sample-invoices
 
 # 2. 真归档 + 出台账
-python3 scripts/organize_invoices.py --src ./loose_invoices --dst ./organized \
+python3 scripts/organize_invoices.py --src assets/sample-invoices --dst ./organized \
   --apply --ledger ./organized/ledger.csv
 
 # 3. 自定义类别（公司自己的口径）
-python3 scripts/organize_invoices.py --src ./loose_invoices \
+python3 scripts/organize_invoices.py --src assets/sample-invoices \
   --map-json ./rules.json --apply
 ```
 

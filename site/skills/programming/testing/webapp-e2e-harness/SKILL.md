@@ -53,7 +53,7 @@ anthropics/skills `webapp-testing` + skill-forge 的 Playwright 思路，裁剪�
 python3 scripts/e2e_scaffold.py --url http://127.0.0.1:8000 --out e2e
 
 # 2. 真生成
-python3 scripts/e2e_scaffold.py --url http://127.0.0.1:8000 --out e2e --write
+python3 scripts/e2e_scaffold.py --url http://127.0.0.1:8000 --out examples/e2e --write   # 真实生成写 examples/e2e/；CI 场景可用临时目录
 
 # 3. 一键跑（装依赖 + 装浏览器 + pytest）
 E2E_BASE_URL=http://127.0.0.1:8000 bash e2e/run_e2e.sh

@@ -33,9 +33,7 @@ metadata:
 ## 前置自检
 
 ```bash
-python3 scripts/incident_classifier.py --help >/dev/null 2>&1   # 预期退出码 0；失败：脚本/ python3 缺失 → STOP
-python3 scripts/timeline_reconstructor.py --help >/dev/null 2>&1
-python3 scripts/pir_generator.py --help >/dev/null 2>&1
+# 自检：python3 scripts/incident_classifier.py --help / timeline_reconstructor.py / pir_generator.py 均预期退出码 0
 ```
 
 ## 工作流
@@ -43,8 +41,8 @@ python3 scripts/pir_generator.py --help >/dev/null 2>&1
 ### 步骤 1：定级（SEV）
 
 ```bash
-echo '{"description": "Users reporting 500 errors, database connections timing out", "affected_users": "80%", "business_impact": "high"}' | python3 scripts/incident_classifier.py
-echo "API rate limits causing customer API calls to fail" | python3 scripts/incident_classifier.py --format text
+python3 scripts/incident_classifier.py --input assets/simple_incident.json --format text   # 随包样例事件；你的真实输入换成 incident.json
+# 管道用法：echo '{"description": "…", "affected_users": "80%", "business_impact": "high"}' | python3 scripts/incident_classifier.py
 ```
 
 预期：脚本输出 SEV 等级与建议响应团队/初始动作。
@@ -72,7 +70,7 @@ python3 scripts/timeline_reconstructor.py --input assets/simple_timeline_events.
 ### 步骤 3：生成 PIR（复盘）
 
 ```bash
-python3 scripts/pir_generator.py --incident assets/sample_incident_data.json --timeline timeline.md --output pir.md
+python3 scripts/pir_generator.py --incident assets/sample_incident_pir_data.json --timeline assets/sample_timeline.md --output pir.md   # 随包样例（timeline.md 由上文 reconstructor 对样例事件生成）
 python3 scripts/pir_generator.py --incident assets/sample_incident_pir_data.json --rca-method fishbone --action-items
 ```
 

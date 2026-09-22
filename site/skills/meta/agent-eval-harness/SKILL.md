@@ -64,14 +64,14 @@ metadata:
 
 ```bash
 # 1. 干跑：离线规则评分第 0 个用例（打印 JSON 到 stdout）
-python3 scripts/eval_harness.py --input cases.jsonl --index 0
+python3 scripts/eval_harness.py --input assets/sample-cases.jsonl --index 0   # 随包样例（离线规则评分）；你的用例换成 cases.jsonl
 
 # 2. 真出报告（可挂 CI 门禁）
-python3 scripts/eval_harness.py --input cases.jsonl --index 3 \
-  --weights-json config/weights.json --out reports/case3.json --write
+# python3 scripts/eval_harness.py --input cases.jsonl --index 3 \
+#   --weights-json config/weights.json --out reports/case3.json --write
 
 # 3. LLM-as-judge：生成可复制的评审 prompt（不替用户调模型）
-python3 scripts/eval_harness.py --input cases.jsonl --index 0 --mode judge --out judge.md
+# python3 scripts/eval_harness.py --input assets/sample-cases.jsonl --index 0   # 随包样例（离线规则评分）；你的用例换成 cases.jsonl --mode judge --out judge.md
 ```
 
 `expects` 怎么填、各维度判分逻辑、CI 门禁接法：

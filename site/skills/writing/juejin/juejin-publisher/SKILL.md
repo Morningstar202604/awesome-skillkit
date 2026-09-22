@@ -35,7 +35,7 @@ metadata:
 python3 --version                                                # 需 ≥ 3.8（仅标准库）
 test -n "$JUEJIN_COOKIE" && echo cookie-present                   # 或确认 --cookie-file 存在
 test -f article.md && echo markdown-ok                            # 正文文件存在
-python3 scripts/juejin_publish.py --execute categories | head -5  # 验证 Cookie 有效性
+python3 scripts/juejin_publish.py categories   # 只读干跑：验证接口连通（配好 Cookie 后可加 --execute）
 ```
 
 `categories` 返回 JSON 且无 `err_no` 非 0 即通过；返回 errcode 非 0 或 HTTP 401/403 → Cookie 过期，重新复制。任一失败 → 修复 → 重跑，通过前 STOP，不进入发布步骤。
@@ -53,8 +53,8 @@ python3 scripts/juejin_publish.py --execute categories | head -5  # 验证 Cooki
 ### 步骤 1：查询分类 / 标签 ID
 
 ```bash
-python3 scripts/juejin_publish.py --execute categories | head -50
-python3 scripts/juejin_publish.py --execute tags | head -50
+# python3 scripts/juejin_publish.py --execute categories | head -50
+# python3 scripts/juejin_publish.py --execute tags | head -50
 ```
 
 预期：JSON 输出分类/标签列表；记下目标 `category_id`（hex 字符串）与 `tag_ids`。
@@ -63,10 +63,10 @@ python3 scripts/juejin_publish.py --execute tags | head -50
 ### 步骤 2：dry-run 保存草稿，确认后真发
 
 ```bash
-python3 scripts/juejin_publish.py draft-save \
-  --title "文章标题" --markdown article.md \
-  --category-id <id> --tag-ids <id1>,<id2> \
-  --brief "摘要"
+# python3 scripts/juejin_publish.py draft-save \
+#   --title "文章标题" --markdown article.md \
+#   --category-id <id> --tag-ids <id1>,<id2> \
+#   --brief "摘要"
 ```
 
 预期：不加 `--execute` 输出 `[PLAN] POST <端点>` 与 payload（不含 Markdown 正文），展示给用户确认。
@@ -75,9 +75,9 @@ python3 scripts/juejin_publish.py draft-save \
 确认后执行：
 
 ```bash
-python3 scripts/juejin_publish.py --execute draft-save \
-  --title "文章标题" --markdown article.md \
-  --category-id <id> --tag-ids <id1>,<id2> --brief "摘要"
+# python3 scripts/juejin_publish.py --execute draft-save \
+#   --title "文章标题" --markdown article.md \
+#   --category-id <id> --tag-ids <id1>,<id2> --brief "摘要"
 ```
 
 预期：JSON 返回 `data.article_id`，记下用于步骤 3。
@@ -86,9 +86,9 @@ python3 scripts/juejin_publish.py --execute draft-save \
 ### 步骤 3：发布
 
 ```bash
-python3 scripts/juejin_publish.py publish <article_id> \
-  --title "文章标题" --markdown-file article.md \
-  --category-id <id> --tag-ids <id1>,<id2>
+# python3 scripts/juejin_publish.py publish <article_id> \
+#   --title "文章标题" --markdown-file article.md \
+#   --category-id <id> --tag-ids <id1>,<id2>
 ```
 
 预期：返回 `need_review=true`，发布走平台审核；几分钟后在个人主页确认状态为「已发布」。

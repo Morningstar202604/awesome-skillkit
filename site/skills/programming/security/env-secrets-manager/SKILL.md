@@ -65,10 +65,10 @@ test -d <repo-root> && echo ok
 
 ```bash
 # 扫描仓库中的疑似密钥泄露（输出已脱敏）
-python3 scripts/env_auditor.py /path/to/repo
+python3 scripts/env_auditor.py assets/sample-repo   # 随包样例仓库（占位密钥+正确 .gitignore）；你的真实项目换成仓库根
 
 # CI 流水线用的 JSON 输出
-python3 scripts/env_auditor.py /path/to/repo --json
+python3 scripts/env_auditor.py assets/sample-repo --json
 ```
 
 ## 工作流

@@ -46,7 +46,7 @@ import json, os, sys
 m = json.load(open("post.manifest.json", encoding="utf-8"))
 sys.exit(0 if os.path.exists(os.path.join(os.path.dirname(os.path.abspath("post.manifest.json")), m["markdown"])) else 1)
 EOF
-python3 scripts/cross_post.py --manifest post.manifest.json plan   # 就绪检查（零网络）
+python3 scripts/cross_post.py --manifest assets/sample-post.manifest.json plan   # 就绪检查（零网络）
 ```
 
 任一失败 → 修复对应项（补凭据 / 补文件 / 修正 manifest 字段）→ 重跑，通过前 STOP，不进入执行步骤。
@@ -62,7 +62,7 @@ python3 scripts/cross_post.py --manifest post.manifest.json plan   # 就绪检�
 ### 步骤 2：生成计划（默认动作，零网络请求）
 
 ```bash
-python3 scripts/cross_post.py --manifest post.manifest.json plan
+python3 scripts/cross_post.py --manifest assets/sample-post.manifest.json plan
 ```
 
 预期：表格输出每个平台状态 `ready` / `missing-credentials` / `blocked-md-missing` / `skipped`，退出码 0。
@@ -77,7 +77,7 @@ python3 scripts/cross_post.py --manifest post.manifest.json plan
 ### 步骤 4：逐平台执行
 
 ```bash
-python3 scripts/cross_post.py --manifest post.manifest.json run --only juejin
+# python3 scripts/cross_post.py --manifest assets/sample-post.manifest.json run --only juejin
 ```
 
 预期：脚本化平台打印 `[RUN] python <子技能脚本> --execute ...` 并继承其安全约定（真发由子技能自身控制）；成功后自动追加台账。无脚本平台打印 `[MANUAL]` 精确操作清单，整体退出码 2 提示需人工介入。
@@ -86,7 +86,7 @@ python3 scripts/cross_post.py --manifest post.manifest.json run --only juejin
 ### 步骤 5：核对台账
 
 ```bash
-python3 scripts/cross_post.py --manifest post.manifest.json ledger
+python3 scripts/cross_post.py --manifest assets/sample-post.manifest.json ledger
 ```
 
 预期：JSON 输出台账条目（时间戳/平台/标题/状态），每个成功平台一条。
@@ -125,7 +125,7 @@ python3 scripts/cross_post.py --manifest post.manifest.json ledger
 
 - 成功定义：每个目标平台返回 ready 且发布成功，或输出可执行的手工清单。
 - 产物：`published.ledger.json`（manifest 同目录，每次成功发布自动追加时间戳/平台/标题/状态）。
-- 验证完整性：`python3 scripts/cross_post.py --manifest post.manifest.json ledger` 能列出所有已发布平台的条目。
+- 验证完整性：`python3 scripts/cross_post.py --manifest assets/sample-post.manifest.json ledger` 能列出所有已发布平台的条目。
 
 ## 扩展新平台
 

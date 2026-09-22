@@ -76,7 +76,7 @@ ls "$PROJECT"/*.json "$PROJECT"/go.mod "$PROJECT"/Cargo.toml \
 ### 步骤 1：扫描漏洞
 
 ```bash
-python3 scripts/dep_scanner.py /path/to/project --format json --fail-on-high -o scan.json
+python3 scripts/dep_scanner.py examples/sample-project --format json --fail-on-high -o scan.json   # 随包样例项目；你的真实项目换成项目根
 ```
 
 预期：`scan.json` 含逐包发现项；设置 `--fail-on-high` 时，存在任一 `high` 级别发现即以非零码退出。若失败：找不到清单时扫描器报 0 发现——用正确的项目路径重跑。
@@ -84,7 +84,7 @@ python3 scripts/dep_scanner.py /path/to/project --format json --fail-on-high -o 
 ### 步骤 2：核查许可证合规
 
 ```bash
-python3 scripts/license_checker.py /path/to/project --policy strict --format json -o licenses.json
+python3 scripts/license_checker.py examples/sample-project --policy permissive --format json -o licenses.json   # 离线样例无 license 元数据，strict 门禁（score<80 退出码 1）留给你真实项目
 ```
 
 预期：`licenses.json` 列出许可证分类与冲突对（如宽松项目里混入 GPL）。若失败：`--policy strict` 会把未知许可证列为人工复核项——核实前一律按冲突处理。
@@ -92,7 +92,7 @@ python3 scripts/license_checker.py /path/to/project --policy strict --format jso
 ### 步骤 3：规划升级
 
 ```bash
-python3 scripts/upgrade_planner.py scan.json --risk-threshold medium --timeline 90 --format json -o plan.json
+python3 scripts/upgrade_planner.py examples/scan.json --risk-threshold medium --timeline 90 --format json -o plan.json   # 随包样例扫描结果（由 dep_scanner 对样例项目生成）
 ```
 
 预期：`plan.json` 按风险排序升级项，每项附回滚说明。`--quick-scan` 跳过传递依赖；`--security-only` 把计划限定为安全修复。若失败：planner 依赖步骤 1 的 `scan.json`——确认文件存在。
@@ -133,8 +133,8 @@ python3 scripts/upgrade_planner.py scan.json --risk-threshold medium --timeline 
 
 ```bash
 # CI 里的安全门禁
-python3 scripts/dep_scanner.py . --format json --fail-on-high
-python3 scripts/license_checker.py . --policy strict --format json
+python3 scripts/dep_scanner.py examples/sample-project --format json --fail-on-high
+python3 scripts/license_checker.py examples/sample-project --policy permissive --format json
 ```
 
 ## 失败处置表

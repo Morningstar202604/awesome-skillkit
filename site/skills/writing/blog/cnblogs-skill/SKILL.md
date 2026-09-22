@@ -144,7 +144,7 @@ curl -s "https://i.cnblogs.com/api/posts/{任意已有postId}" -H "Cookie: $COOK
 
 - **动作**：
   ```bash
-  python3 scripts/cnblogs-pre-publish-check.py <markdown_file> --title "文章标题"
+  python3 scripts/cnblogs-pre-publish-check.py assets/sample-article.md --title "文章标题"   # 随包合格样例（无 H1、含二级标题）
   ```
   检查 8 项：h1 标题、标题 HTML 实体、代码块反引号、br 标签、引用块数量、签名区格式、标题层级跳跃。
 - **预期**：全部 PASS，退出码 0。
@@ -314,7 +314,7 @@ curl -s "https://i.cnblogs.com/api/posts/{任意已有postId}" -H "Cookie: $COOK
 ## 预发布检查脚本
 
 ```bash
-python3 scripts/cnblogs-pre-publish-check.py <markdown_file> --title "文章标题"
+python3 scripts/cnblogs-pre-publish-check.py assets/sample-article.md --title "文章标题"   # 随包合格样例（无 H1、含二级标题）
 ```
 
 检查 8 项：h1标题、标题HTML实体、代码块反引号、br标签、引用块数量、签名区格式、标题层级跳跃。全部 PASS 才能发布。

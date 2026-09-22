@@ -62,7 +62,7 @@ python3 --version
 # 预期：Python 3.8+。失败→STOP。
 
 # 2. 脚本可用
-python3 scripts/graph_build.py --help >/dev/null && echo "script ok"
+# python3 scripts/graph_build.py --help >/dev/null && echo "script ok"
 # 预期：script ok。失败→核对 scripts/ 路径。
 
 # 3. 目录里有可解析的笔记
@@ -94,7 +94,7 @@ which dot >/dev/null && echo "graphviz ok" || echo "no graphviz（DOT 仍可导�
 ### 步骤 2：抽取图数据
 
 ```bash
-python3 scripts/graph_build.py extract <notes-dir>
+python3 scripts/graph_build.py extract assets/sample-notes   # 随包样例笔记；你的库换成 notes/
 ```
 
 产出 `<notes-dir>/graph.json`，含 `nodes` / `edges` / `meta` / `unresolved_links`。
@@ -108,14 +108,14 @@ python3 scripts/graph_build.py extract <notes-dir>
 
 ```bash
 # 贴进 Markdown 文档（最常用）
-python3 scripts/graph_build.py export <notes-dir> --format mermaid --note-only
+python3 scripts/graph_build.py export assets/sample-notes --format mermaid --note-only
 
 # 交给 graphviz 出矢量图
-python3 scripts/graph_build.py export <notes-dir> --format dot --out graph.dot
+python3 scripts/graph_build.py export assets/sample-notes --format dot --out graph.dot   # 随包样例
 dot -Tsvg graph.dot -o graph.svg
 
 # 给下游程序
-python3 scripts/graph_build.py export <notes-dir> --format json --out graph.json
+python3 scripts/graph_build.py export assets/sample-notes --format json --out graph.json
 ```
 
 导出器已处理两个易踩的坑：Mermaid 的节点 id 一律重写为 `n0`、`n1`…

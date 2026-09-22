@@ -86,7 +86,7 @@ planner 按此表确定性打分选模式——跑它，不要凭感觉挑。
 动作（run）：写 requirements.json（复制 `assets/sample_system_requirements.json` 改写），然后：
 
 ```bash
-python3 scripts/agent_planner.py requirements.json --format json -o arch
+python3 scripts/agent_planner.py assets/sample-requirements.json --format json -o arch   # 随包样例需求
 ```
 
 预期：生成 `arch.json`，含 `architecture_design`（pattern、agents、communication links）、`mermaid_diagram`、`implementation_roadmap`。读 `architecture_design.pattern` 与每个 agent 的角色清单，并把 mermaid 图呈现给用户。
@@ -97,7 +97,7 @@ python3 scripts/agent_planner.py requirements.json --format json -o arch
 动作（run）：写 tool_descriptions.json（复制 `assets/sample_tool_descriptions.json` 改写），然后：
 
 ```bash
-python3 scripts/tool_schema_generator.py tool_descriptions.json --validate -o tools
+python3 scripts/tool_schema_generator.py assets/sample-tool-descriptions.json --validate -o tools
 ```
 
 预期：生成 `tools.json`（`tool_schemas`、`validation_summary`）及供应商专用 `tools_anthropic.json` / `tools_openai.json`；**门禁：每个工具必须打印 `✓ Valid`**。
@@ -108,7 +108,7 @@ python3 scripts/tool_schema_generator.py tool_descriptions.json --validate -o to
 动作（run）：系统跑起来后用真实日志评估；dry-run 直接用 `assets/sample_execution_logs.json`：
 
 ```bash
-python3 scripts/agent_evaluator.py execution_logs.json --detailed -o eval
+python3 scripts/agent_evaluator.py assets/sample-execution-logs.json --detailed -o eval   # 随包样例日志
 ```
 
 预期：生成 `eval.json`，含 `summary`、`agent_metrics`、`bottleneck_analysis`、`error_analysis`、`cost_breakdown`、`sla_compliance`、`optimization_recommendations`，另有拆分文件 `eval_errors.json`、`eval_recommendations.json`。
@@ -121,7 +121,7 @@ python3 scripts/agent_evaluator.py execution_logs.json --detailed -o eval
 ```bash
 # sequential / parallel / router / orchestrator / evaluator 骨架
 python3 scripts/workflow_scaffolder.py sequential --name content-pipeline
-python3 scripts/workflow_scaffolder.py orchestrator --name incident-triage --output workflows/incident-triage.json
+python3 scripts/workflow_scaffolder.py orchestrator --name incident-triage --output assets/incident-triage.json
 ```
 
 预期：生成对应 pattern 的工作流骨架 JSON；`--output` 缺省时打印到 stdout。

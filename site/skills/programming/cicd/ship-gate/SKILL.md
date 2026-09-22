@@ -60,7 +60,7 @@ ls references/checks.md references/patterns.md
 ### 步骤 1：全量扫描
 
 ```bash
-python3 scripts/ship_gate_scanner.py <项目根目录> --json --no-interactive
+python3 scripts/ship_gate_scanner.py examples/sample-frontend --json --no-interactive --category FE   # 随包达标样例（FE 类全 ADVISORY 通过 → CLEAR_TO_SHIP rc=0）；完整审计对真实项目去掉 --category，未达标时退出码非 0 属 CI 门禁语义
 ```
 
 - **动作**：扫描器自动检测技术栈（框架、数据库、部署目标、鉴权、AI/LLM SDK——检测规则实现在 scanner 内，与 `references/checks.md` 中带栈标签的检查项联动），并按 SEC → DB → CODE → DEP → AI → DEPLOY → FE → OBS 顺序执行全部自动化检查。

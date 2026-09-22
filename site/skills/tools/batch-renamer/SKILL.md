@@ -48,7 +48,7 @@ Pillow 缺失不阻塞：`--exif-date` 会自动回退到文件 mtime 并在输�
 ### 步骤 1：预览改名结果
 
 ```bash
-python3 scripts/rename.py preview "$TARGET_DIR" --pattern "IMG_{n:03d}.{ext}"
+python3 scripts/rename.py preview assets/sample-files --pattern "IMG_{n:03d}.{ext}"   # 随包样例目录（preview 只读）
 ```
 
 预期：逐行 `旧名 -> 新名`，末尾给出"将改名 N 项，跳过 M 项"。
@@ -70,7 +70,7 @@ python3 scripts/rename.py preview "$TARGET_DIR" --pattern "IMG_{n:03d}.{ext}"
 ### 步骤 3：确认后执行
 
 ```bash
-python3 scripts/rename.py apply "$TARGET_DIR" --pattern "IMG_{n:03d}.{ext}" --yes
+# python3 scripts/rename.py apply "$TARGET_DIR" --pattern "IMG_{n:03d}.{ext}" --yes
 ```
 
 预期：逐行 `[ok] 旧名 -> 新名`，结尾打印"完成：改名 N 项"与日志路径。
@@ -83,8 +83,8 @@ python3 scripts/rename.py apply "$TARGET_DIR" --pattern "IMG_{n:03d}.{ext}" --ye
 ### 步骤 4：需要时回滚
 
 ```bash
-python3 scripts/rename.py undo "$TARGET_DIR"          # 先预览回滚清单
-python3 scripts/rename.py undo "$TARGET_DIR" --yes    # 确认回滚
+# python3 scripts/rename.py undo "$TARGET_DIR"          # 先预览回滚清单
+# python3 scripts/rename.py undo "$TARGET_DIR" --yes    # 确认回滚
 ```
 
 预期：逆序打印 `新名 -> 原名`，执行后文件恢复原名，日志中已回滚的记录被移除。
@@ -133,7 +133,7 @@ python3 scripts/rename.py undo "$TARGET_DIR" --yes    # 确认回滚
 ```bash
 find "$TARGET_DIR" -maxdepth 1 -type f | wc -l    # 数量必须与改名前后一致
 ls "$TARGET_DIR"/.rename_tmp_* 2>/dev/null && echo "有残留，需处理" || echo "无残留"
-python3 scripts/rename.py undo "$TARGET_DIR"      # 预览回滚清单是否与预期一一对应
+# python3 scripts/rename.py undo "$TARGET_DIR"      # 预览回滚清单是否与预期一一对应
 ```
 
 ## 参考

@@ -74,7 +74,7 @@ test -f scripts/trace_scanner.py && echo OK   # 预期打印 OK，否则脚本�
 - **动作：** 对待体检文本执行（脚本随本技能 bundle 交付）：
 
 ```bash
-python3 scripts/trace_scanner.py 文本文件路径        # 或 cat 文本 | python3 scripts/trace_scanner.py -
+python3 scripts/trace_scanner.py assets/sample-article.md        # 随包样例；或 cat 文本 | python3 scripts/trace_scanner.py -
 ```
 
 - **预期：** stdout 输出单个 JSON 对象 `{stats, findings[]}`，退出码 0。stats 含 sentences、mean_sentence_len、std_sentence_len、cv、list_ratio、enumerator_count、ai_word_hits、score、verdict 十余字段；findings 每条含 pos/type/evidence/fix_hint 四字段。
