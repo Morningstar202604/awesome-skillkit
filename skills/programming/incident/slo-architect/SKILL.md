@@ -62,21 +62,14 @@ ls scripts/slo_designer.py scripts/error_budget_calculator.py scripts/slo_review
 ## 快速开始
 
 ```bash
-SKILL=skills/programming/incident/slo-architect   # 在 awesome-skillkit 仓库根目录执行
-
-# 1. 设计一个 SLO
-python "$SKILL/scripts/slo_designer.py" \
-  --service checkout-svc \
-  --sli-type request-success-rate \
-  --target 99.9 \
-  --window-days 30
+# 1. 设计一个 SLO（单行；--owner 与 --policy-doc 为必填约束，缺失退出码 1）
+python scripts/slo_designer.py --service checkout-svc --sli-type request-success-rate --target 99.9 --window-days 30 --owner payments-team --policy-doc docs/slo-policy.md
 
 # 2. 计算错误预算 + 多窗口 burn-rate 告警
-python "$SKILL/scripts/error_budget_calculator.py" \
-  --target 99.9 --window-days 30
+python scripts/error_budget_calculator.py --target 99.9 --window-days 30
 
 # 3. 审查现有 SLO 定义的常见错误
-python "$SKILL/scripts/slo_review.py" --slo-doc docs/slos/
+python scripts/slo_review.py --slo-doc assets/slos/   # 随包达标样例（target/window/numerator/denominator/error budget policy 五要素齐全）；你的真实项目换成 docs/slos/
 ```
 
 ## 三个 Python 工具
@@ -88,12 +81,13 @@ python "$SKILL/scripts/slo_review.py" --slo-doc docs/slos/
 生成带必填字段的结构化 SLO 定义。缺 `--service`/`--sli-type`/`--target` → argparse 报错，退出码 2。缺 `--owner`/`--policy-doc` → 输出带 `<must define>` 占位符和一行 `WARNING: missing required fields`；占位符填完之前该 SLO 不算生效。
 
 ```bash
-python scripts/slo_designer.py \
-  --service checkout-svc \
-  --sli-type request-success-rate \
-  --target 99.9 \
-  --window-days 30 \
-  --owner team-checkout
+# 单行用法（下方续行排版仅为可读，复制时合并为一行）：
+# python scripts/slo_designer.py \
+#   --service checkout-svc \
+#   --sli-type request-success-rate \
+#   --target 99.9 \
+#   --window-days 30 \
+#   --owner team-checkout
 ```
 
 **支持的 SLI 类型：**
@@ -127,7 +121,7 @@ python scripts/error_budget_calculator.py --target 99.95 --window-days 7 --forma
 审计 SLO 定义目录（markdown 或 JSON），查常见错误。退出码 0 = 干净，退出码 1 = 有发现项（可当合并前门禁用）。
 
 ```bash
-python scripts/slo_review.py --slo-doc docs/slos/
+python scripts/slo_review.py --slo-doc assets/slos/   # 随包样例 SLO 文档目录；你的真实项目换成 docs/slos/
 ```
 
 **检查项：**
@@ -236,7 +230,7 @@ python scripts/slo_review.py --slo-doc docs/slos/
 
 #### 步骤 1：对所有活跃 SLO 跑 review 门禁
 
-- **动作：** `python scripts/slo_review.py --slo-doc docs/slos/`
+- **动作：** `python scripts/slo_review.py --slo-doc assets/slos/   # 随包样例 SLO 文档目录；你的真实项目换成 docs/slos/`
 - **预期：** 退出码 0；任何 `[FAIL]`/`[WARN]` 行都是一个工作项。
 - **失败时：** 先修发现项；不要在同一个变更里同时调目标和调检查。
 

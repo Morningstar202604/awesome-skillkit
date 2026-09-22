@@ -179,6 +179,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--redis-base", type=int, default=6379, help="Base Redis port.")
     parser.add_argument("--stride", type=int, default=10, help="Port stride between worktrees.")
     parser.add_argument("--install-deps", action="store_true", help="Install dependencies in the new worktree.")
+    parser.add_argument("--dry-run", action="store_true",
+                        help="Validate config and print the plan without creating anything.")
     parser.add_argument("--format", choices=["text", "json"], default="text", help="Output format.")
     return parser.parse_args()
 
@@ -205,6 +207,29 @@ def main() -> int:
         run(["git", "rev-parse", "--is-inside-work-tree"], cwd=repo)
     except subprocess.CalledProcessError as exc:
         raise CLIError(f"Not a git repository: {repo}") from exc
+
+    if args.dry_run:
+        # 只读预演：校验配置与仓库、打印执行计划，不创建 worktree、不写 ports/env
+        wt_path = repo.parent / name
+        exists = wt_path in {Path(e.get("worktree", "")) for e in parse_worktree_list(repo)}
+        plan = {
+            "dry_run": True,
+            "repo": str(repo),
+            "worktree_path": str(wt_path),
+            "branch": branch,
+            "base_branch": base_branch,
+            "already_exists": exists,
+            "planned_ports": {"app": app_base, "db": db_base, "redis": redis_base, "stride": stride},
+            "install_deps": install_deps,
+        }
+        if args.format == "json":
+            print(json.dumps(plan, indent=2, ensure_ascii=False))
+        else:
+            state = "already exists — would be reused" if exists else "would be created"
+            print(f"[DRY-RUN] worktree {wt_path} (branch={branch}, base={base_branch}) {state}")
+            print(f"[DRY-RUN] planned ports app={app_base} db={db_base} redis={redis_base} stride={stride}")
+            print("[DRY-RUN] nothing written. Re-run without --dry-run to apply.")
+        return 0
 
     wt_path = ensure_worktree(repo, branch, name, base_branch)
     created = (wt_path / ".worktree-ports.json").exists() is False

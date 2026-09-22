@@ -250,7 +250,8 @@ def check_frontmatter_fields(raw, meta, fm_lines):
 def check_name_sync(skill_dir, meta):
     """NAME-SYNC：name == 目录名、kebab-case、无大写。"""
     name = str(meta.get("name", "") or "")
-    dir_name = skill_dir.name
+    # target 为 "." 时 Path(".").name 是空串 → 先 resolve 再取目录名
+    dir_name = skill_dir.resolve().name
     if not name:
         return [Finding("NAME-SYNC", "FAIL", "frontmatter 无 `name`", "补 name 字段")]
     findings = []

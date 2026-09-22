@@ -58,8 +58,8 @@ test -f scripts/script_lint.py && echo LINT-OK
 ### 步骤 3：跑脚本 lint（机器守门）
 
 ```bash
-python3 scripts/script_lint.py --file script.md
-python3 scripts/script_lint.py --file script.md --dialogue   # 对话形态：强制 HOST/GUEST 行前缀
+python3 scripts/script_lint.py --file assets/sample-script.md   # 随包样例播客稿
+python3 scripts/script_lint.py --file assets/sample-script.md --dialogue   # 对话形态：强制 HOST/GUEST 行前缀
 ```
 
 检查：舞台指示标记、方括号/圆括号插入语、markdown 残留、单行超长、缺失段间转场。非零退出码 = 有违规，修完重跑至退出码 0 再进 TTS。

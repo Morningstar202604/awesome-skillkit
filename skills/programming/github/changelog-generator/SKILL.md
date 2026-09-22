@@ -34,9 +34,8 @@ metadata:
 
 ```bash
 git rev-parse --is-inside-work-tree   # 预期输出 true；失败：当前目录非 git 仓库 → cd 到仓库根或 STOP
-python3 scripts/generate_changelog.py --help >/dev/null 2>&1   # 预期退出码 0；失败：脚本缺失或 python3 不可用
-python3 scripts/version_bumper.py --help >/dev/null 2>&1
-python3 scripts/commit_linter.py --help >/dev/null 2>&1
+# 自检：python3 scripts/generate_changelog.py --help 预期退出码 0；失败：脚本缺失或 python3 不可用
+# 自检：python3 scripts/version_bumper.py --help 与 python3 scripts/commit_linter.py --help 同理
 ```
 
 ## 工作流
@@ -44,8 +43,8 @@ python3 scripts/commit_linter.py --help >/dev/null 2>&1
 ### 步骤 1：计算下一个语义化版本（用户未定版本时）
 
 ```bash
-git log v1.3.0..HEAD --oneline | \
-  python3 scripts/version_bumper.py --current-version 1.3.0 --output-format json
+python3 scripts/version_bumper.py --current-version 1.3.0 --input examples/commits.txt --output-format json   # 离线可跑：随包样例（git log --oneline 格式）
+# 真实用法（管道输入）：git log v1.3.0..HEAD --oneline | python3 scripts/version_bumper.py --current-version 1.3.0
 ```
 
 预期：输出含 `recommended_version` 与 `bump_type`（`major`/`minor`/`patch`/`none`）；加 `--include-commands` 时附 `git tag` 命令。
@@ -62,9 +61,8 @@ python3 scripts/generate_changelog.py \
 或通过 stdin/文件：
 
 ```bash
-git log v1.3.0..v1.4.0 --pretty=format:'%s' | \
-  python3 scripts/generate_changelog.py --next-version v1.4.0 --format markdown
-python3 scripts/generate_changelog.py --input commits.txt --next-version v1.4.0 --format json
+python3 scripts/generate_changelog.py --input examples/commit-subjects.txt --next-version v1.4.0 --format markdown   # 随包样例（纯 subject 行，--pretty=format:'%s' 输出格式）
+# 真实用法（管道输入）：git log v1.3.0..v1.4.0 --pretty=format:'%s' | python3 scripts/generate_changelog.py --next-version v1.4.0 --format markdown
 ```
 
 预期：stdout 输出 Keep a Changelog 分段（Added/Changed/Fixed…）；无有效 conventional commit 时脚本 early-fail，不产出误导性空说明。

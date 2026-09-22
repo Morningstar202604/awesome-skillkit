@@ -1,0 +1,8 @@
+{
+  "project": "demo",
+  "language": "python",
+  "modules": [
+    {"name": "user_service", "type": "service", "description": "用户 CRUD 服务",
+     "functions": [{"name": "create_user", "params": ["name", "email"], "returns": "User"}]}
+  ]
+}

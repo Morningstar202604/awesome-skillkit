@@ -1,0 +1,6 @@
+feat: 支持导出为 PDF 格式
+feat(api): 新增批量查询接口
+fix: 修复时区偏移导致的日期错位
+fix(core): 空指针异常兜底
+docs: 重写快速上手章节
+chore(deps): 升级 requests 到 2.32

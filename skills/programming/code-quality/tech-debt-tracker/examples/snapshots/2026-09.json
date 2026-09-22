@@ -1,0 +1,205 @@
+{
+  "scan_metadata": {
+    "directory": "skills/programming/code-quality/tech-debt-tracker/examples/sample-codebase",
+    "scan_date": "2026-09-22T10:41:54.878478",
+    "scanner_version": "1.0.0",
+    "config": {
+      "max_function_length": 50,
+      "max_complexity": 10,
+      "max_nesting_depth": 4,
+      "max_file_size_lines": 500,
+      "min_duplicate_lines": 3,
+      "ignore_patterns": [
+        "*.pyc",
+        "__pycache__",
+        ".git",
+        ".svn",
+        "node_modules",
+        "build",
+        "dist",
+        "*.min.js",
+        "*.map"
+      ],
+      "file_extensions": {
+        "python": [
+          ".py"
+        ],
+        "javascript": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ],
+        "java": [
+          ".java"
+        ],
+        "csharp": [
+          ".cs"
+        ],
+        "cpp": [
+          ".cpp",
+          ".cc",
+          ".cxx",
+          ".c",
+          ".h",
+          ".hpp"
+        ],
+        "ruby": [
+          ".rb"
+        ],
+        "php": [
+          ".php"
+        ],
+        "go": [
+          ".go"
+        ],
+        "rust": [
+          ".rs"
+        ],
+        "kotlin": [
+          ".kt"
+        ]
+      },
+      "comment_patterns": {
+        "todo": "(?i)(TODO|FIXME|HACK|XXX|BUG)[\\s:]*(.+)",
+        "commented_code": "^\\s*#.*[=(){}\\[\\];].*",
+        "magic_numbers": "\\b\\d{2,}\\b",
+        "long_strings": "[\"\\'](.{100,})[\"\\']"
+      },
+      "severity_weights": {
+        "critical": 10,
+        "high": 7,
+        "medium": 5,
+        "low": 2,
+        "info": 1
+      }
+    }
+  },
+  "summary": {
+    "total_files_scanned": 2,
+    "total_lines_scanned": 24,
+    "total_debt_items": 6,
+    "health_score": 70.0,
+    "debt_density": 3.0,
+    "priority_breakdown": {
+      "medium": 1,
+      "low": 5
+    },
+    "type_breakdown": {
+      "empty_catch": 1,
+      "missing_docstring": 4,
+      "todo_comment": 1
+    }
+  },
+  "debt_items": [
+    {
+      "id": "DEBT-0005",
+      "type": "empty_catch",
+      "description": "Code smell detected: empty_catch",
+      "file_path": "legacy.py",
+      "severity": "medium",
+      "metadata": {
+        "line_number": 21,
+        "pattern": "except:\n            pass\n"
+      },
+      "detected_date": "2026-09-22T10:41:54.877482",
+      "status": "identified",
+      "priority_score": 5,
+      "priority": "medium"
+    },
+    {
+      "id": "DEBT-0001",
+      "type": "missing_docstring",
+      "description": "Function 'process' missing docstring",
+      "file_path": "legacy.py",
+      "line_number": 3,
+      "severity": "low",
+      "metadata": {
+        "function_name": "process"
+      },
+      "detected_date": "2026-09-22T10:41:54.876992",
+      "status": "identified",
+      "priority_score": 2,
+      "priority": "low"
+    },
+    {
+      "id": "DEBT-0002",
+      "type": "missing_docstring",
+      "description": "Class 'Handler' missing docstring",
+      "file_path": "legacy.py",
+      "line_number": 17,
+      "severity": "low",
+      "metadata": {
+        "class_name": "Handler"
+      },
+      "detected_date": "2026-09-22T10:41:54.877297",
+      "status": "identified",
+      "priority_score": 2,
+      "priority": "low"
+    },
+    {
+      "id": "DEBT-0003",
+      "type": "missing_docstring",
+      "description": "Function 'handle' missing docstring",
+      "file_path": "legacy.py",
+      "line_number": 18,
+      "severity": "low",
+      "metadata": {
+        "function_name": "handle"
+      },
+      "detected_date": "2026-09-22T10:41:54.877311",
+      "status": "identified",
+      "priority_score": 2,
+      "priority": "low"
+    },
+    {
+      "id": "DEBT-0001",
+      "type": "missing_docstring",
+      "description": "Function 'add' missing docstring",
+      "file_path": "util.py",
+      "line_number": 1,
+      "severity": "low",
+      "metadata": {
+        "function_name": "add"
+      },
+      "detected_date": "2026-09-22T10:41:54.877932",
+      "status": "identified",
+      "priority_score": 2,
+      "priority": "low"
+    },
+    {
+      "id": "DEBT-0004",
+      "type": "todo_comment",
+      "description": "TODO/FIXME comment: TODO: \u9700\u8981\u9519\u8bef\u5904\u7406",
+      "file_path": "legacy.py",
+      "severity": "low",
+      "metadata": {
+        "line_number": 4,
+        "comment": "TODO: \u9700\u8981\u9519\u8bef\u5904\u7406"
+      },
+      "detected_date": "2026-09-22T10:41:54.877412",
+      "status": "identified",
+      "priority_score": 1,
+      "priority": "low"
+    }
+  ],
+  "file_statistics": {
+    "legacy.py": {
+      "path": "legacy.py",
+      "lines": 22,
+      "size_kb": 0.484375,
+      "language": "python",
+      "debt_count": 0
+    },
+    "util.py": {
+      "path": "util.py",
+      "lines": 2,
+      "size_kb": 0.03125,
+      "language": "python",
+      "debt_count": 0
+    }
+  },
+  "recommendations": [
+    "High debt density detected. Consider establishing coding standards and regular code review processes to prevent debt accumulation."
+  ]
+}

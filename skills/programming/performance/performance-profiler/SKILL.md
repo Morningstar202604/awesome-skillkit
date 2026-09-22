@@ -50,9 +50,9 @@ test -f scripts/performance_profiler.py && echo "OK script present"
 ### 步骤 1：扫描风险指标（基线）
 
 ```bash
-python3 scripts/performance_profiler.py /path/to/project
-python3 scripts/performance_profiler.py /path/to/project --json
-python3 scripts/performance_profiler.py /path/to/project --large-file-threshold-kb 256
+python3 scripts/performance_profiler.py examples/sample-codebase   # 随包样例代码库；你的真实项目换成项目根
+python3 scripts/performance_profiler.py examples/sample-codebase --json
+python3 scripts/performance_profiler.py examples/sample-codebase --large-file-threshold-kb 256
 ```
 
 - 动作：扫描项目，输出性能风险指标（大文件、可疑模式等）。

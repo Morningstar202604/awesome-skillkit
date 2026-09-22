@@ -48,7 +48,7 @@ metadata:
 
 ```bash
 # 1. Python 3 与脚本就位
-python3 --version && test -f scripts/jianshu_publisher.py && echo OK
+# python3 --version && test -f scripts/jianshu_publisher.py && echo OK
 # 预期：Python 3.x + OK；失败 → 安装 Python 3.8+ / cd 到本技能目录
 
 # 2. publish_common 可导入（打包后与技能目录平级的 _common/）
@@ -81,24 +81,26 @@ test -n "$JIANSHU_COOKIE" || test -f ~/.jianshu_cookie && echo OK
 ```bash
 # 1. 保存草稿
 export JIANSHU_COOKIE="your_cookie_here"
-python jianshu_publisher.py draft-save --execute \
-  --title "我的新文章" \
-  --markdown "# 标题\n内容..." \
-  --brief "文章摘要" \
-  --tags "Python,AI" \
-  --cover-image "https://example.com/cover.png"
+python jianshu_publisher.py draft-save --title 示例标题 --markdown 示例正文段落   # 干跑（默认）：本地校验并生成草稿载荷，不发送
+
+# python jianshu_publisher.py draft-save --execute \
+#   --title "我的新文章" \
+#   --markdown "# 标题\n内容..." \
+#   --brief "文章摘要" \
+#   --tags "Python,AI" \
+#   --cover-image "https://example.com/cover.png"
 
 # 2. 发布草稿（拿到 draft-save 返回的 note_id）
-python jianshu_publisher.py publish --execute <note_id>
+# python jianshu_publisher.py publish --execute <note_id>
 
 # 3. 编辑已发布文章
-python jianshu_publisher.py edit --execute <note_id> \
-  --markdown-file article.md \
-  --title "更新后的标题" \
-  --tags "Python,AI"
+# python jianshu_publisher.py edit --execute <note_id> \
+#   --markdown-file article.md \
+#   --title "更新后的标题" \
+#   --tags "Python,AI"
 
 # 4. 删除文章
-python jianshu_publisher.py delete --execute <note_id>
+# python jianshu_publisher.py delete --execute <note_id>
 ```
 
 ## 工作流
@@ -153,7 +155,7 @@ Cookie 从环境变量 `JIANSHU_COOKIE` 或 `--cookie-file` 读取。需包含�
 ```bash
 export JIANSHU_COOKIE="remember_user_token=xxx; _m7e_session=xxx; ..."
 # 或
-python jianshu_publisher.py draft-save --cookie-file ~/.jianshu_cookie ...
+# python jianshu_publisher.py draft-save --cookie-file ~/.jianshu_cookie ...
 ```
 
 ## 退出码

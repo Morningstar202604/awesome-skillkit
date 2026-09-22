@@ -1,0 +1,32 @@
+{
+ "goal": "构建内容审校流水线 agent",
+ "description": "对投稿文章做 lint、事实核查提示与报告渲染的多 agent 协作流水线。",
+ "tasks": [
+  "接收稿件",
+  "lint 检查",
+  "汇总问题",
+  "渲染 JSON 报告"
+ ],
+ "constraints": {
+  "runtime": "单机",
+  "budget": "low",
+  "language": "python"
+ },
+ "team_size": 3,
+ "performance_requirements": {
+  "latency_p95_ms": 30000,
+  "concurrency": 5
+ },
+ "safety_requirements": [
+  "不外发原文",
+  "敏感词过滤"
+ ],
+ "integration_requirements": [
+  "Markdown 输入",
+  "JSON 报告输出"
+ ],
+ "scale_requirements": {
+  "daily_tasks": 200,
+  "max_context_kb": 64
+ }
+}

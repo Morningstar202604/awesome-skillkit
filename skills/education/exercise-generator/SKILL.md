@@ -30,7 +30,7 @@ metadata:
 
 ```bash
 test -f scripts/exercise_lint.py && echo LINT-OK
-python3 scripts/exercise_lint.py --text "### Q1 [recall]\n题干：x\n参考答案：y\n评分标准：z\n常见陷阱：w\n关联：CP1" ; echo "exit=$?"
+# python3 scripts/exercise_lint.py --text "### Q1 [recall]\n题干：x\n参考答案：y\n评分标准：z\n常见陷阱：w\n关联：CP1" ; echo "exit=$?"
 ```
 
 - 预期：`LINT-OK` 出现；第二条命令退出码 `0`（最小合法块通过）。失败说明技能包不完整，STOP 并提示重装。
@@ -62,7 +62,7 @@ python3 scripts/exercise_lint.py --text "### Q1 [recall]\n题干：x\n参考答�
 ### 步骤 3：跑习题 lint（机器守门）
 
 ```bash
-python3 scripts/exercise_lint.py --file quiz.md
+python3 scripts/exercise_lint.py --file assets/sample-quiz.md   # 随包样例（含 ### Q1 [recall] 块）；你的题库换成 quiz.md
 ```
 
 检查：五字段齐全、难度标签合法、checkpoint 关联存在；**选择题默认禁用**（防蒙是本技能纪律，脚本强制执行）。非零退出码 = 有违规，逐条修复后重跑至退出码 0。
@@ -77,7 +77,7 @@ python3 scripts/exercise_lint.py --file quiz.md
 
 - 产物：题库 markdown（每题五字段块，`### Q<N> [难度]` 开头，标注归属 checkpoint）。
 - 保存位置：与 checkpoint 同处输出在对话中；存文件时命名为 `quiz.md`（lint 入参约定）。
-- 完整性验证：`python3 scripts/exercise_lint.py --file quiz.md` 退出码 0（status: clean）；题量与题型配比符合输入约定。
+- 完整性验证：`python3 scripts/exercise_lint.py --file assets/sample-quiz.md   # 随包样例（含 ### Q1 [recall] 块）；你的题库换成 quiz.md` 退出码 0（status: clean）；题量与题型配比符合输入约定。
 
 ## 失败处置表
 

@@ -1,0 +1,356 @@
+[
+ {
+  "skill": "programming/ai-engineering/mcp-server-builder",
+  "script": "skills/programming/ai-engineering/mcp-server-builder/scripts/mcp_validator.py",
+  "verdict": "fail",
+  "argv": [
+   "--input",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_tool_manifest.json",
+   "--strict",
+   "--format",
+   "text"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "ERROR: Manifest must include a 'tools' array.\n"
+ },
+ {
+  "skill": "programming/ai-engineering/mcp-server-builder",
+  "script": "skills/programming/ai-engineering/mcp-server-builder/scripts/openapi_to_mcp.py",
+  "verdict": "fail",
+  "argv": [
+   "--server-name",
+   "billing-mcp",
+   "--language",
+   "typescript"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "ERROR: No input provided. Use --input <spec-file> or pipe OpenAPI via stdin.\n"
+ },
+ {
+  "skill": "programming/ai-engineering/skill-tester/assets/sample-skill",
+  "script": "skills/programming/ai-engineering/skill-tester/assets/sample-skill/scripts/text_processor.py",
+  "verdict": "fail",
+  "argv": [
+   "batch",
+   "text_files/",
+   "--format",
+   "json",
+   "--output",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "t {json,text}] [--output OUTPUT]\n                         [--encoding ENCODING] [--verbose]\n                         {analyze,transform,batch} ...\ntext_processor.py: error: unrecognized arguments: --format json --output C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json\n"
+ },
+ {
+  "skill": "programming/ai-engineering/skill-tester",
+  "script": "skills/programming/ai-engineering/skill-tester/scripts/quality_scorer.py",
+  "verdict": "fail",
+  "argv": [
+   "<技能路径>",
+   "--json",
+   "--detailed",
+   "--minimum-score",
+   "75"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "{\"error\": \"error: path not found: <\\u6280\\u80fd\\u8def\\u5f84>\"}\n"
+ },
+ {
+  "skill": "programming/ai-engineering/skill-tester",
+  "script": "skills/programming/ai-engineering/skill-tester/scripts/script_tester.py",
+  "verdict": "fail",
+  "argv": [
+   "$skill"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "error: skill path is not a directory: $skill\n"
+ },
+ {
+  "skill": "programming/ai-engineering/skill-tester",
+  "script": "skills/programming/ai-engineering/skill-tester/scripts/security_scorer.py",
+  "verdict": "fail",
+  "argv": [
+   "<技能路径"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "error: target not found: <技能路径\n"
+ },
+ {
+  "skill": "programming/ai-engineering/skill-tester",
+  "script": "skills/programming/ai-engineering/skill-tester/scripts/skill_validator.py",
+  "verdict": "fail",
+  "argv": [
+   "$skill",
+   "--json"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "{\"error\": \"error: skill path is not a directory: $skill\"}\n"
+ },
+ {
+  "skill": "programming/api/api-design-reviewer",
+  "script": "skills/programming/api/api-design-reviewer/scripts/api_linter.py",
+  "verdict": "fail",
+  "argv": [
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_openapi.json",
+   "--format",
+   "json",
+   "--output",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": ""
+ },
+ {
+  "skill": "programming/api/api-design-reviewer",
+  "script": "skills/programming/api/api-design-reviewer/scripts/api_scorecard.py",
+  "verdict": "fail",
+  "argv": [
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_openapi.json",
+   "--format",
+   "json",
+   "--min-grade",
+   "B",
+   "--output",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "Grade F is below minimum required grade B\n"
+ },
+ {
+  "skill": "programming/database/database-designer",
+  "script": "skills/programming/database/database-designer/scripts/schema_analyzer.py",
+  "verdict": "fail",
+  "argv": [
+   "--input",
+   "schema.sql",
+   "--generate-erd",
+   "--output-format",
+   "json",
+   "-o",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "Error: [Errno 2] No such file or directory: 'schema.sql'\n"
+ },
+ {
+  "skill": "programming/database/sql-database-assistant",
+  "script": "skills/programming/database/sql-database-assistant/scripts/schema_explorer.py",
+  "verdict": "fail",
+  "argv": [
+   "--sqlite",
+   "app.db",
+   "--table",
+   "users",
+   "--json"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "错误：SQLite 文件不存在: app.db\n"
+ },
+ {
+  "skill": "programming/github/changelog-generator",
+  "script": "skills/programming/github/changelog-generator/scripts/generate_changelog.py",
+  "verdict": "fail",
+  "argv": [
+   "--input",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_commits.txt",
+   "--next-version",
+   "v1.4.0",
+   "--format",
+   "json"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "ERROR: No valid conventional commit messages found in input.\n"
+ },
+ {
+  "skill": "programming/github/changelog-generator",
+  "script": "skills/programming/github/changelog-generator/scripts/version_bumper.py",
+  "verdict": "fail",
+  "argv": [
+   "--current-version",
+   "1.3.0",
+   "--output-format",
+   "json"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "No input data provided\n"
+ },
+ {
+  "skill": "programming/github/git-worktree-manager",
+  "script": "skills/programming/github/git-worktree-manager/scripts/worktree_manager.py",
+  "verdict": "fail",
+  "argv": [
+   "--input",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_config.json",
+   "--format",
+   "json"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "ERROR: Missing required values: --branch and --name (or provide via JSON input).\n"
+ },
+ {
+  "skill": "programming/incident/incident-commander",
+  "script": "skills/programming/incident/incident-commander/scripts/incident_classifier.py",
+  "verdict": "fail",
+  "argv": [
+   ">/dev/null",
+   "2>&1"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "usage: incident_classifier.py [-h] [--input INPUT] [--format {json,text}]\n                              [--interactive] [--output OUTPUT]\nincident_classifier.py: error: unrecognized arguments: >/dev/null 2>&1\n"
+ },
+ {
+  "skill": "programming/incident/incident-commander",
+  "script": "skills/programming/incident/incident-commander/scripts/pir_generator.py",
+  "verdict": "fail",
+  "argv": [
+   "--incident",
+   "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\programming\\incident\\incident-commander\\assets\\sample_incident_data.json",
+   "--timeline",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_timeline.md",
+   "--output",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "Error: Invalid JSON - Expecting value: line 1 column 1 (char 0)\n"
+ },
+ {
+  "skill": "programming/incident/slo-architect",
+  "script": "skills/programming/incident/slo-architect/scripts/slo_review.py",
+  "verdict": "fail",
+  "argv": [
+   "--slo-doc",
+   "docs/slos/"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "ERROR: not found: docs/slos/\n"
+ },
+ {
+  "skill": "programming/infrastructure/kubernetes-operator",
+  "script": "skills/programming/infrastructure/kubernetes-operator/scripts/crd_validator.py",
+  "verdict": "fail",
+  "argv": [
+   "--crd",
+   "config/crd/",
+   "--format",
+   "json"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "ERROR: not found: config/crd/\n"
+ },
+ {
+  "skill": "programming/infrastructure/kubernetes-operator",
+  "script": "skills/programming/infrastructure/kubernetes-operator/scripts/reconcile_lint.py",
+  "verdict": "fail",
+  "argv": [
+   "--controller",
+   "controllers/myapp_controller.go"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "ERROR: not found: controllers/myapp_controller.go\n"
+ },
+ {
+  "skill": "programming/infrastructure/terraform-patterns",
+  "script": "skills/programming/infrastructure/terraform-patterns/scripts/tf_module_analyzer.py",
+  "verdict": "fail",
+  "argv": [
+   "./terraform",
+   "--output",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "usage: tf_module_analyzer.py [-h] [--output {text,json}] [directory]\ntf_module_analyzer.py: error: argument --output/-o: invalid choice: 'C:\\\\Users\\\\X1882\\\\AppData\\\\Local\\\\Temp\\\\skillkit_scenario_ezbzeej1\\\\in_out_output.json' (choose from 'text', 'json')\n"
+ },
+ {
+  "skill": "programming/infrastructure/terraform-patterns",
+  "script": "skills/programming/infrastructure/terraform-patterns/scripts/tf_security_scanner.py",
+  "verdict": "fail",
+  "argv": [
+   "./terraform",
+   "--output",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "usage: tf_security_scanner.py [-h] [--output {text,json}] [--strict] [target]\ntf_security_scanner.py: error: argument --output/-o: invalid choice: 'C:\\\\Users\\\\X1882\\\\AppData\\\\Local\\\\Temp\\\\skillkit_scenario_ezbzeej1\\\\in_out_output.json' (choose from 'text', 'json')\n"
+ },
+ {
+  "skill": "programming/performance/performance-profiler",
+  "script": "skills/programming/performance/performance-profiler/scripts/performance_profiler.py",
+  "verdict": "fail",
+  "argv": [
+   "/path/to/project",
+   "--large-file-threshold-kb",
+   "256"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "Error: C:\\path\\to\\project is not a directory\n"
+ },
+ {
+  "skill": "programming/planning/code-generator",
+  "script": "skills/programming/planning/code-generator/scripts/code_generator.py",
+  "verdict": "fail",
+  "argv": [
+   "--plan",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_plan.json",
+   "--format",
+   "json",
+   "--output",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json",
+   "--output-dir",
+   "."
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "usage: code_generator.py [-h] [--plan PLAN] [--plan-stdin] [--project PROJECT]\n                         [--output OUTPUT] [--format {markdown,json}]\n                         [--dry-run] [--no-mock]\ncode_generator.py: error: unrecognized arguments: --output-dir .\n"
+ },
+ {
+  "skill": "programming/security/env-secrets-manager",
+  "script": "skills/programming/security/env-secrets-manager/scripts/env_auditor.py",
+  "verdict": "fail",
+  "argv": [
+   "/path/to/repo",
+   "--json"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "{\"error\": \"error: repo path is not a directory: \\\\path\\\\to\\\\repo\"}\n"
+ },
+ {
+  "skill": "programming/testing/webapp-e2e-harness",
+  "script": "skills/programming/testing/webapp-e2e-harness/scripts/e2e_scaffold.py",
+  "verdict": "error",
+  "argv": [
+   "--url",
+   "http://127.0.0.1:8000",
+   "--out",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_out.json",
+   "--write"
+  ],
+  "reason": null,
+  "stderr_tail": " 114, in main\n    os.makedirs(args.out, exist_ok=True) if args.write else None\n    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<frozen os>\", line 228, in makedirs\nFileExistsError: [WinError 183] 当文件已存在时，无法创建该文件。: 'C:\\\\Users\\\\X1882\\\\AppData\\\\Local\\\\Temp\\\\skillkit_scenario_ezbzeej1\\\\in_out_out.json'\n"
+ },
+ {
+  "skill": "programming/workflow/agent-designer",
+  "script": "skills/programming/workflow/agent-designer/scripts/agent_evaluator.py",
+  "verdict": "fail",
+  "argv": [
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_execution_logs.json",
+   "--detailed",
+   "-o",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "No valid execution logs found in input file\n"
+ },
+ {
+  "skill": "programming/workflow/agent-designer",
+  "script": "skills/programming/workflow/agent-designer/scripts/agent_planner.py",
+  "verdict": "fail",
+  "argv": [
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_requirements.json",
+   "--format",
+   "json",
+   "-o",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "Error: SystemRequirements.__init__() missing 9 required positional arguments: 'goal', 'description', 'tasks', 'constraints', 'team_size', 'performance_requirements', 'safety_requirements', 'integration_requirements', and 'scale_requirements'\n"
+ }
+]

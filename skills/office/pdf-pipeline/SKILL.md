@@ -56,7 +56,7 @@ test -f scripts/pdf_ops.py && echo "script ok"
 ### 步骤 1：判定 PDF 类型（决定走哪条线）
 
 ```bash
-python3 scripts/pdf_ops.py meta input.pdf
+python3 scripts/pdf_ops.py meta assets/sample.pdf   # 随包样例 PDF；你的真实文件换成 input.pdf
 ```
 
 预期输出：页数、元数据、`form fields: ...` 三段。判读：
@@ -74,7 +74,7 @@ python3 scripts/pdf_ops.py meta input.pdf
 ```bash
 python3 scripts/pdf_ops.py merge a.pdf b.pdf --output merged.pdf
 python3 scripts/pdf_ops.py split merged.pdf --ranges "1-2,3" --outdir split_out
-python3 scripts/pdf_ops.py rotate merged.pdf --degrees 90 --pages 1-2 --output rotated.pdf
+python3 scripts/pdf_ops.py rotate assets/sample.pdf --degrees 90 --pages 1-2 --output rotated.pdf   # 随包样例；你的真实场景用上一步的 merged.pdf
 ```
 
 预期：merge 打印逐文件页数与总页数；split 逐文件列出输出路径；
@@ -107,7 +107,7 @@ python3 scripts/pdf_ops.py extract merged.pdf --pages 1-2 --output out.txt
 ### 步骤 5：读/写元数据
 
 ```bash
-python3 scripts/pdf_ops.py meta merged.pdf                          # 只读
+python3 scripts/pdf_ops.py meta assets/sample.pdf                          # 只读（随包样例）
 python3 scripts/pdf_ops.py meta merged.pdf --set Title="Q3 报告" \
     --set Author="团队名" --output final.pdf                        # 写入
 ```

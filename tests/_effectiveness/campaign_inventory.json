@@ -1,0 +1,2331 @@
+{
+ "generated": "2026-09-22T01:49:33.992349+00:00",
+ "sweep_source": "tests\\_effectiveness\\real_scenario_fullsweep.json",
+ "skills": [
+  {
+   "skill": "audio/episode-publisher",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "audio/podcast-producer",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "audio/tts-voice-director",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "chat/chat-prompt-engineer",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "dataviz/chart-recommender",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "dataviz/dashboard-designer",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "design/design-brief-interpreter",
+   "score": 3,
+   "elements": {
+    "decision-table": true,
+    "dark-knowledge": true,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P3"
+  },
+  {
+   "skill": "design/frontend-component-lab",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "design/frontend-design-director",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "design/image-prompt-engineer",
+   "score": 5,
+   "elements": {
+    "decision-table": true,
+    "dark-knowledge": true,
+    "red-lines": true,
+    "honesty": true,
+    "built-in-verify": true,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": true,
+   "priority": "OK"
+  },
+  {
+   "skill": "design/layout-spec-auditor",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": true,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "education/assignment-intake",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "education/course-designer",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "education/exercise-generator",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "education/feynman-explainer",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "education/own-voice-rewrite",
+   "score": 5,
+   "elements": {
+    "decision-table": true,
+    "dark-knowledge": true,
+    "red-lines": true,
+    "honesty": true,
+    "built-in-verify": true,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": true,
+   "priority": "OK"
+  },
+  {
+   "skill": "education/solution-drafter",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "integrations/cloud-drive-manager",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "integrations/feishu-dingtalk-bridge",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "integrations/issue-tracker-sync",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "integrations/notion-workspace",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "knowledge/knowledge-graph-builder",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "knowledge/personal-wiki",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "marketing/campaign-designer",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "marketing/channel-adapter",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "marketing/product-copywriter",
+   "score": 3,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": true,
+    "red-lines": true,
+    "honesty": true,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P3"
+  },
+  {
+   "skill": "memory/memory-architect",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "memory/memory-extractor",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "memory/memory-manager",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "memory/memory-retriever",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "meta/agent-eval-harness",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "error",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "meta/session-handoff",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "meta/skill-author",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "meta/skill-finder",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "no-example",
+   "done": false,
+   "priority": "P1"
+  },
+  {
+   "skill": "meta/skill-linter",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "meta/weekly-report-generator",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "music/music-generation",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "office/career-ops-lite",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "office/docx-template-fill",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "office/docx-writer",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "office/epub-builder",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "office/excel-assistant",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "office/internal-comms-writer",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": true
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "office/meeting-notes",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "office/pdf-pipeline",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "office/resume-tailor",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "paper/ai-humanizer",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": true,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "paper/anti-defensive",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": true,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "paper/arch-diagram",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "paper/experiment-runner",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": true,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "paper/figure-maker",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "paper/journal-adapt",
+   "score": 2,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": true,
+    "built-in-verify": false,
+    "cli-appendix": true
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "paper/latex-formatter",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": true,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "paper/lit-review",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": true,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "paper/neural-net-draw",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": true,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "paper/paper-topic-selector",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": true,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "paper/pub-plotter",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": true,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "paper/self-reviewer",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": true,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "paper/tex-cleaner",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": true,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "ppt/ppt-builder",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "programming/ai-engineering/feature-flags-architect",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "programming/ai-engineering/mcp-server-builder",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/ai-engineering/self-eval",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "programming/ai-engineering/skill-tester/assets/sample-skill",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/ai-engineering/skill-tester",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/api/api-design-reviewer",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/api/api-test-suite-builder",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "programming/architecture/migration-architect",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/architecture/monorepo-navigator",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/architecture/senior-architect",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/cicd/ci-cd-pipeline-builder",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "programming/cicd/ship-gate",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/cicd/spec-driven-workflow",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "programming/code-quality/code-reviewer",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/code-quality/dependency-auditor",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/code-quality/tdd-guide",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/code-quality/tech-debt-tracker",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/containers/docker-development",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/containers/helm-chart-builder",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/data/etl-builder",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "programming/data/feature-engineer",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "programming/database/database-designer",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/database/sql-database-assistant",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/debug/debug-diagnoser",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "programming/github/changelog-generator",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/github/git-worktree-manager",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/github/pr-review-expert",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "programming/incident/incident-commander",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/incident/runbook-generator",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "programming/incident/slo-architect",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/infrastructure/kubernetes-operator",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/infrastructure/observability-designer",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "programming/infrastructure/terraform-patterns",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/math/model-formulator",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "no-example",
+   "done": false,
+   "priority": "P1"
+  },
+  {
+   "skill": "programming/math/model-solver",
+   "score": 3,
+   "elements": {
+    "decision-table": true,
+    "dark-knowledge": true,
+    "red-lines": false,
+    "honesty": true,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P3"
+  },
+  {
+   "skill": "programming/math/result-visualizer",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "programming/math/simulation-runner",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "programming/ml/ml-pipeline",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "programming/performance/performance-profiler",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/planning/code-generator",
+   "score": 4,
+   "elements": {
+    "decision-table": true,
+    "dark-knowledge": true,
+    "red-lines": true,
+    "honesty": true,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/planning/code-intent-planner",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "no-example",
+   "done": false,
+   "priority": "P1"
+  },
+  {
+   "skill": "programming/planning/deep-research",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "programming/planning/web-search",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "programming/security/env-secrets-manager",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/security/pii-redactor",
+   "score": 2,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": true,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "no-example",
+   "done": false,
+   "priority": "P1"
+  },
+  {
+   "skill": "programming/security/prompt-injection-guard",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "no-example",
+   "done": false,
+   "priority": "P1"
+  },
+  {
+   "skill": "programming/security/secrets-vault-manager",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "no-example",
+   "done": false,
+   "priority": "P1"
+  },
+  {
+   "skill": "programming/testing/webapp-e2e-harness",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "error",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "programming/testing/webapp-flow-tester",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "no-example",
+   "done": false,
+   "priority": "P1"
+  },
+  {
+   "skill": "programming/workflow/agent-designer",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "tools/bank-statement-reconcile",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "tools/batch-renamer",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "tools/file-organizer",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": true,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "tools/format-converter",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "tools/invoice-organizer",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "tools/task-scheduler",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "video/ai-baby-podcast",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "video/image-generation",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "video/nailong-laugh-shorts",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "video/shot-recipe-designer",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "video/storyboard-designer",
+   "score": 6,
+   "elements": {
+    "decision-table": true,
+    "dark-knowledge": true,
+    "red-lines": true,
+    "honesty": true,
+    "built-in-verify": true,
+    "cli-appendix": true
+   },
+   "sweep": "fail",
+   "done": true,
+   "priority": "P0"
+  },
+  {
+   "skill": "video/video-editor",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "video/video-generation",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "video/video-lip-sync",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "video/video-prompt-engineer",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "no-example",
+   "done": false,
+   "priority": "P1"
+  },
+  {
+   "skill": "video/video-script-writer",
+   "score": 6,
+   "elements": {
+    "decision-table": true,
+    "dark-knowledge": true,
+    "red-lines": true,
+    "honesty": true,
+    "built-in-verify": true,
+    "cli-appendix": true
+   },
+   "sweep": "pass",
+   "done": true,
+   "priority": "OK"
+  },
+  {
+   "skill": "video/video-subtitles",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "video/video-thumbnail",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": true,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "video/video-voice-synth",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "video/visual-style-anchor",
+   "score": 3,
+   "elements": {
+    "decision-table": true,
+    "dark-knowledge": true,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P3"
+  },
+  {
+   "skill": "writing/ai-trace-auditor",
+   "score": 3,
+   "elements": {
+    "decision-table": true,
+    "dark-knowledge": true,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "writing/article-drafter",
+   "score": 4,
+   "elements": {
+    "decision-table": true,
+    "dark-knowledge": true,
+    "red-lines": true,
+    "honesty": true,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P3"
+  },
+  {
+   "skill": "writing/article-outliner",
+   "score": 6,
+   "elements": {
+    "decision-table": true,
+    "dark-knowledge": true,
+    "red-lines": true,
+    "honesty": true,
+    "built-in-verify": true,
+    "cli-appendix": true
+   },
+   "sweep": "pass",
+   "done": true,
+   "priority": "OK"
+  },
+  {
+   "skill": "writing/assets/ai-cover-generator",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "writing/blog/cnblogs-skill",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "writing/blog/csdn-publisher",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "writing/blog/jianshu-publisher",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "writing/blog/static-blog-deploy",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "writing/community/douban-publisher",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "no-example",
+   "done": false,
+   "priority": "P1"
+  },
+  {
+   "skill": "writing/community/oschina-publisher",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "no-example",
+   "done": false,
+   "priority": "P1"
+  },
+  {
+   "skill": "writing/community/segmentfault-publisher",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "no-example",
+   "done": false,
+   "priority": "P1"
+  },
+  {
+   "skill": "writing/community/v2ex-publisher",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "no-example",
+   "done": false,
+   "priority": "P1"
+  },
+  {
+   "skill": "writing/content-editor",
+   "score": 3,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": true,
+    "red-lines": true,
+    "honesty": true,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P3"
+  },
+  {
+   "skill": "writing/humanize-rewriter",
+   "score": 3,
+   "elements": {
+    "decision-table": true,
+    "dark-knowledge": true,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P3"
+  },
+  {
+   "skill": "writing/juejin/juejin-publisher",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "writing/news/baijiahao-publisher",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "no-example",
+   "done": false,
+   "priority": "P1"
+  },
+  {
+   "skill": "writing/news/toutiao-publisher",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "no-example",
+   "done": false,
+   "priority": "P1"
+  },
+  {
+   "skill": "writing/orchestrator/cross-post-orchestrator",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "error",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "writing/personal-voice-profile",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "n/a",
+   "done": false,
+   "priority": "P2"
+  },
+  {
+   "skill": "writing/seo-optimizer",
+   "score": 3,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": true,
+    "red-lines": true,
+    "honesty": true,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "pass",
+   "done": false,
+   "priority": "P3"
+  },
+  {
+   "skill": "writing/social/weibo-publisher",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "no-example",
+   "done": false,
+   "priority": "P1"
+  },
+  {
+   "skill": "writing/social/xiaohongshu-publisher",
+   "score": 1,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": true,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "no-example",
+   "done": false,
+   "priority": "P1"
+  },
+  {
+   "skill": "writing/video/bilibili-publisher",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "writing/wechat/wechat-mp-publisher",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  },
+  {
+   "skill": "writing/zhihu/zhihu-content-manager",
+   "score": 0,
+   "elements": {
+    "decision-table": false,
+    "dark-knowledge": false,
+    "red-lines": false,
+    "honesty": false,
+    "built-in-verify": false,
+    "cli-appendix": false
+   },
+   "sweep": "fail",
+   "done": false,
+   "priority": "P0"
+  }
+ ]
+}

@@ -79,7 +79,7 @@ test -f scripts/code_generator.py && test -d references/templates && echo "OK sk
 ### 步骤 1：项目上下文分析
 
 ```bash
-python3 scripts/code_generator.py --project <project_root> --format json --dry-run
+python3 scripts/code_generator.py --project examples/sample-codebase --format json --dry-run   # 随包样例；你的真实场景换成 --project <project_root>
 ```
 
 - 动作：脚本调用 project_analyzer 探测技术栈与目录结构；agent 另读 2-3 个代表性代码文件确认风格（缩进/命名/导入习惯）。
@@ -90,9 +90,10 @@ python3 scripts/code_generator.py --project <project_root> --format json --dry-r
 
 ```bash
 # 生成报告（markdown，不写代码）
-python3 scripts/code_generator.py --plan plan.json --project . --format markdown
+python3 scripts/code_generator.py --plan assets/sample-plan.json --project examples/sample-codebase --format markdown
 # 落盘代码 + JSON 报告
-python3 scripts/code_generator.py --plan plan.json --format json --output report.json --output-dir .
+python3 scripts/code_generator.py --plan assets/sample-plan.json --format json   # 报告走 stdout（--output 是输出目录，示例不写它以免落盘进技能包）
+python3 scripts/project_analyzer.py --root examples/sample-codebase --json   # 随包样例项目上下文分析；你的真实场景换成 --root <project_root>
 ```
 
 - 预期：`status:"success"` 且 `files` 含 3 个文件（CRUD 情形）；`no_template` → 转 L2。

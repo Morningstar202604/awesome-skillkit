@@ -103,11 +103,11 @@ code-reviewer/
 
 ```bash
 # diff 模式——当前分支对比 main
-python scripts/pr_analyzer.py /path/to/repo
+python scripts/pr_analyzer.py ../../../..   # 仓库根（git 仓库）；也可指向任意 git 仓库路径
 # 指定分支
-python scripts/pr_analyzer.py . --base main --head feature-branch
+python scripts/pr_analyzer.py ../../../.. --base main --head feature-branch   # 对仓库根比较分支
 # 输出 JSON 给下游工具
-python scripts/pr_analyzer.py /path/to/repo --json
+python scripts/pr_analyzer.py ../../../.. --json
 ```
 
 预期：脚本输出复杂度评分（1–10）、风险级别（critical/high/medium/low）、文件优先级排序与提交信息校验；`--json` 把同样内容打到 stdout。若失败：非零退出或 traceback → 确认路径存在且 Python ≥3.10；改用 `--json` 重跑以隔离解析错误。
@@ -116,12 +116,12 @@ python scripts/pr_analyzer.py /path/to/repo --json
 
 ```bash
 # 整目录，自动识别语言
-python scripts/code_quality_checker.py /path/to/code
+python scripts/code_quality_checker.py ../../../..   # 仓库根；也可指向任意代码目录
 # 指定语言（取值：python, typescript, javascript, go, swift,
 #   kotlin, csharp, java, c, cpp, rust, ruby, php, dart）
-python scripts/code_quality_checker.py . --language java
+python scripts/code_quality_checker.py ../../../.. --language python
 # JSON 输出
-python scripts/code_quality_checker.py /path/to/code --json
+python scripts/code_quality_checker.py ../../../..   # 仓库根；也可指向任意代码目录 --json
 ```
 
 检查器使用的通用阈值：

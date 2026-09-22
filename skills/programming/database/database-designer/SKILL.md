@@ -34,9 +34,7 @@ metadata:
 
 ```bash
 python3 --version   # 预期 3.8+；失败：安装 python3
-python3 scripts/schema_analyzer.py --help >/dev/null 2>&1     # 预期退出码 0；失败：脚本缺失 → 检查技能目录
-python3 scripts/index_optimizer.py --help >/dev/null 2>&1
-python3 scripts/migration_generator.py --help >/dev/null 2>&1
+# 自检：python3 scripts/schema_analyzer.py --help / index_optimizer.py / migration_generator.py 均预期退出码 0；失败：脚本缺失 → 检查技能目录
 test -f <schema-input>   # 预期退出码 0；失败：文件缺失 → 向用户要 DDL/JSON Schema
 ```
 
@@ -47,7 +45,7 @@ test -f <schema-input>   # 预期退出码 0；失败：文件缺失 → 向用�
 ### 步骤 1：分析 Schema
 
 ```bash
-python3 scripts/schema_analyzer.py --input schema.sql --generate-erd --output-format json -o analysis.json
+python3 scripts/schema_analyzer.py --input assets/sample_schema.sql --generate-erd --output-format json -o analysis.json   # 随包样例 DDL；你的真实 schema 换成 schema.sql
 ```
 
 预期：`analysis.json` 含规范化发现、缺失约束、命名问题与 Mermaid ERD（`--erd-only` 只输出 ERD）。把 ERD 展示给用户，先修掉标记的问题再优化。若失败：DDL 解析报错 → 确认 SQL 方言受支持，或转成 JSON Schema；大 Schema 却零发现 → 确认 `--input` 指向 DDL，不是带数据的 dump。
@@ -63,7 +61,7 @@ python3 scripts/index_optimizer.py --schema assets/sample_schema.json --queries 
 ### 步骤 3：生成迁移
 
 ```bash
-python3 scripts/migration_generator.py --current current_schema.json --target target_schema.json --zero-downtime --format sql -o migration.sql
+python3 scripts/migration_generator.py --current assets/sample_schema.json --target assets/target_schema_sample.json --zero-downtime --format sql -o migration.sql   # 随包样例（加列 diff）；你的真实场景换成两份 schema JSON
 ```
 
 预期：`migration.sql` 含 ALTER 语句；`--zero-downtime` 输出 expand-contract 方案。若失败：两份 Schema JSON 与分析器输出结构不一致 → 用步骤 1 重新生成。

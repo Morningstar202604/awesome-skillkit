@@ -1,0 +1,12 @@
+digraph knowledge {
+  rankdir=LR;
+  node [shape=box, style="rounded,filled", fillcolor="#EAF2FB", fontname="Helvetica"];
+  edge [color="#7A8A99", arrowsize=0.7];
+  "alpha.md" [label="Alpha 笔记", shape=box, fillcolor="#EAF2FB"];
+  "beta.md" [label="Beta 笔记", shape=box, fillcolor="#EAF2FB"];
+  "gamma.md" [label="Gamma 笔记", shape=box, fillcolor="#EAF2FB"];
+  "alpha.md" -> "beta.md" [style=solid];
+  "alpha.md" -> "gamma.md" [style=solid];
+  "beta.md" -> "alpha.md" [style=solid];
+  "gamma.md" -> "alpha.md" [style=solid];
+}

@@ -953,13 +953,21 @@ class MigrationGenerator:
     
     def _generate_migration_id(self, changes: Dict[str, List[Dict[str, Any]]]) -> str:
         """Generate unique migration ID."""
-        content = json.dumps(changes, sort_keys=True)
+        content = json.dumps(changes, sort_keys=True, default=self._json_default)
         return hashlib.md5(content.encode()).hexdigest()[:8]
-    
+
     def _calculate_changes_hash(self, changes: Dict[str, List[Dict[str, Any]]]) -> str:
         """Calculate hash of changes for versioning."""
-        content = json.dumps(changes, sort_keys=True)
+        content = json.dumps(changes, sort_keys=True, default=self._json_default)
         return hashlib.md5(content.encode()).hexdigest()
+
+    @staticmethod
+    def _json_default(obj: Any) -> Any:
+        """dataclass（如 Column/Table）转 dict，其余转字符串——避免 dumps 崩栈。"""
+        try:
+            return asdict(obj)
+        except TypeError:
+            return str(obj)
     
     def _generate_summary(self, changes: Dict[str, List[Dict[str, Any]]]) -> Dict[str, Any]:
         """Generate migration summary."""

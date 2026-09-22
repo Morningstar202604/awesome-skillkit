@@ -51,7 +51,7 @@ B 站发布客户端，双模式：1) 官方开放平台 API——视频上传/�
 python3 --version                                   # 需 ≥ 3.8（仅标准库 + publish_common）
 test -n "$BILI_COOKIE" && echo cookie-present       # Web 模式凭据（或确认 --cookie-file 存在）
 test -n "$BILI_ACCESS_KEY" -a -n "$BILI_SECRET_KEY" && echo official-creds-present  # video-submit 前置
-python3 bilibili_publisher.py article-save --title t --content c   # 不加 --execute，确认脚本能运行
+python3 bilibili_publisher.py --cookie-file assets/sample-cookie.txt article-save --title 示例文章 --content 文章正文示例段落   # 随包演示 Cookie + 默认干跑（不加 --execute 即不发送）
 ```
 
 任一失败 → 按上文「输入清单」补凭据/依赖 → 重跑，通过前 STOP，不进入执行步骤。
@@ -77,13 +77,13 @@ python3 bilibili_publisher.py article-save --title t --content c   # 不加 --ex
 
 ```bash
 export BILI_COOKIE="SESSDATA=xxx; bili_jct=xxx; DedeUserID=xxx; ..."
-python3 bilibili_publisher.py article-save \
-  --title "我的专栏文章" \
-  --content "# 标题\n正文内容..." \
-  --summary "文章摘要" \
-  --category 0 \
-  --tags "Python,AI" \
-  --images "https://example.com/img1.png"
+# python3 bilibili_publisher.py article-save \
+#   --title "我的专栏文章" \
+#   --content "# 标题\n正文内容..." \
+#   --summary "文章摘要" \
+#   --category 0 \
+#   --tags "Python,AI" \
+#   --images "https://example.com/img1.png"
 ```
 
 预期：输出 `[PLAN] POST <端点>` 与完整 payload JSON，无任何网络请求。
@@ -98,11 +98,11 @@ python3 bilibili_publisher.py article-save \
 ### 步骤 4：真实执行
 
 ```bash
-python3 bilibili_publisher.py article-save --execute --title "..." --content "..."   # 草稿保存
-python3 bilibili_publisher.py article-publish --execute <article_id>                  # 专栏发布
-python3 bilibili_publisher.py dynamic-post --execute \
-  --content "发个动态 #话题#" \
-  --images "https://example.com/img1.png,https://example.com/img2.png"                # 动态发布
+# python3 bilibili_publisher.py article-save --execute --title "..." --content "..."   # 草稿保存
+# python3 bilibili_publisher.py article-publish --execute <article_id>                  # 专栏发布
+# python3 bilibili_publisher.py dynamic-post --execute \
+#   --content "发个动态 #话题#" \
+#   --images "https://example.com/img1.png,https://example.com/img2.png"                # 动态发布
 ```
 
 预期：打印平台 JSON 响应，`code` 为 0 表示成功；article-save 响应含新草稿 ID。

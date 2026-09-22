@@ -1,0 +1,91 @@
+{
+ "tools": [
+  {
+   "name": "lint_check",
+   "purpose": "对稿件做 lint 检查，返回问题列表",
+   "category": "analysis",
+   "inputs": [
+    {
+     "name": "path",
+     "type": "string",
+     "required": true,
+     "description": "稿件路径"
+    }
+   ],
+   "outputs": [
+    {
+     "name": "issues",
+     "type": "array",
+     "description": "问题列表"
+    }
+   ],
+   "error_conditions": [
+    "文件不存在",
+    "编码非 UTF-8"
+   ],
+   "side_effects": [],
+   "idempotent": true,
+   "rate_limits": {
+    "max_calls_per_minute": 60
+   },
+   "dependencies": [],
+   "examples": [
+    {
+     "input": {
+      "path": "draft.md"
+     },
+     "output": {
+      "issues": []
+     },
+     "note": "对样例稿件的空问题列表"
+    }
+   ],
+   "security_requirements": [
+    "只读访问稿件目录"
+   ]
+  },
+  {
+   "name": "report_render",
+   "purpose": "把审校结果渲染为 JSON 报告",
+   "category": "rendering",
+   "inputs": [
+    {
+     "name": "report",
+     "type": "string",
+     "required": true,
+     "description": "审校结果 JSON 字符串"
+    }
+   ],
+   "outputs": [
+    {
+     "name": "report_path",
+     "type": "string",
+     "description": "报告文件路径"
+    }
+   ],
+   "error_conditions": [
+    "JSON 解析失败"
+   ],
+   "side_effects": [
+    "写盘"
+   ],
+   "idempotent": true,
+   "rate_limits": {},
+   "dependencies": [],
+   "examples": [
+    {
+     "input": {
+      "path": "draft.md"
+     },
+     "output": {
+      "issues": []
+     },
+     "note": "对样例稿件的空问题列表"
+    }
+   ],
+   "security_requirements": [
+    "只读访问稿件目录"
+   ]
+  }
+ ]
+}

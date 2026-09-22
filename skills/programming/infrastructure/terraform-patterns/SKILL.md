@@ -114,13 +114,13 @@ SECURITY
 
 #### 步骤 3：生成结构报告
 
-- **动作：** `python3 scripts/tf_module_analyzer.py ./terraform`
+- **动作：** `python3 scripts/tf_module_analyzer.py assets/terraform`
 - **预期：** 文本报告列出 resource/variable/output 分析与命名检查；退出码 0。
 - **失败时：** argparse 报错 → 把目录作为位置参数传入；解析异常 → HCL 可能非标准，在报告中注明。
 
 #### 步骤 4：跑安全扫描
 
-- **动作：** `python3 scripts/tf_security_scanner.py ./terraform`
+- **动作：** `python3 scripts/tf_security_scanner.py assets/terraform`
 - **预期：** 带严重度的发现项清单；退出码 0（strict 模式会升级 warning——CI 中用 `--strict`）。
 - **失败时：** 有发现项 → 按下方 `/terraform:security` 表分诊；存在 Critical 发现项时不要合并。
 
@@ -208,7 +208,7 @@ COMPOSITION
 
 #### 步骤 3：生成安全报告
 
-- **动作：** `python3 scripts/tf_security_scanner.py ./terraform`（CI 加 `--output json`；`--strict` 升级 warning）
+- **动作：** `python3 scripts/tf_security_scanner.py assets/terraform`（CI 加 `--output json`；`--strict` 升级 warning）
 - **预期：** 机器可读的发现项与人工审计一致；无 Critical 发现项脱离跟踪。
 - **失败时：** 扫描器与人工审计不一致 → 以人工对照为准；人工表才是事实源。
 
@@ -223,14 +223,14 @@ COMPOSITION
 
 ```bash
 # 分析一个 Terraform 目录
-python3 scripts/tf_module_analyzer.py ./terraform
-python3 scripts/tf_module_analyzer.py ./terraform --output json
+python3 scripts/tf_module_analyzer.py assets/terraform
+python3 scripts/tf_module_analyzer.py assets/terraform --output json
 python3 scripts/tf_module_analyzer.py ./modules/vpc
 
 # 扫描一个 Terraform 目录
-python3 scripts/tf_security_scanner.py ./terraform
-python3 scripts/tf_security_scanner.py ./terraform --output json
-python3 scripts/tf_security_scanner.py ./terraform --strict
+python3 scripts/tf_security_scanner.py assets/terraform
+python3 scripts/tf_security_scanner.py assets/terraform --output json
+python3 scripts/tf_security_scanner.py assets/terraform --strict
 ```
 
 ## 模块设计模式

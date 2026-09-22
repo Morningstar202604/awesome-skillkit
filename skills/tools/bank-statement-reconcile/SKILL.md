@@ -52,10 +52,10 @@ metadata:
 
 ```bash
 # 1. 干跑：看匹配率 + 未匹配示例
-python3 scripts/reconcile.py --statement ./bank.csv --billing ./my_expenses.csv
+python3 scripts/reconcile.py --statement assets/sample-statement.csv --billing assets/sample-billing.csv
 
 # 2. 指定列名 + 落 JSON 报告
-python3 scripts/reconcile.py --statement ./bank.csv --billing ./my_expenses.csv \
+python3 scripts/reconcile.py --statement assets/sample-statement.csv --billing assets/sample-billing.csv \
   --amount-col 金额 --date-col 日期 --party-col 对方 \
   --write -o ./reconcile.json
 

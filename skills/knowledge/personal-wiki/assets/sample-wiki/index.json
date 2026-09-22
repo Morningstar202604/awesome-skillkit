@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "generated_at": "2026-09-22T03:55:19+00:00",
+  "root_name": "sample-wiki",
+  "count": 2,
+  "pages": [
+    {
+      "path": "notes/glossary.md",
+      "bucket": "notes",
+      "slug": "glossary",
+      "title": "术语表",
+      "tags": [],
+      "links": [
+        {
+          "target": "home",
+          "alias": null
+        }
+      ],
+      "words": 27,
+      "lines": 6,
+      "empty": false,
+      "backlinks": [
+        "notes/home.md"
+      ],
+      "outlinks": 1
+    },
+    {
+      "path": "notes/home.md",
+      "bucket": "notes",
+      "slug": "home",
+      "title": "首页",
+      "tags": [],
+      "links": [
+        {
+          "target": "glossary",
+          "alias": null
+        }
+      ],
+      "words": 15,
+      "lines": 3,
+      "empty": false,
+      "backlinks": [
+        "notes/glossary.md"
+      ],
+      "outlinks": 1
+    }
+  ],
+  "unresolved_links": []
+}

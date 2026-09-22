@@ -623,8 +623,13 @@ class UpgradePlanner:
     
     def _generate_upgrade_statistics(self, upgrades: List[DependencyUpgrade]) -> Dict[str, Any]:
         """Generate statistics about available upgrades."""
+        # 空列表也返回完整骨架：下游 _generate_recommendations/_format_* 用硬索引取
+        # by_type/by_risk/risk_assessment，返回 {} 会 KeyError（离线样例项目常见空升级集）。
+        upgrades = upgrades or []
         if not upgrades:
-            return {}
+            average_priority = 0.0
+        else:
+            average_priority = sum(u.priority_score for u in upgrades) / len(upgrades)
         
         return {
             'total_upgrades': len(upgrades),
@@ -643,7 +648,7 @@ class UpgradePlanner:
             },
             'security_updates': len([u for u in upgrades if u.security_updates]),
             'direct_dependencies': len([u for u in upgrades if u.direct]),
-            'average_priority': sum(u.priority_score for u in upgrades) / len(upgrades)
+            'average_priority': average_priority
         }
     
     def _perform_risk_assessment(self, upgrades: List[DependencyUpgrade]) -> Dict[str, Any]:

@@ -47,18 +47,18 @@ metadata:
 
 ```bash
 # 1. 干跑：看会填什么、有哪些占位符没数据
-python3 scripts/fill_template.py --template ./tpl.docx --data ./data.json
+python3 scripts/fill_template.py --template assets/sample-template.docx --data assets/sample-data.json
 
 # 2. 真写（输出到新文件，模板不动）
-python3 scripts/fill_template.py --template ./tpl.docx --data ./data.json \
+python3 scripts/fill_template.py --template assets/sample-template.docx --data assets/sample-data.json \
   --apply -o ./out.docx
 
 # 3. 加一条修订批注
-python3 scripts/fill_template.py --template ./tpl.docx --data ./data.json \
+python3 scripts/fill_template.py --template assets/sample-template.docx --data assets/sample-data.json \
   --apply -o ./out.docx --note-author 张审 --note-text "第三条金额请复核"
 
 # 4. 只看占位符清单
-python3 scripts/fill_template.py --template ./tpl.docx --data ./data.json --list-only
+python3 scripts/fill_template.py --template assets/sample-template.docx --data assets/sample-data.json --list-only
 ```
 
 批量场景：脚本单次只处理一份模板。要一份模板 + N 份数据 → 在 bash 里

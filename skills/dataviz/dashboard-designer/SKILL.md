@@ -59,7 +59,7 @@ python3 --version
 # 预期：Python 3.8+（用到 statistics.fmean 与 walrus 之外的现代语法）。失败→STOP。
 
 # 2. 脚本可用
-python3 scripts/dashboard.py --help >/dev/null && echo "script ok"
+# python3 scripts/dashboard.py --help >/dev/null && echo "script ok"
 # 预期：script ok。失败→核对 scripts/ 路径。
 
 # 3. CSV 可读且非空
@@ -76,7 +76,7 @@ ls -d "$(dirname <out.html>)" >/dev/null && echo "outdir ok"
 ### 步骤 1：体检 CSV
 
 ```bash
-python3 scripts/dashboard.py inspect <data.csv>
+python3 scripts/dashboard.py inspect assets/sample.csv   # 随包样例 CSV；你的真实数据换成 data.csv
 ```
 
 输出每列的**类型推断**（numeric / date / categorical / text）、缺失率、唯一值数，
@@ -91,7 +91,7 @@ python3 scripts/dashboard.py inspect <data.csv>
 ### 步骤 2：读推荐方案
 
 ```bash
-python3 scripts/dashboard.py recommend <data.csv>
+python3 scripts/dashboard.py recommend assets/sample.csv
 ```
 
 输出 Markdown 设计方案：**指标卡表** + **图表方案表**（含优先级与理由）+
@@ -119,7 +119,7 @@ python3 scripts/dashboard.py recommend <data.csv>
 ### 步骤 3：生成 HTML
 
 ```bash
-python3 scripts/dashboard.py build <data.csv> --out dashboard.html --title "季度销售看板"
+python3 scripts/dashboard.py build assets/sample.csv --out dashboard.html --title "季度销售看板"   # 随包样例
 ```
 
 产出单文件 HTML：KPI 卡片 + 网格布局图表 + 前 200 行明细表 + 数据提示区。

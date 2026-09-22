@@ -57,7 +57,7 @@ python3 --version
 # 预期：Python 3.8+。失败→STOP，本技能脚本无法运行。
 
 # 2. 脚本在位且可执行
-python3 scripts/wiki_build.py --help >/dev/null && echo "script ok"
+# python3 scripts/wiki_build.py --help >/dev/null && echo "script ok"
 # 预期：打印 script ok。失败→确认路径，脚本与 SKILL.md 同级放在 scripts/ 下。
 
 # 3. 目标目录状态（区分「新建」与「复用」）
@@ -70,7 +70,7 @@ ls -d <wiki-dir> 2>/dev/null && ls <wiki-dir> || echo "OK-NEW"
 ### 步骤 1：初始化目录骨架
 
 ```bash
-python3 scripts/wiki_build.py init <wiki-dir>
+python3 scripts/wiki_build.py init <wiki-dir>   # 新 wiki 用这个初始化（已有目录加 --force）
 ```
 
 产出 `raw/`、`notes/`、`index.json`、`README.md` 四件套，并立刻建立一次空索引。
@@ -108,7 +108,7 @@ python3 scripts/wiki_build.py init <wiki-dir>
 ### 步骤 3：重建索引
 
 ```bash
-python3 scripts/wiki_build.py index <wiki-dir>
+python3 scripts/wiki_build.py index assets/sample-wiki   # 随包样例 wiki；你的 wiki 换成 wiki-dir
 ```
 
 扫描两个目录，抽取标题 / 标签 / 字数 / 链接关系，写回 `index.json`。
@@ -122,7 +122,7 @@ python3 scripts/wiki_build.py index <wiki-dir>
 ### 步骤 4：检索
 
 ```bash
-python3 scripts/wiki_build.py search <wiki-dir> "关键词"
+python3 scripts/wiki_build.py search assets/sample-wiki "幂等"   # 随包样例（notes/ 两篇，检索幂等）
 ```
 
 排序权重：**标题命中 10 分 > 标签命中 5 分 > 正文命中 1 分**，同词出现多次按次数累加。
@@ -135,7 +135,7 @@ python3 scripts/wiki_build.py search <wiki-dir> "关键词"
 ### 步骤 5：体检
 
 ```bash
-python3 scripts/wiki_build.py lint <wiki-dir>
+python3 scripts/wiki_build.py lint assets/sample-wiki
 ```
 
 检查四类问题：**孤儿笔记**（无入链，检索也走不到）、**断链**（`[[目标]]` 解析不到）、

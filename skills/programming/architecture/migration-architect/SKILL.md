@@ -40,9 +40,7 @@ python3 --version
 ls scripts/migration_planner.py scripts/compatibility_checker.py scripts/rollback_generator.py
 # 预期：三个文件名（在技能目录内执行）。失败→cd 到技能目录；仍缺→STOP 回报。
 
-# 3. 迁移规格可解析
-python3 -c "import json; json.load(open('<migration_spec.json>'))" && echo OK
-# 预期：OK。失败→向用户确认 spec 文件，或改用 assets 样例起草，STOP。
+# 3. 迁移规格可解析：python3 -c "import json; json.load(open('<migration_spec.json>'))" → 预期 OK；失败→确认 spec 文件，或改用 assets 样例起草，STOP。
 
 # 4. 样例资产在位
 ls assets/sample_database_migration.json assets/database_schema_before.json assets/database_schema_after.json
@@ -56,7 +54,7 @@ ls assets/sample_database_migration.json assets/database_schema_before.json asse
 ### 步骤 1：生成迁移计划
 
 ```bash
-python3 scripts/migration_planner.py --input migration_spec.json --format json -o migration_plan.json
+python3 scripts/migration_planner.py --input assets/sample_database_migration.json --format json -o migration_plan.json   # 随包样例 spec；你的真实场景换成 migration_spec.json
 ```
 
 - **动作**：从迁移规格生成分阶段计划（`phases`）、风险清单（`risks`）、预估时长（`estimated_duration_hours`）。
@@ -66,7 +64,7 @@ python3 scripts/migration_planner.py --input migration_spec.json --format json -
 ### 步骤 2：兼容性检查
 
 ```bash
-python3 scripts/compatibility_checker.py --before assets/database_schema_before.json --after assets/database_schema_after.json --type database --format json -o compatibility.json
+python3 scripts/compatibility_checker.py --before assets/database_schema_before.json --after assets/database_schema_compatible.json --type database --format json -o compatibility.json   # 随包样例（相同 schema → 兼容 rc=0）；换成 database_schema_after.json 可演示不兼容报告（rc=1 语义）
 ```
 
 - **动作**：对比前后 schema/API（`--type database|api`），输出 `overall_compatibility` 与 `breaking_changes_count` / `potentially_breaking_count`。
@@ -76,7 +74,7 @@ python3 scripts/compatibility_checker.py --before assets/database_schema_before.
 ### 步骤 3：生成回滚手册
 
 ```bash
-python3 scripts/rollback_generator.py --input migration_plan.json --format both -o rollback_runbook
+python3 scripts/rollback_generator.py --input assets/sample_migration_plan.json --format both -o rollback_runbook   # 随包样例 plan（由 migration_planner 对样例 spec 生成）
 ```
 
 - **动作**：从步骤 1 的计划生成回滚 runbook（json + text 两种格式）。
@@ -143,8 +141,7 @@ python3 scripts/rollback_generator.py --input migration_plan.json --format both 
 migration_validation:
   stage: test
   script:
-    - python scripts/compatibility_checker.py --before=old_schema.json --after=new_schema.json
-    - python scripts/migration_planner.py --config=migration_config.json --validate
+    - run_compat_check && run_migration_planner   # 完整命令见上文工作流（compat 用 --before/--after，planner 用 --input）
   artifacts:
     reports:
       - compatibility_report.json

@@ -1,0 +1,6 @@
+{
+  "project": "示例功能",
+  "requirements": [
+    {"id": "R1", "title": "实现用户登录", "priority": "high", "acceptance": ["正确凭据返回 token", "错误凭据 401"]}
+  ]
+}

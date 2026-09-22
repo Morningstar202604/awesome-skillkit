@@ -78,8 +78,8 @@ metadata:
 ### 步骤 3（audit 模式）：跑结构审计
 
 ```bash
-python3 scripts/prompt_audit.py --prompt "<待审文本>"            # task 模式五要素
-python3 scripts/prompt_audit.py --prompt "<system prompt>" --mode agent   # 五段骨架
+python3 scripts/prompt_audit.py --file assets/sample-system-prompt.md            # task 模式五要素（随包样例）
+python3 scripts/prompt_audit.py --file assets/sample-system-prompt.md --mode agent   # 五段骨架（随包样例，预期 5/5）
 ```
 
 预期：输出 JSON，含每个要素 `hit/miss` 与缺失清单。miss 项按要素语义补齐，不堆字数。

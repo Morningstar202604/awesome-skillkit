@@ -1,0 +1,298 @@
+[
+ {
+  "skill": "integrations/feishu-dingtalk-bridge",
+  "script": "skills/integrations/feishu-dingtalk-bridge/scripts/im_bridge.py",
+  "verdict": "fail",
+  "argv": [
+   ">/dev/null",
+   "&&",
+   "echo",
+   "CLI_OK"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "usage: im_bridge.py [-h] {build-message,parse-webhook} ...\nim_bridge.py: error: argument cmd: invalid choice: '>/dev/null' (choose from 'build-message', 'parse-webhook')\n"
+ },
+ {
+  "skill": "integrations/issue-tracker-sync",
+  "script": "skills/integrations/issue-tracker-sync/scripts/issue_sync.py",
+  "verdict": "fail",
+  "argv": [
+   "field-map",
+   ">/dev/null",
+   "&&",
+   "echo",
+   "FIELD_MAP_OK"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "usage: issue_sync.py [-h] {build,field-map,weekly-report} ...\nissue_sync.py: error: unrecognized arguments: >/dev/null && echo FIELD_MAP_OK\n"
+ },
+ {
+  "skill": "integrations/notion-workspace",
+  "script": "skills/integrations/notion-workspace/scripts/notion_ops.py",
+  "verdict": "fail",
+  "argv": [
+   ">/dev/null",
+   "&&",
+   "echo",
+   "CLI_OK"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "usage: notion_ops.py [-h]\n                     {build-page,build-database-query,parse-page,blocks-to-markdown} ...\nnotion_ops.py: error: argument cmd: invalid choice: '>/dev/null' (choose from 'build-page', 'build-database-query', 'parse-page', 'blocks-to-markdown')\n"
+ },
+ {
+  "skill": "office/docx-template-fill",
+  "script": "skills/office/docx-template-fill/scripts/fill_template.py",
+  "verdict": "fail",
+  "argv": [
+   "--template",
+   "./tpl.docx",
+   "--data",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_data.json",
+   "--list-only"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "[ERROR] template not found: ./tpl.docx\n"
+ },
+ {
+  "skill": "office/epub-builder",
+  "script": "skills/office/epub-builder/scripts/epub_build.py",
+  "verdict": "fail",
+  "argv": [
+   ">/dev/null",
+   "&&",
+   "echo",
+   "script ok"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "usage: epub_build.py [-h] {build,inspect} ...\nepub_build.py: error: argument cmd: invalid choice: '>/dev/null' (choose from 'build', 'inspect')\n"
+ },
+ {
+  "skill": "office/pdf-pipeline",
+  "script": "skills/office/pdf-pipeline/scripts/pdf_ops.py",
+  "verdict": "fail",
+  "argv": [
+   "rotate",
+   "merged.pdf",
+   "--degrees",
+   "90",
+   "--pages",
+   "1-2",
+   "--output",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "ERROR: 文件不存在：merged.pdf\n"
+ },
+ {
+  "skill": "tools/bank-statement-reconcile",
+  "script": "skills/tools/bank-statement-reconcile/scripts/reconcile.py",
+  "verdict": "fail",
+  "argv": [
+   "--statement",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_bank.csv",
+   "--billing",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_my_expenses.csv"
+  ],
+  "reason": "rc=3",
+  "stderr_tail": "[ERROR] cannot locate amount/date columns (amt_s=None, amt_b=None, date_s=None, date_b=None)\n"
+ },
+ {
+  "skill": "tools/batch-renamer",
+  "script": "skills/tools/batch-renamer/scripts/rename.py",
+  "verdict": "fail",
+  "argv": [
+   "apply",
+   "$TARGET_DIR",
+   "--pattern",
+   "IMG_{n:03d}.{ext}",
+   "--yes"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "ERROR: 不是目录: $TARGET_DIR\n"
+ },
+ {
+  "skill": "tools/file-organizer",
+  "script": "skills/tools/file-organizer/scripts/organize.py",
+  "verdict": "fail",
+  "argv": [
+   "apply",
+   "$TARGET_DIR",
+   "--by",
+   "type",
+   "--dry-run"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "ERROR: 不是目录: $TARGET_DIR\n"
+ },
+ {
+  "skill": "tools/format-converter",
+  "script": "skills/tools/format-converter/scripts/convert.py",
+  "verdict": "fail",
+  "argv": [
+   "image",
+   "photo.png",
+   "photo.jpg",
+   "--width",
+   "800",
+   "--quality",
+   "85"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "ERROR: 输入文件不存在: photo.png\n"
+ },
+ {
+  "skill": "tools/invoice-organizer",
+  "script": "skills/tools/invoice-organizer/scripts/organize_invoices.py",
+  "verdict": "fail",
+  "argv": [
+   "--src",
+   "./loose_invoices",
+   "--dst",
+   "./organized"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "[ERROR] src not found: ./loose_invoices\n"
+ },
+ {
+  "skill": "writing/ai-trace-auditor",
+  "script": "skills/writing/ai-trace-auditor/scripts/trace_scanner.py",
+  "verdict": "fail",
+  "argv": [
+   "文本文件路径"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "error: cannot read 文本文件路径: [Errno 2] No such file or directory: '文本文件路径'\n"
+ },
+ {
+  "skill": "writing/blog/cnblogs-skill",
+  "script": "skills/writing/blog/cnblogs-skill/scripts/cnblogs-pre-publish-check.py",
+  "verdict": "fail",
+  "argv": [
+   "<markdown_file>",
+   "--title",
+   "文章标题"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": ""
+ },
+ {
+  "skill": "writing/blog/csdn-publisher",
+  "script": "skills/writing/blog/csdn-publisher/scripts/csdn_publisher.py",
+  "verdict": "fail",
+  "argv": [
+   "--version",
+   "&&",
+   "test",
+   "-f",
+   "scripts/csdn_publisher.py",
+   "&&",
+   "echo",
+   "OK"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "usage: csdn_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]\n                         {categories,draft-save,publish,edit,delete,list} ...\ncsdn_publisher.py: error: argument cmd: invalid choice: '&&' (choose from 'categories', 'draft-save', 'publish', 'edit', 'delete', 'list')\n"
+ },
+ {
+  "skill": "writing/blog/jianshu-publisher",
+  "script": "skills/writing/blog/jianshu-publisher/scripts/jianshu_publisher.py",
+  "verdict": "fail",
+  "argv": [
+   "--version",
+   "&&",
+   "test",
+   "-f",
+   "scripts/jianshu_publisher.py",
+   "&&",
+   "echo",
+   "OK"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "usage: jianshu_publisher.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]\n                            {draft-save,publish,edit,delete} ...\njianshu_publisher.py: error: argument cmd: invalid choice: '&&' (choose from 'draft-save', 'publish', 'edit', 'delete')\n"
+ },
+ {
+  "skill": "writing/blog/static-blog-deploy",
+  "script": "skills/writing/blog/static-blog-deploy/scripts/static_blog_deploy.py",
+  "verdict": "fail",
+  "argv": [
+   "--version",
+   "&&",
+   "test",
+   "-f",
+   "scripts/static_blog_deploy.py",
+   "&&",
+   "echo",
+   "OK"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "--cwd CWD]\n                             {hexo-deploy,hugo-deploy,github-pages,gitlab-pages,vercel-deploy,netlify-deploy} ...\nstatic_blog_deploy.py: error: argument cmd: invalid choice: '&&' (choose from 'hexo-deploy', 'hugo-deploy', 'github-pages', 'gitlab-pages', 'vercel-deploy', 'netlify-deploy')\n"
+ },
+ {
+  "skill": "writing/juejin/juejin-publisher",
+  "script": "skills/writing/juejin/juejin-publisher/scripts/juejin_publish.py",
+  "verdict": "fail",
+  "argv": [
+   "--execute",
+   "categories",
+   "|",
+   "head",
+   "-5"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "usage: juejin_publish.py [-h] [--cookie COOKIE] [--cookie-file COOKIE_FILE]\n                         {categories,tags,draft-save,publish} ...\njuejin_publish.py: error: unrecognized arguments: --execute | head -5\n"
+ },
+ {
+  "skill": "writing/orchestrator/cross-post-orchestrator",
+  "script": "skills/writing/orchestrator/cross-post-orchestrator/scripts/cross_post.py",
+  "verdict": "error",
+  "argv": [
+   "--manifest",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_post.manifest.json",
+   "run",
+   "--only",
+   "juejin"
+  ],
+  "reason": null,
+  "stderr_tail": "   manifest = load_manifest(args.manifest)\n  File \"C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\writing\\orchestrator\\cross-post-orchestrator\\scripts\\cross_post.py\", line 66, in load_manifest\n    raise ValueError(\"manifest 缺少必填字段: %s\" % key)\nValueError: manifest 缺少必填字段: title\n"
+ },
+ {
+  "skill": "writing/video/bilibili-publisher",
+  "script": "skills/writing/video/bilibili-publisher/scripts/bilibili_publisher.py",
+  "verdict": "fail",
+  "argv": [
+   "article-save",
+   "--execute",
+   "--title",
+   "...",
+   "--content",
+   "..."
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "缺少认证：设置环境变量 BILI_COOKIE 或提供凭据文件\n"
+ },
+ {
+  "skill": "writing/wechat/wechat-mp-publisher",
+  "script": "skills/writing/wechat/wechat-mp-publisher/scripts/wechat_mp_publish.py",
+  "verdict": "fail",
+  "argv": [
+   "--execute",
+   "add-thumb",
+   "cover.jpg"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "usage: wechat_mp_publish.py [-h] [--appid APPID] [--secret SECRET]\n                            {token,upload-img,add-thumb,add-draft,publish} ...\nwechat_mp_publish.py: error: unrecognized arguments: --execute\n"
+ },
+ {
+  "skill": "writing/zhihu/zhihu-content-manager",
+  "script": "skills/writing/zhihu/zhihu-content-manager/scripts/zhihu_html_lint.py",
+  "verdict": "fail",
+  "argv": [
+   ">",
+   "/dev/null",
+   "&&",
+   "echo",
+   "lint-ok"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "usage: zhihu_html_lint.py [-h] [--json] [--strict] html_file\nzhihu_html_lint.py: error: unrecognized arguments: /dev/null && echo lint-ok\n"
+ }
+]

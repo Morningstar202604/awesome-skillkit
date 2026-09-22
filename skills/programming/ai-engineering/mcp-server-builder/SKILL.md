@@ -38,19 +38,11 @@ metadata:
 ### 步骤 1：从 OpenAPI 生成 MCP 脚手架
 
 ```bash
-python3 scripts/openapi_to_mcp.py \
-  --input openapi.json \
-  --server-name billing-mcp \
-  --language python \
-  --output-dir ./out \
-  --format text
+python3 scripts/openapi_to_mcp.py --input examples/mini-openapi.json --server-name billing-mcp --language python --output-dir out --format text   # 随包样例规格；你的真实规格换成 --input openapi.json
 ```
 
-也支持 stdin：
-
-```bash
-cat openapi.json | python3 scripts/openapi_to_mcp.py --server-name billing-mcp --language typescript
-```
+也支持 stdin（此处以注释示意，避免与上方可运行示例混淆）：
+`cat openapi.json | python3 scripts/openapi_to_mcp.py --server-name billing-mcp --language typescript --output-dir out`
 
 动作：读取 OpenAPI，将 paths/operations 转为 MCP tool 定义，生成 manifest + 起始服务端代码。
 预期：在 `--output-dir` 下生成服务端脚手架与 `tool_manifest.json`；退出码 `0`；`--format text` 打印报告。
@@ -59,7 +51,7 @@ cat openapi.json | python3 scripts/openapi_to_mcp.py --server-name billing-mcp -
 ### 步骤 2：校验 MCP 工具定义
 
 ```bash
-python3 scripts/mcp_validator.py --input out/tool_manifest.json --strict --format text
+python3 scripts/mcp_validator.py --input examples/sample-tool-manifest.json --strict --format text   # 随包样例 manifest；你生成的产物在 out/tool_manifest.json
 ```
 
 动作：在集成测试前校验 manifest，检查重复名、非法 schema 形状、缺失描述、空 required 字段、命名卫生。

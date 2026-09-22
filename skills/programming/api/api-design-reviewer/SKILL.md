@@ -47,12 +47,18 @@ python3 -c "import json,sys; json.load(open('<spec>'))" && echo OK
 
 ## 工作流
 
-命令在技能目录（`skills/programming/api/api-design-reviewer/`）内执行。无现成 spec 时，先跑 `python3 scripts/api_linter.py --sample` 熟悉输出结构。
+命令在技能目录（`skills/programming/api/api-design-reviewer/`）内执行。无现成 spec 时可用随包样例 `examples/spec.json`（与 `--sample` 内置样例同源）。
+
+### 步骤 0：内置样例体验（可选）
+
+```bash
+python3 scripts/api_linter.py --sample   # 无 spec 时先用内置样例熟悉输出结构
+```
 
 ### 步骤 1：Lint 规范
 
 ```bash
-python3 scripts/api_linter.py openapi.json --format json --output lint.json
+python3 scripts/api_linter.py examples/spec.json --format json --output lint.json   # 你的真实 spec 换成 openapi.json
 ```
 
 - **动作**：检查资源命名（资源 kebab-case、字段 camelCase）、HTTP 方法用法、URL 结构、状态码合规、错误响应结构一致性、文档覆盖度。
@@ -72,7 +78,7 @@ python3 scripts/breaking_change_detector.py openapi-v1.json openapi-v2.json --fo
 ### 步骤 3：设计评分
 
 ```bash
-python3 scripts/api_scorecard.py openapi.json --format json --min-grade B --output scorecard.json
+python3 scripts/api_scorecard.py examples/spec.json --format json --output scorecard.json   # 加 --min-grade B 即为门禁模式（等级低于门槛时退出码非 0，报告仍完整输出）
 ```
 
 - **动作**：五维评分——Consistency 30%、Documentation 20%、Security 20%、Usability 15%、Performance 15%，输出 0-100 分与 A-F 等级、改进建议。

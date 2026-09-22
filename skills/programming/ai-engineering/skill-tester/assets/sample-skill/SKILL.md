@@ -52,27 +52,27 @@ Sample Text Processor 是一个简单的示范技能，用于展示 claude-skill
 
 ### 基础文本分析
 ```bash
-python text_processor.py analyze document.txt
-python text_processor.py analyze document.txt --output results.json
+python text_processor.py analyze assets/sample_text.txt
+python text_processor.py --output results.json analyze assets/sample_text.txt
 ```
 
 ### 文本转换
 ```bash
-python text_processor.py transform document.txt --mode uppercase
-python text_processor.py transform document.txt --mode title --output transformed.txt
+python text_processor.py transform assets/sample_text.txt --mode upper
+python text_processor.py --output transformed.txt transform assets/sample_text.txt --mode title
 ```
 
 ### 批量处理
 ```bash
-python text_processor.py batch text_files/ --output results/
-python text_processor.py batch text_files/ --format json --output batch_results.json
+python text_processor.py --output results/ batch assets/
+python text_processor.py --format json --output batch_results.json batch assets/
 ```
 
 ## 示例
 
 ### 示例 1：基础词数统计
 ```bash
-$ python text_processor.py analyze sample.txt
+$ python text_processor.py analyze assets/sample_text.txt
 === TEXT ANALYSIS RESULTS ===
 File: sample.txt
 Total words: 150
@@ -84,7 +84,7 @@ Most frequent word: "the" (8 occurrences)
 
 ### 示例 2：JSON 输出
 ```bash
-$ python text_processor.py analyze sample.txt --format json
+$ python text_processor.py analyze assets/sample_text.txt --format json
 {
   "file": "sample.txt",
   "statistics": {

@@ -1,0 +1,55 @@
+{
+ "openapi": "3.0.0",
+ "info": {
+  "title": "Sample API",
+  "version": "1.0.0"
+ },
+ "servers": [
+  {
+   "url": "https://api.example.com"
+  }
+ ],
+ "paths": {
+  "/user-profiles/{userId}": {
+   "get": {
+    "summary": "Get a user profile",
+    "responses": {
+     "200": {
+      "description": "OK"
+     },
+     "404": {
+      "description": "Not found"
+     }
+    },
+    "parameters": [
+     {
+      "name": "userId",
+      "in": "path",
+      "required": true
+     }
+    ]
+   }
+  },
+  "/user-profiles/create": {
+   "post": {
+    "summary": "Create a user profile (verb-in-URL anti-pattern)",
+    "responses": {
+     "201": {
+      "description": "Created"
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "UserProfile": {
+    "properties": {
+     "first_name": {
+      "type": "string"
+     }
+    }
+   }
+  }
+ }
+}

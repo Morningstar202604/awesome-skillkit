@@ -1,0 +1,6 @@
+{
+  "repo": ".",
+  "branch": "feature/demo-worktree",
+  "name": "demo-worktree",
+  "base": "HEAD"
+}

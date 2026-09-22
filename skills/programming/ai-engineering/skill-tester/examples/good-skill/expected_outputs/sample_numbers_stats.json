@@ -1,0 +1,12 @@
+{
+ "stats": {
+  "count": 4.0,
+  "mean": 2.625,
+  "median": 2.75,
+  "min": 1.0,
+  "max": 4.0,
+  "stddev": 1.1924,
+  "p50": 2.75
+ },
+ "precision": 4
+}

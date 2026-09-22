@@ -57,11 +57,11 @@ test -z "$REPORT" || test -f "$REPORT" || { echo "ERROR: report $REPORT not foun
 
 ```bash
 python scripts/tdd_cli.py workflow --requirement "实现用户登录"            # 红-绿-重构循环 + 阶段指引
-python scripts/tdd_cli.py detect --file src/service.py                  # 语言/框架/测试模式检测
-python scripts/tdd_cli.py gen-tests --requirements req.json --framework pytest   # 需求 → 测试用例
+python scripts/tdd_cli.py detect --file examples/src/service.py                  # 语言/框架/测试模式检测（随包样例）
+python scripts/tdd_cli.py gen-tests --requirements examples/req.json --framework pytest   # 需求 → 测试用例（随包样例）
 python scripts/tdd_cli.py fixtures --mode boundary --type int           # 边界值/边缘场景/mock 数据
-python scripts/tdd_cli.py coverage --report coverage.xml --threshold 80 # 覆盖率摘要/缺口/建议
-python scripts/tdd_cli.py metrics --source src/a.py --test tests/test_a.py      # 质量 metrics
+python scripts/tdd_cli.py coverage --report examples/coverage.xml --threshold 80 # 覆盖率摘要/缺口/建议（随包样例 cobertura）
+python scripts/tdd_cli.py metrics --source examples/src/service.py --test examples/tests/test_service.py      # 质量 metrics（随包样例）
 python scripts/tdd_cli.py stub --framework pytest --name test_login     # 测试骨架渲染
 ```
 
@@ -72,7 +72,7 @@ python scripts/tdd_cli.py stub --framework pytest --name test_login     # 测试
 ### 步骤 1：检测语言与框架
 
 ```bash
-python scripts/tdd_cli.py detect --file src/service.py
+python scripts/tdd_cli.py detect --file examples/src/service.py
 ```
 
 预期：输出检测到的语言、测试框架与既有测试模式。若失败：扩展名不受支持 → 显式指定 `--framework`。
@@ -83,7 +83,7 @@ python scripts/tdd_cli.py detect --file src/service.py
 # 从源码文件生成
 python scripts/test_generator.py --input math_utils.py --framework pytest
 # 经 CLI 从需求 JSON 生成
-python scripts/tdd_cli.py gen-tests --requirements req.json --framework pytest
+python scripts/tdd_cli.py gen-tests --requirements examples/req.json --framework pytest
 ```
 
 预期：产出测试骨架，覆盖正常路径、错误场景、边界场景。若失败：输出为空 → 检查 `--framework` 取值，确认输入可解析。
@@ -93,7 +93,7 @@ python scripts/tdd_cli.py gen-tests --requirements req.json --framework pytest
 ```bash
 python scripts/coverage_analyzer.py --report lcov.info --threshold 80
 # 或经 CLI
-python scripts/tdd_cli.py coverage --report coverage.xml --threshold 80
+python scripts/tdd_cli.py coverage --report examples/coverage.xml --threshold 80
 ```
 
 预期：按优先级输出缺口，标注 P0（关键，如未覆盖的错误路径）/ P1（核心分支）/ P2（工具函数），并给出达到阈值的建议。若失败：报告格式不受支持 → 先转成 LCOV/JSON/XML。
@@ -101,10 +101,10 @@ python scripts/tdd_cli.py coverage --report coverage.xml --threshold 80
 ### 步骤 4：驱动红-绿-重构
 
 ```bash
-python scripts/tdd_cli.py workflow --requirement "<feature>"   # 启动循环，获取阶段指引
+python scripts/tdd_cli.py workflow --requirement "给订单加优惠券校验"   # 启动循环，获取阶段指引
 python scripts/tdd_workflow.py --phase red   --test test_auth.py   # 写失败的测试
 python scripts/tdd_workflow.py --phase green --test test_auth.py   # 最小化实现
-python scripts/tdd_cli.py metrics --source src/a.py --test tests/test_a.py  # 验证
+python scripts/tdd_cli.py metrics --source examples/src/service.py --test examples/tests/test_service.py  # 验证
 ```
 
 预期：每轮循环结束时目标测试全部通过；`metrics` 无回归。若失败：最小实现后测试仍红 → 问题在实现而不在测试；回头重审需求。

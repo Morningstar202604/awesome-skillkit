@@ -55,7 +55,7 @@ test -f scripts/channel_fit_check.py && echo SCRIPT-OK
 ### 步骤 3：跑适配校验（机器守门）
 
 ```bash
-python3 scripts/channel_fit_check.py --file variant.md --channel xhs
+python3 scripts/channel_fit_check.py --file assets/sample-variant.md --channel xhs   # 随包样例（xhs 上限内）；你的变体换成 variant.md
 python3 scripts/channel_fit_check.py --text "30 字内的搜索标题" --channel search-ad
 ```
 

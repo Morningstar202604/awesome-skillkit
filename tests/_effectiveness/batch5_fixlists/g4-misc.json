@@ -1,0 +1,194 @@
+[
+ {
+  "skill": "audio/podcast-producer",
+  "script": "skills/audio/podcast-producer/scripts/script_lint.py",
+  "verdict": "fail",
+  "argv": [
+   "--file",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_script.md",
+   "--dialogue"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": ""
+ },
+ {
+  "skill": "chat/chat-prompt-engineer",
+  "script": "skills/chat/chat-prompt-engineer/scripts/prompt_audit.py",
+  "verdict": "fail",
+  "argv": [
+   "--prompt",
+   "<system prompt>",
+   "--mode",
+   "agent"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": ""
+ },
+ {
+  "skill": "dataviz/dashboard-designer",
+  "script": "skills/dataviz/dashboard-designer/scripts/dashboard.py",
+  "verdict": "fail",
+  "argv": [
+   "build",
+   "<data.csv>",
+   "--out",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_out.json",
+   "--title",
+   "季度销售看板"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "ERROR: CSV 不存在：<data.csv>\n"
+ },
+ {
+  "skill": "design/layout-spec-auditor",
+  "script": "skills/design/layout-spec-auditor/scripts/spec_audit.py",
+  "verdict": "fail",
+  "argv": [
+   "--width",
+   "896",
+   "--height",
+   "384",
+   "--expect",
+   "900x383",
+   "--file-mb",
+   "0.4"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": ""
+ },
+ {
+  "skill": "education/exercise-generator",
+  "script": "skills/education/exercise-generator/scripts/exercise_lint.py",
+  "verdict": "fail",
+  "argv": [
+   "--text",
+   ";",
+   "echo",
+   "exit=$?"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "usage: exercise_lint.py [-h] [--file FILE] [--text TEXT] [--allow-mcq]\nexercise_lint.py: error: unrecognized arguments: echo exit=$?\n"
+ },
+ {
+  "skill": "knowledge/knowledge-graph-builder",
+  "script": "skills/knowledge/knowledge-graph-builder/scripts/graph_build.py",
+  "verdict": "fail",
+  "argv": [
+   "export",
+   "<notes-dir>",
+   "--format",
+   "dot",
+   "--out",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_out.json"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "ERROR: 目录不存在：C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\knowledge\\knowledge-graph-builder\\<notes-dir>\n"
+ },
+ {
+  "skill": "knowledge/personal-wiki",
+  "script": "skills/knowledge/personal-wiki/scripts/wiki_build.py",
+  "verdict": "fail",
+  "argv": [
+   ">/dev/null",
+   "&&",
+   "echo",
+   "script ok"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "usage: wiki_build.py [-h] {init,index,search,lint,stats} ...\nwiki_build.py: error: argument cmd: invalid choice: '>/dev/null' (choose from 'init', 'index', 'search', 'lint', 'stats')\n"
+ },
+ {
+  "skill": "marketing/channel-adapter",
+  "script": "skills/marketing/channel-adapter/scripts/channel_fit_check.py",
+  "verdict": "fail",
+  "argv": [
+   "--file",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_variant.md",
+   "--channel",
+   "xhs"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": ""
+ },
+ {
+  "skill": "meta/agent-eval-harness",
+  "script": "skills/meta/agent-eval-harness/scripts/eval_harness.py",
+  "verdict": "error",
+  "argv": [
+   "--input",
+   "cases.jsonl",
+   "--index",
+   "0",
+   "--mode",
+   "judge",
+   "--out",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_out.json"
+  ],
+  "reason": null,
+  "stderr_tail": "th open(path, encoding=\"utf-8\") as fh:\n         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\X1882\\AppData\\Roaming\\Python\\Python313\\site-packages\\sitecustomize.py\", line 28, in utf8_open\n    return original_open(*args, **kwargs)\nFileNotFoundError: [Errno 2] No such file or directory: 'cases.jsonl'\n"
+ },
+ {
+  "skill": "meta/skill-linter",
+  "script": "skills/meta/skill-linter/scripts/lint_skill.py",
+  "verdict": "fail",
+  "argv": [
+   "$d",
+   "--json",
+   ">",
+   "/dev/null",
+   "||",
+   "exit",
+   "1"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "usage: lint_skill.py [-h] [--json] [--verbose] target\nlint_skill.py: error: unrecognized arguments: > /dev/null || exit 1\n"
+ },
+ {
+  "skill": "meta/weekly-report-generator",
+  "script": "skills/meta/weekly-report-generator/scripts/gen_report.py",
+  "verdict": "fail",
+  "argv": [
+   "--days",
+   "7",
+   "--input",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_report.json",
+   "--write",
+   "-o",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "[ERROR] . is not a git repo\n"
+ },
+ {
+  "skill": "video/video-editor",
+  "script": "skills/video/video-editor/scripts/editor.py",
+  "verdict": "fail",
+  "argv": [
+   "--clips",
+   "clip1.mp4",
+   "clip2.mp4",
+   "--audio",
+   "bgm.mp3",
+   "--output",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json",
+   "--transitions",
+   "fade",
+   "cut"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "[ERROR] 真实模式需要外部工具 ffmpeg，但 PATH 中未找到。\n安装指引:\n  Debian/Ubuntu : sudo apt update && sudo apt install -y ffmpeg\n  macOS         : brew install ffmpeg\n  校验          : ffmpeg -version\n若只需联调下游流程，可加 --mock（产物为占位，不会真实生成文件）。\n"
+ },
+ {
+  "skill": "video/video-thumbnail",
+  "script": "skills/video/video-thumbnail/scripts/thumbnail.py",
+  "verdict": "fail",
+  "argv": [
+   "--title",
+   "宝宝测评iPhone 16",
+   "--style",
+   "funny"
+  ],
+  "reason": "rc=4",
+  "stderr_tail": " http://127.0.0.1:30080 （URLError: <urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>）\n排查步骤:\n  1) 确认服务已启动: curl -sS -m 5 -o /dev/null -w '%{http_code}\\n' http://127.0.0.1:30080/\n  2) 确认地址正确  : export GATEWAY_BASE_URL=http://<host>:<port>  (不带尾斜杠)\n  3) 若只需联调下游: 加 --mock 或 SKILLKIT_MOCK=1（产物为占位，不可交付）\n"
+ }
+]

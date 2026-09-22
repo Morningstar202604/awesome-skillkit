@@ -1,0 +1,108 @@
+{
+ "execution_logs": [
+  {
+   "task_id": "t-001",
+   "agent_id": "reviewer-1",
+   "task_type": "review",
+   "task_description": "审校任务 t-001",
+   "start_time": "2026-09-22T10:00:00Z",
+   "end_time": "2026-09-22T10:01:00Z",
+   "duration_ms": 42000,
+   "status": "success",
+   "actions": [
+    {
+     "action": "lint_check",
+     "ok": true
+    }
+   ],
+   "results": {
+    "issues_found": 2
+   },
+   "tokens_used": {
+    "input_tokens": 1800,
+    "output_tokens": 420,
+    "total_tokens": 2220
+   },
+   "cost_usd": 0.012,
+   "error_details": null,
+   "tools_used": [
+    "lint_check",
+    "report_render"
+   ],
+   "retry_count": 0,
+   "metadata": {
+    "source": "sample"
+   }
+  },
+  {
+   "task_id": "t-002",
+   "agent_id": "reviewer-1",
+   "task_type": "review",
+   "task_description": "审校任务 t-002",
+   "start_time": "2026-09-22T10:00:00Z",
+   "end_time": "2026-09-22T10:01:00Z",
+   "duration_ms": 38000,
+   "status": "failure",
+   "actions": [
+    {
+     "action": "lint_check",
+     "ok": false
+    }
+   ],
+   "results": {
+    "issues_found": 0
+   },
+   "tokens_used": {
+    "input_tokens": 1750,
+    "output_tokens": 90,
+    "total_tokens": 1840
+   },
+   "cost_usd": 0.011,
+   "error_details": {
+    "code": "EMPTY_INPUT",
+    "message": "稿件为空文件"
+   },
+   "tools_used": [
+    "lint_check"
+   ],
+   "retry_count": 1,
+   "metadata": {
+    "source": "sample"
+   }
+  },
+  {
+   "task_id": "t-003",
+   "agent_id": "reviewer-1",
+   "task_type": "review",
+   "task_description": "审校任务 t-003",
+   "start_time": "2026-09-22T10:00:00Z",
+   "end_time": "2026-09-22T10:01:00Z",
+   "duration_ms": 51000,
+   "status": "success",
+   "actions": [
+    {
+     "action": "lint_check",
+     "ok": true
+    }
+   ],
+   "results": {
+    "issues_found": 2
+   },
+   "tokens_used": {
+    "input_tokens": 2100,
+    "output_tokens": 500,
+    "total_tokens": 2600
+   },
+   "cost_usd": 0.015,
+   "error_details": null,
+   "tools_used": [
+    "lint_check",
+    "report_render"
+   ],
+   "retry_count": 0,
+   "metadata": {
+    "source": "sample"
+   }
+  }
+ ]
+}

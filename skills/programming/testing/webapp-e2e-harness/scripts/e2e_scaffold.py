@@ -111,7 +111,18 @@ def main() -> int:
         "run_e2e.sh": RUN_SH.replace("__OUT_REL__", out_rel),
         "README.md": README_TPL,
     }
-    os.makedirs(args.out, exist_ok=True) if args.write else None
+    if args.write:
+        # out 既可以是目录也可以是带后缀的文件路径：文件路径时把脚手架文件写到同名目录、
+        # 并在 out 精确路径落一份摘要 JSON（机器可读产物；CI 消费这个文件）。
+        if os.path.splitext(args.out)[1]:
+            target_dir = os.path.splitext(args.out)[0]
+            os.makedirs(target_dir, exist_ok=True)
+            real_out = target_dir
+        else:
+            os.makedirs(args.out, exist_ok=True)
+            real_out = args.out
+    else:
+        real_out = args.out
     existing = [os.path.join(args.out, f) for f in files if os.path.exists(os.path.join(args.out, f))]
 
     print(f"e2e scaffold for {args.url} (slug={url_name}) -> {args.out}/")
@@ -124,10 +135,21 @@ def main() -> int:
             return 0
     if args.write:
         for f, content in files.items():
-            with open(os.path.join(args.out, f), "w", encoding="utf-8") as fh:
+            with open(os.path.join(real_out, f), "w", encoding="utf-8") as fh:
                 fh.write(content)
-        os.chmod(os.path.join(args.out, "run_e2e.sh"), 0o755)
-        print(f"\n[WRITE] generated {len(files)} files. Run: bash {args.out}/run_e2e.sh")
+        os.chmod(os.path.join(real_out, "run_e2e.sh"), 0o755)
+        # out 是文件路径（.json 等）时，在精确路径落摘要 JSON——目录用法不受影响
+        if real_out != args.out:
+            summary = {
+                "scaffold": "webapp-e2e-harness",
+                "url": args.url,
+                "files_written": sorted(files.keys()),
+                "dir": real_out,
+            }
+            with open(args.out, "w", encoding="utf-8") as fh:
+                json.dump(summary, fh, ensure_ascii=False, indent=1)
+            print(f"  summary -> {args.out}")
+        print(f"\n[WRITE] generated {len(files)} files. Run: bash {real_out}/run_e2e.sh")
     else:
         print(f"\n[DRY-RUN] nothing written. Re-run with --write (and --force to overwrite).")
     return 0

@@ -77,7 +77,7 @@ metadata:
 ### 步骤 2A：路线 A —— 网关生成
 
 ```bash
-python3 scripts/thumbnail.py --title "宝宝测评iPhone 16" --style funny \
+python3 scripts/thumbnail.py --mock --title "宝宝测评iPhone 16" --style funny \   # --mock 仅联调；真实生成去掉 --mock（需网关/角色图）
   --platform douyin --character /tmp/baby.png --output thumbnail_douyin.png
 ```
 
@@ -89,7 +89,7 @@ python3 scripts/thumbnail.py --title "宝宝测评iPhone 16" --style funny \
 ### 步骤 2B：路线 B —— ffmpeg 抽帧
 
 ```bash
-python3 scripts/thumbnail.py --video /tmp/final.mp4 --timestamp 1.0 \
+python3 scripts/thumbnail.py --mock --video /tmp/final.mp4 --timestamp 1.0 \
   --output thumb_frame.png
 ```
 

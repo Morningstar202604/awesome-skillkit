@@ -1,0 +1,6 @@
+a1b2c3d feat: 支持导出为 PDF 格式
+e4f5a6b feat(api): 新增批量查询接口
+b7c8d9e fix: 修复时区偏移导致的日期错位
+c0d1e2f fix(core): 空指针异常兜底
+d3e4f5a docs: 重写快速上手章节
+f6a7b8c chore(deps): 升级 requests 到 2.32

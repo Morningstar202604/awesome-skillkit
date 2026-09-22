@@ -144,11 +144,24 @@ def store_true_flags(src: str) -> set:
     return flags
 
 
+def choice_output_flags(src: str) -> set:
+    """--output/-o 这类输出 flag 若是 choices 枚举型（如 text|json），其"值"不是路径，
+    不能被替换为临时路径（否则 argparse choice 校验失败）——返回这类 flag 集合。"""
+    out = set()
+    for m in re.finditer(r"add_argument\(\s*['\"](-{1,2}[A-Za-z0-9_-]+)['\"]([^)]*)\)", src, re.S):
+        name, tail = m.group(1), m.group(2)
+        if re.search(r"\bchoices\s*=", tail) and name.lstrip("-").rstrip("0123456789") in (
+                "output", "o", "out", "output-format", "format", "output_dir", "output-dir"):
+            out.add(name)
+    return out
+
+
 def build_spec(skill_dir: Path, script: Path):
     """为脚本构造场景任务。返回 (argv, notes, scenario) 或 raise SpecError。"""
     md = skill_md_text(skill_dir)
     src = script.read_text(encoding="utf-8", errors="ignore")
     st_flags = store_true_flags(src)
+    choice_out = choice_output_flags(src)
     examples = extract_examples(script, md)
 
     argv, notes = None, []
@@ -157,7 +170,10 @@ def build_spec(skill_dir: Path, script: Path):
         parsed = parse_example(line)
         if not (parsed and len(parsed) >= 2):
             continue
-        a = [t for t in parsed if t not in ("python3", "python")]
+        # 只剥开头的解释器 token（--language python 这类"值为 python"的参数不能误杀）
+        a = list(parsed)
+        while a and a[0] in ("python3", "python"):
+            a.pop(0)
         while a and (a[0].endswith(".py") or script.stem in a[0]):
             a.pop(0)
         if not a:
@@ -181,7 +197,7 @@ def build_spec(skill_dir: Path, script: Path):
         nonlocal json_ex
         cand = [skill_dir / token, skill_dir / "scripts" / token, REPO / token]
         for c in cand:
-            if c.exists() and c.is_file():
+            if c.exists() and (c.is_file() or c.is_dir()):
                 return str(c.resolve())
         ext = Path(token).suffix.lower()
         target = tmp / ("in_" + Path(token).name)
@@ -209,15 +225,22 @@ def build_spec(skill_dir: Path, script: Path):
             continue
         if tok.startswith("--") or (tok.startswith("-") and len(tok) == 2):
             flag = tok.split("=")[0]
-            if flag in ("--output", "-o", "--out") or flag.endswith(("-output", "_output")):
+            if flag in ("--output", "-o", "--out", "--output-dir", "--out-dir", "--output_dir") or flag.endswith(("-output", "_output")):
+                if flag in choice_out:  # choices 枚举型输出（如 --output human|json）：值不是路径，保持原样
+                    i += 2 if (i + 1 < len(argv) and not argv[i + 1].startswith("--")) else 1
+                    continue
                 out_idx.append(i)
                 argv[i] = f"{flag}"
+                is_dir_flag = flag in ("--output-dir", "--out-dir", "--output_dir")
+                out_name = ("outdir_" if is_dir_flag else "out_") + flag.strip("-") + ("_" if is_dir_flag else ".json")
                 if "=" not in tok:
                     if i + 1 < len(argv) and not argv[i + 1].startswith("--"):
-                        argv[i + 1] = str(tmp / ("out_" + flag.strip("-") + ".json"))
+                        argv[i + 1] = str(tmp / out_name)
                     else:
-                        argv.insert(i + 1, str(tmp / ("out_" + flag.strip("-") + ".json")))
+                        argv.insert(i + 1, str(tmp / out_name))
                         i += 1
+                if is_dir_flag:
+                    Path(argv[i + 1]).mkdir(parents=True, exist_ok=True)
                 i += 1
                 continue
             if flag in st_flags or "=" in tok:
@@ -231,8 +254,13 @@ def build_spec(skill_dir: Path, script: Path):
                 continue
             i += 1
             continue
+        if str(tok).startswith(str(tmp)):  # 已是本场景的临时产物路径，不再二次处理
+            i += 1
+            continue
         if re.search(r"\.(json|md|txt|csv|tex|srt|yaml|yml|bib)$", tok, re.I):
             argv[i] = ensure_input(tok)
+        elif ("/" in tok or "\\" in tok) and not tok.startswith("-"):
+            argv[i] = ensure_input(tok)  # 目录样 token：存在则解析为绝对路径，否则原样传
         i += 1
 
     # 输出文件补扩展名（按数据类型猜）
@@ -420,6 +448,16 @@ def main():
             continue
         for skill_md in sorted(d.rglob("SKILL.md")):
             sd = skill_md.parent
+            # 跳过嵌套 git 仓库/工作树里的 SKILL.md（如 demo-worktree 旧快照副本，
+            # 否则样例脚本创建的 worktree 会被当成独立技能重复扫描并污染统计）
+            p, nested = sd, False
+            while p != SKILLS and SKILLS in p.parents:
+                if (p / ".git").exists():
+                    nested = True
+                    break
+                p = p.parent
+            if nested:
+                continue
             sid = sd.relative_to(SKILLS).as_posix()
             if args.only and args.only not in sid:
                 continue

@@ -1,0 +1,706 @@
+{
+  "metadata": {
+    "analysis_date": "2026-09-22T10:41:55.076906",
+    "framework_used": "wsjf",
+    "team_size": 6,
+    "sprint_capacity_hours": 20,
+    "total_items_analyzed": 6
+  },
+  "prioritized_backlog": [
+    {
+      "id": "DEBT-0005",
+      "type": "empty_catch",
+      "description": "Code smell detected: empty_catch",
+      "file_path": "legacy.py",
+      "severity": "medium",
+      "metadata": {
+        "line_number": 21,
+        "pattern": "except:\n            pass\n"
+      },
+      "detected_date": "2026-09-22T10:41:54.877482",
+      "status": "identified",
+      "priority_score": 5.19,
+      "priority": "medium",
+      "effort_estimate": {
+        "size_points": 2,
+        "hours_estimate": 10.0,
+        "risk_factor": 1.0,
+        "skill_level_required": "mid",
+        "confidence": 0.6
+      },
+      "business_impact": {
+        "customer_impact": 3,
+        "revenue_impact": 3,
+        "team_velocity_impact": 5,
+        "quality_impact": 5,
+        "security_impact": 3
+      },
+      "interest_rate": {
+        "daily_cost": 4.0,
+        "frequency_multiplier": 1.0,
+        "team_impact_multiplier": 1.2,
+        "compound_rate": 0.02
+      },
+      "cost_of_delay": 33.76,
+      "category": "other",
+      "impact_tags": [
+        "quick-win"
+      ]
+    },
+    {
+      "id": "DEBT-0001",
+      "type": "missing_docstring",
+      "description": "Function 'process' missing docstring",
+      "file_path": "legacy.py",
+      "line_number": 3,
+      "severity": "low",
+      "metadata": {
+        "function_name": "process"
+      },
+      "detected_date": "2026-09-22T10:41:54.876992",
+      "status": "identified",
+      "priority_score": 3.5,
+      "priority": "low",
+      "effort_estimate": {
+        "size_points": 1,
+        "hours_estimate": 1.25,
+        "risk_factor": 1.0,
+        "skill_level_required": "junior",
+        "confidence": 0.9
+      },
+      "business_impact": {
+        "customer_impact": 1,
+        "revenue_impact": 1,
+        "team_velocity_impact": 2,
+        "quality_impact": 2,
+        "security_impact": 1
+      },
+      "interest_rate": {
+        "daily_cost": 1.6,
+        "frequency_multiplier": 1.0,
+        "team_impact_multiplier": 1.2,
+        "compound_rate": 0.02
+      },
+      "cost_of_delay": 1.68,
+      "category": "code_quality",
+      "impact_tags": [
+        "quick-win"
+      ]
+    },
+    {
+      "id": "DEBT-0002",
+      "type": "missing_docstring",
+      "description": "Class 'Handler' missing docstring",
+      "file_path": "legacy.py",
+      "line_number": 17,
+      "severity": "low",
+      "metadata": {
+        "class_name": "Handler"
+      },
+      "detected_date": "2026-09-22T10:41:54.877297",
+      "status": "identified",
+      "priority_score": 3.5,
+      "priority": "low",
+      "effort_estimate": {
+        "size_points": 1,
+        "hours_estimate": 1.25,
+        "risk_factor": 1.0,
+        "skill_level_required": "junior",
+        "confidence": 0.9
+      },
+      "business_impact": {
+        "customer_impact": 1,
+        "revenue_impact": 1,
+        "team_velocity_impact": 2,
+        "quality_impact": 2,
+        "security_impact": 1
+      },
+      "interest_rate": {
+        "daily_cost": 1.6,
+        "frequency_multiplier": 1.0,
+        "team_impact_multiplier": 1.2,
+        "compound_rate": 0.02
+      },
+      "cost_of_delay": 1.68,
+      "category": "code_quality",
+      "impact_tags": [
+        "quick-win"
+      ]
+    },
+    {
+      "id": "DEBT-0003",
+      "type": "missing_docstring",
+      "description": "Function 'handle' missing docstring",
+      "file_path": "legacy.py",
+      "line_number": 18,
+      "severity": "low",
+      "metadata": {
+        "function_name": "handle"
+      },
+      "detected_date": "2026-09-22T10:41:54.877311",
+      "status": "identified",
+      "priority_score": 3.5,
+      "priority": "low",
+      "effort_estimate": {
+        "size_points": 1,
+        "hours_estimate": 1.25,
+        "risk_factor": 1.0,
+        "skill_level_required": "junior",
+        "confidence": 0.9
+      },
+      "business_impact": {
+        "customer_impact": 1,
+        "revenue_impact": 1,
+        "team_velocity_impact": 2,
+        "quality_impact": 2,
+        "security_impact": 1
+      },
+      "interest_rate": {
+        "daily_cost": 1.6,
+        "frequency_multiplier": 1.0,
+        "team_impact_multiplier": 1.2,
+        "compound_rate": 0.02
+      },
+      "cost_of_delay": 1.68,
+      "category": "code_quality",
+      "impact_tags": [
+        "quick-win"
+      ]
+    },
+    {
+      "id": "DEBT-0001",
+      "type": "missing_docstring",
+      "description": "Function 'add' missing docstring",
+      "file_path": "util.py",
+      "line_number": 1,
+      "severity": "low",
+      "metadata": {
+        "function_name": "add"
+      },
+      "detected_date": "2026-09-22T10:41:54.877932",
+      "status": "identified",
+      "priority_score": 3.5,
+      "priority": "low",
+      "effort_estimate": {
+        "size_points": 1,
+        "hours_estimate": 1.25,
+        "risk_factor": 1.0,
+        "skill_level_required": "junior",
+        "confidence": 0.9
+      },
+      "business_impact": {
+        "customer_impact": 1,
+        "revenue_impact": 1,
+        "team_velocity_impact": 2,
+        "quality_impact": 2,
+        "security_impact": 1
+      },
+      "interest_rate": {
+        "daily_cost": 1.6,
+        "frequency_multiplier": 1.5,
+        "team_impact_multiplier": 1.2,
+        "compound_rate": 0.02
+      },
+      "cost_of_delay": 2.52,
+      "category": "code_quality",
+      "impact_tags": [
+        "quick-win"
+      ]
+    },
+    {
+      "id": "DEBT-0004",
+      "type": "todo_comment",
+      "description": "TODO/FIXME comment: TODO: \u9700\u8981\u9519\u8bef\u5904\u7406",
+      "file_path": "legacy.py",
+      "severity": "low",
+      "metadata": {
+        "line_number": 4,
+        "comment": "TODO: \u9700\u8981\u9519\u8bef\u5904\u7406"
+      },
+      "detected_date": "2026-09-22T10:41:54.877412",
+      "status": "identified",
+      "priority_score": 3.0,
+      "priority": "low",
+      "effort_estimate": {
+        "size_points": 1,
+        "hours_estimate": 0.75,
+        "risk_factor": 1.0,
+        "skill_level_required": "junior",
+        "confidence": 0.9
+      },
+      "business_impact": {
+        "customer_impact": 1,
+        "revenue_impact": 1,
+        "team_velocity_impact": 1,
+        "quality_impact": 1,
+        "security_impact": 1
+      },
+      "interest_rate": {
+        "daily_cost": 0.8,
+        "frequency_multiplier": 1.0,
+        "team_impact_multiplier": 1.2,
+        "compound_rate": 0.01
+      },
+      "cost_of_delay": 0.5,
+      "category": "maintenance",
+      "impact_tags": [
+        "quick-win"
+      ]
+    }
+  ],
+  "sprint_allocation": {
+    "total_debt_hours": 15.8,
+    "debt_capacity_per_sprint": 4.0,
+    "total_sprints_needed": 4,
+    "high_priority_items": 0,
+    "sprint_plan": [
+      {
+        "sprint_number": 1,
+        "items": [],
+        "total_hours": 0,
+        "capacity_used": 0
+      },
+      {
+        "sprint_number": 2,
+        "items": [
+          {
+            "id": "DEBT-0005",
+            "type": "empty_catch",
+            "description": "Code smell detected: empty_catch",
+            "file_path": "legacy.py",
+            "severity": "medium",
+            "metadata": {
+              "line_number": 21,
+              "pattern": "except:\n            pass\n"
+            },
+            "detected_date": "2026-09-22T10:41:54.877482",
+            "status": "identified",
+            "priority_score": 5.19,
+            "priority": "medium",
+            "effort_estimate": {
+              "size_points": 2,
+              "hours_estimate": 10.0,
+              "risk_factor": 1.0,
+              "skill_level_required": "mid",
+              "confidence": 0.6
+            },
+            "business_impact": {
+              "customer_impact": 3,
+              "revenue_impact": 3,
+              "team_velocity_impact": 5,
+              "quality_impact": 5,
+              "security_impact": 3
+            },
+            "interest_rate": {
+              "daily_cost": 4.0,
+              "frequency_multiplier": 1.0,
+              "team_impact_multiplier": 1.2,
+              "compound_rate": 0.02
+            },
+            "cost_of_delay": 33.76,
+            "category": "other",
+            "impact_tags": [
+              "quick-win"
+            ]
+          }
+        ],
+        "total_hours": 10.0,
+        "capacity_used": 2.5
+      },
+      {
+        "sprint_number": 3,
+        "items": [
+          {
+            "id": "DEBT-0001",
+            "type": "missing_docstring",
+            "description": "Function 'process' missing docstring",
+            "file_path": "legacy.py",
+            "line_number": 3,
+            "severity": "low",
+            "metadata": {
+              "function_name": "process"
+            },
+            "detected_date": "2026-09-22T10:41:54.876992",
+            "status": "identified",
+            "priority_score": 3.5,
+            "priority": "low",
+            "effort_estimate": {
+              "size_points": 1,
+              "hours_estimate": 1.25,
+              "risk_factor": 1.0,
+              "skill_level_required": "junior",
+              "confidence": 0.9
+            },
+            "business_impact": {
+              "customer_impact": 1,
+              "revenue_impact": 1,
+              "team_velocity_impact": 2,
+              "quality_impact": 2,
+              "security_impact": 1
+            },
+            "interest_rate": {
+              "daily_cost": 1.6,
+              "frequency_multiplier": 1.0,
+              "team_impact_multiplier": 1.2,
+              "compound_rate": 0.02
+            },
+            "cost_of_delay": 1.68,
+            "category": "code_quality",
+            "impact_tags": [
+              "quick-win"
+            ]
+          },
+          {
+            "id": "DEBT-0002",
+            "type": "missing_docstring",
+            "description": "Class 'Handler' missing docstring",
+            "file_path": "legacy.py",
+            "line_number": 17,
+            "severity": "low",
+            "metadata": {
+              "class_name": "Handler"
+            },
+            "detected_date": "2026-09-22T10:41:54.877297",
+            "status": "identified",
+            "priority_score": 3.5,
+            "priority": "low",
+            "effort_estimate": {
+              "size_points": 1,
+              "hours_estimate": 1.25,
+              "risk_factor": 1.0,
+              "skill_level_required": "junior",
+              "confidence": 0.9
+            },
+            "business_impact": {
+              "customer_impact": 1,
+              "revenue_impact": 1,
+              "team_velocity_impact": 2,
+              "quality_impact": 2,
+              "security_impact": 1
+            },
+            "interest_rate": {
+              "daily_cost": 1.6,
+              "frequency_multiplier": 1.0,
+              "team_impact_multiplier": 1.2,
+              "compound_rate": 0.02
+            },
+            "cost_of_delay": 1.68,
+            "category": "code_quality",
+            "impact_tags": [
+              "quick-win"
+            ]
+          },
+          {
+            "id": "DEBT-0003",
+            "type": "missing_docstring",
+            "description": "Function 'handle' missing docstring",
+            "file_path": "legacy.py",
+            "line_number": 18,
+            "severity": "low",
+            "metadata": {
+              "function_name": "handle"
+            },
+            "detected_date": "2026-09-22T10:41:54.877311",
+            "status": "identified",
+            "priority_score": 3.5,
+            "priority": "low",
+            "effort_estimate": {
+              "size_points": 1,
+              "hours_estimate": 1.25,
+              "risk_factor": 1.0,
+              "skill_level_required": "junior",
+              "confidence": 0.9
+            },
+            "business_impact": {
+              "customer_impact": 1,
+              "revenue_impact": 1,
+              "team_velocity_impact": 2,
+              "quality_impact": 2,
+              "security_impact": 1
+            },
+            "interest_rate": {
+              "daily_cost": 1.6,
+              "frequency_multiplier": 1.0,
+              "team_impact_multiplier": 1.2,
+              "compound_rate": 0.02
+            },
+            "cost_of_delay": 1.68,
+            "category": "code_quality",
+            "impact_tags": [
+              "quick-win"
+            ]
+          }
+        ],
+        "total_hours": 3.75,
+        "capacity_used": 0.9375
+      },
+      {
+        "sprint_number": 4,
+        "items": [
+          {
+            "id": "DEBT-0001",
+            "type": "missing_docstring",
+            "description": "Function 'add' missing docstring",
+            "file_path": "util.py",
+            "line_number": 1,
+            "severity": "low",
+            "metadata": {
+              "function_name": "add"
+            },
+            "detected_date": "2026-09-22T10:41:54.877932",
+            "status": "identified",
+            "priority_score": 3.5,
+            "priority": "low",
+            "effort_estimate": {
+              "size_points": 1,
+              "hours_estimate": 1.25,
+              "risk_factor": 1.0,
+              "skill_level_required": "junior",
+              "confidence": 0.9
+            },
+            "business_impact": {
+              "customer_impact": 1,
+              "revenue_impact": 1,
+              "team_velocity_impact": 2,
+              "quality_impact": 2,
+              "security_impact": 1
+            },
+            "interest_rate": {
+              "daily_cost": 1.6,
+              "frequency_multiplier": 1.5,
+              "team_impact_multiplier": 1.2,
+              "compound_rate": 0.02
+            },
+            "cost_of_delay": 2.52,
+            "category": "code_quality",
+            "impact_tags": [
+              "quick-win"
+            ]
+          },
+          {
+            "id": "DEBT-0004",
+            "type": "todo_comment",
+            "description": "TODO/FIXME comment: TODO: \u9700\u8981\u9519\u8bef\u5904\u7406",
+            "file_path": "legacy.py",
+            "severity": "low",
+            "metadata": {
+              "line_number": 4,
+              "comment": "TODO: \u9700\u8981\u9519\u8bef\u5904\u7406"
+            },
+            "detected_date": "2026-09-22T10:41:54.877412",
+            "status": "identified",
+            "priority_score": 3.0,
+            "priority": "low",
+            "effort_estimate": {
+              "size_points": 1,
+              "hours_estimate": 0.75,
+              "risk_factor": 1.0,
+              "skill_level_required": "junior",
+              "confidence": 0.9
+            },
+            "business_impact": {
+              "customer_impact": 1,
+              "revenue_impact": 1,
+              "team_velocity_impact": 1,
+              "quality_impact": 1,
+              "security_impact": 1
+            },
+            "interest_rate": {
+              "daily_cost": 0.8,
+              "frequency_multiplier": 1.0,
+              "team_impact_multiplier": 1.2,
+              "compound_rate": 0.01
+            },
+            "cost_of_delay": 0.5,
+            "category": "maintenance",
+            "impact_tags": [
+              "quick-win"
+            ]
+          }
+        ],
+        "total_hours": 2.0,
+        "capacity_used": 0.5
+      }
+    ],
+    "recommendations": [
+      "Allocate 4.0 hours per sprint to tech debt",
+      "Focus on 0 high-priority items first",
+      "Estimated 4 sprints to clear current backlog"
+    ]
+  },
+  "insights": {
+    "category_distribution": {
+      "other": 1,
+      "code_quality": 4,
+      "maintenance": 1
+    },
+    "total_effort_hours": 15.8,
+    "effort_by_category": {
+      "other": 10.0,
+      "code_quality": 5.0,
+      "maintenance": 0.8
+    },
+    "priority_distribution": {
+      "high": 1,
+      "medium": 5
+    },
+    "high_risk_items_count": 0,
+    "quick_wins_count": 5,
+    "total_cost_of_delay": 41.8,
+    "average_daily_interest_rate": 1.87,
+    "top_categories_by_effort": [
+      [
+        "other",
+        10.0
+      ],
+      [
+        "code_quality",
+        5.0
+      ],
+      [
+        "maintenance",
+        0.75
+      ]
+    ]
+  },
+  "charts_data": {
+    "priority_effort_scatter": [
+      {
+        "x": 10.0,
+        "y": 5.19,
+        "label": "Code smell detected: empty_catch",
+        "category": "other",
+        "size": 33.76
+      },
+      {
+        "x": 1.25,
+        "y": 3.5,
+        "label": "Function 'process' missing docstring",
+        "category": "code_quality",
+        "size": 1.68
+      },
+      {
+        "x": 1.25,
+        "y": 3.5,
+        "label": "Class 'Handler' missing docstring",
+        "category": "code_quality",
+        "size": 1.68
+      },
+      {
+        "x": 1.25,
+        "y": 3.5,
+        "label": "Function 'handle' missing docstring",
+        "category": "code_quality",
+        "size": 1.68
+      },
+      {
+        "x": 1.25,
+        "y": 3.5,
+        "label": "Function 'add' missing docstring",
+        "category": "code_quality",
+        "size": 2.52
+      },
+      {
+        "x": 0.75,
+        "y": 3.0,
+        "label": "TODO/FIXME comment: TODO: \u9700\u8981\u9519\u8bef\u5904\u7406",
+        "category": "maintenance",
+        "size": 0.5
+      }
+    ],
+    "category_effort_distribution": [
+      {
+        "category": "other",
+        "effort": 10.0
+      },
+      {
+        "category": "code_quality",
+        "effort": 5.0
+      },
+      {
+        "category": "maintenance",
+        "effort": 0.8
+      }
+    ],
+    "priority_timeline": [
+      {
+        "item_rank": 1,
+        "description": "Code smell detected: empty_cat",
+        "effort": 10.0,
+        "cumulative_effort": 10.0,
+        "priority_score": 5.19
+      },
+      {
+        "item_rank": 2,
+        "description": "Function 'process' missing doc",
+        "effort": 1.25,
+        "cumulative_effort": 11.2,
+        "priority_score": 3.5
+      },
+      {
+        "item_rank": 3,
+        "description": "Class 'Handler' missing docstr",
+        "effort": 1.25,
+        "cumulative_effort": 12.5,
+        "priority_score": 3.5
+      },
+      {
+        "item_rank": 4,
+        "description": "Function 'handle' missing docs",
+        "effort": 1.25,
+        "cumulative_effort": 13.8,
+        "priority_score": 3.5
+      },
+      {
+        "item_rank": 5,
+        "description": "Function 'add' missing docstri",
+        "effort": 1.25,
+        "cumulative_effort": 15.0,
+        "priority_score": 3.5
+      },
+      {
+        "item_rank": 6,
+        "description": "TODO/FIXME comment: TODO: \u9700\u8981\u9519\u8bef",
+        "effort": 0.75,
+        "cumulative_effort": 15.8,
+        "priority_score": 3.0
+      }
+    ],
+    "interest_rate_trend": [
+      {
+        "item_index": 0,
+        "daily_cost": 4.0,
+        "category": "other"
+      },
+      {
+        "item_index": 1,
+        "daily_cost": 1.6,
+        "category": "code_quality"
+      },
+      {
+        "item_index": 2,
+        "daily_cost": 1.6,
+        "category": "code_quality"
+      },
+      {
+        "item_index": 3,
+        "daily_cost": 1.6,
+        "category": "code_quality"
+      },
+      {
+        "item_index": 4,
+        "daily_cost": 1.6,
+        "category": "code_quality"
+      },
+      {
+        "item_index": 5,
+        "daily_cost": 0.8,
+        "category": "maintenance"
+      }
+    ]
+  },
+  "recommendations": [
+    "Start with 5 quick wins to build momentum and demonstrate immediate value from tech debt reduction efforts.",
+    "Focus initial efforts on 'other' category debt, which represents the largest effort investment (10.0 hours)."
+  ]
+}

@@ -46,13 +46,13 @@ metadata:
 
 ```bash
 # 1. 干跑：看自动填好的"做了什么"段
-python3 scripts/gen_report.py --days 7 --repo . --author 张三
+python3 scripts/gen_report.py --days 7 --repo ../../.. --author 张三   # ../../.. = 从技能目录到仓库根；在仓库根运行时写 --repo .
 
 # 2. 喂结构化输入（把"卡点/下周"也写好）
-python3 scripts/gen_report.py --days 7 --input report.json --write -o weekly.md
+python3 scripts/gen_report.py --days 7 --input report.json --repo ../../.. --write -o weekly.md
 
 # 3. 双周报
-python3 scripts/gen_report.py --days 14 --author 张三
+python3 scripts/gen_report.py --days 14 --repo ../../.. --author 张三
 ```
 
 `report.json` 字段（可选）：

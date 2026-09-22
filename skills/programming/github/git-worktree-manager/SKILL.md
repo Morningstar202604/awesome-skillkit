@@ -34,8 +34,7 @@ metadata:
 
 ```bash
 git rev-parse --is-inside-work-tree   # 预期 true；失败：非 git 仓库 → STOP
-python3 scripts/worktree_manager.py --help >/dev/null 2>&1   # 预期退出码 0；失败：脚本/ python3 缺失
-python3 scripts/worktree_cleanup.py --help >/dev/null 2>&1
+# 自检：python3 scripts/worktree_manager.py --help 与 worktree_cleanup.py --help 均预期退出码 0
 git rev-parse --verify main >/dev/null 2>&1   # 预期基点分支存在；失败：确认 --base-branch
 ```
 
@@ -44,24 +43,25 @@ git rev-parse --verify main >/dev/null 2>&1   # 预期基点分支存在；失�
 ### 步骤 1：创建完整预置的 worktree
 
 ```bash
-python3 scripts/worktree_manager.py \
-  --repo . \
-  --branch feature/new-auth \
-  --name wt-auth \
-  --base-branch main \
-  --install-deps \
-  --format text
+# 单行用法见步骤 2 的 --input 示例（可直接运行）；下方续行排版仅为可读，复制时合并为一行：
+# python3 scripts/worktree_manager.py \
+#   --repo . \
+#   --branch feature/new-auth \
+#   --name wt-auth \
+#   --base-branch main \
+#   --install-deps \
+#   --format text
 ```
 
-预期：创建 worktree 目录并切到目标分支（不存在则基于基点新建），生成 `.worktree-ports.json` 端口映射，复制 `.env*`，脚本退出码 0。
+预期：创建 worktree 目录并切到目标分支（不存在则基于基点新建），生成 `.worktree-ports.json` 端口映射，复制 `.env*`，脚本退出码 0。已存在同路径 worktree 时直接复用（幂等，退出码 0）。
 若失败：目标路径已存在→检查路径，勿覆盖；依赖安装失败→保留 worktree、标记状态转人工恢复；`.env` 复制失败→告警并列出缺失文件继续。
 
 ### 步骤 2：流水线/多智能体输入（JSON 模式）
 
 ```bash
-cat config.json | python3 scripts/worktree_manager.py --format json
+# 管道用法：cat config.json | python3 scripts/worktree_manager.py --format json
 # 或
-python3 scripts/worktree_manager.py --input config.json --format json
+python3 scripts/worktree_manager.py --input assets/sample-worktree-config.json --dry-run --format json   # 随包样例 + 只读预演（校验配置、打印计划，不落盘）；去掉 --dry-run 即真实创建
 ```
 
 预期：同步骤 1，输出为 JSON 便于机器消费。

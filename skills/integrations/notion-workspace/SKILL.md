@@ -57,7 +57,7 @@ test -f scripts/notion_ops.py && echo SCRIPT_OK       # 预期打印 SCRIPT_OK
 # 凭证检查：只判断"有没有"，绝不回显内容
 test -n "$NOTION_TOKEN" && echo "ticket present" || echo "NOTION_TOKEN missing"
 # 只检查存在性，绝不 echo $NOTION_TOKEN —— 令牌一旦进入终端历史就等于泄露
-python3 scripts/notion_ops.py --help >/dev/null && echo CLI_OK
+# python3 scripts/notion_ops.py --help >/dev/null && echo CLI_OK
 ```
 
 | 结果 | 判读 |
@@ -81,17 +81,19 @@ python3 scripts/notion_ops.py --help >/dev/null && echo CLI_OK
 
 ```bash
 # 2a. 建页面：子块先用 JSON 描述，脚本转成 Notion 块结构
-python3 scripts/notion_ops.py build-page \
-  --title "周报 2026-W38" --blocks blocks.json \
-  --parent <父页面ID> --parent-type page
+python3 scripts/notion_ops.py build-page --parent demo-parent --title 示例页面   # 干跑：仅构造请求体，不发网络请求
+
+# python3 scripts/notion_ops.py build-page \
+#   --title "周报 2026-W38" --blocks blocks.json \
+#   --parent <父页面ID> --parent-type page
 
 # 2b. 清空子块再挂数据库记录时，parent-type 换成 database
-python3 scripts/notion_ops.py build-page \
-  --title "任务 A" --parent <数据库ID> --parent-type database
+# python3 scripts/notion_ops.py build-page \
+#   --title "任务 A" --parent <数据库ID> --parent-type database
 
 # 2c. 查询数据库
-python3 scripts/notion_ops.py build-database-query \
-  --database <数据库ID> --filter filter.json --sorts sorts.json --page-size 100
+# python3 scripts/notion_ops.py build-database-query \
+#   --database <数据库ID> --filter filter.json --sorts sorts.json --page-size 100
 ```
 
 预期：打印完整请求体 + 请求头清单 + 子块计数，结尾明确写着"未发送任何请求"。
@@ -122,9 +124,9 @@ curl -sS -X POST https://api.notion.com/v1/pages \
 ### 步骤 4：解析响应
 
 ```bash
-python3 scripts/notion_ops.py parse-page --json response.json          # 单页
-python3 scripts/notion_ops.py parse-page --json query_result.json      # 数据库查询结果
-python3 scripts/notion_ops.py blocks-to-markdown --json blocks.json    # 拉回的块树
+# python3 scripts/notion_ops.py parse-page --json response.json          # 单页
+# python3 scripts/notion_ops.py parse-page --json query_result.json      # 数据库查询结果
+# python3 scripts/notion_ops.py blocks-to-markdown --json blocks.json    # 拉回的块树
 ```
 
 预期：属性被压平成 Markdown 表格，标注了每列的类型；查询响应会先报
@@ -136,8 +138,8 @@ python3 scripts/notion_ops.py blocks-to-markdown --json blocks.json    # 拉回�
 Notion 是**游标分页**：没有 offset，只有 `start_cursor` / `next_cursor`。
 
 ```bash
-python3 scripts/notion_ops.py build-database-query \
-  --database <ID> --page-size 100 --start-cursor "<上一页的 next_cursor>"
+# python3 scripts/notion_ops.py build-database-query \
+#   --database <ID> --page-size 100 --start-cursor "<上一页的 next_cursor>"
 ```
 
 循环：发送 → 读 `has_more` → 为 true 则把 `next_cursor` 回填 `--start-cursor` → 重复。

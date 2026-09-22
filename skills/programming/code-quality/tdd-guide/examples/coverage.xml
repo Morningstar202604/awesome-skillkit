@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<coverage line-rate="0.82" branch-rate="0.71" version="7.6">
+  <packages>
+    <package name="src" line-rate="0.82" branch-rate="0.71">
+      <classes>
+        <class name="service" filename="service.py" line-rate="0.82" branch-rate="0.71">
+          <methods/>
+          <lines>
+            <line number="1" hits="12"/>
+            <line number="2" hits="12"/>
+            <line number="7" hits="0"/>
+          </lines>
+        </class>
+      </classes>
+    </package>
+  </packages>
+</coverage>

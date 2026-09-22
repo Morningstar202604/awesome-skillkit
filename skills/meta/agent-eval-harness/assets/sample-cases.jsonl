@@ -1,0 +1,2 @@
+{"prompt": "把数字3翻译成中文", "response": "三", "expects": {}}
+{"prompt": "列出两个 Python 测试框架", "response": "pytest 和 unittest", "expects": {"must_include": ["pytest"]}}

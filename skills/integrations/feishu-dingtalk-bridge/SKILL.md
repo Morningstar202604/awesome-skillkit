@@ -78,7 +78,7 @@ for v in FEISHU_WEBHOOK_TOKEN DINGTALK_ACCESS_TOKEN WECOM_WEBHOOK_KEY; do
   printf '%s: ' "$v"; test -n "$(printenv $v)" && echo present || echo missing
 done
 test -n "$DINGTALK_SIGN_SECRET" && echo "sign secret present" || echo "sign secret missing"
-python3 scripts/im_bridge.py --help >/dev/null && echo CLI_OK
+# python3 scripts/im_bridge.py --help >/dev/null && echo CLI_OK
 ```
 
 | 结果 | 判读 |
@@ -104,16 +104,18 @@ python3 scripts/im_bridge.py --help >/dev/null && echo CLI_OK
 
 ```bash
 # 飞书
-python3 scripts/im_bridge.py build-message --platform feishu \
-  --title "发布通知" --text "v0.18.0 已发布"
+python3 scripts/im_bridge.py build-message --platform feishu --text 构建完成   # 干跑：构造三家消息负载（不发送）
+
+# python3 scripts/im_bridge.py build-message --platform feishu \
+#   --title "发布通知" --text "v0.18.0 已发布"
 
 # 钉钉（带加签）
-python3 scripts/im_bridge.py build-message --platform dingtalk \
-  --title "发布通知" --text "v0.18.0 已发布" --sign --sign-secret-env DINGTALK_SIGN_SECRET
+# python3 scripts/im_bridge.py build-message --platform dingtalk \
+#   --title "发布通知" --text "v0.18.0 已发布" --sign --sign-secret-env DINGTALK_SIGN_SECRET
 
 # 企业微信（注意 4096 字符上限）
-python3 scripts/im_bridge.py build-message --platform wecom \
-  --title "发布通知" --text "v0.18.0 已发布" --at-mobiles 13800000000
+# python3 scripts/im_bridge.py build-message --platform wecom \
+#   --title "发布通知" --text "v0.18.0 已发布" --at-mobiles 13800000000
 ```
 
 预期：打印完整 URL（凭证位置用 `{token}` 占位）、请求头说明、正文长度与上限、

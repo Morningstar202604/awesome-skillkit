@@ -1,0 +1,269 @@
+[
+ {
+  "skill": "programming/architecture/migration-architect",
+  "script": "skills/programming/architecture/migration-architect/scripts/compatibility_checker.py",
+  "verdict": "fail",
+  "argv": [
+   "--before",
+   "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\programming\\architecture\\migration-architect\\assets\\database_schema_before.json",
+   "--after",
+   "C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\programming\\architecture\\migration-architect\\assets\\database_schema_after.json",
+   "--type",
+   "database",
+   "--format",
+   "json",
+   "-o",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": ""
+ },
+ {
+  "skill": "programming/architecture/migration-architect",
+  "script": "skills/programming/architecture/migration-architect/scripts/migration_planner.py",
+  "verdict": "fail",
+  "argv": [
+   "--input",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_migration_spec.json",
+   "--format",
+   "json",
+   "-o",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "Error: Missing required field 'type' in specification\n"
+ },
+ {
+  "skill": "programming/architecture/migration-architect",
+  "script": "skills/programming/architecture/migration-architect/scripts/rollback_generator.py",
+  "verdict": "fail",
+  "argv": [
+   "--input",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_migration_plan.json",
+   "--format",
+   "both",
+   "-o",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "Error: Migration plan must contain migration_id or source field\n"
+ },
+ {
+  "skill": "programming/architecture/monorepo-navigator",
+  "script": "skills/programming/architecture/monorepo-navigator/scripts/monorepo_analyzer.py",
+  "verdict": "fail",
+  "argv": [
+   "/path/to/monorepo",
+   "--json"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "Path is not a directory: C:\\path\\to\\monorepo\n"
+ },
+ {
+  "skill": "programming/architecture/senior-architect",
+  "script": "skills/programming/architecture/senior-architect/scripts/architecture_diagram_generator.py",
+  "verdict": "fail",
+  "argv": [
+   "./my-project",
+   "--format",
+   "mermaid",
+   "--type",
+   "component"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "Error: Project path does not exist: C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\programming\\architecture\\senior-architect\\my-project\n"
+ },
+ {
+  "skill": "programming/architecture/senior-architect",
+  "script": "skills/programming/architecture/senior-architect/scripts/dependency_analyzer.py",
+  "verdict": "fail",
+  "argv": [
+   "./my-project",
+   "--output",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "r,coupling}] [--verbose]\n                              [--save SAVE]\n                              project_path\ndependency_analyzer.py: error: argument --output/-o: invalid choice: 'C:\\\\Users\\\\X1882\\\\AppData\\\\Local\\\\Temp\\\\skillkit_scenario_ezbzeej1\\\\in_out_output.json' (choose from 'human', 'json')\n"
+ },
+ {
+  "skill": "programming/architecture/senior-architect",
+  "script": "skills/programming/architecture/senior-architect/scripts/project_architect.py",
+  "verdict": "fail",
+  "argv": [
+   "./my-project",
+   "--verbose"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "Error: Project path does not exist: C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\programming\\architecture\\senior-architect\\my-project\n"
+ },
+ {
+  "skill": "programming/cicd/ship-gate",
+  "script": "skills/programming/cicd/ship-gate/scripts/ship_gate_scanner.py",
+  "verdict": "fail",
+  "argv": [
+   "<项目根目录>",
+   "--json",
+   "--no-interactive"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "Error: 'C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\programming\\cicd\\ship-gate\\<项目根目录>' is not a directory\n"
+ },
+ {
+  "skill": "programming/code-quality/code-reviewer",
+  "script": "skills/programming/code-quality/code-reviewer/scripts/pr_analyzer.py",
+  "verdict": "fail",
+  "argv": [
+   ".",
+   "--base",
+   "main",
+   "--head",
+   "feature-branch"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "Error: C:\\Users\\X1882\\WorkBuddy\\2026-09-19-21-05-15\\awesome-skillkit\\skills\\programming\\code-quality\\code-reviewer is not a git repository\n"
+ },
+ {
+  "skill": "programming/code-quality/dependency-auditor",
+  "script": "skills/programming/code-quality/dependency-auditor/scripts/dep_scanner.py",
+  "verdict": "fail",
+  "argv": [
+   "/path/to/project",
+   "--format",
+   "json",
+   "--fail-on-high",
+   "-o",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "Error: Project path does not exist: \\path\\to\\project\n"
+ },
+ {
+  "skill": "programming/code-quality/dependency-auditor",
+  "script": "skills/programming/code-quality/dependency-auditor/scripts/upgrade_planner.py",
+  "verdict": "fail",
+  "argv": [
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_scan.json",
+   "--risk-threshold",
+   "medium",
+   "--timeline",
+   "90",
+   "--format",
+   "json",
+   "-o",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_o.json"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": "Error: 'by_risk'\n"
+ },
+ {
+  "skill": "programming/code-quality/tdd-guide",
+  "script": "skills/programming/code-quality/tdd-guide/scripts/tdd_cli.py",
+  "verdict": "fail",
+  "argv": [
+   "coverage",
+   "--report",
+   "coverage.xml",
+   "--threshold",
+   "80"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "error: 文件不存在: coverage.xml\n"
+ },
+ {
+  "skill": "programming/code-quality/tech-debt-tracker",
+  "script": "skills/programming/code-quality/tech-debt-tracker/scripts/debt_dashboard.py",
+  "verdict": "fail",
+  "argv": [
+   "--input-dir",
+   "snapshots/",
+   "--period",
+   "monthly",
+   "--format",
+   "both",
+   "--output",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": ""
+ },
+ {
+  "skill": "programming/code-quality/tech-debt-tracker",
+  "script": "skills/programming/code-quality/tech-debt-tracker/scripts/debt_prioritizer.py",
+  "verdict": "fail",
+  "argv": [
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_debt_inventory.json",
+   "--framework",
+   "wsjf",
+   "--team-size",
+   "6",
+   "--sprint-capacity",
+   "20",
+   "--format",
+   "json",
+   "--output",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": ""
+ },
+ {
+  "skill": "programming/code-quality/tech-debt-tracker",
+  "script": "skills/programming/code-quality/tech-debt-tracker/scripts/debt_scanner.py",
+  "verdict": "fail",
+  "argv": [
+   "/path/to/codebase",
+   "--format",
+   "json",
+   "--output",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+  ],
+  "reason": "rc=1",
+  "stderr_tail": ""
+ },
+ {
+  "skill": "programming/containers/docker-development",
+  "script": "skills/programming/containers/docker-development/scripts/compose_validator.py",
+  "verdict": "fail",
+  "argv": [
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_docker-compose.yml",
+   "--output",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "usage: compose_validator.py [-h] [--output {text,json}] [--strict]\n                            [composefile]\ncompose_validator.py: error: argument --output/-o: invalid choice: 'C:\\\\Users\\\\X1882\\\\AppData\\\\Local\\\\Temp\\\\skillkit_scenario_ezbzeej1\\\\in_out_output.json' (choose from 'text', 'json')\n"
+ },
+ {
+  "skill": "programming/containers/docker-development",
+  "script": "skills/programming/containers/docker-development/scripts/dockerfile_analyzer.py",
+  "verdict": "fail",
+  "argv": [
+   ">/dev/null",
+   "2>&1"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "usage: dockerfile_analyzer.py [-h] [--output {text,json}] [--security]\n                              [dockerfile]\ndockerfile_analyzer.py: error: unrecognized arguments: 2>&1\n"
+ },
+ {
+  "skill": "programming/containers/helm-chart-builder",
+  "script": "skills/programming/containers/helm-chart-builder/scripts/chart_analyzer.py",
+  "verdict": "fail",
+  "argv": [
+   ">/dev/null",
+   "2>&1"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "usage: chart_analyzer.py [-h] [--output {text,json}] [--security] [chartdir]\nchart_analyzer.py: error: unrecognized arguments: 2>&1\n"
+ },
+ {
+  "skill": "programming/containers/helm-chart-builder",
+  "script": "skills/programming/containers/helm-chart-builder/scripts/values_validator.py",
+  "verdict": "fail",
+  "argv": [
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_values.yaml",
+   "--output",
+   "C:\\Users\\X1882\\AppData\\Local\\Temp\\skillkit_scenario_ezbzeej1\\in_out_output.json"
+  ],
+  "reason": "rc=2",
+  "stderr_tail": "usage: values_validator.py [-h] [--output {text,json}] [--strict] [valuesfile]\nvalues_validator.py: error: argument --output/-o: invalid choice: 'C:\\\\Users\\\\X1882\\\\AppData\\\\Local\\\\Temp\\\\skillkit_scenario_ezbzeej1\\\\in_out_output.json' (choose from 'text', 'json')\n"
+ }
+]

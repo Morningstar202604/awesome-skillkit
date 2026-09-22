@@ -79,16 +79,16 @@ observe(actual) → desired = read(spec) → diff(actual, desired) → act → u
 ## 快速开始
 
 ```bash
-SKILL=skills/programming/infrastructure/kubernetes-operator   # 在 awesome-skillkit 仓库根目录执行
+# 以下命令在技能目录（skills/programming/infrastructure/kubernetes-operator/）内执行
 
 # 校验 CRD 设计
-python "$SKILL/scripts/crd_validator.py" --crd config/crd/myapp.yaml
+python scripts/crd_validator.py --crd assets/config/crd/myapp.yaml
 
 # lint 一个 Go reconcile 函数
-python "$SKILL/scripts/reconcile_lint.py" --controller controllers/myapp_controller.go
+python scripts/reconcile_lint.py --controller assets/controllers/myapp_controller.go
 
 # 按 OperatorHub Capability Levels（1-5）打分
-python "$SKILL/scripts/operator_capability_audit.py" --operator-dir .
+python scripts/operator_capability_audit.py --operator-dir assets/
 ```
 
 ## 三个 Python 工具
@@ -100,8 +100,8 @@ python "$SKILL/scripts/operator_capability_audit.py" --operator-dir .
 按 operator 模式最佳实践校验 CRD YAML。
 
 ```bash
-python scripts/crd_validator.py --crd config/crd/myapp.yaml
-python scripts/crd_validator.py --crd config/crd/ --format json
+python scripts/crd_validator.py --crd assets/config/crd/myapp.yaml   # 随包样例 CRD
+python scripts/crd_validator.py --crd assets/config/crd/ --format json
 ```
 
 **检查项：**
@@ -119,7 +119,7 @@ python scripts/crd_validator.py --crd config/crd/ --format json
 lint Go 控制器的 reconcile 函数，查反模式。
 
 ```bash
-python scripts/reconcile_lint.py --controller controllers/myapp_controller.go
+python scripts/reconcile_lint.py --controller assets/controllers/myapp_controller.go   # 随包样例 controller
 ```
 
 **检查项（基于正则启发式）：**
@@ -236,7 +236,7 @@ python scripts/operator_capability_audit.py --operator-dir .
 
 #### 步骤 5：lint 控制器
 
-- **动作：** `python scripts/reconcile_lint.py --controller controllers/myapp_controller.go`
+- **动作：** `python scripts/reconcile_lint.py --controller assets/controllers/myapp_controller.go   # 随包样例 controller`
 - **预期：** 零 FAIL；函数 ≤80 行。
 - **失败时：** 按每项提示修复（用 `RequeueAfter` 替代 sleep，用 `Status().Update` 替代 `Update`），重跑直到干净。
 

@@ -54,7 +54,7 @@ python3 -c "import PIL" 2>/dev/null && echo PIL-OK || echo PIL-MISSING
 python3 scripts/spec_audit.py --image cover.png --platform wechat-header
 python3 scripts/spec_audit.py --width 1080 --height 1440 --platform xhs-portrait
 python3 scripts/spec_audit.py --image cover.png --platform wechat-header --text-chars 14
-python3 scripts/spec_audit.py --width 896 --height 384 --expect 900x383 --file-mb 0.4
+python3 scripts/spec_audit.py --width 900 --height 383 --expect 900x383 --file-mb 0.4   # 数值自洽 → 全项通过（演示 fail 时改任一值）
 ```
 
 输出 JSON：每项 `pass/fail` 与修复建议；exit 2 = 用法错误（如缺 `--image` 或 `--width/--height`），其余非零退出码 = 有 fail 项。

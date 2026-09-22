@@ -61,8 +61,7 @@ metadata:
 
 ```bash
 python3 --version   # 预期 3.8+；失败：安装 python3
-python3 scripts/dockerfile_analyzer.py --help >/dev/null 2>&1   # 预期退出码 0；失败：脚本缺失 → 检查技能目录
-python3 scripts/compose_validator.py --help >/dev/null 2>&1
+# 自检：python3 scripts/dockerfile_analyzer.py --help 与 compose_validator.py --help 均预期退出码 0
 test -f <Dockerfile-path>   # optimize/security 任务预期退出码 0；失败：向用户要文件
 docker --version >/dev/null 2>&1   # 预期退出码 0；失败：docker 未安装 → 跳过构建/验证步骤，仅做静态分析
 ```
@@ -106,9 +105,9 @@ MULTI-STAGE BUILDS
 ### 步骤 2：用分析器校验
 
 ```bash
-python3 scripts/dockerfile_analyzer.py Dockerfile              # 文本报告
-python3 scripts/dockerfile_analyzer.py Dockerfile --output json
-python3 scripts/dockerfile_analyzer.py Dockerfile --security   # 聚焦安全
+python3 scripts/dockerfile_analyzer.py examples/Dockerfile              # 随包样例；你的真实项目换成 Dockerfile
+python3 scripts/dockerfile_analyzer.py examples/Dockerfile --output json
+python3 scripts/dockerfile_analyzer.py examples/Dockerfile --security   # 聚焦安全
 ```
 
 预期：分析器报告层数、基础镜像备注，且无残留反模式标记。docker 可用时的可选构建验证：`docker build -t <name> .` 成功。
@@ -150,7 +149,7 @@ DEVELOPMENT vs PRODUCTION
 ### 步骤 4：校验 compose 文件
 
 ```bash
-python3 scripts/compose_validator.py docker-compose.yml             # 文本报告
+python3 scripts/compose_validator.py examples/docker-compose.yml             # 随包样例；你的真实项目换成 docker-compose.yml
 python3 scripts/compose_validator.py docker-compose.yml --output json
 python3 scripts/compose_validator.py docker-compose.yml --strict    # 有 warning 即失败
 ```
