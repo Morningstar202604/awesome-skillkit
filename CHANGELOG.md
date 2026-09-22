@@ -14,6 +14,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > 另：0.4.0 – 0.6.1 发布于重置整理期，其内容随后被 squash 进 0.6.2 对应的提交
 > （`21769cb`），独立提交已不可考，故这四个版本没有对应的 git tag。
 
+## [0.22.0] - 2026-09-22
+
+### Fixed
+
+- **批次 5「文档命令可运行性」清零 — 64 技能 65 条失败全部定向 PASS**：`real_scenario_test.py` 台架此前报告的命令级失败（占位符路径、不存在的输入文件、危险的 `--execute`、多行续行命令、缺 git repo 上下文等）按四组（g1 架构/规划 10、g2 编程其余 17、g3 writing/tools/office/integrations 21、g4 零散域 13）并行修复，另含打样 4 技能（storyboard-designer、skill-tester、sample-skill、epub-builder）。修复范式：占位符/危险示例 `#` 注释化或改干跑；`/path/to` 与 `<ID>` 占位换随包真实样例；样例数据按脚本数据类精确构造（如 agent-designer 的 SystemRequirements/ToolDescription 字段、slo-architect 的 `target:`/`window:` 达标格式）。门禁：`--with-llm` 定向扫描 65/65 PASS；pytest 589 passed 1 skipped。验收纪律沉淀：`--only` 运行前先删报告产物并校验扫描器 rc，防陈旧报告误判。
+- **脚本真 bug 修 3 处**：migration_generator、upgrade_planner、e2e_scaffold（`--out` 为 .json 文件时脚手架产物进同名目录、摘要落精确路径，目录用法语义不变）；runner `real_scenario_test.py` 场景构造与路径解析修 4 处。
+
+### Added
+
+- **随包样例资产大批入库**（40+ 技能的 `assets/` 与 `examples/`）：发票样例、`sample.db`、EPUB 产物、K8s CRD/控制器、Terraform 模块树、`sample-repo`、示例 monorepo 等约 90 个文件——文档示例首次"开箱即可运行"，不再依赖用户自备输入。
+- **`tools/campaign_inventory.py` 战役盘点工具**与产物（`tests/_effectiveness/campaign_inventory.*`）；`tests/_effectiveness/batch5_fixlists/` 四组修复清单入库——每条失败含 skill/script/argv/reason/stderr_tail，修复可复核。
+
 ## [0.21.0] - 2026-09-22
 
 ### Added
