@@ -68,10 +68,27 @@ def _strip_quotes(value: str) -> str:
     return value
 
 
+_SKILL_INDEX: dict[str, Path] | None = None
+
+
+def _build_skill_index() -> dict[str, Path]:
+    """一次性遍历 skills 树建立 技能名 → 目录 索引。
+
+    之前 find_skill_dir 对每个技能各做一次递归 glob（skills 树文件多时
+    单次可达秒级，153 个技能累计数分钟，导致 build_site 超时/卡死）。
+    这里只遍历一次，后续查找 O(1)。
+    """
+    index: dict[str, Path] = {}
+    for p in SKILLS_DIR.glob("**/SKILL.md"):
+        index.setdefault(p.parent.name, p.parent)
+    return index
+
+
 def find_skill_dir(name: str) -> Path | None:
-    hits = [p.parent for p in SKILLS_DIR.glob(f"**/{name}/SKILL.md")
-            if p.parent.name == name]
-    return hits[0] if hits else None
+    global _SKILL_INDEX
+    if _SKILL_INDEX is None:
+        _SKILL_INDEX = _build_skill_index()
+    return _SKILL_INDEX.get(name)
 
 
 def collect(github_repo: str, gitcode_repo: str, gitee_repo: str,
