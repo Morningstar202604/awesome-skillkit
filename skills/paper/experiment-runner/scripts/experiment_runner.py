@@ -1,19 +1,24 @@
 #!/usr/bin/env python3
-"""Experiment Runner — 可复现实验 + 真实统计检验（SOTA 升级版）。
+"""Experiment Runner -- reproducible experiments + real statistical testing (SOTA upgrade).
 
-对标 2026 最佳实践：
-  - 统计：scipy.stats.ttest_ind (Welch) / mannwhitneyu + p 值 + Cohen's d + 95% CI
-    （scipy 缺失时回退到纯标准库 Welch t 检验 + 正态近似 p 值，离线仍可用）
-  - 复现：统一固定 python / numpy / (torch) 随机种子；导出 resolved config + 环境指纹
-  - 追踪钩子：可选接入 mlflow / wandb（detect 即 autolog，不强制依赖）
+Aligned with 2026 best practices:
+  - Statistics: scipy.stats.ttest_ind (Welch) / mannwhitneyu + p-value + Cohen's d + 95% CI
+    (when scipy is missing, fall back to a pure-stdlib Welch t-test + normal-approximation
+    p-value, so it still works offline)
+  - Reproducibility: consistently fix the python / numpy / (torch) random seeds; export the
+    resolved config + environment fingerprint
+  - Tracking hooks: optionally plug into mlflow / wandb (detect = autolog, no hard dependency)
 
-两种模式：
-  --mode simulated  内置演示实验（诚实标注 mode=simulated，MUST 标「模拟数据」）
+Two modes:
+  --mode simulated  built-in demo experiment (honestly tagged mode=simulated; MUST be labeled
+                    "simulated data")
   --mode real --metric <module:func> --baseline <module:func>
-                    跑用户真实指标函数（func(seed:int)->float），做真实两组比较
+                    runs the user's real metric function (func(seed:int)->float) and does a
+                    real two-group comparison
 
-诚实声明：simulated 模式永不当真实实验结果；real 模式的显著性以 p 值判定，
-`significant = p_value < alpha`（默认 0.05），不再用「均值超阈值」冒充 t-test。
+Honest disclaimer: simulated mode is never treated as a real experimental result; significance
+in real mode is decided by the p-value, `significant = p_value < alpha` (default 0.05) -- no
+more faking a t-test with "mean above a threshold".
 """
 import argparse
 import importlib
@@ -29,10 +34,10 @@ ALPHA = 0.05
 
 
 # ----------------------------------------------------------------------------
-# 随机种子（复现性）
+# Random seeds (reproducibility)
 # ----------------------------------------------------------------------------
 def seed_all(base: int):
-    """固定 python / numpy / (torch) 种子，返回用到的后端列表。"""
+    """Fix the python / numpy / (torch) seeds; return the list of backends used."""
     random.seed(base)
     backends = ["random"]
     try:
@@ -53,7 +58,7 @@ def seed_all(base: int):
 
 
 def env_fingerprint() -> dict:
-    """导出环境指纹，便于复现审计（不强制安装任何库）。"""
+    """Export the environment fingerprint for reproducibility auditing (no forced installs)."""
     fp = {"python": sys.version.split()[0]}
     try:
         import numpy as np
@@ -81,7 +86,7 @@ def env_fingerprint() -> dict:
 
 
 # ----------------------------------------------------------------------------
-# 真实统计（优先 scipy，回退纯标准库）
+# Real statistics (prefer scipy, fall back to pure stdlib)
 # ----------------------------------------------------------------------------
 def _mean(xs):
     return sum(xs) / len(xs)
@@ -93,7 +98,7 @@ def _var(xs, ddof=1):
 
 
 def _welch_t(a, b):
-    """纯标准库 Welch t 检验：返回 (t, df, p_two_sided)。"""
+    """Pure-stdlib Welch t-test: returns (t, df, p_two_sided)."""
     ma, mb = _mean(a), _mean(b)
     va, vb = _var(a, 1), _var(b, 1)
     na, nb = len(a), len(b)
@@ -101,13 +106,14 @@ def _welch_t(a, b):
     if se == 0:
         return 0.0, na + nb - 2, 1.0
     t = (ma - mb) / se
-    # Welch–Satterthwaite 自由度
+    # Welch-Satterthwaite degrees of freedom
     df = (va / na + vb / nb) ** 2 / (
         (va / na) ** 2 / (na - 1) + (vb / nb) ** 2 / (nb - 1)
     )
-    # 双尾 p 值（正态近似；大样本下足够；小样本用 t 分布更准确但标准库无 erf 逆）
+    # two-sided p-value (normal approximation; adequate for large samples; the t distribution
+    # is more accurate for small samples but the stdlib has no inverse erf)
     z = abs(t)
-    # 用 error function 近似标准正态双尾 p
+    # approximate the standard-normal two-sided p with the error function
     p = math.erfc(z / math.sqrt(2))
     return t, df, p
 
@@ -121,7 +127,7 @@ def cohens_d(a, b):
 
 
 def real_stats(ours, baseline, alpha=ALPHA):
-    """两组比较，返回真实统计结论。优先 scipy，否则纯标准库回退。"""
+    """Two-group comparison, returning a real statistical conclusion. Prefer scipy; otherwise fall back to pure stdlib."""
     method = "scipy"
     try:
         from scipy import stats
@@ -129,7 +135,7 @@ def real_stats(ours, baseline, alpha=ALPHA):
         t = float(res.statistic)
         p = float(res.pvalue)
         df = (len(ours) + len(baseline) - 2)
-        # 差值的 95% CI（Welch）
+        # 95% CI of the difference (Welch)
         diff = _mean(ours) - _mean(baseline)
         se = math.sqrt(_var(ours, 1) / len(ours) + _var(baseline, 1) / len(baseline))
         tc = stats.t.ppf(1 - alpha / 2, df)
@@ -139,7 +145,7 @@ def real_stats(ours, baseline, alpha=ALPHA):
         t, df, p = _welch_t(ours, baseline)
         diff = _mean(ours) - _mean(baseline)
         se = math.sqrt(_var(ours, 1) / len(ours) + _var(baseline, 1) / len(baseline))
-        zc = 1.959963984540054  # 正态 95% 临界
+        zc = 1.959963984540054  # normal 95% critical value
         ci_low, ci_high = diff - zc * se, diff + zc * se
 
     d = cohens_d(ours, baseline)
@@ -157,7 +163,7 @@ def real_stats(ours, baseline, alpha=ALPHA):
 
 
 # ----------------------------------------------------------------------------
-# 两种运行模式
+# Two run modes
 # ----------------------------------------------------------------------------
 def run_simulated(config: dict) -> dict:
     n_runs = int(config.get("n_runs", 3))
@@ -184,7 +190,7 @@ def run_simulated(config: dict) -> dict:
     return {
         "status": "complete",
         "mode": "simulated",
-        "simulation_notice": "模拟实验数据（未运行真实训练），MUST 标注 模拟数据；显著性来自真实 Welch t 检验",
+        "simulation_notice": "Simulated experiment data (no real training run); MUST be labeled simulated data; significance comes from a real Welch t-test",
         "n_runs": n_runs,
         "results": results,
         "stats": st,
@@ -195,10 +201,10 @@ def run_simulated(config: dict) -> dict:
 
 
 def _load_callable(spec: str):
-    """module:func -> callable。"""
+    """module:func -> callable."""
     mod_name, _, fn_name = spec.partition(":")
     if not fn_name:
-        raise ValueError(f"--metric/--baseline 需 'module:func' 形式，收到: {spec}")
+        raise ValueError(f"--metric/--baseline must be of the form 'module:func'; got: {spec}")
     mod = importlib.import_module(mod_name)
     return getattr(mod, fn_name)
 
@@ -226,7 +232,7 @@ def run_real(metric_spec, baseline_spec, config: dict) -> dict:
                         "baseline": round(bv, 6), "seed_used": s})
 
     if not base_fn:
-        # 单组：仅报描述统计，不做两组比较
+        # single group: report descriptive stats only, no two-group comparison
         return {
             "status": "complete",
             "mode": "real",
@@ -234,7 +240,7 @@ def run_real(metric_spec, baseline_spec, config: dict) -> dict:
             "results": results,
             "stats": {"mean": round(_mean(ours_vals), 6),
                       "std": round(_var(ours_vals, 1) ** 0.5, 6),
-                      "note": "单组模式：未提供 --baseline，未做两组比较"},
+                      "note": "Single-group mode: no --baseline given; no two-group comparison performed"},
             "config": config,
             "seed_backends": backends,
             "env": env_fingerprint(),
@@ -255,7 +261,7 @@ def run_real(metric_spec, baseline_spec, config: dict) -> dict:
 
 
 # ----------------------------------------------------------------------------
-# 可选追踪（detect 即 autolog，不强制依赖）
+# Optional tracking (detect = autolog, no hard dependency)
 # ----------------------------------------------------------------------------
 def _maybe_track(run: dict):
     try:
@@ -276,14 +282,14 @@ def _maybe_track(run: dict):
 def main():
     ap = argparse.ArgumentParser(description="Reproducible experiment runner (SOTA stats)")
     ap.add_argument("--mode", default="simulated", choices=["simulated", "real"])
-    ap.add_argument("--config", help="实验配置 JSON（键 n_runs/seed/baseline_metric/improvement_target）")
+    ap.add_argument("--config", help="experiment config JSON (keys n_runs/seed/baseline_metric/improvement_target)")
     ap.add_argument("--n-runs", type=int, default=5)
     ap.add_argument("--seed", type=int, default=42)
-    ap.add_argument("--metric", help="real 模式：指标函数 module:func（func(seed:int)->float）")
-    ap.add_argument("--baseline", help="real 模式：基线函数 module:func")
-    ap.add_argument("--baseline-value", type=float, default=0.0, help="无 --baseline 时的固定基线值")
-    ap.add_argument("--track", action="store_true", help="尝试 mlflow autolog（需安装 mlflow）")
-    ap.add_argument("--output", help="输出 JSON 路径")
+    ap.add_argument("--metric", help="real mode: metric function module:func (func(seed:int)->float)")
+    ap.add_argument("--baseline", help="real mode: baseline function module:func")
+    ap.add_argument("--baseline-value", type=float, default=0.0, help="fixed baseline value when no --baseline is given")
+    ap.add_argument("--track", action="store_true", help="try mlflow autolog (requires mlflow installed)")
+    ap.add_argument("--output", help="output JSON path")
     args = ap.parse_args()
 
     if args.config:
@@ -295,22 +301,23 @@ def main():
     if args.mode == "real":
         if not args.metric:
             print(json.dumps({"status": "error",
-                              "error": "real 模式需要 --metric module:func"}, ensure_ascii=False))
+                              "error": "real mode requires --metric module:func"}, ensure_ascii=False))
             return 2
         try:
             run = run_real(args.metric, args.baseline, config)
         except ModuleNotFoundError as e:
-            # 用户给的 module:func 加载不到 → 干净报错并给排查方向，
-            # 不允许裸 traceback（旧版直接崩，编排层只看到 rc=1 无 JSON）
+            # the user's module:func cannot be loaded -> fail cleanly with troubleshooting
+            # guidance; a bare traceback is not allowed (the old version crashed outright,
+            # and the orchestration layer only saw rc=1 with no JSON)
             print(json.dumps({"status": "error",
-                              "error": f"--metric/--baseline 指向的模块加载失败: {e}；"
-                                       f"请确认模块在 sys.path（可在 --config 同目录下运行或设 PYTHONPATH）",
-                              "hint": "先单独验证: python3 -c \"import <module>; print(<module>.<func>)\""},
+                              "error": f"Failed to load the module pointed to by --metric/--baseline: {e}; "
+                                       f"make sure the module is on sys.path (run it from the same directory as --config, or set PYTHONPATH)",
+                              "hint": "First verify it in isolation: python3 -c \"import <module>; print(<module>.<func>)\""},
                              ensure_ascii=False))
             return 2
         except (ValueError, AttributeError, TypeError) as e:
             print(json.dumps({"status": "error",
-                              "error": f"--metric/--baseline 无效: {e}"},
+                              "error": f"--metric/--baseline is invalid: {e}"},
                              ensure_ascii=False))
             return 2
     else:

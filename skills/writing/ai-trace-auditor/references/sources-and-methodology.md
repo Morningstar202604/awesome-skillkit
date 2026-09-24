@@ -2,15 +2,15 @@
 
 本技能属于**方法论蒸馏（methodology distilled）**：检测原理与词表来自公开文献与社区归纳，评分权重为本技能作者的工程经验值，未复制任何项目的源代码或付费检测器输出。
 
-## 方法论来源
+## Methodology sources
 
-| 来源 | 许可 | 蒸馏了什么 | 署名方式 |
+| Source | License | What was distilled | Attribution |
 |---|---|---|---|
 | 语言模型公开文献中的困惑度（perplexity）与突发性（burstiness）概念 | 概念性引用（学界通行概念） | 检测原理：人写文本词汇更不可预测、句长方差更大；本技能以句长方差比 cv = std/mean（报警线 0.5）与词表命中率作为二者的廉价代理 | 在本文件与 SKILL.md 参数速查表中注明原理出处 |
 | 写作社区对 LLM 高频词的公开归纳（如 "delve / tapestry / crucial / moreover / it's important to note" 英文清单，以及"赋能 / 抓手 / 闭环 / 值得注意的是"中文清单） | 社区公开讨论，无单一版权主体 | AI_PATTERNS 词表：脚本内置 29 条中英正则，每条附修改建议；词表可按需增删 | 在本文件声明词表为社区归纳 + 作者补充 |
 | 新闻与写作教学中通行的结构套路清单（三点式罗列、总结句开场、公文式收尾） | 概念性引用 | 步骤 4 的语义层人工检查项与 findings 的 type 枚举设计 | 在本文件声明为写作教学通行经验 |
 
-## 蒸馏边界（诚实声明）
+## Distillation boundary (honest disclaimer)
 
 - 本技能**不是** perplexity/burstiness 的完整实现：无语言模型打分，只用统计代理，因此对词表外的新型 AI 套话存在盲区——这一边界已写入 SKILL.md 红线 1。
 - 评分权重（每命中 -6 分、cv 报警线 0.5、列表密度报警线 0.4 等）全部为作者经验值，非源自任何文献，可按使用场景校准；与 scripts/trace_scanner.py 内的常量一一对应。

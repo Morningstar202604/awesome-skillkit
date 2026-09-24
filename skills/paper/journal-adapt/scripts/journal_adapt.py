@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
-"""Journal Adapt — 期刊/会议格式适配（venue 规则校验）。
+"""Journal Adapt — venue format adaptation (venue rule validation).
 
-对标 2026 venue 规则（IEEE / ACM / NeurIPS / ACL / Nature），把旧版「words/500 一刀切」
-换成**分栏感知 + 参考文献页扣减**的页数模型，并补齐摘要上限、必填章节、引用风格、双盲检查。
+Targets 2026 venue rules (IEEE / ACM / NeurIPS / ACL / Nature). It replaces the old
+"words/500 across-the-board" heuristic with a **column-aware + references-page-deduction**
+page model, and adds abstract limits, required sections, citation style, and double-blind checks.
 
-用法:
+Usage:
   python3 journal_adapt.py --input draft.tex --target ieee_conf
   python3 journal_adapt.py --input draft.tex --target neurips --template-year 2025
 
-诚实声明：页数为**估算**（words_per_page 是按分栏/字号的社区经验值），
-正式投稿前 MUST 用 venue 官方模板编译确认；`--template-year` 只改类名年份串，不保证模板存在。
+Honest disclaimer: page counts are **estimates** (words_per_page is a community rule of
+thumb for columns/font size). Before real submission you MUST compile with the venue's
+official template to confirm; `--template-year` only changes the year string in the class
+name and does not guarantee the template exists.
 """
 import argparse
 import json
@@ -18,7 +21,8 @@ import re
 import sys
 from pathlib import Path
 
-# 每 venue 规则表（words_per_page 为分栏/字号下的经验值；refs_included=正文页数是否含参考文献）
+# Per-venue rule table (words_per_page is a rule of thumb for columns/font size;
+# refs_included = whether the body page count includes references)
 JOURNAL_SPECS = {
     "ieee_conf": dict(
         name="IEEE Conference", cls="IEEEtran", options="conference",
@@ -57,7 +61,7 @@ JOURNAL_SPECS = {
         notes="Articles ~5 pages / main text ~3000 words; abstract is an unnumbered first paragraph."),
 }
 
-# 常见别名
+# common aliases
 ALIASES = {"ieee": "ieee_conf", "ieee_journal": "ieee_conf", "emnlp": "acl", "naacl": "acl",
            "sigconf": "acm", "nips": "neurips"}
 
@@ -71,7 +75,7 @@ def _extract_abstract(text: str) -> str:
 
 
 def _split_bibliography(text: str) -> tuple:
-    """返回 (正文, 参考文献块)。支持 \\bibliography 与 thebibliography 环境。"""
+    """Return (body, bibliography block). Supports \\bibliography and the thebibliography environment."""
     m = re.search(r"\\begin\{thebibliography\}(?:\{[^}]*\})?.*?\\end\{thebibliography\}",
                   text, re.S)
     if m:
@@ -109,7 +113,7 @@ def adapt(text: str, target: str, template_year: str = None) -> dict:
                                   f"{ref_pages} ref pages)",
                        "fix": "Trim body text or move proofs to the appendix"})
 
-    # 摘要字数上限
+    # abstract word limit
     abstract = _extract_abstract(text)
     abstract_words = len(abstract.split()) if abstract.strip() else 0
     if not abstract.strip():
@@ -120,20 +124,20 @@ def adapt(text: str, target: str, template_year: str = None) -> dict:
                        "message": f"abstract {abstract_words} words > {spec['abstract_max_words']}",
                        "fix": "Cut modifiers, not results"})
 
-    # 必填章节
+    # required sections
     low = text.lower()
     for sec in spec["required_sections"]:
         if sec.lower() not in low:
             issues.append({"type": "missing_section", "severity": "high", "section": sec,
                            "fix": f"Add a '{sec}' section (venue requires it)"})
 
-    # 禁词
+    # banned phrases
     for banned in spec.get("banned", []):
         if banned.lower() in low:
             issues.append({"type": "banned", "severity": "medium", "phrase": banned,
                            "fix": "Replace with a specific, evidence-backed claim"})
 
-    # 引用风格
+    # citation style
     has_author_year = bool(re.search(r"\\cite[pt]\{", text)) or bool(re.search(r"\\textcite", text))
     detected_style = "author-year" if has_author_year else "numeric"
     if detected_style != spec["ref_style"]:
@@ -141,7 +145,7 @@ def adapt(text: str, target: str, template_year: str = None) -> dict:
                        "message": f"detected {detected_style}, venue expects {spec['ref_style']}",
                        "fix": "Regenerate the bibliography with the venue's .bst/.bbx style"})
 
-    # 双盲
+    # double-blind
     anonymous_ok = True
     if spec["anonymous"]:
         author_hits = re.findall(r"\\author\{([^}]*)\}", text)

@@ -1,6 +1,6 @@
 # ORM Patterns Reference
 
-## 目录
+## Table of Contents
 
 - [Schema Definition](#schema-definition)
   - [Prisma (schema.prisma)](#prisma-schemaprisma)

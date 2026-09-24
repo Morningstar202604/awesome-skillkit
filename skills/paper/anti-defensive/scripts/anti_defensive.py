@@ -1,17 +1,22 @@
 #!/usr/bin/env python3
-"""Anti-Defensive Writing — 检测防御性学术写作，并区分「该收紧」与「该保留」。
+"""Anti-Defensive Writing — detect defensive academic writing, distinguishing
+"should tighten" from "should retain".
 
-对标 anti-defensive-writing (771 stars)，补上旧版把「所有限定都当坏事」的缺陷：
-  - **对冲密度**：hedges per 100 words（可量化、可跨稿对比）；
-  - **retain / tighten 分类**：若限定语出现在**统计不确定语境**（置信区间、p 值、方差、
-    样本量、分布漂移、估计量…）附近，则属**合理统计限定，必须保留**（action=retain）；
-    只有语言性弱化（双重对冲、自贬、填充短语）才标 action=tighten；
-  - **定位**：每处命中给 line:col。
+Targets anti-defensive-writing (771 stars), fixing the old version's flaw of treating
+every qualifier as a bad thing:
+  - **hedge density**: hedges per 100 words (quantifiable, comparable across drafts);
+  - **retain / tighten classification**: if a qualifier sits near a **statistical-uncertainty
+    context** (confidence interval, p-value, variance, sample size, distribution shift,
+    estimator...), it is a **legitimate statistical qualifier that must be retained**
+    (action=retain); only linguistic weakening (double hedges, self-deprecation, filler
+    phrases) is flagged action=tighten;
+  - **location**: each hit gives line:col.
 
-诚实声明：分数只对 action=tighten 的命中扣分；`retain` 项不扣分——把统计限定删掉
-换来的「语气更硬」是**学术错误**，不是改进。
+Honest disclaimer: the score only deducts for action=tighten hits; `retain` items are not
+penalized -- the "harder tone" bought by deleting statistical qualifiers is an **academic
+error**, not an improvement.
 
-用法:
+Usage:
   python3 anti_defensive.py --text "Our results suggest that the method may possibly improve"
   python3 anti_defensive.py --file draft_section.md
 """
@@ -66,7 +71,7 @@ DEFENSIVE_PATTERNS = [
     },
 ]
 
-# 统计不确定语境：限定语出现在其附近 → 视为合理统计限定，保留
+# Statistical-uncertainty context: a qualifier near here counts as a legitimate statistical qualifier -> retain
 LEGIT_CONTEXT = re.compile(
     r"(confidence interval|\bci\b|\bp\s*[=<>]\s*0?\.\d|\bp-value|\bvariance\b|std\.?\s*dev|"
     r"sample size|\bn\s*=\s*\d|distribution shift|out-of-distribution|\bood\b|hypothes|"
@@ -74,7 +79,7 @@ LEGIT_CONTEXT = re.compile(
     re.IGNORECASE,
 )
 
-# 用于密度统计的对冲词表（含未被上面 pattern 命中的单词对冲）
+# Hedge lexicon for density counting (including single-word hedges not caught by the patterns above)
 HEDGE_LEXICON = re.compile(
     r"\b(may|might|could|possibly|potentially|perhaps|likely|unlikely|suggest|suggests|"
     r"indicat\w+|appear\w*|seem\w*|tend\w*|arguably|presumably|roughly|approximately)\b",

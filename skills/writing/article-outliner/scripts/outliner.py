@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Article Outliner — 生成文章大纲。
+"""Article Outliner — generate an article outline.
 
-用法:
-  python3 outliner.py --topic "FastAPI 性能优化" --type technical
+Usage:
+  python3 outliner.py --topic "FastAPI performance tuning" --type technical
   python3 outliner.py --json '{"topic":"...","type":"listicle","key_points":["a","b"]}'
 """
 import argparse
@@ -12,27 +12,27 @@ from pathlib import Path
 
 STRUCTURES = {
     "technical": {
-        "sections": ["问题背景", "原因分析", "解决方案", "对比测试", "总结"],
+        "sections": ["Problem context", "Root-cause analysis", "Solution", "Comparison tests", "Summary"],
         "pattern": "problem_solution",
     },
     "blog": {
-        "sections": ["引言", "核心内容", "实操步骤", "踩坑记录", "总结"],
+        "sections": ["Introduction", "Core content", "Practical steps", "Pitfalls", "Summary"],
         "pattern": "narrative",
     },
     "news": {
-        "sections": ["事件", "背景", "影响", "各方反应", "展望"],
+        "sections": ["Event", "Background", "Impact", "Reactions", "Outlook"],
         "pattern": "inverted_pyramid",
     },
     "listicle": {
-        "sections": ["引言", "技巧 1", "技巧 2", "技巧 3", "技巧 4", "技巧 5", "总结"],
+        "sections": ["Introduction", "Tip 1", "Tip 2", "Tip 3", "Tip 4", "Tip 5", "Summary"],
         "pattern": "list",
     },
     "tutorial": {
-        "sections": ["前置要求", "步骤 1", "步骤 2", "步骤 3", "验证", "FAQ"],
+        "sections": ["Prerequisites", "Step 1", "Step 2", "Step 3", "Verification", "FAQ"],
         "pattern": "linear_steps",
     },
     "opinion": {
-        "sections": ["论点", "论据 1", "论据 2", "反方观点", "结论"],
+        "sections": ["Claim", "Evidence 1", "Evidence 2", "Counterarguments", "Conclusion"],
         "pattern": "argumentative",
     },
 }
@@ -48,11 +48,12 @@ def generate_outline(topic: str, article_type: str = "technical",
     n_sec = len(structure["sections"])
     target_words = {"short": 800, "medium": 2000, "long": 5000}.get(target_length, 2000)
     reading_time = target_words // 250
-    base, extra = divmod(target_words, n_sec)  # 均分；余数前移到前 extra 节，保证求和恒等
+    base, extra = divmod(target_words, n_sec)  # divide evenly; push the remainder into the first `extra` sections so the sum stays exact
 
     for i, sec_name in enumerate(structure["sections"]):
-        # 要点轮转分配：第 k 条要点 → 第 (k % n_sec) 节。
-        # 旧实现 i < len(key_points) 会在 key_points 多于节数时静默丢弃尾部要点。
+        # round-robin point assignment: point k goes to section (k % n_sec).
+        # The old loop `i < len(key_points)` silently dropped trailing points when
+        # key_points outnumbered sections.
         points = [kp for k, kp in enumerate(key_points or []) if k % n_sec == i]
         sections.append({
             "id": i + 1,
@@ -63,18 +64,19 @@ def generate_outline(topic: str, article_type: str = "technical",
         })
 
     outline = {
-        "title": f"{topic}：从入门到精通",
-        "hook": f"你遇到过{topic}相关的痛点吗？",
+        "title": f"{topic}: from beginner to expert",
+        "hook": f"Ever run into {topic}-related pain points?",
         "sections": sections,
-        "conclusion": "总结要点 + CTA",
+        "conclusion": "Summarize key points + CTA",
         "total_words_target": target_words,
         "reading_time_min": reading_time,
         "type": article_type,
         "audience": audience,
         "platforms": platforms or ["csdn"],
-        # 占位标记：下列字段为模板骨架文本，交付前必须重写（SKILL.md 诚实声明 1-2）
+        # placeholder marker: the fields below are template skeleton text and must be
+        # rewritten before delivery (SKILL.md honest-disclaimer items 1-2)
         "placeholders": ["title", "hook", "conclusion", "sections[].heading"],
-        "placeholder_note": "上述字段是模板骨架文本，不是成品；请按 SKILL.md 工作流 A 步骤 6 与参考模板重写",
+        "placeholder_note": "The above fields are template skeleton text, not a finished piece; rewrite them per SKILL.md workflow A step 6 and the reference templates",
     }
     return outline
 
@@ -82,7 +84,7 @@ def generate_outline(topic: str, article_type: str = "technical",
 def main():
     parser = argparse.ArgumentParser(description="Generate article outline")
     parser.add_argument("--topic", required=False,
-                        help="文章主题（与 --json-input 二选一；给 --json-input 时可省略）")
+                        help="Article topic (mutually exclusive with --json-input; optional when --json-input is given)")
     parser.add_argument("--type", default="technical", choices=list(STRUCTURES.keys()))
     parser.add_argument("--length", default="medium", choices=["short", "medium", "long"])
     parser.add_argument("--audience", default="intermediate")
@@ -95,7 +97,7 @@ def main():
     if args.json_input:
         data = json.loads(args.json_input)
         if not data.get("topic") and not args.topic:
-            parser.error("需要 --topic 或在 --json-input 中提供 topic 字段")
+            parser.error("Provide --topic or a topic field in --json-input")
         outline = generate_outline(
             data.get("topic", args.topic),
             data.get("type", args.type),
@@ -106,7 +108,7 @@ def main():
         )
     else:
         if not args.topic:
-            parser.error("需要 --topic 或 --json-input")
+            parser.error("Provide --topic or --json-input")
         outline = generate_outline(
             args.topic, args.type, args.length,
             args.audience, args.points, args.platforms

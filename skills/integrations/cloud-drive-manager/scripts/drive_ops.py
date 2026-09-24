@@ -1,22 +1,27 @@
 #!/usr/bin/env python3
-"""drive_ops.py -- 云盘归档的上传计划器、校验清单生成器与列表解析器。
+"""drive_ops.py -- upload planner, checksum-list generator, and list parser for
+cloud-drive archiving.
 
-适用于百度网盘 / 阿里云盘 / OneDrive 这类"分片上传 + 秒传"的云盘。
-本脚本只做三件**离线**的事：算清楚要传什么、留下校验依据、把响应读成人话。
+Targets chunked-upload + instant-upload drives such as Baidu Netdisk, Aliyun Drive,
+and OneDrive. This script does only three **offline** things: work out what to
+upload, leave a verification basis, and turn responses into human-readable text.
 
-设计原则
---------
-1. **纯函数 + 只读**：`plan-upload` / `checksum-plan` 只读本地目录，
-   `parse-list` 只读 JSON 文件。三者都不联网、不写远端。
-2. **默认 dry-run**：`plan-upload` 输出的是计划而非动作；真实上传由人确认后执行。
-3. **凭证不落盘**：access_token / client_secret 一律从环境变量读取
-   （BAIDU_ACCESS_TOKEN / ALIYUN_REFRESH_TOKEN / ONEDRIVE_ACCESS_TOKEN），
-   脚本内部从不接触这些值。
-4. **删除必须双重确认**：`parse-list` 遇到删除类结果会额外报警示；
-   真实删除操作要求用户分别确认"目标路径"与"影响文件数"两次。
+Design principles
+-----------------
+1. **Pure functions + read-only**: `plan-upload` / `checksum-plan` only read local
+   directories, `parse-list` only reads JSON files. None of them touches the network
+   or writes to the remote.
+2. **Dry-run by default**: `plan-upload` outputs a plan, not an action; the real
+   upload runs only after a human confirms.
+3. **Credentials never hit disk**: access_token / client_secret are always read
+   from environment variables (BAIDU_ACCESS_TOKEN / ALIYUN_REFRESH_TOKEN /
+   ONEDRIVE_ACCESS_TOKEN); the script never touches those values internally.
+4. **Deletes require double confirmation**: when `parse-list` sees a delete-class
+   result it prints an extra warning; a real delete requires the user to confirm
+   both the "target path" and the "affected file count" separately.
 
-子命令
-------
+Subcommands
+-----------
   plan-upload   --dir X --remote Y [--prefix P] [--manifest m.json]
   checksum-plan --dir X [--output sha256.txt] [--algo sha256|md5] [--exclude GLOB]
   parse-list    --json f.json [--provider {baidu|aliyun|onedrive}]
@@ -35,55 +40,59 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 # ---------------------------------------------------------------------------
-# 云盘平台常量
+# Cloud-drive platform constants
 # ---------------------------------------------------------------------------
 
-# 分片上传的阈值与片大小。三家都提供"简单上传"与"分片上传"两条路径，
-# 阈值不同；超过阈值还走简单上传会被直接拒绝。
+# Thresholds and chunk size for chunked uploads. All three offer both "simple
+# upload" and "chunked upload" paths with different thresholds; above the
+# threshold, using simple upload is rejected outright.
 CHUNK_POLICY = {
     "baidu": {
-        "simple_max_mb": 4,      # 4MB 以下走简单上传
-        "chunk_mb": 4,           # 分片固定 4MB（平台约定）
+        "simple_max_mb": 4,      # under 4MB use simple upload
+        "chunk_mb": 4,           # fixed 4MB chunks (platform convention)
         "slice_threshold_mb": 4,
-        "note": "百度网盘的 uploadid 接口对超 4MB 文件强制分片，片大小必须是 4MB",
+        "note": "Baidu Netdisk's uploadid endpoint forces chunking for files over 4MB; chunks must be 4MB",
     },
     "aliyun": {
         "simple_max_mb": 100,
         "chunk_mb": 8,
         "slice_threshold_mb": 100,
-        "note": "阿里云盘 100MB 以下可单请求上传；以上建议 8MB 分片",
+        "note": "Aliyun Drive uploads files under 100MB in a single request; above that, use 8MB chunks",
     },
     "onedrive": {
-        "simple_max_mb": 250,    # 单请求上传上限 250MB
-        "chunk_mb": 10,          # 分片必须是 320KiB 的整数倍，10MB 满足
+        "simple_max_mb": 250,    # single-request upload limit is 250MB
+        "chunk_mb": 10,          # chunks must be multiples of 320KiB; 10MB satisfies that
         "slice_threshold_mb": 250,
-        "note": "OneDrive 单请求上传上限 250MB，分片必须为 320KiB 的倍数",
+        "note": "OneDrive single-request upload limit is 250MB; chunks must be multiples of 320KiB",
     },
 }
 
-# 秒传（instant upload）的原理说明：客户端先算文件内容哈希，
-# 服务端若有相同哈希的**整文件**记录则直接建立引用，不传字节。
+# How instant upload works: the client hashes the file content first; if the server
+# already holds a **whole-file** record with the same hash, it creates a reference
+# directly and no bytes are transferred.
 HASH_ALGO = {
-    "baidu": "md5（分片上传时每片单独算 md5，外加整文件 md5 用于秒传）",
-    "aliyun": "sha1 + 分段 sha1（阿里云盘用 sha1 而非 md5 做去重键）",
-    "onedrive": "quickXorHash（微软自有算法）或 sha256（取决于 API 版本）",
+    "baidu": "md5 (per-chunk md5 during chunked upload, plus whole-file md5 for instant upload)",
+    "aliyun": "sha1 + per-segment sha1 (Aliyun Drive uses sha1, not md5, as the dedup key)",
+    "onedrive": "quickXorHash (Microsoft's own algorithm) or sha256 (depending on the API version)",
 }
 
-# 各家列表响应里"条目数组"的字段名不同。
+# Each provider's list response names the "entry array" differently.
 LIST_KEY = {"baidu": "list", "aliyun": "items", "onedrive": "value"}
 
-# 删除操作的双重确认要求（写进输出，强制使用者看见）。
+# Double-confirmation requirement for deletes (written into the output so the
+# user cannot miss it).
 DELETE_CONFIRM = (
-    "删除是不可逆操作：请分两次确认——"
-    "① 确认目标路径完全正确；② 确认受影响的文件数量与预期一致。"
-    "任一项存疑请改用移动/归档目录，不要删除。"
+    "Deletes are irreversible: please confirm twice -- "
+    "(1) confirm the target path is exactly right; (2) confirm the affected file "
+    "count matches expectation. If either is in doubt, move/archive to a folder "
+    "instead of deleting."
 )
 
 SUPPORTED_ALGOS = ("sha256", "md5", "sha1")
 
 
 class PlanError(Exception):
-    """计划生成失败（输入不合法，非网络问题）。"""
+    """Plan generation failed (bad input, not a network problem)."""
 
 
 def _die(msg: str, code: int = 2) -> int:
@@ -94,11 +103,11 @@ def _die(msg: str, code: int = 2) -> int:
 def _load_json(path: str, what: str) -> object:
     p = Path(path)
     if not p.is_file():
-        raise PlanError(f"{what} 文件不存在: {path}")
+        raise PlanError(f"{what} file does not exist: {path}")
     try:
         return json.loads(p.read_text(encoding="utf-8"))
     except json.JSONDecodeError as e:
-        raise PlanError(f"{what} 不是合法 JSON: {path} (line {e.lineno}: {e.msg})")
+        raise PlanError(f"{what} is not valid JSON: {path} (line {e.lineno}: {e.msg})")
 
 
 def _dump(obj: object) -> None:
@@ -106,7 +115,7 @@ def _dump(obj: object) -> None:
 
 
 def fmt_size(n: int) -> str:
-    """人类可读体积：B 不带小数，其余保留一位。"""
+    """Human-readable size: B has no decimals; others keep one decimal."""
     size = float(n)
     for unit in ("B", "KB", "MB", "GB"):
         if size < 1024:
@@ -119,13 +128,13 @@ def fmt_size(n: int) -> str:
 # plan-upload
 # ---------------------------------------------------------------------------
 def collect_files(root: Path, prefix: str, exclude: list) -> list:
-    """遍历目录收集待传文件。
+    """Walk the directory and collect files to upload.
 
-    **跳过符号链接**：跟随链接会让"上传 A 目录"意外把 B 目录的
-    大文件也传上去，配额与隐私都不可控。
+    **Skip symlinks**: following links would make "upload directory A" accidentally
+    upload large files from directory B too, losing control over quota and privacy.
     """
     if not root.is_dir():
-        raise PlanError(f"不是目录: {root}")
+        raise PlanError(f"not a directory: {root}")
     out = []
     for p in sorted(root.rglob("*")):
         if p.is_symlink() or not p.is_file():
@@ -141,7 +150,7 @@ def collect_files(root: Path, prefix: str, exclude: list) -> list:
 
 
 def decide_strategy(provider: str, size: int) -> dict:
-    """按平台阈值决定简单上传还是分片上传。"""
+    """Choose simple vs. chunked upload based on the platform threshold."""
     pol = CHUNK_POLICY[provider]
     mb = size / (1024 * 1024)
     if mb <= pol["simple_max_mb"]:
@@ -154,7 +163,7 @@ def decide_strategy(provider: str, size: int) -> dict:
 
 def build_manifest(root: Path, remote: str, provider: str,
                    files: list) -> dict:
-    """生成上传计划（manifest）：文件清单 + 体积 + 目标路径 + 策略。"""
+    """Build the upload plan (manifest): file list + size + target path + strategy."""
     entries = []
     total = 0
     for path, rel in files:
@@ -188,53 +197,55 @@ def cmd_plan_upload(args) -> int:
     root = Path(args.dir)
     files = collect_files(root, args.prefix or "", exclude)
 
-    print(f"# DRY-RUN：上传计划（未上传任何文件）")
-    print(f"# 源目录：{root.resolve()}")
-    print(f"# 目标云盘：{args.provider}  远端根路径：{args.remote}")
-    print(f"# 凭证：从环境变量读取，不落盘、不打印")
+    print(f"# DRY-RUN: upload plan (nothing uploaded)")
+    print(f"# source dir: {root.resolve()}")
+    print(f"# target drive: {args.provider}  remote root: {args.remote}")
+    print(f"# credentials: read from env vars; not written to disk, not printed")
     print()
 
     if not files:
-        # 空清单不是成功：没有可上传的文件意味着这次归档什么都不会发生，
-        # 直接返回 0 会让调用方误以为"计划已就绪"。返回非 0 并写明原因，
-        # 让流水线在这里就停下（否则会带着空计划走到上传步骤才发现）。
+        # An empty list is not success: having nothing to upload means this archive
+        # does nothing. Returning 0 would make the caller think "the plan is ready".
+        # Return non-zero with a reason so the pipeline stops here (instead of walking
+        # to the upload step with an empty plan before noticing).
         return _die(
-            f"目录 {root.resolve()} 内没有可上传的文件（或全部被 --exclude 排除）。"
-            "请核对源目录路径与 --exclude 通配符是否过宽。"
+            f"no uploadable files under {root.resolve()} (or all excluded by --exclude). "
+            "Check the source path and whether --exclude globs are too broad."
         )
 
     manifest = build_manifest(root, args.remote, args.provider, files)
 
-    print(f"共 {manifest['file_count']} 个文件，合计 {manifest['total_human']}")
+    print(f"{manifest['file_count']} files, total {manifest['total_human']}")
     print()
-    print("## 文件清单")
-    print(f"{'相对路径':<48}{'大小':>10}  {'策略'}")
+    print("## File list")
+    print(f"{'relative path':<48}{'size':>10}  {'strategy'}")
     for e in manifest["files"]:
         strategy = "simple" if e["mode"] == "simple" else \
-            f"slice x{e['chunks']} ({e['chunk_size_mb']}MB/片)"
+            f"slice x{e['chunks']} ({e['chunk_size_mb']}MB/chunk)"
         rel = e["relative"]
         if len(rel) > 46:
             rel = "..." + rel[-43:]
         print(f"{rel:<48}{e['size_human']:>10}  {strategy}")
     print()
 
-    print("## 将创建的远端目录")
+    print("## Remote directories to create")
     for d in manifest["will_create_dirs"]:
         print(f"  {d}/")
     print()
 
-    print("## 分片策略依据")
+    print("## Chunking rationale")
     pol = CHUNK_POLICY[args.provider]
     print(f"- {pol['note']}")
-    print(f"- 秒传/去重键算法：{HASH_ALGO[args.provider]}")
+    print(f"- instant-upload / dedup key algorithm: {HASH_ALGO[args.provider]}")
     print()
 
     if args.manifest:
         Path(args.manifest).write_text(
             json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
-        print(f"# manifest 已写入 {args.manifest}")
-    print("# 未上传任何文件。确认清单后由 AI/用户接凭证执行上传；")
-    print("# 上传完成后用 checksum-plan 的结果逐文件比对，验证完整性。")
+        print(f"# manifest written to {args.manifest}")
+    print("# Nothing uploaded. After confirming the list, the AI/user attaches")
+    print("# credentials to run the upload; then compare per-file against checksum-plan")
+    print("# results to verify integrity.")
     return 0
 
 
@@ -242,7 +253,7 @@ def cmd_plan_upload(args) -> int:
 # checksum-plan
 # ---------------------------------------------------------------------------
 def hash_file(path: Path, algo: str, block: int = 1 << 20) -> str:
-    """流式计算文件摘要，不整文件读进内存。"""
+    """Stream the file digest without reading the whole file into memory."""
     h = hashlib.new(algo)
     with path.open("rb") as fh:
         while True:
@@ -256,21 +267,22 @@ def hash_file(path: Path, algo: str, block: int = 1 << 20) -> str:
 def cmd_checksum_plan(args) -> int:
     algo = args.algo
     if algo not in SUPPORTED_ALGOS:
-        return _die(f"不支持的算法 '{algo}'；用 {', '.join(SUPPORTED_ALGOS)}")
+        return _die(f"unsupported algorithm '{algo}'; use {', '.join(SUPPORTED_ALGOS)}")
 
     exclude = [x.strip() for x in (args.exclude or "").split(",") if x.strip()]
     root = Path(args.dir)
     if not root.is_dir():
-        return _die(f"不是目录: {root}")
+        return _die(f"not a directory: {root}")
 
     files = collect_files(root, "", exclude)
     if not files:
-        # 同 plan-upload：算不出任何摘要不是成功，而是"源目录选错了或全被排除"。
-        # 返回 0 会让调用方把空清单当成有效的校验基准，后续 sha256sum -c 会
-        # 以 0 行全部通过而掩盖真实问题。
+        # Same as plan-upload: computing no digest is not success but "wrong source
+        # dir or everything excluded". Returning 0 would let the caller treat the
+        # empty list as a valid checksum basis, and a later sha256sum -c would pass
+        # with zero rows while masking the real problem.
         return _die(
-            f"目录 {root.resolve()} 内没有可计算的文件（或全部被 --exclude 排除）。"
-            "请核对源目录路径与 --exclude 通配符。"
+            f"no files to checksum under {root.resolve()} (or all excluded by --exclude). "
+            "Check the source path and --exclude globs."
         )
 
     lines = []
@@ -279,24 +291,24 @@ def cmd_checksum_plan(args) -> int:
         digest = hash_file(path, algo)
         size = path.stat().st_size
         total += size
-        # 采用 `hash  *path` 两空格格式：二进制模式标记，便于 sha256sum -c 直接校验
+        # Use the `hash  *path` two-space format: binary-mode marker, so sha256sum -c can verify directly
         lines.append(f"{digest}  {rel}")
 
     header = [
-        f"# {algo} 校验清单",
-        f"# 源目录: {root.resolve()}",
-        f"# 生成时间: {datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')}",
-        f"# 文件数: {len(files)}  合计: {fmt_size(total)}",
-        f"# 校验方式: {algo}sum -c <本文件>",
+        f"# {algo} checksum list",
+        f"# source dir: {root.resolve()}",
+        f"# generated: {datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')}",
+        f"# file count: {len(files)}  total: {fmt_size(total)}",
+        f"# verify with: {algo}sum -c <this file>",
         "",
     ]
     text = "\n".join(header + lines) + "\n"
 
     if args.output:
         Path(args.output).write_text(text, encoding="utf-8")
-        print(f"# 已写入 {args.output}")
-        print(f"# 算法：{algo}  文件数：{len(files)}  合计：{fmt_size(total)}")
-        print(f"# 校验命令：{algo}sum -c {args.output}")
+        print(f"# written to {args.output}")
+        print(f"# algorithm: {algo}  files: {len(files)}  total: {fmt_size(total)}")
+        print(f"# verify command: {algo}sum -c {args.output}")
     else:
         sys.stdout.write(text)
     return 0
@@ -306,10 +318,12 @@ def cmd_checksum_plan(args) -> int:
 # parse-list
 # ---------------------------------------------------------------------------
 def _norm_entry(provider: str, item: dict) -> dict:
-    """把三家列表条目的字段名归一成 (name, size, is_dir, mtime, id)。
+    """Normalize the three providers' list-entry field names into (name, size,
+    is_dir, mtime, id).
 
-    三家的字段名完全不同，且 OneDrive 用 `folder`/`file` 子对象区分类型，
-    百度用 `isdir` 整数，阿里用 `type` 字符串。
+    The three use completely different field names: OneDrive distinguishes type via
+    `folder`/`file` sub-objects, Baidu uses an integer `isdir`, and Aliyun uses a
+    `type` string.
     """
     if provider == "baidu":
         return {
@@ -350,10 +364,10 @@ def cmd_parse_list(args) -> int:
     elif isinstance(raw, list):
         items = raw
     else:
-        return _die("--json 必须是列表响应对象或条目数组")
+        return _die("--json must be a list-response object or an entry array")
 
     if not items:
-        print(f"# {provider} 列表：0 个条目")
+        print(f"# {provider} list: 0 entries")
         return 0
 
     entries = [_norm_entry(provider, it) for it in items]
@@ -361,21 +375,22 @@ def cmd_parse_list(args) -> int:
     files = [e for e in entries if not e["is_dir"]]
     total = sum(e["size"] for e in files)
 
-    print(f"# {provider} 目录列表：{len(entries)} 个条目"
-          f"（目录 {len(dirs)}，文件 {len(files)}，文件合计 {fmt_size(total)}）")
+    print(f"# {provider} directory listing: {len(entries)} entries"
+          f" ({len(dirs)} dirs, {len(files)} files, files total {fmt_size(total)})")
     print()
-    print(f"{'类型':<6}{'名称':<40}{'大小':>10}  标识")
+    print(f"{'type':<6}{'name':<40}{'size':>10}  id")
     for e in sorted(entries, key=lambda x: (not x["is_dir"], x["name"])):
         kind = "DIR" if e["is_dir"] else "FILE"
-        size = "—" if e["is_dir"] else fmt_size(e["size"])
+        size = "-" if e["is_dir"] else fmt_size(e["size"])
         name = e["name"]
         if len(name) > 38:
             name = name[:35] + "..."
         print(f"{kind:<6}{name:<40}{size:>10}  {e['id']}")
 
-    # 删除操作的双重确认提醒：列表解析是删除前的必经步骤，在此拦一道
+    # Double-confirmation reminder for deletes: list parsing is the mandatory step
+    # before a delete, so intercept it here.
     print()
-    print(f"# 若准备对这些条目执行删除——{DELETE_CONFIRM}")
+    print(f"# If you plan to delete these entries -- {DELETE_CONFIRM}")
     return 0
 
 
@@ -383,29 +398,29 @@ def cmd_parse_list(args) -> int:
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="drive_ops.py",
-        description="云盘上传计划、校验清单与列表解析（离线只读，不上传不删除）",
+        description="Cloud-drive upload plan, checksum list, and list parsing (offline read-only; no upload, no delete)",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     sub = p.add_subparsers(dest="cmd", required=True)
 
-    s = sub.add_parser("plan-upload", help="生成上传计划（不执行上传）")
-    s.add_argument("--dir", required=True, help="本地源目录")
-    s.add_argument("--remote", required=True, help="远端根路径，如 /archive/2026")
+    s = sub.add_parser("plan-upload", help="generate an upload plan (does not upload)")
+    s.add_argument("--dir", required=True, help="local source directory")
+    s.add_argument("--remote", required=True, help="remote root path, e.g. /archive/2026")
     s.add_argument("--provider", choices=["baidu", "aliyun", "onedrive"],
                    default="baidu")
-    s.add_argument("--prefix", default="", help="在相对路径前追加的子路径")
-    s.add_argument("--exclude", default="", help="逗号分隔的 glob，如 *.tmp,.DS_Store")
-    s.add_argument("--manifest", help="把计划写成 JSON 文件")
+    s.add_argument("--prefix", default="", help="sub-path prepended to relative paths")
+    s.add_argument("--exclude", default="", help="comma-separated globs, e.g. *.tmp,.DS_Store")
+    s.add_argument("--manifest", help="write the plan to a JSON file")
     s.set_defaults(func=cmd_plan_upload)
 
-    s = sub.add_parser("checksum-plan", help="生成 sha256/md5/sha1 校验清单")
+    s = sub.add_parser("checksum-plan", help="generate a sha256/md5/sha1 checksum list")
     s.add_argument("--dir", required=True)
-    s.add_argument("--output", help="输出文件；缺省打印到 stdout")
+    s.add_argument("--output", help="output file; defaults to stdout")
     s.add_argument("--algo", choices=list(SUPPORTED_ALGOS), default="sha256")
     s.add_argument("--exclude", default="")
     s.set_defaults(func=cmd_checksum_plan)
 
-    s = sub.add_parser("parse-list", help="解析云盘列表响应为可读表格")
+    s = sub.add_parser("parse-list", help="parse a cloud-drive list response into a readable table")
     s.add_argument("--json", required=True)
     s.add_argument("--provider", choices=["baidu", "aliyun", "onedrive"],
                    default="baidu")

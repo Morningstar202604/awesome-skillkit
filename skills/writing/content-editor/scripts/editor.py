@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Content Editor — 文章润色/校对/风格统一。
+"""Content Editor — article polishing / proofreading / style consistency.
 
-用法:
+Usage:
   python3 editor.py --draft draft.json
-  python3 editor.py --text "原文" --style technical
+  python3 editor.py --text "original text" --style technical
 """
 import argparse
 import json
@@ -13,20 +13,20 @@ from pathlib import Path
 STYLE_RULES = {
     "technical": {
         "tone": "precise, objective",
-        "ban": ["我觉得", "应该", "可能", "大概"],
-        "use": ["根据", "分析表明", "实测", "结论是"],
+        "ban": ["I think", "we should", "maybe", "probably"],
+        "use": ["according to", "analysis shows", "measured", "the result is"],
         "max_sentence_len": 40,
     },
     "casual": {
         "tone": "friendly, conversational",
-        "ban": ["综上所述", "由此可见"],
-        "use": ["简单来说", "说白了", "你看"],
+        "ban": ["in summary", "as a result"],
+        "use": ["simply put", "to be blunt", "you see"],
         "max_sentence_len": 25,
     },
     "news": {
         "tone": "factual, neutral",
-        "ban": ["震惊", "炸了", "绝了"],
-        "use": ["据悉", "报道称", "数据显示"],
+        "ban": ["shocking", "explosive", "incredible"],
+        "use": ["reports say", "according to reports", "data shows"],
         "max_sentence_len": 30,
     },
 }
@@ -47,7 +47,7 @@ def edit_text(text: str, style: str = "technical") -> dict:
             suggestions.append(f"Consider using '{word}' for {style} tone")
 
     # Check sentence length
-    sentences = text.split("。")
+    sentences = text.split(".")
     long_sentences = [s for s in sentences if len(s) > rules["max_sentence_len"]]
 
     return {
@@ -85,16 +85,17 @@ def main():
     if args.draft:
         p = Path(args.draft)
         if not p.exists():
-            # 旧版直接抛 FileNotFoundError traceback（rc=1 无 JSON）；改为干净错误
+            # the old version threw a raw FileNotFoundError traceback (rc=1, no JSON);
+            # now emit a clean error
             print(json.dumps({"status": "error",
-                              "error": f"--draft 文件不存在: {args.draft}"},
+                              "error": f"--draft file does not exist: {args.draft}"},
                              ensure_ascii=False))
             return 2
         try:
             article = json.loads(p.read_text(encoding="utf-8"))
         except json.JSONDecodeError as e:
             print(json.dumps({"status": "error",
-                              "error": f"--draft 不是合法 JSON: {e}"},
+                              "error": f"--draft is not valid JSON: {e}"},
                              ensure_ascii=False))
             return 2
         result = edit_article(article, args.style)

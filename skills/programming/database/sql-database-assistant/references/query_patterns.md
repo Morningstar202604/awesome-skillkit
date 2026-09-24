@@ -1,6 +1,6 @@
 # SQL Query Patterns Reference
 
-## 目录
+## Table of Contents
 
 - [JOIN Patterns](#join-patterns)
   - [INNER JOIN — matching rows in both tables](#inner-join-matching-rows-in-both-tables)

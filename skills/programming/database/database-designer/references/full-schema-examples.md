@@ -1,6 +1,6 @@
 # database-schema-designer reference
 
-## 目录
+## Table of Contents
 
 - [Full Schema Example (Task Management SaaS)](#full-schema-example-task-management-saas)
   - [Prisma Schema](#prisma-schema)

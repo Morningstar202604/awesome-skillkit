@@ -2,7 +2,7 @@
 
 > 配套 ml-pipeline。公式与代码在 scikit-learn 1.8 + Python 3.11 实测；文中所有**具体数值都标注了"实测"**并给出复现用的数据设定，不要把它们当成普适结论。
 
-## 目录
+## Table of Contents
 - §0 `ml_pipeline.py` 实际输出哪些指标
 - §1 分类指标（公式 / 直觉 / 不适用 / 调用）
 - §2 多分类 averaging：macro / micro / weighted（含实测对比）

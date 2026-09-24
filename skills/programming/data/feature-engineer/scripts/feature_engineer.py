@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Feature Engineer — 特征工程 + 数据质量检查。
+"""Feature Engineer — feature engineering + data quality checks.
 
-用法:
+Usage:
   python3 feature_engineer.py --data data/clean.csv --target label
   python3 feature_engineer.py --json '{"data":"...","target":"..."}'
 """

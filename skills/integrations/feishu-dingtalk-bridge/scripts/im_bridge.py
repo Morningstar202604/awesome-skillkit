@@ -1,20 +1,25 @@
 #!/usr/bin/env python3
-"""im_bridge.py -- 飞书 / 钉钉 / 企业微信 消息负载构造器与回调解析器。
+"""im_bridge.py -- message payload builder and callback parser for Feishu /
+DingTalk / WeCom (Enterprise WeChat).
 
-三家平台把"发一条消息"这件事拆成了三套完全不同的协议：
-飞书用 msg_type + 结构化 content、钉钉用 msgtype + markdown 对象、
-企业微信用 msgtype + markdown.content 字符串。本脚本把差异收敛成两个子命令。
+The three platforms split "send a message" into three completely different
+protocols: Feishu uses msg_type + structured content, DingTalk uses msgtype + a
+markdown object, and WeCom uses msgtype + a markdown.content string. This script
+converges the differences into two subcommands.
 
-设计原则
---------
-1. **纯函数**：只构造请求体、解析回调，绝不发 HTTP 请求，无需任何凭证即可测试。
-2. **默认 dry-run**：`build-message` 只打印将发送的 JSON，发送由人确认后执行。
-3. **凭证不落盘**：webhook URL、app_secret、加签 secret 一律从环境变量读取；
-   脚本内部从不接受、也不回显这些值。
-4. **加签只算不存**：`--sign` 模式下只计算并打印 sign 字段，secret 由调用方注入。
+Design principles
+-----------------
+1. **Pure functions**: only builds request bodies and parses callbacks; never
+   sends an HTTP request, and is testable without any credentials.
+2. **Dry-run by default**: `build-message` only prints the JSON that would be sent;
+   sending happens after a human confirms.
+3. **Credentials never hit disk**: webhook URL, app_secret, and signing secret are
+   always read from environment variables; the script never accepts or echoes them.
+4. **Signing only computes, never stores**: in `--sign` mode it only computes and
+   prints the sign field; the secret is injected by the caller.
 
-子命令
-------
+Subcommands
+-----------
   build-message --platform {feishu|dingtalk|wecom} --text X [--format markdown|text]
                 [--title T] [--at-mobiles 13x,13y] [--sign]
   parse-webhook --platform {feishu|dingtalk|wecom} --json f.json
@@ -35,37 +40,39 @@ import urllib.parse
 from pathlib import Path
 
 # ---------------------------------------------------------------------------
-# 三家平台的协议常量
+# Protocol constants for the three platforms
 # ---------------------------------------------------------------------------
 
-# 飞书自定义机器人的 webhook；群机器人只认这一条路径。
+# Feishu custom-bot webhook; group bots only accept this path.
 FEISHU_WEBHOOK = "https://open.feishu.cn/open-apis/bot/v2/hook/{token}"
 
-# 钉钉自定义机器人。注意：钉钉**强制**要求加签或关键词/ IP 白名单之一，
-# 只带 access_token 的裸 webhook 已被平台拒绝。
+# DingTalk custom bot. Note: DingTalk **forces** either signing or a keyword/IP
+# allowlist; a bare webhook carrying only access_token is rejected by the platform.
 DINGTALK_WEBHOOK = "https://oapi.dingtalk.com/robot/send?access_token={token}"
 
-# 企业微信（WeCom）群机器人。
+# WeCom group bot.
 WECOM_WEBHOOK = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key={key}"
 
-# 飞书支持的 msg_type。interactive 是消息卡片（本文档只覆盖外层的结构，
-# 卡片内部的 template 结构随版本演进较快，故不在此硬编码）。
+# Feishu msg_type values. "interactive" is a message card (this module only covers
+# the outer structure; the card's internal template structure evolves fast with
+# versions, so it is not hardcoded here).
 FEISHU_MSG_TYPES = ("text", "post", "interactive", "image", "file")
-# 钉钉的 msgtype：markdown 支持标题与富文本，最适合日报/告警。
+# DingTalk msgtype: markdown supports title and rich text, best for reports/alerts.
 DINGTALK_MSG_TYPES = ("text", "markdown", "link", "actionCard", "feedCard")
-# 企业微信的 msgtype：markdown 不支持图片，且**仅企业微信客户端可见**。
+# WeCom msgtype: markdown does not support images and is **visible only in the WeCom client**.
 WECOM_MSG_TYPES = ("text", "markdown", "image", "news", "file", "template_card")
 
-# 各平台单条消息的正文长度上限（超出会被截断或直接报错）。
+# Per-platform body length limit for a single message (beyond which it is truncated
+# or rejected outright).
 TEXT_LIMITS = {"feishu": 15000, "dingtalk": 20000, "wecom": 4096}
 
-# 加签时间戳与密钥的拼接顺序：钉钉是 `{timestamp}\n{secret}`，
-# 直接用 secret 做 key 做 HMAC-SHA256 是错的。
+# Concatenation order for the signing timestamp and secret: DingTalk uses
+# `{timestamp}\n{secret}`; using the secret directly as the HMAC-SHA256 key is wrong.
 DINGTALK_SIGN_SEP = "\n"
 
 
 class BuildError(Exception):
-    """负载构造失败（输入不合法，非网络问题）。"""
+    """Payload construction failed (bad input, not a network problem)."""
 
 
 def _die(msg: str, code: int = 2) -> int:
@@ -76,11 +83,11 @@ def _die(msg: str, code: int = 2) -> int:
 def _load_json(path: str, what: str) -> object:
     p = Path(path)
     if not p.is_file():
-        raise BuildError(f"{what} 文件不存在: {path}")
+        raise BuildError(f"{what} file does not exist: {path}")
     try:
         return json.loads(p.read_text(encoding="utf-8"))
     except json.JSONDecodeError as e:
-        raise BuildError(f"{what} 不是合法 JSON: {path} (line {e.lineno}: {e.msg})")
+        raise BuildError(f"{what} is not valid JSON: {path} (line {e.lineno}: {e.msg})")
 
 
 def _dump(obj: object) -> None:
@@ -88,16 +95,19 @@ def _dump(obj: object) -> None:
 
 
 # ---------------------------------------------------------------------------
-# 加签
+# Signing
 # ---------------------------------------------------------------------------
 def dingtalk_sign(secret: str, timestamp_ms: int) -> str:
-    """钉钉加签：HMAC-SHA256，密钥是 secret，消息是 `{timestamp}\\n{secret}`。
+    """DingTalk signing: HMAC-SHA256, key is the secret, message is
+    `{timestamp}\\n{secret}`.
 
-    返回 base64 字符串（再做 URL 编码才是最终的 query 参数值）。
-    时限：时间戳与服务器时间相差超过 1 小时会被拒。
+    Returns a base64 string (URL-encode it to get the final query-parameter value).
+    Time window: if the timestamp differs from server time by more than 1 hour, it
+    is rejected.
 
-    注意：本函数是给**调用方**（拿到 secret 的代理层）用的参考实现，
-    `build-message` 子命令不会调用它——脚本不持有密钥。
+    Note: this is a reference implementation for the **caller** (the proxy layer
+    that holds the secret); the `build-message` subcommand does not call it -- the
+    script does not hold the secret.
     """
     string_to_sign = f"{timestamp_ms}{DINGTALK_SIGN_SEP}{secret}".encode("utf-8")
     digest = hmac.new(secret.encode("utf-8"), string_to_sign, hashlib.sha256).digest()
@@ -105,46 +115,48 @@ def dingtalk_sign(secret: str, timestamp_ms: int) -> str:
 
 
 def _signed_url(base_url: str, secret_env: str, sign_flag: bool) -> tuple[str, dict]:
-    """给钉钉 URL 补加签参数；返回 (url, 附加上下文)。
+    """Append signing parameters to a DingTalk URL; return (url, extra context).
 
-    只接受环境变量**名**，不接受密钥本身——这样密钥永远不会出现在命令行参数
-    （进程列表可见）或脚本参数里。
+    Accepts only the environment-variable **name**, not the secret itself -- this way
+    the secret never appears in command-line arguments (visible in the process list)
+    or in script parameters.
     """
     if not sign_flag:
-        return base_url, {"加签": "未启用（需配合关键词或 IP 白名单之一）"}
+        return base_url, {"sign": "not enabled (pair it with a keyword or IP allowlist)"}
     if not secret_env:
-        raise BuildError("--sign 需要同时提供 --sign-secret-env（存放密钥的环境变量名）")
+        raise BuildError("--sign requires --sign-secret-env (the name of the env var holding the secret)")
     ts = int(time.time() * 1000)
     sep = "&" if "?" in base_url else "?"
     url = f"{base_url}{sep}timestamp={ts}&sign=<urlencode(HMAC-SHA256)>"
     return url, {
-        "加签": "已启用",
+        "sign": "enabled",
         "timestamp": ts,
-        "sign": f"<不在此计算：脚本不读取 ${secret_env} 的值，发送时由代理层生成>",
-        "算法": f"base64(hmac_sha256(key=${secret_env}, msg=f'{{timestamp}}\\n{{secret}}'))，再做 urlencode",
+        "sign": f"<not computed here: the script does not read ${secret_env}; the proxy layer generates it at send time>",
+        "algorithm": f"base64(hmac_sha256(key=${secret_env}, msg=f'{{timestamp}}\\n{{secret}}')), then urlencode",
     }
 
 
 # ---------------------------------------------------------------------------
-# 各平台负载构造
+# Per-platform payload builders
 # ---------------------------------------------------------------------------
 def build_feishu(text: str, fmt: str, title: str, at_mobiles: list) -> dict:
-    """飞书群机器人负载。
+    """Feishu group-bot payload.
 
-    飞书用 `msg_type` 区分消息种类，内容在 `content` 里——而 content 是
-    **字符串化的 JSON**（不是嵌套对象），这是最容易写错的一处：
-    写成嵌套对象会得到 19002 参数错误。
+    Feishu uses `msg_type` to distinguish message kinds, with content in `content`
+    -- and content is a **stringified JSON** (not a nested object). This is the most
+    error-prone spot: writing a nested object yields a 19002 parameter error.
     """
     if fmt == "markdown":
-        # 飞书没有独立的 markdown 类型：富文本走 post（富文本消息），
-        # 或者用 interactive（消息卡片）的 markdown 元素。
-        # 这里构造 post，标题作为首行，正文按 zh_cn 语言包组织。
+        # Feishu has no standalone markdown type: rich text goes via post (rich-text
+        # message), or via the markdown element of an interactive (message card).
+        # Here we build a post, with the title as the first line and the body organized
+        # under the zh_cn language pack.
         payload = {
             "msg_type": "post",
             "content": json.dumps({
                 "post": {
                     "zh_cn": {
-                        "title": title or "通知",
+                        "title": title or "Notification",
                         "content": [[{"tag": "text", "text": text}]],
                     }
                 }
@@ -155,8 +167,8 @@ def build_feishu(text: str, fmt: str, title: str, at_mobiles: list) -> dict:
             {"text": text}, ensure_ascii=False)}
 
     if at_mobiles:
-        # 飞书的 @ 在 text 类型里用 <at user_id="..."> 标签，且在 content 内部，
-        # 不在顶层字段——与钉钉/企微的独立 at 对象不同。
+        # Feishu's @ in text type uses the <at user_id="..."> tag, inside content,
+        # not a top-level field -- unlike DingTalk/WeCom's standalone at object.
         payload["msg_type"] = "text"
         payload["content"] = json.dumps({
             "text": text + "".join(f' <at user_id="{m}"></at>' for m in at_mobiles)
@@ -165,15 +177,16 @@ def build_feishu(text: str, fmt: str, title: str, at_mobiles: list) -> dict:
 
 
 def build_dingtalk(text: str, fmt: str, title: str, at_mobiles: list) -> dict:
-    """钉钉群机器人负载。
+    """DingTalk group-bot payload.
 
-    钉钉把消息类型放在 `msgtype`（全小写，无下划线），markdown 类型用
-    `markdown.title` + `markdown.text` 两个字段；@ 走**顶层**的 `at` 对象。
+    DingTalk puts the message type in `msgtype` (all lowercase, no underscore); the
+    markdown type uses `markdown.title` + `markdown.text`; @ goes via the **top-level**
+    `at` object.
     """
     if fmt == "markdown":
         payload = {
             "msgtype": "markdown",
-            "markdown": {"title": title or "通知", "text": text},
+            "markdown": {"title": title or "Notification", "text": text},
         }
     else:
         payload = {"msgtype": "text", "text": {"content": text}}
@@ -184,12 +197,13 @@ def build_dingtalk(text: str, fmt: str, title: str, at_mobiles: list) -> dict:
 
 
 def build_wecom(text: str, fmt: str, title: str, at_mobiles: list) -> dict:
-    """企业微信群机器人负载。
+    """WeCom group-bot payload.
 
-    企微的 markdown 把标题与正文合并成一个 `content` 字符串（没有独立 title
-    字段），因此标题用 Markdown 的一级标题语法内联进去。
-    另一个硬限制：markdown 消息**只能在企业微信客户端内查看**，
-    用微信接收会显示为纯文本，这是选择消息类型时最常踩的坑。
+    WeCom's markdown merges title and body into a single `content` string (no
+    separate title field), so the title is inlined using Markdown's H1 syntax.
+    Another hard limit: markdown messages **can only be viewed inside the WeCom
+    client**; receiving them in WeChat shows plain text -- the most common pitfall
+    when choosing a message type.
     """
     if fmt == "markdown":
         parts = []
@@ -201,7 +215,8 @@ def build_wecom(text: str, fmt: str, title: str, at_mobiles: list) -> dict:
         payload = {"msgtype": "text", "text": {"content": text}}
 
     if at_mobiles:
-        # 企微在正文里用 <@userid> 占位；同样需要先把被 @ 的人拉进群才能生效
+        # WeCom uses <@userid> placeholders in the body; the @'d person must also be
+        # in the group for it to take effect.
         payload["text" if fmt == "text" else "markdown"] = {
             ("content" if fmt == "text" else "content"):
                 (payload.get("text", {}).get("content", text)
@@ -226,7 +241,7 @@ WEBHOOKS = {
 
 ENV_HINT = {
     "feishu": "FEISHU_WEBHOOK_TOKEN",
-    "dingtalk": "DINGTALK_ACCESS_TOKEN（加签再配 DINGTALK_SIGN_SECRET）",
+    "dingtalk": "DINGTALK_ACCESS_TOKEN (for signing, also set DINGTALK_SIGN_SECRET)",
     "wecom": "WECOM_WEBHOOK_KEY",
 }
 
@@ -235,8 +250,8 @@ def cmd_build_message(args) -> int:
     platform = args.platform
     if len(args.text) > TEXT_LIMITS[platform]:
         return _die(
-            f"正文 {len(args.text)} 字符，超过 {platform} 上限 {TEXT_LIMITS[platform]}；"
-            "请拆成多条发送或先落文档再发链接"
+            f"body {len(args.text)} chars exceeds {platform} limit {TEXT_LIMITS[platform]}; "
+            "split into multiple messages, or put it in a doc first and send a link"
         )
 
     at_mobiles = [m.strip() for m in (args.at_mobiles or "").split(",") if m.strip()]
@@ -248,116 +263,120 @@ def cmd_build_message(args) -> int:
         url_template, extra = _signed_url(
             url_template, args.sign_secret_env, args.sign)
 
-    print(f"# DRY-RUN：{platform} 消息负载（未发送任何请求）")
+    print(f"# DRY-RUN: {platform} message payload (no request sent)")
     print(f"# POST {url_template}")
-    print(f"#   凭证：从环境变量 {ENV_HINT[platform]} 读取，不落盘、不打印")
+    print(f"#   credentials: read from env var {ENV_HINT[platform]}; not written to disk, not printed")
     print(f"#   Content-Type: application/json")
-    print(f"#   正文长度：{len(args.text)} / 上限 {TEXT_LIMITS[platform]}")
+    print(f"#   body length: {len(args.text)} / limit {TEXT_LIMITS[platform]}")
     for k, v in extra.items():
-        print(f"#   {k}：{v}")
+        print(f"#   {k}: {v}")
     print()
     _dump(payload)
     print()
-    print("# 未发送任何请求。真实执行时由 AI/用户注入凭证后发送，例如：")
+    print("# No request sent. At run time the AI/user injects credentials and sends, e.g.:")
     print(f"#   curl -sS -X POST \"{url_template.replace('{token}', '$TOKEN').replace('{key}', '$KEY')}\" \\")
     print("#     -H 'Content-Type: application/json' --data @payload.json")
     return 0
 
 
 # ---------------------------------------------------------------------------
-# 回调 / 响应解析
+# Callback / response parsing
 # ---------------------------------------------------------------------------
 def parse_feishu(raw: dict) -> list:
-    """飞书机器人的两种消息体。
+    """The two Feishu bot message bodies.
 
-    1) 响应：`{"code": 0, "msg": "success", "data": {...}}` —— **code 为 0 才算成功**，
-       非 0 时 HTTP 状态码可能仍是 200，只看 HTTP 码会误判成功。
-    2) 事件回调：`{"schema": "2.0", "header": {...}, "event": {...}}`，
-       且启用加密时整体是 `{"encrypt": "..."}`，需要先解密才能读。
+    1) Response: `{"code": 0, "msg": "success", "data": {...}}` -- **code 0 means
+       success**; when code is non-zero the HTTP status may still be 200, so looking
+       only at the HTTP code misjudges success.
+    2) Event callback: `{"schema": "2.0", "header": {...}, "event": {...}}`, and when
+       encryption is enabled the whole thing is `{"encrypt": "..."}`, which must be
+       decrypted before reading.
     """
     lines = []
     if "encrypt" in raw:
-        return ["- 回调已加密（`encrypt` 字段）：需用 Encrypt Key 解密后再解析",
-                "- 解密前的任何字段读取都不可信"]
+        return ["- callback is encrypted (`encrypt` field): decrypt with the Encrypt Key before parsing",
+                "- any field read before decryption is untrusted"]
     if "code" in raw:
         code = raw.get("code")
-        lines.append(f"- 响应结果：code={code} msg={raw.get('msg', '')}"
-                     f"  {'✅ 成功' if code == 0 else '❌ 失败'}")
+        lines.append(f"- result: code={code} msg={raw.get('msg', '')}"
+                     f"  {'OK success' if code == 0 else 'FAILED'}")
         if code != 0:
-            lines.append("- 注意：飞书失败时 HTTP 状态码仍可能是 200，不能只看 HTTP 码")
+            lines.append("- note: on Feishu failure the HTTP status may still be 200; do not rely on the HTTP code alone")
     header = raw.get("header") or {}
     if header:
-        lines.append(f"- 事件类型：{header.get('event_type', '(缺失)')}")
-        lines.append(f"- 事件 ID：{header.get('event_id', '(缺失)')}"
-                     "  ← 用它做幂等去重，飞书会重推")
-        lines.append(f"- 时间戳：{header.get('create_time', '(缺失)')}")
-        lines.append(f"- 应用 ID：{header.get('app_id', '(缺失)')}")
+        lines.append(f"- event type: {header.get('event_type', '(missing)')}")
+        lines.append(f"- event id: {header.get('event_id', '(missing)')}"
+                     "  <- use it for idempotent dedup; Feishu re-pushes")
+        lines.append(f"- timestamp: {header.get('create_time', '(missing)')}")
+        lines.append(f"- app id: {header.get('app_id', '(missing)')}")
     event = raw.get("event") or {}
     if event:
         msg = event.get("message") or {}
         if msg:
-            lines.append(f"- 消息类型：{msg.get('message_type', '(缺失)')}")
-            lines.append(f"- 会话 ID：{msg.get('chat_id', '(缺失)')}")
+            lines.append(f"- message type: {msg.get('message_type', '(missing)')}")
+            lines.append(f"- chat id: {msg.get('chat_id', '(missing)')}")
             content = msg.get("content")
             if isinstance(content, str):
                 try:
                     content = json.loads(content)
                 except json.JSONDecodeError:
                     pass
-            lines.append(f"- 内容：{json.dumps(content, ensure_ascii=False)}")
+            lines.append(f"- content: {json.dumps(content, ensure_ascii=False)}")
         sender = (event.get("sender") or {}).get("sender_id") or {}
         if sender:
-            lines.append(f"- 发送者 open_id：{sender.get('open_id', '(缺失)')}")
-    return lines or ["- 未识别的飞书消息体（既非响应也非事件回调）"]
+            lines.append(f"- sender open_id: {sender.get('open_id', '(missing)')}")
+    return lines or ["- unrecognized Feishu message body (neither response nor event callback)"]
 
 
 def parse_dingtalk(raw: dict) -> list:
-    """钉钉的响应体是**扁平**的 `{"errcode": 0, "errmsg": "ok"}`。
+    """DingTalk's response body is **flat**: `{"errcode": 0, "errmsg": "ok"}`.
 
-    与飞书不同，钉钉把 errcode 放最外层，没有 data 包装。
-    回调消息则形如 `{"msgtype": "text", "text": {"content": "..."}, "senderNick": ...}`。
+    Unlike Feishu, DingTalk puts errcode at the top level with no data wrapper.
+    Callback messages look like
+    `{"msgtype": "text", "text": {"content": "..."}, "senderNick": ...}`.
     """
     lines = []
     if "errcode" in raw:
         code = raw.get("errcode")
-        lines.append(f"- 响应结果：errcode={code} errmsg={raw.get('errmsg', '')}"
-                     f"  {'✅ 成功' if code == 0 else '❌ 失败'}")
+        lines.append(f"- result: errcode={code} errmsg={raw.get('errmsg', '')}"
+                     f"  {'OK success' if code == 0 else 'FAILED'}")
         if code == 310000:
-            lines.append("- 310000 = 机器人安全设置校验失败：未加签且未命中关键词/IP 白名单")
+            lines.append("- 310000 = bot security-settings check failed: no signing and no keyword/IP allowlist hit")
         elif code == 300001:
-            lines.append("- 300001 = token 无效，检查 access_token 是否被重置")
+            lines.append("- 300001 = invalid token; check whether access_token was reset")
     if "msgtype" in raw or "senderNick" in raw:
-        lines.append(f"- 回调消息类型：{raw.get('msgtype', '(缺失)')}")
-        lines.append(f"- 发送者昵称：{raw.get('senderNick', '(缺失)')}")
+        lines.append(f"- callback message type: {raw.get('msgtype', '(missing)')}")
+        lines.append(f"- sender nickname: {raw.get('senderNick', '(missing)')}")
         if raw.get("senderStaffId"):
-            lines.append(f"- 发送者 staffId：{raw['senderStaffId']}")
+            lines.append(f"- sender staffId: {raw['senderStaffId']}")
         body = raw.get("text") or {}
         if body.get("content"):
-            lines.append(f"- 内容：{body['content'].strip()}")
+            lines.append(f"- content: {body['content'].strip()}")
         if raw.get("conversationId"):
-            lines.append(f"- 会话 ID：{raw['conversationId']}")
-    return lines or ["- 未识别的钉钉消息体"]
+            lines.append(f"- chat id: {raw['conversationId']}")
+    return lines or ["- unrecognized DingTalk message body"]
 
 
 def parse_wecom(raw: dict) -> list:
-    """企微群机器人的响应同样是扁平结构：`{"errcode": 0, "errmsg": "ok"}`。
+    """The WeCom group-bot response is likewise flat: `{"errcode": 0, "errmsg": "ok"}`.
 
-    回调（接收消息）走的是另一个体系：需要配置回调 URL 并做 AES 解密 +
-    URL 验证，消息体是 XML 而非 JSON——本脚本只处理 JSON 侧。
+    Callbacks (receiving messages) use a separate system: you configure a callback
+    URL and do AES decryption + URL verification, and the body is XML not JSON -- this
+    script only handles the JSON side.
     """
     lines = []
     if "errcode" in raw:
         code = raw.get("errcode")
-        lines.append(f"- 响应结果：errcode={code} errmsg={raw.get('errmsg', '')}"
-                     f"  {'✅ 成功' if code == 0 else '❌ 失败'}")
+        lines.append(f"- result: errcode={code} errmsg={raw.get('errmsg', '')}"
+                     f"  {'OK success' if code == 0 else 'FAILED'}")
         if code == 93000:
-            lines.append("- 93000 = 机器人 webhook key 无效或机器人已被移除")
+            lines.append("- 93000 = invalid bot webhook key, or the bot was removed")
         elif code == 45009:
-            lines.append("- 45009 = 触发频率限制：每个机器人每分钟最多 20 条")
+            lines.append("- 45009 = rate-limit hit: at most 20 messages per bot per minute")
     if "msgtype" in raw or "from" in raw:
-        lines.append(f"- 回调消息类型：{raw.get('msgtype', '(缺失)')}")
-        lines.append(f"- 内容：{(raw.get('text') or {}).get('content', '(缺失)')}")
-    return lines or ["- 未识别的企微消息体"]
+        lines.append(f"- callback message type: {raw.get('msgtype', '(missing)')}")
+        lines.append(f"- content: {(raw.get('text') or {}).get('content', '(missing)')}")
+    return lines or ["- unrecognized WeCom message body"]
 
 
 PARSERS = {"feishu": parse_feishu, "dingtalk": parse_dingtalk, "wecom": parse_wecom}
@@ -366,8 +385,8 @@ PARSERS = {"feishu": parse_feishu, "dingtalk": parse_dingtalk, "wecom": parse_we
 def cmd_parse_webhook(args) -> int:
     raw = _load_json(args.json, "--json")
     if not isinstance(raw, dict):
-        return _die("--json 必须是对象（回调或响应体）")
-    print(f"# 解析结果：{args.platform}")
+        return _die("--json must be an object (callback or response body)")
+    print(f"# parse result: {args.platform}")
     for line in PARSERS[args.platform](raw):
         print(line)
     return 0
@@ -377,23 +396,23 @@ def cmd_parse_webhook(args) -> int:
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="im_bridge.py",
-        description="飞书/钉钉/企业微信消息负载构造与回调解析（离线，不发请求）",
+        description="Feishu/DingTalk/WeCom message-payload building and callback parsing (offline, no requests)",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     sub = p.add_subparsers(dest="cmd", required=True)
 
-    s = sub.add_parser("build-message", help="按平台协议构造消息负载并打印")
+    s = sub.add_parser("build-message", help="build a message payload per platform protocol and print it")
     s.add_argument("--platform", choices=["feishu", "dingtalk", "wecom"], required=True)
     s.add_argument("--text", required=True)
     s.add_argument("--format", choices=["text", "markdown"], default="markdown")
-    s.add_argument("--title", default="", help="markdown 消息标题（飞书/钉钉使用）")
-    s.add_argument("--at-mobiles", default="", help="逗号分隔的手机号，触发 @")
-    s.add_argument("--sign", action="store_true", help="钉钉加签模式")
+    s.add_argument("--title", default="", help="markdown message title (used by Feishu/DingTalk)")
+    s.add_argument("--at-mobiles", default="", help="comma-separated phone numbers to @")
+    s.add_argument("--sign", action="store_true", help="DingTalk signing mode")
     s.add_argument("--sign-secret-env", default="DINGTALK_SIGN_SECRET",
-                   help="存放加签密钥的环境变量名（默认 DINGTALK_SIGN_SECRET）")
+                   help="name of the env var holding the signing secret (default DINGTALK_SIGN_SECRET)")
     s.set_defaults(func=cmd_build_message)
 
-    s = sub.add_parser("parse-webhook", help="解析回调/响应体")
+    s = sub.add_parser("parse-webhook", help="parse a callback/response body")
     s.add_argument("--platform", choices=["feishu", "dingtalk", "wecom"], required=True)
     s.add_argument("--json", required=True)
     s.set_defaults(func=cmd_parse_webhook)

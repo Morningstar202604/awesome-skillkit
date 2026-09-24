@@ -1,6 +1,6 @@
 # REST API Design Rules Reference
 
-## 目录
+## Table of Contents
 
 - [Core Principles](#core-principles)
   - [1. Resources, Not Actions](#1-resources-not-actions)

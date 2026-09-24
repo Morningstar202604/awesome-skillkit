@@ -18,7 +18,7 @@
 ## 回滚
 `--apply` 用 `shutil.move`（不删），想撤销就把目标目录的文件拖回源目录。
 
-## 边界
+## Boundaries
 - 不读文件内容、不做 OCR（金额/日期靠文件名或人工补）
 - 移动操作**不删**，可手动回滚
 - 台账 CSV 含 `file/month/category/source_dir` 四列，注意别含敏感金额

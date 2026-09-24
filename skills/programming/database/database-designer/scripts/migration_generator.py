@@ -963,7 +963,7 @@ class MigrationGenerator:
 
     @staticmethod
     def _json_default(obj: Any) -> Any:
-        """dataclass（如 Column/Table）转 dict，其余转字符串——避免 dumps 崩栈。"""
+        """Convert a dataclass (e.g. Column/Table) to dict, others to string -- avoids dumps blowing the stack."""
         try:
             return asdict(obj)
         except TypeError:

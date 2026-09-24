@@ -136,7 +136,7 @@ def _flush_table(buf):
 def cmd_create(args):
     src = Path(args.input)
     if not src.exists():
-        sys.exit(f"ERROR: 输入文件不存在：{src}")
+        sys.exit(f"ERROR: input file does not exist: {src}")
     doc = Document()
     if src.suffix.lower() == ".json":
         data = json.loads(src.read_text(encoding="utf-8"))
@@ -156,11 +156,11 @@ def cmd_create(args):
 
 def cmd_inspect(args):
     if not Path(args.file).exists():
-        sys.exit(f"ERROR: 文件不存在：{args.file}")
+        sys.exit(f"ERROR: file does not exist: {args.file}")
     try:
         doc = Document(args.file)
-    except Exception as exc:  # 非 .docx 或损坏的包
-        sys.exit(f"ERROR: 不是合法的 .docx 文件：{args.file}（{exc}）")
+    except Exception as exc:  # not a .docx or a corrupt package
+        sys.exit(f"ERROR: not a valid .docx file: {args.file} ({exc})")
     paras = doc.paragraphs
     tables = doc.tables
     style_counter = {}
@@ -196,11 +196,11 @@ def set_east_asia(style, font_name):
 
 def cmd_styles(args):
     if not Path(args.file).exists():
-        sys.exit(f"ERROR: 文件不存在：{args.file}")
+        sys.exit(f"ERROR: file does not exist: {args.file}")
     try:
         doc = Document(args.file)
-    except Exception as exc:  # 非 .docx 或损坏的包
-        sys.exit(f"ERROR: 不是合法的 .docx 文件：{args.file}（{exc}）")
+    except Exception as exc:  # not a .docx or a corrupt package
+        sys.exit(f"ERROR: not a valid .docx file: {args.file} ({exc})")
     heading_prefixes = ("Heading", "Title")
     changed = []
     for style in doc.styles:
@@ -237,8 +237,8 @@ def main(argv=None):
 
     p = sub.add_parser("styles", help="apply CJK fonts to paragraph styles")
     p.add_argument("file", help=".docx to modify")
-    p.add_argument("--body-font", default="宋体", help="CJK font for body text")
-    p.add_argument("--heading-font", default="黑体", help="CJK font for headings")
+    p.add_argument("--body-font", default="SimSun", help="CJK font for body text")
+    p.add_argument("--heading-font", default="SimHei", help="CJK font for headings")
     p.add_argument("--latin-font", default="Calibri", help="font for latin glyphs")
     p.add_argument("--output", default="", help="save-as path (default: in place)")
     p.set_defaults(func=cmd_styles)

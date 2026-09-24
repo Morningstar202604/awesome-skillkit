@@ -11,15 +11,38 @@ description: >
 license: Apache-2.0
 compatibility: Requires curl and network access to the generation gateway endpoint.
 metadata:
-  version: "1.0"
+  version: "1.1"
   author: awesome-skillkit
   category: media-generation
-  verified-date: "2026-08-26"
+  verified-date: "2026-09-24"
 ---
 
 # Video Generation (Text-to-Video / Image-to-Video)
 
 Drive the local generation gateway with curl: submit a task -> poll until done -> download the result -> hand the file path to the user. No ffmpeg needed, no Python media libraries, no dependencies to install — the gateway handles rendering, you handle orchestration.
+
+## Applicability Decision Table
+
+| Your Situation | Use This Skill? | Notes |
+|---|---|---|
+| Have a text prompt, want AI-generated footage | yes | core text-to-video use case |
+| Have a reference image, want to animate it | yes | image-to-video mode |
+| Need to stitch clips together into a final edit | no | go to video-editor |
+| Need subtitles or captions burned in | no | go to video-subtitles then video-editor |
+| Need a per-scene storyboard with prompts | no | go to storyboard-designer first |
+| Need a single still image, not video | no | go to image-generation |
+
+## Domain Tacit Knowledge (What Makes a Good Generated Clip)
+
+**1. One action per clip.** Video models can reliably render a single, simple action in 6 seconds. Complex multi-step actions ("walk in, sit down, open the laptop, start typing") fall apart after the first step. If the scene needs multiple actions, split it into multiple clips and stitch them in editing. Rule of thumb: one verb per clip.
+
+**2. State verbs fail; process verbs work.** "Holding a coffee cup" is a state — the model may just show a static frame. "Lifting a coffee cup to take a sip" is a process — the model animates the motion. Always write the action as a process verb (walk, turn, reach, lift, smile), not a state verb (is, holds, stands, sits).
+
+**3. Camera moves must be simple.** One camera move per clip. "Slow push-in" or "static wide shot" works. "Pan right then zoom in then tilt down" produces camera chaos. If the story needs multiple camera angles, generate separate clips and cut between them.
+
+**4. Image-to-video preserves the first frame; text-to-video starts from nothing.** With a reference image, the model animates from that exact starting frame — character likeness, composition, and lighting are locked. Without a reference image, the model invents everything, so character consistency drifts between clips. For talking-character or multi-scene videos, always use image-to-video with a locked reference frame.
+
+**5. 6 seconds is the sweet spot; 10 seconds drifts.** Most current generation models produce 6-second clips with good quality. 10-second clips have more motion drift, warping, and composition changes. For longer content, generate multiple 6-second clips and stitch them — better quality and easier to edit.
 
 ## Input Checklist
 
@@ -61,7 +84,15 @@ If it fails: it expands to empty -> shell anomaly — stop. The URL differs from
 
 ### Step 2: Write the Prompt
 
-Write just one descriptive paragraph covering action, scene, and mood. Follow the formula in `references/prompt-recipes.md` (read it first if the brief is thin or the user cares about quality). Never send a bare noun phrase as a prompt.
+Write one descriptive paragraph following the six-slot structure: `[subject] + [action] + [camera] + [lighting] + [style] + [duration/aspect]`.
+
+Rules (per tacit knowledge above):
+- Single process verb, not a state ("walks slowly" not "is standing")
+- One camera move, not multiple ("slow push-in" not "pan then zoom")
+- Concrete nouns, not adjectives ("rain-soaked neon street" not "cool urban vibe")
+- Duration and aspect ratio explicit ("6 seconds, 9:16 vertical")
+
+If the brief is thin or the user cares about quality, read `references/prompt-recipes.md` first for strong/weak examples. Never send a bare noun phrase as a prompt.
 
 ### Step 3: Submit the Generation Task
 
@@ -103,9 +134,21 @@ If it fails: file is 0 bytes -> `result_url` expired; re-poll for a fresh URL an
 | curl can't connect (pre-flight) | Gateway not started | Ask the user to start the gateway; stop |
 | generate returns non-JSON | Wrong base URL or a proxy | Re-check Step 1's value, retry once, then report |
 | status stays `pending` over 10 minutes | Queue stuck | Report task_id, suggest resubmitting |
-| `state == "failed"` | Prompt rejected (usually too short) | Rewrite per the recipe, resubmit once |
+| `state == "failed"` | Prompt rejected (usually too short or too vague) | Rewrite with six-slot structure, resubmit once |
+| Video has no motion (static frame) | State verb instead of process verb | Change to a process verb (walk/turn/reach), resubmit |
+| Camera moves erratically | Multiple camera moves in one prompt | Keep one camera move per clip, resubmit |
 | Downloaded file is 0 bytes | URL expired / signature invalid | Re-poll for a fresh result_url, download again |
 | Success but missing `result_url` | API structure changed | Flag the endpoint "verify before use"; report raw JSON to maintainers |
+
+## Quality Checklist
+
+- [ ] Gateway reachable and responding
+- [ ] Prompt follows six-slot structure (subject + action + camera + lighting + style + duration)
+- [ ] Single process verb per clip (not state verbs)
+- [ ] Single camera move per clip
+- [ ] Duration and aspect ratio explicitly stated
+- [ ] Output file exists and is non-empty
+- [ ] Aspect ratio matches the requested format
 
 ## Delivery Standard
 

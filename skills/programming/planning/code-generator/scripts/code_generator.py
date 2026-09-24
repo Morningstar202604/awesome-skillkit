@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""code_generator.py — 两层代码生成引擎（L1 模板 + L2 LLM）
+"""code_generator.py -- two-layer code generation engine (L1 templates + L2 LLM).
 
-接收 code-intent-planner 的任务计划，生成可运行的代码文件。
+Takes a task plan from code-intent-planner and generates runnable code files.
 """
 import json
 import sys
@@ -14,11 +14,11 @@ sys.path.insert(0, os.path.dirname(__file__))
 from project_analyzer import analyze_project
 
 
-# ── L1 模板库 ───────────────────────────────────────────────
+# -- L1 template library --------------------------------------------------
 
 PYTHON_FASTAPI_CRUD = {
     "src/{{target}}/models.py": """\
-\"\"\"{{target}} 数据模型\"\"\"
+\"\"\"{{target}} data model\"\"\"
 from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel, Field
@@ -48,7 +48,7 @@ class {{Model}}({{Model}}Base):
         from_attributes = True
 """,
     "src/{{target}}/service.py": """\
-\"\"\"{{target}} 服务层\"\"\"
+\"\"\"{{target}} service layer\"\"\"
 from datetime import datetime
 from typing import List, Optional
 from .models import {{Model}}, {{Model}}Create, {{Model}}Update
@@ -97,7 +97,7 @@ class {{Service}}:
         return False
 """,
     "src/{{target}}/api.py": """\
-\"\"\"{{target}} API 路由\"\"\"
+\"\"\"{{target}} API routes\"\"\"
 from fastapi import APIRouter, HTTPException
 from typing import List
 from .service import {{Service}}
@@ -210,71 +210,71 @@ TEMPLATES = {
 }
 
 
-# ── 模板匹配器 ───────────────────────────────────────────────
+# -- Template matcher ----------------------------------------------------
 
 def match_template(intent_type: str, tech_stack: str, target: str) -> Optional[Dict]:
-    """根据 intent_type + tech_stack 匹配模板"""
+    """Match a template by intent_type + tech_stack."""
     stack_key = tech_stack.replace("/", "_") if tech_stack != "unknown" else "default"
-    
-    # 精确匹配
+
+    # exact match
     key = f"{intent_type}.{stack_key}"
     if key in TEMPLATES:
         return TEMPLATES[key]
-    
-    # 模糊匹配
+
+    # fuzzy match
     key = f"{intent_type}.default"
     if key in TEMPLATES:
         return TEMPLATES[key]
-    
-    # 按意图类型匹配通用模板
+
+    # fall back to a generic template by intent type
     if intent_type == "fix":
         return FIX_RUNTIME_PYTHON
     elif intent_type == "test":
         return TEST_STUB_PYTHON
     elif intent_type == "implement" and stack_key.startswith("python"):
         return PYTHON_FASTAPI_CRUD
-    
+
     return None
 
 
-# ── 模板渲染器 ───────────────────────────────────────────────
+# -- Template renderer ----------------------------------------------------
 
 def render_template(template: Dict, context: Dict[str, Any]) -> Dict[str, str]:
-    """渲染模板，返回 {file_path: content}"""
+    """Render templates, returning {file_path: content}."""
     rendered = {}
-    
+
     for file_path, content in template.items():
-        # 替换文件路径中的占位符
+        # replace placeholders in the file path
         for key, value in context.items():
             placeholder = "{{" + key + "}}"
             file_path = file_path.replace(placeholder, str(value))
             file_path = file_path.replace("{" + key + "}", str(value))
-        
-        # 替换内容中的占位符
+
+        # replace placeholders in the content
         for key, value in context.items():
             placeholder = "{{" + key + "}}"
             content = content.replace(placeholder, str(value))
             content = content.replace("{" + key + "}", str(value))
-        
+
         rendered[file_path] = content
-    
+
     return rendered
 
 
-# ── 上下文提取器 ───────────────────────────────────────────────
+# -- Context extractor ---------------------------------------------------
 
 def extract_context(plan: Dict, project_info: Dict) -> Dict[str, Any]:
-    """从 plan 和项目信息中提取模板上下文"""
+    """Extract template context from the plan and project info."""
     intent_type = plan.get("intent_type", "implement")
     slots = plan.get("slots", [])
     tasks = plan.get("sub_tasks", [])
-    
-    # 提取槽位（plan 中的优先于项目探测）
+
+    # extract slots (plan slots take precedence over project detection)
     slot_dict = {s["name"]: s["value"] for s in slots}
     target = slot_dict.get("target", "module")
     scope = slot_dict.get("scope", "")
-    
-    # tech_stack: plan 中指定则用 plan 的，否则用项目探测的
+
+    # tech_stack: use the plan's if specified, otherwise the project-detected one
     if "tech_stack" in slot_dict and slot_dict["tech_stack"]:
         tech_stack = slot_dict["tech_stack"]
     else:
@@ -295,13 +295,13 @@ def extract_context(plan: Dict, project_info: Dict) -> Dict[str, Any]:
     return context
 
 
-# ── L1 生成器 ───────────────────────────────────────────────
+# -- L1 generator ---------------------------------------------------------
 
 def generate_l1(plan: Dict, project_info: Dict) -> Dict[str, Any]:
-    """L1: 模板匹配 + 渲染"""
+    """L1: template matching + rendering."""
     intent_type = plan.get("intent_type", "implement")
-    
-    # tech_stack: plan 中的 slots 优先，其次项目探测
+
+    # tech_stack: plan slots first, then project detection
     slots = plan.get("slots", [])
     slot_dict = {s["name"]: s["value"] for s in slots}
     if "tech_stack" in slot_dict and slot_dict["tech_stack"]:
@@ -325,18 +325,18 @@ def generate_l1(plan: Dict, project_info: Dict) -> Dict[str, Any]:
     }
 
 
-# ── L2 生成器（Mock） ───────────────────────────────────────
+# -- L2 generator (Mock) --------------------------------------------------
 
 def generate_l2(plan: Dict, project_info: Dict) -> Dict[str, Any]:
-    """L2: LLM 生成（Mock 版本）"""
+    """L2: LLM generation (Mock version)."""
     intent_type = plan.get("intent_type", "implement")
     slots = plan.get("slots", [])
     tasks = plan.get("sub_tasks", [])
-    
+
     slot_dict = {s["name"]: s["value"] for s in slots}
     target = slot_dict.get("target", "auth")
-    
-    # Mock 生成
+
+    # Mock generation
     files = _mock_llm_generate(intent_type, target, tasks)
     
     return {
@@ -348,13 +348,13 @@ def generate_l2(plan: Dict, project_info: Dict) -> Dict[str, Any]:
 
 
 def _mock_llm_generate(intent_type: str, target: str, tasks: List[Dict]) -> Dict[str, str]:
-    """Mock LLM 生成"""
+    """Mock LLM generation."""
     model_name = target.capitalize()
-    
+
     if intent_type == "implement":
         return {
             f"src/{target}/models.py": f"""\
-\"\"\"{model_name} 数据模型\"\"\"
+\"\"\"{model_name} data model\"\"\"
 from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel, Field
@@ -384,7 +384,7 @@ class {model_name}({model_name}Base):
         from_attributes = True
 """,
             f"src/{target}/service.py": f"""\
-\"\"\"{model_name} 服务层\"\"\"
+\"\"\"{model_name} service layer\"\"\"
 from datetime import datetime
 from typing import List, Optional
 from .models import {model_name}, {model_name}Create, {model_name}Update
@@ -433,7 +433,7 @@ class {model_name}Service:
         return False
 """,
             f"src/{target}/api.py": f"""\
-\"\"\"{model_name} API 路由\"\"\"
+\"\"\"{model_name} API routes\"\"\"
 from fastapi import APIRouter, HTTPException
 from typing import List
 from .service import {model_name}Service
@@ -479,88 +479,88 @@ async def delete_{target}(item_id: int):
     return {}
 
 
-# ── 主流水线 ───────────────────────────────────────────────
+# -- Main pipeline --------------------------------------------------------
 
 def generate_code(
     plan: Dict[str, Any],
     project_root: Optional[str] = None,
     use_mock: bool = True,
 ) -> Dict[str, Any]:
-    """主生成流水线"""
-    
-    # 步骤 1：项目上下文分析
+    """Main generation pipeline."""
+
+    # step 1: project context analysis
     project_info = analyze_project(project_root)
-    
-    # 注入 plan 中的 slots
+
+    # inject the plan's slots
     if "slots" in plan:
         project_info["slots"] = plan["slots"]
-    
-    # 步骤 2：L1 模板匹配
+
+    # step 2: L1 template matching
     l1_result = generate_l1(plan, project_info)
-    
+
     if l1_result["status"] == "success":
         result = l1_result
     else:
         if use_mock:
             os.environ["USE_MOCK_LLM"] = "true"
         result = generate_l2(plan, project_info)
-    
-    # 步骤 3：验证（Mock 模式跳过）
+
+    # step 3: validation (skipped in mock mode)
     result["validation"] = {
         "syntax_check": "skip (mock mode)",
         "format_check": "skip (mock mode)",
     }
-    
-    # 步骤 4：生成报告
+
+    # step 4: generate the report
     result["report"] = _generate_report(result, project_info)
-    
+
     return result
 
 
 def _generate_report(result: Dict, project_info: Dict) -> str:
-    """生成 Markdown 报告"""
+    """Generate a Markdown report."""
     files = result.get("files", {})
-    
+
     lines = [
-        f"# 代码生成报告",
+        f"# Code generation report",
         f"",
-        f"**意图类型：** {result.get('intent_type', 'unknown')}",
-        f"**生成层：** {result.get('layer', 'unknown')}",
-        f"**技术栈：** {project_info.get('tech_stack', {}).get('primary', 'unknown')}",
-        f"**生成时间：** {datetime.now().strftime('%Y-%m-%d %H:%M')}",
+        f"**Intent type:** {result.get('intent_type', 'unknown')}",
+        f"**Layer:** {result.get('layer', 'unknown')}",
+        f"**Tech stack:** {project_info.get('tech_stack', {}).get('primary', 'unknown')}",
+        f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M')}",
         f"",
-        f"## 已生成文件（{len(files)} 个）",
+        f"## Generated files ({len(files)})",
         f"",
-        f"| 文件 | 状态 |",
-        f"|------|------|",
+        f"| File | Status |",
+        f"|------|--------|",
     ]
-    
+
     for path, content in files.items():
-        lines.append(f"| `{path}` | ✓ 已生成 ({len(content.splitlines())} 行) |")
-    
+        lines.append(f"| `{path}` | done ({len(content.splitlines())} lines) |")
+
     lines.append(f"")
     lines.append(f"---")
-    lines.append(f"*由 code-generator v1.0 生成*")
-    
+    lines.append(f"*Generated by code-generator v1.0*")
+
     return "\n".join(lines)
 
 
-# ── CLI 入口 ───────────────────────────────────────────────
+# -- CLI entry point -------------------------------------------------------
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description="Code Generator — 从计划生成代码")
-    parser.add_argument("--plan", "-p", help="plan JSON 文件或字符串")
-    parser.add_argument("--plan-stdin", action="store_true", help="从 stdin 读取 plan JSON")
-    parser.add_argument("--project", "-r", help="项目根目录")
-    parser.add_argument("--output", "-o", help="输出目录")
+    parser = argparse.ArgumentParser(description="Code Generator - generate code from a plan")
+    parser.add_argument("--plan", "-p", help="plan JSON file or string")
+    parser.add_argument("--plan-stdin", action="store_true", help="read plan JSON from stdin")
+    parser.add_argument("--project", "-r", help="project root directory")
+    parser.add_argument("--output", "-o", help="output directory")
     parser.add_argument("--format", "-f", choices=["markdown", "json"], default="markdown")
-    parser.add_argument("--dry-run", action="store_true", help="只输出报告不写文件")
-    parser.add_argument("--no-mock", action="store_true", help="使用真实 LLM")
-    
+    parser.add_argument("--dry-run", action="store_true", help="only print the report, write no files")
+    parser.add_argument("--no-mock", action="store_true", help="use a real LLM")
+
     args = parser.parse_args()
-    
-    # 读取 plan
+
+    # read the plan
     plan = None
     if args.plan:
         plan_path = Path(args.plan)
@@ -588,47 +588,48 @@ def main():
             "intent_type": "implement",
             "confidence": 0.9,
             "source_layer": "L1",
-            "description": "实现用户认证模块",
+            "description": "Implement the user authentication module",
             "slots": [
                 {"name": "target", "value": "auth", "evidence": "verified"},
                 {"name": "scope", "value": "login+register", "evidence": "provisional"},
             ],
             "sub_tasks": [
-                {"id": "T1", "description": "设计用户数据模型", "priority": "P0"},
-                {"id": "T2", "description": "实现服务层", "priority": "P0"},
-                {"id": "T3", "description": "实现 API 接口", "priority": "P1"},
+                {"id": "T1", "description": "Design the user data model", "priority": "P0"},
+                {"id": "T2", "description": "Implement the service layer", "priority": "P0"},
+                {"id": "T3", "description": "Implement the API endpoints", "priority": "P1"},
             ],
         }
-    
-    # 执行生成
+
+    # run generation
     result = generate_code(plan=plan, project_root=args.project, use_mock=not args.no_mock)
-    
-    # 输出
+
+    # output
     if args.format == "markdown":
         output = result.get("report", "")
     else:
         output = json.dumps(result, ensure_ascii=False, indent=2)
-    
+
     if args.output:
         Path(args.output).parent.mkdir(parents=True, exist_ok=True)
         Path(args.output).write_text(output, encoding="utf-8")
-        print(f"报告已保存到: {args.output}", file=sys.stderr)
+        print(f"Report saved to: {args.output}", file=sys.stderr)
     else:
         print(output)
-    
-    # 写入文件
+
+    # write files
     if not args.dry_run and args.format == "json":
         files = result.get("files", {})
-        # v1.1：代码目录独立于报告路径（--output），避免把报告文件路径当目录用
+        # v1.1: the code dir is independent of the report path (--output), so the report file
+        # path is not mistaken for a directory
         output_dir = args.output_dir or "."
         if args.output_dir:
-            print(f"代码输出目录: {output_dir}", file=sys.stderr)
+            print(f"Code output dir: {output_dir}", file=sys.stderr)
 
         for path, content in files.items():
             full_path = Path(output_dir) / path
             full_path.parent.mkdir(parents=True, exist_ok=True)
             full_path.write_text(content, encoding="utf-8")
-            print(f"✓ 已生成: {full_path}", file=sys.stderr)
+            print(f"generated: {full_path}", file=sys.stderr)
     
     return 1 if isinstance(result, dict) and result.get("status") == "error" else 0
 

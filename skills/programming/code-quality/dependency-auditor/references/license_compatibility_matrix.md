@@ -1,6 +1,6 @@
 # License Compatibility Matrix
 
-## 目录
+## Table of Contents
 
 - [Understanding License Types](#understanding-license-types)
   - [Permissive Licenses](#permissive-licenses)

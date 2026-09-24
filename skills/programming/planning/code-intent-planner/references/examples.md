@@ -1,6 +1,6 @@
 # 典型输入输出案例库
 
-## 目录
+## Table of Contents
 
 - [案例 1：L1 直接命中（fix + 多关键词）](#案例-1l1-直接命中fix-多关键词)
 - [案例 2：L1 未命中，L2 Flash 处理（implement + 含技术栈）](#案例-2l1-未命中l2-flash-处理implement-含技术栈)
@@ -21,14 +21,14 @@
 
 ## 案例 1：L1 直接命中（fix + 多关键词）
 
-**输入：**
+**Input:**
 ```
 帮我修复一下，一登录就 crash，报错 panic: runtime error: invalid memory address
 ```
 
 **L1 匹配：** `fix|修[好复]|bug|报错|错误|crash|panic` → 命中 fix，置信度 0.95
 
-**输出：**
+**Output:**
 ```json
 {
   "intent_type": "fix",
@@ -64,7 +64,7 @@
 
 ## 案例 2：L1 未命中，L2 Flash 处理（implement + 含技术栈）
 
-**输入：**
+**Input:**
 ```
 我想做一个类似 Vercel 的部署平台，支持一键部署 Next.js 项目，用 Go 写后端
 ```
@@ -124,7 +124,7 @@ T1 → T2 → T3 → T4
 
 ## 案例 3：多意图并存（primary + secondary）
 
-**输入：**
+**Input:**
 ```
 查一下这个接口为啥报错，顺便帮我加个缓存层
 ```
@@ -159,7 +159,7 @@ T1 → T2 → T3 → T4
 ```
 > 帮我设计一个用户权限系统，用 RBAC 模型，Python FastAPI
 ```
-**输出：**
+**Output:**
 ```json
 {
   "session_id": "s1",
@@ -195,7 +195,7 @@ T1 → T2 → T3 → T4
 
 ## 案例 5：澄清协议触发
 
-**输入：**
+**Input:**
 ```
 帮我做个东西
 ```
@@ -203,7 +203,7 @@ T1 → T2 → T3 → T4
 **L1 匹配：** `做` → implement（置信度 0.88 ≥ 0.85）→ 直接命中
 
 但如果 L2 返回置信度 0.70（灰色区间）：
-**输出：**
+**Output:**
 ```json
 {
   "status": "clarification_needed",
@@ -224,7 +224,7 @@ T1 → T2 → T3 → T4
 
 ## 案例 6：复杂表述 → L3 深度推理
 
-**输入：**
+**Input:**
 ```
 我现在有个电商系统，用户下单后会调用库存服务扣减库存，但高并发下经常库存超卖，
 而且退款后库存没恢复。想先分析一下瓶颈在哪里，再出优化方案，技术栈是 Java Spring Boot + Redis。
@@ -259,7 +259,7 @@ T1 → T2 → T3 → T4
 
 ## 案例 7：destructive 意图（高风险，人工确认）
 
-**输入：**
+**Input:**
 ```
 把 users 表里所有 created_at 超过一年的数据都删掉
 ```
@@ -282,7 +282,7 @@ T1 → T2 → T3 → T4
 
 ## 案例 8：英文输入
 
-**输入：**
+**Input:**
 ```
 I need to refactor the authentication module to support OAuth2, and also add unit tests for the new login endpoint
 ```
@@ -304,14 +304,14 @@ I need to refactor the authentication module to support OAuth2, and also add uni
 
 ## 案例 9：口语化/模糊输入
 
-**输入：**
+**Input:**
 ```
 这个功能怎么搞
 ```
 
 **L1 匹配：** `怎么[做搞]` → plan（置信度 0.95）
 
-**输出：**
+**Output:**
 ```json
 {
   "intent_type": "plan",
@@ -325,14 +325,14 @@ I need to refactor the authentication module to support OAuth2, and also add uni
 
 ## 案例 10：边界情况（无匹配）
 
-**输入：**
+**Input:**
 ```
 今天天气不错啊
 ```
 
 **L1 匹配：** 无命中
 
-**输出：**
+**Output:**
 ```json
 {
   "matched": false,
@@ -347,7 +347,7 @@ I need to refactor the authentication module to support OAuth2, and also add uni
 
 ---
 
-## 案例来源说明
+## Case sources说明
 
 | 案例 | 来源 | 提取方式 |
 |------|------|----------|

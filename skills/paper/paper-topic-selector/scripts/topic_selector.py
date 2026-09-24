@@ -1,17 +1,21 @@
 #!/usr/bin/env python3
-"""Topic Selector — 研究方向评估与排序。
+"""Topic Selector — research-direction evaluation and ranking.
 
-对标 SKILL.md 的四因子评分表（Novelty 40% / Feasibility 30% / Impact 20% / Buildability 10%），
-把旧版「单题关键词打分」升级为：
-  - **多候选对比**：`--topic`（可重复）或 `--candidates FILE`，一起排序 + 落选说明；
-  - **真实可行性模型**：由时间/算力/复杂度估算工作量（人周），算 feasibility = 1 - 工作量/工期；
-  - **诚实的 novelty 来源**：`novelty_source` 标 `heuristic-keyword`（默认，未查新）或
-    `lit-review`（给了 `--lit-review-json` 且 gap 命中，才算**已校验**）。
+Implements the four-factor scoring rubric from SKILL.md (Novelty 40% / Feasibility 30% /
+Impact 20% / Buildability 10%). It upgrades the old "single-topic keyword score" to:
+  - **multi-candidate comparison**: `--topic` (repeatable) or `--candidates FILE`, ranked
+    together with reasons for why lower-ranked ones lost;
+  - **real feasibility model**: estimate workload (person-weeks) from time/compute/complexity,
+    then feasibility = 1 - workload/schedule;
+  - **honest novelty source**: `novelty_source` is tagged `heuristic-keyword` (default, not
+    a real novelty search) or `lit-review` (only counts as **verified** when `--lit-review-json`
+    is supplied and a gap hits).
 
-诚实声明：默认路径的 novelty 是**关键词启发式**，不是查新结论，`novelty_verified=false`；
-要声称「没人做过」MUST 先用 lit-review 做真实检索并传 `--lit-review-json`。
+Honest disclaimer: on the default path novelty is a **keyword heuristic**, not a novelty-search
+conclusion, so `novelty_verified=false`. To claim "no one has done this", you MUST first run a
+real search with lit-review and pass `--lit-review-json`.
 
-用法:
+Usage:
   python3 topic_selector.py --topic "LLM agent coordination" --constraints '{"time":"3mo","gpu":"1xA100"}'
   python3 topic_selector.py --candidates candidates.json --lit-review-json lit_review.json
 """
@@ -39,7 +43,7 @@ def _clamp(x, lo=0.0, hi=1.0):
 
 
 def _deadline_weeks(constraints: dict) -> float:
-    """把 time 约束解析成周。支持 '3mo' / '6 months' / '1y' / '8w' / 纯数字(视作月)。"""
+    """Parse the time constraint into weeks. Supports '3mo' / '6 months' / '1y' / '8w' / a bare number (treated as months)."""
     raw = str(constraints.get("time", "6mo")).strip().lower()
     m = re.match(r"(\d+(?:\.\d+)?)\s*(mo|month|months|m|y|yr|year|years|w|week|weeks)?", raw)
     if not m:
@@ -60,7 +64,7 @@ def _gpu_count(constraints: dict) -> int:
 
 
 def _workload_weeks(topic: str, constraints: dict) -> float:
-    """工作量估算（人周）——复杂度关键词 + 训练方式 + 算力折扣。"""
+    """Workload estimate (person-weeks) -- complexity keywords + training regime + compute discount."""
     low = topic.lower()
     weeks = 6.0
     weeks += 4.0 * sum(1 for t in COMPLEXITY_TERMS if t in low)
@@ -68,14 +72,14 @@ def _workload_weeks(topic: str, constraints: dict) -> float:
         weeks += 12.0
     if any(t in low for t in ("benchmark", "evaluation", "dataset")):
         weeks += 2.0
-    # 算力不足 → 同上工作量需要更久（折扣系数）
+    # insufficient compute -> the same workload takes longer (discount factor)
     if _gpu_count(constraints) < 4 and any(t in low for t in ("large", "billion", "pretrain")):
         weeks *= 1.3
     return round(weeks, 1)
 
 
 def _novelty(topic: str, lit_gaps: list = None) -> tuple:
-    """返回 (score, source, verified, evidence)。"""
+    """Return (score, source, verified, evidence)."""
     low = topic.lower()
     hits = sum(1 for t in NOVELTY_TERMS if t in low)
     score = _clamp(0.45 + 0.10 * hits, 0.0, 0.95)

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""deep-research — 深度调研 Agent
+"""deep-research -- deep-research agent.
 
-多轮搜索 + 信息综合 + 结构化报告生成。
-依赖 web-search skill。
+Multi-round search + information synthesis + structured report generation.
+Depends on the web-search skill.
 """
 import json
 import sys
@@ -14,7 +14,7 @@ from typing import List, Dict, Any, Optional
 from datetime import datetime
 from urllib.parse import urlparse
 
-# 尝试导入 web-search
+# try to import web-search
 try:
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "web-search", "scripts"))
     from search_client import search, SearchEngineError
@@ -23,55 +23,55 @@ except ImportError:
     SearchEngineError = Exception
 
 
-# ── 域名可信度库 ───────────────────────────────────────────
+# -- Domain trustworthiness library ------------------------------------------
 
 DOMAIN_TRUSTWORTHINESS = {
-    # 官方文档
+    # official docs
     "docs.python.org": 1.0,
     "fastapi.tiangolo.com": 1.0,
     "flask.palletsprojects.com": 1.0,
     "github.com": 0.9,
     "stackoverflow.com": 0.85,
-    
-    # 技术博客
+
+    # technical blogs
     "medium.com": 0.6,
     "dev.to": 0.65,
     "hackernoon.com": 0.55,
     "realpython.com": 0.85,
     "segmentfault.com": 0.7,
     "jianshu.com": 0.5,
-    
-    # 新闻
+
+    # news
     "techcrunch.com": 0.7,
     "thenewstack.io": 0.75,
-    
-    # 中文技术站
+
+    # Chinese tech sites
     "cnblogs.com": 0.65,
     "csdn.net": 0.6,
     "juejin.cn": 0.7,
     "oschina.net": 0.7,
-    
-    # 其他
+
+    # other
     "wikipedia.org": 0.8,
     "reddit.com": 0.5,
 }
 
 
-# ── 查询分析器 ───────────────────────────────────────────────
+# -- Query analyzer ----------------------------------------------------------
 
 class QueryAnalyzer:
-    """分析研究主题，拆解子问题"""
-    
-    # 模式匹配规则
+    """Analyze a research topic and decompose it into sub-questions."""
+
+    # pattern-matching rules
     PATTERNS = [
-        (r"(\w+)和(\w+)", ["对比 {0} 和 {1}", "{0} vs {1}"]),
-        (r"最佳(\w+)", ["{0} 最佳实践", "{0} 优缺点", "{0} 比较"]),
-        (r"如何(\w+)", ["{0} 方法", "{0} 教程", "{0} 示例"]),
-        (r"(\w+)框架", ["{0} 介绍", "{0} 教程", "{0} 最佳实践"]),
+        (r"(\w+) (?:and|vs|or) (\w+)", ["compare {0} and {1}", "{0} vs {1}"]),
+        (r"best (\w+)", ["{0} best practices", "{0} pros and cons", "{0} comparison"]),
+        (r"how to (\w+)", ["{0} methods", "{0} tutorial", "{0} examples"]),
+        (r"(\w+) framework", ["{0} introduction", "{0} tutorial", "{0} best practices"]),
     ]
-    
+
     def analyze(self, topic: str, focus_areas: List[str] = None) -> Dict[str, Any]:
-        """分析查询，返回结构化信息"""
+        """Analyze the query and return structured information."""
         sub_queries = self._decompose(topic)
         strategy = self._select_strategy(topic, sub_queries)
         
@@ -84,9 +84,9 @@ class QueryAnalyzer:
         }
     
     def _decompose(self, topic: str) -> List[str]:
-        """拆解子查询"""
+        """Decompose into sub-queries."""
         queries = [topic]
-        
+
         for pattern, templates in self.PATTERNS:
             match = re.search(pattern, topic)
             if match:
@@ -95,42 +95,38 @@ class QueryAnalyzer:
                         queries.append(tpl.format(*match.groups()))
                     except IndexError:
                         pass
-        
-        # 添加时间维度
+
+        # add a time dimension
         for year in ["2024", "2025", "2026"]:
             if year not in topic:
                 queries.append(f"{topic} {year}")
-        
-        # 添加英文查询
+
+        # add an English query
         queries.append(self._to_english(topic))
-        
-        # 去重
+
+        # de-duplicate
         return list(dict.fromkeys(queries))[:10]
-    
-    def _to_english(self, chinese: str) -> str:
-        """简单翻译（实际应使用 LLM）"""
-        # 常见词汇映射
+
+    def _to_english(self, query: str) -> str:
+        """Passthrough; queries are already English (an LLM would be used for real translation)."""
+        # vocabulary mapping (kept empty; English input needs no translation)
         translations = {
             "python": "python",
             "fastapi": "fastapi",
             "flask": "flask",
             "django": "django",
-            "最佳实践": "best practices",
-            "教程": "tutorial",
-            "对比": "vs",
-            "如何": "how to",
         }
-        
-        result = chinese
-        for cn, en in translations.items():
-            result = result.replace(cn, en)
-        
-        return result if result != chinese else chinese
-    
+
+        result = query
+        for src, dst in translations.items():
+            result = result.replace(src, dst)
+
+        return result
+
     def _select_strategy(self, topic: str, queries: List[str]) -> Dict:
-        """选择搜索策略"""
-        is_comparison = any("vs" in q.lower() or "对比" in q for q in queries)
-        is_tutorial = any("tutorial" in q.lower() or "教程" in q for q in queries)
+        """Choose the search strategy."""
+        is_comparison = any("vs" in q.lower() or "compare" in q.lower() for q in queries)
+        is_tutorial = any("tutorial" in q.lower() or "how" in q.lower() for q in queries)
         is_news = any(any(y in q for y in ["2024", "2025", "2026"]) for q in queries)
         
         if is_comparison:
@@ -143,7 +139,7 @@ class QueryAnalyzer:
             return {"depth": "standard", "engines": ["searxng"], "focus": "general"}
     
     def _estimate_rounds(self, topic: str) -> int:
-        """估计所需搜索轮次"""
+        """Estimate the required number of search rounds."""
         complexity = len(topic.split())
         if complexity > 10:
             return 4
@@ -152,36 +148,36 @@ class QueryAnalyzer:
         return 2
 
 
-# ── 搜索引擎 ───────────────────────────────────────────────
+# -- Search engine ----------------------------------------------------------
 
 class SearchOrchestrator:
-    """搜索编排器"""
-    
+    """Search orchestrator"""
+
     def __init__(self):
         self.query_analyzer = QueryAnalyzer()
-    
+
     def search(self, topic: str, max_rounds: int = 3, use_cache: bool = True) -> Dict:
-        """主搜索流程"""
+        """Main search flow."""
         if not search:
             return {"error": "web-search skill not found", "results": []}
-        
-        # Step 1: 分析查询
+
+        # Step 1: analyze the query
         analysis = self.query_analyzer.analyze(topic)
         sub_queries = analysis["sub_queries"]
         strategy = analysis["strategy"]
-        
+
         all_results = {}
-        
-        # Step 2: 多轮搜索
+
+        # Step 2: multi-round search
         for round_num in range(1, max_rounds + 1):
-            # 选择本轮回溯
+            # choose this round's queries
             if round_num == 1:
-                queries = sub_queries[:5]  # 第一轮：基础查询
+                queries = sub_queries[:5]  # first round: base queries
             else:
-                # 后续轮次：基于已有结果深化
+                # later rounds: deepen based on existing results
                 queries = self._generate_follow_up_queries(topic, all_results)
-            
-            # 执行搜索
+
+            # run the search
             round_results = {}
             for q in queries:
                 try:
@@ -190,38 +186,38 @@ class SearchOrchestrator:
                         round_results[q] = result
                 except Exception as e:
                     round_results[q] = {"error": str(e), "results": []}
-            
+
             all_results[f"round_{round_num}"] = round_results
-            
-            # 检查是否需要继续
+
+            # check whether to continue
             if self._should_continue(round_results, round_num, max_rounds):
                 continue
             break
-        
-        # Step 3: 汇总结果
+
+        # Step 3: summarize results
         return self._summarize(topic, all_results, analysis)
-    
+
     def _generate_follow_up_queries(self, topic: str, results: Dict) -> List[str]:
-        """生成后续搜索查询"""
+        """Generate follow-up search queries."""
         queries = []
-        
-        # 从已有结果中提取关键词
+
+        # extract keywords from existing results
         for round_key, round_results in results.items():
             for query, result in round_results.items():
                 for r in result.get("results", [])[:3]:
-                    # 从标题提取
+                    # extract from the title
                     title = r.get("title", "")
                     if title:
                         words = title.split()
                         if len(words) >= 2:
                             queries.append(f"{topic} {words[-1]}")
-        
-        # 去重
+
+        # de-duplicate
         return list(dict.fromkeys(queries))[:5]
-    
+
     def _should_continue(self, results: Dict, current_round: int, max_rounds: int) -> bool:
-        """判断是否需要继续搜索"""
-        # 结果数量不足
+        """Decide whether to continue searching."""
+        # insufficient number of results
         total_results = sum(
             len(r.get("results", []))
             for round_results in results.values()
@@ -234,8 +230,8 @@ class SearchOrchestrator:
         return False
     
     def _summarize(self, topic: str, all_results: Dict, analysis: Dict) -> Dict:
-        """汇总搜索结果"""
-        # 收集所有结果
+        """Summarize search results."""
+        # collect all results
         all_items = []
         for round_key, round_results in all_results.items():
             for query, result in round_results.items():
@@ -243,14 +239,14 @@ class SearchOrchestrator:
                     item["query"] = query
                     item["round"] = round_key
                     all_items.append(item)
-        
-        # 去重
+
+        # de-duplicate
         deduped = self._deduplicate(all_items)
-        
-        # 质量评估
+
+        # quality evaluation
         evaluated = self._evaluate_quality(deduped)
-        
-        # 可信度评估
+
+        # trustworthiness assessment
         trust_scores = self._assess_trustworthiness(evaluated)
         
         return {
@@ -266,7 +262,7 @@ class SearchOrchestrator:
         }
     
     def _deduplicate(self, results: List[Dict]) -> List[Dict]:
-        """去重"""
+        """De-duplicate."""
         seen_urls = set()
         unique = []
         
@@ -279,54 +275,54 @@ class SearchOrchestrator:
         return unique
     
     def _evaluate_quality(self, results: List[Dict]) -> List[Dict]:
-        """评估结果质量"""
+        """Evaluate result quality."""
         evaluated = []
-        
+
         for r in results:
             score = self._calculate_quality_score(r)
             r["quality_score"] = score
             evaluated.append(r)
-        
-        # 按质量排序
+
+        # sort by quality
         evaluated.sort(key=lambda x: x.get("quality_score", 0), reverse=True)
-        
+
         return evaluated
-    
+
     def _calculate_quality_score(self, result: Dict) -> float:
-        """计算单个结果的质量分数"""
+        """Calculate the quality score for a single result."""
         score = 0.0
-        
-        # 域名可信度 (40%)
+
+        # domain trustworthiness (40%)
         domain = result.get("parsed_url", {}).get("domain", "")
         domain_score = DOMAIN_TRUSTWORTHINESS.get(domain, 0.5)
         score += domain_score * 0.4
-        
-        # 内容完整性 (20%)
+
+        # content completeness (20%)
         content = result.get("content", "")
         if len(content) > 100:
             score += 0.2
         elif len(content) > 50:
             score += 0.1
-        
-        # 标题相关性 (20%)
+
+        # title relevance (20%)
         title = result.get("title", "")
         if title and len(title) > 10:
             score += 0.2
-        
-        # 引擎权威性 (10%)
+
+        # engine authority (10%)
         engine = result.get("engine", "")
         engine_score = {"google": 0.9, "bing": 0.85, "duckduckgo": 0.7}.get(engine, 0.6)
         score += engine_score * 0.1
-        
-        # 新鲜度 (10%)
+
+        # freshness (10%)
         url = result.get("url", "")
         if "2024" in url or "2025" in url or "2026" in url:
             score += 0.1
-        
+
         return min(score, 1.0)
-    
+
     def _assess_trustworthiness(self, results: List[Dict]) -> Dict[str, float]:
-        """评估可信度"""
+        """Assess trustworthiness."""
         trust_scores = {}
         
         for r in results:
@@ -336,80 +332,80 @@ class SearchOrchestrator:
         return trust_scores
 
 
-# ── 报告生成器 ───────────────────────────────────────────────
+# -- Report generator -------------------------------------------------------
 
 class ReportGenerator:
-    """生成研究报告"""
-    
+    """Generate a research report."""
+
     def generate_markdown(self, research: Dict) -> str:
-        """生成 Markdown 报告"""
+        """Generate a Markdown report."""
         topic = research.get("topic", "Unknown Topic")
         results = research.get("results", [])
         trust_scores = research.get("trust_scores", {})
-        
+
         lines = [
-            f"# 深度研究报告：{topic}",
+            f"# Deep research report: {topic}",
             f"",
-            f"**生成时间：** {datetime.now().strftime('%Y-%m-%d %H:%M')}",
-            f"**搜索查询数：** {research.get('total_queries', 0)}",
-            f"**信源数量：** {research.get('deduped_results', 0)}",
+            f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M')}",
+            f"**Search queries:** {research.get('total_queries', 0)}",
+            f"**Number of sources:** {research.get('deduped_results', 0)}",
             f"",
             "---",
             f"",
         ]
-        
-        # 摘要
-        lines.append("## 摘要")
+
+        # summary
+        lines.append("## Summary")
         lines.append("")
         if results:
             top_result = results[0]
-            lines.append(f"基于 {len(results)} 个信源的综合分析，核心发现如下：")
+            lines.append(f"Based on a synthesis of {len(results)} sources, the key findings are:")
         else:
-            lines.append("*未找到相关结果*")
+            lines.append("*No relevant results found.*")
         lines.append("")
-        
-        # 核心发现
-        lines.append("## 核心发现")
+
+        # key findings
+        lines.append("## Key findings")
         lines.append("")
-        
+
         for i, r in enumerate(results[:5], 1):
-            title = r.get("title", "无标题")
+            title = r.get("title", "Untitled")
             url = r.get("url", "")
             content = r.get("content", "")[:200]
             trust = trust_scores.get(url, 0.5)
             stars = "⭐" * int(trust * 5)
-            
+
             lines.append(f"### {i}. {title}")
-            lines.append(f"**来源：** [{url}]({url}) {stars}")
+            lines.append(f"**Source:** [{url}]({url}) {stars}")
             if content:
                 lines.append(f"> {content}...")
             lines.append("")
-        
-        # 来源列表
-        lines.append("## 完整来源")
+
+        # source list
+        lines.append("## Full sources")
         lines.append("")
-        lines.append("| # | 标题 | URL | 可信度 |")
-        lines.append("|---|------|-----|--------|")
-        
+        lines.append("| # | Title | URL | Trust |")
+        lines.append("|---|-------|-----|-------|")
+
         for i, r in enumerate(results, 1):
-            title = r.get("title", "无标题")[:30]
+            title = r.get("title", "Untitled")[:30]
             url = r.get("url", "")
             trust = trust_scores.get(url, 0.5)
             stars = f"{int(trust * 5)}/5"
             lines.append(f"| {i} | {title} | [{url}]({url}) | {stars} |")
-        
+
         lines.append("")
         lines.append("---")
-        lines.append(f"*由 deep-research v1.0 生成*")
-        
+        lines.append(f"*Generated by deep-research v1.0*")
+
         return "\n".join(lines)
-    
+
     def generate_json(self, research: Dict) -> str:
-        """生成 JSON 报告"""
+        """Generate a JSON report."""
         return json.dumps(research, ensure_ascii=False, indent=2)
 
 
-# ── 主流水线 ───────────────────────────────────────────────
+# -- Main pipeline ----------------------------------------------------------
 
 def deep_research(
     topic: str,
@@ -419,54 +415,54 @@ def deep_research(
     use_cache: bool = True,
 ) -> Dict[str, Any]:
     """
-    深度调研主入口
-    
+    Main entry point for deep research.
+
     Args:
-        topic: 研究主题
-        max_rounds: 最大搜索轮次
-        min_sources: 最小信源数量
-        output_format: 输出格式 (markdown/json/both)
-        use_cache: 是否使用缓存
-    
+        topic: research topic
+        max_rounds: maximum search rounds
+        min_sources: minimum number of sources
+        output_format: output format (markdown/json/both)
+        use_cache: whether to use the cache
+
     Returns:
-        研究结果
+        the research results
     """
     orchestrator = SearchOrchestrator()
     reporter = ReportGenerator()
-    
-    # 执行搜索
+
+    # run the search
     research = orchestrator.search(topic, max_rounds=max_rounds, use_cache=use_cache)
-    
-    # 生成报告
+
+    # generate the report
     if output_format in ("markdown", "both"):
         research["markdown_report"] = reporter.generate_markdown(research)
-    
+
     if output_format in ("json", "both"):
         research["json_report"] = reporter.generate_json(research)
-    
+
     return research
 
 
-# ── CLI 入口 ───────────────────────────────────────────────
+# -- CLI entry point --------------------------------------------------------
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description="Deep Research — 深度调研 Agent")
-    parser.add_argument("topic", help="研究主题")
-    parser.add_argument("--rounds", "-r", type=int, default=3, help="最大搜索轮次")
+    parser = argparse.ArgumentParser(description="Deep Research -- deep-research agent")
+    parser.add_argument("topic", help="research topic")
+    parser.add_argument("--rounds", "-r", type=int, default=3, help="maximum search rounds")
     parser.add_argument("--format", "-f", choices=["markdown", "json", "both"], default="markdown")
-    parser.add_argument("--no-cache", action="store_true", help="禁用缓存")
-    
+    parser.add_argument("--no-cache", action="store_true", help="disable the cache")
+
     args = parser.parse_args()
-    
+
     result = deep_research(
         topic=args.topic,
         max_rounds=args.rounds,
         output_format=args.format,
         use_cache=not args.no_cache,
     )
-    
-    # 输出
+
+    # output
     if args.format == "markdown":
         print(result.get("markdown_report", ""))
     elif args.format == "json":
@@ -475,12 +471,12 @@ def main():
         print(result.get("markdown_report", ""))
         print("\n--- JSON ---\n")
         print(result.get("json_report", ""))
-    
-    # 保存结果
+
+    # save the result
     output_file = f"research_{hashlib.md5(args.topic.encode()).hexdigest()[:8]}.json"
     with open(output_file, "w", encoding="utf-8") as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
-    print(f"\n结果已保存到: {output_file}", file=sys.stderr)
+    print(f"\nResult saved to: {output_file}", file=sys.stderr)
 
 
 if __name__ == "__main__":

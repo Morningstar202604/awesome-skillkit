@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""dashboard.py — CSV 体检 → 仪表盘方案 → 自包含 HTML 仪表盘。
+"""dashboard.py -- CSV health-check -> dashboard plan -> self-contained HTML dashboard.
 
-只用 Python 标准库（csv / json / statistics / datetime / html）。
+Uses only the Python standard library (csv / json / statistics / datetime / html).
 
-关键约束：**产出的 HTML 不依赖任何 CDN**。
-图表用内联的纯 SVG 生成（服务端算好坐标直接写死进 HTML），
-因此断网、内网、离线交付都能正常显示。
+Key constraint: **the produced HTML depends on no CDN.**
+Charts are generated as inline pure SVG (coordinates are computed server-side and baked
+straight into the HTML), so it renders fine offline, on an intranet, or in air-gapped delivery.
 
-子命令:
-  inspect   <csv>                            列类型推断 / 缺失率 / 分布摘要
-  recommend <csv>                            基于列特征推荐布局，输出 Markdown 方案
-  build     <csv> --out dashboard.html       生成自包含单文件仪表盘
+Subcommands:
+  inspect   <csv>                            column-type inference / missing rate / distribution summary
+  recommend <csv>                            recommend a layout from column features, print a Markdown plan
+  build     <csv> --out dashboard.html       generate a self-contained single-file dashboard
 """
 
 import argparse
@@ -24,11 +24,11 @@ from collections import Counter
 from datetime import datetime
 from pathlib import Path
 
-# 列类型
+# column types
 T_NUM, T_DATE, T_CAT, T_TEXT = "numeric", "date", "categorical", "text"
 
-MAX_SCAN_ROWS = 50000          # 超过此数只抽样，避免大文件把内存吃满
-CAT_UNIQUE_RATIO = 0.5         # 唯一值占比低于此值且不同值 <=20 → 分类
+MAX_SCAN_ROWS = 50000          # beyond this we sample only, so huge files don't exhaust memory
+CAT_UNIQUE_RATIO = 0.5         # unique-value ratio below this and distinct values <=20 -> categorical
 CAT_MAX_UNIQUE = 20
 
 DATE_PATTERNS = [
@@ -39,13 +39,13 @@ DATE_PATTERNS = [
     ("%Y-%m-%d %H:%M:%S", re.compile(r"^\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}(:\d{2})?$")),
 ]
 
-# 定性色板（对比度友好、色盲相对安全），与 chart-recommender 的推荐保持一致
+# qualitative palette (contrast-friendly, reasonably colorblind-safe), consistent with the chart-recommender's picks
 PALETTE = ["#4C72B0", "#DD8452", "#55A868", "#C44E52",
            "#8172B3", "#937860", "#DA8BC3", "#8C8C8C"]
 
 
 class DashError(Exception):
-    """面向用户的错误。"""
+    """A user-facing error."""
 
 
 def die(msg, code=1):
@@ -53,13 +53,13 @@ def die(msg, code=1):
     sys.exit(code)
 
 
-# ---------------------------------------------------------------- CSV 读取
+# ---------------------------------------------------------------- CSV loading
 
 
 def load_csv(path: Path):
-    """读 CSV → (headers, rows, encoding_note)。宽容处理 BOM 与编码。"""
+    """Read CSV -> (headers, rows, encoding_note). Tolerant of BOM and encoding."""
     if not path.is_file():
-        raise DashError(f"CSV 不存在：{path}")
+        raise DashError(f"CSV not found: {path}")
 
     text, used = None, None
     for enc in ("utf-8-sig", "utf-8", "gbk", "latin-1"):
@@ -70,19 +70,19 @@ def load_csv(path: Path):
         except (UnicodeDecodeError, LookupError):
             continue
     if text is None:
-        raise DashError(f"无法解码 {path}，请另存为 UTF-8")
+        raise DashError(f"could not decode {path}; please re-save as UTF-8")
 
     sample = text[:65536]
     try:
         dialect = csv.Sniffer().sniff(sample, delimiters=",;\t|")
     except csv.Error:
-        dialect = csv.excel  # 单列或极简文件嗅探失败，退回默认
+        dialect = csv.excel  # single-column or minimal file; sniffing failed, fall back to default
 
     reader = csv.reader(text.splitlines(), dialect)
     try:
         headers = next(reader)
     except StopIteration:
-        raise DashError(f"{path} 是空文件")
+        raise DashError(f"{path} is an empty file")
 
     headers = [h.strip() or f"col{i}" for i, h in enumerate(headers)]
     rows, truncated = [], False
@@ -97,7 +97,7 @@ def load_csv(path: Path):
     return headers, rows, used, truncated
 
 
-# ---------------------------------------------------------------- 类型推断
+# ---------------------------------------------------------------- type inference
 
 
 def parse_date(s: str):
@@ -124,7 +124,7 @@ def to_float(s: str):
 
 
 def profile_column(name: str, values):
-    """推断单列类型并汇总特征。"""
+    """Infer a single column's type and summarize its features."""
     total = len(values) or 1
     nonblank = [v.strip() for v in values if v and v.strip()]
     missing = len(values) - len(nonblank)
@@ -168,7 +168,7 @@ def profile_column(name: str, values):
 
 
 def numeric_summary(vals):
-    """min/max/mean/median/四分位。四分位用线性插值（与常见统计软件一致）。"""
+    """min/max/mean/median/quartiles. Quartiles use linear interpolation (consistent with common stats software)."""
     n = len(vals)
     if n == 1:
         v = vals[0]
@@ -196,44 +196,48 @@ def profile_table(headers, rows):
     return [profile_column(h, [r[i] for r in rows]) for i, h in enumerate(headers)]
 
 
-# ---------------------------------------------------------------- 推荐逻辑
+# ---------------------------------------------------------------- recommendation logic
 
 
 def recommend_layout(cols):
-    """按列特征给出布局建议。返回 (kpis, charts, notes)。"""
+    """Recommend a layout from column features. Return (kpis, charts, notes)."""
     nums = [c for c in cols if c["type"] == T_NUM]
     dates = [c for c in cols if c["type"] == T_DATE]
     cats = [c for c in cols if c["type"] == T_CAT]
 
     kpis, charts, notes = [], [], []
 
-    # 没有严格分类列时退一步：文本列也可能适合当维度轴。
-    # 判据是「唯一值相对总行数不接近行数」——若每个值都唯一（如主键、UUID），
-    # 它其实是标识符而不是维度，画成条形图每根柱都只有一个样本，没有意义。
-    # 行数从列画像反推：唯一值不会超过行数，取各列唯一值的最大值作为上界。
+    # When there is no strict categorical column, fall back: a text column may still work as a
+    # dimension axis. The test is "unique values are not close to the row count" -- if every
+    # value is unique (e.g. a primary key, a UUID), it is really an identifier, not a dimension;
+    # as a bar chart every bar would have a single sample and mean nothing.
+    # Row count is derived from the column profiles: unique values can't exceed the row count,
+    # so take the max unique count across columns as an upper bound.
     rows_count = max((c["unique"] for c in cols), default=0)
     if not cats and len(cols) <= 3 and rows_count > 0:
         cand = [c for c in cols
                 if c["type"] == T_TEXT and 1 < c["unique"] <= rows_count * 0.8]
         if cand:
             cats = [dict(cand[0], type=T_CAT)]
-            notes.append(f"列「{cand[0]['name']}」未达分类列的严格判据，"
-                         f"但取值重复度高，已按维度轴处理；"
-                         f"若它其实是唯一标识符，请忽略这张图。")
+            notes.append(f"Column '{cand[0]['name']}' does not meet the strict categorical "
+                         f"criterion but repeats values often, so it is treated as a dimension "
+                         f"axis; if it is actually a unique identifier, ignore this chart.")
 
     for c in nums[:4]:
         s = c.get("stats", {})
         kpis.append({
             "column": c["name"],
             "value": s.get("mean"),
-            # 副信息与主数值用同一套格式化，避免卡片上「4.9万」配「48990.39」两套精度
-            "secondary": f"中位数 {fmt_num(s.get('median', 0))} · "
-                         f"合计 {fmt_num(s.get('mean', 0) * s.get('count', 0))}",
-            "why": "数值列，均值+中位数适合做概览指标卡",
+            # secondary info uses the same formatting as the main value, so a card doesn't pair
+            # "49.0K" with "48990.39" (two precisions)
+            "secondary": f"median {fmt_num(s.get('median', 0))} · "
+                         f"total {fmt_num(s.get('mean', 0) * s.get('count', 0))}",
+            "why": "numeric column; mean + median suit an overview KPI card",
         })
     if len(nums) > 4:
-        notes.append(f"数值列有 {len(nums)} 个，指标卡只取前 4 个（{', '.join(x['name'] for x in nums[:4])}），"
-                     f"其余 {len(nums) - 4} 个放进明细表，避免首屏被卡片淹没。")
+        notes.append(f"There are {len(nums)} numeric columns; KPI cards take only the first 4 "
+                     f"({', '.join(x['name'] for x in nums[:4])}), and the other {len(nums) - 4} go "
+                     f"into the detail table, so the first screen isn't swamped by cards.")
 
     date_col, num_col, cat_col = (dates[0] if dates else None,
                                   nums[0] if nums else None,
@@ -241,69 +245,71 @@ def recommend_layout(cols):
 
     if date_col and num_col:
         charts.append({
-            "kind": "折线图", "x": date_col["name"], "y": num_col["name"],
-            "why": f"时间列「{date_col['name']}」配数值列「{num_col['name']}」→ 趋势是首选表达",
-            "priority": "主图",
+            "kind": "line chart", "x": date_col["name"], "y": num_col["name"],
+            "why": f"date column '{date_col['name']}' paired with numeric '{num_col['name']}' -> "
+                   f"a trend is the first-choice encoding",
+            "priority": "primary",
         })
     if cat_col and num_col:
-        # 横条/竖柱的判据是「类别名平均长度」而非类别数：
-        # 6 个四字中文标签比 12 个单字母标签更需要水平排布
+        # horizontal vs vertical is decided by "average category-label length", not category count:
+        # six four-character Chinese labels need horizontal layout more than twelve single-letter ones
         avg_len = sum(len(str(k)) for k, _ in cat_col["top_values"]) / max(
             1, len(cat_col["top_values"]))
-        orient = "水平条形图" if (cat_col["unique"] > 8 or avg_len > 4) else "垂直柱状图"
+        orient = "horizontal bar" if (cat_col["unique"] > 8 or avg_len > 4) else "vertical column"
         charts.append({
             "kind": orient, "x": cat_col["name"], "y": num_col["name"],
-            "why": f"分类「{cat_col['name']}」({cat_col['unique']} 类，"
-                   f"标签均长 {avg_len:.1f} 字符) 与数值比大小；"
-                   f"{'标签较长，水平排布不用旋转' if orient.startswith('水平') else '标签短且类别少，竖柱可读'}",
-            "priority": "副图",
+            "why": f"category '{cat_col['name']}' ({cat_col['unique']} categories, "
+                   f"avg label length {avg_len:.1f} chars) vs a numeric value; "
+                   f"{'long labels, horizontal so no rotation needed' if orient.startswith('horizontal') else 'short labels and few categories, vertical columns readable'}",
+            "priority": "secondary",
         })
     if cat_col and not num_col:
         charts.append({
-            "kind": "条形图（计数）", "x": cat_col["name"], "y": "记录数",
-            "why": "只有分类列时，统计各类频次是唯一有信息量的聚合",
-            "priority": "主图",
+            "kind": "bar (count)", "x": cat_col["name"], "y": "record count",
+            "why": "with only a categorical column, counting per-category frequency is the only informative aggregation",
+            "priority": "primary",
         })
     if len(nums) >= 2:
         charts.append({
-            "kind": "散点图", "x": nums[0]["name"], "y": nums[1]["name"],
-            "why": f"两个数值列「{nums[0]['name']}」「{nums[1]['name']}」→ 相关性用散点，"
-                   f"比任何聚合图都保留更多信息",
-            "priority": "可选",
+            "kind": "scatter", "x": nums[0]["name"], "y": nums[1]["name"],
+            "why": f"two numeric columns '{nums[0]['name']}' / '{nums[1]['name']}' -> a scatter for "
+                   f"correlation keeps more information than any aggregated chart",
+            "priority": "optional",
         })
     if not charts:
         charts.append({
-            "kind": "明细表", "x": cols[0]["name"] if cols else "-", "y": "-",
-            "why": "没有可聚合的数值/分类/日期列，先出明细表",
-            "priority": "主图",
+            "kind": "detail table", "x": cols[0]["name"] if cols else "-", "y": "-",
+            "why": "no aggregatable numeric/categorical/date column; show a detail table first",
+            "priority": "primary",
         })
-        notes.append("这份 CSV 缺少数值列或分类列，无法出图；确认数据是否导出有误。")
+        notes.append("This CSV lacks numeric or categorical columns and cannot be charted; check whether the data was exported correctly.")
 
     for c in cols:
-        # 1% 就值得说：聚合值（尤其合计与均值）会因缺失被系统性低估，
-        # 而读者无法从图上看出这一点，必须在交付时明确交代
+        # even 1% is worth flagging: aggregates (especially totals and means) are systematically
+        # underestimated by missingness, and the reader can't see this from the chart, so it
+        # must be stated explicitly at delivery
         if c["missing_rate"] >= 0.01:
-            level = "严重" if c["missing_rate"] > 0.3 else "需注意"
-            notes.append(f"列「{c['name']}」缺失率 {c['missing_rate']:.1%}（{level}），"
-                         f"涉及该列的均值/合计已排除空缺行，图表需注明"
-                         f"「缺失数据未计入」，否则读者会误读趋势。")
+            level = "severe" if c["missing_rate"] > 0.3 else "note"
+            notes.append(f"Column '{c['name']}' missing rate {c['missing_rate']:.1%} ({level}); "
+                         f"means/totals on this column already excluded blank rows, and the chart "
+                         f"should note 'missing data excluded', or readers will misread the trend.")
     if cat_col and cat_col["unique"] > 20:
-        notes.append(f"分类列「{cat_col['name']}」有 {cat_col['unique']} 个取值，"
-                     f"条形图只显示 top 12，其余归入「其他」。")
+        notes.append(f"Categorical column '{cat_col['name']}' has {cat_col['unique']} values; "
+                     f"the bar chart shows only the top 12, the rest grouped as 'Other'.")
     if num_col and "stats" in num_col:
         s = num_col["stats"]
         if s["max"] > 0 and s["median"] > 0 and s["max"] > s["median"] * 20:
-            notes.append(f"列「{num_col['name']}」最大值是其中位数的 "
-                         f"{s['max'] / s['median']:.0f} 倍，分布极度右偏；"
-                         f"若在图上直接画会被离群点压扁，考虑对数轴或截断并标注。")
+            notes.append(f"Column '{num_col['name']}''s max is "
+                         f"{s['max'] / s['median']:.0f}x its median, extremely right-skewed; "
+                         f"plotting it directly gets squashed by outliers, consider a log axis or truncation with a note.")
 
     return kpis, charts, notes
 
 
-# ---------------------------------------------------------------- 纯 SVG 图
+# ---------------------------------------------------------------- pure SVG charts
 
 W, H = 640, 330
-# PAD_T=52 是给图题带（26px）留出的净空：刻度标签若与标题同高会视觉粘连
+# PAD_T=52 leaves headroom for the title band (26px): tick labels would visually collide with a title on the same line
 PAD_L, PAD_R, PAD_T, PAD_B = 76, 20, 52, 46
 
 
@@ -314,16 +320,16 @@ def svg_open(w=W, h=H):
 
 
 def fmt_num(v):
-    """人类可读的数值格式：避免科学计数法，大数加千分位缩写。
+    """Human-readable number format: avoid scientific notation; add thousands abbreviations for big numbers.
 
-    8000000 这类数字用 {:g} 会变成 8e+06，读者要在脑子里换算数量级；
-    改成 800万 / 8.0M 之后，轴上数字可以直接比较。
+    A number like 8000000 becomes 8e+06 under {:g}, forcing the reader to mentally compute the
+    order of magnitude; once shown as 8.0M, axis labels can be compared directly.
     """
     av = abs(v)
     if av >= 1e8:
-        return f"{v / 1e8:.2f}亿"
+        return f"{v / 1e8:.2f}B"
     if av >= 1e4:
-        return f"{v / 1e4:.1f}万"
+        return f"{v / 1e4:.1f}K"
     if av >= 1000:
         return f"{v:,.0f}"
     if av >= 1:
@@ -334,7 +340,7 @@ def fmt_num(v):
 
 
 def nice_ticks(vmin, vmax, n=5):
-    """给出可读的刻度值（1/2/5 × 10^k 步长）。"""
+    """Return readable tick values (1/2/5 x 10^k steps)."""
     if vmax == vmin:
         vmax = vmin + 1
     raw = (vmax - vmin) / max(1, n)
@@ -357,14 +363,14 @@ def esc(s):
 
 
 def chart_header(title):
-    """图题独占顶部一条带：标题若与 y 轴刻度同高会重叠。"""
+    """The title occupies its own top band; a title on the same line as the y-axis ticks would overlap."""
     return (f'<rect x="0" y="0" width="{W}" height="26" fill="#FBFCFD"/>'
             f'<text x="12" y="17" font-size="12.5" font-weight="600" '
             f'fill="#374151">{esc(title)}</text>')
 
 
 def axis_y(vmin, vmax, ticks, plot_h, top, fmt=None):
-    """y 轴：网格线 + 刻度标签。默认用人类可读的数值格式。"""
+    """y-axis: gridlines + tick labels. Uses the human-readable number format by default."""
     out = []
     span = (vmax - vmin) or 1
     for t in ticks:
@@ -378,9 +384,9 @@ def axis_y(vmin, vmax, ticks, plot_h, top, fmt=None):
 
 
 def chart_line(labels, values, title, ylabel=""):
-    """折线图：按日期序画折线 + 面积填充。"""
+    """Line chart: draw the line in date order + area fill."""
     if not values:
-        return empty_chart(title, "无有效数据")
+        return empty_chart(title, "no valid data")
     vmin, vmax = min(values), max(values)
     if vmin > 0:
         vmin = 0
@@ -401,7 +407,7 @@ def chart_line(labels, values, title, ylabel=""):
     area = (f'{PAD_L},{PAD_T + plot_h} ' + line +
             f' {pts[-1][0]:.1f},{PAD_T + plot_h}')
 
-    step = max(1, n // 6)  # x 轴标签抽样，避免挤成一团
+    step = max(1, n // 6)  # sample x-axis labels so they don't crowd together
     xlabels = "".join(
         f'<text x="{px(i):.1f}" y="{H - PAD_B + 16}" text-anchor="middle" '
         f'font-size="10" fill="#6B7280">{esc(labels[i])}</text>'
@@ -424,9 +430,9 @@ def chart_line(labels, values, title, ylabel=""):
 
 
 def chart_bar(labels, values, title, ylabel="", horizontal=False):
-    """条形图：默认水平（长分类名更易读）。"""
+    """Bar chart: horizontal by default (long category names read better)."""
     if not values:
-        return empty_chart(title, "无有效数据")
+        return empty_chart(title, "no valid data")
 
     if horizontal:
         row_h = max(18, min(34, (H - PAD_T - PAD_B) // max(1, len(values))))
@@ -474,9 +480,9 @@ def chart_bar(labels, values, title, ylabel="", horizontal=False):
 
 
 def chart_scatter(xs, ys, title, xlabel="", ylabel=""):
-    """散点图：用于两个数值列的相关性。"""
+    """Scatter: for the correlation between two numeric columns."""
     if not xs:
-        return empty_chart(title, "无有效数据")
+        return empty_chart(title, "no valid data")
     xmin, xmax = min(xs), max(xs)
     ymin, ymax = min(ys), max(ys)
     if xmin == xmax:
@@ -513,7 +519,7 @@ def empty_chart(title, msg):
             + "</svg>")
 
 
-# ---------------------------------------------------------------- HTML 组装
+# ---------------------------------------------------------------- HTML assembly
 
 CSS = """
 :root{--bg:#F7F8FA;--card:#FFF;--ink:#1F2937;--muted:#6B7280;--line:#E6E9ED}
@@ -543,8 +549,8 @@ footer{color:var(--muted);font-size:11px;margin-top:22px;text-align:center}
 
 
 def build_html(headers, rows, cols, kpis, charts, notes, title):
-    """把数据与纯 SVG 图表拼成一个自包含 HTML 文件。"""
-    # 视需求挑数据：优先时间列做折线，其次分类列做条形
+    """Assemble the data and pure-SVG charts into one self-contained HTML file."""
+    # pick the data by need: prefer a date column for a line, then a categorical column for bars
     nums = [c for c in cols if c["type"] == T_NUM]
     dates = [c for c in cols if c["type"] == T_DATE]
     cats = [c for c in cols if c["type"] == T_CAT]
@@ -554,7 +560,7 @@ def build_html(headers, rows, cols, kpis, charts, notes, title):
 
     blocks = []
 
-    # 1) 折线：日期 + 数值
+    # 1) line: date + numeric
     if dates and nums:
         di, vi = col_idx(dates[0]["name"]), col_idx(nums[0]["name"])
         pairs = []
@@ -563,18 +569,18 @@ def build_html(headers, rows, cols, kpis, charts, notes, title):
             if d and v is not None:
                 pairs.append((d, v))
         pairs.sort(key=lambda p: p[0])
-        # 同日期聚合求均值，避免一天多笔时折线回折
+        # aggregate same-day values to their mean, so the line doesn't zig-zag with multiple rows per day
         agg = {}
         for d, v in pairs:
             agg.setdefault(d.strftime("%Y-%m-%d"), []).append(v)
         labels = list(agg)[-60:]
         values = [round(statistics.fmean(agg[k]), 4) for k in labels]
-        blocks.append(("折线图", chart_line(labels, values,
-                                            f"{nums[0]['name']} 随时间变化（{dates[0]['name']}）",
+        blocks.append(("line chart", chart_line(labels, values,
+                                            f"{nums[0]['name']} over time ({dates[0]['name']})",
                                             dates[0]["name"]),
-                       f"主图：{dates[0]['name']} × {nums[0]['name']}"))
+                       f"primary: {dates[0]['name']} x {nums[0]['name']}"))
 
-    # 2) 条形：分类聚合数值之和
+    # 2) bar: categorical aggregated by numeric sum
     if cats and nums:
         ci, vi = col_idx(cats[0]["name"]), col_idx(nums[0]["name"])
         agg = {}
@@ -586,18 +592,19 @@ def build_html(headers, rows, cols, kpis, charts, notes, title):
         if top:
             labs = [k for k, _ in top]
             vals = [round(v, 4) for _, v in top]
-            # 类别多于 6 时改水平条，标签才不会挤在一起
+            # switch to horizontal bars when there are more than 6 categories, so labels don't crowd
             horiz = len(labs) > 6
-            note = f"副图：{cats[0]['name']} 维度的构成对比"
-            # 数值差异很小时，竖柱的高度差肉眼几乎看不出，
-            # 而柱顶的数值标签才是有效信息；水平条配合值的排布更易比较
+            note = f"secondary: composition across the {cats[0]['name']} dimension"
+            # when the numeric differences are tiny, vertical bar height differences are nearly
+            # invisible, while the value labels on top are the real information; horizontal bars
+            # beside the values are easier to compare
             vmax, vmin = max(vals), min(vals)
             if vmin > 0 and vmax / vmin < 1.25:
-                note += f"（各类别差异 <25%，柱高近乎相同，请以数值为准）"
-            blocks.append(("条形图",
+                note += f" (categories differ by <25%, bar heights near-identical; trust the numbers)"
+            blocks.append(("bar chart",
                            chart_bar(labs, vals,
-                                     f"按 {cats[0]['name']} 汇总的 {nums[0]['name']}",
-                                     f"合计 {nums[0]['name']}", horizontal=horiz),
+                                     f"{nums[0]['name']} by {cats[0]['name']}",
+                                     f"total {nums[0]['name']}", horizontal=horiz),
                            note))
     elif cats:
         ci = col_idx(cats[0]["name"])
@@ -606,12 +613,12 @@ def build_html(headers, rows, cols, kpis, charts, notes, title):
         if top:
             labs = [k for k, _ in top]
             vals = [v for _, v in top]
-            blocks.append(("条形图",
-                           chart_bar(labs, vals, f"{cats[0]['name']} 频次分布",
-                                     "记录数", horizontal=len(labs) > 6),
-                           f"主图：按 {cats[0]['name']} 计数"))
+            blocks.append(("bar chart",
+                           chart_bar(labs, vals, f"{cats[0]['name']} frequency",
+                                     "record count", horizontal=len(labs) > 6),
+                           f"primary: count by {cats[0]['name']}"))
 
-    # 3) 散点：两个数值列
+    # 3) scatter: two numeric columns
     if len(nums) >= 2:
         xi, yi = col_idx(nums[0]["name"]), col_idx(nums[1]["name"])
         xs, ys = [], []
@@ -621,13 +628,13 @@ def build_html(headers, rows, cols, kpis, charts, notes, title):
                 xs.append(a)
                 ys.append(b)
         if len(xs) >= 3:
-            blocks.append(("散点图",
+            blocks.append(("scatter",
                            chart_scatter(xs[:400], ys[:400],
                                          f"{nums[0]['name']} vs {nums[1]['name']}",
                                          nums[0]["name"], nums[1]["name"]),
-                           "可选：两数值列的相关性，保留原始分布"))
+                           "optional: correlation of two numeric columns, preserves the raw distribution"))
 
-    # KPI 卡片
+    # KPI cards
     kpi_html = ""
     if kpis:
         cards = "".join(
@@ -643,7 +650,7 @@ def build_html(headers, rows, cols, kpis, charts, notes, title):
         chart_html += (f'<div class="card">{svg}'
                        f'<div class="why">{esc(why)}</div></div>')
 
-    # 明细表（最多 200 行，前端可滚动）
+    # detail table (at most 200 rows; scrollable on the front end)
     head = "".join(f"<th>{esc(h)}</th>" for h in headers)
     body = "".join(
         "<tr>" + "".join(f"<td>{esc(c)}</td>" for c in r) + "</tr>"
@@ -655,9 +662,9 @@ def build_html(headers, rows, cols, kpis, charts, notes, title):
     note_html = ""
     if notes:
         items = "".join(f"<li>{esc(n)}</li>" for n in notes)
-        note_html = f'<div class="note"><strong>数据提示</strong><ul>{items}</ul></div>'
+        note_html = f'<div class="note"><strong>Data notes</strong><ul>{items}</ul></div>'
 
-    # 内联数据快照：便于用户核对与二次开发，也证明文件自包含
+    # inline data snapshot: lets the user verify and rebuild, and proves the file is self-contained
     snapshot = {
         "rows": len(rows),
         "columns": [{"name": c["name"], "type": c["type"],
@@ -667,7 +674,7 @@ def build_html(headers, rows, cols, kpis, charts, notes, title):
     stamp = datetime.now().strftime("%Y-%m-%d %H:%M")
 
     return f"""<!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -676,13 +683,13 @@ def build_html(headers, rows, cols, kpis, charts, notes, title):
 </head>
 <body>
 <h1>{esc(title)}</h1>
-<div class="sub">{len(rows)} 行 · {len(headers)} 列 · 生成于 {stamp} · 自包含单文件（无外部依赖）</div>
+<div class="sub">{len(rows)} rows · {len(headers)} columns · generated {stamp} · self-contained single file (no external dependencies)</div>
 {kpi_html}
 <div class="grid">{chart_html}</div>
-<h2 style="font-size:15px;margin:22px 0 8px">明细数据（前 200 行）</h2>
+<h2 style="font-size:15px;margin:22px 0 8px">Detail data (first 200 rows)</h2>
 {table_html}
 {note_html}
-<footer>由 dashboard.py 生成 · 图表为内联 SVG，离线可用 ·
+<footer>Generated by dashboard.py · charts are inline SVG, usable offline ·
 <script type="application/json" id="dash-meta">{json.dumps(snapshot, ensure_ascii=False)}</script>
 </footer>
 </body>
@@ -690,7 +697,7 @@ def build_html(headers, rows, cols, kpis, charts, notes, title):
 """
 
 
-# ---------------------------------------------------------------- 子命令
+# ---------------------------------------------------------------- subcommands
 
 
 def cmd_inspect(args) -> int:
@@ -699,12 +706,12 @@ def cmd_inspect(args) -> int:
     cols = profile_table(headers, rows)
 
     print(f"inspect: {p}")
-    print(f"  rows      : {len(rows)}{' (已截断抽样)' if trunc else ''}")
+    print(f"  rows      : {len(rows)}{' (sampled/truncated)' if trunc else ''}")
     print(f"  columns   : {len(headers)}")
     print(f"  encoding  : {enc}")
     print()
-    print("  [列画像]")
-    print(f"    {'列名':<20} {'类型':<12} {'缺失':>8} {'唯一值':>7}  摘要")
+    print("  [column profiles]")
+    print(f"    {'column':<20} {'type':<12} {'missing':>8} {'unique':>7}  summary")
     for c in cols:
         if c["type"] == T_NUM and "stats" in c:
             s = c["stats"]
@@ -712,11 +719,11 @@ def cmd_inspect(args) -> int:
                     f"mean={fmt_num(s['mean'])} median={fmt_num(s['median'])} "
                     f"q1={fmt_num(s['q1'])} q3={fmt_num(s['q3'])}")
         elif c["type"] == T_DATE and "range" in c:
-            summ = f"{c['range']['min']} → {c['range']['max']}"
+            summ = f"{c['range']['min']} -> {c['range']['max']}"
         elif c["type"] == T_CAT:
             summ = "top: " + ", ".join(f"{k}({v})" for k, v in c["top_values"][:3])
         else:
-            summ = "自由文本，不建议直接入图"
+            summ = "free text, not recommended for direct charting"
         print(f"    {c['name']:<20} {c['type']:<12} {c['missing_rate']:>7.1%} "
               f"{c['unique']:>7}  {summ}")
     return 0
@@ -728,45 +735,46 @@ def cmd_recommend(args) -> int:
     cols = profile_table(headers, rows)
     kpis, charts, notes = recommend_layout(cols)
 
-    out = [f"# 仪表盘设计方案：{p.name}", ""]
-    out.append(f"数据规模：{len(rows)} 行 × {len(headers)} 列。")
+    out = [f"# dashboard design plan: {p.name}", ""]
+    out.append(f"Data size: {len(rows)} rows x {len(headers)} columns.")
     out.append("")
-    out.append("## 指标卡（首屏概览）")
+    out.append("## KPI cards (first-screen overview)")
     out.append("")
-    out.append("| 列 | 主数值 | 副信息 | 为什么 |")
+    out.append("| column | main value | secondary | why |")
     out.append("|---|---|---|---|")
     for k in kpis:
-        v = f"{k['value']:g}" if k.get("value") is not None else "—"
+        v = f"{k['value']:g}" if k.get("value") is not None else "-"
         out.append(f"| {k['column']} | {v} | {k['secondary']} | {k['why']} |")
     if not kpis:
-        out.append("| — | — | — | 没有数值列，不出指标卡 |")
+        out.append("| - | - | - | no numeric columns, no KPI cards |")
     out.append("")
-    out.append("## 图表方案")
+    out.append("## chart plan")
     out.append("")
-    out.append("| 优先级 | 图型 | X / 维度 | Y / 度量 | 为什么这么选 |")
+    out.append("| priority | chart type | X / dimension | Y / measure | why this choice |")
     out.append("|---|---|---|---|---|")
     for c in charts:
         out.append(f"| {c['priority']} | {c['kind']} | {c['x']} | {c['y']} | {c['why']} |")
     out.append("")
-    out.append("## 布局建议")
+    out.append("## layout suggestion")
     out.append("")
     out.append("```")
-    out.append("┌──────────────────────────────────────────────┐")
-    out.append("│ 标题 + 数据规模/时间范围                       │")
-    out.append("├──────────┬──────────┬──────────┬─────────────┤")
-    out.append("│ 指标卡 1  │ 指标卡 2  │ 指标卡 3  │ 指标卡 4     │")
-    out.append("├──────────┴──────────┴──────────┴─────────────┤")
-    out.append("│ 主图：趋势（占整行，最高视觉权重）              │")
-    out.append("├────────────────────────┬─────────────────────┤")
-    out.append("│ 副图：构成对比          │ 副图：明细/相关性     │")
-    out.append("└────────────────────────┴─────────────────────┘")
+    out.append("+----------------------------------------------+")
+    out.append("| title + data size / time range               |")
+    out.append("+----------+----------+----------+-------------+")
+    out.append("| KPI 1    | KPI 2    | KPI 3    | KPI 4       |")
+    out.append("+----------+----------+----------+-------------+")
+    out.append("| primary: trend (full row, highest weight)     |")
+    out.append("+------------------------+---------------------+")
+    out.append("| secondary: composition | secondary: detail / |")
+    out.append("|                        | correlation         |")
+    out.append("+------------------------+---------------------+")
     out.append("```")
     out.append("")
-    out.append("首屏只放「一眼能看懂」的 3-4 个信息块；"
-               "明细表放页面底部，供核查用，不与图表争注意力。")
+    out.append("The first screen holds only 3-4 information blocks that are readable at a glance; "
+               "the detail table sits at the bottom for verification and doesn't compete with the charts.")
     if notes:
         out.append("")
-        out.append("## 数据注意事项")
+        out.append("## data notes")
         out.append("")
         for n in notes:
             out.append(f"- {n}")
@@ -780,7 +788,7 @@ def cmd_build(args) -> int:
     cols = profile_table(headers, rows)
     kpis, charts, notes = recommend_layout(cols)
 
-    title = args.title or f"{p.stem} 数据仪表盘"
+    title = args.title or f"{p.stem} dashboard"
     html_text = build_html(headers, rows, cols, kpis, charts, notes, title)
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -792,33 +800,33 @@ def cmd_build(args) -> int:
     print(f"  bytes     : {size_kb:.1f} KB")
     print(f"  rows      : {len(rows)}")
     print(f"  kpis      : {len(kpis)}")
-    print(f"  charts    : {len(charts)}  内联 SVG")
-    print(f"  external  : {len(external)} 个外部引用"
-          f"{'（应为 0，文件自包含）' if not external else ' ← 异常：' + ', '.join(external)}")
+    print(f"  charts    : {len(charts)}  inline SVG")
+    print(f"  external  : {len(external)} external reference(s)"
+          f"{' (should be 0; file is self-contained)' if not external else ' <- anomaly: ' + ', '.join(external)}")
     return 0
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser(
         prog="dashboard.py",
-        description="CSV 体检 → 仪表盘方案 → 自包含离线 HTML（纯标准库）",
-        epilog="示例：python3 dashboard.py inspect data.csv && "
+        description="CSV health-check -> dashboard plan -> self-contained offline HTML (pure stdlib)",
+        epilog="example: python3 dashboard.py inspect data.csv && "
                "python3 dashboard.py build data.csv --out dash.html",
     )
     sub = ap.add_subparsers(dest="cmd", required=True)
 
-    s = sub.add_parser("inspect", help="列类型推断 / 缺失率 / 分布摘要")
+    s = sub.add_parser("inspect", help="column-type inference / missing rate / distribution summary")
     s.add_argument("csv")
     s.set_defaults(func=cmd_inspect)
 
-    s = sub.add_parser("recommend", help="输出 Markdown 仪表盘设计方案")
+    s = sub.add_parser("recommend", help="print a Markdown dashboard design plan")
     s.add_argument("csv")
     s.set_defaults(func=cmd_recommend)
 
-    s = sub.add_parser("build", help="生成自包含单文件 HTML 仪表盘")
+    s = sub.add_parser("build", help="generate a self-contained single-file HTML dashboard")
     s.add_argument("csv")
-    s.add_argument("--out", default="dashboard.html", help="输出 HTML 路径")
-    s.add_argument("--title", help="仪表盘标题")
+    s.add_argument("--out", default="dashboard.html", help="output HTML path")
+    s.add_argument("--title", help="dashboard title")
     s.set_defaults(func=cmd_build)
 
     args = ap.parse_args(argv)

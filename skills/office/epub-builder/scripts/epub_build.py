@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
-"""epub_build.py — Markdown → EPUB 3（纯标准库）。
+"""epub_build.py -- Markdown -> EPUB 3 (pure stdlib).
 
-EPUB 本质是「一个 zip + 一组 XML」，因此不用任何第三方库：
-zipfile 打包、手写 OPF/NCX/NAV，HTML 转换用本脚本内的轻量解析器。
+An EPUB is essentially "a zip + a set of XML", so no third-party library is needed:
+zipfile packages it, OPF/NCX/NAV are hand-written, and HTML conversion uses a lightweight
+parser inside this script.
 
-EPUB 规范的三个硬性细节（做错会导致阅读器直接拒收）：
-  1. `mimetype` 必须是 zip 里的**第一个**条目，且**不压缩**（ZIP_STORED），
-     内容恰为 `application/epub+zip`，不带换行。
-  2. `META-INF/container.xml` 必须声明 OPF 的路径。
-  3. `content.opf` 的 manifest 要覆盖全部资源，spine 要覆盖全部章节。
+Three hard details of the EPUB spec (getting them wrong makes readers reject the file outright):
+  1. `mimetype` must be the **first** entry in the zip and **uncompressed** (ZIP_STORED),
+     with content exactly `application/epub+zip` and no trailing newline.
+  2. `META-INF/container.xml` must declare the OPF path.
+  3. `content.opf` manifest must cover every resource; the spine must cover every chapter.
 
-子命令:
+Subcommands:
   build   <input.md> --out book.epub [--title X --author Y]
   inspect <book.epub>
 """
@@ -35,7 +36,7 @@ CONTAINER_XML = """<?xml version="1.0" encoding="UTF-8"?>
 </container>
 """
 
-# 章节切分：一级标题起新章；没有 H1 时整篇作为单章
+# Chapter splitting: an H1 starts a new chapter; without an H1 the whole thing is one chapter
 H1_RE = re.compile(r"^#\s+(.+?)\s*$", re.MULTILINE)
 H2_RE = re.compile(r"^##\s+(.+?)\s*$", re.MULTILINE)
 
@@ -55,7 +56,7 @@ img{max-width:100%;}
 
 
 class EpubError(Exception):
-    """面向用户的错误。"""
+    """User-facing error."""
 
 
 def die(msg, code=1):
@@ -68,7 +69,7 @@ def esc(s: str) -> str:
 
 
 def xesc(s: str) -> str:
-    """XML 文本转义（属性用 esc 的 quote=True 版本）。"""
+    """XML text escaping (the attribute version uses esc with quote=True)."""
     return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
@@ -76,9 +77,9 @@ def xesc(s: str) -> str:
 
 
 def inline_md(text: str) -> str:
-    """行内 Markdown → HTML。先转义再处理标记，避免注入与顺序错乱。"""
+    """Inline Markdown -> HTML. Escape first, then process markup, to avoid injection and ordering bugs."""
     s = esc(text)
-    # 行内代码优先：先占位，避免其中的 * 被当成强调
+    # inline code first: stash it so the * inside is not treated as emphasis
     codes = []
 
     def _stash(m):
@@ -90,16 +91,17 @@ def inline_md(text: str) -> str:
     s = re.sub(r"(?<!\*)\*([^*\n]+)\*(?!\*)", r"<em>\1</em>", s)
     s = re.sub(r"~~([^~\n]+)~~", r"<del>\1</del>", s)
     s = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', s)
-    # 还原行内代码（内容已转义，直接放回 <code>）
+    # restore inline code (content already escaped, drop back into <code>)
     for i, c in enumerate(codes):
         s = s.replace(f"\x00{i}\x00", f"<code>{c}</code>")
     return s
 
 
 def md_to_html(md: str, start_at_h2: bool = True) -> str:
-    """极简块级 Markdown 解析：标题/列表/引用/代码块/表格/段落。
+    """Minimal block-level Markdown parser: headings / lists / quotes / code blocks / tables / paragraphs.
 
-    `start_at_h2=True` 时把开头的 H1 丢掉（标题已用作章节名与文件名）。
+    When `start_at_h2=True`, drop the leading H1 (the title is already used as the chapter name
+    and file name).
     """
     lines = md.splitlines()
     out, i, n = [], 0, len(lines)
@@ -122,7 +124,7 @@ def md_to_html(md: str, start_at_h2: bool = True) -> str:
     while i < n:
         line = lines[i]
 
-        # 代码块
+        # code block
         if line.strip().startswith("```"):
             if in_code:
                 out.append("<pre><code>" + esc("\n".join(code_buf)) + "</code></pre>")
@@ -137,13 +139,13 @@ def md_to_html(md: str, start_at_h2: bool = True) -> str:
             i += 1
             continue
 
-        # 空行：结束段落与列表
+        # blank line: end the current paragraph and list
         if not line.strip():
             flush_para(); close_list()
             i += 1
             continue
 
-        # 表格：当前行以 | 开头且下一行是分隔行
+        # table: current line starts with | and the next line is the separator row
         if (line.lstrip().startswith("|") and i + 1 < n
                 and re.match(r"^\s*\|[\s:|-]+\|\s*$", lines[i + 1])):
             flush_para(); close_list()
@@ -161,7 +163,7 @@ def md_to_html(md: str, start_at_h2: bool = True) -> str:
             out.append("</tbody></table>")
             continue
 
-        # 标题
+        # heading
         m = re.match(r"^(#{1,6})\s+(.*)$", line)
         if m:
             flush_para(); close_list()
@@ -174,7 +176,7 @@ def md_to_html(md: str, start_at_h2: bool = True) -> str:
             i += 1
             continue
 
-        # 引用
+        # blockquote
         if line.lstrip().startswith(">"):
             flush_para(); close_list()
             buf = []
@@ -184,14 +186,14 @@ def md_to_html(md: str, start_at_h2: bool = True) -> str:
             out.append(f"<blockquote>{inline_md(' '.join(buf))}</blockquote>")
             continue
 
-        # 分隔线
+        # horizontal rule
         if re.match(r"^\s*([-*_])\1{2,}\s*$", line):
             flush_para(); close_list()
             out.append("<hr/>")
             i += 1
             continue
 
-        # 无序列表
+        # unordered list
         m = re.match(r"^\s*[-*+]\s+(.*)$", line)
         if m:
             flush_para()
@@ -201,7 +203,7 @@ def md_to_html(md: str, start_at_h2: bool = True) -> str:
             i += 1
             continue
 
-        # 有序列表
+        # ordered list
         m = re.match(r"^\s*\d+[.)]\s+(.*)$", line)
         if m:
             flush_para()
@@ -214,22 +216,22 @@ def md_to_html(md: str, start_at_h2: bool = True) -> str:
         para_buf.append(line.strip())
         i += 1
 
-    if in_code and code_buf:      # 未闭合的代码块也要落盘，别丢内容
+    if in_code and code_buf:      # an unclosed code block must still be flushed; don't lose content
         out.append("<pre><code>" + esc("\n".join(code_buf)) + "</code></pre>")
     flush_para(); close_list()
     return "\n".join(out)
 
 
 def split_chapters(md: str):
-    """按 H1 切章。返回 [(title, body_md)]，无 H1 则整篇一章。"""
+    """Split into chapters by H1. Returns [(title, body_md)]; without an H1 the whole doc is one chapter."""
     matches = list(H1_RE.finditer(md))
     if not matches:
-        return [("正文", md)]
+        return [("Body", md)]
 
     chapters = []
-    # H1 之前的内容（如果有）作为前言
+    # content before the first H1 (if any) becomes a preface
     if matches[0].start() > 0 and md[: matches[0].start()].strip():
-        chapters.append(("前言", md[: matches[0].start()]))
+        chapters.append(("Preface", md[: matches[0].start()]))
     for idx, m in enumerate(matches):
         end = matches[idx + 1].start() if idx + 1 < len(matches) else len(md)
         body = md[m.end(): end]
@@ -238,7 +240,7 @@ def split_chapters(md: str):
 
 
 def slugify(name: str, idx: int) -> str:
-    """章节文件名：保留字母数字与中文，其余转连字符。"""
+    """Chapter file name: keep alphanumeric and CJK chars, turn everything else into hyphens."""
     keep = []
     for ch in name.strip().lower():
         if ch.isalnum() or "\u4e00" <= ch <= "\u9fff":
@@ -251,7 +253,7 @@ def slugify(name: str, idx: int) -> str:
     return f"chap{idx:02d}-{s}"[:60]
 
 
-# ---------------------------------------------------------------- EPUB 部件
+# ---------------------------------------------------------------- EPUB parts
 
 
 def container_xml() -> str:
@@ -295,7 +297,7 @@ def content_opf(title, author, lang, uid, chapter_files, css_file, mtime) -> str
 
 
 def toc_ncx(title, uid, chapter_files) -> str:
-    """EPUB 2 兼容目录：老阅读器只认 NCX。"""
+    """EPUB 2 compatible TOC: older readers only understand NCX."""
     points = []
     for i, (cf, ct) in enumerate(chapter_files, 1):
         points.append(f"""    <navPoint id="nav{i}" playOrder="{i}">
@@ -321,7 +323,7 @@ def toc_ncx(title, uid, chapter_files) -> str:
 
 
 def nav_xhtml(chapter_files) -> str:
-    """EPUB 3 原生目录。"""
+    """Native EPUB 3 TOC."""
     items = "\n".join(
         f'      <li><a href="{cf}">{esc(ct)}</a></li>' for cf, ct in chapter_files
     )
@@ -329,11 +331,11 @@ def nav_xhtml(chapter_files) -> str:
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops"
       xml:lang="zh" lang="zh">
-<head><meta charset="utf-8"/><title>目录</title>
+<head><meta charset="utf-8"/><title>Table of Contents</title>
 <link rel="stylesheet" type="text/css" href="style.css"/></head>
 <body>
   <nav epub:type="toc" id="toc">
-    <h1>目录</h1>
+    <h1>Table of Contents</h1>
     <ol>
 {items}
     </ol>
@@ -362,19 +364,19 @@ def chapter_xhtml(title, body_html) -> str:
 # ---------------------------------------------------------------- build
 
 
-ZIP_TIMESTAMP = (1980, 1, 1, 0, 0, 0)   # 固定时间戳 → 可复现构建
+ZIP_TIMESTAMP = (1980, 1, 1, 0, 0, 0)   # fixed timestamp -> reproducible builds
 
 
 def write_epub(out: Path, parts) -> None:
-    """按 EPUB 规范顺序写 zip：mimetype 第一且不压缩。"""
+    """Write the zip in EPUB-spec order: mimetype first and uncompressed."""
     out.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(out, "w") as z:
-        # 1) mimetype 必须第一个写入、且用 ZIP_STORED（不压缩）
+        # 1) mimetype must be written first, with ZIP_STORED (no compression)
         zi = zipfile.ZipInfo("mimetype", date_time=ZIP_TIMESTAMP)
         zi.compress_type = zipfile.ZIP_STORED
         z.writestr(zi, EPUB_MIMETYPE)
 
-        # 2) 其余资源一律 DEFLATED
+        # 2) all other resources are DEFLATED
         for name, data in parts:
             zi = zipfile.ZipInfo(name, date_time=ZIP_TIMESTAMP)
             zi.compress_type = zipfile.ZIP_DEFLATED
@@ -384,27 +386,27 @@ def write_epub(out: Path, parts) -> None:
 def cmd_build(args) -> int:
     src = Path(args.input)
     if not src.is_file():
-        raise EpubError(f"Markdown 文件不存在：{src}")
+        raise EpubError(f"Markdown file not found: {src}")
 
     md = src.read_text(encoding="utf-8", errors="replace")
     if not md.strip():
-        raise EpubError(f"{src} 是空文件")
+        raise EpubError(f"{src} is an empty file")
 
     title = args.title or (H1_RE.search(md).group(1).strip()
                            if H1_RE.search(md) else src.stem)
-    author = args.author or "佚名"
+    author = args.author or "Anonymous"
     lang = args.lang
 
     chapters = split_chapters(md)
     if not chapters:
-        raise EpubError("没有解析出任何章节")
+        raise EpubError("no chapters could be parsed")
 
-    # 组装章节文件
+    # assemble the chapter files
     chapter_files = []
     parts = []
     for i, (ctitle, body_md) in enumerate(chapters, 1):
         fname = f"{slugify(ctitle, i)}.xhtml"
-        # 章节名已是 H1，正文里的 H1 丢弃以免重复
+        # the chapter name is already the H1; drop the H1 in the body to avoid duplication
         body_html = md_to_html(body_md, start_at_h2=True)
         chapter_files.append((fname, ctitle))
         parts.append((f"OEBPS/{fname}", chapter_xhtml(ctitle, body_html)))
@@ -433,7 +435,7 @@ def cmd_build(args) -> int:
     for fname, ctitle in chapter_files:
         print(f"    - {fname}  ({ctitle})")
 
-    # 构建即自检：mimetype 顺序与存储方式是本格式最容易错的地方
+    # self-check on build: mimetype ordering and storage are the easiest places this format gets wrong
     with zipfile.ZipFile(out) as z:
         infos = z.infolist()
         first = infos[0]
@@ -441,11 +443,11 @@ def cmd_build(args) -> int:
         ok_stored = first.compress_type == zipfile.ZIP_STORED
         content = z.read("mimetype").decode("utf-8") if ok_first else ""
     print()
-    print(f"  mimetype  : 第一个条目={ok_first} "
-          f"存储方式={'STORED' if ok_stored else 'DEFLATED'} "
-          f"{'✓' if ok_first and ok_stored else '✗ 违反 EPUB 规范'}")
+    print(f"  mimetype  : first entry={ok_first} "
+          f"storage={'STORED' if ok_stored else 'DEFLATED'} "
+          f"{'OK' if ok_first and ok_stored else 'X violates EPUB spec'}")
     if content != EPUB_MIMETYPE:
-        print(f"  ✗ mimetype 内容异常：{content!r}")
+        print(f"  X mimetype content is abnormal: {content!r}")
     return 0
 
 
@@ -455,9 +457,9 @@ def cmd_build(args) -> int:
 def cmd_inspect(args) -> int:
     book = Path(args.epub)
     if not book.is_file():
-        raise EpubError(f"EPUB 不存在：{book}")
+        raise EpubError(f"EPUB not found: {book}")
     if not zipfile.is_zipfile(book):
-        raise EpubError(f"{book} 不是合法 zip/EPUB")
+        raise EpubError(f"{book} is not a valid zip/EPUB")
 
     with zipfile.ZipFile(book) as z:
         names = z.namelist()
@@ -467,7 +469,7 @@ def cmd_inspect(args) -> int:
                        and first.compress_type == zipfile.ZIP_STORED)
         mt = z.read("mimetype").decode("utf-8") if "mimetype" in names else ""
 
-        # 定位 OPF
+        # locate the OPF
         opf_path = None
         if "META-INF/container.xml" in names:
             root = ET.fromstring(z.read("META-INF/container.xml"))
@@ -476,16 +478,16 @@ def cmd_inspect(args) -> int:
                     opf_path = el.get("full-path")
                     break
         if not opf_path or opf_path not in names:
-            print(f"WARN: container.xml 未指向有效的 OPF（{opf_path}）", file=sys.stderr)
+            print(f"WARN: container.xml does not point to a valid OPF ({opf_path})", file=sys.stderr)
             opf_path = next((n for n in names if n.endswith(".opf")), None)
 
         print(f"inspect: {book}")
         print(f"  size           : {book.stat().st_size / 1024:.1f} KB")
         print(f"  entries        : {len(names)}")
-        print(f"  mimetype       : {mt or '(缺失)'}")
-        print(f"  mimetype 合规  : "
-              f"{'是（第一个条目且 STORED）' if mimetype_ok else '否 ← 阅读器可能拒收'}")
-        print(f"  opf            : {opf_path or '(缺失)'}")
+        print(f"  mimetype       : {mt or '(missing)'}")
+        print(f"  mimetype valid : "
+              f"{'yes (first entry and STORED)' if mimetype_ok else 'no <- readers may reject it'}")
+        print(f"  opf            : {opf_path or '(missing)'}")
 
         if opf_path:
             opf = ET.fromstring(z.read(opf_path))
@@ -505,14 +507,15 @@ def cmd_inspect(args) -> int:
                         "href": el.get("href", ""),
                         "media_type": el.get("media-type", ""),
                     }
-                    # nav 文档带 properties="nav"（EPUB3 约定）
+                    # the nav document carries properties="nav" (EPUB3 convention)
                     if "nav" in (el.get("properties") or "").split():
                         nav_id = iid
                 elif tag == "itemref":
                     spine.append(el.get("idref", ""))
 
-            # 章节顺序以 spine 为准（这是阅读器的实际读取顺序），
-            # 比「遍历 manifest 里的 xhtml」可靠：manifest 顺序无规范保证
+            # chapter order follows the spine (this is the reader's actual reading order);
+            # it is more reliable than "iterate the manifest's xhtml" because manifest order
+            # has no spec guarantee
             chapters = []
             for idref in spine:
                 it = items.get(idref)
@@ -523,14 +526,14 @@ def cmd_inspect(args) -> int:
                 chapters.append(it["href"])
 
             print()
-            print(f"  元数据         :")
-            print(f"    title        : {meta.get('title', '(缺)')}")
-            print(f"    creator      : {meta.get('creator', '(缺)')}")
-            print(f"    language     : {meta.get('language', '(缺)')}")
+            print(f"  metadata       :")
+            print(f"    title        : {meta.get('title', '(missing)')}")
+            print(f"    creator      : {meta.get('creator', '(missing)')}")
+            print(f"    language     : {meta.get('language', '(missing)')}")
             ident = meta.get("identifier", "")
-            print(f"    identifier   : {ident[:60]}{'…' if len(ident) > 60 else ''}")
+            print(f"    identifier   : {ident[:60]}{'...' if len(ident) > 60 else ''}")
             print()
-            print(f"  章节清单       : {len(chapters)} 章（按 spine 顺序）")
+            print(f"  chapter list   : {len(chapters)} chapters (in spine order)")
             for i, href in enumerate(chapters, 1):
                 full = f"{base}/{href}" if base else href
                 t = ""
@@ -544,31 +547,31 @@ def cmd_inspect(args) -> int:
                         pass
                 print(f"    {i:>2}. {href:<30} {t}")
 
-        # NCX 与 NAV 必须同时存在，分别服务老/新阅读器
+        # NCX and NAV must both exist, serving old and new readers respectively
         print()
-        print(f"  toc.ncx        : {'有' if any(n.endswith('toc.ncx') for n in names) else '无'}")
-        print(f"  nav.xhtml      : {'有' if any(n.endswith('nav.xhtml') for n in names) else '无'}")
+        print(f"  toc.ncx        : {'yes' if any(n.endswith('toc.ncx') for n in names) else 'no'}")
+        print(f"  nav.xhtml      : {'yes' if any(n.endswith('nav.xhtml') for n in names) else 'no'}")
     return 0
 
 
 def main(argv=None):
     p = argparse.ArgumentParser(
         prog="epub_build.py",
-        description="Markdown → EPUB 3，以及 EPUB 读回检查（纯标准库）",
-        epilog="示例：python3 epub_build.py build book.md --out book.epub "
-               "--title 我的书 --author 张三",
+        description="Markdown -> EPUB 3, plus read-back inspection of an EPUB (pure stdlib)",
+        epilog="Example: python3 epub_build.py build book.md --out book.epub "
+               "--title My Book --author Jane Doe",
     )
     sub = p.add_subparsers(dest="cmd", required=True)
 
-    s = sub.add_parser("build", help="把 Markdown 转成 EPUB")
-    s.add_argument("input", help="Markdown 源文件")
-    s.add_argument("--out", default="book.epub", help="输出 EPUB 路径")
-    s.add_argument("--title", help="书名（默认取首个 H1 或文件名）")
-    s.add_argument("--author", help="作者（默认「佚名」）")
-    s.add_argument("--lang", default="zh", help="语言代码（默认 zh）")
+    s = sub.add_parser("build", help="convert Markdown into an EPUB")
+    s.add_argument("input", help="Markdown source file")
+    s.add_argument("--out", default="book.epub", help="output EPUB path")
+    s.add_argument("--title", help="book title (defaults to the first H1 or the file name)")
+    s.add_argument("--author", help="author (defaults to 'Anonymous')")
+    s.add_argument("--lang", default="en", help="language code (default en)")
     s.set_defaults(func=cmd_build)
 
-    s = sub.add_parser("inspect", help="读回 EPUB，输出元数据与章节清单")
+    s = sub.add_parser("inspect", help="read back an EPUB and print its metadata and chapter list")
     s.add_argument("epub")
     s.set_defaults(func=cmd_inspect)
 

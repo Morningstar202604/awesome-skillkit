@@ -1,6 +1,6 @@
 # Technical Debt Prioritization Framework
 
-## 目录
+## Table of Contents
 
 - [Introduction](#introduction)
 - [Core Principles](#core-principles)

@@ -1,49 +1,50 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""trace_scanner.py — AI 痕迹统计扫描器（纯标准库，无第三方依赖）。
+"""trace_scanner.py -- AI-tone statistics scanner (pure stdlib, no third-party deps).
 
-用法:
-    python3 scripts/trace_scanner.py <file>    # 扫描文本文件（utf-8）
-    cat draft.md | python3 scripts/trace_scanner.py -   # 从 stdin 读入
+Usage:
+    python3 scripts/trace_scanner.py <file>    # scan a text file (utf-8)
+    cat draft.md | python3 scripts/trace_scanner.py -   # read from stdin
 
-输出（stdout 打印单个 JSON 对象；正常退出码恒为 0）:
+Output (a single JSON object on stdout; normal exit code is always 0):
     {
       "stats": {
-        "sentences": 12,              # 句子数（< 3 时 cv 不可判定）
-        "mean_sentence_len": 38.2,    # 平均句长（有效字符，去标点空白）
-        "std_sentence_len": 9.1,      # 句长总体标准差
-        "cv": 0.24,                   # 句长方差比 = std/mean，< 0.5 判定"句长过均匀"
+        "sentences": 12,              # sentence count (cv is undecidable when < 3)
+        "mean_sentence_len": 38.2,    # mean sentence length (effective chars, minus punctuation/whitespace)
+        "std_sentence_len": 9.1,      # population std dev of sentence length
+        "cv": 0.24,                   # length variation ratio = std/mean; < 0.5 flags "too-uniform length"
         "cv_threshold": 0.5,
-        "list_lines": 8,              # 列表项行数（- * 数字. 等开头）
-        "total_lines": 19,            # 非空行总数
-        "list_ratio": 0.42,           # 列表密度 = list_lines/total_lines，> 0.4 报警
-        "enumerator_count": 3,        # 首先/其次/最后/第一… 等枚举词总数
-        "ai_word_hits": 6,            # AI 高频词命中总次数
-        "score": 34,                  # 综合分 0-100，越高越像人写
+        "list_lines": 8,              # list-item lines (starting with - * digit. etc.)
+        "total_lines": 19,            # total non-empty lines
+        "list_ratio": 0.42,           # list density = list_lines/total_lines; > 0.4 warns
+        "enumerator_count": 3,        # total enumerator words (firstly/secondly/lastly/...)
+        "ai_word_hits": 6,            # total AI-cliche hits
+        "score": 34,                  # overall score 0-100; higher = more human-like
         "verdict": "heavy_ai_style"
       },
       "findings": [
         {"pos": "L3", "type": "ai_word",
-         "evidence": "……值得注意的是，……",
-         "fix_hint": "删除或改为直接陈述"}
+         "evidence": "...it is important to note that...",
+         "fix_hint": "delete it or make it a direct statement"}
       ]
     }
 
-findings[].type 取值:
-    ai_word                 AI 高频词命中（词表内置，中英双语）
-    uniform_sentence_length 句长方差比 cv < 0.5（经验阈值，可调）
-    parallelism             同句内 >= 3 个分句以相同二字开头（排比滥用启发式）
-    enumerator_chain        首先…其次 / 其次…最后 / 第一…第二 连招
-    list_density            列表行占比 > 0.4
+findings[].type values:
+    ai_word                 AI cliche hit (built-in word list, English)
+    uniform_sentence_length length variation ratio cv < 0.5 (empirical threshold, tunable)
+    parallelism             >= 3 clauses in one sentence opening with the same head (over-parallelism heuristic)
+    enumerator_chain        firstly...secondly / secondly...lastly / first...second chains
+    list_density            list-line ratio > 0.4
 
-评分规则（经验值，可调）:
-    score 初始 100；每个 ai_word 命中 -6；cv < 0.5 再 -20；
-    list_ratio > 0.4 再 -15；每处排比 -10；每处 enumerator_chain -8；下限 0。
-    verdict 分段: >= 80 human_like | >= 60 light_ai_traces |
+Scoring rules (empirical, tunable):
+    score starts at 100; each ai_word hit -6; cv < 0.5 another -20;
+    list_ratio > 0.4 another -15; each parallelism -10; each enumerator_chain -8; floor 0.
+    verdict bands: >= 80 human_like | >= 60 light_ai_traces |
                  >= 40 obvious_ai_style | < 40 heavy_ai_style
 
-启发式边界（诚实声明）: 本工具基于词表与统计特征，不使用语言模型，
-不能替代官方 AI 检测器；命中不等于抄袭，未命中不等于人写。
+Heuristic caveat (honest disclaimer): this tool is based on a word list and statistical
+features, does not use a language model, and cannot replace an official AI detector; a hit is
+not plagiarism, and a miss is not proof of human authorship.
 """
 
 import json
@@ -51,34 +52,27 @@ import math
 import re
 import sys
 
-CV_THRESHOLD = 0.5        # 句长方差比报警线（经验值，可调）
-LIST_RATIO_THRESHOLD = 0.4  # 列表密度报警线（经验值，可调）
+CV_THRESHOLD = 0.5        # length-variation alarm line (empirical, tunable)
+LIST_RATIO_THRESHOLD = 0.4  # list-density alarm line (empirical, tunable)
 SCORE_PER_AI_WORD = 6
 SCORE_PENALTY_CV = 20
 SCORE_PENALTY_LIST = 15
 SCORE_PENALTY_PARALLELISM = 10
 SCORE_PENALTY_CHAIN = 8
 
-# AI 高频词表（内置，可按需增删）。每项: (正则, 修改建议)。英文用 \b 词边界、忽略大小写。
+# AI-cliche word list (built-in, extend as needed). Each entry: (regex, fix hint).
+# English uses \b word boundaries, case-insensitive.
 AI_PATTERNS = [
-    # --- 中文 ---
-    (r"在当今[^，。！？]{0,12}(?:时代|背景|浪潮|语境)", "删掉空泛开场，直接从具体事实或场景切入"),
-    (r"值得注意的是", "删除或改为直接陈述；真正重要的内容自己会立起来"),
-    (r"综上所述", "总结改成一个具体结论，不用公文套话"),
-    (r"总而言之", "同上；或直接删除，让最后一段自己收尾"),
-    (r"不仅[^。！？]{1,40}而且", "拆成两句，或只保留信息量更大的一半"),
-    (r"深入(?:探讨|剖析|解析)", "换成具体动作：分析了什么、得出什么"),
-    (r"赋能", "写出到底帮谁做了什么，删掉抽象动词"),
-    (r"抓手", "说明具体载体或动作，不要用黑话命名"),
-    (r"闭环", "描述流程本身，或直接删掉"),
-    (r"底层逻辑", "直接讲机制，不要给机制起名"),
-    (r"助力", "换成具体因果：谁用它完成了什么"),
-    (r"一站式", "列出到底覆盖了哪些环节"),
-    (r"众所周知|毋庸置疑|毫无疑问", "删除；断言的强度靠证据不靠口号"),
-    (r"至关重要", "说明为什么重要，或降低语气"),
-    (r"全方位", "列举具体维度"),
-    # --- 英文 ---
-    (r"\bdelv(?:e|es|ed|ing)(?:\s+into)?\b", "replace with a concrete verb: examined, read, tested"),
+    (r"\b(in\s+conclusion|to\s+summarize)\b", "end on a concrete conclusion, not boilerplate"),
+    (r"\b(it'?s\s+(?:worth\s+)?noting\s+that)\b", "delete the hedge and state the point directly"),
+    (r"\b(leverage|leveraging)\b", "replace with the literal action performed"),
+    (r"\b(in\s+the\s+world\s+of|in\s+the\s+realm\s+of)\b", "use 'in' or name the field directly"),
+    (r"\b(paradigm|synergy|holistic|robust\s+ecosystem)\b", "name the concrete thing instead of jargon"),
+    (r"\b(cutting-edge|state-of-the-art|groundbreaking)\b", "name the actual technique and its improvement"),
+    (r"\b(unlock|elevate|embark|harness|foster)\b", "replace with the literal action performed"),
+    (r"\bseamless(?:ly)?\b", "describe the actual workflow; smoothness is a claim"),
+    (r"\ba\s+testament\s+to\b", "state the evidence directly"),
+    (r"\bdelve(?:s|ed|ing)?\b", "replace with a concrete verb: examined, read, tested"),
     (r"\btapestry\b", "drop the metaphor; name the elements directly"),
     (r"\bcrucial\b", "state why it matters instead of rating it"),
     (r"\b(?:moreover|furthermore)\b", "cut it; let sentence order carry the logic"),
@@ -86,7 +80,6 @@ AI_PATTERNS = [
     (r"\bin\s+today'?s\s+(?:fast-?paced\s+)?world\b", "open with a concrete fact instead"),
     (r"\b(?:ever|rapidly)-evolving\b", "name the actual change and its rate"),
     (r"\bin\s+the\s+realm\s+of\b", "use 'in' or name the field directly"),
-    (r"\b(?:unlock|elevate|embark|harness)\b", "replace with the literal action performed"),
     (r"\bseamless(?:ly)?\b", "describe the actual workflow; smoothness is a claim"),
     (r"\ba\s+testament\s+to\b", "state the evidence directly"),
     (r"\bfoster(?:s|ed|ing)?\b", "name who did what to whom"),
@@ -100,7 +93,7 @@ LIST_LINE_RE = re.compile(r"^\s*(?:[-*+]\s+|\d{1,2}[.、)）]\s*)")
 PUNCT_RE = re.compile(
     r"[\s，。！？；：、,.!?;:\"'“”‘’（）()\[\]{}…—·\-*/#>`~=|]"
 )
-ENUMERATOR_RE = re.compile(r"首先|其次|再次|再者|最后|第一[，、,]|第二[，、,]|第三[，、,]|一方面|另一方面")
+ENUMERATOR_RE = re.compile(r"\b(firstly|secondly|thirdly|lastly|finally|first\b|second\b|third\b|on\s+one\s+hand|on\s+the\s+other\s+hand)")
 
 
 def context(line, start, end, pad=12):
@@ -140,7 +133,7 @@ def scan(text):
     lines = text.splitlines()
     findings = []
 
-    # 1) 词表扫描（逐行、逐命中）
+    # 1) word-list scan (line by line, hit by hit)
     for lineno, line in enumerate(lines, 1):
         for pattern, hint in AI_PATTERNS:
             for m in re.finditer(pattern, line, re.IGNORECASE):
@@ -151,7 +144,7 @@ def scan(text):
                     "fix_hint": hint,
                 })
 
-    # 2) 句子切分与统计
+    # 2) sentence splitting and statistics
     sentences = []
     for lineno, line in enumerate(lines, 1):
         for s in split_line_sentences(line):
@@ -164,7 +157,7 @@ def scan(text):
     cv_evaluable = n >= 3 and mean > 0
     cv = (std / mean) if cv_evaluable else None
 
-    # 3) 结构套路检查（逐句）
+    # 3) structural-pattern checks (sentence by sentence)
     enum_total = 0
     for lineno, s in sentences:
         enum_total += len(ENUMERATOR_RE.findall(s))
@@ -173,39 +166,39 @@ def scan(text):
                 "pos": "L%d" % lineno,
                 "type": "parallelism",
                 "evidence": s[:40] + ("…" if len(s) > 40 else ""),
-                "fix_hint": "同句内 3 个以上分句同头开头是排比套路；拆句或删掉重复结构",
+                "fix_hint": "3+ clauses opening with the same head in one sentence is a parallelism cliche; split the sentence or drop the repeated structure",
             })
-        if (re.search(r"首先.{0,50}其次", s) or re.search(r"其次.{0,50}最后", s)
-                or re.search(r"第一.{0,50}第二", s)):
+        if (re.search(r"firstly.{0,50}secondly", s) or re.search(r"secondly.{0,50}lastly", s)
+                or re.search(r"\bfirst\b.{0,50}\bsecond\b", s)):
             findings.append({
                 "pos": "L%d" % lineno,
                 "type": "enumerator_chain",
-                "evidence": s[:40] + ("…" if len(s) > 40 else ""),
-                "fix_hint": "首先/其次/最后 连招是模板痕迹；按逻辑关系改用小标题或直接展开",
+                "evidence": s[:40] + ("..." if len(s) > 40 else ""),
+                "fix_hint": "a firstly/secondly/lastly chain is a template trace; use subheadings or expand directly by logical relation",
             })
 
-    # 4) 列表密度
+    # 4) list density
     nonempty = [l for l in lines if l.strip()]
     list_lines = sum(1 for l in nonempty if LIST_LINE_RE.match(l))
     list_ratio = (list_lines / len(nonempty)) if nonempty else 0.0
 
-    # 5) 统计型 findings
+    # 5) statistical findings
     if cv_evaluable and cv < CV_THRESHOLD:
         findings.append({
             "pos": "L1",
             "type": "uniform_sentence_length",
             "evidence": "std/mean=%.2f (n=%d, mean=%.1f)" % (cv, n, mean),
-            "fix_hint": "句长过均匀是机器腔核心特征；连续两个长句后接一个 <=8 字短句",
+            "fix_hint": "over-uniform sentence length is the core machine-tone feature; follow two long sentences with one short (<=8 word) one",
         })
     if nonempty and list_ratio > LIST_RATIO_THRESHOLD:
         findings.append({
             "pos": "L1",
             "type": "list_density",
-            "evidence": "%d/%d 行是列表项 (%.0f%%)" % (list_lines, len(nonempty), list_ratio * 100),
-            "fix_hint": "列表占比过高是 PPT 腔；把非并列内容改写成连贯段落",
+            "evidence": "%d/%d lines are list items (%.0f%%)" % (list_lines, len(nonempty), list_ratio * 100),
+            "fix_hint": "an over-high list ratio is PPT-tone; rewrite non-parallel content into flowing paragraphs",
         })
 
-    # 6) 评分
+    # 6) scoring
     type_count = {}
     for f in findings:
         type_count[f["type"]] = type_count.get(f["type"], 0) + 1

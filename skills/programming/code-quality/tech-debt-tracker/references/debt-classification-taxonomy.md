@@ -1,6 +1,6 @@
 # Technical Debt Classification Taxonomy
 
-## 目录
+## Table of Contents
 
 - [Overview](#overview)
 - [Primary Categories](#primary-categories)

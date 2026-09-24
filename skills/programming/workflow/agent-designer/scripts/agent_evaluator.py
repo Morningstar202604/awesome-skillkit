@@ -314,7 +314,7 @@ class AgentEvaluator:
                     end_dt = datetime.fromisoformat(end_time.replace("Z", "+00:00"))
                     time_diff_hours = (end_dt - start_dt).total_seconds() / 3600
                     throughput_tasks_per_hour = total_tasks / time_diff_hours if time_diff_hours > 0 else 0.0
-                except (ValueError, TypeError):  # 时间戳畸形 → 吞吐记 0
+                except (ValueError, TypeError):  # malformed timestamp -> throughput counts as 0
                     throughput_tasks_per_hour = 0.0
             else:
                 throughput_tasks_per_hour = 0.0
@@ -951,7 +951,7 @@ class AgentEvaluator:
                 try:
                     date = log.start_time.split('T')[0]  # Extract date part
                     daily_metrics[date].append(log)
-                except (AttributeError, IndexError):  # 日志缺 start_time 字段 → 跳过该条
+                except (AttributeError, IndexError):  # log lacks start_time field -> skip this entry
                     continue
         
         trends = {}

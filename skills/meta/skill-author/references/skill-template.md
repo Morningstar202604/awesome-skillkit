@@ -87,10 +87,10 @@ metadata:
 
 | 现象/错误码 | 原因 | 处置 |
 |---|---|---|
-| <错误原文或退出码> | <根因> | <具体动作> |
-| <错误原文或退出码> | <根因> | <具体动作> |
-| <错误原文或退出码> | <根因> | <具体动作> |
-| <错误原文或退出码> | <根因> | <具体动作> |
+| <error text or exit code> | <root cause> | <specific action> |
+| <error text or exit code> | <root cause> | <specific action> |
+| <error text or exit code> | <root cause> | <specific action> |
+| <error text or exit code> | <root cause> | <specific action> |
 
 ## 交付标准
 

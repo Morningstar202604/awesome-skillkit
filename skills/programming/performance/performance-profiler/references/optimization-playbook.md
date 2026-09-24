@@ -1,6 +1,6 @@
 # Optimization Playbook — Template, Checklist, Pitfalls, Best Practices
 
-## 目录
+## Table of Contents
 
 - [Before/After Measurement Template](#beforeafter-measurement-template)
 - [Optimization Checklist](#optimization-checklist)

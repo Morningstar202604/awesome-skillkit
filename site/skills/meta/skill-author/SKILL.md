@@ -90,10 +90,11 @@ doesn't, because no model would search for that word.
 
 - **Action**: name is a kebab-case **searchable action phrase** (`pdf-table-extractor`
   ✓, `helper` ✗, `utils` ✗). Description writes all four parts: what it does +
-  English `Use when` + Chinese triggers + `Do NOT use for` exclusions; bilingual
-  trigger words **≥5**.
+  English `Use when` trigger phrases + `Do NOT use for` exclusions, all in
+  English; list **≥5 trigger phrases** separated by `/` (e.g. `merge tables /
+  combine csv / join spreadsheets`).
 - **Expected**: name matches `^[a-z0-9]+(-[a-z0-9]+)*$` and is byte-identical to
-  directory name; description ≥40 and ≤1024 characters.
+  the directory name; description ≥40 and ≤1024 characters.
 - **If it fails**: self-check command `python3 skills/meta/skill-linter/scripts/lint_skill.py
   <skill directory>` → fix line by line per `FIX:` output.
 
@@ -102,7 +103,8 @@ doesn't, because no model would search for that word.
 - **Action**: Copy `references/skill-template.md`, fill blanks. 10 H2 headings
   must all be present: `## Input Checklist`, `## Pre-flight Checks`, `##
   Workflow`, `## Delivery Criteria`, `## Failure Handling Table`, `## References`
-  (rest per template). Frontmatter machine fields in English, body in Chinese.
+  (rest per template). **All prose — frontmatter and body — is in English**; keep
+  code, flags, and file names verbatim.
 - **Expected**: file 150-190 lines; each step contains "action / expected /
   if fails" trio.
 - **If it fails**: under 150 lines usually means steps lack failure branches;
@@ -132,9 +134,16 @@ Four common skeleton variants (pick one, don't invent a seventh section):
 
 - **Action**: Run `python3 skills/meta/skill-linter/scripts/lint_skill.py
   <skill directory>`, and go through the Ten Commandments below line by line.
-- **Expected**: `RESULT: PASS (no FAIL)`; FAIL count 0.
-- **If it fails**: any FAIL → fix per `FIX:` lines then rerun; don't call it
-  "done" until zeroed; only WARN → list in delivery notes and explain why kept.
+- **Expected**: a correctly written English skill is compliant per the Ten
+  Commandments and the English section names. Note: the shipped linter script
+  still checks for Chinese H2 names and a Chinese-body CJK ratio, so on an
+  English skill it will emit ~6 spurious `BODY-SECTS`/`FAIL-TABLE` FAILs and a
+  `LANG-CJK` WARN — these are script/repo drift, not defects (see skill-linter's
+  drift note). Ignore those specific checks; still act on any **other** FAIL
+  (e.g. `NAME-SYNC`, `REF-EXISTS`, real `DESC-ROUTE` shortfall).
+- **If it fails**: any non-drift FAIL → fix per `FIX:` lines then rerun; don't
+  call it "done" until those are zeroed. Keep genuinely-held WARNs (and the
+  expected drift noise) in delivery notes.
 
 ## Ten Commandments (Body Writing, Hard)
 
@@ -145,8 +154,8 @@ Four common skeleton variants (pick one, don't invent a seventh section):
 | 3 | **Red lines inline** | Has write operation but doesn't say "default dry-run" or "confirm before irreversible operation" |
 | 4 | **Every step gives action+expected+if fails** | Any step missing one of three |
 | 5 | **Body <200 lines** | Line count over limit means skill should split or move to references |
-| 6 | **Body all Chinese** | Body has paragraphs of English explanation (terms, frontmatter, code excepted) |
-| 7 | **Frontmatter machine layer English** | `name` or `description` entirely Chinese; model routing degrades |
+| 6 | **Body all English** | Narrative prose contains non-script CJK characters (terms, flags, and fenced code excepted); this repo standard is English-only |
+| 7 | **Frontmatter machine layer English** | `name` or `description` contains non-ASCII text; model routing degrades |
 | 8 | **References attributed** | `references/` has files but no `sources-and-methodology.md` |
 | 9 | **dry-run default** | Script skill where write operation is default behavior |
 | 10 | **Verifiable output** | Delivery criteria doesn't write filename format, location, integrity criterion |

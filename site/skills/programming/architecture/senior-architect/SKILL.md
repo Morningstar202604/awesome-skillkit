@@ -112,10 +112,11 @@ python3 scripts/project_architect.py examples/sample-project --verbose
 | `--format` | mermaid / plantuml / ascii | Diagram output format (diagram generator) |
 | `--type` | component / layer / deployment | Diagram type |
 | `--output` | file path | Write to a file; defaults to stdout (diagram generator) |
-| `--output` | text / json | Report format (dependency_analyzer / project_architect) |
-| `--check` | circular / layers | Run a single check only (one per analysis script) |
+| `--output` | human / json | Report format (dependency_analyzer / project_architect) |
+| `--check` | diagram: n/a; analyzer: all/circular/coupling; architect: all/pattern/layers/code | Run a single check only |
 | `--verbose` | boolean | Detailed mode, including suggestions |
-| `--json` | boolean | Machine-readable output |
+| `--json` | boolean | Machine-readable output (diagram generator) |
+| `--save` | file path | Save report to file (analyzer / architect) |
 
 ## Failure Handling Table
 

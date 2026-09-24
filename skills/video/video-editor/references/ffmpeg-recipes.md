@@ -8,7 +8,7 @@
 （覆盖输出，避免 "Overwrite? [y/N]" 卡住非交互执行）；在 shell 循环 / cron 中调用另加
 `-nostdin`，否则 ffmpeg 会吃掉脚本的 stdin。
 
-## 目录
+## Table of Contents
 
 0. 前置自检 / 1. concat demuxer 拼接 / 2. concat 滤镜兜底 / 3. xfade 转场 / 4. BGM 混音
 5. 竖屏 1080x1920 / 6. 静音检测与裁剪 / 7. 抽帧 / 8. 字幕烧录与软挂 / 9. 报错处置表

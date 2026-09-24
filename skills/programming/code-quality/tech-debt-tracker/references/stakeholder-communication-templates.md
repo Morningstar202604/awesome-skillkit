@@ -1,6 +1,6 @@
 # Stakeholder Communication Templates
 
-## 目录
+## Table of Contents
 
 - [Introduction](#introduction)
 - [Executive Summary Templates](#executive-summary-templates)

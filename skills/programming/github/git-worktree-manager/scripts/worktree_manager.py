@@ -209,7 +209,8 @@ def main() -> int:
         raise CLIError(f"Not a git repository: {repo}") from exc
 
     if args.dry_run:
-        # 只读预演：校验配置与仓库、打印执行计划，不创建 worktree、不写 ports/env
+        # read-only dry run: validate config and repo, print the execution plan;
+        # do not create a worktree and do not write ports/env
         wt_path = repo.parent / name
         exists = wt_path in {Path(e.get("worktree", "")) for e in parse_worktree_list(repo)}
         plan = {

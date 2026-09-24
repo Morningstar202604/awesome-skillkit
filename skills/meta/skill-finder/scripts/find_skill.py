@@ -1,25 +1,28 @@
 #!/usr/bin/env python3
-"""find_skill.py — 在本仓库内检索技能、装配技能组合、输出仓库统计。
+"""find_skill.py — search skills in this repo, assemble skill combos, and print repo stats.
 
-三个子命令：
+Three subcommands:
 
-  search <关键词> [--json] [--top N] [--category C]
-      在本仓 manifest.json 的 pack 描述与所有 SKILL.md 的 name / description /
-      正文里检索，按相关度排序。权重：名称命中 5 / description 命中 3 / 正文命中 1，
-      名称前缀命中额外 +3。输出技能名、所属包、一行简介与路径。
+  search <keyword> [--json] [--top N] [--category C]
+      Search the pack descriptions in this repo's manifest.json plus the name /
+      description / body of every SKILL.md, ranked by relevance. Weights: name hit
+      5 / description hit 3 / body hit 1, name-prefix hit +3. Outputs the skill name,
+      its pack, a one-line summary, and the path.
 
-  pack <技能名...> [--json]
-      给定若干技能名，返回它们共同所属的包；若无共同包，则建议一个临时组合，
-      列出各自的 category / tier / 是否带脚本，并给出顺序建议。
+  pack <skill-name...> [--json]
+      Given several skill names, return the pack they share; if there is no common
+      pack, suggest an ad-hoc combo, list each skill's category / tier / whether it
+      ships a script, and give an ordering suggestion.
 
   stats [--json]
-      输出仓库统计：技能数、包数、按 category 分布、孤儿技能（在盘上但不在任何 pack）。
+      Print repo statistics: skill count, pack count, distribution by category, and
+      orphan skills (on disk but in no pack).
 
-数据全部来自真实文件（manifest.json + skills/**/SKILL.md），无任何硬编码技能列表。
-仅用标准库。
+All data comes from real files (manifest.json + skills/**/SKILL.md); no hard-coded
+skill lists. Standard library only.
 
-用法：
-  python3 find_skill.py search 视频
+Usage:
+  python3 find_skill.py search video
   python3 find_skill.py search pdf --json --top 5
   python3 find_skill.py pack video-generation image-generation
   python3 find_skill.py stats
@@ -32,11 +35,11 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-#: 仓库根 = 本脚本上溯四级
-#: （scripts/ -> skill-finder/ -> meta/ -> skills/ -> 仓库根）
+#: repo root = four levels up from this script
+#: (scripts/ -> skill-finder/ -> meta/ -> skills/ -> repo root)
 ROOT = Path(__file__).resolve().parents[4]
 
-# 相关度权重
+# relevance weights
 W_NAME = 5
 W_NAME_PREFIX = 3
 W_DESC = 3
@@ -48,14 +51,14 @@ FENCE_RE = re.compile(r"^\s*```")
 H1_RE = re.compile(r"^#\s+(.+?)\s*$")
 
 
-# ---------------------------------------------------------------- 数据加载
+# ---------------------------------------------------------------- Data loading
 
 
 def load_manifest(root=ROOT):
-    """读 manifest.json；失败抛 FileNotFoundError（不静默返回空）。"""
+    """Read manifest.json; raise FileNotFoundError on failure (never silently return empty)."""
     p = root / "manifest.json"
     if not p.is_file():
-        raise FileNotFoundError(f"未找到 manifest.json：{p}")
+        raise FileNotFoundError(f"manifest.json not found: {p}")
     return json.loads(p.read_text(encoding="utf-8"))
 
 
@@ -104,7 +107,7 @@ def parse_simple_yaml(fm_lines):
 
 
 def first_paragraph(body):
-    """取正文首个非标题、非空、非代码的段落，作为一行简介。"""
+    """Take the first non-heading, non-empty, non-code paragraph as a one-line summary."""
     in_fence = False
     for line in body.splitlines():
         s = line.strip()
@@ -116,17 +119,18 @@ def first_paragraph(body):
         if s.startswith("#") or s.startswith("|") or s.startswith(">"):
             continue
         text = re.sub(r"[*`]", "", s)
-        return text[:80] + ("…" if len(text) > 80 else "")
+        return text[:80] + ("..." if len(text) > 80 else "")
     return ""
 
 
 def load_skills(root=ROOT):
-    """扫描 skills/**/SKILL.md，返回技能记录列表。
+    """Scan skills/**/SKILL.md; return a list of skill records.
 
-    跳过 _common / templates / __pycache__ 下的同名文件。
-    注意：`assets/` **不跳过**——`skills/writing/assets/ai-cover-generator`
-    是被 pack 真实引用的技能，跳过它会导致检索/装配结果与 manifest 不一致。
-    `assets/` 下若只是纯资源（无 SKILL.md）本就不会被本函数枚举。
+    Skip same-named files under _common / templates / __pycache__.
+    Note: `assets/` is **not skipped** — `skills/writing/assets/ai-cover-generator`
+    is a real skill referenced by packs; skipping it would make search/assembly
+    inconsistent with the manifest. Pure resources under `assets/` (no SKILL.md)
+    are not enumerated by this function anyway.
     """
     skip = {"_common", "templates", "__pycache__"}
     records = []
@@ -160,7 +164,7 @@ def load_skills(root=ROOT):
 
 
 def build_index(manifest, skills):
-    """技能名 -> 所属包列表、包简介。"""
+    """skill name -> list of owning packs, and a lookup of pack -> pack info."""
     skill_packs = {}
     pack_of = {}
     for pack in manifest.get("packs", []):
@@ -174,11 +178,11 @@ def build_index(manifest, skills):
     return skill_packs, pack_of
 
 
-# ---------------------------------------------------------------- 检索
+# ---------------------------------------------------------------- Search
 
 
 def score_skill(rec, terms, manifest, skill_packs, pack_of):
-    """给单个技能打分，返回 (分数, 命中明细)。"""
+    """Score a single skill; return (score, hit details)."""
     name = rec["name"].lower()
     desc = rec["description"].lower()
     body = rec["body"].lower()
@@ -190,20 +194,20 @@ def score_skill(rec, terms, manifest, skill_packs, pack_of):
             score += W_NAME
             if name.startswith(tl):
                 score += W_NAME_PREFIX
-            hits.append(f"名称:{t}")
+            hits.append(f"name:{t}")
         if tl in desc:
             score += W_DESC
-            hits.append(f"描述:{t}")
+            hits.append(f"desc:{t}")
         for pid in skill_packs.get(rec["name"], []):
             blob = " ".join(str(pack_of[pid].get(k, "")) for k in
                             ("name", "name_zh", "description", "description_zh")).lower()
             if tl in blob:
                 score += W_PACK_DESC
-                hits.append(f"包:{pack_of[pid].get('name_zh') or pid}")
+                hits.append(f"pack:{pack_of[pid].get('name_zh') or pid}")
                 break
         if tl in body:
             score += W_BODY
-            hits.append(f"正文:{t}")
+            hits.append(f"body:{t}")
     return score, hits
 
 
@@ -214,7 +218,7 @@ def cmd_search(args):
 
     terms = [t for t in re.split(r"[\s,]+", args.keyword) if t]
     if not terms:
-        print("关键词为空", file=sys.stderr)
+        print("empty keyword", file=sys.stderr)
         return 2
 
     scored = []
@@ -247,20 +251,20 @@ def cmd_search(args):
         return 0
 
     if not scored:
-        print(f"未命中：{args.keyword!r}。可试 `stats` 看全仓分布，或换更短的词。")
+        print(f"no match for {args.keyword!r}. Try `stats` to see the repo distribution, or a shorter term.")
         return 1
 
-    print(f"检索 {args.keyword!r} —— 命中 {len(scored)} 个技能，显示前 {len(top)} 个：\n")
+    print(f"search {args.keyword!r} — {len(scored)} skills matched, showing top {len(top)}:\n")
     for sc, hits, r in top:
         packs = ", ".join(pack_of[p].get("name_zh") or p for p in skill_packs.get(r["name"], []))
-        print(f"[{sc:>3}分] {r['name']}")
-        print(f"        所属包: {packs or '（不属于任何包）'}")
-        print(f"        简介  : {r['summary'] or r['title']}")
-        print(f"        路径  : {r['path']}")
+        print(f"[{sc:>3} pts] {r['name']}")
+        print(f"        pack    : {packs or '(not in any pack)'}")
+        print(f"        summary : {r['summary'] or r['title']}")
+        print(f"        path    : {r['path']}")
     return 0
 
 
-# ---------------------------------------------------------------- 装配
+# ---------------------------------------------------------------- Assembly
 
 
 def cmd_pack(args):
@@ -278,14 +282,15 @@ def cmd_pack(args):
             missing.append(nm)
 
     if not wanted:
-        print(f"没有任何技能在盘上：{', '.join(missing)}", file=sys.stderr)
+        print(f"none of the requested skills are on disk: {', '.join(missing)}", file=sys.stderr)
         return 2
 
-    # 共同所属的包 = 每个技能所属包的交集
+    # the shared pack = the intersection of each skill's owning packs
     sets = [set(skill_packs.get(nm, [])) for nm in wanted]
     common = set.intersection(*sets) if sets else set()
 
-    # 顺序建议：编排/编排器类优先，带脚本的其次，其余按名称稳定排序
+    # ordering suggestion: orchestrator/pipeline/planner first, then script-bearing,
+    # the rest in stable name order
     def order_key(nm):
         low = nm
         rank = 0
@@ -323,37 +328,38 @@ def cmd_pack(args):
         return 0
 
     if missing:
-        print(f"⚠ 以下技能不在盘上，已忽略：{', '.join(missing)}\n")
+        print(f"warning: the following skills are not on disk and were ignored: {', '.join(missing)}\n")
 
     if common:
-        print(f"这些技能同属 {len(common)} 个现成包：")
+        print(f"these skills share {len(common)} existing pack(s):")
         for pid in sorted(common):
             p = pack_of[pid]
-            print(f"  - {pid}（{p.get('name_zh') or p.get('name')}）"
-                  f"  共 {len(p.get('skills', []))} 个技能")
-        print("\n建议直接使用现有包，无需临时组合。\n")
+            print(f"  - {pid} ({p.get('name_zh') or p.get('name')})"
+                  f"  {len(p.get('skills', []))} skills total")
+        print("\nRecommendation: use the existing pack directly; no ad-hoc combo needed.\n")
     else:
-        print("没有共同所属的现成包 —— 建议组成临时组合：\n")
+        print("no shared existing pack — suggest an ad-hoc combo:\n")
 
     if len(wanted) < 2 and not common:
-        print("（只给了 1 个技能，无顺序可排。）\n")
+        print("(only 1 skill given; nothing to order.)\n")
 
-    print("执行顺序建议（编排/流水线类优先，其次带脚本者，最后纯提示型）：")
+    print("recommended execution order (orchestrator/pipeline first, then script-bearing, then pure-prompt):")
     for i, nm in enumerate(ordered, 1):
         r = by_name[nm]
-        flag = "带脚本" if r["has_scripts"] else "纯提示"
-        print(f"  {i}. {nm:<32} [{r['category'] or '未标注'}/{r['tier'] or '未标注'}] {flag}")
-    print("\n依赖与顺序说明：")
+        flag = "scripts" if r["has_scripts"] else "pure-prompt"
+        print(f"  {i}. {nm:<32} [{r['category'] or 'uncategorized'}/{r['tier'] or 'untiered'}] {flag}")
+    print("\ndependencies & ordering note:")
     for nm in ordered:
         r = by_name[nm]
-        deps = "scripts/ 已随包提供" if r["has_scripts"] else "无外部依赖（纯提示型）"
+        deps = "scripts/ shipped with the pack" if r["has_scripts"] else "no external deps (pure prompt)"
         print(f"  - {nm}: {deps}")
-    print("\n注意：本仓库约定技能自包含、不做跨技能硬依赖；以上顺序是编排建议，"
-          "不是运行时依赖，任一技能单独使用也应成立。")
+    print("\nNote: this repo's convention is that skills are self-contained with no hard")
+    print("cross-skill dependencies; the order above is an orchestration suggestion, not a runtime")
+    print("dependency, and any single skill should stand on its own.")
     return 0
 
 
-# ---------------------------------------------------------------- 统计
+# ---------------------------------------------------------------- Stats
 
 
 def cmd_stats(args):
@@ -362,8 +368,8 @@ def cmd_stats(args):
     skill_packs, pack_of = build_index(manifest, skills)
     packs = manifest.get("packs", [])
 
-    cat_counter = Counter(r["category"] or "（未标注）" for r in skills)
-    tier_counter = Counter(r["tier"] or "（未标注）" for r in skills)
+    cat_counter = Counter(r["category"] or "(uncategorized)" for r in skills)
+    tier_counter = Counter(r["tier"] or "(untiered)" for r in skills)
     orphans = sorted(r["name"] for r in skills if not skill_packs.get(r["name"]))
     packed_refs = {s.get("name") for p in packs for s in p.get("skills", [])}
     on_disk = {r["name"] for r in skills}
@@ -388,56 +394,56 @@ def cmd_stats(args):
         print(json.dumps(payload, ensure_ascii=False, indent=2))
         return 0
 
-    print(f"仓库            : {payload['hub']}  (manifest {payload['manifest_version']}, "
-          f"更新于 {payload['updated']})")
-    print(f"技能数（盘上）  : {payload['skills_on_disk']}")
-    print(f"场景包数        : {payload['packs']}")
-    print(f"包引用的技能名  : {payload['skills_referenced_by_packs']}")
-    print(f"含脚本的技能    : {payload['skills_with_scripts']}")
-    print(f"\n按 category 分布（{len(cat_counter)} 类）：")
+    print(f"repo            : {payload['hub']}  (manifest {payload['manifest_version']}, "
+          f"updated {payload['updated']})")
+    print(f"skills on disk  : {payload['skills_on_disk']}")
+    print(f"scene packs     : {payload['packs']}")
+    print(f"skills referenced by packs: {payload['skills_referenced_by_packs']}")
+    print(f"skills with scripts: {payload['skills_with_scripts']}")
+    print(f"\nby category ({len(cat_counter)} categories):")
     for k, v in sorted(cat_counter.items(), key=lambda kv: (-kv[1], kv[0])):
         bar = "█" * min(v, 40)
         print(f"  {k:<26} {v:>3}  {bar}")
-    print(f"\n按 tier 分布：")
+    print(f"\nby tier:")
     for k, v in sorted(tier_counter.items(), key=lambda kv: (-kv[1], kv[0])):
         print(f"  {k:<26} {v:>3}")
     if orphans:
-        print(f"\n⚠ 孤儿技能（盘上有、不属于任何包）{len(orphans)} 个：")
+        print(f"\nwarning: {len(orphans)} orphan skill(s) (on disk, in no pack):")
         for nm in orphans:
             print(f"  - {nm}")
     if dangling:
-        print(f"\n⚠ 包引用了盘上不存在的技能 {len(dangling)} 个：")
+        print(f"\nwarning: {len(dangling)} skill(s) referenced by packs but missing on disk:")
         for nm in dangling:
             print(f"  - {nm}")
     if not orphans and not dangling:
-        print("\n包 ↔ 磁盘一致：无孤儿、无悬空引用。")
+        print("\npacks <-> disk consistent: no orphans, no dangling references.")
     return 0
 
 
-# ---------------------------------------------------------------- 入口
+# ---------------------------------------------------------------- Entry point
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser(
         prog="find_skill.py",
-        description="在本仓库检索技能、装配技能组合、输出仓库统计（数据来自真实文件）。",
+        description="Search skills in this repo, assemble combos, and print repo stats (data from real files).",
     )
     sub = ap.add_subparsers(dest="cmd", required=True)
 
-    p_search = sub.add_parser("search", help="按关键词检索技能")
-    p_search.add_argument("keyword", help="关键词，空格可分隔多个（任一命中即计分）")
-    p_search.add_argument("--json", action="store_true", help="输出 JSON")
-    p_search.add_argument("--top", type=int, default=10, help="最多显示几条（默认 10）")
-    p_search.add_argument("--category", default="", help="只在该 category 内检索")
+    p_search = sub.add_parser("search", help="search skills by keyword")
+    p_search.add_argument("keyword", help="keyword; separate several with spaces (any hit scores)")
+    p_search.add_argument("--json", action="store_true", help="output JSON")
+    p_search.add_argument("--top", type=int, default=10, help="max results to show (default 10)")
+    p_search.add_argument("--category", default="", help="search only within this category")
     p_search.set_defaults(func=cmd_search)
 
-    p_pack = sub.add_parser("pack", help="查共同所属的包，或建议临时组合")
-    p_pack.add_argument("names", nargs="+", help="技能名，可给多个")
-    p_pack.add_argument("--json", action="store_true", help="输出 JSON")
+    p_pack = sub.add_parser("pack", help="find the shared pack, or suggest an ad-hoc combo")
+    p_pack.add_argument("names", nargs="+", help="skill names; give several")
+    p_pack.add_argument("--json", action="store_true", help="output JSON")
     p_pack.set_defaults(func=cmd_pack)
 
-    p_stats = sub.add_parser("stats", help="输出仓库统计")
-    p_stats.add_argument("--json", action="store_true", help="输出 JSON")
+    p_stats = sub.add_parser("stats", help="print repo statistics")
+    p_stats.add_argument("--json", action="store_true", help="output JSON")
     p_stats.set_defaults(func=cmd_stats)
 
     args = ap.parse_args(argv)

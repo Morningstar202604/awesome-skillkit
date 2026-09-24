@@ -5,7 +5,7 @@ TTS reads EVERYTHING verbatim: stage directions, bracketed asides, markdown
 debris all become audio. This linter enforces the spoken-words-only rule.
 
 Checks:
-  1. stage directions: [pause] [停顿] （笑） (laughs) etc.
+  1. stage directions: [pause], (laughs), and similar markers
   2. bracketed asides: any [...] or （...）/ (...)-style insertion
   3. markdown debris: heading/bold/italic/bullets inside body lines
   4. overlong lines: a single speaker line > 90 chars (three-sentence rule)
@@ -19,7 +19,7 @@ import re
 import sys
 
 STAGE_DIRECTION_RE = re.compile(
-    r"\[(?:pause|breath|laugh|音乐|音效|停顿|笑声|掌声)[^\]]*\]|（(?:笑|叹气|停顿|音乐|音效)[^）]*\)"
+    r"\[(?:pause|breath|laugh|music|sfx|laughter|applause)[^\]]*\]|（(?:laughs|sighs|pause|music|sfx)[^）]*\)"
     r"|\((?:laughs|sighs|pause|music)\)",
     re.I,
 )

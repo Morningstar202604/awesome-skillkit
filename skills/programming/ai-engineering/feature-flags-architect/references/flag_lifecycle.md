@@ -1,6 +1,6 @@
 # Flag lifecycle
 
-## 目录
+## Table of Contents
 
 - [Phase 1: Request](#phase-1-request)
 - [Phase 2: Design](#phase-2-design)

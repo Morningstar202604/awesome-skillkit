@@ -1,6 +1,6 @@
 ---
 name: result-visualizer
-description: "Plot model results into charts: line, scatter, histogram, heatmap, bar, output as PNG/SVG for reports and presentations. When to use: the model is solved or the simulation is complete and you need a visualization — e.g. plotting results, data visualization, making a chart, or drawing line/scatter/heatmap charts. Do NOT use for statistical inference beyond the given results, for numerical solving (use model-solver), or for formalizing the model (use model-formulator)."
+description: "Plot model results into charts (line, scatter, histogram) as PNG/SVG for reports and presentations. When to use: the model is solved or the simulation is complete and you need a visualization — e.g. plotting results, data visualization, making a chart, or drawing line/scatter/histogram charts. Do NOT use for statistical inference beyond the given results, for numerical solving (use model-solver), for formalizing the model (use model-formulator), or for heatmap/bar charts not implemented by the bundled script (build those directly with matplotlib)."
 license: Apache-2.0
 compatibility: Requires matplotlib. No API keys required.
 metadata:
@@ -43,18 +43,21 @@ test -f scripts/visualizer.py && echo "OK script present"
 
 ### Step 1: Choose the chart type
 
-| Type | Use Case | Input |
-|------|----------|-------|
-| line | Time series, convergence curves | t[], y[] |
-| scatter | Correlation, distribution | x[], y[] |
-| histogram | Distribution, MC results | samples[] |
-| heatmap | 2D parameter space | matrix[][] |
-| bar | Category comparison | labels[], values[] |
-| subplot | Multi-panel report | Multiple series |
+The script implements exactly three chart types (pass one via `--type`):
 
-- Action: choose `type` by data shape; scatter needs both `--x` and `--y`.
+| Type | Use Case | Required input fields |
+|------|----------|-----------------------|
+| `line` (default) | Time series, convergence curves | `t[]`, `y[]` |
+| `scatter` | Correlation, distribution | `x[]`, `y[]` (set `--x`/`--y`) |
+| `histogram` | Distribution, Monte-Carlo results | `samples[]` |
+
+> Heatmap, bar, and multi-panel subplots are NOT implemented by `visualizer.py`.
+> If the user needs one of those, build it directly with matplotlib following
+> `references/matplotlib-cheatsheet.md` instead of passing an unsupported `--type`.
+
+- Action: pick the supported `type` whose fields match the data; scatter needs both `--x` and `--y`.
 - Expected: a single `type` and the corresponding fields are selected.
-- On failure: data non-numeric / fields missing → return to data validation.
+- On failure: data non-numeric / fields missing → return to data validation; an unsupported type like `heatmap` → fall back to hand-rolled matplotlib per the note above.
 
 ### Step 2: Run the plotting script
 
@@ -108,7 +111,7 @@ python3 scripts/visualizer.py --data results.json --type scatter --x t --y y
 | `KeyError: 'x'` | Scatter field missing | Explicitly specify `--x`/`--y` |
 | `no display / backend` | No GUI environment | Set `MPLBACKEND=Agg` and rerun |
 | Non-ASCII labels render as boxes (tofu) | matplotlib's default font lacks the glyphs | Switch to English labels, or explicitly specify a system font file with the needed glyphs |
-| Heatmap colors mask differences | The default colormap isn't sensitive to magnitude | Switch to a diverging/log colormap and label the colorbar units |
+| Passing `--type heatmap` (or `bar`/`subplot`) errors out | Those types are not implemented by the bundled script | Build the chart directly with matplotlib per references/matplotlib-cheatsheet.md |
 | Legend overlaps curves and is unreadable | Legend position left at default | Move the legend outside the axes or adjust `loc` and margins |
 
 ## Delivery Criteria

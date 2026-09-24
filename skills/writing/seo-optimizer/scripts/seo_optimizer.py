@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""SEO Optimizer — 文章 SEO 优化（关键词、meta、标签、平台适配）。
+"""SEO Optimizer — article SEO optimization (keywords, meta, tags, platform adaptation).
 
-用法:
-  python3 seo_optimizer.py --title "FastAPI 性能优化" --content article.md
-  python3 seo_optimizer.py --title "标题" --content "正文文本" --platform juejin --output seo_result.json
+Usage:
+  python3 seo_optimizer.py --title "FastAPI performance tuning" --content article.md
+  python3 seo_optimizer.py --title "a title" --content "body text" --platform juejin --output seo_result.json
 
-平台: csdn(默认) / juejin / wechat / baijiahao / toutiao
+Platforms: csdn (default) / juejin / wechat / baijiahao / toutiao
 """
 import argparse
 import json
@@ -25,8 +25,7 @@ PLATFORM_META = {
 def extract_keywords(text: str, top_n: int = 5) -> list:
     """Extract top keywords from text (frequency-based)."""
     # Remove common stop words
-    stop_words = set("的了吗呢吧啊是在有和就不人都一这_that".replace("_", " ")
-                     .split() if False else [])
+    stop_words = set("the a an of to in is and on for".split() if False else [])
     # Simple frequency count
     words = re.findall(r"[\u4e00-\u9fa5]{2,4}|[a-zA-Z]{3,}", text)
     freq = {}
@@ -111,7 +110,7 @@ def main():
         "--platform",
         default="csdn",
         choices=sorted(PLATFORM_META),
-        help="目标平台（决定标题/描述/标签长度规则）",
+        help="target platform (determines title/desc/tag length rules)",
     )
     parser.add_argument("--output", help="Output JSON file")
     args = parser.parse_args()
@@ -123,14 +122,15 @@ def main():
             content = p.read_text(encoding="utf-8")
         elif re.search(r"\.(md|txt|markdown|rst|html?)$", args.content) \
                 or "/" in args.content or "\\" in args.content:
-            # 长得像路径却不存在 → 硬报错。旧版会把路径字符串本身当正文分析，
-            # 对着 "article.md" 七个字符算出一份假 SEO 报告还返回 0。
+            # looks like a path but does not exist -> hard error. The old version treated
+            # the path string itself as body text and produced a fake SEO report from the
+            # seven characters of "article.md" while still returning 0.
             print(json.dumps({"status": "error",
-                              "error": f"--content 文件不存在: {args.content}"},
+                              "error": f"--content file does not exist: {args.content}"},
                              ensure_ascii=False))
             return 2
         else:
-            content = args.content  # 纯文本（无路径特征）才允许当字面正文
+            content = args.content  # only plain text (no path features) may be treated as literal body
 
     result = {
         "title": optimize_title(args.title, extract_keywords(content), args.platform),

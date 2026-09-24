@@ -15,15 +15,16 @@ import sys
 
 # channel: (max_chars, max_lines, max_cta, hook_required, note)
 CHANNELS = {
-    "xhs":           (1000, 0, 1, True,  "小红书笔记：正文≤1000字，标题≤20字，CTA≤1"),
-    "douyin-spoken": (240,  0, 1, True,  "抖音口播：约60字/15秒，默认4段240字，前3秒钩子"),
-    "moments":       (300,  6, 1, True,  "朋友圈：≤6行，首行钩子"),
-    "email-subject": (30,   1, 0, False, "邮件主题：≤30字符，移动端截断线"),
-    "search-ad":     (30,   1, 1, False, "搜索广告标题：≤30字符，含核心关键词"),
+    "xhs":           (1000, 0, 1, True,  "Xiaohongshu note: body <=1000 chars, title <=20 chars, CTA <=1"),
+    "douyin-spoken": (240,  0, 1, True,  "Douyin spoken: ~60 chars/15s, default 4 segments / 240 chars, hook in first 3s"),
+    "moments":       (300,  6, 1, True,  "WeChat Moments: <=6 lines, hook on the first line"),
+    "email-subject": (30,   1, 0, False, "Email subject: <=30 chars, mobile truncation line"),
+    "search-ad":     (30,   1, 1, False, "Search ad title: <=30 chars, include the core keyword"),
 }
 
 CTA_RE = re.compile(
-    r"(点击|下单|抢购|购买|链接|评论区|私信|关注|订阅|立即|马上|速来|手慢无|点击锁定|"
+    r"(click|place order|grab|purchase|link|comments|DM|follow|subscribe|now|right away|"
+    r"hurry|while supplies last|click to lock|"
     r"shop now|buy now|click|order now|subscribe)", re.I,
 )
 
@@ -55,7 +56,7 @@ def audit(text, channel):
                    "detail": f"{n_cta} CTA-ish tokens vs cap {max_cta or 0}",
                    "fix": None if ok else "keep exactly one CTA — two CTAs equal zero"})
     if hook_required:
-        ok = len(first) >= 6 and not re.match(r"^(我们|本公司|亲爱的)", first)
+        ok = len(first) >= 6 and not re.match(r"^(we|our company|dear)", first)
         checks.append({"check": "hook_first_line", "pass": ok,
                        "detail": f"first line: {first[:24]!r}",
                        "fix": None if ok else "first line must be a concrete hook, not a greeting"})

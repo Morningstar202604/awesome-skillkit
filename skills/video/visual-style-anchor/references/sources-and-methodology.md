@@ -1,8 +1,8 @@
-# 方法论出处与致谢 / Sources & Methodology
+# Methodology sources and acknowledgements
 
-## 主要来源
+## Main sources
 
-| 来源 | 许可证 | 借鉴的方法论要点 |
+| Source | License | Methodology points borrowed |
 |------|--------|------------------|
 | [agentara/skills — video-storyboard](https://github.com/agentara/skills) | 见其仓库 | 角色身份约束（identity constraints）与角色设定资产（character sheet / turnaround / casting reference）作为生成前置输入的纪律 |
 | 本仓 ai-baby-podcast（viral-entertainment 包）| Apache-2.0（本仓原创）| 角色卡七件套、锁定 seed/音色、每 10 条漂移审计、**永不从文字重生角色**（只许从已定稿参考图延伸）的实践，来自该技能已验证的 references/character-consistency.md，此处通用化 |

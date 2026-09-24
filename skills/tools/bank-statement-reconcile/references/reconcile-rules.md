@@ -1,22 +1,22 @@
-# 对账匹配规则
+# Reconciliation matching rules
 
-## 匹配主键
-- 金额相等（±0.01 元）
-- 同月（日期归一化到 `YYYY-MM`）
-- 可选：交易对方归一化后相等（小写 + 去空白/标点）
+## Matching key
+- Amounts equal (within ±0.01)
+- Same month (dates normalized to `YYYY-MM`)
+- Optional: counterparties equal after normalization (lowercase + strip whitespace/punctuation)
 
-## 列名自动探测
-- 金额：`amount` / `金额` / `amt`
-- 日期：`date` / `日期`
-- 对方：`party` / `对方` / `merchant`（需 `--party-col` 显式传）
+## Column-name auto-detection
+- Amount: `amount` / `金额` / `amt`
+- Date: `date` / `日期`
+- Party: `party` / `对方` / `merchant` (must be passed explicitly via `--party-col`)
 
-## 日期格式
-支持 `YYYY-MM-DD` / `YYYY/MM/DD` / `MM/DD/YYYY`；其他先在 CSV 里转成 `YYYY-MM-DD`。
+## Date formats
+Supports `YYYY-MM-DD` / `YYYY/MM/DD` / `MM/DD/YYYY`; convert anything else to `YYYY-MM-DD` in the CSV first.
 
-## 匹配率
-`matched / max(流水行数, 账单行数)`；< 90% 属正常（有漏记/差异），看 `unmatched_*` 清单。
+## Match rate
+`matched / max(transaction rows, statement rows)`; below 90% is normal (there are omissions/discrepancies) — check the `unmatched_*` lists.
 
-## 边界
-- 纯启发式，**未匹配项必须人工复核**
-- 不连银行、不发网络、不用凭证
-- 同金额多笔混淆 → 加 `--party-col`
+## Boundaries
+- Purely heuristic; **unmatched items must be reviewed by a human**
+- Does not connect to banks, make network calls, or use credentials
+- Same-amount multi-entry ambiguity -> add `--party-col`

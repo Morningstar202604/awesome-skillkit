@@ -1,6 +1,6 @@
 # Dockerfile Best Practices Reference
 
-## 目录
+## Table of Contents
 
 - [Layer Optimization](#layer-optimization)
   - [The Golden Rule](#the-golden-rule)

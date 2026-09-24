@@ -1,12 +1,12 @@
-# 来源与方法论说明 / Sources & Methodology
+# Sources & Methodology
 
 - 技能：`knowledge-graph-builder`（awesome-skillkit 原创编写，Apache-2.0）。
 - 定位：场景包 `knowledge` 的第二个技能。与 `personal-wiki` 的分工是：
   后者负责「把资料收好、能搜到」，本技能负责「把关系抽出来、能看懂结构」。
 
-## 方法论借鉴（仅思想与分类体系，未复制任何文本或代码）
+## Methodology borrowed (ideas and taxonomy only; no text or code copied)
 
-| 来源 | 许可证 | 借鉴的方法论要点 |
+| Source | License | Methodology points borrowed |
 |---|---|---|
 | Zettelkasten 双链笔记公开阐述 | 见原文 | 笔记间显式链接构成一张图，图的结构本身是可读的「知识骨架」 |
 | Mermaid 官方 flowchart 语法文档 | MIT | `flowchart LR`、方括号节点、`-->` 实线 / `-.->` 虚线；节点 id 不得含路径字符 |
@@ -19,9 +19,9 @@ NLP/机器学习实体抽取方案（如 NER 模型、依存句法、共指消�
 而是用 `[[双链]]` + 首个 H1 + 加粗词三条可解释的启发式：
 这是为了在没有模型依赖的裸环境下也能跑，并且让抽取结果**可预测、可复核**。
 `scripts/graph_build.py` 的全部实现（图构建、去重、指标计算、三种导出器）
-均为从零撰写，未翻译、未改写、未摘录任何上游段落、示例或代码。
+均为从零撰写，No upstream passage, example, or code was translated, rewritten, or excerpted.
 
-## 关键设计决策（为什么这样做）
+## Key design decisions (why this way)
 
 1. **边分两类而不是一类**：`links`（笔记间链接）是**人的判断**，
    `mentions`（加粗词共现）是**词面统计**。混在一起会让「经常出现的词」
@@ -40,7 +40,7 @@ NLP/机器学习实体抽取方案（如 NER 模型、依存句法、共指消�
 6. **诊断行给出结论而非数字**：`components: 2` 对用户没有意义，
    「最大分量覆盖 11/13 个节点，用链接把孤立部分接进来」才是可执行的。
 
-## 局限与边界
+## Limitations and boundaries
 
 - **不做实体消歧**：`**HNSW**` 与 `**Hierarchical NSW**` 会算两个概念。
 - **不做关系类型识别**：所有链接都是同一种 `links` 关系，
@@ -50,6 +50,6 @@ NLP/机器学习实体抽取方案（如 NER 模型、依存句法、共指消�
 - **规模上限**：全量读入内存，适合数千篇笔记量级；
   十万级规模需要换增量索引方案，不在本技能范围。
 
-## 许可
+## License
 
-本技能及其参考文件以 Apache-2.0 分发；所列上游文档各自的许可条款与本文互不适用。
+This skill and its reference files are distributed under Apache-2.0; the upstream documents listed carry their own license terms, which do not apply to this file.

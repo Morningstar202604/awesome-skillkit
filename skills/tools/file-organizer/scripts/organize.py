@@ -1,21 +1,22 @@
 #!/usr/bin/env python3
-"""organize.py -- 目录体检与整理计划器（scan / plan / apply / dedupe）。
+"""organize.py -- directory health-check and organizer planner (scan / plan / apply / dedupe).
 
-设计原则
---------
-1. **只读优先**：`scan` / `plan` / `dedupe` 永不改动磁盘；`apply` 默认 dry-run，
-   只有显式 `--yes` 才真正移动文件。
-2. **边界封闭**：所有目标路径都经 `_resolve_within` 校验，解析后的真实路径必须
-   落在给定目录内部，杜绝 `../` 越界与符号链接逃逸。
-3. **不作恶**：不删除任何文件，重复文件只给"保留建议"，删除动作永远留给用户。
-4. **快**：判重只读文件前 1KB 做哈希，避免全量读取大文件。
+Design principles
+-----------------
+1. **Read-only by default**: `scan` / `plan` / `dedupe` never touch disk; `apply` defaults to
+   dry-run and only actually moves files with explicit `--yes`.
+2. **Closed boundary**: every target path goes through `_resolve_within`; the resolved real path
+   must stay inside the given directory, ruling out `../` escapes and symlink escape.
+3. **Do no harm**: never delete any file; for duplicates it only gives a "keep" recommendation,
+   leaving deletion to the user.
+4. **Fast**: dedup hashes only the first 1KB of each file, avoiding full reads of large files.
 
-子命令
-------
-  scan   <dir>                              目录体检（扩展名分布、体积、重复组）
-  plan   <dir> --by {type,date,size}        生成整理方案（只打印，不动文件）
-  apply  <dir> --by {type,date} [--yes]     执行整理（默认 dry-run）
-  dedupe <dir>                              列出重复文件组 + 保留建议
+Subcommands
+-----------
+  scan   <dir>                              directory health-check (extension distribution, size, dup groups)
+  plan   <dir> --by {type,date,size}        produce an organizing plan (print only, no moves)
+  apply  <dir> --by {type,date} [--yes]     execute the organizing (dry-run by default)
+  dedupe <dir>                              list duplicate groups + keep recommendation
 
 Stdlib only. Python >= 3.8.
 """
@@ -31,11 +32,12 @@ from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 
-# 判重时读取的头部字节数。取 1KB 是因为：绝大多数文件格式的魔数与基础元信息
-# 都在这段内，足以区分"同大小但不同内容"的文件；再大只会拖慢而不提升判别力。
+# Number of head bytes read for dedup. 1KB is chosen because the magic number and basic metadata
+# of almost every file format live in this range -- enough to tell apart "same size but different
+# content"; going larger only slows things down without improving discrimination.
 HEAD_BYTES = 1024
 
-# 体积分档阈值（人类可读的粗粒度分组，按上限升序）。
+# Size-bucket thresholds (coarse human-readable grouping, ascending by upper bound).
 SIZE_BUCKETS = [
     ("tiny(<10KB)", 10 * 1024),
     ("small(<1MB)", 1024 * 1024),
@@ -44,34 +46,35 @@ SIZE_BUCKETS = [
     ("huge(>=100MB)", None),
 ]
 
-# 整理时不纳入的目录：这些是工具自身的产物或版本控制内部结构，
-# 动它们会破坏仓库/环境状态。
+# Directories excluded when organizing: these are the tool's own outputs or version-control
+# internals; touching them would break the repo/environment state.
 SKIP_DIR_NAMES = {".git", ".svn", ".hg", "__pycache__", ".pytest_cache",
                   ".mypy_cache", ".ruff_cache", ".venv", "node_modules"}
 
 
 class BoundaryError(Exception):
-    """目标路径逃出给定目录边界。"""
+    """The target path escaped the given directory boundary."""
 
 
 def _resolve_within(root: Path, target: Path) -> Path:
-    """把 target 解析为绝对真实路径，并断言它仍在 root 内部。
+    """Resolve target to an absolute real path and assert it is still inside root.
 
-    `Path.resolve()` 会展开符号链接，因此这里能同时挡住 `../` 文本越界和
-    指向目录外的软链接——这是本脚本唯一的安全闸门，所有写入/移动路径都必须过它。
+    `Path.resolve()` expands symlinks, so this blocks both `../` text escape and symlinks
+    pointing outside the directory -- the script's single safety gate; every write/move
+    path must pass through it.
     """
     root_real = root.resolve()
-    # strict=False：目标文件可能尚不存在（apply 要新建目录）
+    # strict=False: the target file may not exist yet (apply creates new directories)
     target_real = (target if target.is_absolute() else root / target).resolve()
     if target_real != root_real and root_real not in target_real.parents:
-        raise BoundaryError(f"{target_real} 逃出了目录边界 {root_real}")
+        raise BoundaryError(f"{target_real} escaped the directory boundary {root_real}")
     return target_real
 
 
 def _iter_files(root: Path):
-    """遍历 root 下的普通文件，跳过符号链接与工具目录。"""
+    """Yield regular files under root, skipping symlinks and tool directories."""
     for dirpath, dirnames, filenames in os.walk(root):
-        # 原地裁剪 dirnames 才能阻止 os.walk 继续下潜
+        # dirnames must be pruned in place to stop os.walk from descending further
         dirnames[:] = [d for d in dirnames if d not in SKIP_DIR_NAMES]
         for name in sorted(filenames):
             p = Path(dirpath) / name
@@ -81,7 +84,7 @@ def _iter_files(root: Path):
 
 
 def _head_hash(path: Path) -> str:
-    """文件前 HEAD_BYTES 字节的 sha1，读不满也无妨。"""
+    """sha1 of the file's first HEAD_BYTES bytes; it's fine if fewer are readable."""
     h = hashlib.sha1()
     with path.open("rb") as fh:
         h.update(fh.read(HEAD_BYTES))
@@ -89,9 +92,10 @@ def _head_hash(path: Path) -> str:
 
 
 def _fingerprint(path: Path) -> tuple:
-    """快速判重指纹 = (文件大小, 前 1KB 哈希)。
+    """Fast dedup fingerprint = (file size, first-1KB hash).
 
-    只有大小完全相同的文件才有必要比头部内容；大小不同直接判为不同文件。
+    Only files with exactly the same size need head comparison; files of different sizes are
+    immediately judged different.
     """
     return (path.stat().st_size, _head_hash(path))
 
@@ -102,7 +106,7 @@ def _ext_label(path: Path) -> str:
 
 
 def _fmt_size(n: int) -> str:
-    """人类可读体积：B 不带小数，其余保留一位。"""
+    """Human-readable size: B has no decimals, others keep one."""
     size = float(n)
     for unit in ("B", "KB", "MB", "GB"):
         if size < 1024:
@@ -119,10 +123,10 @@ def _size_bucket(n: int) -> str:
 
 
 def _dup_groups(root: Path):
-    """返回 [(fingerprint, [paths...]) ...]，只保留 >=2 个文件的组。
+    """Return [(fingerprint, [paths...]) ...], keeping only groups with >=2 files.
 
-    分组键是 (size, head_hash)：先按大小分桶，桶内再按头部哈希细分，
-    因此大小唯一的文件连读都不用读。
+    The grouping key is (size, head_hash): first bucket by size, then subdivide within each
+    bucket by head hash, so files with a unique size need not even be read.
     """
     by_size = defaultdict(list)
     for p in _iter_files(root):
@@ -140,7 +144,7 @@ def _dup_groups(root: Path):
 
 
 def _keep_recommendation(paths: list) -> tuple:
-    """在重复组里挑保留项：最旧的（mtime 最早）优先，并列取路径最短的。"""
+    """Pick the one to keep in a duplicate group: oldest (earliest mtime) first; on tie, shortest path."""
     ranked = sorted(paths, key=lambda p: (p.stat().st_mtime, len(str(p)), str(p)))
     return ranked[0], ranked[1:]
 
@@ -151,12 +155,12 @@ def _keep_recommendation(paths: list) -> tuple:
 def cmd_scan(args) -> int:
     root = Path(args.dir)
     if not root.is_dir():
-        print(f"ERROR: 不是目录: {root}", file=sys.stderr)
+        print(f"ERROR: not a directory: {root}", file=sys.stderr)
         return 1
 
     files = list(_iter_files(root))
     if not files:
-        print(f"目录 {root.resolve()} 内没有可整理的文件。")
+        print(f"No files to organize under {root.resolve()}.")
         return 0
 
     total = sum(p.stat().st_size for p in files)
@@ -170,11 +174,11 @@ def cmd_scan(args) -> int:
         slot[1] += st.st_size
         by_bucket[_size_bucket(st.st_size)] += 1
 
-    print(f"# 目录体检: {root.resolve()}")
-    print(f"文件总数: {len(files)}    总体积: {_fmt_size(total)}")
+    print(f"# directory health-check: {root.resolve()}")
+    print(f"total files: {len(files)}    total size: {_fmt_size(total)}")
     print()
 
-    print("## 按扩展名分组（数量降序）")
+    print("## grouped by extension (count desc)")
     print(f"{'ext':<12}{'count':>8}{'size':>12}")
     for ext, (cnt, size) in sorted(
         by_ext.items(), key=lambda kv: (-kv[1][0], kv[0])
@@ -182,25 +186,25 @@ def cmd_scan(args) -> int:
         print(f"{ext:<12}{cnt:>8}{_fmt_size(size):>12}")
     print()
 
-    print("## 体积分布")
+    print("## size distribution")
     for label, _ in SIZE_BUCKETS:
         if by_bucket.get(label):
-            print(f"{label:<16}{by_bucket[label]:>6} 个")
+            print(f"{label:<16}{by_bucket[label]:>6} files")
     print()
 
     groups = _dup_groups(root)
     wasted = sum(fp[0] * (len(ps) - 1) for fp, ps in groups)
-    print("## 重复文件检测（大小 + 前 1KB 哈希）")
+    print("## duplicate detection (size + first-1KB hash)")
     if not groups:
-        print("未发现重复文件。")
+        print("No duplicates found.")
     else:
-        print(f"重复组: {len(groups)}    冗余体积: {_fmt_size(wasted)}")
+        print(f"duplicate groups: {len(groups)}    wasted space: {_fmt_size(wasted)}")
         for idx, (fp, paths) in enumerate(groups, 1):
             print(f"  [{idx}] {_fmt_size(fp[0])} x{len(paths)}")
             for p in paths:
                 print(f"        {_rel(p, root)}")
         print()
-        print("提示：运行 `dedupe <dir>` 获取保留建议。")
+        print("Tip: run `dedupe <dir>` to get a keep recommendation.")
     return 0
 
 
@@ -223,17 +227,18 @@ PLANNERS = {"type": _plan_type, "date": _plan_date, "size": _plan_size}
 
 
 def _build_moves(root: Path, by: str):
-    """返回 [(src, dst) ...]；dst 已解决同目录内/已存在目标的重名问题。
+    """Return [(src, dst) ...]; dst already resolves name clashes within a directory / against existing targets.
 
-    冲突解决策略：`name.ext` 已占用时依次尝试 `name_1.ext`、`name_2.ext`……
-    序号单调递增到第一个空位；这样重复运行 plan/apply 不会互相覆盖。
+    Conflict-resolution: when `name.ext` is taken, try `name_1.ext`, `name_2.ext`... in turn,
+    the index monotonically increasing to the first free slot; this way repeated plan/apply runs
+    don't overwrite each other.
     """
     planner = PLANNERS[by]
     moves = []
     taken = set()
     for p in _iter_files(root):
         bucket = planner(p, root)
-        if bucket == Path("."):  # 已经躺在目标桶根下，无需移动
+        if bucket == Path("."):  # already sits under the target bucket root; no move needed
             continue
         dst_dir = _resolve_within(root, bucket)
         candidate = dst_dir / p.name
@@ -249,10 +254,10 @@ def _build_moves(root: Path, by: str):
 
 
 def _rel(path: Path, root: Path) -> Path:
-    """把 path 显示成相对 root 的路径；两侧统一解析为绝对路径再比较。
+    """Display path relative to root; resolve both sides to absolute before comparing.
 
-    直接 `path.relative_to(root)` 在 `root` 是相对路径、`path` 是绝对路径时
-    （`_resolve_within` 返回绝对路径）会抛 ValueError，因此这里先解析两侧。
+    A direct `path.relative_to(root)` raises ValueError when `root` is relative and `path`
+    is absolute (as `_resolve_within` returns), so resolve both sides here.
     """
     try:
         return path.resolve().relative_to(root.resolve())
@@ -263,19 +268,19 @@ def _rel(path: Path, root: Path) -> Path:
 def cmd_plan(args) -> int:
     root = Path(args.dir)
     if not root.is_dir():
-        print(f"ERROR: 不是目录: {root}", file=sys.stderr)
+        print(f"ERROR: not a directory: {root}", file=sys.stderr)
         return 1
     moves = _build_moves(root, args.by)
-    print(f"# 整理计划: {root.resolve()}  (by={args.by})")
+    print(f"# organizing plan: {root.resolve()}  (by={args.by})")
     if not moves:
-        print("无需移动：所有文件都已在目标位置。")
+        print("Nothing to move: every file is already in its target location.")
         return 0
-    print(f"共 {len(moves)} 项移动，以下为完整清单（本命令不执行任何移动）：")
+    print(f"{len(moves)} moves total; full list below (this command makes no moves):")
     print()
     for src, dst in moves:
-        print(f"将把 {_rel(src, root)} 移到 {_rel(dst, root)}")
+        print(f"will move {_rel(src, root)} to {_rel(dst, root)}")
     print()
-    print(f"确认无误后执行：apply {root} --by {args.by} --yes")
+    print(f"Once confirmed, execute: apply {root} --by {args.by} --yes")
     return 0
 
 
@@ -285,25 +290,26 @@ def cmd_plan(args) -> int:
 def cmd_apply(args) -> int:
     root = Path(args.dir)
     if not root.is_dir():
-        print(f"ERROR: 不是目录: {root}", file=sys.stderr)
+        print(f"ERROR: not a directory: {root}", file=sys.stderr)
         return 1
     if args.by == "size":
         print(
-            "ERROR: apply 不支持 --by size。\n"
-            "原因：体积是文件属性而非语义分类，按体积归档会让文件失去可检索性。\n"
-            "如需按体积观察分布，请用 `scan`，或先 `plan --by size` 人工审阅。",
+            "ERROR: apply does not support --by size.\n"
+            "Reason: size is a file attribute, not a semantic category; archiving by size "
+            "makes files unsearchable.\n"
+            "To observe the size distribution, use `scan`, or first `plan --by size` for a human review.",
             file=sys.stderr,
         )
         return 2
 
     moves = _build_moves(root, args.by)
     if not moves:
-        print("无需移动。")
+        print("Nothing to move.")
         return 0
 
     dry = not args.yes
-    print(f"# {'DRY-RUN（未改动磁盘）' if dry else 'EXECUTE（真正移动）'}"
-          f"  目录={root.resolve()}  by={args.by}")
+    print(f"# {'DRY-RUN (no disk changes)' if dry else 'EXECUTE (real moves)'}"
+          f"  dir={root.resolve()}  by={args.by}")
     print()
     moved = skipped = 0
     for src, dst in moves:
@@ -315,7 +321,7 @@ def cmd_apply(args) -> int:
         try:
             _resolve_within(root, dst)
             if dst.exists():
-                print(f"[skip] 目标已存在，跳过: {rel_dst}")
+                print(f"[skip] target already exists, skipping: {rel_dst}")
                 skipped += 1
                 continue
             dst.parent.mkdir(parents=True, exist_ok=True)
@@ -326,15 +332,15 @@ def cmd_apply(args) -> int:
             print(f"[skip] {e}", file=sys.stderr)
             skipped += 1
         except OSError as e:
-            print(f"[skip] {rel_src} 移动失败: {e}", file=sys.stderr)
+            print(f"[skip] {rel_src} move failed: {e}", file=sys.stderr)
             skipped += 1
 
     print()
     if dry:
-        print(f"DRY-RUN 结束：计划移动 {len(moves)} 项，磁盘未发生任何变化。")
-        print(f"确认后加 --yes 执行：apply {root} --by {args.by} --yes")
+        print(f"DRY-RUN ended: planned {len(moves)} moves; no disk changes made.")
+        print(f"To execute after confirming, add --yes: apply {root} --by {args.by} --yes")
     else:
-        print(f"完成：移动 {moved} 项，跳过 {skipped} 项。")
+        print(f"Done: moved {moved}, skipped {skipped}.")
     return 0
 
 
@@ -344,30 +350,30 @@ def cmd_apply(args) -> int:
 def cmd_dedupe(args) -> int:
     root = Path(args.dir)
     if not root.is_dir():
-        print(f"ERROR: 不是目录: {root}", file=sys.stderr)
+        print(f"ERROR: not a directory: {root}", file=sys.stderr)
         return 1
     groups = _dup_groups(root)
-    print(f"# 重复文件报告: {root.resolve()}")
+    print(f"# duplicate report: {root.resolve()}")
     if not groups:
-        print("未发现重复文件（判据：大小相同 + 前 1KB 哈希相同）。")
+        print("No duplicates found (criterion: same size + same first-1KB hash).")
         return 0
 
     wasted = sum(fp[0] * (len(ps) - 1) for fp, ps in groups)
-    print(f"重复组 {len(groups)} 个，冗余体积 {_fmt_size(wasted)}。")
-    print("本命令只给建议，不删除任何文件。")
+    print(f"{len(groups)} duplicate groups, {_fmt_size(wasted)} wasted space.")
+    print("This command only gives advice; it never deletes any file.")
     print()
     for idx, (fp, paths) in enumerate(groups, 1):
         keep, drop = _keep_recommendation(paths)
-        print(f"[{idx}] 大小 {_fmt_size(fp[0])}，{len(paths)} 份")
-        print(f"    保留: {_rel(keep, root)}  （最旧 / 路径最短）")
+        print(f"[{idx}] size {_fmt_size(fp[0])}, {len(paths)} copies")
+        print(f"    keep: {_rel(keep, root)}  (oldest / shortest path)")
         for p in drop:
-            print(f"    可清理: {_rel(p, root)}")
+            print(f"    can clean: {_rel(p, root)}")
         print()
 
-    print("清理建议（请人工确认后再执行，本脚本不代劳）：")
-    print("  1. 先 `diff` 或二进制比对确认内容确实一致；")
-    print("  2. 确认没有其他文件通过硬链接/引用依赖被删的那一份；")
-    print("  3. 移动到一个 `_dupes_backup/` 目录观察一段时间再删。")
+    print("Cleanup advice (please confirm manually before acting; this script does not do it for you):")
+    print("  1. First `diff` or binary-compare to confirm the contents really match;")
+    print("  2. Confirm no other file depends on the copy to be deleted via a hardlink/reference;")
+    print("  3. Move them to a `_dupes_backup/` directory and watch for a while before deleting.")
     return 0
 
 
@@ -375,30 +381,30 @@ def cmd_dedupe(args) -> int:
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="organize.py",
-        description="目录体检与整理计划器（默认只读，apply 需 --yes）",
+        description="Directory health-check and organizer planner (read-only by default; apply needs --yes)",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     sub = p.add_subparsers(dest="cmd", required=True)
 
-    s = sub.add_parser("scan", help="扫描目录：扩展名分布、体积、重复文件")
+    s = sub.add_parser("scan", help="scan a directory: extension distribution, size, duplicates")
     s.add_argument("dir")
     s.set_defaults(func=cmd_scan)
 
-    s = sub.add_parser("plan", help="生成整理计划（不执行）")
+    s = sub.add_parser("plan", help="produce an organizing plan (does not execute)")
     s.add_argument("dir")
     s.add_argument("--by", choices=["type", "date", "size"], default="type")
     s.set_defaults(func=cmd_plan)
 
-    s = sub.add_parser("apply", help="执行整理（默认 dry-run，--yes 才真正移动）")
+    s = sub.add_parser("apply", help="execute the organizing (dry-run by default; only --yes really moves)")
     s.add_argument("dir")
     s.add_argument("--by", choices=["type", "date"], default="type")
     s.add_argument("--dry-run", action="store_true",
-                   help="显式声明 dry-run（默认行为，仅用于自文档化）")
+                   help="explicitly declare a dry-run (the default; for self-documentation only)")
     s.add_argument("--yes", action="store_true",
-                   help="真正执行移动；不加此参数一律 dry-run")
+                   help="actually perform moves; without this it always dry-runs")
     s.set_defaults(func=cmd_apply)
 
-    s = sub.add_parser("dedupe", help="列出重复文件组与保留建议")
+    s = sub.add_parser("dedupe", help="list duplicate groups with a keep recommendation")
     s.add_argument("dir")
     s.set_defaults(func=cmd_dedupe)
 

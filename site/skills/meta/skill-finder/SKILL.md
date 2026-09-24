@@ -138,7 +138,7 @@ guaranteeing results are **reproducible**.
 
 | Symptom/Error Code | Cause | Action |
 |---|---|---|
-| `search` reports "no hits" and returns 1 | Keyword too narrow or used English full name | Shorten keyword, try Chinese alias, or `stats` to see category first |
+| `search` reports "no hits" and returns 1 | Keyword too narrow or uses a long descriptive phrase | Shorten the keyword to a single action noun (`PDF` → `pdf`, `video generation` → `video`), or run `stats` first to see category distribution |
 | `⚠ the following skills not on disk, ignored: xxx` | Skill name spelling inaccurate or placeholder name in source | Use `search` for accurate name; placeholder names (like `references/<filename>.md`) aren't skills |
 | Exit code 2 + "manifest.json not found" | Not run at repo root | `cd` to repo root then rerun, always use repo-relative paths |
 | `search` results have many tied-score skills | Keyword too generic (like "generate") | Add `--category` to narrow, or switch to a more specific action word |

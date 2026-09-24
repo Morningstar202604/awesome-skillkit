@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""LaTeX Formatter — 论文 LaTeX 格式化 + 编译检查。
+"""LaTeX Formatter — paper LaTeX formatting + compile check.
 
-对标 2026 最佳实践（chktex / latexindent / tex-fmt）：
-  - 先用 stdlib 做静态检查（always available），产出 issues/suggestions；
-  - 若系统装有 chktex / latexindent / tex-fmt，则叠加**真实 lint**（method=external-lint），
-    缺失时如实回退 stdlib（method=stdlib-fallback），绝不谎报。
-  - 新增：跨文件 undefined \\ref / \\cite 检查（给定 --refs refs.bib）。
+Targets 2026 best practices (chktex / latexindent / tex-fmt):
+  - First run static checks with stdlib (always available), producing issues/suggestions;
+  - If chktex / latexindent / tex-fmt are installed on the system, layer on **real lint**
+    (method=external-lint); if missing, honestly fall back to stdlib (method=stdlib-fallback),
+    never lying.
+  - New: cross-file undefined \\ref / \\cite check (given --refs refs.bib).
 
-用法:
+Usage:
   python3 latex_formatter.py --input draft.tex --template ieee
   python3 latex_formatter.py --input draft.tex --refs refs.bib --output clean.json
 """
@@ -32,9 +33,9 @@ def _which(*names):
 
 
 def _external_lint(tex: str, tex_path: Path) -> dict:
-    """运行系统安装的真实 lint（chktex 优先，否则 latexindent），缺失 → {}。
+    """Run the real, system-installed linter (chktex first, else latexindent); missing -> {}.
 
-    只收集 warning/error，不阻断（工具缺失属正常，离线可复现）。
+    Only collect warning/error, do not block (a missing tool is normal and reproducible offline).
     """
     chktex = _which("chktex")
     if chktex:
@@ -54,15 +55,15 @@ def format_latex(input_tex: str, template: str = "ieee", refs_bib: str = None,
                  ext: dict = None) -> dict:
     """Apply template formatting to LaTeX content.
 
-    refs_bib: 可选 .bib 文本，用于跨文件检查 \\cite 是否都有对应 entry。
-    ext: 外部 lint 结果（由调用方经 _external_lint() 计算后传入）；
-         传 {} 或 None 时回退 stdlib。
+    refs_bib: optional .bib text, used to cross-file-check whether every \\cite has an entry.
+    ext: external lint result (computed by the caller via _external_lint() and passed in);
+         pass {} or None to fall back to stdlib.
     """
     tpl = TEMPLATES.get(template, TEMPLATES["generic"])
     issues = []
     warns = []
 
-    # --- 静态检查（always） ---
+    # --- static checks (always) ---
     if "\\begin{document}" not in input_tex:
         issues.append("Missing \\begin{document}")
     has_cite = "\\cite" in input_tex
@@ -74,7 +75,7 @@ def format_latex(input_tex: str, template: str = "ieee", refs_bib: str = None,
         if n_sections < 3:
             warns.append(f"Only {n_sections} sections — paper too short?")
 
-    # 环境配对（按名核对，而非简单计数）
+    # environment pairing (checked by name, not just by counting)
     begins = re.findall(r"\\begin\{([^}]+)\}", input_tex)
     ends = re.findall(r"\\end\{([^}]+)\}", input_tex)
     from collections import Counter
@@ -85,7 +86,7 @@ def format_latex(input_tex: str, template: str = "ieee", refs_bib: str = None,
                 f"Unbalanced environment '{{{name}}}': "
                 f"begin={cb.get(name,0)} end={ce.get(name,0)}")
 
-    # 转义检查（& % # 在正文裸用，且前面不是反斜杠）
+    # escape check (& % # used bare in the body, without a preceding backslash)
     for char, hint in [("&", "Raw & needs escaping in text"),
                        ("%", "Raw % needs escaping"),
                        ("#", "Raw # needs escaping")]:
@@ -93,7 +94,7 @@ def format_latex(input_tex: str, template: str = "ieee", refs_bib: str = None,
         if pat.search(input_tex):
             issues.append(hint)
 
-    # 跨文件 undefined \cite / \ref
+    # cross-file undefined \cite / \ref
     undefined_cite = []
     defined_keys = set()
     if refs_bib:
@@ -106,7 +107,7 @@ def format_latex(input_tex: str, template: str = "ieee", refs_bib: str = None,
     if undefined_cite:
         issues.append(f"Undefined \\cite keys (no .bib entry): {sorted(set(undefined_cite))}")
 
-    # 真实 lint（有工具则叠加，缺失如实回退）
+    # real lint (layer it on if a tool exists; honestly fall back if missing)
     ext = ext or {}
     status = "pass" if not issues and not warns else ("issues_found" if issues else "pass")
 

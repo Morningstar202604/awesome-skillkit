@@ -1,11 +1,11 @@
-# 方法论来源与设计取舍
+# Methodology sources and design trade-offs
 
 > 何时读：当你想改判重策略、调整冲突命名规则，或质疑"为什么不直接删重复文件"时读本文件。
 > 本文件不含 API 细节，只讲设计依据。
 
-## 思想来源（公开方法论蒸馏，非代码搬运）
+## Idea sources (distilled from public methodology; no code copied)
 
-| 本脚本的做法 | 蒸馏自的思想 |
+| This script's approach | Idea distilled from |
 |--------------|--------------|
 | 只读优先 / dry-run 默认 | Unix 工具链"先 `--dry-run` 后落盘"的惯例；`rsync -n`、`git clean -n`、Terraform `plan/apply` 两阶段模型 |
 | `resolve()` 后做前缀断言 | OWASP 路径穿越防护的 canonicalize-then-check 模式 |
@@ -13,7 +13,7 @@
 | 保留"最旧 / 路径最短" | 归档工具链（如备份去重）默认"保留最早出现的原件"以减少断链 |
 | 冲突加 `_1` 序号 | Windows 资源管理器 / macOS Finder 的 "copy 2" 命名惯例改良版（序号单调递增，便于脚本幂等重跑） |
 
-## 关键取舍
+## Key trade-offs
 
 **为什么判重只读前 1KB？** 全量哈希一个 4GB 视频要数十秒，而绝大多数重复文件
 连大小都相同，读 1KB 就足以区分。代价是理论上存在"大小相同 + 头部 1KB 相同 + 尾部不同"
@@ -29,7 +29,7 @@
 **为什么移动而非复制再删除？** `shutil.move` 在同一文件系统内是 `rename`，
 原子且瞬时；跨文件系统时自动退化为复制 + 删除。复制删除式实现会在中途失败时留下半份文件。
 
-## 官方文档
+## Official documentation
 
 - Python `pathlib`（`Path.resolve` 的符号链接语义）：<https://docs.python.org/3/library/pathlib.html>
 - Python `os.walk`（原地裁剪 `dirnames` 控制下潜）：<https://docs.python.org/3/library/os.html#os.walk>

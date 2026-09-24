@@ -3,7 +3,7 @@
 本文件说明 `find_skill.py` 看到的世界长什么样：哪些目录被扫、什么被跳过、
 `stats` 的每个数字怎么算出来。**解读统计数字或「明明有这个技能却搜不到」时读。**
 
-## 目录地图
+## Table of Contents地图
 
 ```
 awesome-skillkit/

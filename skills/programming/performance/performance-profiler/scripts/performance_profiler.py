@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Performance Profiler — 扫描项目目录，识别性能风险指标。
+"""Performance Profiler — scan a project directory and identify performance-risk signals.
 
-用法:
+Usage:
   python3 performance_profiler.py /path/to/project
   python3 performance_profiler.py /path/to/project --json
   python3 performance_profiler.py /path/to/project --large-file-threshold-kb 256

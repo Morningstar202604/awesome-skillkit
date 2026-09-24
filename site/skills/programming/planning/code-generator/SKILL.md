@@ -1,6 +1,6 @@
 ---
 name: code-generator
-description: "Two-tier code generation (L1 script template engine + L2 agent generation) that turns a structured plan into runnable code. L1 scripts cover three families: Python FastAPI CRUD, bug-fix skeletons, and test stubs; L2 generates complex logic by the agent against project context. When to use: you already have a structured implementation plan and need to produce runnable code files. Triggers (Chinese/English): generate code / implement from a plan / turn a solution into code / generate a CRUD scaffold / generate code / write the implementation per the plan. Exclusions: does not review or debug existing code, and does not produce the implementation plan (that is code-intent-planner's job)."
+description: "Two-tier code generation (L1 script template engine + L2 agent generation) that turns a structured plan into runnable code. L1 scripts cover three families: Python FastAPI CRUD, bug-fix skeletons, and test stubs; L2 generates complex logic by the agent against project context. Use when you already have a structured implementation plan and need to produce runnable code files / generate code / implement from a plan / turn a solution into code / generate a CRUD scaffold / write the implementation per the plan. Do NOT use for reviewing or debugging existing code, or producing the implementation plan (that is code-intent-planner's job)."
 license: Apache-2.0
 compatibility: Pure Python 3.8+ stdlib (the scripts have zero dependencies); L2 generation is done by the agent running this skill, no API key required.
 metadata:

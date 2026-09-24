@@ -1,6 +1,6 @@
 # tech-debt-tracker reference
 
-## 目录
+## Table of Contents
 
 - [Technical Debt Classification Framework](#technical-debt-classification-framework)
   - [1. Code Debt](#1-code-debt)

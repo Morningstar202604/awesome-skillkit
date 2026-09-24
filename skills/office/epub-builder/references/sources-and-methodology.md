@@ -1,4 +1,4 @@
-# 来源与方法论说明 / Sources & Methodology
+# Sources & Methodology
 
 - 技能：`epub-builder`（awesome-skillkit 原创编写，Apache-2.0）。
 - 定位：场景包 `office` 的补强技能。`office` 原有 `docx-writer`（Word）与
@@ -17,9 +17,9 @@
 上述来源全部作为**规范事实与结构骨架**被使用。`scripts/epub_build.py` 的
 Markdown 解析器、OPF/NCX/NAV 的三份 XML 模板、`slugify` 命名规则、
 章节切分逻辑与 inspect 回读实现，均为从零撰写，
-未翻译、未改写、未摘录任何上游段落、示例或代码。
+No upstream passage, example, or code was translated, rewritten, or excerpted.
 
-## 关键设计决策（为什么这样做）
+## Key design decisions (why this way)
 
 1. **只用标准库**：EPUB 是「zip + XML」，`zipfile` 与 `xml.etree.ElementTree`
    已足够。引入第三方库会让技能在裸环境下失效，而收益接近于零。
@@ -39,7 +39,7 @@ Markdown 解析器、OPF/NCX/NAV 的三份 XML 模板、`slugify` 命名规则�
 8. **不含图片支持且明确说明**：不假装支持。图片需要资源清单、媒体类型与
    相对路径管理，属于另一个技能的范围，含糊承诺比直说「不支持」更有害。
 
-## 局限与边界
+## Limitations and boundaries
 
 - **不支持图片与封面**：仅处理文本结构。需要插图请另行加工。
 - **章节切分只认 H1**：不识别「第一章」等中文序数模式；用户应按 H1 组织原稿。
@@ -50,6 +50,6 @@ Markdown 解析器、OPF/NCX/NAV 的三份 XML 模板、`slugify` 命名规则�
   需要发布级校验应另跑 epubcheck。
 - **中文字体不嵌入**：依赖阅读器的字体回退，不打包字体文件。
 
-## 许可
+## License
 
-本技能及其参考文件以 Apache-2.0 分发；所列上游文档各自的许可条款与本文互不适用。
+This skill and its reference files are distributed under Apache-2.0; the upstream documents listed carry their own license terms, which do not apply to this file.

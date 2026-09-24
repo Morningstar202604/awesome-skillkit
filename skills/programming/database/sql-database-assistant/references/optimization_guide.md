@@ -1,6 +1,6 @@
 # Query Optimization Guide
 
-## 目录
+## Table of Contents
 
 - [Reading EXPLAIN Plans](#reading-explain-plans)
   - [PostgreSQL — EXPLAIN ANALYZE](#postgresql-explain-analyze)

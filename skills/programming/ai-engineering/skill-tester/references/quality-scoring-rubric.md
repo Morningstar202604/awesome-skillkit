@@ -1,6 +1,6 @@
 # Quality Scoring Rubric
 
-## 目录
+## Table of Contents
 
 - [Overview](#overview)
   - [Dimension Configuration](#dimension-configuration)

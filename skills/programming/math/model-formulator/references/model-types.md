@@ -7,7 +7,7 @@
 >
 > 即：**脚本给的是起点，不是结论**。它不看数据、不校验约束，未命中关键词时 `model_type` 直接取该域列表第一项（optimization→LP、differential→ODE、statistical→regression、stochastic→markov_chain、bayesian→prior_posterior）。必须用本文件人工复核。
 
-## 目录
+## Table of Contents
 - §1 选择决策树（从问题到模型类型）
 - §2 优化类（LP / ILP / MIP / NLP / 凸优化）
 - §3 预测类（回归 / 时序）

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Simulation Runner — 参数扫描、敏感性分析、蒙特卡洛仿真。
+"""Simulation Runner — parameter sweep, sensitivity analysis, Monte Carlo simulation.
 
-用法:
+Usage:
   python3 simulation.py --spec model_spec.json --param rate --range 0.1 5.0 --steps 10
   python3 simulation.py --monte-carlo --n 10000 --mu 0 --sigma 1
 """
@@ -147,10 +147,11 @@ def main():
         result = sensitivity(spec, params, base_values,
                             perturbation=args.perturbation)
     else:
-        # 什么都没给 → 演示轨，如实标注 demo，避免被当真实实验结果引用
+        # nothing supplied -> demo run; label it honestly as demo so it is not cited as a real experiment
         result = monte_carlo()
         result["demo"] = True
-        result["note"] = "未指定任何运行参数，这是内置演示分布(mu=0,sigma=1,n=10000)；"                          "请勿当作真实实验结果引用。真实运行请给 --n/--mu/--sigma/--threshold 或 --spec。"
+        result["note"] = "No run parameters specified; this is the built-in demo distribution (mu=0, sigma=1, n=10000). " \
+                         "Do not cite it as a real experimental result. For a real run, supply --n/--mu/--sigma/--threshold or --spec."
 
     output = json.dumps(result, ensure_ascii=False, indent=2)
     if args.output:

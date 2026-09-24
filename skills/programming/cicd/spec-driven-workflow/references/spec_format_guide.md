@@ -1,6 +1,6 @@
 # Spec Format Guide
 
-## 目录
+## Table of Contents
 
 - [The Spec Document Structure](#the-spec-document-structure)
 - [Section 1: Title and Metadata](#section-1-title-and-metadata)

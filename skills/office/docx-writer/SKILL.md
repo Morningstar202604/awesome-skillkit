@@ -87,8 +87,8 @@ Structured sources (e.g. program pipelines) can use JSON: each block
 also via `create --input content.json`.
 
 Expected output: `created: output.docx`.
-If it fails: check whether draft syntax mixed in full-width `＃`, or table rows
-don't start with `|`; fix and rerun.
+If it fails: check whether draft syntax mixed in a full-width hash character
+instead of ASCII `#`, or table rows don't start with `|`; fix and rerun.
 
 ### Step 3: Apply CJK Styles
 

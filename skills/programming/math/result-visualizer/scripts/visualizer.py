@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Result Visualizer — 把模型结果变成图表。
+"""Result Visualizer — turn model results into charts.
 
-用法:
+Usage:
   python3 visualizer.py --data results.json --type line --output plot.png
   python3 visualizer.py --data results.json --type scatter --x t --y y
 """

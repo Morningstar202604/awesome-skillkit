@@ -1,6 +1,6 @@
 # 搜索结果解析器
 
-## 目录
+## Table of Contents
 
 - [SearXNG 解析](#searxng-解析)
   - [JSON 结构](#json-结构)

@@ -28,7 +28,8 @@ def idcard_ok(s):
     ssum = sum(int(c) * w for c, w in zip(s[:17], ID_WEIGHTS))
     return ID_CHECK[ssum % 11] == s[17].upper()
 def credit_ok(s):
-    # 统一社会信用代码前 2 位为登记管理部门代码，纯数字开头多为身份证误配，排除
+    # The first 2 chars of a Unified Social Credit Code are the registration-authority
+    # code; a purely-numeric start is usually a mis-matched ID number, so exclude it.
     return len(s) == 18 and any(c.isalpha() for c in s[:2])
 def mask_phone(v):
     p = v[-11:] if len(v) >= 11 else v
@@ -79,7 +80,8 @@ def apply_hits(line, hits, strategy):
         if strategy == "hash":
             repl = hashlib.sha256(val.encode()).hexdigest()[:8]
         elif strategy == "replace":
-            # 完全占位符：不留任何原值片段（mask 会保留首尾位，hash 保留可关联指纹）
+            # full placeholder: leave no fragment of the original value (mask keeps the
+            # head/tail chars; hash keeps a linkable fingerprint)
             repl = "[REDACTED:%s]" % cat
         else:
             repl = MASKERS[cat](val)
@@ -138,7 +140,7 @@ def main():
         print("SUMMARY: %d hits across %d files" % (total, len(files)))
     else:
         if len(files) > 1:
-            # 多文件合并输出必须保留文件边界，否则消费方无法还原归属
+            # merged multi-file output must keep file boundaries, or consumers cannot recover provenance
             parts = []
             for f, buf in zip(files, redact_buf):
                 parts.append("===== %s =====\n%s" % (str(f).replace("\n", "_"), buf))

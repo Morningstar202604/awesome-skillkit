@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Debug Diagnoser — 解析 stack trace，定位根因，给出修复建议。
+"""Debug Diagnoser — parse a stack trace, locate the root cause, and suggest fixes.
 
-用法:
+Usage:
   python3 diagnoser.py --trace "Traceback... TypeError..."
   python3 diagnoser.py --file error.log --project .
 """

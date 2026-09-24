@@ -1,11 +1,11 @@
-# 方法论来源与设计取舍
+# Methodology sources and design trade-offs
 
 > 何时读：想改改名规则的应用顺序、调整冲突策略，或质疑"为什么日志用 JSONL 而不是纯文本"时读。
 > 本文件不含 CLI 参数表（那在 SKILL.md），只讲设计依据。
 
-## 思想来源（公开方法论蒸馏，非代码搬运）
+## Idea sources (distilled from public methodology; no code copied)
 
-| 本脚本的做法 | 蒸馏自的思想 |
+| This script's approach | Idea distilled from |
 |--------------|--------------|
 | `preview` 默认 / `apply` 需显式确认 | 批量运维工具的双阶段模型（Terraform `plan`→`apply`、`git clean -n`） |
 | 两阶段改名（先临时名再终名） | 经典批量改名算法：先全体脱离原命名空间，再统一落位，从根本上消除环状依赖 |
@@ -13,7 +13,7 @@
 | JSONL 变更日志 + 逆序回滚 | 预写日志（WAL）思路：先记变更意图、再执行，回滚即反向重放 |
 | EXIF 失败回退 mtime | 渐进降级：元数据可能缺失，但"按拍摄时间排序"这个用户意图必须始终被满足 |
 
-## 关键取舍
+## Key trade-offs
 
 **为什么 `{n}` 只在模板真的用到时才自增？** 若无条件自增，被跳过的文件（已合规、或有冲突）
 会白白吃掉一个号，产出 `IMG_001, IMG_003, IMG_007` 这样的空洞编号。用户看到的应该是连续序列。
@@ -31,7 +31,7 @@ JSONL 每行独立可解析，坏行可单独跳过（`--undo` 遇到坏行只�
 否则重复执行 `undo` 会尝试再次回滚同一批记录，把用户后来新建的同名文件误改。
 保留无法回滚的记录则是为了让遗留问题可见。
 
-## 官方文档
+## Official documentation
 
 - Python `re`（`sub` 与反向引用语法）：<https://docs.python.org/3/library/re.html>
 - Python `str.format` 的 Format Specification Mini-Language（`{n:03d}` 的依据）：<https://docs.python.org/3/library/string.html#format-specification-mini-language>

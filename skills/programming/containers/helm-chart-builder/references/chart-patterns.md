@@ -1,6 +1,6 @@
 # Helm Chart Patterns Reference
 
-## 目录
+## Table of Contents
 
 - [Standard Chart Structure](#standard-chart-structure)
   - [Minimal Production Chart](#minimal-production-chart)

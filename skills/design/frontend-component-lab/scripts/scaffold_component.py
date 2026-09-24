@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
 """
-scaffold_component.py — 离线生成一个可运行的 React/TS 组件骨架 + 配套
-设计 Token 文件。不联网、不依赖 npm（只产出源码文件，用户自己接工程）。
+scaffold_component.py — offline-generate a runnable React/TS component skeleton
+plus a design-token file. No network, no npm dependency (only produces source
+files; the user wires them into their own project).
 
-生成物：
-  <out>/<name>.tsx         组件（带 Props 接口 + 基础样式）
-  <out>/<name>.module.css CSS Modules（从 token 取值，避免魔法数字）
-  <out>/design-tokens.json 设计 token（color/spacing/radius/font）
+Outputs:
+  <out>/<name>.tsx         component (with a Props interface + base styles)
+  <out>/<name>.module.css  CSS Modules (values pulled from tokens, no magic numbers)
+  <out>/design-tokens.json design tokens (color/spacing/radius/font)
 
-红线：
-- 默认 dry-run 打印文件清单 + 摘要，--write 才落盘
-- 不引入任何网络请求 / 密钥
-- 幂等：同名组件已存在时，dry-run 提示，--write 需 --force 才覆盖
+Hard rules:
+- default is dry-run: prints the file list + summary; only --write writes to disk
+- no network requests / no secrets
+- idempotent: when a same-named component already exists, dry-run warns, and
+  --write needs --force to overwrite
 """
 import argparse
 import json
@@ -36,7 +38,7 @@ DEFAULT_TOKENS = {
 
 
 def merge_tokens(overrides: dict | None) -> dict:
-    """浅合并：用户覆盖同层 key，缺的保留默认。"""
+    """Shallow merge: user overrides same-level keys; missing ones keep the defaults."""
     base = json.loads(json.dumps(DEFAULT_TOKENS))
     if not overrides:
         return base

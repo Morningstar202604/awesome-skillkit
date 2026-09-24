@@ -1,6 +1,6 @@
 # System Design Workflows
 
-## 目录
+## Table of Contents
 
 - [Workflows Index](#workflows-index)
 - [1. System Design Interview Approach](#1-system-design-interview-approach)

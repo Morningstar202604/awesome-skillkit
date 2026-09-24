@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
 """
-reconcile.py — 对账：把「流水 CSV」和「账单 CSV」逐笔匹配，
-输出三张清单（匹配成功 / 流水有但账单没有 / 账单有但流水没有）。
+reconcile.py -- reconciliation: match a "transactions CSV" against a "billing CSV"
+row by row, and emit three lists (matched / in-statement-but-not-billing /
+in-billing-but-not-statement).
 
-设计红线：
-- 默认 dry-run：只打印结果摘要，不写文件
-- --write 才输出 JSON 对账报告（新文件，源 CSV 不动）
-- 纯本地、零网络、零拷贝
-- 凭证（如有）走环境变量，不在脚本里写死
+Design guardrails:
+- dry-run by default: only print the result summary, do not write files
+- --write outputs a JSON reconciliation report (a new file; source CSVs untouched)
+- purely local, zero network, zero copying
+- credentials (if any) come from environment variables, never hard-coded in the script
 
-匹配策略：
-- 主键：金额 + 日期（天级）+ 交易对方（可选）
-- 金额相等（±0.01）且日期同月 → 候选；再按对方名归一化后比较
-- 未匹配进 unmatched 清单，供人工核对
+Matching strategy:
+- key: amount + date (day-level) + counterparty (optional)
+- amounts equal (within +/-0.01) and dates in the same month -> candidate; then compare
+  after normalizing the counterparty name
+- unmatched rows go into the unmatched lists for human review
 """
 import argparse
 import csv
@@ -34,7 +36,7 @@ def parse_money(v: str) -> float:
 
 
 def parse_date(v: str) -> str:
-    """归一化到天：YYYY-MM-DD。支持 2026-09-20 / 2026/09/20 / 09/20/2026。"""
+    """Normalize to day: YYYY-MM-DD. Supports 2026-09-20 / 2026/09/20 / 09/20/2026."""
     v = (v or "").strip()
     for fmt in ("%Y-%m-%d", "%Y/%m/%d", "%m/%d/%Y"):
         try:
@@ -62,12 +64,12 @@ def detect_col(rows: list[dict], *cands: str) -> str | None:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="Reconcile two CSV ledgers (offline, dry-run by default)")
-    ap.add_argument("--statement", required=True, help="流水 CSV")
-    ap.add_argument("--billing", required=True, help="账单 CSV")
-    ap.add_argument("--amount-col", default="amount", help="金额列名")
-    ap.add_argument("--date-col", default="date", help="日期列名")
-    ap.add_argument("--party-col", default="", help="交易对方列名（可选，增强匹配）")
-    ap.add_argument("-o", "--out", default="reconcile_report.json", help="报告路径（仅 --write 时）")
+    ap.add_argument("--statement", required=True, help="transactions CSV")
+    ap.add_argument("--billing", required=True, help="billing CSV")
+    ap.add_argument("--amount-col", default="amount", help="amount column name")
+    ap.add_argument("--date-col", default="date", help="date column name")
+    ap.add_argument("--party-col", default="", help="counterparty column name (optional, improves matching)")
+    ap.add_argument("-o", "--out", default="reconcile_report.json", help="report path (only with --write)")
     ap.add_argument("--write", action="store_true")
     args = ap.parse_args()
 
@@ -78,24 +80,24 @@ def main() -> int:
     stmt = load(args.statement)
     bill = load(args.billing)
 
-    # 列名探测
-    amt_s = detect_col(stmt, args.amount_col, "金额", "amount", "amt")
-    amt_b = detect_col(bill, args.amount_col, "金额", "amount", "amt")
-    date_s = detect_col(stmt, args.date_col, "日期", "date")
-    date_b = detect_col(bill, args.date_col, "日期", "date")
+    # column-name detection
+    amt_s = detect_col(stmt, args.amount_col, "amount", "amt")
+    amt_b = detect_col(bill, args.amount_col, "amount", "amt")
+    date_s = detect_col(stmt, args.date_col, "date")
+    date_b = detect_col(bill, args.date_col, "date")
     if not (amt_s and amt_b and date_s and date_b):
         print(f"[ERROR] cannot locate amount/date columns "
               f"(amt_s={amt_s}, amt_b={amt_b}, date_s={date_s}, date_b={date_b})", file=sys.stderr)
         return 3
-    party_s = detect_col(stmt, args.party_col, "对方", "party", "merchant") if args.party_col else None
-    party_b = detect_col(bill, args.party_col, "对方", "party", "merchant") if args.party_col else None
+    party_s = detect_col(stmt, args.party_col, "party", "merchant") if args.party_col else None
+    party_b = detect_col(bill, args.party_col, "party", "merchant") if args.party_col else None
 
     bill_used = set()
     matched, unmatched_stmt, unmatched_bill = [], [], []
 
     for i, s in enumerate(stmt):
         s_amt = parse_money(s.get(amt_s, ""))
-        s_date = parse_date(s.get(date_s, ""))[:7]  # 月到 YYYY-MM
+        s_date = parse_date(s.get(date_s, ""))[:7]  # month to YYYY-MM
         s_party = normalize_party(s.get(party_s, "")) if party_s else ""
         best_j = -1
         for j, b in enumerate(bill):
@@ -140,21 +142,21 @@ def main() -> int:
         "unmatched_billing": unmatched_bill,
     }
 
-    print("=== 对账摘要 ===")
-    print(f"  流水 {total_stmt} 笔 / 账单 {total_bill} 笔")
-    print(f"  匹配 {len(matched)} / 流水未匹配 {len(unmatched_stmt)} / 账单未匹配 {len(unmatched_bill)}")
-    print(f"  匹配率 {match_rate:.1%}")
+    print("=== Reconciliation summary ===")
+    print(f"  statement {total_stmt} rows / billing {total_bill} rows")
+    print(f"  matched {len(matched)} / unmatched-in-statement {len(unmatched_stmt)} / unmatched-in-billing {len(unmatched_bill)}")
+    print(f"  match rate {match_rate:.1%}")
     if unmatched_stmt:
-        print(f"  流水未匹配示例: {json.dumps(unmatched_stmt[0]['row'], ensure_ascii=False)[:120]}")
+        print(f"  unmatched-in-statement sample: {json.dumps(unmatched_stmt[0]['row'], ensure_ascii=False)[:120]}")
     if unmatched_bill:
-        print(f"  账单未匹配示例: {json.dumps(unmatched_bill[0]['row'], ensure_ascii=False)[:120]}")
+        print(f"  unmatched-in-billing sample: {json.dumps(unmatched_bill[0]['row'], ensure_ascii=False)[:120]}")
 
     if args.write:
         with open(args.out, "w", encoding="utf-8") as f:
             json.dump(report, f, ensure_ascii=False, indent=2)
-        print(f"\n[WRITE] 报告 -> {args.out}")
+        print(f"\n[WRITE] report -> {args.out}")
     else:
-        print(f"\n[DRY-RUN] 未写文件。加 --write -o {args.out!r} 落 JSON 报告。")
+        print(f"\n[DRY-RUN] no file written. Add --write -o {args.out!r} to emit the JSON report.")
     return 0
 
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""ML Pipeline — 训练→评估→超参→部署 一键流程。
+"""ML Pipeline — one-click train -> evaluate -> tune hyperparameters -> deploy.
 
-用法:
+Usage:
   python3 ml_pipeline.py --data data/train.csv --target label --model random_forest
   python3 ml_pipeline.py --data ... --model xgboost --cv 5
 """

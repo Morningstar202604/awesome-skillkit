@@ -1,6 +1,6 @@
 # env-secrets-manager reference
 
-## 目录
+## Table of Contents
 
 - [Required Variable Validation Script](#required-variable-validation-script)
 - [Secret Leak Detection](#secret-leak-detection)

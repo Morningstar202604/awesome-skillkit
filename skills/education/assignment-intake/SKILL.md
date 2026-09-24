@@ -193,7 +193,7 @@ assignment-plan JSON structure:
 | Symptom | Cause | Action |
 |---|---|---|
 | Photo transcription has typos | Blurry photo / handwriting | Point out suspicious spots for user to confirm; numbers and problem conditions must be human-confirmed |
-| Composite type | "survey + presentation" combo | Main plan marked primary, secondary part secondary, downstream executes separately |ately |
+| Composite type | "survey + presentation" combo | Main plan marked primary, secondary part secondary, downstream executes separately |
 | Materials can't be gathered | User won't provide | Start with missing materials, plan marks <<material:brief>> placeholders, never fabricate |
 | Teacher criteria conflict with default dimensions | Step 4 used default table | Replace wholesale with teacher criteria, note source: teacher |
 | Vague problem ("write an article") | Missing type and word count | Categorize as other, ask type and word count clearly then output plan |

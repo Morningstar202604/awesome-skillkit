@@ -2,7 +2,7 @@
 name: code-intent-planner
 description: "Three-tier waterfall intent recognition (L1 regex <10ms, L2 Flash LLM, L3 Pro LLM) that classifies user intent into 10 types, decomposes tasks, and produces execution plans with evidence grading. Use when the user describes a coding task and needs structured planning before implementation, clarifying requirements, producing an implementation plan, or turning a vague requirement into something concrete. Do NOT use for implementing the planned code itself (planning and orchestration only)."
 license: Apache-2.0
-compatibility: Requires network access and docker. No API keys required.
+compatibility: "Python 3 stdlib scripts. Default mock mode is offline (no network). Real LLM mode (--no-mock) needs network access plus LLM_API_KEY / LLM_BASE_URL / LLM_MODEL env vars. No Docker required."
 metadata:
   version: "1.0"
   author: awesome-skillkit

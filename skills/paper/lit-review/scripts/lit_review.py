@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
-"""Literature Review — 多源真实检索 + 真实引用图 + 诚实来源标注（SOTA 升级版）。
+"""Literature Review -- multi-source real retrieval + real citation graph + honest source labeling (SOTA upgrade).
 
-对标 2026 最佳实践：
-  数据源（按优先级，自动回退，全程诚实标注 data_source）：
-    1) --s2   : Semantic Scholar Graph API（真实引用/被引、venue、年份、摘要）
-    2) --arxiv: arXiv API（真实检索，但无引用数 → citations=0）
-    3) mock   : 内置合成数据（无网络兜底，MUST 标「模拟数据」）
-  真实引用图：优先用 references 做「共同被引」边（两篇共享引用 → co-cited），
-  而非旧版的顺序连接（无信息量）；缺引用元数据时退化为 venue+year 共现兜底。
-  趋势/空白：默认 LLM 合成（seed 传入的摘要）；无 LLM 网关时回退到关键词共现
-  （统计可复核），并如实标注 synthesis_method。
+Aligned with 2026 best practices:
+  Data sources (by priority, auto-fallback, data_source honestly labeled throughout):
+    1) --s2   : Semantic Scholar Graph API (real references/citations, venue, year, abstract)
+    2) --arxiv: arXiv API (real retrieval, but no citation count -> citations=0)
+    3) mock   : built-in synthetic data (offline fallback; MUST be labeled "simulated data")
+  Real citation graph: prefer "co-cited" edges built from references (two papers sharing a
+  reference -> co-cited), rather than the old version's sequential links (uninformative);
+  when citation metadata is missing, degrade to a venue+year co-occurrence fallback.
+  Trends/gaps: by default LLM synthesis (abstracts passed in via seed); when there is no LLM
+  gateway, fall back to keyword co-occurrence (statistically reproducible) and honestly label
+  synthesis_method.
 
-来源诚实：输出顶层 data_source = s2|arxiv|mock；任何回退都写进 warning；
-mock 结果 MUST 标注 模拟数据。SKILLKIT_MOCK=1 强制 mock（CI/离线）。
+Source honesty: the output's top-level data_source = s2|arxiv|mock; every fallback is written
+into warning; mock results MUST be labeled simulated data. SKILLKIT_MOCK=1 forces mock (CI/offline).
 """
 import argparse
 import json
@@ -43,7 +45,7 @@ MOCK_PAPERS = [
 
 
 # ---------------------------------------------------------------------------
-# 数据源 1：Semantic Scholar（真实引用/被引）
+# Data source 1: Semantic Scholar (real references/citations)
 # ---------------------------------------------------------------------------
 def _fetch_s2(topic: str, max_results: int) -> list:
     query = urllib.parse.quote(topic)
@@ -70,7 +72,7 @@ def _fetch_s2(topic: str, max_results: int) -> list:
 
 
 # ---------------------------------------------------------------------------
-# 数据源 2：arXiv（真实检索，无引用数）
+# Data source 2: arXiv (real retrieval, no citation count)
 # ---------------------------------------------------------------------------
 def _fetch_arxiv(topic: str, max_results: int) -> list:
     import time
@@ -80,7 +82,7 @@ def _fetch_arxiv(topic: str, max_results: int) -> list:
     url = (f"{_ARXIV_API}?search_query=all:{query}"
            f"&max_results={max_results}&sortBy=relevance")
     body = None
-    for attempt in range(2):  # 首次 + 429 退避重试一次
+    for attempt in range(2):  # first try + one backoff retry on 429
         try:
             req = urllib.request.Request(url, headers=_UA)
             with urllib.request.urlopen(req, timeout=20) as resp:
@@ -88,7 +90,7 @@ def _fetch_arxiv(topic: str, max_results: int) -> list:
             break
         except urllib.error.HTTPError as e:
             if e.code == 429 and attempt == 0:
-                time.sleep(3)  # arXiv 礼仪间隔
+                time.sleep(3)  # arXiv courtesy interval
                 continue
             raise
     root = ET.fromstring(body)
@@ -104,7 +106,7 @@ def _fetch_arxiv(topic: str, max_results: int) -> list:
             "title": " ".join((entry.findtext("a:title", "", ns) or "").split()),
             "year": int(published[:4]) if published[:4].isdigit() else 0,
             "venue": "arXiv",
-            "citations": 0,  # arXiv 不提供引用数，如实置 0
+            "citations": 0,  # arXiv provides no citation count; honestly set to 0
             "abstract": abs_text[:600],
             "url": f"https://arxiv.org/abs/{arxiv_id}",
             "doi": "",
@@ -113,11 +115,11 @@ def _fetch_arxiv(topic: str, max_results: int) -> list:
 
 
 # ---------------------------------------------------------------------------
-# 多源检索 + 诚实回退
+# Multi-source retrieval + honest fallback
 # ---------------------------------------------------------------------------
 def search_papers(topic: str, venues=None, max_results: int = 10,
                   source: str = "mock") -> tuple:
-    """返回 (papers, meta)。meta={data_source, warning, retrieval_date}。"""
+    """Return (papers, meta). meta={data_source, warning, retrieval_date}."""
     import datetime
     ret_date = datetime.date.today().isoformat()
     force_mock = os.environ.get("SKILLKIT_MOCK") == "1"
@@ -125,36 +127,36 @@ def search_papers(topic: str, venues=None, max_results: int = 10,
     if source == "s2" and not force_mock:
         try:
             papers = _fetch_s2(topic, max_results)[:max_results]
-            w = "Semantic Scholar 结果含真实引用数/venue；abstract 截断 600 字符"
+            w = "Semantic Scholar results include real citation counts/venue; abstract truncated to 600 chars"
             if venues:
                 papers = _filter_venues(papers, venues)
             return papers, {"data_source": "s2", "warning": w, "retrieval_date": ret_date}
         except Exception as e:
-            return _fallback(topic, venues, max_results, f"S2 API 失败({e})")
+            return _fallback(topic, venues, max_results, f"S2 API failed ({e})")
 
     if source == "arxiv" and not force_mock:
         try:
             papers = _fetch_arxiv(topic, max_results)[:max_results]
-            w = "arXiv 结果无引用数(citations=0)；--venues 过滤不生效"
+            w = "arXiv results have no citation count (citations=0); --venues filter does not apply"
             return papers, {"data_source": "arxiv", "warning": w, "retrieval_date": ret_date}
         except Exception as e:
-            return _fallback(topic, venues, max_results, f"arXiv API 失败({e})")
+            return _fallback(topic, venues, max_results, f"arXiv API failed ({e})")
 
     papers = [dict(p) for p in MOCK_PAPERS][:max_results] if max_results >= 0 else []
     if venues:
         papers = _filter_venues(papers, venues)
     return papers, {"data_source": "mock",
-                    "warning": "合成数据，MUST 标注 模拟数据",
+                    "warning": "synthetic data; MUST be labeled simulated data",
                     "retrieval_date": ret_date}
 
 
 def _fallback(topic, venues, max_results, reason):
-    """S2/arXiv 失败 → 降级为 mock（保持诚实标注）。"""
+    """S2/arXiv failed -> degrade to mock (keep honest labeling)."""
     papers = [dict(p) for p in MOCK_PAPERS][:max_results]
     if venues:
         papers = _filter_venues(papers, venues)
     return papers, {"data_source": "mock",
-                    "warning": f"{reason}，已回退为 MOCK 合成数据，MUST 标注 模拟数据",
+                    "warning": f"{reason}; fell back to MOCK synthetic data; MUST be labeled simulated data",
                     "retrieval_date": None}
 
 
@@ -164,15 +166,15 @@ def _filter_venues(papers, venues):
 
 
 # ---------------------------------------------------------------------------
-# 真实引用图：共同引用（co-citation）边，而非顺序连接
+# Real citation graph: co-citation edges, not sequential links
 # ---------------------------------------------------------------------------
 def build_citation_graph(papers: list, data_source: str) -> dict:
-    """优先用 references 做共同被引边；缺引用元数据时按 venue+year 共现兜底。"""
+    """Prefer co-cited edges built from references; when citation metadata is missing, fall back to venue+year co-occurrence."""
     graph = {"nodes": [], "edges": [], "method": None}
     for p in papers:
         graph["nodes"].append({"id": p["id"], "title": p["title"], "year": p.get("year", 0)})
 
-    # 方法 A：共同被引（两篇的 references 有交集 → co-cited 边）
+    # Method A: co-citation (two papers whose references intersect -> co-cited edge)
     ref_sets = {p["id"]: set(p.get("references") or []) for p in papers}
     for i in range(len(papers)):
         for j in range(i + 1, len(papers)):
@@ -183,7 +185,7 @@ def build_citation_graph(papers: list, data_source: str) -> dict:
         graph["method"] = "co-citation (shared references)"
         return graph
 
-    # 方法 B（无引用元数据，如 arXiv）：venue+year 共现兜底
+    # Method B (no citation metadata, e.g. arXiv): venue+year co-occurrence fallback
     key = lambda p: (p.get("venue", "?"), p.get("year", 0))
     for i in range(len(papers)):
         for j in range(i + 1, len(papers)):
@@ -197,7 +199,7 @@ def build_citation_graph(papers: list, data_source: str) -> dict:
 
 
 # ---------------------------------------------------------------------------
-# 趋势 / 空白：LLM 合成（seed 摘要），否则关键词共现回退
+# Trends / gaps: LLM synthesis (seed abstracts), otherwise keyword-cooccurrence fallback
 # ---------------------------------------------------------------------------
 def summarize(papers: list, data_source: str, llm_topic=None) -> dict:
     if not papers:
@@ -221,7 +223,7 @@ def summarize(papers: list, data_source: str, llm_topic=None) -> dict:
 
 
 def _get_model_route():
-    """尽力导入仓库内 model_route helper；导入失败返回 None（走关键词回退）。"""
+    """Best-effort import of the repo's model_route helper; on import failure return None (use the keyword fallback)."""
     try:
         sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__),
                                                           "..", "..", "..", "meta", "_shared")))
@@ -236,8 +238,9 @@ def _synthesize(papers, llm_topic):
                           for p in papers[:10])
     mr = None if (llm_topic is None) else _get_model_route()
     if mr:
-        prompt = (f"基于以下 {len(papers)} 篇论文标题/摘要，给出 2 条研究趋势与 2 条研究空白"
-                  f"（各 ≤ 30 字，可直接写进 Related Work，分行输出）：\n{abstracts}")
+        prompt = (f"Based on the following {len(papers)} paper titles/abstracts, give 2 research "
+                  f"trends and 2 research gaps (each <= 30 words, ready to drop into Related Work, "
+                  f"one per line):\n{abstracts}")
         try:
             raw = mr.offline_or_model(prompt, "llm", lambda *a, **k: "",
                                        model_fn=None) or ""
@@ -251,16 +254,16 @@ def _synthesize(papers, llm_topic):
 
 
 def _keyword_fallback(papers):
-    """纯统计：高频标题词 = 趋势信号；低覆盖但被高频词 = 空白候选。"""
+    """Pure statistics: high-frequency title words = trend signal; low-coverage words that co-occur with high-frequency ones = gap candidates."""
     words = Counter()
     for p in papers:
         words.update((p.get("title") or "").split())
     common = [w for w, _ in words.most_common(4)]
-    trends = f"高频主题词: {', '.join(common)}（基于 {len(papers)} 篇标题共现，非 LLM）"
+    trends = f"High-frequency topic words: {', '.join(common)} (based on title co-occurrence across {len(papers)} papers, not LLM)"
     recent = {w for p in papers if p.get("year", 0) >= 2025 for w in p["title"].split()}
-    gaps = [f"高频词 '{w}' 在 2025 年文献中未再出现，可能是未被跟进的方向"
+    gaps = [f"High-frequency term '{w}' no longer appears in 2025 literature; it may be an unfollowed direction"
             for w, _ in words.most_common(8) if w not in recent][:2]
-    return trends, (gaps or ["暂无可量化空白信号（标题共现不足），建议扩大 --max 或换关键词"])
+    return trends, (gaps or ["No quantifiable gap signal for now (insufficient title co-occurrence); consider raising --max or changing keywords"])
 
 
 def _parse_llm(raw):
@@ -273,13 +276,13 @@ def _parse_llm(raw):
 def main():
     ap = argparse.ArgumentParser(description="Multi-source literature review (SOTA)")
     ap.add_argument("--topic", required=True)
-    ap.add_argument("--venues", help="Comma-separated venue filter（仅 s2/mock 生效）")
+    ap.add_argument("--venues", help="Comma-separated venue filter (applies to s2/mock only)")
     ap.add_argument("--max", type=int, default=10)
     ap.add_argument("--source", default="mock", choices=["s2", "arxiv", "mock"],
-                    help="s2=Semantic Scholar(真实引用) | arxiv | mock")
+                    help="s2=Semantic Scholar (real citations) | arxiv | mock")
     ap.add_argument("--s2", action="store_true", help="shorthand for --source s2")
     ap.add_argument("--arxiv", action="store_true", help="shorthand for --source arxiv")
-    ap.add_argument("--no-llm", action="store_true", help="禁用 LLM 合成，强制关键词共现")
+    ap.add_argument("--no-llm", action="store_true", help="disable LLM synthesis, force keyword co-occurrence")
     ap.add_argument("--output", help="Output file")
     args = ap.parse_args()
 

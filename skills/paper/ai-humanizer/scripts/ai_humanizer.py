@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
-"""AI Humanizer — 检测学术文本中的 AI 腔措辞与「过度平滑」的结构特征。
+"""AI Humanizer — detect AI-flavored wording and "over-smoothed" structural features in academic text.
 
-对标 academic-humanizer，但补上旧版完全缺失的**结构维度**：
-  - burstiness（句长方差 / 均值）：人类写作句长起伏大，LLM 输出往往偏均匀；
-  - 句首重复：连续 ≥3 句用同一个开头词（Furthermore/Moreover…）；
-  - 词汇多样性 TTR（去停用词后 unique/total）；
-  - 重复 5-gram：同一串连续词反复出现。
+Targets academic-humanizer, but adds the **structural dimension** the old version lacked entirely:
+  - burstiness (sentence-length stddev / mean): human writing varies sentence length; LLM output
+    tends to be uniform;
+  - opener repetition: 3+ consecutive sentences opening with the same word (Furthermore/Moreover...);
+  - lexical diversity TTR (unique/total after stopwords);
+  - repeated 5-grams: the same run of words recurring.
 
-诚实声明（重要）：**AI 文本检测器在 2026 年依然不可靠**（高误报率，OpenAI 已于 2023 年
-关停其 classifier；学术机构明确指出检测器分数不可作为学术不端的证据）。本工具测的是
-「文风痕迹」，不是「作者身份」——输出只能用于**改写建议**，MUST NOT 用于指控。
+Honest disclaimer (important): **AI-text detectors are still unreliable in 2026** (high false-positive
+rates; OpenAI retired its classifier in 2023; academic bodies explicitly state detector scores must
+not be used as evidence of misconduct). This tool measures "style tells", not "authorship" -- output
+is for **revision suggestions only** and MUST NOT be used for accusation.
 
-用法:
+Usage:
   python3 ai_humanizer.py --file draft.tex --report
   python3 ai_humanizer.py --text "Our novel framework leverages state-of-the-art methods"
 """
@@ -58,7 +60,7 @@ AI_PATTERNS = {
         "replace_with": "Active voice: 'We performed X' > 'X was performed'",
         "severity": "low",
     },
-    "llm_verb_spam": {  # 2024+ LLM 高频动词
+    "llm_verb_spam": {  # 2024+ high-frequency LLM verbs
         "pattern": r"\b(delve|leverage|underscore|showcase|foster|garner|bolster|pivotal|crucial|intricate)\b",
         "replace_with": "Plain verbs win: 'use' not 'leverage', 'show' not 'showcase'",
         "severity": "high",
@@ -73,7 +75,7 @@ STOPWORDS = {
 
 
 def _positions(text: str, pattern: str, limit: int = 5) -> list:
-    """返回命中的 line:col 位置，便于人工定位。"""
+    """Return the line:col positions of hits, for human locating."""
     out = []
     for m in re.finditer(pattern, text, re.IGNORECASE):
         line = text.count("\n", 0, m.start()) + 1
@@ -85,13 +87,13 @@ def _positions(text: str, pattern: str, limit: int = 5) -> list:
 
 
 def _sentences(text: str) -> list:
-    stripped = re.sub(r"\\(?:begin|end)\{[^}]*\}", " ", text)  # 去掉环境标记
+    stripped = re.sub(r"\\(?:begin|end)\{[^}]*\}", " ", text)  # strip environment markers
     parts = re.split(r"(?<=[.!?])\s+", stripped)
     return [p.strip() for p in parts if len(p.strip().split()) >= 3]
 
 
 def structural_metrics(text: str) -> dict:
-    """句长起伏 / 句首重复 / 词汇多样性 / 重复 n-gram。"""
+    """Sentence-length variation / opener repetition / lexical diversity / repeated n-grams."""
     sents = _sentences(text)
     lengths = [len(s.split()) for s in sents]
     if len(lengths) >= 3:
@@ -101,7 +103,7 @@ def structural_metrics(text: str) -> dict:
     else:
         mean, burstiness = (statistics.mean(lengths) if lengths else 0), None
 
-    # 句首重复：最长连续同开头词
+    # opener repetition: longest run of consecutive sentences with the same opener word
     openers = [re.match(r"[\w']+", s.lower()).group(0) for s in sents if re.match(r"[\w']+", s)]
     max_run, run, prev = 0, 0, None
     for w in openers:

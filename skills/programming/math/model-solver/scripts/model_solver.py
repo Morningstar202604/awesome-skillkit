@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Model Solver — 求解数学模型 (LP/ODE/Monte Carlo)。
+"""Model Solver — solve mathematical models (LP/ODE/Monte Carlo).
 
-用法:
+Usage:
   python3 model_solver.py --spec model_spec.json
   python3 model_solver.py --spec model_spec.json --method scipy
 """
@@ -26,7 +26,7 @@ def solve_lp(spec: dict) -> dict:
     bounds = spec.get("bounds", [(0, None)] * len(c))
 
     result = linprog(c, A_ub=A_ub, b_ub=b_ub, bounds=bounds, method="highs")
-    # status: 0=success 1=iteration limit 2=infeasible 3=unbounded —— 不可行与无界不可混报
+    # status: 0=success 1=iteration limit 2=infeasible 3=unbounded -- infeasible and unbounded must not be conflated
     status_map = {0: "success", 1: "iteration_limit", 2: "infeasible", 3: "unbounded"}
     return {
         "status": status_map.get(result.status, "failed"),
@@ -53,7 +53,7 @@ def solve_ode(spec: dict) -> dict:
     t_span = spec.get("t_span", [0, 10])
     y0 = spec.get("y0", [1.0])
     t_eval = np.linspace(t_span[0], t_span[1], 100)
-    # 积分方法可按 spec 指定：刚性系统用 Radau/BDF，高精度用 DOP853
+    # integration method can be set per spec: use Radau/BDF for stiff systems, DOP853 for high accuracy
     ode_method = spec.get("ode_method", "RK45")
 
     sol = solve_ivp(ode_func, t_span, y0, t_eval=t_eval, method=ode_method)
@@ -95,8 +95,10 @@ def solve(spec: dict, method: str = None) -> dict:
     method = method or spec.get("solver_hint", "scipy")
     model_type = spec.get("model_type", "LP").upper()
 
-    # 整数约束必须最先判定：linprog 是纯连续 LP 求解器，会把 MIP 当 LP 解出
-    # 一个"看似成功"的连续解——整数最优常常与连续最优不同，这是最危险的静默误解。
+    # integer constraints must be detected first: linprog is a purely continuous LP
+    # solver and will return a "seemingly successful" continuous solution for a MIP --
+    # the integer optimum often differs from the continuous one, which is the most
+    # dangerous silent misunderstanding.
     if any(k in model_type for k in ("MIP", "MILP", "ILP")):
         result = {
             "status": "unsupported",
@@ -145,7 +147,7 @@ def main():
         print(f"Error: {result.get('error')}", file=sys.stderr)
         return 1
     if result.get("status") == "unsupported":
-        # 诚实失败：打印完整 JSON 便于人工排查，但用非零码让流水线感知
+        # honest failure: print the full JSON for human diagnosis, but use a non-zero code so the pipeline notices
         print(json.dumps(result, ensure_ascii=False, indent=2))
         print("Error: model type unsupported — see 'note' in JSON above", file=sys.stderr)
         return 2

@@ -1,6 +1,6 @@
 # 报告模板
 
-## 目录
+## Table of Contents
 
 - [Markdown 报告模板](#markdown-报告模板)
 - [JSON 报告模板](#json-报告模板)

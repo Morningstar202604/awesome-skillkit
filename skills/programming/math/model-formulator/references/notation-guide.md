@@ -2,7 +2,7 @@
 
 > 配套 model-formulator。`model_formulator.py` 输出的 `variables` 字段是 **JSON 的键 → 字符串说明**（如 `"x[i,j]": "truck i assigned to delivery j (binary)"`），键必须保持 ASCII 才能被 model-solver 与代码生成安全使用。本文件规定这些键怎么起、公式怎么写、单位怎么标。
 
-## 目录
+## Table of Contents
 - §1 四类符号：集合 / 索引 / 参数 / 变量
 - §2 上下标与命名约定对照表
 - §3 单位与量纲

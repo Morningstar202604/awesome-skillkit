@@ -1,6 +1,6 @@
 # api-test-suite-builder reference
 
-## 目录
+## Table of Contents
 
 - [Example Test Files](#example-test-files)
   - [Example 1 — Node.js: Vitest + Supertest (Next.js API Route)](#example-1-nodejs-vitest-supertest-nextjs-api-route)

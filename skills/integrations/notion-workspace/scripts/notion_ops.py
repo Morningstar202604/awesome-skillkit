@@ -1,17 +1,21 @@
 #!/usr/bin/env python3
-"""notion_ops.py -- Notion API 请求构造器与响应解析器（离线，不发网络请求）。
+"""notion_ops.py -- Notion API request builder and response parser (offline, no
+network requests).
 
-设计原则
---------
-1. **纯函数**：本脚本只做「构造请求体」与「解析响应」两件事，绝不调用
-   `requests` / `urllib` 发 HTTP。因此它不需要任何凭证即可完整测试。
-2. **dry-run 优先**：`build-*` 系列只打印将要发送的 JSON，落盘与否由人决定。
-3. **凭证不落盘**：脚本从不读取 token；真正发送时代理层用
-   `os.environ["NOTION_TOKEN"]` 在请求头里临时取用。
-4. **版本头固定**：`NOTION_VERSION` 是唯一版本事实源，改版本只改这一处。
+Design principles
+-----------------
+1. **Pure functions**: this script only does two things -- "build a request body" and
+   "parse a response" -- and never calls `requests`/`urllib` to send HTTP. It
+   therefore needs no credentials to test fully.
+2. **Dry-run first**: the `build-*` family only prints the JSON that would be sent;
+   whether to write to disk is decided by a human.
+3. **Credentials never hit disk**: the script never reads the token; at real send
+   time the proxy layer pulls `os.environ["NOTION_TOKEN"]` into the request header.
+4. **Version header is fixed**: `NOTION_VERSION` is the single source of truth for
+   the version; change the version in this one place.
 
-子命令
-------
+Subcommands
+-----------
   build-page            --title X [--blocks f.json] [--parent ID] [--parent-type page|database]
   build-database-query  --database ID [--filter f.json] [--sorts s.json] [--page-size N] [--start-cursor C]
   parse-page            --json f.json [--raw]
@@ -27,20 +31,24 @@ import json
 import sys
 from pathlib import Path
 
-# Notion 要求所有请求带 Notion-Version 头；不带会收到 400。
-# 2022-06-28 是长期稳定版：页面属性、数据库查询、块子元素的语义都以它为准。
+# Notion requires every request to carry the Notion-Version header; without it you
+# get a 400. 2022-06-28 is the long-term stable version: page properties, database
+# queries, and block children are all specified against it.
 NOTION_VERSION = "2022-06-28"
 
-# 单次请求的富文本/数组上限。Notion 服务端对 children 有 100 个块的硬上限，
-# 富文本数组同理；分页拉取时写操作会把这些限制暴露成 400。
+# Per-request rich-text/array limits. The Notion server enforces a hard limit of
+# 100 child blocks, and the same for rich-text arrays; paginated writes surface these
+# limits as a 400.
 MAX_CHILDREN_PER_REQUEST = 100
 MAX_RICH_TEXT_ITEMS = 100
 
-# 页面默认图标：用 emoji 而非外链图片，避免上传附件带来的额外权限。
+# Default page icon: use an emoji rather than an external image to avoid the extra
+# permissions that come with uploading attachments.
 DEFAULT_ICON = {"type": "emoji", "emoji": "📄"}
 
-# 支持的块类型白名单 —— 只允许映射表里明确覆盖的类型，
-# 未知类型一律报错而不是猜，防止静默产出 Notion 不认的负载。
+# Supported block-type allowlist -- only types explicitly covered by the mapping
+# table are allowed; unknown types raise an error rather than being guessed, to
+# prevent silently producing payloads Notion does not recognize.
 SUPPORTED_BLOCKS = {
     "paragraph",
     "heading_1",
@@ -55,7 +63,7 @@ SUPPORTED_BLOCKS = {
     "divider",
 }
 
-# Markdown 渲染前缀：块类型 -> (前缀, 是否需要闭合围栏)
+# Markdown render prefix: block type -> (prefix, whether a closing fence is needed)
 MARKDOWN_PREFIX = {
     "heading_1": "# ",
     "heading_2": "## ",
@@ -66,8 +74,8 @@ MARKDOWN_PREFIX = {
     "callout": "> [!NOTE] ",
 }
 
-# 富文本 annotation -> Markdown 包裹符。顺序敏感：先长后短，避免
-# `**` 先匹配掉 `***` 的情形。
+# Rich-text annotation -> Markdown wrapper. Order-sensitive: longer first, to avoid
+# `**` matching inside `***`.
 ANNOTATION_WRAPS = [
     ("code", "`", "`"),
     ("bold", "**", "**"),
@@ -78,7 +86,7 @@ ANNOTATION_WRAPS = [
 
 
 class BuildError(Exception):
-    """请求体构造失败（输入不合法，而非网络问题）。"""
+    """Request-body construction failed (bad input, not a network problem)."""
 
 
 def _die(msg: str, code: int = 2) -> int:
@@ -87,29 +95,29 @@ def _die(msg: str, code: int = 2) -> int:
 
 
 def _load_json(path: str, what: str) -> object:
-    """读取一个 JSON 文件；失败时抛出可读异常而不是栈回溯。"""
+    """Read a JSON file; on failure raise a readable error instead of a traceback."""
     p = Path(path)
     if not p.is_file():
-        raise BuildError(f"{what} 文件不存在: {path}")
+        raise BuildError(f"{what} file does not exist: {path}")
     try:
         return json.loads(p.read_text(encoding="utf-8"))
     except json.JSONDecodeError as e:
-        raise BuildError(f"{what} 不是合法 JSON: {path} (line {e.lineno}: {e.msg})")
+        raise BuildError(f"{what} is not valid JSON: {path} (line {e.lineno}: {e.msg})")
 
 
 def _dump(obj: object) -> None:
-    """统一输出风格：ensure_ascii=False 保中文可读，缩进 2 便于人工审阅。"""
+    """Unified output style: ensure_ascii=False keeps text readable, indent 2 for review."""
     print(json.dumps(obj, ensure_ascii=False, indent=2))
 
 
 # ---------------------------------------------------------------------------
-# 富文本与块
+# Rich text and blocks
 # ---------------------------------------------------------------------------
 def rich_text(text: str, link: str | None = None) -> list:
-    """把一个字符串包成 Notion 富文本数组。
+    """Wrap a string into a Notion rich-text array.
 
-    Notion 的富文本是数组而非字符串，是为了支持一段文字里混排多种样式。
-    这里只生成单个元素：纯文本 + 可选链接。
+    Notion rich text is an array rather than a string, to support mixing styles
+    within one run. Here we generate a single element: plain text + optional link.
     """
     item = {"type": "text", "text": {"content": text}}
     if link:
@@ -119,10 +127,10 @@ def rich_text(text: str, link: str | None = None) -> list:
 
 def make_block(kind: str, text: str = "", *, checked: bool = False,
                language: str = "plain text", icon: str = "💡") -> dict:
-    """构造单个块对象。文本内容统一走 rich_text 包装。"""
+    """Build a single block object. Text content always goes through rich_text."""
     if kind not in SUPPORTED_BLOCKS:
         raise BuildError(
-            f"不支持的块类型 '{kind}'；支持: {', '.join(sorted(SUPPORTED_BLOCKS))}"
+            f"unsupported block type '{kind}'; supported: {', '.join(sorted(SUPPORTED_BLOCKS))}"
         )
     if kind == "divider":
         return {"object": "block", "type": "divider", "divider": {}}
@@ -139,7 +147,7 @@ def make_block(kind: str, text: str = "", *, checked: bool = False,
 
 
 def _wrap_annotations(text: str, ann: dict) -> str:
-    """按 annotation 给文本加 Markdown 包裹符（由内到外依次套）。"""
+    """Wrap text with Markdown markers per annotation (outermost applied last)."""
     out = text
     for key, left, right in ANNOTATION_WRAPS:
         if ann.get(key):
@@ -148,7 +156,7 @@ def _wrap_annotations(text: str, ann: dict) -> str:
 
 
 def rich_text_to_md(items: list) -> str:
-    """把富文本数组渲染回 Markdown 片段。"""
+    """Render a rich-text array back into a Markdown fragment."""
     parts = []
     for it in items or []:
         plain = (it.get("plain_text") or "").strip("\n")
@@ -167,35 +175,38 @@ def rich_text_to_md(items: list) -> str:
 # ---------------------------------------------------------------------------
 def build_page_request(title: str, blocks: list, parent_id: str | None,
                        parent_type: str) -> dict:
-    """构造创建页面的请求体（POST /v1/pages）。
+    """Build the create-page request body (POST /v1/pages).
 
-    parent 的结构在「父页面」与「父数据库」两种场景下不同：
+    The parent shape differs between the "parent page" and "parent database" cases:
       - page:     {"type": "page_id",     "page_id": "..."}
       - database: {"type": "database_id", "database_id": "..."}
-    这一差异是最常见的 400 来源，所以由命令行显式区分而非自动猜测。
+    This difference is the most common source of a 400, so it is distinguished
+    explicitly on the command line rather than auto-guessed.
     """
     if not title.strip():
-        raise BuildError("标题不能为空")
+        raise BuildError("title must not be empty")
     if len(blocks) > MAX_CHILDREN_PER_REQUEST:
         raise BuildError(
-            f"子块 {len(blocks)} 个，超过单请求上限 {MAX_CHILDREN_PER_REQUEST}；"
-            "请拆批：先建页面，再用 PATCH /v1/blocks/{id}/children 追加"
+            f"{len(blocks)} child blocks exceeds the per-request limit {MAX_CHILDREN_PER_REQUEST}; "
+            "batch it: create the page first, then append via PATCH /v1/blocks/{id}/children"
         )
 
     if parent_type == "database":
         if not parent_id:
-            raise BuildError("--parent-type database 时必须提供 --parent（数据库 ID）")
+            raise BuildError("--parent-type database requires --parent (the database ID)")
         parent = {"type": "database_id", "database_id": parent_id}
-        # 数据库的标题列名取决于表结构，默认取约定俗成的 Name，
-        # 真实场景请先用 parse-page 读一条已有记录核对列名。
+        # The database's title column name depends on the schema; default to the
+        # conventional "Name". In real use, read an existing record with parse-page
+        # first to confirm the column name.
         properties = {"Name": {"title": rich_text(title)}}
     else:
         if not parent_id:
             raise BuildError(
-                "必须提供 --parent（父页面 ID；workspace 根不支持 API 建页）"
+                "--parent is required (the parent page ID; the workspace root does not "
+                "support API page creation)"
             )
         parent = {"type": "page_id", "page_id": parent_id}
-        # 挂在父页面下的子页面，标题不是 property 而是页面级 title 字段
+        # A subpage under a parent page: the title is a page-level title field, not a property
         properties = {"title": {"title": rich_text(title)}}
 
     payload = {
@@ -213,12 +224,12 @@ def cmd_build_page(args) -> int:
     if args.blocks:
         raw = _load_json(args.blocks, "--blocks")
         if not isinstance(raw, list):
-            return _die("--blocks 文件必须是 JSON 数组，元素形如 "
+            return _die("--blocks file must be a JSON array, elements like "
                         '{"type": "paragraph", "text": "..."}')
         converted = []
         for i, item in enumerate(raw, 1):
             if not isinstance(item, dict) or "type" not in item:
-                return _die(f"--blocks 第 {i} 个元素缺少 type 字段")
+                return _die(f"--blocks element #{i} is missing the type field")
             converted.append(make_block(
                 item["type"],
                 item.get("text", ""),
@@ -230,15 +241,15 @@ def cmd_build_page(args) -> int:
 
     payload = build_page_request(args.title, blocks, args.parent, args.parent_type)
 
-    print(f"# DRY-RUN：以下为将发送到 POST https://api.notion.com/v1/pages 的请求体")
-    print(f"# 请求头（token 运行时从环境变量注入，不落盘）：")
+    print(f"# DRY-RUN: request body to be sent to POST https://api.notion.com/v1/pages")
+    print(f"# request headers (token injected at runtime from env, not stored):")
     print(f"#   Authorization: Bearer $NOTION_TOKEN")
     print(f"#   Notion-Version: {NOTION_VERSION}")
     print(f"#   Content-Type: application/json")
-    print(f"# 子块数：{len(blocks)} / 上限 {MAX_CHILDREN_PER_REQUEST}")
+    print(f"# child blocks: {len(blocks)} / limit {MAX_CHILDREN_PER_REQUEST}")
     _dump(payload)
     print()
-    print("# 未发送任何请求。接上真实凭证后由 AI 用 curl 执行：")
+    print("# No request sent. With real credentials attached, the AI runs it with curl:")
     print("#   curl -sS -X POST https://api.notion.com/v1/pages \\")
     print(f"#     -H \"Authorization: Bearer $NOTION_TOKEN\" \\")
     print(f"#     -H \"Notion-Version: {NOTION_VERSION}\" \\")
@@ -251,16 +262,17 @@ def cmd_build_page(args) -> int:
 # ---------------------------------------------------------------------------
 def build_query_request(database_id: str, flt: dict | None, sorts: list | None,
                         page_size: int, start_cursor: str | None) -> dict:
-    """构造数据库查询请求体（POST /v1/databases/{id}/query）。
+    """Build the database-query request body (POST /v1/databases/{id}/query).
 
-    分页是**游标式**：请求带 start_cursor，响应回 has_more/next_cursor，
-    没有 offset 概念。所以要翻页必须把上一页的 next_cursor 原样回填。
+    Pagination is **cursor-based**: the request carries start_cursor, the response
+    returns has_more/next_cursor; there is no offset concept. To page, you must
+    feed the previous page's next_cursor back verbatim.
     """
     if not database_id.strip():
-        raise BuildError("database id 不能为空")
+        raise BuildError("database id must not be empty")
     if not 1 <= page_size <= 100:
-        raise BuildError(f"page_size 必须在 1..100 之间（当前 {page_size}）——"
-                         "这是 Notion 服务端的硬上限")
+        raise BuildError(f"page_size must be between 1 and 100 (got {page_size}) -- "
+                         "this is a hard Notion server limit")
 
     payload: dict = {"page_size": page_size}
     if flt:
@@ -275,24 +287,24 @@ def build_query_request(database_id: str, flt: dict | None, sorts: list | None,
 def cmd_build_database_query(args) -> int:
     flt = _load_json(args.filter, "--filter") if args.filter else None
     if flt is not None and not isinstance(flt, dict):
-        return _die("--filter 文件必须是 JSON 对象")
+        return _die("--filter file must be a JSON object")
     sorts = _load_json(args.sorts, "--sorts") if args.sorts else None
     if sorts is not None and not isinstance(sorts, list):
-        return _die("--sorts 文件必须是 JSON 数组")
+        return _die("--sorts file must be a JSON array")
 
     payload = build_query_request(
         args.database, flt, sorts, args.page_size, args.start_cursor
     )
 
     url = f"https://api.notion.com/v1/databases/{args.database}/query"
-    print("# DRY-RUN：以下为将发送到数据库查询端点的请求体")
+    print("# DRY-RUN: request body to be sent to the database-query endpoint")
     print(f"# POST {url}")
     print(f"#   Notion-Version: {NOTION_VERSION}")
     _dump(payload)
     print()
-    print("# 翻页：响应体里读 has_more 与 next_cursor，")
-    print("#       若 has_more 为 true，把 next_cursor 回填到 --start-cursor 再来一次。")
-    print("# 限速：Notion 对集成平均限制约 3 req/s，翻页请留间隔并对 429 做退避。")
+    print("# Pagination: read has_more and next_cursor from the response body;")
+    print("#       if has_more is true, feed next_cursor back into --start-cursor and run again.")
+    print("# Rate limit: Notion averages ~3 req/s per integration; space out pages and back off on 429.")
     return 0
 
 
@@ -300,14 +312,14 @@ def cmd_build_database_query(args) -> int:
 # parse-page
 # ---------------------------------------------------------------------------
 def extract_properties(props: dict) -> list:
-    """把页面 properties 压平成 [(列名, 值字符串, 列类型)]。
+    """Flatten page properties into [(column name, value string, column type)].
 
-    Notion 的属性值是「按类型分支的对象」，每种类型结构不同：
+    Notion property values are objects branched by type, each with a different shape:
       title/rich_text -> {"rich_text": [...]}
       select/status   -> {"select": {"name": ...}} / {"status": {"name": ...}}
       multi_select    -> {"multi_select": [{"name": ...}]}
       people          -> {"people": [{"name": ...}]}
-      number/checkbox -> 直接是值
+      number/checkbox -> the value directly
     """
     rows = []
     for name, val in (props or {}).items():
@@ -345,7 +357,7 @@ def extract_properties(props: dict) -> list:
 
 
 def page_to_markdown(page: dict, blocks: list | None = None) -> str:
-    """把页面对象（+ 可选子块）渲染成可读 Markdown。"""
+    """Render a page object (+ optional child blocks) into readable Markdown."""
     props = page.get("properties") or {}
     title = ""
     for name, val in props.items():
@@ -353,26 +365,26 @@ def page_to_markdown(page: dict, blocks: list | None = None) -> str:
             title = rich_text_to_md(val.get("title") or []) or name
             break
 
-    out = [f"# {title or '(无标题)'}", ""]
+    out = [f"# {title or '(untitled)'}", ""]
     rows = extract_properties(props)
     if rows:
-        out.append("| 属性 | 值 | 类型 |")
+        out.append("| Property | Value | Type |")
         out.append("|---|---|---|")
         for name, text, ptype in rows:
-            # 表格里出现裸 | 会撕裂列，统一转义
-            safe = text.replace("|", "\\|") or "(空)"
+            # a bare | in a table cell tears the columns; escape it uniformly
+            safe = text.replace("|", "\\|") or "(empty)"
             out.append(f"| {name} | {safe} | {ptype} |")
         out.append("")
 
-    out.append(f"- 页面 ID：`{page.get('id', '(缺失)')}`")
-    out.append(f"- URL：{page.get('url', '(缺失)')}")
+    out.append(f"- page ID: `{page.get('id', '(missing)')}`")
+    out.append(f"- URL: {page.get('url', '(missing)')}")
     if page.get("created_time"):
-        out.append(f"- 创建：{page['created_time']}")
+        out.append(f"- created: {page['created_time']}")
     if page.get("last_edited_time"):
-        out.append(f"- 最后编辑：{page['last_edited_time']}")
+        out.append(f"- last edited: {page['last_edited_time']}")
 
     if blocks:
-        out += ["", "## 正文块", ""]
+        out += ["", "## Body blocks", ""]
         out.append(blocks_to_markdown(blocks))
     return "\n".join(out)
 
@@ -383,23 +395,23 @@ def cmd_parse_page(args) -> int:
         _dump(raw)
         return 0
 
-    # 既接受单页对象，也接受数据库查询响应（{"results": [...]}）
+    # accept both a single page object and a database-query response ({"results": [...]})
     if isinstance(raw, dict) and "results" in raw:
         pages = raw.get("results") or []
-        print(f"# 数据库查询响应：{len(pages)} 条记录"
+        print(f"# database query response: {len(pages)} records"
               f"  has_more={raw.get('has_more')}")
         nxt = raw.get("next_cursor")
         if raw.get("has_more"):
-            print(f"# 下一页游标：{nxt}")
+            print(f"# next-page cursor: {nxt}")
         print()
         for i, page in enumerate(pages, 1):
-            print(f"## 记录 {i}")
+            print(f"## record {i}")
             print(page_to_markdown(page))
             print()
         return 0
 
     if not isinstance(raw, dict):
-        return _die("--json 必须是页面对象或数据库查询响应对象")
+        return _die("--json must be a page object or a database-query response object")
     print(page_to_markdown(raw))
     return 0
 
@@ -408,9 +420,10 @@ def cmd_parse_page(args) -> int:
 # blocks-to-markdown
 # ---------------------------------------------------------------------------
 def blocks_to_markdown(blocks: list) -> str:
-    """把块列表（或 {"results": [...]}）转成 Markdown。
+    """Convert a block list (or {"results": [...]}) into Markdown.
 
-    未知块类型不会中断转换，而是渲染成注释占位——半可读远好于整页丢失。
+    Unknown block types do not abort the conversion; they render as a comment
+    placeholder -- half-readable is far better than losing the whole page.
     """
     if isinstance(blocks, dict):
         blocks = blocks.get("results") or []
@@ -434,18 +447,18 @@ def blocks_to_markdown(blocks: list) -> str:
         elif btype == "paragraph":
             lines += [text, ""]
         elif btype == "child_page":
-            lines += [f"### {body.get('title', '(子页面)')}", ""]
+            lines += [f"### {body.get('title', '(subpage)')}", ""]
         elif btype == "unsupported":
-            lines.append("<!-- 不支持的块 -->")
+            lines.append("<!-- unsupported block -->")
         else:
-            lines.append(f"<!-- 未映射的块类型: {btype} -->")
+            lines.append(f"<!-- unmapped block type: {btype} -->")
     return "\n".join(lines).rstrip() + "\n"
 
 
 def cmd_blocks_to_markdown(args) -> int:
     raw = _load_json(args.json, "--json")
     if not isinstance(raw, (dict, list)):
-        return _die("--json 必须是块数组或含 results 的块列表响应")
+        return _die("--json must be a block array or a block-list response containing results")
     sys.stdout.write(blocks_to_markdown(raw))
     return 0
 
@@ -454,32 +467,32 @@ def cmd_blocks_to_markdown(args) -> int:
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="notion_ops.py",
-        description="Notion 请求构造与响应解析（离线纯函数，不发网络请求）",
+        description="Notion request building and response parsing (offline pure functions, no network)",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     sub = p.add_subparsers(dest="cmd", required=True)
 
-    s = sub.add_parser("build-page", help="构造创建页面请求体并打印（不发送）")
+    s = sub.add_parser("build-page", help="build the create-page request body and print it (no send)")
     s.add_argument("--title", required=True)
-    s.add_argument("--blocks", help="子块 JSON 文件（数组）")
-    s.add_argument("--parent", help="父页面 ID 或父数据库 ID")
+    s.add_argument("--blocks", help="child-blocks JSON file (array)")
+    s.add_argument("--parent", help="parent page ID or parent database ID")
     s.add_argument("--parent-type", choices=["page", "database"], default="page")
     s.set_defaults(func=cmd_build_page)
 
-    s = sub.add_parser("build-database-query", help="构造数据库查询请求体并打印")
+    s = sub.add_parser("build-database-query", help="build the database-query request body and print it")
     s.add_argument("--database", required=True)
-    s.add_argument("--filter", help="filter JSON 文件")
-    s.add_argument("--sorts", help="sorts JSON 文件")
+    s.add_argument("--filter", help="filter JSON file")
+    s.add_argument("--sorts", help="sorts JSON file")
     s.add_argument("--page-size", type=int, default=50)
-    s.add_argument("--start-cursor", help="上一页响应的 next_cursor")
+    s.add_argument("--start-cursor", help="next_cursor from the previous page's response")
     s.set_defaults(func=cmd_build_database_query)
 
-    s = sub.add_parser("parse-page", help="解析页面/查询响应为 Markdown")
+    s = sub.add_parser("parse-page", help="parse a page/query response into Markdown")
     s.add_argument("--json", required=True)
-    s.add_argument("--raw", action="store_true", help="原样打印不解析")
+    s.add_argument("--raw", action="store_true", help="print as-is without parsing")
     s.set_defaults(func=cmd_parse_page)
 
-    s = sub.add_parser("blocks-to-markdown", help="把块响应转 Markdown")
+    s = sub.add_parser("blocks-to-markdown", help="convert a block response to Markdown")
     s.add_argument("--json", required=True)
     s.set_defaults(func=cmd_blocks_to_markdown)
 

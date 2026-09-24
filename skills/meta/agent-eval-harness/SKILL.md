@@ -77,10 +77,10 @@ python3 scripts/eval_harness.py --input assets/sample-cases.jsonl --index 0   # 
 
 # 2. Real report output (can hang CI gate)
 # python3 scripts/eval_harness.py --input cases.jsonl --index 3 \
-#   --weights-json config/weights.json --out reports/case3.json --write
+#   --weights-json config/weights.example.json --out reports/case3.json --write
 
-# 3. LLM-as-judge: generates copyable review prompt (doesn't call model for user)
-# python3 scripts/eval_harness.py --input assets/sample-cases.jsonl --index 0   # bundled sample (offline rule scoring); replace with your cases.jsonl --mode judge --out judge.md
+# 3. LLM-as-judge: generates a copyable review prompt (doesn't call the model for you)
+# python3 scripts/eval_harness.py --input cases.jsonl --index 3 --mode judge --out judge.md
 ```
 
 How to fill `expects`, per-dimension scoring logic, CI gate integration:

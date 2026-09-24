@@ -105,7 +105,7 @@ plan the user enters manually.
 
 - [ ] Title ≤20 chars, benefit-driven, with emoji.
 - [ ] Caption under 1,000 chars, friendly tone, no Markdown.
-- [ ] No external links or WeChattraffic diversion.
+- [ ] No external links or WeChat traffic diversion.
 - [ ] 5–15 `#hashtags#` included.
 - [ ] Cover brief 3:4 (1080x1440) with large text overlay.
 - [ ] 3–9 carousel images planned.

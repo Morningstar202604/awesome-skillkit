@@ -1,6 +1,6 @@
 # Database Selection Decision Tree
 
-## 目录
+## Table of Contents
 
 - [Overview](#overview)
 - [Decision Framework](#decision-framework)

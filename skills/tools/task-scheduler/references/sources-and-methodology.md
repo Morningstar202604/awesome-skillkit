@@ -1,11 +1,11 @@
-# 方法论来源与设计取舍
+# Methodology sources and design trade-offs
 
 > 何时读：想扩展字段翻译规则、新增平台映射，或理解"为什么不直接写 crontab"时读本文件。
 > 命令参数见 SKILL.md，此处只讲设计依据。
 
-## 思想来源（公开方法论蒸馏，非代码搬运）
+## Idea sources (distilled from public methodology; no code copied)
 
-| 本脚本的做法 | 蒸馏自的思想 |
+| This script's approach | Idea distilled from |
 |--------------|--------------|
 | 表达式翻译成人话后再执行 | 「先复述再动手」的变更管理惯例：执行前用另一种表述确认理解一致，是发现误解最便宜的手段 |
 | 生成而不安装 | 配置管理工具的"渲染 + 人工 apply"模式；crontab 无版本控制、无撤销栈，写入即高风险 |
@@ -13,7 +13,7 @@
 | 绝对路径 + 重定向告警 | cron 运维的经典经验总结（`cron` 的 PATH 与邮件机制是其最著名的两个陷阱） |
 | 语法先验证再输出 | 编译器前端思路：先做语法/语义检查，再产出目标代码，避免把坏配置交给下游 |
 
-## 关键取舍
+## Key trade-offs
 
 **为什么内置解析器而不用 croniter 做唯一实现？** croniter 能算时间但**不产生中文描述**，
 而"人话确认"才是本技能的核心价值。两者分工：内置解析器负责字段展开与中文翻译（零依赖，
@@ -47,7 +47,7 @@
 
 日与星期同时限定时取"或"关系，是 cron 语义中最反直觉的一点，脚本在描述里会显式标注。
 
-## 官方文档
+## Official documentation
 
 - `crontab(5)` 手册（字段定义与 `@` 特殊表达式）：<https://man7.org/linux/man-pages/man5/crontab.5.html>
 - `cron(8)` 手册（环境变量与邮件机制）：<https://man7.org/linux/man-pages/man8/cron.8.html>

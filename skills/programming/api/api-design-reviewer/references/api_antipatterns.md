@@ -1,6 +1,6 @@
 # Common API Anti-Patterns and How to Avoid Them
 
-## 目录
+## Table of Contents
 
 - [Introduction](#introduction)
 - [1. Verb-Based URLs (The RPC Trap)](#1-verb-based-urls-the-rpc-trap)

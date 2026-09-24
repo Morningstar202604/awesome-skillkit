@@ -1,11 +1,11 @@
-# 方法论来源与设计取舍
+# Methodology sources and design trade-offs
 
-> 何时读：想新增一条转换管线、调整依赖探测行为，或理解"为什么跨管线转换被拒绝"时读本文件。
-> CLI 参数见 SKILL.md，此处只讲设计依据。
+> When to read: when adding a conversion pipeline, tweaking dependency probing, or understanding "why cross-pipeline conversion is rejected". CLI flags are in SKILL.md; this file only covers the design rationale.
 
-## 思想来源（公开方法论蒸馏，非代码搬运）
 
-| 本脚本的做法 | 蒸馏自的思想 |
+## Idea sources (distilled from public methodology; no code copied)
+
+| This script's approach | Idea distilled from |
 |--------------|--------------|
 | 依赖先探测、缺失给安装命令 | Unix `autoconf`/`./configure` 的"能力探测再决定"传统；现代 CLI 的 actionable error 理念（错误信息里直接给出修复动作） |
 | 一条命令多个子命令 | `git` / `docker` / `ffmpeg` 的子命令组织法：减少用户记忆的顶层入口，把差异收进子命令 |
@@ -13,7 +13,7 @@
 | 批量默认 dry-run | 与同域 file-organizer 保持一致的操作契约（见该技能 `references/`） |
 | 按扩展名推断管线 | `pandoc` 的格式自动识别、`ImageMagick` 的输出格式推断——但本脚本把推断结果**显式打印**，避免静默猜错 |
 
-## 关键取舍
+## Key trade-offs
 
 **为什么拒绝跨管线转换？** `.mp4 → .jpg` 实际是**抽帧**（需选时间点、选第几帧），
 `.md → .jpg` 实际是**渲染**（需排版引擎）。这两件事的语义与"换个容器格式"完全不同：
@@ -30,7 +30,7 @@
 **为什么 `--kind` 手动覆盖存在？** 扩展名→管线的映射表是硬编码的闭集：遇到未登记的新格式
 （如 `.avif`、`.heic` 的不同实现），用户可用 `--kind image` 强制走某条管线，无需改脚本。
 
-## 官方文档
+## Official documentation
 
 - pandoc 用户指南（`-f`/`-t`、`--pdf-engine`）：<https://pandoc.org/MANUAL.html>
 - pandoc 支持的格式清单：<https://pandoc.org/MANUAL.html#option--list-input-formats>

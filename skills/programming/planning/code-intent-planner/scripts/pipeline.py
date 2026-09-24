@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""主流水线 — 三层瀑布式意图识别完整流程"""
+"""Main pipeline -- the full three-tier waterfall intent-recognition flow."""
 import json
 import sys
 import os
@@ -15,7 +15,7 @@ from plan_renderer import render_markdown, render_json
 
 
 def detect_project_root() -> str:
-    """探测项目根目录"""
+    """Detect the project root directory"""
     for dir in [".", "..", "../.."]:
         for f in ["package.json", "pyproject.toml", "go.mod", "Cargo.toml", "pom.xml", "build.gradle", "requirements.txt"]:
             if os.path.exists(os.path.join(dir, f)):
@@ -24,7 +24,7 @@ def detect_project_root() -> str:
 
 
 def detect_tech_stack(root: str) -> str:
-    """探测技术栈"""
+    """Detect the tech stack"""
     stacks = []
     if os.path.exists(os.path.join(root, "package.json")):
         stacks.append("javascript/typescript")
@@ -38,40 +38,42 @@ def detect_tech_stack(root: str) -> str:
 
 
 def normalize_input(raw_input: str, last_intent: Optional[Dict[str, Any]] = None) -> str:
-    """输入规范化（简化版：指代消解 + 省略补全 + 术语标准化）"""
+    """Input normalization (simplified: coreference resolution + ellipsis completion + term standardization)."""
     text = raw_input.strip()
-    
-    # 指代消解
+
+    # coreference resolution
     if last_intent and last_intent.get("slots"):
-        for pronoun in ["它", "这个", "那个", "上一个", "刚才"]:
+        for pronoun in ["it", "this", "that", "the previous one", "just now"]:
             if pronoun in text:
                 target = last_intent["slots"].get("target", "")
                 if target:
                     text = text.replace(pronoun, target)
-    
-    # 省略补全
-    if text in ["帮我写", "帮我做", "实现一下"]:
-        text = text + "代码"
-    
-    # 术语标准化
+
+    # ellipsis completion
+    if text in ["write for me", "do for me", "implement it"]:
+        text = text + " code"
+
+    # term standardization
     term_map = {
-        "后端": "backend", "server": "backend", "API": "backend", "api": "backend",
-        "前端": "frontend", "client": "frontend", "UI": "frontend",
-        "数据库": "database", "DB": "database", "持久化": "database",
+        "backend": "backend", "server": "backend", "API": "backend", "api": "backend",
+        "frontend": "frontend", "client": "frontend", "UI": "frontend",
+        "database": "database", "DB": "database", "persistence": "database",
     }
-    for cn, en in term_map.items():
-        text = text.replace(cn, en)
-    
+    for src, dst in term_map.items():
+        text = text.replace(src, dst)
+
     return text
 
 
 def _session_path(session_id: str) -> str:
-    """会话文件的规范位置。
+    """Canonical location of the session file.
 
-    必须与 session_manager.SESSION_DIR 保持一致（~/.code_intent_planner/sessions）。
-    早期版本直接写 f"_session_{session_id}.json"，即落在调用者的当前工作目录——
-    用户把技能放进项目里跑一次，项目根就多出一堆 _session_*.json 垃圾文件。
-    可用 SKILLKIT_SESSION_DIR 覆盖（测试用），否则用用户主目录下的固定位置。
+    Must stay in sync with session_manager.SESSION_DIR (~/.code_intent_planner/sessions).
+    Early versions wrote directly to f"_session_{session_id}.json", i.e. into the caller's
+    current working directory -- once a user dropped the skill into a project and ran it, the
+    project root was littered with a pile of _session_*.json junk files.
+    Can be overridden with SKILLKIT_SESSION_DIR (for testing); otherwise use a fixed location
+    under the user's home directory.
     """
     base = os.environ.get("SKILLKIT_SESSION_DIR")
     if base:
@@ -83,7 +85,7 @@ def _session_path(session_id: str) -> str:
 
 
 def load_session(session_id: str) -> Optional[Dict[str, Any]]:
-    """加载 session 状态"""
+    """Load the session state"""
     path = _session_path(session_id)
     if os.path.exists(path):
         with open(path, encoding="utf-8") as f:
@@ -92,19 +94,19 @@ def load_session(session_id: str) -> Optional[Dict[str, Any]]:
 
 
 def save_session(session_id: str, state: Dict[str, Any]):
-    """保存 session 状态"""
+    """Save the session state"""
     path = _session_path(session_id)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(state, f, ensure_ascii=False, indent=2)
 
 
 def get_clarification_questions(l2_result: Dict[str, Any], missing_slots: list) -> list:
-    """生成澄清问题"""
+    """Generate clarification questions"""
     slot_questions = {
-        "target": "需要操作哪个模块或文件？（如：auth、user-service、payment）",
-        "scope": "改动范围是？（新功能开发 / 现有功能修改 / 代码重构 / 纯配置变更）",
-        "tech_stack": "目标技术栈是什么？（如：python/fastapi、node/express、go/gin）",
-        "deadline": "截止时间？（今天/本周/本月/不急）",
+        "target": "Which module or file needs to be operated on? (e.g. auth, user-service, payment)",
+        "scope": "What is the change scope? (new feature development / existing feature change / code refactor / pure config change)",
+        "tech_stack": "What is the target tech stack? (e.g. python/fastapi, node/express, go/gin)",
+        "deadline": "What is the deadline? (today / this week / this month / not urgent)",
     }
     questions = []
     for slot in missing_slots[:3]:
@@ -120,9 +122,9 @@ def run_pipeline(
     skip_normalization: bool = False,
     use_mock: bool = True,
 ) -> Dict[str, Any]:
-    """运行完整流水线"""
-    
-    # 初始化
+    """Run the full pipeline"""
+
+    # initialize
     if not session_id:
         session_id = f"session_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
     
@@ -133,53 +135,53 @@ def run_pipeline(
     session = load_session(session_id)
     last_intent = session.get("last_intent") if session else None
     
-    # 步骤 0：缓存检查
+    # step 0: cache check
     if session:
         cache_key = f"{session_id}:{last_intent.get('intent_type', '')}:{hash(raw_input[:100])}"
         if cache_key in session.get("cache", {}):
-            print(f"[Cache Hit] 返回缓存结果", file=sys.stderr)
+            print(f"[Cache Hit] returning cached result", file=sys.stderr)
             return session["cache"][cache_key]
-    
-    # 步骤 1：输入规范化
+
+    # step 1: input normalization
     normalized = raw_input if skip_normalization else normalize_input(raw_input, last_intent)
-    
-    # 步骤 2：L1 规则层
+
+    # step 2: L1 rule layer
     l1_result = match(normalized)
-    
-    # 初始化变量
+
+    # initialize variables
     intent_type = None
     confidence = 0.0
     source_layer = "L1"
     l2_result = {}
     l3_result = {}
     subtype = None
-    
-    # 三层瀑布
+
+    # three-tier waterfall
     if l1_result["matched"] and l1_result["confidence"] >= 0.85:
-        # L1 直接命中
+        # L1 direct hit
         intent_type = l1_result["intent_type"]
         confidence = l1_result["confidence"]
         source_layer = "L1"
         subtype = l1_result.get("subtype")
         l2_result = {"slots": {}, "description": normalized}
     else:
-        # L1 未命中，进入 L2
+        # L1 miss, go to L2
         if use_mock:
             os.environ["USE_MOCK_LLM"] = "true"
-        
+
         l2_result = call_l2(normalized, tech_stack)
-        
+
         if "error" in l2_result:
-            return {"error": f"L2 失败: {l2_result['error']}", "session_id": session_id}
-        
+            return {"error": f"L2 failed: {l2_result['error']}", "session_id": session_id}
+
         confidence = l2_result.get("confidence", 0)
         intent_type = l2_result.get("intent_type")
         source_layer = "L2"
-        
+
         if confidence >= 0.85:
-            pass  # L2 直接接受
+            pass  # L2 accepted directly
         elif confidence >= 0.60:
-            # 澄清协议
+            # clarification protocol
             missing = [k for k, v in l2_result.get("slots", {}).items() if not v]
             questions = get_clarification_questions(l2_result, missing)
             return {
@@ -189,7 +191,7 @@ def run_pipeline(
                 "session_id": session_id,
             }
         else:
-            # 置信度 < 0.60，进入 L3
+            # confidence < 0.60, go to L3
             l3_result = call_l3(
                 raw_input=raw_input,
                 normalized_text=normalized,
@@ -199,20 +201,20 @@ def run_pipeline(
                 slots=l2_result.get("slots", {}),
                 last_intent=last_intent
             )
-            
+
             if "error" in l3_result:
-                return {"error": f"L3 失败: {l3_result['error']}", "session_id": session_id}
-            
-            # 合并 L3 结果
+                return {"error": f"L3 failed: {l3_result['error']}", "session_id": session_id}
+
+            # merge L3 results
             intent_type = l3_result.get("intent_type")
             confidence = l3_result.get("confidence", 0)
             source_layer = "L3"
             l2_result.update(l3_result)
-    
-    # 槽位合并与证据分级
+
+    # slot merging and evidence grading
     slots = l2_result.get("slots", {})
     if source_layer == "L1":
-        # L1 直接命中，无槽位信息
+        # L1 direct hit, no slot info
         slots = {"target": "", "scope": "", "tech_stack": detect_tech_stack(detect_project_root())}
     
     slot_list = []
@@ -224,25 +226,25 @@ def run_pipeline(
             evidence = "verified" if any(k in raw_input.lower() for k in [value.lower()]) else "provisional"
         slot_list.append({"name": name, "value": value, "evidence": evidence})
     
-    # 方案建议（L1/L2 简单情况使用模板，L3 已包含）
+    # solution recommendation (L1/L2 simple cases use a template; L3 already includes one)
     solution = l2_result.get("solution", "")
     if source_layer == "L1" and not solution:
         solution = get_default_solution(intent_type)
-    
-    # 假设
+
+    # assumptions
     assumptions = l2_result.get("assumptions", [])
     if source_layer == "L1" and not assumptions:
         assumptions = []
-    
-    # 子任务
+
+    # sub-tasks
     sub_tasks = l2_result.get("sub_tasks", [])
     critical_path = l2_result.get("critical_path", [])
     parallel_groups = l2_result.get("parallel_groups", [])
-    
-    # 约束
+
+    # constraints
     constraints = l2_result.get("constraints", {"hard": [], "soft": []})
-    
-    # 构建最终结果
+
+    # build the final result
     result = {
         "intent_type": intent_type,
         "subtype": subtype,
@@ -260,7 +262,7 @@ def run_pipeline(
         "timestamp": datetime.now().isoformat(),
     }
     
-    # 更新 session
+    # update the session
     new_session = {
         "session_id": session_id,
         "turn": (session.get("turn", 0) + 1) if session else 1,
@@ -271,7 +273,7 @@ def run_pipeline(
         "slots_history": (session.get("slots_history", []) + [slot_list]) if session else [slot_list],
         "cache": session.get("cache", {}) if session else {},
     }
-    # 更新缓存
+    # update the cache
     cache_key = f"{session_id}:{intent_type}:{hash(normalized[:100])}"
     new_session["cache"][cache_key] = result
     save_session(session_id, new_session)
@@ -280,32 +282,32 @@ def run_pipeline(
 
 
 def get_default_solution(intent_type: str) -> str:
-    """L1 直接命中时的默认方案"""
+    """Default solution for an L1 direct hit."""
     solutions = {
-        "implement": "先设计 schema，再实现 model/service，最后加 API",
-        "fix": "先复现 → 定位 → 修复 → 回归测试",
-        "refactor": "先分析影响 → 写保护测试 → 小步重构 → 验证",
-        "review": "扫描安全/性能/可读性 → 生成报告",
-        "test": "分析覆盖 → 补测试 → 验证",
-        "optimize": "建基线 → profiling → 优化 → 回归",
-        "plan": "需求澄清 → 方案设计 → 任务分解",
-        "design": "需求澄清 → 方案草稿 → 选型论证 → 评审",
-        "migrate": "兼容性分析 → 计划 → 试点 → 全量",
-        "destructive": "风险评估 → 备份 → 确认 → 执行 → 验证",
-        "test": "分析覆盖 → 补测试 → 验证",
+        "implement": "design the schema first, then implement model/service, and finally add the API",
+        "fix": "reproduce -> locate -> fix -> regression test",
+        "refactor": "analyze impact -> write characterization tests -> refactor in small steps -> verify",
+        "review": "scan for security/performance/readability -> generate a report",
+        "test": "analyze coverage -> add tests -> verify",
+        "optimize": "establish a baseline -> profile -> optimize -> regression test",
+        "plan": "clarify requirements -> design the approach -> decompose tasks",
+        "design": "clarify requirements -> draft the approach -> justify technology choices -> review",
+        "migrate": "compatibility analysis -> plan -> pilot -> full rollout",
+        "destructive": "risk assessment -> backup -> confirm -> execute -> verify",
+        "test": "analyze coverage -> add tests -> verify",
     }
-    return solutions.get(intent_type, "遵循标准开发流程")
+    return solutions.get(intent_type, "follow the standard development process")
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Code Intent Planner — 三层瀑布式意图识别")
-    parser.add_argument("input", nargs="?", help="用户输入（自然语言）")
+    parser = argparse.ArgumentParser(description="Code Intent Planner -- three-tier waterfall intent recognition")
+    parser.add_argument("input", nargs="?", help="user input (natural language)")
     parser.add_argument("--session", "-s", help="Session ID")
-    parser.add_argument("--project", "-p", help="项目根目录")
+    parser.add_argument("--project", "-p", help="project root directory")
     parser.add_argument("--skip-normalization", action="store_true")
-    parser.add_argument("--no-mock", action="store_true", help="使用真实 LLM（需配置环境变量）")
+    parser.add_argument("--no-mock", action="store_true", help="use a real LLM (requires environment variables configured)")
     parser.add_argument("--format", "-f", choices=["markdown", "json"], default="markdown")
-    parser.add_argument("--output", "-o", help="输出文件路径")
+    parser.add_argument("--output", "-o", help="output file path")
     
     args = parser.parse_args()
     
@@ -332,7 +334,7 @@ def main():
     else:
         print(output)
 
-    # L2/L3 失败时向调用方传播失败状态，避免"失败当成功"
+    # on L2/L3 failure, propagate the failure status to the caller rather than treating failure as success
     return 1 if isinstance(result, dict) and "error" in result else 0
 
 

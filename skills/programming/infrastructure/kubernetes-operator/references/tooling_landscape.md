@@ -1,6 +1,6 @@
 # Tooling landscape
 
-## 目录
+## Table of Contents
 
 - [At-a-glance](#at-a-glance)
 - [Decision tree](#decision-tree)

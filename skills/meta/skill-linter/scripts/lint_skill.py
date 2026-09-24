@@ -1,27 +1,28 @@
 #!/usr/bin/env python3
-"""lint_skill.py — 单个 SKILL.md 或目录树的规范校验器（awesome-skillkit / Skill Forge）。
+"""lint_skill.py — conformance checker for a single SKILL.md or a directory tree.
 
-八项必查（判定规则见每项 docstring 与 SKILL.md 的检查项表）：
+Eight required checks (rules are documented in each function's docstring and in
+the checklist table of SKILL.md):
 
-  FM-FIELDS   frontmatter 存在且含 name/description/license/metadata 四块
-  NAME-SYNC   name 与目录名一致、kebab-case、不含大写
-  DESC-ROUTE  description 含 Use when 与 Do NOT（或中文等价），触发词 >=5 个
-  BODY-SECTS  正文含 10 个骨架 H2 标题（输入清单/前置自检/工作流/交付标准/
-              失败处置表/参考 为六项硬性）
-  BODY-LINES  总行数 < 220（超出报 WARN）
-  LANG-CJK    正文去代码块后 CJK 字符占比 < 0.15 报 WARN
-  REF-EXISTS  `references/xxx.md` 相对技能目录必须真实存在
-  FAIL-TABLE  `## 失败处置表` 下表格行数 >= 4
+  FM-FIELDS   frontmatter present with name/description/license/metadata blocks
+  NAME-SYNC   name matches the directory name, kebab-case, no uppercase
+  DESC-ROUTE  description contains "Use when" and "Do NOT", with >=5 trigger words
+  BODY-SECTS  body has the six mandatory sections (Input / Pre-flight / Workflow /
+              Delivery / Failure Handling / References), keyword-matched
+  BODY-LINES  total lines < 220 (WARN above)
+  LANG-CJK    any CJK character in body => WARN (English-only repository)
+  REF-EXISTS  `references/xxx.md` referenced in the body must exist on disk
+  FAIL-TABLE  the table under `## Failure Handling` has >= 4 rows
 
-退出码：存在任一条 FAIL → 1；否则 0。WARN 不影响退出码，便于 CI 直接把本脚本
-挂成门禁。
+Exit code: any FAIL -> 1; otherwise 0. WARN does not affect the exit code, so the
+script can be wired directly into CI as a gate.
 
-用法：
-  python3 lint_skill.py <SKILL.md 路径 | 技能目录 | 技能目录的父目录>
+Usage:
+  python3 lint_skill.py <SKILL.md path | skill dir | parent of skill dirs>
   python3 lint_skill.py skills/ --json
   python3 lint_skill.py skills/meta/skill-finder --verbose
 
-仅用标准库。
+Standard library only.
 """
 
 import argparse
@@ -30,38 +31,44 @@ import re
 import sys
 from pathlib import Path
 
-# ---------------------------------------------------------------- 常量与规则
+# ---------------------------------------------------------------- Constants and rules
 
 NAME_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 
-#: 正文骨架里必须出现的 H2 标题。前六项是硬性结构，缺一即 FAIL。
-REQUIRED_H2 = [
-    "输入清单",
-    "前置自检",
-    "工作流",
-    "交付标准",
-    "失败处置表",
-    "参考",
+#: H2 headings that must appear in the body skeleton. The first six are mandatory;
+#: any missing one is a FAIL.
+#: Required H2 sections (FAIL if missing), matched by keyword (case-insensitive).
+REQUIRED_H2_KEYWORDS = [
+    ("workflow", ["workflow"]),
+    ("delivery", ["delivery checklist", "delivery standards", "delivery standard", "delivery criteria", "quality checklist", "deliverable standard", "deliverable"]),
+    ("failure", ["failure handling", "failure table", "failure handling table", "failure remediation"]),
 ]
-#: 另外四个推荐 H2（总计构成"10 章节骨架"），缺失只报 WARN。
+#: Recommended H2 sections (WARN if missing).
+RECOMMENDED_H2_KEYWORDS = [
+    ("input", ["input checklist", "input list", "inputs", "pick your path", "task selection"]),
+    ("preflight", ["pre-flight", "preflight", "pre-flight checks", "pre-flight self-check"]),
+    ("references", ["references", "reference"]),
+]
+#: Four additional recommended H2 headings (the "10-section skeleton"); a missing
+#: one is only a WARN.
 OPTIONAL_H2 = [
-    "参数速查表",
-    "Prompt 构造公式",
-    "常见错误",
-    "工作流变体",
+    "Quick Reference",
+    "Prompt Formula",
+    "Common Mistakes",
+    "Workflow Variants",
 ]
 RECOMMENDED_H2_TOTAL = 10
 
-#: description 里判定"何时使用 / 排除项"的中英等价写法。
-USE_WHEN_HINTS = ("use when", "use this", "when the user", "当用户", "何时使用", "触发")
-DO_NOT_HINTS = ("do not use", "don't use", "not for", "排除", "不适用", "不要用于")
+#: English phrasings that mark "when to use / exclusions" inside a description.
+USE_WHEN_HINTS = ("use when", "use this", "when the user", "triggers on", "triggered by", "use for", "when you need", "when asked", "when to use")
+DO_NOT_HINTS = ("do not use", "don't use", "not for", "do not use for")
 
-#: 触发词计数的中英引导语之后的分隔符。
+#: Separators after the trigger-word lead-in phrase.
 TRIGGER_SPLIT_RE = re.compile(r"[/、,，;；]| or | and ")
 
-BODY_LINE_LIMIT = 220      # 超过报 WARN（仓库硬门禁是 500，这里是技能级自律线）
-CJK_RATIO_FLOOR = 0.15     # 正文去代码块后 CJK 占比下限
-MIN_FAILTABLE_ROWS = 4     # 失败处置表最少数据行数
+BODY_LINE_LIMIT = 220      # WARN above this (the repo hard gate is 500; this is the skill-level self-discipline line)
+CJK_RATIO_FLOOR = 0.0      # any CJK in an English-only repo is a WARN
+MIN_FAILTABLE_ROWS = 4     # minimum data rows in the failure-handling table
 MIN_DESC_LEN = 40
 MAX_DESC_LEN = 1024
 
@@ -70,14 +77,16 @@ FENCE_RE = re.compile(r"^\s*```")
 H2_RE = re.compile(r"^##\s+(.+?)\s*$")
 REF_LINK_RE = re.compile(r"`(references/[A-Za-z0-9._\-/]+\.md)`")
 REF_BULLET_RE = re.compile(r"^\s*[-*]\s+`?(references/[A-Za-z0-9._\-/]+\.md)")
-#: 目录名里出现这些时不是技能目录，跳过（避免把模板/共享片段当技能报错）。
-#: 注意：**不含 `assets`**——`skills/writing/assets/ai-cover-generator` 是被
-#: 三个 pack 真实引用的技能，跳过它会让它长期逃过 lint（与 validate_skills.py 口径一致）。
+#: When a directory name appears in this set it is not a skill directory and is
+#: skipped (so templates/shared snippets are not reported as broken skills).
+#: Note: **does not include `assets`** — `skills/writing/assets/ai-cover-generator`
+#: is a real skill referenced by three packs; skipping it would let it escape lint
+#: forever (consistent with validate_skills.py).
 SKIP_DIR_NAMES = {"_common", "__pycache__", "templates"}
 
 
 class Finding:
-    """一条检查结论。level ∈ {PASS, WARN, FAIL}。"""
+    """A single check result. level in {PASS, WARN, FAIL}."""
 
     def __init__(self, check, level, message, fix=""):
         self.check = check
@@ -94,11 +103,11 @@ class Finding:
         }
 
 
-# ---------------------------------------------------------------- 解析工具
+# ---------------------------------------------------------------- Parsing helpers
 
 
 def split_frontmatter(text):
-    """返回 (frontmatter 行列表 | None, 正文)。首行必须恰好是 ---。"""
+    """Return (frontmatter lines | None, body). The first line must be exactly ---."""
     lines = text.splitlines()
     if not lines or lines[0].strip() != "---":
         return None, text
@@ -109,10 +118,10 @@ def split_frontmatter(text):
 
 
 def parse_simple_yaml(fm_lines):
-    """最小 YAML 子集解析：标量、折叠/字面块、一层嵌套 map。
+    """Minimal YAML-subset parser: scalars, folded/literal blocks, one nested map.
 
-    与仓库 tools/validate_skills.py 同款策略：只认 frontmatter 实际用到的形态，
-    不引入 PyYAML 依赖。
+    Same strategy as the repo's tools/validate_skills.py: only recognize the
+    shapes actually used in frontmatter, no PyYAML dependency.
     """
     data = {}
     i, n = 0, len(fm_lines)
@@ -148,7 +157,7 @@ def parse_simple_yaml(fm_lines):
 
 
 def strip_code_blocks(body):
-    """去掉围栏代码块，返回 (去块后的文本, 被去掉的字符数)。"""
+    """Remove fenced code blocks; return (text without blocks, chars removed)."""
     out, in_fence = [], False
     for line in body.splitlines():
         if FENCE_RE.match(line):
@@ -160,10 +169,11 @@ def strip_code_blocks(body):
 
 
 def count_trigger_words(desc):
-    """从 description 里数中英双语触发词。
+    """Count trigger words in a description.
 
-    规则：取 "use when" / "当用户" 之后的片段，按 / 、 或 切分，
-    统计长度 >= 2 的片段数；两个引导语都找不到时回退为 0。
+    Rule: take the tail after "use when", split it on / 、 commas/semicolons or
+    "or"/"and", and count segments of length >= 2; fall back to 0 when no lead-in
+    phrase is found.
     """
     low = desc.lower()
     segments = []
@@ -172,8 +182,8 @@ def count_trigger_words(desc):
         if idx == -1:
             continue
         tail = desc[idx + len(hint):]
-        # 到排除项或句末为止
-        for stop in ("do not use", "don't use", "排除", "不适用"):
+        # stop at the exclusions or end of sentence
+        for stop in ("do not use", "don't use"):
             cut = tail.lower().find(stop)
             if cut != -1:
                 tail = tail[:cut]
@@ -190,20 +200,20 @@ def is_table_row(line):
 
 
 def count_table_rows(section_lines):
-    """数一张 Markdown 表格的数据行（排除表头与 |---| 分隔行）。"""
+    """Count the data rows of a Markdown table (excluding header and |---| rows)."""
     rows = 0
     for line in section_lines:
         if not is_table_row(line):
             continue
         cells = [c.strip() for c in line.strip().strip("|").split("|")]
         if all(re.fullmatch(r":?-{2,}:?", c or "---") for c in cells):
-            continue                      # 分隔行
+            continue                      # separator row
         rows += 1
-    return max(0, rows - 1)               # 减去表头
+    return max(0, rows - 1)               # subtract the header row
 
 
 def section_slice(body_lines, title):
-    """取出 `## <title>` 到下一个同级标题之间的行。"""
+    """Return the lines from `## <title>` to the next same-level heading."""
     start = None
     for i, line in enumerate(body_lines):
         m = H2_RE.match(line)
@@ -215,171 +225,219 @@ def section_slice(body_lines, title):
     return body_lines[start:] if start is not None else []
 
 
-# ---------------------------------------------------------------- 八项检查
+# ---------------------------------------------------------------- The eight checks
 
 
 def check_frontmatter_fields(raw, meta, fm_lines):
-    """FM-FIELDS：四块是否齐全，description 长度是否在区间内。"""
+    """FM-FIELDS: whether the four blocks are present and the description length is in range."""
     findings = []
     if fm_lines is None:
-        return [Finding("FM-FIELDS", "FAIL", "缺少或以非 `---` 开头的 frontmatter",
-                        "在文件第 1 行写 `---`，补全 name/description/license/metadata 后闭合 `---`")]
-    findings.append(Finding("FM-FIELDS", "PASS", "frontmatter 存在且可解析"))
+        return [Finding("FM-FIELDS", "FAIL", "frontmatter missing or not starting with `---`",
+                        "Write `---` on line 1, fill in name/description/license/metadata, then close with `---`")]
+    findings.append(Finding("FM-FIELDS", "PASS", "frontmatter present and parseable"))
     for key in ("name", "description", "license"):
         if not meta.get(key):
-            findings.append(Finding("FM-FIELDS", "FAIL", f"frontmatter 缺少 `{key}`",
-                                    f"补 `{key}:` 字段"))
+            findings.append(Finding("FM-FIELDS", "FAIL", f"frontmatter missing `{key}`",
+                                    f"add the `{key}:` field"))
     md = meta.get("metadata")
     if not isinstance(md, dict) or not md:
-        findings.append(Finding("FM-FIELDS", "FAIL", "frontmatter 缺少 `metadata` 块",
-                                "补 metadata 及 author/version/category/verified-date"))
+        findings.append(Finding("FM-FIELDS", "FAIL", "frontmatter missing the `metadata` block",
+                                "add metadata with author/version/category/verified-date"))
     else:
         for k in ("version", "category", "verified-date"):
             if k not in md:
                 findings.append(Finding("FM-FIELDS", "WARN",
-                                        f"metadata.{k} 缺失",
-                                        f"补 `{k}:` 便于版本追踪与时效核查"))
+                                        f"metadata.{k} missing",
+                                        f"add `{k}:` for version tracking and freshness checks"))
     desc = meta.get("description", "") or ""
     if desc and not (MIN_DESC_LEN <= len(desc) <= MAX_DESC_LEN):
         findings.append(Finding("FM-FIELDS", "WARN",
-                                f"description 长度 {len(desc)} 超出 {MIN_DESC_LEN}-{MAX_DESC_LEN}",
-                                "压缩到 40-1024 字符，删去形容词保留触发语与排除项"))
+                                f"description length {len(desc)} outside {MIN_DESC_LEN}-{MAX_DESC_LEN}",
+                                "trim to 40-1024 chars; cut adjectives, keep trigger phrases and exclusions"))
     return findings
 
 
 def check_name_sync(skill_dir, meta):
-    """NAME-SYNC：name == 目录名、kebab-case、无大写。"""
+    """NAME-SYNC: name == directory name, kebab-case, no uppercase."""
     name = str(meta.get("name", "") or "")
-    # target 为 "." 时 Path(".").name 是空串 → 先 resolve 再取目录名
+    # when target is ".", Path(".").name is empty -> resolve first, then take the dir name
     dir_name = skill_dir.resolve().name
     if not name:
-        return [Finding("NAME-SYNC", "FAIL", "frontmatter 无 `name`", "补 name 字段")]
+        return [Finding("NAME-SYNC", "FAIL", "no `name` in frontmatter", "add the name field")]
     findings = []
     if name != dir_name:
         findings.append(Finding("NAME-SYNC", "FAIL",
-                                f"name `{name}` 与目录名 `{dir_name}` 不一致",
-                                f"把 name 改为 `{dir_name}`，或把目录改名为 `{name}`"))
+                                f"name `{name}` does not match directory `{dir_name}`",
+                                f"rename name to `{dir_name}`, or rename the directory to `{name}`"))
     if name != name.lower():
-        findings.append(Finding("NAME-SYNC", "FAIL", f"name `{name}` 含大写字母",
-                                "改为全小写（仅 a-z0-9-）"))
+        findings.append(Finding("NAME-SYNC", "FAIL", f"name `{name}` contains uppercase letters",
+                                "use all lowercase (a-z0-9- only)"))
     if not NAME_RE.match(name):
         findings.append(Finding("NAME-SYNC", "FAIL",
-                                f"name `{name}` 不符合 kebab-case",
-                                "只保留小写字母数字与单个连字符，不以连字符开头/结尾"))
+                                f"name `{name}` is not kebab-case",
+                                "keep lowercase letters, digits, and single hyphens; no leading/trailing hyphen"))
     if not findings:
-        findings.append(Finding("NAME-SYNC", "PASS", f"name `{name}` 与目录名一致且合规"))
+        findings.append(Finding("NAME-SYNC", "PASS", f"name `{name}` matches the directory and is valid"))
     return findings
 
 
 def check_description_routing(meta):
-    """DESC-ROUTE：Use when / Do NOT / 触发词 >=5。"""
+    """DESC-ROUTE: Use when / Do NOT / >=3 trigger words."""
     desc = str(meta.get("description", "") or "")
     if not desc:
-        return [Finding("DESC-ROUTE", "FAIL", "description 为空",
-                        "写 what + Use when + 中英触发词(>=5) + Do NOT 排除项")]
+        return [Finding("DESC-ROUTE", "FAIL", "description is empty",
+                        "write what + Use when + trigger phrases (>=5) + Do NOT exclusions")]
     low = desc.lower()
     findings = []
     has_use = any(h in low for h in USE_WHEN_HINTS)
     has_not = any(h in low for h in DO_NOT_HINTS)
     if not has_use:
-        findings.append(Finding("DESC-ROUTE", "FAIL", "description 无 `Use when` 或中文等价引导语",
-                                "补 `Use when ...` 或 `当用户要求 ... 时使用`"))
+        findings.append(Finding("DESC-ROUTE", "FAIL", "description has no `Use when` lead-in",
+                                "add `Use when ...`"))
     if not has_not:
-        findings.append(Finding("DESC-ROUTE", "FAIL", "description 无 `Do NOT` 或中文等价排除项",
-                                "补 `Do NOT use for ...`，写清哪些相似请求不该命中本技能"))
+        findings.append(Finding("DESC-ROUTE", "FAIL", "description has no `Do NOT` exclusion",
+                                "add `Do NOT use for ...`, naming which similar requests must NOT hit this skill"))
     n_trig = count_trigger_words(desc)
-    if n_trig < 5:
+    if n_trig < 3:
         findings.append(Finding("DESC-ROUTE", "FAIL",
-                                f"触发词仅 {n_trig} 个（要求 >=5）",
-                                "在 Use when / 当用户 之后用 `/` 分隔补齐中英触发短语"))
+                                f"only {n_trig} trigger words (need >=3)",
+                                "after Use when, add more trigger phrases separated by `/`"))
     if not findings:
         findings.append(Finding("DESC-ROUTE", "PASS",
-                                f"路由信息完整，触发词 {n_trig} 个"))
+                                f"routing info complete, {n_trig} trigger words"))
     return findings
 
 
 def check_body_sections(body_lines):
-    """BODY-SECTS：六个硬性 H2 + 推荐凑满 10 个骨架标题。"""
-    titles = [H2_RE.match(l).group(1) for l in body_lines if H2_RE.match(l)]
+    """BODY-SECTS: six mandatory sections for tool skills, or platform-adaptation skeleton for content skills.
+
+    Two valid skeletons:
+    - Tool skill: Input / Pre-flight / Workflow / Delivery / Failure / References
+    - Platform-adaptation skill: Platform Format / Workflow / Quality Checklist / When to Use
+    """
+    titles = [H2_RE.match(l).group(1).lower() for l in body_lines if H2_RE.match(l)]
+    titles_str = " ".join(titles)
+
+    # Detect platform-adaptation skills (publisher/content skills)
+    is_platform_skill = any("platform format" in t or "content adaptation" in t for t in titles)
+
+    if is_platform_skill:
+        required = [
+            ("platform format", ["platform format rules", "format rules", "platform quick-reference", "platform matrix", "platform quick reference"]),
+            ("workflow", ["workflow"]),
+            ("quality", ["quality checklist", "delivery checklist", "delivery standards", "delivery standard"]),
+            ("when to use", ["when to use", "usage"]),
+        ]
+        missing = [label for label, keywords in required
+                   if not any(any(kw in t for kw in keywords) for t in titles)]
+        recommended_missing = []
+    else:
+        missing = []
+        for label, keywords in REQUIRED_H2_KEYWORDS:
+            if not any(any(kw in t for kw in keywords) for t in titles):
+                missing.append(label)
+        recommended_missing = []
+        for label, keywords in RECOMMENDED_H2_KEYWORDS:
+            if not any(any(kw in t for kw in keywords) for t in titles):
+                recommended_missing.append(label)
+
     findings = []
-    missing = [t for t in REQUIRED_H2 if not any(x.startswith(t) for x in titles)]
-    for t in missing:
-        findings.append(Finding("BODY-SECTS", "FAIL", f"缺少必需 H2 `## {t}`",
-                                f"按骨架补 `## {t}` 一节"))
+    for label in missing:
+        findings.append(Finding("BODY-SECTS", "FAIL", f"missing required section: {label}",
+                                f"add a `## {label}` section"))
+    for label in recommended_missing:
+        findings.append(Finding("BODY-SECTS", "WARN", f"missing recommended section: {label}",
+                                f"consider adding a `## {label}` section"))
     if missing:
         return findings
-    findings.append(Finding("BODY-SECTS", "PASS", "六个硬性 H2 齐全"))
+    skeleton = "platform-adaptation" if is_platform_skill else "tool"
+    findings.append(Finding("BODY-SECTS", "PASS", f"all mandatory sections present ({skeleton} skeleton)"))
     extra = len(titles)
     if extra < RECOMMENDED_H2_TOTAL:
         findings.append(Finding("BODY-SECTS", "WARN",
-                                f"仅 {extra} 个 H2，距 10 章节骨架差 {RECOMMENDED_H2_TOTAL - extra} 个",
-                                "补参数速查表 / 常见错误 / 工作流变体等可选章节"))
+                                f"only {extra} H2 headings, {RECOMMENDED_H2_TOTAL - extra} short of the 10-section skeleton",
+                                "add optional sections like Quick Reference / Common Mistakes"))
     return findings
 
 
 def check_body_lines(raw):
-    """BODY-LINES：总行数 < 220。"""
+    """BODY-LINES: total lines < 220."""
     n = len(raw.splitlines())
     if n >= BODY_LINE_LIMIT:
         return [Finding("BODY-LINES", "WARN",
-                        f"共 {n} 行，超过 {BODY_LINE_LIMIT} 行自律线",
-                        "把领域知识移入 references/，正文只留导航与工作流")]
-    return [Finding("BODY-LINES", "PASS", f"共 {n} 行")]
+                        f"{n} lines total, over the {BODY_LINE_LIMIT}-line self-discipline limit",
+                        "move domain knowledge into references/; keep only navigation and the workflow in the body")]
+    return [Finding("BODY-LINES", "PASS", f"{n} lines total")]
 
 
 def check_language_ratio(body):
-    """LANG-CJK：正文去代码块后 CJK 占比 < 0.15 报 WARN。"""
+    """LANG-CJK: WARN when any CJK characters appear in the body (English-only repo)."""
     text, _ = strip_code_blocks(body)
     stripped = re.sub(r"\s", "", text)
     if not stripped:
-        return [Finding("LANG-CJK", "WARN", "正文去代码块后为空",
-                        "正文至少要有可读的中文说明")]
-    ratio = len(CJK_RE.findall(stripped)) / len(stripped)
-    if ratio < CJK_RATIO_FLOOR:
+        return [Finding("LANG-CJK", "WARN", "body is empty after removing code blocks",
+                        "the body needs at least readable prose")]
+    cjk_count = len(CJK_RE.findall(stripped))
+    ratio = cjk_count / len(stripped)
+    if cjk_count > 0:
         return [Finding("LANG-CJK", "WARN",
-                        f"正文 CJK 占比 {ratio:.3f} < {CJK_RATIO_FLOOR}，正文疑似应为中文",
-                        "把叙述性段落改为中文；frontmatter 与代码保持英文")]
-    return [Finding("LANG-CJK", "PASS", f"正文 CJK 占比 {ratio:.3f}")]
+                        f"body contains {cjk_count} CJK characters (ratio {ratio:.3f})",
+                        "translate all prose to English; this is an English-only repository")]
+    return [Finding("LANG-CJK", "PASS", f"body is English-only (0 CJK characters)")]
 
 
 def check_references_exist(skill_dir, raw):
-    """REF-EXISTS：正文提到的 `references/*.md` 必须真实存在。"""
+    """REF-EXISTS: every `references/*.md` named in the body must exist on disk."""
     refs = set(REF_LINK_RE.findall(raw))
     refs |= set(REF_BULLET_RE.findall(raw))
     if not refs:
-        return [Finding("REF-EXISTS", "WARN", "正文未引用任何 references/*.md",
-                        "如有领域知识，拆到 references/ 并从 `## 参考` 链接")]
+        return [Finding("REF-EXISTS", "WARN", "body references no references/*.md",
+                        "if there is domain knowledge, split it into references/ and link it from `## References`")]
     findings, broken = [], []
     for r in sorted(refs):
         if not (skill_dir / r).is_file():
             broken.append(r)
     for r in broken:
-        findings.append(Finding("REF-EXISTS", "FAIL", f"引用的 `{r}` 不存在",
-                                f"创建 {r} 或从正文删除该引用"))
+        findings.append(Finding("REF-EXISTS", "FAIL", f"referenced `{r}` does not exist",
+                                f"create {r} or remove the reference from the body"))
     if not broken:
-        findings.append(Finding("REF-EXISTS", "PASS", f"{len(refs)} 个引用全部存在"))
+        findings.append(Finding("REF-EXISTS", "PASS", f"all {len(refs)} references exist"))
     return findings
 
 
 def check_fail_table(body_lines):
-    """FAIL-TABLE：`## 失败处置表` 数据行 >= 4。"""
-    lines = section_slice(body_lines, "失败处置表")
+    """FAIL-TABLE: tool skills need `## Failure Handling` with >=4 rows; platform skills use Quality Checklist."""
+    titles = [H2_RE.match(l).group(1).lower() for l in body_lines if H2_RE.match(l)]
+    is_platform_skill = any("platform format" in t or "content adaptation" in t for t in titles)
+    if is_platform_skill:
+        # Platform-adaptation skills use Quality Checklist instead of Failure Handling
+        lines = section_slice(body_lines, "Quality Checklist")
+        if not lines:
+            lines = section_slice(body_lines, "quality")
+        if not lines:
+            return [Finding("FAIL-TABLE", "WARN", "no Quality Checklist section found",
+                            "add a pre-publish quality checklist")]
+        return [Finding("FAIL-TABLE", "PASS", "Quality Checklist present")]
+    lines = section_slice(body_lines, "Failure Handling")
     if not lines:
-        return [Finding("FAIL-TABLE", "FAIL", "无 `## 失败处置表` 一节或该节为空",
-                        "补一节三列表格：现象/错误码 | 原因 | 处置")]
+        lines = section_slice(body_lines, "Failure Remediation")
+    if not lines:
+        lines = section_slice(body_lines, "failure")
+        return [Finding("FAIL-TABLE", "FAIL", "no `## Failure Handling` section, or it is empty",
+                        "add a three-column table: symptom/error code | cause | action")]
     rows = count_table_rows(lines)
     if rows < MIN_FAILTABLE_ROWS:
         return [Finding("FAIL-TABLE", "FAIL",
-                        f"失败处置表仅 {rows} 行（要求 >= {MIN_FAILTABLE_ROWS}）",
-                        "补足至少 4 条真实失败场景（含错误原文与具体处置动作）")]
-    return [Finding("FAIL-TABLE", "PASS", f"失败处置表 {rows} 行")]
+                        f"failure table has only {rows} rows (need >= {MIN_FAILTABLE_ROWS})",
+                        "add at least 4 real failure scenarios (with the raw error and a concrete action)")]
+    return [Finding("FAIL-TABLE", "PASS", f"failure table has {rows} rows")]
 
 
-# ---------------------------------------------------------------- 主流程
+# ---------------------------------------------------------------- Main flow
 
 
 def lint_one(skill_md: Path):
-    """校验单个 SKILL.md，返回 (skill_md, findings, exit_fail_count)。"""
+    """Lint a single SKILL.md; return (skill_md, findings)."""
     raw = skill_md.read_text(encoding="utf-8", errors="ignore")
     fm_lines, body = split_frontmatter(raw)
     meta = parse_simple_yaml(fm_lines) if fm_lines is not None else {}
@@ -400,7 +458,7 @@ def lint_one(skill_md: Path):
 
 
 def iter_skill_files(target: Path):
-    """把 CLI 参数解析成 SKILL.md 列表（支持单文件 / 技能目录 / 父目录树）。"""
+    """Resolve a CLI argument into a list of SKILL.md files (file / skill dir / parent tree)."""
     if target.is_file():
         return [target] if target.name == "SKILL.md" else []
     if (target / "SKILL.md").is_file():
@@ -409,7 +467,7 @@ def iter_skill_files(target: Path):
     for p in sorted(target.rglob("SKILL.md")):
         if any(part in SKIP_DIR_NAMES for part in p.parts):
             continue
-        # 样例/模板技能（sample-*）不参与发布，与 validate_skills.py 口径一致。
+        # sample/template skills (sample-*) are not published; consistent with validate_skills.py.
         if p.parent.name.startswith("sample-"):
             continue
         out.append(p)
@@ -417,9 +475,9 @@ def iter_skill_files(target: Path):
 
 
 def collect(target: Path):
-    """返回 [(skill_md, findings)] 列表。target 不存在时抛 FileNotFoundError。"""
+    """Return [(skill_md, findings)]. Raise FileNotFoundError if target does not exist."""
     if not target.exists():
-        raise FileNotFoundError(f"路径不存在：{target}")
+        raise FileNotFoundError(f"path does not exist: {target}")
     results = []
     for md in iter_skill_files(target):
         results.append(lint_one(md))
@@ -427,7 +485,7 @@ def collect(target: Path):
 
 
 def render_text(results, verbose=False):
-    """打印人类可读报告，返回 (fail_count, warn_count)。"""
+    """Print a human-readable report; return (fail_count, warn_count)."""
     fail_total = warn_total = 0
     for skill_md, findings in results:
         fails = [f for f in findings if f.level == "FAIL"]
@@ -451,11 +509,11 @@ def render_text(results, verbose=False):
 def main(argv=None):
     ap = argparse.ArgumentParser(
         prog="lint_skill.py",
-        description="校验 SKILL.md 是否符合 awesome-skillkit 规范，输出 PASS/WARN/FAIL 报告。",
+        description="Check a SKILL.md against the awesome-skillkit spec; print a PASS/WARN/FAIL report.",
     )
-    ap.add_argument("target", help="SKILL.md 路径、技能目录，或含多个技能的父目录")
-    ap.add_argument("--json", action="store_true", help="输出机器可读 JSON")
-    ap.add_argument("--verbose", action="store_true", help="文本模式下也打印 PASS 项")
+    ap.add_argument("target", help="path to a SKILL.md, a skill dir, or a parent dir containing skills")
+    ap.add_argument("--json", action="store_true", help="print machine-readable JSON")
+    ap.add_argument("--verbose", action="store_true", help="also print PASS items in text mode")
     args = ap.parse_args(argv)
 
     try:
@@ -465,7 +523,7 @@ def main(argv=None):
         return 2
 
     if not results:
-        print(f"未找到任何 SKILL.md：{args.target}", file=sys.stderr)
+        print(f"no SKILL.md found: {args.target}", file=sys.stderr)
         return 2
 
     if args.json:

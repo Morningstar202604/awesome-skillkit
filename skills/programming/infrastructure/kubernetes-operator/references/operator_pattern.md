@@ -1,6 +1,6 @@
 # The operator pattern
 
-## 目录
+## Table of Contents
 
 - [When you need an operator](#when-you-need-an-operator)
 - [Operator pattern shape](#operator-pattern-shape)

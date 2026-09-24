@@ -1,6 +1,6 @@
 # Database Normalization Guide
 
-## 目录
+## Table of Contents
 
 - [Overview](#overview)
 - [Normal Forms](#normal-forms)

@@ -18,26 +18,24 @@ CAMERA_WORDS = [
     r"full shot", r"extreme", r"push[- ]?in", r"pull[- ]?back", r"pull[- ]?out",
     r"pan\b", r"tilt", r"tracking", r"dolly", r"follow", r"crane", r"orbit",
     r"arc shot", r"handheld", r"static", r"locked[- ]?off", r"zoom",
-    r"特写", r"远景", r"全景", r"中景", r"推", r"拉", r"摇", r"移", r"跟", r"环绕", r"固定",
 ]
 LIGHTING_WORDS = [
     r"light", r"lighting", r"backlight", r"neon", r"golden hour", r"blue hour",
     r"noir", r"soft light", r"rim light", r"high[- ]?contrast", r"overcast",
-    r"glow", r"shadow", r"silhouette", r"阳光", r"逆光", r"霓虹", r"光影", r"柔光", r"轮廓光",
+    r"glow", r"shadow", r"silhouette", r"sunlight",
 ]
 STYLE_WORDS = [
     r"cinematic", r"live[- ]?action", r"35mm", r"film", r"camcorder",
     r"stop[- ]?motion", r"anime", r"cel", r"documentary", r"commercial",
-    r"gloss", r"photoreal", r"3d render", r"claymation", r"水彩", r"电影感", r"胶片", r"动画",
+    r"gloss", r"photoreal", r"3d render", r"claymation", r"watercolor",
 ]
 ACTION_WORDS = [
     r"\bwalk", r"\brun", r"\bturn", r"\bpick", r"\bignite", r"\bopen", r"\bclose",
     r"\bjump", r"\bfall", r"\blook", r"\breach", r"\bsit", r"\bstand", r"\bhold",
     r"\bdrive", r"\bfly", r"\bfloat", r"\bspin", r"\bpour", r"\bpress", r"\btype",
     r"\bshine", r"\bflow", r"\bmove", r"\brise", r"\bdrop", r"\bemerge",
-    r"走", r"跑", r"拿", r"点燃", r"打开", r"关", r"跳", r"落", r"看", r"坐", r"站", r"转",
 ]
-DURATION_RE = re.compile(r"\b\d+(?:\.\d+)?\s*(?:s\b|sec|seconds|秒)\b", re.I)
+DURATION_RE = re.compile(r"\b\d+(?:\.\d+)?\s*(?:s\b|sec|seconds)\b", re.I)
 RATIO_RE = re.compile(r"\b(?:16[:/]9|9[:/]16|1[:/]1|4[:/]3|21[:/]9)\b", re.I)
 
 
@@ -69,12 +67,12 @@ def audit(prompt: str) -> dict:
 
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(
-        description="六槽位视频 prompt 结构审计（subject/action/camera/lighting/style/duration）"
+        description="six-slot video prompt structural audit (subject/action/camera/lighting/style/duration)"
     )
-    ap.add_argument("--prompt", "-p", required=True, help="待审计的 prompt 文本")
+    ap.add_argument("--prompt", "-p", required=True, help="prompt text to audit")
     ap.add_argument("--mode", choices=["audit", "write"], default="audit",
-                    help="audit=审计报告（默认）；write=写后自检（同一检查，输出措辞不同）")
-    ap.add_argument("--json", action="store_true", help="仅输出 JSON")
+                    help="audit = audit report (default); write = post-write self-check (same check, different wording)")
+    ap.add_argument("--json", action="store_true", help="emit JSON only")
     args = ap.parse_args(argv[1:])
 
     result = audit(args.prompt)
@@ -86,7 +84,7 @@ def main(argv: list[str]) -> int:
             print(f"  {k:<10} {v}")
         if result["missing"]:
             print(f"missing slots: {', '.join(result['missing'])}")
-            print("fix hints: 见 SKILL.md 六槽位词典 — 缺啥补啥，一次一个槽位")
+            print("fix hints: see the six-slot dictionary in SKILL.md — fill each missing slot, one at a time")
     return 0 if not result["missing"] else 1
 
 

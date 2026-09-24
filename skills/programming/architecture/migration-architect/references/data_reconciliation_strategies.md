@@ -1,6 +1,6 @@
 # Data Reconciliation Strategies
 
-## 目录
+## Table of Contents
 
 - [Overview](#overview)
 - [Core Principles](#core-principles)

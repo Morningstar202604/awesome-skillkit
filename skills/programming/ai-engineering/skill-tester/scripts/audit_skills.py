@@ -1,23 +1,26 @@
 #!/usr/bin/env python3
 """
-Audit Skills — 全仓库技能批量审计
+Audit Skills -- batch audit of every skill in a repository.
 
-在 skill-tester 技能内部，把「校验 + 打分 + 安全检查」三个脚本串起来，
-对一个目录下的全部技能跑一遍，输出汇总报告。
+Inside the skill-tester skill, this chains the three scripts "validate + score +
+security check" together, runs them over every skill under a directory, and emits
+a summary report.
 
-与 tools/validate_skills.py（仓库级门禁）的分工：
-  - tools/validate_skills.py  —— awesome-skillkit 仓库自己的合规门禁，
-                                 规则写死在本仓库的 SKILL-STANDARD-v2 上；
-  - 本脚本                     —— 通用审计器，可指向任意技能目录，
-                                 且额外跑安全评分，适合评审别人的技能仓库。
+Division of labor with tools/validate_skills.py (the repo-level gate):
+  - tools/validate_skills.py -- the awesome-skillkit repo's own compliance gate,
+                                with rules hard-coded against this repo's
+                                SKILL-STANDARD-v2;
+  - this script              -- a generic auditor that can point at any skill
+                                directory and additionally runs a security score;
+                                suited to reviewing someone else's skill repo.
 
-用法:
+Usage:
     python3 audit_skills.py /path/to/skills
     python3 audit_skills.py /path/to/skills --json
     python3 audit_skills.py /path/to/skills --min-score 75 --fail-under
     python3 audit_skills.py /path/to/skills --no-security
 
-退出码: 0 全部通过 / 1 存在未达阈值项（仅 --fail-under 时）/ 2 参数错误
+Exit codes: 0 all pass / 1 some item below threshold (only with --fail-under) / 2 bad arguments
 """
 
 import argparse
@@ -31,25 +34,26 @@ VALIDATOR = SCRIPT_DIR / "skill_validator.py"
 SCORER = SCRIPT_DIR / "quality_scorer.py"
 SECURITY = SCRIPT_DIR / "security_scorer.py"
 
-# 每个子进程的超时（秒）。技能目录可能很大，但单技能不应卡死整个审计。
+# per-subprocess timeout (seconds). A skill directory may be large, but a single skill must not hang the whole audit.
 CALL_TIMEOUT = 60
 
 
 def find_skills(root: Path):
-    """找出 root 下所有技能目录（含 SKILL.md 的目录），按路径排序。"""
+    """Find every skill directory under root (dirs containing SKILL.md), sorted by path."""
     if (root / "SKILL.md").is_file():
         return [root]
     return sorted({p.parent for p in root.rglob("SKILL.md")})
 
 
 def run_json(script: Path, target: Path, extra=None):
-    """调用一个子脚本并解析其 JSON 输出。
+    """Invoke a sub-script and parse its JSON output.
 
-    返回 (data, error_message)。子脚本非 0 退出不算失败——validator 用
-    退出码表示"不合规"，但 JSON 仍然有效，所以要读 stdout 而不是看退出码。
+    Returns (data, error_message). A non-zero exit from the sub-script is not a
+    failure -- the validator uses the exit code to mean "non-compliant", but the
+    JSON is still valid, so read stdout rather than the exit code.
     """
     if not script.is_file():
-        return None, f"缺脚本 {script.name}"
+        return None, f"missing script {script.name}"
     cmd = [sys.executable, str(script), str(target), "--json"]
     if extra:
         cmd.extend(extra)
@@ -61,20 +65,20 @@ def run_json(script: Path, target: Path, extra=None):
             timeout=CALL_TIMEOUT,
         )
     except subprocess.TimeoutExpired:
-        return None, f"{script.name} 超时 (>{CALL_TIMEOUT}s)"
+        return None, f"{script.name} timed out (>{CALL_TIMEOUT}s)"
 
     out = proc.stdout.strip()
     if not out:
         err = (proc.stderr or "").strip().splitlines()
-        return None, f"{script.name} 无输出" + (f": {err[-1]}" if err else "")
+        return None, f"{script.name} produced no output" + (f": {err[-1]}" if err else "")
     try:
         return json.loads(out), None
     except json.JSONDecodeError:
-        return None, f"{script.name} 输出非 JSON（前 80 字符: {out[:80]}）"
+        return None, f"{script.name} output is not JSON (first 80 chars: {out[:80]})"
 
 
 def pick(data, *keys):
-    """从子脚本输出里按优先级取第一个存在的键。"""
+    """From sub-script output, take the first present key in priority order."""
     if not isinstance(data, dict):
         return None
     for k in keys:
@@ -84,7 +88,7 @@ def pick(data, *keys):
 
 
 def audit_one(skill_dir: Path, with_security: bool):
-    """审计单个技能，返回结果 dict。"""
+    """Audit a single skill; return a result dict."""
     rec = {
         "name": skill_dir.name,
         "path": str(skill_dir),
@@ -103,7 +107,7 @@ def audit_one(skill_dir: Path, with_security: bool):
         rec["errors"].append(verr)
     else:
         rec["compliance_level"] = pick(vdata, "compliance_level", "level", "status")
-        # 子检验结果里可能含 error/warning 列表
+        # sub-check results may contain error/warning lists
         checks = pick(vdata, "checks")
         if isinstance(checks, dict):
             for cname, cval in checks.items():
@@ -151,7 +155,7 @@ def fmt_score(v):
 
 def print_table(records, min_score):
     print("=" * 84)
-    print(f"{'技能':<34}{'质量':>7}{'等级':>6}{'层级':>12}{'安全':>7}  状态")
+    print(f"{'Skill':<34}{'Quality':>7}{'Grade':>6}{'Tier':>12}{'Security':>7}  Status")
     print("-" * 84)
     for r in sorted(records, key=lambda x: (x["quality_score"] is None, x["quality_score"] or 0)):
         q = r["quality_score"]
@@ -182,9 +186,9 @@ def print_table(records, min_score):
     ]
     scored = [r["quality_score"] for r in records if r["quality_score"] is not None]
     avg = sum(scored) / len(scored) if scored else 0
-    print(f"技能总数: {total}   均分: {avg:.1f}   校验失败: {len(failing)}", end="")
+    print(f"Total skills: {total}   avg score: {avg:.1f}   validation failures: {len(failing)}", end="")
     if min_score is not None:
-        print(f"   低于 {min_score} 分: {len(below)}")
+        print(f"   below {min_score}: {len(below)}")
     else:
         print()
 
@@ -196,38 +200,38 @@ def print_table(records, min_score):
             for w in r["warnings"][:5]:
                 print(f"  WARN   {w}")
             if len(r["warnings"]) > 5:
-                print(f"  WARN   ... 另有 {len(r['warnings']) - 5} 条")
+                print(f"  WARN   ... {len(r['warnings']) - 5} more")
     print("=" * 84)
     return failing, below
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser(
-        description="对目录下全部技能批量审计（校验 + 打分 + 安全）",
+        description="Batch-audit every skill under a directory (validate + score + security)",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    ap.add_argument("root", help="技能根目录，或单个技能目录")
-    ap.add_argument("--json", action="store_true", help="输出机器可读 JSON")
-    ap.add_argument("--min-score", type=float, default=None, help="质量分下限，用于标记未达标")
+    ap.add_argument("root", help="skill root directory, or a single skill directory")
+    ap.add_argument("--json", action="store_true", help="emit machine-readable JSON")
+    ap.add_argument("--min-score", type=float, default=None, help="quality score floor used to flag items below target")
     ap.add_argument(
         "--fail-under",
         action="store_true",
-        help="有项目低于 --min-score 或校验失败时以退出码 1 结束（供 CI 使用）",
+        help="exit 1 when any item is below --min-score or fails validation (for CI)",
     )
-    ap.add_argument("--no-security", action="store_true", help="跳过安全评分（更快）")
-    ap.add_argument("--limit", type=int, default=None, help="只审计前 N 个技能（调试用）")
+    ap.add_argument("--no-security", action="store_true", help="skip the security score (faster)")
+    ap.add_argument("--limit", type=int, default=None, help="audit only the first N skills (for debugging)")
     args = ap.parse_args(argv)
 
     root = Path(args.root).expanduser().resolve()
     if not root.is_dir():
-        print(f"错误：目录不存在: {root}", file=sys.stderr)
+        print(f"error: directory not found: {root}", file=sys.stderr)
         return 2
 
     skills = find_skills(root)
     if args.limit:
         skills = skills[: args.limit]
     if not skills:
-        print(f"错误：在 {root} 下未找到任何含 SKILL.md 的技能目录", file=sys.stderr)
+        print(f"error: no skill directory containing SKILL.md found under {root}", file=sys.stderr)
         return 2
 
     records = [audit_one(d, not args.no_security) for d in skills]

@@ -1,22 +1,27 @@
 #!/usr/bin/env python3
-"""convert.py -- 格式转换统一入口（文档 / 图片 / 音视频 / 批量）。
+"""convert.py -- unified format-conversion entry point (document / image / media / batch).
 
-设计原则
---------
-1. **依赖先探测再调用**：每个子命令开工前先 `shutil.which` 找二进制、`import` 找库，
-   缺失时给出针对当前系统的确切安装命令，而不是抛一个 FileNotFoundError 让人猜。
-2. **绝不覆盖输入**：输出路径与任一输入路径相同（含 realpath 后相同）时直接拒绝。
-3. **不静默降级**：转不了就说转不了，不产出半成品文件冒充成功。
-4. **批量不中断**：`batch` 模式单个文件失败只记录，继续处理其余文件。
+Design principles
+-----------------
+1. **Probe dependencies before calling**: before each subcommand runs, `shutil.which` looks for
+   the binary and `import` looks for the library; when something is missing it prints the exact
+   install command for the current OS, rather than raising a FileNotFoundError and leaving you
+   to guess.
+2. **Never overwrite input**: if the output path equals any input path (even after realpath),
+   refuse outright.
+3. **No silent degradation**: if it can't convert, say so; never emit a half-baked file and
+   call it success.
+4. **Batch never halts**: in `batch` mode a single file's failure is only logged; the rest
+   keep processing.
 
-子命令
-------
-  doc   <in> <out> [--pdf-engine X]        文档转换（pandoc）
-  image <in> <out> [--width N] [--quality Q]  图片转换/缩放（Pillow）
-  media <in> <out> [--vcodec X] [--acodec Y]  音视频转换（ffmpeg）
-  batch <dir> --to <ext> [--kind K] [--yes]    目录内批量转换（默认 dry-run）
+Subcommands
+-----------
+  doc   <in> <out> [--pdf-engine X]           document conversion (pandoc)
+  image <in> <out> [--width N] [--quality Q]  image conversion/resize (Pillow)
+  media <in> <out> [--vcodec X] [--acodec Y]  audio/video conversion (ffmpeg)
+  batch <dir> --to <ext> [--kind K] [--yes]   batch-convert a directory (dry-run by default)
 
-Python >= 3.8；图片依赖 Pillow，文档依赖 pandoc，媒体依赖 ffmpeg。
+Python >= 3.8; images need Pillow, documents need pandoc, media needs ffmpeg.
 """
 
 from __future__ import annotations
@@ -28,7 +33,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-# 各类转换的扩展名归属，用于 batch 自动判断该走哪条管线
+# extension-to-pipeline ownership, used by batch to decide which pipeline to route to
 DOC_EXTS = {".md", ".markdown", ".docx", ".odt", ".rst", ".html", ".htm",
             ".tex", ".epub", ".rtf", ".txt"}
 IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".webp", ".bmp", ".gif", ".tif",
@@ -36,7 +41,7 @@ IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".webp", ".bmp", ".gif", ".tif",
 MEDIA_EXTS = {".mp4", ".mkv", ".mov", ".avi", ".webm", ".flv", ".wmv",
               ".mp3", ".wav", ".flac", ".aac", ".ogg", ".m4a", ".opus"}
 
-# 扩展名 -> 输出格式名，避免每次都查表
+# extension -> output format name, so we don't have to look the table up each time
 DOC_FORMATS = {
     ".md": "markdown", ".markdown": "markdown", ".docx": "docx",
     ".odt": "odt", ".rst": "rst", ".html": "html", ".htm": "html",
@@ -54,31 +59,31 @@ def _os_family() -> str:
 
 
 def install_hint(tool: str) -> str:
-    """给出针对当前系统的安装命令。三平台都给，避免用户猜。"""
+    """Give the install command for the current OS. Cover all three platforms so the user does not have to guess."""
     hints = {
         "pandoc": {
             "macos": "brew install pandoc",
-            "linux": "sudo apt-get install pandoc   # 或 sudo dnf install pandoc",
+            "linux": "sudo apt-get install pandoc   # or sudo dnf install pandoc",
             "windows": "winget install --id JohnMacFarlane.Pandoc",
         },
         "ffmpeg": {
             "macos": "brew install ffmpeg",
-            "linux": "sudo apt-get install ffmpeg   # 或 sudo dnf install ffmpeg",
+            "linux": "sudo apt-get install ffmpeg   # or sudo dnf install ffmpeg",
             "windows": "winget install --id Gyan.FFmpeg",
         },
     }
     fam = _os_family()
-    return hints.get(tool, {}).get(fam, f"请手动安装 {tool}")
+    return hints.get(tool, {}).get(fam, f"install {tool} manually")
 
 
 def require_binary(tool: str, why: str) -> str:
-    """找到二进制就返回绝对路径；否则打印安装指引并退出。"""
+    """Return the absolute path if the binary is found; otherwise print install guidance and exit."""
     path = shutil.which(tool)
     if path:
         return path
-    print(f"ERROR: 找不到 `{tool}`（{why}）。", file=sys.stderr)
-    print(f"  → 安装：{install_hint(tool)}", file=sys.stderr)
-    print(f"  → 装好后用 `{tool} --version` 确认，再重跑本命令。", file=sys.stderr)
+    print(f"ERROR: `{tool}` not found ({why}).", file=sys.stderr)
+    print(f"  -> install: {install_hint(tool)}", file=sys.stderr)
+    print(f"  -> after installing, confirm with `{tool} --version`, then re-run this command.", file=sys.stderr)
     raise SystemExit(4)
 
 
@@ -86,9 +91,9 @@ def require_pillow():
     try:
         from PIL import Image  # noqa: F401
     except ImportError:
-        print("ERROR: 图片转换需要 Pillow，当前环境未安装。", file=sys.stderr)
-        print("  → 安装：python3 -m pip install pillow", file=sys.stderr)
-        print("  → 装好后 `python3 -c \"import PIL;print(PIL.__version__)\"` 确认。",
+        print("ERROR: image conversion needs Pillow, which is not installed in this environment.", file=sys.stderr)
+        print("  -> install: python3 -m pip install pillow", file=sys.stderr)
+        print("  -> after installing, confirm with `python3 -c \"import PIL;print(PIL.__version__)\"`.",
               file=sys.stderr)
         raise SystemExit(4)
     from PIL import Image
@@ -96,7 +101,7 @@ def require_pillow():
 
 
 def _same_path(a: Path, b: Path) -> bool:
-    """realpath 后比较，挡住 in/out 指向同一文件的自我覆盖。"""
+    """Compare after realpath, blocking self-overwrite where in/out point at the same file."""
     try:
         return a.resolve() == b.resolve()
     except OSError:
@@ -105,10 +110,11 @@ def _same_path(a: Path, b: Path) -> bool:
 
 def _guard(inp: Path, outp: Path) -> None:
     if not inp.exists():
-        print(f"ERROR: 输入文件不存在: {inp}", file=sys.stderr)
+        print(f"ERROR: input file not found: {inp}", file=sys.stderr)
         raise SystemExit(1)
     if _same_path(inp, outp):
-        print(f"ERROR: 输出路径与输入相同（{outp}），会破坏源文件。请换输出名。",
+        print(f"ERROR: output path equals input ({outp}); this would destroy the source file. "
+              f"Use a different output name.",
               file=sys.stderr)
         raise SystemExit(2)
     outp.parent.mkdir(parents=True, exist_ok=True)
@@ -118,12 +124,13 @@ def _run(cmd: list, action: str) -> int:
     print(f"$ {' '.join(cmd)}")
     proc = subprocess.run(cmd, capture_output=True, text=True)
     if proc.returncode != 0:
-        print(f"ERROR: {action} 失败 (rc={proc.returncode})", file=sys.stderr)
+        print(f"ERROR: {action} failed (rc={proc.returncode})", file=sys.stderr)
         tail = (proc.stderr or proc.stdout or "").strip().splitlines()
         for line in tail[-12:]:
             print(f"  | {line}", file=sys.stderr)
-        # 外部工具返回码可能超出 [0,255]（信号为负、ffmpeg 可返回 234 等），
-        # sys.exit() 只接受 0-255，越界会被截断成令人困惑的值；负值归为 1。
+        # An external tool's exit code may fall outside [0,255] (signals are negative;
+        # ffmpeg can return 234, etc.). sys.exit() only accepts 0-255, and out-of-range
+        # values get truncated into a confusing number; map negatives to 1.
         rc = proc.returncode
         return rc if 0 <= rc <= 255 else 1
     return 0
@@ -140,28 +147,29 @@ def cmd_doc(args) -> int:
     dst_fmt = DOC_FORMATS.get(outp.suffix.lower())
     unknown = [e for e in (src_fmt, dst_fmt) if e is None]
     if unknown:
-        print(f"ERROR: 无法从扩展名推断格式（{inp.suffix} -> {outp.suffix}）。",
+        print(f"ERROR: cannot infer format from extension ({inp.suffix} -> {outp.suffix}).",
               file=sys.stderr)
-        print(f"  支持：{' '.join(sorted(set(DOC_FORMATS)))}", file=sys.stderr)
-        print("  其他格式请显式指定：pandoc -f <from> -t <to>", file=sys.stderr)
+        print(f"  supported: {' '.join(sorted(set(DOC_FORMATS)))}", file=sys.stderr)
+        print("  for other formats specify explicitly: pandoc -f <from> -t <to>", file=sys.stderr)
         return 3
 
-    # 依赖探测放在扩展名校验之后：格式错不该先报「找不到 pandoc」误导用户
-    pandoc = require_binary("pandoc", "文档转换需要它")
+    # Probe dependencies after the extension check: a wrong format should not first report
+    # "pandoc not found" and mislead the user.
+    pandoc = require_binary("pandoc", "required for document conversion")
 
     cmd = [pandoc, str(inp)]
-    # 显式指定 -f/-t：pandoc 对 .tex/.rst 的自动识别在部分版本上不一致
+    # Explicitly set -f/-t: pandoc's auto-detection of .tex/.rst is inconsistent across versions
     cmd += ["-f", src_fmt, "-t", dst_fmt]
     if args.pdf_engine and dst_fmt == "latex":
         cmd += ["--pdf-engine", args.pdf_engine]
     cmd += ["-o", str(outp)]
 
-    rc = _run(cmd, "文档转换")
+    rc = _run(cmd, "document conversion")
     if rc == 0:
         print(f"OK: {inp} -> {outp}  ({outp.stat().st_size} bytes)")
     elif rc == 47 or "xelatex" in (args.pdf_engine or ""):
-        print("  → PDF 输出需要 LaTeX 引擎，尝试："
-              f"{install_hint('pandoc')} 之外再装 texlive", file=sys.stderr)
+        print("  -> PDF output needs a LaTeX engine; in addition to "
+              f"{install_hint('pandoc')}, also install texlive", file=sys.stderr)
     return rc
 
 
@@ -173,7 +181,8 @@ def cmd_image(args) -> int:
     inp, outp = Path(args.input), Path(args.output)
     _guard(inp, outp)
     if outp.suffix.lower() not in IMAGE_EXTS:
-        print(f"WARN: 输出扩展名 {outp.suffix} 不是常见图片格式，按内容尝试写出。",
+        print(f"WARN: output extension {outp.suffix} is not a common image format; "
+              f"trying to write based on content.",
               file=sys.stderr)
 
     with Image.open(inp) as im:
@@ -183,7 +192,7 @@ def cmd_image(args) -> int:
             ratio = args.width / im.width
             new_h = max(1, round(im.height * ratio))
             im = im.resize((args.width, new_h), Image.LANCZOS)
-        # JPEG 不支持透明通道，直接存会报 "cannot write mode RGBA as JPEG"
+        # JPEG has no alpha channel; saving directly errors with "cannot write mode RGBA as JPEG"
         fmt = (Image.registered_extensions()
                .get(outp.suffix.lower(), "").upper())
         if fmt == "JPEG" and im.mode in ("RGBA", "LA", "P"):
@@ -205,20 +214,20 @@ def cmd_media(args) -> int:
     _guard(inp, outp)
     dst_ext = outp.suffix.lower()
     if dst_ext not in MEDIA_EXTS:
-        print(f"ERROR: 无法从扩展名推断格式（{inp.suffix} -> {outp.suffix}）。",
+        print(f"ERROR: cannot infer format from extension ({inp.suffix} -> {outp.suffix}).",
               file=sys.stderr)
-        print(f"  媒体输出支持：{' '.join(sorted(MEDIA_EXTS))}", file=sys.stderr)
-        print("  其他格式请直接调用 ffmpeg -i <in> <out> 显式指定封装格式。",
+        print(f"  supported media outputs: {' '.join(sorted(MEDIA_EXTS))}", file=sys.stderr)
+        print("  for other formats, call ffmpeg -i <in> <out> directly to set the container.",
               file=sys.stderr)
         return 3
-    ffmpeg = require_binary("ffmpeg", "音视频转换需要它")
+    ffmpeg = require_binary("ffmpeg", "required for audio/video conversion")
     cmd = [ffmpeg, "-hide_banner", "-loglevel", "error", "-y", "-i", str(inp)]
     if args.vcodec:
         cmd += ["-c:v", args.vcodec]
     if args.acodec:
         cmd += ["-c:a", args.acodec]
     cmd += [str(outp)]
-    rc = _run(cmd, "媒体转换")
+    rc = _run(cmd, "media conversion")
     if rc == 0:
         print(f"OK: {inp} -> {outp}  ({outp.stat().st_size} bytes)")
     return rc
@@ -239,7 +248,7 @@ def _kind_of(path: Path) -> str:
 
 
 def _lane_of_ext(ext: str) -> str:
-    """目标扩展名属于哪条管线。"""
+    """Which pipeline an extension belongs to."""
     if ext in IMAGE_EXTS:
         return "image"
     if ext in DOC_EXTS:
@@ -250,11 +259,12 @@ def _lane_of_ext(ext: str) -> str:
 
 
 def _crosses_lane(src_kind: str, dst_lane: str) -> bool:
-    """源与目标是否跨管线。
+    """Whether source and target cross pipelines.
 
-    跨管线转换（如 .mp4 -> .jpg、.md -> .jpg）不是本工具支持的场景：
-    前者需要抽帧、后者需要渲染，都属于另一类任务。放行只会产出垃圾文件，
-    因此在计划阶段就拦下并给出明确原因。
+    Cross-pipeline conversion (e.g. .mp4 -> .jpg, .md -> .jpg) is out of scope for this tool:
+    the former needs frame extraction, the latter needs rendering; both are a different kind of
+    task. Letting them through would only produce garbage files, so we block them at planning
+    time with a clear reason.
     """
     return src_kind != dst_lane
 
@@ -262,15 +272,15 @@ def _crosses_lane(src_kind: str, dst_lane: str) -> bool:
 def cmd_batch(args) -> int:
     root = Path(args.dir)
     if not root.is_dir():
-        print(f"ERROR: 不是目录: {root}", file=sys.stderr)
+        print(f"ERROR: not a directory: {root}", file=sys.stderr)
         return 1
     target_ext = args.to if args.to.startswith(".") else f".{args.to}"
     dst_lane = args.kind if args.kind != "auto" else _lane_of_ext(target_ext)
     if dst_lane == "unknown":
-        print(f"ERROR: 目标扩展名 {target_ext} 不属于任何已知管线。", file=sys.stderr)
-        print(f"  图片：{' '.join(sorted(IMAGE_EXTS))}", file=sys.stderr)
-        print(f"  文档：{' '.join(sorted(DOC_EXTS))}", file=sys.stderr)
-        print(f"  媒体：{' '.join(sorted(MEDIA_EXTS))}", file=sys.stderr)
+        print(f"ERROR: target extension {target_ext} does not belong to any known pipeline.", file=sys.stderr)
+        print(f"  images: {' '.join(sorted(IMAGE_EXTS))}", file=sys.stderr)
+        print(f"  docs:   {' '.join(sorted(DOC_EXTS))}", file=sys.stderr)
+        print(f"  media:  {' '.join(sorted(MEDIA_EXTS))}", file=sys.stderr)
         return 3
 
     candidates, crossed, skipped_already = [], [], []
@@ -278,7 +288,7 @@ def cmd_batch(args) -> int:
         if not p.is_file() or p.is_symlink():
             continue
         if p.suffix.lower() == target_ext:
-            skipped_already.append(p)     # 已是目标格式
+            skipped_already.append(p)     # already the target format
             continue
         src_kind = _kind_of(p)
         if src_kind == "unknown":
@@ -289,15 +299,15 @@ def cmd_batch(args) -> int:
         candidates.append(p)
 
     if not candidates:
-        print(f"目录 {root.resolve()} 内没有可转换为 {target_ext} 的文件。")
+        print(f"No files convertible to {target_ext} under {root.resolve()}.")
         if crossed:
-            print(f"（{len(crossed)} 个文件因跨管线被跳过，见下方说明）")
+            print(f"({len(crossed)} files skipped because they cross pipelines; see notes below)")
         for p, kind in crossed:
-            print(f"  [skip:跨管线 {kind}->{dst_lane}] {p.relative_to(root)}")
+            print(f"  [skip:cross-pipeline {kind}->{dst_lane}] {p.relative_to(root)}")
         return 0
 
-    print(f"# 批量转换: {root.resolve()}  ->  {target_ext}  (管线: {dst_lane})")
-    print(f"候选文件 {len(candidates)} 个")
+    print(f"# batch convert: {root.resolve()}  ->  {target_ext}  (pipeline: {dst_lane})")
+    print(f"{len(candidates)} candidate files")
     print()
 
     out_dir = Path(args.outdir) if args.outdir else root / f"_converted{target_ext}"
@@ -306,7 +316,7 @@ def cmd_batch(args) -> int:
     for p in candidates:
         out = out_dir / (p.stem + target_ext)
         if out.exists() and not args.overwrite:
-            would_skip.append((p, out, "目标已存在"))
+            would_skip.append((p, out, "target already exists"))
             continue
         runnable.append((p, out, dst_lane))
 
@@ -316,11 +326,11 @@ def cmd_batch(args) -> int:
         for p, out, why in would_skip:
             print(f"[skip:{why}] {p.relative_to(root)}")
         for p, kind in crossed:
-            print(f"[skip:跨管线 {kind}->{dst_lane}] {p.relative_to(root)}")
+            print(f"[skip:cross-pipeline {kind}->{dst_lane}] {p.relative_to(root)}")
         print()
-        print(f"DRY-RUN：将转换 {len(runnable)} 个，跳过 "
-              f"{len(would_skip) + len(crossed)} 个。磁盘未变化。")
-        print(f"确认后加 --yes 执行：batch {root} --to {target_ext} --yes")
+        print(f"DRY-RUN: would convert {len(runnable)}, skip "
+              f"{len(would_skip) + len(crossed)}. No disk changes made.")
+        print(f"To execute after confirming, add --yes: batch {root} --to {target_ext} --yes")
         return 0
 
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -339,16 +349,16 @@ def cmd_batch(args) -> int:
                 ns.vcodec = None
                 ns.acodec = None
                 rc = cmd_media(ns)
-        except SystemExit as e:          # 缺依赖时 require_* 会抛，批量模式不中断
-            print(f"[fail] {p.name}: 缺少依赖（rc={e.code}）", file=sys.stderr)
+        except SystemExit as e:          # require_* raises on missing deps; batch mode must not halt
+            print(f"[fail] {p.name}: missing dependency (rc={e.code})", file=sys.stderr)
             rc = 1
         ok += (rc == 0)
         fail += (rc != 0)
 
     print()
-    print(f"完成：成功 {ok} 个，失败 {fail} 个，"
-          f"跳过 {len(would_skip) + len(crossed)} 个。")
-    print(f"输出目录：{out_dir}")
+    print(f"Done: {ok} succeeded, {fail} failed, "
+          f"{len(would_skip) + len(crossed)} skipped.")
+    print(f"Output directory: {out_dir}")
     return 0 if fail == 0 else 5
 
 
@@ -356,40 +366,41 @@ def cmd_batch(args) -> int:
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="convert.py",
-        description="格式转换统一入口（文档/图片/音视频/批量），依赖缺失时给出安装指引",
+        description="Unified format-conversion entry point (document/image/media/batch); "
+                    "prints install guidance when a dependency is missing",
     )
     sub = p.add_subparsers(dest="cmd", required=True)
 
-    s = sub.add_parser("doc", help="文档转换（pandoc）")
+    s = sub.add_parser("doc", help="document conversion (pandoc)")
     s.add_argument("input")
     s.add_argument("output")
-    s.add_argument("--pdf-engine", default=None, help="如 xelatex / weasyprint")
+    s.add_argument("--pdf-engine", default=None, help="e.g. xelatex / weasyprint")
     s.set_defaults(func=cmd_doc)
 
-    s = sub.add_parser("image", help="图片转换/缩放（Pillow）")
+    s = sub.add_parser("image", help="image conversion/resize (Pillow)")
     s.add_argument("input")
     s.add_argument("output")
-    s.add_argument("--width", type=int, default=None, help="目标宽度（等比缩放）")
-    s.add_argument("--quality", type=int, default=None, help="JPEG/WebP 质量 1-100")
+    s.add_argument("--width", type=int, default=None, help="target width (proportional scaling)")
+    s.add_argument("--quality", type=int, default=None, help="JPEG/WebP quality 1-100")
     s.set_defaults(func=cmd_image)
 
-    s = sub.add_parser("media", help="音视频转换（ffmpeg）")
+    s = sub.add_parser("media", help="audio/video conversion (ffmpeg)")
     s.add_argument("input")
     s.add_argument("output")
-    s.add_argument("--vcodec", default=None, help="如 libx264 / libvpx-vp9")
-    s.add_argument("--acodec", default=None, help="如 aac / libmp3lame")
+    s.add_argument("--vcodec", default=None, help="e.g. libx264 / libvpx-vp9")
+    s.add_argument("--acodec", default=None, help="e.g. aac / libmp3lame")
     s.set_defaults(func=cmd_media)
 
-    s = sub.add_parser("batch", help="目录内批量转换（默认 dry-run）")
+    s = sub.add_parser("batch", help="batch-convert a directory (dry-run by default)")
     s.add_argument("dir")
-    s.add_argument("--to", required=True, help="目标扩展名，如 jpg / pdf / mp4")
+    s.add_argument("--to", required=True, help="target extension, e.g. jpg / pdf / mp4")
     s.add_argument("--kind", choices=["auto", "image", "doc", "media"],
                    default="auto")
-    s.add_argument("--outdir", default=None, help="输出目录，默认 <dir>/_converted<ext>")
+    s.add_argument("--outdir", default=None, help="output directory, default <dir>/_converted<ext>")
     s.add_argument("--width", type=int, default=None)
     s.add_argument("--quality", type=int, default=None)
     s.add_argument("--overwrite", action="store_true")
-    s.add_argument("--yes", action="store_true", help="确认执行")
+    s.add_argument("--yes", action="store_true", help="confirm execution")
     s.set_defaults(func=cmd_batch)
 
     return p

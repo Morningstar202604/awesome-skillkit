@@ -1,18 +1,18 @@
-# Handoff JSON 字段
+# Handoff JSON fields
 
-`--input handoff.json` 可含以下键（缺省用模板占位）：
+`--input handoff.json` may contain the following keys (missing ones fall back to template placeholders):
 
-| 键 | 类型 | 说明 |
+| Key | Type | Description |
 |---|---|---|
-| title | str | 会话标题 |
-| author | str | 作者 agent 名 |
-| goal | str | 原始意图 |
-| done | list[str] | 已完成（按序） |
-| next | list[str] | 下一步（按序） |
-| gotchas | list[str] | 已知坑 |
-| files | list[str] | 关键文件路径 |
-| repo | str | 仓库/项目 |
-| verify | str | 运行/验证方式 |
-| blocker | str | 当前卡点 |
+| title | str | session title |
+| author | str | authoring agent name |
+| goal | str | original intent |
+| done | list[str] | completed items (in order) |
+| next | list[str] | next steps (in order) |
+| gotchas | list[str] | known pitfalls |
+| files | list[str] | key file paths |
+| repo | str | repository/project |
+| verify | str | how to run/verify |
+| blocker | str | current blocker |
 
-命令行同名参数会被 JSON 覆盖（JSON 优先）。
+Command-line arguments of the same name are overridden by the JSON (JSON wins).

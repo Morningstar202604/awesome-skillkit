@@ -1,6 +1,6 @@
 # Multi-Agent System Evaluation Methodology
 
-## 目录
+## Table of Contents
 
 - [Overview](#overview)
 - [Evaluation Framework](#evaluation-framework)

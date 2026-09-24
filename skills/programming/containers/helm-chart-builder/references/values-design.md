@@ -1,6 +1,6 @@
 # Values.yaml Design Reference
 
-## 目录
+## Table of Contents
 
 - [Design Principles](#design-principles)
   - [1. Every Value Is Documented](#1-every-value-is-documented)

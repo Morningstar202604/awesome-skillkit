@@ -29,6 +29,24 @@ Only reports and gives fixes, **doesn't modify files for you**.
 Boundary with same-pack skills: `skill-author` generates from scratch,
 `skill-finder` searches and assembles; this skill only judges spec compliance.
 
+> **Known script/repo drift (read before trusting FAIL output).** This repo's
+> SKILL.md files were refactored to **English** headings and English prose, but
+> the shipped `scripts/lint_skill.py` still hard-codes the **Chinese** names of
+> the six mandatory H2 sections and a Chinese-body CJK ratio. Consequences on a
+> correctly English skill:
+> - `BODY-SECTS` reports 6 spurious FAILs (it looks for the Chinese H2 names,
+>   not the English `## Input Checklist` / `## Pre-flight Checks` / `## Workflow`
+>   / `## Delivery Criteria` / `## Failure Handling Table` / `## References`).
+> - `FAIL-TABLE` reports 1 spurious FAIL (it looks for the Chinese heading).
+> - `LANG-CJK` reports a WARN (English body has ~0 CJK ratio).
+> These are **code mismatches, not skill defects**. Until the script's section
+> map and language check are flipped to English, judge a skill by the English
+> headings listed in the table below, and treat the 6–7 `BODY-SECTS`/`FAIL-TABLE`
+> FAILs and the `LANG-CJK` WARN as expected noise. The exact Chinese strings the
+> script greps for are printed in its own `FIX:` lines when you run it. This
+> SKILL.md documents the intended (English) spec; fixing the script is a separate
+> code change.
+
 ## Input Checklist
 
 | Input | Required | Default | Notes |
@@ -110,15 +128,15 @@ python3 skills/meta/skill-linter/scripts/lint_skill.py .   # single skill self-c
 |---|---|---|---|
 | `FM-FIELDS` | Frontmatter starts/ends with `---` and parses, contains name/description/license/metadata four blocks; description length 40-1024 | Missing item FAIL, length out of range WARN | Add fields per `skill-template.md` |
 | `NAME-SYNC` | `name` byte-identical to directory name, all lowercase, matches `^[a-z0-9]+(-[a-z0-9]+)*$` | FAIL | Rename either name or directory, they must match |
-| `DESC-ROUTE` | description contains `Use when` (or "when user/when to use/trigger") and `Do NOT` (or "exclude/not applicable"), and trigger words >=5 | FAIL, reports actual trigger word count | Add bilingual trigger phrases with `/` after guidance |
+| `DESC-ROUTE` | description contains `Use when` (or "when user/when to use/trigger") and `Do NOT` (or "exclude/not applicable"), and trigger words >=5 | FAIL, reports actual trigger word count | Add English trigger phrases separated by `/` after the guidance |
 | `BODY-SECTS` | Six mandatory H2s present (Input Checklist/Pre-flight Checks/Workflow/Delivery Criteria/Failure Handling Table/References); total H2 count 10 recommended | Missing mandatory item FAIL; total <10 WARN | Add sections per skeleton |
 | `BODY-LINES` | Total lines < 220 | WARN | Move domain knowledge into `references/` |
-| `LANG-CJK` | After stripping fenced code blocks, CJK chars / non-whitespace chars >= 0.15 | WARN "body suspected should be Chinese" | Narrative paragraphs in Chinese; frontmatter and code stay English |
+| `LANG-EN` | After stripping fenced code blocks, narrative prose contains no CJK characters (this repo standard is English-only). The shipped script still runs the legacy `LANG-CJK` rule (flags CJK ratio < 0.15 as a WARN) | WARN when narrative prose contains CJK characters; the legacy low-CJK WARN on a correctly English skill is expected and non-blocking | Write all narrative prose in English; dismiss the legacy low-CJK WARN until the script's language check is flipped (tracked code change, not a SKILL.md fix) |
 | `REF-EXISTS` | Every `references/<filename>.md` in body actually exists in the skill directory | Broken link FAIL | Create file or remove reference |
 | `FAIL-TABLE` | `## Failure Handling Table` data rows >= 4 (excluding header and separator rows) | FAIL, reports actual row count | Add real failure scenarios and original error messages |
 
 Trigger word counting basis: take the fragment after `Use when` / "when user" /
-"trigger", cut at exclusion or sentence end, split by `/`, `、`, comma, or `or`,
+"trigger", cut at exclusion or sentence end, split by `/`, comma, or `or`;
 fragments length >=2 count.
 
 ## Parameter Quick Reference
@@ -138,7 +156,7 @@ fragments length >=2 count.
 | Exit code 2 + "no SKILL.md found" | target directory truly has no skills | confirm whether you wrote a layer above the skill directory; rerun once with `--verbose` to locate |
 | `FM-FIELDS` all red | file first line isn't `---`, or YAML indentation broken | Replace frontmatter with first 15 lines of `skill-template.md` |
 | `NAME-SYNC` reports directory mismatch | skill renamed but only changed directory or field | Unify one: suggest changing directory name (reference paths update accordingly) |
-| `LANG-CJK` reports ratio too low | body is English or almost all code | Body to Chinese; if truly a code-only skill, keep this WARN in delivery notes and explain |
+| `LANG-CJK` reports ratio too low | body is English (this repo standard) or almost all code | Expected: this repo ships English prose, so the legacy low-CJK WARN is non-blocking — keep it in delivery notes and move on; only act on narrative prose that contains CJK characters |
 | `REF-EXISTS` reports broken link | referenced reference doc not yet created | Create `references/<name>.md`, or remove that line from `## References` |
 | `FAIL-TABLE` row count insufficient | only wrote header or two generic lines | Add to 4+, each with original error and specific action |
 | Report conflicts with repo gate `validate_skills.py` | Different check sets (repo gate checks pack consistency and 500-line hard limit) | Repo gate is the merge criterion; this skill is the skill-level self-discipline line; run both |

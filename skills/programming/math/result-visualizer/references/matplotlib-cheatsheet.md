@@ -2,7 +2,7 @@
 
 > 配套 result-visualizer。全部代码在 matplotlib 3.10.8 + Python 3.11 实测可运行（本机 Linux、无中文字体环境，中文相关部分已标注实测表现）。
 
-## 目录
+## Table of Contents
 - §0 与 `visualizer.py` 的实际对应关系
 - §1 图表类型选择对照表
 - §2 中文字体配置（按系统判定，含缺字体时的兜底）

@@ -111,12 +111,10 @@ Expected: user can accept or reject each change line by line.
 Success = tailored resume text + `edit_log.md` tracing every change, zero
 unverifiable statements. Missing any item means incomplete—say so honestly.
 
-## Pipeline Handoff (Downstream Suggestions)
+## Pipeline Handoff
 
-This is an office/productivity single-point skill; the tailored resume can feed
-excel-assistant for version comparison, or meeting-notes style organization.
-Suggest adding an office (or productivity) domain to skill_chains.json and
-registering this skill. Handoff is descriptive only.
+The tailored resume can feed excel-assistant for version comparison, or be
+organized meeting-notes style.
 
 ## References
 

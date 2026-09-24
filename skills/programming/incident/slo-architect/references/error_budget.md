@@ -1,6 +1,6 @@
 # Error budget
 
-## 目录
+## Table of Contents
 
 - [Computation](#computation)
 - [Reference table](#reference-table)

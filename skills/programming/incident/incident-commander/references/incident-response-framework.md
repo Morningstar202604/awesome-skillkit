@@ -1,6 +1,6 @@
 # Incident Response Framework Reference
 
-## 目录
+## Table of Contents
 
 - [1. Industry Framework Comparison](#1-industry-framework-comparison)
   - [PagerDuty Incident Response Model](#pagerduty-incident-response-model)

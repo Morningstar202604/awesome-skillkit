@@ -45,7 +45,7 @@ Non-Designer's Design Book" (Contrast / Repetition / Alignment / Proximity), and
 is a direct corollary of Gestalt psychology (proximity, similarity, figure-ground):
 the eye first looks at the strongest contrast element, then at adjacent grouped
 elements. On the spec this becomes three judgeable rules: **hierarchy uses only 3
-levels, size gaps must be clearlydifferentiated** (design consensus: five hard-to-distinguish font
+levels, size gaps must be clearly differentiated** (design consensus: five hard-to-distinguish font
 sizes aren't hierarchy, they're noise); **strongest luminance contrast reserved
 for the most important element**; **proximity groups** (title near body =
 ownership relationship, standard usage from IEEE ProComm visual communication

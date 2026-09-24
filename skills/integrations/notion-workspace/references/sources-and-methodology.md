@@ -1,11 +1,11 @@
-# 方法论来源与设计取舍（notion-workspace）
+# Methodology sources and design trade-offs（notion-workspace）
 
 > 何时读：当你想升级 Notion API 版本、改分页策略，或质疑"为什么脚本不发请求"时读本文件。
 > 本文件只讲设计依据，不重复 SKILL.md 里的操作步骤。
 
-## 思想来源（公开方法论蒸馏，非文本搬运）
+## Idea sources (distilled from public methodology; not copied text)
 
-| 本技能的做法 | 蒸馏自的思想 |
+| This skill's approach | Idea distilled from |
 |---|---|
 | 请求构造与网络发送分离 | 六边形架构里"端口/适配器"的分离：业务规则（负载形状）不依赖 IO（HTTP 客户端） |
 | `build-*` 只打印、不发送 | Terraform `plan` / `apply` 两阶段；`kubectl --dry-run=client` 的"先看负载"惯例 |
@@ -14,7 +14,7 @@
 | 凭证永不进入脚本 | 十二要素应用（12-Factor App）第 III 条 config：配置存于环境，不存于代码 |
 | 分页用游标而非 offset | Notion/Stripe/Twitter 等游标分页 API 的共识：游标在并发改动下不会跳条/重条 |
 
-## 关键取舍
+## Key trade-offs
 
 **为什么脚本完全不发 HTTP 请求？** 一是让 `build-*` / `parse-*` 在没有网络、
 没有 token 的环境里可被完整单测；二是把"能不能写进用户工作区"这个决定权
@@ -39,7 +39,7 @@
 复杂且各自有嵌套约束，半吊子支持会产出服务端拒绝的负载。白名单策略下，
 遇到不支持的类型立刻报错并给出支持列表，行为可预测。
 
-## 官方文档
+## Official documentation
 
 - Notion API 版本与请求头：<https://developers.notion.com/reference/versioning>
 - 创建页面（`POST /v1/pages` 与 `parent` 结构）：<https://developers.notion.com/reference/post-page>

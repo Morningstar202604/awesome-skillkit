@@ -1,12 +1,12 @@
-# 来源与方法论说明 / Sources & Methodology
+# Sources & Methodology
 
 - 技能：`dashboard-designer`（awesome-skillkit 原创编写，Apache-2.0）。
 - 定位：场景包 `dataviz` 的生成侧技能。与 `chart-recommender`（选择侧，纯词库咨询）
   互补：本技能把「该画什么」落到「画出来一个可交付的文件」。
 
-## 方法论借鉴（仅思想与分类体系，未复制任何文本或代码）
+## Methodology borrowed (ideas and taxonomy only; no text or code copied)
 
-| 来源 | 许可证 | 借鉴的方法论要点 |
+| Source | License | Methodology points borrowed |
 |---|---|---|
 | Leland Wilkinson《The Grammar of Graphics》公开概念 | 见原书 | 图形 = 数据 + 映射 + 标度 + 几何对象 + 分面；「先定维度与度量再选几何」的次序 |
 | 数据可视化通识中的图形语法实践（ggplot2 / Vega-Lite 公开文档） | MIT / BSD | 「数据特征 → 几何对象」的映射直觉；分类数量与标签长度影响几何朝向 |
@@ -17,9 +17,9 @@
 上述来源全部作为**方法论骨架**被再表述。`scripts/dashboard.py` 的类型推断阈值、
 `fmt_num` 数值缩写规则、`nice_ticks` 刻度算法（1/2/2.5/5 × 10^k）、
 内联 SVG 生成器与 HTML 组装模板，均为从零撰写，
-未翻译、未改写、未摘录任何上游段落、示例或代码。
+No upstream passage, example, or code was translated, rewritten, or excerpted.
 
-## 关键设计决策（为什么这样做）
+## Key design decisions (why this way)
 
 1. **禁止任何 CDN 依赖，图表用服务端生成的纯 SVG**：仪表盘最常见的失效场景是
    内网/离线环境打不开、或某天 CDN 挂掉页面变白。因此本技能**不用** Chart.js 之类的
@@ -36,7 +36,7 @@
 6. **数值格式化统一**：KPI 卡片主数值与副信息用同一套格式化，
    避免出现「4.9万」配「48990.39」的两套精度。
 
-## 局限与边界
+## Limitations and boundaries
 
 - **不做数据清洗**：发现混单位、混类型时只报告，不改写用户的原始数据。
 - **不做统计建模**：只有描述性摘要与相关性散点，不计算相关系数显著性、不做预测。
@@ -46,6 +46,6 @@
 - **纯 SVG 无交互**：不做 tooltip、缩放、下钻；需要交互式看板应改用
   Plotly/Dash 等方案（此时须接受其依赖与联网代价）。
 
-## 许可
+## License
 
-本技能及其参考文件以 Apache-2.0 分发；所列上游文档各自的许可条款与本文互不适用。
+This skill and its reference files are distributed under Apache-2.0; the upstream documents listed carry their own license terms, which do not apply to this file.

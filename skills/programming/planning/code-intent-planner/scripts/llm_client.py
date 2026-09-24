@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""L2/L3 LLM 调用层 — 支持多种 LLM 提供商"""
+"""L2/L3 LLM call layer -- supports multiple LLM providers"""
 import json
 import os
 import sys
@@ -8,7 +8,7 @@ from abc import ABC, abstractmethod
 
 
 class LLMClient(ABC):
-    """LLM 客户端抽象基类"""
+    """Abstract base class for an LLM client"""
     
     @abstractmethod
     def chat(self, prompt: str, temperature: float = 0.1) -> str:
@@ -16,63 +16,63 @@ class LLMClient(ABC):
 
 
 class MockLLMClient(LLMClient):
-    """测试用 Mock 客户端"""
-    
+    """Mock client for testing"""
+
     def __init__(self, layer: str = "L2"):
         self.layer = layer
-    
+
     def chat(self, prompt: str, temperature: float = 0.1) -> str:
         if self.layer == "L2":
             return json.dumps({
                 "intent_type": "implement",
                 "confidence": 0.90,
-                "description": "Mock L2: 实现用户认证模块",
+                "description": "Mock L2: implement the user authentication module",
                 "slots": {"target": "auth", "scope": "login+register", "tech_stack": "python/fastapi"},
                 "assumptions": [
-                    {"text": "使用 JWT 认证", "impact": "high", "evidence": "verified"},
-                    {"text": "使用 PostgreSQL", "impact": "medium", "evidence": "provisional"}
+                    {"text": "use JWT authentication", "impact": "high", "evidence": "verified"},
+                    {"text": "use PostgreSQL", "impact": "medium", "evidence": "provisional"}
                 ],
                 "constraints": {"hard": [], "soft": ["use JWT", "bcrypt password hashing"]},
                 "sub_tasks": [
-                    {"id": "T1", "description": "设计用户数据模型", "depends_on": [], "priority": "P0", "effort": "S", "risk": "low"},
-                    {"id": "T2", "description": "实现密码哈希工具", "depends_on": ["T1"], "priority": "P0", "effort": "S", "risk": "low"},
-                    {"id": "T3", "description": "实现 JWT Token 生成/验证", "depends_on": ["T2"], "priority": "P0", "effort": "M", "risk": "medium"},
-                    {"id": "T4", "description": "实现登录/注册 API", "depends_on": ["T3"], "priority": "P1", "effort": "M", "risk": "medium"},
-                    {"id": "T5", "description": "编写单元测试", "depends_on": ["T4"], "priority": "P1", "effort": "S", "risk": "low"},
+                    {"id": "T1", "description": "design the user data model", "depends_on": [], "priority": "P0", "effort": "S", "risk": "low"},
+                    {"id": "T2", "description": "implement the password hashing utility", "depends_on": ["T1"], "priority": "P0", "effort": "S", "risk": "low"},
+                    {"id": "T3", "description": "implement JWT token generation/validation", "depends_on": ["T2"], "priority": "P0", "effort": "M", "risk": "medium"},
+                    {"id": "T4", "description": "implement the login/register API", "depends_on": ["T3"], "priority": "P1", "effort": "M", "risk": "medium"},
+                    {"id": "T5", "description": "write unit tests", "depends_on": ["T4"], "priority": "P1", "effort": "S", "risk": "low"},
                 ],
                 "critical_path": ["T1", "T2", "T3", "T4"],
                 "parallel_groups": [],
-                "solution": "先设计 schema，再实现 model/service，最后加 API"
+                "solution": "design the schema first, then implement model/service, and finally add the API"
             }, ensure_ascii=False)
         else:
             return json.dumps({
                 "intent_type": "implement",
                 "confidence": 0.85,
-                "description": "Mock L3: 实现用户认证模块，含登录注册",
+                "description": "Mock L3: implement the user authentication module, including login and register",
                 "slots": {
-                    "target": "auth", "scope": "login+register", 
-                    "tech_stack": "python/fastapi", "deadline": "本周",
+                    "target": "auth", "scope": "login+register",
+                    "tech_stack": "python/fastapi", "deadline": "this week",
                     "constraints": ["use JWT", "password hashing"]
                 },
                 "sub_tasks": [
-                    {"id": "T1", "description": "设计用户数据模型", "depends_on": [], "priority": "P0", "effort": "S", "risk": "low"},
-                    {"id": "T2", "description": "实现密码哈希工具", "depends_on": ["T1"], "priority": "P0", "effort": "S", "risk": "low"},
-                    {"id": "T3", "description": "实现 JWT Token 生成/验证", "depends_on": ["T2"], "priority": "P0", "effort": "M", "risk": "medium"},
-                    {"id": "T4", "description": "实现登录/注册 API", "depends_on": ["T3"], "priority": "P1", "effort": "M", "risk": "medium"},
-                    {"id": "T5", "description": "编写单元测试", "depends_on": ["T4"], "priority": "P1", "effort": "S", "risk": "low"},
+                    {"id": "T1", "description": "design the user data model", "depends_on": [], "priority": "P0", "effort": "S", "risk": "low"},
+                    {"id": "T2", "description": "implement the password hashing utility", "depends_on": ["T1"], "priority": "P0", "effort": "S", "risk": "low"},
+                    {"id": "T3", "description": "implement JWT token generation/validation", "depends_on": ["T2"], "priority": "P0", "effort": "M", "risk": "medium"},
+                    {"id": "T4", "description": "implement the login/register API", "depends_on": ["T3"], "priority": "P1", "effort": "M", "risk": "medium"},
+                    {"id": "T5", "description": "write unit tests", "depends_on": ["T4"], "priority": "P1", "effort": "S", "risk": "low"},
                 ],
                 "critical_path": ["T1", "T2", "T3", "T4"],
                 "parallel_groups": [],
-                "solution": "先设计 schema，再实现 model/service，最后加 API",
+                "solution": "design the schema first, then implement model/service, and finally add the API",
                 "assumptions": [
-                    {"text": "使用 PostgreSQL", "impact": "medium", "evidence": "provisional"},
-                    {"text": "使用 JWT 认证", "impact": "high", "evidence": "verified"}
+                    {"text": "use PostgreSQL", "impact": "medium", "evidence": "provisional"},
+                    {"text": "use JWT authentication", "impact": "high", "evidence": "verified"}
                 ]
             }, ensure_ascii=False)
 
 
 class OpenAICompatibleClient(LLMClient):
-    """OpenAI 兼容 API 客户端"""
+    """OpenAI-compatible API client"""
     
     def __init__(self, base_url: str, api_key: str, model: str):
         self.base_url = base_url.rstrip("/")
@@ -99,12 +99,12 @@ class OpenAICompatibleClient(LLMClient):
 
 
 def get_llm_client(layer: str) -> LLMClient:
-    """根据环境变量获取 LLM 客户端"""
-    # 开发/测试环境：使用 Mock
+    """Get the LLM client based on environment variables"""
+    # dev/test environment: use Mock
     if os.getenv("USE_MOCK_LLM", "true").lower() == "true":
         return MockLLMClient(layer)
-    
-    # 生产环境：从环境变量读取配置
+
+    # production environment: read config from environment variables
     base_url = os.getenv(f"{layer}_BASE_URL", os.getenv("LLM_BASE_URL", "https://api.openai.com/v1"))
     api_key = os.getenv(f"{layer}_API_KEY", os.getenv("LLM_API_KEY"))
     model = os.getenv(f"{layer}_MODEL", os.getenv("LLM_MODEL", "gpt-4o-mini"))
@@ -116,55 +116,55 @@ def get_llm_client(layer: str) -> LLMClient:
     return OpenAICompatibleClient(base_url, api_key, model)
 
 
-# L2 Prompt 模板
-L2_PROMPT = """你是一位资深软件工程师，正在分析用户的编程需求。
+# L2 Prompt template
+L2_PROMPT = """You are a senior software engineer analyzing a user's programming request.
 
-任务：识别用户意图类型，提取关键槽位，给出置信度。
+Task: identify the user's intent type, extract key slots, and give a confidence.
 
-用户输入：{normalized_text}
-项目技术栈：{tech_stack}
-项目结构片段（可选）：{project_snippet}
+User input: {normalized_text}
+Project tech stack: {tech_stack}
+Project structure snippet (optional): {project_snippet}
 
-请仅返回以下 JSON，不要任何其他内容：
+Return ONLY the following JSON, with nothing else:
 
 {{
   "intent_type": "implement|fix|refactor|review|test|optimize|plan|design|migrate|destructive",
   "confidence": 0.0-1.0,
-  "description": "一句话需求描述",
+  "description": "one-sentence requirement description",
   "slots": {{
-    "target": "目标模块/文件，如 auth、user-service",
-    "scope": "改动范围，如 login+register、api-only",
-    "tech_stack": "技术栈，如 python/fastapi、node/express"
+    "target": "target module/file, e.g. auth, user-service",
+    "scope": "change scope, e.g. login+register, api-only",
+    "tech_stack": "tech stack, e.g. python/fastapi, node/express"
   }},
-  "assumptions": ["假设1", "假设2"]
+  "assumptions": ["assumption 1", "assumption 2"]
 }}
 
-约束：
-- confidence 必须诚实反映确信程度
-- 无法确定的槽位留空字符串
-- assumptions 列出你为得出结论而做的假设
+Constraints:
+- confidence must honestly reflect your certainty
+- leave slots you cannot determine as an empty string
+- assumptions lists the assumptions you made to reach your conclusion
 """
 
 
-# L3 Prompt 模板
-L3_PROMPT = """你是一位系统架构师，需要将用户需求分解为可执行任务计划。
+# L3 Prompt template
+L3_PROMPT = """You are a system architect who must decompose the user's requirement into an executable task plan.
 
-原始输入：{raw_input}
-规范化后：{normalized_text}
-技术栈：{tech_stack}
-项目结构片段：
+Raw input: {raw_input}
+Normalized: {normalized_text}
+Tech stack: {tech_stack}
+Project structure snippet:
 {project_snippet}
 
-已识别意图：{intent_type}
-已知槽位：{slots_json}
-跨轮上下文：{last_intent_json}
+Recognized intent: {intent_type}
+Known slots: {slots_json}
+Cross-turn context: {last_intent_json}
 
-请仅返回以下 JSON，不要任何其他内容：
+Return ONLY the following JSON, with nothing else:
 
 {{
   "intent_type": "implement|fix|refactor|review|test|optimize|plan|design|migrate|destructive",
   "confidence": 0.0-1.0,
-  "description": "需求完整描述",
+  "description": "full requirement description",
   "slots": {{
     "target": "",
     "scope": "",
@@ -175,7 +175,7 @@ L3_PROMPT = """你是一位系统架构师，需要将用户需求分解为可�
   "sub_tasks": [
     {{
       "id": "T1",
-      "description": "任务描述",
+      "description": "task description",
       "depends_on": [],
       "priority": "P0|P1|P2",
       "effort": "S|M|L",
@@ -184,36 +184,36 @@ L3_PROMPT = """你是一位系统架构师，需要将用户需求分解为可�
   ],
   "critical_path": ["T1", "T3"],
   "parallel_groups": [["T2", "T4"]],
-  "solution": "推荐实现路径的简述",
+  "solution": "brief description of the recommended implementation path",
   "assumptions": [
-    {{"text": "假设内容", "impact": "low|medium|high", "evidence": "verified|provisional|assumed"}}
+    {{"text": "assumption content", "impact": "low|medium|high", "evidence": "verified|provisional|assumed"}}
   ]
 }}
 
-约束：
-- sub_tasks 粒度：单任务 1-4 小时
-- depends_on 必须显式声明，无依赖用空数组
-- critical_path 必须是 sub_tasks 中实际存在的 ID
-- priority：P0=关键路径阻塞项，P1=重要不阻塞，P2=常规
-- solution 必须对应 intent_type 的标准方案模板
+Constraints:
+- sub_tasks granularity: a single task takes 1-4 hours
+- depends_on must be declared explicitly; use an empty array when there are no dependencies
+- critical_path must be IDs that actually exist in sub_tasks
+- priority: P0 = critical-path blocker, P1 = important but non-blocking, P2 = routine
+- solution must match the standard solution template for intent_type
 """
 
 
 def call_l2(normalized_text: str, tech_stack: str = "", project_snippet: str = "") -> Dict[str, Any]:
-    """调用 L2 Flash LLM"""
+    """Call the L2 Flash LLM"""
     client = get_llm_client("L2")
     prompt = L2_PROMPT.format(
         normalized_text=normalized_text,
         tech_stack=tech_stack or "unknown",
-        project_snippet=project_snippet or "无"
+        project_snippet=project_snippet or "none"
     )
     try:
         response = client.chat(prompt, temperature=0.1)
         return json.loads(response)
     except json.JSONDecodeError as e:
-        return {"error": f"L2 JSON 解析失败: {e}", "raw": response}
+        return {"error": f"L2 JSON parsing failed: {e}", "raw": response}
     except Exception as e:
-        return {"error": f"L2 调用失败: {e}"}
+        return {"error": f"L2 call failed: {e}"}
 
 
 def call_l3(
@@ -225,28 +225,28 @@ def call_l3(
     slots: Dict[str, Any],
     last_intent: Optional[Dict[str, Any]] = None
 ) -> Dict[str, Any]:
-    """调用 L3 Pro LLM"""
+    """Call the L3 Pro LLM"""
     client = get_llm_client("L3")
     prompt = L3_PROMPT.format(
         raw_input=raw_input,
         normalized_text=normalized_text,
         tech_stack=tech_stack or "unknown",
-        project_snippet=project_snippet or "无",
+        project_snippet=project_snippet or "none",
         intent_type=intent_type,
         slots_json=json.dumps(slots, ensure_ascii=False),
-        last_intent_json=json.dumps(last_intent, ensure_ascii=False) if last_intent else "无"
+        last_intent_json=json.dumps(last_intent, ensure_ascii=False) if last_intent else "none"
     )
     try:
         response = client.chat(prompt, temperature=0.2)
         return json.loads(response)
     except json.JSONDecodeError as e:
-        return {"error": f"L3 JSON 解析失败: {e}", "raw": response}
+        return {"error": f"L3 JSON parsing failed: {e}", "raw": response}
     except Exception as e:
-        return {"error": f"L3 调用失败: {e}"}
+        return {"error": f"L3 call failed: {e}"}
 
 
 if __name__ == "__main__":
-    # 简单测试
+    # simple test
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("--layer", choices=["L2", "L3"], default="L2")

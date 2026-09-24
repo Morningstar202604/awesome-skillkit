@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-job_scorer.py — 把一个 JD 文本 + 你的简历要点打分（0-5），并对逐条要求
-标 A-F。纯文本、纯离线，不碰招聘网站登录态。
+job_scorer.py -- score a JD text against your resume bullet points (0-5) and grade
+each requirement A-F. Pure text, fully offline, no recruitment-site login state.
 
-设计红线（仓库 SKILL-STANDARD-v2）：
-- 默认 dry-run 打印评分与逐条匹配，不写文件
-- --write 才落 JSON 报告（输出到新文件，源 JD/简历不动）
-- 零网络、零拷贝、无凭证
+Design guardrails (repo SKILL-STANDARD-v2):
+- dry-run by default: print the score and per-requirement match, write no file
+- --write emits a JSON report (to a new file; source JD/resume untouched)
+- zero network, zero copying, no credentials
 """
 import argparse
 import json
@@ -16,15 +16,15 @@ import sys
 from collections import OrderedDict
 
 DIMENSIONS = ["requirement_match", "level_fit", "comp_band", "domain_match", "stability"]
-# 权重可被用户覆盖
+# weights can be overridden by the user
 DEFAULT_WEIGHTS = {"requirement_match": 0.35, "level_fit": 0.20,
                    "comp_band": 0.15, "domain_match": 0.20, "stability": 0.10}
 
 LEVEL_KW = {
-    "junior": ["junior", "j1", "0-2", "entry", "初级", "应届生"],
-    "mid": ["mid", "intermediate", "3-5", "中级", "mid-level"],
-    "senior": ["senior", "sr", "6+", "6-10", "高级", "资深"],
-    "staff": ["staff", "principal", "staff+", "staff 级", "staff 及以上"],
+    "junior": ["junior", "j1", "0-2", "entry", "new grad"],
+    "mid": ["mid", "intermediate", "3-5", "mid-level"],
+    "senior": ["senior", "sr", "6+", "6-10", "staff+"],
+    "staff": ["staff", "principal", "staff+", "and above"],
 }
 
 
@@ -34,16 +34,17 @@ def read_text(path: str) -> str:
 
 
 def split_requirements(jd_text: str) -> list[str]:
-    """粗切 JD 的「要求」区：行内含 必须/要求/qualif/require/skill/experience 等关键词。"""
+    """Roughly split out the JD's "requirements" section: lines containing keywords like
+    must/required/qualif/require/skill/experience."""
     out = []
     for raw in jd_text.splitlines():
         line = raw.strip().lstrip("-•* ").strip()
         low = line.lower()
         if not line:
             continue
-        if re.search(r"(要求|必须|qualif|require|skill|experience|熟悉|掌握|具备|至少|优先)", low):
+        if re.search(r"(must|required|qualif|require|skill|experience|proficient|familiar|at least|plus)", low):
             out.append(line)
-    # 去重保序
+    # de-duplicate while preserving order
     seen = set(); uniq = []
     for x in out:
         k = x.lower()
@@ -53,9 +54,9 @@ def split_requirements(jd_text: str) -> list[str]:
 
 
 def grade_requirement(req: str, resume_text: str) -> str:
-    """A(完全命中) F(完全没提) 五级启发式：词面重合度。"""
+    """A (full hit) .. F (not mentioned) five-level heuristic based on surface token overlap."""
     resume_low = resume_text.lower()
-    # 抽需求里的实词（长度>=2 的连续字母/数字词 + 中文 2 字词）
+    # extract content words from the requirement (letter/digit runs of length>=2 + 2-char CJK words)
     tokens = set(re.findall(r"[a-z0-9]{2,}", req.lower()))
     cn = set(re.findall(r"[\u4e00-\u9fff]{2,}", req))
     hit = 0
@@ -94,18 +95,18 @@ def score(jd_text: str, resume_text: str) -> dict:
     for g in graded.values():
         grade_counts[g] += 1
 
-    # 维度分（0-1）
+    # dimension score (0-1)
     dim = {}
     dim["requirement_match"] = round((grade_counts["A"] + 0.7 * grade_counts["B"] +
                                       0.4 * grade_counts["C"]) / max(1, len(reqs)), 3)
-    dim["level_fit"] = 0.6 if detect_level(jd_text) else 0.4  # 无级别信号给中性 0.4
-    dim["comp_band"] = 0.5  # 需人工补
+    dim["level_fit"] = 0.6 if detect_level(jd_text) else 0.4  # no level signal -> neutral 0.4
+    dim["comp_band"] = 0.5  # needs manual fill-in
     dim["domain_match"] = 0.5
     dim["stability"] = 0.5
 
     weights = dict(DEFAULT_WEIGHTS)
     overall = round(sum(weights[d] * dim[d] for d in DIMENSIONS), 3)
-    # 0-5 分（映射：overall*5）
+    # 0-5 score (mapping: overall*5)
     score_5 = round(overall * 5, 2)
 
     return {
@@ -140,7 +141,7 @@ def main() -> int:
     if args.weights:
         try:
             result["weights"] = {**DEFAULT_WEIGHTS, **json.loads(read_text(args.weights))}
-            # 重算 overall
+            # recompute overall
             w = result["weights"]
             result["overall_0_1"] = round(sum(w[d] * result["dimension_scores"][d] for d in DIMENSIONS), 3)
             result["score_5"] = round(result["overall_0_1"] * 5, 2)
@@ -150,7 +151,7 @@ def main() -> int:
     print(f"Level signal: {result['level'] or '(none detected)'}")
     print(f"Requirements extracted: {len(result['requirements'])}")
     for req, g in result["requirements"].items():
-        print(f"  [{g}] {req[:80]}{'…' if len(req) > 80 else ''}")
+        print(f"  [{g}] {req[:80]}{'...' if len(req) > 80 else ''}")
     print(f"\nGrade counts: {result['grade_counts']}")
     print(f"Overall: {result['overall_0_1']:.3f}  =>  score/5: {result['score_5']}  ({result['verdict']})")
 

@@ -4,7 +4,7 @@
 > 本文档是 visual-style-anchor 技能角色卡的完整操作手册，整合了本仓
 > ai-baby-podcast 技能（viral-entertainment 包）已验证的实践与开源社区方法。
 
-## 目录
+## Table of Contents
 
 1. [身份行 identity line](#1-身份行-identity-line)
 2. [三视图 turnaround](#2-三视图-turnaround)

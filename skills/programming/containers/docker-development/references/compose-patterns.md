@@ -1,6 +1,6 @@
 # Docker Compose Patterns Reference
 
-## 目录
+## Table of Contents
 
 - [Production-Ready Patterns](#production-ready-patterns)
   - [Web App + Database + Cache](#web-app-database-cache)

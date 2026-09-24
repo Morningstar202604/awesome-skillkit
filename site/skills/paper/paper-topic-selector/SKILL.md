@@ -1,6 +1,6 @@
 ---
 name: paper-topic-selector
-description: "Identify research gaps and rank paper topics. Scans recent literature trends, finds underexplored areas, and scores candidates on the four-factor rubric (novelty 40% / feasibility 30% / impact 20% / buildability 10%) with a workload-vs-deadline feasibility model, returning ranked_topics plus rejected-with-reason. Use at the start of a research project, e.g. selecting a paper topic / finding a research gap / choosing a journal venue / evaluating topic feasibility / research gap / scoring topics. Do NOT use for writing the paper itself."
+description: "Identify research gaps and rank paper topics. Scans recent literature trends, finds underexplored areas, and scores candidates on the four-factor rubric (novelty 40% / feasibility 30% / impact 20% / buildability 10%) with a workload-vs-deadline feasibility model, returning ranked_topics plus rejected-with-reason. Use when selecting a paper topic / finding a research gap / choosing a journal venue / evaluating topic feasibility / scoring research topics / ranking paper candidates at the start of a research project. Do NOT use for writing the paper itself."
 license: Apache-2.0
 compatibility: Gap analysis is prompt-based (may call web-search for trend scanning). Heuristic scoring via scripts/topic_selector.py, stdlib only. No API keys required.
 metadata:

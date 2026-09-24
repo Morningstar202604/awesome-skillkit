@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """
-e2e_scaffold.py — 生成一套可运行的 Playwright e2e 测试脚手架（Python 版，
-无需 node）。产出：
-  <out>/conftest.py           浏览器生命周期 fixture（默认 headless，可 env 切）
-  <out>/test_<slug>.py       一个冒烟用例（访问 URL + 断言 title）
-  <out>/run_e2e.sh           一键运行（先 pip 装依赖再 pytest）
-  <out>/README.md            选择器漂移/登录态/反爬 的处置指南（纯文本）
+e2e_scaffold.py -- generate a runnable Playwright e2e test scaffold (Python version,
+no node required). Produces:
+  <out>/conftest.py           browser-lifecycle fixture (headless by default; switchable via env)
+  <out>/test_<slug>.py        one smoke case (visit the URL + assert title)
+  <out>/run_e2e.sh            one-command run (pip install deps, then pytest)
+  <out>/README.md             a handling guide for selector drift / login state / anti-bot (plain text)
 
-红线：
-- 默认 dry-run；--write 才落盘
-- 不发任何网络请求（脚本只写文件；真正跑测试由用户执行 run_e2e.sh）
-- 浏览器二进制需用户 `playwright install`，脚本不负责下载
+Guardrails:
+- dry-run by default; --write actually writes to disk
+- makes no network requests (the script only writes files; running the tests is done by the user via run_e2e.sh)
+- the browser binary requires the user to run `playwright install`; the script does not download it
 """
 import argparse
 import json
@@ -64,27 +64,27 @@ export E2E_BASE_URL="${E2E_BASE_URL:-http://127.0.0.1:8000}"
 python3 -m pytest -q __OUT_REL__ -p no:cacheprovider
 """
 
-README_TPL = """# webapp-e2e-harness 运行与处置
+README_TPL = """# webapp-e2e-harness: run & handling
 
-## 跑
+## Run
 E2E_BASE_URL=http://127.0.0.1:8000 bash run_e2e.sh
-调试有头：E2E_HEADFUL=1 E2E_INSTALL_BROWSER=1 bash run_e2e.sh
+Debug headful: E2E_HEADFUL=1 E2E_INSTALL_BROWSER=1 bash run_e2e.sh
 
-## 选择器漂移怎么修
-1. 永远优先 `get_by_role` / `get_by_label` / `get_by_placeholder`（语义选择器）。
-2. 次选 `[data-testid]`（稳定、不随文案变）。
-3. 避免 `css 类名`（重构即崩）与 `xpath`（脆弱）。
-4. 文案改动后跑 `playwright codegen` 重新录选择器。
+## How to fix selector drift
+1. Always prefer `get_by_role` / `get_by_label` / `get_by_placeholder` (semantic selectors).
+2. Next best: `[data-testid]` (stable, does not change with copy).
+3. Avoid `css class names` (break on refactor) and `xpath` (fragile).
+4. After copy changes, run `playwright codegen` to re-record selectors.
 
-## 登录态
-- 用 storage_state：`ctx = browser.new_context(storage_state='auth.json')`
-- 首登走 `codegen` 产出 auth.json；后续复用，避免每条用例都登录。
-- 凭证绝不进测试代码：从 env（如 E2E_USER / E2E_PASS）读。
+## Login state
+- Use storage_state: `ctx = browser.new_context(storage_state='auth.json')`
+- Produce auth.json once via `codegen`; reuse it afterward so each case does not log in again.
+- Credentials never go in test code: read them from env (e.g. E2E_USER / E2E_PASS).
 
-## 反爬/验证码
-- 提高 `user_agent` 与视口真实性；降并发。
-- 验证码场景默认**不做**自动化（绕过有合规风险）；用人工登录 + storage_state 复用。
-- 429 限流：`page.wait_for_timeout` 退避，别硬刚。
+## Anti-bot / CAPTCHA
+- Make the `user_agent` and viewport more realistic; lower concurrency.
+- CAPTCHA scenarios are **not** automated by default (bypassing them is a compliance risk); use manual login + storage_state reuse.
+- On 429 rate limiting: back off with `page.wait_for_timeout`; do not force it.
 """
 
 
@@ -112,8 +112,9 @@ def main() -> int:
         "README.md": README_TPL,
     }
     if args.write:
-        # out 既可以是目录也可以是带后缀的文件路径：文件路径时把脚手架文件写到同名目录、
-        # 并在 out 精确路径落一份摘要 JSON（机器可读产物；CI 消费这个文件）。
+        # out can be either a directory or a suffixed file path: when it is a file path, write the
+        # scaffold files into a same-named directory and drop a summary JSON at out's exact path
+        # (a machine-readable artifact consumed by CI).
         if os.path.splitext(args.out)[1]:
             target_dir = os.path.splitext(args.out)[0]
             os.makedirs(target_dir, exist_ok=True)
@@ -138,7 +139,7 @@ def main() -> int:
             with open(os.path.join(real_out, f), "w", encoding="utf-8") as fh:
                 fh.write(content)
         os.chmod(os.path.join(real_out, "run_e2e.sh"), 0o755)
-        # out 是文件路径（.json 等）时，在精确路径落摘要 JSON——目录用法不受影响
+        # when out is a file path (.json etc.), drop the summary JSON at the exact path; directory usage is unaffected
         if real_out != args.out:
             summary = {
                 "scaffold": "webapp-e2e-harness",

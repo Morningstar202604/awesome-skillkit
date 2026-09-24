@@ -26,7 +26,7 @@ A command-and-post-mortem framework for availability/reliability incidents: seve
 | Timeline event source | Conditionally required | When generating a timeline: `--input` event JSON |
 | Incident data file | Conditionally required | When generating a PIR: `--incident` data JSON + `--timeline` markdown |
 | Output path | Optional | `--output` filename; otherwise stdout |
-| RCA method | Optional | `--rca-method`: `5whys`/`fishbone`/`timeline` (default per the script) |
+| RCA method | Optional | `--rca-method`: `five_whys`/`fishbone`/`timeline`/`bow_tie` (default `five_whys`) |
 
 When inputs are missing, ask for all at once: "Please provide: (1) incident description (affected-user ratio + business impact high/medium/low), (2) whether to reconstruct a timeline (needs event JSON), (3) whether to generate a PIR (needs incident data + timeline), (4) output filename. Everything else runs on defaults."
 
@@ -75,7 +75,7 @@ python3 scripts/pir_generator.py --incident assets/sample_incident_pir_data.json
 ```
 
 Expected: a structured PIR with an RCA (per the chosen method) and trackable follow-up action items.
-On failure: missing `--timeline` → run Step 2 first; an invalid `--rca-method` → use one of `5whys`/`fishbone`/`timeline`.
+On failure: missing `--timeline` → run Step 2 first; an invalid `--rca-method` → use one of `five_whys`/`fishbone`/`timeline`/`bow_tie`.
 
 ## Communication Cadence
 
@@ -107,7 +107,7 @@ Next Update / Status Page / War Room
 | `--detect-phases` / `--gap-analysis` | flag | Timeline phase and gap analysis |
 | `--incident` | JSON path | Incident data for the PIR |
 | `--timeline` | md path | Timeline input for the PIR |
-| `--rca-method` | `5whys`/`fishbone`/`timeline` | RCA framework |
+| `--rca-method` | `five_whys`/`fishbone`/`timeline`/`bow_tie` | RCA framework |
 
 ## Failure Handling Table
 

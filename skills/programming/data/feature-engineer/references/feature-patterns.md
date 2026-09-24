@@ -2,7 +2,7 @@
 
 > 配套 feature-engineer。`feature_engineer.py` 只做**规划**：它按列名关键词（name/text/desc → categorical；count/num/total/sum/avg/rate → numeric；date/time/year/month → temporal）猜类型并给出建议变换列表，**不读取数据、不实际构造特征、也不计算相关性**。SKILL.md 里列出的"目标泄漏检测（相关性 > 0.99）"在脚本中未实现（`check_quality` 只检查列名里是否含 null/missing）。因此：脚本给出的是待办清单，本文件给出**落地代码**和**必须人工执行的泄漏检查**。
 
-## 目录
+## Table of Contents
 - §0 通用前置检查
 - §1 数值型：分箱 / 缩放 / 对数 / 多项式
 - §2 类别型：one-hot / 高频截断 / target encoding

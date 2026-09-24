@@ -109,7 +109,7 @@ See `references/port-allocation-strategy.md` for the full strategy and edge case
 | `git worktree add` failed (path exists) | The target path is taken | Check the path; don't overwrite |
 | Dependency install failed | Lockfile or network issue | Keep the worktree, hand off for manual recovery |
 | `.env` copy failed | The source repo lacks the file | Warn, list the missing items, continue |
-| Port conflict | Collides with an external service | Adjust `--base` and rerun the allocation |
+| Port conflict | Collides with an external service | Adjust `--app-base` / `--db-base` / `--redis-base` and rerun the allocation |
 | Cleanup scan found a dirty tree | Uncommitted changes | Don't remove by default; force requires confirmation |
 
 ## Delivery Criteria

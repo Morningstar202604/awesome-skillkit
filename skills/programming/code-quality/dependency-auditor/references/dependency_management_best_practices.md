@@ -1,6 +1,6 @@
 # Dependency Management Best Practices
 
-## 目录
+## Table of Contents
 
 - [Strategic Foundation](#strategic-foundation)
   - [Dependency Strategy](#dependency-strategy)

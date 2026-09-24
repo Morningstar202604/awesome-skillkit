@@ -1,6 +1,6 @@
 # Alert Design Patterns: A Guide to Effective Alerting
 
-## 目录
+## Table of Contents
 
 - [Introduction](#introduction)
 - [Fundamental Principles](#fundamental-principles)

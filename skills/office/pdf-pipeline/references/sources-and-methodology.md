@@ -1,6 +1,6 @@
 # Sources & Methodology（pdf-pipeline）
 
-## 方法论来源
+## Methodology sources
 
 本技能的设计思想蒸馏自 Anthropic 官方公开技能仓库中 pdf 技能的**公开
 描述所体现的任务划分思路**（合并/拆分/提取/元数据/旋转的子任务切分、

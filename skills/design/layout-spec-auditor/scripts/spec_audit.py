@@ -17,14 +17,14 @@ import sys
 # platform: (width, height, max_file_mb, note, ratio)  — 2026-09 snapshot
 # ratio: explicit aspect constraint for ratio-only platforms (w=h=0)
 PLATFORM_SPECS = {
-    "wechat-header":   (900, 383, 5, "公众号头图 2.35:1", None),
-    "wechat-footer":   (200, 200, 2, "公众号次图 1:1", None),
-    "xhs-portrait":    (1080, 1440, 32, "小红书竖图 3:4", None),
-    "xhs-square":      (1080, 1080, 32, "小红书方图 1:1", None),
-    "bilibili-cover":  (1146, 717, 5, "B站封面 1.6:1", None),
-    "douyin-vertical": (1080, 1920, 0, "抖音竖版 9:16 (0=无限额)", None),
-    "youtube-thumb":   (1280, 720, 2, "YouTube 缩略图 16:9", None),
-    "zhihu-header":    (0, 0, 0, "知乎头图 16:9 横图（比例约束）", 16 / 9),
+    "wechat-header":   (900, 383, 5, "WeChat official header image 2.35:1", None),
+    "wechat-footer":   (200, 200, 2, "WeChat secondary image 1:1", None),
+    "xhs-portrait":    (1080, 1440, 32, "Xiaohongshu portrait image 3:4", None),
+    "xhs-square":      (1080, 1080, 32, "Xiaohongshu square image 1:1", None),
+    "bilibili-cover":  (1146, 717, 5, "Bilibili cover 1.6:1", None),
+    "douyin-vertical": (1080, 1920, 0, "Douyin vertical 9:16 (0=no size limit)", None),
+    "youtube-thumb":   (1280, 720, 2, "YouTube thumbnail 16:9", None),
+    "zhihu-header":    (0, 0, 0, "Zhihu header 16:9 landscape (ratio constraint)", 16 / 9),
 }
 
 SAFE_MARGIN_RATIO = 0.08   # keep text >=8% from edges

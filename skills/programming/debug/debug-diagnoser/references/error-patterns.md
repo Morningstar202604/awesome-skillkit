@@ -3,7 +3,7 @@
 > 配套 debug-diagnoser。`diagnoser.py` 用 10 条正则（`ERROR_PATTERNS`）对整段日志做 `re.search`（忽略大小写）并按 severity 排序输出 JSON；它对**单行错误文本**最有效，无法替代人工定位。本文件是人工侧的补充：按错误类型给成因、定位步骤和修复示例。
 > 每个模式格式：`原文片段` → 成因 → 定位 → 修复。
 
-## 目录
+## Table of Contents
 - §0 读 traceback 的三条规则 + 二分定位
 - §1 TypeError
 - §2 KeyError（含 pandas 列名陷阱）
@@ -29,7 +29,7 @@ python3 -X dev your_script.py        # 开发模式：打开额外警告，常�
 
 ## §1 TypeError
 
-| 原文片段 | 常见成因 |
+| Original snippet | Common cause |
 |---|---|
 | `TypeError: 'NoneType' object is not subscriptable` | 函数无返回值（默认返回 None）却被 `x[0]` 索引；`dict.get()` 未命中返回 None |
 | `TypeError: unsupported operand type(s) for +: 'int' and 'str'` | 输入来自 CSV/JSON 未转换类型 |
@@ -47,7 +47,7 @@ val = int(val)                  # 输入边界统一转类型
 
 ## §2 KeyError
 
-| 原文片段 | 常见成因 |
+| Original snippet | Common cause |
 |---|---|
 | `KeyError: 'amount'`（dict） | 键不存在或拼写/大小写不一致 |
 | `KeyError: 'amount '`（pandas） | **列名带首尾空格**（CSV 导出常见） |
@@ -63,7 +63,7 @@ print(df.columns.tolist())
 
 ## §3 AttributeError
 
-| 原文片段 | 常见成因 |
+| Original snippet | Common cause |
 |---|---|
 | `AttributeError: 'NoneType' object has no attribute 'append'` | 链式调用中间返回 None（`list.append` / `sort` 原地返回 None） |
 | `AttributeError: 'DataFrame' object has no attribute 'append'` | pandas 2.0 起移除了 `DataFrame.append`（改用 `pd.concat`） |
@@ -75,7 +75,7 @@ print(df.columns.tolist())
 
 ## §4 ValueError
 
-| 原文片段 | 常见成因 |
+| Original snippet | Common cause |
 |---|---|
 | `ValueError: could not convert string to float: 'abc'` | 脏数据（单位后缀、千分位逗号、空串） |
 | `ValueError: Length of values (3) does not match length of index (4)` | 赋值右侧长度与 DataFrame 行数不等（常见于 `apply` 返回变长结果后直接赋列） |
@@ -93,7 +93,7 @@ if mask.any():                              # 用 any()/all() 坍缩成标量
 
 ## §5 IndexError
 
-| 原文片段 | 常见成因 |
+| Original snippet | Common cause |
 |---|---|
 | `IndexError: list index out of range` | 循环上界写错；空列表取 `[0]`（如 `re.findall(...)[0]` 未匹配） |
 | `IndexError: single positional indexer is out-of-bounds`（pandas `.iloc`） | `.iloc` 按**位置**索引，与 `.loc` 的**标签**混用 |
@@ -103,7 +103,7 @@ if mask.any():                              # 用 any()/all() 坍缩成标量
 
 ## §6 ImportError / ModuleNotFoundError
 
-| 原文片段 | 常见成因 |
+| Original snippet | Common cause |
 |---|---|
 | `ModuleNotFoundError: No module named 'cv2'` | **包名 ≠ import 名**（`cv2 → opencv-python`、`PIL → Pillow`、`sklearn → scikit-learn`、`yaml → PyYAML`） |
 | `ImportError: cannot import name 'X' from 'Y' (unknown location)` | 循环导入；或本地文件与库同名被优先导入 |

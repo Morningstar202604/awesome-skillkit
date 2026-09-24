@@ -1,6 +1,6 @@
 # Root Cause Analysis (RCA) Frameworks Guide
 
-## 目录
+## Table of Contents
 
 - [Overview](#overview)
 - [Framework Selection Guidelines](#framework-selection-guidelines)

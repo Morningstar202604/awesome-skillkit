@@ -45,6 +45,6 @@ HuggingFace 模型卡。*
 | 拼接 | ffmpeg concat `-c copy` | 不重编码秒级完成；对话段 crossfade 300-500ms |
 | BGM | 只铺 intro/outro | 人声段垫床需 ≤-18dB，默认不加 |
 
-## 变更维护
+## Change maintenance
 
 声音 ID 失效：更新对应行 + 顶部快照日期。新增引擎先跑「选型三问」再入表。

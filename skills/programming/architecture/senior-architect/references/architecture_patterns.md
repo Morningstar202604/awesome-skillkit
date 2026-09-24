@@ -1,6 +1,6 @@
 # Architecture Patterns Reference
 
-## 目录
+## Table of Contents
 
 - [Patterns Index](#patterns-index)
 - [1. Monolithic Architecture](#1-monolithic-architecture)

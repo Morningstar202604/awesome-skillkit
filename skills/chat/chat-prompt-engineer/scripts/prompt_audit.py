@@ -18,57 +18,64 @@ import sys
 
 # task mode: five elements
 ROLE_WORDS = [
-    r"你是[一名位个]?", r"你扮演", r"充当", r"假设你", r"以.{0,6}的身份",
-    r"角色[::]", r"\bas an?\b", r"\bact(?:ing)? as\b", r"\byou are an?\b",
-    r"你是一", r"身份[::]",
+    r"you are (?:a|an|the)", r"you play (?:the )?role", r"act as", r"assume (?:you )?are",
+    r"in the role of", r"role\s*:", r"\bas an?\b", r"\bact(?:ing)? as\b", r"\byou are an?\b",
+    r"you are a", r"identity\s*:",
 ]
 BACKGROUND_WORDS = [
-    r"背景", r"受众", r"读者是", r"用户画像", r"目标用户", r"用途[是为::]?",
-    r"场景[是::]", r"以下是", r"材料如下", r"给定如下", r"面向",
+    r"\bbackground\b", r"\baudience\b", r"reader is", r"user persona", r"target users?",
+    r"purpose\s*(?:is|=)?", r"scenario\s*(?:is|:)?", r"the following (?:is|are)",
+    r"materials? (?:are )?as follows", r"given as follows", r"aimed at",
     r"\bcontext\b", r"\baudience\b", r"\bfor (?:an? )?(?:beginners?|users?|readers?)\b",
 ]
 TASK_WORDS = [
-    r"帮我", r"请你?帮", r"我需要", r"帮忙", r"请(?:根据|把|将|按|为)",
-    r"帮我?写", r"整理", r"翻译", r"分析", r"总结", r"列出", r"改写", r"生成",
-    r"起草", r"拟定", r"校对", r"解读", r"规划", r"评估", r"\bwrite\b", r"\btranslate\b",
+    r"help me", r"please help", r"\bi need\b", r"help out", r"please (?:based on|use|for)",
+    r"help me write", r"organize", r"translate", r"analyze", r"summarize", r"list", r"rewrite",
+    r"generate", r"draft", r"draw up", r"proofread", r"interpret", r"plan", r"evaluate",
+    r"\bwrite\b", r"\btranslate\b",
     r"\bgenerate\b", r"\bsummarize\b", r"\bhelp me\b",
 ]
 REQUIREMENT_WORDS = [
-    r"要求", r"禁止", r"不得", r"不要", r"避免", r"禁用", r"不能出现", r"语气",
-    r"风格[是为:：]?", r"字数", r"\d+\s*字以内", r"不超过", r"不超过\s*\d+",
-    r"必须", r"务必", r"注意", r"限制", r"\bmust not\b", r"\bavoid\b", r"\bdo not\b",
+    r"requirement", r"forbidden", r"must not", r"do not", r"avoid", r"banned",
+    r"must not appear", r"tone",
+    r"style\s*(?:is|:)?", r"word count", r"within\s*\d+\s*(?:words|characters)", r"no more than",
+    r"no more than\s*\d+",
+    r"must\b", r"be sure to", r"note that", r"limit", r"\bmust not\b", r"\bavoid\b", r"\bdo not\b",
     r"\bno more than\b", r"\bwithin \d+ (?:words|characters)\b",
 ]
 FORMAT_WORDS = [
-    r"格式", r"表格", r"清单", r"分点", r"要点", r"大纲", r"邮件", r"逐条",
-    r"每段", r"步骤[是:：]?", r"输出为", r"输出成", r"按以下结构", r"结构[是:：]",
+    r"format", r"table", r"list", r"bullet points", r"key points", r"outline", r"email",
+    r"item by item", r"each paragraph", r"steps?\s*(?:is|:)?", r"output as", r"output into",
+    r"in the following structure", r"structure\s*(?:is|:)?",
     r"\bjson\b", r"\bmarkdown\b", r"\btable\b", r"\bbullet\b", r"\bformat\b",
-    r"\boutline\b", r"结构[为:：]",
+    r"\boutline\b", r"structure\s*(?:is|:)?",
 ]
 
 # agent mode: five sections
 AGENT_SECTIONS = {
     "persona": [
-        r"#\s*人设", r"#\s*角色", r"##\s*Role", r"角色设定", r"你是[一名位个]?",
-        r"你扮演", r"\bpersona\b", r"\bidentity\b",
+        r"#\s*persona", r"#\s*role", r"##\s*Role", r"role setting", r"you are (?:a|an)",
+        r"you play the role", r"\bpersona\b", r"\bidentity\b",
     ],
     "capability-flow": [
-        r"#\s*能力", r"#\s*功能", r"#\s*技能", r"#\s*工作流程", r"##\s*Workflow",
-        r"\bworkflow\b", r"\bsteps?\b", r"\bskills?\b", r"\btools?\b", r"工作流",
-        r"流程[是:：]", r"分步", r"第一步", r"步骤",
+        r"#\s*capabilities", r"#\s*features", r"#\s*skills", r"#\s*workflow", r"##\s*Workflow",
+        r"\bworkflow\b", r"\bsteps?\b", r"\bskills?\b", r"\btools?\b", r"workflow",
+        r"flow\s*:", r"step by step", r"step 1", r"steps",
     ],
     "constraints": [
-        r"#\s*约束", r"#\s*限制", r"##\s*Constraints", r"\bconstraints?\b",
-        r"\brestrictions?\b", r"禁止", r"不得", r"不要", r"避免", r"严禁",
+        r"#\s*constraints", r"#\s*limits", r"##\s*Constraints", r"\bconstraints?\b",
+        r"\brestrictions?\b", r"forbidden", r"must not", r"do not", r"avoid", r"strictly forbidden",
     ],
     "output-format": [
-        r"#\s*输出格式", r"#\s*回复格式", r"输出格式", r"回复格式", r"回复结构",
+        r"#\s*output format", r"#\s*response format", r"output format", r"response format",
+        r"response structure",
         r"\boutput format\b", r"\bresponse format\b",
     ],
     "boundary": [
-        r"#\s*边界", r"\bboundary\b", r"\bfallback\b", r"\bsafety\b",
-        r"超出.{0,6}范围", r"不确定时", r"不编造", r"反问", r"拒答", r"免责",
-        r"知识范围", r"范围外", r"敏感",
+        r"#\s*boundary", r"\bboundary\b", r"\bfallback\b", r"\bsafety\b",
+        r"out of .{0,6} scope", r"when uncertain", r"do not make up", r"ask back",
+        r"refuse to answer", r"disclaimer",
+        r"knowledge scope", r"out of scope", r"sensitive",
     ],
 }
 

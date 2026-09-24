@@ -1,6 +1,6 @@
 # Agent Architecture Patterns Catalog
 
-## 目录
+## Table of Contents
 
 - [Overview](#overview)
 - [Pattern Categories](#pattern-categories)

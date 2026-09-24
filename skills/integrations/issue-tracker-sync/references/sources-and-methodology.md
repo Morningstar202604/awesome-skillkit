@@ -1,11 +1,11 @@
-# 方法论来源与设计取舍（issue-tracker-sync）
+# Methodology sources and design trade-offs（issue-tracker-sync）
 
 > 何时读：当你要接入第四个 tracker（如 GitLab / Azure Boards / 飞书任务）、
 > 改周报分组逻辑，或质疑"为什么不做自动双向同步"时读本文件。
 
-## 思想来源（公开方法论蒸馏，非文本搬运）
+## Idea sources (distilled from public methodology; not copied text)
 
-| 本技能的做法 | 蒸馏自的思想 |
+| This skill's approach | Idea distilled from |
 |---|---|
 | 用"规范语义"做中间层，而非直接对拷状态名 | 数据集成里的 canonical model / 语义中介模式：N 个源两两映射是 N²，经中间层是 2N |
 | `build` / `field-map` / `weekly-report` 三段分离 | 端口-适配器：出站写操作、参考数据、只读报表三者生命周期与权限都不同 |
@@ -14,7 +14,7 @@
 | 周报必须记录 ID 映射台账 | 分布式系统里的 correlation ID / 外部 ID 映射表思路：无锚点的同步不可恢复 |
 | dry-run 先出请求体 | Terraform `plan` / `kubectl --dry-run=client` 的两阶段惯例 |
 
-## 关键取舍
+## Key trade-offs
 
 **为什么不做自动双向同步？** 双向同步需要三个前提：可靠的 ID 映射、冲突检测
 策略（两边都改了谁赢）、以及幂等写入。三者都依赖对方平台的事件流，而三家的
@@ -45,7 +45,7 @@ JSON 给编排层消费（比如让 AI 按映射表批量构造请求）。同�
 后者是决策。用标签区分是 GitHub 生态的通行做法；退而求其次也可读
 `state_reason` 字段。
 
-## 官方文档
+## Official documentation
 
 - Jira REST API v2 建 issue：<https://developer.atlassian.com/cloud/jira/platform/rest/v2/api-group-issues/#api-rest-api-2-issue-post>
 - Jira 字段查询（找出 customfield ID 与优先级枚举）：<https://developer.atlassian.com/cloud/jira/platform/rest/v2/api-group-issue-fields/>

@@ -1,6 +1,6 @@
 # Terraform State Management Reference
 
-## 目录
+## Table of Contents
 
 - [Backend Configuration Patterns](#backend-configuration-patterns)
   - [AWS: S3 + DynamoDB (Recommended)](#aws-s3-dynamodb-recommended)

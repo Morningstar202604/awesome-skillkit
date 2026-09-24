@@ -1,6 +1,6 @@
 # database-designer reference
 
-## 目录
+## Table of Contents
 
 - [Database Design Principles](#database-design-principles)
   - [Normalization Forms](#normalization-forms)

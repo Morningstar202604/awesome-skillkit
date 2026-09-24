@@ -43,7 +43,7 @@ manually.
 - OSChina readers want practical, runnable content: tools, source-reading,
   deployments, open-source comparisons.
 - Link to the actual project / GitHub repo when relevant.
-- Short intro, then code; call out license, stars, anduse cases.
+- Short intro, then code; call out license, stars, and use cases.
 - "How I used X to solve Y" posts perform well.
 
 ## Platform Context & Tone

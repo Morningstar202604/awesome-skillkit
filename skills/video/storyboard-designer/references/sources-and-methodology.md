@@ -1,13 +1,13 @@
-# 方法论出处与致谢 / Sources & Methodology
+# Methodology sources and acknowledgements
 
 > 本技能的分镜方法论不是凭空发明的。以下开源项目提供了经过实战验证的结构与纪律，
 > 我们提炼其**方法论骨架**（节拍表先行、连续性约束表、逐场景 prompt 成对产出、
 > 输出契约化），并结合本仓 SKILL-STANDARD-v2 的「机器优先十诫」重写为中文工作流。
 > 未复制任何原文内容；如需原版，请访问下列仓库。
 
-## 主要来源
+## Main sources
 
-| 来源 | 许可证 | 借鉴的方法论要点 |
+| Source | License | Methodology points borrowed |
 |------|--------|------------------|
 | [agentara/skills — video-storyboard](https://github.com/agentara/skills) | 见其仓库 | 逐场景双产物（图像板 + 视频 prompt 脚本）成对产出；连续性约束表（角色/服装/道具/场景/画幅）；两位数场景编号与输出路径契约；**分镜图必须由图像模型生成、禁止代码/SVG 凑数**的硬规则 |
 | [nexu-io/open-design — create-video-storyboard](https://github.com/nexu-io/open-design) | Apache-2.0 | 五步工作流（澄清 → 节拍表 → prompt 包 → 镜头清单 → 节奏审查）；先出 beat sheet 再出分镜的次序纪律 |
@@ -20,7 +20,7 @@ smixs/visual-skills 的方法论在其许可下要求署名。本技能对其仅
 
 > Methodology inspired by Serge Shima — github.com/smixs/visual-skills (CC BY 4.0)
 
-## 与本仓标准的合并
+## Merged to this repo's standards
 
 上述方法论进入本仓时做了三类改造：
 

@@ -1,6 +1,6 @@
 # Index Strategy Patterns
 
-## 目录
+## Table of Contents
 
 - [Overview](#overview)
 - [Index Types and Use Cases](#index-types-and-use-cases)

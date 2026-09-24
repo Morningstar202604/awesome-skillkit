@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Subtitles Generator — 为视频生成字幕/标题。
+"""Subtitles Generator — generate subtitles/captions for a video.
 
-用法:
+Usage:
   python3 subtitles.py --script script.json --output subs.srt
-  python3 subtitles.py --text "你好世界" --start 0 --end 3
+  python3 subtitles.py --text "hello world" --start 0 --end 3
 """
 import argparse
 import json
@@ -48,7 +48,7 @@ def generate_srt(scenes: List[Dict], output: str = None) -> Dict:
 def generate_captions(text: str, platform: str = "douyin") -> Dict:
     """Generate platform-optimized caption (title + hashtags)."""
     if platform == "douyin":
-        caption = f"{text[:20]}\n\n#视频 #内容 #{text[:8]}"
+        caption = f"{text[:20]}\n\n#video #content #{text[:8]}"
     elif platform == "bilibili":
         caption = f"【{text}】"
     else:
@@ -71,13 +71,13 @@ def main():
         p = Path(args.script)
         if not p.exists():
             print(json.dumps({"status": "error",
-                              "error": f"--script 文件不存在: {args.script}"},
+                              "error": f"--script file does not exist: {args.script}"},
                              ensure_ascii=False))
             return 2
         try:
             script = json.loads(p.read_text(encoding="utf-8"))
         except json.JSONDecodeError as e:
-            print(json.dumps({"status": "error", "error": f"--script 不是合法 JSON: {e}"},
+            print(json.dumps({"status": "error", "error": f"--script is not valid JSON: {e}"},
                              ensure_ascii=False))
             return 2
         result = generate_srt(script.get("scenes", []), args.output)

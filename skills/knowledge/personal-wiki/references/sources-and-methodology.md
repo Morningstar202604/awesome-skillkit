@@ -1,12 +1,12 @@
-# 来源与方法论说明 / Sources & Methodology
+# Sources & Methodology
 
 - 技能：`personal-wiki`（awesome-skillkit 原创编写，Apache-2.0）。
 - 定位：场景包 `knowledge` 的入口技能，负责知识库的目录治理、索引、检索与体检；
   与之互补的是 `knowledge-graph-builder`（实体关系图与中心性指标）。
 
-## 方法论借鉴（仅思想与分类体系，未复制任何文本或代码）
+## Methodology borrowed (ideas and taxonomy only; no text or code copied)
 
-| 来源 | 许可证 | 借鉴的方法论要点 |
+| Source | License | Methodology points borrowed |
 |---|---|---|
 | Zettelkasten 卡片盒笔记法的公开阐述 | 见原文 | 「原子化笔记 + 显式链接」优于按文件夹分类；建立关联的动作本身产生理解 |
 | 双链笔记社区（Obsidian / Roam 生态）公开文档 | 见各自仓库 | `[[wikilink]]` 语法、反向链接（backlink）作为笔记间关系的派生视图、别名链接 `[[目标\|显示]]` |
@@ -18,7 +18,7 @@
 以及 `scripts/wiki_build.py` 的全部实现，均为从零撰写，未翻译、未改写、
 未摘录任何上游段落、示例或代码。
 
-## 关键设计决策（为什么这样做）
+## Key design decisions (why this way)
 
 1. **两层而非一层**：`raw/` 不参与孤儿判定。剪藏本来就常常是孤立的，
    若与自己的笔记同池检查，孤儿告警会淹没真正需要处理的信号。
@@ -30,13 +30,13 @@
    但明示该约定，避免用户误判为程序错误。
 5. **纯标准库**：知识库可能在任何机器上维护，引入第三方依赖会让技能在换环境后直接失效。
 
-## 局限与边界
+## Limitations and boundaries
 
 - 中文检索是**子串匹配**，不做分词、不做同义词扩展；需要语义检索请换向量方案。
 - 链接解析按「文件名 slug」与「H1 标题」两种别名，二者冲突时优先级为 slug 高。
 - 链接方向不做「双向自动成链」：A 链 B 不会让 B 自动链回 A，
   但 B 的 backlinks 会记录 A——这是派生视图，不写回文件。
 
-## 许可
+## License
 
-本技能及其参考文件以 Apache-2.0 分发；所列上游文档各自的许可条款与本文互不适用。
+This skill and its reference files are distributed under Apache-2.0; the upstream documents listed carry their own license terms, which do not apply to this file.

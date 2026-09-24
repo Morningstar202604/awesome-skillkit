@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
-"""Video Voice Synthesis (TTS) — 文本转语音。
+"""Video Voice Synthesis (TTS) -- text-to-speech.
 
-默认**真实模式**：调用用户自备的 TTS 网关真实产出音频。
-`--mock` 或环境变量 `SKILLKIT_MOCK=1` 时生成静音 WAV 占位（仅供下游联调，不可交付）。
+**Real mode by default**: calls the user-provided TTS gateway to actually produce audio.
+With `--mock` or the `SKILLKIT_MOCK=1` env var it generates a silent WAV placeholder
+(downstream integration testing only, not deliverable).
 
-真实模式下网关不可达会打印排查指引并退出非 0，绝不静默返回假结果。
-网关地址: `--gateway-url` > 环境变量 `GATEWAY_BASE_URL` > 仓库示例默认值。
-端点路径与字段名以你的实际部署为准（VERIFY BEFORE USE）。
+In real mode, if the gateway is unreachable it prints troubleshooting guidance and exits
+non-zero; it never silently returns a fake result.
+Gateway URL: `--gateway-url` > env var `GATEWAY_BASE_URL` > the repo example default.
+Endpoint paths and field names follow your actual deployment (VERIFY BEFORE USE).
 
-用法:
-  python3 voice_synth.py --text "你好" --voice baby_f01
-  python3 voice_synth.py --script script.json           # 批量
-  python3 voice_synth.py --text "你好" --mock            # 静音占位
+Usage:
+  python3 voice_synth.py --text "Hello" --voice baby_f01
+  python3 voice_synth.py --script script.json           # batch
+  python3 voice_synth.py --text "Hello" --mock          # silent placeholder
 """
 import argparse
 import json
@@ -24,7 +26,7 @@ import wave
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-# 仓库示例默认值，不是任何厂商的公开端点承诺 —— 以你的实际部署为准
+# repo example default; not a commitment to any vendor's public endpoint -- follow your actual deployment
 DEFAULT_GATEWAY_BASE_URL = "http://127.0.0.1:30081"
 TTS_PATH = "/v1/tts"
 
@@ -39,7 +41,7 @@ VOICES = {
 
 
 def mock_enabled(cli_mock: bool = False) -> bool:
-    """`--mock` 显式开启，或环境变量 SKILLKIT_MOCK=1/true/yes/on；默认 False（真实模式）。"""
+    """`--mock` explicitly on, or the env var SKILLKIT_MOCK=1/true/yes/on; default False (real mode)."""
     if cli_mock:
         return True
     return os.environ.get("SKILLKIT_MOCK", "").strip().lower() in (
@@ -57,23 +59,23 @@ def gateway_timeout() -> int:
     try:
         return max(1, int(raw))
     except ValueError:
-        sys.stderr.write(f"[WARN] GATEWAY_TIMEOUT={raw!r} 不是整数，回退为 30。\n")
+        sys.stderr.write(f"[WARN] GATEWAY_TIMEOUT={raw!r} is not an integer; falling back to 30.\n")
         return 30
 
 
 def probe_gateway(base_url: str) -> None:
-    """探活：2xx/401/403/404 都说明服务在跑；连不上就给排查指引并退出非 0。"""
+    """Liveness probe: 2xx/401/403/404 all mean the service is up; if it cannot be reached, print troubleshooting guidance and exit non-zero."""
     try:
         urllib.request.urlopen(base_url + "/", timeout=5)
     except urllib.error.HTTPError:
         return
     except Exception as e:
         sys.stderr.write(
-            f"[ERROR] 无法连接 TTS 网关: {base_url} （{e.__class__.__name__}: {e}）\n"
-            f"排查步骤:\n"
-            f"  1) 确认服务已启动: curl -sS -m 5 -o /dev/null -w '%{{http_code}}\\n' {base_url}/\n"
-            f"  2) 确认地址正确  : export GATEWAY_BASE_URL=http://<host>:<port>  (不带尾斜杠)\n"
-            f"  3) 若只需联调下游: 加 --mock 或 SKILLKIT_MOCK=1（产物是静音占位，不可交付）\n"
+            f"[ERROR] Cannot reach the TTS gateway: {base_url} ({e.__class__.__name__}: {e})\n"
+            f"Troubleshooting:\n"
+            f"  1) Confirm the service is up: curl -sS -m 5 -o /dev/null -w '%{{http_code}}\\n' {base_url}/\n"
+            f"  2) Confirm the URL is correct: export GATEWAY_BASE_URL=http://<host>:<port>  (no trailing slash)\n"
+            f"  3) If you only need downstream integration: add --mock or SKILLKIT_MOCK=1 (the artifact is a silent placeholder, not deliverable)\n"
         )
         sys.exit(4)
 
@@ -94,18 +96,18 @@ def post_json(url: str, payload: dict, timeout: int) -> bytes:
             body = e.read().decode("utf-8", "ignore")[:500]
         except Exception:
             pass
-        sys.stderr.write(f"[ERROR] 网关返回 HTTP {e.code} {e.reason}\n响应体: {body}\n")
+        sys.stderr.write(f"[ERROR] Gateway returned HTTP {e.code} {e.reason}\nBody: {body}\n")
         sys.exit(4)
     except Exception as e:
         sys.stderr.write(
-            f"[ERROR] 请求网关失败: {url} （{e.__class__.__name__}: {e}）\n"
-            f"常见原因: 超时（GATEWAY_TIMEOUT 调大）、限流（HTTP 429）、服务崩溃。\n"
+            f"[ERROR] Request to gateway failed: {url} ({e.__class__.__name__}: {e})\n"
+            f"Common causes: timeout (raise GATEWAY_TIMEOUT), rate limiting (HTTP 429), service crash.\n"
         )
         sys.exit(4)
 
 
 def _mock_synth(text: str, voice: str, output: Optional[str] = None) -> Dict[str, Any]:
-    """生成静音 WAV 占位（时长按字数估算，纯下游联调用）。"""
+    """Generate a silent WAV placeholder (duration estimated from character count; for downstream integration only)."""
     duration = max(0.5, len(text) * 0.15)
     sample_rate = 24000
     num_samples = int(duration * sample_rate)
@@ -122,7 +124,7 @@ def _mock_synth(text: str, voice: str, output: Optional[str] = None) -> Dict[str
         "audio_path": str(out), "text": text, "voice_used": voice,
         "mock": True, "duration_sec": round(duration, 2),
         "sample_rate": sample_rate,
-        "note": "Mock: 静音占位，不可交付。",
+        "note": "Mock: silent placeholder, not deliverable.",
     }
 
 
@@ -131,7 +133,7 @@ def synthesize_voice(text: str, voice: str = "baby_f01",
                      output: Optional[str] = None,
                      gateway_url: Optional[str] = None,
                      mock: bool = False) -> Dict[str, Any]:
-    """生成 TTS 音频（真实网关 / mock 静音占位）。"""
+    """Generate TTS audio (real gateway / mock silent placeholder)."""
     voice_conf = VOICES.get(voice, {"pitch": 0, "speed": 1.0})
     speed = speed or voice_conf["speed"]
     pitch = pitch if pitch is not None else voice_conf["pitch"]
@@ -140,7 +142,7 @@ def synthesize_voice(text: str, voice: str = "baby_f01",
         return _mock_synth(text, voice, output)
 
     if not text.strip():
-        sys.stderr.write("[ERROR] 待合成文本为空。\n")
+        sys.stderr.write("[ERROR] Text to synthesize is empty.\n")
         sys.exit(3)
 
     base_url = resolve_gateway(gateway_url)
@@ -151,7 +153,7 @@ def synthesize_voice(text: str, voice: str = "baby_f01",
     }
     audio = post_json(base_url + TTS_PATH, payload, gateway_timeout())
     if not audio:
-        sys.stderr.write(f"[ERROR] 网关返回空音频: {base_url}{TTS_PATH}\n")
+        sys.stderr.write(f"[ERROR] Gateway returned empty audio: {base_url}{TTS_PATH}\n")
         sys.exit(4)
 
     out = Path(output or f"tts_{int(time.time())}.wav")
@@ -165,10 +167,10 @@ def synthesize_voice(text: str, voice: str = "baby_f01",
 
 def batch_synth(script: Dict, gateway_url: Optional[str] = None,
                 mock: bool = False, audio_dir: str = ".") -> Dict[str, Any]:
-    """按脚本场景批量合成。
+    """Batch-synthesize by script scene.
 
-    audio_dir: 场景音频输出目录（下游 lip_sync --audio-dir 与 editor
-    --audio-dir 依赖同一目录下的 scene_<id>.wav 命名契约）。
+    audio_dir: the output directory for scene audio (the downstream lip_sync --audio-dir and
+    editor --audio-dir rely on the scene_<id>.wav naming contract in the same directory).
     """
     results = []
     conf = script.get("tts_config", {})
@@ -206,15 +208,15 @@ def main():
     parser.add_argument("--output", help="Output file")
     parser.add_argument("--audio-dir", default=".",
                         help="Batch mode: directory to write scene_<id>.wav")
-    parser.add_argument("--gateway-url", help="网关根地址（默认取 GATEWAY_BASE_URL）")
+    parser.add_argument("--gateway-url", help="gateway root URL (defaults to GATEWAY_BASE_URL)")
     parser.add_argument("--mock", action="store_true",
-                        help="生成静音占位，不调用网关（等价 SKILLKIT_MOCK=1）")
+                        help="generate a silent placeholder, do not call the gateway (equivalent to SKILLKIT_MOCK=1)")
     args = parser.parse_args()
     mock = mock_enabled(args.mock)
 
     if args.script:
         if not Path(args.script).is_file():
-            sys.stderr.write(f"[ERROR] 脚本文件不存在: {args.script}\n")
+            sys.stderr.write(f"[ERROR] Script file not found: {args.script}\n")
             sys.exit(3)
         script = json.loads(Path(args.script).read_text(encoding="utf-8"))
         result = batch_synth(script, args.gateway_url, mock, args.audio_dir)

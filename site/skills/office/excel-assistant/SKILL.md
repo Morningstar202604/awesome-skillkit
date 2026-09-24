@@ -107,9 +107,7 @@ Missing any item means incomplete—say so honestly.
 
 None—the pandas snippets above are the whole toolkit.
 
-## Pipeline Handoff (Downstream Suggestions)
+## Pipeline Handoff
 
-This is an office/productivity single-point skill, usable independently; the
-cleaned structured result can feed meeting-notes (summarize) or resume-tailor
-(fill resume from data). Suggest adding an office (or productivity) domain to
-skill_chains.json and registering this skill. Handoff is descriptive only.
+Usable independently; the cleaned, structured result can feed meeting-notes
+(summarize) or resume-tailor (pull quantified bullets from the data).

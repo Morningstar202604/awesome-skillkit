@@ -426,7 +426,7 @@ class CoverageAnalyzer:
             try:
                 json.loads(content_stripped)
                 return CoverageFormat.JSON
-            except ValueError:  # 不是合法 JSON → 继续探测下一种格式
+            except ValueError:  # not valid JSON -> probe the next format
                 pass
 
         # Check for XML format
@@ -437,7 +437,7 @@ class CoverageAnalyzer:
 
 
 def main(argv=None):
-    """CLI：分析一个或多个覆盖率报告文件，输出 JSON 摘要 + 缺口。"""
+    """CLI: analyze one or more coverage report files, emit a JSON summary + gaps."""
     import argparse
     import sys as _sys
 

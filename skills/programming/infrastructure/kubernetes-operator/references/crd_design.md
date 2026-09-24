@@ -1,6 +1,6 @@
 # CRD design
 
-## 目录
+## Table of Contents
 
 - [Anatomy of a production CRD](#anatomy-of-a-production-crd)
 - [Required structural elements](#required-structural-elements)

@@ -21,6 +21,16 @@ metadata:
 
 Drive the local generation gateway with curl: submit a task -> poll until done -> download the PNG -> hand the file path to the user. No Pillow/OpenCV needed, no dependencies to install — the gateway handles rendering, you handle orchestration.
 
+## Domain Tacit Knowledge (What Makes a Good Generated Image)
+
+**1. Concrete nouns beat adjectives every time.** "Water droplets on a frosted glass bottle with a citrus slice" produces a specific, high-quality image. "A beautiful refreshing drink" produces a generic stock-photo look. Swap every adjective for a concrete noun or detail before submitting.
+
+**2. State the style once, clearly, at the end.** Don't stack style tags ("photorealistic, cinematic, 8k, ultra detailed, award-winning"). Pick one medium/style and state it clearly: "flat vector illustration, limited three-color palette" or "35mm film photograph, shallow depth of field". More style tags = more confusion, not more quality.
+
+**3. Chinese text in images is unreliable.** Most image models render Latin alphabet well but produce garbled Chinese characters. If the final image needs Chinese text (cover titles, labels), generate a textless base image and add the text in post-production (Canva, Photoshop, or the platform's editor). Never ask the model to render Chinese characters.
+
+**4. Reference images lock style and subject.** Providing 1-2 reference images (image-to-image mode) dramatically improves consistency for series work. Use a style reference to lock the visual tone, and a subject reference to keep character/product likeness consistent across a batch.
+
 ## Input Checklist
 
 | Input | Required | Default | Notes |
@@ -119,6 +129,17 @@ If it fails: file is 0 bytes -> `result_url` expired; re-poll for a fresh URL an
 | `state == "failed"` | Prompt too vague or policy-triggering | Rewrite the prompt with concrete detail, resubmit once |
 | Downloaded file is 0 bytes | URL expired | Re-poll for a fresh result_url, download again |
 | Success but missing `result_url` | API structure changed | Flag the endpoint "verify before use"; report raw JSON to maintainers |
+
+## Quality Checklist
+
+- [ ] Gateway reachable and responding
+- [ ] Prompt has all four components (subject + style + composition + text if any)
+- [ ] Concrete nouns used instead of vague adjectives
+- [ ] Style stated once, clearly (not a stack of tags)
+- [ ] Size is a multiple of 16, within ratio and pixel bounds
+- [ ] No Chinese text requested in the prompt (add text in post)
+- [ ] Output file exists and is non-empty
+- [ ] Aspect ratio matches the intended use case
 
 ## Delivery Standard
 

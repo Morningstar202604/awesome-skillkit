@@ -26,16 +26,16 @@ META_KEYS = ("Title", "Author", "Subject", "Keywords", "Creator", "Producer")
 def open_reader(path):
     """Open a PDF, turning missing/encrypted/broken files into a clean exit(1)."""
     if not Path(path).exists():
-        sys.exit(f"ERROR: 文件不存在：{path}")
+        sys.exit(f"ERROR: file does not exist: {path}")
     try:
         reader = PdfReader(path)
         if reader.is_encrypted:
-            sys.exit(f"ERROR: {path} 有口令保护，请提供解密后的副本")
+            sys.exit(f"ERROR: {path} is password-protected; please provide a decrypted copy")
         return reader
     except SystemExit:
         raise
     except Exception as exc:
-        sys.exit(f"ERROR: 无法读取 {path}（{exc}）")
+        sys.exit(f"ERROR: cannot read {path} ({exc})")
 
 
 def parse_pages(spec, total):

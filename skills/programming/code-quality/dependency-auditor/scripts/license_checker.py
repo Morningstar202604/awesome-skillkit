@@ -577,7 +577,7 @@ class LicenseChecker:
                             license_field = data.get('license')
                             if license_field:
                                 return self._resolve_license_info(license_field)
-                        except Exception:  # 单个候选文件坏掉 → 试下一个来源
+                        except Exception:  # a single candidate file is broken -> try the next source
                             continue
                     else:
                         # Analyze text content

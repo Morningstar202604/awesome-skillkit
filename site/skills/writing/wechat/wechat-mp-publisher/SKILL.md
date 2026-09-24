@@ -62,7 +62,7 @@ abstract, and cover brief the user pastes into the MP editor manually.
 
 - Tone: like a knowledgeable friend writing a long message; first-person "I"
   is common.
-- Taboo: obvious ads,share-to-unlock ("share to unlock"), exaggerated claims,
+- Taboo: obvious ads, share-to-unlock ("share to unlock"), exaggerated claims,
   politically sensitive topics, medical/financial claims without disclaimers.
 - No inline external URLs; put the source / call-to-action in the "Read More"
   field.

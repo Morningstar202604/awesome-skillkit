@@ -1,31 +1,31 @@
 #!/usr/bin/env python3
-"""Neural Net Drawer — 生成可编译的神经网络结构图 (LaTeX TikZ)。
+"""Neural Net Drawer -- generate a compilable neural-network diagram (LaTeX TikZ).
 
-对标 PlotNeuralNet (HarisIqbal88, 25k+ stars) 的能力：不仅支持"逐神经元"层级图，
-还支持真实"层类型"（Conv / Pool / Residual / Linear / Attention / Dropout / FC），
-输出含可编译的 \\nnblock 风格 TikZ（pgfplots 前导）。
+Targeting the capability of PlotNeuralNet (HarisIqbal88, 25k+ stars): it supports not only
+"per-neuron" layered diagrams but also real "layer types" (Conv / Pool / Residual / Linear /
+Attention / Dropout / FC), emitting compilable \\nnblock-style TikZ (pgfplots preamble).
 
-用法:
-  # 兼容旧用法（纯宽度列表，按全连接层画）
+Usage:
+  # legacy compatible (bare width list, drawn as fully-connected layers)
   python3 neural_net_draw.py --layers "784,512,256,10,1" --label MLP
-  # SOTA：带层类型（类型用 :type 后缀；类型可省略 → 按全连接）
+  # SOTA: with layer types (type via a :type suffix; type may be omitted -> fully-connected)
   python3 neural_net_draw.py --layers "784:input,64:conv,64:pool,128:linear,10:output"
   python3 neural_net_draw.py --layers "512:residual,256:attention,10:output"
 
-输出 JSON:
+Output JSON:
   {output, label, layers, n_params_est, compilable, method, note}
-  method ∈ {"per-neuron","typed-blocks"}：逐神经元 = 每层画 min(n,10) 个圆点；
-           typed-blocks = 按类型画彩色 nnblock（更贴近 PlotNeuralNet 风格）。
+  method in {"per-neuron","typed-blocks"}: per-neuron = draw min(n,10) dots per layer;
+           typed-blocks = draw colored nnblocks by type (closer to the PlotNeuralNet style).
 
-诚实声明：compilable=true 是**静态语法自洽**断言，脚本不执行 pdflatex；
-编译需 preamble 含 pgfplots + tikz。
+Honest disclaimer: compilable=true is a **static syntactic self-consistency** claim; the script
+does not run pdflatex. Compilation requires a preamble with pgfplots + tikz.
 """
 import argparse
 import json
 import sys
 from pathlib import Path
 
-# 类型 → (显示缩写, 填充色)  —— 对齐论文常见配色习惯（非硬科学，示意用）
+# type -> (display abbreviation, fill color)  -- aligned with common paper color conventions (not hard science, illustrative)
 LAYER_TYPES = {
     "input":    ("input",    "blue!30"),
     "conv":     ("conv",     "red!40!white"),
@@ -40,9 +40,10 @@ LAYER_TYPES = {
 
 
 def _parse_layers(spec: str) -> list:
-    """把 `--layers` 解析为 [(width, type)]；无 :type 后缀默认 'fc'。
+    """Parse `--layers` into [(width, type)]; a missing :type suffix defaults to 'fc'.
 
-    兼容纯数字旧用法（"784,512,10"）与类型用法（"784:input,64:conv"）。
+    Compatible with the legacy bare-number form ("784,512,10") and the typed form
+    ("784:input,64:conv").
     """
     out = []
     for tok in spec.split(","):
@@ -66,8 +67,9 @@ def _parse_layers(spec: str) -> list:
 def _estimate_params(layers: list) -> str:
     """Rough parameter count estimate.
 
-    纯全连接按相邻层乘积+偏置；Conv/Attn 等非线性层按 0 估算（其参数量依赖核尺寸/头数，
-    本工具不建模），并在 note 里如实标注为近似。
+    Pure fully-connected layers are estimated by adjacent-layer product + bias; nonlinear layers
+    such as Conv/Attn are estimated as 0 (their parameter count depends on kernel size / number
+    of heads, which this tool does not model), and the note honestly flags this as approximate.
     """
     total = 0
     for i in range(len(layers) - 1):
@@ -84,7 +86,7 @@ def draw_nn(spec: str, label: str = "Model", activation: str = "relu",
             output: str = None, style: str = "auto") -> dict:
     """Generate TikZ neural network diagram.
 
-    style: auto(有类型→typed-blocks，否则 per-neuron) / per-neuron / typed-blocks
+    style: auto (typed-blocks when types are present, otherwise per-neuron) / per-neuron / typed-blocks
     """
     out = Path(output or "/tmp/nn_model.tex")
     layers = _parse_layers(spec)
@@ -113,7 +115,7 @@ def draw_nn(spec: str, label: str = "Model", activation: str = "relu",
 
 
 def _render_per_neuron(layers: list, label: str) -> str:
-    """逐神经元画点（保留 v1 语义；层宽极大时仍每层最多 10 个可见点）。"""
+    """Draw dots per neuron (keeping v1 semantics; even for very wide layers, at most 10 dots are visible per layer)."""
     n_layers = len(layers)
     layer_widths = [max(0.5, 4.0 / max(n_layers, 2)) for _ in layers]
     arrowstyle = "-{>}"
@@ -154,7 +156,7 @@ def _render_per_neuron(layers: list, label: str) -> str:
 
 
 def _render_typed_blocks(layers: list, label: str, activation: str) -> str:
-    """按层类型画彩色 nnblock（PlotNeuralNet 风格），比逐点更贴近真实架构。"""
+    """Draw colored nnblocks by layer type (PlotNeuralNet style), closer to a real architecture than per-dot."""
     n = len(layers)
     block_w = 1.2
     gap = 1.0
@@ -194,7 +196,7 @@ def main():
     parser.add_argument("--activation", default="relu")
     parser.add_argument("--style", default="auto",
                         choices=["auto", "per-neuron", "typed-blocks"],
-                        help="auto=有类型走 typed-blocks 否则 per-neuron (default)")
+                        help="auto=typed-blocks when types present, else per-neuron (default)")
     parser.add_argument("--output", help="Output .tex file (default /tmp/nn_model.tex)")
     args = parser.parse_args()
     result = draw_nn(args.layers, args.label, args.activation, args.output, args.style)

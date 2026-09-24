@@ -1,6 +1,6 @@
 # SLA Management Guide
 
-## 目录
+## Table of Contents
 
 - [1. Definitions & Relationships](#1-definitions-relationships)
   - [Service Level Indicator (SLI)](#service-level-indicator-sli)

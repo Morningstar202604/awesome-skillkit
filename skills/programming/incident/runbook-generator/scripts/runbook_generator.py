@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Runbook Generator — 从服务名生成运维 Runbook 骨架。
+"""Runbook Generator — generate an ops runbook skeleton from a service name.
 
-用法:
+Usage:
   python3 runbook_generator.py payments-api
   python3 runbook_generator.py payments-api --owner platform --output docs/runbooks/payments-api.md
 """
@@ -12,7 +12,7 @@ from pathlib import Path
 
 
 def generate_runbook(service_name: str, owner: str = "TBD", output: str = None) -> str:
-    """生成 runbook markdown 内容。"""
+    """Generate runbook markdown content."""
     now = datetime.now().strftime("%Y-%m-%d")
     
     runbook = f"""# Runbook: {service_name}

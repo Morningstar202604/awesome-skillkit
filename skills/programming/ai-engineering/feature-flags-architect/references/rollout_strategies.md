@@ -1,6 +1,6 @@
 # Rollout strategies
 
-## 目录
+## Table of Contents
 
 - [The 4 strategies](#the-4-strategies)
   - [1. Ring (canary) — risky launches](#1-ring-canary-risky-launches)

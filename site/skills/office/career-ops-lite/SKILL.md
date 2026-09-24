@@ -59,9 +59,10 @@ application**.
 # 1. Dry run: scoring + per-requirement A-F
 python3 scripts/job_scorer.py --jd ./jd.txt --resume ./me.txt
 
-# 2. Override weights (weight match higher)
+# 2. Override weights (weight match higher). Copy the bundled example, then edit.
+cp config/weights.example.json ./weights.json
 python3 scripts/job_scorer.py --jd ./jd.txt --resume ./me.txt \
-  --weights ./config/weights.json
+  --weights ./weights.json
 
 # 3. Write JSON report (feed to tracker / Notion / human review)
 python3 scripts/job_scorer.py --jd ./jd.txt --resume ./me.txt \

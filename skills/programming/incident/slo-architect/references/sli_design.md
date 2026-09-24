@@ -1,6 +1,6 @@
 # SLI design
 
-## 目录
+## Table of Contents
 
 - [The user-experience test](#the-user-experience-test)
 - [The 5 SLI types](#the-5-sli-types)

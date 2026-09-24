@@ -1,6 +1,6 @@
 # Emergency Procedures Reference
 
-## 目录
+## Table of Contents
 
 - [Secret Leak Response Playbook](#secret-leak-response-playbook)
   - [Severity Classification](#severity-classification)

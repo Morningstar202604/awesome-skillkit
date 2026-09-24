@@ -1,6 +1,6 @@
 # Technology Decision Guide
 
-## 目录
+## Table of Contents
 
 - [Decision Frameworks Index](#decision-frameworks-index)
 - [1. Database Selection](#1-database-selection)

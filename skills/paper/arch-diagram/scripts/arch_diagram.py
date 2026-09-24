@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
-"""Architecture Diagram Generator — 论文用架构图/框架图（TikZ + 可编辑 SVG）。
+"""Architecture Diagram Generator — paper architecture/framework diagrams (TikZ + editable SVG).
 
-修复 v1 的三个硬伤：
-  1. TikZ 里写了 `\\sffootnotesize`——**不是合法 LaTeX 命令**，编译必报 Undefined control sequence；
-     改为 `\\footnotesize`。
-  2. SVG 用了 `marker-end="url(#arrow)"` 却**从未定义 #arrow**——箭头在浏览器/Inkscape 里不显示；
-     现在会输出 `<defs><marker id="arrow">`。
-  3. 所有块排成一条直线——新增布局 `row` / `wrap`（`--per-row`）/ `stack`。
-另：块标签自动转义 LaTeX 特殊字符（& % # _ $ { } ~ ^ \\）；配色为色盲安全调色板。
+Fixes three v1 defects:
+  1. The TikZ used `\\sffootnotesize` -- **not a valid LaTeX command**; compilation would always
+     fail with Undefined control sequence. Changed to `\\footnotesize`.
+  2. The SVG used `marker-end="url(#arrow)"` but **never defined #arrow** -- arrows did not show
+     in browsers/Inkscape; it now emits `<defs><marker id="arrow">`.
+  3. All blocks were laid out in a single line -- added layouts `row` / `wrap` (`--per-row`) / `stack`.
+Also: block labels auto-escape LaTeX special chars (& % # _ $ { } ~ ^ \\); colors use a colorblind-safe palette.
 
-用法:
+Usage:
   python3 arch_diagram.py --type pipeline --blocks "Encoder,Decoder,Head" --output arch.tex
   python3 arch_diagram.py --type pipeline --blocks "A,B,C,D,E" --layout wrap --per-row 3 --format svg
 """
@@ -19,7 +19,7 @@ import math
 import sys
 from pathlib import Path
 
-# 色盲安全调色板（与 pub-plotter 同源）
+# colorblind-safe palette (same source as pub-plotter)
 PALETTE = {
     "blue": ("#0072B2", "blue!15"), "orange": ("#E69F00", "orange!20"),
     "green": ("#009E73", "green!15"), "red": ("#D55E00", "red!15"),
@@ -32,7 +32,7 @@ LATEX_SPECIAL = {"&": r"\&", "%": r"\%", "#": r"\#", "_": r"\_", "$": r"\$",
 
 
 def escape_latex(s: str) -> str:
-    """转义标签里的 LaTeX 特殊字符（顺序敏感：先处理反斜杠）。"""
+    """Escape LaTeX special chars in a label (order-sensitive: handle the backslash first)."""
     out = s.replace("\\", "\x00")
     for ch, rep in LATEX_SPECIAL.items():
         if ch == "\\":
@@ -47,7 +47,7 @@ def escape_xml(s: str) -> str:
 
 
 def parse_blocks(spec: str) -> list:
-    """`A,B,C` 或 `A#red,B#blue`（# 后接调色板名）。返回 [(label, color), ...]。"""
+    """`A,B,C` or `A#red,B#blue` (# followed by a palette name). Returns [(label, color), ...]."""
     blocks = []
     for raw in spec.split(","):
         raw = raw.strip()
@@ -65,7 +65,7 @@ def parse_blocks(spec: str) -> list:
 
 
 def _positions(n: int, layout: str, per_row: int) -> list:
-    """返回每块的 (row, col)，用于 row / wrap / stack 布局。"""
+    """Return the (row, col) of each block, for row / wrap / stack layouts."""
     if layout == "stack":
         return [(i, 0) for i in range(n)]
     if layout == "wrap":
@@ -74,7 +74,7 @@ def _positions(n: int, layout: str, per_row: int) -> list:
 
 
 def _auto_colors(blocks: list) -> list:
-    """未显式指定颜色时按顺序取调色板（保证相邻不同色）。"""
+    """When no color is explicitly given, take palette colors in order (guarantees adjacent blocks differ)."""
     keys = list(PALETTE)
     return [b[1] or keys[i % len(keys)] for i, b in enumerate(blocks)]
 
@@ -104,9 +104,9 @@ def generate_tikz_pipeline(blocks: list, output: str = None, layout: str = "row"
             f"at ({x:.2f},{y:.2f}) {{{escape_latex(label)}}};")
     for i in range(n - 1):
         (r1, c1), (r2, c2) = pos[i], pos[i + 1]
-        if r1 == r2:  # 同行 → 水平箭头
+        if r1 == r2:  # same row -> horizontal arrow
             parts.append(f"\\draw[archarrow] (b{i}.east) -- (b{i+1}.west);")
-        else:         # 换行 → 先到下再折向
+        else:         # new row -> drop down first, then turn
             parts.append(f"\\draw[archarrow] (b{i}.south) |- (b{i+1}.west);")
     parts.append("\\end{tikzpicture}")
     tikz = "\n".join(parts) + "\n"
@@ -178,7 +178,8 @@ def generate_svg_pipeline(blocks: list, output: str = None, layout: str = "row",
 
 
 def generate_neural_net(layers: list, output: str = None) -> dict:
-    """简化层叠图。**神经元级网络结构图请优先用 neural-net-draw**（本函数只画示意点阵）。"""
+    """Simplified stacked diagram. **For neuron-level network structure diagrams, prefer neural-net-draw**
+    (this function only draws an illustrative dot matrix)."""
     out = Path(output or "/tmp/nn_diagram.tex")
     info = []
     for layer in layers:

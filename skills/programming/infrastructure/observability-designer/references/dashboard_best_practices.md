@@ -1,6 +1,6 @@
 # Dashboard Best Practices: Design for Insight and Action
 
-## 目录
+## Table of Contents
 
 - [Introduction](#introduction)
 - [Design Principles](#design-principles)

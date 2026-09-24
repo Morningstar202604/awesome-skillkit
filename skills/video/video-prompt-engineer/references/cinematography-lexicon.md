@@ -4,7 +4,7 @@
 > **铁律**：一个镜头槽位只放一个运镜动词；动作动词要带方向和身体部位；模糊词（moves / acts / performs）一律替换为具体动词。
 > 快速版见 [camera-vocabulary.md](camera-vocabulary.md)，本表是深度版。
 
-## 目录
+## Table of Contents
 
 - [一、转场词库](#一转场词库15-种衔接两镜)——15+ 种，衔接两镜
 - [二、动作动词表](#二动作动词表按空间语义选词避免模糊动词)——按空间语义选词，避免模糊动词
@@ -18,7 +18,7 @@
 
 ## 一、转场词库（15+ 种，衔接两镜）
 
-| 英文 | 中文 | 效果与情绪 | 何时用 | prompt 示例片段 |
+| English | Chinese | Effect & emotion | When to use | prompt 示例片段 |
 |------|------|-----------|--------|----------------|
 | hard cut | 硬切 | 干脆、无加工感 | 默认衔接；同场景节奏推进 | `hard cut to the kitchen scene` |
 | smash cut | 猛切 | 巨大反差冲击（响→静、亮→暗） | 惊吓点、反转、节奏爆点 | `smash cut from the loud concert to silent empty street` |
@@ -78,7 +78,7 @@
 
 ## 四、速度与节奏词（motion 槽位）
 
-| 英文 | 中文 | 效果 | 何时用 |
+| English | Chinese | Effect | When to use |
 |------|------|------|--------|
 | `dynamic motion` | 强动感 | 全画面明显运动 | 广告、开场 |
 | `slow motion` | 慢动作 | 情绪放大、细节凝视 | 高光时刻 |

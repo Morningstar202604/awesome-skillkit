@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
-"""Video Script Writer — 生成视频脚本（LLM 台词 + 模板骨架，诚实双轨）。
+"""Video Script Writer -- generate a video script (LLM dialogue + template skeleton, honest dual-track).
 
-输入: 概念 + 视频类型 + 时长 + 角色
-输出: 结构化脚本 JSON (scenes, dialogue, timing, caption)
+Input: concept + video type + duration + character
+Output: structured script JSON (scenes, dialogue, timing, caption)
 
-用法:
-  python3 script_writer.py --concept "宝宝测评手机" --type talking_character --duration 30
+Usage:
+  python3 script_writer.py --concept "toddler reviews a phone" --type talking_character --duration 30
   python3 script_writer.py --json-input '{"concept":"...","video_type":"meme","duration_seconds":15}'
 
-台词双轨（诚实标注 source）:
-  - env 设了 SKILLKIT_LLM_URL + SKILLKIT_LLM_KEY（可选 SKILLKIT_LLM_MODEL）→ 调
-    OpenAI 兼容网关让真模型写台词，每场戏 dialogue_source="llm"；
-  - env 未设、--no-llm、或网关调用失败 → 模板占位台词，dialogue_source="template"，
-    绝不把占位文本冒充成品（占位句式自描述为待补写）。
+Dual-track dialogue (honestly tagged with source):
+  - If env has SKILLKIT_LLM_URL + SKILLKIT_LLM_KEY (optional SKILLKIT_LLM_MODEL) set, call an
+    OpenAI-compatible gateway to let a real model write the dialogue; each scene gets
+    dialogue_source="llm".
+  - If env is unset, --no-llm is given, or the gateway call fails, use template placeholder
+    dialogue with dialogue_source="template"; placeholder text is never passed off as a
+    finished piece (placeholder phrasing self-describes as to-be-written).
 """
 import argparse
 import json
@@ -85,10 +87,12 @@ def llm_configured() -> bool:
 
 
 def llm_chat(messages: list, timeout: int = 60) -> str:
-    """OpenAI 兼容 /chat/completions。仅在 llm_configured() 时调用；失败抛异常由调用方兜底。
+    """OpenAI-compatible /chat/completions. Only called when llm_configured(); on failure it
+    raises and the caller falls back.
 
-    SSL 校验放宽为「不验证书」：面向个人网关（自签/证书链不全很常见），密钥走
-    Authorization 头，风险与收益权衡后选择可用性。
+    SSL verification is relaxed to "do not verify the certificate": targeting personal gateways
+    (self-signed / incomplete chains are common), the key goes via the Authorization header;
+    after weighing risk vs. benefit, availability wins.
     """
     url = os.environ[LLM_ENV_URL].rstrip("/") + "/chat/completions"
     body = json.dumps({
@@ -109,7 +113,7 @@ def llm_chat(messages: list, timeout: int = 60) -> str:
 
 
 def _parse_json_loose(text: str):
-    """从 LLM 回复里抠 JSON（容忍 ```json 围栏与前后废话）。"""
+    """Extract JSON from the LLM reply (tolerates ```json fences and surrounding filler)."""
     text = text.strip()
     m = re.search(r"```(?:json)?\s*(\[.*?\]|{.*?})\s*```", text, re.S)
     if m:
@@ -122,21 +126,21 @@ def _parse_json_loose(text: str):
 
 def llm_dialogues(concept: str, scenes_base: list, tone: str, language: str,
                   character: dict, max_words: int, duration: int, platform: str) -> dict:
-    """让真模型按场景骨架写台词。返回 {role: dialogue}；失败抛异常。"""
-    name = (character or {}).get("name", "主持人")
+    """Have the real model write dialogue for the scene skeleton. Returns {role: dialogue}; raises on failure."""
+    name = (character or {}).get("name", "Host")
     persona = (character or {}).get("persona", "")
-    lang_name = "中文" if language == "zh" else "English"
+    lang_name = "Chinese" if language == "zh" else "English"
     skeleton = [{"role": b["role"], "hint": b["dialogue_hint"],
                  "seconds": max(1, int(duration * b["ratio"]))}
                 for b in scenes_base]
     sys_prompt = (
-        f"你是短视频编导。用{lang_name}为视频写台词，{tone} 风格。"
-        f"每场台词口语化、可直接配音，严格不超过 {max_words} 个词/字。"
-        '只输出 JSON，不要解释：{"lines": [{"role": "...", "dialogue": "..."}]}')
+        f"You are a short-video director. Write the video dialogue in {lang_name}, in a {tone} style. "
+        f"Each line must be colloquial, ready to voice, and strictly no more than {max_words} words. "
+        'Output JSON only, no explanation: {"lines": [{"role": "...", "dialogue": "..."}]}')
     user_prompt = json.dumps({
         "concept": concept, "platform": platform, "character": name,
         "persona": persona, "scenes": skeleton,
-        "rule": "每场台词信息量要具体（有数字/有对比/有动作指令），禁止空话"},
+        "rule": "Each line must carry concrete information (numbers / contrasts / action cues); no empty talk."},
         ensure_ascii=False)
     raw = llm_chat([{"role": "system", "content": sys_prompt},
                     {"role": "user", "content": user_prompt}])
@@ -155,25 +159,25 @@ def generate_script(concept: str, video_type: str = "talking_character",
                     duration: int = 30, platform: str = "douyin",
                     character: dict = None, language: str = "zh",
                     tone: str = "funny", use_llm: bool = None) -> dict:
-    """生成结构化脚本。use_llm=None 时自动探测 env；LLM 失败自动落回模板并如实标注。"""
+    """Generate a structured script. When use_llm=None, auto-detect env; on LLM failure, fall back to templates and tag honestly."""
     platform = platform if platform in PLATFORM_RULES else "douyin"
     rules = PLATFORM_RULES[platform]
     template = TEMPLATES.get(video_type, TEMPLATES["short"])
 
-    # 时长三段处理：平台截断 → 场景数下限抬升（每场至少 1s）→ 两条都写进 duration_note，
-    # 不静默改变用户给的目标时长。
+    # Three-part duration handling: platform truncation -> raise the scene-count floor (>=1s each)
+    # -> write both into duration_note, without silently changing the requested duration.
     duration_notes = []
     requested_duration = duration
     if duration > rules["max_duration"]:
         duration_notes.append(
-            f"目标时长 {requested_duration}s 超出 {platform} 上限 "
-            f"{rules['max_duration']}s，已截断为 {rules['max_duration']}s")
+            f"Requested duration {requested_duration}s exceeds the {platform} limit "
+            f"{rules['max_duration']}s; truncated to {rules['max_duration']}s")
         duration = rules["max_duration"]
     n_scenes = len(template["scenes_base"])
     if duration < n_scenes:
         duration_notes.append(
-            f"目标时长 {requested_duration}s 小于场景数 {n_scenes}，"
-            f"已抬升至 {n_scenes}s（每场至少 1 秒）")
+            f"Requested duration {requested_duration}s is below the scene count {n_scenes}; "
+            f"raised to {n_scenes}s (>=1 second per scene)")
         duration = n_scenes
     llm_lines, llm_note = {}, None
     if use_llm is None:
@@ -183,17 +187,17 @@ def generate_script(concept: str, video_type: str = "talking_character",
             llm_lines = llm_dialogues(concept, template["scenes_base"], tone, language,
                                       character, template["max_dialogue_words"],
                                       duration, platform)
-        except Exception as e:  # 网关失败/超时/坏 JSON → 诚实落回模板
-            llm_note = f"LLM 不可用（{type(e).__name__}: {str(e)[:80]}），台词落回模板占位"
+        except Exception as e:  # gateway failure/timeout/bad JSON -> honestly fall back to template
+            llm_note = f"LLM unavailable ({type(e).__name__}: {str(e)[:80]}); dialogue falls back to template placeholders"
             sys.stderr.write(f"[script_writer] {llm_note}\n")
 
     scenes = []
     remaining = duration
     for i, base in enumerate(template["scenes_base"]):
         if i == n_scenes - 1:
-            dur = remaining                      # 收尾场吃余量（≥1s，由上面的抬升保证）
+            dur = remaining                      # the closing scene absorbs the remainder (>=1s, guaranteed by the raise above)
         else:
-            reserve = n_scenes - 1 - i           # 后续每场至少保留 1 秒，避免 0 秒场景
+            reserve = n_scenes - 1 - i           # keep at least 1 second for each later scene to avoid 0-second scenes
             dur = max(1, min(int(duration * base["ratio"]), remaining - reserve))
             remaining -= dur
 
@@ -244,7 +248,7 @@ def generate_script(concept: str, video_type: str = "talking_character",
 
 
 def _template_dialogue(concept, role, language, character):
-    """模板占位台词（离线兜底）。自描述为待补写，绝不冒充成品。"""
+    """Template placeholder dialogue (offline fallback). Self-describes as to-be-written; never passed off as finished."""
     name = (character or {}).get("name", "Character")
     hints = {
         "hook": f"[{name}] Attention grabber about: {concept}",
@@ -299,8 +303,8 @@ def _generate_title(concept, video_type, language):
 
 def _generate_caption(title, platform, language):
     tags = {
-        "douyin": f"#视频 #内容 #{title[:10]}",
-        "bilibili": f"【{title}】 #视频",
+        "douyin": f"#video #content #{title[:10]}",
+        "bilibili": f"[{title}] #video",
         "tiktok": f"#video #content #{title[:15].lower().replace(' ', '')}",
     }
     return tags.get(platform, f"#{title}")
@@ -317,7 +321,7 @@ def main():
     parser.add_argument("--character", help="Character JSON string")
     parser.add_argument("--json-input", help="Full JSON input (overrides individual args)")
     parser.add_argument("--no-llm", action="store_true",
-                        help="强制走模板台词（即使 env 配了 LLM 网关）")
+                        help="force template dialogue even if an LLM gateway is configured in env")
     parser.add_argument("--output", help="Write to file instead of stdout")
     args = parser.parse_args()
 
@@ -341,12 +345,12 @@ def main():
             language = args.language
             tone = args.tone
     except json.JSONDecodeError as e:
-        print(json.dumps({"status": "error", "error": f"输入 JSON 不合法: {e}"},
+        print(json.dumps({"status": "error", "error": f"Invalid input JSON: {e}"},
                          ensure_ascii=False))
         return 2
 
     if not concept:
-        print(json.dumps({"status": "error", "error": "缺少 concept（--concept 或 --json-input）"},
+        print(json.dumps({"status": "error", "error": "Missing concept (--concept or --json-input)"},
                          ensure_ascii=False))
         return 2
 

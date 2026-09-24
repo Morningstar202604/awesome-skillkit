@@ -1,8 +1,8 @@
-# 来源与方法论 / Sources and Methodology
+# Sources and Methodology
 
-本技能为 self-authored，方法论骨架提炼自以下公开材料（结构借鉴，无文本复制）：
+This skill is self-authored; its methodology skeleton is distilled from the following public materials (structural borrowing only, no text copied):
 
-| 来源 | 类型 | 借鉴内容 | 许可/署名 |
+| Source | Type | What was borrowed | License/attribution |
 |------|------|----------|-----------|
 | AIDA / PAS / FAB 直复营销框架（行业公版方法论） | 公版 | 框架选型表：受众决策阶段 ↔ 框架匹配 | 经典框架，无需授权 |
 | [reef-copywriting](https://fast.io/resources/best-openclaw-skills-ai-product-description-ecommerce-copywriting)（OpenClaw 生态实测） | 🟡 第三方 | benefit-first 标题纪律；PAS 的"问题-激化-解决"用于痛点未觉醒受众；多内容类型（详情页/口播/海报）一套方法论 | 结构借鉴并署名 |
@@ -10,7 +10,7 @@
 | [commerce-copywriting（modu-ai）](https://skills.rest/skill/commerce-copywriting) | 开源技能 | 渠道特定变体 + A/B 测试变体自动生成 + 上线前 AI 审查的流水线分工 | MIT 生态，结构借鉴并署名 |
 | 中国广告法极限词纪律 | 法规 | "最/第一/国家级"禁用与可比较表述改写 | 合规要求，非借鉴 |
 
-## 设计决策
+## Design decisions
 
 1. **框架先行**：三框架选型表按"受众决策阶段"分流，比开源技能的"多框架并列"
    更可执行——先回答"受众卡在哪"再选枪。

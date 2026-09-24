@@ -1,6 +1,6 @@
 # Acceptance Criteria Patterns
 
-## 目录
+## Table of Contents
 
 - [Pattern Structure](#pattern-structure)
 - [Authentication Patterns](#authentication-patterns)

@@ -3,7 +3,7 @@
 本文件是 `scripts/lint_skill.py` 的行为说明书：SKILL.md 里只给了判定规则表，
 这里给**实现细节、边界用例与误报排查**。对某条结论有疑问、或要把规则移植到别处时读。
 
-## 目录
+## Table of Contents
 
 - [检查执行顺序](#检查执行顺序)
 - [逐项边界用例](#逐项边界用例)
@@ -28,7 +28,7 @@ FM-FIELDS → NAME-SYNC → DESC-ROUTE → BODY-SECTS → BODY-LINES
 
 ### FM-FIELDS
 
-| 输入形态 | 判定 |
+| Input form | Judgment |
 |---|---|
 | 首行是 `---` 但无闭合 `---` | FAIL（`split_frontmatter` 返回 None） |
 | 首行是空行再 `---` | FAIL（要求行 1 恰好是 `---`） |
@@ -41,7 +41,7 @@ FM-FIELDS → NAME-SYNC → DESC-ROUTE → BODY-SECTS → BODY-LINES
 
 ### NAME-SYNC
 
-| 输入形态 | 判定 |
+| Input form | Judgment |
 |---|---|
 | `name: Skill-Linter` | FAIL：含大写 |
 | `name: skill--linter` | FAIL：连续连字符 |

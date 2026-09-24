@@ -64,8 +64,18 @@ python3 scripts/reconcile.py --statement assets/sample-statement.csv --billing a
   --amount-col amount --date-col date --party-col counterparty \
   --write -o ./reconcile.json
 
-# 3. Export unmatched lists to CSV for human review
-python3 -c "import json;r=json.load(open('reconcile.json'));"
+# 3. Export the two unmatched lists to CSV for human review
+python3 -c "
+import json, csv
+r = json.load(open('reconcile.json'))
+for key, out in [('unmatched_statement','only_in_statement.csv'),
+                 ('unmatched_billing','only_in_billing.csv')]:
+    rows = [item['row'] for item in r.get(key, [])]
+    with open(out, 'w', newline='') as f:
+        w = csv.DictWriter(f, fieldnames=list(rows[0].keys()) if rows else ['row'])
+        w.writeheader(); w.writerows(rows)
+    print(out, '->', len(rows), 'rows')
+"
 ```
 
 Match rate < 90% is normal (means quite a few missed/differences); review

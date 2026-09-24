@@ -1,6 +1,6 @@
 # Shot Recipes — 12 张完整配方卡
 
-## 目录
+## Table of Contents
 
 1. [establishing-wide 开场定调](#1-establishing-wide-开场定调)
 2. [hook-pop-in 钩子镜头](#2-hook-pop-in-钩子镜头)

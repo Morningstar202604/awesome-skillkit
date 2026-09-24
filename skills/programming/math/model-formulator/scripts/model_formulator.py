@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Model Formulator — 把问题转化为数学模型规格。
+"""Model Formulator — turn a problem into a mathematical model specification.
 
-用法:
+Usage:
   python3 model_formulator.py --problem "..." --domain optimization
   python3 model_formulator.py --json '{"problem":"...","domain":"stochastic"}'
 """

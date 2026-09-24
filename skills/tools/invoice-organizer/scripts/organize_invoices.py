@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
 """
-organize_invoices.py — 把一堆发票/收据文件按 月份/类别 归档，
-并生成台账 CSV（文件名, 月份, 类别, 来源）。
+organize_invoices.py -- archive a pile of invoice/receipt files by month/category and
+emit a ledger CSV (filename, month, category, source).
 
-设计红线：
-- 默认 dry-run：只打印"会怎么分"，不动任何文件
-- --apply 才真移动（用 shutil.move；源目录清空，目标目录保留原结构）
-- 不删任何文件（可手动回滚）
-- 凭证 / 网络无关（纯本地文件系统 + CSV）
+Design guardrails:
+- dry-run by default: only print "how it would be split", touch no files
+- --apply actually moves (via shutil.move; source files moved out, destination keeps the layout)
+- never deletes any file (can be rolled back manually)
+- no credentials / no network (pure local filesystem + CSV)
 
-类别识别：
-- 默认从文件名推断：含 "餐饮/餐"/"coffee"→餐饮；含 "打车/出租/taxi"→交通；
-  含 "酒店/住宿/hotel"→住宿；含 "办公/文具/耗材"→办公；含 "话费/流量/网"→通讯；
-  含 "报销" 或 "发票"→发票；否则"未分类"
-- 也可传 --map-json 走自定义映射（正则→类别）
+Category detection:
+- inferred from the filename by default: "coffee"/"meal" -> food; "taxi"/"ride" -> transport;
+  "hotel"/"lodging" -> lodging; "office"/"stationery" -> office; "telecom"/"internet" -> telecom;
+  "invoice"/"receipt" -> invoice; otherwise "uncategorized"
+- you may also pass --map-json for a custom mapping (regex -> category)
 """
 import argparse
 import csv
@@ -26,12 +26,12 @@ from collections import OrderedDict
 from datetime import datetime
 
 DEFAULT_RULES = [
-    (re.compile(r"(餐饮|餐费|coffee|咖啡|food)", re.I), "餐饮"),
-    (re.compile(r"(打车|出租|taxi|滴滴|uber)", re.I), "交通"),
-    (re.compile(r"(酒店|住宿|hotel)", re.I), "住宿"),
-    (re.compile(r"(办公|文具|耗材|打印|paper)", re.I), "办公"),
-    (re.compile(r"(话费|流量|网络|宽带|网费)", re.I), "通讯"),
-    (re.compile(r"(报销|发票|invoice|receipt|ticket)", re.I), "发票"),
+    (re.compile(r"(coffee|food|meal|restaurant)", re.I), "food"),
+    (re.compile(r"(taxi|uber|ride|cab)", re.I), "transport"),
+    (re.compile(r"(hotel|lodging|lodge)", re.I), "lodging"),
+    (re.compile(r"(office|stationery|paper|supply)", re.I), "office"),
+    (re.compile(r"(telecom|internet|broadband|mobile|phone)", re.I), "telecom"),
+    (re.compile(r"(invoice|receipt|ticket|expense|claim)", re.I), "invoice"),
 ]
 
 
@@ -39,11 +39,11 @@ def categorize(filename: str, rules) -> str:
     for pat, label in rules:
         if pat.search(filename):
             return label
-    return "未分类"
+    return "uncategorized"
 
 
 def guess_month(filename: str, fallback_year: int) -> str:
-    """从文件名找 YYYY-MM / YYYYMM / YYYY.MM；找不到用当前月。"""
+    """Find YYYY-MM / YYYYMM / YYYY.MM in the filename; fall back to the current month."""
     m = re.search(r"(20\d{2})[-.\s]?(\d{1,2})?", filename)
     if m:
         y = m.group(1)

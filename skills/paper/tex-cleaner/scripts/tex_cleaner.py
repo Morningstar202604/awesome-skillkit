@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
-"""TeX Cleaner — arXiv 提交前 LaTeX 清理。
+"""TeX Cleaner -- LaTeX cleanup before an arXiv submission.
 
-对标 google-research/arxiv-latex-cleaner (7k stars) 的真实语义：
-  - **注释剥离**：识别未转义的 `%`（`\\%` 不算）并跳过 verbatim/lstlisting/minted 环境；
-    行首注释整行删、行尾注释只截断。旧版只认「行首 %」，漏掉大量行尾注释。
-  - **未用宏包**：按「命令 → 宏包」映射判定（graphicx/amsmath/booktabs/xcolor/… 的命令是否出现），
-    而非旧版硬编码 3 条 if。
-  - **资源清单**：列出 \\input/\\include/\\bibliography/\\includegraphics/自定义 .sty，
-    并在给了基准目录时核对文件是否真实存在（提交包最容易漏的就是这些）。
+Matching the real semantics of google-research/arxiv-latex-cleaner (7k stars):
+  - **Comment stripping**: recognize unescaped `%` (`\\%` does not count) and skip
+    verbatim/lstlisting/minted environments; remove a leading comment line in full and only
+    truncate trailing comments. The old version only recognized a "leading %" and missed many
+    trailing comments.
+  - **Unused packages**: decided via a "command -> package" map (whether commands from
+    graphicx/amsmath/booktabs/xcolor/... appear), rather than the old hard-coded 3 ifs.
+  - **Asset manifest**: list \\input/\\include/\\bibliography/\\includegraphics/custom .sty, and
+    when a base dir is given, verify the files actually exist (these are the easiest things to
+    leave out of a submission package).
 
-用法:
+Usage:
   python3 tex_cleaner.py --input draft.tex
   python3 tex_cleaner.py --input draft.tex --clean --output draft_clean.tex
 """
@@ -19,10 +22,10 @@ import re
 import sys
 from pathlib import Path
 
-# 会被整体跳过的环境（其内部 % 不是注释）
+# environments skipped wholesale (their internal % is not a comment)
 VERBATIM_ENVS = ("verbatim", "Verbatim", "lstlisting", "lstlisting*", "minted", "comment")
 
-# 命令 → 宏包映射（判定「装了但没用」的依据）
+# command -> package map (the basis for deciding "installed but unused")
 PACKAGE_COMMANDS = {
     "graphicx": ["includegraphics", "rotatebox", "resizebox", "scalebox"],
     "amsmath": ["align", "aligned", "gather", "split", "operatorname", "text", "frac", "mathbb"],
@@ -46,7 +49,7 @@ PACKAGE_COMMANDS = {
     "threeparttable": ["tnote", "tablenotes"],
 }
 
-# 这些宏包即使「命令未出现」也不算未用（隐式生效 / 纯配置）
+# these packages count as "used" even when no command appears (implicit effect / pure config)
 NEVER_UNUSED = {
     "inputenc", "fontenc", "babel", "ctex", "xeCJK", "lmodern", "microtype",
     "times", "mathptmx", "geometry", "fancyhdr", "titlesec", "setspace",
@@ -55,7 +58,7 @@ NEVER_UNUSED = {
 
 
 def strip_comments(tex: str) -> tuple:
-    """返回 (去注释文本, 统计)。verbatim 与转义 \\% 安全。"""
+    """Return (de-commented text, stats). Safe for verbatim and escaped \\%."""
     out_lines, removed, verbatim_only = [], 0, 0
     in_verb = None
     for line in tex.split("\n"):
@@ -69,7 +72,7 @@ def strip_comments(tex: str) -> tuple:
             if re.match(r"\s*\\end\{" + re.escape(in_verb) + r"\}", line):
                 in_verb = None
             continue
-        # 找第一个「未被反斜杠转义」的 %
+        # find the first % that is not escaped by a backslash
         cut = None
         for i, ch in enumerate(line):
             if ch != "%":
@@ -79,7 +82,7 @@ def strip_comments(tex: str) -> tuple:
             while j >= 0 and line[j] == "\\":
                 bs += 1
                 j -= 1
-            if bs % 2 == 0:  # 偶数个反斜杠 → 真注释
+            if bs % 2 == 0:  # even number of backslashes -> a real comment
                 cut = i
                 break
         if cut is None:
@@ -90,7 +93,7 @@ def strip_comments(tex: str) -> tuple:
             if head:
                 out_lines.append(head)
             else:
-                verbatim_only += 1  # 整行都是注释 → 该行删除
+                verbatim_only += 1  # the whole line is a comment -> remove the line
     return "\n".join(out_lines), {
         "removed_comments": removed,
         "full_line_comments_removed": verbatim_only,
@@ -98,7 +101,7 @@ def strip_comments(tex: str) -> tuple:
 
 
 def find_unused_packages(tex: str) -> list:
-    """按「命令 → 宏包」映射找装了但没用到的宏包。"""
+    """Find packages that are installed but never used, via the "command -> package" map."""
     used_cmds = set(re.findall(r"\\([A-Za-z]+)", tex))
     unused = []
     for m in re.finditer(r"\\usepackage(?:\[[^\]]*\])?\{([^}]+)\}", tex):
@@ -113,7 +116,7 @@ def find_unused_packages(tex: str) -> list:
 
 
 def collect_assets(tex: str, base_dir: Path = None) -> dict:
-    """列出提交包必须携带的外部资源，并核对存在性。"""
+    """List the external assets the submission package must carry, and verify their existence."""
     groups = {
         "inputs": [f"{f}.tex" if not f.endswith(".tex") else f
                    for f in re.findall(r"\\(?:input|include)\{([^}]+)\}", tex)],
@@ -125,7 +128,8 @@ def collect_assets(tex: str, base_dir: Path = None) -> dict:
                          re.findall(r"\\usepackage(?:\[[^\]]*\])?\{([^}]+)\}", tex)
                          for p in m.split(",") if p.strip() not in NEVER_UNUSED],
     }
-    # 只对「一定能定位」的资源核对存在性（图/bib/input）；.sty 无法在没有 TeX 发行版时判定
+    # only check existence for assets we can definitely locate (figures/bib/input); .sty cannot be
+    # determined without a TeX distribution
     checkable = (groups["inputs"] + groups["bibliography"]
                  + groups["bibliography_add"] + groups["figures"])
     manifest = {"groups": {k: sorted(set(v)) for k, v in groups.items() if v}}
@@ -134,7 +138,7 @@ def collect_assets(tex: str, base_dir: Path = None) -> dict:
             p = base_dir / name
             if p.exists():
                 return True
-            if not p.suffix:  # 无扩展名 → 试常见图格式
+            if not p.suffix:  # no extension -> try common image formats
                 return any((base_dir / f"{name}{e}").exists()
                            for e in (".pdf", ".png", ".jpg", ".jpeg", ".eps"))
             return False
@@ -143,7 +147,7 @@ def collect_assets(tex: str, base_dir: Path = None) -> dict:
 
 
 def clean_latex(tex: str, base_dir: Path = None) -> dict:
-    """静态扫描 + 清理（不改原文件）。"""
+    """Static scan + cleanup (does not modify the original file)."""
     issues = []
     cleaned, cstats = strip_comments(tex)
 

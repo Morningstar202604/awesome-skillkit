@@ -1,11 +1,11 @@
-# 方法论来源与设计取舍（cloud-drive-manager）
+# Methodology sources and design trade-offs（cloud-drive-manager）
 
 > 何时读：当你要接入第四个云盘、调整分片阈值，或质疑"为什么脚本没有上传和删除
 > 命令"时读本文件。本文件只讲设计依据。
 
-## 思想来源（公开方法论蒸馏，非文本搬运）
+## Idea sources (distilled from public methodology; not copied text)
 
-| 本技能的做法 | 蒸馏自的思想 |
+| This skill's approach | Idea distilled from |
 |---|---|
 | 先出上传计划再执行 | Terraform `plan`/`apply` 与 `rsync -n` 的两阶段惯例：先看将发生什么 |
 | 上传前后各跑一次哈希清单 | 备份领域的 verify-after-write 原则（如 `rsync --checksum`、ZFS scrub 的思路）：写完必须读回验证 |
@@ -14,7 +14,7 @@
 | 不提供删除命令 | 最小权限/最小破坏面原则：能力越小，误用面越小；把不可逆操作留在人手里 |
 | 敏感信息只从环境变量取 | 十二要素应用 config 原则；凭证不进代码、不进命令行参数 |
 
-## 关键取舍
+## Key trade-offs
 
 **为什么脚本完全不碰网络？** 上传逻辑与"传什么"的逻辑耦合后，会导致一个
 尴尬处境：想验证清单是否正确，就必须先有真实凭证并真的上传。拆开之后，
@@ -48,7 +48,7 @@ AI 或用户自己写——SKILL.md 步骤 3 把关键约束（分片顺序、�
 哈希能发现"传完了但内容错了"（分片顺序错、编码转换）。只比体积会漏掉内容
 损坏，只比哈希在大目录上代价高。两级检查，先便宜后昂贵。
 
-## 官方文档
+## Official documentation
 
 - 百度网盘开放平台（分片上传、秒传、文件列表）：<https://pan.baidu.com/union/doc/>
 - 百度网盘上传流程与 4MB 分片约定：<https://pan.baidu.com/union/doc/nksg0sbfs>

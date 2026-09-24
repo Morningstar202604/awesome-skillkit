@@ -623,8 +623,10 @@ class UpgradePlanner:
     
     def _generate_upgrade_statistics(self, upgrades: List[DependencyUpgrade]) -> Dict[str, Any]:
         """Generate statistics about available upgrades."""
-        # 空列表也返回完整骨架：下游 _generate_recommendations/_format_* 用硬索引取
-        # by_type/by_risk/risk_assessment，返回 {} 会 KeyError（离线样例项目常见空升级集）。
+        # Even an empty list returns the full skeleton: downstream
+        # _generate_recommendations/_format_* index by hard-coded keys into
+        # by_type/by_risk/risk_assessment; returning {} would KeyError (empty upgrade
+        # sets are common in offline sample projects).
         upgrades = upgrades or []
         if not upgrades:
             average_priority = 0.0

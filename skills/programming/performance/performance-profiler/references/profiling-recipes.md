@@ -1,6 +1,6 @@
 # performance-profiler reference
 
-## 目录
+## Table of Contents
 
 - [Node.js Profiling](#nodejs-profiling)
   - [CPU Flamegraph](#cpu-flamegraph)

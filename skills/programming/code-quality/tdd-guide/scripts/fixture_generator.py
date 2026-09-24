@@ -91,7 +91,7 @@ class FixtureGenerator:
         # Add special characters
         if max_len >= 10:
             boundaries.append("test@#$%^&*()")  # Special characters
-            boundaries.append("unicode: 你好")  # Unicode
+            boundaries.append("unicode: hello")  # Unicode
 
         return [b for b in boundaries if b is not None]
 
@@ -197,7 +197,7 @@ class FixtureGenerator:
             },
             {
                 'name': 'unicode_credentials',
-                'input': {'username': '用户', 'password': 'пароль'},
+                'input': {'username': 'user', 'password': 'пароль'},
                 'expected': 'should_handle_unicode'
             }
         ]

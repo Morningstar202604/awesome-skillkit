@@ -4,7 +4,7 @@
 > 铁律：具体名词替换抽象形容词（`beautiful` → `soft rim light on hair`）；质量词（8K/masterpiece）2-3 个封顶，堆多反而掉权重。
 > 模型差异见 [model-dialects.md](model-dialects.md)，本表是跨模型通用的细节层。
 
-## 目录
+## Table of Contents
 
 - [一、光照词库（三层）](#一光照词库三层)——自然光 / 影棚光 / 光效与情绪
 - [二、构图词库](#二构图词库)——景别 / 机位 / 构图法则
@@ -20,7 +20,7 @@
 
 ### 自然光
 
-| 英文 | 中文 | 效果与情绪 | 何时用 |
+| English | Chinese | Effect & emotion | When to use |
 |------|------|-----------|--------|
 | `golden hour` | 黄金时刻（日落前后低角度暖光） | 暖、柔、最讨喜的人像光 | 人像、风景、怀旧 |
 | `blue hour` | 蓝调时刻（日落后深蓝天光） | 冷、静谧、都市感 | 城市夜景、氛围片 |
@@ -31,7 +31,7 @@
 
 ### 戏剧光
 
-| 英文 | 中文 | 效果与情绪 | 何时用 |
+| English | Chinese | Effect & emotion | When to use |
 |------|------|-----------|--------|
 | `chiaroscuro` | 明暗对照法（伦勃朗式强对比） | 油画感、神秘 | 肖像、静物 |
 | `Rembrandt lighting` | 伦勃朗光（一侧脸亮，另颊三角光斑） | 经典人像标准 | 男性肖像、稳重感 |
@@ -43,7 +43,7 @@
 
 ### 棚拍与人工光
 
-| 英文 | 中文 | 效果与情绪 | 何时用 |
+| English | Chinese | Effect & emotion | When to use |
 |------|------|-----------|--------|
 | `studio lighting, three-point setup` | 三点布光 | 商业标准、干净 | 产品、证件照 |
 | `softbox / octabox` | 柔光箱 | 大面积柔光，皮肤细腻 | 美妆、电商 |
@@ -54,7 +54,7 @@
 
 ## 二、构图词库
 
-| 英文 | 中文 | 效果 | 何时用 |
+| English | Chinese | Effect | When to use |
 |------|------|------|--------|
 | `rule of thirds` | 三分法 | 百搭不犯错 | 默认选项 |
 | `centered composition, symmetrical` | 居中对称 | 庄严、强迫症舒适 | 建筑、Wes Anderson 风格 |

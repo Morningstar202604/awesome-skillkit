@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""ETL Builder — 数据管道构建 (Extract → Transform → Load)。
+"""ETL Builder — data pipeline building (Extract → Transform → Load).
 
-用法:
+Usage:
   python3 etl_builder.py --source data/raw.csv --target data/clean.csv --transform "dropna,fillna_median"
   python3 etl_builder.py --json '{"source":"...","transforms":["normalize"],"target":"..."}'
 """

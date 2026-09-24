@@ -1,6 +1,6 @@
 # 搜索引擎配置详解
 
-## 目录
+## Table of Contents
 
 - [SearXNG](#searxng)
   - [公共实例列表](#公共实例列表)

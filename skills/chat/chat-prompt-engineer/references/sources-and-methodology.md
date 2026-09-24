@@ -1,8 +1,8 @@
-# 来源与方法论 / Sources and Methodology
+# Sources and Methodology
 
-本技能为 self-authored，方法论骨架提炼自以下公开材料（结构借鉴，无文本复制）：
+This skill is self-authored; its methodology skeleton is distilled from the following public materials (structural borrowing only, no text copied):
 
-| 来源 | 类型 | 借鉴内容 | 许可/署名 |
+| Source | Type | What was borrowed | License/attribution |
 |------|------|----------|-----------|
 | 豆包官方教程与《豆包进阶手册》系列（五要素公式：身份+场景+任务+要求+格式） | 🟡 第三方聚合（ima 知识库收录） | task 模式五要素、三步框架（背景定位→目标明确→要求细化） | 结构性方法论引用，已注明出处 |
 | 《豆包，总结出 5 条"最强指令"》（头条实测文，2026-09） | 🟡 第三方 | 反向约束纪律（禁用词表、字数硬限、"每句有信息量"）、三轮迭代法（骨架→血肉→抛光）、角色锚定+输出格式锁定 | 结构性方法论引用，已注明出处 |
@@ -10,7 +10,7 @@
 | Coze 社区最佳实践（五模块：Role/Context/Skills&Tools/Workflow/Output） | 🟡 第三方 | "工作流 Step-by-Step 是智能体变聪明的核心"、能力定义三要素（何时触发+怎么做+返回什么） | 结构性方法论引用，已注明出处 |
 | CO-STAR 框架（Context/Objective/Steps/Tone/Audience） | 🟡 第三方 | agent 模式五段的英文命名对照 | 框架名引用，已注明出处 |
 
-## 设计决策
+## Design decisions
 
 1. **与 video-prompt-engineer 同构**：五要素之于聊天 = 六槽位之于视频。同一套
    "缺槽就自由发挥 → 自由发挥即废稿"的心智模型，用户学一次跨场景复用。

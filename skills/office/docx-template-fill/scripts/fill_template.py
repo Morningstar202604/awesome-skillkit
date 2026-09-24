@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """
-fill_template.py — 把 JSON 数据填进已有 Word 模板的 {{占位符}}，
-并可选追加修订批注。
+fill_template.py -- fill JSON data into {{placeholders}} in an existing Word template,
+and optionally append a review note.
 
-设计红线（仓库 SKILL-STANDARD-v2）：
-- 默认 dry-run：只打印将要做什么，不动原文件
-- --apply 才真正写（输出到新文件，源模板永不改）
-- 零网络、零拷贝：纯本地文件操作
-- 凭证（如有外部源）走环境变量，不在脚本里写死
+Design guardrails (repo SKILL-STANDARD-v2):
+- dry-run by default: only print what would be done, touch no source file
+- --apply actually writes (to a new file; the source template is never modified)
+- zero network, zero copying: pure local file operations
+- credentials (if any external source) come from environment variables, never hard-coded
 
-依赖：python-docx（pip install python-docx）。缺失时降级为"只解析占位符清单"。
+Dependency: python-docx (`pip install python-docx`). If missing, degrades to
+"only parse the placeholder list".
 """
 import argparse
 import json
@@ -45,8 +46,9 @@ def collect_placeholders(doc):
 
 
 def replace_in_paragraph(p, data: dict, dry: bool):
-    """替换段落内占位符。保留原格式：把整段文字重设，
-    但只改文本节点，不重建样式（模板段落样式保留）。"""
+    """Replace placeholders inside a paragraph. Preserve the original formatting: reset the
+    whole paragraph's text but only touch the text nodes, rebuilding no style
+    (the template paragraph style is kept)."""
     text = p.text or ""
     changed = False
     for key, val in data.items():
@@ -55,7 +57,7 @@ def replace_in_paragraph(p, data: dict, dry: bool):
             text = text.replace(token, str(val))
             changed = True
     if changed and not dry:
-        # 清空 run 并写回，保留段落样式
+        # clear the runs and write back, keeping the paragraph style
         for r in list(p.runs):
             r.text = ""
         if p.runs:
@@ -66,12 +68,13 @@ def replace_in_paragraph(p, data: dict, dry: bool):
 
 
 def add_review_note(doc, author: str, note: str, dry: bool) -> bool:
-    """追加一条批注样式的修订说明（用脚注区近似；docx 标准 comment 需
-    修改 parts，此处降级为在文档末尾加【批注】段，标注作者）。"""
+    """Append a comment-style revision note (approximated with a footnote-like area; a
+    standard docx comment requires editing parts, so here it degrades to appending a
+    "[NOTE]" paragraph at the end of the document, tagged with the author)."""
     if dry:
         return True
     p = doc.add_paragraph()
-    r = p.add_run(f"【批注 · {author}】{note}")
+    r = p.add_run(f"[NOTE - {author}] {note}")
     r.italic = True
     return True
 

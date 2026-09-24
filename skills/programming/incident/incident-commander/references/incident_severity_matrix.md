@@ -1,6 +1,6 @@
 # Incident Severity Classification Matrix
 
-## 目录
+## Table of Contents
 
 - [Overview](#overview)
 - [Severity Levels](#severity-levels)

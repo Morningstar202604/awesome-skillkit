@@ -1,6 +1,6 @@
 # Composition with the rest of the portfolio
 
-## 目录
+## Table of Contents
 
 - [The unified concept: error budget](#the-unified-concept-error-budget)
 - [With feature-flags-architect](#with-feature-flags-architect)

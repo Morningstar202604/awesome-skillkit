@@ -1,6 +1,6 @@
 # Cloud Secret Store Reference
 
-## 目录
+## Table of Contents
 
 - [Provider Comparison](#provider-comparison)
   - [Feature Matrix](#feature-matrix)

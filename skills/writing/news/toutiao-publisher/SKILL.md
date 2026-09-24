@@ -54,7 +54,7 @@ and tags the user pastes into the Toutiao editor manually.
 - The algorithm rewards completion rate and dwell time, so keep paragraphs short
   and the pacing tight.
 - Taboo: clickbait that does not deliver, fabricated statistics, political
-  rumor, medical / investment advice without disclaimers,clickbait.
+  rumor, medical / investment advice without disclaimers, exaggerated claims.
 
 ## Content Length Guidelines
 

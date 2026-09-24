@@ -287,7 +287,7 @@ class DependencyScanner:
                 max_part = parts[1].strip()
                 return (self._compare_versions(version, min_part) >= 0 and 
                        self._compare_versions(version, max_part) < 0)
-        except Exception:  # 版本区间解析失败（畸形 spec）→ 按不在区间内处理
+        except Exception:  # range parse failed (malformed spec) -> treat as out of range
             pass
         
         return False
@@ -307,7 +307,7 @@ class DependencyScanner:
                 return 1
             else:
                 return 0
-        except Exception:  # 解析失败 → 保守计 0
+        except Exception:  # parse failed -> conservatively count 0
             return 0
     
     # Package file parsers
@@ -333,7 +333,7 @@ class DependencyScanner:
                         dependencies.append(dep)
         
         except Exception as e:
-            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
+            raise  # strict parse: let scan_project record it uniformly in parse_errors
         
         return dependencies
     
@@ -363,7 +363,7 @@ class DependencyScanner:
                     dependencies.append(dep)
         
         except Exception as e:
-            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
+            raise  # strict parse: let scan_project record it uniformly in parse_errors
         
         return dependencies
     
@@ -391,7 +391,7 @@ class DependencyScanner:
                 dependencies.append(dep)
         
         except Exception as e:
-            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
+            raise  # strict parse: let scan_project record it uniformly in parse_errors
         
         return dependencies
     
@@ -419,7 +419,7 @@ class DependencyScanner:
                         dependencies.append(dep)
         
         except Exception as e:
-            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
+            raise  # strict parse: let scan_project record it uniformly in parse_errors
         
         return dependencies
     
@@ -448,7 +448,7 @@ class DependencyScanner:
                             dependencies.append(dep)
         
         except Exception as e:
-            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
+            raise  # strict parse: let scan_project record it uniformly in parse_errors
         
         return dependencies
     
@@ -473,7 +473,7 @@ class DependencyScanner:
                         dependencies.append(dep)
         
         except Exception as e:
-            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
+            raise  # strict parse: let scan_project record it uniformly in parse_errors
         
         return dependencies
     
@@ -498,7 +498,7 @@ class DependencyScanner:
                 dependencies.append(dep)
         
         except Exception as e:
-            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
+            raise  # strict parse: let scan_project record it uniformly in parse_errors
         
         return dependencies
     
@@ -527,7 +527,7 @@ class DependencyScanner:
                         dependencies.append(dep)
         
         except Exception as e:
-            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
+            raise  # strict parse: let scan_project record it uniformly in parse_errors
         
         return dependencies
     
@@ -559,7 +559,7 @@ class DependencyScanner:
                         dependencies.append(dep)
         
         except Exception as e:
-            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
+            raise  # strict parse: let scan_project record it uniformly in parse_errors
         
         return dependencies
     
@@ -584,7 +584,7 @@ class DependencyScanner:
                 dependencies.append(dep)
         
         except Exception as e:
-            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
+            raise  # strict parse: let scan_project record it uniformly in parse_errors
         
         return dependencies
     
@@ -612,7 +612,7 @@ class DependencyScanner:
                 dependencies.append(dep)
         
         except Exception as e:
-            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
+            raise  # strict parse: let scan_project record it uniformly in parse_errors
         
         return dependencies
     
@@ -640,7 +640,7 @@ class DependencyScanner:
                     dependencies.append(dep)
         
         except Exception as e:
-            raise  # 严格解析：交由 scan_project 统一记入 parse_errors
+            raise  # strict parse: let scan_project record it uniformly in parse_errors
         
         return dependencies
     

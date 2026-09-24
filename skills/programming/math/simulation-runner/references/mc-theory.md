@@ -2,7 +2,7 @@
 
 > 配套 simulation-runner。本文所有**数值均在本机 Python 3.11 + numpy 实测**（numpy 版本见执行环境），可复现；未实测的性能/耗时数字一律不写。
 
-## 目录
+## Table of Contents
 - §0 与 `simulation.py` 的实际对应关系
 - §1 基本思想：把待求量写成期望
 - §2 大数定律与 1/√n 收敛速度

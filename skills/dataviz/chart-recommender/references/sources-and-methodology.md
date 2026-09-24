@@ -1,12 +1,12 @@
-# 来源与方法论说明 / Sources & Methodology
+# Sources & Methodology
 
 - 技能：`chart-recommender`（awesome-skillkit 原创编写，Apache-2.0）。
 - 定位：场景包 `dataviz` 的选择侧技能，纯提示型、无脚本。
   与 `dashboard-designer`（生成侧）的分工是：本技能回答「画什么」，后者负责「画出来」。
 
-## 方法论借鉴（仅思想与分类体系，未复制任何文本或代码）
+## Methodology borrowed (ideas and taxonomy only; no text or code copied)
 
-| 来源 | 许可证 | 借鉴的方法论要点 |
+| Source | License | Methodology points borrowed |
 |---|---|---|
 | Jacques Bertin《Semiology of Graphics》的视觉变量理论（公开转述） | 见原书 | 「位置/长度/角度/面积/明度/色相」作为编码通道，及其可读精度差异 |
 | William Cleveland & Robert McGill 关于图形感知精度的公开研究 | 见论文 | 「人对位置与长度的判断精度高于角度与面积」这一实证结论，是饼图与气泡图警告的依据 |
@@ -19,7 +19,7 @@
 均为本仓库原创撰写与整理，未翻译、未改写、未摘录任何上游文档的段落或示例。
 色值取自公开的定性色板惯例并单独验证过对比度。
 
-## 关键设计决策（为什么这样做）
+## Key design decisions (why this way)
 
 1. **强制先问意图**：数据形态相同的两份数据，因意图不同应选不同图。
    不追问意图就给图型，是把「我觉得好看」冒充「适合你的场景」。
@@ -34,7 +34,7 @@
 6. **纯提示型不配脚本**：本技能产出的是判断与规格，不是文件。
    加脚本反而会把「权衡」伪装成「计算结果」。
 
-## 局限与边界
+## Limitations and boundaries
 
 - **不给最终裁决**：给方案与代价，由用户结合业务语境决定。
 - **不画图、不校验真实数据**：输入是用户描述的形态，若描述有误则建议随之失效；
@@ -43,6 +43,6 @@
   但不在词库范围内。
 - **配色仅给通用建议**：正式交付需按品牌规范与无障碍要求复核对比度。
 
-## 许可
+## License
 
-本技能及其参考文件以 Apache-2.0 分发；所列上游文档各自的许可条款与本文互不适用。
+This skill and its reference files are distributed under Apache-2.0; the upstream documents listed carry their own license terms, which do not apply to this file.

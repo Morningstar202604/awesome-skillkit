@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Article Drafter — 根据大纲生成文章初稿。
+"""Article Drafter — generate an article draft from an outline.
 
-用法:
+Usage:
   python3 drafter.py --outline outline.json
-  python3 drafter.py --topic "FastAPI" --section "缓存优化"
+  python3 drafter.py --topic "FastAPI" --section "caching optimization"
 """
 import argparse
 import json
@@ -16,8 +16,8 @@ def draft_section(heading: str, points: list, audience: str = "intermediate",
     """Draft a single section (LLM fills in production)."""
     paragraphs = []
     for point in (points or [heading]):
-        p = f"{point}。\n\n"
-        p += f"（{audience} 读者视角：解释为什么 + 怎么做 + 注意事项）\n"
+        p = f"{point}.\n\n"
+        p += f"({audience} reader perspective: explain why + how + caveats)\n"
         paragraphs.append(p)
 
     return {
@@ -67,7 +67,7 @@ def main():
     if args.outline:
         path = Path(args.outline)
         if not path.is_file():
-            print(f"[ERROR] 大纲文件不存在: {path}", file=sys.stderr)
+            print(f"[ERROR] outline file does not exist: {path}", file=sys.stderr)
             return 1
         outline = json.loads(path.read_text(encoding="utf-8"))
         article = draft_article(outline)

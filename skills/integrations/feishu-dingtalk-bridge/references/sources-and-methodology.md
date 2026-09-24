@@ -1,11 +1,11 @@
-# 方法论来源与设计取舍（feishu-dingtalk-bridge）
+# Methodology sources and design trade-offs（feishu-dingtalk-bridge）
 
 > 何时读：当你想新增一个平台（如 Slack / 企微应用消息）、调整加签实现，
 > 或质疑"为什么三家不共用一套负载"时读本文件。本文件只讲设计依据。
 
-## 思想来源（公开方法论蒸馏，非文本搬运）
+## Idea sources (distilled from public methodology; not copied text)
 
-| 本技能的做法 | 蒸馏自的思想 |
+| This skill's approach | Idea distilled from |
 |---|---|
 | 每家一个独立 builder，不写通用负载再翻译 | 适配器模式（Adapter）：接口差异过大时，包装优于归一化；强行统一会泄漏平台特例 |
 | `build-message` / `parse-webhook` 两个子命令 | 端口-适配器架构的"出站/入站"分离：发消息与收消息的契约本就不同 |
@@ -14,7 +14,7 @@
 | 成功判定读业务码而非 HTTP 码 | 国内 IM 开放平台的通用约定：飞书/钉钉/企微都用 200 + 业务错误码，是"HTTP 之上再套一层状态"的典型 |
 | 加签实现只作为参考函数暴露 | 把密钥运算放在调用方（代理层），脚本保持无密钥可测 |
 
-## 关键取舍
+## Key trade-offs
 
 **为什么不做统一的 `Message` 抽象？** 三家的差异不是"字段名不同"，而是
 **语义层面不同**：飞书没有 markdown 类型（要借道富文本或消息卡片）、企微的
@@ -42,7 +42,7 @@
 看起来像"参数错"，实际是安全设置问题）。把最常见的几个码的定向解释直接写进
 解析输出，能让排查从"搜文档"变成"读一行提示"，这是使用频率最高的收益点。
 
-## 官方文档
+## Official documentation
 
 - 飞书自定义机器人（webhook、msg_type、加密回调）：<https://open.feishu.cn/document/client-docs/bot-v3/add-custom-bot>
 - 飞书消息内容与富文本 `post` 结构：<https://open.feishu.cn/document/server-docs/im-v1/message-content-description/create_json>

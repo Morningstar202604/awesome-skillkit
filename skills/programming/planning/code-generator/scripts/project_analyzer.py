@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""project_analyzer.py — 项目上下文分析器
+"""project_analyzer.py — project context analyzer
 
-读取项目结构、技术栈、代码风格，为 code_generator 提供上下文。
+Reads the project structure, tech stack, and code style to provide context for code_generator.
 """
 import os
 import sys
@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Dict, Any, List, Optional
 
 
-# 技术栈标记文件
+# tech-stack marker files
 TECH_MARKERS: Dict[str, List[str]] = {
     "python": ["pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", "Pipfile"],
     "javascript": ["package.json"],
@@ -27,7 +27,7 @@ TECH_MARKERS: Dict[str, List[str]] = {
 
 
 def detect_project_root(start_dir: str = ".") -> str:
-    """探测项目根目录"""
+    """Detect the project root directory"""
     for dir in [start_dir, "..", "../..", "../../.."]:
         abs_dir = os.path.abspath(dir)
         for marker in ["package.json", "pyproject.toml", "go.mod", "Cargo.toml", "pom.xml", "manage.py"]:
@@ -37,11 +37,11 @@ def detect_project_root(start_dir: str = ".") -> str:
 
 
 def detect_tech_stack(project_root: str) -> Dict[str, Any]:
-    """探测技术栈"""
+    """Detect the tech stack"""
     stacks = {}
     root = Path(project_root)
     
-    # 检查框架标记
+    # check framework markers
     framework_markers = {
         "fastapi": ["main.py", "app.py"],
         "django": ["manage.py", "wsgi.py"],
@@ -52,7 +52,7 @@ def detect_tech_stack(project_root: str) -> Dict[str, Any]:
         if any((root / m).exists() for m in markers):
             stacks[f"python_{framework}"] = True
     
-    # 检查 package.json 依赖
+    # check package.json dependencies
     pkg_json = root / "package.json"
     if pkg_json.exists():
         try:
@@ -70,7 +70,7 @@ def detect_tech_stack(project_root: str) -> Dict[str, Any]:
         except json.JSONDecodeError:
             pass
     
-    # 检查 requirements.txt 依赖
+    # check requirements.txt dependencies
     req_txt = root / "requirements.txt"
     if req_txt.exists():
         content = req_txt.read_text(encoding="utf-8").lower()
@@ -81,7 +81,7 @@ def detect_tech_stack(project_root: str) -> Dict[str, Any]:
         if "flask" in content:
             stacks["python_flask"] = True
     
-    # 检查 go.mod
+    # check go.mod
     go_mod = root / "go.mod"
     if go_mod.exists():
         content = go_mod.read_text(encoding="utf-8")
@@ -95,7 +95,7 @@ def detect_tech_stack(project_root: str) -> Dict[str, Any]:
 
 
 def _detect_primary(stacks: Dict[str, Any]) -> str:
-    """检测主要技术栈"""
+    """Detect the primary tech stack"""
     if stacks.get("python_fastapi"):
         return "python/fastapi"
     if stacks.get("python_django"):
@@ -118,7 +118,7 @@ def _detect_primary(stacks: Dict[str, Any]) -> str:
 
 
 def get_directory_structure(root: str, max_depth: int = 3) -> List[str]:
-    """获取目录结构（前 max_depth 层）"""
+    """Get the directory structure (first max_depth levels)"""
     structure = []
     root_path = Path(root)
     
@@ -130,15 +130,15 @@ def get_directory_structure(root: str, max_depth: int = 3) -> List[str]:
                 indent = "  " * (depth - 1)
                 structure.append(f"{indent}{rel.name}/")
     
-    return structure[:30]  # 限制输出数量
+    return structure[:30]  # cap the number of entries
 
 
 def get_code_style_samples(root: str, max_files: int = 3, max_lines: int = 50) -> List[str]:
-    """获取代码风格样本"""
+    """Get code-style samples"""
     samples = []
     root_path = Path(root)
     
-    # 按语言查找代表性文件
+    # find representative files by language
     extensions = [".py", ".ts", ".js", ".go", ".rs"]
     excluded_dirs = {"node_modules", ".git", "__pycache__", "venv", ".venv", "dist", "build"}
     
@@ -148,7 +148,7 @@ def get_code_style_samples(root: str, max_files: int = 3, max_lines: int = 50) -
         for path in root_path.rglob(f"*{ext}"):
             if any(excl in str(path) for excl in excluded_dirs):
                 continue
-            if path.is_file() and path.stat().st_size > 100:  # 跳过空文件
+            if path.is_file() and path.stat().st_size > 100:  # skip empty files
                 try:
                     content = path.read_text(encoding="utf-8")
                     lines = content.split("\n")[:max_lines]
@@ -160,11 +160,11 @@ def get_code_style_samples(root: str, max_files: int = 3, max_lines: int = 50) -
 
 
 def get_existing_modules(root: str) -> List[str]:
-    """获取已有模块列表"""
+    """Get the list of existing modules"""
     modules = []
     root_path = Path(root)
     
-    # 查找 src/ 或 lib/ 下的子目录
+    # find subdirectories under src/ or lib/
     for dir_name in ["src", "lib", "app", "pkg"]:
         dir_path = root_path / dir_name
         if dir_path.exists():
@@ -172,7 +172,7 @@ def get_existing_modules(root: str) -> List[str]:
                 if child.is_dir() and not child.name.startswith(("_", ".", "__")):
                     modules.append(child.name)
     
-    # 也查找顶层模块
+    # also find top-level modules
     for pattern in ["*.py", "*.ts", "*.js", "*.go"]:
         for path in root_path.glob(pattern):
             if path.is_file() and not path.name.startswith(("_", ".")):
@@ -182,7 +182,7 @@ def get_existing_modules(root: str) -> List[str]:
 
 
 def analyze_project(project_root: Optional[str] = None) -> Dict[str, Any]:
-    """完整项目分析"""
+    """Full project analysis"""
     if not project_root:
         project_root = detect_project_root()
     
@@ -197,9 +197,9 @@ def analyze_project(project_root: Optional[str] = None) -> Dict[str, Any]:
 
 if __name__ == "__main__":
     import argparse
-    parser = argparse.ArgumentParser(description="项目上下文分析器")
-    parser.add_argument("--root", "-r", help="项目根目录")
-    parser.add_argument("--json", "-j", action="store_true", help="JSON 输出")
+    parser = argparse.ArgumentParser(description="Project context analyzer")
+    parser.add_argument("--root", "-r", help="Project root directory")
+    parser.add_argument("--json", "-j", action="store_true", help="JSON output")
     args = parser.parse_args()
     
     result = analyze_project(args.root)
@@ -207,10 +207,10 @@ if __name__ == "__main__":
     if args.json:
         print(json.dumps(result, ensure_ascii=False, indent=2))
     else:
-        print(f"项目根目录: {result['project_root']}")
-        print(f"技术栈: {result['tech_stack']['primary']}")
-        print(f"框架: {list(result['tech_stack'].keys())}")
-        print(f"已有模块: {result['existing_modules']}")
-        print(f"\n目录结构:")
+        print(f"Project root: {result['project_root']}")
+        print(f"Tech stack: {result['tech_stack']['primary']}")
+        print(f"Frameworks: {list(result['tech_stack'].keys())}")
+        print(f"Existing modules: {result['existing_modules']}")
+        print(f"\nDirectory structure:")
         for line in result["directory_structure"]:
             print(line)

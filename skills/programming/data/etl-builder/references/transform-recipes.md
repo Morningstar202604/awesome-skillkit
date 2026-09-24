@@ -2,7 +2,7 @@
 
 > 配套 etl-builder。SKILL.md 的 Transform 表列出 10 个操作名（dropna / fillna_median / normalize / encode_onehot …），但 `etl_builder.py` 当前只**记录**将要执行的变换并回写行数，并不真正改动数据。本文件给出这些操作名的**可落地 pandas 实现**，供你直接执行或回填脚本。
 
-## 目录
+## Table of Contents
 - §1 缺失值：删除 / 填充 / 插值的选择判据
 - §2 类型 coercion（数值、布尔、类别、可空整型）
 - §3 去重

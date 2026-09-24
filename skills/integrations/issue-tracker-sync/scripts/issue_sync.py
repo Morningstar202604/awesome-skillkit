@@ -1,24 +1,29 @@
 #!/usr/bin/env python3
-"""issue_sync.py -- Jira / Linear / GitHub Issues 的请求构造与周报生成器。
+"""issue_sync.py -- request builder and weekly-report generator for Jira / Linear /
+GitHub Issues.
 
-三家把"建一个 issue"映射成了三套模型：
-Jira 用 REST + 嵌套 fields（自定义字段是 customfield_NNNNN 而非字段名），
-Linear 用 GraphQL mutation（一切皆输入对象），
-GitHub 用 REST + 扁平的 labels/assignees 数组。本脚本把差异收敛成三个子命令。
+The three platforms map "create an issue" into three different models: Jira uses
+REST + nested fields (custom fields are customfield_NNNNN, not field names), Linear
+uses GraphQL mutations (everything is an input object), and GitHub uses REST + flat
+labels/assignees arrays. This script converges the differences into three subcommands.
 
-设计原则
---------
-1. **纯函数**：只构造请求体与渲染报告，绝不发 HTTP；无需凭证即可完整测试。
-2. **默认 dry-run**：`build` 只打印将发送的请求，发送由人确认后执行。
-3. **凭证不落盘**：token 一律从环境变量读取（JIRA_TOKEN / LINEAR_API_KEY /
-   GITHUB_TOKEN），脚本内部从不接受、不打印、不落盘。
-4. **报告只读**：`weekly-report` 从本地 JSON 生成 Markdown，不联网、不写远端。
+Design principles
+-----------------
+1. **Pure functions**: only builds request bodies and renders reports; never sends
+   HTTP; fully testable without credentials.
+2. **Dry-run by default**: `build` only prints the request that would be sent;
+   sending happens after a human confirms.
+3. **Credentials never hit disk**: tokens are always read from environment vars
+   (JIRA_TOKEN / LINEAR_API_KEY / GITHUB_TOKEN); the script never accepts, prints,
+   or stores them.
+4. **Reports are read-only**: `weekly-report` builds Markdown from local JSON, with
+   no network and no remote writes.
 
-子命令
-------
+Subcommands
+-----------
   build         --tracker {jira|linear|github} --title X [--body Y] [--priority P]
                 [--assignee A] [--labels a,b] [--project P] [--team T] [--repo R]
-  field-map     [--json]          打印三家字段/状态映射对照表
+  field-map     [--json]          print the three-way field/status mapping table
   weekly-report --json file.json [--week YYYY-WNN] [--output out.md]
 
 Stdlib only. Python >= 3.8.
@@ -34,44 +39,46 @@ from datetime import date, datetime, timedelta
 from pathlib import Path
 
 # ---------------------------------------------------------------------------
-# 平台常量
+# Platform constants
 # ---------------------------------------------------------------------------
 
-# Jira Cloud 的 REST 版本。v3 用 Atlassian Document Format(ADF) 表示富文本，
-# v2 接受纯字符串——本脚本默认 v2 形态（body 为字符串），更易读也更好迁移。
+# Jira Cloud REST version. v3 uses Atlassian Document Format (ADF) for rich text;
+# v2 accepts plain strings -- this script defaults to the v2 shape (body as a
+# string), which is easier to read and migrate.
 JIRA_API_VERSION = "2"
 
-# Jira 优先级是站点级枚举，名字随站点语言变（中文站点可能是"高"）。
-# 这里给的是默认英文实例的取值，跨站点使用前必须先用 field-map 核对。
+# Jira priorities are site-level enums whose names change with the site language
+# (a Chinese-language site may show "High" as localized text). The values here are
+# for a default English instance; verify with field-map before using across sites.
 JIRA_PRIORITIES = {"P0": "Highest", "P1": "High", "P2": "Medium",
                    "P3": "Low", "P4": "Lowest"}
 
-# Linear 的优先级是 **整数枚举**，不是字符串。0 = No priority。
+# Linear priorities are **integer enums**, not strings. 0 = No priority.
 LINEAR_PRIORITIES = {"P0": 1, "P1": 2, "P2": 3, "P3": 4, "P4": 0}
 
-# GitHub Issues 的 REST 端点没有优先级字段，约定用标签模拟。
+# GitHub Issues' REST endpoint has no priority field; convention simulates it with labels.
 GITHUB_PRIORITY_LABELS = {"P0": "priority:critical", "P1": "priority:high",
                           "P2": "priority:medium", "P3": "priority:low",
                           "P4": "priority:backlog"}
 
-# 三家令牌/仓库的环境变量名（脚本只引用名字，不读取值）。
+# Env-var names for the three tokens/repos (the script references names, never reads values).
 ENV_HINTS = {
     "jira": "JIRA_BASE_URL / JIRA_EMAIL / JIRA_TOKEN",
     "linear": "LINEAR_API_KEY",
-    "github": "GITHUB_TOKEN（或用已登录的 gh CLI）",
+    "github": "GITHUB_TOKEN (or use the logged-in gh CLI)",
 }
 
-# Jira 的自定义字段 ID 不固定，必须用 GET /rest/api/2/field 查出后回填。
-# 这里给出的是最常需要映射的字段语义 -> 查询方式说明。
+# Jira custom field IDs are not fixed; you must query GET /rest/api/2/field and
+# fill them in. Below: the field semantics most often needing mapping -> how to query.
 JIRA_CUSTOM_FIELDS = {
-    "故事点": "customfield_10016 之类的数字 ID，随站点实例不同，必须查询后确认",
-    "Epic Link": "customfield_10014 之类的数字 ID，同样随实例不同",
-    "严重程度": "自定义 select 字段，值为 option 的 id 而非显示名",
+    "Story points": "a numeric ID like customfield_10016, which varies by site instance; must confirm after querying",
+    "Epic Link": "a numeric ID like customfield_10014, likewise instance-specific",
+    "Severity": "a custom select field whose value is the option id, not the display name",
 }
 
 
 class BuildError(Exception):
-    """负载构造失败（输入不合法，非网络问题）。"""
+    """Payload construction failed (bad input, not a network problem)."""
 
 
 def _die(msg: str, code: int = 2) -> int:
@@ -82,11 +89,11 @@ def _die(msg: str, code: int = 2) -> int:
 def _load_json(path: str, what: str) -> object:
     p = Path(path)
     if not p.is_file():
-        raise BuildError(f"{what} 文件不存在: {path}")
+        raise BuildError(f"{what} file does not exist: {path}")
     try:
         return json.loads(p.read_text(encoding="utf-8"))
     except json.JSONDecodeError as e:
-        raise BuildError(f"{what} 不是合法 JSON: {path} (line {e.lineno}: {e.msg})")
+        raise BuildError(f"{what} is not valid JSON: {path} (line {e.lineno}: {e.msg})")
 
 
 def _dump(obj: object) -> None:
@@ -94,32 +101,32 @@ def _dump(obj: object) -> None:
 
 
 def _priority_key(raw: str) -> str:
-    """把用户输入的优先级归一到大写 P 编号。"""
+    """Normalize the user's priority input to an uppercase P-code."""
     key = (raw or "P2").strip().upper()
     if key.isdigit():
         key = f"P{key}"
     if key not in JIRA_PRIORITIES:
         raise BuildError(
-            f"未知优先级 '{raw}'；用 P0..P4（P0 最高）。"
-            "注意：三家对优先级的存储方式不同（Jira 字符串名 / Linear 整数 / GitHub 标签）"
+            f"unknown priority '{raw}'; use P0..P4 (P0 highest). "
+            "Note: the three store priority differently (Jira string name / Linear int / GitHub label)"
         )
     return key
 
 
 # ---------------------------------------------------------------------------
-# build：三家各一套
+# build: one per platform
 # ---------------------------------------------------------------------------
 def build_jira(title: str, body: str, priority: str, assignee: str,
                labels: list, project: str, _team: str, _repo: str) -> dict:
-    """Jira：POST /rest/api/{ver}/issue，一切塞进嵌套的 `fields`。
+    """Jira: POST /rest/api/{ver}/issue, everything nested under `fields`.
 
-    三个易错点：
-      1. 描述用 `description`，v2 收字符串、v3 收 ADF 对象；
-      2. 经办人是 `assignee.accountId`（不是 name/email，Cloud 版用 accountId）；
-      3. 标签是 `labels` 数组，**带上就是覆盖**，不是追加。
+    Three common pitfalls:
+      1. the description goes in `description`: v2 takes a string, v3 takes an ADF object;
+      2. the assignee is `assignee.accountId` (not name/email; Cloud uses accountId);
+      3. labels are a `labels` array -- **including them overwrites**, it does not append.
     """
     if not project:
-        raise BuildError("Jira 必须提供 --project（项目 key，如 ENG）")
+        raise BuildError("Jira requires --project (the project key, e.g. ENG)")
 
     fields: dict = {
         "project": {"key": project},
@@ -148,13 +155,14 @@ def build_jira(title: str, body: str, priority: str, assignee: str,
 
 def build_linear(title: str, body: str, priority: str, assignee: str,
                  labels: list, _project: str, team: str, _repo: str) -> dict:
-    """Linear：GraphQL mutation `issueCreate`。
+    """Linear: GraphQL mutation `issueCreate`.
 
-    与 REST 的差别：所有参数都是**命名输入对象**，且返回字段必须显式声明。
-    `teamId` 是必填的团队 UUID，不是团队名——团队名要先查一次拿 ID。
+    Difference from REST: all parameters are **named input objects**, and the
+    returned fields must be declared explicitly. `teamId` is the required team UUID,
+    not the team name -- look up the name to get the ID first.
     """
     if not team:
-        raise BuildError("Linear 必须提供 --team（团队 ID/UUID；名字需先查 ID）")
+        raise BuildError("Linear requires --team (team ID/UUID; look up the name to get the ID)")
 
     input_obj: dict = {
         "teamId": team,
@@ -166,7 +174,7 @@ def build_linear(title: str, body: str, priority: str, assignee: str,
     if assignee:
         input_obj["assigneeId"] = assignee
     if labels:
-        # Linear 的标签是 labelId 数组（UUID），不是标签名字符串
+        # Linear labels are a labelId array (UUIDs), not label-name strings
         input_obj["labelIds"] = labels
 
     query = (
@@ -189,14 +197,14 @@ def build_linear(title: str, body: str, priority: str, assignee: str,
 
 def build_github(title: str, body: str, priority: str, assignee: str,
                  labels: list, _project: str, _team: str, repo: str) -> dict:
-    """GitHub：POST /repos/{owner}/{repo}/issues。
+    """GitHub: POST /repos/{owner}/{repo}/issues.
 
-    字段最扁平：`labels`/`assignees` 是字符串数组。
-    没有优先级字段——用标签模拟（见 GITHUB_PRIORITY_LABELS）。
-    `milestone` 要传 **number**（整数）而非标题字符串；本项目用标签代替里程碑。
+    The flattest fields: `labels`/`assignees` are string arrays. There is no priority
+    field -- simulated with a label (see GITHUB_PRIORITY_LABELS). `milestone` takes a
+    **number** (integer), not a title string; this project uses labels instead of milestones.
     """
     if not repo or "/" not in repo:
-        raise BuildError("GitHub 必须提供 --repo owner/name")
+        raise BuildError("GitHub requires --repo owner/name")
 
     payload: dict = {"title": title}
     if body:
@@ -232,13 +240,13 @@ def cmd_build(args) -> int:
         args.title, args.body or "", priority, args.assignee or "",
         labels, args.project or "", args.team or "", args.repo or "")
 
-    print(f"# DRY-RUN：{args.tracker} issue 创建请求（未发送任何请求）")
-    print(f"# 凭证：从环境变量 {ENV_HINTS[args.tracker]} 读取，不落盘、不打印")
-    print(f"# 优先级：{args.priority or 'P2'} -> {priority}")
+    print(f"# DRY-RUN: {args.tracker} issue-create request (no request sent)")
+    print(f"# credentials: read from env var {ENV_HINTS[args.tracker]}; not written to disk, not printed")
+    print(f"# priority: {args.priority or 'P2'} -> {priority}")
     print()
     _dump(req)
     print()
-    print("# 未发送任何请求。接上真实凭证后由 AI/用户执行，例如：")
+    print("# No request sent. With real credentials attached, the AI/user runs it, e.g.:")
     method, url = req["method"], req["url"].replace("{base_url}", "$JIRA_BASE_URL")
     print(f"#   curl -sS -X {method} \"{url}\" \\")
     print("#     -H 'Content-Type: application/json' --data @payload.json")
@@ -246,34 +254,35 @@ def cmd_build(args) -> int:
 
 
 # ---------------------------------------------------------------------------
-# field-map：三家字段/状态对照
+# field-map: three-way field/status mapping
 # ---------------------------------------------------------------------------
-# 状态映射是**语义对齐**而非字符串对齐：三家的状态机模型不同，
-# 且每一家都允许自定义，所以这里给的是"等价语义"而非"固定值"。
+# Status mapping is **semantic alignment**, not string alignment: the three have
+# different state-machine models and each allows customization, so these are
+# "equivalent semantics" rather than "fixed values".
 STATUS_MAP = [
-    ("待办", "To Do", "Backlog / Todo", "open（无 label）"),
-    ("进行中", "In Progress", "In Progress", "open + label `status:in-progress`"),
-    ("待评审", "In Review", "In Review", "open + label `status:in-review`"),
-    ("阻塞", "Blocked", "Blocked", "open + label `status:blocked`"),
-    ("已完成", "Done", "Done", "closed（completed）"),
-    ("已取消", "Won't Do", "Canceled", "closed（not planned）"),
+    ("To Do", "To Do", "Backlog / Todo", "open (no label)"),
+    ("In Progress", "In Progress", "In Progress", "open + label `status:in-progress`"),
+    ("In Review", "In Review", "In Review", "open + label `status:in-review`"),
+    ("Blocked", "Blocked", "Blocked", "open + label `status:blocked`"),
+    ("Done", "Done", "Done", "closed (completed)"),
+    ("Canceled", "Won't Do", "Canceled", "closed (not planned)"),
 ]
 
 FIELD_MAP = [
-    ("标题", "fields.summary", "input.title", "title"),
-    ("描述", "fields.description（v2 字符串 / v3 ADF）", "input.description",
+    ("Title", "fields.summary", "input.title", "title"),
+    ("Description", "fields.description (v2 string / v3 ADF)", "input.description",
      "body"),
-    ("优先级", "fields.priority.name（站点枚举，随语言变）",
-     "input.priority（整数 0-4）", "无此字段 → 用标签模拟"),
-    ("负责人", "fields.assignee.accountId", "input.assigneeId（UUID）",
-     "assignees[]（login 字符串）"),
-    ("标签", "fields.labels[]（覆盖非追加）", "input.labelIds[]（UUID）",
-     "labels[]（名字符串，自动建标签）"),
-    ("所属容器", "fields.project.key", "input.teamId（UUID）", "URL 里的 owner/repo"),
-    ("类型", "fields.issuetype.name", "无独立字段（用 label 区分）",
-     "无独立字段（用 label 或 issue type API）"),
-    ("唯一标识", "issue.key（如 ENG-123）", "identifier（如 ENG-123）", "#123"),
-    ("状态查询", "GET /issue/{key}", "issue(id:) 或 filter", "GET /issues/{number}"),
+    ("Priority", "fields.priority.name (site enum, changes with language)",
+     "input.priority (int 0-4)", "no such field -> simulated with a label"),
+    ("Assignee", "fields.assignee.accountId", "input.assigneeId (UUID)",
+     "assignees[] (login string)"),
+    ("Labels", "fields.labels[] (overwrite, not append)", "input.labelIds[] (UUID)",
+     "labels[] (name strings; auto-creates labels)"),
+    ("Container", "fields.project.key", "input.teamId (UUID)", "owner/repo in the URL"),
+    ("Type", "fields.issuetype.name", "no separate field (use a label)",
+     "no separate field (use a label or the issue-type API)"),
+    ("Identifier", "issue.key (e.g. ENG-123)", "identifier (e.g. ENG-123)", "#123"),
+    ("State query", "GET /issue/{key}", "issue(id:) or filter", "GET /issues/{number}"),
 ]
 
 
@@ -283,42 +292,42 @@ def cmd_field_map(args) -> int:
             "priority": {"jira": JIRA_PRIORITIES, "linear": LINEAR_PRIORITIES,
                          "github": GITHUB_PRIORITY_LABELS},
             "status": [
-                {"语义": s, "jira": j, "linear": l, "github": g}
+                {"semantic": s, "jira": j, "linear": l, "github": g}
                 for s, j, l, g in STATUS_MAP
             ],
             "fields": [
-                {"语义": s, "jira": j, "linear": l, "github": g}
+                {"semantic": s, "jira": j, "linear": l, "github": g}
                 for s, j, l, g in FIELD_MAP
             ],
             "jira_custom_fields": JIRA_CUSTOM_FIELDS,
         })
         return 0
 
-    print("# 跨平台优先级映射")
+    print("# Cross-platform priority mapping")
     print()
-    print("| 内部编号 | Jira priority.name | Linear priority | GitHub 标签 |")
+    print("| Internal code | Jira priority.name | Linear priority | GitHub label |")
     print("|---|---|---|---|")
     for k in ("P0", "P1", "P2", "P3", "P4"):
         print(f"| {k} | {JIRA_PRIORITIES[k]} | {LINEAR_PRIORITIES[k]} "
               f"| `{GITHUB_PRIORITY_LABELS[k]}` |")
     print()
 
-    print("# 跨平台状态映射（语义对齐，非固定字符串）")
+    print("# Cross-platform status mapping (semantic alignment, not fixed strings)")
     print()
-    print("| 语义 | Jira status | Linear state | GitHub |")
+    print("| Semantic | Jira status | Linear state | GitHub |")
     print("|---|---|---|---|")
     for row in STATUS_MAP:
         print("| " + " | ".join(row) + " |")
     print()
 
-    print("# 字段位置对照")
+    print("# Field-location reference")
     print()
-    print("| 语义 | Jira（REST fields） | Linear（GraphQL input） | GitHub（REST body） |")
+    print("| Semantic | Jira (REST fields) | Linear (GraphQL input) | GitHub (REST body) |")
     print("|---|---|---|---|")
     for row in FIELD_MAP:
         print("| " + " | ".join(row) + " |")
     print()
-    print("# Jira 自定义字段（ID 随实例不同，必须查 /rest/api/2/field 确认）")
+    print("# Jira custom fields (IDs vary by instance; confirm via /rest/api/2/field)")
     for k, v in JIRA_CUSTOM_FIELDS.items():
         print(f"- {k}: {v}")
     return 0
@@ -327,12 +336,11 @@ def cmd_field_map(args) -> int:
 # ---------------------------------------------------------------------------
 # weekly-report
 # ---------------------------------------------------------------------------
-# 判定"完成"的等价状态集：三家各自的终态写法。
-DONE_STATES = {"done", "closed", "completed", "已解决", "已完成", "resolved"}
-CANCELED_STATES = {"canceled", "cancelled", "won't do", "wont do", "已取消",
-                   "rejected"}
-BLOCKED_STATES = {"blocked", "阻塞", "on hold"}
-IN_PROGRESS_STATES = {"in progress", "in review", "进行中", "待评审", "started"}
+# The equivalent "done" state set: each platform's terminal-state wording.
+DONE_STATES = {"done", "closed", "completed", "resolved"}
+CANCELED_STATES = {"canceled", "cancelled", "won't do", "wont do", "rejected"}
+BLOCKED_STATES = {"blocked", "on hold"}
+IN_PROGRESS_STATES = {"in progress", "in review", "started"}
 
 
 def _norm_state(raw: str) -> str:
@@ -340,24 +348,26 @@ def _norm_state(raw: str) -> str:
 
 
 def classify(state: str) -> str:
-    """把一个平台的状态字符串归到 5 个报告分组之一。"""
+    """Map a platform's state string to one of the 5 report groups."""
     s = _norm_state(state)
     if s in CANCELED_STATES:
-        return "已取消"
+        return "Canceled"
     if s in DONE_STATES:
-        return "已完成"
+        return "Done"
     if s in BLOCKED_STATES:
-        return "阻塞"
+        return "Blocked"
     if s in IN_PROGRESS_STATES:
-        return "进行中"
-    return "待办"
+        return "In Progress"
+    return "To Do"
 
 
 def _extract_issue(item: dict, tracker: str) -> dict:
-    """把三家的 issue 对象归一成 (id, title, state, assignee, priority, blocked, url)。
+    """Normalize the three platforms' issue objects into
+    (id, title, state, assignee, priority, blocked, url).
 
-    三家的字段路径不同，这里按平台分支提取——**不做通用猜测**，
-    猜错会把"负责人"读成"报告人"这类不易察觉的错误带进周报。
+    Field paths differ per platform, extracted by platform branch here -- **no generic
+    guessing**, because a wrong guess silently turns "assignee" into "reporter" in the
+    weekly report.
     """
     if tracker == "jira":
         f = item.get("fields") or {}
@@ -365,8 +375,8 @@ def _extract_issue(item: dict, tracker: str) -> dict:
         prio = (f.get("priority") or {}).get("name", "")
         labels = f.get("labels") or []
         status = (f.get("status") or {}).get("name", "")
-        # Jira 阻塞常用自定义字段或 fixVersion 标记，这里看不出来；
-        # 用 labels 里的 blocked 标记作为信号。
+        # Jira blocking is often a custom field or a fixVersion marker, not visible
+        # here; use a "blocked" label as the signal.
         blocked = any("block" in str(l).lower() for l in labels)
         return {
             "id": item.get("key", ""),
@@ -381,7 +391,7 @@ def _extract_issue(item: dict, tracker: str) -> dict:
         state = (item.get("state") or {}).get("name", "")
         assignee = (item.get("assignee") or {}).get("name", "")
         prio_num = item.get("priority")
-        # Linear 优先级是整数：0 表示 No priority，1 最高
+        # Linear priority is an integer: 0 = No priority, 1 = highest
         rev = {v: k for k, v in LINEAR_PRIORITIES.items()}
         prio = rev.get(prio_num, str(prio_num))
         labels = [l.get("name", "") for l in (item.get("labels") or [])]
@@ -403,7 +413,7 @@ def _extract_issue(item: dict, tracker: str) -> dict:
     assignee = ", ".join(
         (a.get("login", "") if isinstance(a, dict) else str(a))
         for a in (item.get("assignees") or []))
-    # GitHub 的状态是 open/closed 二值，细分语义只能从标签读
+    # GitHub state is the binary open/closed; finer semantics can only be read from labels
     if _norm_state(state_raw) == "closed":
         if any("wontfix" in l.lower() or "invalid" in l.lower() for l in labels):
             state = "Canceled"
@@ -434,7 +444,7 @@ def _extract_issue(item: dict, tracker: str) -> dict:
 
 
 def _week_range(week: str | None) -> tuple:
-    """把 YYYY-WNN 转成 (说明文本, 起始日期, 结束日期)。ISO 周从周一起算。"""
+    """Convert YYYY-WNN into (label text, start date, end date). ISO weeks start Monday."""
     if not week:
         today = date.today()
         iso = today.isocalendar()
@@ -444,61 +454,61 @@ def _week_range(week: str | None) -> tuple:
         year, wk = int(year_s), int(week_s)
         start = date.fromisocalendar(year, wk, 1)  # 1 = Monday
     except (ValueError, AttributeError) as e:
-        raise BuildError(f"周编号 '{week}' 不合法，应为 YYYY-WNN（如 2026-W38）：{e}")
+        raise BuildError(f"invalid week '{week}', expected YYYY-WNN (e.g. 2026-W38): {e}")
     return f"{year}-W{wk:02d}", start, start + timedelta(days=6)
 
 
 def render_report(items: list, tracker: str, week_label: str,
                   start: date, end: date) -> str:
-    """把归一后的 issue 列表渲染成 Markdown 周报。"""
+    """Render the normalized issue list into a Markdown weekly report."""
     groups = defaultdict(list)
     for it in items:
         groups[classify(it["state"])].append(it)
 
     lines = [
-        f"# 周报 {week_label}（{start.isoformat()} ~ {end.isoformat()}）",
+        f"# Weekly report {week_label} ({start.isoformat()} ~ {end.isoformat()})",
         "",
-        f"- 数据源：{tracker}",
-        f"- issue 总数：{len(items)}",
-        "- 分组统计：" + " · ".join(
+        f"- data source: {tracker}",
+        f"- total issues: {len(items)}",
+        "- by group: " + " · ".join(
             f"{g} {len(groups[g])}" for g in
-            ("进行中", "阻塞", "待办", "已完成", "已取消") if groups.get(g)
+            ("In Progress", "Blocked", "To Do", "Done", "Canceled") if groups.get(g)
         ),
         "",
     ]
 
-    blocked = groups.get("阻塞", [])
+    blocked = groups.get("Blocked", [])
     if blocked:
-        lines += ["> [!WARNING]", f"> **阻塞项 {len(blocked)} 个，需优先处理：**",
+        lines += ["> [!WARNING]", f"> **{len(blocked)} blocked item(s), handle first:**",
                   ">"]
         for it in blocked:
-            who = it["assignee"] or "未指派"
-            lines.append(f"> - `{it['id']}` {it['title']}（负责人：{who}）")
+            who = it["assignee"] or "Unassigned"
+            lines.append(f"> - `{it['id']}` {it['title']} (assignee: {who})")
         lines.append("")
 
-    for group in ("进行中", "阻塞", "待办", "已完成", "已取消"):
+    for group in ("In Progress", "Blocked", "To Do", "Done", "Canceled"):
         bucket = groups.get(group)
         if not bucket:
             continue
-        lines += [f"## {group}（{len(bucket)}）", ""]
-        lines.append("| ID | 标题 | 状态 | 负责人 | 优先级 |")
+        lines += [f"## {group} ({len(bucket)})", ""]
+        lines.append("| ID | Title | State | Assignee | Priority |")
         lines.append("|---|---|---|---|---|")
         for it in bucket:
             title = it["title"].replace("|", "\\|")
             lines.append(
                 f"| `{it['id']}` | {title} | {it['state']} | "
-                f"{it['assignee'] or '未指派'} | {it['priority'] or '—'} |")
+                f"{it['assignee'] or 'Unassigned'} | {it['priority'] or '-'} |")
         lines.append("")
 
     if not items:
-        lines += ["（本周无 issue 记录。）", ""]
+        lines += ["(no issue records this week.)", ""]
     return "\n".join(lines).rstrip() + "\n"
 
 
 def cmd_weekly_report(args) -> int:
     raw = _load_json(args.json, "--json")
     if isinstance(raw, dict):
-        # 兼容三家各自的响应包装：Jira search / Linear GraphQL / GitHub REST
+        # tolerate each platform's response wrapper: Jira search / Linear GraphQL / GitHub REST
         items = (raw.get("issues")
                  or (raw.get("data") or {}).get("issues", {}).get("nodes")
                  or raw.get("results")
@@ -506,10 +516,10 @@ def cmd_weekly_report(args) -> int:
     elif isinstance(raw, list):
         items = raw
     else:
-        return _die("--json 必须是 issue 数组或含 issues/results 的响应对象")
+        return _die("--json must be an issue array or a response object containing issues/results")
 
     if not items:
-        return _die("--json 里没有 issue 记录（检查是否用了错误的响应包装层级）")
+        return _die("--json has no issue records (check you did not use the wrong response-wrapper level)")
 
     normalized = [_extract_issue(it, args.tracker) for it in items]
     week_label, start, end = _week_range(args.week)
@@ -517,10 +527,10 @@ def cmd_weekly_report(args) -> int:
 
     if args.output:
         Path(args.output).write_text(report, encoding="utf-8")
-        print(f"# 已写入 {args.output}（{len(normalized)} 条 issue）")
+        print(f"# written to {args.output} ({len(normalized)} issues)")
     else:
         sys.stdout.write(report)
-        print(f"# 统计：{len(normalized)} 条 issue（{args.tracker}）")
+        print(f"# stats: {len(normalized)} issues ({args.tracker})")
     return 0
 
 
@@ -528,32 +538,32 @@ def cmd_weekly_report(args) -> int:
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="issue_sync.py",
-        description="Jira / Linear / GitHub Issues 请求构造与周报生成（离线，不发请求）",
+        description="Jira / Linear / GitHub Issues request building and weekly-report generation (offline, no requests)",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     sub = p.add_subparsers(dest="cmd", required=True)
 
-    s = sub.add_parser("build", help="构造 issue 创建请求并打印")
+    s = sub.add_parser("build", help="build an issue-create request and print it")
     s.add_argument("--tracker", choices=["jira", "linear", "github"], required=True)
     s.add_argument("--title", required=True)
     s.add_argument("--body", default="")
-    s.add_argument("--priority", default="P2", help="P0..P4，默认 P2")
+    s.add_argument("--priority", default="P2", help="P0..P4, default P2")
     s.add_argument("--assignee", default="")
-    s.add_argument("--labels", default="", help="逗号分隔")
-    s.add_argument("--project", default="", help="Jira 项目 key")
-    s.add_argument("--team", default="", help="Linear 团队 ID")
+    s.add_argument("--labels", default="", help="comma-separated")
+    s.add_argument("--project", default="", help="Jira project key")
+    s.add_argument("--team", default="", help="Linear team ID")
     s.add_argument("--repo", default="", help="GitHub owner/name")
     s.set_defaults(func=cmd_build)
 
-    s = sub.add_parser("field-map", help="打印三家字段/状态映射表")
-    s.add_argument("--json", action="store_true", help="以 JSON 输出（便于程序消费）")
+    s = sub.add_parser("field-map", help="print the three-way field/status mapping table")
+    s.add_argument("--json", action="store_true", help="emit JSON (for programmatic use)")
     s.set_defaults(func=cmd_field_map)
 
-    s = sub.add_parser("weekly-report", help="从 issue 列表生成周报 Markdown")
+    s = sub.add_parser("weekly-report", help="generate a weekly-report Markdown from an issue list")
     s.add_argument("--json", required=True)
     s.add_argument("--tracker", choices=["jira", "linear", "github"], default="github")
-    s.add_argument("--week", help="YYYY-WNN，默认本周")
-    s.add_argument("--output", help="输出文件；缺省打印到 stdout")
+    s.add_argument("--week", help="YYYY-WNN, defaults to this week")
+    s.add_argument("--output", help="output file; defaults to stdout")
     s.set_defaults(func=cmd_weekly_report)
 
     return p

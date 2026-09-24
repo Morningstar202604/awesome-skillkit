@@ -234,14 +234,14 @@
 
       const h = el("h3");
       const name = el("span", null);
-      name.append(highlight(p.name_zh || p.name, q));
+      name.append(highlight(p.name || p.name_zh, q));
       h.append(name, el("span", "dom", p.id));
       const d = el("p");
-      d.append(highlight(p.desc_zh || p.desc, q));
+      d.append(highlight(p.desc || p.desc_zh, q));
       c.append(h, d);
 
       const meta = el("div", "meta-row");
-      meta.append(el("span", "tag", p.n_skills + " 技能"));
+      meta.append(el("span", "tag", p.n_skills + " skills"));
       meta.append(el("span", "tag", p.size_kb + " KB"));
       meta.append(el("span", "tag", p.id + ".zip"));
       c.append(meta);
@@ -255,7 +255,7 @@
       act.append(alt);
       c.append(act);
 
-      const dis = el("button", "disclose", `查看 ${p.n_skills} 个技能 ▾`);
+      const dis = el("button", "disclose", `View ${p.n_skills} skills ▾`);
       const sl = el("div", "skill-list");
       p.skills.forEach((n) => {
         const b = el("button", null, n);
@@ -275,7 +275,7 @@
       dis.addEventListener("click", () => {
         sl.classList.toggle("open");
         dis.textContent = sl.classList.contains("open")
-          ? `收起 ▴` : `查看 ${p.n_skills} 个技能 ▾`;
+          ? `Hide ▴` : `View ${p.n_skills} skills ▾`;
       });
       c.append(dis, sl);
       box.append(c);

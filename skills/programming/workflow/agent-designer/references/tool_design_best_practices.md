@@ -1,6 +1,6 @@
 # Tool Design Best Practices for Multi-Agent Systems
 
-## 目录
+## Table of Contents
 
 - [Overview](#overview)
 - [Core Principles](#core-principles)

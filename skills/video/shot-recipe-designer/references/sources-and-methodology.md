@@ -1,8 +1,8 @@
-# 方法论出处与致谢 / Sources & Methodology
+# Methodology sources and acknowledgements
 
-## 主要来源
+## Main sources
 
-| 来源 | 许可证 | 借鉴的方法论要点 |
+| Source | License | Methodology points borrowed |
 |------|--------|------------------|
 | [hunger-Eric/video-shotcraft](https://github.com/hunger-Eric/video-shotcraft) | 见其仓库 | 「镜头配方卡」组织法：每卡固定字段（用途/能量/时长/参数/实现要点/已知坑）；152 卡库经 8 轮逐帧对照参考素材蒸馏的工艺流程；能量曲线意识（beat-synced cuts、呼吸镜头） |
 | 经典剪辑理论 | — | 匹配剪辑 / 反应切出 / 定格等概念出自传统剪辑语汇（Walter Murch《眨眼之间》的「blink」节奏观在本仓被简化为能量曲线自查） |
@@ -13,7 +13,7 @@
 （卡片字段学、能量分级、参数化运镜公式）出发、按中文短视频场景重新撰写的
 子集。其 152 卡完整库（含 Remotion 实现）请访问原仓库。
 
-## 与本仓标准的合并
+## Merged to this repo's standards
 
 1. **十诫化**：每卡给出可直接填入 prompt 的模板（诫 9：确定性操作脚本化/模板化）；
 2. **失败分支**：每卡附「坑」，与 SKILL-STANDARD-v2 §3 诫 2 对齐；

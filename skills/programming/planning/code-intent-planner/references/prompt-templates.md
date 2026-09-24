@@ -1,6 +1,6 @@
 # Prompt 模板库
 
-## 目录
+## Table of Contents
 
 - [L2 Flash LLM Prompt](#l2-flash-llm-prompt)
 - [L3 Pro LLM Prompt](#l3-pro-llm-prompt)

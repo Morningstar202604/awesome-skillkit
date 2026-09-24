@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
-"""Figure Maker — **DEPRECATED**：本技能已并入 `pub-plotter`。
+"""Figure Maker -- **DEPRECATED**: this skill has been merged into `pub-plotter`.
 
-保留原有 CLI 与 JSON 契约（`--data` / `--type bar|line|boxplot|heatmap` / `--output`），
-内部**委托** `pub-plotter/scripts/pub_plotter.py`，因此：
-  - 既有外部调用方无需改动即可继续跑；
-  - 但会多出 `deprecated: true` / `superseded_by: "pub-plotter"` 字段，且 `heatmap`
-    从「返回 unsupported」变为**真实渲染**（pub-plotter 已实现）。
+The original CLI and JSON contract are kept (`--data` / `--type bar|line|boxplot|heatmap` /
+`--output`); internally it **delegates to** `pub-plotter/scripts/pub_plotter.py`, so:
+  - existing external callers keep running with no changes;
+  - but the output gains `deprecated: true` / `superseded_by: "pub-plotter"` fields, and
+    `heatmap` changes from "returns unsupported" to **real rendering** (pub-plotter already implements it).
 
-为什么不直接删：仓库内索引（manifest.json / packs / skill_chains.json / 生成站点 site/）
-仍按名字引用本技能，且外部可能已固定本 CLI；直接删除会打断它们。
-（仓库内**代码**消费者 `paper_pipeline.py` 已迁到 pub-plotter。）
-保留薄壳 = 去重实现 + 不破坏消费者 + 显式暴露弃用。
+Why not delete it outright: the in-repo indexes (manifest.json / packs / skill_chains.json /
+the generated site/ still reference this skill by name, and external callers may have pinned
+this CLI; deleting it would break them. (The in-repo **code** consumer `paper_pipeline.py`
+has already migrated to pub-plotter.) Keeping the thin shim = de-duplicated implementation +
+no broken consumers + explicit deprecation surface.
 
-迁移方式：把调用直接换成
+Migration: switch the call directly to
   python3 ../pub-plotter/scripts/pub_plotter.py --type heatmap --journal ieee --data d.json
 """
 import argparse
@@ -28,7 +29,7 @@ _DISPATCH = {"line": "plot_line", "bar": "plot_bar",
 
 
 def _load_pub_plotter():
-    """按相对路径加载 pub-plotter 的实现（不依赖 sys.path 污染，也不要求包结构）。"""
+    """Load the pub-plotter implementation by relative path (no sys.path pollution, no package layout required)."""
     target = (Path(__file__).resolve().parent / PURPLE).resolve()
     if not target.exists():
         return None, target
@@ -45,9 +46,9 @@ def main():
     parser.add_argument("--type", default="bar",
                         choices=["bar", "line", "boxplot", "heatmap"])
     parser.add_argument("--output", help="Output file (.pdf/.png)")
-    parser.add_argument("--journal", help="透传给 pub-plotter: nature_single|science|ieee|acm|neurips")
+    parser.add_argument("--journal", help="passed through to pub-plotter: nature_single|science|ieee|acm|neurips")
     parser.add_argument("--no-colorblind", action="store_true",
-                        help="透传给 pub-plotter：关闭色盲安全色板")
+                        help="passed through to pub-plotter: disable the colorblind-safe palette")
     args = parser.parse_args()
 
     data = {}
@@ -55,14 +56,14 @@ def main():
         p = Path(args.data)
         if not p.exists():
             print(json.dumps({"status": "error",
-                              "error": f"--data 文件不存在: {args.data}"},
+                              "error": f"--data file not found: {args.data}"},
                              ensure_ascii=False))
             return 2
         data = json.loads(p.read_text(encoding="utf-8"))
 
     mod, target = _load_pub_plotter()
     if mod is None:
-        # 诚实降级：委托目标缺失时明确报错，绝不假装成功
+        # honest degradation: when the delegation target is missing, error explicitly; never pretend success
         print(json.dumps({"status": "error",
                           "error": f"delegation target missing: {target}",
                           "deprecated": True, "superseded_by": "pub-plotter"},
@@ -73,7 +74,7 @@ def main():
     journal = None
     if args.journal:
         if args.journal not in mod.JOURNAL_WIDTHS:
-            print(json.dumps({"status": "error", "error": f"未知 --journal: {args.journal}",
+            print(json.dumps({"status": "error", "error": f"unknown --journal: {args.journal}",
                               "deprecated": True, "superseded_by": "pub-plotter"},
                              ensure_ascii=False, indent=2))
             return 2
@@ -83,9 +84,9 @@ def main():
     try:
         res = fn(data, style, args.output, not args.no_colorblind, journal)
     except ImportError:
-        res = {"status": "skipped", "note": "matplotlib not available；pip install matplotlib"}
+        res = {"status": "skipped", "note": "matplotlib not available; pip install matplotlib"}
     except ValueError as e:
-        # 与 pub-plotter 同口径：非法数据（如 heatmap 非二维阵）必须报错，不允许悄悄出图
+        # same contract as pub-plotter: invalid data (e.g. a heatmap that is not a 2-D array) must error, never silently emit a plot
         print(json.dumps({"status": "error", "error": str(e),
                           "deprecated": True, "superseded_by": "pub-plotter"},
                          ensure_ascii=False, indent=2))

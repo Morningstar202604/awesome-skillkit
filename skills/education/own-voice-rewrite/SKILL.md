@@ -95,7 +95,7 @@ Stylometry's decades-long conclusion: **what best distinguishes writers is
 function word frequency, sentence length distribution, punctuation rhythm—these
 unconscious habits**—stable across topics, hard to deliberately imitate. While
 "she likes this word" surface features are exactly the easiest to fake and least
-con vincing layer.
+convincing layer.
 
 **Practical implication**: only swapping AI draft words for "student words" yields
 a **costume voice**—one "this doesn't sound like you" from the teacher sends it

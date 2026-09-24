@@ -1,6 +1,6 @@
 # 搜索案例库
 
-## 目录
+## Table of Contents
 
 - [案例 1：基础搜索（SearXNG）](#案例-1基础搜索searxng)
 - [案例 2：中文搜索](#案例-2中文搜索)
@@ -14,12 +14,12 @@
 
 ## 案例 1：基础搜索（SearXNG）
 
-**输入：**
+**Input:**
 ```python
 result = search("Python FastAPI 最佳实践", engine="searxng")
 ```
 
-**输出：**
+**Output:**
 ```json
 {
   "query": "Python FastAPI 最佳实践",
@@ -49,12 +49,12 @@ result = search("Python FastAPI 最佳实践", engine="searxng")
 
 ## 案例 2：中文搜索
 
-**输入：**
+**Input:**
 ```python
 result = search("机器学习入门教程", engine="searxng", language="zh")
 ```
 
-**输出：**
+**Output:**
 ```json
 {
   "query": "机器学习入门教程",
@@ -106,7 +106,7 @@ result = search("test query", engine="searxng")
 
 ## 案例 5：深度搜索
 
-**输入：**
+**Input:**
 ```python
 result = deep_search("2024年AI发展趋势", max_rounds=3)
 ```
@@ -120,7 +120,7 @@ result = deep_search("2024年AI发展趋势", max_rounds=3)
 4. 第 3 轮：继续深入 → 各 3 条结果
 5. 汇总去重 → 最终 15 条结果
 
-**输出：**
+**Output:**
 ```json
 {
   "query": "2024年AI发展趋势",
@@ -148,9 +148,9 @@ result = search("test", use_cache=False)
 
 ---
 
-## 案例来源
+## Case sources
 
-| 案例 | 来源 | 场景 |
+| Case | Source | Scenario |
 |------|------|------|
 | 案例 1 | 真实搜索 | 技术文档查询 |
 | 案例 2 | 真实搜索 | 中文内容检索 |

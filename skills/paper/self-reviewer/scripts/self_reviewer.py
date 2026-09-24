@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
-"""Self Reviewer — 模拟审稿 + 质量检查清单。
+"""Self Reviewer — simulated review + quality checklist.
 
-对标 2026 ML 可复现性审查标准（papers-with-code 清单 + IMRaD + 统计门槛）：
-  - 每个 check 给出 evidence（原文命中片段，可复核）而非只给布尔；
-  - 区分 hard gate（必须）与 soft gate（建议），uncertain 项显式标注"需人工/LLM 复核"；
-  - --llm 标记：若提供 --llm-evidence（JSON 文件），则用模型给出的 evidence/confidence
-    替代关键词命中；缺失时回退关键词（method=keyword-fallback，如实标注）。
+Targets 2026 ML reproducibility review standards (papers-with-code checklist + IMRaD +
+statistical thresholds):
+  - each check gives evidence (a snippet from the source, verifiable) rather than just a boolean;
+  - distinguishes hard gates (required) from soft gates (recommended); uncertain items are
+    explicitly marked "needs human/LLM review";
+  - --llm mode: if --llm-evidence (a JSON file) is supplied, use the model's evidence/confidence
+    instead of keyword hits; if missing, fall back to keywords (method=keyword-fallback, labeled honestly).
 
-用法:
+Usage:
   python3 self_reviewer.py --paper draft.tex
   python3 self_reviewer.py --paper draft.tex --llm-evidence llm_review.json --output review.json
   python3 self_reviewer.py --paper draft.tex --checklist
@@ -18,7 +20,8 @@ import re
 import sys
 from pathlib import Path
 
-# 四类清单（结构/内容/写作/格式），语义项脚本不自动判定 → 进 uncertain + 需 LLM/人工
+# Four checklist categories (structure/content/writing/format); semantic items the script
+# cannot auto-judge -> go into uncertain + need LLM/human review
 CHECKLIST = {
     "structure": [
         "Has abstract (150-300 words)",
@@ -52,7 +55,7 @@ CHECKLIST = {
     ],
 }
 
-# 关键词映射：check → 可命中的关键词集合（命中=自动 pass，否则进 uncertain 需复核）
+# Keyword map: check -> set of matchable keywords (a hit = auto pass, otherwise goes to uncertain for review)
 KEYWORDS = {
     "Statistical significance tested": ["p-value", "p < ", "significance", "paired t-test", "wilcoxon", "95% ci", "confidence interval"],
     "Ablation study included": ["ablation"],
@@ -72,13 +75,13 @@ def _evidence_snippet(tex: str, kw: str, width: int = 60) -> str:
 
 
 def review_paper(tex: str, llm_evidence: dict = None) -> dict:
-    """Run self-review. llm_evidence: {check: {evidence, confidence}}，缺失用关键词回退。"""
+    """Run self-review. llm_evidence: {check: {evidence, confidence}}; falls back to keywords when missing."""
     words = len(tex.split())
     checks = {"passed": [], "failed": [], "uncertain": []}
     evidence = {}
     method = "llm-evidence" if llm_evidence else "keyword-fallback"
 
-    # 结构 hard gate
+    # structure hard gate
     has_abstract = bool(re.search(r"\\(section|subsection)\{?[ {]?Abstract", tex)) or "abstract" in tex[:2000].lower()
     if has_abstract:
         checks["passed"].append("Has abstract")
@@ -101,7 +104,7 @@ def review_paper(tex: str, llm_evidence: dict = None) -> dict:
     else:
         checks["passed"].append(f"Adequate length ({words} words)")
 
-    # 内容 soft gate（可关键词或 LLM 命中）
+    # content soft gate (keyword or LLM hit)
     for check, kws in KEYWORDS.items():
         hit = None
         if llm_evidence and check in llm_evidence:
@@ -111,7 +114,7 @@ def review_paper(tex: str, llm_evidence: dict = None) -> dict:
                 evidence[check] = {"source": "llm", "evidence": hit["evidence"], "confidence": conf}
                 checks["passed"].append(f"{check} (LLM)")
             else:
-                checks["uncertain"].append(f"{check} — LLM 置信度不足 ({conf}), 需人工复核")
+                checks["uncertain"].append(f"{check} - LLM confidence too low ({conf}), needs human review")
         else:
             for kw in kws:
                 if kw in tex.lower():
@@ -120,11 +123,12 @@ def review_paper(tex: str, llm_evidence: dict = None) -> dict:
                     hit = True
                     break
             if not hit:
-                checks["uncertain"].append(f"{check} — 未命中关键词, 需 LLM/人工复核")
+                checks["uncertain"].append(f"{check} - no keyword hit, needs LLM/human review")
 
     # Score
     total = len(checks["passed"]) + len(checks["failed"]) + len(checks["uncertain"])
-    # uncertain 不计入分母（避免"没检查到"拉低分），但 ready 必须无 uncertain
+    # uncertain items are not counted in the denominator (so "not checked" does not drag the
+    # score down), but ready requires zero uncertain items
     denom = max(len(checks["passed"]) + len(checks["failed"]), 1)
     score = int(100 * len(checks["passed"]) / denom)
     status = "ready" if (score >= 80 and not checks["uncertain"]) else "needs_work"
@@ -153,7 +157,7 @@ def _next_steps(checks: dict) -> list:
     if any("Too short" in f for f in checks["failed"]):
         steps.append("Expand results section with more experiments")
     if checks["uncertain"]:
-        steps.append("Resolve uncertain items (LLM/人工): " + "; ".join(checks["uncertain"]))
+        steps.append("Resolve uncertain items (LLM/human): " + "; ".join(checks["uncertain"]))
     if not steps:
         steps.append("All gates pass — ready for downstream (journal-adapt / tex-cleaner)")
     return steps

@@ -11,7 +11,7 @@
 > - 建议区间为**经验值**，是为了展示效果与可读性，不是平台限制。
 > - 另：`SKILL.md` 的「Platform Title Limits」表与 `scripts/seo_optimizer.py` 的 `PLATFORM_META` 数值（如 csdn 标题 50、掘金 60）是**脚本内默认基线**，来源为技能编写时的经验设定，**未逐平台官方核实**。用它们做粗筛可以，发布前必须实测。
 
-## 目录
+## Table of Contents
 
 - [1. 速查总表](#1-速查总表)
 - [2. 微信生态（公众号）](#2-微信生态公众号)
@@ -47,9 +47,9 @@
 
 ## 2. 微信生态（公众号）
 
-> 以下为 2026-09 常见情况，以平台最新规则为准。
+> The below reflects common situations as of 2026-09; defer to the platform's latest rules.
 
-| 维度 | 说明 |
+| Dimension | Description |
 |------|------|
 | 收录 | 内容主要在微信内分发（会话、朋友圈、看一看、搜一搜）。**是否被外部搜索引擎收录、收录多少，平台未公开且历史上多次变化** → 按「站外收录不稳定」处理，不要把外搜流量当主要来源 |
 | 标题 | 硬上限 `需实测`（发布页输入即知）。建议区间：**20–30 字内**（经验值），保证在会话列表与分享卡片中不截断；前半句必须自解释 |
@@ -62,9 +62,9 @@
 
 ## 3. 知乎
 
-> 以下为 2026-09 常见情况，以平台最新规则为准。
+> The below reflects common situations as of 2026-09; defer to the platform's latest rules.
 
-| 维度 | 说明 |
+| Dimension | Description |
 |------|------|
 | 收录 | 站外搜索收录情况历来较好，但**具体口径未公开且会变**。判断方法：用站点检索语法在目标搜索引擎搜自己的文章标题，看是否被收录（实测，别猜） |
 | 标题 | 硬上限 `需实测`。建议区间：**25–40 字**（经验值），知乎标题偏「提问式/陈述式长标题」，比公众号能承载更多信息 |
@@ -77,9 +77,9 @@
 
 ## 4. CSDN
 
-> 以下为 2026-09 常见情况，以平台最新规则为准。
+> The below reflects common situations as of 2026-09; defer to the platform's latest rules.
 
-| 维度 | 说明 |
+| Dimension | Description |
 |------|------|
 | 收录 | 站外搜索收录情况历来较好，`未公开`且会变 → 实测 |
 | 标题 | 硬上限 `需实测`（`seo_optimizer.py` 默认 50，未官方核实）。建议区间：**含关键词 + 数字 + 场景**，如「X 从 A 优化到 B：N 个步骤」 |
@@ -92,9 +92,9 @@
 
 ## 5. 掘金
 
-> 以下为 2026-09 常见情况，以平台最新规则为准。
+> The below reflects common situations as of 2026-09; defer to the platform's latest rules.
 
-| 维度 | 说明 |
+| Dimension | Description |
 |------|------|
 | 收录 | 站外收录情况一般，`未公开` → 实测 |
 | 标题 | 硬上限 `需实测`（脚本默认 60，未核实）。建议区间：30–50 字，技术关键词前置 |
@@ -107,9 +107,9 @@
 
 ## 6. 今日头条
 
-> 以下为 2026-09 常见情况，以平台最新规则为准。
+> The below reflects common situations as of 2026-09; defer to the platform's latest rules.
 
-| 维度 | 说明 |
+| Dimension | Description |
 |------|------|
 | 收录 | 以**站内推荐分发**为主；站外收录 `未公开` → 不要以外搜流量为主要目标 |
 | 标题 | 硬上限 `需实测`（脚本默认 30，未核实）。建议区间：20–30 字，**数字 + 疑问/痛点**型标题在该生态较常见（经验观察，非官方结论） |
@@ -122,9 +122,9 @@
 
 ## 7. 百家号
 
-> 以下为 2026-09 常见情况，以平台最新规则为准。
+> The below reflects common situations as of 2026-09; defer to the platform's latest rules.
 
-| 维度 | 说明 |
+| Dimension | Description |
 |------|------|
 | 收录 | 与百度搜索同生态，内容在百度搜索中的展现通常有优势 —— 但**具体加权规则未公开**，不要把它当成确定性的流量保证 → 实测 |
 | 标题 | 硬上限 `需实测`（脚本默认 30，未核实）。建议区间：20–30 字，关键词前置 |
@@ -137,9 +137,9 @@
 
 ## 8. 小红书
 
-> 以下为 2026-09 常见情况，以平台最新规则为准。
+> The below reflects common situations as of 2026-09; defer to the platform's latest rules.
 
-| 维度 | 说明 |
+| Dimension | Description |
 |------|------|
 | 收录 | **站内搜索是核心**；站外收录有限且 `未公开` → 按「站内搜索」优化，关键词要放进标题与正文前几行 |
 | 标题 | 硬上限 `需实测`（社区内容标题通常较短）。建议区间：**20 字以内**（经验值），含 1 个核心搜索词 |
@@ -152,9 +152,9 @@
 
 ## 9. B站（专栏 / 视频）
 
-> 以下为 2026-09 常见情况，以平台最新规则为准。
+> The below reflects common situations as of 2026-09; defer to the platform's latest rules.
 
-| 维度 | 说明 |
+| Dimension | Description |
 |------|------|
 | 收录 | 站内搜索为核心；站外收录有限，`未公开` → 实测 |
 | 标题 | 硬上限 `需实测`。建议区间：视频标题 20–30 字，**前 10 字承载核心关键词**（列表页展示会截断） |

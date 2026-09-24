@@ -1,6 +1,6 @@
 # Bounded Autonomy Rules
 
-## 目录
+## Table of Contents
 
 - [The Core Principle](#the-core-principle)
 - [Decision Matrix](#decision-matrix)

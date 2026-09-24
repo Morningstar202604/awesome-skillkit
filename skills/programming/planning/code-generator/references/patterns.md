@@ -2,11 +2,11 @@
 
 ## Python FastAPI CRUD
 
-### 适用场景
+### When to use
 - 实现新的资源模块（用户、订单、商品等）
 - 标准 RESTful API + 数据模型 + 服务层
 
-### 文件结构
+### File structure
 ```
 src/{target}/
 ├── models.py    # Pydantic 模型（Create/Update/Base）
@@ -27,11 +27,11 @@ src/{target}/
 
 ## TypeScript Express CRUD
 
-### 适用场景
+### When to use
 - Node.js/Express REST API
 - TypeScript 项目
 
-### 文件结构
+### File structure
 ```
 src/{target}/
 ├── {target}.router.ts    # 路由定义
@@ -44,11 +44,11 @@ src/{target}/
 
 ## Go Gin CRUD
 
-### 适用场景
+### When to use
 - Go + Gin 框架
 - 高性能 API 服务
 
-### 文件结构
+### File structure
 ```
 internal/{target}/
 ├── model.go      # 数据结构
@@ -61,7 +61,7 @@ internal/{target}/
 
 ## Bug Fix 模式
 
-### 适用场景
+### When to use
 - 修复运行时错误（crash、panic、exception）
 - 需要标注根因和修复说明
 

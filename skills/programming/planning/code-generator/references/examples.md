@@ -2,7 +2,7 @@
 
 > 来源：真实项目 + 边缘场景测试
 
-## 目录
+## Table of Contents
 
 - [案例 1：L1 模板直接生成（Python FastAPI CRUD）](#case-1)
 - [案例 2：L2 LLM 生成（复杂业务逻辑）](#case-2)
@@ -58,7 +58,7 @@ class ProductCreate(BaseModel):
 
 ## 案例 2：L2 LLM 生成（复杂业务逻辑）
 
-**输入：**
+**Input:**
 ```json
 {
   "intent_type": "implement",
@@ -111,7 +111,7 @@ class InventoryService:
 
 ## 案例 3：Bug Fix 生成
 
-**输入：**
+**Input:**
 ```json
 {
   "intent_type": "fix",
@@ -170,7 +170,7 @@ def login(self, username: str, password: str) -> Optional[Token]:
 }
 ```
 
-**输出：**（下列路径相对**被生成项目的根目录**，不是本技能包内的文件）
+**Output:**（下列路径相对**被生成项目的根目录**，不是本技能包内的文件）
 
 ```text
 1. 先生成 src/auth/api.py（T1）
@@ -186,7 +186,7 @@ def login(self, username: str, password: str) -> Optional[Token]:
 
 ## 案例 5：L1 无匹配 → L2 兜底
 
-**输入：**
+**Input:**
 ```json
 {
   "intent_type": "implement",
@@ -243,7 +243,7 @@ async def websocket_endpoint(websocket: WebSocket, room: str):
 
 ## 案例 6：生成验证失败 → 重试
 
-**输入：**
+**Input:**
 ```json
 {
   "intent_type": "implement",
@@ -271,9 +271,9 @@ class UserCreate(BaseModel):
 
 <a id="case-sources"></a>
 
-## 案例来源
+## Case sources
 
-| 案例 | 来源 | 场景 |
+| Case | Source | Scenario |
 |------|------|------|
 | 案例 1 | 真实电商项目 | 标准 CRUD |
 | 案例 2 | 并发编程挑战 | 分布式锁 |

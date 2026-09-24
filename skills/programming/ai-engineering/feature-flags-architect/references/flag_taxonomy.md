@@ -1,6 +1,6 @@
 # Flag taxonomy — the 4 types
 
-## 目录
+## Table of Contents
 
 - [Decision tree](#decision-tree)
 - [1. Release flag](#1-release-flag)

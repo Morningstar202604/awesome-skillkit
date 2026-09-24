@@ -2,10 +2,11 @@
 """exercise_lint.py — lint a generated exercise bank for mastery format.
 
 Checks per question block:
-  1. five fields present: 题干 / 参考答案 / 评分标准 / 常见陷阱 / 关联
+  1. five fields present: Question stem / Reference answer / Scoring rubric /
+     Common pitfalls / Related
   2. difficulty tag in [recall|apply|transfer]
   3. checkpoint reference pattern CP<n>
-  4. --no-mcq: multiple-choice markers (A. B. C. D. / 选择题) banned
+  4. --no-mcq: multiple-choice markers (A. B. C. D.) banned
 
 Output: JSON report. Exit codes: 0 = clean; 1 = violations; 2 = usage error.
 """
@@ -14,7 +15,7 @@ import json
 import re
 import sys
 
-REQUIRED_FIELDS = ["题干", "参考答案", "评分标准", "常见陷阱", "关联"]
+REQUIRED_FIELDS = ["Question stem", "Reference answer", "Scoring rubric", "Common pitfalls", "Related"]
 DIFFICULTY_RE = re.compile(r"^###\s*Q(\d+)\s*\[(recall|apply|transfer)\]", re.M)
 CHECKPOINT_RE = re.compile(r"CP\d+")
 MCQ_RE = re.compile(r"^\s*[A-D][.、．]\s*\S", re.M)
@@ -30,7 +31,7 @@ def lint(text, no_mcq=True):
     for block in blocks:
         qid = DIFFICULTY_RE.search(block).group(1)
         for field in REQUIRED_FIELDS:
-            if field + ("：" if field != "关联" else "") not in block and f"{field}:" not in block and f"{field}：" not in block:
+            if field + ("：" if field != "Related" else "") not in block and f"{field}:" not in block and f"{field}：" not in block:
                 violations.append({"q": qid, "rule": "missing_field",
                                    "detail": f"missing field: {field}"})
         if not CHECKPOINT_RE.search(block):

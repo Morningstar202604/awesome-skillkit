@@ -14,7 +14,7 @@
       "name": "AI Agent Development",
       "name_zh": "AI Agent 开发",
       "file": "dist/ai-agent-development.zip",
-      "size_kb": 164,
+      "size_kb": 163,
       "description": "Build production-grade AI agents, design multi-agent workflows, MCP servers, feature flags, and self-evaluation.",
       "description_zh": "构建生产级 AI Agent、设计多 Agent 工作流、MCP 服务、功能开关与自评。",
       "skills": [
@@ -39,7 +39,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "dab3df26e31e05875cb3261948d2e5d4aef85bdfccd6457f27bdb20a0bec4dd7"
+      "sha256": "03f16e3870631007d9f2f61b82d60dfd611333a555b9051d0d26240e96c7dbbc"
     },
     {
       "id": "ai-media-toolkit",
@@ -48,7 +48,7 @@
       "description": "Generate videos, images, covers, and music from prompts through a local generation gateway.",
       "description_zh": "通过本地生成网关用提示词生成视频、图片、封面与配乐：文生/图生全流程（提交、轮询、下载交付）。",
       "file": "dist/ai-media-toolkit.zip",
-      "size_kb": 24,
+      "size_kb": 26,
       "skills": [
         {
           "name": "video-generation",
@@ -67,7 +67,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "0b341ba0a1e51fc01c6f8e20f602f1cc986b5419e0f61595da781c8818b895ed"
+      "sha256": "6a4b8881cbe3ea1ba34014a38690f3f2acdc90ec7076e0884ddf0e31cb656286"
     },
     {
       "id": "ai-research-writing",
@@ -154,8 +154,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 203,
-      "sha256": "42eba44bd4dbc23cd2586a2e6691338fcc795942497a968485e7bcbccb40fafe"
+      "size_kb": 199,
+      "sha256": "a5ea564b110dea6b9261c5794e687d02c041069df1776436e12077052fc9f7b0"
     },
     {
       "id": "ai-video-pipeline",
@@ -191,7 +191,7 @@
         }
       ],
       "size_kb": 83,
-      "sha256": "e6b8eadb7155c37e995d523e9b3c274005da1e9508a405a7e591542eb6880723"
+      "sha256": "d02628c46d58801f2a9cbb2f11e550ecf214bb556f5c4cac07b5945ea15beb25"
     },
     {
       "id": "api-development",
@@ -235,7 +235,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "09830427915ddb5932010d6181170548d962bec7092f0fa762e2a053e0bda9ad"
+      "sha256": "b04f12ff98489b08120cc4d07bd06e748326485432861f26b84ec56e6e4cd320"
     },
     {
       "id": "audio-studio",
@@ -259,7 +259,7 @@
         }
       ],
       "size_kb": 17,
-      "sha256": "49e4070aa1de8c02679411386b361c71b6418a4e8a4e32a93f4d2e1e76988174"
+      "sha256": "804ffa95c842f61c10e44c35de5da4cdd3a7fe6a31e2de75a86fe914b2a60c27"
     },
     {
       "id": "chat-prompt-craft",
@@ -275,7 +275,7 @@
         }
       ],
       "size_kb": 10,
-      "sha256": "5050b7f1789e88a9ca8be8f87dcea667dcc9ba61973ae093c76ce6f95649581f"
+      "sha256": "07529c5e720f9483c7a3c0d4dcbecbe0f6d190dfa567778b92d9b617412ab90b"
     },
     {
       "id": "ci-cd",
@@ -322,8 +322,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 67,
-      "sha256": "6f96cb50cdfa7e92e944844ae38d7b6fff51f9600c560b2ce93f841e65f56b3b"
+      "size_kb": 66,
+      "sha256": "237270dd677df4c762fa4c6bb30ffa48ed4ff5c4dbe1b7bac3c4080e897e3816"
     },
     {
       "id": "code-review",
@@ -355,7 +355,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "b8c2aaac1bfebf38b421633806ed9363c8356cb34daac1503a74f5e9f5cf91b8"
+      "sha256": "96ac0bbe37175994525f2f23811e37d637c58f066872b0f0af9707ca6ea98399"
     },
     {
       "id": "containers",
@@ -463,7 +463,7 @@
           "source": "skillkit authors (self-authored)"
         }
       ],
-      "sha256": "252eca087c7813e451e25ba150b5c822d85bae59d321be6d1822dad032d117a6"
+      "sha256": "3587d46980c73b7d09f943c2f4bc3ff9d7e97c64a43eefc3404736381ca4b15a"
     },
     {
       "id": "data-ml-science",
@@ -503,7 +503,7 @@
         }
       ],
       "size_kb": 76,
-      "sha256": "8d2d11b84f10db9062ed45350e075d29a9e5e2ec88b8055f3785a5971226452c"
+      "sha256": "ec2fed482cafe3841c1503497654812ecee4712ab17aff0928856c30fd623bc4"
     },
     {
       "id": "database",
@@ -523,7 +523,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "163b3e229109ecc3ff5e4a7162aef48eeea870dcccf8e9844f4e2c6086c9669a"
+      "sha256": "ee962b916a893a6fbb9ee1ccdbe44162b36f210cedc8f5b5ff9e267984675fff"
     },
     {
       "id": "dataviz-studio",
@@ -567,7 +567,7 @@
         }
       ],
       "size_kb": 29,
-      "sha256": "ccb3cb090e673cf6f88b244ca8901db3ea714525d32f70837cb7ffd79352df7b"
+      "sha256": "8d6698a230678b1d933b9293f7ded26ee7d4723fa387ff6070831f473409602f"
     },
     {
       "id": "edu-craft",
@@ -591,7 +591,7 @@
         }
       ],
       "size_kb": 11,
-      "sha256": "eb34ec932074e88c5d287f392af5d88339ca7fdd4c865efd07488a5be4aeac40"
+      "sha256": "312fdd26112d35cc3f06a2fc115c5eca45930551167680dab0e544159416b22e"
     },
     {
       "id": "github-workflow",
@@ -615,7 +615,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "5fa0d2d16ed321e7d4f4a200e6adbd599b8e2e62600fbbadda401adae4e065ff"
+      "sha256": "fe1adb9ea59f6cef5ef64da2baca9ab6488a74f73f420198fd17664209433c31"
     },
     {
       "id": "growth-marketing",
@@ -639,7 +639,7 @@
         }
       ],
       "size_kb": 16,
-      "sha256": "e053ac86b5f5c9d5f5e98f5a6ad6d8e1138cb326b225f28255b2694725053d4e"
+      "sha256": "00e429ee974926cfe15d2552f834d6757893847d93082d8f86b2fdcec7ca1887"
     },
     {
       "id": "homework-autopilot",
@@ -663,7 +663,7 @@
         }
       ],
       "size_kb": 24,
-      "sha256": "3e5817718308bec6d887c97f7c3c7ab7aad6dfa610ed15c626835af4f7b8df37"
+      "sha256": "e4478c926d5c3df419ff2bcd3f28a8250c950c38b3a583cee36d4be6bbf53931"
     },
     {
       "id": "image-studio",
@@ -691,7 +691,7 @@
         }
       ],
       "size_kb": 41,
-      "sha256": "7165768f47897e1ffb7056348dc0bf2ab7a13625571f1571e780cecc9d064f7a"
+      "sha256": "6f0e35eadb0a86a48c9c21dede2251db2e12790109f9ed582192086c1ba4b186"
     },
     {
       "id": "incident-response",
@@ -715,7 +715,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "edcf4b4409d2ff94a00ccd3b7ada7e9a8366947f066dafd3343341d457c1d59e"
+      "sha256": "ea5b5ef73cda35db290f8ff224b5566e70b0a36d4c0e7ea766542220516e4512"
     },
     {
       "id": "infrastructure",
@@ -758,8 +758,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 30,
-      "sha256": "0959db858dfd8ef73b232564822f986e6cb37818a46052b2b52df7908f597ce5"
+      "size_kb": 29,
+      "sha256": "049b192100026409d6587dc056517d3494a1686d5b0f006900413f3d66078e2e"
     },
     {
       "id": "memory-systems",
@@ -796,7 +796,7 @@
       "description": "Daily office work: decks, spreadsheets, resumes, meeting minutes.",
       "description_zh": "日常办公四件套：PPT 制作、Excel 清洗分析、简历岗位定制、会议纪要结构化。",
       "file": "dist/office-productivity.zip",
-      "size_kb": 126,
+      "size_kb": 125,
       "skills": [
         {
           "name": "ppt-builder",
@@ -839,7 +839,7 @@
           "source": "self-authored (adapted from santifer/career-ops, MIT)"
         }
       ],
-      "sha256": "ebe0b8cea495476e21dc3e5b93e11e26a22876af745170d6ef6ae1affb57a0aa"
+      "sha256": "9ba51ffb0351a3b40914d3cbbb76200013e10679ca444f07f9009bc8dc6def32"
     },
     {
       "id": "performance",
@@ -855,7 +855,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "9f421af6497d5fe688830a962333029e533fe26aedc1b5bb3a3bbc1d2dbbb302"
+      "sha256": "5aff81826e5ff848bec68ebc3dae546cf665b1d7625b6d7b58f125bce6bdda64"
     },
     {
       "id": "security",
@@ -883,7 +883,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "8e870c3a1aaec91b057dd6e8e68d3cdf9bf1cbfba8ddb6037225bc665762d967"
+      "sha256": "78983d0e454290081d8e9cc3347b994218304bd30ffcaf9408f7728f25540334"
     },
     {
       "id": "skill-forge",
@@ -915,14 +915,14 @@
         }
       ],
       "size_kb": 48,
-      "sha256": "2f7f9ed758d4907be2f928aafdd9c190e7e09173417b8a93a0eb862e8c1f01fd"
+      "sha256": "579280beb00081e5dbb3f0cdc5140ce0bb500bd0c51ea7e5347812a58ef8af9a"
     },
     {
       "id": "tdd",
       "name": "Test-Driven Development",
       "name_zh": "测试驱动开发",
       "file": "dist/tdd.zip",
-      "size_kb": 79,
+      "size_kb": 78,
       "description": "Write unit tests, fixtures, mocks, and guide red-green-refactor cycles.",
       "description_zh": "编写单元测试、fixture、mock，并引导红绿重构循环。",
       "skills": [
@@ -943,7 +943,7 @@
           "source": "self-authored (verification-type agent behavior scoring: 5-dim 0-100 rubric + LLM-as-judge prompt, offline)"
         }
       ],
-      "sha256": "c07644eed32735f278b29f80d47aeaccec8d20d41ebd1fe8e595f9a35193b995"
+      "sha256": "a4d04a17dc3f390a4be54f29e6c7aa11db99dba3551865be74b241c071fb968c"
     },
     {
       "id": "toolsmith",
@@ -978,8 +978,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 64,
-      "sha256": "074ac92d7654b0a2f2691cb2af8a846d7dff38faed1cd6c1da745dc1e199ad47"
+      "size_kb": 63,
+      "sha256": "f3aa2d235b8a5cec1be7fbae763ed75fd20047a8f4ccabdeb6bbc1ee2e09ec9d"
     },
     {
       "id": "video-design-studio",
@@ -1006,8 +1006,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 50,
-      "sha256": "bd96172d71e4d7c27b3511e8c41a8c6599abf6f9a58f1ad3084e6c83194124e5"
+      "size_kb": 49,
+      "sha256": "1d0679511effc88ac5af64294d9a4d2d2a528448d77d7103aa156ac4642e02ea"
     },
     {
       "id": "viral-entertainment",
@@ -1059,7 +1059,7 @@
         }
       ],
       "size_kb": 47,
-      "sha256": "8065254f0257c97e5d8f66e925bb3ba3a7c111ddb2b443c0003f610e9d9b1b78"
+      "sha256": "009de2bbf8f0b799739924660e14e4e1e5449fbb4a63ffb2a3c93d114fc8b461"
     },
     {
       "id": "workspace-integrations",
@@ -1086,8 +1086,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 61,
-      "sha256": "ce3ff5527cb1c130595a1e38c744d66e258a54c2646e7b4e44989588453715ff"
+      "size_kb": 59,
+      "sha256": "b84d6d317ac9e1fea2a45e40e9ff34c1ae53752fed7869e3c408a847134f30ee"
     }
   ]
 }

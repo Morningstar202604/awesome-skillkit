@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
-"""hello_stats — good-skill 的演示脚本。
+"""hello_stats -- the demonstration script for good-skill.
 
-一个"合格技能"的脚本应满足的五条纪律（每条都对应 quality_scorer /
-script_tester 的一个检查项）：
+The five disciplines a "qualified skill" script should follow (each maps to one check in
+quality_scorer / script_tester):
 
-1. stdlib-only        —— 仓库政策：scripts/ 下的脚本只允许标准库。
-2. __main__ guard     —— 被 import 时零副作用（script_tester 做 AST 检查）。
-3. --help 自描述      —— argparse 自动提供，排障第一入口。
-4. --json 机器可读    —— CI 集成与 golden 比对的前提。
-5. 错误路径可读       —— 失败也要退出码非 0 + stderr 给出"下一步怎么办"。
+1. stdlib-only        -- repo policy: scripts under scripts/ may use only the standard library.
+2. __main__ guard     -- zero side effects when imported (script_tester runs an AST check).
+3. --help self-describes -- provided automatically by argparse; the first entry point for troubleshooting.
+4. --json machine-readable -- the prerequisite for CI integration and golden comparison.
+5. readable error paths -- even on failure: non-zero exit code + stderr telling the user "what to do next".
 
-功能：对一组数字（逗号分隔的 CLI 参数、或 --input 文件、或 stdin）
-计算基本统计量，支持百分位与输出精度控制。
+Function: given a set of numbers (comma-separated CLI arg, or an --input file, or stdin),
+compute basic statistics, with percentile and output-precision control.
 """
 
 import argparse
@@ -22,7 +22,7 @@ DEFAULT_PRECISION = 4
 
 
 def parse_numbers(raw):
-    """把逗号分隔的数字串解析为浮点列表；任何一项非法即抛 ValueError。
+    """Parse a comma-separated number string into a float list; raise ValueError on any bad item.
 
     >>> parse_numbers("1, 2,3.5")
     [1.0, 2.0, 3.5]
@@ -34,7 +34,7 @@ def parse_numbers(raw):
 
 
 def read_numbers_from_path(path):
-    """从文本文件读数字：按行收集，行内逗号/空白分隔均可。"""
+    """Read numbers from a text file: collect by line; commas/whitespace within a line both split."""
     numbers = []
     with open(path, "r", encoding="utf-8") as fh:
         for line in fh:
@@ -46,7 +46,7 @@ def read_numbers_from_path(path):
 
 
 def percentile(sorted_vals, pct):
-    """线性插值百分位（与 numpy 默认 linear 法一致的简化版）。
+    """Linear-interpolation percentile (a simplified version consistent with numpy's default linear method).
 
     >>> percentile([1.0, 2.0, 3.0, 4.0], 50)
     2.5
@@ -63,7 +63,7 @@ def percentile(sorted_vals, pct):
 
 
 def compute_stats(numbers, pcts=(50,)):
-    """对一组数字计算统计量；pcts 指定要输出的百分位（如 50/90/99）。"""
+    """Compute statistics over a set of numbers; pcts lists the percentiles to output (e.g. 50/90/99)."""
     n = len(numbers)
     mean = sum(numbers) / n
     sorted_vals = sorted(numbers)
@@ -87,7 +87,7 @@ def compute_stats(numbers, pcts=(50,)):
 
 
 def round_stats(stats, precision):
-    """把浮点值按精度取整（保留 median 可能是 int 的情形由 float() 统一）。"""
+    """Round float values to the given precision (the case where median may be an int is unified by float())."""
     out = {}
     for key, val in stats.items():
         out[key] = round(float(val), precision)
@@ -95,8 +95,8 @@ def round_stats(stats, precision):
 
 
 def render_table(stats, precision):
-    """人类可读的表格输出。"""
-    lines = ["=== 统计结果 ==="]
+    """Human-readable table output."""
+    lines = ["=== Statistics ==="]
     for key, val in stats.items():
         if isinstance(val, float):
             lines.append(f"{key:>8}: {val:.{precision}f}")
@@ -108,18 +108,18 @@ def render_table(stats, precision):
 def build_parser():
     ap = argparse.ArgumentParser(
         prog="hello_stats",
-        description="对一组数字计算基本统计量（good-skill 演示脚本）。",
-        epilog="示例：hello_stats 1,2,3.5,4 --json；cat data.txt | hello_stats -",
+        description="Compute basic statistics over a set of numbers (good-skill demo script).",
+        epilog="Example: hello_stats 1,2,3.5,4 --json; cat data.txt | hello_stats -",
     )
     ap.add_argument("numbers", nargs="?", default=None,
-                    help="逗号分隔的数字，如 1,2,3.5；用 '-' 表示从 stdin 读")
+                    help="comma-separated numbers, e.g. 1,2,3.5; use '-' to read from stdin")
     ap.add_argument("--input", dest="input_path", default=None,
-                    help="从文本文件读数字（行内逗号/空白分隔）")
-    ap.add_argument("--json", action="store_true", help="输出 JSON（机器可读）")
+                    help="read numbers from a text file (commas/whitespace within a line split)")
+    ap.add_argument("--json", action="store_true", help="emit JSON (machine-readable)")
     ap.add_argument("--percentiles", default="50",
-                    help="逗号分隔的百分位列表，如 50,90,99（默认 50）")
+                    help="comma-separated percentile list, e.g. 50,90,99 (default 50)")
     ap.add_argument("--precision", type=int, default=DEFAULT_PRECISION,
-                    help=f"浮点输出精度（默认 {DEFAULT_PRECISION} 位小数）")
+                    help=f"float output precision (default {DEFAULT_PRECISION} decimal places)")
     return ap
 
 
@@ -130,7 +130,7 @@ def main(argv=None):
     try:
         pcts = [float(p) for p in args.percentiles.split(",") if p.strip()]
     except ValueError:
-        print("error: --percentiles 只接受逗号分隔的数字，如 50,90,99", file=sys.stderr)
+        print("error: --percentiles accepts only comma-separated numbers, e.g. 50,90,99", file=sys.stderr)
         return 2
 
     try:
@@ -141,12 +141,12 @@ def main(argv=None):
         elif args.numbers:
             numbers = parse_numbers(args.numbers)
         else:
-            print("error: 缺少 numbers 参数；示例：hello_stats 1,2,3.5 或 --input data.txt",
+            print("error: missing numbers argument; example: hello_stats 1,2,3.5 or --input data.txt",
                   file=sys.stderr)
             return 2
         stats = compute_stats(numbers, pcts=pcts)
     except ValueError as e:
-        print(f"error: 输入无法解析（{e}）；示例：hello_stats 1,2,3.5,4", file=sys.stderr)
+        print(f"error: cannot parse input ({e}); example: hello_stats 1,2,3.5,4", file=sys.stderr)
         return 2
 
     stats = round_stats(stats, max(0, args.precision))

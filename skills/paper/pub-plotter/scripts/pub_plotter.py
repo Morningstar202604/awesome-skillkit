@@ -1,33 +1,36 @@
 #!/usr/bin/env python3
-"""Publication Plotter — 出版级图表（SOTA：字体嵌入 + 期刊真实物理宽度 + 色盲安全色板）。
+"""Publication Plotter -- publication-grade figures (SOTA: font embedding + real journal physical width + colorblind-safe palette).
 
-对标 2026 出版级出图最佳实践：
-  - 字体嵌入：pdf.fonttype=42 / ps.fonttype=42（Type 42 子集嵌入，避免 arXiv 拒收）
-  - 期刊真实宽度（inches）：nature_single=3.504 (89mm), nature_double=7.0,
-    science=4.76, ieee=3.5, acm=6.5, neurips=6.0 —— 默认「按目标版面出图」
-  - 色盲安全色板（Paul Tol / Okabe-Ito），--style colorblind_safe 默认启用
-  - 可选真实 scienceplots 包：装了则 `plt.style.use(["science","ieee"])`，
-    未装则用内置等价预设（离线可用，行为一致）
+Aligned with 2026 best practices for publication-grade figures:
+  - Font embedding: pdf.fonttype=42 / ps.fonttype=42 (Type 42 subset embedding,
+    so arXiv does not reject the figure)
+  - Real journal widths (inches): nature_single=3.504 (89mm), nature_double=7.0,
+    science=4.76, ieee=3.5, acm=6.5, neurips=6.0 -- default "draw at the target layout width"
+  - Colorblind-safe palette (Paul Tol / Okabe-Ito); --style colorblind_safe on by default
+  - Optional real scienceplots package: if installed, `plt.style.use(["science","ieee"])`;
+    otherwise use a built-in equivalent preset (works offline, identical behavior)
 
-双轨语义（诚实）：matplotlib 缺失 → status="mock"，无图片产生，MUST 告知用户；
-matplotlib 在 → status="success" + rendered=true，产物为真实 PDF/PNG。
+Two-track semantics (honest): matplotlib missing -> status="mock", no image produced,
+MUST tell the user; matplotlib present -> status="success" + rendered=true, the artifact
+is a real PDF/PNG.
 """
 import argparse
 import json
 import sys
 from pathlib import Path
 
-# 期刊真实物理宽度（inches），出版级出图应对齐目标版面而非手拍 figsize
+# real journal physical widths (inches); publication-grade figures should align to the target
+# layout rather than using a hand-picked figsize
 JOURNAL_WIDTHS = {
     "nature_single": 3.504,  # 89 mm
-    "nature_double": 7.0,    # 全页双栏
+    "nature_double": 7.0,    # full-page double column
     "science": 4.76,
     "ieee": 3.5,
     "acm": 6.5,
     "neurips": 6.0,
 }
 
-# 色盲安全色板（Paul Tol vivid / Okabe-Ito 近似），默认全风格启用
+# colorblind-safe palette (Paul Tol vivid / Okabe-Ito approximation), on for all styles by default
 CB_COLORS = ["#0072B2", "#D55E00", "#009E73", "#CC79A7", "#56B4E9", "#E69F00", "#F0E442"]
 
 STYLES = {
@@ -39,8 +42,10 @@ STYLES = {
                 "line_width": 1.5, "markers": ["o", "s", "^", "D", "P"], "grid": "horizontal"},
     "nature": {"figure_width": JOURNAL_WIDTHS["nature_single"], "font_size": 7, "tick_size": 6,
                "line_width": 0.8, "markers": ["o", "s", "^", "D"], "grid": "none"},
-    # --style science 曾被列为合法选项却没有 STYLES 条目 → 静默套用 ieee 几何（同 journal 那类静默错误）。
-    # 这里补齐真实条目：Science 单栏 4.76 in，几何交给 scienceplots（未装则内置等价 rcParams）。
+    # --style science was once listed as a valid option with no STYLES entry -> it silently
+    # fell back to ieee geometry (the same class of silent error as the journal bug).
+    # Add the real entry here: Science single-column 4.76 in; geometry is left to scienceplots
+    # (a built-in equivalent rcParams is used if it is not installed).
     "science": {"figure_width": JOURNAL_WIDTHS["science"], "font_size": 7, "tick_size": 6,
                 "line_width": 1.0, "markers": ["o", "s", "^", "D"], "grid": "none"},
     "colorblind_safe": {"figure_width": 6.0, "font_size": 10, "tick_size": 8,
@@ -54,9 +59,10 @@ def setup_style(style_name: str, colorblind: bool = True, journal: str = None):
     import matplotlib.pyplot as plt
 
     conf = STYLES.get(style_name, STYLES["ieee"]).copy()
-    # --journal 是「宽度指令」：必须真正覆盖风格预设宽度。
-    # （旧版把 journal 塞进 style 名，nature_single/science 不在 STYLES 里 → 悄悄回退 ieee 宽度，
-    #   等于没按版面出图；这是静默错误，故显式覆盖并在返回值里回报。）
+    # --journal is a "width directive": it must truly override the style preset width.
+    # (The old version stuffed journal into the style name; nature_single/science were not in
+    #  STYLES -> it silently fell back to the ieee width, i.e. did not draw at the layout width.
+    #  That is a silent error, so we explicitly override it and report it in the return value.)
     if journal:
         if journal not in JOURNAL_WIDTHS:
             raise ValueError(f"unknown journal width: {journal}")
@@ -70,12 +76,12 @@ def setup_style(style_name: str, colorblind: bool = True, journal: str = None):
         "figure.dpi": 300,
         "savefig.dpi": 300,
         "savefig.bbox": "tight",
-        # 出版级核心：矢量字体子集嵌入（Type 42），arXiv / 期刊 LaTeX 友好
+        # publication-grade core: vector font subset embedding (Type 42); arXiv / journal LaTeX friendly
         "pdf.fonttype": 42,
         "ps.fonttype": 42,
         "figure.figsize": (conf["figure_width"], conf["figure_width"] * 0.7),
     }
-    # 优先真实 scienceplots 包（装了即最贴近官方），否则内置 rcParams 等价实现
+    # prefer the real scienceplots package (closest to official if installed), otherwise a built-in equivalent rcParams
     sci = False
     if colorblind:
         try:
@@ -140,7 +146,7 @@ def plot_bar(data: dict, style="ieee", output=None, colorblind=True,
     labels = data.get("labels", ["A", "B", "C", "D"])
     values = data.get("values", [0.75, 0.80, 0.82, 0.85])
     colors = [c["colors"][i % len(c["colors"])] for i in range(len(labels))]
-    errs = data.get("errors")  # 可选 CI / 误差棒
+    errs = data.get("errors")  # optional CI / error bars
     b = ax.bar(range(len(values)), values, color=colors, width=0.6,
                yerr=(errs if errs else None))
     ax.set_xticks(range(len(labels)))
@@ -176,9 +182,9 @@ def plot_boxplot(data: dict, style="ieee", output=None, colorblind=True,
 
 def plot_heatmap(data: dict, style="ieee", output=None, colorblind=True,
                  journal: str = None) -> dict:
-    """热力图：全正 → cividis（色盲安全顺序色）；含负值 → RdBu_r（发散色）。
+    """Heatmap: all-positive -> cividis (colorblind-safe sequential); contains negatives -> RdBu_r (diverging).
 
-    数据契约: {"matrix": [[...]], "rows": [...], "cols": [...], "annotate": true, "cmap": "?"}
+    Data contract: {"matrix": [[...]], "rows": [...], "cols": [...], "annotate": true, "cmap": "?"}
     """
     plt, c = setup_style(style, colorblind, journal)
     try:
@@ -194,7 +200,7 @@ def plot_heatmap(data: dict, style="ieee", output=None, colorblind=True,
     cols = data.get("cols", [f"c{j}" for j in range(m.shape[1])])
     vmin, vmax = float(m.min()), float(m.max())
 
-    # 色盲安全默认：全正用 cividis；跨零用发散色 RdBu_r（可被 data.cmap 覆盖）
+    # colorblind-safe default: cividis for all-positive; diverging RdBu_r across zero (overridable via data.cmap)
     if data.get("cmap"):
         cmap = data["cmap"]
     elif vmin < 0:
@@ -237,8 +243,8 @@ def main():
                     choices=["line", "bar", "boxplot", "heatmap"])
     ap.add_argument("--style", default="ieee",
                     choices=sorted(set(list(STYLES.keys()) + ["science"])))
-    ap.add_argument("--journal", help="按真实期刊宽度出图: nature_single|science|ieee|acm|neurips")
-    ap.add_argument("--no-colorblind", action="store_true", help="关闭色盲安全色板")
+    ap.add_argument("--journal", help="draw at the real journal width: nature_single|science|ieee|acm|neurips")
+    ap.add_argument("--no-colorblind", action="store_true", help="disable the colorblind-safe palette")
     ap.add_argument("--data", help="Data JSON file")
     ap.add_argument("--output", default=None, help="Output file (.pdf/.png)")
     args = ap.parse_args()
@@ -248,14 +254,15 @@ def main():
         data = json.loads(Path(args.data).read_text(encoding="utf-8"))
     elif args.data:
         print(json.dumps({"status": "error",
-                          "error": f"--data 文件不存在: {args.data}（请先确认路径，勿静默用演示数据）"},
+                          "error": f"--data file not found: {args.data} (confirm the path first; do not silently fall back to demo data)"},
                          ensure_ascii=False))
         return 2
 
-    # --style 与 --journal 职责分离：style 管字号/线宽/网格，journal 只覆盖**物理宽度**
+    # --style and --journal have separate duties: style governs font size / line width / grid;
+    # journal only overrides the **physical width**
     style = args.style
     if args.journal and args.journal not in JOURNAL_WIDTHS:
-        print(json.dumps({"status": "error", "error": f"未知 --journal: {args.journal}"},
+        print(json.dumps({"status": "error", "error": f"unknown --journal: {args.journal}"},
                          ensure_ascii=False))
         return 2
     colorblind = not args.no_colorblind
@@ -270,7 +277,7 @@ def main():
         else:
             res = plot_boxplot(data, style, args.output, colorblind, args.journal)
     except ImportError:
-        res = {"status": "skipped", "note": "matplotlib not available；pip install matplotlib"}
+        res = {"status": "skipped", "note": "matplotlib not available; pip install matplotlib"}
     except ValueError as e:
         print(json.dumps({"status": "error", "error": str(e)}, ensure_ascii=False))
         return 2

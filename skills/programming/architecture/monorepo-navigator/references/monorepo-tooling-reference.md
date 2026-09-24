@@ -1,6 +1,6 @@
 # monorepo-navigator reference
 
-## 目录
+## Table of Contents
 
 - [Turborepo](#turborepo)
   - [turbo.json pipeline config](#turbojson-pipeline-config)

@@ -1,6 +1,6 @@
 # HashiCorp Vault Architecture & Patterns Reference
 
-## 目录
+## Table of Contents
 
 - [Architecture Overview](#architecture-overview)
   - [Core Components](#core-components)

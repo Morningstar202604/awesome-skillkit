@@ -105,12 +105,10 @@ violations → return to steps 2-3 to fix, don't just delete entries.
 Success = minutes strictly follow step 4 skeleton, action table complete, zero
 fabricated facts. Missing any item means incomplete—say so honestly.
 
-## Pipeline Handoff (Downstream Suggestions)
+## Pipeline Handoff
 
-This is an office/productivity single-point skill; action items can feed
-excel-assistant to build a tracker, or serve as project-experience material for
-resume-tailor. Suggest adding an office (or productivity) domain to
-skill_chains.json and registering this skill. Handoff is descriptive only.
+Action items can feed excel-assistant to build a tracker, or become
+project-experience material for resume-tailor.
 
 ## References
 

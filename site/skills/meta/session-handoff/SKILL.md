@@ -63,8 +63,11 @@ python3 scripts/make_handoff.py --title "P1 Domain Fix" --goal "Fix three-way do
   --done "git mv 5 skills; build 143→145" --next "Add CHANGELOG; run validate" \
   --gotcha "Python r''' in heredoc collides with shell EOF" --file skills/ --repo awesome-skillkit
 
-# 2. Write to disk
-python3 scripts/make_handoff.py ... --write -o handoff.md
+# 2. Write to disk (same args as the dry run above, plus --write)
+python3 scripts/make_handoff.py --title "P1 Domain Fix" --goal "Fix three-way domain inconsistency" \
+  --done "git mv 5 skills; build 143→145" --next "Add CHANGELOG; run validate" \
+  --gotcha "Python r''' in heredoc collides with shell EOF" --file skills/ --repo awesome-skillkit \
+  --write -o handoff.md
 
 # 3. Via JSON structured input
 python3 scripts/make_handoff.py --input handoff.json --write -o handoff.md

@@ -1,6 +1,6 @@
 # Sources & Methodology（docx-writer）
 
-## 方法论来源
+## Methodology sources
 
 本技能的设计思想蒸馏自 Anthropic 官方公开技能仓库中 docx 与 pdf 两个技能的
 **公开描述与结构思路**（按任务选路径、生成后必须读回验证、把易错点写成清单），

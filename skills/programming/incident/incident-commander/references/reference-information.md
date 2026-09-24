@@ -1,6 +1,6 @@
 # incident-commander reference
 
-## 目录
+## Table of Contents
 
 - [Reference Information](#reference-information)
 

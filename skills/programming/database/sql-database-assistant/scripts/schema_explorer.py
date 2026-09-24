@@ -1,27 +1,27 @@
 #!/usr/bin/env python3
 """
-Schema Explorer — 从内省查询结果生成库表结构文档
+Schema Explorer -- generate a schema/table-structure document from introspection query results.
 
-本脚本不连接数据库，只消费「内省查询」的输出（JSON 或 CSV），
-把结果渲染成 Markdown 结构文档。这样做的原因：技能需要适配
-PostgreSQL / MySQL / SQLite / SQL Server 等多种方言，而连接凭据
-与驱动属于用户环境，不应由技能内置。
+This script does not connect to a database; it only consumes the output of an "introspection
+query" (JSON or CSV) and renders it into a Markdown structure document. The reason: the skill
+must adapt to many dialects (PostgreSQL / MySQL / SQLite / SQL Server), while connection
+credentials and drivers belong to the user's environment and should not be baked into the skill.
 
-用法:
-    # 1. 先用你的客户端跑内省查询，导出 JSON
-    #    （各库的内省 SQL 见 SKILL.md 的 "Schema Introspection Queries" 一节）
+Usage:
+    # 1. First run the introspection query in your client and export JSON
+    #    (see the "Schema Introspection Queries" section of SKILL.md for per-dialect SQL)
     python schema_explorer.py --input columns.json --output SCHEMA.md
 
-    # 2. 直接从 SQLite 库文件内省（唯一内置支持的连接方式）
+    # 2. Introspect directly from a SQLite database file (the only built-in connection mode)
     python schema_explorer.py --sqlite app.db --output SCHEMA.md
 
-    # 3. 只看某张表
+    # 3. Inspect only one table
     python schema_explorer.py --sqlite app.db --table users
 
-    # 4. 机器可读输出
+    # 4. Machine-readable output
     python schema_explorer.py --sqlite app.db --json
 
-退出码: 0 成功 / 2 输入错误 / 3 解析失败
+Exit codes: 0 success / 2 input error / 3 parse failure
 """
 
 import argparse
@@ -31,10 +31,11 @@ import sys
 from collections import OrderedDict
 from pathlib import Path
 
-# 各库标准内省查询的期望列名。用户直接用 information_schema 查询即可命中。
+# Expected column names for each dialect's standard introspection query. The user can just
+# query information_schema and these keys will match.
 EXPECTED_COLUMN_KEYS = ("table_name", "column_name", "data_type")
 
-# 常见类型归类，用于生成速览统计。未命中归为 "other"。
+# Common type families, used to generate quick-glance statistics. Anything unmatched goes to "other".
 TYPE_FAMILY = OrderedDict(
     [
         ("string", ("char", "text", "clob", "uuid", "enum", "json", "xml")),
@@ -47,7 +48,7 @@ TYPE_FAMILY = OrderedDict(
 
 
 def classify_type(data_type: str) -> str:
-    """把方言相关的类型名归入大类；未知类型返回 other 而不是猜测。"""
+    """Bucket a dialect-specific type name into a family; unknown types return "other" rather than being guessed."""
     t = (data_type or "").lower()
     for family, needles in TYPE_FAMILY.items():
         if any(n in t for n in needles):
@@ -56,12 +57,12 @@ def classify_type(data_type: str) -> str:
 
 
 def normalize_rows(raw):
-    """把多种内省输出格式统一成 list[dict]，键为 table_name/column_name/data_type。
+    """Normalize several introspection output formats into list[dict] with keys table_name/column_name/data_type.
 
-    接受三种输入:
-      1. list[dict]                             —— 最常见
-      2. {"rows": [...]} / {"columns": [...]}   —— 包了一层信封
-      3. CSV 文本（含表头）                      —— 手工导出的兜底
+    Accepts three kinds of input:
+      1. list[dict]                             -- most common
+      2. {"rows": [...]} / {"columns": [...]}   -- wrapped in an envelope
+      3. CSV text (with header)                  -- manual-export fallback
     """
     rows = None
     if isinstance(raw, dict):
@@ -70,7 +71,7 @@ def normalize_rows(raw):
                 rows = raw[key]
                 break
         if rows is None:
-            # 可能是 {表名: [列...]} 的结构
+            # possibly a {table_name: [columns...]} structure
             maybe = {k: v for k, v in raw.items() if isinstance(v, list)}
             if maybe:
                 rows = []
@@ -79,9 +80,9 @@ def normalize_rows(raw):
                         if isinstance(c, dict):
                             rows.append({"table_name": table, **c})
                 if not rows:
-                    raise ValueError("无法从该 JSON 结构中定位行数据")
+                    raise ValueError("could not locate row data in this JSON structure")
             else:
-                raise ValueError("无法从该 JSON 结构中定位行数据")
+                raise ValueError("could not locate row data in this JSON structure")
     elif isinstance(raw, list):
         rows = raw
     elif isinstance(raw, str):
@@ -91,7 +92,7 @@ def normalize_rows(raw):
         reader = csv.DictReader(io.StringIO(raw.strip()))
         rows = [dict(r) for r in reader]
     else:
-        raise ValueError(f"不支持的输入类型: {type(raw).__name__}")
+        raise ValueError(f"unsupported input type: {type(raw).__name__}")
 
     out = []
     for r in rows:
@@ -101,8 +102,8 @@ def normalize_rows(raw):
         missing = [k for k in EXPECTED_COLUMN_KEYS if k not in lower]
         if missing:
             raise ValueError(
-                f"行缺少必需字段 {missing}，实际字段: {sorted(lower)}。"
-                "请按 SKILL.md 的内省查询取表名/列名/类型三列。"
+                f"row is missing required fields {missing}; actual fields: {sorted(lower)}. "
+                "Please take the table name / column name / type columns per the introspection query in SKILL.md."
             )
         out.append(
             {
@@ -118,15 +119,15 @@ def normalize_rows(raw):
             }
         )
     if not out:
-        raise ValueError("解析后没有有效的列记录")
+        raise ValueError("no valid column records after parsing")
     return out
 
 
 def introspect_sqlite(db_path: str):
-    """从 SQLite 文件直接内省。用 PRAGMA（官方稳定接口），不依赖 sqlite_master 解析。"""
+    """Introspect directly from a SQLite file. Uses PRAGMA (the official stable interface), not sqlite_master parsing."""
     p = Path(db_path)
     if not p.is_file():
-        raise FileNotFoundError(f"SQLite 文件不存在: {db_path}")
+        raise FileNotFoundError(f"SQLite file not found: {db_path}")
 
     conn = sqlite3.connect(f"file:{p.as_posix()}?mode=ro", uri=True)
     try:
@@ -138,7 +139,7 @@ def introspect_sqlite(db_path: str):
         tables = [r[0] for r in cur.fetchall()]
         rows = []
         for t in tables:
-            # PRAGMA table_info 是标识符插值，用引号包裹并对内嵌引号做转义
+            # PRAGMA table_info is identifier interpolation; wrap in quotes and escape embedded quotes
             safe = t.replace('"', '""')
             for col in cur.execute(f'PRAGMA table_info("{safe}")').fetchall():
                 # 0=cid 1=name 2=type 3=notnull 4=dflt_value 5=pk
@@ -159,7 +160,7 @@ def introspect_sqlite(db_path: str):
 
 
 def build_doc(rows, source_note: str, only_table: str = None) -> str:
-    """渲染 Markdown 结构文档。"""
+    """Render the Markdown structure document."""
     by_table = OrderedDict()
     for r in rows:
         if only_table and r["table_name"] != only_table:
@@ -168,7 +169,7 @@ def build_doc(rows, source_note: str, only_table: str = None) -> str:
 
     if not by_table:
         raise ValueError(
-            f"没有匹配的表" + (f": {only_table}" if only_table else "")
+            f"no matching table" + (f": {only_table}" if only_table else "")
         )
 
     for t, cols in by_table.items():
@@ -188,26 +189,26 @@ def build_doc(rows, source_note: str, only_table: str = None) -> str:
             families[f] = families.get(f, 0) + 1
 
     L = []
-    L.append("# 数据库结构文档")
+    L.append("# Database Schema Document")
     L.append("")
-    L.append(f"> 数据来源：{source_note}")
+    L.append(f"> Source: {source_note}")
     L.append("")
-    L.append("## 速览")
+    L.append("## Overview")
     L.append("")
-    L.append("| 指标 | 值 |")
-    L.append("|------|-----|")
-    L.append(f"| 表数量 | {len(by_table)} |")
-    L.append(f"| 列总数 | {total_cols} |")
+    L.append("| Metric | Value |")
+    L.append("|--------|-------|")
+    L.append(f"| Table count | {len(by_table)} |")
+    L.append(f"| Total columns | {total_cols} |")
     L.append(
-        "| 类型分布 | "
-        + "、".join(f"{k} {v}" for k, v in sorted(families.items()))
+        "| Type distribution | "
+        + ", ".join(f"{k} {v}" for k, v in sorted(families.items()))
         + " |"
     )
     L.append("")
-    L.append("## 表目录")
+    L.append("## Table Index")
     L.append("")
     for t in by_table:
-        L.append(f"- [{t}](#{anchor(t)}) — {len(by_table[t])} 列")
+        L.append(f"- [{t}](#{anchor(t)}) — {len(by_table[t])} columns")
     L.append("")
 
     has_comment = any(c.get("column_comment") for cols in by_table.values() for c in cols)
@@ -216,11 +217,11 @@ def build_doc(rows, source_note: str, only_table: str = None) -> str:
     for t, cols in by_table.items():
         L.append(f"## {t}")
         L.append("")
-        header = ["列名", "类型", "可空", "默认值"]
+        header = ["Column", "Type", "Nullable", "Default"]
         if has_pk:
-            header.append("主键")
+            header.append("PK")
         if has_comment:
-            header.append("备注")
+            header.append("Comment")
         L.append("| " + " | ".join(header) + " |")
         L.append("|" + "---|" * len(header))
         for c in cols:
@@ -240,57 +241,57 @@ def build_doc(rows, source_note: str, only_table: str = None) -> str:
     L.append("---")
     L.append("")
     L.append(
-        "*本文件由 schema_explorer.py 生成。结构变更后请重新生成，"
-        "不要手工编辑——手改内容会在下次生成时丢失。*"
+        "*This file is generated by schema_explorer.py. Regenerate it after any schema change; "
+        "do not edit it by hand -- manual edits will be lost on the next generation.*"
     )
     L.append("")
     return "\n".join(L)
 
 
 def anchor(name: str) -> str:
-    """GitHub 风格锚点：小写、空格转连字符、去除非字母数字与连字符。"""
+    """GitHub-style anchor: lowercase, spaces to hyphens, strip non-alphanumeric and non-hyphen characters."""
     out = name.strip().lower().replace(" ", "-")
     return "".join(ch for ch in out if ch.isalnum() or ch in "-_")
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser(
-        description="从内省查询结果生成数据库结构 Markdown 文档",
+        description="Generate a database-schema Markdown document from introspection query results",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     src = ap.add_mutually_exclusive_group(required=True)
-    src.add_argument("--input", help="内省结果文件（.json 或 .csv）；- 表示 stdin")
-    src.add_argument("--sqlite", help="SQLite 库文件路径（只读方式打开）")
-    ap.add_argument("--table", help="只输出指定表")
-    ap.add_argument("--output", "-o", help="输出 Markdown 路径；缺省打印到 stdout")
-    ap.add_argument("--json", action="store_true", help="输出规范化 JSON 而非 Markdown")
+    src.add_argument("--input", help="introspection result file (.json or .csv); - means stdin")
+    src.add_argument("--sqlite", help="SQLite database file path (opened read-only)")
+    ap.add_argument("--table", help="output only the specified table")
+    ap.add_argument("--output", "-o", help="output Markdown path; defaults to stdout")
+    ap.add_argument("--json", action="store_true", help="output normalized JSON instead of Markdown")
     args = ap.parse_args(argv)
 
     try:
         if args.sqlite:
             rows = introspect_sqlite(args.sqlite)
-            note = f"SQLite 内省 · `{args.sqlite}`"
+            note = f"SQLite introspection · `{args.sqlite}`"
         else:
             if args.input == "-":
                 text = sys.stdin.read()
             else:
                 p = Path(args.input)
                 if not p.is_file():
-                    print(f"错误：输入文件不存在: {args.input}", file=sys.stderr)
+                    print(f"error: input file not found: {args.input}", file=sys.stderr)
                     return 2
                 text = p.read_text(encoding="utf-8", errors="replace")
             stripped = text.lstrip()
             raw = json.loads(text) if stripped.startswith(("{", "[")) else text
             rows = normalize_rows(raw)
-            note = f"内省导出 · `{args.input}`"
+            note = f"introspection export · `{args.input}`"
     except FileNotFoundError as e:
-        print(f"错误：{e}", file=sys.stderr)
+        print(f"error: {e}", file=sys.stderr)
         return 2
     except json.JSONDecodeError as e:
-        print(f"错误：JSON 解析失败: {e}", file=sys.stderr)
+        print(f"error: JSON parsing failed: {e}", file=sys.stderr)
         return 3
     except (ValueError, sqlite3.Error) as e:
-        print(f"错误：{e}", file=sys.stderr)
+        print(f"error: {e}", file=sys.stderr)
         return 3
 
     if args.json:
@@ -300,7 +301,7 @@ def main(argv=None):
                 continue
             by_table.setdefault(r["table_name"], []).append(r)
         if not by_table:
-            print(f"错误：没有匹配的表: {args.table}", file=sys.stderr)
+            print(f"error: no matching table: {args.table}", file=sys.stderr)
             return 3
         payload = {
             "source": note,
@@ -321,12 +322,12 @@ def main(argv=None):
         try:
             out = build_doc(rows, note, args.table)
         except ValueError as e:
-            print(f"错误：{e}", file=sys.stderr)
+            print(f"error: {e}", file=sys.stderr)
             return 3
 
     if args.output:
         Path(args.output).write_text(out, encoding="utf-8")
-        print(f"已写入 {args.output}")
+        print(f"written to {args.output}")
     else:
         print(out)
     return 0

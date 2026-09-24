@@ -4,7 +4,7 @@
 （`speed` / `pitch` / `emotion` / `break`）是常见约定，不是标准。
 凡未在你所用引擎文档中确认过的，一律标 `VERIFY BEFORE USE` 并给出核实方法。
 
-## 目录
+## Table of Contents
 
 0. 先核实你的引擎 / 1. 语速 speed / 2. 音调 pitch / 3. 情绪 emotion / 4. 停顿与断句
 5. 中文多音字与数字读法 / 6. 音色选择场景匹配 / 7. 参数组合配方 / 8. 交付前自检

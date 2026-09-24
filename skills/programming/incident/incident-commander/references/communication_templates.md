@@ -1,6 +1,6 @@
 # Incident Communication Templates
 
-## 目录
+## Table of Contents
 
 - [Overview](#overview)
 - [Template Usage Guidelines](#template-usage-guidelines)

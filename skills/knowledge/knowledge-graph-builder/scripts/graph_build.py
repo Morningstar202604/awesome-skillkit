@@ -1,22 +1,26 @@
 #!/usr/bin/env python3
-"""graph_build.py — 从 Markdown 笔记抽取知识图谱，并导出 / 分析。
+"""graph_build.py -- extract a knowledge graph from Markdown notes, and export /
+analyze it.
 
-只用 Python 标准库。图谱是「节点 + 边」的二元结构：
+Uses only the Python standard library. The graph is a binary structure of
+"nodes + edges":
 
-  节点（node） = 一篇笔记（H1 标题为 label，文件路径为 id）
-                 + 加粗词抽出的候选实体（`candidate` 节点）
-  边（edge）   = `[[wiki 链接]]` 产生的 note→note 关系（rel = "links"）
-                 + 加粗词出现在某篇笔记中产生的 note→candidate 关系（rel = "mentions"）
+  node  = a note (H1 heading as label, file path as id)
+          + candidate entities pulled out of bold words (`candidate` nodes)
+  edge  = note->note relation from `[[wiki links]]` (rel = "links")
+          + note->candidate relation from a bold word appearing in a note
+            (rel = "mentions")
 
-导出格式：
-  json    完整图数据，供下游程序消费
-  dot     Graphviz，`dot -Tsvg graph.dot -o graph.svg`
-  mermaid 直接贴进 Markdown 文档渲染
+Export formats:
+  json    full graph data for downstream programs
+  dot     Graphviz, `dot -Tsvg graph.dot -o graph.svg`
+  mermaid paste straight into a Markdown doc to render
 
-子命令:
-  extract <dir>                       抽取图数据 → graph.json
+Subcommands:
+  extract <dir>                       extract graph data -> graph.json
   export  <dir> --format {json|dot|mermaid}
-  analyze <dir>                       图指标：度中心性 top10 / 连通分量 / 孤立节点
+  analyze <dir>                       graph metrics: degree-centrality top10 /
+                                      connected components / isolated nodes
 """
 
 import argparse
@@ -31,15 +35,17 @@ GRAPH_FILE = "graph.json"
 
 H1_RE = re.compile(r"^#\s+(.+?)\s*$", re.MULTILINE)
 WIKILINK_RE = re.compile(r"\[\[([^\[\]|]+?)(?:\|([^\[\]]*))?\]\]")
-# 加粗：**词** 或 __词__；限制长度避免把整段粗体当成实体
+# Bold: **word** or __word__; length-limited so a whole bold paragraph is not
+# treated as an entity.
 BOLD_RE = re.compile(r"\*\*(?!\s)([^*\n]{1,40}?)(?<!\s)\*\*|__(?!\s)([^_\n]{1,40}?)(?<!\s)__")
-# 代码块与行内代码里的内容不参与实体抽取（避免把代码标识符当概念）
+# Content inside code blocks and inline code does not participate in entity extraction
+# (so code identifiers are not mistaken for concepts).
 FENCE_RE = re.compile(r"```.*?```", re.DOTALL)
 INLINE_CODE_RE = re.compile(r"`[^`\n]*`")
 
 
 class GraphError(Exception):
-    """面向用户的错误。"""
+    """User-facing error."""
 
 
 def die(msg: str, code: int = 1):
@@ -53,16 +59,16 @@ def read_text(path: Path) -> str:
     except UnicodeDecodeError:
         return path.read_text(encoding="utf-8", errors="replace")
     except OSError as e:
-        raise GraphError(f"无法读取 {path}: {e}")
+        raise GraphError(f"cannot read {path}: {e}")
 
 
 def strip_code(text: str) -> str:
-    """去掉代码块与行内代码，防止把 `foo()` 之类的标识符抽成概念实体。"""
+    """Remove code blocks and inline code, so identifiers like `foo()` are not extracted as concept entities."""
     return INLINE_CODE_RE.sub(" ", FENCE_RE.sub(" ", text))
 
 
 def iter_notes(root: Path):
-    """递归产出根目录下所有 Markdown 笔记。跳过隐藏目录与 assets。"""
+    """Yield all Markdown notes under the root recursively. Skip hidden dirs and assets."""
     for p in sorted(root.rglob("*")):
         if not p.is_file() or p.suffix.lower() not in MARKDOWN_SUFFIXES:
             continue
@@ -73,14 +79,14 @@ def iter_notes(root: Path):
 
 
 def extract_bold(text: str):
-    """抽取加粗词作为候选实体，去重保序，过滤纯数字与过短项。"""
+    """Extract bold words as candidate entities, deduplicated in order, filtering pure numbers and too-short items."""
     clean = strip_code(text)
     candidates, seen = [], set()
     for m in BOLD_RE.finditer(clean):
         word = (m.group(1) or m.group(2) or "").strip()
         if not word or word in seen:
             continue
-        # 纯数字/纯标点不当实体；单字符英文多为格式残留
+        # pure numbers / pure punctuation are not entities; single ascii chars are usually formatting residue
         if not re.search(r"[A-Za-z\u4e00-\u9fff]", word):
             continue
         if len(word) == 1 and word.isascii():
@@ -91,10 +97,10 @@ def extract_bold(text: str):
 
 
 def build_graph(root: Path) -> dict:
-    """扫描笔记，产出 {nodes, edges, meta}。"""
+    """Scan notes and produce {nodes, edges, meta}."""
     root = root.expanduser().resolve()
     if not root.is_dir():
-        raise GraphError(f"目录不存在：{root}")
+        raise GraphError(f"directory does not exist: {root}")
 
     notes = []
     for p in iter_notes(root):
@@ -109,9 +115,9 @@ def build_graph(root: Path) -> dict:
         })
 
     if not notes:
-        raise GraphError(f"{root} 下没有找到 Markdown 笔记（.md/.markdown/.txt）")
+        raise GraphError(f"no Markdown notes (.md/.markdown/.txt) found under {root}")
 
-    # 别名表：文件名 slug 与 H1 标题都能作为链接目标
+    # Alias table: both the filename slug and the H1 heading can be link targets
     by_slug = {n["slug"].lower(): n["id"] for n in notes}
     by_label = {n["label"].lower(): n["id"] for n in notes}
 
@@ -119,7 +125,7 @@ def build_graph(root: Path) -> dict:
     edges = []
     unresolved = []
 
-    # 候选实体节点：同名加粗词跨笔记合并，形成「概念中枢」
+    # Candidate-entity nodes: same-named bold words merge across notes to form a "concept hub"
     cand_index: dict[str, str] = {}
 
     for n in notes:
@@ -138,7 +144,7 @@ def build_graph(root: Path) -> dict:
                 nodes.append({"id": cid, "label": word, "type": "candidate"})
             edges.append({"source": n["id"], "target": cid, "rel": "mentions"})
 
-    # 去重（同一对节点可能既 links 又 mentions，rel 不同则都保留）
+    # Deduplicate (the same node pair may be both links and mentions; keep both if rel differs)
     seen_e, uniq = set(), []
     for e in edges:
         k = (e["source"], e["target"], e["rel"])
@@ -161,11 +167,12 @@ def build_graph(root: Path) -> dict:
     }
 
 
-# ---------------------------------------------------------------- 指标计算
+# ---------------------------------------------------------------- Metrics
 
 
 def adjacency(graph: dict, rels=None):
-    """无向邻接表（图指标按无向图算更贴近「关联紧密程度」的直觉）。"""
+    """Undirected adjacency list (graph metrics are computed on the undirected graph to
+    better match the intuition of "how tightly things are connected")."""
     adj = defaultdict(set)
     for n in graph["nodes"]:
         adj[n["id"]]
@@ -178,7 +185,7 @@ def adjacency(graph: dict, rels=None):
 
 
 def degree_centrality(graph: dict):
-    """归一化度中心性：deg / (N-1)。"""
+    """Normalized degree centrality: deg / (N-1)."""
     adj = adjacency(graph)
     n = len(graph["nodes"])
     if n <= 1:
@@ -201,7 +208,7 @@ def degree_centrality(graph: dict):
 
 
 def components(graph: dict, rels=None):
-    """连通分量（BFS），返回按大小降序的 id 列表的列表。"""
+    """Connected components (BFS), returned as a list of id-lists sorted by size descending."""
     adj = adjacency(graph, rels)
     seen, comps = set(), []
     for nid in adj:
@@ -221,11 +228,11 @@ def components(graph: dict, rels=None):
     return comps
 
 
-# ---------------------------------------------------------------- 导出
+# ---------------------------------------------------------------- Export
 
 
 def to_dot(graph: dict, note_only=False) -> str:
-    """Graphviz DOT。note 用圆角矩形，concept 用椭圆以示区分。"""
+    """Graphviz DOT. notes use rounded rectangles, concepts use ellipses to distinguish them."""
     def esc(s):
         return s.replace("\\", "\\\\").replace('"', '\\"')
 
@@ -257,10 +264,10 @@ def to_dot(graph: dict, note_only=False) -> str:
 
 
 def to_mermaid(graph: dict, note_only=False, max_edges=200) -> str:
-    """Mermaid flowchart，可直接贴进 Markdown。
+    """Mermaid flowchart, paste straight into Markdown.
 
-    节点 id 里的路径字符（/ . -）会破坏 Mermaid 语法，
-    因此统一映射成 n1、n2…，原标签放在方括号里。
+    Path characters in node ids (/ . -) break Mermaid syntax, so they are mapped
+    uniformly to n1, n2..., with the original label in square brackets.
     """
     def esc(s):
         return s.replace('"', "'").replace("[", "(").replace("]", ")")
@@ -280,8 +287,8 @@ def to_mermaid(graph: dict, note_only=False, max_edges=200) -> str:
         if e["source"] not in alias or e["target"] not in alias:
             continue
         if shown >= max_edges:
-            lines.append(f"  %% ... 边数超过 {max_edges}，已截断；"
-                         f"用 --max-edges 调整或加 --note-only")
+            lines.append(f"  %% ... edges exceed {max_edges}, truncated; "
+                         f"adjust with --max-edges or add --note-only")
             break
         arrow = "-->" if e["rel"] == "links" else "-.->"
         lines.append(f"  {alias[e['source']]} {arrow} {alias[e['target']]}")
@@ -290,7 +297,7 @@ def to_mermaid(graph: dict, note_only=False, max_edges=200) -> str:
     return "\n".join(lines) + "\n"
 
 
-# ---------------------------------------------------------------- 子命令
+# ---------------------------------------------------------------- Subcommands
 
 
 def cmd_extract(args) -> int:
@@ -305,12 +312,12 @@ def cmd_extract(args) -> int:
     print(f"  edges          : {m['edge_count']}")
     print(f"  unresolved     : {m['unresolved_links']}")
     print()
-    print("  [节点]")
+    print("  [nodes]")
     for n in graph["nodes"]:
         print(f"    ({n['type']:<9}) {n['label']}   [{n['id']}]")
     if graph["unresolved_links"]:
         print()
-        print("  [未解析链接]")
+        print("  [unresolved links]")
         for u in graph["unresolved_links"]:
             print(f"    {u['from']} -> [[{u['target']}]]")
     return 0
@@ -327,7 +334,7 @@ def cmd_export(args) -> int:
         body = to_mermaid(graph, note_only=args.note_only,
                           max_edges=args.max_edges)
     else:
-        raise GraphError(f"未知格式：{fmt}")
+        raise GraphError(f"unknown format: {fmt}")
 
     if args.out:
         Path(args.out).write_text(body, encoding="utf-8")
@@ -356,8 +363,8 @@ def cmd_analyze(args) -> int:
     print(f"  isolated nodes   : {len(isolated)}")
     print()
 
-    print(f"  [度中心性 top {len(top)}]"
-          f"{'（仅笔记）' if args.notes_only else ''}  degree / centrality")
+    print(f"  [degree-centrality top {len(top)}]"
+          f"{' (notes only)' if args.notes_only else ''}  degree / centrality")
     if top:
         width = max(len(r["label"]) for r in top)
         for r in top:
@@ -365,72 +372,72 @@ def cmd_analyze(args) -> int:
             print(f"    {r['label']:<{width}}  {r['degree']:>3}  "
                   f"{r['centrality']:.4f}  {bar}  ({r['type']})")
     else:
-        print("    (无)")
+        print("    (none)")
 
     print()
-    print("  [连通分量] 按规模降序")
+    print("  [connected components] descending by size")
     for i, c in enumerate(comps[:10], 1):
         labels = {n["id"]: n["label"] for n in graph["nodes"]}
         head = ", ".join(labels.get(x, x) for x in c[:6])
-        more = f" … 另 {len(c) - 6} 个" if len(c) > 6 else ""
+        more = f" ... and {len(c) - 6} more" if len(c) > 6 else ""
         print(f"    #{i}  size={len(c):<3} {head}{more}")
     if len(comps) > 10:
-        print(f"    ... 另有 {len(comps) - 10} 个分量")
+        print(f"    ... and {len(comps) - 10} more components")
 
     if isolated:
         print()
-        print("  [孤立节点] 无任何连边")
+        print("  [isolated nodes] no edges at all")
         for r in isolated[:15]:
             print(f"    - {r['label']}  ({r['type']})")
         if len(isolated) > 15:
-            print(f"    ... 另有 {len(isolated) - 15} 个")
+            print(f"    ... and {len(isolated) - 15} more")
 
-    # 结构诊断：给一句可执行的结论，而不是让用户自己看数字
+    # Structural diagnosis: give an actionable conclusion instead of making the user read numbers
     print()
     n_nodes = len(graph["nodes"])
     if isolated and len(isolated) == n_nodes:
-        # 一条边都没有：分量的「数量」在这里没有信息量，直接说破
-        print(f"  [诊断] 图中没有任何连边，{n_nodes} 个节点全部孤立；"
-              f"先从建立第一条 [[链接]] 或加粗一个核心概念开始。")
+        # no edges at all: the "number of components" carries no information here, say it plainly
+        print(f"  [diagnosis] there are no edges in the graph; all {n_nodes} nodes are isolated. "
+              f"Start by adding the first [[link]] or bolding a core concept.")
     elif len(comps) > 1 and n_nodes > 3:
-        print(f"  [诊断] 图分裂成 {len(comps)} 个分量，"
-              f"最大分量覆盖 {len(comps[0])}/{n_nodes} 个节点；"
-              f"用 [[链接]] 把孤立部分接进来。")
+        print(f"  [diagnosis] the graph splits into {len(comps)} components; "
+              f"the largest covers {len(comps[0])}/{n_nodes} nodes. "
+              f"Use [[links]] to connect the isolated parts.")
     else:
-        print("  [诊断] 图是单一连通分量，笔记间关联良好。")
+        print("  [diagnosis] the graph is a single connected component; notes are well interlinked.")
     return 0
 
 
 def main(argv=None):
     p = argparse.ArgumentParser(
         prog="graph_build.py",
-        description="从 Markdown 笔记抽取知识图谱并导出/分析（纯标准库）",
-        epilog="示例：python3 graph_build.py extract notes/ && "
+        description="Extract a knowledge graph from Markdown notes and export/analyze it (pure stdlib)",
+        epilog="example: python3 graph_build.py extract notes/ && "
                "python3 graph_build.py export notes/ --format mermaid",
     )
     sub = p.add_subparsers(dest="cmd", required=True)
 
-    s = sub.add_parser("extract", help="抽取实体与关系 → graph.json")
-    s.add_argument("dir", help="笔记目录")
-    s.add_argument("--out", help="输出路径（默认 <dir>/graph.json）")
+    s = sub.add_parser("extract", help="extract entities and relations -> graph.json")
+    s.add_argument("dir", help="notes directory")
+    s.add_argument("--out", help="output path (default <dir>/graph.json)")
     s.set_defaults(func=cmd_extract)
 
-    s = sub.add_parser("export", help="导出图数据")
+    s = sub.add_parser("export", help="export graph data")
     s.add_argument("dir")
     s.add_argument("--format", choices=["json", "dot", "mermaid"],
                    default="json")
-    s.add_argument("--out", help="输出文件；省略则打到 stdout")
+    s.add_argument("--out", help="output file; defaults to stdout")
     s.add_argument("--note-only", action="store_true",
-                   help="只导出笔记间链接，忽略候选实体节点")
+                   help="export only note-to-note links, ignoring candidate-entity nodes")
     s.add_argument("--max-edges", type=int, default=200,
-                   help="mermaid 最大边数（默认 200，超出截断）")
+                   help="max mermaid edges (default 200; truncated beyond)")
     s.set_defaults(func=cmd_export)
 
-    s = sub.add_parser("analyze", help="图指标：中心性/连通分量/孤立节点")
+    s = sub.add_parser("analyze", help="graph metrics: centrality / components / isolated nodes")
     s.add_argument("dir")
-    s.add_argument("--top", type=int, default=10, help="中心性显示条数（默认 10）")
+    s.add_argument("--top", type=int, default=10, help="centrality rows to show (default 10)")
     s.add_argument("--notes-only", action="store_true",
-                   help="中心性只统计笔记节点，忽略候选实体")
+                   help="centrality counts only note nodes, ignoring candidate entities")
     s.set_defaults(func=cmd_analyze)
 
     args = p.parse_args(argv)
