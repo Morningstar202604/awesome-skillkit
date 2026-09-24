@@ -142,10 +142,15 @@ def check_reference_integrity(skill_dir: Path, issues):
                 if "/" not in tok:
                     # bare filenames describe user-side artifacts, not bundle paths
                     continue
+                # trailing sentence punctuation (".", "，", etc.) is prose, not
+                # part of the path — strip it before resolving
+                tok = tok.rstrip(".,;:!?，。；：！？)")
                 seen.add(tok)
                 if tok.endswith(EXEMPT_SUFFIXES) or tok.startswith(EXEMPT_PREFIXES):
                     continue
-                if not (skill_dir / tok).exists():
+                # resolve against the skill dir first, then the repo root so
+                # cross-skill navigation (e.g. "skills/video/...") stays valid
+                if not (skill_dir / tok).exists() and not (SCRIPT_DIR.parent / tok).exists():
                     if tok.startswith("scripts/"):
                         # advertised helper tooling missing from the bundle:
                         # degrades execution, not navigation -> tracked debt

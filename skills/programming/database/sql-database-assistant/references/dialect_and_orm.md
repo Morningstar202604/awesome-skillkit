@@ -1,5 +1,7 @@
 # Dialect Differences and ORM Patterns Quick Reference
 
+> Contents: dialect differences · compatibility notes · ORM patterns (Prisma / Drizzle / TypeORM / SQLAlchemy)
+
 > This file was moved out of the SKILL.md body (progressive disclosure): the body keeps only navigation and workflow,
 > and the long-form reference knowledge is read on demand.
 

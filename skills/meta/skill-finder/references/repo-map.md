@@ -29,7 +29,7 @@ two levels deep).
 
 | Path fragment | Why skipped |
 |---|---|
-| `assets/` | The skill's own example projects, e.g. `skill-tester/assets/sample-skill/SKILL.md` |
+| `assets/` | The skill's own example projects, e.g. `skills/programming/ai-engineering/skill-tester/assets/sample-skill/SKILL.md` |
 | `templates/` | Template files, not loadable skills |
 | `_common/` | Cross-skill shared code directory |
 | `__pycache__/` | Compiled artifacts |

@@ -3,6 +3,7 @@
 > Copy this file to `skills/<category>/<skill-name>/SKILL.md`, replace all `<...>` with real values.
 > Machine-layer fields (frontmatter) in English, body prose in English. After filling, run `skill-linter` self-check.
 > Target line count 150-190; below 150 means failure branches aren't fully written, above 190 means knowledge should move to `references/`.
+> Contents: frontmatter fields · body workflow · parameter reference · failure handling · delivery standards
 
 ---
 

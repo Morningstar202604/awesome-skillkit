@@ -274,4 +274,4 @@ Before handing off to video-editor, verify:
 - FFmpeg xfade documentation: https://ffmpeg.org/ffmpeg-filters.html#xfade (transition names and offset math)
 - Film editing grammar: 30-degree rule, 180-degree rule, match cut, J/L-cut (standard cinematography references)
 - Platform editing norms: Douyin/TikTok fast-cut conventions, YouTube pacing research, Xiaohongshu aesthetic editing trends
-- This skill is a planning document only; execution recipes live in `video-editor/references/ffmpeg-recipes.md`.
+- This skill is a planning document only; execution recipes live in `skills/video/video-editor/references/ffmpeg-recipes.md`.

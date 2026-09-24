@@ -31,10 +31,12 @@ does not deploy.
 
 ## Platform Format Rules
 
-- **File naming**:
-  - Hugo: `content/posts/YYYY-MM-DD-title.md` (or any slug).
-  - Jekyll: `_posts/YYYY-MM-DD-title.md` (date prefix required).
-  - Hexo: `source/_posts/title.md` (no date prefix; date comes from front matter).
+- **File naming** (blog-engine post paths):
+  ```text
+  Hugo:   content/posts/YYYY-MM-DD-title.md (or any slug)
+  Jekyll: _posts/YYYY-MM-DD-title.md (date prefix required)
+  Hexo:   source/_posts/title.md (no date prefix; date comes from front matter)
+  ```
 - **Front matter**: YAML between `---` fences at the top of the file.
   - Hugo: `title`, `date`, `draft: true/false`, `tags`, `categories`, `description`.
   - Jekyll: `layout: post`, `title`, `date: YYYY-MM-DD HH:MM:SS +0800`,
