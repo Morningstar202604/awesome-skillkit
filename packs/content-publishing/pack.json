@@ -74,8 +74,8 @@
       "source": "skillkit authors (self-authored)"
     },
     {
-      "name": "ai-cover-generator",
-      "source": "skillkit authors (self-authored)"
+      "name": "image-generation",
+      "source": "existing (video)"
     }
   ]
 }

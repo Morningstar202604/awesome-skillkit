@@ -8,7 +8,7 @@ description: >-
   directly, and layout-spec-auditor verifies the final image against it. Use
   when the user asks to make an image / design a cover / poster / infographic /
   illustration / cover / banner. Do NOT use for video frame prompts
-  (video-prompt-engineer owns motion), nor for UI code generation.
+  (shot-designer owns motion), nor for UI code generation.
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime dependencies.
 metadata:
@@ -34,7 +34,7 @@ redo, messy text hierarchy means redo.
 | "Help me make a XX cover/poster/infographic" (has platform) | Standard flow: three questions → 7-field spec → handoff |
 | "Just design something" (no platform, no theme) | Give 2 preset directions for user to pick, don't accept "whatever" |
 | Want two images at once (theme beyond one sentence) | Split into multiple specs, each goes through chain |
-| Video storyboard frames / UI code | **Don't use**: storyboards go to video-prompt-engineer, UI to frontend skills |
+| Video storyboard frames / UI code | **Don't use**: storyboards go to shot-designer, UI to frontend skills |
 | Only want to resize/retext existing image | No full chain: directly hand to layout-spec-auditor for audit |
 
 ## Domain Tacit Knowledge (Four Things to Know Before Writing the Spec)

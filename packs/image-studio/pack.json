@@ -16,10 +16,6 @@
     {
       "name": "visual-style-anchor",
       "source": "existing (video)"
-    },
-    {
-      "name": "ai-cover-generator",
-      "source": "existing (writing/assets)"
     }
   ]
 }

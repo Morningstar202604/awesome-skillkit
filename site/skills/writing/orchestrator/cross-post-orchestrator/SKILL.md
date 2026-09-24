@@ -94,7 +94,7 @@ core idea, different shape per platform.
 - WeChat MP needs a wide 900x383 cover.
 - Zhihu / Juejin / CNBlogs accept 3:2.
 - Toutiao / Baijiahao / Bilibili / CSDN / OSChina use 16:9.
-- Use `ai-cover-generator` to produce the master image and crops.
+- Use `image-generation` to produce the master image and crops.
 
 ## Background & Styling
 
@@ -146,6 +146,6 @@ core idea, different shape per platform.
 
 - Posting automation, scheduling, cookie/API scripts.
 - A single platform's deep formatting (use that platform's skill directly).
-- Generating cover images (use `ai-cover-generator`).
+- Generating cover images (use `image-generation`).
 - Deployment to static hosts (use static-blog content adaptation for content;
   do not deploy).

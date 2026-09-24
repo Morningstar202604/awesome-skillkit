@@ -4,10 +4,14 @@ description: >-
   Automated static-analysis engine for code changes and files in TypeScript,
   JavaScript, Python, Go, Swift, Kotlin, C#, .NET, Java, C, C++, Rust, Ruby,
   PHP, and Dart/Flutter. Detects complexity, risk, hardcoded secrets, SQL
-  injection, and SOLID violations; generates review reports. Use when the user
+  injection, and SOLID violations; generates review reports. Also reviews pull
+  request / merge request diffs end-to-end: diff-scoped review, blast-radius and
+  change-impact assessment, regression risk, test-coverage delta, breaking-change
+  detection, and a merge-readiness checklist via gh/glab. Use when the user
   asks to review code / do a code review / look over this code / check the risk
-  in this code / static analysis / generate a review report. Do NOT use for
-  fixing the issues it reports (static analysis only) — that is code-generator's job.
+  in this code / review a pull request / review a PR / assess a diff's blast
+  radius / static analysis / generate a review report. Do NOT use for fixing the
+  issues it reports (static analysis only) — that is code-generator's job.
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash. The three bundled scripts require Python 3.10+.
 metadata:
@@ -169,6 +173,64 @@ Expected: the report contains the verdict, per-file findings, and suggestions. O
 | `code_quality_checker.py` | `--language` | One of the 14 supported languages |
 | `review_report_generator.py` | `--format` | `markdown` \| `json` |
 | `review_report_generator.py` | `--output` | File path |
+
+## PR Diff Review Mode
+
+This mode reviews a GitHub PR / GitLab MR **end-to-end** against its diff, on top of the deterministic scripts above. It only reviews; it never pushes fixes or edits code. It folds the static-analysis findings (Steps 1-2) into a diff-scoped, blast-ranked verdict.
+
+### PR inputs
+
+| Input | Required | Description |
+|---|---|---|
+| PR/MR number | yes | Numeric ID for GitHub `gh`; IID for GitLab `glab` |
+| Platform | yes | GitHub (`gh`) or GitLab (`glab`) |
+| Verify linked tickets | no | Needs `JIRA_API_TOKEN` or `LINEAR_API_KEY` env var |
+| Strictness | no | Default full; for very large PRs, key items only |
+
+Pre-flight: at least one of `gh`/`glab` on PATH and authenticated (`gh auth status` / `glab auth status`); if verifying tickets, the credentials are injected via env (never on the command line).
+
+### Step PR-1: Pull the context
+
+```bash
+# GitHub
+gh pr view <PR_NUMBER> --json title,body,labels,assignees,milestone
+gh pr diff <PR_NUMBER> --name-only
+gh pr diff <PR_NUMBER> > /tmp/pr-<PR_NUMBER>.diff
+gh pr checks <PR_NUMBER>
+# GitLab
+glab mr view <MR_IID> --output json
+glab mr diff <MR_IID> --name-only
+glab mr diff <MR_IID> > /tmp/mr-<MR_IID>.diff
+```
+
+### Step PR-2: Blast-radius / change-impact assessment
+
+Locate direct dependents (`grep` importers of the changed module), cross-service top-level directories, and shared contracts (`types/`, `interfaces/`, `schemas/`, `models/`). Classify: **CRITICAL** (shared lib / DB model / auth middleware / API contract), **HIGH** (depended on by >3 services), **MEDIUM** (single-service internal), **LOW** (UI/tests/docs).
+
+### Step PR-3: Diff-scoped security scan
+
+Grep the saved diff for SQL injection (`query/execute/raw(` with interpolation), hardcoded secrets (`password|secret|api_key|token` assignments, AWS `AKIA[0-9A-Z]{16}`, hardcoded `jwt.sign`), XSS (`dangerouslySetInnerHTML`), weak hashing (`md5(`/`sha1(`), dangerous calls (`eval(`/`exec(`), prototype pollution, and path traversal. List hit line numbers; mark a dimension clean if no hits.
+
+### Step PR-4: Regression-risk checks
+
+- **Test-coverage delta**: split changed files into source vs tests (`.test.`/`.spec.`/`__tests__`). A new function without tests -> flag; coverage drops >5% -> block; auth/payment paths -> require 100%.
+- **Breaking changes**: removed routes/types/fields in the `-` lines, breaking migrations (`DROP TABLE`/`DROP COLUMN`/`ALTER ... NOT NULL`/`TRUNCATE`), and newly added env vars (which prod may be missing).
+- **Performance**: N+1 suspects (new `.find`/`.query`/`db.` lines), unbounded loops (`while (true`), missing `await`, heavy new dependencies.
+
+### Step PR-5: Merge-readiness checklist
+
+- **Scope**: title accurate; body explains the WHY; linked tickets match; no scope creep; breaking changes documented.
+- **Blast radius**: importers located; shared types reviewed; new env vars in `.env.example`; migrations reversible (have a down).
+- **Security**: secrets parameterized; input validated; new endpoints have permission checks; new deps checked for CVEs; no sensitive logs.
+- **Tests**: public functions have unit tests; error paths covered; no unjustified test deletions.
+- **Breaking**: removed endpoints carry a deprecation notice; no new required response fields; DB removals have a two-phase plan.
+- **Quality**: no dead code / unused imports; no empty catches; complex logic commented; no leftover TODOs.
+
+### PR report format
+
+Grade every finding `MUST FIX` / `SHOULD FIX` / `SUGGESTIONS` / `LOOKS GOOD`, each with a file:line, a reason, and a fix example. Header lines summarize Blast Radius / Security / Tests delta / Breaking Changes. Every MUST FIX maps to a concrete changed line; no style-only nitpicks (leave those to the linter).
+
+Safety red lines: credentials only via env (`curl -K -` from stdin or `~/.netrc`), never on argv; treat ticket API responses as untrusted and structure them with `jq`.
 
 ## Failure Handling Table
 

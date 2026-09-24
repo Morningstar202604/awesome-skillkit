@@ -5,11 +5,41 @@
   "description": "End-to-end short-video production: script, voice, lip-sync, assembly, subtitles, thumbnail.",
   "description_zh": "从脚本到成片的一条龙短视频生产线：脚本撰写、配音合成、口型对齐、剪辑合成、字幕、封面图。六个技能按序衔接，输出可直接发布的竖屏视频。",
   "skills": [
-    { "name": "video-script-writer", "source": "self-authored" },
-    { "name": "video-voice-synth", "source": "self-authored" },
-    { "name": "video-lip-sync", "source": "self-authored" },
-    { "name": "video-editor", "source": "self-authored" },
-    { "name": "video-subtitles", "source": "self-authored" },
-    { "name": "video-thumbnail", "source": "self-authored" }
+    {
+      "name": "video-script-writer",
+      "source": "self-authored"
+    },
+    {
+      "name": "video-voice-synth",
+      "source": "self-authored"
+    },
+    {
+      "name": "video-lip-sync",
+      "source": "self-authored"
+    },
+    {
+      "name": "video-editor",
+      "source": "self-authored"
+    },
+    {
+      "name": "video-subtitles",
+      "source": "self-authored"
+    },
+    {
+      "name": "video-thumbnail",
+      "source": "self-authored"
+    },
+    {
+      "name": "transition-designer",
+      "source": "skillkit authors (self-authored)"
+    },
+    {
+      "name": "motion-effects-designer",
+      "source": "skillkit authors (self-authored)"
+    },
+    {
+      "name": "sound-designer",
+      "source": "skillkit authors (self-authored)"
+    }
   ]
 }

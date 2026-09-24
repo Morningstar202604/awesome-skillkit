@@ -8,7 +8,7 @@ description: >-
   nouns, and per-model dialects including the text-rendering rule of thumb.
   Write or audit modes. Use when the user asks to write an image prompt / text-to
   -image prompt / make image more professional / prompt audit. Do NOT use for
-  video prompts (video-prompt-engineer), nor for choosing canvas sizes
+  video prompts (shot-designer), nor for choosing canvas sizes
   (design-brief-interpreter already fixed them).
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime dependencies.
@@ -38,7 +38,7 @@ capability, seed, and parameters. Stating this up front saves all the later
 |----------|--------------|------|
 | Have design spec, need to write image prompt | yes, write mode | here |
 | Have prompt, suspect issues, want audit | yes, audit mode | here |
-| Need video prompt | out of scope | video-prompt-engineer |
+| Need video prompt | out of scope | shot-designer |
 | Aspect ratio/size not set | wrong order | design-brief-interpreter (set ratio) → come back |
 | Image generated, want to audit size/safe area | out of scope | layout-spec-auditor |
 | On-image readable text needed, but don't want to check model dialect | must check: wrong model = wasted image | step 2 + model-dialects.md iron rule 1 |

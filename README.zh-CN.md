@@ -82,27 +82,27 @@ flowchart LR
 | 包 ID | 场景包 | 名称 (EN) | 技能数 | 包含技能 |
 |---|---|---|:---:|---|
 | [`ai-agent-development`](packs/ai-agent-development) | **AI Agent 开发** | AI Agent Development | 5 | `agent-designer`, `mcp-server-builder`, `feature-flags-architect`, `self-eval`, `skill-tester` |
-| [`ai-media-toolkit`](packs/ai-media-toolkit) | **AI 媒体生成工具箱** | AI Media Toolkit | 4 | `video-generation`, `image-generation`, `music-generation`, `ai-cover-generator` |
+| [`ai-media-toolkit`](packs/ai-media-toolkit) | **AI 媒体生成工具箱** | AI Media Toolkit | 3 | `video-generation`, `image-generation`, `music-generation` |
 | [`ai-research-writing`](packs/ai-research-writing) | **AI 研究与写作** | AI Research & Writing | 19 | `deep-research`, `web-search`, `paper-topic-selector`, `article-outliner`, `article-drafter`, `content-editor`, `seo-optimizer`, `lit-review`, `experiment-runner`, `figure-maker`, `arch-diagram`, `neural-net-draw`, `latex-formatter`, `self-reviewer`, `journal-adapt`, `anti-defensive`, `ai-humanizer`, `tex-cleaner`, `pub-plotter` |
-| [`ai-video-pipeline`](packs/ai-video-pipeline) | **AI 短视频生产流水线** | AI Video Pipeline | 6 | `video-script-writer`, `video-voice-synth`, `video-lip-sync`, `video-editor`, `video-subtitles`, `video-thumbnail` |
+| [`ai-video-pipeline`](packs/ai-video-pipeline) | **AI 短视频生产流水线** | AI Video Pipeline | 9 | `video-script-writer`, `video-voice-synth`, `video-lip-sync`, `video-editor`, `video-subtitles`, `video-thumbnail`, `transition-designer`, `motion-effects-designer`, `sound-designer` |
 | [`api-development`](packs/api-development) | **API 开发与测试** | API Development & Testing | 2 | `api-design-reviewer`, `api-test-suite-builder` |
 | [`architecture`](packs/architecture) | **系统架构设计** | System Architecture | 3 | `senior-architect`, `migration-architect`, `monorepo-navigator` |
-| [`audio-studio`](packs/audio-studio) | **音频工作室** | Audio Studio | 3 | `podcast-producer`, `tts-voice-director`, `episode-publisher` |
+| [`audio-studio`](packs/audio-studio) | **音频工作室** | Audio Studio | 4 | `podcast-producer`, `tts-voice-director`, `sound-designer`, `episode-publisher` |
 | [`chat-prompt-craft`](packs/chat-prompt-craft) | **聊天提示词工艺** | Chat Prompt Craft | 1 | `chat-prompt-engineer` |
 | [`ci-cd`](packs/ci-cd) | **CI/CD 流水线** | CI/CD Pipeline | 3 | `ci-cd-pipeline-builder`, `ship-gate`, `spec-driven-workflow` |
 | [`code-planning`](packs/code-planning) | **代码规划与生成** | Code Planning & Generation | 3 | `code-intent-planner`, `code-generator`, `debug-diagnoser` |
-| [`code-review`](packs/code-review) | **代码审查** | Code Review | 5 | `pr-review-expert`, `code-reviewer`, `api-design-reviewer`, `tech-debt-tracker`, `dependency-auditor` |
+| [`code-review`](packs/code-review) | **代码审查** | Code Review | 4 | `code-reviewer`, `api-design-reviewer`, `tech-debt-tracker`, `dependency-auditor` |
 | [`containers`](packs/containers) | **容器与编排** | Containers & Orchestration | 3 | `docker-development`, `helm-chart-builder`, `kubernetes-operator` |
-| [`content-publishing`](packs/content-publishing) | **内容多平台发布自动化** | Content Publishing Automation | 18 | `zhihu-content-manager`, `cnblogs-skill`, `wechat-mp-publisher`, `juejin-publisher`, `csdn-publisher`, `jianshu-publisher`, `bilibili-publisher`, `toutiao-publisher`, `baijiahao-publisher`, `xiaohongshu-publisher`, `weibo-publisher`, `douban-publisher`, `v2ex-publisher`, `segmentfault-publisher`, `oschina-publisher`, `static-blog-deploy`, `cross-post-orchestrator`, `ai-cover-generator` |
+| [`content-publishing`](packs/content-publishing) | **内容多平台发布自动化** | Content Publishing Automation | 18 | `zhihu-content-manager`, `cnblogs-skill`, `wechat-mp-publisher`, `juejin-publisher`, `csdn-publisher`, `jianshu-publisher`, `bilibili-publisher`, `toutiao-publisher`, `baijiahao-publisher`, `xiaohongshu-publisher`, `weibo-publisher`, `douban-publisher`, `v2ex-publisher`, `segmentfault-publisher`, `oschina-publisher`, `static-blog-deploy`, `cross-post-orchestrator`, `image-generation` |
 | [`data-ml-science`](packs/data-ml-science) | **数据科学与科学计算** | Data, ML & Scientific Computing | 7 | `etl-builder`, `feature-engineer`, `model-formulator`, `model-solver`, `simulation-runner`, `result-visualizer`, `ml-pipeline` |
 | [`database`](packs/database) | **数据库设计与管理** | Database Design & Management | 2 | `database-designer`, `sql-database-assistant` |
 | [`dataviz-studio`](packs/dataviz-studio) | **数据可视化工作室** | Data Viz Studio | 2 | `dashboard-designer`, `chart-recommender` |
 | [`de-ai-writing`](packs/de-ai-writing) | **去 AI 味写作** | De-AI Writing | 3 | `ai-trace-auditor`, `humanize-rewriter`, `personal-voice-profile` |
 | [`edu-craft`](packs/edu-craft) | **教育工艺** | Edu Craft | 3 | `course-designer`, `exercise-generator`, `feynman-explainer` |
-| [`github-workflow`](packs/github-workflow) | **GitHub 协作工作流** | GitHub Collaboration | 3 | `git-worktree-manager`, `changelog-generator`, `pr-review-expert` |
+| [`github-workflow`](packs/github-workflow) | **GitHub 协作工作流** | GitHub Collaboration | 3 | `git-worktree-manager`, `changelog-generator`, `code-reviewer` |
 | [`growth-marketing`](packs/growth-marketing) | **增长营销** | Growth Marketing | 3 | `product-copywriter`, `campaign-designer`, `channel-adapter` |
 | [`homework-autopilot`](packs/homework-autopilot) | **作业自动驾驶** | Homework Autopilot | 3 | `assignment-intake`, `solution-drafter`, `own-voice-rewrite` |
-| [`image-studio`](packs/image-studio) | **画图工作台** | Image Studio | 4 | `image-prompt-engineer`, `image-generation`, `visual-style-anchor`, `ai-cover-generator` |
+| [`image-studio`](packs/image-studio) | **画图工作台** | Image Studio | 3 | `image-prompt-engineer`, `image-generation`, `visual-style-anchor` |
 | [`incident-response`](packs/incident-response) | **故障响应与 SRE** | Incident Response & SRE | 3 | `incident-commander`, `runbook-generator`, `slo-architect` |
 | [`infrastructure`](packs/infrastructure) | **基础设施即代码** | Infrastructure as Code | 3 | `terraform-patterns`, `observability-designer`, `kubernetes-operator` |
 | [`knowledge-base`](packs/knowledge-base) | **个人知识库** | Knowledge Base | 2 | `personal-wiki`, `knowledge-graph-builder` |
@@ -113,12 +113,12 @@ flowchart LR
 | [`skill-forge`](packs/skill-forge) | **技能锻造厂** | Skill Forge | 5 | `skill-author`, `skill-linter`, `skill-finder`, `session-handoff`, `weekly-report-generator` |
 | [`tdd`](packs/tdd) | **测试驱动开发** | Test-Driven Development | 4 | `tdd-guide`, `webapp-flow-tester`, `webapp-e2e-harness`, `agent-eval-harness` |
 | [`toolsmith`](packs/toolsmith) | **工具与自动化** | Toolsmith | 6 | `file-organizer`, `batch-renamer`, `format-converter`, `task-scheduler`, `invoice-organizer`, `bank-statement-reconcile` |
-| [`video-design-studio`](packs/video-design-studio) | **视频设计工作室** | Video Design Studio | 4 | `storyboard-designer`, `shot-recipe-designer`, `video-prompt-engineer`, `visual-style-anchor` |
+| [`video-design-studio`](packs/video-design-studio) | **视频设计工作室** | Video Design Studio | 5 | `storyboard-designer`, `shot-designer`, `visual-style-anchor`, `transition-designer`, `motion-effects-designer` |
 | [`viral-entertainment`](packs/viral-entertainment) | **爆款娱乐场景** | Viral Entertainment | 2 | `ai-baby-podcast`, `nailong-laugh-shorts` |
 | [`visual-design-studio`](packs/visual-design-studio) | **视觉设计工作室** | Visual Design Studio | 5 | `design-brief-interpreter`, `image-prompt-engineer`, `layout-spec-auditor`, `frontend-design-director`, `frontend-component-lab` |
 | [`workspace-integrations`](packs/workspace-integrations) | **外部集成工具箱** | Workspace Integrations | 4 | `notion-workspace`, `feishu-dingtalk-bridge`, `issue-tracker-sync`, `cloud-drive-manager` |
 
-> 部分技能（如 `api-design-reviewer`、`kubernetes-operator`、`image-generation`、`ai-cover-generator`）会出现在多个包中——这是有意为之，因为它们在不同场景下被复用。
+> 部分技能（如 `api-design-reviewer`、`kubernetes-operator`、`image-generation`）会出现在多个包中——这是有意为之，因为它们在不同场景下被复用。
 
 ## 如何安装（30 秒）
 

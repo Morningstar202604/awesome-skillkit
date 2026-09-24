@@ -1,6 +1,6 @@
 ---
 name: chat-prompt-engineer
-description: "Engineer and audit prompts for conversational AI assistants (Doubao, ChatGPT, Kimi, DeepSeek, in-app chat models): the five-element formula (role + background + task + requirements + format) for one-shot task prompts, the five-section skeleton (persona / capability-flow / constraints / output-format / boundary) for agent system prompts, and reverse constraints that cut filler. Two modes: write a prompt from a rough request, or audit an existing prompt / system prompt and report missing elements. Use when the user asks to write prompts / Doubao prompts / prompt optimization / agent persona / system prompt / prompt audit / prompt audit / make the AI obey / prompt engineering / chatbot / conversation / dialogue / AI assistant. Do NOT use for text-to-video or image-generation prompts (those structures live in the video-prompt-engineer skill), nor for agent framework code (that is agent-designer)."
+description: "Engineer and audit prompts for conversational AI assistants (Doubao, ChatGPT, Kimi, DeepSeek, in-app chat models): the five-element formula (role + background + task + requirements + format) for one-shot task prompts, the five-section skeleton (persona / capability-flow / constraints / output-format / boundary) for agent system prompts, and reverse constraints that cut filler. Two modes: write a prompt from a rough request, or audit an existing prompt / system prompt and report missing elements. Use when the user asks to write prompts / Doubao prompts / prompt optimization / agent persona / system prompt / prompt audit / prompt audit / make the AI obey / prompt engineering / chatbot / conversation / dialogue / AI assistant. Do NOT use for text-to-video or image-generation prompts (those structures live in the shot-designer skill), nor for agent framework code (that is agent-designer)."
 license: Apache-2.0
 compatibility: Pure prompt-based; the bundled prompt_audit.py needs Python 3.8+ only.
 metadata:
@@ -14,7 +14,7 @@ metadata:
 
 # Chat Prompt Engineer
 
-Write and audit prompts for conversational AI assistants (Doubao / ChatGPT / Kimi / DeepSeek, etc.). The core is the **five-element formula** — chat models cannot read minds; miss one element and they free-fill one, and free-filling is where filler comes from. It is isomorphic to `video-prompt-engineer`'s six slots: that side manages "a complete picture," this side manages "a complete intent."
+Write and audit prompts for conversational AI assistants (Doubao / ChatGPT / Kimi / DeepSeek, etc.). The core is the **five-element formula** — chat models cannot read minds; miss one element and they free-fill one, and free-filling is where filler comes from. It is isomorphic to `shot-designer`'s six slots: that side manages "a complete picture," this side manages "a complete intent."
 
 ## Input Checklist
 
@@ -123,4 +123,4 @@ For long-content tasks, run **three rounds of iteration**: round one asks only f
 
 ## Chain Handoff (downstream suggestion)
 
-This skill is independent of other domains — a standalone "prompt engineering" skill that any domain's orchestrator can call when it needs to "write the prompt well before executing"; its structure is isomorphic to video-prompt-engineer but they are not linked to each other. Suggest adding a chat domain in skill_chains.json and registering this skill, e.g. the chat domain's prompt_audit chain: chat-prompt-engineer (self-audit across task / agent two modes).
+This skill is independent of other domains — a standalone "prompt engineering" skill that any domain's orchestrator can call when it needs to "write the prompt well before executing"; its structure is isomorphic to shot-designer but they are not linked to each other. Suggest adding a chat domain in skill_chains.json and registering this skill, e.g. the chat domain's prompt_audit chain: chat-prompt-engineer (self-audit across task / agent two modes).

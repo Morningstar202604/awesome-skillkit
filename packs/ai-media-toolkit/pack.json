@@ -16,10 +16,6 @@
     {
       "name": "music-generation",
       "source": "self-authored"
-    },
-    {
-      "name": "ai-cover-generator",
-      "source": "self-authored"
     }
   ]
 }

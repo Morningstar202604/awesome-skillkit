@@ -24,7 +24,7 @@ The judging standard for short videos is not "well-written copy" but **not being
 |----------|--------------|------|
 | Have a concept, want a finished script | yes, this skill | here |
 | Have a script, want to break it into storyboards | out of scope | storyboard-designer |
-| Want a visual video prompt (not a script) | out of scope | video-prompt-engineer |
+| Want a visual video prompt (not a script) | out of scope | shot-designer |
 | Want copy but not video-related | out of scope | product-copywriter |
 | Only gave an empty concept like "shoot a nice video" | note: push back for subject + hook first | pre-flight checks |
 | Target duration exceeds the platform cap | note: decide — split episodes or lower the length | failure table |
@@ -233,7 +233,7 @@ Expected: all three pass. If it fails: payoff mismatch -> change either title or
 - `references/script-templates.md` — finished templates per type; copy the skeleton before writing.
 - `references/timing-guide.md` — rhythm / beat rules and time allocation.
 - `references/sources-and-methodology.md` — sources of tacit knowledge 1-7 and sourcing discipline (reject percentage efficacy promises), script-behavior probe records. Read when delivering/attributing/being challenged.
-- [cinematography-lexicon.md](../video-prompt-engineer/references/cinematography-lexicon.md) — shot-language lexicon (transitions/actions/performance detail): pick shot-direction words for scripts from this.
+- [shot-designer camera-design section](shot-designer/SKILL.md (camera design section)) — shot-language lexicon (transitions/actions/performance detail): pick shot-direction words for scripts from this.
 
 ## Appendix: CLI Contract (Parameter Quick Reference)
 

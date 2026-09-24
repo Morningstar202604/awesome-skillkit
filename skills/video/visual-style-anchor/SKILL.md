@@ -1,6 +1,6 @@
 ---
 name: visual-style-anchor
-description: "Create a reusable visual style anchor for a video or image project: one-page style guide locking color palette, lighting scheme, materials, era, and medium texture — plus a character consistency card (identity line, wardrobe, props, forbidden changes) that keeps every generated shot on-model. Use when the user asks to set the visual style / style setting / character setting / keep the character consistent / keep the face on-model / style guide / character sheet / visual consistency before batch generation. Do NOT use for writing per-shot prompts (use video-prompt-engineer), nor for generating the images themselves."
+description: "Create a reusable visual style anchor for a video or image project: one-page style guide locking color palette, lighting scheme, materials, era, and medium texture — plus a character consistency card (identity line, wardrobe, props, forbidden changes) that keeps every generated shot on-model. Use when the user asks to set the visual style / style setting / character setting / keep the character consistent / keep the face on-model / style guide / character sheet / visual consistency before batch generation. Do NOT use for writing per-shot prompts (use shot-designer), nor for generating the images themselves."
 license: Apache-2.0
 compatibility: Pure prompt-based design skill; no scripts, no API keys.
 metadata:
@@ -24,7 +24,7 @@ Produce two reusable assets: a **style anchor** (style-anchor.md, the film's vis
 | One-off single image, no reuse | light use | Only produce the style anchor; skip the character card and reuse notes |
 | Project already has an old style anchor | edit the old file | **Don't start from scratch** — change the anchor and every already-generated shot is void |
 | Just want to generate one image, no style wait | no | Use the image-generation tool directly; this skill is a pre-batch planning step |
-| Per-shot prompt writing | no | Belongs to video-prompt-engineer (this skill is its upstream) |
+| Per-shot prompt writing | no | Belongs to shot-designer (this skill is its upstream) |
 
 ## Domain Tacit Knowledge (Four Things You Must Know Before Anchoring a Style)
 
@@ -137,7 +137,7 @@ If it fails: any item fails -> return to the corresponding step (a missing slot 
 | Symptom | Cause | Remedy |
 |---|---|---|
 | Generation still swaps the face | The identity line was paraphrased in the prompt | The identity line must be copy-pasted; paraphrase is forbidden (Red Line 3) |
-| Palette drifts across shots | The style slot isn't carried in every prompt | The style slot is mandatory; see video-prompt-engineer's six slots |
+| Palette drifts across shots | The style slot isn't carried in every prompt | The style slot is mandatory; see shot-designer's six slots |
 | The user adds a new character mid-project | The card had no variant mechanism | Open a variant card and update the continuity constraint table (storyboard-designer's output) |
 | Emotion words can't land | Abstract words like "premium vibe" | Force conversion via tacit-knowledge-3's temperature dictionary and confirm with the user |
 | The user insists on "that teal-orange blockbuster look" | Hits the cliche risk (tacit knowledge 1) | Don't refuse but call it out: it's been a cliche since 2020; rewrite as "teal-orange contrast structure + subject-matter-specific sources"; differentiation comes from light and subject |
@@ -160,5 +160,5 @@ If it fails: any item fails -> return to the corresponding step (a missing slot 
 ## Chain Handoff (Downstream Suggestions)
 
 This skill is the upstream "visual planning" skill in the video-domain production chains. Suggested orchestration order:
-visual-style-anchor -> storyboard-designer -> shot-recipe-designer -> video-prompt-engineer -> video-script-writer, then plug into the already-registered video-domain talking_character / meme chains (video-voice-synth -> video-lip-sync -> video-editor -> video-subtitles -> video-thumbnail).
+visual-style-anchor -> storyboard-designer -> shot-designer -> shot-designer -> video-script-writer, then plug into the already-registered video-domain talking_character / meme chains (video-voice-synth -> video-lip-sync -> video-editor -> video-subtitles -> video-thumbnail).
 Currently this skill isn't registered in skill_chains.json's video-domain skills list (standalone); the handoff above is descriptive only, with no cross-directory hard links.

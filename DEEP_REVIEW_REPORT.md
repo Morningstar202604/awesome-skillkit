@@ -271,3 +271,118 @@ Final build completed successfully:
 - [x] Linter repaired for English-only standard
 - [x] Final build verification: 37 zips + site data generated successfully
 - [x] Git commit: d5e8d8d
+
+---
+
+## 11. Round 3: Merges, New Skills & Full-Process Gap Filling
+
+**Date:** 2026-09-24 (continued)
+**Methodology:** Built full-process demand maps for each scenario pack, identified gaps, executed 3 authorized merges, and added new skills only where a clear non-LLM-native, non-platform-native gap existed.
+
+### 11.1 Three Merges Executed
+
+| Merge | Survivor | Absorbed | Rationale |
+|---|---|---|---|
+| image-generation + ai-cover-generator | `skills/video/image-generation/` | cover-size table, dry-run contract, generate_cover.py | ~60% overlap, same image gateway; unified skill covers general generation + platform covers/banners |
+| video-prompt-engineer + shot-recipe-designer | `skills/video/shot-designer/` (new) | six-slot prompts + 12 recipe cards + comprehensive camera design (shot sizes, angles, movement, composition) + audit mode | Both are shot-level camera design; merged into dual-mode skill (recipe picker / custom prompt builder) |
+| pr-review-expert + code-reviewer | `skills/programming/code-quality/code-reviewer/` | PR Diff Review Mode (diff-scoped review, blast-radius, regression risk, merge-readiness) | Thematic overlap; code-reviewer's tool-heavy analysis + pr-review-expert's PR lens = single comprehensive skill |
+
+**Deleted directories:** ai-cover-generator, video-prompt-engineer, shot-recipe-designer, pr-review-expert
+**Indexes updated:** 6 pack.json, manifest.json, skill_chains.json, README.md, README.zh-CN.md
+**Residual references fixed:** 7 SKILL.md files updated (chat-prompt-engineer, design-brief-interpreter, image-prompt-engineer, storyboard-designer, video-script-writer, visual-style-anchor, cross-post-orchestrator)
+
+### 11.2 Video Scenario Full-Process Demand Map & Gaps Filled
+
+Complete video production pipeline coverage after this round:
+
+| Stage | Skill | Status |
+|---|---|---|
+| 1. Concept/Script | video-script-writer | Existing |
+| 2. Visual Style | visual-style-anchor | Existing |
+| 3. Storyboard | storyboard-designer | Existing |
+| 4. Shot/Camera Design | shot-designer (merged) | **Merged & expanded** — comprehensive shot sizes/angles/movement/composition |
+| 5. Image Assets | image-generation (merged) | **Merged** — general + platform covers |
+| 6. Transition Design | transition-designer | **NEW** — 20+ transition types, rhythm, beat-sync, platform norms |
+| 7. Motion Effects | motion-effects-designer | **NEW** — kinetic typography, particles, overlays, animation principles |
+| 8. Video Generation | video-generation | Existing |
+| 9. Voice/Speech | video-voice-synth | Existing |
+| 10. Sound Design/Mixing | sound-designer | **NEW** — LUFS, EQ, compression, ducking, SFX |
+| 11. Lip Sync | video-lip-sync | Existing |
+| 12. Editing | video-editor | **Expanded** 132→300 lines — added editing rhythm, audio-video sync, transition execution |
+| 13. Subtitles | video-subtitles | Existing |
+| 14. Thumbnail | video-thumbnail | Existing |
+| 15. Publishing | content-publishing pack | Existing |
+
+**New skill: transition-designer** (277 lines)
+- Transition type catalog: basic cuts (hard/soft/jump/cross/match/smash/cutaway/cut-in), optical (dissolve/fade/wipe/iris), audio-led (J-cut/L-cut/audio bridge), creative (freeze frame/speed ramp/whip pan/zoom through/morph/glitch/light leak)
+- Rhythm & pacing: cuts/min by genre, beat-sync math, 30-degree rule, transition fatigue
+- Scene connection logic: by motion/color/shape/sound/theme
+- Platform norms: Douyin (0.3-0.5s), Bilibili (meme transitions), YouTube (0.5-1s), WeChat, Xiaohongshu
+- FFmpeg xfade parameter reference
+
+**New skill: motion-effects-designer** (270 lines)
+- Motion graphics catalog: kinetic typography, lower thirds, data viz animation, particles/atmosphere, overlays/accents, transitions-as-motion
+- Animation principles adapted to AI video: easing curves, keyframe spacing, motion blur, spring physics
+- Subtitle/caption animation styles per platform
+- "When Motion Hurts" red lines: motion sickness, readability, over-animation
+
+**Expanded: video-editor** (132→300 lines)
+- Editing Rhythm & Pacing: shot duration by genre, 3-second rule for shorts, montage build/peak/release
+- Audio-Video Sync: lip-sync thresholds, dialogue pause cutting, beat mapping, ducking recipe
+- Transition Execution: concrete FFmpeg xfade commands for dissolve/wipe/fade, J-cut/L-cut, motion overlay
+
+### 11.3 Other Scenario Gap Scan (36 packs)
+
+All 36 packs assessed via full-process demand mapping. **One new skill created, six candidates rejected:**
+
+| Candidate | Verdict | Reason |
+|---|---|---|
+| Audio sound design/mixing | **Created: sound-designer** | Real gap in audio-studio (script→voice→publish, no mixing/SFX/loudness). LUFS standards, EQ frequencies, compression ratios are domain knowledge LLM doesn't reliably apply. |
+| E-commerce visual material | Rejected | Covered by product-copywriter + visual-design-studio + image-studio chain |
+| Prompt debugging/iteration | Rejected | chat-prompt-engineer has dual write+audit mode; iteration is LLM-native |
+| File archive/backup | Rejected | file-organizer + task-scheduler cover it; backup is heavy/platform-specific |
+| Cross-skill orchestration | Rejected | skill_chains.json + Chain Handoff sections + harness orchestration already exist |
+| Data analysis report | Rejected | LLM-native writing; docx-writer handles formatting |
+| Learning/study planner | Rejected | Borderline LLM-native; edu-craft covers course design + exercises |
+
+**New skill: sound-designer** (235 lines + loudness-standards reference)
+- Per-platform LUFS targets (Xiaoyuzhou -16, Douyin -14, etc.)
+- Speech EQ surgery (HPF 80Hz, presence boost 2.5kHz)
+- Compression ratios (3:1 for speech), sidechain ducking curves
+- SFX placement discipline (≤3 per 5 minutes), music bed selection
+- Pure prompt skill, no heavy dependencies
+
+### 11.4 Pack Updates
+
+| Pack | Before | After | Change |
+|---|---|---|---|
+| video-design-studio | 4 | 5 | +transition-designer, +motion-effects-designer; shot-recipe-designer+video-prompt-engineer → shot-designer |
+| ai-video-pipeline | 6 | 9 | +transition-designer, +motion-effects-designer, +sound-designer |
+| audio-studio | 3 | 4 | +sound-designer |
+| ai-media-toolkit | 4 | 3 | ai-cover-generator → image-generation (dedup) |
+| image-studio | 4 | 3 | ai-cover-generator → image-generation (dedup) |
+| content-publishing | 18 | 18 | ai-cover-generator → image-generation |
+| code-review | 5 | 4 | pr-review-expert → code-reviewer (dedup) |
+| github-workflow | 3 | 3 | pr-review-expert → code-reviewer |
+
+### 11.5 Validation
+
+- Linter: 153 real skills all PASS (2 expected failures: figure-maker deprecated, good-skill fixture)
+- Build: 37 zips (36 packs + _all.zip, 154 skills incl. figure-maker, 2.28MB)
+- Site: site.json 154 skills / 36 packs / 18 domains, 154 per-skill MD downloads
+- All new/merged SKILL.md: valid YAML, zero CJK, proper structure
+- All moved scripts (generate_cover.py, prompt_audit.py): ast.parse OK
+- No dangling references to deleted skill names in index files
+
+### 11.6 Round 3 Validation Checklist
+
+- [x] 3 merges executed with full index updates (packs, manifest, skill_chains, README)
+- [x] 7 residual old-name references fixed in SKILL.md files
+- [x] 3 new skills created: transition-designer, motion-effects-designer, sound-designer
+- [x] video-editor expanded with rhythm/sync/transition sections
+- [x] All new/merged skills: valid YAML, zero CJK, linter PASS
+- [x] All 153 real skills pass linter (2 expected failures)
+- [x] build.py: 37 zips generated successfully
+- [x] build_site.py: site data updated (154 skills / 36 packs)
+- [x] README.md + README.zh-CN.md pack tables updated
+- [x] Git commit: ca3ab26

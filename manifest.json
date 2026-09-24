@@ -39,7 +39,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "03f16e3870631007d9f2f61b82d60dfd611333a555b9051d0d26240e96c7dbbc"
+      "sha256": "765b0a069c10ff5423e4067b1956a07947a7f00eaafe70de5ed589768a84443a"
     },
     {
       "id": "ai-media-toolkit",
@@ -48,7 +48,7 @@
       "description": "Generate videos, images, covers, and music from prompts through a local generation gateway.",
       "description_zh": "通过本地生成网关用提示词生成视频、图片、封面与配乐：文生/图生全流程（提交、轮询、下载交付）。",
       "file": "dist/ai-media-toolkit.zip",
-      "size_kb": 26,
+      "size_kb": 23,
       "skills": [
         {
           "name": "video-generation",
@@ -61,13 +61,9 @@
         {
           "name": "music-generation",
           "source": "self-authored"
-        },
-        {
-          "name": "ai-cover-generator",
-          "source": "self-authored"
         }
       ],
-      "sha256": "6a4b8881cbe3ea1ba34014a38690f3f2acdc90ec7076e0884ddf0e31cb656286"
+      "sha256": "906944e28abc1792728f459489ad39685ba001db524cb482db94f27e3017cb99"
     },
     {
       "id": "ai-research-writing",
@@ -155,7 +151,7 @@
         }
       ],
       "size_kb": 199,
-      "sha256": "a5ea564b110dea6b9261c5794e687d02c041069df1776436e12077052fc9f7b0"
+      "sha256": "e4a491f8bb05a8801fb7a3bf48fb983305f9ae99b278d84f9aa13adcf1cefc70"
     },
     {
       "id": "ai-video-pipeline",
@@ -188,10 +184,22 @@
         {
           "name": "video-thumbnail",
           "source": "self-authored"
+        },
+        {
+          "name": "transition-designer",
+          "source": "skillkit authors (self-authored)"
+        },
+        {
+          "name": "motion-effects-designer",
+          "source": "skillkit authors (self-authored)"
+        },
+        {
+          "name": "sound-designer",
+          "source": "skillkit authors (self-authored)"
         }
       ],
-      "size_kb": 83,
-      "sha256": "d02628c46d58801f2a9cbb2f11e550ecf214bb556f5c4cac07b5945ea15beb25"
+      "size_kb": 111,
+      "sha256": "e5efaee145eceea498233e9cd5a374d19b1b9534eafd92f5adb9827389712539"
     },
     {
       "id": "api-development",
@@ -211,7 +219,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "df4b6351a4a83b29aa67167594df8a3efab42301600d6375120fee8a547f4f94"
+      "sha256": "a5bd6c77a4dc83bb2935c2c426c81b5e65dc72d46bf8b80260d95547632f4198"
     },
     {
       "id": "architecture",
@@ -235,7 +243,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "b04f12ff98489b08120cc4d07bd06e748326485432861f26b84ec56e6e4cd320"
+      "sha256": "8656688841f0efcca5b60ad684eebefbbb23bffe740bb1d3a67e6939d5aefbc8"
     },
     {
       "id": "audio-studio",
@@ -256,10 +264,14 @@
         {
           "name": "episode-publisher",
           "source": "self-authored"
+        },
+        {
+          "name": "sound-designer",
+          "source": "skillkit authors (self-authored)"
         }
       ],
-      "size_kb": 17,
-      "sha256": "804ffa95c842f61c10e44c35de5da4cdd3a7fe6a31e2de75a86fe914b2a60c27"
+      "size_kb": 25,
+      "sha256": "bb05ebb8284f87750c973ec7167510aa96b17b1505f0d66fde88588d1850b6c2"
     },
     {
       "id": "chat-prompt-craft",
@@ -275,7 +287,7 @@
         }
       ],
       "size_kb": 10,
-      "sha256": "07529c5e720f9483c7a3c0d4dcbecbe0f6d190dfa567778b92d9b617412ab90b"
+      "sha256": "53c34b46efa02f25457796452903a2687b2b08e5cdf60fb637b896718e5a5ee0"
     },
     {
       "id": "ci-cd",
@@ -299,7 +311,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "79ac8954434d8d095f03303dff7e7a38f0a00f6172ba4e7a09a51459e5bcfa37"
+      "sha256": "5dca91dd1701b601616c366d8733c601c94a8f3aa60a7ac25940860575aa43b6"
     },
     {
       "id": "code-planning",
@@ -323,21 +335,17 @@
         }
       ],
       "size_kb": 66,
-      "sha256": "237270dd677df4c762fa4c6bb30ffa48ed4ff5c4dbe1b7bac3c4080e897e3816"
+      "sha256": "3101569ea7bc4fd137261042f5f16e21631126634eb926d051fa5c18c7f73118"
     },
     {
       "id": "code-review",
       "name": "Code Review",
       "name_zh": "代码审查",
       "file": "dist/code-review.zip",
-      "size_kb": 252,
+      "size_kb": 249,
       "description": "Review pull requests, analyze code quality, audit dependencies and tech debt across languages.",
       "description_zh": "审查 PR、分析代码质量、审计依赖与技术债，覆盖多语言。",
       "skills": [
-        {
-          "name": "pr-review-expert",
-          "source": "alirezarezvani/claude-skills (MIT)"
-        },
         {
           "name": "code-reviewer",
           "source": "alirezarezvani/claude-skills (MIT)"
@@ -355,7 +363,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "96ac0bbe37175994525f2f23811e37d637c58f066872b0f0af9707ca6ea98399"
+      "sha256": "3050bcdf417642d904633ac31234511b1544021f62bace3e21e383db283aee6f"
     },
     {
       "id": "containers",
@@ -379,14 +387,14 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "eaa9237c7ef6bc12937d7664eec4c2c0d0dfd72d00abfdb4918a3464e4695607"
+      "sha256": "9ebd482b379d360c1ef0ec03fe8b3af9e923f7b19f50432029377c3fc003d627"
     },
     {
       "id": "content-publishing",
       "name": "Content Publishing Automation",
       "name_zh": "内容多平台发布自动化",
       "file": "dist/content-publishing.zip",
-      "size_kb": 48,
+      "size_kb": 49,
       "description": "Publish, edit and manage articles/videos on Chinese platforms (Zhihu, cnblogs, WeChat MP, Juejin, CSDN, Jianshu, Bilibili, Toutiao, Baijiahao, Xiaohongshu, Weibo, Douban, V2EX, SegmentFault, OSChina, Douban, Static Blogs) with battle-tested platform knowledge, plus a cross-post orchestrator and AI cover-image generation.",
       "description_zh": "在知乎、博客园、微信公众号、掘金、CSDN、简书、B站、头条、百家号、小红书、微博、豆瓣、V2EX、SegmentFault、开源中国、静态博客等中文平台发布、编辑、管理内容，沉淀实战平台经验；附跨平台发布编排器与 AI 封面图生成。",
       "skills": [
@@ -459,11 +467,11 @@
           "source": "skillkit authors (self-authored)"
         },
         {
-          "name": "ai-cover-generator",
-          "source": "skillkit authors (self-authored)"
+          "name": "image-generation",
+          "source": "existing (video)"
         }
       ],
-      "sha256": "3587d46980c73b7d09f943c2f4bc3ff9d7e97c64a43eefc3404736381ca4b15a"
+      "sha256": "ddf7b4eac02229e1069fe096d63bd0199ae73b1c7f82fc730f8c8003b651bb5a"
     },
     {
       "id": "data-ml-science",
@@ -503,7 +511,7 @@
         }
       ],
       "size_kb": 76,
-      "sha256": "ec2fed482cafe3841c1503497654812ecee4712ab17aff0928856c30fd623bc4"
+      "sha256": "cd934c2077b832109e82a4f58ee54db0195e7f4c9bb5ffc73446c02f9ef0e2ba"
     },
     {
       "id": "database",
@@ -523,7 +531,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "ee962b916a893a6fbb9ee1ccdbe44162b36f210cedc8f5b5ff9e267984675fff"
+      "sha256": "c1f6d232bc501fdff0ab6aa6f8be9e003aa4eabf4b68996fa43f20dbf0cbaf15"
     },
     {
       "id": "dataviz-studio",
@@ -542,8 +550,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 34,
-      "sha256": "b02d9c342d32ab461d0cbdf772d1ff16beec85ea1d0848fdf1827c47133e7b21"
+      "size_kb": 33,
+      "sha256": "0683dbe81527c316c89d2c1e1c102cf963b1acacc53aeccc35b462aff6374fe0"
     },
     {
       "id": "de-ai-writing",
@@ -567,7 +575,7 @@
         }
       ],
       "size_kb": 29,
-      "sha256": "8d6698a230678b1d933b9293f7ded26ee7d4723fa387ff6070831f473409602f"
+      "sha256": "7831d35d57db4bb6bff1805e895fb1961923198f08f20a5f119d0e5cd2000871"
     },
     {
       "id": "edu-craft",
@@ -591,14 +599,14 @@
         }
       ],
       "size_kb": 11,
-      "sha256": "312fdd26112d35cc3f06a2fc115c5eca45930551167680dab0e544159416b22e"
+      "sha256": "03b67518c3380e7fa5867287dfe59b75434818cdbea43b7592665b74f9da3421"
     },
     {
       "id": "github-workflow",
       "name": "GitHub Collaboration",
       "name_zh": "GitHub 协作工作流",
       "file": "dist/github-workflow.zip",
-      "size_kb": 40,
+      "size_kb": 102,
       "description": "Parallel worktrees, conventional-commit changelogs, and PR review on GitHub.",
       "description_zh": "并行 worktree、Conventional Commits 变更日志与 GitHub PR 审查。",
       "skills": [
@@ -611,11 +619,11 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         },
         {
-          "name": "pr-review-expert",
+          "name": "code-reviewer",
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "fe1adb9ea59f6cef5ef64da2baca9ab6488a74f73f420198fd17664209433c31"
+      "sha256": "72b8e7650be14cb0c13424a417aa90b492335989471062a23b703a3f460b4c02"
     },
     {
       "id": "growth-marketing",
@@ -639,7 +647,7 @@
         }
       ],
       "size_kb": 16,
-      "sha256": "00e429ee974926cfe15d2552f834d6757893847d93082d8f86b2fdcec7ca1887"
+      "sha256": "9cc99f8640d8f05782c63244de5a0748ecd3003bac85c8b31b085c224bd45771"
     },
     {
       "id": "homework-autopilot",
@@ -663,7 +671,7 @@
         }
       ],
       "size_kb": 24,
-      "sha256": "e4478c926d5c3df419ff2bcd3f28a8250c950c38b3a583cee36d4be6bbf53931"
+      "sha256": "5fde31b4f83f663af62a50b72c78942623de35886196005cac5d8c962da2b542"
     },
     {
       "id": "image-studio",
@@ -684,14 +692,10 @@
         {
           "name": "visual-style-anchor",
           "source": "existing (video)"
-        },
-        {
-          "name": "ai-cover-generator",
-          "source": "existing (writing/assets)"
         }
       ],
-      "size_kb": 41,
-      "sha256": "6f0e35eadb0a86a48c9c21dede2251db2e12790109f9ed582192086c1ba4b186"
+      "size_kb": 38,
+      "sha256": "82a091c302512d2ee386dd5c5d327974390910d480e0b71c13d9e16807d44798"
     },
     {
       "id": "incident-response",
@@ -715,7 +719,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "ea5b5ef73cda35db290f8ff224b5566e70b0a36d4c0e7ea766542220516e4512"
+      "sha256": "51b4a83e1665f9d16557537051395d04307940d63fbb8d849d07c2440700d646"
     },
     {
       "id": "infrastructure",
@@ -739,7 +743,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "5a177799fba1c852a18beaa2a1bc8c2d6b34548a35a22d8f6dd227a2ff0009bf"
+      "sha256": "12b6bf7f74d5504c187f6b81d9d0e39387cf5ced71f250f9c7f1ab0094809506"
     },
     {
       "id": "knowledge-base",
@@ -759,7 +763,7 @@
         }
       ],
       "size_kb": 29,
-      "sha256": "049b192100026409d6587dc056517d3494a1686d5b0f006900413f3d66078e2e"
+      "sha256": "ff0e8c4e02a6213848e629bed364c6383c48a259877afc32cbbbb21282702a8d"
     },
     {
       "id": "memory-systems",
@@ -787,7 +791,7 @@
         }
       ],
       "size_kb": 25,
-      "sha256": "ed15ee112a2114b772b28ec631b3418430f0dcde7ab1fbc810972f69f1fa01c5"
+      "sha256": "35ce12947f53c1e09adc263a7d46f4b8912dc787f7bee01a17e7df7124f2b965"
     },
     {
       "id": "office-productivity",
@@ -839,7 +843,7 @@
           "source": "self-authored (adapted from santifer/career-ops, MIT)"
         }
       ],
-      "sha256": "9ba51ffb0351a3b40914d3cbbb76200013e10679ca444f07f9009bc8dc6def32"
+      "sha256": "69580fa276d2edeae4eab5396ed959ca29d5ab12700f1ec2978c04a1383a95d1"
     },
     {
       "id": "performance",
@@ -855,7 +859,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "5aff81826e5ff848bec68ebc3dae546cf665b1d7625b6d7b58f125bce6bdda64"
+      "sha256": "170680e61862487a4331a46d6ba80f1aed7c2dc703675dd901f9d1c47c68d239"
     },
     {
       "id": "security",
@@ -883,7 +887,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "78983d0e454290081d8e9cc3347b994218304bd30ffcaf9408f7728f25540334"
+      "sha256": "45774b9cf39aa09620fc5363173a6a77416061ca1c2642dcb5def39b8412d480"
     },
     {
       "id": "skill-forge",
@@ -914,8 +918,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 48,
-      "sha256": "579280beb00081e5dbb3f0cdc5140ce0bb500bd0c51ea7e5347812a58ef8af9a"
+      "size_kb": 49,
+      "sha256": "743b25ada0ec84848c435f58bf08cb7895ddc58d360f207fb7bccfec32f980ee"
     },
     {
       "id": "tdd",
@@ -978,8 +982,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 63,
-      "sha256": "f3aa2d235b8a5cec1be7fbae763ed75fd20047a8f4ccabdeb6bbc1ee2e09ec9d"
+      "size_kb": 62,
+      "sha256": "115373b12a3607714f60eed8ec1ad566a6d8f8bdc2c0115950a97737770a187f"
     },
     {
       "id": "video-design-studio",
@@ -994,20 +998,24 @@
           "source": "self-authored"
         },
         {
-          "name": "shot-recipe-designer",
-          "source": "self-authored"
-        },
-        {
-          "name": "video-prompt-engineer",
+          "name": "shot-designer",
           "source": "self-authored"
         },
         {
           "name": "visual-style-anchor",
           "source": "self-authored"
+        },
+        {
+          "name": "transition-designer",
+          "source": "skillkit authors (self-authored)"
+        },
+        {
+          "name": "motion-effects-designer",
+          "source": "skillkit authors (self-authored)"
         }
       ],
-      "size_kb": 49,
-      "sha256": "1d0679511effc88ac5af64294d9a4d2d2a528448d77d7103aa156ac4642e02ea"
+      "size_kb": 50,
+      "sha256": "bf23a6eecd6d0c9cb5616800a592e90da646aec753b3f7d2ff73c285bd59ad74"
     },
     {
       "id": "viral-entertainment",
@@ -1059,7 +1067,7 @@
         }
       ],
       "size_kb": 47,
-      "sha256": "009de2bbf8f0b799739924660e14e4e1e5449fbb4a63ffb2a3c93d114fc8b461"
+      "sha256": "51bf5dbccdef35a10e8b982ca66b65632cdf9d17406f28d544c865fd5d63c19c"
     },
     {
       "id": "workspace-integrations",
@@ -1087,7 +1095,7 @@
         }
       ],
       "size_kb": 59,
-      "sha256": "b84d6d317ac9e1fea2a45e40e9ff34c1ae53752fed7869e3c408a847134f30ee"
+      "sha256": "f3ced39eec3fe2cd62daff68bd0be392455fe86e7b47bd9f524e8ad267673ed3"
     }
   ]
 }

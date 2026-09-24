@@ -455,7 +455,7 @@
    "id": "programming",
    "label": "programming",
    "entry": "",
-   "n_skills": 48,
+   "n_skills": 47,
    "n_chains": 13,
    "chains": [
     {
@@ -622,7 +622,7 @@
    "id": "video",
    "label": "video",
    "entry": "",
-   "n_skills": 15,
+   "n_skills": 14,
    "n_chains": 4,
    "chains": [
     {
@@ -641,8 +641,7 @@
      "steps": [
       "visual-style-anchor",
       "storyboard-designer",
-      "shot-recipe-designer?",
-      "video-prompt-engineer",
+      "shot-designer?",
       "video-script-writer"
      ]
     },
@@ -683,7 +682,7 @@
       "article-drafter",
       "content-editor",
       "seo-optimizer",
-      "ai-cover-generator",
+      "image-generation",
       "cross-post-orchestrator"
      ]
     },
@@ -765,27 +764,6 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/video/ai-baby-podcast/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/video/ai-baby-podcast/SKILL.md"
-  },
-  {
-   "name": "ai-cover-generator",
-   "domain": "writing",
-   "path": "skills/writing/assets/ai-cover-generator",
-   "file": "skills/writing/assets/ai-cover-generator/SKILL.md",
-   "desc": ">",
-   "license": "Apache-2.0",
-   "compatibility": "Python 3.8+; the `--jpg` compression flag requires Pillow. A",
-   "version": "2.0",
-   "tier": "standard",
-   "pattern": "single-task",
-   "verified": "2026-09-24",
-   "repo_file": "skills/writing/assets/ai-cover-generator/SKILL.md",
-   "packs": [
-    "ai-media-toolkit",
-    "content-publishing",
-    "image-studio"
-   ],
-   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/assets/ai-cover-generator/SKILL.md",
-   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/assets/ai-cover-generator/SKILL.md"
   },
   {
    "name": "ai-humanizer",
@@ -1135,7 +1113,7 @@
    "domain": "chat",
    "path": "skills/chat/chat-prompt-engineer",
    "file": "skills/chat/chat-prompt-engineer/SKILL.md",
-   "desc": "Engineer and audit prompts for conversational AI assistants (Doubao, ChatGPT, Kimi, DeepSeek, in-app chat models): the five-element formula (role + background + task + requirements + format) for one-shot task prompts, the five-section skeleton (persona / capability-flow / constraints / output-format / boundary) for agent system prompts, and reverse constraints that cut filler. Two modes: write a prompt from a rough request, or audit an existing prompt / system prompt and report missing elements. Use when the user asks to write prompts / Doubao prompts / prompt optimization / agent persona / system prompt / prompt audit / prompt audit / make the AI obey / prompt engineering / chatbot / conversation / dialogue / AI assistant. Do NOT use for text-to-video or image-generation prompts (those structures live in the video-prompt-engineer skill), nor for agent framework code (that is agent-designer).",
+   "desc": "Engineer and audit prompts for conversational AI assistants (Doubao, ChatGPT, Kimi, DeepSeek, in-app chat models): the five-element formula (role + background + task + requirements + format) for one-shot task prompts, the five-section skeleton (persona / capability-flow / constraints / output-format / boundary) for agent system prompts, and reverse constraints that cut filler. Two modes: write a prompt from a rough request, or audit an existing prompt / system prompt and report missing elements. Use when the user asks to write prompts / Doubao prompts / prompt optimization / agent persona / system prompt / prompt audit / prompt audit / make the AI obey / prompt engineering / chatbot / conversation / dialogue / AI assistant. Do NOT use for text-to-video or image-generation prompts (those structures live in the shot-designer skill), nor for agent framework code (that is agent-designer).",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; the bundled prompt_audit.py needs Python 3.8+ only.",
    "version": "1.0",
@@ -1258,7 +1236,8 @@
    "verified": "2026-09-09",
    "repo_file": "skills/programming/code-quality/code-reviewer/SKILL.md",
    "packs": [
-    "code-review"
+    "code-review",
+    "github-workflow"
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/code-quality/code-reviewer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/code-quality/code-reviewer/SKILL.md"
@@ -1898,13 +1877,14 @@
    "desc": ">",
    "license": "Apache-2.0",
    "compatibility": "Requires curl and network access to the generation gateway endpoint.",
-   "version": "1.0",
+   "version": "2.0",
    "tier": "",
    "pattern": "",
-   "verified": "2026-08-26",
+   "verified": "2026-09-24",
    "repo_file": "skills/video/image-generation/SKILL.md",
    "packs": [
     "ai-media-toolkit",
+    "content-publishing",
     "image-studio"
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/video/image-generation/SKILL.md",
@@ -2369,6 +2349,26 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/architecture/monorepo-navigator/SKILL.md"
   },
   {
+   "name": "motion-effects-designer",
+   "domain": "video",
+   "path": "skills/video/motion-effects-designer",
+   "file": "skills/video/motion-effects-designer/SKILL.md",
+   "desc": "Design motion graphics and visual effects for AI video: kinetic typography, lower thirds, animated charts, particles, overlays, subtitle animation styles, and easing/timing specs. Produces a motion spec that video-editor executes. Use when the user asks to design motion graphics / add animated text / animate a chart / add particles / style captions / choose easing / add lower thirds / plan VFX overlays / make text bounce. Do NOT use for cutting between scenes (use transition-designer), for executing the actual edit (use video-editor), or for generating background footage (use video-generation).",
+   "license": "Apache-2.0",
+   "compatibility": "Pure prompt-based design skill; no scripts required. Outputs a motion spec consumed by video-editor.",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "planning",
+   "verified": "2026-09-24",
+   "repo_file": "skills/video/motion-effects-designer/SKILL.md",
+   "packs": [
+    "ai-video-pipeline",
+    "video-design-studio"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/video/motion-effects-designer/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/video/motion-effects-designer/SKILL.md"
+  },
+  {
    "name": "music-generation",
    "domain": "music",
    "path": "skills/music/music-generation",
@@ -2654,26 +2654,6 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/ppt/ppt-builder/SKILL.md"
   },
   {
-   "name": "pr-review-expert",
-   "domain": "programming",
-   "path": "skills/programming/github/pr-review-expert",
-   "file": "skills/programming/github/pr-review-expert/SKILL.md",
-   "desc": "Use when the user asks to review a pull request, review a PR, or look at a pull request, or to review pull requests / merge requests end-to-end on GitHub/GitLab (gh/glab CLI recipes), assess a diff's blast radius, check breaking changes and coverage delta, or run a structured PR review checklist. For deterministic static analysis of files/diffs (secrets, SQLi, complexity scoring), chain in code-reviewer as the analysis engine. Do NOT use for pushing fixes itself (review and verdict only).",
-   "license": "Apache-2.0",
-   "compatibility": "Pure prompt-based; may read project structure via Bash.",
-   "version": "1.0",
-   "tier": "powerful",
-   "pattern": "single-task",
-   "verified": "2026-09-09",
-   "repo_file": "skills/programming/github/pr-review-expert/SKILL.md",
-   "packs": [
-    "code-review",
-    "github-workflow"
-   ],
-   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/github/pr-review-expert/SKILL.md",
-   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/github/pr-review-expert/SKILL.md"
-  },
-  {
    "name": "product-copywriter",
    "domain": "marketing",
    "path": "skills/marketing/product-copywriter",
@@ -2940,23 +2920,23 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/cicd/ship-gate/SKILL.md"
   },
   {
-   "name": "shot-recipe-designer",
+   "name": "shot-designer",
    "domain": "video",
-   "path": "skills/video/shot-recipe-designer",
-   "file": "skills/video/shot-recipe-designer/SKILL.md",
-   "desc": "Design a cinematic shot list from recipe cards: each shot gets a purpose, energy level, duration, camera move, and exit transition — 12 proven recipe cards (establishing shot, insert close-up, 2.5D parallax push, title card, match cut, reaction cutaway and more). Use when the user asks to design shots / produce a shot list / shot list / camera-move design / transition design / make the film cinematic for a promo, short film, or product video. Do NOT use for writing dialogue or narration (use video-script-writer), nor for generating the video itself.",
+   "path": "skills/video/shot-designer",
+   "file": "skills/video/shot-designer/SKILL.md",
+   "desc": ">",
    "license": "Apache-2.0",
-   "compatibility": "Pure prompt-based design skill; no scripts, no API keys.",
+   "compatibility": "Pure prompt-based design; the bundled scripts/prompt_audit.py needs Python 3.8+ only.",
    "version": "1.0",
    "tier": "standard",
    "pattern": "single-task",
-   "verified": "2026-09-14",
-   "repo_file": "skills/video/shot-recipe-designer/SKILL.md",
+   "verified": "2026-09-24",
+   "repo_file": "skills/video/shot-designer/SKILL.md",
    "packs": [
     "video-design-studio"
    ],
-   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/video/shot-recipe-designer/SKILL.md",
-   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/video/shot-recipe-designer/SKILL.md"
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/video/shot-designer/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/video/shot-designer/SKILL.md"
   },
   {
    "name": "simulation-runner",
@@ -3090,6 +3070,26 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/education/solution-drafter/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/education/solution-drafter/SKILL.md"
+  },
+  {
+   "name": "sound-designer",
+   "domain": "audio",
+   "path": "skills/audio/sound-designer",
+   "file": "skills/audio/sound-designer/SKILL.md",
+   "desc": "Design and mix the audio bed for a podcast or short video: select and place sound effects (SFX), choose a background music (BGM) bed matched to the content mood, set per-platform loudness targets (LUFS), plan EQ and compression for speech clarity, and design ducking curves so music automatically drops under the voice. Use when the user asks to add sound effects / mix audio / make audio louder / level audio / add background music / BGM selection / audio ducking / EQ voice / compression / loudness / LUFS / podcast mix / video sound design / ambient sound. Do NOT use for writing the spoken script (podcast-producer), voice casting or TTS synthesis parameters (tts-voice-director), publishing metadata (episode-publisher), or video clip assembly (video-editor).",
+   "license": "Apache-2.0",
+   "compatibility": "Pure prompt-based; the bundled loudness_check.py needs Python 3.8+ stdlib only. No audio processing is performed by this skill — it outputs a mixing plan the user or their DAW/ffmpeg executes.",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-24",
+   "repo_file": "skills/audio/sound-designer/SKILL.md",
+   "packs": [
+    "ai-video-pipeline",
+    "audio-studio"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/audio/sound-designer/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/audio/sound-designer/SKILL.md"
   },
   {
    "name": "spec-driven-workflow",
@@ -3282,6 +3282,26 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/news/toutiao-publisher/SKILL.md"
   },
   {
+   "name": "transition-designer",
+   "domain": "video",
+   "path": "skills/video/transition-designer",
+   "file": "skills/video/transition-designer/SKILL.md",
+   "desc": "Design a transition plan for AI video: choose the right transition type at every scene boundary, set durations, sync to music beats, and hand off an executable transition spec to video-editor. Covers hard cuts, match cuts, dissolves, wipes, J/L-cuts, whip pans, speed ramps, glitch and more. Use when the user asks to design transitions / plan a cut / decide how scenes connect / beat-sync editing / pacing a montage / choose between cut and dissolve / fix a jarring cut. Do NOT use for executing the actual edit (that is video-editor), for motion graphics or animated text (use motion-effects-designer), or for writing the script itself (use video-script-writer).",
+   "license": "Apache-2.0",
+   "compatibility": "Pure prompt-based design skill; no scripts required. Outputs a transition plan consumed by video-editor.",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "planning",
+   "verified": "2026-09-24",
+   "repo_file": "skills/video/transition-designer/SKILL.md",
+   "packs": [
+    "ai-video-pipeline",
+    "video-design-studio"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/video/transition-designer/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/video/transition-designer/SKILL.md"
+  },
+  {
    "name": "tts-voice-director",
    "domain": "audio",
    "path": "skills/audio/tts-voice-director",
@@ -3377,25 +3397,6 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/video/video-lip-sync/SKILL.md"
   },
   {
-   "name": "video-prompt-engineer",
-   "domain": "video",
-   "path": "skills/video/video-prompt-engineer",
-   "file": "skills/video/video-prompt-engineer/SKILL.md",
-   "desc": "Engineer and audit text-to-video prompts across generation models: the six-slot structure (subject + action + camera + lighting + style + duration), camera-move and transition vocabulary, and per-model dialect notes with verification steps. Two modes: write a prompt from a scene description, or audit an existing prompt and report which slots are missing or contradictory. Use when the user asks to write a video prompt / video prompt / text-to-video prompt / prompt audit / make the footage more cinematic. Do NOT use for generating the video itself, nor for image-generation prompts (static-image structure differs — no motion slots).",
-   "license": "Apache-2.0",
-   "compatibility": "Pure prompt-based; the bundled prompt_audit.py needs Python 3.8+ only.",
-   "version": "1.0",
-   "tier": "standard",
-   "pattern": "single-task",
-   "verified": "2026-09-14",
-   "repo_file": "skills/video/video-prompt-engineer/SKILL.md",
-   "packs": [
-    "video-design-studio"
-   ],
-   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/video/video-prompt-engineer/SKILL.md",
-   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/video/video-prompt-engineer/SKILL.md"
-  },
-  {
    "name": "video-script-writer",
    "domain": "video",
    "path": "skills/video/video-script-writer",
@@ -3476,7 +3477,7 @@
    "domain": "video",
    "path": "skills/video/visual-style-anchor",
    "file": "skills/video/visual-style-anchor/SKILL.md",
-   "desc": "Create a reusable visual style anchor for a video or image project: one-page style guide locking color palette, lighting scheme, materials, era, and medium texture — plus a character consistency card (identity line, wardrobe, props, forbidden changes) that keeps every generated shot on-model. Use when the user asks to set the visual style / style setting / character setting / keep the character consistent / keep the face on-model / style guide / character sheet / visual consistency before batch generation. Do NOT use for writing per-shot prompts (use video-prompt-engineer), nor for generating the images themselves.",
+   "desc": "Create a reusable visual style anchor for a video or image project: one-page style guide locking color palette, lighting scheme, materials, era, and medium texture — plus a character consistency card (identity line, wardrobe, props, forbidden changes) that keeps every generated shot on-model. Use when the user asks to set the visual style / style setting / character setting / keep the character consistent / keep the face on-model / style guide / character sheet / visual consistency before batch generation. Do NOT use for writing per-shot prompts (use shot-designer), nor for generating the images themselves.",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based design skill; no scripts, no API keys.",
    "version": "2.0",
@@ -3672,13 +3673,12 @@
    "name_zh": "AI 媒体生成工具箱",
    "desc": "Generate videos, images, covers, and music from prompts through a local generation gateway.",
    "desc_zh": "通过本地生成网关用提示词生成视频、图片、封面与配乐：文生/图生全流程（提交、轮询、下载交付）。",
-   "size_kb": 26,
-   "n_skills": 4,
+   "size_kb": 23,
+   "n_skills": 3,
    "skills": [
     "video-generation",
     "image-generation",
-    "music-generation",
-    "ai-cover-generator"
+    "music-generation"
    ],
    "local_url": "packs/ai-media-toolkit.zip",
    "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/ai-media-toolkit.zip",
@@ -3727,15 +3727,18 @@
    "name_zh": "AI 短视频生产流水线",
    "desc": "End-to-end short-video production: script, voice, lip-sync, assembly, subtitles, thumbnail.",
    "desc_zh": "从脚本到成片的一条龙短视频生产线：脚本撰写、配音合成、口型对齐、剪辑合成、字幕、封面图。六个技能按序衔接，输出可直接发布的竖屏视频。",
-   "size_kb": 83,
-   "n_skills": 6,
+   "size_kb": 111,
+   "n_skills": 9,
    "skills": [
     "video-script-writer",
     "video-voice-synth",
     "video-lip-sync",
     "video-editor",
     "video-subtitles",
-    "video-thumbnail"
+    "video-thumbnail",
+    "transition-designer",
+    "motion-effects-designer",
+    "sound-designer"
    ],
    "local_url": "packs/ai-video-pipeline.zip",
    "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/ai-video-pipeline.zip",
@@ -3786,12 +3789,13 @@
    "name_zh": "音频工作室",
    "desc": "AI audio production chain: turn a topic or document into a segmented podcast script (spoken words only - TTS reads everything), direct voice synthesis with a voice catalog and per-character casting, and publish with shownotes, timestamped chapters, and platform metadata. Topic in, publishable episode out, no step left dangling.",
    "desc_zh": "AI 音频生产链条：把选题或文档变成分段播客脚本（纯口播词——TTS 会把一切都读出来），按声音目录做角色选声与合成参数执导，并以 shownotes、时间戳章节、平台元数据收尾发布。选题进、可发布节目出，链条不断头。方法论借鉴 Kokoro/Qwen3-TTS 生态与 Podify/inference.sh 实践并已署名。",
-   "size_kb": 17,
-   "n_skills": 3,
+   "size_kb": 25,
+   "n_skills": 4,
    "skills": [
     "podcast-producer",
     "tts-voice-director",
-    "episode-publisher"
+    "episode-publisher",
+    "sound-designer"
    ],
    "local_url": "packs/audio-studio.zip",
    "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/audio-studio.zip",
@@ -3860,10 +3864,9 @@
    "name_zh": "代码审查",
    "desc": "Review pull requests, analyze code quality, audit dependencies and tech debt across languages.",
    "desc_zh": "审查 PR、分析代码质量、审计依赖与技术债，覆盖多语言。",
-   "size_kb": 252,
-   "n_skills": 5,
+   "size_kb": 249,
+   "n_skills": 4,
    "skills": [
-    "pr-review-expert",
     "code-reviewer",
     "api-design-reviewer",
     "tech-debt-tracker",
@@ -3900,7 +3903,7 @@
    "name_zh": "内容多平台发布自动化",
    "desc": "Publish, edit and manage articles/videos on Chinese platforms (Zhihu, cnblogs, WeChat MP, Juejin, CSDN, Jianshu, Bilibili, Toutiao, Baijiahao, Xiaohongshu, Weibo, Douban, V2EX, SegmentFault, OSChina, Douban, Static Blogs) with battle-tested platform knowledge, plus a cross-post orchestrator and AI cover-image generation.",
    "desc_zh": "在知乎、博客园、微信公众号、掘金、CSDN、简书、B站、头条、百家号、小红书、微博、豆瓣、V2EX、SegmentFault、开源中国、静态博客等中文平台发布、编辑、管理内容，沉淀实战平台经验；附跨平台发布编排器与 AI 封面图生成。",
-   "size_kb": 48,
+   "size_kb": 49,
    "n_skills": 18,
    "skills": [
     "zhihu-content-manager",
@@ -3920,7 +3923,7 @@
     "oschina-publisher",
     "static-blog-deploy",
     "cross-post-orchestrator",
-    "ai-cover-generator"
+    "image-generation"
    ],
    "local_url": "packs/content-publishing.zip",
    "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/content-publishing.zip",
@@ -3975,7 +3978,7 @@
    "name_zh": "数据可视化工作室",
    "desc": "From raw CSV to a shippable dashboard: profile columns, recommend a layout, and emit a self-contained single-file HTML dashboard with zero external requests. Plus a chart-selection lexicon covering encoding priority, per-chart-type caveats, and the classic mistakes.",
    "desc_zh": "从原始 CSV 到能交付的仪表盘：列类型推断与分布摘要、布局推荐、生成零外部依赖的自包含单文件 HTML。另附图表选择词库（视觉编码优先级、各图型适用与反例、截断坐标轴等经典错误清单）。",
-   "size_kb": 34,
+   "size_kb": 33,
    "n_skills": 2,
    "skills": [
     "dashboard-designer",
@@ -4031,12 +4034,12 @@
    "name_zh": "GitHub 协作工作流",
    "desc": "Parallel worktrees, conventional-commit changelogs, and PR review on GitHub.",
    "desc_zh": "并行 worktree、Conventional Commits 变更日志与 GitHub PR 审查。",
-   "size_kb": 40,
+   "size_kb": 102,
    "n_skills": 3,
    "skills": [
     "git-worktree-manager",
     "changelog-generator",
-    "pr-review-expert"
+    "code-reviewer"
    ],
    "local_url": "packs/github-workflow.zip",
    "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/github-workflow.zip",
@@ -4088,13 +4091,12 @@
    "name_zh": "画图工作台",
    "desc": "End-to-end image creation workspace: prompt engineering, style anchoring, generation via gateway, cover art.",
    "desc_zh": "端到端画图工作台：生图提示词工程、风格锚定、网关生图执行、封面图生成。把散落的生图技能组装成一条龙。",
-   "size_kb": 41,
-   "n_skills": 4,
+   "size_kb": 38,
+   "n_skills": 3,
    "skills": [
     "image-prompt-engineer",
     "image-generation",
-    "visual-style-anchor",
-    "ai-cover-generator"
+    "visual-style-anchor"
    ],
    "local_url": "packs/image-studio.zip",
    "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/image-studio.zip",
@@ -4247,7 +4249,7 @@
    "name_zh": "技能锻造厂",
    "desc": "Meta skills about skills themselves: author a new SKILL.md from a one-batch clarification, lint an existing one against the repo spec with an exit code CI can gate on, and search/pack/stats this repo from real data. Idea in, compliant shipped skill out.",
    "desc_zh": "关于技能本身的元技能三件套：一次性问齐需求后生成合规 SKILL.md（skill-author）、八项静态检查并返回可做 CI 门禁的退出码（skill-linter）、基于真实数据检索技能与装配组合（skill-finder）。想法进、可提交的技能出。",
-   "size_kb": 48,
+   "size_kb": 49,
    "n_skills": 5,
    "skills": [
     "skill-author",
@@ -4288,7 +4290,7 @@
    "name_zh": "工具与自动化",
    "desc": "Local file and automation chores done safely: reorganize a messy directory with a dry-run planner, batch-rename files with one-command rollback, convert documents/images/media, schedule recurring jobs across cron/launchd/Task Scheduler, organize invoices/receipts into a month/category tree, and reconcile a bank statement against your expense ledger.",
    "desc_zh": "本地文件与自动化的六件顺手工具：目录体检与整理（含快速判重）、批量重命名（EXIF 日期 + 日志回滚）、文档/图片/音视频格式转换统一入口、定时任务（cron 表达式翻译 + 三平台落地）、发票/报销按月份类别归档 + 台账、银行流水 vs 记账账单逐笔对账。全部默认 dry-run、只读优先、不删文件。",
-   "size_kb": 63,
+   "size_kb": 62,
    "n_skills": 6,
    "skills": [
     "file-organizer",
@@ -4310,13 +4312,14 @@
    "name_zh": "视频设计工作室",
    "desc": "Pre-production design layer for AI video: storyboards with continuity contracts, cinematic shot lists from recipe cards, cross-model text-to-video prompt engineering with structural audit, and reusable visual style anchors with character consistency cards.",
    "desc_zh": "AI 视频的前期设计层：分镜设计（节拍表 + 逐场景 prompt 对 + 连续性约束表，附机器校验）、12 卡镜头清单设计、跨模型文生视频提示词工程（六槽位结构 + 机器审计）、视觉风格锚与角色一致性卡。方法论借鉴 video-storyboard / video-shotcraft / visual-skills 等开源项目并已署名。",
-   "size_kb": 49,
-   "n_skills": 4,
+   "size_kb": 50,
+   "n_skills": 5,
    "skills": [
     "storyboard-designer",
-    "shot-recipe-designer",
-    "video-prompt-engineer",
-    "visual-style-anchor"
+    "shot-designer",
+    "visual-style-anchor",
+    "transition-designer",
+    "motion-effects-designer"
    ],
    "local_url": "packs/video-design-studio.zip",
    "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/video-design-studio.zip",

@@ -50,7 +50,6 @@
         "agent-designer",
         "changelog-generator",
         "git-worktree-manager",
-        "pr-review-expert",
         "webapp-flow-tester",
         "webapp-e2e-harness"
       ],
@@ -150,8 +149,7 @@
       "skills": [
         "visual-style-anchor",
         "storyboard-designer",
-        "shot-recipe-designer",
-        "video-prompt-engineer",
+        "shot-designer",
         "video-script-writer",
         "video-voice-synth",
         "video-lip-sync",
@@ -191,8 +189,7 @@
         "pre_production": [
           "visual-style-anchor",
           "storyboard-designer",
-          "shot-recipe-designer?",
-          "video-prompt-engineer",
+          "shot-designer?",
           "video-script-writer"
         ]
       }
@@ -204,7 +201,7 @@
         "article-drafter",
         "content-editor",
         "seo-optimizer",
-        "ai-cover-generator",
+        "image-generation",
         "cross-post-orchestrator",
         "wechat-mp-publisher",
         "csdn-publisher",
@@ -232,7 +229,7 @@
           "article-drafter",
           "content-editor",
           "seo-optimizer",
-          "ai-cover-generator",
+          "image-generation",
           "cross-post-orchestrator"
         ],
         "news_flash": [

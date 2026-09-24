@@ -5,9 +5,25 @@
   "description": "Pre-production design layer for AI video: storyboards with continuity contracts, cinematic shot lists from recipe cards, cross-model text-to-video prompt engineering with structural audit, and reusable visual style anchors with character consistency cards.",
   "description_zh": "AI 视频的前期设计层：分镜设计（节拍表 + 逐场景 prompt 对 + 连续性约束表，附机器校验）、12 卡镜头清单设计、跨模型文生视频提示词工程（六槽位结构 + 机器审计）、视觉风格锚与角色一致性卡。方法论借鉴 video-storyboard / video-shotcraft / visual-skills 等开源项目并已署名。",
   "skills": [
-    { "name": "storyboard-designer", "source": "self-authored" },
-    { "name": "shot-recipe-designer", "source": "self-authored" },
-    { "name": "video-prompt-engineer", "source": "self-authored" },
-    { "name": "visual-style-anchor", "source": "self-authored" }
+    {
+      "name": "storyboard-designer",
+      "source": "self-authored"
+    },
+    {
+      "name": "shot-designer",
+      "source": "self-authored"
+    },
+    {
+      "name": "visual-style-anchor",
+      "source": "self-authored"
+    },
+    {
+      "name": "transition-designer",
+      "source": "skillkit authors (self-authored)"
+    },
+    {
+      "name": "motion-effects-designer",
+      "source": "skillkit authors (self-authored)"
+    }
   ]
 }
