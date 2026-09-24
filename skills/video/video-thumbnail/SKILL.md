@@ -1,6 +1,6 @@
 ---
 name: video-thumbnail
-description: "Design and generate video thumbnails/covers per platform spec (douyin/bilibili/tiktok/youtube), via ffmpeg frame extraction or the image-generation gateway (scripts/thumbnail.py; --mock only for downstream wiring). Use when the user asks to 做视频封面 / 设计封面图 / 缩略图 / 封面图 / video thumbnail / design a cover / YouTube cover image, as the final step before publishing. Do NOT use for generating the video itself, or for in-video subtitles."
+description: "Design and generate video thumbnails/covers per platform spec (douyin/bilibili/tiktok/youtube), via ffmpeg frame extraction or the image-generation gateway (scripts/thumbnail.py; --mock only for downstream wiring). Use when the user asks to make a video cover / design a cover image / thumbnail / cover art / video thumbnail / design a cover / YouTube cover image, as the final step before publishing. Do NOT use for generating the video itself, or for in-video subtitles."
 license: Apache-2.0
 compatibility: Route A (gateway) needs the image-generation gateway; Route B (frame extract) needs ffmpeg. No API keys required (gateway auth optional via GATEWAY_API_KEY env).
 metadata:
@@ -12,136 +12,135 @@ metadata:
   verified-date: "2026-09-21"
 ---
 
-# 视频封面（平台规格封面）
+# Video Thumbnails (Platform-Spec Covers)
 
-两条路线产出平台规格封面：A=文生图走图像网关，B=从成片 ffmpeg 抽帧。
-全部通过本目录 `scripts/thumbnail.py` 执行，脚本默认真实模式，失败退出非 0，
-绝不静默返回假结果。
+Two routes produce platform-spec covers: A = text-to-image via the image gateway, B = extract a frame from the final cut with ffmpeg.
+Everything runs through this directory's `scripts/thumbnail.py`; the script defaults to real mode, exits non-0 on failure, and never silently returns fake results.
 
-## 领域暗知识（做封面前必须懂的四件事）
+## Domain Tacit Knowledge (Four Things You Must Know Before Designing a Cover)
 
-**1. 封面是竞技场，不是艺术品。** 高创收创作者框架的一致结论（七个-figure 创作者实践复盘与多家创作者工具指南交叉印证）：封面的第一设计目标不是"好看"，是**在同话题竞品信息流里跳出**（feed-level contrast）——对着竞品设计差异，比在真空中追求精致重要得多。落到操作：落版前想一句话——观众刷到这条时，周围是什么颜色的封面？你的配色要与之相异，而不是与"好看模板"相合。
+**1. A cover is an arena, not a gallery piece.** The consistent conclusion from high-earning creators' frameworks (cross-referenced against seven-figure-creator practice retrospectives and multiple creator-tool guides): the cover's first design goal is not to "look good" but to **stand out in the feed among same-topic competitors** (feed-level contrast) — designing against competitors matters far more than pursuing refinement in a vacuum. Operationally: before locking the layout, think one sentence — when a viewer scrolls onto this, what colors surround it? Your palette should differ from theirs, not match a "pretty template".
 
-**2. 文字是手术刀：0-5 个词，标题管逻辑、封面管好奇。** 多源收敛的实证共识：高点击封面文字 0-5 词（中文平台 ≤12 字、9:16 竖版 2-4 字），粗黑体、加描边/投影保证任何背景可读；文字若在解释图片，说明图选失败了。封面不重复标题——重复是浪费一个钩子位。移动端是主战场（多数播放来自手机），文字必须在约 150px 宽的缩略尺寸下可读；平台判定"文字过多"会降推荐（中文平台经验值：文字占比不超过画面 20-30%）。
+**2. Text is a scalpel: 0-5 words; the title carries the logic, the cover carries curiosity.** Empirical consensus converging across sources: high-click cover text is 0-5 words (Chinese platforms <=12 chars; 9:16 vertical 2-4 words), bold heavy type with outline/drop shadow for readability on any background; if the text is explaining the image, the image pick failed. The cover doesn't repeat the title — repetition wastes a hook slot. Mobile is the main battlefield (most views come from phones); text must be readable at a ~150px-wide thumbnail size; platforms down-rank "too much text" (Chinese-platform empirical: text area <=20-30% of the frame).
 
-**3. 平台安全区是实测出来的，不是审美。** 平台 UI 会盖住固定区域（信源：色彩韵《社交媒体封面尺寸规范 2026》、喵闪网短视频封面清单、腾讯 ima 小红书干货库等多源交叉印证）：抖音/B 站封面**左下角叠时长标签**，重要文字与主体避开；9:16 竖版平台底部有进度条与交互按钮；小红书信息流 **3:4 竖版占屏最大**（1080×1440），四周留 100-150px 安全边距；B 站对画质压缩狠，JPG 质量 ≥85% 再传。本脚本 `layout` 的 `bottom_center` 与字号档位就是按这些实测区设计的——不要为"构图好看"把文字挪进浮层区。
+**3. Platform safe zones are measured, not aesthetic.** Platform UI overlays fixed regions (sources cross-referenced across color/design references, short-video cover checklists, and creator libraries): douyin/Bilibili covers **overlay a duration label in the lower-left**, so keep important text and the subject clear of it; 9:16 vertical platforms have a progress bar and interaction buttons at the bottom; Xiaohongshu's feed uses **3:4 vertical as the largest slot** (1080x1440), with a 100-150px safe margin around; Bilibili compresses aggressively, so upload JPG at quality >=85. This script's `layout` `bottom_center` and font-size tiers are designed around these measured regions — don't move text into overlay zones for "composition beauty".
 
-**4. 人脸是工具不是装饰：表情明确才加分。** 创作者研究的一致方向：人脸带来情绪传染，但**只有表情明确可读的脸才提升点击**（惊讶/困惑/极致喜悦），中性脸与侧脸反而不如不用；科技/悬念/权威类内容，物体与结果往往比脸更有效。眼神朝向也是工具：直视镜头造连接感，看向画面内某物则引导观众视线到那个东西。没有合适人脸素材时，别硬凑——按内容类型选物体主体。
+**4. A face is a tool, not decoration: only a readable expression helps.** The consistent direction in creator research: faces bring emotional contagion, but **only a clearly readable face lifts clicks** (surprise / confusion / utter joy); neutral faces and side profiles are worse than none at all. For tech / suspense / authority content, objects and results often beat a face. Eyeline direction is also a tool: looking straight at the lens builds connection; looking at something inside the frame steers the viewer's gaze to that object. Without a suitable face asset, don't force one — pick an object subject by content type.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |------|------|------|
-| 路线 | ✓ | `A` = AI 生成（需 title）；`B` = 成片抽帧（需 video_source） |
-| title | A ✓ | 封面主题/标题文案 |
-| platform | ✗ | `douyin`（默认）/ `bilibili` / `tiktok` / `youtube`，决定分辨率与比例 |
-| style | ✗ | `funny`（默认）/ `professional` / `dramatic` / `cute`；funny 自动加 NEW 徽章 |
-| video_source | B ✓ | 成片 mp4 路径 |
-| character_image | ✗ | 角色图路径（路线 A 可选，须真实存在于盘上） |
-| output | ✗ | 输出路径；默认 `thumbnail_<platform>.png`（抽帧默认 `thumb_frame.png`） |
+| route | yes | `A` = AI-generated (needs title); `B` = frame extraction from final cut (needs video_source) |
+| title | A required | Cover theme / headline copy |
+| platform | no | `douyin` (default) / `bilibili` / `tiktok` / `youtube`; determines resolution and ratio |
+| style | no | `funny` (default) / `professional` / `dramatic` / `cute`; funny auto-adds a NEW badge |
+| video_source | B required | Final-cut mp4 path |
+| character_image | no | Character image path (optional in route A; must actually exist on disk) |
+| output | no | Output path; default `thumbnail_<platform>.png` (frame-extract default `thumb_frame.png`) |
 
-缺输入时一次性问齐：「请提供：① 路线（AI 生成 / 从成片抽帧）② 平台（默认抖音）。
-路线 A 再给标题；路线 B 再给成片路径。」
+When inputs are missing, ask everything at once: "Please provide: ① route (AI-generated / extract from final cut) ② platform (default douyin).
+Route A: also give a title; route B: also give the final-cut path."
 
-## 平台规格
+## Platform Specs
 
-| 平台 | 尺寸 | 比例 | 大小上限 |
+| Platform | Size | Ratio | Size Limit |
 |------|------|------|------|
 | Douyin | 1080x1920 | 9:16 | 2MB |
 | Bilibili | 1920x1080 | 16:9 | 2MB |
 | TikTok | 1080x1920 | 9:16 | 2MB |
 | YouTube | 1280x720 | 16:9 | 2MB |
 
-（脚本内置同款 `PLATFORM_SPECS`；2026 年常见值，发布前请核对平台最新规范。）
+(The script has the same `PLATFORM_SPECS` built in; 2026 common values — check the platform's latest spec before publishing.)
 
-## 前置自检
+## Pre-flight Checks
 
-- 路线 B：`command -v ffmpeg` 有输出吗？没有 → `sudo apt install -y ffmpeg`
-  或 `brew install ffmpeg` 后重试，或改走路线 A。
-- 路线 B：`test -f <video_source>` 通过吗？不通过 → 向用户要正确路径，STOP。
-- 路线 A：网关探活
+- Route B: does `command -v ffmpeg` produce output? If not -> `sudo apt install -y ffmpeg`
+  or `brew install ffmpeg` and retry, or switch to route A.
+- Route B: does `test -f <video_source>` pass? If not -> ask the user for the correct path, STOP.
+- Route A: gateway liveness probe
   `curl -sS -m 5 -o /dev/null -w '%{http_code}' http://127.0.0.1:30080/`
-  打印出任何 HTTP 码（2xx/401/403/404 都算活着）即通过；连接失败 → 让用户
-  启动网关或 `export GATEWAY_BASE_URL=http://<host>:<port>`（不带尾斜杠），STOP。
-- 仅下游联调时可加 `--mock`（或 `SKILLKIT_MOCK=1`）：只输出布局元数据、
-  不生成文件，**产物不可交付**。
+  printing any HTTP code (2xx/401/403/404 all count as alive) passes; connection failure -> have the user
+  start the gateway or `export GATEWAY_BASE_URL=http://<host>:<port>` (no trailing slash), STOP.
+- Only for downstream wiring may you add `--mock` (or `SKILLKIT_MOCK=1`): it only outputs layout metadata,
+  generates no file; **the artifact is not deliverable**.
 
-## 工作流
+## Workflow
 
-### 步骤 1：确定平台规格
+### Step 1: Determine the Platform Spec
 
-按上表取 resolution/ratio，或直接用脚本默认 `--platform douyin`。
-预期：写下了目标 width/height 与 2MB 上限。
-若失败：平台不在四选项内 → 按 9:16 或 16:9 就近映射并告知用户。
+Take resolution/ratio from the table above, or just use the script default `--platform douyin`.
+Expected: target width/height and the 2MB limit written down.
+If it fails: platform not among the four -> map to 9:16 or 16:9 as closest and tell the user.
 
-### 步骤 2A：路线 A —— 网关生成
+### Step 2A: Route A — Gateway Generation
 
 ```bash
-python3 scripts/thumbnail.py --mock --title "宝宝测评iPhone 16" --style funny \   # --mock 仅联调；真实生成去掉 --mock（需网关/角色图）
+python3 scripts/thumbnail.py --mock --title "Baby reviews the iPhone 16" --style funny \   # --mock is for integration testing only; remove --mock for real generation (needs gateway/character image)
   --platform douyin --character /tmp/baby.png --output thumbnail_douyin.png
 ```
 
-预期：退出码 0，stdout 打印 JSON，含 `output_path`、`spec`（width/height）、
-`layout`（`text_position`/`font_size`/`badge`），且该文件非空。
-若失败：非 0 退出按 stderr 指引处理（exit 3=角色图不存在；exit 4=网关不可达
-或 HTTP 错误），见失败处置表。
+Expected: exit code 0, stdout prints JSON containing `output_path`, `spec` (width/height),
+`layout` (`text_position`/`font_size`/`badge`), and the file is non-empty.
+If it fails: non-0 exit per stderr guidance (exit 3 = character image missing; exit 4 = gateway unreachable
+or HTTP error), see the failure table.
 
-### 步骤 2B：路线 B —— ffmpeg 抽帧
+### Step 2B: Route B — ffmpeg Frame Extraction
 
 ```bash
 python3 scripts/thumbnail.py --mock --video /tmp/final.mp4 --timestamp 1.0 \
   --output thumb_frame.png
 ```
 
-预期：退出码 0，`thumb_frame.png` 非空。`--timestamp` 默认 0.5s，片头常是
-黑场，建议 ≥1.0。若失败：exit 3 且提示抽帧结果为空 → 调大 `--timestamp` 重跑。
+Expected: exit code 0, `thumb_frame.png` non-empty. `--timestamp` defaults to 0.5s; the opening is often
+a black frame, so recommend >=1.0. If it fails: exit 3 and the extracted frame is empty -> raise `--timestamp` and rerun.
 
-### 步骤 3：文字叠加与徽章
+### Step 3: Text Overlay & Badge
 
-脚本 JSON 里的 `layout` 给出布局参数：
+The script's JSON `layout` gives the layout parameters:
 
-- 9:16 用 `bottom_center`（避让平台 UI，暗知识 3），其余 `center`；
-- width ≥1920 用 `font_size 72`，否则 48；
-- `style=funny` 自动带 `NEW` 徽章；
-- 文字内容 = title，9:16 最多 2–4 个字（暗知识 2 的手术刀纪律：0-5 词、标题管逻辑封面管好奇）。
+- 9:16 uses `bottom_center` (avoiding platform UI, tacit knowledge 3); others use `center`;
+- width >=1920 uses `font_size 72`, otherwise 48;
+- `style=funny` automatically carries a `NEW` badge;
+- text content = title; 9:16 at most 2-4 words (the scalpel discipline of tacit knowledge 2: 0-5 words, title carries logic, cover carries curiosity).
 
-设计原则按 [references/thumbnail-design.md](references/thumbnail-design.md) 执行（此时读）。
+Design principles per [references/thumbnail-design.md](references/thumbnail-design.md) (read it now).
 
-预期：叠加方案能复述出位置/字号/文案三要素；文字落点不在平台浮层区。
-若失败：title 太长 → 与用户确认截短版本后再落版；用户坚持长文字 → 按暗知识 2 说明缩略尺寸可读性与平台"文字过多"降推荐风险，坚持则如实注明风险后执行。
+Expected: the overlay plan can restate the three elements of position / font size / copy; the text sits outside platform overlay zones.
+If it fails: title too long -> confirm a shortened version with the user before locking; if the user insists on long text -> explain per tacit knowledge 2 the thumbnail-size readability and the platform's "too much text" down-rank risk; if they insist, note the risk honestly and proceed.
 
-### 步骤 4：校验与交付
+### Step 4: Validate & Deliver
 
 ```bash
 ls -lh thumbnail_douyin.png
 ```
 
-预期：文件存在、非空、小于平台 2MB 上限（超限脚本会打 `[WARN]`，按提示转
-JPG 或降质量重导）。向用户报告绝对路径与平台规格。
-若失败：超限警告 → 转 JPG/降质量后重跑步骤 2，再校验一次。
+Expected: file exists, non-empty, under the platform's 2MB cap (over-limit prints `[WARN]`; per the prompt,
+switch to JPG or lower quality and re-export). Report the absolute path and platform spec to the user.
+If it fails: over-limit warning -> switch to JPG / lower quality, rerun Step 2, and validate once more.
 
-## 失败处置表
+## Failure Remediation Table
 
-| 现象/错误码 | 原因 | 处置 |
+| Symptom / Error Code | Cause | Remedy |
 |------|------|------|
-| exit 2：PATH 中未找到 ffmpeg | 路线 B 缺依赖 | 按 stderr 指引安装 ffmpeg；或改走路线 A |
-| exit 3：角色图不存在 | `--character` 路径错 | `test -f` 核对路径，向用户要正确文件 |
-| exit 3：视频文件不存在 | `--video` 路径错 | `test -f` 核对路径，向用户要正确文件 |
-| exit 3：抽帧结果为空 | 时间点落在黑场/坏帧 | 调大 `--timestamp`（如 1.5、2.0）重跑 |
-| exit 4：无法连接网关 | 网关未启动或地址错 | 按前置自检探活命令排查；确认 `GATEWAY_BASE_URL` 无尾斜杠 |
-| exit 4：网关返回 HTTP 4xx/5xx | 鉴权/限流/服务异常 | 鉴权走 `GATEWAY_API_KEY` 环境变量（勿写进命令行）；429 稍后重试 |
-| `[WARN]` 封面超 2MB | 分辨率高/质量过高 | 转 JPG 或降质量重导，再校验 |
-| 用户嫌封面"不够好看"反复要求改 | 把封面当艺术品做（暗知识 1） | 提醒：先与竞品信息流对比差异度，再谈精致度；建议 A/B 两版实测而非反复主观重做 |
-| 文字在手机上看不清 | 字号档位选错或文字过长 | 按 layout 档位落版；title 超预算先截短，不缩字号硬塞 |
-| 拿到的是 mock 输出 | 误用 `--mock`/SKILLKIT_MOCK=1 | mock 无真实文件，去掉 mock 参数重跑真实模式 |
+| exit 2: ffmpeg not on PATH | Route B missing dependency | Install ffmpeg per stderr; or switch to route A |
+| exit 3: character image missing | Wrong `--character` path | `test -f` to verify the path; ask the user for the correct file |
+| exit 3: video file missing | Wrong `--video` path | `test -f` to verify the path; ask the user for the correct file |
+| exit 3: extracted frame empty | Timestamp lands on a black/bad frame | Raise `--timestamp` (e.g. 1.5, 2.0) and rerun |
+| exit 4: can't reach the gateway | Gateway not started or wrong address | Troubleshoot per the pre-flight probe command; confirm `GATEWAY_BASE_URL` has no trailing slash |
+| exit 4: gateway returns HTTP 4xx/5xx | Auth / rate limit / service error | Auth via the `GATEWAY_API_KEY` env var (never on the command line); retry 429 later |
+| `[WARN]` cover over 2MB | High resolution / over-high quality | Switch to JPG or lower quality, re-export, re-validate |
+| User says the cover "isn't pretty enough" and keeps asking for changes | Treating the cover as art (tacit knowledge 1) | Remind: first compare differentiation against the competitor feed, then talk refinement; suggest A/B testing two versions instead of repeated subjective rework |
+| Text unreadable on mobile | Wrong font-size tier or too-long text | Lock to the layout tier; shorten the title first, don't shrink the font to cram it in |
+| Got mock output | Misused `--mock`/SKILLKIT_MOCK=1 | Mock has no real file; remove the mock flag and rerun real mode |
 
-## 交付标准
+## Delivery Standard
 
-- 成功 = 真实模式产出的封面文件，非空、尺寸符合平台规格、体积 < 2MB 上限，
-  绝对路径已报告（默认命名 `thumbnail_<platform>.png` 或用户指定的 `--output`）。
-- 9:16 平台的文字叠加方案（位置/字号/文案）已按 layout 落实。
-- mock 产物不是交付物——拿到 mock JSON 视为未完成。
+- Success = a real-mode cover file, non-empty, dimensions matching the platform spec, size < 2MB cap,
+  absolute path reported (default name `thumbnail_<platform>.png` or the user-specified `--output`).
+- The 9:16 platform text-overlay plan (position / font size / copy) is implemented per layout.
+- The mock artifact is not a deliverable — receiving mock JSON counts as incomplete.
 
-## 参考
+## References
 
-- [references/thumbnail-design.md](references/thumbnail-design.md) —— 封面设计原则与示例；步骤 3 落文字/徽章前必读
+- [references/thumbnail-design.md](references/thumbnail-design.md) — cover design principles and examples; read before locking text/badges in Step 3

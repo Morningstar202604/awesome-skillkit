@@ -1,6 +1,6 @@
 ---
 name: cloud-drive-manager
-description: "Plan and verify cloud-drive archives: enumerate a local directory into an upload manifest with per-file chunk strategy, generate sha256/md5 checksum lists for post-upload comparison, and render Baidu / Aliyun / OneDrive listing responses as readable tables. Use when the user asks to 归档到网盘 / 上传到百度网盘 / 备份到阿里云盘 / 同步到 OneDrive / 网盘文件清单 / 校验上传完整性 / archive to cloud drive / upload to Baidu Netdisk / backup to Aliyun Drive / sync to OneDrive. Do NOT use for Notion pages (use notion-workspace), chat notifications (use feishu-dingtalk-bridge), or local-only file organization (use file-organizer)."
+description: "Plan and verify cloud-drive archives: enumerate a local directory into an upload manifest with per-file chunk strategy, generate sha256/md5 checksum lists for post-upload comparison, and render Baidu / Aliyun / OneDrive listing responses as readable tables. Use when the user asks to archive to a cloud drive / upload to Baidu Netdisk / back up to Aliyun Drive / sync to OneDrive / list cloud-drive files / verify upload completeness / archive to cloud drive / upload to Baidu Netdisk / backup to Aliyun Drive / sync to OneDrive. Do NOT use for Notion pages (use notion-workspace), chat notifications (use feishu-dingtalk-bridge), or local-only file organization (use file-organizer)."
 license: Apache-2.0
 compatibility: "Python 3.8+ stdlib only for the helper script (hashlib/json/pathlib). Live uploads need outbound HTTPS plus BAIDU_ACCESS_TOKEN / ALIYUN_REFRESH_TOKEN / ONEDRIVE_ACCESS_TOKEN in environment variables; the bundled script never contacts a network or deletes anything."
 metadata:
@@ -12,99 +12,98 @@ metadata:
   verified-date: "2026-09-17"
 ---
 
-# Cloud Drive Manager（云盘归档）
+# Cloud Drive Manager (Cloud Archive)
 
-把一整个本地目录归档到网盘，真正难的不是"传"，而是三件事：
-**传什么**（哪些该排除）、**怎么传**（简单上传还是分片）、**传完怎么证明传对了**（校验）。
+Archiving an entire local directory to a cloud drive — the hard part is not "uploading," but three things:
+**what to upload** (what to exclude), **how to upload** (simple upload or multipart), and **how to prove it uploaded correctly afterward** (checksums).
 
-**核心判断：先出计划与校验清单，再谈上传。** 上传前的清单是"将发生什么"，
-上传后的校验清单是"是否真的发生"。两者缺一，归档就不可信。
+**Core judgment: produce a plan and a checksum checklist first, then talk about uploading.** The pre-upload checklist is "what will happen"; the post-upload checksum list is "did it actually happen." Missing either makes the archive untrustworthy.
 
-**红线（本技能强制）**
+**Red lines (enforced by this skill)**
 
-1. **凭证绝不硬编码**：access_token / refresh_token / client_secret 只从环境变量读
-   （`BAIDU_ACCESS_TOKEN` / `ALIYUN_REFRESH_TOKEN` / `ONEDRIVE_ACCESS_TOKEN`）。
-   脚本**完全不接触**这些值——它只读本地目录。禁止把令牌写进脚本、配置或 repo。
-2. **默认 dry-run**：`plan-upload` 输出的是计划，**不上传任何文件**。
-   真实上传需要用户确认清单后另起一步执行。
-3. **删除双重确认**：本脚本**不提供任何删除命令**。若用户要删云盘文件，
-   必须先列出清单，然后**分两次确认**——① 目标路径正确；② 受影响文件数与
-   预期一致。任一项存疑就改用移动/归档目录，不要删。
-4. **最小权限**：网盘开放平台只申请文件读写（如百度的 `netdisk`），
-   **不要**申请用户信息、通讯录等无关 scope；授权只给单个目录时不要申请全盘。
+1. **Never hardcode credentials**: access_token / refresh_token / client_secret are read only from environment variables
+   (`BAIDU_ACCESS_TOKEN` / `ALIYUN_REFRESH_TOKEN` / `ONEDRIVE_ACCESS_TOKEN`).
+   The script **never touches** these values — it only reads the local directory. Never write tokens into the script, config, or repo.
+2. **Dry-run by default**: `plan-upload` outputs a plan and **uploads no files**.
+   A real upload is a separate step the user runs after confirming the checklist.
+3. **Double-confirm deletes**: this script **provides no delete command at all**. If the user wants to delete cloud files,
+   you must first list them and then **confirm twice** — ① the target path is correct; ② the affected file count matches
+   expectations. If either is in doubt, move/archive instead of deleting.
+4. **Least privilege**: request only file read/write scopes from the cloud-drive open platform (e.g. Baidu's `netdisk`),
+   **do not** request user-info, contacts, or other unrelated scopes; if authorization is limited to a single directory, do not request the whole drive.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必填 | 说明 |
+| Input | Required | Notes |
 |---|---|---|
-| 源目录 | 是 | 本地要归档的目录；符号链接会被跳过 |
-| 远端根路径 | 是 | 如 `/archive/2026-Q3`；上传前确认该目录归属与配额 |
-| 云盘平台 | 是 | `baidu` / `aliyun` / `onedrive`，决定分片阈值与哈希算法 |
-| 排除规则 | 否 | 逗号分隔 glob，如 `*.tmp,.DS_Store,node_modules/*` |
-| 子路径前缀 | 否 | `--prefix`，在相对路径前追加一层，如 `backup` |
-| access_token | 真实上传必填 | 只在环境变量；计划与校验阶段不需要 |
-| 列表响应 JSON | 解析必填 | 从云盘 API 拉回的列表响应体 |
+| Source directory | Yes | The local directory to archive; symlinks are skipped |
+| Remote root path | Yes | e.g. `/archive/2026-Q3`; confirm ownership and quota for this directory before uploading |
+| Cloud-drive provider | Yes | `baidu` / `aliyun` / `onedrive`; determines the chunk threshold and hashing algorithm |
+| Exclude rules | No | Comma-separated globs, e.g. `*.tmp,.DS_Store,node_modules/*` |
+| Subpath prefix | No | `--prefix`; prepend a layer before relative paths, e.g. `backup` |
+| access_token | Required for real uploads | Environment variable only; not needed during planning and verification |
+| Listing response JSON | Required for parsing | The listing response body pulled from the cloud-drive API |
 
-**缺输入时一次性问齐**：
+**When inputs are missing, ask for all at once:**
 
-> 请一次提供：① 本地源目录；② 云盘平台与远端目标路径；③ 需要排除的文件类型
-> （如临时文件、依赖目录）；④ access_token 是否已在环境变量里（不要贴给我，
-> 我只检查存在性）。我默认先出上传计划与校验清单，不上传。
+> Please provide in one go: ① the local source directory; ② the cloud-drive provider and remote target path; ③ file types to exclude
+> (e.g. temp files, dependency directories); ④ whether the access_token is already in the environment
+> (do not paste it to me — I only check for its existence). I will default to producing an upload plan and checksum checklist first, and will not upload.
 
-## 前置自检
+## Pre-flight Self-check
 
 ```bash
-python3 --version                                        # 预期 >= 3.8
-test -f scripts/drive_ops.py && echo SCRIPT_OK            # 预期打印 SCRIPT_OK
-# 凭证检查：只判断存在性，绝不回显
+python3 --version                                        # expect >= 3.8
+test -f scripts/drive_ops.py && echo SCRIPT_OK            # expect to print SCRIPT_OK
+# Credential check: only judge existence, never echo
 for v in BAIDU_ACCESS_TOKEN ALIYUN_REFRESH_TOKEN ONEDRIVE_ACCESS_TOKEN; do
   printf '%s: ' "$v"; test -n "$(printenv $v)" && echo present || echo missing
 done
-test -d "$SRC_DIR" && echo DIR_OK                         # 源目录存在
-du -sh "$SRC_DIR" 2>/dev/null                             # 先看体积与配额对比
-df -h "$SRC_DIR" | tail -1                                # 顺带确认本地可读
+test -d "$SRC_DIR" && echo DIR_OK                         # source directory exists
+du -sh "$SRC_DIR" 2>/dev/null                             # first look at size vs quota
+df -h "$SRC_DIR" | tail -1                                # also confirm local readability
 ```
 
-| 结果 | 判读 |
+| Result | Interpretation |
 |---|---|
-| 令牌 `missing` | 只影响真实上传；计划与校验照常，先出计划 |
-| `DIR_OK` 缺失 | 源目录不存在，`plan-upload` 会直接报错退出 |
-| 目录体积 > 云盘剩余配额 | **停下来先问用户**如何取舍，不要自动分批 |
+| A token is `missing` | Only affects the real upload; planning and verification proceed, produce the plan first |
+| `DIR_OK` missing | The source directory does not exist; `plan-upload` will error out directly |
+| Directory size > cloud-drive remaining quota | **Stop and ask the user** how to proceed; do not auto-batch |
 
-## 三家云盘 API 差异对照表
+## Cross-provider API Difference Table
 
-| 维度 | 百度网盘 | 阿里云盘 | OneDrive |
+| Dimension | Baidu Netdisk | Aliyun Drive | OneDrive |
 |---|---|---|---|
-| 鉴权 | OAuth2 `access_token`（有效期 30 天，需 refresh） | `refresh_token` 换 `access_token`（2 小时） | OAuth2 `access_token`（1 小时，用 refresh 续） |
-| 单请求上传上限 | **4MB**（超出强制分片） | 100MB | **250MB** |
-| 分片大小 | 固定 **4MB** | 建议 8MB | 必须是 **320KiB 的整数倍** |
-| 秒传/去重键 | 整文件 **MD5** + 分片 MD5 | **SHA1** + 分段 SHA1 | **quickXorHash** 或 sha256 |
-| 列表响应条目字段 | `list[]`，`isdir` 为 1/0，`fs_id`、`server_filename` | `items[]`，`type` 为 `folder`/`file`，`file_id` | `value[]`，用 `folder`/`file` **子对象**判类型 |
-| 目录判定 | `isdir == 1`（整数） | `type == "folder"`（字符串） | 存在 `folder` 键 |
-| 删除接口 | 进回收站（可恢复，有保留期） | 进回收站 | 进回收站 / 永久删除（需显式 `permanent` 参数） |
-| 频率限制 | 较严格，分片上传需间隔 | 中等 | 较宽松，有 429 退避要求 |
-| 特别注意 | 授权令牌 30 天必须刷新，否则整批中断 | 直接暴露的第三方 SDK 较少，建议直连 REST | 分片大小必须是 320KiB 倍数，否则 400 |
+| Auth | OAuth2 `access_token` (valid 30 days, needs refresh) | Exchange `refresh_token` for `access_token` (2 hours) | OAuth2 `access_token` (1 hour, refreshed via refresh) |
+| Per-request upload cap | **4MB** (beyond forces multipart) | 100MB | **250MB** |
+| Chunk size | Fixed **4MB** | Recommended 8MB | Must be an **integer multiple of 320KiB** |
+| Instant-upload / dedup key | Whole-file **MD5** + per-chunk MD5 | **SHA1** + per-segment SHA1 | **quickXorHash** or sha256 |
+| Listing entry fields | `list[]`, `isdir` 1/0, `fs_id`, `server_filename` | `items[]`, `type` `folder`/`file`, `file_id` | `value[]`, judge type via `folder`/`file` **sub-object** |
+| Directory detection | `isdir == 1` (integer) | `type == "folder"` (string) | Presence of the `folder` key |
+| Delete endpoint | To recycle bin (recoverable, retention period) | To recycle bin | To recycle bin / permanent delete (needs explicit `permanent` param) |
+| Rate limits | Strict; chunked upload needs intervals | Moderate | Relaxed, with 429 backoff required |
+| Special notes | The auth token must be refreshed every 30 days, or the whole batch breaks | Few directly exposed third-party SDKs; recommend direct REST | Chunk size must be a multiple of 320KiB, else 400 |
 
-## 秒传原理（为什么上传前要算哈希）
+## How Instant Upload Works (why hashes are computed before uploading)
 
-"秒传"（instant upload）不是传输优化，而是**去重**：客户端先算文件内容哈希，
-把哈希提交给服务端；服务端在自己的存储里查有没有相同哈希的**整文件**记录，
-有则直接建立一条指向已有内容的引用，一个字节都不传。
+"Instant upload" is not a transfer optimization — it is **deduplication**: the client first computes the hash of the file
+content and submits the hash to the server; the server checks its own storage for a record of an existing **whole file** with the same hash.
+If found, it simply creates a reference pointing to the existing content — not a single byte is transferred.
 
-推论有三条，直接决定归档策略：
+Three corollaries directly drive the archive strategy:
 
-1. **算哈希是上传的前置成本，不是可选项**。不算哈希的客户端永远享受不到秒传。
-2. **服务端只认自己的哈希算法**。百度认 MD5、阿里云盘认 SHA1、OneDrive 认
-   quickXorHash——用错算法会让秒传永远不命中，白白重传。
-3. **秒传命中的文件同样需要校验**。命中只说明"服务端有相同哈希的内容"，
-   不说明你这次的引用建对了。上传后仍要对引用逐条核对。
+1. **Computing the hash is a prerequisite cost of uploading, not optional.** A client that never hashes never benefits from instant upload.
+2. **The server only accepts its own hash algorithm.** Baidu accepts MD5, Aliyun Drive accepts SHA1, OneDrive accepts
+   quickXorHash — using the wrong algorithm means instant upload never hits, causing pointless re-uploads.
+3. **Files hit by instant upload still need verification.** A hit only means "the server has content with the same hash,"
+   not that you built the reference correctly this time. After uploading, still verify the references one by one.
 
-因此本技能把 `checksum-plan` 放在上传**之前**跑一次（拿到基准），
-上传**之后**再从云盘拉清单比对，形成闭环。
+Therefore this skill runs `checksum-plan` once **before** uploading (to get the baseline),
+and after uploading pulls a listing from the drive and compares, forming a closed loop.
 
-## 工作流
+## Workflow
 
-### 步骤 1：规划上传（dry-run）
+### Step 1: Plan the Upload (dry-run)
 
 ```bash
 python3 scripts/drive_ops.py plan-upload \
@@ -114,102 +113,102 @@ python3 scripts/drive_ops.py plan-upload \
   --manifest upload_plan.json
 ```
 
-预期：打印文件清单（相对路径 / 大小 / 上传策略）、将创建的远端目录列表、
-以及该平台的分片依据。`--manifest` 把同一份计划落成 JSON 供后续步骤消费。
+Expected: prints the file list (relative path / size / upload strategy), the list of remote directories to create,
+and the chunk basis for that platform. `--manifest` writes the same plan to JSON for later steps to consume.
 
-**排版含义**：`simple` 表示单请求可传；`slice xN (4MB/片)` 表示需要分片上传 N 次。
+**Layout meaning**: `simple` means a single request can carry it; `slice xN (4MB/chunk)` means it needs N multipart uploads.
 
-若失败：`不是目录` → 核对路径；`目录内没有可上传的文件` → **脚本以退出码 2 报错**
-（空清单不是成功），检查 `--dir` 是否指错、或 `--exclude` 是否把内容全排除了。
+On failure: `not a directory` → check the path; `no uploadable files in the directory` → **the script errors with exit code 2**
+(an empty list is not success) — check whether `--dir` points wrong, or whether `--exclude` filtered everything out.
 
-### 步骤 2：生成校验基准
+### Step 2: Generate the Checksum Baseline
 
 ```bash
 python3 scripts/drive_ops.py checksum-plan --dir "$SRC_DIR" \
   --output sha256_before.txt --algo sha256 --exclude "*.tmp"
 ```
 
-预期：标准 `<hash>  <相对路径>` 格式，**可直接用系统工具验证**：
+Expected: standard `<hash>  <relative path>` format, **verifiable directly with system tools**:
 
 ```bash
 cd "$SRC_DIR" && sha256sum -c sha256_before.txt
 ```
 
-若失败：`不支持的算法` → 只能选 `sha256` / `md5` / `sha1`；
-`目录内没有可计算的文件` → **脚本以退出码 2 报错**（0 行清单不是有效基准，会让
-`sha256sum -c` 空过而掩盖问题），先核对 `--dir` 与 `--exclude`；
-大目录很慢 → 属正常，`hashlib` 流式计算不占内存但受磁盘读速限制。
+On failure: `unsupported algorithm` → only `sha256` / `md5` / `sha1` are selectable;
+`no computable files in the directory` → **the script errors with exit code 2** (a 0-line list is not a valid baseline; it would make
+`sha256sum -c` pass vacuously and mask the problem) — first check `--dir` and `--exclude`;
+large directories are slow → normal; `hashlib` computes streaming and does not use memory but is limited by disk read speed.
 
-### 步骤 3：上传（凭证由代理层注入）
+### Step 3: Upload (credentials injected by the proxy layer)
 
-上传本身由 AI/用户用 SDK 或 REST 完成，脚本不参与。关键约束：
+The upload itself is done by the AI/user via SDK or REST; the script does not participate. Key constraints:
 
-- 按 `mode` 走对应路径：`simple` 走单请求接口，`slice` 先 `create` 拿 uploadid
-  再逐片 `upload`，最后 `create` 收尾；
-- 分片必须**按序**提交（百度/阿里都要求顺序，乱序会失败）；
-- 每片之间留间隔，避免触发频率限制；
-- 秒传接口先试一次——命中的文件跳过字节传输。
+- Follow the path per `mode`: `simple` uses the single-request endpoint; `slice` first `create` to get an uploadid,
+  then `upload` each chunk, and finally `create` to close it out;
+- Chunks must be submitted **in order** (Baidu/Aliyun both require order; out-of-order fails);
+- Leave an interval between chunks to avoid triggering rate limits;
+- Try the instant-upload endpoint first — hit files skip byte transfer.
 
-预期：每个文件返回一个远端 file_id，记录到台账。
-若失败：`access_token 过期` → 百度 30 天、阿里 2 小时、OneDrive 1 小时，
-刷新后**从断点续传**而不是重头开始（已完成的片不必重传）。
+Expected: each file returns a remote file_id, recorded in a ledger.
+On failure: `access_token expired` → Baidu 30 days, Aliyun 2 hours, OneDrive 1 hour;
+after refreshing, **resume from the checkpoint** rather than starting over (completed chunks need not be re-uploaded).
 
-### 步骤 4：拉清单并核对
+### Step 4: Pull the Listing and Verify
 
 ```bash
-# 先取云盘列表存成 JSON，再解析
+# first pull the drive listing and save as JSON, then parse
 python3 scripts/drive_ops.py parse-list --json cloud_list.json --provider baidu
 ```
 
-预期：条目数、文件合计体积与步骤 1 的计划一致；目录/文件分类正确。
+Expected: entry count and total file size match the plan from step 1; directory/file classification is correct.
 
-**逐文件比对**：用步骤 2 的基准清单比对远端哈希（若 API 返回哈希字段），
-或至少比对**文件名 + 体积**两组；体积不同的必须重传。
+**Per-file comparison**: compare remote hashes (if the API returns a hash field) against the step-2 baseline,
+or at least compare **filename + size**; files whose size differs must be re-uploaded.
 
-若失败：条目数少 → 上传中断未续传；体积为 0 → 上传创建了占位但未写入内容。
+On failure: fewer entries → the upload was interrupted and not resumed; size 0 → the upload created a placeholder but wrote no content.
 
-### 步骤 5：删除（若确有必要）——双重确认
+### Step 5: Delete (if truly necessary) — Double Confirm
 
-本脚本**不提供删除命令**，这是有意的。若要删，必须：
+This script **provides no delete command**, by design. If deletion is needed, you must:
 
-1. **第一次确认**：把 `parse-list` 的输出给用户，让其确认**目标路径**完全正确；
-2. **第二次确认**：明确报出**受影响文件数与合计体积**，让用户确认与预期一致；
-3. 优先考虑**移到归档目录**而不是删除——回收站有保留期，过期即不可恢复。
+1. **First confirmation**: show the user the `parse-list` output and have them confirm the **target path** is entirely correct;
+2. **Second confirmation**: explicitly report the **affected file count and total size**, and have the user confirm it matches expectations;
+3. Prefer **moving to an archive directory** over deleting — the recycle bin has a retention period, after which it is unrecoverable.
 
-预期：用户两次确认后才执行，且优先走"移动"。
-若失败：任一次确认存疑 → 停止，改为移动或让用户自己在网页端操作。
+Expected: act only after the user confirms twice, preferring "move."
+On failure: either confirmation is in doubt → stop, switch to a move, or let the user do it themselves on the web.
 
-## 交付标准
+## Delivery Standards
 
-- **成功定义**：云盘侧文件数与合计体积与上传计划一致，且抽样文件哈希与
-  本地基准一致。
-- **产物**：`upload_plan.json`（计划）、`sha256_before.txt`（本地基准）、
-  云盘列表 JSON + 解析输出（远端口径）、上传台账（file_id 映射）。
-- **完整性验证**：
-  - `sha256sum -c sha256_before.txt` 全 OK（确认本地基准自身可靠）；
-  - 云盘条目数 == 计划文件数，合计体积相等；
-  - 台账中每个本地文件都有对应 file_id，无遗漏；
-  - 所有产物中不得出现令牌明文：`grep -lE 'access_token|refresh_token' *.json` 应无命中。
+- **Definition of success**: the cloud side's file count and total size match the upload plan, and sampled file hashes match
+  the local baseline.
+- **Artifacts**: `upload_plan.json` (plan), `sha256_before.txt` (local baseline),
+  the cloud listing JSON + parsed output (remote view), and the upload ledger (file_id mapping).
+- **Integrity verification**:
+  - `sha256sum -c sha256_before.txt` is all OK (confirms the local baseline itself is reliable);
+  - cloud entry count == planned file count, total size equal;
+  - every local file in the ledger has a corresponding file_id, with no omissions;
+  - no token plaintext may appear in any artifact: `grep -lE 'access_token|refresh_token' *.json` should have no hits.
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Action |
 |---|---|---|
-| 百度分片上传报 `file size error` | 超过 4MB 仍走简单上传，或片大小不是 4MB | 用 `plan-upload` 的 `mode` 字段决定路径；百度的片大小固定 4MB，不可自选 |
-| OneDrive `400 invalidRequest` | 分片大小不是 320KiB 的整数倍 | 用 10MB（320KiB×32）之类；`plan-upload` 给出的默认值已满足 |
-| 上传中途 `access_token` 失效 | 百度 30 天、阿里 2 小时、OneDrive 1 小时的短周期 | 刷新令牌后**断点续传**：已完成的分片用 uploadid 继续，不要重头 |
-| 秒传始终不命中 | 用了平台不认的哈希算法（如给阿里云盘传 MD5） | 百度用 MD5、阿里用 SHA1、OneDrive 用 quickXorHash；错误算法永远不命中 |
-| 列表比计划少文件 | 上传中断，或上传时目录被并发修改 | 用 `plan-upload --manifest` 的快照比对差异，只补传缺失项 |
-| `计划为空` / `目录内没有可上传的文件`（退出码 2） | `--dir` 指错，或 `--exclude` 通配符过宽把内容全排掉 | 核对 `--dir` 指向的绝对路径；把 `--exclude` 收窄后重跑 `plan-upload` 看清单。空清单不是成功，脚本有意返回非 0 阻断流水线 |
-| 列表体积为 0 但文件存在 | 创建了文件记录但内容未写入（分片没收尾） | 重传该文件；分片上传必须调收尾接口（百度 `create`、阿里 `complete`） |
-| 上传触发频率限制 | 请求过密（百度尤其严格） | 串行上传 + 片间间隔；遇 429 指数退避，不要并发重试 |
-| 跳过了本该上传的文件 | 误用 `--exclude` 通配符（如 `*.log` 排掉了要留的日志） | 先跑 `plan-upload` 看清单，确认无误再上传——这正是 dry-run 的意义 |
-| 符号链接内容未被上传 | 脚本有意跳过符号链接 | 这是保护：跟随链接会意外上传链接指向的外部目录。需要就传真实文件 |
-| 删除后无法恢复 | 回收站保留期已过，或用了永久删除参数 | 删除前双重确认；优先"移动到归档目录"而非删除 |
+| Baidu multipart upload reports `file size error` | Went simple-upload on a >4MB file, or chunk size is not 4MB | Use `plan-upload`'s `mode` field to decide the path; Baidu's chunk size is fixed at 4MB and cannot be chosen |
+| OneDrive `400 invalidRequest` | Chunk size is not an integer multiple of 320KiB | Use e.g. 10MB (320KiB×32); `plan-upload`'s defaults already satisfy this |
+| `access_token` expires mid-upload | Baidu 30-day / Aliyun 2-hour / OneDrive 1-hour short cycles | After refreshing the token, **resume from checkpoint**: continue completed chunks via the uploadid; do not start over |
+| Instant upload never hits | Used a hash algorithm the platform does not accept (e.g. sending MD5 to Aliyun Drive) | Baidu uses MD5, Aliyun uses SHA1, OneDrive uses quickXorHash; the wrong algorithm never hits |
+| The listing has fewer files than the plan | The upload was interrupted, or the directory was modified concurrently during upload | Use `plan-upload --manifest`'s snapshot to diff, and only re-upload the missing items |
+| `plan is empty` / `no uploadable files in the directory` (exit code 2) | `--dir` points wrong, or `--exclude` globs are too broad and filtered everything | Check the absolute path `--dir` points to; narrow `--exclude` and rerun `plan-upload` to inspect the list. An empty list is not success; the script intentionally returns non-zero to block the pipeline |
+| Listing size is 0 but files exist | A file record was created but content not written (multipart not closed) | Re-upload that file; multipart upload must call the close endpoint (Baidu `create`, Aliyun `complete`) |
+| Upload hits rate limits | Requests too dense (Baidu especially strict) | Serial upload + inter-chunk intervals; on 429 use exponential backoff, do not retry concurrently |
+| Files that should have uploaded were skipped | Misused `--exclude` globs (e.g. `*.log` filtered out logs to keep) | Run `plan-upload` first to inspect the list, confirm, then upload — that is the point of the dry-run |
+| Symlinked content was not uploaded | The script intentionally skips symlinks | This is protection: following links would unexpectedly upload the external directory the link points to. Upload the real file if needed |
+| Unrecoverable after deletion | The recycle-bin retention period expired, or a permanent-delete parameter was used | Double-confirm before deleting; prefer "move to archive directory" over deleting |
 
-## 参考
+## References
 
-- `scripts/drive_ops.py` —— `plan-upload`（清单 + 分片策略 + manifest）/
-  `checksum-plan`（可被 `sha256sum -c` 直接消费）/ `parse-list`（三家列表归一）
-- `references/sources-and-methodology.md` —— 秒传原理、分片阈值依据、
-  为什么脚本不提供删除命令
+- `scripts/drive_ops.py` — `plan-upload` (manifest + chunk strategy) /
+  `checksum-plan` (directly consumable by `sha256sum -c`) / `parse-list` (normalizes the three providers' listings)
+- `references/sources-and-methodology.md` — the principle of instant upload, the basis for chunk thresholds,
+  and why the script provides no delete command

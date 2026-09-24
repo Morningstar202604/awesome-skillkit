@@ -1,6 +1,6 @@
 ---
 name: article-drafter
-description: "Generate article first draft from an approved outline. Fills in each section with prose based on key points, audience level, and style. Use after the outline is approved, before editing/SEO. 当用户要求 写文章初稿 / 起草正文 / 帮我写这篇 / 把大纲扩写成文章 时使用。 Also triggers on / 正文起草 / 写初稿 / 扩写大纲 / draft article / write first draft. Do NOT use for publishing the finished draft to platforms, or for building the outline itself (use article-outliner)."
+description: "Generate an article first draft from an approved outline. Fills in each section with prose based on key points, audience level, and style. Use after the outline is approved, before editing/SEO, e.g. writing a first article draft / drafting the body / help me write this / expand the outline into an article. Also triggers on body drafting / write first draft / expand outline / draft article / write first draft. Do NOT use for publishing the finished draft to platforms, or for building the outline itself (use article-outliner)."
 license: Apache-2.0
 compatibility: Pure prompt-based drafting; LLM generates prose. Optional helper scripts/drafter.py requires Python 3.8+ (stdlib only). No API keys required.
 metadata:
@@ -12,114 +12,114 @@ metadata:
   verified-date: "2026-09-21"
 ---
 
-# Article Drafter（从大纲生成文章初稿）
+# Article Drafter (Generate a First Draft From an Outline)
 
-根据已批准的大纲，按受众层级与文风把每个章节的关键点扩写成可读正文，产出待评审初稿。
+Based on an approved outline, expand each section's key points into readable prose at the audience level and style, producing a draft ready for review.
 
-## 适用决策表
+## Applicability Decision Table
 
-| 情况 | 用不用本技能 | 原因 |
+| Situation | Use This Skill? | Why |
 |------|------------|------|
-| 大纲已批准，要写正文 | ✅ 本技能主场 | 每节按 points 扩写 |
-| 大纲还没定 | ❌ 先走 article-outliner | 大纲未定时起草=在流沙上盖楼 |
-| 初稿已写完要润色 | ❌ 走 content-editor | 起草与编辑是两件事，混做两件都做不好（见暗知识 1） |
-| 要发布到平台 | ❌ 先编辑再走发布类技能 | 未编辑的初稿不该直接见读者 |
-| 只缺一个 hook 或结论 | ✅ `--section` 单节模式 | 不必重跑全篇 |
+| Outline approved, need to write the body | yes, this skill's home turf | Expand each section from its points |
+| Outline not yet settled | no, go to article-outliner first | Drafting before the outline is settled = building on sand |
+| Draft written, need polishing | no, go to content-editor | Drafting and editing are two jobs; mixing them does both poorly (see tacit knowledge 1) |
+| Need to publish to platforms | no, edit first, then go to publishing skills | An unedited draft shouldn't meet readers directly |
+| Only missing one hook or conclusion | yes, `--section` single-section mode | No need to rerun the whole piece |
 
-## 诚实声明（先读）
+## Honest Disclosure (Read First)
 
-- `scripts/drafter.py` 是**骨架生成器**：产出的 `draft` 字段是占位提示语（标注 `status:"draft_placeholder"`），不是成品正文。**正文由 agent 在步骤 2 逐节生成**。下方"真实脚本输出"与"agent 填充后"两个示例分开给，不冒充。
-- 脚本不校验 `audience` 枚举值（传 `初级到中级工程师` 也照收）；枚举归一到 beginner/intermediate/expert 是 agent 层的职责（步骤 0）。
-- `word_count ±20%` 是 agent 自检目标，脚本不做字数门禁。
+- `scripts/drafter.py` is a **skeleton generator**: the produced `draft` field is a placeholder prompt (marked `status:"draft_placeholder"`), not finished body text. **The body is generated section by section by the agent in Step 2.** The "real script output" and "after agent fills in" examples below are given separately and aren't passed off as one.
+- The script doesn't validate the `audience` enum value (it accepts "junior-to-mid engineer" too); normalizing the enum to beginner/intermediate/expert is the agent-layer's job (Step 0).
+- `word_count +/-20%` is the agent's self-check target; the script doesn't enforce a word-count gate.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |------|------|------|
-| `outline` | 是 | 大纲对象：含 `title`、`sections[]`（每节 `heading`/`points`/`word_count_target`），可选 `hook`/`conclusion` |
-| `audience` | 否 | `beginner` / `intermediate` / `expert`，默认 `intermediate`，决定术语密度 |
-| `tone` | 否 | 文风，如 `technical` / `casual` / `news` |
-| `research_notes` | 否 | 原始素材，用于补充事实与数据 |
+| `outline` | yes | Outline object: with `title`, `sections[]` (each section `heading`/`points`/`word_count_target`), optional `hook`/`conclusion` |
+| `audience` | no | `beginner` / `intermediate` / `expert`, default `intermediate`, determines terminology density |
+| `tone` | no | Style, e.g. `technical` / `casual` / `news` |
+| `research_notes` | no | Raw material, used to supplement facts and data |
 
-缺失时一次性问齐：「请提供：① 大纲（标题 + 各章节要点 + 每节字数目标）；② 目标受众（beginner/intermediate/expert）；③ 文风 tone；其余我采用默认值：audience=intermediate、tone=technical、research_notes=空。」
+When missing, ask everything at once: "Please provide: ① the outline (title + per-section points + per-section word target); ② target audience (beginner/intermediate/expert); ③ tone; otherwise I take defaults: audience=intermediate, tone=technical, research_notes=empty."
 
-## 前置自检
+## Pre-flight Checks
 
-1. 确认 `outline` 存在且非空：
+1. Confirm `outline` exists and is non-empty:
    ```bash
    python3 scripts/drafter.py --outline outline.json --output /tmp/draft_check.json
    ```
-   预期：退出码 `0`；**outline 模式**下 `sections` 数组长度 ≥ 大纲章节数。
-   若失败：`[ERROR] 大纲文件不存在` → 路径错误，请用户确认 `outline.json` 位置后 STOP。
-2. `--topic` 模式（无大纲）产出的是空骨架（`sections: []`），这是设计行为——只用来占位存标题，不作为起草依据。
-3. 确认 `audience` 取值：不在 `beginner|intermediate|expert` 内时，agent 自行归一（如"初级到中级工程师"→ intermediate），并向用户复述映射结果。脚本层不做校验。
-4. 若不用脚本（纯提示词模式），跳过第 1 步，直接进入工作流步骤 2。
+   Expected: exit code `0`; in **outline mode** the `sections` array length >= the outline's section count.
+   If it fails: `[ERROR] outline file does not exist` -> wrong path; ask the user to confirm `outline.json`'s location, then STOP.
+2. `--topic` mode (no outline) produces an empty skeleton (`sections: []`); this is by design — it only holds a title as a placeholder, not a drafting basis.
+3. Confirm the `audience` value: when not in `beginner|intermediate|expert`, the agent normalizes it (e.g. "junior-to-mid engineer" -> intermediate) and restates the mapping to the user. The script layer does no validation.
+4. If not using the script (pure prompt mode), skip Step 1 and go straight to Workflow Step 2.
 
-## 工作流
+## Workflow
 
-### 步骤 1：生成大纲骨架（确定性，可选）
+### Step 1: Generate the Outline Skeleton (Deterministic, Optional)
 
-运行脚本把大纲结构化为初稿占位骨架，正文由 agent 在步骤 2 填充：
+Run the script to structure the outline into a draft-placeholder skeleton; the body is filled by the agent in Step 2:
 ```bash
 python3 scripts/drafter.py --outline outline.json --audience intermediate --output draft.json
 ```
-预期：`draft.json` 含 `title`/`hook`/`sections[]`/`status:"draft"`/`needs_review:true`，每节 `draft` 为占位提示语。
-若失败：参数缺失报 `Need --outline, --topic, or --section` → 补 `--outline` 后重跑。
+Expected: `draft.json` has `title`/`hook`/`sections[]`/`status:"draft"`/`needs_review:true`, each section's `draft` a placeholder prompt.
+If it fails: a missing parameter reports `Need --outline, --topic, or --section` -> add `--outline` and rerun.
 
-### 步骤 2：逐节填充正文（agent 生成，按起草纪律）
+### Step 2: Fill in the Body Section by Section (Agent-Generated, Per Drafting Discipline)
 
-对 `sections[]` 每一项，**先读完该节全部要点、想清楚"这节要让读者明白什么"，再动笔**（暗知识 3），然后：
+For each `sections[]` item, **first read all of that section's points and figure out "what should the reader understand from this section" before writing** (tacit knowledge 3), then:
 
-- 读取 `points`，展开为 2–4 段；每个 point 至少落到一个**具体**的名词/数字/场景，不许停留在"很重要/不可或缺"式的抽象句；
-- 匹配 `audience` 术语密度（见「受众风格规则」）；
-- 命中 `word_count_target` ±20%；
-- **不回头改写已完成的节**——初稿阶段只向前推进，修改留给 content-editor（暗知识 1/2）。
+- Read `points` and expand into 2-4 paragraphs; each point must land on at least one **concrete** noun/number/scene — no stopping at abstract sentences like "very important / indispensable";
+- Match the `audience` terminology density (see "Audience Style Rules");
+- Hit `word_count_target` +/-20%;
+- **Don't go back to rewrite finished sections** — the draft stage only moves forward; editing is left to content-editor (tacit knowledge 1/2).
 
-预期：每节 `draft` 字段非空，字数落在目标区间。
-若失败：某节无 `points` → 用 `heading` 作为唯一要点生成，并标记该节 `needs_review`。
+Expected: each section's `draft` field is non-empty, word count within the target range.
+If it fails: a section has no `points` -> use `heading` as the sole point and generate, marking that section `needs_review`.
 
-### 步骤 3：写开头 hook 与结论 CTA
+### Step 3: Write the Opening Hook and Conclusion CTA
 
-- hook 用**具体场景或反直觉事实**开场，不用"在当今快速发展的时代"式抽象概括（暗知识 3 的直接推论）；
-- 用 `outline.hook`（若存在）作开头 2 句抓注意力；缺失则自写一句场景化开场；
-- 写 `conclusion` + 行动号召（关注/收藏/评论，按平台口径）。
-预期：`hook` 与 `conclusion` 非空。
+- The hook opens with a **concrete scene or counterintuitive fact**, not an abstract generality like "in today's fast-developing era" (a direct corollary of tacit knowledge 3);
+- Use `outline.hook` (if present) as the opening 2 sentences to grab attention; if absent, self-write a scene-setting opener;
+- Write `conclusion` + a call to action (follow/save/comment, per platform conventions).
+Expected: `hook` and `conclusion` non-empty.
 
-### 步骤 4：产出完整初稿
+### Step 4: Produce the Complete Draft
 
-整合为完整初稿，输出 JSON 或 Markdown。
-预期：产物含全部章节、总字数、状态 `draft`、待评审标记；交给 content-editor 而不是直接发布。
+Integrate into a complete draft, output JSON or Markdown.
+Expected: the artifact has all sections, total word count, status `draft`, pending-review marker; hand to content-editor rather than publishing directly.
 
-## 起草暗知识（有来源，写初稿前读一遍）
+## Drafting Tacit Knowledge (Sourced; Read Once Before Drafting)
 
-写作方法论是"人很主观的东西"，本节全部来自公开出版物与原始文本，不自行发明：
+Writing methodology is "something subjective", and this section all comes from public publications and primary texts, not invented:
 
-1. **初稿的任务是"存在"，不是"好"**。Anne Lamott《Bird by Bird》的 "shitty first drafts" 一章：所有好作者都写糟糕的初稿，初稿是"下头稿"（down draft——只管倒出来）， perfectionism 是初稿的头号杀手。推论：**起草与修改必须物理分离**，边写边改的人实际是在用编辑的焦虑阻止起草。
-2. **改稿的预期是做减法**。Stephen King《On Writing》：第二稿 = 第一稿 − 10%；写作时关门（只给自己写），修改时开门（考虑读者）。推论：起草时字数略超目标（按同一定律留出约 10% 余量）是健康的，给删减留余地；写满目标字数才停下，往往意味着注水。
-3. **意义先于措辞**。George Orwell《Politics and the English Language》（1946）："先用画面和感觉把意思想到最清楚，然后再挑选——而不是接受——词句。" 预制短语（dying metaphors）是思想被接管的表现：英文的 "in my opinion it is not an unjustifiable assumption that"，中文的对应物是"赋能 / 抓手 / 闭环 / 引爆 / 深度解析"。**识别能力注记**：Orwell 的"禁被动语态"针对英文文风，中文受事主语句（"被"字句）常更自然，此条不机械移植中文——移植的是"让意义选词"的原则，不是逐条规则。
-4. **砍冗词**。Strunk & White《The Elements of Style》"Omit needless words" + Orwell 规则 (iii)"能删的词一律删"：中文初稿里"只是 / 几乎 / 显然 / 基本上 / 可以说"多为赘词，删掉通常不损义。
-5. **filter words 拉开读者距离**（Jane Friedman 的编辑清单）："我注意到 / 她感到 / 似乎"这类过滤词让读者隔着一层毛玻璃看场景；"她感到一阵寒意"不如"门缝里灌进来的风压灭了蜡烛"。同时句长要有变化——连续同长度的句子是机器腔的节奏特征。
-6. **研究占起草时间的大头**。Robert Caro 的工作方式：动笔前研究早已完成，写作是把已经想清楚的东西倒出来。推论：`research_notes` 为空时，先问用户要素材，再动笔——无米之炊的初稿只能靠编造，而编造是初稿最贵的错误。
+1. **The draft's job is to "exist", not to be "good".** Anne Lamott's "shitty first drafts" chapter in Bird by Bird: all good writers write terrible first drafts; the first draft is the "down draft" (just pour it out); perfectionism is the #1 killer of drafts. Corollary: **drafting and editing must be physically separated** — people who edit as they write are actually letting the editor's anxiety block drafting.
+2. **The expectation when revising is subtraction.** Stephen King, On Writing: second draft = first draft - 10%; write with the door closed (only for yourself), revise with the door open (for the reader). Corollary: at drafting, slightly exceeding the word target (leaving ~10% headroom per the same rule) is healthy, leaving room for cuts; stopping only when you've hit the target word count usually means padding.
+3. **Meaning before wording.** George Orwell, Politics and the English Language (1946): "think out the meaning as clearly as possible in pictures and feelings first, then choose — not accept — the words." Pre-fabricated phrases (dying metaphors) are a sign that thinking has been taken over: English's "in my opinion it is not an unjustifiable assumption that", and Chinese's equivalent "leverage / grip / closed loop / ignite / deep analysis". **Recognition note**: Orwell's "ban the passive voice" targets English style; Chinese patient-subject (the "bei"-disposal) sentences are often more natural, so this isn't transplanted mechanically — what's transplanted is the principle "let meaning choose the word", not a line-by-line rule.
+4. **Cut needless words.** Strunk & White's The Elements of Style "Omit needless words" + Orwell rule (iii) "omit every word you can": in Chinese first drafts, "just / almost / obviously / basically / you could say" are mostly filler; deleting them usually loses nothing.
+5. **Filter words distance the reader** (Jane Friedman's editing checklist): filter words like "I noticed / she felt / seems" make the reader look at the scene through frosted glass; "she felt a chill" is worse than "the wind blowing through the doorframe blew out the candle". Also vary sentence length — consecutive same-length sentences are the rhythm signature of machine tone.
+6. **Research is the bulk of drafting time.** Robert Caro's way of working: by the time he writes, the research is long done; writing is pouring out what's already been thought through. Corollary: when `research_notes` is empty, first ask the user for material before writing — a draft written without ingredients can only rely on fabrication, and fabrication is the most expensive drafting error.
 
-**来源**：Anne Lamott *Bird by Bird* (1994)；Stephen King *On Writing* (2000)；George Orwell "Politics and the English Language" (1946, Horizon)；William Strunk Jr. & E.B. White *The Elements of Style*；Jane Friedman 的 self-editing 清单；Robert Caro *Working* (2019)。逐条采信前经过多源交叉核对；单一来源且无法交叉验证的说法未收录。
+**Sources**: Anne Lamott, Bird by Bird (1994); Stephen King, On Writing (2000); George Orwell, "Politics and the English Language" (1946, Horizon); William Strunk Jr. & E.B. White, The Elements of Style; Jane Friedman's self-editing checklist; Robert Caro, Working (2019). Each claim was cross-checked across multiple sources before adoption; single-source claims that couldn't be cross-verified were excluded.
 
-## 红线（初稿阶段的"不做"）
+## Red Lines (What Not to Do at the Draft Stage)
 
-1. **不在起草中做润色循环**——改写交给 content-editor；本技能产出物永远带 `needs_review:true`。
-2. **不用预制短语开场**——hook 禁用"在当今…的时代 / 随着…的发展 / 众所周知"。
-3. **不注水凑字数**——要点撑不起 `word_count_target` 时，如实缩短并标记 `needs_review`，而不是重复表达凑数。
-4. **无来源不编数据**——`research_notes` 里没有的数字、案例、引语，初稿里就写"待补充"占位，不许现编。
-5. **不改写用户大纲的章节结构与顺序**——对结构有意见就在交付说明里提，初稿忠于大纲。
+1. **Don't run polishing loops while drafting** — rewriting goes to content-editor; this skill's artifacts always carry `needs_review:true`.
+2. **Don't open with pre-fabricated phrases** — the hook bans "in today's era of... / with the development of... / as everyone knows".
+3. **Don't pad for word count** — when points can't carry `word_count_target`, honestly shorten and mark `needs_review`, rather than repeating expressions to fill space.
+4. **No invented data without a source** — numbers, cases, and quotes not in `research_notes` get written as "to be added" placeholders in the draft; making them up is forbidden.
+5. **Don't rewrite the user's outline's section structure and order** — if you have opinions on structure, raise them in the delivery notes; the draft stays faithful to the outline.
 
-## 输入输出示例
+## Input/Output Example
 
-输入 `outline`：
+Input `outline`:
 ```json
 {
   "outline": {
-    "title": "FastAPI 性能优化",
+    "title": "FastAPI Performance Optimization",
     "sections": [
-      {"heading": "为什么慢", "points": ["同步I/O", "N+1"], "word_count_target": 300}
+      {"heading": "Why It's Slow", "points": ["sync I/O", "N+1"], "word_count_target": 300}
     ]
   },
   "audience": "intermediate",
@@ -128,15 +128,15 @@ python3 scripts/drafter.py --outline outline.json --audience intermediate --outp
 }
 ```
 
-**真实脚本输出**（骨架，`draft` 是占位提示语）：
+**Real script output** (skeleton; `draft` is a placeholder prompt):
 ```json
 {
-  "title": "FastAPI 性能优化",
+  "title": "FastAPI Performance Optimization",
   "hook": "",
   "sections": [
     {
-      "heading": "为什么慢",
-      "draft": "同步I/O。\n\n（intermediate 读者视角：解释为什么 + 怎么做 + 注意事项）\n\nN+1。\n\n（intermediate 读者视角：解释为什么 + 怎么做 + 注意事项）\n",
+      "heading": "Why It's Slow",
+      "draft": "sync I/O.\n\n(intermediate reader view: explain why + how to do it + caveats)\n\nN+1.\n\n(intermediate reader view: explain why + how to do it + caveats)\n",
       "word_count": 66,
       "target": 300,
       "status": "draft_placeholder",
@@ -151,68 +151,68 @@ python3 scripts/drafter.py --outline outline.json --audience intermediate --outp
 }
 ```
 
-**agent 填充后**（步骤 2–3 之后的最终交付）：
+**After the agent fills it in** (final delivery after Steps 2-3):
 ```json
 {
-  "title": "FastAPI 性能优化",
-  "hook": "同一个接口，压测 QPS 从 120 掉到 9——排查了两小时，元凶是循环里的一条查询。",
+  "title": "FastAPI Performance Optimization",
+  "hook": "The same endpoint: load-test QPS dropped from 120 to 9 — two hours of debugging, and the culprit was one query inside a loop.",
   "sections": [
     {
       "id": 1,
-      "heading": "为什么慢",
-      "draft": "FastAPI 本身是异步框架，但只要在路由里写了一行同步阻塞调用，事件循环就整体停摆……（正文）",
+      "heading": "Why It's Slow",
+      "draft": "FastAPI itself is an async framework, but as soon as you write one synchronous blocking call in a route, the whole event loop stalls... (body)",
       "word_count": 318,
       "target": 300,
       "status": "ok",
       "note": ""
     }
   ],
-  "conclusion": "（总结 + CTA）",
+  "conclusion": "(summary + CTA)",
   "total_words_target": 2000,
   "status": "draft",
   "needs_review": true
 }
 ```
 
-> 下游衔接：`content-editor` 的 `--draft` 直接读本文件，要求顶层含 `title` 与 `sections[]`（每项含 `heading`/`draft`），本输出满足。
+> Downstream handoff: content-editor's `--draft` reads this file directly; it requires a top-level `title` and `sections[]` (each with `heading`/`draft`), which this output satisfies.
 
-## 受众风格规则
+## Audience Style Rules
 
-| 受众 | 术语密度 | 示例 | 代码 |
+| Audience | Terminology Density | Examples | Code |
 |------|---------|------|------|
-| Beginner | 最少，全解释 | 每节 3-4 个 | 完整片段 |
-| Intermediate | 适中，标准术语 | 每节 2-3 个 | 关键片段 |
-| Expert | 高密度，假定已懂 | 每节 0-1 个 | 单行片段 |
+| Beginner | minimum, all explained | 3-4 per section | full snippets |
+| Intermediate | moderate, standard terms | 2-3 per section | key snippets |
+| Expert | high density, assumed known | 0-1 per section | one-line snippets |
 
-## 参数速查表
+## Parameter Quick Reference
 
-| 参数 | 取值 | 说明 |
+| Parameter | Value | Notes |
 |------|------|------|
-| `--outline` | 文件路径 | 大纲 JSON（见输入示例），必需之一 |
-| `--topic` | 字符串 | 无大纲时的快速主题（产出空骨架） |
-| `--section` | 字符串 | 只起草单个章节 |
-| `--audience` | beginner/intermediate/expert | 默认 `intermediate`；脚本不校验，归一由 agent 负责 |
-| `--output` | 文件路径 | 写出初稿 JSON |
+| `--outline` | file path | Outline JSON (see input example), one of the required inputs |
+| `--topic` | string | Quick topic when no outline (produces an empty skeleton) |
+| `--section` | string | Draft a single section only |
+| `--audience` | beginner/intermediate/expert | default `intermediate`; the script doesn't validate, normalization is the agent's job |
+| `--output` | file path | Write the draft JSON |
 
-## 失败处置表
+## Failure Remediation Table
 
-| 现象/错误码 | 原因 | 处置 |
+| Symptom / Error Code | Cause | Remedy |
 |-------------|------|------|
-| `[ERROR] 大纲文件不存在` | 路径错误 | 确认文件存在，修正路径后重跑 |
-| `Need --outline, --topic, or --section` | 缺输入 | 补 `--outline` 或改用纯提示词模式 |
-| 某节字数偏离 >20% | 要点过少/过多 | 拆分或合并 `points`，重生成该节；不注水 |
-| `audience` 取值非法 | 自由文本 | agent 归一到三档枚举并向用户复述映射 |
-| 想边写边改 | 起草纪律缺失 | 停止。把想改的点记进 `note`，交付后统一交给 content-editor |
-| research_notes 为空 | 无米之炊 | 向用户索要素材；否则数据处写"待补充"，禁止编造 |
+| `[ERROR] outline file does not exist` | Wrong path | Confirm the file exists, fix the path, rerun |
+| `Need --outline, --topic, or --section` | Missing input | Add `--outline` or switch to pure prompt mode |
+| A section's word count deviates >20% | Too few/too many points | Split or merge `points`, regenerate that section; don't pad |
+| Illegal `audience` value | Free text | The agent normalizes to the three-tier enum and restates the mapping to the user |
+| Wanting to edit as you write | Missing drafting discipline | Stop. Record the points to change in `note`, and hand them all to content-editor after delivery |
+| research_notes empty | No ingredients | Ask the user for material; otherwise write "to be added" at data points; fabrication is forbidden |
 
-## 交付标准
+## Delivery Standard
 
-- 成功定义：产出完整初稿，所有章节 `draft` 非空，总字数接近 `total_words_target`。
-- 产物命名：`draft.json`（结构化）或 `draft.md`（Markdown）。
-- 保存位置：用户指定目录；脚本用 `--output` 指定，默认标准输出。
-- 完整性验证：`sections` 数量 == 大纲章节数；每节 `word_count` 落在目标 ±20%；`status=="draft"` 且 `needs_review==true`。
+- Success: produce a complete draft, all sections' `draft` non-empty, total word count near `total_words_target`.
+- Artifact name: `draft.json` (structured) or `draft.md` (Markdown).
+- Save location: user-specified directory; the script uses `--output`, default stdout.
+- Completeness check: `sections` count == outline section count; each section's `word_count` within target +/-20%; `status=="draft"` and `needs_review==true`.
 
-## 参考
+## References
 
-- `references/drafting-tips.md` —— 分章节类型的写作技巧，撰写步骤 2 时按需读取。
-- `references/sources-and-methodology.md` —— 暗知识逐条来源与采信纪律。
+- `references/drafting-tips.md` — writing tips by section type; read as needed when writing Step 2.
+- `references/sources-and-methodology.md` — per-item sources of the tacit knowledge and the sourcing discipline.

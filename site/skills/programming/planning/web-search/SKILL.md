@@ -1,6 +1,6 @@
 ---
 name: web-search
-description: "Free web search via SearXNG (primary) and DuckDuckGo (fallback) with no API keys required. Auto-fallback, 24h cache, deep search mode. Use when the agent needs to find information from the web without paid API keys. 当用户要求 搜索 / 查资料 / 联网找信息 时使用。 Do NOT use for multi-source synthesis reports (use deep-research)."
+description: "Free web search via SearXNG (primary) and DuckDuckGo (fallback) with no API keys required. Auto-fallback, 24h cache, deep search mode. Use when the agent needs to find information from the web without paid API keys, search the web, look up references, or find information online. Do NOT use for multi-source synthesis reports (use deep-research)."
 license: Apache-2.0
 compatibility: Requires network access. No API keys required.
 metadata:
@@ -12,115 +12,115 @@ metadata:
   verified-date: "2026-09-09"
 ---
 
-# Web Search — 免费网络搜索引擎
+# Web Search — Free Web Search Engine
 
-使用免费搜索引擎查询网络信息。无需 API Key，直接调用公共搜索服务。
-所有命令均在技能目录（本文件所在目录）下执行。
+Query the web using free search engines. No API key required; it calls public search services directly.
+All commands are run from the skill directory (the directory containing this file).
 
-## 搜索引擎
+## Search Engines
 
-| 引擎 | 类型 | 稳定性 | 速率限制 | 推荐场景 |
+| Engine | Type | Stability | Rate limit | Recommended use |
 |------|------|--------|----------|----------|
-| **SearXNG** | 聚合引擎 | ★★★ | 中等 | 首选，聚合多引擎 |
-| **DuckDuckGo** | HTML 抓取 | ★★ | 严格 | 兜底，反爬强 |
-| **Brave Search** | JSON API | ★★★ | 宽松 | 可选，需注册 |
+| **SearXNG** | Aggregator | ★★★ | Medium | Default; aggregates multiple engines |
+| **DuckDuckGo** | HTML scraping | ★★ | Strict | Fallback; strong anti-bot |
+| **Brave Search** | JSON API | ★★★ | Lenient | Optional; requires registration |
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Description |
 |------|------|------|
-| query | 是 | 搜索关键词（建议 ≤200 字符，过长会被引擎截断） |
-| engine | 否 | 搜索引擎：`searxng` / `ddg` / `brave`（默认 searxng） |
-| language | 否 | 语言代码：`zh` / `en` / `ja`（默认 zh） |
-| region | 否 | 地区代码：`cn` / `us` / `jp`（默认 kl=cn-cn，仅 DDG 使用） |
-| max_results | 否 | 最大返回结果数（默认 10；解析层每引擎也截断为 10 条） |
-| use_cache | 否 | 是否使用缓存（默认 true，TTL 24 小时） |
+| query | Yes | The search keywords (recommended ≤200 chars; overly long queries are truncated by the engine) |
+| engine | No | Search engine: `searxng` / `ddg` / `brave` (default searxng) |
+| language | No | Language code: `zh` / `en` / `ja` (default zh) |
+| region | No | Region code: `cn` / `us` / `jp` (default kl=cn-cn, DDG only) |
+| max_results | No | Max number of results to return (default 10; the parsing layer also truncates to 10 per engine) |
+| use_cache | No | Whether to use the cache (default true, TTL 24 hours) |
 
-缺失时一次性问齐：「请提供：① 搜索内容。其余我将使用默认值。」
+When missing, ask all at once: "Please provide: (1) what to search for. I'll use defaults for everything else."
 
-## 前置自检
+## Pre-flight Checks
 
-依次执行；致命项失败 → 修复后 STOP。
+Run in order; if a fatal item fails → fix it, then STOP.
 
 ```bash
-# 1. Python 可用（致命）
-python3 --version                                        # 预期：Python 3.x
+# 1. Python available (fatal)
+python3 --version                                        # Expected: Python 3.x
 
-# 2. HTTP 客户端（致命）
-python3 -c "import httpx; print('httpx OK')"             # 预期：httpx OK；失败 → pip install httpx
+# 2. HTTP client (fatal)
+python3 -c "import httpx; print('httpx OK')"             # Expected: httpx OK; failure → pip install httpx
 
-# 3. HTML 解析（仅 engine=ddg 需要；失败可先用 searxng）
-python3 -c "import bs4; print('bs4 OK')"                 # 失败 → pip install beautifulsoup4
+# 3. HTML parsing (only needed for engine=ddg; if it fails, use searxng first)
+python3 -c "import bs4; print('bs4 OK')"                 # failure → pip install beautifulsoup4
 
-# 4. 脚本就位（致命；必须在技能目录执行）
-test -f scripts/search_client.py && echo OK              # 预期：OK；失败 → cd 到技能目录
+# 4. Script in place (fatal; must run from the skill directory)
+test -f scripts/search_client.py && echo OK              # Expected: OK; failure → cd to the skill directory
 ```
 
-- 网络可达：任一公共 SearXNG 实例可达即可；全失败时脚本自动降级 DuckDuckGo。
-- 仅 engine=brave 时需要 `BRAVE_API_KEY` 环境变量（凭据只走环境变量，不写入文件或命令行）。
+- Network reachability: any public SearXNG instance being reachable is enough; if all fail, the script automatically falls back to DuckDuckGo.
+- Only engine=brave needs the `BRAVE_API_KEY` environment variable (credentials go through environment variables only, never into files or the command line).
 
-## 参数速查表
+## Parameter Cheat Sheet
 
-`python3 scripts/search_client.py`（run）：
+`python3 scripts/search_client.py` (run):
 
-| 参数 | 取值 | 说明 |
+| Parameter | Values | Description |
 |------|------|------|
-| query（位置参数） | 搜索词 | 缺省时打印帮助并 exit 1 |
-| --engine / -e | searxng / ddg / brave | 默认 searxng |
-| --language / -l | 语言代码 | 默认 zh |
-| --max-results / -m | 整数 | 默认 10 |
-| --format / -f | markdown / json | 默认 markdown |
-| --no-cache | 开关 | 跳过缓存读写 |
-| --deep / -d | 开关 | 多轮深度搜索 |
-| --rounds / -r | 整数 | 深度搜索轮次，默认 3 |
+| query (positional) | Search terms | Defaults to printing help and exit 1 |
+| --engine / -e | searxng / ddg / brave | Default searxng |
+| --language / -l | Language code | Default zh |
+| --max-results / -m | integer | Default 10 |
+| --format / -f | markdown / json | Default markdown |
+| --no-cache | switch | Skip cache read/write |
+| --deep / -d | switch | Multi-round deep search |
+| --rounds / -r | integer | Deep-search rounds, default 3 |
 
-## 工作流
+## Workflow
 
-### 步骤 1：执行单次搜索
+### Step 1: Run a single search
 
-动作（run）：
+Action (run):
 
 ```bash
-python3 scripts/search_client.py "Python FastAPI 最佳实践" --format json
+python3 scripts/search_client.py "Python FastAPI best practices" --format json
 python3 scripts/search_client.py "Python FastAPI best practices" -e ddg --format json
 ```
 
-预期：stdout 输出 JSON，含 `query`/`total_results`/`search_time_ms`/`engine`/`results[]`，每条含 `title`/`url`/`content`/`engine`/`parsed_url`/`score`；缓存命中时 `engine=cache` 且 `cached=true`。
-若失败：JSON 含 `error` 字段且 `results` 为空（脚本不向 shell 抛异常）→ 查失败处置表。
+Expected: stdout outputs JSON with `query`/`total_results`/`search_time_ms`/`engine`/`results[]`, each entry containing `title`/`url`/`content`/`engine`/`parsed_url`/`score`; on a cache hit, `engine=cache` and `cached=true`.
+On failure: the JSON has an `error` field and `results` is empty (the script doesn't throw into the shell) → check the failure-handling table.
 
-### 步骤 2：缓存命中检查（脚本自动执行）
+### Step 2: Cache-hit check (done automatically by the script)
 
-动作（read 内部逻辑）：以 `_search_cache_<md5(query)>.json` 为键查当前目录缓存，TTL 24 小时（86400 秒）。
-预期：命中则直接返回，`search_time_ms` 接近 0。
-若失败（文件损坏/过期）→ 自动当作未命中，重新搜索并覆写。
+Action (internal read logic): look up the current-directory cache keyed by `_search_cache_<md5(query)>.json`, TTL 24 hours (86400 seconds).
+Expected: on a hit it returns directly, with `search_time_ms` near 0.
+On failure (corrupt/expired file) → automatically treat as a miss, re-search, and overwrite.
 
-### 步骤 3：引擎选择与自动降级（脚本自动执行）
+### Step 3: Engine selection and auto-fallback (done automatically by the script)
 
-- SearXNG：按序尝试公共实例（`https://search.sapti.me`、`https://searx.be`、`https://search.ononoki.org`、`https://searx.tiekoetter.com` — VERIFY BEFORE USE，公共实例可用性随时间变化），请求 `/search?q=<query>&language=<lang>&format=json`，取首个返回非空结果者。
-- 自动降级：SearXNG 全失败 → 自动改用 DuckDuckGo（`POST https://html.duckduckgo.com/html/`，表单 `q=<query>&kl=cn-cn`；HTML 选择器解析见 references/parsers.md）。
-- Brave：`GET https://api.search.brave.com/res/v1/web/search`，Bearer 鉴权，免费额度 2000 次/月。
+- SearXNG: try public instances in order (`https://search.sapti.me`, `https://searx.be`, `https://search.ononoki.org`, `https://searx.tiekoetter.com` — VERIFY BEFORE USE; public-instance availability changes over time), request `/search?q=<query>&language=<lang>&format=json`, taking the first that returns non-empty results.
+- Auto-fallback: if all SearXNG instances fail → automatically switch to DuckDuckGo (`POST https://html.duckduckgo.com/html/`, form `q=<query>&kl=cn-cn`; for the HTML selector parsing see references/parsers.md).
+- Brave: `GET https://api.search.brave.com/res/v1/web/search`, Bearer auth, free quota 2000 calls/month.
 
-预期：`engine` 字段如实反映最终使用的引擎；降级静默完成，不报错。
-若失败：两引擎全败 → 返回 `error` 字段（如 `SearXNG 所有实例失败: ...`）。
+Expected: the `engine` field honestly reflects the engine actually used; the fallback completes silently without error.
+On failure: both engines fail → return an `error` field (e.g. `All SearXNG instances failed: ...`).
 
-### 步骤 4：多轮深度搜索（复杂查询）
+### Step 4: Multi-round deep search (complex queries)
 
-动作（run）：`python3 scripts/search_client.py "<复杂查询>" --deep --rounds 3 --format json`
-预期：第 1 轮基础搜索；后续每轮从已有结果标题提取关键词生成追问（每轮最多 3 个子查询），按 URL 合并去重后输出；无可用追问时提前终止。
-若失败：某轮全失败则该轮为空，最终结果可能只有第 1 轮 → 视为部分成功，如实上报。
+Action (run): `python3 scripts/search_client.py "<complex query>" --deep --rounds 3 --format json`
+Expected: round 1 is the base search; each later round extracts keywords from existing result titles to generate follow-ups (up to 3 sub-queries per round), merges and dedupes by URL, then outputs; terminates early when there are no usable follow-ups.
+On failure: if a whole round fails, that round is empty and the final result may only contain round 1 → treat as partial success and report honestly.
 
-### 步骤 5：结果落缓存（脚本自动执行）
+### Step 5: Persist results to cache (done automatically by the script)
 
-预期：非缓存结果自动写入 `_search_cache_<md5>.json`（文件含 query/timestamp/results）；缓存文件已被技能目录 `.gitignore` 忽略，不进入版本库。
-若失败：缓存写失败仅 stderr 警告（`Warning: Failed to save cache: ...`），不影响搜索结果本身。
+Expected: non-cached results are automatically written to `_search_cache_<md5>.json` (the file contains query/timestamp/results); cache files are already ignored by the skill directory's `.gitignore` and don't enter version control.
+On failure: a cache-write failure is only a stderr warning (`Warning: Failed to save cache: ...`) and doesn't affect the search results themselves.
 
-## 输出格式
+## Output Formats
 
-### JSON 格式
+### JSON format
 
 ```json
 {
-  "query": "Python FastAPI 最佳实践",
+  "query": "Python FastAPI best practices",
   "total_results": 10,
   "search_time_ms": 342,
   "engine": "searxng",
@@ -140,12 +140,12 @@ python3 scripts/search_client.py "Python FastAPI best practices" -e ddg --format
 }
 ```
 
-### Markdown 格式
+### Markdown format
 
 ```markdown
-# 搜索结果：Python FastAPI 最佳实践
+# Search results: Python FastAPI best practices
 
-**引擎：** SearXNG | **耗时：** 342ms | **结果数：** 10
+**Engine:** SearXNG | **Time:** 342ms | **Results:** 10
 
 ---
 
@@ -158,34 +158,34 @@ python3 scripts/search_client.py "Python FastAPI best practices" -e ddg --format
 > Comparison of FastAPI and Flask performance and features...
 ```
 
-## 缓存管理
+## Cache Management
 
-| 项 | 说明 |
+| Item | Description |
 |------|------|
-| `_search_cache_<md5>.json` | 搜索结果缓存文件（键为 query 的 md5） |
-| 缓存有效期 | 24 小时（86400 秒） |
-| `.gitignore` | 已忽略 `_search_cache_*.json`，缓存不入库 |
+| `_search_cache_<md5>.json` | Search-result cache file (keyed by the query's md5) |
+| Cache validity | 24 hours (86400 seconds) |
+| `.gitignore` | Already ignores `_search_cache_*.json`; caches don't enter the repo |
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象/错误码 | 原因 | 处置 |
+| Symptom / error code | Cause | Action |
 |------|------|------|
-| `SearXNG 所有实例失败: ...` | 公共实例全部失效或被限流 | 脚本已自动降级 DDG；若 DDG 也失败，见下行 |
-| `DuckDuckGo 搜索失败: ...` | 反爬拦截或网络不可达 | 检查网络；更换出口 IP 后重试；仍失败 → 建议用户手动搜索 |
-| `Brave Search 需要 API Key，设置 BRAVE_API_KEY 环境变量` | 未配置密钥 | `export BRAVE_API_KEY=...` 或改用 searxng/ddg |
-| 结果格式错误/持续为空 | 引擎改版 | 更新解析逻辑（见 references/parsers.md），或换 engine 重试 |
-| 结果与查询明显无关 | 缓存脏数据 | `--no-cache` 重跑确认，再删除对应缓存文件 |
+| `All SearXNG instances failed: ...` | All public instances are down or rate-limited | The script already auto-fell back to DDG; if DDG also fails, see the next row |
+| `DuckDuckGo search failed: ...` | Anti-bot block or network unreachable | Check the network; retry after changing the egress IP; if it still fails → suggest the user search manually |
+| `Brave Search requires an API key; set the BRAVE_API_KEY environment variable` | Key not configured | `export BRAVE_API_KEY=...` or switch to searxng/ddg |
+| Result format is wrong / persistently empty | The engine changed its markup | Update the parsing logic (see references/parsers.md), or retry with a different engine |
+| Results are clearly unrelated to the query | Dirty cache data | Rerun with `--no-cache` to confirm, then delete the corresponding cache file |
 
-## 交付标准
+## Delivery Criteria
 
-- 成功定义：`results[]` 非空且每条含可点击 `url` 与 `title`；完全失败时必须如实返回 `error` 字段，不得编造结果。
-- 产物命名：默认输出到 stdout；如需留档，重定向为 `search_<YYYYMMDD>_<slug>.json`。
-- 保存位置：当前工作目录；缓存文件 `_search_cache_<md5>.json` 自动落盘，24 小时内同查询直接复用。
-- 完整性验证：`python3 scripts/search_client.py "<query>" --format json | python3 -m json.tool` 可解析且 `total_results == len(results)`；引用结果时保留 URL 原文，不改写链接。
+- Definition of success: `results[]` is non-empty and each entry has a clickable `url` and `title`; on total failure, an `error` field must be returned honestly — results must not be fabricated.
+- Artifact naming: output to stdout by default; for archival, redirect to `search_<YYYYMMDD>_<slug>.json`.
+- Save location: current working directory; cache file `_search_cache_<md5>.json` persists automatically, and the same query is reused directly within 24 hours.
+- Completeness verification: `python3 scripts/search_client.py "<query>" --format json | python3 -m json.tool` parses cleanly and `total_results == len(results)`; when citing results, preserve the original URL verbatim — don't rewrite links.
 
-## 参考
+## References
 
-- references/engine-config.md —— 需要换实例/调超时/配 Brave 额度时读（引擎配置详解）
-- references/parsers.md —— 结果解析异常或引擎改版时读（解析器实现与选择器）
-- references/gotchas.md —— 结果质量异常时读（常见陷阱）
-- references/examples.md —— 校准查询写法时读（搜索案例库）
+- references/engine-config.md — read when switching instances / tuning timeouts / configuring Brave quota (detailed engine config)
+- references/parsers.md — read when result parsing is abnormal or an engine changes markup (parser implementation and selectors)
+- references/gotchas.md — read when result quality is abnormal (common pitfalls)
+- references/examples.md — read when calibrating query phrasing (search case library)

@@ -1,6 +1,6 @@
 ---
 name: notion-workspace
-description: "Build and parse Notion API payloads offline: page creation bodies, database query filters with cursor pagination, and block-to-Markdown rendering. Use when the user asks to 写入 Notion / 同步到 Notion / 建 Notion 页面 / 查询 Notion 数据库 / 导出 Notion 页面 / Notion 工作区整理 / write to Notion / create Notion page / query Notion database / export Notion page / sync notes to Notion. Do NOT use for Slack or Feishu messaging (use feishu-dingtalk-bridge), issue trackers (use issue-tracker-sync), or local Markdown files that never leave disk."
+description: "Build and parse Notion API payloads offline: page creation bodies, database query filters with cursor pagination, and block-to-Markdown rendering. Use when the user asks to write to Notion / sync to Notion / create a Notion page / query a Notion database / export a Notion page / organize a Notion workspace / write to Notion / create Notion page / query Notion database / export Notion page / sync notes to Notion. Do NOT use for Slack or Feishu messaging (use feishu-dingtalk-bridge), issue trackers (use issue-tracker-sync), or local Markdown files that never leave disk."
 license: Apache-2.0
 compatibility: "Python 3.8+ stdlib only for the helper script. Live execution needs a Notion internal integration token in NOTION_TOKEN plus outbound HTTPS to api.notion.com — the bundled script never sends requests and runs fully offline."
 metadata:
@@ -12,99 +12,99 @@ metadata:
   verified-date: "2026-09-17"
 ---
 
-# Notion Workspace（Notion 工作区读写）
+# Notion Workspace (Read/Write Notion Workspace)
 
-解决"把本地内容推进 Notion、或把 Notion 内容拉回来"这一类需求。本技能的重心
-不在"发请求"，而在**把请求构造对**——Notion API 的类型系统比多数 REST API 繁琐，
-`parent`、`properties`、`rich_text`、块类型四层结构错一层就吃 400。
+Solves the class of needs "push local content into Notion, or pull Notion content back." This skill's focus
+is not "sending requests" but **constructing the requests correctly** — the Notion API's type system is more cumbersome than most REST APIs;
+get the four-layer structure of `parent`, `properties`, `rich_text`, and block types wrong by one layer and you eat a 400.
 
-**核心判断：Notion 的负载是强类型的结构化对象，不是自由的 JSON。**
-所以本技能先用脚本离线把负载构造出来给人看，再接凭证发送。
+**Core judgment: Notion's payload is a strongly typed structured object, not free JSON.**
+So this skill first uses the script to build the payload offline for human review, then sends with credentials.
 
-**红线（本技能强制）**
+**Red lines (enforced by this skill)**
 
-1. **凭证绝不硬编码**：token 只从环境变量 `NOTION_TOKEN` 读取，禁止写进
-   SKILL.md 示例、脚本、JSON 文件或 git。脚本本身**完全不读 token**——它只
-   构造负载，不发送请求。
-2. **默认 dry-run**：`build-*` 子命令只打印"将要发送的 JSON"，**不发任何
-   HTTP 请求**。发送动作必须由用户确认后才进行。
-3. **最小权限**：只申请 `content: read` 与 `content: update`（或 `insert`）
-   两个能力，不要开 user 信息读取等无关 scope；集成只被授权给需要的页面，
-   而不是整个 workspace。
+1. **Never hardcode credentials**: the token is read only from the `NOTION_TOKEN` environment variable;
+   writing it into SKILL.md examples, scripts, JSON files, or git is forbidden. The script itself **does not read the token at all** — it only
+   builds payloads and sends no requests.
+2. **Dry-run by default**: the `build-*` subcommands only print "the JSON that would be sent" and **send no
+   HTTP requests**. The send action must happen only after the user confirms.
+3. **Least privilege**: request only the two capabilities `content: read` and `content: update` (or `insert`),
+   do not turn on unrelated scopes like reading user info; the integration is only authorized to the pages that need it,
+   not the whole workspace.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必填 | 说明 |
+| Input | Required | Notes |
 |---|---|---|
-| 操作意图 | 是 | 读（查询/导出）还是写（建页面/追加块/更新属性） |
-| 目标对象 ID | 是 | 父页面 `page_id`、数据库 `database_id` 或页面 ID；从 URL 末段 32 位 hex 取得 |
-| 内容源 | 写操作必填 | 要写入的正文：本地 Markdown 文件或块 JSON 数组 |
-| 属性/过滤条件 | 否 | 数据库场景必填：要写入的列名、或查询的 filter/sorts |
-| `NOTION_TOKEN` | 真实执行必填 | Notion 集成令牌，只在环境变量里；只读负载构造不需要它 |
+| Operation intent | Yes | Read (query/export) or write (create page / append blocks / update properties) |
+| Target object ID | Yes | The parent page `page_id`, the database `database_id`, or a page ID; take it from the last 32-hex segment of the URL |
+| Content source | Required for write ops | The body to write: a local Markdown file or a block JSON array |
+| Properties/filter | No | Required for the database case: the column names to write, or the filter/sorts for the query |
+| `NOTION_TOKEN` | Required for real execution | The Notion integration token, environment variable only; not needed to build read-only payloads |
 
-**缺输入时一次性问齐**：
+**When inputs are missing, ask for all at once:**
 
-> 请一次提供：① 读还是写；② 目标页面/数据库 ID（或直接给 Notion 链接，
-> 我来截取 ID）；③ 要写入的内容文件或要查询的条件；④ 确认 token 已放在
-> 环境变量 `NOTION_TOKEN`（我不会要求你贴出来）。默认行为是只打印请求负载、
-> 不发请求，需要真正执行时请明确说"执行"。
+> Please provide in one go: ① read or write; ② the target page/database ID (or just give the Notion link and
+> I will extract the ID); ③ the content file to write or the conditions to query; ④ confirm the token is in
+> the `NOTION_TOKEN` environment variable (I will not ask you to paste it). The default behavior is to only print the request payload,
+> send no requests; when you actually want to execute, please say "execute" explicitly.
 
-## 前置自检
+## Pre-flight Self-check
 
 ```bash
-python3 --version                                     # 预期 >= 3.8
-test -f scripts/notion_ops.py && echo SCRIPT_OK       # 预期打印 SCRIPT_OK
-# 凭证检查：只判断"有没有"，绝不回显内容
+python3 --version                                     # expect >= 3.8
+test -f scripts/notion_ops.py && echo SCRIPT_OK       # expect to print SCRIPT_OK
+# Credential check: only judge "whether it exists," never echo the content
 test -n "$NOTION_TOKEN" && echo "ticket present" || echo "NOTION_TOKEN missing"
-# 只检查存在性，绝不 echo $NOTION_TOKEN —— 令牌一旦进入终端历史就等于泄露
+# Only check existence, never echo $NOTION_TOKEN — a token in terminal history is a leak
 # python3 scripts/notion_ops.py --help >/dev/null && echo CLI_OK
 ```
 
-| 结果 | 判读 |
+| Result | Interpretation |
 |---|---|
-| `NOTION_TOKEN missing` | 只影响"真正发送"这一步；构造负载与解析响应仍可正常跑 |
-| `SCRIPT_OK` 缺失 | 脚本不在，退化为手工按本文档的字段表拼 JSON |
-| `CLI_OK` 缺失 | 子命令拼错，跑 `--help` 核对 |
+| `NOTION_TOKEN missing` | Only affects the "actually send" step; building payloads and parsing responses still work |
+| `SCRIPT_OK` missing | The script is absent; fall back to hand-assembling JSON per this doc's field table |
+| `CLI_OK` missing | A subcommand was mistyped; run `--help` to check |
 
-## 工作流
+## Workflow
 
-### 步骤 1：确认目标与权限
+### Step 1: Confirm the Target and Permissions
 
-问清读/写与目标对象 ID。若用户给的是 `https://www.notion.so/<workspace>/<标题>-<32位hex>`，
-截取末段 32 位 hex 作为 ID。**写操作前必须确认集成已被授权到该页面**——
-未授权的页面返回 404 而非 403，是 Notion 的刻意设计（不泄露对象是否存在）。
+Clarify read/write and the target object ID. If the user gives `https://www.notion.so/<workspace>/<title>-<32-hex>`,
+take the last 32-hex segment as the ID. **Before a write op you must confirm the integration has been authorized to that page** —
+unauthorized pages return 404 rather than 403, which is Notion's deliberate design (it does not leak whether the object exists).
 
-预期：拿到干净的 ID 字符串与读/写意图。
-若失败（ID 里有连字符）：UUID 形式 `8f3e-2a1b-...` 需去掉连字符再传。
+Expected: a clean ID string plus read/write intent.
+On failure (the ID has hyphens): UUID form `8f3e-2a1b-...` needs hyphens removed before passing it in.
 
-### 步骤 2：构造请求负载（dry-run）
+### Step 2: Build the Request Payload (dry-run)
 
 ```bash
-# 2a. 建页面：子块先用 JSON 描述，脚本转成 Notion 块结构
-python3 scripts/notion_ops.py build-page --parent demo-parent --title 示例页面   # 干跑：仅构造请求体，不发网络请求
+# 2a. Create a page: child blocks are described as JSON first, the script converts them to Notion block structure
+python3 scripts/notion_ops.py build-page --parent demo-parent --title sample page   # dry run: only builds the request body, sends no network request
 
 # python3 scripts/notion_ops.py build-page \
-#   --title "周报 2026-W38" --blocks blocks.json \
-#   --parent <父页面ID> --parent-type page
+#   --title "Weekly report 2026-W38" --blocks blocks.json \
+#   --parent <parent-page-id> --parent-type page
 
-# 2b. 清空子块再挂数据库记录时，parent-type 换成 database
+# 2b. When clearing child blocks and attaching a database record instead, switch parent-type to database
 # python3 scripts/notion_ops.py build-page \
-#   --title "任务 A" --parent <数据库ID> --parent-type database
+#   --title "Task A" --parent <database-id> --parent-type database
 
-# 2c. 查询数据库
+# 2c. Query a database
 # python3 scripts/notion_ops.py build-database-query \
-#   --database <数据库ID> --filter filter.json --sorts sorts.json --page-size 100
+#   --database <database-id> --filter filter.json --sorts sorts.json --page-size 100
 ```
 
-预期：打印完整请求体 + 请求头清单 + 子块计数，结尾明确写着"未发送任何请求"。
-`--page-size` 超过 100 或子块超过 100 个会被脚本直接拦下（见失败处置表）。
+Expected: prints the full request body + request header list + child block count, with the ending explicitly stating "no request was sent."
+`--page-size` over 100 or more than 100 child blocks are blocked directly by the script (see the failure table).
 
-若失败：报 `不支持的块类型` → 对照下方映射表换类型；
-报 `必须提供 --parent` → Notion 不支持在 workspace 根建页，必须给父对象。
+On failure: reports `unsupported block type` → switch the type per the mapping table below;
+reports `must provide --parent` → Notion does not support creating pages at the workspace root; a parent object is required.
 
-### 步骤 3：发送（凭证由代理层注入）
+### Step 3: Send (credentials injected by the proxy layer)
 
-把步骤 2 的输出存成 `payload.json`，再由 AI 或用户用 curl/SDK 执行：
+Save step 2's output as `payload.json`, then the AI or user executes it with curl/SDK:
 
 ```bash
 curl -sS -X POST https://api.notion.com/v1/pages \
@@ -114,96 +114,96 @@ curl -sS -X POST https://api.notion.com/v1/pages \
   --data @payload.json > response.json
 ```
 
-**两个头缺一不可**：`Authorization` 与 `Notion-Version`。后者决定字段语义——
-不带或被代理改写会静默拿到旧 schema 的响应。
+**Both headers are indispensable**: `Authorization` and `Notion-Version`. The latter decides field semantics —
+omitting it or having it rewritten by a proxy silently gets you a response under the old schema.
 
-预期：HTTP 200 且响应体含新页面 `id`。
-若失败：`400 validation_error` 对照失败处置表；`401` 检查 token；
-`404 object_not_found` 优先怀疑"集成未被授权到该页面"。
+Expected: HTTP 200 and the response body contains the new page's `id`.
+On failure: `400 validation_error` → check the failure table; `401` → check the token;
+`404 object_not_found` → first suspect "the integration is not authorized to that page."
 
-### 步骤 4：解析响应
+### Step 4: Parse the Response
 
 ```bash
-# python3 scripts/notion_ops.py parse-page --json response.json          # 单页
-# python3 scripts/notion_ops.py parse-page --json query_result.json      # 数据库查询结果
-# python3 scripts/notion_ops.py blocks-to-markdown --json blocks.json    # 拉回的块树
+# python3 scripts/notion_ops.py parse-page --json response.json          # single page
+# python3 scripts/notion_ops.py parse-page --json query_result.json      # database query result
+# python3 scripts/notion_ops.py blocks-to-markdown --json blocks.json    # pulled block tree
 ```
 
-预期：属性被压平成 Markdown 表格，标注了每列的类型；查询响应会先报
-`共 N 条记录 has_more=?`。
-若失败：属性显示 `(空)` → 该列确实为空或集成无权限读该属性（关系列常见）。
+Expected: properties are flattened into a Markdown table, with each column's type noted; a query response first reports
+`N records total has_more=?`.
+On failure: a property shows `(empty)` → that column is genuinely empty or the integration has no permission to read that property (common for relation columns).
 
-### 步骤 5：分页拉全
+### Step 5: Paginate to Pull Everything
 
-Notion 是**游标分页**：没有 offset，只有 `start_cursor` / `next_cursor`。
+Notion uses **cursor pagination**: there is no offset, only `start_cursor` / `next_cursor`.
 
 ```bash
 # python3 scripts/notion_ops.py build-database-query \
-#   --database <ID> --page-size 100 --start-cursor "<上一页的 next_cursor>"
+#   --database <ID> --page-size 100 --start-cursor "<the previous page's next_cursor>"
 ```
 
-循环：发送 → 读 `has_more` → 为 true 则把 `next_cursor` 回填 `--start-cursor` → 重复。
+Loop: send → read `has_more` → if true, feed `next_cursor` back into `--start-cursor` → repeat.
 
-**必须限速**：集成平均约 **3 req/s**，超了会收 429。翻页之间留 ≥ 350ms，
-遇 429 用指数退避（`Retry-After` 头优先）。
+**You must rate-limit**: an integration averages about **3 req/s**; beyond that you get 429.
+Leave ≥ 350ms between pages, and on 429 use exponential backoff (prefer the `Retry-After` header).
 
-预期：直到某次响应 `has_more=false` 且 `next_cursor=null` 为止。
-若失败：死循环 → 检查是否误把上一页的 cursor 重复使用；游标失效会重头返回第一页。
+Expected: continue until some response has `has_more=false` and `next_cursor=null`.
+On failure: an infinite loop → check whether you mistakenly reused the previous page's cursor; an expired cursor restarts from page one.
 
-### 步骤 6：交付
+### Step 6: Deliver
 
-报告：操作对象与 ID、影响条目数、产物文件路径。写操作附上响应里的 `url`，
-方便用户点开核对。若只做了 dry-run，明确说明"未发送任何请求"。
+Report: the operated object and ID, the affected entry count, and the artifact file paths. For write ops, attach the response's `url`
+so the user can click through to verify. If only a dry-run was done, state explicitly that "no request was sent."
 
-预期：交付说明含对象 ID、条目数、产物路径三项；写操作附 `url`；只做 dry-run 时
-明确写"未发送任何请求"。
-若失败：`url` 缺失（响应被裁剪）→ 用页面 ID 拼
-`https://www.notion.so/<32位hex>` 给用户核对；产物路径写不出 → 说明当前只做了
-dry-run、尚未落盘，不要用"已完成"含糊带过。
+Expected: the delivery note covers the object ID, entry count, and artifact path; write ops attach the `url`; when only a dry-run was done,
+it explicitly says "no request was sent."
+On failure: `url` is missing (the response was truncated) → build
+`https://www.notion.so/<32-hex>` from the page ID for the user to verify; if an artifact path cannot be written → say that only
+a dry-run was done and nothing has been persisted yet; do not fudge it with "done."
 
-## 块类型映射表
+## Block Type Mapping Table
 
-| 本地 JSON `type` | Notion 块 | 必填字段 | 渲染回 Markdown |
+| Local JSON `type` | Notion block | Required fields | Renders back to Markdown |
 |---|---|---|---|
-| `paragraph` | `paragraph` | `rich_text` | 空行分段 |
-| `heading_1/2/3` | 同名 | `rich_text` | `#`/`##`/`###` |
-| `bulleted_list_item` | 同名 | `rich_text` | `- ` |
-| `numbered_list_item` | 同名 | `rich_text` | `1. ` |
+| `paragraph` | `paragraph` | `rich_text` | Blank line between paragraphs |
+| `heading_1/2/3` | Same name | `rich_text` | `#`/`##`/`###` |
+| `bulleted_list_item` | Same name | `rich_text` | `- ` |
+| `numbered_list_item` | Same name | `rich_text` | `1. ` |
 | `to_do` | `to_do` | `rich_text` + `checked` | `- [x]` / `- [ ]` |
-| `code` | `code` | `rich_text` + `language` | 三反引号围栏 |
+| `code` | `code` | `rich_text` + `language` | Triple-backtick fence |
 | `callout` | `callout` | `rich_text` + `icon` | `> [!NOTE]` |
 | `quote` | `quote` | `rich_text` | `> ` |
-| `divider` | `divider` | 无 | `---` |
+| `divider` | `divider` | None | `---` |
 
-未列入的块类型（表格、同步块、嵌入等）脚本不会猜，直接报错或渲染成
-HTML 注释占位——**宁可留痕，也不静默丢内容**。
+Block types not listed (tables, sync blocks, embeds, etc.) are not guessed by the script; it errors out directly or renders
+an HTML comment placeholder — **leave a trace rather than silently dropping content**.
 
-## 交付标准
+## Delivery Standards
 
-- **成功定义**：写操作返回 200 且响应含新对象 `id`；读操作的分页循环
-  以 `has_more=false` 收敛，无重复/遗漏页。
-- **产物**：`payload.json`（发送前可审阅的负载）、`response.json`（原始响应）、
-  解析后的 Markdown 文件。
-- **完整性验证**：
-  - 写操作后对返回的 `id` 再发一次 GET，确认属性与子块数符合预期；
-  - 读操作比对 `parse-page` 输出的记录数与本轮累计 count；
-  - 所有产物中不得出现 token 明文（`grep -c "$NOTION_TOKEN" *.json` 应为 0）。
+- **Definition of success**: a write op returns 200 with the new object's `id` in the response; a read op's pagination loop
+  converges on `has_more=false`, with no duplicate/missing pages.
+- **Artifacts**: `payload.json` (reviewable payload before sending), `response.json` (raw response),
+  and the parsed Markdown file.
+- **Integrity verification**:
+  - After a write op, GET the returned `id` once to confirm properties and child block counts match expectations;
+  - For a read op, compare `parse-page`'s record count with this run's cumulative count;
+  - No token plaintext in any artifact (`grep -c "$NOTION_TOKEN" *.json` should be 0).
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Action |
 |---|---|---|
-| `400 validation_error: body failed validation` | 负载结构错位：`parent` 类型与 ID 不匹配，或缺 `rich_text` 包装 | 用本技能的 `build-*` 重新生成负载，不要手改；重点核对 `--parent-type` |
-| `400` 且提示 `children` 过长 | 单请求子块超过 100 个 | 拆批：先建空页面，再用 `PATCH /v1/blocks/{id}/children` 每次挂 ≤100 块 |
-| `401 unauthorized` | token 缺失、过期或被撤销 | 重新生成集成令牌并更新环境变量；不要回显 token 到终端 |
-| `404 object_not_found` | **集成未授权到该页面**（不是页面不存在，Notion 故意不区分） | 在 Notion 页面右上角 `•••` → 连接 → 添加该集成 |
-| `429 rate_limited` | 超过约 3 req/s | 读 `Retry-After` 头退避；翻页间隔加到 ≥350ms；批量写入分批 |
-| `400` 提示属性名不存在 | 数据库列名改了，或误用了页面级 `title` 结构 | 先 GET 一条已有记录，用 `parse-page` 打印真实列名，再对齐 |
-| 分页结果重复或丢数据 | 游标未回填，或数据在翻页期间被改动 | 按 `created_time` 排序拉取以获得稳定顺序；游标只在当次会话内使用 |
-| 富文本样式丢失 | 直接用 `plain_text` 回写，而 `annotations` 未转换 | 解析端用 `blocks-to-markdown`；写入端手动构造 `annotations` 对象 |
+| `400 validation_error: body failed validation` | The payload structure is misaligned: `parent` type and ID mismatch, or `rich_text` wrapper missing | Regenerate the payload with this skill's `build-*`, do not hand-edit; double-check `--parent-type` |
+| `400` with `children` too long | More than 100 child blocks in a single request | Split batches: first create an empty page, then attach ≤100 blocks per call via `PATCH /v1/blocks/{id}/children` |
+| `401 unauthorized` | Token missing, expired, or revoked | Regenerate the integration token and update the environment variable; do not echo the token to the terminal |
+| `404 object_not_found` | **The integration is not authorized to that page** (the page does exist — Notion deliberately does not distinguish) | On the Notion page, top-right `•••` → Connections → add this integration |
+| `429 rate_limited` | Over about 3 req/s | Read the `Retry-After` header and back off; raise the inter-page interval to ≥350ms; batch writes in chunks |
+| `400` says a property name does not exist | A database column was renamed, or a page-level `title` structure was mistakenly used | First GET an existing record, use `parse-page` to print the real column names, then align |
+| Paginated results duplicate or lose data | The cursor was not fed back, or data changed during paging | Sort by `created_time` for a stable order; the cursor is only valid within the current session |
+| Rich-text formatting is lost | Wrote back directly with `plain_text` without converting `annotations` | On the parse side use `blocks-to-markdown`; on the write side hand-construct the `annotations` object |
 
-## 参考
+## References
 
-- `scripts/notion_ops.py` —— 四个子命令：`build-page` / `build-database-query` /
-  `parse-page` / `blocks-to-markdown`；`NOTION_VERSION` 是版本头唯一事实源
-- `references/sources-and-methodology.md` —— 版本头锁定、游标分页与限速的设计取舍
+- `scripts/notion_ops.py` — four subcommands: `build-page` / `build-database-query` /
+  `parse-page` / `blocks-to-markdown`; `NOTION_VERSION` is the single source of truth for the version header
+- `references/sources-and-methodology.md` — the design trade-offs for pinning the version header, cursor pagination, and rate limiting

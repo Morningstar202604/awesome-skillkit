@@ -1,6 +1,6 @@
 ---
 name: ship-gate
-description: "Pre-production audit that scans a codebase for security, database, deployment, code quality, AI/LLM, dependency, frontend, and observability issues. Intercepts deploy commands and blocks until critical items pass. 当用户要求 上线前检查 / 发布门禁 / 发布前把关 时使用。 Also triggers on / 上线检查 / 发布前审计 / 部署门禁 / pre-deploy audit / release checklist. Do NOT use for fixing the failures it reports (this skill only gates and reports)."
+description: "Pre-production audit that scans a codebase for security, database, deployment, code quality, AI/LLM, dependency, frontend, and observability issues. Intercepts deploy commands and blocks until critical items pass. Use when doing a pre-launch check, a release gate, pre-release review, a launch check, a pre-release audit, or a deployment gate. Also triggers on / pre-deploy audit / release checklist. Do NOT use for fixing the failures it reports (this skill only gates and reports)."
 license: Apache-2.0
 compatibility: Pure prompt-based; runs Python stdlib scanner via Bash. No API keys required.
 metadata:
@@ -14,73 +14,73 @@ metadata:
 
 # Ship Gate
 
-上线前审计：对代码库做 8 大类别扫描，逐项给出 PASS/FAIL/MANUAL 结论。自动化检查由内置扫描器执行；无法自动验证的项转为人工确认清单。本技能只审计和报告——不负责修复。
+A pre-production audit: scan the codebase across 8 categories, giving a PASS/FAIL/MANUAL verdict per item. Automated checks run via a built-in scanner; items that can't be verified automatically become a manual-confirmation checklist. This skill only audits and reports — it doesn't fix.
 
-## 拦截行为
+## Interception Behavior
 
-当用户说 "push to production"、"deploy"、"ship it"、"go live" 或类似部署意图的话时，不要直接执行部署。改为：
+When the user says "push to production", "deploy", "ship it", "go live", or similar deployment intent, don't deploy directly. Instead:
 
-1. 询问："跑过上线门禁了吗？需要我现在扫描一遍？"
-2. 用户同意 → 执行下方工作流。
-3. 用户称已跑过 → 询问时间。超过 24 小时，或此后代码有改动 → 建议重跑。
+1. Ask: "Have you run the ship gate? Want me to scan it now?"
+2. If the user agrees → run the workflow below.
+3. If the user says it's already been run → ask when. If it was over 24 hours ago, or the code changed since then → recommend rerunning.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Description |
 |---|---|---|
-| 项目根目录 | 否 | 缺省当前目录 |
-| 扫描类别 | 否 | 8 类之一（SEC/DB/CODE/DEP/AI/DEPLOY/FE/OBS），缺省全跑 |
-| 输出格式 | 否 | 人读（默认，带色）或 `--json` |
-| 交互确认 | 否 | 默认交互式询问人工确认项；CI 场景加 `--no-interactive` |
+| Project root | No | Defaults to the current directory |
+| Scan category | No | One of the 8 (SEC/DB/CODE/DEP/AI/DEPLOY/FE/OBS); defaults to all |
+| Output format | No | Human-readable (default, colored) or `--json` |
+| Interactive confirmation | No | Defaults to interactively asking about manual items; add `--no-interactive` for CI |
 
-输入缺失时一次性问齐："请提供：① 项目根目录（不填默认当前目录）；② 是全量扫描还是只扫某类别。"
+When inputs are missing, ask for all at once: "Please provide: (1) project root (blank = current directory); (2) a full scan or just one category."
 
-## 前置自检
+## Pre-flight Checks
 
 ```bash
-# 1. Python 3 可用
+# 1. Python 3 is available
 python3 --version
-# 预期：Python 3.8+。失败→安装后重试，STOP。
+# Expected: Python 3.8+. On failure: install and retry, STOP.
 
-# 2. 扫描器存在
+# 2. The scanner exists
 ls scripts/ship_gate_scanner.py
-# 预期：文件名（在技能目录内执行）。失败→cd 到技能目录；仍缺→STOP 回报。
+# Expected: the filename (run inside the skill directory). On failure: cd to the skill directory; still missing → STOP and report.
 
-# 3. 目标项目目录存在
-ls <项目根目录> > /dev/null && echo OK
-# 预期：OK。失败→向用户确认路径，STOP。
+# 3. The target project directory exists
+ls <project root> > /dev/null && echo OK
+# Expected: OK. On failure: confirm the path with the user, STOP.
 
-# 4. 检查规则与模式库在位
+# 4. The checks and patterns library are in place
 ls references/checks.md references/patterns.md
-# 预期：两个文件名。缺失→STOP 回报仓库不完整。
+# Expected: both filenames. Missing → STOP and report an incomplete repo.
 ```
 
-## 工作流
+## Workflow
 
-### 步骤 1：全量扫描
+### Step 1: Full scan
 
 ```bash
-python3 scripts/ship_gate_scanner.py examples/sample-frontend --json --no-interactive --category FE   # 随包达标样例（FE 类全 ADVISORY 通过 → CLEAR_TO_SHIP rc=0）；完整审计对真实项目去掉 --category，未达标时退出码非 0 属 CI 门禁语义
+python3 scripts/ship_gate_scanner.py examples/sample-frontend --json --no-interactive --category FE   # bundled compliant sample (all FE items pass as ADVISORY → CLEAR_TO_SHIP rc=0); for a full audit on a real project drop --category; a non-zero exit on non-compliance is the CI gate semantics
 ```
 
-- **动作**：扫描器自动检测技术栈（框架、数据库、部署目标、鉴权、AI/LLM SDK——检测规则实现在 scanner 内，与 `references/checks.md` 中带栈标签的检查项联动），并按 SEC → DB → CODE → DEP → AI → DEPLOY → FE → OBS 顺序执行全部自动化检查。
-- **预期**：生成 JSON 报告，含每类检查的 PASS/FAIL/SKIP 与文件定位；退出码 0/1/2（含义见失败处置表）。
-- **若失败**：扫描器报错退出 → 读错误信息；目标目录无法访问 → 向用户确认路径后 STOP。
+- **Action**: the scanner auto-detects the tech stack (framework, database, deployment target, auth, AI/LLM SDK — detection rules live in the scanner and link to the stack-tagged checks in `references/checks.md`), then runs all automated checks in order SEC → DB → CODE → DEP → AI → DEPLOY → FE → OBS.
+- **Expected**: produce a JSON report with PASS/FAIL/SKIP per category check and file locations; exit code 0/1/2 (see the failure table for meanings).
+- **On failure**: the scanner errors out → read the error message; the target directory is inaccessible → confirm the path with the user, then STOP.
 
-### 步骤 2：人工确认项
+### Step 2: Manual-confirmation items
 
-- **动作**：自动化无法覆盖的检查（备份恢复已演练、回滚方案存在、staging 测试通过、监控告警接通等）逐条列出，向用户逐项确认 yes/no/unknown。
-- **预期**：每项获得明确答复并记录；unknown 一律按未通过计。
-- **若失败**：用户拒绝答复 → 该项记 MANUAL/未确认，进入裁决。
+- **Action**: list the checks automation can't cover (backup restore rehearsed, rollback plan exists, staging tests passed, monitoring/alerts wired, etc.) one by one, and ask the user yes/no/unknown for each.
+- **Expected**: each item gets an explicit answer and is recorded; unknown always counts as not-passing.
+- **On failure**: the user refuses to answer → mark that item MANUAL/unconfirmed and move to adjudication.
 
-### 步骤 3：裁决
+### Step 3: Adjudication
 
-- **动作**：把结果按严重度分级并给出裁决：
-  - **CRITICAL**（必须修复）：secrets 暴露、路由无鉴权、无 HTTPS、SQL 注入向量、Supabase 表无 RLS
-  - **HIGH**（应该修复）：无 error boundary、无 rate limiting、生产代码 console.log、无分页
-  - **ADVISORY**（建议项）：无 OG 标签、无自定义 404、无 analytics、无 SBOM
-- **裁决规则**：存在任一 CRITICAL 未解决 → `DO NOT SHIP`；仅剩 HIGH → `SHIP WITH CAUTION`（需用户书面知悉风险）；零 CRITICAL 且人工确认项通过 → `CLEAR TO SHIP`。
-- **预期**：输出如下格式的报告（含真实文件定位与行号）：
+- **Action**: grade the results by severity and give a verdict:
+  - **CRITICAL** (must fix): secret exposure, routes without auth, no HTTPS, SQL-injection vectors, Supabase tables without RLS
+  - **HIGH** (should fix): no error boundary, no rate limiting, console.log in production code, no pagination
+  - **ADVISORY** (suggested): no OG tags, no custom 404, no analytics, no SBOM
+- **Verdict rule**: any unresolved CRITICAL → `DO NOT SHIP`; only HIGHs remain → `SHIP WITH CAUTION` (requires the user's written acknowledgment of the risk); zero CRITICAL and manual items pass → `CLEAR TO SHIP`.
+- **Expected**: output a report like this (with real file locations and line numbers):
 
 ```text
 SHIP GATE REPORT
@@ -103,76 +103,76 @@ VERDICT: DO NOT SHIP (2 critical issues)
 Fix critical items and re-run.
 ```
 
-- **若失败**：裁决为 DO NOT SHIP → 报告后 STOP；本技能不修复，交用户或其他技能处理修复后重新扫描。
+- **On failure**: the verdict is DO NOT SHIP → report, then STOP; this skill doesn't fix; hand off to the user or another skill to fix and rescan.
 
-### 步骤 4：复扫与放行
+### Step 4: Rescan and release
 
-- **动作**：修复完成后重跑步骤 1（全量，不做增量），核对上轮 CRITICAL 项全部转为 PASS。
-- **预期**：退出码 0，报告 `VERDICT: CLEAR TO SHIP`。
-- **若失败**：仍有 CRITICAL → 回到步骤 3 裁决，绝不放行。
+- **Action**: after fixes, rerun Step 1 (full scan, not incremental), and confirm last round's CRITICAL items all turned PASS.
+- **Expected**: exit code 0, report `VERDICT: CLEAR TO SHIP`.
+- **On failure**: CRITICALs remain → return to Step 3 for adjudication; never release.
 
-## 八大类别
+## The Eight Categories
 
-| 前缀 | 类别 | 说明 |
+| Prefix | Category | Description |
 |--------|----------|------|
-| SEC | 安全 | 密钥泄漏、鉴权缺失、注入向量、CSRF、HTTPS |
-| DB | 数据库 | RLS、备份、迁移安全、连接安全 |
-| DEPLOY | 部署 | 回滚方案、staging 验证、环境配置 |
-| CODE | 代码质量 | console.log、空 catch、错误边界 |
-| AI | AI/LLM 安全 | API key 管理、prompt 注入面、输出过滤 |
-| DEP | 依赖 | npm audit 严重漏洞、SBOM |
-| FE | 前端质量 | OG 标签、404 页、错误页面 |
-| OBS | 可观测性 | 错误监控、日志、告警 |
+| SEC | Security | Secret leakage, missing auth, injection vectors, CSRF, HTTPS |
+| DB | Database | RLS, backups, migration safety, connection security |
+| DEPLOY | Deployment | Rollback plan, staging validation, environment config |
+| CODE | Code quality | console.log, empty catch, error boundaries |
+| AI | AI/LLM security | API key management, prompt-injection surface, output filtering |
+| DEP | Dependencies | npm audit critical vulnerabilities, SBOM |
+| FE | Frontend quality | OG tags, 404 page, error pages |
+| OBS | Observability | Error monitoring, logging, alerting |
 
-各项检查的完整定义见 `references/checks.md`，扫描模式（grep 规则）见 `references/patterns.md`。
+See `references/checks.md` for the full definition of every check, and `references/patterns.md` for the scan patterns (grep rules).
 
-## 适用范围
+## Scope
 
-本技能只审计，不修复。发现问题后，带着文件定位与修复建议报告出来；修复由用户或其他技能（systematic-debugging、backend-patterns、shadcn-stack）负责。
+This skill only audits; it doesn't fix. When it finds problems, it reports them with file locations and fix suggestions; fixing is done by the user or other skills (systematic-debugging, backend-patterns, shadcn-stack).
 
-本技能不做：
+This skill does NOT:
 
-- 搭建 CI/CD 流水线
-- 开通基础设施
-- 配置监控工具
-- 部署后运行（本技能只在部署前使用）
+- Set up CI/CD pipelines
+- Provision infrastructure
+- Configure monitoring tools
+- Run things after deployment (this skill is used only before deployment)
 
-## 参数速查表
+## Parameter Cheat Sheet
 
-| 参数 | 取值 | 说明 |
+| Parameter | Values | Description |
 |---|---|---|
-| `path` | 目录（位置参数） | 项目根目录，缺省当前目录 |
-| `--json` | 布尔 | JSON 输出，供程序消费 |
-| `--no-color` | 布尔 | 关闭 ANSI 颜色 |
-| `--no-interactive` | 布尔 | 跳过人工确认交互（CI 必加） |
-| `--category` | SEC/DB/CODE/DEP/AI/DEPLOY/FE/OBS | 只跑单类 |
-| `--verbose` | 布尔 | 额外显示 PASS 项 |
+| `path` | directory (positional) | Project root; defaults to the current directory |
+| `--json` | boolean | JSON output for programmatic consumption |
+| `--no-color` | boolean | Disable ANSI colors |
+| `--no-interactive` | boolean | Skip the manual-confirmation interaction (required in CI) |
+| `--category` | SEC/DB/CODE/DEP/AI/DEPLOY/FE/OBS | Run a single category only |
+| `--verbose` | boolean | Also show PASS items |
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象/错误码 | 原因 | 处置 |
+| Symptom / error code | Cause | Fix |
 |---|---|---|
-| 退出码 1 | 发现 critical 问题 | 裁决 DO NOT SHIP，逐条报告，STOP |
-| 退出码 2 | 仅 high 级问题 | 裁决 SHIP WITH CAUTION，列风险交用户书面确认 |
-| 退出码 0 | 无 critical 问题 | 可进入 CLEAR TO SHIP 流程，仍需核对人工确认项 |
-| 扫描器崩溃/traceback | 目标目录结构异常或权限不足 | 读 traceback 定位；权限问题换目录重试 |
-| 人工确认项全是 unknown | 用户未配合 | 一律按未通过计，裁决不放宽 |
+| Exit code 1 | Critical problems found | Adjudicate DO NOT SHIP, report each item, STOP |
+| Exit code 2 | Only high-level problems | Adjudicate SHIP WITH CAUTION, list risks for the user's written confirmation |
+| Exit code 0 | No critical problems | May enter the CLEAR TO SHIP flow; still check the manual-confirmation items |
+| Scanner crash/traceback | Abnormal target-dir structure or insufficient permissions | Read the traceback to locate it; for permission issues retry in another directory |
+| All manual items unknown | The user didn't cooperate | Count them all as not-passing; don't relax the verdict |
 
-## 交付标准
+## Delivery Criteria
 
-- 成功定义：输出含真实栈检测结果、8 类 PASS/FAIL/SKIP 统计、分级明细（文件+行号）、明确 VERDICT 三选一。
-- 产物命名：对话内报告 `SHIP GATE REPORT`；留档 `ship-gate-report-<YYYYMMDD>.json`（`--json` 输出）。
-- 保存位置：对话内交付；留档放用户指定目录。
-- 完整性验证：报告中每条 FAIL 都有 `[类别-编号]` + 文件定位；VERDICT 与 CRITICAL/HIGH 计数一致。
+- Definition of success: output includes real stack detection, 8-category PASS/FAIL/SKIP stats, graded details (file + line number), and an explicit three-way VERDICT.
+- Artifact naming: in-conversation report `SHIP GATE REPORT`; archival `ship-gate-report-<YYYYMMDD>.json` (`--json` output).
+- Save location: delivered in-conversation; archives go to a user-specified directory.
+- Completeness verification: every FAIL in the report has a `[CATEGORY-NUMBER]` + file location; the VERDICT matches the CRITICAL/HIGH counts.
 
-## 参考
+## References
 
-- `references/checks.md` — 全部检查项定义（含适用栈标签）；解读某条 FAIL 或核对人工确认项范围时读。
-- `references/patterns.md` — 扫描模式库；需要向用户解释某项是如何检出的时读。
+- `references/checks.md` — definitions of all checks (with applicable stack tags); read when interpreting a FAIL or checking the scope of manual items.
+- `references/patterns.md` — the scan-pattern library; read when you need to explain to the user how an item was detected.
 
-## 相关技能
+## Related Skills
 
-- **karpathy-coder**：karpathy-check 通过后再跑 ship-gate——先保简洁，再上生产
-- **adversarial-reviewer**：对 ship-gate 判为 critical 的问题做深度安全审查
-- **security-pen-testing**：针对 SEC 类发现的渗透测试方法论
-- **code-reviewer**：通用代码质量审查，与 ship-gate 的自动检查互补
+- **karpathy-coder**: run ship-gate after the karpathy-check passes — keep it simple first, then go to production
+- **adversarial-reviewer**: deep security review of the issues ship-gate judges critical
+- **security-pen-testing**: penetration-testing methodology for SEC findings
+- **code-reviewer**: general code-quality review, complementary to ship-gate's automated checks

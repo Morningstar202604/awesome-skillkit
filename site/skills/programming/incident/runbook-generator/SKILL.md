@@ -1,6 +1,6 @@
 ---
 name: runbook-generator
-description: "Generate operational runbooks from a service name — deployment, incident response, maintenance, and rollback workflows. Templated structure customizable per environment. Use when documenting on-call procedures for a new service, standardizing incident response across teams, or producing runbooks before launching to production. 当用户要求 写运维手册 / runbook / 应急处置步骤 时使用。 Do NOT use for executing the runbook steps (generation only)."
+description: "Generate operational runbooks from a service name — deployment, incident response, maintenance, and rollback workflows. Templated structure customizable per environment. Use when writing an ops manual, generating a runbook, documenting on-call or emergency-response procedures, documenting on-call procedures for a new service, standardizing incident response across teams, or producing runbooks before launching to production. Do NOT use for executing the runbook steps (generation only)."
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
@@ -14,79 +14,79 @@ metadata:
 
 # Runbook Generator
 
-从服务名生成可运维的 runbook 骨架：部署、事故响应、维护、回滚工作流，按环境定制的模板化结构。只生成，不执行其中步骤。
+Generates an operable runbook skeleton from a service name: deployment, incident response, maintenance, and rollback workflows, with a templated structure customizable per environment. It only generates; it does not execute the steps inside.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Description |
 |------|------|------|
-| 服务名 | 必需 | 位置参数，如 `payments-api` |
-| `--owner` | 可选 | 负责团队，写入 runbook 头部 |
-| `--output` | 可选 | 写出路径；不传则打印到 stdout |
-| 服务特定命令/URL | 可选 | 生成后由人工填入 |
+| Service name | Required | Positional arg, e.g. `payments-api` |
+| `--owner` | Optional | Owning team, written into the runbook header |
+| `--output` | Optional | Output path; otherwise prints to stdout |
+| Service-specific commands/URLs | Optional | Filled in manually after generation |
 
-缺失输入时一次性问齐：「请提供：①服务名 ②负责团队（owner，可选）③输出路径（可选，默认 stdout）。其余按默认骨架生成。」
+When inputs are missing, ask for all at once: "Please provide: (1) service name, (2) owning team (owner, optional), (3) output path (optional, defaults to stdout). Everything else is generated on the default skeleton."
 
-## 前置自检
+## Pre-flight Checks
 
 ```bash
-python3 scripts/runbook_generator.py --help >/dev/null 2>&1   # 预期退出码 0；失败：脚本/ python3 缺失 → STOP
+python3 scripts/runbook_generator.py --help >/dev/null 2>&1   # expected exit code 0; on failure: script/python3 missing → STOP
 ```
 
-## 工作流
+## Workflow
 
-### 步骤 1：生成骨架
+### Step 1: Generate the skeleton
 
 ```bash
-# 打印到 stdout
+# Print to stdout
 python3 scripts/runbook_generator.py payments-api
-# 写出文件
+# Write to a file
 python3 scripts/runbook_generator.py payments-api --owner platform --output docs/runbooks/payments-api.md
 ```
 
-预期：输出含 start/stop/health/rollback 标准段的 runbook 骨架；`--output` 时写入目标路径。
-若失败：`--output` 父目录不存在 → 先 `mkdir -p` 目标目录再写；服务名缺失 → 提示补全位置参数。
+Expected: output is a runbook skeleton with the standard start/stop/health/rollback sections; written to the target path with `--output`.
+On failure: the `--output` parent directory doesn't exist → `mkdir -p` the target directory first, then write; the service name is missing → prompt for the positional arg.
 
-### 步骤 2：填充服务特定内容
+### Step 2: Fill in service-specific content
 
-- 用真实命令与 URL 替换占位符（每步需可复制粘贴）。
-- 为每个关键步骤加健康检查；定义回滚触发条件与回滚命令。
+- Replace placeholders with real commands and URLs (every step must be copy-pasteable).
+- Add a health check for every critical step; define rollback triggers and rollback commands.
 
-### 步骤 3：在 staging 演练并入库
+### Step 3: Rehearse on staging and commit
 
-- dry-run 在 staging 验证每步预期输出。
-- 存入服务代码附近的版本库，交由 on-call 团队 review。
+- Dry-run to verify the expected output of each step on staging.
+- Commit to version control beside the service code, and have the on-call team review it.
 
-## 参数速查表
+## Parameter Cheat Sheet
 
-| 参数 | 取值 | 说明 |
+| Parameter | Values | Description |
 |------|------|------|
-| 位置参数 | 服务名 | 如 `payments-api` |
-| `--owner` | 团队名 | runbook 头部责任人 |
-| `--output` | 文件路径 | 写出位置；不传=stdout |
+| Positional arg | service name | e.g. `payments-api` |
+| `--owner` | team name | Responsible party in the runbook header |
+| `--output` | file path | Output location; omitted = stdout |
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象/错误码 | 原因 | 处置 |
+| Symptom / error code | Cause | Fix |
 |------------|------|------|
-| `--output` 写失败 | 父目录不存在 | `mkdir -p` 目标目录后重跑 |
-| 服务名缺失 | 未传位置参数 | 补全服务名 |
-| runbook 步骤复制到线上报错 | 占位命令未替换成真实服务名/路径 | 把 `<service>` 等占位符全部替换，并在 staging 逐条实跑验证 |
-| 回滚步骤在演练中失败 | 回滚脚本依赖的旧版本镜像已被清理 | 核对镜像保留策略，回滚脚本改引用长期保留的 tag |
-| on-call 联系人不正确 | 模板里的 owner 是占位值或已离职 | 从值班表取当值人写入，并订上季度复核提醒 |
+| `--output` write failure | Parent directory missing | `mkdir -p` the target directory and rerun |
+| Service name missing | No positional arg given | Fill in the service name |
+| A runbook step errors when copied to production | Placeholder commands weren't replaced with real service names/paths | Replace all `<service>` placeholders and run each step live on staging to verify |
+| A rollback step fails in rehearsal | The old-version image the rollback script relies on was pruned | Check the image retention policy; point the rollback script to a long-lived tag |
+| The on-call contact is wrong | The template's owner is a placeholder or has left the team | Take the person on shift from the rota and write them in; set a quarterly review reminder |
 
-## 交付标准
+## Delivery Criteria
 
-成功定义：每命令可复制粘贴、每关键步有预期输出、回滚步骤在 staging 验证过、owner/升级联系人当前、健康检查齐全、存入版本库并经 on-call review。
-产物命名：`<service>.md`（或 `--output` 指定）。
-保存位置：服务代码附近（如 `docs/runbooks/`），进入版本库。
-验证完整性：逐条核对 runbook 质量清单——命令可粘贴、有预期输出、回滚已测、owner 当前、含事故通报模板、含事后更新流程。
+Definition of success: every command is copy-pasteable, every critical step has expected output, the rollback steps are verified on staging, the owner/escalation contact is current, health checks are complete, and it's committed to version control with on-call review.
+Artifact naming: `<service>.md` (or what `--output` specifies).
+Save location: beside the service code (e.g. `docs/runbooks/`), committed to version control.
+Completeness verification: check off the runbook quality checklist line by line — commands are pasteable, have expected output, rollback is tested, owner is current, includes an incident-communication template, includes a post-incident update process.
 
-## 安全红线
+## Safety Red Lines
 
-- **只生成不执行**：本技能不运行 runbook 内的任何命令（部署/回滚/重启）。实际执行由 on-call 在演练/事故中操作，并经用户确认。
-- 回滚触发与命令必须在 staging 验证后再写入生产 runbook。
+- **Generate only; do not execute**: this skill does not run any command inside the runbook (deploy/rollback/restart). Actual execution is done by on-call during rehearsal/incidents, with user confirmation.
+- Rollback triggers and commands must be verified on staging before being written into the production runbook.
 
-## 参考
+## References
 
-- `references/runbook-templates.md` —— 部署与事故 playbook 参考模板
+- `references/runbook-templates.md` — reference templates for deployment and incident playbooks

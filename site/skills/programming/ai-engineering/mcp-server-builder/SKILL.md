@@ -1,6 +1,6 @@
 ---
 name: mcp-server-builder
-description: "Design and ship production-ready MCP (Model Context Protocol) servers from OpenAPI contracts instead of hand-written tool wrappers. Python and TypeScript support, schema validation, safe evolution. Use when exposing an existing API as an MCP server, building tool integrations for Claude or Codex or Cursor, or scaffolding an MCP project from scratch. 当用户要求 搭 MCP 服务 / 把 API 变成 MCP / 写 MCP server / 用 OpenAPI 生成 MCP / 给 LLM 暴露 API 时使用。 Do NOT use for implementing the business logic of an existing MCP server."
+description: "Design and ship production-ready MCP (Model Context Protocol) servers from OpenAPI contracts instead of hand-written tool wrappers. Python and TypeScript support, schema validation, safe evolution. Use when exposing an existing API as an MCP server, building tool integrations for Claude or Codex or Cursor, scaffolding an MCP project from scratch, building an MCP server, turning an API into MCP, generating MCP from OpenAPI, or exposing an API to an LLM. Do NOT use for implementing the business logic of an existing MCP server."
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash. Requires Python 3.8+ (stdlib only) to run bundled scripts.
 metadata:
@@ -12,111 +12,111 @@ metadata:
 
 # MCP Server Builder
 
-从 API 契约出发设计和交付生产可用的 MCP server，替代手写的一次性 tool 包装。聚焦快速脚手架、schema 质量、校验与安全演进。工作流支持 Python 与 TypeScript 两种 MCP 实现，把 OpenAPI 当作唯一事实来源。
+Design and deliver production-ready MCP servers from API contracts, replacing hand-written throwaway tool wrappers. Focused on fast scaffolding, schema quality, validation, and safe evolution. The workflow supports both Python and TypeScript MCP implementations, treating OpenAPI as the single source of truth.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Description |
 |------|------|------|
-| OpenAPI 规格 | 是 | `--input openapi.json`（或经 stdin 传入）；须为合法 OpenAPI 文档 |
-| 服务名 | 是 | `--server-name`，如 `billing-mcp`；决定生成目录与工具前缀 |
-| 语言 | 否 | `--language python\|typescript`，默认 python |
-| 输出目录 | 否 | `--output-dir`，默认 `./out` |
-| 运行时配置 | 否 | 供 mcp_validator 校验的可选运行时配置路径 |
+| OpenAPI spec | Yes | `--input openapi.json` (or passed via stdin); must be a valid OpenAPI document |
+| Server name | Yes | `--server-name`, e.g. `billing-mcp`; determines the generated directory and tool prefix |
+| Language | No | `--language python\|typescript`, default python |
+| Output directory | No | `--output-dir`, default `./out` |
+| Runtime config | No | Optional runtime-config path for mcp_validator to validate |
 
-缺失时一次性问齐：
-「请提供：①OpenAPI 规格路径（或贴入内容经 stdin）②服务名 `--server-name` ③语言 python/typescript ④输出目录（默认 `./out`）。其余我用默认值；确认后开始。」
+When something is missing, ask for it all at once:
+"Please provide: (1) OpenAPI spec path (or paste the content via stdin); (2) server name `--server-name`; (3) language python/typescript; (4) output directory (default `./out`). I'll use defaults for everything else; once confirmed, I'll start."
 
-## 前置自检
+## Pre-flight Checks
 
-- Python 3.8+ 可用：`python3 --version` → 输出版本号 ≥3.8。否则提示安装后 **STOP**。
-- 两个脚本在盘：`test -f scripts/openapi_to_mcp.py && test -f scripts/mcp_validator.py` → 均存在；任一缺失 → **STOP** 报告文件名。
-- OpenAPI 规格可读：`test -r <input>` 或 stdin 有内容。否则报错并提示用户提供。
+- Python 3.8+ is available: `python3 --version` → prints a version number ≥3.8. Otherwise prompt to install, then **STOP**.
+- The two scripts are on disk: `test -f scripts/openapi_to_mcp.py && test -f scripts/mcp_validator.py` → both exist; if either is missing → **STOP** and report the filename.
+- The OpenAPI spec is readable: `test -r <input>` or stdin has content. Otherwise report the error and ask the user to provide it.
 
-## 工作流
+## Workflow
 
-### 步骤 1：从 OpenAPI 生成 MCP 脚手架
+### Step 1: Generate the MCP scaffold from OpenAPI
 
 ```bash
-python3 scripts/openapi_to_mcp.py --input examples/mini-openapi.json --server-name billing-mcp --language python --output-dir out --format text   # 随包样例规格；你的真实规格换成 --input openapi.json
+python3 scripts/openapi_to_mcp.py --input examples/mini-openapi.json --server-name billing-mcp --language python --output-dir out --format text   # bundled sample spec; swap in your real spec with --input openapi.json
 ```
 
-也支持 stdin（此处以注释示意，避免与上方可运行示例混淆）：
+stdin is also supported (shown here as a comment to avoid clashing with the runnable example above):
 `cat openapi.json | python3 scripts/openapi_to_mcp.py --server-name billing-mcp --language typescript --output-dir out`
 
-动作：读取 OpenAPI，将 paths/operations 转为 MCP tool 定义，生成 manifest + 起始服务端代码。
-预期：在 `--output-dir` 下生成服务端脚手架与 `tool_manifest.json`；退出码 `0`；`--format text` 打印报告。
-若失败：OpenAPI 非法 → 脚本报 schema 错误，先修规格；`--server-name` 冲突 → 换名或删旧目录。
+Action: read the OpenAPI, convert paths/operations into MCP tool definitions, and generate the manifest + starter server code.
+Expected: generate the server scaffold and `tool_manifest.json` under `--output-dir`; exit code `0`; `--format text` prints a report.
+On failure: invalid OpenAPI → the script reports a schema error; fix the spec first; an `--server-name` conflict → choose a different name or delete the old directory.
 
-### 步骤 2：校验 MCP 工具定义
+### Step 2: Validate the MCP tool definitions
 
 ```bash
-python3 scripts/mcp_validator.py --input examples/sample-tool-manifest.json --strict --format text   # 随包样例 manifest；你生成的产物在 out/tool_manifest.json
+python3 scripts/mcp_validator.py --input examples/sample-tool-manifest.json --strict --format text   # bundled sample manifest; your generated artifact is at out/tool_manifest.json
 ```
 
-动作：在集成测试前校验 manifest，检查重复名、非法 schema 形状、缺失描述、空 required 字段、命名卫生。
-预期：打印校验报告；无错误时退出码 `0`。
-若失败：`--strict` 下存在错误 → 退出码非 0；按报告修复 manifest 后重跑。
+Action: validate the manifest before integration testing, checking for duplicate names, invalid schema shapes, missing descriptions, empty required fields, and naming hygiene.
+Expected: print a validation report; exit code `0` when there are no errors.
+On failure: errors under `--strict` → non-zero exit code; fix the manifest per the report and rerun.
 
-### 步骤 3：选择运行时
+### Step 3: Choose a runtime
 
-- **Python**：快速迭代、数据密集型后端首选。
-- **TypeScript**：统一 JS 技术栈、前后端契约复用更紧。
-- 即使 transport/runtime 变化，也要保持 tool contract 稳定。
+- **Python**: preferred for fast iteration and data-intensive backends.
+- **TypeScript**: unifies the JS stack and keeps front/back contracts tighter.
+- Even as the transport/runtime changes, keep the tool contract stable.
 
-### 步骤 4：生产加固
+### Step 4: Production hardening
 
-发布前关键项：
-- 密钥走环境变量，不要写进 tool schema
-- 优先出站 host 白名单，而非开放代理
-- 仅做增量式改动；绝不在原地重命名 tool 名
+Key items before release:
+- Keep secrets in environment variables, never in the tool schema
+- Prefer an egress host allowlist over an open proxy
+- Make only incremental changes; never rename a tool in place
 
-完整加固指引见 references/production-hardening-guide.md。
+See references/production-hardening-guide.md for the full hardening guidance.
 
-## 脚本接口
+## Script Interfaces
 
 - `python3 scripts/openapi_to_mcp.py --help`
-  - 从 stdin 或 `--input` 读取 OpenAPI
-  - 产出 manifest + 服务端脚手架
-  - 输出 JSON 摘要或 text 报告
+  - Reads OpenAPI from stdin or `--input`
+  - Produces a manifest + server scaffold
+  - Outputs a JSON summary or a text report
 - `python3 scripts/mcp_validator.py --help`
-  - 校验 manifest 与可选运行时配置
-  - strict 模式存在错误时返回非 0 退出码
+  - Validates the manifest and an optional runtime config
+  - Returns a non-zero exit code when errors exist in strict mode
 
-## 参数速查表
+## Parameter Cheat Sheet
 
-| 脚本 | 参数 | 取值 | 说明 |
+| Script | Parameter | Values | Description |
 |------|------|------|------|
-| openapi_to_mcp.py | `--input` | 路径 | OpenAPI 规格文件 |
-| | `--server-name` | 字符串 | 服务名，决定目录/前缀 |
-| | `--language` | `python\|typescript` | 目标语言 |
-| | `--output-dir` | 路径 | 输出目录，默认 `./out` |
-| | `--format` | `text\|json` | 输出格式 |
-| mcp_validator.py | `--input` | 路径 | `tool_manifest.json` 路径 |
-| | `--strict` | 标志 | 严格模式，错误即非 0 退出 |
-| | `--format` | `text\|json` | 输出格式 |
+| openapi_to_mcp.py | `--input` | path | OpenAPI spec file |
+| | `--server-name` | string | Server name; determines directory/prefix |
+| | `--language` | `python\|typescript` | Target language |
+| | `--output-dir` | path | Output directory, default `./out` |
+| | `--format` | `text\|json` | Output format |
+| mcp_validator.py | `--input` | path | Path to `tool_manifest.json` |
+| | `--strict` | flag | Strict mode; errors cause a non-zero exit |
+| | `--format` | `text\|json` | Output format |
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象/错误 | 原因 | 处置 |
+| Symptom / error | Cause | Action |
 |-----------|------|------|
-| `python3: command not found` | Python 未装 | 安装 3.8+ 后重跑 |
-| 脚本 `FileNotFoundError` | 脚本缺失 | STOP 报告缺失文件名 |
-| OpenAPI schema 错误 | 规格非法 | 修复 OpenAPI 后再生成 |
-| mcp_validator 非 0 退出 | manifest 有错 | 按报告修重名/缺描述/空 required |
-| 重复 tool 名 | 多路径同名 | 在规格中消歧或重命名 |
+| `python3: command not found` | Python not installed | Install 3.8+ and rerun |
+| Script `FileNotFoundError` | Script missing | STOP and report the missing filename |
+| OpenAPI schema error | Invalid spec | Fix the OpenAPI, then regenerate |
+| mcp_validator non-zero exit | Manifest has errors | Fix duplicates/missing descriptions/empty required per the report |
+| Duplicate tool name | Multiple paths share a name | Disambiguate or rename in the spec |
 
-## 交付标准
+## Delivery Criteria
 
-成功定义：由 OpenAPI 生成可运行的脚手架，`mcp_validator.py --strict` 退出码 `0`，tool 名唯一、描述完整、无空 required。
-产物命名/位置：`--output-dir` 下的服务端代码与 `tool_manifest.json`。
-完整性验证：重跑 `mcp_validator.py --input out/tool_manifest.json --strict` 退出码为 `0`。
+Definition of success: a runnable scaffold generated from OpenAPI, `mcp_validator.py --strict` exit code `0`, unique tool names, complete descriptions, and no empty required fields.
+Artifact naming/location: the server code under `--output-dir` and `tool_manifest.json`.
+Completeness verification: rerunning `mcp_validator.py --input out/tool_manifest.json --strict` returns exit code `0`.
 
-## 参考
+## References
 
-- references/production-hardening-guide.md — 加固/发布前读：auth & 安全设计、版本策略、常见坑、测试与部署
-- references/openapi-extraction-guide.md — 从源码抽取 OpenAPI 时读
-- references/python-server-template.md — 选 Python 时读的起始模板
-- references/typescript-server-template.md — 选 TypeScript 时读的起始模板
-- references/validation-checklist.md — 发布前逐项核对清单
-- README.md — 本技能总览与安装说明
+- references/production-hardening-guide.md — read before hardening/release: auth & security design, versioning strategy, common pitfalls, testing and deployment
+- references/openapi-extraction-guide.md — read when extracting OpenAPI from source
+- references/python-server-template.md — starter template to read when choosing Python
+- references/typescript-server-template.md — starter template to read when choosing TypeScript
+- references/validation-checklist.md — item-by-item checklist before release
+- README.md — overview of this skill and installation instructions

@@ -1,6 +1,6 @@
 ---
 name: channel-adapter
-description: "Adapt finished marketing copy into per-channel variants with machine-checked fit: built-in channel constraint table (word budgets, line limits, CTA counts, banned patterns) for Xiaohongshu notes, Douyin spoken scripts, WeChat moments, email subjects, and search-ad headlines; audit each variant with channel_fit_check.py. Final chain step of growth-marketing. Use when the user asks to 适配渠道 / 一稿多发 / 改成小红书 / 抖音口播稿 / 朋友圈文案 / 邮件标题 / channel variants. Do NOT use for writing the base copy (product-copywriter), nor for planning the campaign calendar (campaign-designer)."
+description: "Adapt finished marketing copy into per-channel variants with machine-checked fit: built-in channel constraint table (word budgets, line limits, CTA counts, banned patterns) for Xiaohongshu notes, Douyin spoken scripts, WeChat moments, email subjects, and search-ad headlines; audit each variant with channel_fit_check.py. Final chain step of growth-marketing. Use when the user asks to adapt for a channel / publish one piece everywhere / rewrite for Xiaohongshu / Douyin spoken script / Moments copy / email subject / channel variants / content marketing / SEO / conversion. Do NOT use for writing the base copy (product-copywriter), nor for planning the campaign calendar (campaign-designer)."
 license: Apache-2.0
 compatibility: Python 3.8+ (channel_fit_check.py); no third-party dependencies.
 metadata:
@@ -14,74 +14,74 @@ metadata:
 
 # Channel Adapter
 
-链条收口。一稿多发不是复制粘贴——**每个渠道有自己的物理约束**（字数预算/行数/CTA 数/语气规范）。约束错了平台直接限流或审核不过。本技能改写 + 机器校验双保险。
+The chain's closing step. One piece published everywhere is not copy-paste — **each channel has its own physical constraints** (word budget / line count / CTA count / tone norms). Get the constraints wrong and the platform throttles traffic or rejects the review outright. This skill pairs rewriting with machine validation for double assurance.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |------|------|------|
-| 基础文案 | ✓ | product-copywriter 的产出 |
-| 目标渠道 | ✓ | xhs / douyin-spoken / moments / email-subject / search-ad（可多选） |
-| 渠道角色 | ✗ | campaign-designer 的渠道矩阵角色（拉新/承接/私域） |
+| Base copy | Yes | product-copywriter's output |
+| Target channels | Yes | xhs / douyin-spoken / moments / email-subject / search-ad (multi-select) |
+| Channel roles | No | campaign-designer's channel matrix role (acquisition / capture / private domain) |
 
-缺输入时一次性问齐："请提供：① 基础文案原文 ② 目标渠道（xhs / douyin-spoken / moments / email-subject / search-ad，可多选）。"
+When inputs are missing, ask for all at once: "Please provide: ① the base copy text; ② the target channels (xhs / douyin-spoken / moments / email-subject / search-ad, multi-select)."
 
-## 前置自检
+## Pre-flight Self-check
 
 ```bash
 test -f scripts/channel_fit_check.py && echo SCRIPT-OK
 ```
 
-预期输出 `SCRIPT-OK`；失败说明技能包不完整，STOP 并提示重装。脚本仅标准库，无第三方依赖，无需装环境。目标渠道名不在 `{xhs, douyin-spoken, moments, email-subject, search-ad}` 集合内时脚本会直接报错，先核对拼写。
+Expect to output `SCRIPT-OK`; failure means the skill package is incomplete — STOP and prompt for reinstall. The script is stdlib-only with no third-party dependencies, so no environment setup is needed. If the target channel name is not in the set `{xhs, douyin-spoken, moments, email-subject, search-ad}`, the script errors directly — check the spelling first.
 
-## 工作流
+## Workflow
 
-### 步骤 1：查渠道约束表（脚本内置，改写前先看）
+### Step 1: Look Up the Channel Constraint Table (built into the script; read before rewriting)
 
-| 渠道 | 硬约束 | 语气规范 |
+| Channel | Hard constraint | Tone norm |
 |------|--------|----------|
-| 小红书笔记 | 正文 ≤1000 字；标题 ≤20 字；CTA ≤1 处 | 像朋友分享，禁硬广腔 |
-| 抖音口播 | 15 秒 ≈60 字；前 3 秒必须有钩子 | 口语短句，禁书面语 |
-| 朋友圈 | ≤6 行；首行即钩子 | 人格化，禁排版符号堆砌 |
-| 邮件主题 | ≤30 字符（移动端截断线） | 无感叹号堆叠 |
-| 搜索广告标题 | ≤30 字符；含核心关键词 | 名词式卖点 |
+| Xiaohongshu note | Body ≤1000 chars; title ≤20 chars; CTA ≤1 | Like a friend sharing; no hard-sell tone |
+| Douyin spoken | 15 seconds ≈60 chars; the first 3 seconds must have a hook | Short spoken sentences; no written-form language |
+| Moments | ≤6 lines; the first line is the hook | Personable; no piled-up layout symbols |
+| Email subject | ≤30 chars (the mobile truncation line) | No stacked exclamation marks |
+| Search-ad headline | ≤30 chars; includes the core keyword | Noun-style selling point |
 
-### 步骤 2：按渠道改写（不是缩写）
+### Step 2: Rewrite Per Channel (not abbreviation)
 
-- 约束是**物理边界**，适配是**重排信息架构**：小红书先场景后产品、抖音前 3 秒给冲突、搜索广告关键词前置
-- 每个变体保留源文案的证据链数字——改写不改事实
-- 双渠道同发时语气差异最大化（种草像朋友、搜索像说明书）
+- Constraints are **physical boundaries**; adaptation is **re-laying the information architecture**: Xiaohongshu leads with the scenario then the product, Douyin puts conflict in the first 3 seconds, search-ad leads with the keyword
+- Every variant keeps the source copy's evidence-chain numbers — rewriting does not change facts
+- When publishing on two channels at once, maximize the tone difference (seeding like a friend, search like a manual)
 
-### 步骤 3：跑适配校验（机器守门）
+### Step 3: Run the Fit Check (machine gatekeeper)
 
 ```bash
-python3 scripts/channel_fit_check.py --file assets/sample-variant.md --channel xhs   # 随包样例（xhs 上限内）；你的变体换成 variant.md
-python3 scripts/channel_fit_check.py --text "30 字内的搜索标题" --channel search-ad
+python3 scripts/channel_fit_check.py --file assets/sample-variant.md --channel xhs   # bundled sample variant (within xhs limits); replace with your variant.md
+python3 scripts/channel_fit_check.py --text "a search headline within 30 chars" --channel search-ad
 ```
 
-输出 JSON：字数/行数/CTA 数逐项 pass/fail + 修复建议。非零退出码 = 有 fail，改完重跑。
+Output JSON: word count / line count / CTA count, each pass/fail, plus a fix suggestion. A non-zero exit code means there is a fail; fix and rerun.
 
-### 步骤 4：交付与链条闭环
+### Step 4: Deliver and Close the Chain
 
-交付：渠道变体包（每渠道一份 + 校验报告）。**链条收口**——"文案 → 战役 → 渠道变体"三步走完；某渠道表现差时带数据回 campaign-designer 调矩阵。
-- 预期：每个变体对应一次校验通过记录，逐渠道可独立投放。
-- 若失败：某渠道校验反复不过 → 回 product-copywriter 补证据链（见失败处置表末行），不硬塞。
+Deliver: the channel-variant pack (one per channel + the check report). **The chain closes here** — "copy → campaign → channel variants" is complete; when a channel underperforms, take the data back to campaign-designer to tune the matrix.
+- Expected: each variant corresponds to a passing check record, and each channel can be deployed independently.
+- On failure: a channel repeatedly fails the check → go back to product-copywriter to supplement the evidence chain (see the last row of the failure table); do not force it through.
 
-## 交付标准
+## Delivery Standards
 
-- 产物：每渠道一份变体（渠道名对应文件名/小节标题）+ 校验报告（JSON 的 pass/fail 摘要）。
-- 保存位置：直接输出在对话中；存文件时一个渠道一个文件（如 `variant-xhs.md`）。
-- 完整性验证：每个渠道变体都跑过 `python3 scripts/channel_fit_check.py` 且退出码 0；源文案的证据链数字逐条保留。
+- Artifacts: one variant per channel (file name / section title matches the channel) + the check report (JSON pass/fail summary).
+- Save location: output directly in the conversation; when saving files, one file per channel (e.g. `variant-xhs.md`).
+- Integrity verification: every channel variant has passed `python3 scripts/channel_fit_check.py` with exit code 0; the source copy's evidence-chain numbers are preserved item by item.
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Action |
 |------|------|------|
-| 小红书限流 | 硬广腔/违禁词 | 语气改分享体；极限词清零 |
-| 抖音完播率低 | 前 3 秒没钩子 | 重写口播开头，冲突前置 |
-| 邮件打开率低 | 主题被移动端截断 | 按字符上限重写主题 |
-| 校验全过但转化差 | 事实无证据链 | 回 product-copywriter 补证据，不是渠道的锅 |
+| Xiaohongshu throttled | Hard-sell tone / banned words | Rewrite the tone to a sharing style; clear all extreme words |
+| Douyin completion rate low | No hook in the first 3 seconds | Rewrite the spoken opening, front-load the conflict |
+| Email open rate low | The subject is truncated on mobile | Rewrite the subject to the character limit |
+| The check passes but conversion is poor | Facts lack an evidence chain | Go back to product-copywriter to add evidence — it is not the channel's fault |
 
-## 参考
+## References
 
-直复营销框架出处见 product-copywriter 的 sources-and-methodology.md（同包共享）。
+The direct-marketing framework provenance is in product-copywriter's sources-and-methodology.md (shared within the package).

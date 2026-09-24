@@ -4,10 +4,10 @@ description: >
   Produce viral "AI baby podcast / talking baby" entertainment shorts:
   character design, script with adult-voice contrast, TTS audio, lip-sync
   generation, and platform-compliant publishing. Use when the user asks to
-  做宝宝播客 / AI奶娃视频 / 会说话的宝宝 / baby podcast video /
-  婴儿主播 / 搞笑AI小孩短视频, or wants meme-style talking-character shorts.
-  Do NOT use for real-child footage editing, deepfakes of real people,
-  or news-style content presented as factual.
+  make a baby podcast video / AI baby video / talking baby / baby podcast /
+  baby streamer / funny AI-kid short video, or wants meme-style
+  talking-character shorts. Do NOT use for real-child footage editing,
+  deepfakes of real people, or news-style content presented as factual.
 license: Apache-2.0
 compatibility: Uses web creation tools (image gen, TTS, lip-sync) in a browser workflow; no local install needed.
 metadata:
@@ -17,130 +17,113 @@ metadata:
   verified-date: "2026-08-26"
 ---
 
-# AI 宝宝播客（爆款会说话角色短视频）
+# AI Baby Podcast (Viral Talking-Character Shorts)
 
-这个形式的配方：婴儿（或幼儿）的脸 + 成人嗓音一本正经输出观点——反差本身就是梗。
-管线成熟分四段：形象图 → 脚本 → 成人声 TTS → 口型驱动 → 剪辑发布。
-本技能编排全链路，并强制执行区分爆款号与昙花一现的两条纪律：角色锁定与平台合规。
+The recipe for this format: a baby (or toddler)'s face + an adult voice delivering deadpan opinions — the contrast itself is the joke. The mature pipeline splits into four stages: character image -> script -> adult-voice TTS -> lip-sync -> edit & publish. This skill orchestrates the whole chain and enforces the two disciplines that separate viral accounts from flash-in-the-pan ones: character locking and platform compliance.
 
-## 红线——动手前必读
+## Red Lines — Read Before You Touch Anything
 
-1. **必须声明 AI 生成**：发布时勾选平台"内容由 AI 生成"声明，视频起始画面加显式提示
-   （文字高度 ≥ 画面最短边 5%、持续 ≥ 2 秒）。依据《人工智能生成合成内容标识办法》
-   （2025-09-01 施行）；不标 → 平台检测后打"疑似AI"标签并限流/下架。
-2. **只用纯 AI 虚构婴儿形象**。真实儿童照片即使自家孩子也不建议；绝不给真实未成年人
-   做口型让"他说了没说过的话"。原因：肖像权+平台对未成年人内容的重点审查。
-3. **不克隆名人声音/肖像**（明星音色、名人婴儿化）除非拿到授权——平台与法律双重风险。
-4. **不做"AI幼儿专家育儿课"式误导题材**——这是监管文件点名的整治对象。
+1. **You MUST declare AI-generated content**: at publish, tick the platform's "AI-generated content" declaration, and add an explicit notice on the video's opening frame
+   (text height >= 5% of the shortest frame edge, held for >= 2 seconds). Basis: the
+   Measures for Labeling AI-Generated Synthetic Content (effective 2025-09-01);
+   failing to label -> the platform detects it, tags it "suspected AI", and throttles / removes it.
+2. **Use purely AI-generated fictional baby images only**. Real children's photos — even your own kid — are not recommended; never lip-sync a real minor to "say things they never said". Reasons: portrait rights + the platform's heightened review of minor-related content.
+3. **Do NOT clone celebrities' voices or likenesses** (star timbres, celebrity baby-ification) unless you have authorization — double risk on both platform and legal fronts.
+4. **Do NOT do misleading "AI toddler expert parenting class" themes** — this is explicitly named as a remediation target in the regulatory documents.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 默认 | 说明 |
+| Input | Required | Default | Notes |
 |---|---|---|---|
-| topic / 热梗 | 是 | — | 宝宝输出的观点 |
-| persona | 否 | 新建角色 | 新建或沿用既有角色卡 |
-| format | 否 | 单人独白 | 单人 / 双人对谈 |
-| target_platform | 否 | 抖音 | 决定画幅与标识细节 |
+| topic / trending meme | yes | — | The opinion the baby delivers |
+| persona | no | new character | Reuse an existing character card or create one |
+| format | no | single monologue | single / two-person dialogue |
+| target_platform | no | douyin | Determines aspect ratio and labeling details |
 
-缺 topic 时一次性问齐：
+When topic is missing, ask everything at once:
 
-> 请给出这期主题（蹭什么热梗/聊什么观点）。可选：用已有角色还是新建、
-> 单人还是双人对话、发哪个平台（默认抖音竖屏）。
+> Please give this episode's topic (which trending meme to ride / what opinion to discuss). Optional: reuse an existing character or create a new one, single or two-person dialogue, which platform to post to (default douyin vertical).
 
-## 前置自检
+## Pre-flight Checks
 
-- 系列模式（沿用既有角色）：`character_bible.md` 与锁定的参考图在盘上吗？
-  （`ls <角色卡目录>/`）不在 → 当作新建角色走 Step 1，不要凭记忆重画。
-- 做系列账号前确认漂移纪律文档在盘：`test -f references/character-consistency.md`，
-  缺失 → STOP 并回报仓库不完整。
-- 口型工具可用吗（即梦"对口型"/Hedra 任一）？都不可用 → Step 4 无法完成，
-  提前告知用户卡点，STOP。
+- Series mode (reusing an existing character): is `character_bible.md` and the locked reference images on disk?
+  (`ls <character-card-directory>/`) If not -> treat it as a new character and follow Step 1; do not redraw from memory.
+- Before running a series account, confirm the drift-discipline doc is on disk: `test -f references/character-consistency.md`;
+  if missing -> STOP and report the repo is incomplete.
+- Is a lip-sync tool available (Jimeng "lip-sync" / Hedra, either one)? If neither works -> Step 4 cannot be completed,
+  tell the user the blocker in advance and STOP.
 
-## 角色锁定纪律（一次做好，永久复用）
+## Character-Locking Discipline (Do It Once, Reuse Forever)
 
-创建 `character_bible.md`，包含：
+Create `character_bible.md` containing:
 
-- ① 形象参考图 prompt 原文；
-- ② 参考图文件（正面 + 左右侧 + 说话中表情 共 4–6 张，同一 seed 生成）；
-- ③ 锁定的 TTS 音色 ID 与参数；
-- ④ 3–5 条"不要"规则（如"永远戴黑框眼镜""不换衣服颜色"）。
+- ① The original prompt text used to generate the reference image;
+- ② Reference image files (front + left/right side + mid-speech expression, 4-6 images total, generated from the same seed);
+- ③ The locked TTS voice ID and parameters;
+- ④ 3-5 "do not" rules (e.g., "always wears black-rimmed glasses", "never changes clothing color").
 
-此后每期只用参考图驱动，**永不从文字重新生成角色**；每 10 条视频把最新一帧
-与参考图并排对比一次（眼距/鼻形/发际线），发现漂移立即从原始参考图重来。
-原因：漂移是掉粉第一杀手，观众认的是同一张脸。
+From then on, drive every episode only from the reference images; **never regenerate the character from text**. Every 10 videos, compare the latest frame side by side with the reference image (eye spacing / nose shape / hairline), and if drift appears, restart from the original reference image immediately.
+Reason: drift is the #1 killer of followers — viewers recognize one face.
 
-## 工作流
+## Workflow
 
-### 步骤 1：形象图
+### Step 1: Character Image
 
-Prompt 公式（任何文生图工具均可，含本仓 `image-generation` 技能）：
+Prompt formula (any text-to-image tool works, including this repo's `image-generation` skill):
 
-> 一个可爱婴儿坐在专业播客演播室里，戴黑框眼镜和头戴式耳机，对着嘴下方的
-> 专业麦克风，正脸看镜头，嘴巴自然闭合，演播室灯光与吸音棉背景，
-> 超写实照片风格，喜剧感。
+> A cute baby sitting in a professional podcast studio, wearing black-rimmed glasses and over-ear headphones, facing a professional microphone below the mouth, looking straight at the camera, mouth naturally closed, studio lighting and acoustic-foam background, photorealistic photo style, comedic feel.
 
-预期：正面清晰单人脸、麦克风不遮挡嘴唇、光线均匀。失败分支：多人脸/
-侧脸/手挡嘴 → 加"single character, front-facing"重生成。生成后存入角色卡。
+Expected: a single clear front-facing face, the microphone not covering the lips, even lighting. Failure branch: multiple faces / side profile / hand over mouth -> add "single character, front-facing" and regenerate. Save to the character card after generation.
 
-### 步骤 2：脚本（15–40 秒）
+### Step 2: Script (15-40 seconds)
 
-公式：`前2秒钩子（反差宣言）→ 一个具体而自信的观点 → 一句反转或金句 →
-固定结尾口癖`。
+Formula: `2-second hook (contrast manifesto) -> one specific, confident opinion -> a reversal or punchline -> a fixed catchphrase ending`.
 
-示例骨架："关于<话题>，你们大人都想错了。<一个具体主张+理由>。
-<金句反转>。我是XX，下次摇篮里接着聊。"
+Example skeleton: "Grown-ups, you all have it wrong about <topic>. <one specific claim + reason>. <punchline reversal>. I'm XX, back in the cradle next time."
 
-规则：
+Rules:
 
-- 口语短句（每句 ≤15 字）；
-- 观点越成人化越好——反差来自内容与脸的错位；
-- 双人对谈则写 A/B 交替台词并标注角色。
+- Short spoken phrases (each <= 15 Chinese characters);
+- The more adult the opinion, the better — the contrast comes from the mismatch between content and face;
+- For two-person dialogue, write alternating A/B lines and label roles.
 
-预期：脚本 15–40 秒可念完（按成人语速约 4–5 字/秒折算），有前 2 秒钩子与固定结尾口癖。
-若失败：念下来超 40 秒 → 砍论据保留观点与金句，不要靠加倍语速硬塞；找不到成人化观点（只是描述现象）→ 向用户要一个明确立场再写，立场不明确的反差撑不起一条；双人对谈台词分不清谁说什么 → 补 A/B 标注后重写。
+Expected: a script readable in 15-40 seconds (at an adult speaking rate of ~4-5 Chinese chars/sec), with a 2-second hook and a fixed catchphrase ending.
+If it fails: reads over 40 seconds -> cut arguments while keeping the opinion and punchline; do not force it in by doubling the speaking speed. Can't find an adult opinion (just describing a phenomenon) -> ask the user for a clear stance before writing; a stance-less contrast can't carry a video. Two-person dialogue where lines are unclear -> add A/B labels and rewrite.
 
-### 步骤 3：TTS 配音
+### Step 3: TTS Voice-over
 
-用任意 TTS 工具生成**成人成熟声音**（低音播音腔=经典配方；软萌童声只适合
-亲子向温和内容）。语速调至 1.2–1.4 倍更贴短视频节奏。预期：干声 mp3/wav，
-无 BGM 无混响——口型工具吃干净音频。锁定该音色写进角色卡，之后每期同一个声音。
+Use any TTS tool to generate an **adult mature voice** (low-pitched announcer tone = the classic recipe; a soft cute child voice only suits gentle parent-child content). Set the speed to 1.2-1.4x to better fit short-video pacing. Expected: dry vocal mp3/wav, no BGM no reverb — lip-sync tools need clean audio. Lock that voice into the character card; use the same voice every episode.
 
-若失败：输出的音频带背景音乐或混响 → 关掉 TTS 工具的配乐选项重新导出，口型工具需要纯干声；语速听感不对 → 在 1.2–1.4 档位内微调后重导；系列模式下与上期音色不一致 → 回角色卡取锁定的音色 ID 重合成，不要随手换声。
+If it fails: the exported audio has background music or reverb -> turn off the TTS tool's music option and re-export; the lip-sync tool needs pure dry audio. Speed feels wrong -> fine-tune within 1.2-1.4 and re-export. In series mode the voice doesn't match last episode -> pull the locked voice ID from the character card and re-synthesize; don't casually swap voices.
 
-### 步骤 4：口型驱动
+### Step 4: Lip-sync
 
-把 Step 1 参考图 + Step 3 干声喂给口型工具（即梦"对口型"、Hedra 等）。
-先跑一句最短的台词验证口型与闭口音，再跑全片。预期：嘴型逐字吻合、
-头部有轻微自然晃动。失败表见下。多角色对谈 = 每个角色单独生成一条，
-剪辑时切镜拼接，不要同框生成。
+Feed the Step 1 reference image + Step 3 dry audio into the lip-sync tool (Jimeng "lip-sync", Hedra, etc.). First run the shortest single line to verify lip closure, then run the whole clip. Expected: lip shape matches word by word, with slight natural head movement. Failure table below. Multi-character dialogue = generate one clip per character separately, then cut between them in editing; do not generate them in the same frame.
 
-若失败：嘴几乎不动或后半段漂移 → 按失败处置表换干净干声、或把长句按 2–3 句切段分别生成；形象图有麦克风横跨嘴唇导致区域变形 → 回步骤 1 重生成形象图；多角色同框出现串脸 → 改为分角色单拍 + 切镜。
+If it fails: mouth barely moves or drifts in the second half -> per the failure table, swap in clean dry audio, or split long sentences into 2-3 chunks and generate each separately. The reference image has a microphone crossing the lips causing region distortion -> go back to Step 1 and regenerate the image. Multi-character in-frame causes face cross-contamination -> switch to per-character solo shots + cutting.
 
-### 步骤 5：剪辑与合规发布
+### Step 5: Editing & Compliant Publishing
 
-剪映：导入口型片段 → 识别字幕（静音刷屏党靠字幕，必须有）→ 铺 BGM 与音效
-（BGM 音量低于人声 12dB 以上）→ 导出 9:16 / 1080P。
-发布三件套缺一不可：① 发布页勾选"内容由 AI 生成"；② 片头显式提示字样；
-③ 文案里带话题标签。预期：视频文件 + 已打标截图确认。
+In CapCut: import the lip-sync clip -> auto-generate subtitles (silent-scrollers rely on subtitles; they are mandatory) -> lay in BGM and sound effects (BGM volume at least 12dB below vocals) -> export 9:16 / 1080P.
+The three-piece publishing checklist is mandatory: ① tick "AI-generated content" on the publish page; ② explicit notice text in the opening; ③ hashtags in the caption. Expected: video file + a screenshot confirming the label.
 
-若失败：导出比例或分辨率不符 → 检查剪映工程设置（9:16 / 1080P）后重导；BGM 盖住人声 → 把 BGM 再降 12dB 以上重混；漏勾 AI 声明 → 立即补声明并重新发布，未打标会被判"疑似AI"限流（见红线第 1 条）。
+If it fails: export ratio or resolution wrong -> check the CapCut project settings (9:16 / 1080P) and re-export. BGM covers vocals -> drop BGM another 12dB+ and re-mix. Missed the AI declaration -> immediately add the declaration and republish; an unlabeled video gets judged "suspected AI" and throttled (see Red Line 1).
 
-## 失败处置表
+## Failure Remediation Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Remedy |
 |---|---|---|
-| 嘴几乎不动 | 音频含糊或有BGM干扰 | 换干净干声、标点断句重试 |
-| 麦克风区域变形 | 源图麦克风横跨嘴唇 | 重生成形象图，麦克风放下巴以下 |
-| 长句后半段口型漂移 | 单次生成过长 | 按 2–3 句切段分别生成再剪辑 |
-| 双人对话串脸 | 同框生成 | 改为分角色单拍+切镜 |
-| 角色和上一期长得不一样 | 未走角色卡/重新文生图 | 回滚到锁定的参考图重跑 |
-| 平台判"疑似AI"未申明 | 忘记打标 | 立即补声明并检查下条流程第5步 |
+| Mouth barely moves | Muffled audio or BGM interference | Swap in clean dry audio; retry with punctuation breaks |
+| Microphone region distorted | Source image has mic crossing the lips | Regenerate the image, place the mic below the chin |
+| Lip drift in second half of long sentence | Single generation too long | Split into 2-3 chunks, generate each, then edit |
+| Two-person dialogue faces cross-contaminate | Generated in the same frame | Switch to per-character solo shots + cutting |
+| Character looks different from last episode | Skipped the character card / regenerated from text | Roll back to the locked reference image and rerun |
+| Platform flags "suspected AI", undeclared | Forgot to label | Immediately add the declaration and check Step 5 next time |
 
-## 交付标准
+## Delivery Standard
 
-成功 = 成片 mp4（9:16、带字幕、时长 15–40s）+ AI 标识已加的证据 +
-本期素材归档进角色卡目录。其余情况都算未完成——直说。
+Success = finished mp4 (9:16, with subtitles, 15-40s long) + evidence that the AI label has been added + this episode's assets archived into the character-card directory. Anything else counts as incomplete — say so plainly.
 
-## 参考
+## References
 
-- `references/character-consistency.md` — 漂移检测与多角度参考集的完整纪律；做系列账号前必读
+- `references/character-consistency.md` — Full discipline for drift detection and multi-angle reference sets; read before running a series account.

@@ -1,6 +1,6 @@
 ---
 name: pr-review-expert
-description: "Use when the user asks to review pull requests or merge requests end-to-end on GitHub/GitLab (gh/glab CLI recipes), assess a diff's blast radius, check breaking changes and coverage delta, or run a structured PR review checklist. For deterministic static analysis of files/diffs (secrets, SQLi, complexity scoring), chain in code-reviewer as the analysis engine. 当用户要求 审查 PR / 看这个 pull request 时使用。 Do NOT use for pushing fixes itself (review and verdict only)."
+description: "Use when the user asks to review a pull request, review a PR, or look at a pull request, or to review pull requests / merge requests end-to-end on GitHub/GitLab (gh/glab CLI recipes), assess a diff's blast radius, check breaking changes and coverage delta, or run a structured PR review checklist. For deterministic static analysis of files/diffs (secrets, SQLi, complexity scoring), chain in code-reviewer as the analysis engine. Do NOT use for pushing fixes itself (review and verdict only)."
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
@@ -14,36 +14,36 @@ metadata:
 
 # PR Review Expert
 
-对 GitHub PR / GitLab MR 做端到端结构化代码评审：影响面分析、安全扫描、破坏性变更检测、测试覆盖 delta，产出带优先级的评审报告。只评审不下场改代码。
+End-to-end structured code review of a GitHub PR / GitLab MR: blast-radius analysis, security scan, breaking-change detection, test-coverage delta, producing a prioritized review report. It only reviews; it doesn't jump in and change code.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Description |
 |------|------|------|
-| PR/MR 编号 | 必需 | GitHub `gh` 用数字 ID；GitLab `glab` 用 IID |
-| 平台（GitHub / GitLab） | 必需 | 决定用 `gh` 还是 `glab` 命令 |
-| 是否验证关联票据 | 可选 | 若要，需 `JIRA_API_TOKEN` 或 `LINEAR_API_KEY` 环境变量 |
-| 评审严格度 | 可选 | 默认全量；超大 PR 仅关键项 |
+| PR/MR number | Required | A numeric ID for GitHub `gh`; an IID for GitLab `glab` |
+| Platform (GitHub / GitLab) | Required | Decides whether to use `gh` or `glab` commands |
+| Whether to verify linked tickets | Optional | If so, needs the `JIRA_API_TOKEN` or `LINEAR_API_KEY` env var |
+| Review strictness | Optional | Default is full; for very large PRs, key items only |
 
-缺失输入时一次性问齐：「请提供：①PR/MR 编号 ②平台（GitHub/GitLab）③是否需要核验 Jira/Linear 票据（需要则确认对应凭据已注入环境变量）。其余按全量评审执行。」
+When inputs are missing, ask for all at once: "Please provide: (1) PR/MR number, (2) platform (GitHub/GitLab), (3) whether to verify Jira/Linear tickets (if so, confirm the corresponding credentials are injected into environment variables). Everything else runs as a full review."
 
-## 前置自检
-
-```bash
-command -v gh glab >/dev/null 2>&1   # 预期：gh 或 glab 至少一个在 PATH；失败：安装对应 CLI 并 STOP
-gh auth status >/dev/null 2>&1 || glab auth status >/dev/null 2>&1   # 预期退出码 0；失败：未登录 → 提示 `gh auth login`/`glab auth login`
-```
-
-若要验票：确认凭据已注入环境（绝不出现在命令行参数）：
+## Pre-flight Checks
 
 ```bash
-: "${JIRA_API_TOKEN:?JIRA_API_TOKEN 未设置}"   # 失败：提示用户导出变量再跑，勿粘贴明文 token
-: "${LINEAR_API_KEY:?LINEAR_API_KEY 未设置}"
+command -v gh glab >/dev/null 2>&1   # expected: at least one of gh or glab is on PATH; on failure: install the corresponding CLI and STOP
+gh auth status >/dev/null 2>&1 || glab auth status >/dev/null 2>&1   # expected exit code 0; on failure: not logged in → prompt `gh auth login`/`glab auth login`
 ```
 
-## 工作流
+If verifying tickets: confirm the credentials are injected into the environment (never appear in command-line arguments):
 
-### 步骤 1：拉取上下文
+```bash
+: "${JIRA_API_TOKEN:?JIRA_API_TOKEN not set}"   # on failure: prompt the user to export the variable and rerun; don't paste a plaintext token
+: "${LINEAR_API_KEY:?LINEAR_API_KEY not set}"
+```
+
+## Workflow
+
+### Step 1: Pull the context
 
 ```bash
 # GitHub
@@ -58,43 +58,43 @@ glab mr diff <MR_IID> --name-only
 glab mr diff <MR_IID> > /tmp/mr-<MR_IID>.diff
 ```
 
-预期：拿到 PR 标题/正文/标签/改动文件清单与完整 diff。
-若失败：编号不存在 → 核对 ID；未认证 → 执行 `gh auth login`/`glab auth login` 后重跑。
+Expected: get the PR title/body/labels, the changed-files list, and the full diff.
+On failure: the number doesn't exist → check the ID; not authenticated → run `gh auth login`/`glab auth login` and rerun.
 
-### 步骤 2：影响面分析（Blast Radius）
+### Step 2: Blast-radius analysis
 
 ```bash
-# 直接依赖方：谁 import 了改动模块
+# Direct dependents: who imports the changed module
 grep -r "from ['\"].*changed-module['\"]" src/ --include="*.ts" -l
 grep -r "import changed_module" . --include="*.py" -l
-# 跨服务边界
+# Cross-service boundaries
 gh pr diff <PR_NUMBER> --name-only | cut -d/ -f1-2 | sort -u
-# 共享契约（类型/接口/ schema）
+# Shared contracts (types/interfaces/schemas)
 gh pr diff <PR_NUMBER> --name-only | grep -E "types/|interfaces/|schemas/|models/"
 ```
 
-预期：按严重度归类——CRITICAL（共享库/DB 模型/auth 中间件/API 契约）、HIGH（被 >3 服务依赖）、MEDIUM（单服务内部）、LOW（UI/测试/文档）。
-若失败：改动文件无法定位 → 先跑步骤 1 拿 `--name-only`。
+Expected: classify by severity — CRITICAL (shared lib / DB model / auth middleware / API contract), HIGH (depended on by >3 services), MEDIUM (single-service internal), LOW (UI/tests/docs).
+On failure: the changed files can't be located → run Step 1 first to get `--name-only`.
 
-### 步骤 3：安全扫描
+### Step 3: Security scan
 
 ```bash
 DIFF=/tmp/pr-<PR_NUMBER>.diff
-grep -n "query\|execute\|raw(" $DIFF | grep -E '\$\{|f"|%s|format\('      # SQL 注入
-grep -nE "(password|secret|api_key|token|private_key)\s*=\s*['\"][^'\"]{8,}" $DIFF   # 硬编码密钥
+grep -n "query\|execute\|raw(" $DIFF | grep -E '\$\{|f"|%s|format\('      # SQL injection
+grep -nE "(password|secret|api_key|token|private_key)\s*=\s*['\"][^'\"]{8,}" $DIFF   # hardcoded secrets
 grep -nE "AKIA[0-9A-Z]{16}" $DIFF                                          # AWS key
-grep -nE "jwt\.sign\(.*['\"][^'\"]{20,}['\"]" $DIFF                        # JWT 硬编码
+grep -nE "jwt\.sign\(.*['\"][^'\"]{20,}['\"]" $DIFF                        # hardcoded JWT
 grep -n "dangerouslySetInnerHTML\|innerHTML\s*=" $DIFF                     # XSS
-grep -nE "md5\(|sha1\(" $DIFF                                              # 弱哈希
-grep -nE "\beval\(|\bexec\(" $DIFF                                         # 危险调用
-grep -n "__proto__\|constructor\[" $DIFF                                   # 原型污染
-grep -nE "path\.join\(.*req\.|readFile\(.*req\." $DIFF                     # 路径穿越
+grep -nE "md5\(|sha1\(" $DIFF                                              # weak hashing
+grep -nE "\beval\(|\bexec\(" $DIFF                                         # dangerous calls
+grep -n "__proto__\|constructor\[" $DIFF                                   # prototype pollution
+grep -nE "path\.join\(.*req\.|readFile\(.*req\." $DIFF                     # path traversal
 ```
 
-预期：列出命中行号与类型；无命中则该维度标记 clean。
-若失败：diff 路径错 → 用步骤 1 重新下载到 `/tmp`。
+Expected: list the hit line numbers and types; if there are no hits, mark that dimension clean.
+On failure: the diff path is wrong → re-download to `/tmp` via Step 1.
 
-### 步骤 4：测试覆盖 Delta
+### Step 4: Test-coverage delta
 
 ```bash
 CHANGED_SRC=$(gh pr diff <PR_NUMBER> --name-only | grep -vE "\.test\.|\.spec\.|__tests__")
@@ -103,10 +103,10 @@ echo "Source files: $(echo "$CHANGED_SRC" | wc -w)  Test files: $(echo "$CHANGED
 LOGIC_LINES=$(grep "^+" /tmp/pr-<PR_NUMBER>.diff | grep -v "^+++" | wc -l)
 ```
 
-预期：得出源/测试文件比与新增行数；据此套用规则——新函数无测试→flag；覆盖率下降 >5%→block；auth/支付路径→要求 100% 覆盖。
-若失败：无测试文件改动 → 直接 flag 覆盖率缺口。
+Expected: derive the source/test ratio and the added-line count; apply the rules — a new function without tests → flag; coverage drops >5% → block; auth/payment paths → require 100% coverage.
+On failure: no test-file changes → directly flag the coverage gap.
 
-### 步骤 5：破坏性变更检测
+### Step 5: Breaking-change detection
 
 ```bash
 grep -n "openapi\|swagger" /tmp/pr-<PR_NUMBER>.diff | head -20
@@ -114,62 +114,62 @@ grep "^-" /tmp/pr-<PR_NUMBER>.diff | grep -E "router\.(get|post|put|delete|patch
 grep "^-" /tmp/pr-<PR_NUMBER>.diff | grep -E "^-\s*(type |field |Query |Mutation )"
 gh pr diff <PR_NUMBER> --name-only | grep -E "migrations?/|alembic/|knex/"
 grep -E "DROP TABLE|DROP COLUMN|ALTER.*NOT NULL|TRUNCATE" /tmp/pr-<PR_NUMBER>.diff
-grep "^+" /tmp/pr-<PR_NUMBER>.diff | grep -oE "process\.env\.[A-Z_]+" | sort -u   # 新增 env 变量
+grep "^+" /tmp/pr-<PR_NUMBER>.diff | grep -oE "process\.env\.[A-Z_]+" | sort -u   # newly added env vars
 ```
 
-预期：列出移除的路由/类型、破坏性 migration、新增 env 变量（可能 prod 缺失）。
+Expected: list removed routes/types, breaking migrations, and newly added env vars (which prod may be missing).
 
-### 步骤 6：性能影响
+### Step 6: Performance impact
 
 ```bash
-grep -n "\.find\|\.query\|db\." /tmp/pr-<PR_NUMBER>.diff | grep "^+" | head -20   # N+1 嫌疑
-grep "^+" /tmp/pr-<PR_NUMBER>.diff | grep -E '"[a-z@].*":\s*"[0-9^~]' | head -20  # 重依赖
-grep -n "while (true" /tmp/pr-<PR_NUMBER>.diff | grep "^+"                         # 死循环
+grep -n "\.find\|\.query\|db\." /tmp/pr-<PR_NUMBER>.diff | grep "^+" | head -20   # N+1 suspects
+grep "^+" /tmp/pr-<PR_NUMBER>.diff | grep -E '"[a-z@].*":\s*"[0-9^~]' | head -20  # heavy dependencies
+grep -n "while (true" /tmp/pr-<PR_NUMBER>.diff | grep "^+"                         # infinite loop
 ```
 
-预期：标记 N+1、重依赖、未 await、超大内存分配等。
+Expected: flag N+1, heavy dependencies, missing await, oversized memory allocations, etc.
 
-### 步骤 7：票据核验（仅当用户要求）
+### Step 7: Ticket verification (only when the user asks)
 
 ```bash
 TICKET="PROJ-123"
-: "${JIRA_API_TOKEN:?JIRA_API_TOKEN 必须设置}"
+: "${JIRA_API_TOKEN:?JIRA_API_TOKEN must be set}"
 curl -s -K - "https://your-org.atlassian.net/rest/api/3/issue/$TICKET" <<EOF | \
   jq '{key, summary: .fields.summary, status: .fields.status.name}'
 user = "user@company.com:$JIRA_API_TOKEN"
 EOF
 ```
 
-预期：返回票据 key/summary/status；校验其与 PR 范围匹配。
-安全红线：token 经 `curl -K -` 从 stdin 注入，**绝不进 argv**（`ps`/`/proc` 不可见、不入 shell 历史）。重复调用优先用 `~/.netrc`（`chmod 600`）+ `curl --netrc`。
-若失败：`JIRA_API_TOKEN` 未设 → 提示导出；401 → 令牌失效需轮换。
+Expected: return the ticket key/summary/status; verify it matches the PR's scope.
+Safety red line: the token is injected from stdin via `curl -K -`, **never into argv** (invisible to `ps`/`/proc`, and not in shell history). For repeated calls, prefer `~/.netrc` (`chmod 600`) + `curl --netrc`.
+On failure: `JIRA_API_TOKEN` not set → prompt to export it; 401 → the token is invalid and needs rotation.
 
-## 评审检查清单（30+ 项）
+## Review Checklist (30+ items)
 
-按块逐项核对，结果归入交付报告：
+Check off block by block, folding the results into the delivery report:
 
-- **范围**：标题准确；正文讲 WHY；关联票据存在且匹配；无范围蔓延；破坏性变更已记录
-- **影响面**：已定位所有 import 方；跨服务依赖已查；共享类型/接口已审；新增 env 写入 `.env.example`；migration 可回滚（有 down）
-- **安全**：无硬编码密钥；SQL 参数化；输入已校验；新端点有权限校验；无 XSS；新依赖查 CVE；日志无敏感数据；上传已校验；CORS 正确
-- **测试**：公开函数有单测；边界/错误路径覆盖；API 有集成测试；无无理由删测试；命名清晰
-- **破坏性**：API 端点移除有弃用通知；响应无新增必填字段；DB 列移除有两阶段计划；env 移除已评估；对外向后兼容
-- **性能**：无 N+1；新查询有索引；无无界循环；无无理由重依赖；await 正确；考虑了缓存
-- **质量**：无死代码/未用 import；错误处理非空 catch；符合现有约定；复杂逻辑有注释；无遗留 TODO
+- **Scope**: title is accurate; the body explains the WHY; linked tickets exist and match; no scope creep; breaking changes are documented
+- **Blast radius**: all importers located; cross-service dependencies checked; shared types/interfaces reviewed; new env vars written to `.env.example`; migrations are reversible (have a down)
+- **Security**: no hardcoded secrets; SQL is parameterized; input is validated; new endpoints have permission checks; no XSS; new dependencies checked for CVEs; no sensitive data in logs; uploads validated; CORS is correct
+- **Tests**: public functions have unit tests; edge/error paths covered; APIs have integration tests; no unjustified test deletions; clear naming
+- **Breaking**: removed API endpoints have a deprecation notice; responses add no new required fields; removed DB columns have a two-phase plan; env removal is evaluated; externally backward-compatible
+- **Performance**: no N+1; new queries are indexed; no unbounded loops; no unjustified heavy dependencies; await is correct; caching considered
+- **Quality**: no dead code / unused imports; error handling isn't empty catch; matches existing conventions; complex logic is commented; no leftover TODOs
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象/错误码 | 原因 | 处置 |
+| Symptom / error code | Cause | Fix |
 |------------|------|------|
-| `gh`/`glab` 不在 PATH | CLI 未装 | 安装并重跑自检 |
-| `auth status` 非零 | 未登录 | 执行 `gh auth login`/`glab auth login` |
-| PR 编号 404 | ID/IID 错或跨平台 | 核对平台与编号 |
-| `JIRA_API_TOKEN` 未设 | 凭据缺失 | 提示用户导出环境变量 |
-| 覆盖率下降 >5% | 测试不足 | 标记 block，要求补测试 |
+| `gh`/`glab` not on PATH | The CLI isn't installed | Install it and rerun the self-check |
+| `auth status` non-zero | Not logged in | Run `gh auth login`/`glab auth login` |
+| PR number 404 | Wrong ID/IID or wrong platform | Check the platform and number |
+| `JIRA_API_TOKEN` not set | Missing credential | Prompt the user to export the env var |
+| Coverage drops >5% | Insufficient tests | Flag as block; require added tests |
 
-## 交付标准
+## Delivery Criteria
 
-成功定义：产出单轮评审评论，按 `MUST FIX` / `SHOULD FIX` / `SUGGESTIONS` / `LOOKS GOOD` 分级，每项含文件:行号、原因与修复示例。
-报告结构：
+Definition of success: produce a single-round review comment, graded into `MUST FIX` / `SHOULD FIX` / `SUGGESTIONS` / `LOOKS GOOD`, each item with a file:line, a reason, and a fix example.
+Report structure:
 
 ```text
 ## PR Review: [PR Title] (#NUMBER)
@@ -187,16 +187,16 @@ Breaking Changes: None detected
 - Test coverage for new auth flow is thorough
 ```
 
-保存位置：作为 PR/MR 评论发布（由用户触发），或在会话内输出。
-验证完整性：每条 MUST FIX 都对应一处具体改动行且给出可操作修复；无仅风格层面的吹毛求疵（交给 linter）。
+Save location: published as a PR/MR comment (triggered by the user), or output in-session.
+Completeness verification: every MUST FIX maps to a concrete changed line with an actionable fix; no style-only nitpicking (leave that to the linter).
 
-## 安全红线
+## Safety Red Lines
 
-- **凭据只走环境变量**：`JIRA_API_TOKEN`/`LINEAR_API_KEY` 经 `curl -K -`（stdin）或 `~/.netrc` 注入，`ps`/`/proc`/shell 历史均不可见；绝不在命令行写明文 token。
-- **只评审不下场**：本技能产出 verdict 与修复建议，不执行 `git push` 或修改代码；落地修复由用户/其他技能完成。
-- 外部 URL 视为不可信输入：票据 API 响应先 `jq` 结构化再读，不盲信。
+- **Credentials go only through environment variables**: `JIRA_API_TOKEN`/`LINEAR_API_KEY` are injected via `curl -K -` (stdin) or `~/.netrc`, invisible to `ps`/`/proc`/shell history; never write a plaintext token on the command line.
+- **Review only, don't jump in**: this skill produces a verdict and fix suggestions; it doesn't run `git push` or modify code; landing fixes is done by the user or other skills.
+- Treat external URLs as untrusted input: structure ticket API responses with `jq` before reading them; don't trust them blindly.
 
-## 参考
+## References
 
-- 确定性静态分析（密钥/SQLi/复杂度打分）交由 `code-reviewer` 技能作为分析引擎链式调用。
-- 关联票据核验的 curl/JWT 安全写法见上方步骤 7 内联说明。
+- Deterministic static analysis (secrets/SQLi/complexity scoring) is chained into the `code-reviewer` skill as the analysis engine.
+- For curl/JWT security patterns for verifying linked tickets, see the inline notes in Step 7 above.

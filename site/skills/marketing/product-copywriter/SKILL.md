@@ -1,6 +1,6 @@
 ---
 name: product-copywriter
-description: "Write conversion-focused e-commerce product copy from raw product facts: framework selection (FAB / PAS / AIDA), benefit-first headlines, objection-handling section, and fact hygiene (no invented specs). Chain entry of growth-marketing — its copy feeds campaign-designer and channel-adapter directly. Use when the user asks to 写商品文案 / 详情页 / 卖点 / 产品描述 / sales copy / product description / 种草文案. Do NOT use for full campaign calendars (campaign-designer), nor per-platform reformatting of finished copy (channel-adapter)."
+description: "Write conversion-focused e-commerce product copy from raw product facts: framework selection (FAB / PAS / AIDA), benefit-first headlines, objection-handling section, and fact hygiene (no invented specs). Chain entry of growth-marketing — its copy feeds campaign-designer and channel-adapter directly. Use when the user asks to write product copy / detail page / selling points / product description / sales copy / product description / seeding copy / marketing campaign / conversion. Do NOT use for full campaign calendars (campaign-designer), nor per-platform reformatting of finished copy (channel-adapter)."
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime dependencies.
 metadata:
@@ -14,102 +14,102 @@ metadata:
 
 # Product Copywriter
 
-链条入口。把商品事实（参数/场景/口碑）变成**能转化的文案**。核心是**框架先行**——不选框架就动笔，写出来的必然是参数罗列；参数罗列不转化。
+The chain's entry point. Turn product facts (specs / scenarios / reviews) into **copy that converts**. The core is **framework first** — start writing without picking a framework and you inevitably produce a spec list; a spec list does not convert.
 
-## 领域暗知识（动笔前必须懂的四件事）
+## Domain Dark Knowledge (four things you must know before writing)
 
-**1. 用户在扫读，不在选购。** 详情页停留极短，多数访客只扫完第一屏就决定走留——这符合落地页分析的普遍共识，具体比例因品类与流量而异，别把它当常数写进文案。这意味着四段结构里的钩子标题不是"第一段"，是**唯一保证被读的段**，说服的主要载荷压在这里不是夸张修辞，是去留决策的真实位置。后面三段是给留下来的那部分人读的，写法可以密，但别指望平均用力。
+**1. Users are skimming, not shopping.** Detail-page dwell time is extremely short; most visitors decide to stay or leave after skimming only the first screen — this matches the broad consensus of landing-page analysis, though the exact ratio varies by category and traffic, so do not write it into the copy as a constant. It means the hook headline in the four-part structure is not "the first paragraph" but **the only paragraph guaranteed to be read**; putting the main persuasive load here is not exaggerated rhetoric, it is the true location of the stay/leave decision. The next three parts are read by the people who stayed, so they can be denser, but do not expect to work equally hard everywhere.
 
-**2. 异议不是头脑风暴出来的，是差评区里挖出来的。** 没有真实异议数据的"3 个犹豫点"是写手的自嗨——你以为用户怕贵，实际差评区刷的是"色差严重""和图片不符"。动手前先翻：差评区高频词、客服记录里的重复问题、问答区的追问。没有这些数据来源时，异议处理段要显式标注"基于品类常识推断，建议用真实评价校准"，不装作做过调研。
+**2. Objections are not brainstormed — they are dug out of the negative reviews.** A "3 hesitation points" list with no real objection data is the writer self-indulging — you think users fear the price, but the negative-review section is full of "serious color difference" and "does not match the pictures." Before writing, dig: high-frequency words in the negative reviews, repeated questions in support records, follow-up questions in the Q&A. Without these data sources, the objection-handling section must explicitly note "inferred from category common sense; recommend calibrating against real reviews" — do not pretend you did the research.
 
-**3. 极限词之外还有第二层雷区：无资质的功能宣称。** "最/第一/国家级"人人知道要躲，真正高频翻车的是功能性宣称——"美白""抗菌""0 甲醛""修复屏障"这类词**需要检测报告或资质背书**，没有证据链就写 = 广告法风险 + 平台下架双杀。事实卫生自查时按"功能宣称逐条要证据"过一遍，比只查极限词名单更能保命。
+**3. Beyond extreme words there is a second minefield: unqualified functional claims.** "Best / #1 / national-level" are known to everyone to avoid; the real high-frequency crashers are functional claims — words like "whitening," "antibacterial," "zero formaldehyde," "barrier repair" **need test reports or qualification backing**. Writing them without an evidence chain = advertising-law risk plus platform takedown, a double kill. When doing fact-hygiene self-check, go through functional claims one by one demanding evidence; this protects you better than only checking the extreme-word list.
 
-**4. 可信利益永远长着参数的脸。** "保暖"是类目词，每个竞品都在写，用户已经免疫；"比上一代厚 3mm，锁温 4 小时"是可信利益——它长着参数的脸，所以才像真的。FAB 纪律落到实处就是：每条利益必须能回答"凭什么"，答不上来的利益是形容词，退回步骤 3 重炼。
+**4. A credible benefit always wears a spec's face.** "Warm" is a category word every competitor uses, and users are already immune; "3mm thicker than the last generation, locks in heat for 4 hours" is a credible benefit — it wears a spec's face, which is why it sounds real. Putting FAB discipline into practice means: every benefit must answer "why should I believe you?"; a benefit that cannot answer is an adjective — send it back to step 3 to be re-smelted.
 
-## 转化诚实声明
+## Conversion Honesty Statement
 
-文案只影响转化率的一个因子；流量质量、价格带、评价维护、承接页体验共同决定最终成交。本技能不承诺"转化率提升 X%"——交付时若用户追问效果保证，如实说明转化是 A/B 实验的结论，不是文案的属性，可建议对钩子标题出 2-3 个变体供投放测试。
+Copy affects only one factor of conversion; traffic quality, price band, review maintenance, and landing-page experience together decide the final sale. This skill does not promise "a X% conversion lift" — if the user pushes for a performance guarantee at delivery, explain honestly that conversion is the conclusion of an A/B experiment, not a property of the copy, and suggest producing 2–3 hook-headline variants for ad testing.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |------|------|------|
-| 商品事实 | ✓ | 参数、材质、使用场景、真实口碑——只接受事实，不接受形容词 |
-| 受众 | ✓（缺就问） | 谁买、为什么买、最怕什么 |
-| 文案类型 | ✗ | 详情页（默认）/ 短视频口播 / 海报短文案 |
+| Product facts | Yes | Specs, materials, usage scenarios, real reviews — facts only, no adjectives |
+| Audience | Yes (ask if missing) | Who buys, why, what they fear most |
+| Copy type | No | Detail page (default) / short-video spoken / poster short copy |
 
-缺输入时一次性问齐："请提供：① 商品事实（参数/材质/场景/真实口碑，越具体越好）② 受众（谁买、为什么买、最怕什么）③ 文案类型（缺省详情页）。"
+When inputs are missing, ask for all at once: "Please provide: ① product facts (specs / materials / scenarios / real reviews, the more specific the better); ② the audience (who buys, why, what they fear most); ③ the copy type (defaults to detail page)."
 
-## 前置自检
+## Pre-flight Self-check
 
-商品事实里有**可验证的具体数字或材质**吗？"质量好、颜值高"不是事实，是结论——退回要事实。**真实口碑的三处矿脉也一并要**：差评区高频词、客服记录里的重复问题、问答区的追问（暗知识 2）——异议处理段的弹药从这里出。没事实就没证据链，文案全靠编 = 退款率预付款。
+Do the product facts contain **verifiable concrete numbers or materials**? "Good quality, great looks" is not a fact — it is a conclusion; send it back for facts. **Ask for the three veins of real reviews too**: high-frequency words in negative reviews, repeated questions in support records, follow-up questions in the Q&A (dark knowledge 2) — the ammunition for the objection-handling section comes from here. No facts means no evidence chain; copy built entirely on invention is prepayment for a refund rate.
 
-参考文献在位自检（可选，失败不阻塞）：
+Reference-presence self-check (optional; failure does not block):
 
 ```bash
 test -f references/sources-and-methodology.md && echo OK
 ```
 
-## 红线（硬性禁令，不可协商）
+## Red Lines (hard bans, non-negotiable)
 
-1. 不编造事实：数字、材质、认证、口碑必须能追溯到输入事实；缺事实就向用户要，绝不脑补。
-2. 不写极限词与无证功能宣称："最/第一/国家级"零容忍；"美白/抗菌/0 甲醛"级宣称无证据链即删除（暗知识 3）。
-3. 不点名贬损竞品：只写自己可验证的优势。
-4. 不承诺转化效果：转化是 A/B 实验的结论，不是文案的属性（见转化诚实声明）。
-5. CTA 恰好一个：两个 CTA 等于没有 CTA。
+1. Do not invent facts: numbers, materials, certifications, and reviews must trace back to the input facts; if a fact is missing, ask the user — never fill it in.
+2. Do not write extreme words or unqualified functional claims: zero tolerance for "best / #1 / national-level"; claims at the "whitening / antibacterial / zero formaldehyde" level are deleted without an evidence chain (dark knowledge 3).
+3. Do not name or disparage competitors: write only your own verifiable advantages.
+4. Do not promise conversion results: conversion is the conclusion of an A/B experiment, not a property of the copy (see the conversion honesty statement).
+5. Exactly one CTA: two CTAs equal no CTA.
 
-## 工作流
+## Workflow
 
-### 步骤 1：选框架（按受众决策阶段）
+### Step 1: Pick the Framework (by the Audience's Decision Stage)
 
-| 框架 | 结构 | 何时用 |
+| Framework | Structure | When to use |
 |------|------|--------|
-| FAB | 特性→优势→利益 | 受众已知产品类，需要说服"选这家"——技术规格必须翻译成生活利益 |
-| PAS | 问题→激化→解决 | 受众有痛点但没意识到解法——先扎心再给药 |
-| AIDA | 注意→兴趣→欲望→行动 | 冷流量首次触达——先抓眼球 |
+| FAB | Feature → advantage → benefit | The audience already knows the product category and needs persuading to "pick this one" — technical specs must be translated into life benefits |
+| PAS | Problem → agitate → solve | The audience has a pain but does not realize the solution — hit the nerve first, then offer the medicine |
+| AIDA | Attention → interest → desire → action | Cold first-touch traffic — grab the eye first |
 
-### 步骤 2：写四段结构（详情页骨架）
+### Step 2: Write the Four-Part Structure (detail-page skeleton)
 
 ```markdown
-1. 钩子标题：benefit-first，一句话说出"买了之后生活怎么变"
-2. 主体：按所选框架展开，每个特性跟一条利益（FAB 纪律：特性不落单）
-3. 异议处理：3 个犹豫点必须来自真实来源——差评区高频词、客服记录、问答区追问（暗知识 2）；
-   数据缺失时用品类常识推断，并显式标注"基于品类常识推断，建议用真实评价校准"
-4. CTA：单一行动指令，不多于一个——两个 CTA 等于没有 CTA
+1. Hook headline: benefit-first, one sentence on "how life changes after buying"
+2. Body: expand per the chosen framework, each feature paired with a benefit (FAB discipline: a feature never stands alone)
+3. Objection handling: the 3 hesitation points must come from real sources — high-frequency negative-review words, support records, Q&A follow-ups (dark knowledge 2);
+   when data is missing, infer from category common sense and explicitly note "inferred from category common sense; recommend calibrating against real reviews"
+4. CTA: a single action command, no more than one — two CTAs equal no CTA
 ```
 
-### 步骤 3：事实卫生自查
+### Step 3: Fact-Hygiene Self-check
 
-- 数字、材质、认证逐条能追溯到输入事实，编造即返工
-- 禁"最/第一/国家级"等极限词（广告法红线）——发现即改写为可比较表述（"比上一代薄 2mm"）
-- **功能宣称逐条要证据**（暗知识 3）："美白/抗菌/0 甲醛"级词汇没有检测报告或资质背书 → 改写为可验证表述或删除
-- 竞品只写自己可验证的优势，不点名贬损
-- 利益逐条过"凭什么"测试（暗知识 4）：答不上来的是形容词，回炉重炼
+- Numbers, materials, and certifications each trace back to the input facts; inventing means rework
+- Ban extreme words like "best / #1 / national-level" (advertising-law red line) — on finding one, rewrite to a comparable expression ("2mm thinner than the last generation")
+- **Demand evidence for functional claims one by one** (dark knowledge 3): words at the "whitening / antibacterial / zero formaldehyde" level with no test report or qualification backing → rewrite to a verifiable expression or delete
+- For competitors, write only your own verifiable advantages; do not name or disparage
+- Run each benefit through the "why should I believe you?" test (dark knowledge 4): what cannot answer is an adjective — send it back to be re-smelted
 
-### 步骤 4：链条移交
+### Step 4: Chain Handoff
 
-交付文案 + 所用框架标注。**接着说："文案就绪，继续调用 campaign-designer 排活动节奏，或 channel-adapter 出各平台变体"**——链条自动展开。
-- 预期：下游拿到的文案四段齐全、框架可识别，无需再追问事实。
-- 若失败：下游适配时发现事实缺口 → 回步骤 3 逐条核对证据链，缺口问用户要事实，不编造。
+Deliver the copy + the framework used. **Then say: "The copy is ready; call campaign-designer to lay out the campaign rhythm, or channel-adapter to produce per-platform variants"** — the chain unfolds automatically.
+- Expected: the downstream receives copy with all four parts complete and an identifiable framework, no need to re-ask for facts.
+- On failure: downstream adaptation finds a fact gap → return to step 3 and check the evidence chain item by item; for the gap, ask the user for the fact — do not invent.
 
-## 交付标准
+## Delivery Standards
 
-- 产物：四段结构文案（钩子标题/主体/异议处理/CTA）+ 所用框架标注（FAB/PAS/AIDA）。
-- 保存位置：直接输出在对话中（本技能不写文件），供 campaign-designer / channel-adapter 引用。
-- 完整性验证：每个特性都跟一条利益；异议处理恰好 3 条且来源可溯（真实评价/客服记录，或标注为品类推断）；CTA 恰好 1 个；无极限词与无证功能宣称（对照步骤 3 清单）。
+- Artifacts: the four-part copy (hook headline / body / objection handling / CTA) + the framework used (FAB/PAS/AIDA).
+- Save location: output directly in the conversation (this skill writes no files), for campaign-designer / channel-adapter to reference.
+- Integrity verification: every feature pairs with a benefit; objection handling has exactly 3 items with traceable sources (real reviews / support records, or marked as category inference); exactly 1 CTA; no extreme words or unqualified functional claims (against the step 3 checklist).
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Action |
 |------|------|------|
-| 通篇参数罗列 | 没选框架 / FAB 断层 | 每个特性强制跟"这意味着你…" |
-| 文案没转化感 | 缺异议处理段 | 补 3 犹豫点逐个事实回应；优先从差评区/客服记录挖（暗知识 2） |
-| 像说明书不像文案 | 钩子缺失 | 重写 benefit-first 标题再进主体；钩子承担第一屏去留（暗知识 1） |
-| 利益空泛"保暖/好用/高品质" | 利益答不上"凭什么" | 按暗知识 4 回炉：可信利益长着参数的脸 |
-| 有广告法风险 | 极限词/虚构认证/无证功能宣称 | 对照步骤 3 自查清单清零；功能宣称逐条要证据 |
-| 用户要转化率承诺 | 触碰转化诚实声明 | 拒绝承诺；说明转化由多因子决定，提供钩子标题 A/B 变体方案 |
+| The whole thing is a spec list | No framework picked / FAB gap | Force every feature to follow with "this means you…" |
+| The copy has no conversion feel | Missing the objection-handling section | Add 3 hesitation points answered fact by fact; prioritize digging from negative reviews / support records (dark knowledge 2) |
+| Reads like a manual, not copy | Missing the hook | Rewrite the benefit-first headline before the body; the hook carries the first-screen stay/leave decision (dark knowledge 1) |
+| Benefits are vague ("warm / good / high quality") | Benefits cannot answer "why should I believe you?" | Re-smelt per dark knowledge 4: a credible benefit wears a spec's face |
+| Advertising-law risk | Extreme words / fabricated certifications / unqualified functional claims | Clear against the step 3 self-check list; demand evidence for functional claims one by one |
+| The user asks for a conversion-rate promise | Touches the conversion honesty statement | Refuse to promise; explain conversion is multi-factor, and offer an A/B hook-headline variant plan |
 
-## 参考
+## References
 
-- [copywriting-formulas.md](references/copywriting-formulas.md) —— 文案公式库：10 型标题公式（带例）、PAS/FAB/AIDA 结构模板、CTA 按场景词库、平台调性差异表、负面清单（写标题与正文前先查这张）
-- [sources-and-methodology.md](references/sources-and-methodology.md) —— 直复营销框架出处与署名
+- [copywriting-formulas.md](references/copywriting-formulas.md) — the copywriting formula library: 10 headline formulas (with examples), PAS/FAB/AIDA structure templates, a CTA word bank by scenario, a table of platform-tone differences, and a negative list (check this before writing headlines and body)
+- [sources-and-methodology.md](references/sources-and-methodology.md) — the direct-marketing framework provenance and attribution

@@ -1,6 +1,6 @@
 ---
 name: shot-recipe-designer
-description: "Design a cinematic shot list from recipe cards: each shot gets a purpose, energy level, duration, camera move, and exit transition — 12 proven recipe cards (establishing shot, insert close-up, 2.5D parallax push, title card, match cut, reaction cutaway and more). Use when the user asks to 设计镜头 / 出镜头清单 / shot list / 运镜设计 / 转场设计 / 让片子有电影感 for a promo, short film, or product video. Do NOT use for writing dialogue or narration (use video-script-writer), nor for generating the video itself."
+description: "Design a cinematic shot list from recipe cards: each shot gets a purpose, energy level, duration, camera move, and exit transition — 12 proven recipe cards (establishing shot, insert close-up, 2.5D parallax push, title card, match cut, reaction cutaway and more). Use when the user asks to design shots / produce a shot list / shot list / camera-move design / transition design / make the film cinematic for a promo, short film, or product video. Do NOT use for writing dialogue or narration (use video-script-writer), nor for generating the video itself."
 license: Apache-2.0
 compatibility: Pure prompt-based design skill; no scripts, no API keys.
 metadata:
@@ -14,101 +14,99 @@ metadata:
 
 # Shot Recipe Designer
 
-用「镜头配方卡」组装镜头清单。每个镜头回答三个问题：**为什么存在（目的）、什么节奏（能量）、多长（时长）**——回答不了任何一个的镜头就该删。
+Assemble a shot list from "shot recipe cards". Every shot answers three questions: **why it exists (purpose), what rhythm it has (energy), how long it runs (duration)** — a shot that can't answer any of them should be cut.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |------|------|------|
-| 分镜 / 节拍表 | ✓ | storyboard-designer 的产出，或等价的场景描述 |
-| 基调 | ✗ | cinematic / energetic / calm / playful；默认随内容推断 |
-| 画幅 | ✗ | 默认 16:9 |
+| storyboard / beat sheet | yes | Output from storyboard-designer, or an equivalent scene description |
+| tone | no | cinematic / energetic / calm / playful; inferred from content by default |
+| aspect ratio | no | 16:9 by default |
 
-## 前置自检
+## Pre-flight Checks
 
-- 配方卡文件在盘：`test -f references/shot-recipes.md`——选卡后必读原卡，
-  缺失 → STOP 并回报仓库不完整。
-- 节拍表拿到了吗？没有 storyboard-designer 产出时，先让用户给场景描述并标注
-  每拍时长；两样都没有 → 按输入清单一次性问齐，不要自行编节拍。
-- 计划用 beat-sync-cut 且没拿到 BGM/BPM 信息 → 见失败处置表第 3 行，先问。
+- The recipe-card file is on disk: `test -f references/shot-recipes.md` — after picking a card you must read the original card; if missing -> STOP and report the repo is incomplete.
+- Do you have the beat sheet? Without a storyboard-designer output, first have the user give scene descriptions and mark the duration of each beat; if neither exists -> ask everything at once per the input checklist; don't invent beats.
+- If you plan to use beat-sync-cut and have no BGM/BPM info -> see row 3 of the failure table; ask first.
 
-## 工作流
+## Workflow
 
-### 步骤 1：为每个节拍选配方
+### Step 1: Pick a Recipe for Each Beat
 
-从 [shot-recipes.md](references/shot-recipes.md) 的 12 张卡里选。选卡顺序：先定**钩子镜头**和**收束镜头**（两端定生死），再给中间节拍配展开镜头。
+Choose from the 12 cards in [shot-recipes.md](references/shot-recipes.md). Card order: first lock the **hook shot** and the **closing shot** (the two ends make or break it), then pair the middle beats with development shots.
 
-预期：每个节拍恰好 1 张主卡；钩子节拍可叠加 1 张辅助卡。
-若失败：某节拍两张卡都想要 → 拆成两个镜头，不要缝合。
+Expected: exactly 1 primary card per beat; the hook beat may stack 1 auxiliary card.
+If it fails: a beat wants two cards -> split into two shots; don't suture them together.
 
-### 步骤 2：按卡片公式实例化
+### Step 2: Instantiate Per the Card Formula
 
-每张卡给出参数公式（如视差推动的「前景层位移 1.2×、背景层 0.8×」）。照抄公式，把变量换成用户内容——**确定性优先，不要自由发挥运镜参数**。
+Each card gives a parameter formula (e.g., for a parallax push: "foreground layer moves 1.2x, background layer 0.8x"). Copy the formula verbatim, swapping in the user's content — **determinism first; don't improvise camera-move parameters**.
 
-预期：每个镜头的运镜参数可直接执行，无需模型即兴发挥。
-若失败：公式变量填不出来（画面信息不足）→ 回输入清单问齐，不要编参数。
+Expected: every shot's camera parameters are directly executable, no model improvisation needed.
+If it fails: a formula variable can't be filled (insufficient frame info) -> go back to the input checklist and ask; don't invent parameters.
 
-### 步骤 3：标注转场链
+### Step 3: Mark the Transition Chain
 
-镜头清单的最后一列填出场转场，规则：
-- 同场景内部 → 硬切
-- 时间跳跃 → 匹配剪辑（match cut）
-- 情绪转换 → 叠化 ≤0.5s
-- 全片最多 1 次转场特效（如胶片烧帧），克制是电影感的一部分
+Fill the shot list's last column with exit transitions, per the rules:
+- Within the same scene -> hard cut
+- Time jump -> match cut
+- Mood shift -> dissolve <=0.5s
+- At most 1 transition effect in the whole film (e.g., film-burn); restraint is part of cinematic feel.
 
-预期：每行都有出场转场，且全片特效转场 ≤1 次。
-若失败：出现第 2 处特效 → 删掉次要的一处，改硬切。
+Expected: every row has an exit transition, and effect transitions <= 1 across the whole film.
+If it fails: a 2nd effect appears -> delete the less important one and change it to a hard cut.
 
-### 步骤 4：输出镜头清单
+### Step 4: Output the Shot List
 
-固定表格（列顺序不许变）：
+Fixed table (column order must not change):
 
 ```markdown
-| # | 时长 | 配方卡 | 运镜 | 画面一句话 | 声音 | 出场转场 |
-|---|------|--------|------|-----------|------|----------|
-| 1 | 3s | establishing-wide | 缓推 | 雨夜街景霓虹 | 雨声渐入 | 硬切 |
+| # | Duration | Recipe Card | Camera Move | One-Line Frame | Sound | Exit Transition |
+|---|----------|-------------|-------------|----------------|-------|------------------|
+| 1 | 3s | establishing-wide | slow push-in | rainy-night neon street | rain fade-in | hard cut |
 ```
 
-预期：全片时长合计 = 节拍表总时长 ±10%。
-若失败：超差 → 按失败处置表第 2 行重算，先砍中间 beat。
+Expected: total film duration = beat-sheet total +/-10%.
+If it fails: out of tolerance -> recompute per row 2 of the failure table; cut middle beats first.
 
-## 十二张配方卡（速览，详见 references）
+## Twelve Recipe Cards (Quick Reference; See References for Detail)
 
-| 卡 | 用途 | 能量 | 时长 |
+| Card | Use | Energy | Duration |
 |----|------|------|------|
-| establishing-wide | 开场定调 | 低 | 3-4s |
-| hook-pop-in | 前 3 秒钩子 | 高 | 1-2s |
-| insert-closeup | 强调细节 | 中 | 1-2s |
-| parallax-push | 平面图变立体 | 中 | 3-4s |
-| title-card | 标题/章节卡 | 低 | 2-3s |
-| match-cut | 时空跳转 | 中 | 2-3s |
-| reaction-cutaway | 情绪反应 | 中 | 1-2s |
-| process-montage | 流程压缩 | 中高 | 3-5s |
-| reveal-pan | 揭示全貌 | 低中 | 3-4s |
-| beat-sync-cut | 卡点连切 | 高 | 0.5-1s×N |
-| final-frame-hold | 收束定格 | 低 | 2s |
-| cta-endcard | 行动号召尾板 | 中 | 2-3s |
+| establishing-wide | Opening tone-setting | low | 3-4s |
+| hook-pop-in | First-3-seconds hook | high | 1-2s |
+| insert-closeup | Emphasize detail | medium | 1-2s |
+| parallax-push | Flat image to dimensional | medium | 3-4s |
+| title-card | Title / chapter card | low | 2-3s |
+| match-cut | Time/space jump | medium | 2-3s |
+| reaction-cutaway | Emotional reaction | medium | 1-2s |
+| process-montage | Compress a process | medium-high | 3-5s |
+| reveal-pan | Reveal the whole | low-medium | 3-4s |
+| beat-sync-cut | Beat-synced rapid cuts | high | 0.5-1s x N |
+| final-frame-hold | Closing freeze | low | 2s |
+| cta-endcard | Call-to-action end card | medium | 2-3s |
 
-## 失败处置表
+## Failure Remediation Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Remedy |
 |------|------|------|
-| 全片高能镜头连排 | 想炫技 | 强制插入一张低能量卡（title-card / final-frame-hold）做呼吸 |
-| 镜头时长合计超时长 | 卡没换算 | 按「时长合计=总时长±10%」重算，先砍中间 beat |
-| 卡点切配不上 BGM | 无 BPM 信息 | 问用户要 BGM 或选「BGM 待定」并把 beat-sync-cut 标记为「渲染前定帧率再锁」 |
-| 生成模型不支持该运镜 | 方言差异 | 降级为模型可执行的基础运镜（推/拉/固定），卡片参数保留在清单里供后期实现 |
+| Whole film is a run of high-energy shots | Showing off | Force in a low-energy card (title-card / final-frame-hold) for breathing room |
+| Shot durations exceed total | Cards not converted | Recompute per "total = overall +/-10%"; cut middle beats first |
+| Beat-sync cuts don't match the BGM | No BPM info | Ask the user for the BGM or choose "BGM TBD" and mark beat-sync-cut as "lock frame rate before render" |
+| The generation model doesn't support that camera move | Dialect differences | Downgrade to a basic move the model can execute (push/pull/static); keep card params in the list for later implementation |
 
-## 交付标准
+## Delivery Standard
 
-- 一张镜头清单表，7 列齐全，# 连号
-- 每行配方卡名可在 references/shot-recipes.md 中找到原卡
-- 时长合计误差 ≤10%
+- One shot-list table, all 7 columns present, # sequential
+- Each row's recipe-card name can be found in the original card at references/shot-recipes.md
+- Total duration within +/-10%
 
-## 参考
+## References
 
-- [shot-recipes.md](references/shot-recipes.md) —— 12 张完整配方卡（运镜参数公式 + 常见坑），选卡后必读对应原卡
-- [sources-and-methodology.md](references/sources-and-methodology.md) —— 镜头卡片方法论的开源出处与致谢
+- [shot-recipes.md](references/shot-recipes.md) — the 12 complete recipe cards (camera-move parameter formulas + common pitfalls); read the matching original card after selecting
+- [sources-and-methodology.md](references/sources-and-methodology.md) — open-source provenance and credits for the shot-card methodology
 
-## 链条衔接（下游建议）
+## Chain Handoff (Downstream Suggestions)
 
-本技能承接 storyboard-designer 的节拍表/分镜，输出镜头清单供 video-prompt-engineer 逐镜写 prompt。建议作为 video 域 chains 的上游规划步骤。当前为游离技能，衔接仅为文字描述，禁止跨目录硬链接引用。
+This skill takes the beat sheet / storyboard from storyboard-designer and outputs a shot list for video-prompt-engineer to write per-shot prompts. It's recommended as the upstream planning step in video-domain chains. Currently a standalone skill; handoff is descriptive only — no cross-directory hard links.

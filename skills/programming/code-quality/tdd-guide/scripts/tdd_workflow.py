@@ -472,3 +472,31 @@ class TDDWorkflow:
             }
 
         return {}
+
+
+def main(argv=None):
+    """CLI: show red-green-refactor phase guidance."""
+    import argparse
+    import json
+    import sys
+
+    ap = argparse.ArgumentParser(
+        description="TDD red-green-refactor workflow guidance")
+    ap.add_argument("--phase", required=True,
+                    choices=[p.value for p in TDDPhase],
+                    help="TDD phase to get guidance for")
+    ap.add_argument("--test", help="Test file path (for reference)")
+    args = ap.parse_args(argv)
+
+    wf = TDDWorkflow()
+    phase = TDDPhase(args.phase)
+    guidance = wf.get_phase_guidance(phase)
+    if args.test:
+        guidance["test_file"] = args.test
+    print(json.dumps(guidance, ensure_ascii=False, indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    import sys
+    sys.exit(main())

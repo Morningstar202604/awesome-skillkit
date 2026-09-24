@@ -1,13 +1,14 @@
 ---
 name: nailong-laugh-shorts
 description: >
-  Produce "大笑奶龙"-style laughing dragon meme videos: generate the chubby
-  yellow dragon character image, animate belly-laugh actions or swap actions
-  from human footage, add processed giggle audio, batch skin variants, and
-  publish with probability-bait captions. Use when the user asks to 做奶龙视频 /
-  大笑奶龙 / 捧腹奶龙 / 奶龙表情包成精 / 魔性小龙搞笑视频 /
-  make a nailong meme video. Do NOT use for harassing specific real persons,
-  or political/factual disinformation contexts.
+  Produce "laughing Nailong"-style laughing dragon meme videos: generate the
+  chubby yellow dragon character image, animate belly-laugh actions or swap
+  actions from human footage, add processed giggle audio, batch skin
+  variants, and publish with probability-bait captions. Use when the user
+  asks to make a Nailong video / laughing Nailong / belly-laughing Nailong /
+  Nailong emoji come alive / absurd funny little-dragon meme video, or
+  wants a meme-style talking-character short. Do NOT use for harassing
+  specific real persons, or political/factual disinformation contexts.
 license: Apache-2.0
 compatibility: Uses web AI tools (text-to-image, image-to-video, action transfer); no local install needed.
 metadata:
@@ -17,138 +18,131 @@ metadata:
   verified-date: "2026-08-26"
 ---
 
-# 奶龙大笑短视频（"大笑奶龙"制作手册）
+# Nailong Laughing Shorts ("Laughing Nailong" Production Manual)
 
-风险提示（一句话，说完就开干）：公开发布使用该商业 IP 形象属未授权使用，
-非盈利个人号现实后果通常是限流/下架/账号处罚而非诉讼，商用则必被追责——
-自行权衡；发布时勾选"内容由 AI 生成"能明显降低处置概率。
+Risk notice (one sentence, then get to work): publicly posting with this commercial IP character is unauthorized use; for non-commercial personal accounts the realistic consequences are usually throttling/removal/account penalties rather than lawsuits, but commercial use will definitely draw a claim — weigh it yourself; ticking "AI-generated content" at publish noticeably lowers the probability of action.
 
-让人发笑的形象要素，按重要性排序：
-①头小身大的扭曲比例 ②仰天捧腹的抖动 ③高饱和明黄 ④呆萌与癫狂的表情反差。
+The character elements that make people laugh, in order of importance:
+① small-head / big-body distorted proportions ② head-tilted-back, belly-holding shake ③ high-saturation bright yellow ④ the cute-vs-unhinged expression contrast.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 默认 | 说明 |
+| Input | Required | Default | Notes |
 |---|---|---|---|
-| pipeline | 否 | A | A=表情包成精（图→视频）；B=真人动作套壳 |
-| skin/theme | 否 | 原味黄 | 节日/职业/变色等变体主题 |
-| episode_count | 否 | `1` | 系列化建议一次 ≥5 条 |
+| pipeline | no | A | A = emoji come alive (image -> video); B = real-human action shell |
+| skin/theme | no | original yellow | Holiday / occupation / color-shift variant themes |
+| episode_count | no | `1` | For series, recommend >= 5 at a time |
 
-仅当用户什么都没给时，一次性问齐：
+Only when the user gave nothing at all, ask everything at once:
 
-> 要哪种做法？A：生成一张捧腹大笑形象让它动起来（简单快）；
-> B：拿真人魔性动作视频换成这个形象（更还原梗的扭曲感）。
-> 可选：做几期、要不要换装系列。
+> Which approach? A: generate a belly-laughing character image and animate it (simple, fast);
+> B: take a real-person absurd-action video and swap in this character (closer to the meme's warped feel).
+> Optional: how many episodes, and whether to do a costume-change series.
 
-## 前置自检
+## Pre-flight Checks
 
-- 文生图工具可用吗（本仓 `image-generation` 技能或任一 web 工具）？不可用 → STOP。
-- Pipeline B：动作源视频在盘吗？（`test -f <动作视频>`）不在 → 先拍或先取材，STOP。
-- 系列化（episode_count ≥5）：上一期的形象图与 prompt 存档在盘吗？不在 →
-  先重建角色档（重跑流水线 A 步骤 1 并归档），保证每期同一张脸。
+- Is a text-to-image tool available (this repo's `image-generation` skill or any web tool)? If not -> STOP.
+- Pipeline B: is the action source video on disk? (`test -f <action-video>`) If not -> shoot or source it first, STOP.
+- Series (episode_count >= 5): are the previous episode's character image and prompt archived on disk? If not ->
+  first rebuild the character archive (rerun pipeline A Step 1 and archive), so every episode has the same face.
 
-## 工作流
+## Workflow
 
-1. **定路线**：按素材情况选流水线 A（静态图表情包成精，最快）或流水线 B（真人动作套壳，更还原扭曲感）——见对应章节
-2. **锁角色**：从 角色描述库 里取该角色的描述段，**跨镜头逐字复用**，保证一致性
-3. **写钩子与正文**：按 系列化公式 生产，单条 ≤15 秒、前 2 秒必须抓眼
-4. **出片校验**：逐条对照 交付标准 检查比例、时长、角色一致性
-5. **异常处置**：角色走样/时长超标/音画不同步时查 失败处置表
+1. **Pick the route**: based on available assets, choose pipeline A (static-image emoji come alive, fastest) or pipeline B (real-human action shell, closer to the warped feel) — see the corresponding section.
+2. **Lock the character**: pull that character's description block from the character description library and **reuse it verbatim across shots** to ensure consistency.
+3. **Write hooks and body**: produce per the series formula; each clip <= 15 seconds, and the first 2 seconds must grab attention.
+4. **Output validation**: check each clip against the delivery standard for proportions, duration, and character consistency.
+5. **Exception handling**: when the character drifts / duration exceeds limit / audio-video sync is off, consult the failure table.
 
-## 角色描述库（可直接复制的 prompt）
+## Character Description Library (Ready-to-Copy Prompts)
 
-基础形体（近似官方的形象）：
+Base body (close to the official look):
 
-> 一只圆滚滚的黄色卡通小恐龙，大大的白色椭圆肚皮，短小的四肢和尾巴，
-> 呆萌的大眼睛，Q 版 3D 卡通渲染，高饱和明黄色，纯色背景，全身正面。
+> A round, chubby yellow cartoon little dragon, big white oval belly, short limbs and tail,
+> cute big eyes, chibi 3D cartoon render, high-saturation bright yellow, solid-color background, full body front view.
 
-大笑变体（梗的名场面）：
+Laughing variant (the meme's signature scene):
 
-> 同一只黄色小恐龙仰天捧腹大笑，头向后仰，两只短手抱着肚子，
-> 肚皮剧烈抖动，眼睛笑成两条缝，嘴张到最大，身体比例夸张——
-> 头小肚子极大，动态模糊的抖动感。
+> The same yellow little dragon laughing uproariously with head tilted back, both short hands hugging its belly,
+> belly shaking violently, eyes squeezed shut into two slits, mouth wide open, exaggerated body proportions —
+> small head, huge belly, motion-blurred shaking feel.
 
-失调比例（更搞笑的"奶蛙"式扭曲）：
+Warped proportions (the funnier "nail-frog" distortion):
 
-> 同一角色但比例刻意失调：头部缩小、身体拉长放大，四肢细短乱蹬，
-> 五官挤在脸下半部，扭曲滑稽，橡皮质感抖动。
+> Same character but deliberately off-balance proportions: shrunken head, elongated enlarged body, thin short legs kicking wildly,
+> facial features clustered in the lower half of the face, distorted and comical, rubber-textured shake.
 
-系列皮肤矩阵创意：黄金圣衣版 / 西装上班版 / 春节红灯笼版 /
-西瓜皮版 / 深夜emo关灯版。每张皮肤 = base prompt + 一句皮肤描述。
+Series skin-matrix ideas: golden-armor version / suit-and-office version / Spring-Festival-red-lantern version / watermelon-rind version / late-night-emo-lights-out version. Each skin = base prompt + one skin description line.
 
-## 流水线 A：表情包成精（最快出片）
+## Pipeline A: Emoji Come Alive (Fastest Output)
 
-### 步骤 1：生成静态大笑图
+### Step 1: Generate the Static Laughing Image
 
-用任意文生图工具跑上面的 laughing variant prompt。
-预期：单角色、正面或微侧、肚子占比大、无多余肢体。
-失败分支：多角色/肢体崩坏 → 加 "single character, simple pose" 重生成。
+Run the laughing-variant prompt above with any text-to-image tool.
+Expected: single character, front or slightly side view, large belly proportion, no extra limbs.
+Failure branch: multiple characters / broken limbs -> add "single character, simple pose" and regenerate.
 
-### 步骤 2：图生视频
+### Step 2: Image-to-Video
 
-把图喂给图生视频工具（即梦/可灵等），动作指令：
+Feed the image into an image-to-video tool (Jimeng / Kling, etc.), with the action instruction:
 
-> 角色保持位置不变，仰天大笑，肚子剧烈抖动弹跳，身体前后摇摆，
-> 循环动画。
+> The character stays in place, laughing head-tilted-back, belly shaking and bouncing violently, body swaying forward and back,
+> looping animation.
 
-预期：3–5 秒无缝循环感素材。失败分支：动作僵硬 → 改指令强调
-"rubber-hose wobble, exaggerated squash and stretch" 再抽卡 1–2 次。
+Expected: a 3-5 second seamless-loop feel clip. Failure branch: stiff motion -> revise the instruction to emphasize
+"rubber-hose wobble, exaggerated squash and stretch" and roll the dice 1-2 more times.
 
-### 步骤 3：配笑声与字幕
+### Step 3: Add Laughter & Subtitles
 
-笑声制作：自己对着手机录一段大笑 → 变声器处理（升调 20–30% + 轻微机械感
-+ 按四四拍断句），剪出 3–8 秒可循环版本。**不要直接搬运别人视频里的原声**
-——平台查重会判搬运限流，自制同款效果才是自己的资产。
-剪辑：开头 0.5 秒内笑声炸响 → 视频循环 2–3 遍 → 大字标题压屏。
+Making the laugh: record your own belly laugh on a phone -> process it with a voice changer (pitch up 20-30% + slight robotic feel + break into 4/4 beats), cut a 3-8 second loopable version. **Do NOT directly rip the original audio from someone else's video** — platform duplicate detection flags it as reposting and throttles it; a self-made equivalent is your own asset.
+Editing: the laugh hits within the first 0.5 seconds -> loop the video 2-3 times -> overlay a big title on screen.
 
-## 流水线 B：真人动作套壳（更还原原梗的扭曲感）
+## Pipeline B: Real-Human Action Shell (Closer to the Original Meme's Warped Feel)
 
-### 步骤 1：动作源
+### Step 1: Action Source
 
-找一段魔性真人动作（军体拳、社会摇、广场舞、摔跤倒地）。自己拍最稳；
-用网络素材注意只取动作参考、不保留任何人脸画面。
-预期：一段轮廓清晰、节奏夸张的动作视频。失败分支：素材带可辨识人脸 →
-裁剪或重拍，只保留动作（剪影/远景），不带脸进入下一步。
+Find an absurd real-human action (military boxing, social dance, square dance, wrestling fall). Shooting it yourself is most reliable; if using web footage, only take the action as reference — keep no recognizable faces.
+Expected: an action video with a clear silhouette and exaggerated rhythm. Failure branch: footage has identifiable faces ->
+crop or reshoot, keep only the action (silhouette / long shot), no faces going into the next step.
 
-### 步骤 2：动作迁移
+### Step 2: Action Transfer
 
-用支持视频生视频/动作迁移的工具（即梦、可灵等）：参考图用流水线 A 步骤 1 的
-形象图 + 动作视频作驱动。预期：角色复刻动作且比例被 AI 拉歪——
-**这种失控感正是原梗好笑的核心，别修它**。
-失败分支：完全不像原动作 → 换轮廓更简单的动作重跑；太像正常动画不搞笑 →
-prompt 加 "distorted proportions, head shrinking, belly expanding"。
+Use a tool supporting video-to-video / action transfer (Jimeng, Kling, etc.): use pipeline A Step 1's
+character image as the reference + the action video as the driver. Expected: the character copies the action and the AI warps the proportions — **this loss of control is exactly what makes the original meme funny; don't fix it**.
+Failure branch: doesn't resemble the original action at all -> switch to a simpler-silhouette action and rerun; looks too much like normal animation and isn't funny ->
+add "distorted proportions, head shrinking, belly expanding" to the prompt.
 
-### 步骤 3–4：同流水线 A 的步骤 3，然后进入系列化。
+### Steps 3-4: Same as Pipeline A Step 3, then move into series production.
 
-## 系列化公式（钩子+正文批量生产）
+## Series Formula (Batch-Produce Hooks + Body)
 
-一个身体壳 × N 张皮肤 × 固定文案模板 = 一晚上五条存货：
+One body shell x N skins x a fixed caption template = five clips stocked up in one evening:
 
-| 模板 | 示例 |
+| Template | Example |
 |---|---|
-| 开光式 | 《恭喜你刷到了大笑奶龙》＋"刷到的都是天选之人" |
-| 稀有概率 | "金色奶龙，出现概率仅 0.01%，见者好运" |
-| 对话梗 | 两只同款对喊"我是奶龙！""我才是奶龙！" |
-| 反差日常 | 上班版/上课版/干饭版各一条 |
+| Blessing style | "Congratulations, you scrolled onto the Laughing Nailong" + "everyone who sees this is chosen" |
+| Rare probability | "Golden Nailong, appearance probability only 0.01%, good luck to all who see it" |
+| Dialogue meme | Two identical ones yelling at each other "I'm Nailong!" "No, I'm Nailong!" |
+| Contrast daily-life | Office version / class version / foodie version, one each |
 
-发布：勾选"内容由 AI 生成"；标题带 #奶龙 类话题标签获取流量池。
+Publishing: tick "AI-generated content"; put #Nailong-style hashtags in the title to enter the traffic pool.
 
-## 失败处置表
+## Failure Remediation Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Remedy |
 |---|---|---|
-| 图出来像青蛙/蜥蜴不像胖龙 | 白肚皮没写进 prompt | 补 "big white oval belly" 重生成 |
-| 视频里肚子不抖 | 动作指令太平淡 | 强调 shake/jiggle/wobble 三连词重抽 |
-| 笑声尴尬不洗脑 | 无节奏处理 | 四四拍断句 + 二次变声器处理 |
-| 平台判搬运 | 用了他人原声/素材 | 全部自制：自录笑声、自己拍动作源 |
-| 被判疑似AI未申明 | 漏勾声明 | 补勾，检查下次清单 |
+| Image looks like a frog/lizard, not a fat dragon | White belly omitted from prompt | Add "big white oval belly" and regenerate |
+| Belly doesn't shake in the video | Action instruction too flat | Emphasize the triple shake/jiggle/wobble words and reroll |
+| Laugh feels awkward, not catchy | No rhythm processing | 4/4-beat phrasing + second voice-changer pass |
+| Platform flags it as reposted | Used someone else's original audio/footage | Make everything yourself: self-recorded laugh, self-shot action source |
+| Flagged as suspected AI, undeclared | Missed the declaration | Tick it, check next time's checklist |
 
-## 交付标准
+## Delivery Standard
 
-成功 = 成片 mp4（9:16、开头即笑声、字幕齐全）+ 所用形象图/prompt 存档
-（做系列必须归档，保证每期同一张脸）+ 已勾选 AI 声明的截图确认。
-其余情况都算未完成——直说。
+Success = finished mp4 (9:16, laugh at the opening, subtitles complete) + the character image/prompt used archived
+(archiving is mandatory for a series, so every episode keeps the same face) + a screenshot confirming the AI declaration is ticked.
+Anything else counts as incomplete — say so plainly.
 
-## 参考
+## References
 
-- 本技能为纯提示型，无需外部参考文件。
+- This skill is pure prompt-based; no external reference files needed.

@@ -1,6 +1,6 @@
 ---
 name: memory-extractor
-description: "Use when turning a conversation or document into structured memory candidates: decide what is worth remembering, split facts to fine granularity, deduplicate, and score confidence. Triggers on 记忆抽取, 对话转记忆, 提取记忆条目, memory extraction, extract memories, conversation to memory, candidate extraction, 置信度打分, 细粒度事实. NOT for storing, updating, or retrieving memories — use memory-manager or memory-retriever."
+description: "Use when turning a conversation or document into structured memory candidates: decide what is worth remembering, split facts to fine granularity, deduplicate, and score confidence. Triggers on memory extraction, conversation to memory, extracting memory entries, memory extraction, extract memories, conversation to memory, candidate extraction, confidence scoring, fine-grained facts, knowledge retrieval, RAG. NOT for storing, updating, or retrieving memories — use memory-manager or memory-retriever."
 license: Apache-2.0
 compatibility: Pure prompt-based; no scripts, no environment probing.
 metadata:
@@ -14,138 +14,138 @@ metadata:
 
 # Memory Extractor
 
-对话里九成内容不值得记。本技能解决"哪些值得记、怎么记才干净"：从对话或文档中抽取候选记忆条目，逐条拆到细粒度、去重、打置信度，产出机器可解析的 candidates.json——它只做抽取，不写入库（那是 memory-manager 的事）。
+Nine out of ten things in a conversation are not worth remembering. This skill solves "what is worth remembering and how to record it cleanly": it extracts candidate memory entries from a conversation or document, splits each to fine granularity, deduplicates, and scores confidence, producing a machine-parseable candidates.json. It only extracts — it does not write to the store (that is memory-manager's job).
 
-## 输入清单
+## Input Checklist
 
-开工前一次性收集。缺输入时用这句话向用户问一次："要抽取记忆条目，请一次性提供：待抽取的对话或文档原文、记忆归属的 user_id、现有记忆库导出文件（用于去重，没有则跳过去重、标注 NO_DEDUP）。"
+Collect everything up front before starting. If an input is missing, ask the user once with this prompt: "To extract memory entries, please provide all at once: the conversation or document text to extract from, the user_id the memories belong to, and an export of the existing memory store (for deduplication; skip dedup and mark NO_DEDUP if absent)."
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |---|---|---|
-| 对话/文档原文 | 是 | 完整文本或对话记录；不接受"大概聊了什么"的转述 |
-| user_id | 是 | 归属主体；多用户对话必须分别标注 |
-| 现有记忆库导出 | 否 | 同主题已有条目，用于去重比对；缺失时输出标注 NO_DEDUP |
-| schema 约束 | 否 | 若上游 memory-architect 已冻结 schema，按其 type 枚举执行 |
+| Conversation/document text | Yes | Full text or conversation log; secondhand "roughly what we talked about" paraphrases are not accepted |
+| user_id | Yes | The owning subject; multi-user conversations must be labeled separately |
+| Existing store export | No | Same-topic existing entries for dedup comparison; when absent, mark NO_DEDUP in the output |
+| Schema constraint | No | If upstream memory-architect has frozen a schema, execute per its type enum |
 
-## 前置自检
+## Pre-flight Self-check
 
-本技能为纯 prompt 技能，无需探测运行环境，只检查输入完备性：
+This is a pure-prompt skill; no environment probing needed. It only checks input completeness:
 
-- 原文与 user_id 是否齐备？任一缺失 → 用问齐话术问一次，不要猜归属。
-- 原文是否为转述而非原始记录？转述会引入转述者的归纳失真 → 要求提供原文；拿不到则在输出中整体降一档置信度并标注 `secondhand: true`。
-- 现有记忆库导出缺失 → 正常继续，但最终输出标注 NO_DEDUP，交由 memory-manager 补做去重。
+- Are the source text and user_id both present? If either is missing → ask once with the prompt above; do not guess the ownership.
+- Is the source text a paraphrase rather than the original record? Paraphrasing introduces the paraphraser's summarizing distortion → ask for the original; if you cannot get it, drop the whole output one confidence tier and mark `secondhand: true`.
+- Existing store export is missing → proceed normally, but mark the final output NO_DEDUP and let memory-manager complete the dedup.
 
-## 红线
+## Red Lines
 
-1. 不推断敏感类别：健康、财务、宗教、政治倾向、性取向等，除非用户在对话中**显式要求**记住，否则一律不抽取——闲聊提到"最近在化疗"不是可抽取的记忆。
-2. 推断条目必须标注：凡非用户原话直接支持、由行为或上下文推断的条目，confidence ≤ 0.7 且 content 末尾加 `[inferred]` 标记。
-3. evidence_quote 必须是原文逐字引用：抽不出原文引用的条目一律丢弃，不许"凭印象"造证据。
-4. 不抽取一次性事务："帮我订周三的会议室"是日程不是记忆，写入记忆库只会制造噪声。
-5. 不改写用户立场：原文说"暂时不想用 Vue"不得抽成"用户不喜欢 Vue"。
+1. Do not infer sensitive categories: health, finances, religion, political leanings, sexual orientation, and the like are never extracted unless the user **explicitly asks** to remember them in conversation — a passing mention like "I've been in chemo lately" is not an extractable memory.
+2. Inferred entries must be flagged: any entry not directly supported by the user's own words but inferred from behavior or context gets confidence ≤ 0.7 and an `[inferred]` marker appended to the content.
+3. evidence_quote must be a verbatim quotation from the source: any entry that cannot yield a verbatim quote is dropped; never fabricate evidence "from memory."
+4. Do not extract one-off transactions: "book me a meeting room for Wednesday" is a schedule item, not a memory; writing it into the store only creates noise.
+5. Do not rewrite the user's stance: the source saying "I don't want to use Vue for now" must not be extracted as "the user dislikes Vue."
 
-## 工作流
+## Workflow
 
-### 步骤 1：通读并分段
+### Step 1: Read Through and Segment
 
-- **动作：** 通读原文，按话题切换点切成片段；每段标注话题标签。
-- **预期：** 片段列表，每段有话题标签与行号范围（可追溯到原文）。
-- **失败时：** 原文无明确话题边界（如流水账）→ 按固定轮数（经验值 10 轮一段，可调）机械切分。
+- **Action:** Read the source through and split it at topic shifts; tag each segment with a topic label.
+- **Expected:** A segment list, each with a topic label and a line-number range traceable to the source.
+- **On failure:** The source has no clear topic boundaries (e.g. a running log) → split mechanically at a fixed turn count (empirical: 10 turns per segment, adjustable).
 
-### 步骤 2：候选抽取
+### Step 2: Candidate Extraction
 
-- **动作：** 逐段扫四类信号，每类配标准话术模板：
-  - fact（事实）：用户陈述自身情况——"我在上海工作""我用 Python 写后端"。
-  - preference（偏好）：表达好恶或要求——"回复尽量短""别用表情符号"。
-  - decision（决策）：拍板与选择——"那就定 PostgreSQL""先不做移动端"。
-  - project_status（项目状态）：进展与阻塞——"登录模块已经上线""卡在支付回调"。
+- **Action:** Scan each segment for four signal types, each with a standard prompt template:
+  - fact: the user states something about themselves — "I work in Shanghai," "I write backends in Python."
+  - preference: expresses likes/dislikes or requirements — "keep replies short," "no emojis."
+  - decision: a call or choice made — "let's go with PostgreSQL," "no mobile for now."
+  - project_status: progress and blockers — "the login module is live," "stuck on the payment callback."
 
-  判别话术：这句话六个月后还成立吗？成立 → fact 或 preference；只描述某个时间点的落定 → decision；描述"进行到哪" → project_status。带"喜欢/讨厌/别再/尽量" → preference 优先。
+  Discrimination prompt: is this statement still true six months from now? If yes → fact or preference; if it only describes a settled point in time → decision; if it describes "how far along things are" → project_status. Words like "like/hate/stop/try to" → prefer preference first.
 
-- **预期：** 每个候选有原文出处（行号）与类别归属；含糊句（"可能""大概"）降级为待定。
-- **失败时：** 一句话含多类信号 → 拆成多条候选分别归类，不许硬塞一条。
+- **Expected:** Each candidate has a source location (line number) and a category; vague sentences ("maybe," "probably") are demoted to pending.
+- **On failure:** One sentence carries multiple signal types → split into multiple candidates and classify separately; do not cram them into one entry.
 
-### 步骤 3：细粒度拆分
+### Step 3: Fine-grained Splitting
 
-- **动作：** 逐条执行"一条记忆 = 一个可独立成立的事实"：复合句拆开（"用户在上海工作且养猫"拆成两条），条件句拆开（"周一到周五早睡"与"周末熬夜"是两条）。
-- **预期：** 每条候选单独成立且无代词残留——把"他""那家公司"替换为具体指代。
+- **Action:** Apply "one memory = one independently true fact" to every entry: split compound sentences ("the user works in Shanghai and has a cat" becomes two entries), split conditional sentences ("weekdays sleep early" and "weekends stay up late" are two entries).
+- **Expected:** Each candidate stands on its own with no residual pronouns — replace "he" and "that company" with concrete referents.
 
-拆分示例：
+Splitting example:
 
 ```text
-原文："用户在上海做后端开发，家里养了只猫，最近想把数据库从 MySQL 换掉。"
-拆分：1) "用户工作地点在上海，岗位是后端开发" (fact)
-      2) "用户家里养了一只猫" (fact)
-      3) "用户计划替换当前数据库（现为 MySQL）" (project_status)
+Source: "The user does backend development in Shanghai, has a cat at home, and recently wants to replace the database from MySQL."
+Split: 1) "The user works in Shanghai as a backend developer" (fact)
+       2) "The user has a cat at home" (fact)
+       3) "The user plans to replace the current database (currently MySQL)" (project_status)
 ```
 
-- **失败时：** 拆开后某条失去独立含义 → 合并回去并注明 granularity_note 说明为何不可拆。
+- **On failure:** After splitting, an entry loses independent meaning → merge it back and note in granularity_note why it cannot be split.
 
-### 步骤 4：去重与置信度打分
+### Step 4: Dedup and Confidence Scoring
 
-- **动作：** 与现有记忆库逐条比对（语义等价即视为重复，如"我在上海工作"与"我的工作地点是上海"）。打分规则：用户原话显式说出 = 0.9；多次重复出现的偏好 = 0.95；由行为推断 = 0.6；由单一间接线索推断 = 0.6 以下。
-- **预期：** 每条候选有 confidence 数值与打分依据；重复项标记 `duplicate_of` 并携带现有条目 id。
-- **失败时：** 现有库缺失（NO_DEDUP 模式）→ 跳过比对，confidence 上限压到 0.8 以留出后续校准空间。
+- **Action:** Compare entry by entry against the existing store (semantic equivalence counts as duplicate, e.g. "I work in Shanghai" vs "my workplace is Shanghai"). Scoring rules: the user says it explicitly = 0.9; a preference repeated multiple times = 0.95; inferred from behavior = 0.6; inferred from a single indirect clue = below 0.6.
+- **Expected:** Each candidate has a confidence value and its scoring rationale; duplicates are marked `duplicate_of` and carry the existing entry's id.
+- **On failure:** Existing store is missing (NO_DEDUP mode) → skip comparison, cap confidence at 0.8 to leave room for later calibration.
 
-### 步骤 5：输出 candidates.json
+### Step 5: Output candidates.json
 
-- **动作：** 汇总为 JSON 数组，字段名全英文，附一行统计（各类条数、平均置信度）。
+- **Action:** Aggregate into a JSON array, field names all in English, with a one-line summary (counts per category, average confidence).
 
 ```json
 [
   {
-    "content": "用户工作地点在上海",
+    "content": "The user works in Shanghai",
     "type": "fact",
     "confidence": 0.9,
-    "evidence_quote": "我平时在上海这边上班",
-    "granularity_note": "由复合句拆出；另一条为'用户养猫'",
+    "evidence_quote": "I usually work here in Shanghai",
+    "granularity_note": "Split from a compound sentence; the other entry is 'the user has a cat'",
     "user_id": "u_123",
     "duplicate_of": null
   }
 ]
 ```
 
-- **预期：** JSON 可被 `json.loads` 直接解析；每条四要素（content/type/confidence/evidence_quote）齐全。
-- **失败时：** JSON 校验失败 → 修复引号转义与逗号后重出，禁止交付半结构化文本。
+- **Expected:** The JSON parses directly with `json.loads`; each entry has all four elements (content/type/confidence/evidence_quote).
+- **On failure:** JSON validation fails → fix quote escaping and commas and re-emit; half-structured text is not allowed as delivery.
 
-## 参数速查表
+## Parameter Quick Reference
 
-| 字段/规则 | 取值 | 说明 |
+| Field/Rule | Value | Notes |
 |---|---|---|
-| `type` 枚举 | fact / preference / decision / project_status | 四类之外的信号不抽 |
-| 显式事实 confidence | 0.9 | 经验值，可调；多源重复可升至 0.95 |
-| 推断条目 confidence | ≤ 0.7 且加 `[inferred]` | 红线 2，不可上调 |
-| NO_DEDUP 模式 confidence 上限 | 0.8 | 经验值，可调 |
-| evidence_quote | 原文逐字 | 最长一句；跨句引用拆为多条 |
-| 话题切段长 | 10 轮/段 | 经验值，可调 |
+| `type` enum | fact / preference / decision / project_status | Signals outside the four are not extracted |
+| Explicit fact confidence | 0.9 | Empirical, adjustable; multi-source repetition may rise to 0.95 |
+| Inferred entry confidence | ≤ 0.7 plus `[inferred]` | Red line 2, cannot be raised |
+| NO_DEDUP mode confidence cap | 0.8 | Empirical, adjustable |
+| evidence_quote | Verbatim from source | Longest single sentence; cross-sentence quotes split into multiple entries |
+| Topic segment length | 10 turns/segment | Empirical, adjustable |
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Action |
 |---|---|---|
-| 抽出条目超过原文信息量 | 把推断写成了事实 | 逐条核对 evidence_quote；无原文支撑的降级为推断或删除 |
-| 敏感类别混入候选 | 把闲聊提及当成了显式意愿 | 按红线 1 删除；仅当用户原话含"记住/记一下"才保留 |
-| 大量重复候选 | 对话中反复强调同一偏好 | 合并为一条，confidence 取多次出现的 0.95 |
-| 类别归属拿不准 | 偏好与决策界限模糊 | 看时态：表达好恶为 preference，落定为 decision；仍拿不准按 preference 并在 note 说明 |
-| 候选条目远超对话长度合理密度 | 把寒暄和过程性发言也抽了 | 回步骤 2 用"六个月后还成立吗"复筛；单轮对话候选建议不超过 10 条（经验值，可调） |
-| evidence_quote 与 content 语义脱节 | 抄错了原文位置 | 逐条回贴行号核对；定位不到的按红线 3 丢弃 |
-| user_id 多人混淆 | 群聊未标注说话人 | 停止抽取，要求提供带说话人标注的原文 |
-| JSON 超长难维护 | 单次对话产出过多 | 按话题分段输出多个数组，每段独立可解析 |
-| 输出条目全是零碎琐事 | 细粒度拆分过了头 | 拆分以"可独立成立"为界，不为拆而拆；琐事在 granularity_note 标 `low_value` 供 memory-manager 降权 |
+| Extracted entries exceed the source's information content | Inferences written as facts | Check evidence_quote entry by entry; demote unsupported ones to inferred or delete |
+| Sensitive categories appear in candidates | Passing mentions treated as explicit intent | Delete per red line 1; keep only when the user's own words contain "remember / note this" |
+| Masses of duplicate candidates | The same preference emphasized repeatedly in conversation | Merge into one entry, confidence at 0.95 from multiple occurrences |
+| Unsure of category assignment | The line between preference and decision is blurry | Look at tense: expressing likes/dislikes is preference, settling on a choice is decision; if still unsure, treat as preference and note it |
+| Candidates far exceed the reasonable density for the conversation | Small talk and process chatter also extracted | Return to step 2 and re-screen with "is it still true in six months"; recommend no more than 10 candidates per conversation turn (empirical, adjustable) |
+| evidence_quote is semantically disconnected from content | The source location was copied wrong | Re-paste line numbers and check each; drop entries that cannot be located per red line 3 |
+| user_id confused across people | A group chat with no speaker labels | Stop extracting; ask for a source with speaker labels |
+| JSON too long to maintain | One conversation produced too much | Output multiple arrays by topic segment, each independently parseable |
+| Output entries are all trivial minutiae | Over-fine splitting | Stop splitting at "can stand independently"; do not split for splitting's sake; mark trivia `low_value` in granularity_note for memory-manager to down-weight |
 
-## 交付标准
+## Delivery Standards
 
-- candidates.json 为合法 JSON 数组，每条含 content、type、confidence、evidence_quote、granularity_note、user_id、duplicate_of 七字段。
-- 每条 evidence_quote 能在原文中逐字定位（附行号更佳）。
-- 敏感类别零条目；推断条目全部 ≤ 0.7 且带 `[inferred]`。
-- 复合句全部拆分，无代词残留。
-- 附统计行：各类条数、平均 confidence、是否 NO_DEDUP。
+- candidates.json is a valid JSON array; each entry has the seven fields content, type, confidence, evidence_quote, granularity_note, user_id, duplicate_of.
+- Each evidence_quote can be located verbatim in the source (line number preferred).
+- Zero entries in sensitive categories; all inferred entries ≤ 0.7 and carry `[inferred]`.
+- All compound sentences are split, with no residual pronouns.
+- A summary line is attached: counts per category, average confidence, and whether NO_DEDUP applies.
 
-## 参考
+## References
 
-- `references/sources-and-methodology.md` —— 需要说明细粒度事实原则与两阶段抽取流程的出处（mem0）、如何署名时读；评审核对方法论时也读。
+- `references/sources-and-methodology.md` — read when you need to explain where the fine-grained-fact principle and two-stage extraction flow come from (mem0) and how to attribute them; also read during review to cross-check methodology.
 
-## 链路位置
+## Chain Position
 
-- 上游：`memory-architect`（schema 与 type 枚举的制定者，本技能按其约束产出）。
-- 下游：`memory-manager`（接收本技能的 candidates.json，执行 ADD/UPDATE/DELETE/NOOP 落库决策）。
-- 本技能是 memory-systems 链路的"入口工序"：产出质量直接决定下游库的干净程度，宁缺勿滥。
+- Upstream: `memory-architect` (the definer of the schema and type enum; this skill produces under its constraints).
+- Downstream: `memory-manager` (receives this skill's candidates.json and executes ADD/UPDATE/DELETE/NOOP store decisions).
+- This skill is the "entry step" of the memory-systems chain: output quality directly determines how clean the downstream store is; better fewer than sloppy.

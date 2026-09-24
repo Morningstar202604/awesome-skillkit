@@ -1,14 +1,15 @@
 ---
 name: docx-writer
-description: >
+description: >-
   Generate and audit real Word (.docx) files from a markdown-ish draft or
-  structured JSON, with correct heading levels, lists, tables, bold spans,
-  and CJK font setup. Use when the user asks to 写文档 / 写个 Word / 生成
-  word 文档 / 出一份 docx 报告 / create document / make a Word report /
-  export to docx, or wants to inspect or restyle an existing .docx. Do NOT
-  use for PDF manipulation (use pdf-pipeline), spreadsheets, or slide decks.
+  structured JSON, with correct heading levels, lists, tables, bold spans, and
+  CJK font setup. Use when the user asks to write a document / create a Word
+  file / generate a docx report / create document / make a Word report / export
+  to docx / format a document, or wants to inspect or restyle an existing
+  .docx. Do NOT use for PDF manipulation (use pdf-pipeline), spreadsheets, or
+  slide decks.
 license: Apache-2.0
-compatibility: 需要 python3 + python-docx（pip 可装）；无则降级为只产出 markdown
+compatibility: Requires python3 + python-docx (pip-installable); degrades to markdown-only output without it
 metadata:
   author: "awesome-skillkit"
   version: "1.0"
@@ -18,128 +19,134 @@ metadata:
   verified-date: "2026-09-16"
 ---
 
-# DOCX Writer（Word 文档生成与审读）
+# DOCX Writer (Word Document Generation and Review)
 
-把一份结构化草稿变成真正的 .docx：标题层级、列表、表格、粗体一次到位，
-并用中文正文字体（宋体/黑体）统一排版。核心判断：**内容源必须是结构化的**，
-拿到需求先定大纲再渲染，禁止凭空即兴排版。
+Turn a structured draft into a real .docx: heading hierarchy, lists, tables,
+and bold spans all handled in one pass, with CJK body fonts (SimSun/SimHei)
+applied consistently. Core judgment: **the content source must be structured**—
+establish an outline before rendering, no impromptu layout.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必填 | 说明 |
+| Input | Required | Notes |
 |---|---|---|
-| 文档主题与用途 | 是 | 写什么、给谁看（报告/纪要/通知/说明书） |
-| 内容草稿或要点 | 是 | 用户给的素材；没有则先和用户逐节确认大纲 |
-| 目标文件名 | 否 | 默认 `output.docx`，保存在当前工作目录 |
-| 是否需要封面标题 | 否 | 默认加 Title 段 |
-| 中文字体偏好 | 否 | 默认正文宋体、标题黑体 |
+| Document topic and purpose | yes | What to write, for whom (report/notes/notice/manual) |
+| Content draft or bullets | yes | User-provided material; if absent, confirm outline section by section |
+| Target filename | no | Default `output.docx`, saved in current working directory |
+| Cover title needed | no | Default adds a Title paragraph |
+| CJK font preference | no | Default body SimSun, headings SimHei |
 
-缺输入时，一次性问齐（不要挤牙膏式追问）：
+When inputs are missing, ask all at once (don't drip-feed follow-ups):
 
-> 请提供：1) 文档主题与用途；2) 内容素材或让我按你给的大纲起草；
-> 3) 目标文件名（默认 output.docx）。字体有偏好吗（默认宋体正文/黑体标题）？
+> Please provide: 1) document topic and purpose; 2) content material or let me
+> draft from your outline; 3) target filename (default output.docx). Any font
+> preference (default SimSun body / SimHei headings)?
 
-## 前置自检
+## Pre-flight Checks
 
 ```bash
 python3 -c "import docx; print('python-docx ok')"
 test -f scripts/docx_ops.py && echo "script ok"
 ```
 
-- 两条都通过 → 走完整流程（步骤 2 起）。
-- 第一条报 `ModuleNotFoundError` → 告知用户 `pip install python-docx`
-  可启用 .docx 导出；未经用户同意不要擅自安装，此时降级为只产出
-  markdown 草稿并在交付时说明。
-- 第二条失败（脚本不在）→ 在当前工作目录用同样功能内联 python-docx
-  代码代替，见步骤 3 的等效写法。
+- Both pass → proceed through full workflow (from step 2).
+- First reports `ModuleNotFoundError` → tell user `pip install python-docx`
+  enables .docx export; don't install without consent—degrade to markdown draft
+  and note it in delivery.
+- Second fails (script missing) → use equivalent inline python-docx code in the
+  current working directory (see step 3 equivalent).
 
-## 工作流
+## Workflow
 
-### 步骤 1：定大纲与内容源
+### Step 1: Establish Outline and Content Source
 
-把内容整理成 markdown-ish 草稿（约定见下表），存为 `content.md`。
-这是唯一事实源，后续渲染只是机械执行。
+Organize content into a markdown-ish draft (conventions in table below), save
+as `content.md`. This is the single source of truth; rendering is mechanical.
 
-| 草稿语法 | 映射结果 |
+| Draft Syntax | Maps To |
 |---|---|
 | `# / ## / ###` | Heading 1 / 2 / 3 |
-| `- ` 或 `* ` 开头 | 项目符号列表 |
-| `1. ` 开头 | 编号列表 |
-| `\|\|` 分隔的行块 | 表格（首行为表头） |
-| `**文字**` | 粗体 run |
-| 其余普通行 | 正文段落 |
+| `- ` or `* ` prefix | Bullet list |
+| `1. ` prefix | Numbered list |
+| `\|\|`-delimited row blocks | Table (first row is header) |
+| `**text**` | Bold run |
+| Other plain lines | Body paragraph |
 
-预期：`content.md` 覆盖全部章节，无空节。
-若失败（内容素材不足）：回到输入清单，向用户一次性补问缺失章节。
+Expected: `content.md` covers all sections with no empty sections.
+If it fails (insufficient material): return to input checklist and ask for
+missing sections in one batch.
 
-### 步骤 2：生成 .docx
-
-```bash
-python3 scripts/docx_ops.py create --input content.md --output output.docx --title "文档标题"
-```
-
-结构化来源（比如程序流水线）可用 JSON：每块 `{"type": "h1|h2|h3|
-para|bullet|number|table", "text": "...", "rows": [[...]]}`，
-同样走 `create --input content.json`。
-
-预期输出：`created: output.docx`。
-若失败：检查草稿语法是否混入全角 `＃`、表格行是否以 `|` 开头；
-修正后重跑。
-
-### 步骤 3：统一中文样式
+### Step 2: Generate .docx
 
 ```bash
-python3 scripts/docx_ops.py styles output.docx --body-font 宋体 --heading-font 黑体
+python3 scripts/docx_ops.py create --input content.md --output output.docx --title "Document Title"
 ```
 
-预期输出：`saved: output.docx` 加逐样式清单，每行形如
-`Heading 1 -> eastAsia=黑体`。
-若失败：字体名必须是 Word 认识的中文字体名（宋体/黑体/楷体/仿宋），
-不要填英文名；样式清单为空说明文档没有可改段落样式。
+Structured sources (e.g. program pipelines) can use JSON: each block
+`{"type": "h1|h2|h3|para|bullet|number|table", "text": "...", "rows": [[...]]}`,
+also via `create --input content.json`.
 
-### 步骤 4：读回验证
+Expected output: `created: output.docx`.
+If it fails: check whether draft syntax mixed in full-width `＃`, or table rows
+don't start with `|`; fix and rerun.
 
-生成后必须读回检查，不许只看脚本退出码：
+### Step 3: Apply CJK Styles
+
+```bash
+python3 scripts/docx_ops.py styles output.docx --body-font SimSun --heading-font SimHei
+```
+
+Expected output: `saved: output.docx` plus per-style list, each line like
+`Heading 1 -> eastAsia=SimHei`.
+If it fails: font names must be CJK font names Word recognizes
+(SimSun/SimHei/KaiTi/FangSong), not English names; empty style list means the
+document has no modifiable paragraph styles.
+
+### Step 4: Read Back to Verify
+
+After generation, must read back and check—don't just trust exit code:
 
 ```bash
 python3 scripts/docx_ops.py inspect output.docx --preview 12
 ```
 
-预期：段落数/表格数符合草稿；样式统计里标题、列表各就各位；
-预览文本无乱码、无丢段。
-若失败：常见错位见下方失败处置表；改 `content.md` 后回到步骤 2。
+Expected: paragraph/table counts match draft; style statistics show headings
+and lists in place; preview text has no garbled characters or dropped paragraphs.
+If it fails: see failure table below; fix `content.md` and return to step 2.
 
-### 步骤 5：交付
+### Step 5: Deliver
 
-告知用户文件绝对路径、章节结构（把 inspect 的样式统计转述成一段话），
-并说明：内容源在 `content.md`，后续改动优先改草稿再重渲染。
+Tell the user the file's absolute path, section structure (restate the inspect
+style stats in a paragraph), and note: content source is `content.md`; future
+changes should edit the draft first then re-render.
 
-预期：用户拿到能直接打开的 .docx 与可复用的 `content.md`。
-若失败：用户打开后发现排版不符 → 别改 .docx，回到步骤 1 改 `content.md` 后重跑步骤 2-4；
-`inspect` 与用户所见不一致 → 以用户所见为准，按失败处置表逐条排查。
+Expected: user gets a directly openable .docx plus reusable `content.md`.
+If it fails: layout doesn't match on open → don't edit .docx; return to step 1
+to fix `content.md` then rerun steps 2-4. `inspect` disagrees with what user
+sees → trust user's view, troubleshoot row by row per failure table.
 
-## 交付标准
+## Delivery Criteria
 
-- 产物：一个可被 Word/WPS 打开的 .docx 文件。
-- 位置：当前工作目录（或用户指定路径）。
-- 完整性验证（三选一，至少做 inspect）：
-  - `inspect` 输出的样式统计与草稿大纲一致；
-  - `unzip -l output.docx` 里存在 `word/document.xml` 与 `word/styles.xml`；
-  - 用户侧能正常打开且标题导航窗格有层级。
-- 脚本无残留临时文件；草稿文件在交付说明中提及而非删除。
+- Artifact: a .docx file openable in Word/WPS.
+- Location: current working directory (or user-specified path).
+- Integrity verification (at least inspect, pick one):
+  - `inspect` style stats match draft outline;
+  - `unzip -l output.docx` contains `word/document.xml` and `word/styles.xml`;
+  - User can open it and heading navigation shows hierarchy.
+- No leftover temp files from script; draft file is mentioned in delivery notes, not deleted.
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Action |
 |---|---|---|
-| 打开后中文全是方块/乱码 | 样式未设 eastAsia 字体，Word 用了默认西文字体 | 跑步骤 3 的 `styles`；验证 `word/styles.xml` 中 `w:eastAsia` 值 |
-| 标题不在导航窗格出现 | 标题用了普通段落加粗而非 Heading 样式 | 草稿里必须用 `#` 语法，禁止手工加粗模拟标题 |
-| 表格丢失或挤成一列 | 表格行未用 `\|` 开头，或分隔行格式不对 | 每个表格行都以 `\|` 开头，分隔行用 `\|---\|` |
-| 大文档生成很慢或卡住 | 段落数上万，逐段 API 调用开销大 | 拆章节分文件生成再人工合并；或精简草稿 |
-| 图片丢失 | 本脚本不含图片插入能力 | 用 python-docx 的 `add_picture` 单独补一步，或告知用户图片需后期插入 |
-| 打开提示文件损坏 | 生成过程被中断，ZIP 不完整 | 删除后从步骤 2 重新生成，勿手工修补 |
+| CJK shows as boxes/garbled on open | Styles lack eastAsia font, Word used default Latin font | Run step 3 `styles`; verify `w:eastAsia` value in `word/styles.xml` |
+| Headings don't appear in navigation pane | Headings used bold normal paragraphs instead of Heading styles | Draft must use `#` syntax; no manual bold-as-heading |
+| Tables lost or squeezed into one column | Table rows don't start with `\|`, or separator row malformed | Every table row starts with `\|`; separator row uses `\|---\|` |
+| Large document slow or hangs | Tens of thousands of paragraphs, per-paragraph API overhead | Split by section into files then merge manually; or trim draft |
+| Images missing | Script has no image insertion | Use python-docx `add_picture` as a separate step, or tell user images need post-insertion |
+| Open prompts file corrupt | Generation interrupted, ZIP incomplete | Delete and regenerate from step 2; don't hand-patch |
 
-## 参考
+## References
 
-- 方法论与来源声明：`references/sources-and-methodology.md`
-- 脚本帮助：`python3 scripts/docx_ops.py --help`
+- Methodology and source attribution: `references/sources-and-methodology.md`
+- Script help: `python3 scripts/docx_ops.py --help`

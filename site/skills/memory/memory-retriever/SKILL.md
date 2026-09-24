@@ -1,6 +1,6 @@
 ---
 name: memory-retriever
-description: "Use when retrieving memories from a long-term store to inject into an agent's context: rewrite queries from the current conversation, run hybrid retrieval (keyword + semantic + recency), fuse scores, and inject within a token budget. Triggers on 记忆检索, 混合检索, 记忆注入, memory retrieval, hybrid search, context injection, token budget, 查询改写, recency weighting. NOT for building the store or managing its lifecycle — use memory-architect or memory-manager."
+description: "Use when retrieving memories from a long-term store to inject into an agent's context: rewrite queries from the current conversation, run hybrid retrieval (keyword + semantic + recency), fuse scores, and inject within a token budget. Triggers on memory retrieval, hybrid retrieval, memory injection, memory retrieval, hybrid search, context injection, token budget, query rewriting, recency weighting, knowledge retrieval, RAG, long-term memory. NOT for building the store or managing its lifecycle — use memory-architect or memory-manager."
 license: Apache-2.0
 compatibility: Pure prompt-based; no scripts, no environment probing. Works with keyword-only stores via a documented degradation path.
 metadata:
@@ -14,137 +14,137 @@ metadata:
 
 # Memory Retriever
 
-检索是记忆系统的价值出口：库建得再好、管得再干净，检索不准就全白搭。本技能把"当前对话"翻译成检索查询，三路召回（关键词、语义、时近）后融合打分，在 token 预算内把最值得注入的记忆块交给 agent——并且每块都带边界标记，让 agent 分得清"记忆里的"和"这轮说的"。
+Retrieval is the value outlet of a memory system: no matter how well the store is built and maintained, if retrieval is inaccurate it was all for nothing. This skill translates "the current conversation" into retrieval queries, fuses scores after three-way recall (keyword, semantic, recency), and hands the agent the memory blocks most worth injecting within the token budget — each block carrying boundary markers so the agent can tell "from memory" apart from "said this turn."
 
-## 输入清单
+## Input Checklist
 
-开工前一次性收集。缺输入时用这句话向用户问一次："要检索记忆，请一次性提供：当前对话原文（最近数轮）、记忆库导出或检索接口说明、token 预算（不填按经验值 2000）、是否具备语义向量检索能力。"
+Collect everything up front before starting. If an input is missing, ask the user once with this prompt: "To retrieve memories, please provide all at once: the current conversation text (the last few turns), the memory store export or retrieval interface description, the token budget (defaults to the empirical 2000 if blank), and whether semantic vector retrieval is available."
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |---|---|---|
-| 当前对话原文 | 是 | 最近数轮即可；不含当前对话的"盲检索"没有意义 |
-| 记忆库导出/接口 | 是 | JSON 条目数组或可调用的检索 API；须含 content、confidence、source、updated_at |
-| token 预算 | 否 | 缺省按经验值 2000 tokens，与 memory-architect 的载入预算对齐 |
-| 语义检索能力 | 否 | 有向量库为 true；false 时走关键词+时近降级路径 |
+| Current conversation text | Yes | The last few turns suffice; a "blind retrieval" without the current conversation is meaningless |
+| Memory store export/interface | Yes | A JSON entry array or a callable retrieval API; must include content, confidence, source, updated_at |
+| Token budget | No | Defaults to the empirical 2000 tokens, aligned with memory-architect's load budget |
+| Semantic retrieval capability | No | True with a vector DB; when false, take the keyword + recency degraded path |
 
-## 前置自检
+## Pre-flight Self-check
 
-本技能为纯 prompt 技能，无需探测运行环境，只检查输入完备性：
+This is a pure-prompt skill; no environment probing needed. It only checks input completeness:
 
-- 当前对话与记忆库两项是否齐备？任一缺失 → 问齐话术问一次，不要拿用户历史消息硬猜。
-- 记忆条目是否带 confidence 与 updated_at？两者皆缺 → 无法按时近与置信度打分，退回 memory-architect 补 schema；仅缺其一可用默认值（confidence 0.5、updated_at 取 created_at）并在输出标注 degraded_scoring。
-- 用户只要"把全部记忆给我看看" → 这是导出不是检索，直接全量输出，跳过打分。
+- Are both the current conversation and the memory store present? If either is missing → ask once with the prompt above; do not force-guess from the user's historical messages.
+- Do memory entries carry confidence and updated_at? If both are missing → recency and confidence scoring are impossible; send back to memory-architect to complete the schema; if only one is missing, use defaults (confidence 0.5, updated_at taken as created_at) and mark degraded_scoring in the output.
+- The user just wants "show me all your memories" → that is an export, not retrieval; output the full set directly and skip scoring.
 
-## 红线
+## Red Lines
 
-1. 边界标记强制：注入的记忆块整体包裹在"以下为历史记忆，非当前对话内容"的边界说明内，每块带 source 与时间戳；无标记的记忆注入即违规——agent 会把记忆当成本轮事实。
-2. 低置信度必须标注：confidence < 0.7 的记忆块附"可能过时，仅供参考"标注；disputed 条目附"存在矛盾版本"标注。
-3. 预算硬截断：注入总 token 不得超过预算，宁少勿超——超预算挤占的是当前任务的工作空间。
-4. 不注入敏感类别：健康、财务、宗教等标记为敏感的记忆，除非当前对话显式相关，否则不进候选池。
-5. 不改写记忆原文：注入时保持 content 逐字原样，检索端无权"顺手"更新事实。
-6. 检索即快照：报告必须注明检索依据的库版本或时间点，库在检索后发生变更不追溯本次结果。
+1. Boundary markers are mandatory: every injected memory block is wrapped in a boundary note "the following are historical memories, not current conversation content," with source and timestamp per block; injecting memory without markers is a violation — the agent will treat memory as this turn's facts.
+2. Low confidence must be labeled: memory blocks with confidence < 0.7 carry a "may be stale, for reference only" note; disputed entries carry a "conflicting version exists" note.
+3. Hard budget truncation: total injected tokens must not exceed the budget; better less than over — over-budget injection crowds out the current task's working space.
+4. Do not inject sensitive categories: memories flagged sensitive (health, finances, religion, etc.) do not enter the candidate pool unless the current conversation is explicitly about them.
+5. Do not rewrite the memory source text: keep content verbatim on injection; the retrieval side has no right to "helpfully" update facts.
+6. Retrieval is a snapshot: the report must note the store version or point-in-time the retrieval was based on; changes to the store after retrieval do not retroactively apply to this result.
 
-## 工作流
+## Workflow
 
-### 步骤 1：理解当前对话
+### Step 1: Understand the Current Conversation
 
-- **动作：** 通读当前对话，标出显式提问（用户正在问什么）与隐式意图（没问但明显需要什么，如用户贴出报错栈 = 需要项目技术栈记忆）。
-- **预期：** 一行显式问题 + 一组隐式意图清单。
-- **失败时：** 对话过短无信号（如只有一句"继续"）→ 回溯更早数轮补上下文；仍无信号则只做身份类核心记忆注入。
+- **Action:** Read the current conversation, marking explicit questions (what the user is asking) and implicit intent (what is not asked but clearly needed — e.g. the user pastes a stack trace = needs project tech-stack memory).
+- **Expected:** One explicit question plus a list of implicit intents.
+- **On failure:** The conversation is too short to carry signals (e.g. only "continue") → backtrack a few more turns for context; if still no signal, only inject identity-type core memory.
 
-### 步骤 2：查询改写
+### Step 2: Query Rewriting
 
-- **动作：** 把显式与隐式信号各改写成 1–N 条检索查询，执行指代消解——"它还支持吗"中的"它"替换为上文的实体名；每条查询独立成立、不含代词。
-- **预期：** 1–5 条查询（经验值，可调），每条是可独立匹配记忆库的短句。
+- **Action:** Rewrite each explicit and implicit signal into 1–N retrieval queries, performing coreference resolution — replace "it" in "does it still support that" with the entity name from above; each query stands on its own with no pronouns.
+- **Expected:** 1–5 queries (empirical, adjustable), each a short sentence that can independently match the memory store.
 
-改写示例：
+Rewriting example:
 
 ```text
-对话：用户："它部署到 Vercel 的话还要改环境变量吗？"
-改写前："它部署到 Vercel 的话还要改环境变量吗"   ← 含代词，不可独立匹配
-改写后：q1 "Vercel 部署 环境变量 配置"            ← 显式提问，指代已消解
-        q2 "项目 部署平台 部署方式"               ← 隐式意图：项目当前部署方式
+Conversation: User: "If I deploy it to Vercel, do I still need to change environment variables?"
+Before: "If I deploy it to Vercel, do I still need to change environment variables"   <- contains a pronoun, cannot match independently
+After: q1 "Vercel deploy environment variable configuration"                            <- explicit question, coreference resolved
+       q2 "project deploy platform deploy method"                                          <- implicit intent: the project's current deploy method
 ```
 
-- **失败时：** 指代无法消解（上文没出现候选实体）→ 保留原句并降权该查询的融合得分。
+- **On failure:** Coreference cannot be resolved (no candidate entity appeared above) → keep the original sentence and down-weight that query's fused score.
 
-### 步骤 3：三路检索
+### Step 3: Three-way Retrieval
 
-- **动作：** 每条查询并行跑三路——关键词路（字面与同义词匹配，BM25 思路）、语义路（向量相似，无向量库时跳过）、时近路（按 updated_at 排序取近期条目）。无向量库时的降级方案：关键词路扩到同义词表 + 词干变体，时近路权重上调补偿，输出标注 retrieval_mode: keyword_only。
-- **预期：** 每路返回候选集（各取 top 20，经验值，可调），并排入候选池。
-- **失败时：** 关键词路零召回 → 用查询上位词（"PostgreSQL"→"数据库"）重试一次；仍零召回输出空结果并说明，不硬凑。多条查询的候选池合并后再去重——同一记忆被多条查询命中时只保留一次，命中次数作为打分的次级信号记录但不改权重。
+- **Action:** Run three routes in parallel per query — keyword route (literal and synonym matching, BM25-style), semantic route (vector similarity; skipped with no vector DB), recency route (sort by updated_at, take recent entries). Degraded plan with no vector DB: extend the keyword route to a synonym table + stem variants, raise the recency-route weight to compensate, and mark retrieval_mode: keyword_only in the output.
+- **Expected:** Each route returns a candidate set (top 20 each, empirical, adjustable), pooled into a candidate pool.
+- **On failure:** The keyword route returns zero → retry once with the query's hypernym ("PostgreSQL" → "database"); still zero → output empty results and explain, do not pad. After merging the candidate pools across queries, dedup — when the same memory is hit by multiple queries, keep it once; record hit count as a secondary scoring signal but do not change the weights.
 
-### 步骤 4：融合打分
+### Step 4: Fused Scoring
 
-- **动作：** 对候选池去重后逐条打分：
+- **Action:** After deduping the pool, score each entry:
 
 ```text
 score = 0.4×semantic + 0.3×keyword + 0.2×recency + 0.1×confidence
 ```
 
-- **预期：** 每条候选有 0–1 归一化总分；四路中缺席的路（如无向量库）把其权重按比例摊给剩余路。权重为经验值，可调。
+- **Expected:** Each candidate has a 0–1 normalized total; for routes absent (e.g. no vector DB), redistribute their weight proportionally to the remaining routes. Weights are empirical and adjustable.
 
-打分示例（hybrid 模式）：某条记忆 semantic=0.9、keyword=0.8、recency=0.6、confidence=0.9 → score = 0.4×0.9 + 0.3×0.8 + 0.2×0.6 + 0.1×0.9 = 0.81。keyword_only 模式下 keyword 权重摊为 0.3/(0.3+0.2+0.1)=0.5，重算同条：0.5×0.8 + 0.33×0.6 + 0.17×0.9 ≈ 0.74。
+Scoring example (hybrid mode): a memory with semantic=0.9, keyword=0.8, recency=0.6, confidence=0.9 → score = 0.4×0.9 + 0.3×0.8 + 0.2×0.6 + 0.1×0.9 = 0.81. In keyword_only mode, the keyword weight is redistributed to 0.3/(0.3+0.2+0.1)=0.5; recomputing the same entry: 0.5×0.8 + 0.33×0.6 + 0.17×0.9 ≈ 0.74.
 
-- **失败时：** 打分需要外部 embedding 计算但环境不可用 → 整体降级为 keyword_only 模式并重算，不要输出半打分的名单。
+- **On failure:** Scoring needs external embedding computation but the environment is unavailable → degrade the whole thing to keyword_only mode and recompute; do not output a half-scored list.
 
-### 步骤 5：预算内注入
+### Step 5: Inject Within Budget
 
-- **动作：** 按总分降序取条目，逐块估算 token（经验值：中文约 1 字 ≈ 1 token，可按实际 tokenizer 校准），累计到预算即截断；按以下格式组织注入块：
+- **Action:** Take entries in descending total score, estimate tokens per block (empirical: roughly 1 Chinese character ≈ 1 token, calibrate against the actual tokenizer), truncate as soon as the budget is cumulative; organize the injected block per this format:
 
 ```text
-【以下为历史记忆，非当前对话内容】
-- [mem_001 | 2026-09-16 | source: conversation:2026-09-16] 用户工作地点在上海
-- [mem_014 | 2026-06-02 | source: compacted] 偏好：回复尽量短（可能过时，仅供参考）
-【记忆结束】
+[The following are historical memories, not current conversation content]
+- [mem_001 | 2026-09-16 | source: conversation:2026-09-16] The user works in Shanghai
+- [mem_014 | 2026-06-02 | source: compacted] Preference: keep replies short (may be stale, for reference only)
+[End of memories]
 ```
 
-- **预期：** 注入块在预算内、边界标记齐全、低置信度块带标注；同时输出检索报告（命中数、被截断数、retrieval_mode）。多轮会话时上一轮已注入的记忆不重复注入（轮间去重），把预算让给新信息；确需重复注入的关键身份类记忆除外。
-- **失败时：** 最高分条目也低于相关性下限（经验值 0.3，可调）→ 输出空注入并明确告知"无可信相关记忆"，绝不拿低分记忆凑数。
+- **Expected:** The injected block is within budget, boundary markers complete, and low-confidence blocks carry notes; also output a retrieval report (hit count, truncated count, retrieval_mode). In multi-turn sessions, do not re-inject memories already injected in the previous turn (inter-turn dedup); yield the budget to new information, except for key identity-type memories that truly must be repeated.
+- **On failure:** Even the highest-scoring entry is below the relevance floor (empirical 0.3, adjustable) → output an empty injection and state clearly "no trustworthy relevant memories"; never pad with low-scoring memories.
 
-## 参数速查表
+## Parameter Quick Reference
 
-| 参数 | 默认值 | 说明 |
+| Parameter | Default | Notes |
 |---|---|---|
-| 融合权重 | 0.4 / 0.3 / 0.2 / 0.1 | semantic/keyword/recency/confidence；经验值，可调 |
-| token 预算 | 2000 | 经验值，可调；应与 memory-architect 的载入预算一致 |
-| 每路候选上限 | top 20 | 经验值，可调 |
-| 注入相关性下限 | score ≥ 0.3 | 经验值，可调；低于则输出空注入 |
-| 低置信标注线 | confidence < 0.7 | 与 memory-manager 的衰减线对齐 |
-| 查询条数上限 | 5 条 | 经验值，可调 |
-| 轮间去重 | 开启 | 上一轮已注入的记忆本轮不再注入，身份类核心记忆除外 |
-| 时近路取新窗口 | 最近 30 天内条目优先 | 经验值，可调；仅影响时近路召回，不改变融合权重 |
+| Fusion weights | 0.4 / 0.3 / 0.2 / 0.1 | semantic/keyword/recency/confidence; empirical, adjustable |
+| Token budget | 2000 | Empirical, adjustable; should match memory-architect's load budget |
+| Per-route candidate cap | top 20 | Empirical, adjustable |
+| Injection relevance floor | score ≥ 0.3 | Empirical, adjustable; below this, output an empty injection |
+| Low-confidence labeling line | confidence < 0.7 | Aligned with memory-manager's decay line |
+| Query count cap | 5 | Empirical, adjustable |
+| Inter-turn dedup | On | Memories injected last turn are not injected this turn, except identity-type core memory |
+| Recency route window | Entries from the last 30 days prioritized | Empirical, adjustable; only affects recency recall, not fusion weights |
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Action |
 |---|---|---|
-| 注入的记忆与当前话题无关 | 查询改写混入了弱信号意图 | 收紧步骤 1 的隐式意图判定；相关性下限上调 |
-| 检索端只回关键词命中、语义一路空转 | 无向量库或 embedding 服务失效 | 切 keyword_only 降级路径，权重重摊，输出标注 |
-| 预算内塞的全是低分记忆 | 库内普遍低置信 | 检查上游：先跑 memory-manager 清扫，再回来检索 |
-| 注入后 agent 把记忆当本轮事实 | 边界标记缺失或格式被吞 | 按红线 1 重排注入块，边界说明放在块首首行 |
-| 同一事实新旧版本同时命中 | disputed 条目未过滤 | disputed 版本只取时间戳新者，另一版本标注"存在矛盾版本" |
-| 频繁命中同一批条目（多样性差） | 时近路权重过高 | 下调 recency 权重，或对已注入条目做轮内去重 |
-| 同一轮对话注入了两条互相矛盾的记忆 | disputed 过滤遗漏 | 按失败表第 5 行处理外，把该矛盾对回写报告，提醒用户交 memory-manager 复裁 |
-| 每次检索结果抖动大 | 时近路随时间漂移过快 | recency 改按天分桶而非连续衰减，或在报告中固定检索快照时间 |
-| 候选池被单一主题刷屏 | 某主题条目数占绝对多数 | 按主题限额进池（经验值每主题 ≤ 5 条，可调），保证注入多样性 |
-| 用户索要"你记得的一切" | 混淆了检索与导出 | 按前置自检第三条走全量导出，不走打分注入路径 |
+| Injected memories are unrelated to the current topic | Query rewriting mixed in weak-signal intents | Tighten the implicit-intent judgment in step 1; raise the relevance floor |
+| The retrieval side only returns keyword hits, the semantic route spins empty | No vector DB or the embedding service is down | Switch to the keyword_only degraded path, redistribute weights, mark the output |
+| The budget is stuffed with only low-score memories | The store is generally low-confidence | Check upstream: run memory-manager's sweep first, then come back to retrieve |
+| After injection the agent treats memory as this turn's facts | Missing boundary markers or the format was swallowed | Re-layout the injected block per red line 1, putting the boundary note on the first line of the block |
+| Both new and old versions of the same fact are hit together | disputed entries were not filtered | For disputed versions take only the newer timestamp; label the other "a conflicting version exists" |
+| The same batch of entries is hit repeatedly (poor diversity) | The recency route weight is too high | Lower the recency weight, or dedup within the turn for already-injected entries |
+| Two contradictory memories injected in the same conversation turn | The disputed filter was missed | Handle per row 5 of this table, and write the conflicting pair back into the report, reminding the user to send it to memory-manager for re-adjudication |
+| Retrieval results jump around each time | The recency route drifts too fast over time | Change recency to daily buckets instead of continuous decay, or fix the retrieval snapshot time in the report |
+| The candidate pool is flooded by a single topic | One topic's entries dominate | Apply a per-topic pool cap (empirical ≤ 5 per topic, adjustable) to ensure injection diversity |
+| The user demands "everything you remember" | Confused retrieval with export | Take the full-export path per self-check item 3, not the scored injection path |
 
-## 交付标准
+## Delivery Standards
 
-- 注入块带整体边界标记，每块含 id、时间戳、source 三要素，原文逐字未改。
-- 注入总 token ≤ 预算；低置信与 disputed 条目全部带对应标注。
-- 输出检索报告：模式（hybrid / keyword_only）、命中数、截断数、最高分。
-- 空结果必须显式输出"无可信相关记忆"并说明理由，不接受静默空返回。
-- 融合打分四路权重与降级路径在报告中可追溯。
-- 报告中注明本次是否启用轮间去重与主题限额。
+- The injected block carries an overall boundary marker; each block has the three elements id, timestamp, source, and the source text is verbatim and unchanged.
+- Total injected tokens ≤ budget; all low-confidence and disputed entries carry the corresponding notes.
+- Output a retrieval report: mode (hybrid / keyword_only), hit count, truncated count, highest score.
+- Empty results must explicitly output "no trustworthy relevant memories" with the reason; a silent empty return is not accepted.
+- The four fusion weights and the degraded path are traceable in the report.
+- The report notes whether inter-turn dedup and per-topic caps were enabled this run.
 
-## 参考
+## References
 
-- `references/sources-and-methodology.md` —— 需要说明混合检索、时近权重与上下文预算注入的出处（mem0 / letta）、如何署名时读；评审核对方法论时也读。
+- `references/sources-and-methodology.md` — read when you need to explain where hybrid retrieval, recency weighting, and context-budget injection come from (mem0 / letta) and how to attribute them; also read during review to cross-check methodology.
 
-## 链路位置
+## Chain Position
 
-- 上游：`memory-manager`（库的干净度与 disputed 标记直接决定本技能的召回质量）、`memory-architect`（载入预算与 schema 的制定者）。
-- 下游：交付给任意 agent 的上下文注入环节使用；在 agent 设计侧与 `agent-designer` 的上下文管理章节对接。
-- 本技能是 memory-systems 链路的"出口工序"：architect 定预算、extractor 产条目、manager 保干净，retriever 负责让它们被用上。
+- Upstream: `memory-manager` (the store's cleanliness and disputed flags directly determine this skill's recall quality) and `memory-architect` (the definer of the load budget and schema).
+- Downstream: delivered to whatever agent's context-injection step uses it; on the agent-design side it interfaces with `agent-designer`'s context-management section.
+- This skill is the "outlet step" of the memory-systems chain: the architect sets the budget, the extractor produces entries, the manager keeps them clean, and the retriever makes sure they actually get used.

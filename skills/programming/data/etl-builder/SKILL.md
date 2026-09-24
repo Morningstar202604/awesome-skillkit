@@ -1,6 +1,6 @@
 ---
 name: etl-builder
-description: "Build data pipelines: extract from CSV/JSON/DB, apply transforms (clean, normalize, encode), load to target. Supports batch and incremental modes. Use when raw data needs cleaning before analysis or ML training. 当用户要求 写数据管道 / ETL 清洗 / 数据入库 时使用。 Do NOT use for running production ETL schedules (generation and local dry-run only)."
+description: "Build data pipelines: extract from CSV/JSON/DB, apply transforms (clean, normalize, encode), load to target. Supports batch and incremental modes. Use when writing a data pipeline, ETL cleaning, loading data into a database, or raw data needs cleaning before analysis or ML training. Do NOT use for running production ETL schedules (generation and local dry-run only)."
 license: Apache-2.0
 compatibility: Pure Python standard library (argparse/json/csv). No pandas or external DB required.
 metadata:
@@ -14,93 +14,93 @@ metadata:
 
 # ETL Builder
 
-构建 Extract → Transform → Load 数据管道：脚本执行抽取、变换与落库的本地 dry-run，产出结构化 JSON 报告。只做生成与本地演练，不调度生产 ETL。
+Builds Extract → Transform → Load data pipelines: the script runs a local dry-run of extraction, transformation, and loading, and emits a structured JSON report. It only does generation and local rehearsal; it doesn't schedule production ETL.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Description |
 |------|------|------|
-| `--source` | 必需 | 输入数据路径；支持 `.csv`（按行统计）与 `.json`（须为 list）；其他后缀按"非标准格式"处理。缺省 data/raw.csv |
-| `--target` | 可选 | 输出路径，缺省 data/clean.csv。注意：脚本写入的是 JSON 状态摘要，不是数据本体 |
-| `--transform` | 可选 | 逗号分隔的变换链，如 `dropna,fillna_median,normalize`；缺省 `dropna` |
-| `--output` | 可选 | 报告落盘路径；缺省打印到 stdout |
+| `--source` | Required | Input data path; supports `.csv` (counted row by row) and `.json` (must be a list); other extensions are treated as "non-standard format". Defaults to data/raw.csv |
+| `--target` | Optional | Output path, defaults to data/clean.csv. Note: the script writes a JSON status summary, not the data itself |
+| `--transform` | Optional | A comma-separated transform chain, e.g. `dropna,fillna_median,normalize`; defaults to `dropna` |
+| `--output` | Optional | Where the report is written; defaults to printing to stdout |
 
-缺失输入时一次性问齐：「请提供：①输入数据路径与格式（CSV/JSON）②输出目标路径 ③需要的变换链（默认 dropna）。其余我采用默认值：报告打印到终端。」
+When inputs are missing, ask for all at once: "Please provide: (1) input data path and format (CSV/JSON), (2) output target path, (3) the transform chain you need (default dropna). Everything else I run on defaults: the report prints to the terminal."
 
-## 前置自检
+## Pre-flight Checks
 
-运行前探测环境，任一失败→给出修复并 STOP：
+Probe the environment before running; on any failure → give the fix and STOP:
 
 ```bash
-python3 --version   # 预期 3.8+；失败：安装 python3
-python3 scripts/etl_builder.py --help >/dev/null 2>&1   # 预期退出码 0；失败：脚本缺失 → 核对技能目录
-test -f <用户给的 --source 路径>   # 预期退出码 0；失败：文件不存在 → 向用户要正确路径
+python3 --version   # expected 3.8+; on failure: install python3
+python3 scripts/etl_builder.py --help >/dev/null 2>&1   # expected exit code 0; on failure: script missing → check the skill directory
+test -f <the --source path the user gave>   # expected exit code 0; on failure: file doesn't exist → ask the user for the correct path
 ```
 
-## 工作流
+## Workflow
 
-### 步骤 1：确认源数据格式
+### Step 1: Confirm the source-data format
 
 ```bash
 test -f data/raw.csv && head -2 data/raw.csv
 ```
 
-预期：文件存在且首行是表头。若失败：`.json` 输入须为 list（`python3 -c "import json;print(type(json.load(open('data/raw.json'))))"应为 list`）；其他后缀会得到 `Non-standard format, read raw` 提示 → 先转成 CSV 再继续。
+Expected: the file exists and the first row is a header. On failure: `.json` input must be a list (`python3 -c "import json;print(type(json.load(open('data/raw.json'))))"` should be list); other extensions produce a `Non-standard format, read raw` hint → convert to CSV first, then continue.
 
-### 步骤 2：运行管道
+### Step 2: Run the pipeline
 
 ```bash
 python3 scripts/etl_builder.py --source data/raw.csv --target data/clean.csv \
   --transform "dropna,fillna_median,normalize"
 ```
 
-预期：stdout 输出 JSON，`status` 为 `complete`，含 `extract.rows`、`transform.transforms_applied`、`load.status=loaded` 三段。data/clean.csv 写入的是 `{"status": "loaded", ...}` 状态摘要（骨架实现，不含数据本体）。
-若失败：见下方失败处置表。
+Expected: stdout emits JSON with `status` = `complete`, containing the three sections `extract.rows`, `transform.transforms_applied`, and `load.status=loaded`. data/clean.csv gets a `{"status": "loaded", ...}` status summary (a skeleton implementation, not the data itself).
+On failure: see the failure table below.
 
-### 步骤 3：核验变换链被正确识别
+### Step 3: Verify the transform chain was recognized correctly
 
-预期：`transforms_applied` 中每个名称对应一条描述（如 `dropna` → `Removed null values`）。脚本按关键词识别：`dropna`、`fillna*`、`normalize`、`*scale*`、`encode*`；不在集合内的名称会原样记为 `Applied: <name>` → 核对名称拼写或改用支持的变换。
+Expected: each name in `transforms_applied` maps to a description (e.g. `dropna` → `Removed null values`). The script recognizes by keyword: `dropna`, `fillna*`, `normalize`, `*scale*`, `encode*`; names outside the set are recorded verbatim as `Applied: <name>` → check the spelling or use a supported transform.
 
-### 步骤 4：交接下游
+### Step 4: Hand off downstream
 
-清洗结果就绪后，向用户报告 rows_in/rows_out 与已应用变换，再按需求交接 feature-engineer 做特征工程。
+Once the cleaned result is ready, report rows_in/rows_out and the applied transforms to the user, then hand off to feature-engineer for feature engineering as needed.
 
-## 变换速查表
+## Transform Quick Reference
 
-| 变换 | 脚本识别 | 说明 |
+| Transform | Script recognizes it | Description |
 |------|----------|------|
-| `dropna` | 是（关键词） | 去除含缺失值行 |
-| `fillna_median` / `fillna_mean` | 是（`fillna` 前缀） | 中位数/均值填充 |
-| `normalize` | 是（关键词） | Min-max 缩放到 [0,1] |
-| `standardize` | 否（记为 Applied） | Z-score；脚本侧用 `scale` 关键词 |
-| `encode_onehot` / `encode_target` | 是（`encode` 前缀） | 类别编码 |
-| `clip_outliers` / `parse_dates` / `rename_cols` | 否（记为 Applied） | 需在下游代码实现，脚本仅记录 |
+| `dropna` | Yes (keyword) | Remove rows with missing values |
+| `fillna_median` / `fillna_mean` | Yes (`fillna` prefix) | Median/mean imputation |
+| `normalize` | Yes (keyword) | Min-max scaling to [0,1] |
+| `standardize` | No (recorded as Applied) | Z-score; the script side uses the `scale` keyword |
+| `encode_onehot` / `encode_target` | Yes (`encode` prefix) | Categorical encoding |
+| `clip_outliers` / `parse_dates` / `rename_cols` | No (recorded as Applied) | Must be implemented in downstream code; the script only records it |
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象/错误码 | 原因 | 处置 |
+| Symptom / error code | Cause | Fix |
 |------------|------|------|
-| `status: error`，`Source not found: <path>` | `--source` 路径不存在 | 核对路径后重跑；仍失败则向用户要正确路径 |
-| `Non-standard format, read raw` | 输入非 `.csv`/`.json` 后缀 | 先转换为 CSV 再运行 |
-| `.json` 输入解析异常 | JSON 顶层不是 list | 改存为 list 或转 CSV |
-| `transforms_applied` 出现 `Applied: <name>` | 变换名不被关键词识别 | 按上表改用支持前缀的名称 |
-| 报告未落盘 | 未传 `--output` | 属预期行为（打印 stdout）；需落盘时加 `--output report.json` |
+| `status: error`, `Source not found: <path>` | The `--source` path doesn't exist | Check the path and rerun; still failing → ask the user for the correct path |
+| `Non-standard format, read raw` | The input isn't a `.csv`/`.json` extension | Convert to CSV first, then run |
+| `.json` input parse error | The JSON top level isn't a list | Save it as a list or convert to CSV |
+| `transforms_applied` shows `Applied: <name>` | The transform name isn't recognized by keyword | Use a name with a supported prefix per the table above |
+| The report wasn't written to a file | `--output` wasn't passed | Expected behavior (prints stdout); add `--output report.json` if you want a file |
 
-## 交付标准
+## Delivery Criteria
 
-成功定义：输出 JSON `status=complete`，extract/transform/load 三段齐全，变换链与用户要求一致。
-产物命名：状态摘要 `<target>`（缺省为 data 目录下的 clean.csv）；报告 `--output` 指定名（建议 `etl_report.json`）。
-保存位置：与用户数据同目录层级；报告放工作目录根。
-验证完整性：重跑同命令输出应一致（纯函数式 dry-run）；`extract.rows` 与源文件行数（减表头）吻合。
+Definition of success: output JSON `status=complete`, with all three extract/transform/load sections present, and the transform chain matching the user's request.
+Artifact naming: status summary `<target>` (defaulting to clean.csv in the data directory); report with the name `--output` specifies (suggest `etl_report.json`).
+Save location: same directory level as the user's data; the report goes in the working-directory root.
+Completeness verification: rerunning the same command gives identical output (pure-function dry-run); `extract.rows` matches the source row count (minus the header).
 
-## 安全红线
+## Safety Red Lines
 
-- 本技能只做本地 dry-run，不触碰生产调度系统、不连接外部数据库。
-- `--target` 会覆盖同名文件；目标路径已存在时先向用户确认。
-- 输出目录不存在时脚本自动创建（`parents=True`），确认写入位置符合用户预期。
+- This skill only does a local dry-run; it doesn't touch production scheduling systems or connect to external databases.
+- `--target` overwrites a same-named file; if the target path already exists, confirm with the user first.
+- The script auto-creates the output directory (`parents=True`); confirm the write location matches the user's expectation.
 
-## 参考
+## References
 
-- [references/transform-recipes.md](references/transform-recipes.md) —— 需要组合变换、处理特定数据形态的常用配方时读
+- [references/transform-recipes.md](references/transform-recipes.md) — read when you need common recipes for combining transforms or handling specific data shapes
 
-清洗落库后，**接着说："干净数据就绪，继续调用 feature-engineer 做特征工程"——链条自动展开**。
+After cleaning and loading, **then say: "The clean data is ready; next, call feature-engineer to do feature engineering" — the chain unfolds automatically**.

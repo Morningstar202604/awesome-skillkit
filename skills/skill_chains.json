@@ -3,7 +3,7 @@
   "note": "Each domain is self-contained. No cross-domain skill reuse.",
   "domains": {
     "programming": {
-      "entry": "skills/programming/planning/pipeline_orchestrator.py",
+      "entry": null,
       "skills": [
         "code-intent-planner",
         "deep-research",
@@ -146,7 +146,7 @@
       }
     },
     "video": {
-      "entry": "skills/video/video_pipeline.py",
+      "entry": null,
       "skills": [
         "visual-style-anchor",
         "storyboard-designer",
@@ -198,7 +198,7 @@
       }
     },
     "writing": {
-      "entry": "skills/writing/writing_pipeline.py",
+      "entry": null,
       "skills": [
         "article-outliner",
         "article-drafter",
@@ -250,7 +250,7 @@
       }
     },
     "ppt": {
-      "entry": "skills/ppt/ppt_pipeline.py",
+      "entry": null,
       "skills": [
         "ppt-builder"
       ],
@@ -272,7 +272,7 @@
       }
     },
     "design": {
-      "entry": "skills/design/design_pipeline.py",
+      "entry": null,
       "skills": [
         "design-brief-interpreter",
         "image-prompt-engineer",
@@ -313,7 +313,7 @@
       }
     },
     "audio": {
-      "entry": "skills/audio/audio_pipeline.py",
+      "entry": null,
       "skills": [
         "podcast-producer",
         "tts-voice-director",
@@ -337,7 +337,7 @@
       }
     },
     "marketing": {
-      "entry": "skills/marketing/marketing_pipeline.py",
+      "entry": null,
       "skills": [
         "product-copywriter",
         "campaign-designer",
@@ -356,7 +356,7 @@
       }
     },
     "education": {
-      "entry": "skills/education/education_pipeline.py",
+      "entry": null,
       "skills": [
         "course-designer",
         "exercise-generator",
@@ -431,7 +431,7 @@
       }
     },
     "paper": {
-      "entry": "skills/paper/paper_pipeline.py",
+      "entry": null,
       "skills": [
         "paper-topic-selector",
         "lit-review",

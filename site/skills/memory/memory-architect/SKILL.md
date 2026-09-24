@@ -1,6 +1,6 @@
 ---
 name: memory-architect
-description: "Use when designing a long-term memory architecture for an AI agent: layered memory (working/core/archival), storage selection, memory entry schema, read/write paths, and forgetting policy. Triggers on 设计记忆系统, 记忆架构, agent 长期记忆, memory design, memory schema, memory layering, storage selection, 遗忘机制, memory pressure. NOT for extraction/management/retrieval logic itself — use memory-extractor, memory-manager, or memory-retriever."
+description: "Use when designing a long-term memory architecture for an AI agent: layered memory (working/core/archival), storage selection, memory entry schema, read/write paths, and forgetting policy. Triggers on memory system design, memory architecture, agent long-term memory, memory design, memory schema, memory layering, storage selection, forgetting mechanism, memory pressure, knowledge retrieval, RAG. NOT for extraction/management/retrieval logic itself — use memory-extractor, memory-manager, or memory-retriever."
 license: Apache-2.0
 compatibility: Pure prompt-based; no scripts, no environment probing.
 metadata:
@@ -14,75 +14,75 @@ metadata:
 
 # Memory Architect
 
-给 agent 加记忆，多数人的做法是"往向量库一塞了事"，结果是检索噪声大、过期记忆污染上下文、隐私无处删。本技能先设计后动手：在写第一行存储代码之前，把记什么、放哪层、什么结构、谁能改、怎么忘这五个问题全部定下来，产出一份可执行的架构决策记录。
+When most people give an agent memory, they just "dump it all into a vector database and walk away" — the result is retrieval noise, stale memories polluting the context, and privacy you can never delete. This skill designs before it builds: before writing a single line of storage code, settle all five questions — what to remember, which layer to put it in, what structure it takes, who may edit it, and how it is forgotten — then produce an executable architecture decision record.
 
-## 输入清单
+## Input Checklist
 
-开工前一次性收集。缺输入时用这句话向用户问一次："要设计记忆架构，请一次性提供：agent 的用途与主要任务、预期记忆规模（条数量级）、是否有向量库/数据库可用、隐私要求（是否涉及用户个人信息）、token 预算约束（记忆可占上下文的上限）。"
+Collect everything up front before starting. If an input is missing, ask the user once with this prompt: "To design a memory architecture, please provide all at once: the agent's purpose and main tasks, the expected memory scale (order of magnitude of entry count), whether a vector database / database is available, privacy requirements (whether user personal information is involved), and the token budget constraint (the upper limit of context memory may occupy)."
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |---|---|---|
-| agent 用途与任务类型 | 是 | 决定记什么：客服记偏好、编码助手记项目状态、助理记事实与关系 |
-| 记忆规模量级 | 是 | 百条 / 千条 / 十万条以上，直接决定存储选型 |
-| 可用存储设施 | 是 | 纯文件 / SQLite / 向量库；没有向量库时设计必须走降级路径 |
-| 隐私要求 | 是 | 是否存 PII、是否需要删除权支持；涉及即触发红线 2 |
-| token 预算 | 否 | 每次会话可注入记忆的上限；缺省按经验值 2000 tokens 设计，可调 |
-| 并发写入方 | 否 | 单 agent 还是多 agent 共写；多写方必须加时间戳与来源字段 |
+| Agent purpose and task type | Yes | Determines what to remember: customer service stores preferences, coding assistants store project state, assistants store facts and relations |
+| Memory scale order | Yes | Hundreds / thousands / 100k+ entries; directly drives storage selection |
+| Available storage facilities | Yes | Plain files / SQLite / vector database; with no vector database the design must take the degraded path |
+| Privacy requirements | Yes | Whether to store PII, whether deletion-right support is needed; if involved, triggers red line 2 |
+| Token budget | No | Upper limit of memory injectable per session; defaults to the empirical 2000 tokens, adjustable |
+| Concurrent writers | No | Single agent or multiple agents writing together; multi-writer setups must add timestamp and source fields |
 
-## 前置自检
+## Pre-flight Self-check
 
-本技能为纯 prompt 技能，无需探测运行环境，只检查输入完备性：
+This is a pure-prompt skill; no environment probing needed. It only checks input completeness:
 
-- 六项输入中前四项（用途、规模、存储设施、隐私要求）是否全部明确？任一缺失 → 停止创作，用上面的问齐话术问一次，不要猜。
-- 用户说"随便设计一个" → 规模按千条级、存储按纯文件降级路径设计，并在 ADR 中显式标注这两个假设。
-- 用户只想要"聊天记录存档" → 这不是记忆系统，本技能不适用，直接告知。
+- Are the first four of the six inputs (purpose, scale, storage facilities, privacy requirements) all clear? If any is missing → stop and ask once with the prompt above; do not guess.
+- User says "just design something generic" → design scale at the thousands level, storage on the plain-file degraded path, and explicitly mark these two assumptions in the ADR.
+- User only wants "a chat log archive" → that is not a memory system; this skill does not apply — say so directly.
 
-## 红线
+## Red Lines
 
-1. 不存敏感凭证：密码、API key、token、私钥一律不进记忆库，发现即拒绝写入并提示用户改用环境变量或密钥管理器。
-2. PII 必须标注：记忆条目含个人身份信息时，schema 的 `pii` 字段必须为 true，且设计必须包含按 user_id 一键删除全部条目的能力。
-3. 设计必须含遗忘机制：没有 TTL、没有淘汰策略的记忆系统是负债不是资产，交付物缺遗忘机制即返工。
-4. 不为"以防万一"设计记录：每类记忆必须能回答"谁读、何时读、读了做什么"，答不上来就不记。
-5. 隐私等级未确认时，一律按最高隐私级别设计（少记、加密意识、可删）。
+1. Never store sensitive credentials: passwords, API keys, tokens, and private keys never enter the memory store. If found, refuse the write and prompt the user to use environment variables or a secrets manager instead.
+2. PII must be flagged: when a memory entry contains personally identifiable information, the schema's `pii` field must be true, and the design must include the ability to delete all of a user's entries in one action by user_id.
+3. The design must include a forgetting mechanism: a memory system with no TTL and no eviction policy is a liability, not an asset. A deliverable missing a forgetting mechanism must be reworked.
+4. Never design records "just in case": every memory category must answer "who reads it, when, and what they do with it." If you cannot answer that, do not store it.
+5. When privacy level is unconfirmed, always design to the highest privacy tier (store less, encryption-aware, deletable).
 
-## 工作流
+## Workflow
 
-### 步骤 1：需求画像
+### Step 1: Requirements Profiling
 
-- **动作：** 把记忆需求拆成五类并逐类登记——事实（用户是谁）、偏好（用户喜欢什么）、决策（做过什么决定）、项目状态（进行到哪）、关系（和谁有什么联系）。每类记录：写入方、读取方、生命周期（会话内 / 周 / 永久）、隐私等级。
-- **预期：** 一张五行需求表，每行四要素齐全。
-- **失败时：** 用户答不出某类的读取方 → 该类从设计中移除，不要保留"可能有用"的记忆。
+- **Action:** Break memory needs into five categories and register each — facts (who the user is), preferences (what the user likes), decisions (what was decided), project state (how far along things are), relations (who has what connection to whom). For each category record: writer, reader, lifespan (in-session / weekly / permanent), privacy level.
+- **Expected:** A five-row requirements table, each row complete with its four elements.
+- **On failure:** The user cannot name a reader for a category → remove that category from the design; do not keep memories "that might come in handy."
 
-### 步骤 2：分层设计
+### Step 2: Layered Design
 
-- **动作：** 把每类需求映射到三层之一，并完成存储选型。
-- **预期：** 分层表 + 选型结论，每层有明确存储介质。
+- **Action:** Map each requirements category to one of three layers, and complete storage selection.
+- **Expected:** A layering table plus a selection conclusion, with an explicit storage medium per layer.
 
-| 层 | 放什么 | 生命周期 | 对应实现参照 |
+| Layer | What goes here | Lifespan | Implementation reference |
 |---|---|---|---|
-| working | 当前任务中间状态 | 单次任务 | agent 运行时变量，不落盘 |
-| core | 常驻上下文的少量关键事实 | 长期、可自更新 | letta 的 core memory（agent 可自编辑的常驻块）与 Claude memory tool 的 MEMORY.md 索引 |
-| archival | 全量持久记忆，按需检索 | 永久到 TTL 到期 | letta 的 archival memory（向量库）或文件式主题记忆 |
+| working | Intermediate state of the current task | Single task | Agent runtime variables, not persisted to disk |
+| core | A small set of key facts resident in context | Long-lived, self-updating | Letta's core memory (an agent-editable resident block) and the Claude memory tool's MEMORY.md index |
+| archival | Full persistent memory, retrieved on demand | Permanent until TTL expiry | Letta's archival memory (vector database) or file-based topical memory |
 
-存储选型表（三轴：数据量、检索延迟、运维成本）：
+Storage selection table (three axes: data volume, retrieval latency, ops cost):
 
-| 方案 | 适用数据量 | 检索延迟 | 运维成本 |
+| Option | Suitable data volume | Retrieval latency | Ops cost |
 |---|---|---|---|
-| 纯文件（MEMORY.md 索引 + 主题文件） | < 数千条 | 全文扫描，慢但可接受 | 零依赖，git 可版本化 |
-| SQLite（FTS5 全文索引） | 千到十万条 | 毫秒级关键词检索 | 单文件，零服务 |
-| 向量库（如 Qdrant / Chroma） | 万条以上或需语义检索 | 十毫秒级 | 需 embedding 管线与服务 |
-| SQLite + 向量混合 | 十万条以上、高质量检索 | 最低（混合检索） | 最高，两套索引要同步 |
+| Plain files (MEMORY.md index + topic files) | < a few thousand entries | Full-text scan, slow but acceptable | Zero dependencies, git-versionable |
+| SQLite (FTS5 full-text index) | Thousands to 100k entries | Millisecond keyword retrieval | Single file, no service |
+| Vector database (e.g. Qdrant / Chroma) | 10k+ entries or when semantic search is needed | Ten-millisecond range | Needs an embedding pipeline and service |
+| SQLite + hybrid vectors | 100k+ entries, high-quality retrieval required | Lowest (hybrid retrieval) | Highest; two indexes must be kept in sync |
 
-选型决策规则：条数 < 2000 → 纯文件；2000–100000 且只需关键词 → SQLite；需要语义相似检索 → 向量库；预算充足且规模大 → 混合。阈值均为经验值，可调。
+Selection decision rule: < 2000 entries → plain files; 2000–100000 and keyword-only → SQLite; semantic similarity search needed → vector database; ample budget and large scale → hybrid. All thresholds are empirical and adjustable.
 
-### 步骤 3：Schema 设计
+### Step 3: Schema Design
 
-- **动作：** 按以下模板定死记忆条目结构，字段名英文、机器可解析：
+- **Action:** Freeze the memory entry structure per the template below; field names in English, machine-parseable:
 
 ```json
 {
   "id": "mem_20260916_0001",
-  "content": "用户偏好简洁的回复风格",
+  "content": "The user prefers a concise reply style",
   "type": "preference",
   "user_id": "u_123",
   "created_at": "2026-09-16T10:00:00Z",
@@ -95,22 +95,22 @@ metadata:
 }
 ```
 
-- **预期：** schema 冻结版；`id` 全局唯一，`type` 限定在 fact / preference / decision / project_status / relation 五类。
-- **失败时：** 用户要求加字段 → 只允许加 optional 字段并写入 ADR 备忘；禁止改既有字段语义。
+- **Expected:** A frozen schema; `id` globally unique, `type` constrained to the five categories fact / preference / decision / project_status / relation.
+- **On failure:** The user asks to add a field → only optional fields may be added, noted in the ADR; changing the semantics of existing fields is forbidden.
 
-### 步骤 4：写读路径
+### Step 4: Read/Write Paths
 
-- **动作：** 定三件事。写入时机（每轮对话后增量抽取，参照 memory-extractor；或会话结束批量写回，参照 Claude memory tool 的会话收尾写回模式）。载入预算（每次会话 core 层注入上限，默认经验值 2000 tokens，可调；archival 层按检索结果注入，参照 memory-retriever）。编辑权限（letta 式 agent 自编辑 core 层，还是受控式只允许管线写入——涉及 PII 的层一律受控）。
-- **预期：** 写入时机、载入预算数值、各层编辑权限三项全部落进 ADR。
-- **失败时：** 用户要求 agent 对 PII 条目有自编辑权 → 拒绝并引用红线 2，给出受控替代：agent 可发起删除请求，由管线执行。
+- **Action:** Settle three things. Write timing (incremental extraction after each conversation turn — see memory-extractor; or batch write-back at session end — see the Claude memory tool's session-close write-back pattern). Load budget (the upper limit of core-layer injection per session, default empirical 2000 tokens, adjustable; the archival layer is injected based on retrieval results — see memory-retriever). Edit permissions (Letta-style agent self-editing of the core layer, or a controlled pipeline-only write — layers involving PII are always controlled).
+- **Expected:** Write timing, the numeric load budget, and per-layer edit permissions all land in the ADR.
+- **On failure:** The user asks for agent self-edit rights over PII entries → refuse and cite red line 2; offer the controlled alternative: the agent may raise a deletion request, executed by the pipeline.
 
-### 步骤 5：交付 ADR 与初始化
+### Step 5: Deliver the ADR and Initialize
 
-- **动作：** 产出架构决策记录（JSON 风格），并给出存储初始化命令（如 `sqlite3 memory.db "CREATE TABLE memories (...)"` 或向量库建 collection 命令）。
-- **预期：** ADR 每个决策有 id、决策内容、理由、备选项、放弃理由；初始化命令可直接执行。
-- **失败时：** 决策理由写不出来 → 该决策没想清楚，退回对应步骤重做。
+- **Action:** Produce an architecture decision record (JSON style) and give storage initialization commands (e.g. `sqlite3 memory.db "CREATE TABLE memories (...)"` or the vector-database collection creation command).
+- **Expected:** Each ADR decision has an id, the decision itself, the rationale, alternatives considered, and the reason for rejection; the initialization command runs directly.
+- **On failure:** You cannot write the rationale for a decision → the decision is not thought through; go back to the corresponding step and redo it.
 
-ADR 输出结构：
+ADR output structure:
 
 ```json
 {
@@ -118,49 +118,49 @@ ADR 输出结构：
   "date": "2026-09-16",
   "requirements": [{"kind": "preference", "lifespan": "long", "privacy": "pii-possible"}],
   "decisions": [
-    {"id": "ADR-1", "decision": "archival 层用 SQLite FTS5", "why": "万条以内、无需语义检索", "alternatives": ["纯文件", "向量库"], "rejected_because": "文件扫描随规模劣化；向量库引入 embedding 运维成本"}
+    {"id": "ADR-1", "decision": "Use SQLite FTS5 for the archival layer", "why": "Under 10k entries, no semantic search needed", "alternatives": ["plain files", "vector database"], "rejected_because": "File scanning degrades with scale; vector DB introduces embedding ops cost"}
   ],
-  "forgetting": {"ttl_enabled": true, "decay_rule": "90 天未命中且 confidence<0.7 降权"},
+  "forgetting": {"ttl_enabled": true, "decay_rule": "not hit for 90 days and confidence<0.7 is down-weighted"},
   "load_budget_tokens": 2000
 }
 ```
 
-## 参数速查表
+## Parameter Quick Reference
 
-| 参数 | 默认值 | 说明 |
+| Parameter | Default | Notes |
 |---|---|---|
-| core 层载入预算 | 2000 tokens | 经验值，可调；超过说明 core 层塞了该进 archival 的东西 |
-| 单条记忆 TTL | 180 天 | 经验值，可调；偏好类可设永久，项目状态类建议 30–90 天 |
-| `confidence` 初值 | 显式事实 0.9 / 推断事实 0.6 | 与 memory-extractor 的打分规则对齐 |
-| `type` 取值 | 5 类 | fact / preference / decision / project_status / relation |
-| 遗忘检查频率 | 每次写入后顺带执行 | 也可定时批处理；与 memory-manager 的衰减规则对齐 |
+| Core-layer load budget | 2000 tokens | Empirical, adjustable; if exceeded, the core layer is holding things that belong in archival |
+| Single-entry TTL | 180 days | Empirical, adjustable; preference entries may be permanent, project-state entries recommended at 30–90 days |
+| `confidence` initial value | Explicit fact 0.9 / inferred fact 0.6 | Aligned with memory-extractor's scoring rules |
+| `type` values | 5 categories | fact / preference / decision / project_status / relation |
+| Forgetting check frequency | Run alongside every write | May also be scheduled in batch; aligned with memory-manager's decay rules |
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Action |
 |---|---|---|
-| 用户坚持"全都存进向量库" | 未做需求画像 | 回步骤 1，用读取方追问逼出真实需求；仍坚持则记录异议后照做 |
-| 分层后 core 层装不下 | 把检索型记忆错放 core | 移到 archival，core 只留身份与当前目标 |
-| schema 字段被下游技能拒收 | 与 memory-extractor 产出不一致 | 以 memory-extractor 的 candidates.json 字段为准反向修订 schema |
-| 无向量库但用户要语义检索 | 设施不足 | 设计降级路径：SQLite FTS5 + 关键词同义词表，并在 ADR 标注升级触发条件 |
-| 初始化命令执行失败 | 环境缺少 SQLite 或向量库 | 按选型表降一级方案重出命令；不要现场安装重型依赖 |
-| 隐私要求说不清 | 用户未评估数据敏感度 | 按红线 5 最高隐私级别设计，并在 ADR 标注"待确认" |
+| User insists "store everything in the vector DB" | Requirements profiling was skipped | Return to step 1, force out real needs by probing for readers; if still insistent, record the objection and proceed |
+| After layering, the core layer does not fit | Retrieval-type memory wrongly placed in core | Move to archival; keep only identity and current goal in core |
+| Downstream skills reject schema fields | Inconsistent with memory-extractor output | Reverse-revise the schema against memory-extractor's candidates.json fields |
+| No vector DB but the user wants semantic search | Insufficient facilities | Design a degraded path: SQLite FTS5 + a keyword synonym table, and note the upgrade trigger in the ADR |
+| Initialization command fails | Environment lacks SQLite or a vector DB | Drop one tier in the selection table and reissue the command; do not install heavyweight dependencies on the spot |
+| Privacy requirements are unclear | The user has not assessed data sensitivity | Design to the highest privacy tier per red line 5, and mark "to be confirmed" in the ADR |
 
-## 交付标准
+## Delivery Standards
 
-- 五行需求表、分层映射表、存储选型结论三项齐全，每个决策可追溯到需求。
-- schema 冻结版含全部必需字段（id、content、type、user_id、created_at、updated_at、confidence、ttl、source、pii），字段名全英文。
-- ADR 为合法 JSON，含 decisions、forgetting、load_budget_tokens 三块。
-- 遗忘机制明确：TTL 规则 + 降权规则各至少一条。
-- 初始化命令用户可直接复制执行。
-- PII 处理路径可验证：按 user_id 能列出并删除全部相关条目。
+- The five-row requirements table, layering mapping table, and storage selection conclusion are all present, with every decision traceable to a requirement.
+- The frozen schema includes all required fields (id, content, type, user_id, created_at, updated_at, confidence, ttl, source, pii), with all field names in English.
+- The ADR is valid JSON, containing the three blocks decisions, forgetting, and load_budget_tokens.
+- The forgetting mechanism is explicit: at least one TTL rule and one down-weighting rule.
+- The initialization command can be copied and run directly by the user.
+- The PII handling path is verifiable: all related entries can be listed and deleted by user_id.
 
-## 参考
+## References
 
-- `references/sources-and-methodology.md` —— 需要向用户说明分层记忆、文件式记忆、条目化记忆等方法论出自哪些项目、如何署名时读；评审前核对方法论出处时也读。
+- `references/sources-and-methodology.md` — read when you need to explain which projects the layered-memory, file-based-memory, and entry-based-memory methodologies come from and how to attribute them; also read before review to cross-check methodology provenance.
 
-## 链路位置
+## Chain Position
 
-- 上游：`agent-designer`（agent 整体设计定稿后，记忆架构是其子设计）。
-- 下游：`memory-extractor`（按本技能 schema 抽取条目）→ `memory-manager`（按本技能遗忘策略管生命周期）→ `memory-retriever`（按本技能载入预算注入）。
-- 本技能是 memory-systems 链路的起点：schema 与遗忘策略在此定死，下游三个技能只执行不重新设计。
+- Upstream: `agent-designer` (after the agent's overall design is finalized, the memory architecture is a sub-design of it).
+- Downstream: `memory-extractor` (extracts entries per this skill's schema) → `memory-manager` (manages lifecycles per this skill's forgetting policy) → `memory-retriever` (injects per this skill's load budget).
+- This skill is the starting point of the memory-systems chain: the schema and forgetting policy are frozen here; the three downstream skills only execute and do not redesign.

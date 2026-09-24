@@ -128,9 +128,16 @@ class SchemaCompatibilityChecker:
                 "int": "breaking"
             },
             "boolean": {
+                # SQL type mappings
                 "tinyint": "compatible",
                 "varchar": "breaking",
-                "int": "breaking"
+                "int": "breaking",
+                # JSON/API field type mappings
+                "string": "breaking",
+                "number": "breaking",
+                "array": "breaking",
+                "object": "breaking",
+                "null": "potentially_breaking"
             },
             # JSON/API field types
             "string": {
@@ -143,13 +150,6 @@ class SchemaCompatibilityChecker:
             "number": {
                 "string": "breaking",
                 "boolean": "breaking",
-                "array": "breaking",
-                "object": "breaking",
-                "null": "potentially_breaking"
-            },
-            "boolean": {
-                "string": "breaking",
-                "number": "breaking",
                 "array": "breaking",
                 "object": "breaking",
                 "null": "potentially_breaking"

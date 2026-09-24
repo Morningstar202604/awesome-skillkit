@@ -1,295 +1,146 @@
-<p align="center"><img src="docs/logo.svg" alt="awesome-skillkit" width="200" height="60" /></p>
+<p align="center"><img src="docs/logo.svg" alt="awesome-skillkit" width="220" /></p>
 
-# awesome-skillkit
+<h1 align="center">awesome-skillkit</h1>
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-![Skills](https://img.shields.io/badge/skills-154-brightgreen)
-![Packs](https://img.shields.io/badge/packs-36-blue)
-![Chains](https://img.shields.io/badge/chains-18%20domains%20%2F%2062-orange)
-![Version](https://img.shields.io/badge/version-0.19.0-success)
+<p align="center">
+  <b>36 个真实场景包 · 154 个精选技能 · 解压即用——<br>把整套工作能力，一次交给你的 AI 工具。</b>
+</p>
 
-[English](README.md) | **中文** | [日本語](README.ja.md)
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
+  <img src="https://img.shields.io/badge/skills-154-brightgreen?style=flat-square" alt="Skills" />
+  <img src="https://img.shields.io/badge/packs-36-blue?style=flat-square" alt="Packs" />
+  <img src="https://img.shields.io/badge/version-0.22.0-success?style=flat-square" alt="Version" />
+</p>
 
-> 🌐 **在线浏览 / 下载**：官网已上线 GitHub Pages（双号部署，内容一致）：
-> [x33834.github.io/awesome-skillkit](https://x33834.github.io/awesome-skillkit/) · [morningstar202604.github.io/awesome-skillkit](https://morningstar202604.github.io/awesome-skillkit/)
-> 单包 zip 与全量 `_all.zip` 见各平台 Release（见下方「四平台同步状态」）。
-> 部署说明：[docs/DEPLOY-SITE.md](docs/DEPLOY-SITE.md)
+<p align="center">
+  <a href="https://x33834.github.io/awesome-skillkit/"><img src="https://img.shields.io/badge/%F0%9F%8C%90_%E5%AE%98%E7%BD%91-Web-brightgreen?style=flat-square" alt="Official Site" /></a>
+  <a href="https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip"><img src="https://img.shields.io/badge/%E2%AC%87%EF%B8%8F_%E4%B8%8B%E8%BD%BD-_all.zip-blue?style=flat-square" alt="Download all packs" /></a>
+  <a href="https://gitcode.com/badhope/awesome-skillkit"><img src="https://img.shields.io/badge/GitCode-镜像-3A72BE?style=flat-square" alt="GitCode" /></a>
+  <a href="https://gitee.com/badhope/awesome-skillkit"><img src="https://img.shields.io/badge/Gitee-镜像-C71D23?style=flat-square" alt="Gitee" /></a>
+</p>
 
-面向 AI 工具的精选**场景技能包**合集。**一个场景包 = 一个真实工作场景，里面是一组协同工作的 skill。** 下载 zip → 解压 → 把 skill 文件夹拖进 AI 工具的 skills 目录 → 开箱即用。
+<p align="center"><a href="README.md">English</a> | <strong>简体中文</strong> | <a href="README.ja.md">日本語</a></p>
 
-## 它解决什么（定位）
+---
 
-**场景即答案——落到具体平台与工具，而不是宽泛领域。**
+## 🌐 一键切回英文
+
+仓库里的 `SKILL.md` 正在由其他协作方翻译为英文，过渡期间中英文混杂。想阅读英文版或把整站翻回英文：
+
+- **[🌐 Google 翻译 — 把官网一键译成英文](https://translate.google.com/translate?sl=zh-CN&tl=en&u=https://x33834.github.io/awesome-skillkit/)**（推荐，免安装）
+- **[必应翻译备选](https://cn.bing.com/translator?from=zh-Hans&to=en)**（粘贴链接即可翻译）
+- **[沉浸式翻译浏览器扩展](https://github.com/immersive-translate/immersive-translate)**（长期使用推荐，整站中英对照）
+- 📄 英文 README：[**README.md**](README.md)
+
+---
+
+## 这是什么？
+
+**awesome-skillkit** 是一套面向 AI 编程 / 智能体工具（Claude Code 以及任何能读取 `SKILL.md` 的工具）的精选**场景技能包**。每个场景包都围绕一个具体的真实工作场景组织——"评审一个 PR"、"搭好一条 CI/CD 流水线"、"把一篇文章一键分发到 16 个中文平台"、"端到端产出一条短视频"——而不是笼统的"工程"或"营销"。
+
+用法极简：
 
 ```mermaid
 flowchart LR
-    A[💡 真实工作场景] --> B[📦 场景包<br/>1 包 = 1 个场景]
-    B --> C[🧩 一组协同 skill<br/>2–18 个]
-    C --> D[🧲 拖入 AI 工具<br/>skills 目录]
-    D --> E[🚀 新会话即用]
+    A[真实工作场景] --> B[场景包<br/>一包 = 一个场景]
+    B --> C[一组协同技能<br/>1–19 个]
+    C --> D[拖入 AI 工具<br/>skills 目录]
+    D --> E[新会话即用<br/>零配置]
     style A fill:#eaf2ff,stroke:#5b8def
     style E fill:#eafaea,stroke:#4caf72
 ```
 
-- 每个场景包对应一个**具体场景**（"审 PR"、"搭 CI/CD"、"发博客"），而非"工程""营销"这种空泛词。
-- 每个场景包打包**协同工作的 skill 组合**——小到精简一对，大到 18 个技能的 `Content Publishing Automation` 全家桶（端到端覆盖 16 个中文平台）。
-- 每个 skill 的**来源都明确标注**（上游 curated / 自研 / 开源蒸馏），不藏不混。
+- 每个包都对应一个**具体场景**，落点是平台与工具，而非空泛的领域名词。
+- 每个包打包的是**该场景下真正协同工作的那组技能**——小到双人搭档（`API 开发与测试`），大到 19 个技能的全家桶（`AI 研究与写作`），或是一台覆盖 18 个中文平台的分发机器（`内容多平台发布自动化`）。
+- 每个技能的**来源都逐项标注**于 [`manifest.json`](manifest.json) 和各 `packs/*/pack.json`——自研、上游精选（MIT）、或基于公开文档蒸馏，不含糊、不混装。
 
-## 数字一览
+## 下载指南（两条路径）
 
-> **154 个 skill** · **36 个场景包** · **18 个链域 / 62 条技能链** · v0.22.0 · Apache-2.0
+### 路径 A · 逛官网（最省心）
 
-**来源构成**（自研为主，上游为辅，全部可溯源）：
+1. 打开 **<https://x33834.github.io/awesome-skillkit/>**。
+2. 按技能名、领域标签或场景包名搜索。
+3. 在技能卡片上点 **↓ SKILL.md** 下载单个文件，或在场景包卡片上整包下载 zip。
+4. 想一口气全要？英雄区的 **↓ `_all.zip`** 一键拿下。
 
-```mermaid
-pie title 技能来源（n=154）
-    "自研场景技能" : 116
-    "上游 curated（alirezarezvani/claude-skills, MIT）" : 33
-    "其他开源蒸馏" : 5
-```
+### 路径 B · 直接逛仓库
 
-**按场景包规模分布**（█ = 1 个 skill，共 36 包）：
+| 你想要的 | 去哪里拿 |
+|---|---|
+| 单个 `SKILL.md` | 浏览 [`skills/`](skills/)，打开原始文件 |
+| 单个场景包 zip | [`dist/<pack-id>.zip`](dist/)（本地构建），或 [Releases](https://github.com/x33834/awesome-skillkit/releases/latest) 里对应的资源 |
+| 全量打包 | `dist/_all.zip`，或 [`_all.zip` Release 资源](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) |
+| 国内镜像 | [GitCode](https://gitcode.com/badhope/awesome-skillkit) · [Gitee](https://gitee.com/badhope/awesome-skillkit)（标签一致，Release 已挂好资源） |
 
-| 场景包 | 技能数 | 规模 |
-|--------|:---:|------|
-| AI Research & Writing | 19 | ███████████████████ |
-| Content Publishing Automation | 18 | ██████████████████ |
-| Office Productivity | 8 | ████████ |
-| Data, ML & Scientific Computing | 7 | ███████ |
-| AI Video Pipeline | 6 | ██████ |
-| AI Agent Development | 5 | █████ |
-| Code Review | 5 | █████ |
-| AI Media Toolkit | 4 | ████ |
-| Image Studio | 4 | ████ |
-| Memory Systems | 4 | ████ |
-| Toolsmith | 4 | ████ |
-| Video Design Studio | 4 | ████ |
-| Visual Design Studio | 4 | ████ |
-| Workspace Integrations | 4 | ████ |
-| System Architecture | 3 | ███ |
-| Audio Studio | 3 | ███ |
-| CI/CD Pipeline | 3 | ███ |
-| Code Planning & Generation | 3 | ███ |
-| Containers & Orchestration | 3 | ███ |
-| De-AI Writing | 3 | ███ |
-| Edu Craft | 3 | ███ |
-| GitHub Collaboration | 3 | ███ |
-| Growth Marketing | 3 | ███ |
-| Homework Autopilot | 3 | ███ |
-| Incident Response & SRE | 3 | ███ |
-| Infrastructure as Code | 3 | ███ |
-| Skill Forge | 3 | ███ |
-| API Development & Testing | 2 | ██ |
-| Database Design & Management | 2 | ██ |
-| Data Viz Studio | 2 | ██ |
-| Knowledge Base | 2 | ██ |
-| Security & Secrets | 2 | ██ |
-| Test-Driven Development | 2 | ██ |
-| Viral Entertainment | 2 | ██ |
-| Chat Prompt Craft | 1 | █ |
-| Performance Profiling | 1 | █ |
+> 每个包的 zip 由 `python3 build.py` 构建，并随每次 GitHub Release 一起发布；GitCode / Gitee 镜像推送相同标签并上传相同资源。
 
-## 30 秒上手
+## 场景包目录（全部 36 个）
 
-1. 📦 从 **Release** 下载你需要的场景包 zip（或本地 `python3 build.py` 生成 `dist/*.zip`）。
-2. 📂 解压——得到**多个 skill 文件夹**（每个含 `SKILL.md`）。
-3. 🧲 把 skill 文件夹**拖入** AI 工具的 skills 目录：
-   - Claude Code：`~/.claude/skills/`（全局）或项目内 `.claude/skills/`
-   - 其他支持 skills 的工具：用其对应的 skills 目录
-4. 🚀 开新会话即可用，无需任何配置。
+下表是完整目录。每行链接到对应包目录，技能列列出了包内打包的全部 `SKILL.md`。
 
-## 场景包全景
+| 包 ID | 场景包 | 名称 (EN) | 技能数 | 包含技能 |
+|---|---|---|:---:|---|
+| [`ai-agent-development`](packs/ai-agent-development) | **AI Agent 开发** | AI Agent Development | 5 | `agent-designer`, `mcp-server-builder`, `feature-flags-architect`, `self-eval`, `skill-tester` |
+| [`ai-media-toolkit`](packs/ai-media-toolkit) | **AI 媒体生成工具箱** | AI Media Toolkit | 4 | `video-generation`, `image-generation`, `music-generation`, `ai-cover-generator` |
+| [`ai-research-writing`](packs/ai-research-writing) | **AI 研究与写作** | AI Research & Writing | 19 | `deep-research`, `web-search`, `paper-topic-selector`, `article-outliner`, `article-drafter`, `content-editor`, `seo-optimizer`, `lit-review`, `experiment-runner`, `figure-maker`, `arch-diagram`, `neural-net-draw`, `latex-formatter`, `self-reviewer`, `journal-adapt`, `anti-defensive`, `ai-humanizer`, `tex-cleaner`, `pub-plotter` |
+| [`ai-video-pipeline`](packs/ai-video-pipeline) | **AI 短视频生产流水线** | AI Video Pipeline | 6 | `video-script-writer`, `video-voice-synth`, `video-lip-sync`, `video-editor`, `video-subtitles`, `video-thumbnail` |
+| [`api-development`](packs/api-development) | **API 开发与测试** | API Development & Testing | 2 | `api-design-reviewer`, `api-test-suite-builder` |
+| [`architecture`](packs/architecture) | **系统架构设计** | System Architecture | 3 | `senior-architect`, `migration-architect`, `monorepo-navigator` |
+| [`audio-studio`](packs/audio-studio) | **音频工作室** | Audio Studio | 3 | `podcast-producer`, `tts-voice-director`, `episode-publisher` |
+| [`chat-prompt-craft`](packs/chat-prompt-craft) | **聊天提示词工艺** | Chat Prompt Craft | 1 | `chat-prompt-engineer` |
+| [`ci-cd`](packs/ci-cd) | **CI/CD 流水线** | CI/CD Pipeline | 3 | `ci-cd-pipeline-builder`, `ship-gate`, `spec-driven-workflow` |
+| [`code-planning`](packs/code-planning) | **代码规划与生成** | Code Planning & Generation | 3 | `code-intent-planner`, `code-generator`, `debug-diagnoser` |
+| [`code-review`](packs/code-review) | **代码审查** | Code Review | 5 | `pr-review-expert`, `code-reviewer`, `api-design-reviewer`, `tech-debt-tracker`, `dependency-auditor` |
+| [`containers`](packs/containers) | **容器与编排** | Containers & Orchestration | 3 | `docker-development`, `helm-chart-builder`, `kubernetes-operator` |
+| [`content-publishing`](packs/content-publishing) | **内容多平台发布自动化** | Content Publishing Automation | 18 | `zhihu-content-manager`, `cnblogs-skill`, `wechat-mp-publisher`, `juejin-publisher`, `csdn-publisher`, `jianshu-publisher`, `bilibili-publisher`, `toutiao-publisher`, `baijiahao-publisher`, `xiaohongshu-publisher`, `weibo-publisher`, `douban-publisher`, `v2ex-publisher`, `segmentfault-publisher`, `oschina-publisher`, `static-blog-deploy`, `cross-post-orchestrator`, `ai-cover-generator` |
+| [`data-ml-science`](packs/data-ml-science) | **数据科学与科学计算** | Data, ML & Scientific Computing | 7 | `etl-builder`, `feature-engineer`, `model-formulator`, `model-solver`, `simulation-runner`, `result-visualizer`, `ml-pipeline` |
+| [`database`](packs/database) | **数据库设计与管理** | Database Design & Management | 2 | `database-designer`, `sql-database-assistant` |
+| [`dataviz-studio`](packs/dataviz-studio) | **数据可视化工作室** | Data Viz Studio | 2 | `dashboard-designer`, `chart-recommender` |
+| [`de-ai-writing`](packs/de-ai-writing) | **去 AI 味写作** | De-AI Writing | 3 | `ai-trace-auditor`, `humanize-rewriter`, `personal-voice-profile` |
+| [`edu-craft`](packs/edu-craft) | **教育工艺** | Edu Craft | 3 | `course-designer`, `exercise-generator`, `feynman-explainer` |
+| [`github-workflow`](packs/github-workflow) | **GitHub 协作工作流** | GitHub Collaboration | 3 | `git-worktree-manager`, `changelog-generator`, `pr-review-expert` |
+| [`growth-marketing`](packs/growth-marketing) | **增长营销** | Growth Marketing | 3 | `product-copywriter`, `campaign-designer`, `channel-adapter` |
+| [`homework-autopilot`](packs/homework-autopilot) | **作业自动驾驶** | Homework Autopilot | 3 | `assignment-intake`, `solution-drafter`, `own-voice-rewrite` |
+| [`image-studio`](packs/image-studio) | **画图工作台** | Image Studio | 4 | `image-prompt-engineer`, `image-generation`, `visual-style-anchor`, `ai-cover-generator` |
+| [`incident-response`](packs/incident-response) | **故障响应与 SRE** | Incident Response & SRE | 3 | `incident-commander`, `runbook-generator`, `slo-architect` |
+| [`infrastructure`](packs/infrastructure) | **基础设施即代码** | Infrastructure as Code | 3 | `terraform-patterns`, `observability-designer`, `kubernetes-operator` |
+| [`knowledge-base`](packs/knowledge-base) | **个人知识库** | Knowledge Base | 2 | `personal-wiki`, `knowledge-graph-builder` |
+| [`memory-systems`](packs/memory-systems) | **长期记忆系统** | Memory Systems | 4 | `memory-architect`, `memory-extractor`, `memory-manager`, `memory-retriever` |
+| [`office-productivity`](packs/office-productivity) | **办公效率工具箱** | Office Productivity | 10 | `ppt-builder`, `excel-assistant`, `resume-tailor`, `meeting-notes`, `internal-comms-writer`, `docx-writer`, `pdf-pipeline`, `epub-builder`, `docx-template-fill`, `career-ops-lite` |
+| [`performance`](packs/performance) | **性能优化** | Performance Profiling | 1 | `performance-profiler` |
+| [`security`](packs/security) | **安全与密钥管理** | Security & Secrets | 4 | `secrets-vault-manager`, `env-secrets-manager`, `pii-redactor`, `prompt-injection-guard` |
+| [`skill-forge`](packs/skill-forge) | **技能锻造厂** | Skill Forge | 5 | `skill-author`, `skill-linter`, `skill-finder`, `session-handoff`, `weekly-report-generator` |
+| [`tdd`](packs/tdd) | **测试驱动开发** | Test-Driven Development | 4 | `tdd-guide`, `webapp-flow-tester`, `webapp-e2e-harness`, `agent-eval-harness` |
+| [`toolsmith`](packs/toolsmith) | **工具与自动化** | Toolsmith | 6 | `file-organizer`, `batch-renamer`, `format-converter`, `task-scheduler`, `invoice-organizer`, `bank-statement-reconcile` |
+| [`video-design-studio`](packs/video-design-studio) | **视频设计工作室** | Video Design Studio | 4 | `storyboard-designer`, `shot-recipe-designer`, `video-prompt-engineer`, `visual-style-anchor` |
+| [`viral-entertainment`](packs/viral-entertainment) | **爆款娱乐场景** | Viral Entertainment | 2 | `ai-baby-podcast`, `nailong-laugh-shorts` |
+| [`visual-design-studio`](packs/visual-design-studio) | **视觉设计工作室** | Visual Design Studio | 5 | `design-brief-interpreter`, `image-prompt-engineer`, `layout-spec-auditor`, `frontend-design-director`, `frontend-component-lab` |
+| [`workspace-integrations`](packs/workspace-integrations) | **外部集成工具箱** | Workspace Integrations | 4 | `notion-workspace`, `feishu-dingtalk-bridge`, `issue-tracker-sync`, `cloud-drive-manager` |
 
+> 部分技能（如 `api-design-reviewer`、`kubernetes-operator`、`image-generation`、`ai-cover-generator`）会出现在多个包中——这是有意为之，因为它们在不同场景下被复用。
 
-### 工程与编程
+## 如何安装（30 秒）
 
-| 场景包 | 技能数 | 场景 | 来源 |
-|--------|:---:|------|:---:|
-| AI Agent Development | 5 | 生产级 Agent、多智能体、MCP、特性开关、自评估 | 上游 |
-| Code Review | 5 | PR 审查、代码质量、依赖审计、技术债 | 上游 |
-| System Architecture | 3 | 系统架构、零停机迁移、monorepo | 上游 |
-| CI/CD Pipeline | 3 | CI/CD 流水线、发布门、spec 驱动开发 | 上游 |
-| Code Planning & Generation | 3 | 模糊需求→结构化计划→生成→失败诊断 | 自研 |
-| Containers & Orchestration | 3 | Dockerfile、compose、Helm、K8s operator | 上游 |
-| GitHub Collaboration | 3 | 并行 worktree、约定式 changelog、PR 审查 | 上游 |
-| Incident Response & SRE | 3 | 事故指挥、runbook、SLO/错误预算 | 上游 |
-| Infrastructure as Code | 3 | Terraform 模式、可观测性、K8s | 上游 |
-| API Development & Testing | 2 | REST API 设计审查、契约/集成测试 | 上游 |
-| Database Design & Management | 2 | 库设计、ERD、迁移、SQL 优化 | 上游 |
-| Security & Secrets | 2 | 密钥库、环境变量卫生 | 上游 |
-| Test-Driven Development | 2 | 单测、fixture、mock、红绿重构、Playwright 流程测试 | 上游 |
-| Chat Prompt Craft | 1 | 对话 AI 提示词工程：五要素公式、agent 系统提示、反向约束 | 自研 |
-| Performance Profiling | 1 | Node/Python/Go 的 CPU/内存/IO 剖析 | 上游 |
+1. **下载**你所需场景的 zip（或直接拿 `_all.zip`）。
+2. **解压**——你会得到若干个技能文件夹，每个里面有一个 `SKILL.md`。
+3. **拖入** AI 工具的 skills 目录：
+   - Claude Code：`~/.claude/skills/`（全局）或 `.claude/skills/`（项目级）
+   - 其他支持 skills 的工具：放到其官方文档指定的目录即可。
+4. **开一个新会话**。无需环境变量、无需配置——当你的请求命中技能描述时，它会自动生效。
 
-### 研究与写作
-
-| 场景包 | 技能数 | 场景 | 来源 |
-|--------|:---:|------|:---:|
-| AI Research & Writing | 19 | 从问题到成稿：多轮研究、选题、大纲、草稿、润色、SEO、图表、LaTeX | 自研 |
-| De-AI Writing | 3 | AI 痕迹审计、人声改写、个人声纹档案（降低 AI 感） | 自研 |
-
-### 内容发布
-
-| 场景包 | 技能数 | 场景 | 来源 |
-|--------|:---:|------|:---:|
-| Content Publishing Automation | 18 | 16+ 中文平台文章/视频发布、编辑、跨平台分发、AI 封面 | 自研 |
-
-### 视频创作
-
-| 场景包 | 技能数 | 场景 | 来源 |
-|--------|:---:|------|:---:|
-| AI Video Pipeline | 6 | 短视频全链路：脚本→配音→对口型→剪辑→字幕→封面→发布 | 自研 |
-| AI Media Toolkit | 4 | 文/图生视频、生图、生乐、封面（本地生成网关） | 自研 |
-| Video Design Studio | 4 | 视频前期：分镜、镜头配方、prompt 工程、风格锚点 | 自研 |
-| Viral Entertainment | 2 | 会说话宝宝播客、龙崽 meme 短片（角色一致性） | 自研 |
-
-### 图像与设计
-
-| 场景包 | 技能数 | 场景 | 来源 |
-|--------|:---:|------|:---:|
-| Image Studio | 4 | 图像创作工作台：prompt、重绘、扩图、超分 | 自研 |
-| Visual Design Studio | 4 | brief→spec→prompt→layout 审计，设计总监两遍工作流 | 自研 |
-
-### 音频
-
-| 场景包 | 技能数 | 场景 | 来源 |
-|--------|:---:|------|:---:|
-| Audio Studio | 3 | 播客链：脚本→配音→发布（Kokoro/Qwen3-TTS） | 自研 |
-
-### 数据科学
-
-| 场景包 | 技能数 | 场景 | 来源 |
-|--------|:---:|------|:---:|
-| Data, ML & Scientific Computing | 7 | ETL、特征工程、建模求解、仿真、可视化、ML 流水线 | 自研 |
-
-### 办公生产力
-
-| 场景包 | 技能数 | 场景 | 来源 |
-|--------|:---:|------|:---:|
-| Office Productivity | 8 | PPT、Excel、Word、PDF、简历、纪要、内部通讯 | 自研 |
-
-### 增长营销
-
-| 场景包 | 技能数 | 场景 | 来源 |
-|--------|:---:|------|:---:|
-| Growth Marketing | 3 | 电商营销链：文案框架、活动策划、渠道适配 | 自研 |
-
-### 教育
-
-| 场景包 | 技能数 | 场景 | 来源 |
-|--------|:---:|------|:---:|
-| Edu Craft | 3 | 精通教学链：课程→练习→费曼讲解 | 自研 |
-| Homework Autopilot | 3 | 一键作业完成（有温度版，降低冷血感） | 自研 |
-
-### 记忆系统
-
-| 场景包 | 技能数 | 场景 | 来源 |
-|--------|:---:|------|:---:|
-| Memory Systems | 4 | 长期记忆：设计/抽取/管理/检索（mem0/letta 蒸馏） | 自研 |
-
-### 工具与自动化
-
-| 场景包 | 技能数 | 场景 | 来源 |
-|--------|:---:|------|:---:|
-| Toolsmith | 4 | 文件整理、批量重命名、格式转换、定时任务（全部 dry-run 优先） | 自研 |
-
-### 元技能
-
-| 场景包 | 技能数 | 场景 | 来源 |
-|--------|:---:|------|:---:|
-| Skill Forge | 3 | 技能生成、规范校验（CI 门禁）、技能检索与装配 | 自研 |
-
-### 外部集成
-
-| 场景包 | 技能数 | 场景 | 来源 |
-|--------|:---:|------|:---:|
-| Workspace Integrations | 4 | Notion / 飞书·钉钉·企业微信 / Jira·Linear·GitHub Issues / 云盘归档 | 自研 |
-
-### 个人知识库
-
-| 场景包 | 技能数 | 场景 | 来源 |
-|--------|:---:|------|:---:|
-| Knowledge Base | 2 | 笔记库构建（索引/检索/体检）、知识图谱抽取与导出 | 自研 |
-
-### 数据可视化
-
-| 场景包 | 技能数 | 场景 | 来源 |
-|--------|:---:|------|:---:|
-| Data Viz Studio | 2 | CSV 剖析 → 仪表盘生成（零外部依赖）、图表选择词库 | 自研 |
-
-## 细节词库（本仓库差异化亮点）
-
-很多生成类 skill 的成败在"描述够不够细"。我们为高频场景沉淀了**高密度细节词库**——术语 + 效果/情绪 + 何时用 + 示例，写 prompt 前先查：
-
-| 词库文件 | 领域 | 覆盖内容 |
-|----------|:---:|---------|
-| `cinematography-lexicon.md` | 视频 | 17 种转场 / 动作动词空间语义 / 微表情表演 / 速度节奏 / 五模型方言 / 迭代修复对照 ||| `visual-detail-lexicon.md` | 图像 | 三层光照 30+ 词条 / 构图 / 焦段透视性格 / 材质堆叠公式 / 静态图动势词 ||| `music-style-lexicon.md` | 音乐 | 五槽位 Style 公式 / 曲风族谱 / 情绪×BPM 禁配 / 结构·人声·乐器 tag 全集 / 负面清单 ||| `emotion-delivery-lexicon.md` | 语音 | 情绪→文案手法 / 标点停顿层级 / 重音位置 / 双人对话节奏 ||| `copywriting-formulas.md` | 文案 | 10 型标题公式 / PAS·FAB·AIDA 结构 / CTA 按场景 / 四平台调性差异 ||| `layout-and-chart-rules.md` | PPT | 字号层级表 / 每页信息密度红线 / 图表选择决策树 / WCAG 对比度 ||| `camera-vocabulary.md` | 视频 | 运镜景别 / 基础转场（入门层） ||| `rest_design_rules.md` | API | REST 设计审查规则集 ||| `bounded_autonomy_rules.md` | CI/CD | 边界自治规则（人类审批节点） ||| `platform-rules.md` | SEO | 各平台发布规则与敏感词 |
-
-> 例子：视频 `cinematography-lexicon.md` 把"转场"拆成 17 种（smash cut / match cut / J-cut / invisible cut…），并配"动作动词空间语义表"——`approaches` 与 `comes` 级别的差异都写明，让 AI 看得懂"要什么镜头"。
-
-## 典型技能链（不止单点，而是流水线）
-
-```mermaid
-flowchart LR
-    subgraph 短视频流水线
-    S[video-script-writer] --> V[video-voice-synth]
-    V --> L[video-lip-sync] --> E[video-editor]
-    E --> SUB[video-subtitles] --> T[video-thumbnail] --> P[📤 发布]
-    end
-    subgraph 研究写作链
-    R[deep-research] --> O[article-outliner] --> D[article-drafter]
-    D --> C[content-editor] --> Q[seo-optimizer]
-    end
-    subgraph 内容发布链
-    W[文章/视频] --> A[ai-cover-generator] --> X[cross-post-orchestrator]
-    X --> Z[16+ 平台分发]
-    end
-```
-
-`skill_chains.json` 内置 **18 个链域 / 62 条链**，把"该先调谁、谁接谁"固化下来，跨模块交叉调用不迷路。
-
-## 四平台同步状态
-
-四平台并列（分支 / 标签 / HEAD 完全一致），不偏心任何一个：
-
-| 平台 | 仓库 | 代码同步 | Release / 附件 | 状态 |
-|------|------|:---:|:---:|------|
-| GitHub | `x33834/awesome-skillkit` | ✅ 至 `0.22.0` | ✅ v0.22.0 + 37 个 zip 附件 | 正常 |
-| GitHub | `Morningstar202604/awesome-skillkit` | ✅ 至 `0.22.0` | ✅ 站点 | 正常 |
-| GitCode | `badhope/awesome-skillkit` | ✅ 至 `0.22.0` | ✅ v0.22.0 发布 | 正常 |
-| Gitee | `badhope/awesome-skillkit` | ✅ 至 `0.22.0` | ✅ v0.22.0 共 37 个 zip 附件 | 正常 |
-
-站点（GitHub Pages 双号，内容一致）：<https://x33834.github.io/awesome-skillkit/> · <https://morningstar202604.github.io/awesome-skillkit/>
-
-## 目录结构
-
-```
-packs/              # 场景包定义（每场景一个目录，pack.json 含场景元数据+技能清单+来源）
-skills/             # 所有 skill 的唯一源码（多层级分类）
-  ├─ programming/   # 上游 curated（alirezarezvani，33 个编程技能）
-  ├─ writing/       # 自研场景技能（内容发布/研究/去 AI 味…）
-  ├─ video/ design/ audio/ marketing/ education/ scenarios/ …
-  └─ skill_chains.json  # 13 域 / 48 条技能链
-dist/               # 构建产物：每包一个 zip（gitignored）
-```
-
-## 来源与署名
-
-两条来源轨道，全部在 [manifest.json](manifest.json)、各 `packs/*/pack.json` 与 [SOURCES.md](SOURCES.md) 中逐 skill 署名：
-
-- **自研场景技能（116 个）**：`skills/writing/`、`scenarios/`、`design/`、`audio/` 等。中国平台自动化、视频/图像/音频流水线、去 AI 味写作、记忆系统、作业自动驾驶等——均为上游未覆盖的原创工作流，自带可执行检查脚本与单测，默认 dry-run。
-- **上游 curated（36 个，MIT）**：来自 [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills)，覆盖编程/工程类技能。
-- **其他开源蒸馏（10 个）**：方法论蒸馏自 Anthropic 公开技能文档、mem0/letta/Claude memory tool、Kokoro/Qwen3-TTS 生态等，均在 `references/sources-and-methodology.md` 署名，**零内容复制**。
-
-## 构建与发版
+## 从源码构建
 
 ```bash
-python3 build.py            # 单一构建入口：生成 dist/*.zip（每包一个），并输出 dist/_all.zip
-python3 tools/release.py 0.19.0 --commit   # 校验 CHANGELOG → 升版 → 提交 → 打 tag
-git push origin main --follow-tags            # 推代码 + 三个版本 tag
-# 在 Gitee / GitCode 建 Release 并上传 dist/*.zip（manifest.json 的 version 为唯一事实来源）
+python3 build.py     # 为每个包重新生成 dist/<pack-id>.zip，并打包 dist/_all.zip
 ```
 
-## License
+`build.py` 读取 [`manifest.json`](manifest.json) 与各 `packs/*/pack.json`，从 `skills/` 暂存被引用的技能文件夹后写出 zip。`dist/` 已被 gitignore，由 CI / Release 挂载构建产物。
+
+## 参与贡献
+
+详见 [CONTRIBUTING.md](CONTRIBUTING.md)。简而言之：新增场景包请先开 issue；每个新技能必须包含 `SKILL.md`、在对应 `packs/*/pack.json` 中标注来源，并在 [`tests/`](tests/) 下附上冒烟测试。
+
+## 开源协议
 
 [Apache License 2.0](LICENSE) © 2026 Morningstar202604

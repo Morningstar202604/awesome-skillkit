@@ -1,14 +1,14 @@
 ---
 name: pdf-pipeline
-description: >
-  Page-level PDF processing: merge multiple PDFs, split by page ranges,
-  extract text with page tags, read/write metadata, rotate pages, and
-  probe AcroForm fields or detect scanned (no text layer) files. Use when
-  the user asks to 合并 PDF / 拆分 PDF / 提取 PDF 文字 / rotate pages /
-  merge PDFs / split a PDF / pdf 元数据. Do NOT use for generating Word
-  documents (use docx-writer), editing slide decks, or image editing.
+description: >-
+  Page-level PDF processing: merge multiple PDFs, split by page ranges, extract
+  text with page tags, read/write metadata, rotate pages, and probe AcroForm
+  fields or detect scanned (no text layer) files. Use when the user asks to
+  merge PDFs / split a PDF / extract PDF text / rotate pages / merge pdfs /
+  pdf metadata / page extraction / PDF manipulation. Do NOT use for generating
+  Word documents (use docx-writer), editing slide decks, or image editing.
 license: Apache-2.0
-compatibility: 需要 python3 + pypdf（pip 可装）；无则只能给出操作思路与命令清单
+compatibility: Requires python3 + pypdf (pip-installable); without it only operational guidance and command lists can be given.
 metadata:
   author: "awesome-skillkit"
   version: "1.0"
@@ -18,132 +18,149 @@ metadata:
   verified-date: "2026-09-16"
 ---
 
-# PDF Pipeline（PDF 页级处理流水线）
+# PDF Pipeline (Page-Level PDF Processing)
 
-对已有 PDF 做合并、拆分、取文、改元数据、旋转这五类页级操作。
-核心判断：**先判定 PDF 类型**——文本型直接处理；扫描型（无文本层）
-先走 OCR；表单型用字段探测确认结构再动手。
+Five page-level operations on existing PDFs: merge, split, extract text,
+modify metadata, rotate. Core judgment: **first determine PDF type**—text type
+processes directly; scanned type (no text layer) goes through OCR first; form
+type probes fields to confirm structure before acting.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必填 | 说明 |
+| Input | Required | Notes |
 |---|---|---|
-| PDF 文件路径 | 是 | 一个或多个；相对路径基于当前工作目录 |
-| 要做的操作 | 是 | merge / split / extract / meta / rotate |
-| 目标文件名 | 否 | merge/rotate 必填 `--output`；meta 缺省原地写 |
-| 页码范围 | 否 | `1-3,5` 这种 1-based 写法，缺省全部页 |
+| PDF file path | yes | One or more; relative paths based on current working directory |
+| Operation to perform | yes | merge / split / extract / meta / rotate |
+| Output filename | no | merge/rotate require `--output`; meta defaults to in-place write |
+| Page range | no | 1-based like `1-3,5`, defaults to all pages |
 
-缺输入时，一次性问齐：
+When inputs are missing, ask all at once:
 
-> 请提供：1) PDF 文件路径；2) 要做什么（合并/拆分/提取文字/改元数据/旋转）；
-> 3) 输出文件名；4) 若是拆分或提取：页码范围（缺省全部页）。
+> Please provide: 1) PDF file path; 2) what to do (merge/split/extract
+> text/edit metadata/rotate); 3) output filename; 4) if splitting or
+> extracting: page range (default all pages).
 
-## 前置自检
+## Pre-flight Checks
 
 ```bash
 python3 -c "import pypdf; print('pypdf ok')"
 test -f scripts/pdf_ops.py && echo "script ok"
 ```
 
-- 两条都通过 → 按工作流执行。
-- 第一条报 `ModuleNotFoundError` → 提示用户 `pip install pypdf`；
-  未经同意不要自行安装，此时只输出操作方案不产出文件。
-- 第二条失败 → 按 `references/sources-and-methodology.md` 里的 pypdf
-  文档链接内联等价代码。
+- Both pass → proceed per workflow.
+- First reports `ModuleNotFoundError` → prompt user `pip install pypdf`;
+  don't install without consent—only output operational plan, no file.
+- Second fails → use inline equivalent code from pypdf docs linked in
+  `references/sources-and-methodology.md`.
 
-## 工作流
+## Workflow
 
-### 步骤 1：判定 PDF 类型（决定走哪条线）
+### Step 1: Determine PDF Type (Which Branch to Take)
 
 ```bash
-python3 scripts/pdf_ops.py meta assets/sample.pdf   # 随包样例 PDF；你的真实文件换成 input.pdf
+python3 scripts/pdf_ops.py meta assets/sample.pdf   # bundled sample PDF; replace with your input.pdf
 ```
 
-预期输出：页数、元数据、`form fields: ...` 三段。判读：
+Expected output: three sections—page count, metadata, `form fields: ...`.
+Interpret:
 
-- `form fields` 列出字段 → 表单 PDF：先与用户确认是"只读字段结构"
-  还是"要填值"；填值超出本技能范围，给出字段清单后转告用户用专业
-  表单工具，不要猜值硬填。
-- 需要提取文字时先跑步骤 4 的 `extract` 探测文本层。
+- `form fields` lists fields → form PDF: first confirm with user whether to
+  "only read field structure" or "fill values"; filling values is out of scope,
+  give the field list then tell user to use a dedicated form tool, don't guess
+  values and fill.
+- When extracting text, first run step 4 `extract` to probe the text layer.
 
-预期：一段明确结论（文本型 / 扫描型 / 表单型）。
-若失败（文件读不开）：大概率加密或损坏，见失败处置表。
+Expected: a clear conclusion (text / scanned / form).
+If it fails (file won't open): likely encrypted or corrupt, see failure table.
 
-### 步骤 2：文本型——合并 / 拆分 / 旋转
+### Step 2: Text Type — Merge / Split / Rotate
 
 ```bash
 python3 scripts/pdf_ops.py merge a.pdf b.pdf --output merged.pdf
 python3 scripts/pdf_ops.py split merged.pdf --ranges "1-2,3" --outdir split_out
-python3 scripts/pdf_ops.py rotate assets/sample.pdf --degrees 90 --pages 1-2 --output rotated.pdf   # 随包样例；你的真实场景用上一步的 merged.pdf
+python3 scripts/pdf_ops.py rotate assets/sample.pdf --degrees 90 --pages 1-2 --output rotated.pdf   # bundled sample; use merged.pdf from previous step for your real scenario
 ```
 
-预期：merge 打印逐文件页数与总页数；split 逐文件列出输出路径；
-rotate 打印被旋转的页号。
-若失败：页码范围越界会报 `out of bounds`，先用 meta 的页数核对范围。
+Expected: merge prints per-file page count and total; split lists output paths
+per file; rotate prints rotated page numbers.
+If it fails: page range out of bounds reports `out of bounds`; first verify
+range against meta's page count.
 
-### 步骤 3：扫描型——OCR 转线提示
+### Step 3: Scanned Type — OCR Route Prompt
 
-`extract` 对无文本层的文件会输出 `[warn] no text layer ...` 到 stderr。
-确认是扫描件后，本脚本止步，转 OCR 路线（提示用户）：
+`extract` on a file with no text layer outputs `[warn] no text layer ...` to
+stderr. After confirming it's a scan, the script stops here and switches to OCR
+route (prompt user):
 
-- `ocrmypdf in.pdf out.pdf`（生成可搜索文本层，之后回到步骤 2/4）
-- 纯取字可用 `tesseract in.pdf out -l chi_sim+eng`
-- OCR 质量依赖扫描分辨率，300dpi 以下效果差，需向用户说明。
+- `ocrmypdf in.pdf out.pdf` (generates searchable text layer, then return to
+  step 2/4)
+- For pure text extraction use `tesseract in.pdf out -l chi_sim+eng`
+- OCR quality depends on scan resolution; below 300dpi it's poor, explain to
+  user.
 
-预期：用户确认后才执行外部 OCR 命令；本技能不代装 OCR 工具。
-若失败：用户机器上没有 `ocrmypdf`/`tesseract` → 给出安装命令（`pip install ocrmypdf`、
-`brew install tesseract tesseract-lang`）并说明本技能不代装，请用户装好或改用其他路径；
-OCR 结果仍是乱码 → 扫描分辨率不足或语言包缺失，回到步骤 2 换成"先截图再 OCR"。
+Expected: only after user confirms do you run external OCR commands; this skill
+doesn't install OCR tools for you.
+If it fails: user's machine lacks `ocrmypdf`/`tesseract` → give install commands
+(`pip install ocrmypdf`, `brew install tesseract tesseract-lang`) and note this
+skill doesn't install them; OCR result still garbled → scan resolution
+insufficient or missing language pack; return to step 2 with "screenshot then
+OCR".
 
-### 步骤 4：提取文本（带页码标注）
+### Step 4: Extract Text (With Page Tags)
 
 ```bash
 python3 scripts/pdf_ops.py extract merged.pdf --pages 1-2 --output out.txt
 ```
 
-预期：每页以 `=== page N/M ===` 起头；stdout 直出或写入 `out.txt`。
-若失败：提取出乱码多为内嵌字体缺 ToUnicode 映射（见处置表）。
+Expected: each page starts with `=== page N/M ===`; stdout direct or written to
+`out.txt`.
+If it fails: extracted garbled text is usually embedded fonts missing ToUnicode
+mapping (see failure table).
 
-### 步骤 5：读/写元数据
+### Step 5: Read/Write Metadata
 
 ```bash
-python3 scripts/pdf_ops.py meta assets/sample.pdf                          # 只读（随包样例）
-python3 scripts/pdf_ops.py meta merged.pdf --set Title="Q3 报告" \
-    --set Author="团队名" --output final.pdf                        # 写入
+python3 scripts/pdf_ops.py meta assets/sample.pdf                          # read-only (bundled sample)
+python3 scripts/pdf_ops.py meta merged.pdf --set Title="Q3 Report" \
+    --set Author="Team Name" --output final.pdf                        # write
 ```
 
-预期：写入后打印逐键清单；可再跑一次只读版读回验证。
-若失败：键名限 Title/Author/Subject/Keywords/Creator/Producer。
+Expected: after writing, prints per-key list; can rerun read-only to verify.
+If it fails: key names limited to Title/Author/Subject/Keywords/Creator/Producer.
 
-### 步骤 6：交付
+### Step 6: Deliver
 
-报出每个产物路径 + 页数，并用一句话说明来源（哪个文件、哪些页）。
-写操作默认不覆盖原文件（rotate/split/merge 都要求显式 `--output`），
-原地写（meta 缺省）要先提醒用户已备份或确认。
+Report each artifact path + page count, and one sentence on provenance (which
+file, which pages). Write operations default to not overwriting original
+(rotate/split/merge all require explicit `--output`); in-place write (meta
+default) requires warning user about backup or confirmation first.
 
-预期：每个产物路径都由 `meta` 读回核对过页数，用户能对着来源页号自行抽查。
-若失败：产物路径写不出来（如用户只要 stdout 结果）→ 直接把 stdout 内容作为交付物，
-说明"未落盘"；用户对页数有异议 → 回到对应步骤重跑并附上 `meta` 读回结果。
+Expected: every artifact path has had page count verified via `meta` read-back;
+user can spot-check against source page numbers.
+If it fails: artifact path can't be written (e.g. user only wants stdout result)
+→ deliver stdout content directly as artifact, note "not saved to disk"; user
+disputes page count → return to corresponding step and rerun with `meta` read-back.
 
-## 交付标准
+## Delivery Criteria
 
-- 产物：新 PDF 文件或文本文件，均在用户可见路径。
-- 验证：页级操作后用 `meta` 读回页数核对；文本提取抽查首尾页内容
-  与页码标注；rotate 后可读 `/Rotate` 标志确认。
-- 多文件合并时逐个报出来源页数，方便用户对账。
+- Artifacts: new PDF or text files, all in user-visible paths.
+- Verification: after page operations, read back page count with `meta`; text
+  extraction spot-checks first/last page content against page tags; after rotate,
+  read `/Rotate` flag to confirm.
+- When merging multiple files, report source page count per file for reconciliation.
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Action |
 |---|---|---|
-| 提取出乱码或空白但非扫描件 | 内嵌字体缺 ToUnicode 映射 | 提示用户换 pdfminer.six 重提，或对页面截图走 OCR |
-| 打开报"未解密/密码保护" | PDF 有用户口令或权限限制 | 让用户提供口令；不带口令硬解属违规，直接拒绝 |
-| merge 后页序不对 | 输入文件顺序与预期不一致 | 核对命令行里文件名顺序，merge 按参数顺序拼接 |
-| 拆分报页码越界 | 范围超出实际页数 | 先 `meta` 看页数，改用 `1-N` 写法 |
-| 大文件合并慢 | 页级对象逐一拷贝 | 正常现象，告知进度；超过 10 分钟建议分批合并 |
-| 旋转后查看器里方向没变 | 部分查看器缓存旧渲染 | 重新打开文件；用读回 `/Rotate` 标志确认已写入 |
+| Garbled or blank extraction but not a scan | Embedded fonts missing ToUnicode mapping | Suggest pdfminer.six re-extraction, or screenshot pages and OCR |
+| Open reports "not decrypted / password protected" | PDF has user password or permission restrictions | Ask user for password; forcing without password is non-compliant, refuse |
+| Wrong page order after merge | Input file order differs from expected | Check filename order on command line; merge concatenates in argument order |
+| Split reports page out of bounds | Range exceeds actual pages | First `meta` to see page count, use `1-N` format |
+| Large file merge slow | Page objects copied one by one | Normal; report progress; over 10 minutes suggest batch merging |
+| Rotated but viewer shows no direction change | Some viewers cache old render | Reopen file; read back `/Rotate` flag to confirm write |
 
-## 参考
+## References
 
-- 方法论与来源声明：`references/sources-and-methodology.md`
-- 脚本帮助：`python3 scripts/pdf_ops.py --help`
+- Methodology and source attribution: `references/sources-and-methodology.md`
+- Script help: `python3 scripts/pdf_ops.py --help`

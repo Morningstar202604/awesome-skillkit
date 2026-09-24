@@ -1,14 +1,14 @@
 ---
 name: invoice-organizer
-description: >
-  Sort a pile of loose invoice/receipt/expense files into a month/category
-  tree and emit a CSV ledger, so reimbursement filing stops being a mess.
-  Use when the user asks to 整理发票 / 报销归档 / 发票分类 / 流水台账 /
-  organize receipts / sort invoices / 报销材料按月份归档. Do NOT use for
-  OCR / reading amounts off images (this works on filenames + an optional
+description: >-
+  Sort a pile of loose invoice/receipt/expense files into a month/category tree
+  and emit a CSV ledger, so reimbursement filing stops being a mess. Use when
+  the user asks to organize receipts / sort invoices / archive reimbursement by
+  month / expense ledger / invoice categorization / receipt filing. Do NOT use
+  for OCR / reading amounts off images (this works on filenames + an optional
   ledger, not pixels) or for actually submitting a reimbursement (human step).
 license: Apache-2.0
-compatibility: 纯本地文件系统 + CSV；不联网；默认 dry-run；移动操作可手动回滚
+compatibility: Pure local filesystem + CSV; no network; default dry-run; move operations are manually reversible.
 metadata:
   author: "awesome-skillkit"
   version: "1.0"
@@ -18,70 +18,76 @@ metadata:
   verified-date: "2026-09-20"
 ---
 
-# Invoice Organizer（发票/报销归档与台账）
+# Invoice Organizer (Invoice/Expense Filing and Ledger)
 
-把一堆零散的发票、收据、报销文件，按 **月份/类别** 归档成目录树，并出一份
-**台账 CSV**。解决的是：报销季"发票散落各处、找不全、对不上"。
+Archive a pile of loose invoices, receipts, and expense files into a **month/
+category** directory tree by **month/category**, and produce a **ledger CSV**.
+It solves reimbursement season: "invoices scattered everywhere, can't find them
+all, don't match up."
 
-> 红线：默认 **dry-run** 只打印"会怎么分"；`--apply` 才真移动（源目录清空，
-> 目标目录保留）；**不删任何文件**，移动可手动回滚；纯本地、无网络。
+> Red lines: default **dry-run** only prints "how it would be sorted"; `--apply`
+> actually moves (source directory empties, target directory keeps); **doesn't
+> delete any files**, moves are manually reversible; pure local, no network.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必填 | 说明 |
+| Input | Required | Notes |
 |---|---|---|
-| 发票源目录 | 是 | 散落的发票文件 |
-| 目标根目录 | 否 | 默认 `organized/` |
-| 自定义类别映射 | 否 | `--map-json` 传 `[[正则, 类别], ...]` |
-| 台账 CSV 路径 | 否 | 默认 `ledger.csv`，仅 `--apply` 时写 |
+| Invoice source directory | yes | Scattered invoice files |
+| Target root directory | no | Default `organized/` |
+| Custom category mapping | no | `--map-json` takes `[[regex, category], ...]` |
+| Ledger CSV path | no | Default `ledger.csv`, written only with `--apply` |
 
-## 前置自检
+## Pre-flight Checks
 
-1. 文件名里有没有能推断类别/月份的词？（餐饮/打车/酒店/话费…）
-   全没有 → 会归到"未分类"，可用 `--map-json` 补规则。
-2. 月份从哪来？文件名含 `YYYY-MM` 就按那个；否则用当前月。
-3. 这些文件里有没有**敏感金额信息**？有的话 `--apply` 后台账 CSV 注意别传远端。
+1. Do filenames contain words that imply category/month? (dining/taxi/hotel/
+   phone bill…) If none → files go to "uncategorized"; use `--map-json` to add
+   rules.
+2. Where does the month come from? If filename contains `YYYY-MM`, use that;
+   otherwise use current month.
+3. Do these files contain **sensitive amount information**? If so, after
+   `--apply` the ledger CSV shouldn't be sent to remote.
 
-## 工作流
+## Workflow
 
 ```bash
-# 1. 干跑：看会怎么分
+# 1. Dry run: see how it would sort
 python3 scripts/organize_invoices.py --src assets/sample-invoices
 
-# 2. 真归档 + 出台账
+# 2. Real filing + ledger
 python3 scripts/organize_invoices.py --src assets/sample-invoices --dst ./organized \
   --apply --ledger ./organized/ledger.csv
 
-# 3. 自定义类别（公司自己的口径）
+# 3. Custom categories (company's own taxonomy)
 python3 scripts/organize_invoices.py --src assets/sample-invoices \
   --map-json ./rules.json --apply
 ```
 
-`rules.json` 示例：
+`rules.json` example:
 ```json
-[["差旅|出差|高铁|机票", "差旅"], ["云|服务器|域名", "IT"]]
+[["travel|trip|high-speed|flight", "Travel"], ["cloud|server|domain", "IT"]]
 ```
 
-## 交付标准
+## Delivery Criteria
 
-- 归档目录树：`organized/<YYYY-MM>/<类别>/<文件>`
-- 台账 CSV 每行 = 文件名 / 月份 / 类别 / 源相对路径
-- 源目录在 `--apply` 后被清空，所有文件可数、不丢
+- Archive directory tree: `organized/<YYYY-MM>/<category>/<file>`
+- Ledger CSV each row = filename / month / category / source relative path
+- Source directory is emptied after `--apply`; all files countable, none lost
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 根因 | 处置 |
+| Symptom | Root Cause | Action |
 |---|---|---|
-| 全进"未分类" | 文件名无类别词 | 传 `--map-json` 补正则 |
-| 月份全一样 | 文件名无日期 | 按文件名/内容补 `YYYY-MM`，或接受当前月 |
-| 想加回 | 移错了 | `--apply` 是 `shutil.move`，手动从目标拖回源即可 |
-| 台账想含金额 | 本技能不读文件内容 | 金额需另配 OCR/人工填 |
+| All go to "uncategorized" | Filenames lack category words | Pass `--map-json` to add regex |
+| Months all the same | Filenames lack dates | Add `YYYY-MM` from filename/content, or accept current month |
+| Want to move back | Moved wrong | `--apply` is `shutil.move`; manually drag back from target to source |
+| Ledger should include amounts | This skill doesn't read file content | Amounts need separate OCR/manual entry |
 
-## 参考
+## References
 
-- 类别规则与回滚说明：[references/invoice-rules.md](references/invoice-rules.md)
+- Category rules and rollback notes: [references/invoice-rules.md](references/invoice-rules.md)
 
-## 链路位置
+## Pipeline Position
 
-- 上游：手机/邮箱下载的发票原件（先下到本地目录）
-- 下游：人工把台账贴进报销系统（本技能**不自动提交**，合规留给人）
+- Upstream: invoice originals downloaded from phone/email (download to local directory first)
+- Downstream: human pastes ledger into reimbursement system (this skill **doesn't auto-submit**, compliance left to human)

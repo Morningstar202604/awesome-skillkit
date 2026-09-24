@@ -1,6 +1,6 @@
 ---
 name: ai-trace-auditor
-description: "Audit a text for AI-writing fingerprints: scan built-in Chinese/English AI高频词 lists, measure sentence-length variance (std/mean), list/parallelism density and structural cliches, then report a 0-100 score with per-finding locations as machine-parseable JSON. Use when the user asks to 检测AI味 / AI痕迹检测 / 查一下这段像不像AI写的 / 体检AI率 / audit AI traces / detect AI writing / scan for AI style / de-AI check. Do NOT use as an official AI detector for academic-integrity arbitration — heuristic self-check only."
+description: "Audit a text for AI-writing fingerprints: scan built-in Chinese/English AI high-frequency word lists, measure sentence-length variance (std/mean), list/parallelism density and structural cliches, then report a 0-100 score with per-finding locations as machine-parseable JSON. Use when the user asks to detect AI flavor / AI-trace detection / check whether this reads like AI wrote it / AI-rate check / audit AI traces / detect AI writing / scan for AI style / de-AI check. Do NOT use as an official AI detector for academic-integrity arbitration — heuristic self-check only."
 license: Apache-2.0
 compatibility: Needs Python 3.8+ (stdlib only) for scripts/trace_scanner.py; if Python is unavailable, degrade to the manual checklist and mark the report manual_mode.
 metadata:
@@ -12,181 +12,181 @@ metadata:
   verified-date: "2026-09-21"
 ---
 
-# AI Trace Auditor（AI 痕迹体检）
+# AI Trace Auditor (AI-Trace Checkup)
 
-AI 味不是玄学，它有可测量、可定位的特征。本技能对文本做一次"体检"：跑词表、算句长方差、数列表密度，产出 0-100 分与逐条 findings——只诊断，不动刀，改写交给下游 humanize-rewriter。
+AI flavor isn't mysticism; it has measurable, locatable features. This skill gives the text a "checkup": runs the word list, computes sentence-length variance, counts list density, and produces a 0-100 score with itemized findings — it only diagnoses, doesn't operate; rewriting is handed off to the downstream humanize-rewriter.
 
-## 适用决策表（先判断，再体检）
+## Applicability Decision Table (Judge First, Then Check Up)
 
-| 你的目的 | 用不用本技能 | 预期效用 |
+| Your Goal | Use This Skill? | Expected Value |
 |---|---|---|
-| 发布/交付前，自查"这稿 AI 味重不重" | 用 | findings 逐条定位，可直接转 humanize-rewriter 消痕 |
-| 内部 review，比较两版稿子的机器腔程度 | 用 | 同一文本分数可横向对比（确定性脚本） |
-| 追问"这是不是 AI 写的"（作者归因） | **别用** | 本技能测风格特征，测不出作者身份（暗知识 1） |
-| 学术诚信仲裁 / 要"官方 AI 率" | **拒绝** | 启发式自检无任何官方效力（红线 2） |
-| 文本少于 3 句 / 大量代码表格 | 降级用 | cv 不可判定，只有词表命中可用 |
+| Self-checking before publish/delivery, "how heavy is the AI flavor in this draft" | yes | Findings are located item by item, ready to hand to humanize-rewriter to erase traces |
+| Internal review, comparing how machine-flavored two draft versions are | yes | Scores are comparable across runs on the same text (deterministic script) |
+| Asking "did AI write this" (authorship attribution) | **don't** | This skill measures stylistic features, not authorship (tacit knowledge 1) |
+| Academic-integrity arbitration / wanting an "official AI rate" | **refuse** | Heuristic self-check has no official standing whatsoever (Red Line 2) |
+| Text under 3 sentences / heavy code and tables | degraded use | cv is undecidable; only word-list hits are usable |
 
-## 领域暗知识（体检前必须懂的四件事）
+## Domain Tacit Knowledge (Four Things You Must Know Before the Checkup)
 
-**1. 商业检测器测什么，词表法只是"土法近似"。** 主流商业检测器的底层是两类信号：困惑度（perplexity，模型对文本的"惊讶度"——AI 文本太可预测所以偏低）和爆发度（burstiness，句长节奏的波动——人类忽长忽短，AI 均匀工整）。本技能的词表 + cv + list_ratio 是这两个信号的手工近似：**测的是风格与 AI 产出的相似性，不是 AI 的作者身份**。score 90 的套路文可能是人写的，score 30 的模仿机器腔可能是人改的——体检结论永远是"像不像 AI 的风格"，不是"是不是 AI 写的"。
+**1. What commercial detectors measure — and why the word-list method is only a "folk approximation."** Mainstream commercial detectors run on two families of signals: perplexity (the model's "surprise" at the text — AI text is too predictable, so it's low) and burstiness (the fluctuation in sentence-length rhythm — humans vary, AI is even and neat). This skill's word list + cv + list_ratio is a hand-made approximation of those two signals: **it measures stylistic similarity to AI output, not AI authorship**. A formulaic piece scoring 90 may be human-written; an imitation of machine-tone scoring 30 may be human-edited — the checkup conclusion is always "does it read like AI's style", not "did AI write it".
 
-**2. 假阳性有明确的高发人群，比假阴性更需要警惕。** 三类人写的原文极易被统计特征误伤：非母语写作者（教学环境的固定句式天然"均匀"）、公文/法律/医学等程式化文体（人类规范本来就要求工整）、刻意模仿"高级感"的初学者（堆排比恰是学来的修辞）。所以步骤 3 的语境复核不是可选项——**uniform ≠ AI，工整 ≠ 机器**。历史上最著名的翻车就是把非母语学生的作文误判为 AI 生成，这也是本技能坚持只做自检不做仲裁的原因。
+**2. False positives have a clear high-risk population and matter more than false negatives.** Three groups' original writing is easily hurt by statistical features: non-native writers (fixed sentence patterns in instructional settings are naturally "even"), formulaic genres like official/legal/medical prose (human conventions already demand neatness), and beginners deliberately imitating "premium" tone (piling up parallelism is a learned rhetoric). So Step 3's context re-check isn't optional — **uniform != AI, neatness != machine**. The most famous historical fail was flagging a non-native student's essay as AI-generated, which is exactly why this skill insists on self-check only, not arbitration.
 
-**3. 假阴性来自改写与混合文本，词表测不到它们。** 逐句改写（paraphrase）可绕过任何词表；最常见且最难判的真实场景是"人写初稿 + AI 润色"的混合文本——它一段像人一段像机器，整篇分数取平均后落在"说不清"区间。遇到混合嫌疑（段落间风格断裂明显），逐段体检分段报告，比全文一个分数诚实得多。
+**3. False negatives come from paraphrase and mixed text; the word list can't catch them.** Sentence-by-sentence paraphrase can bypass any word list; the most common and hardest real case is a "human first draft + AI polish" mixed text — it reads human in one paragraph and machine in the next, and averaging the whole piece's score lands in the "can't tell" zone. When you suspect mixing (sharp style breaks between paragraphs), run a paragraph-by-paragraph check with segmented reports — far more honest than one whole-text score.
 
-**4. 词表是移动靶，会随模型版本漂移。** "综上所述""深入探讨"是上一代模型的高频套话，新一代模型的套话隔半年就换一批——今天没命中不代表干净。所以 score 的语义是"已知特征命中了多少"，不是"还有多少未知的 AI 味"。报告里给结论时永远带一句词表覆盖盲区的说明，不给"体检通过 = 无 AI 味"的暗示。
+**4. The word list is a moving target that drifts with model versions.** "In summary" / "delve into" were the previous generation's cliches; the new generation's cliches change every six months — not hitting today doesn't mean clean. So the score's meaning is "how many known features were hit", not "how much unknown AI flavor remains". Always pair a conclusion with a note on the word list's coverage blind spots; never imply "passing the checkup = no AI flavor".
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |---|---|---|
-| 待体检文本 | 是 | 纯文本或 markdown 文件路径；不接受"我大概是这么写的"转述 |
-| 用途声明 | 否 | 发布前自检 / 内部 review / 交付前抽检；涉及学术提交时必填，用于触发红线 2 提示 |
+| text to check | yes | Plain text or a markdown file path; paraphrases like "this is roughly what I wrote" are not accepted |
+| purpose statement | no | pre-publish self-check / internal review / pre-delivery spot check; required for academic submissions, to trigger the Red Line 2 warning |
 
-缺必填项时，只问一次：
+When a required item is missing, ask only once:
 
-> 请提供：待体检的文本全文（直接粘贴或给文件路径）。
-> 可选：这份文本的用途（发布 / 内部 review / 学术提交）。
+> Please provide: the full text to check (paste it directly or give a file path).
+> Optional: the purpose of this text (publish / internal review / academic submission).
 
-## 前置自检
+## Pre-flight Checks
 
-本技能依赖内置扫描脚本，先探测再动手：
+This skill relies on the bundled scanner script; probe first, then act:
 
 ```bash
-python3 --version                       # 预期打印 3.8+；失败 → 走手工降级
-test -f scripts/trace_scanner.py && echo OK   # 预期打印 OK，否则脚本缺失 STOP
+python3 --version                       # expect 3.8+; on failure -> manual fallback
+test -f scripts/trace_scanner.py && echo OK   # expect OK printed, else script missing STOP
 ```
 
-输入侧自检：文本拿到了吗？少于 3 个句子的文本无法计算句长方差——可以照常跑词表，但报告必须标注 `cv_evaluable: false`。用途声明缺失 → 按"发布前自检"处理并继续，不要为此追问第二轮。文本超过 2 万字 → 先按章节切成 3000 字左右的分段逐段体检，最后汇报各段分数与全文最低分段，不分段直接扫会让定位信息失真。
+Input-side self-check: do you have the text? Texts under 3 sentences can't compute sentence-length variance — you can still run the word list, but the report must mark `cv_evaluable: false`. If the purpose statement is missing -> treat it as "pre-publish self-check" and continue; don't ask a second round. If the text exceeds 20,000 characters -> first split it by section into ~3,000-character segments and check each, then report per-segment scores and the lowest-scoring segment; scanning whole without segmenting distorts the location information.
 
-## 红线（硬性禁令，不可协商）
+## Red Lines (Hard Bans, Non-Negotiable)
 
-1. 本技能是启发式自检，不是官方 AI 检测器：报告必须附带一句边界声明——"分数基于词表与统计特征，命中不等于 AI 所写，未命中不等于人所写"（原理见暗知识 1）。
-2. 不用于学术欺诈：不得向用户担保"AI 率已降为 0"、不得把体检报告当作原创性证明，更不得以此协助规避学校的学术诚信审查——被问到时明确拒绝并解释。对非母语写作者等假阳性高发人群（暗知识 2），主动提示误伤风险。
-3. 只读不改：审计过程禁止顺手改文本；发现问题的修复属于下游 humanize-rewriter 的职责。
-4. 体检在本机完成：不得把用户文本粘贴到任何在线检测网站——发布前的草稿常有未公开信息。
-5. 分数不可单独外传：脱离 findings 的裸分数没有定位信息，禁止只报一个数字了事；也不得暗示"分数高 = 无 AI 味"（词表覆盖盲区，暗知识 4）。
+1. This skill is heuristic self-check, not an official AI detector: the report must carry a boundary disclaimer — "the score is based on word lists and statistical features; a hit doesn't mean AI wrote it, and a miss doesn't mean a human wrote it" (see tacit knowledge 1).
+2. Not for academic fraud: don't guarantee the user "the AI rate has been lowered to 0", don't treat the checkup report as proof of originality, and never help evade a school's academic-integrity review — refuse and explain when asked. For high false-positive groups like non-native writers (tacit knowledge 2), proactively flag the misfire risk.
+3. Read-only, no editing: the audit process must not fix the text on the fly; repairing found issues belongs to the downstream humanize-rewriter.
+4. The checkup runs locally: don't paste user text into any online detection site — pre-publish drafts often contain undisclosed information.
+5. The score alone must not be shared externally: a bare score without findings has no location information; reporting just one number is forbidden; and don't imply "a high score = no AI flavor" (word-list coverage blind spot, tacit knowledge 4).
 
-## 工作流
+## Workflow
 
-### 步骤 1：运行扫描器
+### Step 1: Run the Scanner
 
-- **动作：** 对待体检文本执行（脚本随本技能 bundle 交付）：
+- **Action:** run on the text to check (the script ships with this skill):
 
 ```bash
-python3 scripts/trace_scanner.py assets/sample-article.md        # 随包样例；或 cat 文本 | python3 scripts/trace_scanner.py -
+python3 scripts/trace_scanner.py assets/sample-article.md        # bundled sample; or cat text | python3 scripts/trace_scanner.py -
 ```
 
-- **预期：** stdout 输出单个 JSON 对象 `{stats, findings[]}`，退出码 0。stats 含 sentences、mean_sentence_len、std_sentence_len、cv、list_ratio、enumerator_count、ai_word_hits、score、verdict 十余字段；findings 每条含 pos/type/evidence/fix_hint 四字段。
-- **若失败：** python3 缺失或脚本不可跑 → 降级为手工模式：打开 `scripts/trace_scanner.py` 里的 `AI_PATTERNS` 词表逐词核对、目测句长是否均匀、数列表行占比，报告整体标注 `manual_mode: true`，score 字段填 null 并说明原因。
+- **Expected:** stdout prints a single JSON object `{stats, findings[]}`, exit code 0. stats holds ~15 fields: sentences, mean_sentence_len, std_sentence_len, cv, list_ratio, enumerator_count, ai_word_hits, score, verdict; each finding holds four fields: pos/type/evidence/fix_hint.
+- **If it fails:** python3 missing or the script won't run -> fall back to manual mode: open the `AI_PATTERNS` word list in `scripts/trace_scanner.py` and check word by word, eyeball whether sentence lengths are even, count the list-line ratio, mark the whole report `manual_mode: true`, set the score field to null and explain why.
 
-### 步骤 2：解读 stats
+### Step 2: Read the Stats
 
-- **动作：** 按三轴读数：句长方差比 cv（< 0.5 = 句长过均匀，机器腔核心特征）；列表密度 list_ratio（> 0.4 = PPT 腔）；综合分 score。
-- **预期：** verdict 分段结论：
+- **Action:** read on three axes: sentence-length variance ratio cv (< 0.5 = sentence lengths too even, the core machine-tell); list density list_ratio (> 0.4 = PPT tone); the composite score.
+- **Expected:** verdict-tiered conclusion:
 
-| score | verdict | 含义 |
+| score | verdict | Meaning |
 |---|---|---|
-| ≥ 80 | human_like | 统计特征在人类写作的正常区间 |
-| 60–79 | light_ai_traces | 少量痕迹，微调即可 |
-| 40–59 | obvious_ai_style | 明显机器腔，需系统性改写 |
-| < 40 | heavy_ai_style | 重度模板腔，建议整篇重写 |
+| >= 80 | human_like | Statistical features are in the normal range for human writing |
+| 60-79 | light_ai_traces | A few traces; light tuning suffices |
+| 40-59 | obvious_ai_style | Obvious machine tone; needs systematic rewriting |
+| < 40 | heavy_ai_style | Heavy template tone; recommend a full rewrite |
 
-- **若失败：** sentences < 3 → cv 不可判定，只依据词表与结构项给结论，并在报告中写明数据不足。
+- **If it fails:** sentences < 3 -> cv is undecidable; conclude from the word list and structural items only, and state in the report that data is insufficient.
 
-解读示例：
-
-```text
-stats: sentences=18, cv=0.42 (<0.5 报警), list_ratio=0.55 (报警), ai_word_hits=13
-→ 读法：句长过均匀 + 列表过密是结构层问题，词表命中是表层问题；
-   按公式验算 100 - 13×6 - 20 - 15 = -13 → score 触底 0，verdict 必然 heavy_ai_style，
-   这类文本直接建议整篇重写，逐词修补意义不大。
-```
-
-- **解读纪律：** cv 与 list_ratio 低分但词表零命中 → 先想暗知识 4（词表移动靶）而不是直接宣布"干净"；词表命中但 cv 达标 → 先想暗知识 2（程式化文体误伤）而不是直接定罪。
-
-### 步骤 3：逐条核对 findings
-
-- **动作：** 对每条 finding 做语境复核：ai_word 命中要看语境——"赋能"出现在互联网行业分析里可能是有意为之的行话；parallelism 与 enumerator_chain 命中基本可坐实；evidence 里的原文引用用于向用户定位。同时自查作者画像：作者若是非母语写作者或文体本属程式化（合同、公告、病历），uniform 类 finding 一律降级为"待议"。
-- **预期：** 每条 finding 标注 保留（语境合理）/ 确认（真 AI 痕迹）/ 待议（两可）三态之一。复核示例：
+Reading example:
 
 ```text
-L3 ai_word "抓手"      → 确认（空泛黑话，无实指）
-L7 ai_word "robust"   → 保留（技术语境下描述容错能力，属正常术语）
-L9 parallelism        → 确认（三个分句同头，纯修辞填充）
+stats: sentences=18, cv=0.42 (alarm <0.5), list_ratio=0.55 (alarm), ai_word_hits=13
+-> reading: even sentence length + dense lists are structural-layer problems; word-list hits are surface problems;
+   verify by the formula 100 - 13x6 - 20 - 15 = -13 -> score bottoms out at 0, verdict necessarily heavy_ai_style;
+   for such text, recommend a full rewrite outright; word-by-word patching isn't worth it.
 ```
 
-- **若失败：** 某条 evidence 无法在原文中定位 → 以 pos 行号重新核对；仍定位不到则删除该条并说明。
+- **Reading discipline:** low cv and list_ratio but zero word-list hits -> first think tacit knowledge 4 (word list is a moving target) rather than declaring "clean"; word-list hits but cv passes -> first think tacit knowledge 2 (formulaic-genre misfire) rather than convicting outright.
 
-### 步骤 4：脚本测不到的语义层检查
+### Step 3: Check Findings One by One
 
-- **动作：** 人工补查四类：每段开头是否都是总结句（AI 的"总-分"强迫症）；是否滥用三点式罗列（刚好三条、长度相近）；结论是否空洞回环（说了一圈等于没说）；**段落间风格是否断裂**（一段人味十足一段机器工整——混合文本嫌疑，暗知识 3）。
-- **预期：** 语义层问题以同样四字段结构追加进 findings，pos 填所在行号，type 用 `semantic_pattern`；发现风格断裂 → 建议逐段体检而不是只给全文分数。
-- **若失败：** 文本过短无从判断结构 → 跳过本步并注明。
+- **Action:** contextually re-check each finding: ai_word hits depend on context — "leverage" inside an internet-industry analysis may be intentional jargon; parallelism and enumerator_chain hits are basically confirmed; the original quote in evidence is used to locate it for the user. Also self-check the author profile: if the author is a non-native writer or the genre is inherently formulaic (contract, announcement, medical record), downgrade uniform-type findings to "pending".
+- **Expected:** each finding is labeled one of three states: keep (context reasonable) / confirmed (real AI trace) / pending (ambiguous). Re-check example:
 
-### 步骤 5：输出报告
+```text
+L3 ai_word "lever"      -> confirmed (empty jargon, no concrete referent)
+L7 ai_word "robust"    -> keep (in a technical context describing fault tolerance, it's normal terminology)
+L9 parallelism        -> confirmed (three clauses with the same opener, pure rhetorical filler)
+```
 
-- **动作：** 汇总为报告 JSON 并向用户陈述：
+- **If it fails:** an evidence quote can't be located in the original -> re-check by the pos line number; if still unlocatable, delete that item and explain.
+
+### Step 4: Semantic-Layer Checks the Script Can't Run
+
+- **Action:** manually cover four things: does every paragraph open with a summary sentence (AI's "general-to-specific" compulsion); is there abuse of three-item lists (exactly three, similar length); does the conclusion loop hollowly (said a round and said nothing); **is the style broken between paragraphs** (one paragraph fully human, the next machine-neat — mixed-text suspicion, tacit knowledge 3).
+- **Expected:** append semantic-layer problems to findings in the same four-field structure, pos = the line number, type = `semantic_pattern`; if you find style breaks -> recommend paragraph-by-paragraph checking instead of a single whole-text score.
+- **If it fails:** the text is too short to judge structure -> skip this step and note it.
+
+### Step 5: Output the Report
+
+- **Action:** consolidate into a report JSON and state it to the user:
 
 ```json
 {
   "score": 34,
   "verdict": "heavy_ai_style",
   "manual_mode": false,
-  "disclaimer": "启发式自检，非官方检测器",
+  "disclaimer": "Heuristic self-check, not an official detector",
   "findings": [
-    {"pos": "L3", "type": "ai_word", "evidence": "……综上所述，深入探讨……", "fix_hint": "总结改成一个具体结论"}
+    {"pos": "L3", "type": "ai_word", "evidence": "...in summary, delve deeply into...", "fix_hint": turn the summary into one concrete conclusion"}
   ]
 }
 ```
 
-- **预期：** JSON 可被 `json.loads` 直接解析；score 与脚本输出一致（semantic_pattern 追加项不改 score，人工分项单独陈述）。
-- **预期（陈述话术）：** 用三句话向用户收口——第一句给结论："score 34，heavy_ai_style，主要问题是词表命中 13 处 + 列表密度 67%"；第二句给去向："逐条 findings 已定位到行，可直接转 humanize-rewriter 按条消痕"；第三句给边界："本报告测的是风格特征与已知词表覆盖（暗知识 1/4），不是作者身份，也不是任何官方结论。"
-- **若失败：** JSON 序列化失败 → 修复转义后重出，禁止交付半结构化文本。
+- **Expected:** the JSON parses directly with `json.loads`; the score matches the script output (semantic_pattern additions don't change the score; manual items are stated separately).
+- **Expected (scripted phrasing):** close with three sentences — first the conclusion: "score 34, heavy_ai_style; the main problems are 13 word-list hits + 67% list density"; second the destination: "findings are located line by line and ready to hand to humanize-rewriter to erase traces item by item"; third the boundary: "this report measures stylistic features and known word-list coverage (tacit knowledge 1/4), not authorship, and is not any official conclusion."
+- **If it fails:** JSON serialization fails -> fix escaping and re-output; delivering semi-structured text is forbidden.
 
-## 参数速查表
+## Parameter Quick Reference
 
-| 字段/规则 | 取值 | 说明 |
+| Field/Rule | Value | Notes |
 |---|---|---|
-| score | 0-100，越高越像人写 | 初始 100：每个 ai_word 命中 -6；cv<0.5 再 -20；list_ratio>0.4 再 -15；排比每处 -10；枚举链每处 -8（经验值，与脚本常量一致，可调） |
-| verdict 分段 | 80/60/40 三条界 | human_like / light_ai_traces / obvious_ai_style / heavy_ai_style |
-| cv 报警线 | 0.5 | 句长标准差/均值；经验值，可调 |
-| list_ratio 报警线 | 0.4 | 列表行/非空行；经验值，可调 |
-| findings[].type 枚举 | ai_word / uniform_sentence_length / parallelism / enumerator_chain / list_density / semantic_pattern | 前五类由脚本产出，semantic_pattern 仅人工步骤追加 |
-| pos 格式 | L行号（如 L3） | 统计类发现（cv、列表密度）固定记 L1 |
+| score | 0-100, higher = more human | Start at 100: each ai_word hit -6; cv<0.5 another -20; list_ratio>0.4 another -15; each parallelism -10; each enumerator chain -8 (empirical, matching script constants, tunable) |
+| verdict tiers | thresholds 80/60/40 | human_like / light_ai_traces / obvious_ai_style / heavy_ai_style |
+| cv alarm line | 0.5 | std/mean sentence length; empirical, tunable |
+| list_ratio alarm line | 0.4 | list lines / non-empty lines; empirical, tunable |
+| findings[].type enum | ai_word / uniform_sentence_length / parallelism / enumerator_chain / list_density / semantic_pattern | The first five are script-produced; semantic_pattern is only appended in the manual step |
+| pos format | L line number (e.g. L3) | Statistical findings (cv, list density) are fixed at L1 |
 
-## 失败处置表
+## Failure Remediation Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Remedy |
 |---|---|---|
-| python3 不可用 | 环境缺失 | 走手工降级清单，报告标注 manual_mode，score 置 null |
-| 文本少于 3 句 | 样本太短 | 只出词表 findings，说明 cv 不可判定；建议合并全文再检 |
-| 文本含大量代码/表格 | 词表误报（如注释里的 robust） | 先剥离代码块与表格再扫，剔除的命中在报告注明 |
-| 非母语/公文文体被高分误伤 | 假阳性高发人群（暗知识 2） | uniform 类 finding 降级为待议；主动提示误伤风险 |
-| 段落间风格断裂明显 | 混合文本（暗知识 3） | 改为逐段体检分段报告，不给单一全文分数定调 |
-| 词表零命中但用户坚信是 AI 写的 | 词表覆盖有限（暗知识 4） | 承认盲区：语义层特征（步骤 4）与词表外的新型套话不在覆盖范围 |
-| 用户要"官方 AI 率"截图 | 触碰红线 1/2 | 拒绝；重申启发式边界与作者归因不可行（暗知识 1） |
-| score 直接为 0 | 重度模板腔 | 如实报告 verdict，直接建议转入 humanize-rewriter 重写而非逐词修补 |
-| 同一文本两次跑分数不同 | 不应发生（脚本确定性） | 检查是否传入了不同文件/版本；确认后重跑 |
-| 命中集中在引号内的人名/产品名 | 词表误伤专名 | 按步骤 3 标注保留；必要时建议用户加书名号或引号消歧 |
-| 用户只关心"能不能过学校检测" | 触碰红线 2 | 明确回答：本报告与任何检测系统无关，不提供规避担保 |
-| 文本为中英混排 | 句长按字符数统计，英文长句会抬高均值 | 正常扫描并照常解读；报告注明 cv 以字符为单位的口径局限 |
-| 文本来自 OCR 或语音转写 | 断句缺失导致句子被并成长句 | 先人工修断句再扫；修不动就声明句子切分不可信，只看词表命中 |
+| python3 unavailable | Environment missing | Use the manual fallback checklist; mark the report manual_mode, set score to null |
+| Text under 3 sentences | Sample too short | Only produce word-list findings, note cv is undecidable; suggest merging the whole text before checking |
+| Text has heavy code/tables | Word-list false positives (e.g. robust in comments) | Strip code blocks and tables first, note the removed hits in the report |
+| Non-native/formulaic prose flagged high | High false-positive group (tacit knowledge 2) | Downgrade uniform findings to pending; proactively flag the misfire risk |
+| Sharp style breaks between paragraphs | Mixed text (tacit knowledge 3) | Switch to paragraph-by-paragraph segmented reports; don't set one whole-text score |
+| Zero word-list hits but the user insists it's AI-written | Limited word-list coverage (tacit knowledge 4) | Admit the blind spot: semantic-layer features (Step 4) and novel cliches outside the list aren't covered |
+| User wants an "official AI rate" screenshot | Hits Red Lines 1/2 | Refuse; restate the heuristic boundary and that authorship attribution isn't feasible (tacit knowledge 1) |
+| Score is directly 0 | Heavy template tone | Report the verdict honestly, recommend handing off to humanize-rewriter for a rewrite rather than word-by-word patching |
+| Same text scores differently on two runs | Shouldn't happen (deterministic script) | Check whether a different file/version was passed; rerun after confirming |
+| Hits concentrate on proper names in quotes | Word-list false positives on names | Mark as keep per Step 3; if needed suggest the user add book-title marks or quotes to disambiguate |
+| The user only cares "will it pass the school's detector" | Hits Red Line 2 | Answer plainly: this report is unrelated to any detection system; no evasion guarantee |
+| Mixed Chinese-English text | Sentence length counted in characters; long English sentences raise the mean | Scan and interpret normally; note in the report the limitation that cv is character-based |
+| Text from OCR or speech transcription | Missing sentence breaks merge sentences into long ones | First manually fix sentence breaks, then scan; if unfixable, declare sentence segmentation untrusted and rely only on word-list hits |
 
-## 交付标准
+## Delivery Standard
 
-- 报告 JSON 可被 `json.loads` 解析；findings 每条含 pos/type/evidence/fix_hint 四字段。
-- 每条 finding 可凭 pos 行号在原文定位；evidence 为原文片段。
-- 报告含边界声明与（如适用）manual_mode 标注；score 与脚本输出一致。
-- 语境复核完成：每条 finding 带三态标注，没有"无脑全改"的默认结论；假阳性高发人群已自查（暗知识 2）。
-- 用户能拿着 findings 逐条决定"改 or 不改"，且明确知道 score 是风格相似度而非作者证据——这是体检的最终效用标准。
+- Report JSON parses with `json.loads`; each finding has the four fields pos/type/evidence/fix_hint.
+- Each finding is locatable in the original by its pos line number; evidence is an original snippet.
+- The report carries the boundary disclaimer and (if applicable) a manual_mode mark; the score matches the script output.
+- Context re-check complete: each finding carries a three-state label, no default "rewrite everything" conclusion; high false-positive groups self-checked (tacit knowledge 2).
+- The user can take the findings and decide "edit or not" item by item, and clearly knows the score is stylistic similarity, not authorship evidence — that's the final usefulness bar of the checkup.
 
-## 参考
+## References
 
-- `references/sources-and-methodology.md` —— 需要说明 AI 高频词表出处、perplexity/burstiness 检测原理的来源、评分权重依据或对外署名时读。
+- `references/sources-and-methodology.md` — read when you need to explain the provenance of the AI high-frequency word list, the source of the perplexity/burstiness detection principles, the basis for scoring weights, or external attribution.
 
-## 链路位置
+## Chain Position
 
-- 上游：任何写作成稿——article-drafter、ai-humanizer 产出的文本都在本技能的体检范围内。
-- 下游：humanize-rewriter（接收本技能的 findings 逐条改写，改后回到本技能复检）。
-- 平行：own-voice-rewrite（education 域的学生作文链路，其终稿复检同样调用本技能）。
+- Upstream: any finished writing — text from article-drafter and ai-humanizer is within this skill's checkup scope.
+- Downstream: humanize-rewriter (takes this skill's findings and rewrites item by item; after rewriting, returns here for re-check).
+- Parallel: own-voice-rewrite (the education-domain student-essay chain, whose final-draft re-check also calls this skill).

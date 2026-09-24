@@ -1,6 +1,15 @@
 ---
 name: solution-drafter
-description: "Draft a homework solution per assignment type from an assignment-plan: math goes 审题→列式→逐步算→验算 with no skipped steps, essays go 立意→素材分配→段落大纲→成文, reports stay outline-first, English uses sentence frames then fills content; every step shows full working and the draft self-checks against every requirement in the plan. Middle stage of the homework-autopilot chain — the draft is deliberately AI-neat and must pass through own-voice-rewrite. Use when the user asks to 起草作业 / 分题型作答 / 写初稿 / 解答题目 / draft solution / solve homework / 按题型写作业. Do NOT use without an assignment-plan from assignment-intake, nor during live exams."
+description: >-
+  Draft a homework solution per assignment type from an assignment-plan: math goes
+  analyze→set up→step-by-step→verify with no skipped steps, essays go
+  thesis→material allocation→paragraph outline→write, reports stay outline-first,
+  English uses sentence frames then fills content; every step shows full working
+  and the draft self-checks against every requirement in the plan. Middle stage
+  of the homework-autopilot chain — the draft is deliberately AI-neat and must
+  pass through own-voice-rewrite. Use when the user asks to draft a solution /
+  answer by type / write first draft / solve homework / draft solution. Do NOT use
+  without an assignment-plan from assignment-intake, nor during live exams.
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime dependencies.
 metadata:
@@ -12,163 +21,203 @@ metadata:
   verified-date: "2026-09-16"
 ---
 
-# Solution Drafter（分题型作答）
+# Solution Drafter (Answer by Type)
 
-初稿机器。拿 assignment-plan 与真实素材，按题型路由到对应执行模板，产出"工整但带 AI 味"的初稿——工整是本技能的职责，人味是下游 own-voice-rewrite 的职责，两层不混。
+First-draft machine. Takes assignment-plan and real material, routes by type to
+the corresponding execution template, producing a "neat but AI-flavored"
+draft—neatness is this skill's job, human warmth is downstream own-voice-rewrite's
+job, two layers not mixed.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |---|---|---|
-| assignment-plan | 是 | 来自 assignment-intake 的 JSON；没有就先回上游跑审题 |
-| 真实素材 | 是* | 对应 plan.needed_materials；*材料问不齐时允许占位模式开工 |
-| 澄清答复 | 否 | 用户对计划单疑问的回应 |
+| assignment-plan | yes | JSON from assignment-intake; without it, return upstream to run analysis first |
+| Real material | yes* | Corresponds to plan.needed_materials; *when materials can't be gathered, placeholder mode allowed |
+| Clarification answers | no | User's responses to plan questions |
 
-缺输入时一次性问齐：
+When inputs are missing, ask all at once:
 
-> 还差两样：① assignment-plan（上一步审题的结果；没有的话我先跑 assignment-intake）② 素材清单里你能提供的部分。给不了的全部告诉我，我按占位模式开工。
+> Two things still missing: 1) assignment-plan (result of previous step's
+> analysis; if not, I'll run assignment-intake first); 2) the parts of the
+> material list you can provide. Tell me everything you can't provide, I'll start
+> in placeholder mode.
 
-## 前置自检
+## Pre-flight Checks
 
-本技能纯 prompt 驱动：无脚本、无端点、无环境变量。三点核对：
+This skill is pure prompt-driven: no scripts, endpoints, or env vars. Three checks:
 
-1. assignment-plan 在吗？type 与 requirements / scoring_points 可读吗？——缺了直接回上游，不裸开工。
-2. 素材对齐吗？——逐条对照 needed_materials 分"已提供 / 缺料"两栏；缺的标占位，不允许顺手编。
-3. 是不是考试现场？——plan.notes 或用户语境显示考场 → 触发红线 1，停止。
+1. Is assignment-plan there? Are type and requirements / scoring_points readable?—
+   missing → return upstream, don't start bare.
+2. Are materials aligned?—line by line against needed_materials into
+   "provided / missing" two columns; missing marked as placeholders, no
+   opportunistic fabrication.
+3. Is this an exam in progress?—plan.notes or user context shows exam hall →
+   triggers red line 1, stop.
 
-## 红线（硬性禁令，不可协商）
+## Red Lines (Hard Bans, Non-Negotiable)
 
-1. 考试与现场测验不适用本链路：与 assignment-intake 红线 1 同源，全链生效，本技能同样拒绝考场请求。
-2. used_materials 只能记录用户提供的真实素材：正文出现的每个经历、数字、数据都必须能在 used_materials 里找到出处，找不到就删。
-3. 数学必须验算：无验算行的数学题不允许交付。
-4. 引用他人内容必须标注：名句、范文片段、教材定义一律注明出处，禁止化装成原创。
-5. 理科步骤不可跳：跳步 = 学生看不懂 = 交付失败。
+1. Exams and in-class quizzes don't use this chain: same source as
+   assignment-intake red line 1, effective chain-wide; this skill likewise refuses
+   exam-hall requests.
+2. used_materials only records real material the user provided: every
+   experience, number, data point appearing in body must be traceable to
+   used_materials; if not found, delete.
+3. Math must verify: math problems without a verification line can't be delivered.
+4. Quoting others' content must be attributed: famous lines, sample essay
+   fragments, textbook definitions must note source; disguised as original is
+   forbidden.
+5. Science steps can't skip: skipped step = student can't follow = delivery failure.
 
-## 工作流
+## Workflow
 
-### 步骤 1：计划与素材对齐
+### Step 1: Align Plan and Materials
 
-- **动作：** 逐条核对 needed_materials，分"已提供 / 缺料"两栏；缺料项在正文标 <<material:xxx>>。
-- **预期：** 对齐表完成，无模糊地带。
-- **若失败：** 用户中途又给新素材 → 补进 used_materials 并重跑本步。
+- **Action**: Check needed_materials line by line into "provided / missing" two
+  columns; missing items marked <<material:xxx>> in body.
+- **Expected**: alignment table complete, no ambiguous ground.
+- **If it fails**: user sends new material mid-way → add to used_materials and
+  rerun this step.
 
-### 步骤 2：按题型路由执行
+### Step 2: Route Execution by Type
 
-按 plan.type 进入对应模板，plan.plan 里的步骤逐项落实：
+Enter corresponding template per plan.type, implement plan.plan steps item by
+item:
 
-| type | 执行模板 | 产出形态 |
+| type | Execution Template | Output Form |
 |---|---|---|
-| math | 审题（已知/求）→ 列式 → 逐步计算 → 验算 | 分步过程 + 答案 + 验算行 |
-| essay | 立意（一句话中心）→ 素材分配到段 → 段落大纲 → 成文 | 完整文章 + 段落大纲附后 |
-| diary / reading_response | 定日期或书目 → 定感受锚点（哪件事/哪个情节）→ 叙议结合成文 | 正文 + 感受锚点标注 |
-| english_writing | 审要点 → 句型框架（每要点 1-2 句）→ 填内容 → 语法自检 | 英文正文 + 要点覆盖表 |
-| handmade_poster | 定主题 → 版面分区（标题区/内容区/插图区）→ 逐区写文案 | 版面方案 + 各区文案 |
-| slides | 定大纲（每页一句结论）→ 逐页要点 → 讲稿提示 | 页级大纲 + 每页文案 |
-| survey_report | 提纲确认（方法/数据/分析/结论四段）→ 逐段填充 | 提纲 + 成文 |
-| lab_report | 按模板顺序填：目的/器材/步骤/记录/结论/反思 | 六段报告；记录段只填真实数据 |
-| other | 按 plan.plan 步骤序列执行 | 与步骤序列一致 |
+| math | analyze (given/asked) → set up → step-by-step → verify | step process + answer + verification line |
+| essay | thesis (one-sentence central point) → material to paragraphs → paragraph outline → write | full article + paragraph outline attached |
+| diary / reading_response | set date or book → set feeling anchor (which event/plot) → narrative+discussion combined | body + feeling anchor annotation |
+| english_writing | review points → sentence frames (1-2 sentences per point) → fill content → grammar self-check | English body + point coverage table |
+| handmade_poster | set theme → layout zones (title zone/content zone/illustration zone) → write copy zone by zone | layout plan + per-zone copy |
+| slides | set outline (one conclusion per slide) → per-slide points → speaker notes | slide-level outline + per-slide copy |
+| survey_report | outline confirm (method/data/analysis/conclusion four paragraphs) → fill paragraph by paragraph | outline + written text |
+| lab_report | fill per template order: objective/apparatus/steps/records/conclusion/reflection | six-paragraph report; records section only fills real data |
+| other | execute per plan.plan step sequence | matches step sequence |
 
-- **动作（续）：** 模板执行中每完成一段就回看 plan.requirements，防止跑偏。
-- **预期：** 产出形态与表格一致；essay 成文不超过字数上限的 110%（经验值，可调）。
-- **若失败：** 模板与 plan 冲突 → 以 plan.requirements 为准，模板让路。
+- **Action (continued)**: after completing each paragraph during template
+  execution, look back at plan.requirements to prevent drift.
+- **Expected**: output form matches table; essay text doesn't exceed 110% of
+  word count cap (empirical, adjustable).
+- **If it fails**: template conflicts with plan → plan.requirements wins,
+  template yields.
 
-math 模板最小示例（四步缺一不可）：
+math template minimal example (four steps, none missing):
 
 ```text
-题目：甲乙两地相距 360 km，汽车 3 小时行完，平均每小时行多少千米？
-  审题：已知路程 360 km、时间 3 小时；求平均速度
-  列式：360 ÷ 3
-  逐步算：360 ÷ 3 = 120（千米/小时）
-  验算：120 × 3 = 360，与已知路程一致 ✓
+Problem: Two cities A and B are 360 km apart; a car completes the trip in 3 hours. What is the average speed in km per hour?
+  Analyze: given distance 360 km, time 3 hours; find average speed
+  Set up: 360 ÷ 3
+  Step-by-step: 360 ÷ 3 = 120 (km/hour)
+  Verify: 120 × 3 = 360, matches given distance ✓
 ```
 
-essay 模板最小示例（大纲先行）：
+essay template minimal example (outline first):
 
 ```text
-题目：《一件小事》
-  立意：小事里藏着家人的在意
-  素材分配：开头场景（打翻牛奶）→ 经过（谁处理的、我怎么想）→ 结尾（当时的感受）
-  大纲：4 段，每段一句话概括，成文时逐段展开
+Problem: "A Small Incident"
+  Thesis: a family's care is hidden in small things
+  Material allocation: opening scene (spilled milk) → middle (who cleaned it, what I thought) → ending (feelings at the time)
+  Outline: 4 paragraphs, one-sentence summary each, expand paragraph by paragraph when writing
 ```
 
-- **预期（示例对照）：** 自己的产出能对上示例的颗粒度——每步一行、有依据、可验算或可回溯。
-- **若失败：** 产出颗粒度明显粗于示例（一步并了三步）→ 按示例拆细重写该部分。
+- **Expected (example comparison)**: own output matches example granularity—each
+  step one line, grounded, verifiable or traceable.
+- **If it fails**: output granularity clearly coarser than example (one step
+  merged three) → split per example and rewrite that part.
 
-### 步骤 3：过程完整展示
+### Step 3: Show Complete Process
 
-- **动作：** 理科每一步写出"为什么这么做"；作文把大纲附在正文后。
-- **预期：** 学生能顺着初稿复述每一步的依据。
-- **若失败：** 某步自己也讲不清为什么 → 停下重解，禁止糊弄过去。
+- **Action**: science each step writes "why do it this way"; essay attaches outline
+  after body.
+- **Expected**: student can retell each step's basis following the draft.
+- **If it fails**: some step you can't explain why yourself → stop and re-solve,
+  fudging through is forbidden.
 
-### 步骤 4：对照 requirements 逐项自检
+### Step 4: Self-Check Against Requirements Item by Item
 
-- **动作：** 把 plan.requirements 逐条变成检查项，pass / fail 逐条判定；scoring_points 同步过一遍。
-- **预期：** checklist_pass 覆盖 100% requirements；fail 项当场修复后复检。
-- **若失败：** 有 fail 修不动（如素材不足）→ 如实标 fail 并写明原因，禁止静默放行。
+- **Action**: turn plan.requirements into checklist items, judge pass / fail line
+  by line; go through scoring_points simultaneously.
+- **Expected**: checklist_pass covers 100% of requirements; fail items fixed on
+  the spot then rechecked.
+- **If it fails**: fail that can't be fixed (like insufficient material) → mark
+  fail honestly with reason, silent pass-through forbidden.
 
-### 步骤 5：输出初稿并移交
+### Step 5: Output Draft and Hand Off
 
-- **动作：** 汇总为 draft JSON（结构见产出规格），接着说："初稿完成，工整但带 AI 味，继续调用 own-voice-rewrite 学生化。"
-- **预期：** JSON 可被 json.loads 解析；content 与 checklist_pass 对应同一份正文。
-- **若失败：** content 改动后忘了同步 checklist → 重跑步骤 4，禁止交付过期自检。
+- **Action**: consolidate into draft JSON (structure in output spec), then say:
+  "First draft complete, neat but AI-flavored, continue calling own-voice-rewrite
+  to make it student-voice."
+- **Expected**: JSON parseable by json.loads; content and checklist_pass
+  correspond to the same body.
+- **If it fails**: content changed but forgot to sync checklist → rerun step 4,
+  delivering stale self-check is forbidden.
 
-## 产出规格
+## Output Spec
 
-draft JSON 结构：
+draft JSON structure:
 
 ```json
 {
-  "content": "初稿全文（或分步解答全文）",
+  "content": "full first draft (or step-by-step solution)",
   "checklist_pass": {
-    "不少于 400 字": "pass",
-    "必须有环境描写": "pass"
+    "no less than 400 words": "pass",
+    "must have scene description": "pass"
   },
   "used_materials": [
-    "用户提供：上周弟弟把牛奶打翻在作业本上"
+    "user provided: last week brother spilled milk on workbook"
   ],
-  "outline": "段落大纲（作文类附）",
-  "verify_line": "验算行（math 类型必附）",
-  "placeholders": ["<<material:春游感受>>"]
+  "outline": "paragraph outline (attached for essay types)",
+  "verify_line": "verification line (required for math type)",
+  "placeholders": ["<<material:spring trip feelings>>"]
 }
 ```
 
-| 字段 | 约束 |
+| Field | Constraint |
 |---|---|
-| checklist_pass | key 与 plan.requirements 一一对应，值只有 pass / fail |
-| used_materials | 只含真实素材（红线 2）；空数组合法，但正文不得出现任何个人经历 |
-| verify_line | type=math 时必填且验算成立 |
-| placeholders | 与正文中 <<material:xxx>> 数量一致 |
+| checklist_pass | key corresponds one-to-one to plan.requirements, values only pass / fail |
+| used_materials | only real material (red line 2); empty array legal, but body must not contain any personal experience |
+| verify_line | required when type=math and verification holds |
+| placeholders | matches <<material:xxx>> count in body |
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Action |
 |---|---|---|
-| 数学结果验算不过 | 列式或计算错误 | 回到列式重推，修到验算通过为止，禁止"答案差不多" |
-| 正文出现没给过的素材 | 红线 2 被绕过 | 删掉该处或换占位符，重跑步骤 4 |
-| 字数超限或不足 | 成文失控 | 超限砍修饰句，不足补素材细节，改后复检 |
-| 用户直接要最终版 | 跳过下游 | 交付初稿并说明：学生化必须走 own-voice-rewrite |
-| 题目本身有歧义 | 上游没问清 | 退回 assignment-intake 补问，不猜测作答 |
-| 实验报告没有真实数据 | 学生没做实验 | 记录段全部留占位，禁止编数据（与红线 2 同源） |
-| 英语作文要点漏写 | 要点覆盖表没对齐 | 补写漏点后重跑步骤 4 |
-| 两道题步骤互相引用混乱 | 题序串了 | 每题独立成块，重新编号 |
-| type=other 无既定模板 | 上游归类为 other | 严格按 plan.plan 序列执行，每步落一段，不自由发挥 |
-| 素材与题目时间线对不上 | 学生口误或记错 | 与用户确认后改正时间线，禁止硬套进题目情境 |
-| 手抄报 / PPT 只写了文案 | 忽略了版面维度 | 按产出形态补齐分区方案或页级大纲，缺版面的不算交付 |
+| Math result doesn't verify | Setup or computation error | Return to setup and re-derive, fix until verification passes, "answer roughly right" forbidden |
+| Body contains material not provided | Red line 2 bypassed | Delete that spot or replace with placeholder, rerun step 4 |
+| Word count over or under | Writing out of control | Over: cut modifier sentences; under: pad with material details, recheck after |
+| User directly wants final version | Skipping downstream | Deliver draft and explain: student-voice must go through own-voice-rewrite |
+| Problem itself ambiguous | Upstream didn't clarify | Return to assignment-intake to ask more, don't guess-answer |
+| Lab report has no real data | Student didn't do experiment | Records section all placeholders, fabricating data forbidden (same source as red line 2) |
+| English essay missed points | Point coverage table not aligned | Fill missed points then rerun step 4 |
+| Two problems' steps cross-reference confusingly | Problem order mixed | Each problem independent block, renumber |
+| type=other has no set template | Upstream categorized as other | Strictly execute per plan.plan sequence, each step a paragraph, no free play |
+| Material doesn't match problem timeline | Student misspoke or misremembered | Confirm with user then fix timeline, force-fitting into problem scenario forbidden |
+| Hand-copied poster / PPT only wrote copy | Ignored layout dimension | Fill in zone plan or slide-level outline; missing layout doesn't count as delivered |
 
-## 交付标准
+## Delivery Criteria
 
-- draft JSON 可被 json.loads 解析，checklist_pass 覆盖全部 requirements。
-- type=math 时 verify_line 存在且验算成立。
-- 正文每个个人素材都能在 used_materials 追溯；placeholders 与正文占位一一对应。
-- 理科每步有依据，无跳步；引用内容全部带出处。
-- 初稿明确标注"工整但带 AI 味"——这是有意为之的中间态，不是缺陷。
+- draft JSON parseable by json.loads, checklist_pass covers all requirements.
+- When type=math, verify_line exists and verification holds.
+- Every personal material in body traceable in used_materials; placeholders
+  correspond one-to-one with body placeholders.
+- Science each step grounded, no skipped steps; quoted content all attributed.
+- First draft explicitly marked "neat but AI-flavored"—this is intentional
+  intermediate state, not a defect.
 
-## 参考
+## References
 
-- `references/sources-and-methodology.md` —— 需要说明数学四步解题出处（波利亚）、过程性写作法来源或对外署名时读。
+- `references/sources-and-methodology.md` — read when you need to explain math
+  four-step solving source (Polya), process writing method source, or external
+  attribution.
 
-## 链路位置
+## Pipeline Position
 
-- 上游：assignment-intake（必经，提供 assignment-plan 与素材清单）。
-- 下游：own-voice-rewrite（必接——初稿是"AI 味工整版"，学生口吻化不在本技能职责内）。
-- 平行：exercise-generator 从知识点出题，本技能从题目作答，方向相反；course-designer 的 exam 档 checkpoint 可作为本技能的练习来源。
+- Upstream: assignment-intake (required, provides assignment-plan and material list).
+- Downstream: own-voice-rewrite (required—draft is "AI-flavored neat version",
+  student-voiceization isn't this skill's job).
+- Parallel: exercise-generator writes questions from knowledge points; this skill
+  answers from questions, opposite direction; course-designer's exam-band
+  checkpoints can be practice source for this skill.

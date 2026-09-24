@@ -282,3 +282,18 @@ h2.sec { margin: 30px 0 14px; font-size: 15px; color: var(--muted); font-weight:
   .chips::-webkit-scrollbar { display: none; }
   .totop { right: 14px; bottom: 18px; }
 }
+
+/* ---------- Translate / i18n chrome (added for EN-primary site) ---------- */
+.hero-lang-links { display: flex; gap: 10px; align-items: center; }
+.hero-lang-links a {
+  font: 600 12px/1 var(--mono); letter-spacing: .04em;
+  color: var(--muted); text-decoration: none; padding: 6px 12px;
+  border: 1px solid var(--border); border-radius: 999px; background: var(--panel);
+  transition: color .15s, border-color .15s, transform .15s;
+}
+.hero-lang-links a:hover { color: var(--fg); border-color: var(--accent); transform: translateY(-1px); }
+.tagline-zh {
+  margin: -18px 0 22px; color: var(--muted); font-size: 13.5px;
+  max-width: 720px; opacity: .85; line-height: 1.6;
+}
+.btn-translate { border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); }

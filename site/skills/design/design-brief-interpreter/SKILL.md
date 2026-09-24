@@ -1,6 +1,14 @@
 ---
 name: design-brief-interpreter
-description: "Interpret a vague visual design request into a machine-checkable design spec: purpose, audience, platform + exact canvas size/ratio, composition, style anchor, color palette, text hierarchy, and text budget. This is the entry skill of the visual-design-studio chain — its output feeds image-prompt-engineer directly, and layout-spec-auditor verifies the final image against it. Use when the user asks to 做图 / 设计封面 / 海报 / 信息图 / 配图 / cover / poster / infographic / thumbnail / banner. Do NOT use for video frame prompts (video-prompt-engineer owns motion), nor for UI code generation."
+description: >-
+  Interpret a vague visual design request into a machine-checkable design spec:
+  purpose, audience, platform + exact canvas size/ratio, composition, style
+  anchor, color palette, text hierarchy, and text budget. This is the entry skill
+  of the visual-design-studio chain — its output feeds image-prompt-engineer
+  directly, and layout-spec-auditor verifies the final image against it. Use
+  when the user asks to make an image / design a cover / poster / infographic /
+  illustration / cover / banner. Do NOT use for video frame prompts
+  (video-prompt-engineer owns motion), nor for UI code generation.
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime dependencies.
 metadata:
@@ -14,111 +22,193 @@ metadata:
 
 # Design Brief Interpreter
 
-链条入口。把一句模糊的"帮我做张图"翻译成**设计规格单**——后面每个环节（prompt 工程、规格审计）都引用这份规格。没有规格单的生图就是抽卡：平台尺寸错一次重做一次，文字层级乱一次重做一次。
+Chain entry. Translate a vague "help me make an image" into a **design spec**—
+every downstream step (prompt engineering, spec audit) references this spec.
+Generating an image without a spec is pulling cards: wrong platform size means
+redo, messy text hierarchy means redo.
 
-## 适用决策表（先判断，再翻译）
+## Applicability Decision Table (Judge First, Then Translate)
 
-| 用户拿到的是 | 怎么处理 |
+| What User Has | How to Handle |
 |---|---|
-| "帮我做张 XX 封面/海报/信息图"（有平台） | 标准流程：三问 → 7 字段规格单 → 移交 |
-| "随便设计一下"（无平台无主题） | 给 2 个预设方向让用户选，不接受"随便" |
-| 一次想做两张图（主题超一句话） | 拆成多张规格单，各自走链 |
-| 视频分镜帧 / UI 代码 | **别用**：分镜归 video-prompt-engineer，UI 归前端技能 |
-| 只想改现有图的尺寸/文字 | 不用全链：直接转 layout-spec-auditor 审计 |
+| "Help me make a XX cover/poster/infographic" (has platform) | Standard flow: three questions → 7-field spec → handoff |
+| "Just design something" (no platform, no theme) | Give 2 preset directions for user to pick, don't accept "whatever" |
+| Want two images at once (theme beyond one sentence) | Split into multiple specs, each goes through chain |
+| Video storyboard frames / UI code | **Don't use**: storyboards go to video-prompt-engineer, UI to frontend skills |
+| Only want to resize/retext existing image | No full chain: directly hand to layout-spec-auditor for audit |
 
-## 领域暗知识（写规格单前必须懂的四件事）
+## Domain Tacit Knowledge (Four Things to Know Before Writing the Spec)
 
-**1. 强调一切 = 什么都没强调——层级是设计的唯一硬通货。** 这条来自 Robin Williams《The Non-Designer's Design Book》的 CRAP 四原则（对比 Contrast / 重复 Repetition / 对齐 Alignment / 亲密 Proximity），也是 Gestalt 心理学（接近性、相似性、图底关系）的直接推论：人脑先看对比最强的元素，再看相邻成组的元素。落到规格单上就是三条可判定规则：**层级只用 3 档尺寸差距要拉开**（设计界共识：五档难以区分的字号不是层级是噪音）；**最强的明度对比留给最重要的元素**；**亲密性成组**（标题贴近正文 = 归属关系，IEEE ProComm 视觉通信教程的标准用法）。可执行检验：把方案想成灰度图问自己"第一眼看哪"（设计界通用的眯眼测试 squint test），答不上来就是层级失败。
+**1. Emphasizing everything = emphasizing nothing—hierarchy is design's only hard
+currency.** This comes from Robin Williams' CRAP four principles in "The
+Non-Designer's Design Book" (Contrast / Repetition / Alignment / Proximity), and
+is a direct corollary of Gestalt psychology (proximity, similarity, figure-ground):
+the eye first looks at the strongest contrast element, then at adjacent grouped
+elements. On the spec this becomes three judgeable rules: **hierarchy uses only 3
+levels, size gaps must be clearlydifferentiated** (design consensus: five hard-to-distinguish font
+sizes aren't hierarchy, they're noise); **strongest luminance contrast reserved
+for the most important element**; **proximity groups** (title near body =
+ownership relationship, standard usage from IEEE ProComm visual communication
+tutorial). Actionable test: imagine the design as grayscale and ask "where do I
+look first" (the universal squint test); if you can't answer, hierarchy failed.
 
-**2. 强调色的力量来自稀缺。** 60-30-10 法则（源自室内设计，Figma 官方资源库收录）：约 60% 主导色（通常是中性背景）、30% 辅助色、10% 强调色。关键洞察不是比例本身，而是**"最大胆的颜色应该是最稀有的"**——强调色铺满 40% 画面的方案失效，因为它不再指向任何东西。这是业余配色与专业配色最常见的一道分水岭。规格单 palette 字段的纪律由此而来：主色 + 辅色 + 强调色各一个，强调色在构图说明里必须对应"焦点对象"，禁止"到处点缀"。
+**2. Accent color's power comes from scarcity.** 60-30-10 rule (originating in
+interior design, collected in Figma's official resource library): about 60%
+dominant color (usually neutral background), 30% secondary, 10% accent. The key
+insight isn't the ratio itself, but **"the boldest color should be the rarest"**—
+a design with accent color across 40% of the frame fails because it no longer
+points to anything. This is the most common divide between amateur and
+professional color work. The spec palette field's discipline follows: one main +
+one secondary + one accent; accent must correspond to "focal object" in the
+composition note; "sprinkled everywhere" is forbidden.
 
-**3. 图上文字的预算有实证依据，不是拍脑袋。** 多源收敛的结论：封面文字 ≤5 个词（YouTube 创作者实证共识），中文平台 ≤12 字一眼看完（中文平台创作者经验）；文字必须**在移动端约 150px 宽的缩略尺寸下可读**——移动端占播放大头；文字与背景对比度 4.5:1 是 WCAG AA 底线（无障碍通行标准另建议正文不小于 16px——注意 16px 是行业惯例口径，不是 WCAG 条文；文字直接烧在图上时两者同样适用）。所以步骤 1 的"文字能砍则砍"不是审美偏好，是可读性算术：字数预算砍半的可读性损失，远小于缩略尺寸下挤成一团的损失。
+**3. On-image text budget has empirical basis, not gut feel.** Converged finding
+from multiple sources: cover text ≤5 words (YouTube creator empirical consensus),
+Chinese platforms ≤12 characters for a single glance (Chinese platform creator
+experience); text must be **readable at ~150px-wide mobile thumbnail size**—
+mobile dominates views; text-to-background contrast 4.5:1 is the WCAG AA floor
+(accessibility standards additionally suggest body text no smaller than 16px—note
+16px is industry convention, not WCAG text; when text is burned into the image
+both apply). So step 1's "cut text if possible" isn't aesthetic preference, it's
+readability arithmetic: halving the word budget's readability loss is far less
+than crammed-together-at-thumbnail loss.
 
-**4. 风格锚要对着竞品信息流定，不是对着空气定。** 调色研究的著名教训：青橙调（teal & orange）2012 年成为好莱坞标准，2020 年就成了俗套——**一个风格被过度使用后就不再传递任何情绪，只传递"我下了个 LUT"**。缩略图同理：高点击封面的设计者是在"对着同话题竞品信息流设计差异"（feed-level contrast），不是在真空中追求好看。所以规格单 style 字段定稿前多问一句：这个风格锚放在同类内容的信息流里，是融入还是跳出？用户的答案是"要跳"还是"要融入"（品牌统一场景），直接决定风格走向。
+**4. Style anchor is set against the competitor feed, not against empty air.**
+Color grading's famous lesson: teal & orange became Hollywood standard in 2012,
+cliché by 2020—**once a style is overused it no longer conveys any emotion, only
+"I applied a LUT"**. Thumbnails same: high-click cover designers "design
+differences against same-topic competitor feeds" (feed-level contrast), not
+pursue beauty in a vacuum. So before finalizing the style field, ask one more
+question: in the feed of similar content, does this style blend in or stand out?
+User's answer "want to jump out" or "want to blend in" (brand consistency
+scenarios) directly determines style direction.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |------|------|------|
-| 粗需求 | ✓ | 用户原话："公众号需要一张讲 AI 视频的封面" |
-| 平台/用途 | ✓（缺就问） | 决定画布尺寸与构图方向，不猜 |
-| 品牌上下文 | ✗ | 有品牌色/字体/调性就记录，没有则给建议 |
+| Rough need | yes | User's original words: "WeChat official account needs a cover about AI video" |
+| Platform/purpose | yes (ask if missing) | Determines canvas size and composition direction, don't guess |
+| Brand context | no | If brand colors/fonts/tone exist, record; otherwise give suggestions |
 
-缺输入时一次性问齐（不许分多轮挤牙膏）："请补充：① 用在哪个平台/场合（决定画布尺寸）② 第一眼要传达的一句话主题 ③ 图上要出现哪些文字（标题/副题/署名）。"
+When inputs are missing, ask all at once (no multi-round drip): "Please add: 1)
+which platform/occasion (determines canvas size); 2) one-sentence theme to
+convey at first glance; 3) which text appears on the image (title/subtitle/byline)."
 
-## 红线（硬性禁令，不可协商）
+## Red Lines (Hard Bans, Non-Negotiable)
 
-1. 平台/用途不许猜：三问缺一就反问，编一个平台 = 画布尺寸错 = 全链返工。
-2. 不写不可判定的风格词："好看/高级/大气"禁止出现在规格单——必须换算成可判定描述（见步骤 2 风格锚纪律）。
-3. 不超文字预算：图上文字总量 ≤12 字（中文）/ ≤5 词（英文），超了砍到只留钩子，不缩小字号硬塞。
-4. 不堆强调色：palette 只给一组"主/辅/强调"，强调色唯一；用户要求"多来几个亮色"时按暗知识 2 解释稀缺性法则。
-5. 不承诺美学评价：本技能产出的是可审计的规格，不是"保证好看"——美学成败由 layout-spec-auditor 的结构检查与用户反馈裁决。
+1. Platform/purpose can't be guessed: if any of three questions is missing, ask
+   back; inventing a platform = wrong canvas size = whole chain rework.
+2. Don't write non-judgeable style words: "nice/high-end/grand" forbidden in the
+   spec—must convert to judgeable description (see step 2 style anchor discipline).
+3. Don't exceed text budget: on-image text total ≤12 chars (Chinese) / ≤5 words
+   (English); over, cut to only the hook, don't shrink font to cram.
+4. Don't pile on accent colors: palette gives one "main/secondary/accent" set
+   only, accent is unique; when user asks "a few more bright colors", explain
+   scarcity rule per tacit knowledge 2.
+5. Don't promise aesthetic evaluation: this skill delivers auditable specs, not
+   "guaranteed beautiful"—aesthetic success is judged by layout-spec-auditor's
+   structural checks and user feedback.
 
-## 前置自检
+## Pre-flight Checks
 
-本技能纯 prompt 驱动：无运行时依赖、无端点、无环境变量，无需安装任何东西。唯一自检点：
+This skill is pure prompt-driven: no runtime dependencies, endpoints, or env
+vars, nothing to install. Only self-check:
 
 ```bash
 test -f references/sources-and-methodology.md && echo OK
 ```
 
-预期输出 `OK`；失败说明技能包不完整，改用内置方法论继续（风格锚纪律见步骤 2），并在交付时注明方法论文献缺失。
+Expected output `OK`; failure means skill package incomplete, continue with
+built-in methodology (style anchor discipline in step 2), and note methodology doc
+missing in delivery.
 
-## 工作流
+## Workflow
 
-### 步骤 1：三问定盘子（缺一就反问，不许编）
+### Step 1: Three Questions Set the Table (Missing → Ask Back, Don't Invent)
 
-1. **给谁看、在哪看**——平台决定画布（公众号头图 2.35:1、小红书 3:4、B 站封面 16:9…）
-2. **第一眼传达什么**——一句话主题，超出一句就是两张图的活
-3. **文字要出现哪些**——标题/副题/署名逐条列出；图上的每个字都是翻车点，能砍则砍（依据见暗知识 3）
+1. **Who sees it, where**—platform determines canvas (WeChat header 2.35:1,
+   Xiaohongshu 3:4, Bilibili cover 16:9…)
+2. **What to convey at first glance**—one-sentence theme; beyond one sentence
+   means two images' work
+3. **Which text appears**—list title/subtitle/byline one by one; every character
+   on the image is a failure point, cut if possible (basis in tacit knowledge 3)
 
-预期：三问全部有答案，平台已落到具体名称（非"发网上"这类模糊词）。
-若失败：用户答不上平台 → 给 2 个最常见预设（公众号头图 / 小红书 3:4）让其选，不自行假定；主题超过一句话 → 回失败处置表按「拆成多张规格单」处理；文字条数超过 12 字 → 砍到只留钩子后继续。
+Expected: all three questions answered, platform resolved to specific name (not vague
+like "post online").
+If it fails: user can't answer platform → give 2 most common presets (WeChat
+header / Xiaohongshu 3:4) to choose, don't assume; theme beyond one sentence →
+return to failure table and handle as "split into multiple specs"; text over 12
+characters → cut to hook then continue.
 
-### 步骤 2：产出规格单（固定 7 字段）
+### Step 2: Produce Spec (Fixed 7 Fields)
 
 ```markdown
 ## Design Spec
-- purpose:    一句话用途与受众
-- platform:   平台名 + 画布 W×H + 比例
-- subject:    画面主体（写"画什么"，不写"表达什么"）
-- style:      风格锚（3-5 个可判定的词：媒介质感 + 色彩情绪 + 构图法）
-- palette:    主色 + 辅色 + 强调色（给色名/色值，不给"高级感"；强调色唯一，见暗知识 2）
-- text:       逐条列出图上文字（层级 + 字数上限）；无文字写 none
-- do-not:     反向约束（不要什么元素/风格）
+- purpose:    one-sentence purpose and audience
+- platform:   platform name + canvas W×H + ratio
+- subject:    image subject (write "what to draw", not "what to express")
+- style:      style anchor (3-5 judgeable words: media texture + color emotion + composition method)
+- palette:    main + secondary + accent (give color name/value, not "high-end"; accent unique, see tacit knowledge 2)
+- text:       list on-image text one by one (hierarchy + word cap); write none if no text
+- do-not:     reverse constraints (what elements/styles not to include)
 ```
 
-**风格锚纪律**（借鉴 Anthropic canvas-design 的"视觉哲学先行"）：先定 3-5 个可判定词再进 prompt——"杂志级极简、大留白、单一强调色"可审计，"好看、高级"不可审计。同系列物料必须复用同一风格锚，这是系列一致性的唯一锚点。
+**Style anchor discipline** (drawing on Anthropic canvas-design's "visual
+philosophy first"): set 3-5 judgeable words before entering prompt—"magazine-grade
+minimalism, generous whitespace, single accent color" is auditable; "beautiful,
+high-end" isn't. Same-series material must reuse the same style anchor, this is
+the only anchor for series consistency.
 
-**层级三问**（步骤 2 定稿前自查，依据暗知识 1）：主体、标题、辅助信息三档的尺寸/明度差距拉开了吗？第一眼落点 = 主体吗？强调色只出现在焦点对象上吗？三问有一个"否"就修规格单，不带病移交。
+**Hierarchy three questions** (self-check before finalizing step 2, per tacit
+knowledge 1): are the size/luminance gaps clearly differentiated across subject, title, and
+secondary info three levels? Is first-glance landing = subject? Does accent color
+only appear on the focal object? If any is "no", fix the spec, don't hand off
+with defects.
 
-预期：7 字段全部落值，无"待定/TODO/看着办"；层级三问全部通过。
-若失败：某字段落不了值（如品牌色说不清）→ 按失败处置表给 2-3 组具体色值让用户挑，不硬编；style 只能写出不可判定的形容词 → 用参考物换算（"高级感 = 低饱和 + 大面积暗部 + 单强调色"）并向用户确认后再定稿。
+Expected: all 7 fields filled, no "TBD/TODO/whatever"; hierarchy three
+questions all pass.
+If it fails: some field can't be filled (like unclear brand color) → give 2-3
+concrete color value sets for user to choose per failure table, don't invent;
+style can only produce non-judgeable adjectives → convert via reference object
+("high-end = low saturation + large dark areas + single accent color") and
+confirm with user before finalizing.
 
-### 步骤 3：移交下游
+### Step 3: Hand Off Downstream
 
-- 直接说："规格单已就绪，继续调用 image-prompt-engineer 写 prompt，产出图后用 layout-spec-auditor 按本规格审计"——**链条自动展开，用户不需要再下指令**。
-- 预期：下游技能拿到的规格单 7 字段齐全，无需追问。
-- 若失败：用户中途改需求 → 回步骤 2 修订对应字段后重新移交，不凭记忆口头转述。
+- Say directly: "Spec ready, continue calling image-prompt-engineer to write the
+  prompt; after generating the image, use layout-spec-auditor to audit against
+  this spec"—**the chain unfolds automatically, user doesn't need to issue
+  another command**.
+- Expected: downstream skill gets a 7-field complete spec, no need to ask back.
+- If it fails: user changes requirement mid-way → return to step 2 to revise
+  corresponding field then re-hand off, don't transmit verbally from memory.
 
-## 交付标准
+## Delivery Criteria
 
-- 产物：一份 `## Design Spec` 规格单，7 字段全部落值，不得出现"待定/TODO/看着办"。
-- 保存位置：直接输出在对话中（本技能不写文件），供下游技能逐字引用。
-- 完整性验证：逐项检查——platform 含具体 W×H 与比例（非"竖图"这类模糊词）；palette 给色名或色值且强调色唯一（非"高级感"）；text 逐条带字数上限或写 none；do-not 至少 1 条；层级三问（步骤 2）全部通过。
+- Artifact: one `## Design Spec` spec, all 7 fields filled, no "TBD/TODO/
+  whatever".
+- Location: output directly in conversation (this skill doesn't write files),
+  for downstream skills to quote verbatim.
+- Integrity verification: check item by item—platform includes concrete W×H and
+  ratio (not vague like "vertical image"); palette gives color names or values
+  and accent unique (not "high-end"); text itemized with word cap or writes none;
+  do-not at least 1 item; hierarchy three questions (step 2) all pass.
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Action |
 |------|------|------|
-| 用户说"随便设计一下" | 三问信息为零 | 给 2 个预设方向让用户选，不接受"随便" |
-| 主题超过一句话 | 一次想做两张图 | 拆成多张规格单，各自走链 |
-| 图上文字超过 12 字 | 想把文章塞进图 | 图文字只留钩子，正文回文章（暗知识 3 的可读性算术） |
-| 品牌色说不清 | "蓝色那种" | 给 2-3 组具体色值让用户挑 |
-| 用户要求强调色到处用 | 触碰红线 4 | 按暗知识 2 解释稀缺性法则；坚持强调色唯一 |
-| 用户坚持"高级感"不改 | 抽象词不可审计 | 参考物换算后向用户确认；确认即锁定为可判定描述 |
-| 同系列图风格漂移 | 系列内复用了不同风格锚 | 回规格单复用同一 style 字段；禁止每张图重新发明风格 |
+| User says "just design something" | Three questions zero info | Give 2 preset directions to choose, don't accept "whatever" |
+| Theme beyond one sentence | Wants two images at once | Split into multiple specs, each goes through chain |
+| On-image text over 12 chars | Wants to cram article into image | Image text keeps hook only, body returns to article (tacit knowledge 3 readability arithmetic) |
+| Brand color unclear | "that kind of blue" | Give 2-3 concrete color value sets to choose |
+| User wants accent color everywhere | Hits red line 4 | Explain scarcity rule per tacit knowledge 2; insist accent unique |
+| User insists on "high-end" and won't change | Abstract word not auditable | Convert via reference object then confirm with user; once confirmed, lock as judgeable description |
+| Same-series images drift in style | Reused different style anchors within series | Return to spec and reuse same style field; forbid reinventing style per image |
 
-## 参考
+## References
 
-- [sources-and-methodology.md](references/sources-and-methodology.md) —— 方法论开源出处（design-context / canvas-design）与本 v2.0 调查来源（Gestalt/CRAP/60-30-10/WCAG/平台实证）
+- [sources-and-methodology.md](references/sources-and-methodology.md) — methodology
+  open-source source (design-context / canvas-design) and this v2.0 investigation
+  basis (Gestalt/CRAP/60-30-10/WCAG/platform empirical).

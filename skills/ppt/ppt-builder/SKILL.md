@@ -3,8 +3,9 @@ name: ppt-builder
 description: >
   Build presentation decks: structured outline, per-slide content spec, and a
   real .pptx file via bundled script (with graceful markdown fallback). Use
-  when the user asks to 做 PPT / 做个演示文稿 / 写个幻灯片 / create slides /
-  make a deck / prepare a presentation about X. Do NOT use for Word documents,
+  when the user asks to make a PPT / build a presentation / write slides /
+  create slides / make a deck / prepare a presentation about X / PowerPoint /
+  presentation design / deck. Do NOT use for Word documents,
   spreadsheets, or PDF forms.
 license: Apache-2.0
 compatibility: Optional python3 with python-pptx for .pptx export; fallback needs nothing.
@@ -15,92 +16,90 @@ metadata:
   verified-date: "2026-08-26"
 ---
 
-# PPT Builder（需求简报 → 演示文稿）
+# PPT Builder (Brief → Presentation)
 
-产出两件东西：逐页内容规格（JSON），以及——在 python-pptx 可用时——由它渲染出的真实 .pptx。规格是唯一事实源；渲染只是机械执行。
+Produces two things: a per-slide content spec (JSON), and — when python-pptx is available — the real .pptx rendered from it. The spec is the single source of truth; rendering is just mechanical execution.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必填 | 默认 | 说明 |
+| Input | Required | Default | Notes |
 |---|---|---|---|
-| 主题 | 是 | — | 这套 PPT 要论证或解释什么 |
-| 受众 | 否 | 通用商务 | 决定语气和深度 |
-| slide_count | 否 | `10` | 含封面和结尾页 |
-| 风格 | 否 | 简洁商务 | 如：学术答辩 / 融资路演 / 教学课件 |
+| Topic | Yes | — | What this PPT should argue or explain |
+| Audience | No | General business | Decides tone and depth |
+| slide_count | No | `10` | Including the cover and closing slide |
+| Style | No | Clean business | e.g. academic defense / fundraising pitch / teaching courseware |
 
-缺主题时，只问一次：
+When the topic is missing, ask once:
 
-> 请给出 PPT 主题与用途（汇报对象是谁）。可选告知：页数（默认 10）、
-> 风格（默认简洁商务）、是否已有大纲或素材文件。
+> Please give the PPT topic and purpose (who is the audience). Optionally tell me: the slide count (default 10),
+> the style (defaults to clean business), and whether you already have an outline or asset files.
 
-## 前置自检
+## Pre-flight Self-check
 
 ```bash
 python -c "import pptx; print('pptx-ok')"
 ```
 
-- 打印 `pptx-ok` → 启用 .pptx 导出（步骤 3a）。
-- ModuleNotFoundError → 走 markdown 路径（步骤 3b）。用一句话告知用户：
-  `pip install python-pptx` 下次即可直接导出 .pptx。除非用户明确同意，否则不要自行安装。
+- Prints `pptx-ok` → enable .pptx export (step 3a).
+- ModuleNotFoundError → take the markdown path (step 3b). Tell the user in one sentence: running `pip install python-pptx` next time enables direct .pptx export. Do not install on your own unless the user explicitly agrees.
 
-## 工作流
+## Workflow
 
-### 步骤 1：搭大纲
+### Step 1: Build the Outline
 
-按此顺序组织论证（不是罗列话题）：钩子开场（一个问题或反直觉
-事实）→ 全局地图 → 核心论点 2–3 个（每个配证据/案例）→ 反驳或边界 → 行动号召。
+Organize the argument in this order (not a list of topics): a hook opening (a question or a counter-intuitive
+fact) → the global map → 2–3 core arguments (each with evidence/a case) → rebuttal or boundaries → a call to action.
 
-预期：带编号的大纲，每页只陈述一个论点。
+Expected: a numbered outline, each slide stating exactly one argument.
 
-### 步骤 2：逐页规格
+### Step 2: Per-slide Spec
 
-写 `slides_spec.json`：
+Write `slides_spec.json`:
 
 ```json
 {
   "deck_title": "...",
   "slides": [
-    {"title": "...", "bullets": ["<=18字/条, 最多5条"], "notes": "讲稿口语版", "visual": "图表/截图/留白提示"}
+    {"title": "...", "bullets": ["<=18 chars each, at most 5"], "notes": "the spoken version of the script", "visual": "chart/screenshot/whitespace cue"}
   ]
 }
 ```
 
-规则：title ≤ 16 字并含观点（不是"介绍"这种空词）; notes 必须是能照着说的
-完整句子。
+Rules: title ≤ 16 chars and carries a point (not an empty word like "introduction"); notes must be complete sentences you can read aloud.
 
-### 步骤 3a：渲染 .pptx（pptx 可用）
+### Step 3a: Render the .pptx (when pptx is available)
 
 ```bash
 python "<skill-dir>/scripts/make_pptx.py" slides_spec.json deck.pptx
 ```
 
-预期：exit 0 加 `wrote deck.pptx (N slides)`。exit 3 表示缺 python-pptx
-→ 转步骤 3b 并告知用户原因。exit 2 表示规格无效——读打印出的错误，
-修 slides_spec.json 后重跑。
+Expected: exit 0 plus `wrote deck.pptx (N slides)`. Exit 3 means python-pptx is missing
+→ switch to step 3b and tell the user why. Exit 2 means the spec is invalid — read the printed error,
+fix slides_spec.json, and rerun.
 
-### 步骤 3b：兜底交付物
+### Step 3b: Fallback Deliverable
 
-输出 `deck_outline.md`：H1 为演示文稿标题，每页一个 H2，含 bullets 和该页讲稿。用户可粘贴进任何工具。
+Output `deck_outline.md`: H1 is the deck title, one H2 per slide, with bullets and that slide's speaker notes. The user can paste it into any tool.
 
-### 步骤 4：交付前自审
+### Step 4: Self-review Before Delivery
 
-检查：每页只讲一个论点；无超过 5 条 bullet；每页 visual 有具体提示；
-notes 总词量支撑目标时长（约 1 分钟/页）。发现违规就改规格重渲染，不要手工补 prose。
+Check: each slide makes only one argument; no slide has over 5 bullets; each slide's visual has a concrete cue;
+the total notes word count supports the target duration (about 1 minute/slide). On finding a violation, fix the spec and re-render; do not hand-patch prose.
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 可能原因 | 处置 |
+| Symptom | Likely cause | Action |
 |---|---|---|
-| 脚本 exit 2 并指出第 N 页 | 规格违反 schema | 按步骤 2 的结构修该页字段 |
-| 脚本 exit 3 | 缺 python-pptx | 转步骤 3b，给出 pip 提示 |
-| bullet 反复超 18 字 | 大纲太密 | 把该页拆成两页，重渲染 |
-| 用户要求套公司模板 | v1 不含样式定制 | 交付 spec + outline.md 供手工改样式 |
+| Script exits 2 and points at slide N | The spec violates the schema | Fix that slide's fields per the step 2 structure |
+| Script exits 3 | python-pptx missing | Switch to step 3b and give the pip hint |
+| A bullet repeatedly exceeds 18 chars | The outline is too dense | Split that slide into two and re-render |
+| The user wants a company template applied | v1 has no styling customization | Deliver the spec + outline.md for manual styling changes |
 
-## 交付标准
+## Delivery Standards
 
-成功 = `deck.pptx`（可打开，页数与规格一致）或 `deck_outline.md`，加上 `slides_spec.json`，三个路径都回报并附页数。缺任何一项即未完成——如实说明。
+Success = `deck.pptx` (opens, slide count matches the spec) or `deck_outline.md`, plus `slides_spec.json`; report all three paths with the slide count. Missing any one means it is incomplete — say so honestly.
 
-## 参考
+## References
 
-- `scripts/make_pptx.py` — 直接运行（执行，不要读）；先校验规格再渲染
-- [layout-and-chart-rules.md](references/layout-and-chart-rules.md) — 版式与图表规则词库：字号层级表、信息密度三档、图表选择决策树（什么数据配什么图）、对齐网格、配色对比度基准、负面清单（排版规格与图表选型时查）
+- `scripts/make_pptx.py` — run directly (execute, do not read); validates the spec first, then renders
+- [layout-and-chart-rules.md](references/layout-and-chart-rules.md) — the layout and chart rules lexicon: font-size hierarchy table, three information-density tiers, the chart-selection decision tree (which data pairs with which chart), alignment grid, color-contrast baselines, and a negative list (consult when setting layout specs and choosing charts)

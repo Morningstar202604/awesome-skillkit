@@ -1,6 +1,7 @@
 ---
 name: secrets-vault-manager
-description: "Use when the user asks to set up secret management infrastructure, integrate HashiCorp Vault, configure cloud secret stores (AWS Secrets Manager, Azure Key Vault, GCP Secret Manager), implement secret rotation, or audit secret access patterns. Triggers on "set up Vault", "vault policies", "AppRole or OIDC auth", "rotate database credentials", "dynamic secrets", "vault audit log", "secret leak response", "External Secrets Operator". 当用户要求 用密钥库 / Vault 管理凭据 / 密钥轮换 / 审计密钥访问 时使用。 Do NOT use for storing or reading production secret values (workflow design only); local .env hygiene lives in env-secrets-manager."
+description: >-
+  Use when the user asks to set up secret management infrastructure, integrate HashiCorp Vault, configure cloud secret stores (AWS Secrets Manager, Azure Key Vault, GCP Secret Manager), implement secret rotation, or audit secret access patterns. Triggers on "set up Vault", "vault policies", "AppRole or OIDC auth", "rotate database credentials", "dynamic secrets", "vault audit log", "secret leak response", "External Secrets Operator", using a vault to manage credentials, secret rotation, or auditing secret access. Do NOT use for storing or reading production secret values (workflow design only); local .env hygiene lives in env-secrets-manager.
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
@@ -14,60 +15,60 @@ metadata:
 
 # Secrets Vault Manager
 
-面向运行 HashiCorp Vault、云原生密钥存储或混合架构的团队，管理生产密钥基础设施。覆盖策略编写、认证方式配置、自动化轮换、动态密钥、审计日志与事件响应。
+Manages production secret infrastructure for teams running HashiCorp Vault, cloud-native secret stores, or hybrid architectures. Covers policy authoring, auth-method configuration, automated rotation, dynamic secrets, audit logs, and incident response.
 
-**区别于 env-secrets-manager**——那个管本地 `.env` 文件卫生与泄露检测。本技能在基础设施层运作——Vault 集群、云 KMS、证书颁发机构、CI/CD 密钥注入。
+**Distinct from env-secrets-manager** — that one handles local `.env` file hygiene and leak detection. This skill operates at the infrastructure layer — Vault clusters, cloud KMS, certificate authorities, and CI/CD secret injection.
 
-## 何时使用
+## When to Use
 
-- 搭建新 Vault 集群，或迁移到托管密钥存储
-- 为服务、CI runner、人类操作员设计认证方式
-- 实施自动化凭据轮换（数据库、API key、证书）
-- 面向合规审计密钥访问模式（SOC 2、ISO 27001、HIPAA）
-- 响应需要大规模吊销的密钥泄露
-- 把密钥接入 Kubernetes 工作负载或 CI/CD 流水线
+- Standing up a new Vault cluster, or migrating to a managed secret store
+- Designing auth methods for services, CI runners, and human operators
+- Implementing automated credential rotation (databases, API keys, certificates)
+- Auditing secret access patterns for compliance (SOC 2, ISO 27001, HIPAA)
+- Responding to a secret leak requiring mass revocation
+- Wiring secrets into Kubernetes workloads or CI/CD pipelines
 
-## 输入清单
+## Input Checklist
 
-设计前一次性收集。缺输入时用这句话向用户问一次："要设计密钥基础设施，请一次性提供：部署形态（Vault 自建 / 云托管）、服务与消费者清单、现有密钥盘点（类型/最近轮换时间/负责人）、合规要求。"
+Collect everything before design. When inputs are missing, ask the user once with this line: "To design secret infrastructure, please provide all at once: the deployment shape (self-hosted Vault / cloud-managed), the list of services and consumers, the existing secret inventory (type / last rotated / owner), and compliance requirements."
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Description |
 |---|---|---|
-| 部署形态 | 是 | 自建 Vault（Raft HA）vs AWS Secrets Manager / Azure Key Vault / GCP Secret Manager vs 混合 |
-| 服务与消费者清单 | 是 | 哪些服务、CI runner、人需要哪些密钥 |
-| 密钥盘点 JSON | 轮换规划需要 | 条目含 `name`、`type`、`last_rotated`（`YYYY-MM-DD`）、`owner` → `rotation_planner.py --inventory` |
-| 应用需求 | 配置生成需要 | 应用名、认证方式、密钥类型 → `vault_config_generator.py` |
-| 合规目标 | 审计设计需要 | SOC 2 / ISO 27001 / HIPAA 的最低保留期 |
-| 审计日志文件 | 异常复盘需要 | Vault/云审计日志（JSON lines 或 JSON array）→ `audit_log_analyzer.py --log-file` |
+| Deployment shape | Yes | Self-hosted Vault (Raft HA) vs AWS Secrets Manager / Azure Key Vault / GCP Secret Manager vs hybrid |
+| Services and consumers list | Yes | Which services, CI runners, and people need which secrets |
+| Secret inventory JSON | Needed for rotation planning | Entries with `name`, `type`, `last_rotated` (`YYYY-MM-DD`), `owner` → `rotation_planner.py --inventory` |
+| Application requirements | Needed for config generation | App name, auth method, secret types → `vault_config_generator.py` |
+| Compliance targets | Needed for audit design | Minimum retention periods for SOC 2 / ISO 27001 / HIPAA |
+| Audit log file | Needed for anomaly review | Vault/cloud audit logs (JSON lines or JSON array) → `audit_log_analyzer.py --log-file` |
 
-## 前置自检
+## Pre-flight Checks
 
 ```bash
-python3 --version        # 预期：Python ≥ 3.8。3 个脚本均仅依赖标准库。
+python3 --version        # Expected: Python ≥ 3.8. All 3 scripts depend only on the standard library.
 ls scripts/vault_config_generator.py scripts/rotation_planner.py scripts/audit_log_analyzer.py
-                         # 预期：3 个文件全部列出。
+                         # Expected: all 3 files listed.
 python3 -m json.tool <inventory.json > /dev/null && echo ok
-                         # 预期：ok —— 盘点 JSON 有效。
+                         # Expected: ok — the inventory JSON is valid.
 ```
 
-- Python 缺失或版本过旧 → 安装 Python ≥ 3.8，然后停止。
-- 脚本文件缺失 → 目录不对；`cd` 到本技能目录重新检查，然后停止。
-- 要操作真实 Vault？再验证 CLI 可达性：`vault status` —— 预期：打印 seal 状态与集群信息。不可达 → 修好地址/token（把 `VAULT_ADDR`、`VAULT_TOKEN` 导出为环境变量——绝不在命令里内联凭据）再执行任何 `vault write`。
+- Python missing or too old → install Python ≥ 3.8, then stop.
+- Script files missing → wrong directory; `cd` to this skill's directory and re-check, then stop.
+- Going to operate a real Vault? Verify CLI reachability additionally: `vault status` — expected: prints seal status and cluster info. If unreachable → fix the address/token (export `VAULT_ADDR` and `VAULT_TOKEN` as environment variables — never inline credentials in a command) before running any `vault write`.
 
-## HashiCorp Vault 模式
+## HashiCorp Vault Patterns
 
-### 架构决策
+### Architecture decisions
 
-| 决策 | 建议 | 理由 |
+| Decision | Recommendation | Rationale |
 |----------|---------------|-----------|
-| 部署模式 | Raft 存储的 HA | 无外部依赖，内置 leader 选举 |
-| Auto-unseal | 云 KMS（AWS KMS / Azure Key Vault / GCP KMS） | 免去手动 unseal，支持自动重启 |
-| Namespaces | 每环境一个（dev/staging/prod） | 爆炸半径隔离，策略独立 |
-| Audit devices | File + syslog（双路） | 全部审计设备失效时 Vault 会拒绝请求——双路可避免停摆 |
+| Deployment mode | HA with Raft storage | No external dependency, built-in leader election |
+| Auto-unseal | Cloud KMS (AWS KMS / Azure Key Vault / GCP KMS) | Avoids manual unseal, supports automatic restart |
+| Namespaces | One per environment (dev/staging/prod) | Blast-radius isolation, independent policies |
+| Audit devices | File + syslog (dual path) | Vault rejects requests when all audit devices fail — dual path prevents outage |
 
-### 认证方式
+### Auth methods
 
-**AppRole** — 服务与批处理任务的机器对机器认证。
+**AppRole** — machine-to-machine auth for services and batch jobs.
 
 ```hcl
 # Enable AppRole
@@ -84,7 +85,7 @@ vault write auth/approle/role/payment-service \
   token_policies="payment-service-read"
 ```
 
-**Kubernetes** — 基于 service account token 的 Pod 原生认证。
+**Kubernetes** — Pod-native auth based on service-account tokens.
 
 ```hcl
 vault write auth/kubernetes/role/api-server \
@@ -94,7 +95,7 @@ vault write auth/kubernetes/role/api-server \
   ttl=1h
 ```
 
-**OIDC** — 经 SSO provider（Okta、Azure AD、Google Workspace）的人类操作员访问。
+**OIDC** — human-operator access via an SSO provider (Okta, Azure AD, Google Workspace).
 
 ```hcl
 vault write auth/oidc/role/engineering \
@@ -106,19 +107,19 @@ vault write auth/oidc/role/engineering \
   ttl=8h
 ```
 
-### Secret 引擎
+### Secret engines
 
-| 引擎 | 用途 | TTL 策略 |
+| Engine | Use case | TTL policy |
 |--------|----------|-------------|
-| KV v2 | 静态密钥（API key、配置） | 版本化，手动轮换 |
-| Database | 动态 DB 凭据 | 默认 1h，上限 24h |
-| PKI | TLS 证书 | 叶子证书 90d，中间 CA 5y |
-| Transit | 加密即服务 | 每 90d 轮换密钥 |
-| SSH | 签名 SSH 证书 | 交互 30m，自动化 8h |
+| KV v2 | Static secrets (API keys, config) | Versioned, manually rotated |
+| Database | Dynamic DB credentials | Default 1h, max 24h |
+| PKI | TLS certificates | Leaf certs 90d, intermediate CA 5y |
+| Transit | Encryption-as-a-service | Rotate keys every 90d |
+| SSH | Signed SSH certificates | Interactive 30m, automation 8h |
 
-### 策略设计
+### Policy design
 
-遵循最小权限，按路径控制粒度：
+Follow least privilege, controlling at the path granularity:
 
 ```hcl
 # payment-service-read policy
@@ -136,32 +137,32 @@ path "sys/*" {
 }
 ```
 
-**策略命名约定：** `{service}-{access-level}`（如 `payment-service-read`、`api-gateway-admin`）。
+**Policy naming convention:** `{service}-{access-level}` (e.g. `payment-service-read`, `api-gateway-admin`).
 
-## 云密钥存储集成
+## Cloud Secret Store Integration
 
-### 对比矩阵
+### Comparison matrix
 
-| 特性 | AWS Secrets Manager | Azure Key Vault | GCP Secret Manager |
+| Feature | AWS Secrets Manager | Azure Key Vault | GCP Secret Manager |
 |---------|--------------------|-----------------|--------------------|
-| 轮换 | 内置 Lambda | 经 Functions 写自定义逻辑 | Cloud Functions |
-| 版本管理 | 自动 | 手动或自动 | 自动 |
-| 加密 | AWS KMS（默认或 CMK） | HSM 支撑 | Google 托管或 CMEK |
-| 访问控制 | IAM policies + 资源策略 | RBAC + Access Policies | IAM bindings |
-| 跨 region | 支持复制 | 默认异地冗余 | 支持复制 |
-| 审计 | CloudTrail | Azure Monitor + Diagnostic Logs | Cloud Audit Logs |
-| 计费模型 | 按密钥 + 按 API 调用 | 按操作 + 按密钥 | 按密钥版本 + 按访问 |
+| Rotation | Built-in Lambda | Custom logic via Functions | Cloud Functions |
+| Versioning | Automatic | Manual or automatic | Automatic |
+| Encryption | AWS KMS (default or CMK) | HSM-backed | Google-managed or CMEK |
+| Access control | IAM policies + resource policies | RBAC + Access Policies | IAM bindings |
+| Cross-region | Replication supported | Geo-redundant by default | Replication supported |
+| Audit | CloudTrail | Azure Monitor + Diagnostic Logs | Cloud Audit Logs |
+| Billing model | Per secret + per API call | Per operation + per secret | Per secret version + per access |
 
-### 选型建议
+### Selection guidance
 
-- **AWS Secrets Manager**：RDS/Aurora 凭据轮换开箱即用。全面在 AWS 上时最佳。
-- **Azure Key Vault**：证书管理见长。Azure AD 集成工作负载的必选项。
-- **GCP Secret Manager**：API 面最简。配 Workload Identity 的 GKE 原生工作负载最佳。
-- **HashiCorp Vault**：多云、动态密钥、PKI、transit 加密。复杂或混合环境最佳。
+- **AWS Secrets Manager**: RDS/Aurora credential rotation out of the box. Best when fully on AWS.
+- **Azure Key Vault**: Strong at certificate management. A must for Azure AD-integrated workloads.
+- **GCP Secret Manager**: Simplest API surface. Best for GKE workloads paired with Workload Identity.
+- **HashiCorp Vault**: Multi-cloud, dynamic secrets, PKI, transit encryption. Best for complex or hybrid environments.
 
-### SDK 访问模式
+### SDK access patterns
 
-**原则：** 启动时或经 sidecar 拉取密钥——绝不烧进镜像或配置文件。
+**Principle:** pull secrets at startup or via a sidecar — never bake them into images or config files.
 
 ```python
 # AWS Secrets Manager pattern
@@ -195,41 +196,41 @@ def get_secret(vault_url, secret_name):
     return client.get_secret(secret_name).value
 ```
 
-## 密钥轮换工作流
+## Secret Rotation Workflow
 
-### 按密钥类型的轮换策略
+### Rotation strategy by secret type
 
-| 密钥类型 | 轮换频率 | 方法 | 停机风险 |
+| Secret type | Rotation frequency | Method | Downtime risk |
 |-------------|-------------------|--------|---------------|
-| 数据库密码 | 30 天 | 双账号切换 | 零（A/B 轮换） |
-| API key | 90 天 | 生成新的、废弃旧的 | 零（重叠窗口） |
-| TLS 证书 | 到期前 60 天 | ACME 或 Vault PKI | 零（平滑 reload） |
-| SSH 密钥 | 90 天 | Vault 签名证书 | 零（基于 CA） |
-| 服务令牌 | 24 小时 | 动态生成 | 零（短时效） |
-| 加密密钥 | 90 天 | 密钥版本化（rewrap） | 零（版本共存） |
+| Database password | 30 days | Dual-account switch | Zero (A/B rotation) |
+| API key | 90 days | Mint new, retire old | Zero (overlap window) |
+| TLS certificate | 60 days before expiry | ACME or Vault PKI | Zero (graceful reload) |
+| SSH key | 90 days | Vault-signed certificates | Zero (CA-based) |
+| Service token | 24 hours | Dynamically generated | Zero (short-lived) |
+| Encryption key | 90 days | Key versioning (rewrap) | Zero (versions coexist) |
 
-### 数据库凭据轮换（双账号）
+### Database credential rotation (dual-account)
 
-1. 存在两个数据库账号：`app_user_a` 与 `app_user_b`
-2. 应用当前使用 `app_user_a`
-3. 轮换时转 `app_user_b` 的密码，更新密钥存储
-4. 应用在下次拉取凭据时切到 `app_user_b`
-5. 宽限期过后，轮换 `app_user_a` 的密码
-6. 循环往复
+1. Two database accounts exist: `app_user_a` and `app_user_b`
+2. The app currently uses `app_user_a`
+3. On rotation, rotate `app_user_b`'s password and update the secret store
+4. The app switches to `app_user_b` on its next credential pull
+5. After a grace period, rotate `app_user_a`'s password
+6. Loop
 
-### API key 轮换（重叠窗口）
+### API key rotation (overlap window)
 
-1. 在 provider 处生成新 API key
-2. 新 key 以 `current` 存入密钥存储，旧的挪到 `previous`
-3. 发布应用——它们读 `current`
-4. 全部实例重启完（或 TTL 过期）后，吊销 `previous`
-5. 吊销前由监控确认旧 key 零使用
+1. Generate a new API key at the provider
+2. Store the new key as `current` in the secret store; move the old one to `previous`
+3. Deploy the apps — they read `current`
+4. After all instances have restarted (or TTL expired), revoke `previous`
+5. Monitoring confirms zero usage of the old key before revocation
 
-## 动态密钥
+## Dynamic Secrets
 
-动态密钥按需生成、自动过期。凡可行之处，优先动态密钥而非静态凭据。
+Dynamic secrets are generated on demand and expire automatically. Wherever feasible, prefer dynamic secrets over static credentials.
 
-### 数据库动态凭据（Vault）
+### Dynamic database credentials (Vault)
 
 ```hcl
 # Configure database engine
@@ -248,132 +249,132 @@ vault write database/roles/app-readonly \
   max_ttl=24h
 ```
 
-### 云 IAM 动态凭据
+### Cloud IAM dynamic credentials
 
-Vault 可生成短期 AWS IAM 凭据、Azure service principal 密码或 GCP service account key——彻底消灭长期云凭据。
+Vault can mint short-lived AWS IAM credentials, Azure service-principal passwords, or GCP service-account keys — eliminating long-lived cloud credentials entirely.
 
-### SSH 证书颁发机构
+### SSH certificate authority
 
-用 Vault 签名证书模型取代 SSH 密钥分发：
+Replace SSH key distribution with a Vault signed-certificate model:
 
-1. Vault 充当 SSH CA
-2. 用户/机器申请短 TTL（30 分钟）的签名证书
-3. SSH 服务器信任 CA 公钥——无需维护 `authorized_keys`
-4. 证书自动过期——常规操作无需吊销
+1. Vault acts as the SSH CA
+2. Users/machines request short-TTL (30-minute) signed certificates
+3. SSH servers trust the CA public key — no need to maintain `authorized_keys`
+4. Certificates expire automatically — no revocation needed for routine operations
 
-## 审计日志
+## Audit Logging
 
-### 该记录什么
+### What to record
 
-| 事件 | 优先级 | 保留期 |
+| Event | Priority | Retention |
 |-------|----------|-----------|
-| 密钥读取访问 | HIGH | 至少 1 年 |
-| 密钥创建/更新 | HIGH | 至少 1 年 |
-| 认证方式登录 | MEDIUM | 90 天 |
-| 策略变更 | CRITICAL | 2 年（合规） |
-| 失败访问尝试 | CRITICAL | 1 年 |
-| Token 创建/吊销 | MEDIUM | 90 天 |
-| Seal/unseal 操作 | CRITICAL | 永久 |
+| Secret read access | HIGH | At least 1 year |
+| Secret create/update | HIGH | At least 1 year |
+| Auth-method logins | MEDIUM | 90 days |
+| Policy changes | CRITICAL | 2 years (compliance) |
+| Failed access attempts | CRITICAL | 1 year |
+| Token create/revoke | MEDIUM | 90 days |
+| Seal/unseal operations | CRITICAL | Permanent |
 
-### 异常检测信号
+### Anomaly detection signals
 
-- 密钥从新 IP/CIDR 段被访问
-- 访问量激增（某路径超基线 3 倍以上）
-- 人类认证方式的非工作时间访问
-- 服务访问其策略范围外的密钥（被拒请求）
-- 单一来源多次认证失败
-- Token 被赋予异常长的 TTL
+- A secret accessed from a new IP/CIDR range
+- A surge in access volume (a path >3x its baseline)
+- Off-hours access for human auth methods
+- A service accessing secrets outside its policy scope (denied requests)
+- Multiple failed authentications from a single source
+- A token granted an unusually long TTL
 
-### 合规报告
+### Compliance reporting
 
-定期生成覆盖以下内容的报告：
+Periodically generate reports covering:
 
-1. **访问清单** —— 哪些身份在何时访问了哪些密钥
-2. **轮换合规** —— 已逾期未轮换的密钥
-3. **策略漂移** —— 上次评审后被修改过的策略
-4. **孤儿密钥** —— 近期无访问的密钥（>90 天）
+1. **Access inventory** — which identities accessed which secrets when
+2. **Rotation compliance** — secrets overdue for rotation
+3. **Policy drift** — policies modified since the last review
+4. **Orphaned secrets** — secrets with no recent access (>90 days)
 
-用 `audit_log_analyzer.py` 解析 Vault 或云审计日志，提取这些信号。
+Use `audit_log_analyzer.py` to parse Vault or cloud audit logs and extract these signals.
 
-## 工作流：为一个服务搭建轮换 + 审计
+## Workflow: Set Up Rotation + Audit for a Service
 
-### 步骤 1：建立密钥盘点
+### Step 1: Build the secret inventory
 
-- **动作：** 把每个密钥（name、type、`last_rotated` 用 `YYYY-MM-DD`、owner）枚举成 JSON 文件。
-- **预期：** JSON 有效（前置自检已验）；没有条目缺 `last_rotated`。
-- **失败时：** 某密钥轮换日期不明 → 照样收录；规划器会标它逾期，这才是诚实状态。
+- **Action:** enumerate every secret (name, type, `last_rotated` as `YYYY-MM-DD`, owner) into a JSON file.
+- **Expected:** the JSON is valid (verified in pre-flight); no entry lacks `last_rotated`.
+- **On failure:** a secret's rotation date is unknown → still include it; the planner will flag it overdue, which is the honest state.
 
-### 步骤 2：生成轮换计划
+### Step 2: Generate the rotation plan
 
-- **动作：** `python3 scripts/rotation_planner.py --inventory secrets.json --policy 30d`（或 `60d`/`90d`；CI 加 `--json`）。
-- **预期：** 计划列出每个密钥的下次轮换到期日；无 `last_rotated` 的条目向 stderr 打 `WARNING` 并标记逾期。
-- **失败时：** JSON 校验错 → 修盘点；policy 档位错 → 只有 `30d`（激进）、`60d`、`90d` 三档。
+- **Action:** `python3 scripts/rotation_planner.py --inventory secrets.json --policy 30d` (or `60d`/`90d`; add `--json` for CI).
+- **Expected:** the plan lists each secret's next rotation due date; entries without `last_rotated` emit a `WARNING` to stderr and are flagged overdue.
+- **On failure:** a JSON validation error → fix the inventory; a bad policy tier → only `30d` (aggressive), `60d`, and `90d` are valid.
 
-### 步骤 3：生成 Vault auth + 策略配置
+### Step 3: Generate Vault auth + policy config
 
-- **动作：** `python3 scripts/vault_config_generator.py --app-name <svc> --auth-method approle --secrets db-creds,api-key --environment production`
-- **预期：** 按所选认证方式（`approle` / `kubernetes` / `oidc`）渲染出 HCL 策略/auth 配置。
-- **失败时：** argparse 报错 → 缺必填 flag；应用前审查渲染出的策略是否最小权限——生成器只是起点，不是批准。
+- **Action:** `python3 scripts/vault_config_generator.py --app-name <svc> --auth-method approle --secrets db-creds,api-key --environment production`
+- **Expected:** renders HCL policy/auth config for the chosen auth method (`approle` / `kubernetes` / `oidc`).
+- **On failure:** an argparse error → a required flag is missing; review whether the rendered policy is least-privilege before applying it — the generator is a starting point, not approval.
 
-### 步骤 4：走变更流程评审并应用
+### Step 4: Review via the change process and apply
 
-- **动作：** 由人评审生成的策略；经 `vault policy write` / `vault write auth/...` 应用，`VAULT_TOKEN` 放环境变量。
-- **预期：** `vault policy read <policy>` 与评审过的内容一致；测试 token 恰好拿到预期路径，不多一分。
-- **失败时：** 测试 token 能读非预期路径 → 上线前收紧路径范围；绝不"以后再说"。
+- **Action:** have a human review the generated policy; apply it via `vault policy write` / `vault write auth/...`, with `VAULT_TOKEN` in an environment variable.
+- **Expected:** `vault policy read <policy>` matches the reviewed content; a test token gets exactly the expected paths and nothing more.
+- **On failure:** the test token can read an unexpected path → tighten the path scope before shipping; never "do it later".
 
-### 步骤 5：接好审计日志分析
+### Step 5: Wire up audit-log analysis
 
-- **动作：** `python3 scripts/audit_log_analyzer.py --log-file <vault-audit.log> --threshold 5`（或用 `--sample` 在合成日志上看输出形状）。
-- **预期：** `=== Audit Log Analysis Report ===` 带汇总计数与异常清单；退出码 0。
-- **失败时：** 真实日志却出空报告 → 确认日志是 JSON lines/array 格式；无信号时调低 `--threshold`（越低越敏感）。
+- **Action:** `python3 scripts/audit_log_analyzer.py --log-file <vault-audit.log> --threshold 5` (or use `--sample` to see the output shape on synthetic logs).
+- **Expected:** `=== Audit Log Analysis Report ===` with summary counts and an anomaly list; exit code 0.
+- **On failure:** a real log yields an empty report → confirm the log is JSON lines/array format; if there are no signals, lower `--threshold` (lower = more sensitive).
 
-## 失败处置表
+## Failure Handling Table
 
-| 症状 / 退出码 | 原因 | 修复 |
+| Symptom / exit code | Cause | Fix |
 |---|---|---|
-| `rotation_planner.py` stderr `WARNING: ... no last_rotated date` | 盘点条目缺轮换日期 | 行为正确——密钥被记为逾期；首次轮换后补日期 |
-| `rotation_planner.py` JSON 报错 | 盘点不是有效 JSON / 形状不对 | 用 `python3 -m json.tool` 校验；条目需 `name`/`type`/`last_rotated`/`owner` |
-| `vault_config_generator.py` argparse 报错 | 缺 `--app-name`/`--auth-method`/`--secrets` | 按报错补 flag；`--auth-method` 只接受 `approle`/`kubernetes`/`oidc` |
-| 生成的策略比需要的宽 | 生成器默认值 | `vault policy write` 前手工收紧路径；评审步骤不可省 |
-| `vault write` → permission denied | token 缺管理能力 | 用变更流程发放的管理 token，不要用服务 token |
-| 审计分析器无输出 | 日志格式不对或阈值过高 | 确认 JSON lines/array；调低 `--threshold` |
-| Vault sealed 并拒绝请求 | 重启时无 auto-unseal | 走 Unseal 流程（见下）——密钥持有人凑到法定人数，或 KMS auto-unseal |
-| 审计设备全部失效 → Vault 拒绝请求 | file+syslog 同时宕机 | 先恢复至少一个审计设备；fail-closed 是设计使然 |
+| `rotation_planner.py` stderr `WARNING: ... no last_rotated date` | An inventory entry lacks a rotation date | Correct behavior — the secret is recorded as overdue; fill in the date after the first rotation |
+| `rotation_planner.py` JSON error | The inventory isn't valid JSON / wrong shape | Validate with `python3 -m json.tool`; entries need `name`/`type`/`last_rotated`/`owner` |
+| `vault_config_generator.py` argparse error | Missing `--app-name`/`--auth-method`/`--secrets` | Add the flag per the error; `--auth-method` accepts only `approle`/`kubernetes`/`oidc` |
+| The generated policy is wider than needed | Generator defaults | Hand-tighten paths before `vault policy write`; the review step cannot be skipped |
+| `vault write` → permission denied | The token lacks management capabilities | Use a management token issued via the change process, not a service token |
+| The audit analyzer has no output | Wrong log format or threshold too high | Confirm JSON lines/array; lower `--threshold` |
+| Vault is sealed and rejects requests | No auto-unseal on restart | Follow the unseal process (below) — key holders reach quorum, or KMS auto-unseal |
+| All audit devices failed → Vault rejects requests | file+syslog both down | Restore at least one audit device first; fail-closed is by design |
 
-## 应急流程
+## Emergency Procedures
 
-### 密钥泄露响应（立即执行）
+### Secret leak response (execute immediately)
 
-**时间目标：发现后 15 分钟内止损。**
+**Time target: stop the bleeding within 15 minutes of discovery.**
 
-1. **判定范围** —— 哪些密钥泄露、在哪（repo、日志、报错、第三方）
-2. **立即吊销** —— 在源头轮换被泄露的凭据（provider API、Vault、云 SM）
-3. **作废 token** —— 吊销所有访问过该泄露密钥的 Vault token
-4. **审计爆炸半径** —— 查审计日志，确认暴露窗口内该密钥的使用情况
-5. **通知干系人** —— 安全团队、受影响服务负责人、合规（涉及 PII/受监管数据时）
-6. **复盘** —— 记录根因，更新控制措施防复发
+1. **Determine scope** — which secrets leaked and where (repo, logs, error messages, third parties)
+2. **Revoke immediately** — rotate the leaked credential at the source (provider API, Vault, cloud SM)
+3. **Invalidate tokens** — revoke all Vault tokens that accessed the leaked secret
+4. **Audit the blast radius** — check audit logs for how the secret was used during the exposure window
+5. **Notify stakeholders** — the security team, affected service owners, and compliance (when PII/regulated data is involved)
+6. **Post-mortem** — record the root cause and update controls to prevent recurrence
 
-### Vault Seal 操作
+### Vault seal operations
 
-**何时 seal：** 影响 Vault 基础设施的活跃安全事件、疑似密钥被攻破。
+**When to seal:** an active security incident affecting Vault infrastructure, or suspected key compromise.
 
-**Sealing** 会停掉全部 Vault 操作。仅在万不得已时使用。
+**Sealing** shuts down all Vault operations. Use it only as a last resort.
 
-**Unseal 流程：**
+**Unseal process:**
 
-1. 召集 unseal key 持有人凑法定人数（Shamir 阈值）
-2. 或确认 auto-unseal 的 KMS 密钥可访问
-3. 经 `vault operator unseal` unseal，或带 auto-unseal 重启
-4. 确认审计设备已重连
-5. 检查活跃 lease 与 token 有效性
+1. Gather unseal-key holders to reach quorum (Shamir threshold)
+2. Or confirm the auto-unseal KMS key is reachable
+3. Unseal via `vault operator unseal`, or restart with auto-unseal
+4. Confirm audit devices are reconnected
+5. Check active leases and token validity
 
-完整 playbook 见 `references/emergency_procedures.md`。
+See `references/emergency_procedures.md` for the full playbook.
 
-## CI/CD 集成
+## CI/CD Integration
 
-### Vault Agent Sidecar（Kubernetes）
+### Vault Agent sidecar (Kubernetes)
 
-Vault Agent 与应用 Pod 并行运行，负责认证与密钥渲染：
+Vault Agent runs alongside the app Pod, handling auth and secret rendering:
 
 ```yaml
 # Pod annotation for Vault Agent Injector
@@ -387,9 +388,9 @@ annotations:
     {{- end }}
 ```
 
-### External Secrets Operator（Kubernetes）
+### External Secrets Operator (Kubernetes)
 
-偏好声明式 GitOps 而非 agent sidecar 的团队：
+For teams that prefer declarative GitOps over an agent sidecar:
 
 ```yaml
 apiVersion: external-secrets.io/v1beta1
@@ -412,7 +413,7 @@ spec:
 
 ### GitHub Actions OIDC
 
-用 OIDC federation 消灭 CI 里的长期密钥：
+Use OIDC federation to eliminate long-lived secrets in CI:
 
 ```yaml
 - name: Authenticate to Vault
@@ -427,49 +428,49 @@ spec:
       secret/data/ci/deploy db_password | DB_PASSWORD
 ```
 
-## 反模式
+## Anti-patterns
 
-| 反模式 | 风险 | 正确做法 |
+| Anti-pattern | Risk | Correct approach |
 |-------------|------|-----------------|
-| 源码硬编码密钥 | 经 repo、日志、报错泄露 | 运行时从密钥存储拉取 |
-| 长期静态 token（>30 天） | 凭据陈旧、无法追责 | 动态密钥或短 TTL + 轮换 |
-| 共享服务账号 | 无按消费者的审计链路 | 每服务独立身份、独立凭据 |
-| 无轮换策略 | 被攻破的凭据无限期存活 | 按计划自动轮换 |
-| 密钥放 CI 环境变量 | 可见于构建日志、进程表 | Vault Agent 或基于 OIDC 的注入 |
-| 单一 unseal key 持有人 | bus factor 为 1，恢复被卡死 | Shamir 分片（3-of-5）或 auto-unseal |
-| 未配置审计设备 | 访问零可见性 | 双审计设备（file + syslog） |
-| 通配策略（`path "*"`） | 权限过大，违反最小权限 | 每服务显式的按路径策略 |
+| Hard-coding secrets in source | Leakage via repo, logs, error messages | Pull from a secret store at runtime |
+| Long-lived static tokens (>30 days) | Stale credentials, no accountability | Dynamic secrets or short TTL + rotation |
+| Shared service accounts | No per-consumer audit trail | Independent identities and credentials per service |
+| No rotation policy | Compromised credentials live indefinitely | Automated rotation on schedule |
+| Secrets in CI environment variables | Visible in build logs, process tables | Vault Agent or OIDC-based injection |
+| Single unseal-key holder | Bus factor of 1, recovery blocked | Shamir sharding (3-of-5) or auto-unseal |
+| No audit devices configured | Zero visibility into access | Dual audit devices (file + syslog) |
+| Wildcard policies (`path "*"`) | Over-privileged, violates least privilege | Explicit per-service, per-path policies |
 
-## 参数速查表
+## Parameter Cheat Sheet
 
-| 脚本 | 关键参数 | 说明 |
+| Script | Key parameters | Description |
 |---|---|---|
-| `scripts/vault_config_generator.py` | `--app-name`、`--auth-method approle\|kubernetes\|oidc`、`--secrets`（逗号分隔类型）、`--environment`、`--namespace`、`--json` | 渲染 Vault 策略 + auth 配置 |
-| `scripts/rotation_planner.py` | `--inventory <json>`、`--policy 30d\|60d\|90d`、`--json` | 缺失/无效的 `last_rotated` → 标记逾期 |
-| `scripts/audit_log_analyzer.py` | `--log-file <file>`、`--threshold <n>`（越低越敏感，默认 5）、`--json`、`--sample` | JSON lines 或 JSON array 日志 |
+| `scripts/vault_config_generator.py` | `--app-name`, `--auth-method approle\|kubernetes\|oidc`, `--secrets` (comma-separated types), `--environment`, `--namespace`, `--json` | Renders Vault policy + auth config |
+| `scripts/rotation_planner.py` | `--inventory <json>`, `--policy 30d\|60d\|90d`, `--json` | Missing/invalid `last_rotated` → flagged overdue |
+| `scripts/audit_log_analyzer.py` | `--log-file <file>`, `--threshold <n>` (lower = more sensitive, default 5), `--json`, `--sample` | JSON lines or JSON array logs |
 
-## 参考
+## References
 
-仅在对应情况出现时读：
+Read only when the corresponding situation arises:
 
-- `references/vault_patterns.md` —— 设计超出上述模式的 Vault 架构、认证方式或策略时。
-- `references/cloud_secret_stores.md` —— 选型或集成 AWS/Azure/GCP 密钥存储时（SDK 细节、轮换 hook、IAM 接线）。
-- `references/emergency_procedures.md` —— 泄露/seal 事件进行中读——完整响应 playbook，不是背景读物。
+- `references/vault_patterns.md` — when designing Vault architectures, auth methods, or policies beyond the patterns above.
+- `references/cloud_secret_stores.md` — when selecting or integrating AWS/Azure/GCP secret stores (SDK details, rotation hooks, IAM wiring).
+- `references/emergency_procedures.md` — read during an active leak/seal incident — the full response playbook, not bedtime reading.
 
-## 交叉引用
+## Cross-References
 
-- **env-secrets-manager** —— 本地 `.env` 文件卫生、泄露检测、漂移感知
-- **senior-secops** —— 安全运营、事件响应、威胁建模
-- **ci-cd-pipeline-builder** —— 消费密钥的流水线设计
-- **docker-development** —— 容器密钥注入模式
-- **helm-chart-builder** —— Helm chart 中的 Kubernetes 密钥管理
+- **env-secrets-manager** — local `.env` file hygiene, leak detection, drift awareness
+- **senior-secops** — security operations, incident response, threat modeling
+- **ci-cd-pipeline-builder** — pipeline design that consumes secrets
+- **docker-development** — container secret injection patterns
+- **helm-chart-builder** — Kubernetes secret management in Helm charts
 
-## 交付标准
+## Delivery Criteria
 
-满足以下条件才算跑完本技能：
+This skill counts as done only when:
 
-- 轮换计划以 `rotation_schedule_<policy>_<date>.json|md`（来自 `rotation_planner.py --json` 加人工标注）保存在团队安全工作区；每个逾期密钥都有负责人和日期。
-- Vault 配置以 `<app>_<auth-method>_config.hcl` 保存；仅在步骤 4 最小权限评审后应用；`vault policy read` 与评审文件一致。
-- 审计分析以 `audit_analysis_<date>.json|md` 保存；异常发现项已分诊并有处置结论。
-- 完整性验证：同输入重跑每个脚本，能复现已保存的产物（确定性）；新策略的测试 token 恰好读到预期路径，别无其他。
-- 边界：本技能绝不存储、打印或读取真实密钥值——只做流程设计。
+- The rotation plan is saved in the team's secure workspace as `rotation_schedule_<policy>_<date>.json|md` (from `rotation_planner.py --json` plus human annotation); every overdue secret has an owner and a date.
+- Vault config is saved as `<app>_<auth-method>_config.hcl`; applied only after the Step 4 least-privilege review; `vault policy read` matches the reviewed file.
+- The audit analysis is saved as `audit_analysis_<date>.json|md`; anomalous findings have been triaged with a disposition.
+- Completeness verification: rerunning each script with the same input reproduces the saved artifact (determinism); a test token for the new policy reads exactly the expected paths and nothing else.
+- Boundary: this skill never stores, prints, or reads real secret values — it does workflow design only.

@@ -438,3 +438,52 @@ class FixtureGenerator:
             return str(data)
 
         return "\n".join(lines)
+
+
+def main(argv=None):
+    """CLI: generate boundary values, edge cases, or mock data."""
+    import argparse
+    import json
+    import sys
+
+    ap = argparse.ArgumentParser(
+        description="Generate test fixtures, boundary values, and mock data")
+    ap.add_argument("--entity", help="Entity name for mock data (e.g. User)")
+    ap.add_argument("--count", type=int, default=5,
+                    help="Number of mock objects to generate (default 5)")
+    ap.add_argument("--mode", choices=["boundary", "edge", "mock"],
+                    default="mock",
+                    help="Generation mode (default: mock)")
+    ap.add_argument("--type", default="int",
+                    help="Data type for boundary mode (int/string/array/date/email/url)")
+    ap.add_argument("--seed", type=int, default=None,
+                    help="Random seed for reproducible output")
+    args = ap.parse_args(argv)
+
+    gen = FixtureGenerator(seed=args.seed)
+
+    if args.mode == "boundary":
+        result = {"mode": "boundary", "type": args.type,
+                  "values": gen.generate_boundary_values(args.type)}
+    elif args.mode == "edge":
+        scenario = args.entity or "auth"
+        result = {"mode": "edge", "scenario": scenario,
+                  "cases": gen.generate_edge_cases(scenario)}
+    else:
+        entity = args.entity or "Entity"
+        schema = {
+            "id": {"type": "int", "min": 1, "max": 9999},
+            "name": {"type": "string"},
+            "email": {"type": "email"},
+            "active": {"type": "bool"},
+        }
+        result = {"mode": "mock", "entity": entity, "count": args.count,
+                  "data": gen.generate_mock_data(schema, count=args.count)}
+
+    print(json.dumps(result, ensure_ascii=False, indent=2, default=str))
+    return 0
+
+
+if __name__ == "__main__":
+    import sys
+    sys.exit(main())

@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/logo.svg" alt="awesome-skillkit" width="200" height="60" /></p>
+<p align="center"><img src="docs/logo.svg" alt="awesome-skillkit" width="220" /></p>
 
 # awesome-skillkit
 
@@ -6,9 +6,22 @@
 ![Skills](https://img.shields.io/badge/skills-154-brightgreen)
 ![Packs](https://img.shields.io/badge/packs-36-blue)
 ![Chains](https://img.shields.io/badge/chains-18%20domains%20%2F%2062-orange)
-![Version](https://img.shields.io/badge/version-0.19.0-success)
+![Version](https://img.shields.io/badge/version-0.22.0-success)
 
 [English](README.md) | [中文](README.zh-CN.md) | **日本語**
+
+---
+
+## 🌐 多言語で読む
+
+この日本語 README は現在やや古い状態です。最新の英語版は [README.md](README.md)、中国語版は [README.zh-CN.md](README.zh-CN.md) をご覧ください。中国語で読みたい場合は：
+
+- **[🌐 Google 翻訳 — 公式サイトを中国語で読む](https://translate.google.com/translate?sl=ja&tl=zh-CN&u=https://x33834.github.io/awesome-skillkit/)**（ワンクリック）
+- **[Bing Translator 代替](https://cn.bing.com/translator?from=ja&to=zh-Hans)**（URL を貼るだけ）
+- **[Immersive Translate ブラウザ拡張](https://github.com/immersive-translate/immersive-translate)**（日中英バイリンガル表示におすすめ）
+- 📄 中国語 README: [**README.zh-CN.md**](README.zh-CN.md)
+
+---
 
 > 🌐 **閲覧 / ダウンロード**: 公式サイトは GitHub Pages で公開中（両アカウント、内容同一）：
 > [x33834.github.io/awesome-skillkit](https://x33834.github.io/awesome-skillkit/) · [morningstar202604.github.io/awesome-skillkit](https://morningstar202604.github.io/awesome-skillkit/)

@@ -1,7 +1,7 @@
 ---
 name: feature-flags-architect
 description: >-
-  Audit, plan, and govern feature flags across their full lifecycle (classify → ship → ramp → retire). Use when the user asks to 配置功能开关 / 灰度发布 / 开关治理 / feature flag / 上线开关 / add a flag / ship behind a flag / rollout plan / kill switch / stale flags / flag debt / LaunchDarkly / GrowthBook / Statsig / Unleash / Flipt. Ships stdlib-only Python tools (flag_debt_scanner, rollout_planner, kill_switch_audit) plus 4 references on taxonomy, provider trade-offs, rollout strategies, and lifecycle. Do NOT use for writing the flag SDK calls inside application code.
+  Audit, plan, and govern feature flags across their full lifecycle (classify → ship → ramp → retire). Use when the user asks to configure feature flags / canary rollout / flag governance / feature flag / release gate / add a flag / ship behind a flag / rollout plan / kill switch / stale flags / flag debt / LaunchDarkly / GrowthBook / Statsig / Unleash / Flipt. Ships stdlib-only Python tools (flag_debt_scanner, rollout_planner, kill_switch_audit) plus 4 references on taxonomy, provider trade-offs, rollout strategies, and lifecycle. Do NOT use for writing the flag SDK calls inside application code.
 license: Apache-2.0
 compatibility: Reads project structure via Bash and git. Requires Python 3.8+ (stdlib only) to run the bundled scripts.
 metadata:
@@ -13,49 +13,49 @@ metadata:
 
 # Feature Flags Architect
 
-功能开关的全生命周期纪律：分类、上线、放量、退役。多数团队把 flag 当一次性 `if` 语句；本技能把它当作有可度量债务的受控生命周期。
+The discipline of feature flags across their full lifecycle: classify, ship, ramp, retire. Most teams treat a flag as a throwaway `if` statement; this skill treats it as a controlled lifecycle with measurable debt.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Description |
 |------|------|------|
-| 目标仓库路径 | 否 | `--repo`，默认当前目录 `.`；用于代码扫描与 git 引入时间判定 |
-| 开关文档路径 | 否 | kill-switch 审计用 `--flag-doc`，如 docs/feature-flags.md；缺省则仅做代码侧扫描 |
-| 人口老龄化参数 | 否 | flag_debt_scanner 的 `--max-age-days`（默认 90）、`--min-uses` |
-| rollout 参数 | 否 | rollout_planner 的 `--population --target-percent --duration-days --strategy` |
-| 输出格式 | 否 | `--format text\|json`，CI 用 `json` |
+| Target repo path | No | `--repo`, defaults to the current directory `.`; used for code scanning and git introduction-time detection |
+| Flag documentation path | No | For the kill-switch audit, `--flag-doc`, e.g. docs/feature-flags.md; if omitted, only a code-side scan is performed |
+| Flag aging parameters | No | flag_debt_scanner's `--max-age-days` (default 90), `--min-uses` |
+| Rollout parameters | No | rollout_planner's `--population --target-percent --duration-days --strategy` |
+| Output format | No | `--format text\|json`; CI uses `json` |
 
-缺失时一次性问齐：
-「请提供：①目标仓库路径（默认 `.`）②开关文档路径（kill-switch 审计需要，如 docs/feature-flags.md，无则跳过）③人口规模/目标比例/周期（rollout 用）④债务半衰期 `--max-age-days`（默认 90）。其余我用默认值；确认后开始。」
+When something is missing, ask for it all at once:
+"Please provide: (1) target repo path (default `.`); (2) flag documentation path (needed for the kill-switch audit, e.g. docs/feature-flags.md; skip if none); (3) population size / target percentage / duration (for rollout); (4) debt half-life `--max-age-days` (default 90). I'll use defaults for everything else; once confirmed, I'll start."
 
-## 前置自检
+## Pre-flight Checks
 
-- Python 3.8+ 可用：`python3 --version` → 输出版本号（如 `Python 3.11.0`）。若 `command not found` 或版本 <3.8 → 提示安装后 **STOP**。
-- 三个脚本在盘：`test -f scripts/flag_debt_scanner.py && test -f scripts/rollout_planner.py && test -f scripts/kill_switch_audit.py` → 均存在；任一缺失 → **STOP** 并报告具体文件名。
-- git 可用（用于定位 flag 引入时间）：在 `--repo` 内执行 `git rev-parse --is-inside-work-tree` → 输出 `true`。若非 git 仓库，债务扫描的"引入时间"判据降级为文件 mtime，需向用户说明该降级。
+- Python 3.8+ is available: `python3 --version` → prints a version number (e.g. `Python 3.11.0`). If `command not found` or the version is <3.8 → prompt to install, then **STOP**.
+- The three scripts are on disk: `test -f scripts/flag_debt_scanner.py && test -f scripts/rollout_planner.py && test -f scripts/kill_switch_audit.py` → all exist; if any is missing → **STOP** and report the specific filename.
+- git is available (used to locate when a flag was introduced): run `git rev-parse --is-inside-work-tree` inside `--repo` → outputs `true`. If it is not a git repo, the debt scanner's "introduction time" criterion degrades to file mtime, and the user must be told about this degradation.
 
-## 核心原则：flag 是生命周期，不是 `if`
+## Core Principle: a Flag Is a Lifecycle, Not an `if`
 
 ```text
 request → design → ship → ramp → cleanup → archive
 ```
 
-跳过 cleanup 的 flag 会变成债务：死分支、过期默认值、未经测试的代码路径、不可控的爆炸半径。本技能的 3 个脚本强制推行该生命周期。
+Flags that skip cleanup turn into debt: dead branches, stale defaults, untested code paths, and an uncontrolled blast radius. This skill's 3 scripts enforce that lifecycle.
 
-## 工作流
+## Workflow
 
-### 步骤 1：审计 flag 债务
+### Step 1: Audit flag debt
 
 ```bash
 python scripts/flag_debt_scanner.py --repo . --max-age-days 90 --format text
 python scripts/flag_debt_scanner.py --repo . --max-age-days 60 --format json > debt.json
 ```
 
-动作：扫描代码库，找出老于 `--max-age-days` 且使用频次低的 flag。
-预期：输出 flag 名、age(天)、文件引用、建议动作；退出码 `0`；JSON 模式写入 `debt.json`。
-若失败：`FileNotFoundError` → 检查 `--repo` 路径是否正确；`git` 报错 → 见前置自检降级说明。
+Action: scan the codebase to find flags older than `--max-age-days` with low usage frequency.
+Expected: output the flag name, age (days), file references, and suggested action; exit code `0`; JSON mode writes to `debt.json`.
+On failure: `FileNotFoundError` → check that the `--repo` path is correct; a `git` error → see the pre-flight degradation note.
 
-### 步骤 2：设计渐进式 rollout
+### Step 2: Design a progressive rollout
 
 ```bash
 python scripts/rollout_planner.py --population 100000 --target-percent 100 --duration-days 14 --strategy ring
@@ -63,152 +63,152 @@ python scripts/rollout_planner.py --population 50000 --target-percent 25 --durat
 python scripts/rollout_planner.py --population 1000000 --target-percent 100 --duration-days 30 --strategy log
 ```
 
-动作：由人口规模、目标比例、周期、策略生成分阶段发布排期。
-预期：输出含日期、比例、预期用户数、中止判据、每阶段验证步骤的 markdown 表格。
-若失败：`--strategy` 非法值 → 脚本报错并列出 `ring|linear|log|cohort`；参数缺失 → 报 `required argument`。
+Action: generate a staged release schedule from population size, target percentage, duration, and strategy.
+Expected: output a markdown table with dates, percentages, expected user counts, abort criteria, and per-stage validation steps.
+On failure: an invalid `--strategy` value → the script errors and lists `ring|linear|log|cohort`; a missing parameter → reports `required argument`.
 
-### 步骤 3：审计 kill switch 文档
+### Step 3: Audit kill-switch documentation
 
 ```bash
 python scripts/kill_switch_audit.py --repo . --flag-doc docs/feature-flags.md
 python scripts/kill_switch_audit.py --repo . --flag-doc runbooks/flags.md --format json
 ```
 
-动作：将代码中发现的 flag 与文档交叉核对，确认每个都有书面 kill switch 路径。
-预期：报告缺失文档的 flag（FAIL）或缺失字段的 flag（WARN）；退出码 `0` 表示审计跑通（不代表全 PASS）。
-若失败：`--flag-doc` 文件不存在 → `FileNotFoundError`，先创建文档再跑；作为 pre-merge 门禁使用。
+Action: cross-check flags found in code against documentation, confirming that each has a documented kill-switch path.
+Expected: report flags missing documentation (FAIL) or flags missing required fields (WARN); exit code `0` means the audit ran (it does not mean everything PASSED).
+On failure: the `--flag-doc` file does not exist → `FileNotFoundError`; create the document first, then run it. Used as a pre-merge gate.
 
-### 步骤 4：选型 provider
+### Step 4: Choose a provider
 
-见 `references/provider_comparison.md` 决策树。判定规则：
-- <50 flag 且无定向 → DIY（配置文件或环境变量）
-- 需要分析 + 实验 → Statsig 或 GrowthBook
-- 合规/SOC2 审计日志 → LaunchDarkly
-- 必须自托管（数据驻留/空气隔离）→ Unleash 或 Flipt
+See the decision tree in `references/provider_comparison.md`. Decision rules:
+- <50 flags and no targeting → DIY (config file or environment variables)
+- Need analytics + experiments → Statsig or GrowthBook
+- Compliance / SOC2 audit logs → LaunchDarkly
+- Must self-host (data residency / air-gapped) → Unleash or Flipt
 
-### 步骤 5：清理债务（季度）
+### Step 5: Clean up debt (quarterly)
 
 ```bash
 python scripts/flag_debt_scanner.py --repo . --max-age-days 90 > debt.md
 ```
 
-对每个命中项：确认已达 100% 或已 kill → 找引入它的 issue/PR 并取得 owner 同意 → 删死分支、移除 flag 配置 → 重跑 kill_switch_audit.py 应少一个 flag。最后在 CHANGELOG 写「Removed N stale flags」。
+For each hit: confirm it has reached 100% or has been killed → find the issue/PR that introduced it and get owner approval → delete the dead branch, remove the flag config → re-running kill_switch_audit.py should show one fewer flag. Finally, write "Removed N stale flags" in the CHANGELOG.
 
-## 4 种 flag 类型（分类法）
+## 4 Flag Types (Taxonomy)
 
-不同 flag 类型有不同生命周期与归属。错分会产生债务。
+Different flag types have different lifecycles and owners. Misclassification produces debt.
 
-| 类型 | 用途 | 典型寿命 | 归属 | 清理触发条件 |
+| Type | Purpose | Typical lifespan | Owner | Cleanup trigger |
 |---|---|---|---|---|
-| **Release** | 在生产环境隐藏未完成功能 | 数天–数周 | 工程 | 达到 100% rollout |
-| **Experiment** | A/B 测试变体 | 数周 | 产品/市场 | 测试结束，选定胜者 |
-| **Operational** | 熔断器、性能开关、kill switch | 数月–数年 | 工程/SRE | 被自动扩缩/功能退役替代 |
-| **Permission** | 按用户/账户/套餐的权益 | 数年（永久） | 产品 | 套餐/角色移除 |
+| **Release** | Hide unfinished features in production | Days–weeks | Engineering | Reaches 100% rollout |
+| **Experiment** | A/B test variants | Weeks | Product/Marketing | Test ends, winner chosen |
+| **Operational** | Circuit breakers, perf switches, kill switches | Months–years | Engineering/SRE | Replaced by autoscaling or feature retirement |
+| **Permission** | Entitlements by user/account/plan | Years (permanent) | Product | Plan/role removed |
 
-只有 Release 与 Experiment 应进入债务扫描观察名单；Operational 与 Permission 设计为长期存在。详见 `references/flag_taxonomy.md` 决策树。
+Only Release and Experiment flags should enter the debt-scan watchlist; Operational and Permission are designed to live long-term. See the decision tree in `references/flag_taxonomy.md`.
 
-## 3 个 Python 工具
+## 3 Python Tools
 
-三者均为 stdlib-only，可用 `--help` 查看完整参数。
+All three are stdlib-only; use `--help` to see the full parameter list.
 
 ### `flag_debt_scanner.py`
 
-找出老于 `--max-age-days` 且低使用的 flag，建议清理候选。
-**检测启发式：**
-1. 在 `--repo` 中按常见 flag 调用模式匹配代码引用：
+Finds flags older than `--max-age-days` with low usage, suggesting cleanup candidates.
+**Detection heuristics:**
+1. Match code references in `--repo` against common flag-call patterns:
    - `flag("...")`, `isFlagEnabled("...")`, `featureFlag("...")`, `getFlag("...")`
    - `client.variation("...", ...)`, `unleash.isEnabled("...")`, `growthbook.feature("...")`
-2. 对每个唯一 flag 标识，找最早引入它的 commit（`git log --diff-filter=A -S <name>`）。
-3. 若引入时间 > `--max-age-days` 且使用处 ≤ `--min-uses` → 标记为 DEBT。
+2. For each unique flag identifier, find the earliest commit that introduced it (`git log --diff-filter=A -S <name>`).
+3. If introduction time > `--max-age-days` and usage sites ≤ `--min-uses` → flag as DEBT.
 
-输出 flag 名、age(天)、文件引用、建议动作。JSON 模式对 CI 友好。
+Outputs the flag name, age (days), file references, and suggested action. JSON mode is CI-friendly.
 
 ### `rollout_planner.py`
 
-由人口规模、目标比例、周期、策略生成分阶段发布排期。
-**策略：**
-- `ring`：1% → 5% → 25% → 50% → 100%，均匀间隔。高风险发布默认。
-- `linear`：每天恒定速率。中风险默认。
-- `log`：前期快、尾部慢。有把握的低风险默认。
-- `cohort`：按命名队列（internal → beta → free → paid → all）。
+Generates a staged release schedule from population size, target percentage, duration, and strategy.
+**Strategies:**
+- `ring`: 1% → 5% → 25% → 50% → 100%, evenly spaced. Default for high-risk releases.
+- `linear`: constant rate each day. Default for medium-risk.
+- `log`: fast early, slow tail. Default for confident low-risk.
+- `cohort`: by named queue (internal → beta → free → paid → all).
 
-输出含日期、比例、预期用户数、中止判据、每阶段验证步骤的 markdown 表格。
+Outputs a markdown table with dates, percentages, expected user counts, abort criteria, and per-stage validation steps.
 
 ### `kill_switch_audit.py`
 
-将代码发现的 flag 与文档交叉核对，确认每个都有书面 kill switch 路径。
-**检查项：**
-1. 每个代码发现的 flag 在 `--flag-doc` 中有条目
-2. 每个条目声明：owner、type、kill-switch trigger、monitoring dashboard
-3. 报告缺文档的 flag（FAIL）或缺字段的 flag（WARN）
+Cross-checks flags found in code against documentation, confirming that each has a documented kill-switch path.
+**Checks:**
+1. Every code-discovered flag has an entry in `--flag-doc`
+2. Every entry declares: owner, type, kill-switch trigger, monitoring dashboard
+3. Reports flags missing documentation (FAIL) or missing fields (WARN)
 
-作为任何新 flag 上线前的 pre-merge 门禁。
+Used as a pre-merge gate before any new flag ships.
 
-## Provider 选型（5 + DIY）
+## Provider Selection (5 + DIY)
 
-| Provider | 最适合 | 定价模式 | 锁定风险 | 开源选项 |
+| Provider | Best for | Pricing model | Lock-in risk | Open-source option |
 |---|---|---|---|---|
-| **LaunchDarkly** | 企业级、复杂定向、审计/合规 | 按 MAU 计费，价格高 | 高 | 无 |
-| **GrowthBook** | 中型市场、聚焦 A/B 测试、开源友好 | 按 MAU 计费 + 开源版 | 低 | 有（自托管） |
-| **Statsig** | 增长/产品团队、高级实验能力 | 免费档 + 按 MAU 计费 | 中 | 无 |
-| **Unleash** | 开源优先、自托管、开发者友好 | 开源版 + 企业版 | 低 | 有 |
-| **Flipt** | 轻量、k8s 原生、需求简单 | 仅开源版 | 无 | 有 |
-| **DIY** | flag 少于 100 个、无定向、要完全掌控 | 无 | 无 | N/A |
+| **LaunchDarkly** | Enterprise, complex targeting, audit/compliance | Per-MAU billing, high price | High | No |
+| **GrowthBook** | Mid-market, A/B-test focused, open-source friendly | Per-MAU billing + open-source edition | Low | Yes (self-hosted) |
+| **Statsig** | Growth/product teams, advanced experimentation | Free tier + per-MAU billing | Medium | No |
+| **Unleash** | Open-source first, self-hosted, developer-friendly | Open-source edition + enterprise | Low | Yes |
+| **Flipt** | Lightweight, k8s-native, simple needs | Open-source edition only | None | Yes |
+| **DIY** | Fewer than 100 flags, no targeting, want full control | None | None | N/A |
 
-详见 `references/provider_comparison.md`。
+See `references/provider_comparison.md` for details.
 
-## 参数速查表
+## Parameter Cheat Sheet
 
-| 脚本 | 参数 | 取值 | 说明 |
+| Script | Parameter | Values | Description |
 |------|------|------|------|
-| flag_debt_scanner.py | `--repo` | 路径 | 待扫描仓库，默认 `.` |
-| | `--max-age-days` | 整数 | 超过该天数的 flag 视为债务候选，默认 90 |
-| | `--min-uses` | 整数 | 使用处 ≤ 该值才标记，默认由脚本定 |
-| | `--format` | `text\|json` | 输出格式，CI 用 `json` |
-| rollout_planner.py | `--population` | 整数 | 总用户/请求规模 |
-| | `--target-percent` | 0–100 | 目标覆盖率 |
-| | `--duration-days` | 整数 | 发布周期天数 |
-| | `--strategy` | `ring\|linear\|log\|cohort` | 发布曲线 |
-| kill_switch_audit.py | `--repo` | 路径 | 代码侧扫描根 |
-| | `--flag-doc` | 路径 | 开关文档（如 docs/feature-flags.md） |
-| | `--format` | `text\|json` | 输出格式 |
+| flag_debt_scanner.py | `--repo` | path | Repo to scan, default `.` |
+| | `--max-age-days` | integer | Flags older than this many days are debt candidates, default 90 |
+| | `--min-uses` | integer | Only flagged when usage sites ≤ this value, default set by the script |
+| | `--format` | `text\|json` | Output format, CI uses `json` |
+| rollout_planner.py | `--population` | integer | Total user/request population |
+| | `--target-percent` | 0–100 | Target coverage |
+| | `--duration-days` | integer | Release duration in days |
+| | `--strategy` | `ring\|linear\|log\|cohort` | Release curve |
+| kill_switch_audit.py | `--repo` | path | Root for the code-side scan |
+| | `--flag-doc` | path | Flag documentation (e.g. docs/feature-flags.md) |
+| | `--format` | `text\|json` | Output format |
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象/错误 | 原因 | 处置 |
+| Symptom / error | Cause | Action |
 |-----------|------|------|
-| `python3: command not found` 或版本 <3.8 | Python 未装/过旧 | 安装 Python 3.8+ 后重跑 |
-| `FileNotFoundError: <脚本>` | 脚本缺失 | 确认 `scripts/` 完整，缺失则 STOP 报告 |
-| `git rev-parse` 报错 | 非 git 仓库 | 债务扫描降级为文件 mtime，提示用户 |
-| `<flag-doc> not found` | 文档路径错 | 先创建/修正 `--flag-doc` 路径 |
-| kill_switch_audit 报 FAIL | 有 flag 无 kill switch 文档 | 补文档条目（owner/type/trigger/dashboard）后重跑 |
-| debt.json 为空 | 无超期 flag | 正常，无需清理 |
+| `python3: command not found` or version <3.8 | Python not installed / too old | Install Python 3.8+ and rerun |
+| `FileNotFoundError: <script>` | Script missing | Confirm `scripts/` is complete; if missing, STOP and report |
+| `git rev-parse` error | Not a git repo | Degrade debt scan to file mtime and notify the user |
+| `<flag-doc> not found` | Wrong doc path | Create/fix the `--flag-doc` path first |
+| kill_switch_audit reports FAIL | Some flag has no kill-switch doc | Add the doc entry (owner/type/trigger/dashboard) and rerun |
+| debt.json is empty | No overdue flags | Normal; no cleanup needed |
 
-## 交付标准
+## Delivery Criteria
 
-成功定义：新 flag 100% 通过 `kill_switch_audit.py`；`flag_debt_scanner.py --max-age-days 90` 全仓返回 ≤5 个过期 flag；每个 flag 有书面 owner、type、kill switch；Release flag 自 100% 起平均 60 天内退役。
-产物命名/位置：债务报告 `debt.md` 或 `debt.json`（用户指定路径）；rollout 排期直接输出到对话或用户指定文件。
-完整性验证：重跑对应脚本退出码为 `0` 且 FAIL 数为 0。
+Definition of success: new flags pass `kill_switch_audit.py` at 100%; `flag_debt_scanner.py --max-age-days 90` returns ≤5 overdue flags across the whole repo; every flag has a documented owner, type, and kill switch; Release flags are retired on average within 60 days of reaching 100%.
+Artifact naming/location: debt report `debt.md` or `debt.json` (user-specified path); the rollout schedule is printed directly to the conversation or written to a user-specified file.
+Completeness verification: re-running the corresponding script returns exit code `0` and zero FAILs.
 
-## 参考
+## References
 
-- `references/flag_taxonomy.md` —— 分类/选型时读：4 类 flag 决策树、归属、生命周期
-- `references/provider_comparison.md` —— 选型 provider 时读：5 家 + DIY 取舍
-- `references/rollout_strategies.md` —— 设计 ramp 时读：ring/linear/log/cohort/geo、中止判据、监控
-- `references/flag_lifecycle.md` —— 设计 lifecycle/清理时读：request → design → ship → ramp → cleanup → archive
+- `references/flag_taxonomy.md` — read when classifying/choosing: 4-type flag decision tree, ownership, lifecycle
+- `references/provider_comparison.md` — read when choosing a provider: 5 vendors + DIY trade-offs
+- `references/rollout_strategies.md` — read when designing a ramp: ring/linear/log/cohort/geo, abort criteria, monitoring
+- `references/flag_lifecycle.md` — read when designing the lifecycle/cleanup: request → design → ship → ramp → cleanup → archive
 
-## 斜杠命令
+## Slash Commands
 
-`/flag-cleanup` — 在当前仓库跑完整清理流程：扫描债务、生成移除计划、审计 kill switch。
+`/flag-cleanup` — run the full cleanup flow in the current repo: scan for debt, generate a removal plan, audit kill switches.
 
-## 资产模板
+## Asset Templates
 
-- `assets/flag_request_template.md` — 新 flag 申请填报表（name、owner、type、kill switch、rollout plan）
+- `assets/flag_request_template.md` — new-flag request form (name, owner, type, kill switch, rollout plan)
 
-## 反模式
+## Anti-patterns
 
-- **`if (FLAG_FOO)` 出现在 50 处且无期限** — 应是 Permission flag + 运行时配置，而非 Release flag
-- **flag 无 owner** — 原作者离职后无人清理
-- **未记录 kill switch** — 功能出错时无人知如何禁用
-- **A/B 测试跑了 6 个月** — 选定胜者，无限期运行即债务
-- **用 flag 做外观微调** — 应通过部署而非 flag 发布
+- **`if (FLAG_FOO)` appears in 50 places with no end date** — it should be a Permission flag + runtime config, not a Release flag
+- **A flag with no owner** — after the original author leaves, nobody cleans it up
+- **No documented kill switch** — when a feature misbehaves, nobody knows how to disable it
+- **An A/B test running for 6 months** — pick a winner; running indefinitely is debt
+- **Using a flag for cosmetic tweaks** — ship it via deployment, not a flag

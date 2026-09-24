@@ -4,10 +4,10 @@ description: >-
   Test-driven development skill for writing unit tests, generating test fixtures
   and mocks, analyzing coverage gaps, and guiding red-green-refactor workflows
   across Jest, Pytest, JUnit, Vitest, and Mocha. Use when the user asks to write
-  tests, improve test coverage, practice TDD, generate mocks or stubs, run the
+  tests, improve test coverage, practice TDD, write tests before implementation,
+  raise test coverage, generate mocks or stubs, run the
   red-green-refactor cycle, or mentions testing frameworks like Jest, pytest, or
-  JUnit. 当用户要求 写测试 / TDD / 先写测试再写实现 / 提升测试覆盖率 / 生成 mock
-  时使用。 Do NOT use for skipping the red-green-refactor cycle.
+  JUnit. Do NOT use for skipping the red-green-refactor cycle.
 license: Apache-2.0
 compatibility: Pure prompt-based; the bundled scripts require Python 3.10+. May read project structure via Bash.
 metadata:
@@ -21,124 +21,124 @@ metadata:
 
 # TDD Guide
 
-覆盖 Jest、Pytest、JUnit 与 Vitest 的测试驱动开发：生成测试、分析覆盖率缺口，用一个 CLI 驱动红-绿-重构循环。
+Test-driven development across Jest, Pytest, JUnit, and Vitest: generate tests, analyze coverage gaps, and drive the red-green-refactor cycle with a single CLI.
 
 ---
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Description |
 |------|------|------|
-| 源码 / 需求 | 是 | 源码文件、`req.json`，或一条功能需求描述。 |
-| 目标框架 | 否 | `jest` \| `pytest` \| `junit` \| `vitest` \| `mocha`（可自动检测）。 |
-| 覆盖率报告 | 否 | LCOV / JSON / XML 路径，缺口分析用。 |
-| 覆盖率阈值 | 否 | 百分比（默认 `80`）。 |
-| 阶段（工作流） | 否 | `red` \| `green` \| `refactor`。 |
+| Source code / requirement | Yes | A source file, `req.json`, or a feature-requirement description. |
+| Target framework | No | `jest` \| `pytest` \| `junit` \| `vitest` \| `mocha` (auto-detected). |
+| Coverage report | No | LCOV / JSON / XML path, for gap analysis. |
+| Coverage threshold | No | Percentage (default `80`). |
+| Phase (workflow) | No | `red` \| `green` \| `refactor`. |
 
-必需输入缺失时，只问一次：
+When a required input is missing, ask only once:
 
-> 请提供：① 待测源码或需求描述；② 目标测试框架（Jest/Pytest/JUnit/Vitest/Mocha）。
-> 其余采用默认值：coverage-threshold=80%、phase 由工作流自动推进。
+> Please provide: (1) the source code or requirement description to test; (2) the target test framework (Jest/Pytest/JUnit/Vitest/Mocha).
+> I'll use the rest as defaults: coverage-threshold=80%, phase advanced automatically by the workflow.
 
-## 前置自检
+## Pre-flight Checks
 
 ```bash
-# 1. 入口脚本存在？
+# 1. Does the entry script exist?
 test -f scripts/tdd_cli.py || { echo "ERROR: scripts/tdd_cli.py missing"; exit 1; }
-# 2. Python 可用？
+# 2. Is Python available?
 command -v python3 >/dev/null 2>&1 || { echo "ERROR: python3 not found"; exit 1; }
-# 3. 若提供了覆盖率报告，确认文件存在：
+# 3. If a coverage report is supplied, confirm the file exists:
 test -z "$REPORT" || test -f "$REPORT" || { echo "ERROR: report $REPORT not found"; exit 1; }
 ```
 
-## 统一 CLI（`scripts/tdd_cli.py`）
+## Unified CLI (`scripts/tdd_cli.py`)
 
-所有库模块都经一个入口调用（退出码：`0` = 正常，`2` = 输入错误，`1` = 内部错误）：
+All library modules are invoked through a single entry point (exit codes: `0` = ok, `2` = input error, `1` = internal error):
 
 ```bash
-python scripts/tdd_cli.py workflow --requirement "实现用户登录"            # 红-绿-重构循环 + 阶段指引
-python scripts/tdd_cli.py detect --file examples/src/service.py                  # 语言/框架/测试模式检测（随包样例）
-python scripts/tdd_cli.py gen-tests --requirements examples/req.json --framework pytest   # 需求 → 测试用例（随包样例）
-python scripts/tdd_cli.py fixtures --mode boundary --type int           # 边界值/边缘场景/mock 数据
-python scripts/tdd_cli.py coverage --report examples/coverage.xml --threshold 80 # 覆盖率摘要/缺口/建议（随包样例 cobertura）
-python scripts/tdd_cli.py metrics --source examples/src/service.py --test examples/tests/test_service.py      # 质量 metrics（随包样例）
-python scripts/tdd_cli.py stub --framework pytest --name test_login     # 测试骨架渲染
+python scripts/tdd_cli.py workflow --requirement "implement user login"            # red-green-refactor cycle + phase guidance
+python scripts/tdd_cli.py detect --file examples/src/service.py                  # language/framework/test-pattern detection (bundled sample)
+python scripts/tdd_cli.py gen-tests --requirements examples/req.json --framework pytest   # requirement → test cases (bundled sample)
+python scripts/tdd_cli.py fixtures --mode boundary --type int           # boundary-value / edge-case / mock data
+python scripts/tdd_cli.py coverage --report examples/coverage.xml --threshold 80 # coverage summary/gaps/suggestions (bundled sample cobertura)
+python scripts/tdd_cli.py metrics --source examples/src/service.py --test examples/tests/test_service.py      # quality metrics (bundled sample)
+python scripts/tdd_cli.py stub --framework pytest --name test_login     # render a test skeleton
 ```
 
-`format_detector` / `framework_adapter` / `output_formatter` 经 `detect` / `stub` / `coverage --format text` 间接暴露；也可作为库 `import`（无独立 `__main__`，不要直接执行）。
+`format_detector` / `framework_adapter` / `output_formatter` are exposed indirectly via `detect` / `stub` / `coverage --format text`; they can also be `import`ed as a library (no standalone `__main__`; don't execute them directly).
 
-## 工作流
+## Workflow
 
-### 步骤 1：检测语言与框架
+### Step 1: Detect language and framework
 
 ```bash
 python scripts/tdd_cli.py detect --file examples/src/service.py
 ```
 
-预期：输出检测到的语言、测试框架与既有测试模式。若失败：扩展名不受支持 → 显式指定 `--framework`。
+Expected: output the detected language, test framework, and existing test patterns. On failure: the extension isn't supported → specify `--framework` explicitly.
 
-### 步骤 2：从代码 / 需求生成测试
+### Step 2: Generate tests from code / requirements
 
 ```bash
-# 从源码文件生成
+# Generate from a source file
 python scripts/test_generator.py --input math_utils.py --framework pytest
-# 经 CLI 从需求 JSON 生成
+# Via the CLI from a requirements JSON
 python scripts/tdd_cli.py gen-tests --requirements examples/req.json --framework pytest
 ```
 
-预期：产出测试骨架，覆盖正常路径、错误场景、边界场景。若失败：输出为空 → 检查 `--framework` 取值，确认输入可解析。
+Expected: produce a test skeleton covering happy paths, error scenarios, and edge cases. On failure: output is empty → check the `--framework` value and confirm the input is parseable.
 
-### 步骤 3：分析覆盖率缺口
+### Step 3: Analyze coverage gaps
 
 ```bash
 python scripts/coverage_analyzer.py --report lcov.info --threshold 80
-# 或经 CLI
+# Or via the CLI
 python scripts/tdd_cli.py coverage --report examples/coverage.xml --threshold 80
 ```
 
-预期：按优先级输出缺口，标注 P0（关键，如未覆盖的错误路径）/ P1（核心分支）/ P2（工具函数），并给出达到阈值的建议。若失败：报告格式不受支持 → 先转成 LCOV/JSON/XML。
+Expected: output gaps by priority, labeled P0 (critical, e.g. uncovered error paths) / P1 (core branches) / P2 (utility functions), with suggestions for reaching the threshold. On failure: report format unsupported → first convert to LCOV/JSON/XML.
 
-### 步骤 4：驱动红-绿-重构
+### Step 4: Drive red-green-refactor
 
 ```bash
-python scripts/tdd_cli.py workflow --requirement "给订单加优惠券校验"   # 启动循环，获取阶段指引
-python scripts/tdd_workflow.py --phase red   --test test_auth.py   # 写失败的测试
-python scripts/tdd_workflow.py --phase green --test test_auth.py   # 最小化实现
-python scripts/tdd_cli.py metrics --source examples/src/service.py --test examples/tests/test_service.py  # 验证
+python scripts/tdd_cli.py workflow --requirement "add coupon validation to orders"   # start the cycle, get phase guidance
+python scripts/tdd_workflow.py --phase red   --test test_auth.py   # write the failing test
+python scripts/tdd_workflow.py --phase green --test test_auth.py   # minimal implementation
+python scripts/tdd_cli.py metrics --source examples/src/service.py --test examples/tests/test_service.py  # verify
 ```
 
-预期：每轮循环结束时目标测试全部通过；`metrics` 无回归。若失败：最小实现后测试仍红 → 问题在实现而不在测试；回头重审需求。
+Expected: at the end of each cycle, the target tests all pass; `metrics` shows no regression. On failure: after a minimal implementation the tests are still red → the problem is in the implementation, not the test; go back and re-examine the requirement.
 
-## 参数速查表
+## Parameter Cheat Sheet
 
-| 子命令 | 关键参数 | 取值 |
+| Subcommand | Key parameters | Values |
 |--------|----------|------|
-| `workflow` | `--requirement` | 功能描述字符串 |
-| `detect` | `--file` | 源码文件路径 |
-| `gen-tests` | `--requirements` / `--framework` | 需求 JSON / jest\|pytest\|junit\|vitest\|mocha |
+| `workflow` | `--requirement` | Feature-description string |
+| `detect` | `--file` | Source-file path |
+| `gen-tests` | `--requirements` / `--framework` | Requirements JSON / jest\|pytest\|junit\|vitest\|mocha |
 | `fixtures` | `--mode` / `--type` | boundary\|edge\|mock / int\|float\|str |
-| `coverage` | `--report` / `--threshold` | LCOV\|JSON\|XML / 百分比 |
-| `metrics` | `--source` / `--test` | 源码 / 测试文件路径 |
-| `stub` | `--framework` / `--name` | 框架 / 测试名 |
+| `coverage` | `--report` / `--threshold` | LCOV\|JSON\|XML / percentage |
+| `metrics` | `--source` / `--test` | Source / test-file path |
+| `stub` | `--framework` / `--name` | Framework / test name |
 
-## 关键工具
+## Key Tools
 
-| 工具 | 用途 | 用法 |
+| Tool | Purpose | Usage |
 |------|------|------|
-| `test_generator.py` | 从代码/需求生成测试用例 | `python scripts/test_generator.py --input source.py --framework pytest` |
-| `coverage_analyzer.py` | 解析并分析覆盖率报告 | `python scripts/coverage_analyzer.py --report lcov.info --threshold 80` |
-| `tdd_workflow.py` | 引导红-绿-重构循环 | `python scripts/tdd_workflow.py --phase red --test test_auth.py` |
-| `fixture_generator.py` | 生成测试数据与 mock | `python scripts/fixture_generator.py --entity User --count 5` |
+| `test_generator.py` | Generate test cases from code/requirements | `python scripts/test_generator.py --input source.py --framework pytest` |
+| `coverage_analyzer.py` | Parse and analyze coverage reports | `python scripts/coverage_analyzer.py --report lcov.info --threshold 80` |
+| `tdd_workflow.py` | Guide the red-green-refactor cycle | `python scripts/tdd_workflow.py --phase red --test test_auth.py` |
+| `fixture_generator.py` | Generate test data and mocks | `python scripts/fixture_generator.py --entity User --count 5` |
 
-其余脚本：`framework_adapter.py`（框架间转换）、`metrics_calculator.py`（质量指标）、`format_detector.py`（检测语言/框架）、`output_formatter.py`（CLI/桌面/CI 输出）。
+Other scripts: `framework_adapter.py` (cross-framework conversion), `metrics_calculator.py` (quality metrics), `format_detector.py` (detect language/framework), `output_formatter.py` (CLI/desktop/CI output).
 
-## 有界自治规则
+## Bounded-Autonomy Rules
 
-**停下来问，当：** 验收标准含糊；边界值缺失且需要领域知识；测试数量将超过 50（先给摘要，问优先覆盖哪些区域）；外部依赖无文档；安全敏感逻辑（认证、授权、加密、支付）需要签字确认。
+**Stop and ask when:** acceptance criteria are vague; boundary values are missing and need domain knowledge; the number of tests will exceed 50 (give a summary first and ask which areas to prioritize); an external dependency is undocumented; security-sensitive logic (auth, authorization, encryption, payments) needs sign-off.
 
-**继续自治，当：** 规格清晰且验收标准带编号；简单 CRUD；API 契约明确（OpenAPI/带类型接口）；纯函数；有既有测试模式可循。
+**Continue autonomously when:** the spec is clear and acceptance criteria are numbered; simple CRUD; the API contract is explicit (OpenAPI / typed interface); pure functions; there's an existing test pattern to follow.
 
-## 红-绿-重构示例
+## Red-Green-Refactor Examples
 
 ### TypeScript / Jest
 
@@ -173,7 +173,7 @@ def test_calculate_discount(subtotal, expected_discount):
     assert calculate_discount(subtotal) == pytest.approx(expected_discount)
 ```
 
-### Go — 表驱动
+### Go — table-driven
 
 ```go
 func TestApplyDiscount(t *testing.T) {
@@ -197,27 +197,27 @@ func TestApplyDiscount(t *testing.T) {
 }
 ```
 
-## 失败处置表
+## Failure Handling Table
 
-| 症状 | 原因 | 处置 |
+| Symptom | Cause | Action |
 |------|------|------|
-| CLI 退出码 `exit 2` | 输入参数错误 | 按参数速查表核对必需参数 |
-| 生成的测试为空 | `--framework` 不受支持 | 从 5 个受支持框架中选一个 |
-| 覆盖率工具读报告报错 | 格式不受支持 | 先转成 LCOV/JSON/XML |
-| 最小实现后测试仍红 | 需求不清晰 | 停下来问用户（有界自治规则） |
+| CLI exit code `exit 2` | Wrong input argument | Check required parameters against the cheat sheet |
+| Generated tests are empty | `--framework` unsupported | Choose one of the 5 supported frameworks |
+| Coverage tool errors reading the report | Format unsupported | Convert to LCOV/JSON/XML first |
+| Tests still red after minimal implementation | Requirement unclear | Stop and ask the user (bounded-autonomy rules) |
 
-## 交付标准
+## Delivery Criteria
 
-成功 = 生成的测试可编译且覆盖正常/错误/边界路径，且覆盖率报告达到阈值。
+Success = the generated tests compile and cover happy/error/edge paths, and the coverage report reaches the threshold.
 
-- 保存位置：生成的测试存 `tests/`；报告存 `coverage.<fmt>`。
-- 核验：跑项目的测试运行器，确认达到阈值（通常 ≥80%）；P0 项优先补测试。
-- 测试是脚手架，复杂逻辑需人工复审——本技能不 push、不 commit。
+- Save location: generated tests go in `tests/`; reports go in `coverage.<fmt>`.
+- Verification: run the project's test runner and confirm the threshold is met (usually ≥80%); prioritize adding tests for P0 items.
+- Tests are scaffolding; complex logic needs human review — this skill does not push or commit.
 
-## 参考
+## References
 
-- `references/framework-guide.md` — 选适配器模式，或在 Jest/Pytest/JUnit/Vitest/Mocha 之间转换时读。
-- `references/tdd-best-practices.md` — 属性测试与变异测试指南、更深的 TDD 模式。
-- `references/ci-integration.md` — 把 CLI 接入 CI（覆盖率门禁、JUnit XML 报告）时读。
+- `references/framework-guide.md` — read when choosing an adapter pattern, or converting between Jest/Pytest/JUnit/Vitest/Mocha.
+- `references/tdd-best-practices.md` — property-based and mutation-testing guides, deeper TDD patterns.
+- `references/ci-integration.md` — read when wiring the CLI into CI (coverage gates, JUnit XML reports).
 
-样例夹具：`assets/sample_coverage_report.lcov`、`assets/sample_input_python.json`、`assets/sample_input_typescript.json`、`assets/expected_output.json`。
+Sample fixtures: `assets/sample_coverage_report.lcov`, `assets/sample_input_python.json`, `assets/sample_input_typescript.json`, `assets/expected_output.json`.

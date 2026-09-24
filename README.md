@@ -10,8 +10,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
   <img src="https://img.shields.io/badge/skills-154-brightgreen?style=flat-square" alt="Skills" />
   <img src="https://img.shields.io/badge/packs-36-blue?style=flat-square" alt="Packs" />
-  <img src="https://img.shields.io/badge/chains-18%20domains%20%2F%2062-orange?style=flat-square" alt="Chains" />
-  <img src="https://img.shields.io/badge/version-0.19.0-success?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-0.22.0-success?style=flat-square" alt="Version" />
 </p>
 
 <p align="center">
@@ -19,292 +18,128 @@
   <a href="https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip"><img src="https://img.shields.io/badge/%E2%AC%87%EF%B8%8F_Download-_all.zip-blue?style=flat-square" alt="Download all packs" /></a>
   <a href="https://gitcode.com/badhope/awesome-skillkit"><img src="https://img.shields.io/badge/GitCode-Mirror-3A72BE?style=flat-square" alt="GitCode" /></a>
   <a href="https://gitee.com/badhope/awesome-skillkit"><img src="https://img.shields.io/badge/Gitee-Mirror-C71D23?style=flat-square" alt="Gitee" /></a>
-  <a href="https://github.com/Morningstar202604/awesome-skillkit"><img src="https://img.shields.io/badge/GitHub-Mirror-24292F?style=flat-square&logo=github" alt="GitHub Mirror" /></a>
 </p>
 
-<p align="center"><strong>English</strong> | <a href="README.zh-CN.md">中文</a> | <a href="README.ja.md">日本語</a></p>
+<p align="center"><strong>English</strong> | <a href="README.zh-CN.md">简体中文</a> | <a href="README.ja.md">日本語</a></p>
 
-> 🌐 **Browse / download**: the official sites are live on GitHub Pages (both accounts, identical) →
-> [x33834.github.io/awesome-skillkit](https://x33834.github.io/awesome-skillkit/) ·
-> [morningstar202604.github.io/awesome-skillkit](https://morningstar202604.github.io/awesome-skillkit/).
-> Per-pack zips and the full `_all.zip` are attached to each platform's Release
-> (GitHub / Gitee serve direct links; GitCode links to its Release page).
-> Self-hosting guide: [docs/DEPLOY-SITE.md](docs/DEPLOY-SITE.md)
+---
 
-Curated **scene packs** for AI tools. **Each pack = one real-world scenario, containing multiple hand-picked skills.** Download a zip → unzip → drag the skill folders into your AI tool's skills directory → it just works.
+## 🌐 Read this page in Chinese (one click)
 
-## Positioning
+The SKILL.md files inside the repo are being translated to English, but many of the docs, examples, and platform notes are still in Chinese. To read this README and the official site in Simplified Chinese instantly:
 
-**The scenario is the answer — grounded in platform + tool.**
+- **[🌐 Google Translate — read the official site in 中文](https://translate.google.com/translate?sl=en&tl=zh-CN&u=https://x33834.github.io/awesome-skillkit/)** *(recommended — one click, no install)*
+- **[Bing Translator alternative](https://cn.bing.com/translator?from=en&to=zh-Hans)** *(paste any page URL to translate)*
+- **[Immersive Translate browser extension](https://github.com/immersive-translate/immersive-translate)** *(recommended for daily use — side-by-side bilingual view of the whole site)*
+- 📄 Chinese README: [**README.zh-CN.md**](README.zh-CN.md)
+
+---
+
+## What is this?
+
+**awesome-skillkit** is a curated collection of **scene packs** for AI coding / agent tools (Claude Code and any tool that reads `SKILL.md`). Each pack bundles the skills that work together for **one concrete real-world scenario** — "review a PR", "ship a CI/CD pipeline", "cross-post an article to 16 Chinese platforms", "produce a short video end-to-end".
+
+The model is deliberately simple:
 
 ```mermaid
 flowchart LR
     A[Real-world scenario] --> B[Scene pack<br/>1 pack = 1 scenario]
-    B --> C[Group of collaborating skills<br/>2–18 of them]
-    C --> D[Drop into AI tool<br/>skills dir]
-    D --> E[Works in new session]
+    B --> C[Group of collaborating skills<br/>1–19 of them]
+    C --> D[Drop into AI tool<br/>skills directory]
+    D --> E[Works in a new session<br/>no config]
     style A fill:#eaf2ff,stroke:#5b8def
     style E fill:#eafaea,stroke:#4caf72
 ```
 
-- Every pack maps to a **concrete scenario** ("review a PR", "build CI/CD", "post to my blog"), not a broad domain.
-- Every pack bundles **the skills that work together for that scenario** — from a focused pair to an 18-skill suite (`Content Publishing Automation` covers 16 Chinese platforms end-to-end).
-- Every skill's **source is clearly attributed** (upstream curated / self-authored / open-source distilled).
+- Every pack maps to a **concrete scenario**, not a vague domain like "engineering".
+- Every pack bundles **the skills that actually work together** for that scenario — from a focused pair (`API Development & Testing`) to a 19-skill suite (`AI Research & Writing`) or an 18-platform publishing machine (`Content Publishing Automation`).
+- Every skill's **source is attributed** per-skill in [`manifest.json`](manifest.json) and each `packs/*/pack.json` — self-authored, upstream curated (MIT), or distilled from public docs.
 
-## By the numbers
+## Download guide — two paths
 
-> **154 skills** · **36 scene packs** · **18 chain domains / 62 skill chains** · v0.22.0 · Apache-2.0
+### Path A · Browse the official site (easiest)
 
-**Source breakdown**:
+1. Open **<https://x33834.github.io/awesome-skillkit/>**.
+2. Search by skill name, domain chip, or pack name.
+3. On any skill card, click **↓ SKILL.md** to download a single file, or use the pack card to download the whole pack as a zip.
+4. Grab everything at once: **↓ `_all.zip`** on the hero.
 
-```mermaid
-pie title Skill sources (n=154)
-    "Self-authored scenario skills" : 116
-    "Upstream curated (alirezarezvani/claude-skills, MIT)" : 33
-    "Other open-source distilled" : 5
-```
+### Path B · Browse the repository directly
 
-**Pack size distribution** (█ = 1 skill, 36 packs total):
+| What you want | Where to get it |
+|---|---|
+| A single `SKILL.md` | Browse [`skills/`](skills/) and open the file raw |
+| One pack as a zip | [`dist/<pack-id>.zip`](dist/) (built locally) or the per-pack asset on [Releases](https://github.com/x33834/awesome-skillkit/releases/latest) |
+| All packs at once | `dist/_all.zip`, or the [`_all.zip` release asset](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) |
+| Chinese mirrors | [GitCode](https://gitcode.com/badhope/awesome-skillkit) · [Gitee](https://gitee.com/badhope/awesome-skillkit) (same tags, release zips attached) |
 
-| 场景包 | 技能数 | 规模 |
-|--------|:---:|------|
-| AI Research & Writing | 19 | ███████████████████ |
-| Content Publishing Automation | 18 | ██████████████████ |
-| Office Productivity | 8 | ████████ |
-| Data, ML & Scientific Computing | 7 | ███████ |
-| AI Video Pipeline | 6 | ██████ |
-| AI Agent Development | 5 | █████ |
-| Code Review | 5 | █████ |
-| AI Media Toolkit | 4 | ████ |
-| Image Studio | 4 | ████ |
-| Memory Systems | 4 | ████ |
-| Toolsmith | 4 | ████ |
-| Video Design Studio | 4 | ████ |
-| Visual Design Studio | 4 | ████ |
-| Workspace Integrations | 4 | ████ |
-| System Architecture | 3 | ███ |
-| Audio Studio | 3 | ███ |
-| CI/CD Pipeline | 3 | ███ |
-| Code Planning & Generation | 3 | ███ |
-| Containers & Orchestration | 3 | ███ |
-| De-AI Writing | 3 | ███ |
-| Edu Craft | 3 | ███ |
-| GitHub Collaboration | 3 | ███ |
-| Growth Marketing | 3 | ███ |
-| Homework Autopilot | 3 | ███ |
-| Incident Response & SRE | 3 | ███ |
-| Infrastructure as Code | 3 | ███ |
-| Skill Forge | 3 | ███ |
-| API Development & Testing | 2 | ██ |
-| Database Design & Management | 2 | ██ |
-| Data Viz Studio | 2 | ██ |
-| Knowledge Base | 2 | ██ |
-| Security & Secrets | 2 | ██ |
-| Test-Driven Development | 2 | ██ |
-| Viral Entertainment | 2 | ██ |
-| Chat Prompt Craft | 1 | █ |
-| Performance Profiling | 1 | █ |
+> Per-pack zips are rebuilt by `python3 build.py` and attached to every GitHub Release; the GitCode / Gitee mirrors push the same tags and upload the same assets.
 
-## Getting started (30 seconds)
+## Scenario pack directory (all 36 packs)
 
-1. 📦 Download the zip for the **scene** you need from **Releases** (or run `python3 build.py` to build `dist/*.zip` locally).
-2. 📂 Unzip — you get **multiple skill folders** (each with `SKILL.md`).
-3. 🧲 **Drag** the folders into your AI tool's skills directory:
-   - Claude Code: `~/.claude/skills/` (global) or `.claude/skills/` (project)
-   - Other tools with skills support: use their skills directory
-4. 🚀 Start a new session — works immediately, no config.
+Below is the complete catalog. Each row links to its pack folder; the skill column lists every `SKILL.md` shipped inside.
 
-## Scene pack catalog
+| Pack ID | Pack name (EN) | 名称 (中文) | Skills | Skills included |
+|---|---|---|:---:|---|
+| [`ai-agent-development`](packs/ai-agent-development) | AI Agent Development | AI Agent 开发 | 5 | `agent-designer`, `mcp-server-builder`, `feature-flags-architect`, `self-eval`, `skill-tester` |
+| [`ai-media-toolkit`](packs/ai-media-toolkit) | AI Media Toolkit | AI 媒体生成工具箱 | 4 | `video-generation`, `image-generation`, `music-generation`, `ai-cover-generator` |
+| [`ai-research-writing`](packs/ai-research-writing) | AI Research & Writing | AI 研究与写作 | 19 | `deep-research`, `web-search`, `paper-topic-selector`, `article-outliner`, `article-drafter`, `content-editor`, `seo-optimizer`, `lit-review`, `experiment-runner`, `figure-maker`, `arch-diagram`, `neural-net-draw`, `latex-formatter`, `self-reviewer`, `journal-adapt`, `anti-defensive`, `ai-humanizer`, `tex-cleaner`, `pub-plotter` |
+| [`ai-video-pipeline`](packs/ai-video-pipeline) | AI Video Pipeline | AI 短视频生产流水线 | 6 | `video-script-writer`, `video-voice-synth`, `video-lip-sync`, `video-editor`, `video-subtitles`, `video-thumbnail` |
+| [`api-development`](packs/api-development) | API Development & Testing | API 开发与测试 | 2 | `api-design-reviewer`, `api-test-suite-builder` |
+| [`architecture`](packs/architecture) | System Architecture | 系统架构设计 | 3 | `senior-architect`, `migration-architect`, `monorepo-navigator` |
+| [`audio-studio`](packs/audio-studio) | Audio Studio | 音频工作室 | 3 | `podcast-producer`, `tts-voice-director`, `episode-publisher` |
+| [`chat-prompt-craft`](packs/chat-prompt-craft) | Chat Prompt Craft | 聊天提示词工艺 | 1 | `chat-prompt-engineer` |
+| [`ci-cd`](packs/ci-cd) | CI/CD Pipeline | CI/CD 流水线 | 3 | `ci-cd-pipeline-builder`, `ship-gate`, `spec-driven-workflow` |
+| [`code-planning`](packs/code-planning) | Code Planning & Generation | 代码规划与生成 | 3 | `code-intent-planner`, `code-generator`, `debug-diagnoser` |
+| [`code-review`](packs/code-review) | Code Review | 代码审查 | 5 | `pr-review-expert`, `code-reviewer`, `api-design-reviewer`, `tech-debt-tracker`, `dependency-auditor` |
+| [`containers`](packs/containers) | Containers & Orchestration | 容器与编排 | 3 | `docker-development`, `helm-chart-builder`, `kubernetes-operator` |
+| [`content-publishing`](packs/content-publishing) | Content Publishing Automation | 内容多平台发布自动化 | 18 | `zhihu-content-manager`, `cnblogs-skill`, `wechat-mp-publisher`, `juejin-publisher`, `csdn-publisher`, `jianshu-publisher`, `bilibili-publisher`, `toutiao-publisher`, `baijiahao-publisher`, `xiaohongshu-publisher`, `weibo-publisher`, `douban-publisher`, `v2ex-publisher`, `segmentfault-publisher`, `oschina-publisher`, `static-blog-deploy`, `cross-post-orchestrator`, `ai-cover-generator` |
+| [`data-ml-science`](packs/data-ml-science) | Data, ML & Scientific Computing | 数据科学与科学计算 | 7 | `etl-builder`, `feature-engineer`, `model-formulator`, `model-solver`, `simulation-runner`, `result-visualizer`, `ml-pipeline` |
+| [`database`](packs/database) | Database Design & Management | 数据库设计与管理 | 2 | `database-designer`, `sql-database-assistant` |
+| [`dataviz-studio`](packs/dataviz-studio) | Data Viz Studio | 数据可视化工作室 | 2 | `dashboard-designer`, `chart-recommender` |
+| [`de-ai-writing`](packs/de-ai-writing) | De-AI Writing | 去 AI 味写作 | 3 | `ai-trace-auditor`, `humanize-rewriter`, `personal-voice-profile` |
+| [`edu-craft`](packs/edu-craft) | Edu Craft | 教育工艺 | 3 | `course-designer`, `exercise-generator`, `feynman-explainer` |
+| [`github-workflow`](packs/github-workflow) | GitHub Collaboration | GitHub 协作工作流 | 3 | `git-worktree-manager`, `changelog-generator`, `pr-review-expert` |
+| [`growth-marketing`](packs/growth-marketing) | Growth Marketing | 增长营销 | 3 | `product-copywriter`, `campaign-designer`, `channel-adapter` |
+| [`homework-autopilot`](packs/homework-autopilot) | Homework Autopilot | 作业自动驾驶 | 3 | `assignment-intake`, `solution-drafter`, `own-voice-rewrite` |
+| [`image-studio`](packs/image-studio) | Image Studio | 画图工作台 | 4 | `image-prompt-engineer`, `image-generation`, `visual-style-anchor`, `ai-cover-generator` |
+| [`incident-response`](packs/incident-response) | Incident Response & SRE | 故障响应与 SRE | 3 | `incident-commander`, `runbook-generator`, `slo-architect` |
+| [`infrastructure`](packs/infrastructure) | Infrastructure as Code | 基础设施即代码 | 3 | `terraform-patterns`, `observability-designer`, `kubernetes-operator` |
+| [`knowledge-base`](packs/knowledge-base) | Knowledge Base | 个人知识库 | 2 | `personal-wiki`, `knowledge-graph-builder` |
+| [`memory-systems`](packs/memory-systems) | Memory Systems | 长期记忆系统 | 4 | `memory-architect`, `memory-extractor`, `memory-manager`, `memory-retriever` |
+| [`office-productivity`](packs/office-productivity) | Office Productivity | 办公效率工具箱 | 10 | `ppt-builder`, `excel-assistant`, `resume-tailor`, `meeting-notes`, `internal-comms-writer`, `docx-writer`, `pdf-pipeline`, `epub-builder`, `docx-template-fill`, `career-ops-lite` |
+| [`performance`](packs/performance) | Performance Profiling | 性能优化 | 1 | `performance-profiler` |
+| [`security`](packs/security) | Security & Secrets | 安全与密钥管理 | 4 | `secrets-vault-manager`, `env-secrets-manager`, `pii-redactor`, `prompt-injection-guard` |
+| [`skill-forge`](packs/skill-forge) | Skill Forge | 技能锻造厂 | 5 | `skill-author`, `skill-linter`, `skill-finder`, `session-handoff`, `weekly-report-generator` |
+| [`tdd`](packs/tdd) | Test-Driven Development | 测试驱动开发 | 4 | `tdd-guide`, `webapp-flow-tester`, `webapp-e2e-harness`, `agent-eval-harness` |
+| [`toolsmith`](packs/toolsmith) | Toolsmith | 工具与自动化 | 6 | `file-organizer`, `batch-renamer`, `format-converter`, `task-scheduler`, `invoice-organizer`, `bank-statement-reconcile` |
+| [`video-design-studio`](packs/video-design-studio) | Video Design Studio | 视频设计工作室 | 4 | `storyboard-designer`, `shot-recipe-designer`, `video-prompt-engineer`, `visual-style-anchor` |
+| [`viral-entertainment`](packs/viral-entertainment) | Viral Entertainment | 爆款娱乐场景 | 2 | `ai-baby-podcast`, `nailong-laugh-shorts` |
+| [`visual-design-studio`](packs/visual-design-studio) | Visual Design Studio | 视觉设计工作室 | 5 | `design-brief-interpreter`, `image-prompt-engineer`, `layout-spec-auditor`, `frontend-design-director`, `frontend-component-lab` |
+| [`workspace-integrations`](packs/workspace-integrations) | Workspace Integrations | 外部集成工具箱 | 4 | `notion-workspace`, `feishu-dingtalk-bridge`, `issue-tracker-sync`, `cloud-drive-manager` |
 
+> Some skills (e.g. `api-design-reviewer`, `kubernetes-operator`, `image-generation`, `ai-cover-generator`) appear in more than one pack because they are reused across scenarios — that is intentional.
 
-### 工程与编程
+## How to install (30 seconds)
 
-| Scene pack | Skills | Scenario | Source |
-|--------|:---:|------|:---:|
-| AI Agent Development | 5 | 生产级 Agent、多智能体、MCP、特性开关、自评估 | 上游 |
-| Code Review | 5 | PR 审查、代码质量、依赖审计、技术债 | 上游 |
-| System Architecture | 3 | 系统架构、零停机迁移、monorepo | 上游 |
-| CI/CD Pipeline | 3 | CI/CD 流水线、发布门、spec 驱动开发 | 上游 |
-| Code Planning & Generation | 3 | 模糊需求→结构化计划→生成→失败诊断 | 自研 |
-| Containers & Orchestration | 3 | Dockerfile、compose、Helm、K8s operator | 上游 |
-| GitHub Collaboration | 3 | 并行 worktree、约定式 changelog、PR 审查 | 上游 |
-| Incident Response & SRE | 3 | 事故指挥、runbook、SLO/错误预算 | 上游 |
-| Infrastructure as Code | 3 | Terraform 模式、可观测性、K8s | 上游 |
-| API Development & Testing | 2 | REST API 设计审查、契约/集成测试 | 上游 |
-| Database Design & Management | 2 | 库设计、ERD、迁移、SQL 优化 | 上游 |
-| Security & Secrets | 2 | 密钥库、环境变量卫生 | 上游 |
-| Test-Driven Development | 2 | 单测、fixture、mock、红绿重构、Playwright 流程测试 | 上游 |
-| Chat Prompt Craft | 1 | 对话 AI 提示词工程：五要素公式、agent 系统提示、反向约束 | 自研 |
-| Performance Profiling | 1 | Node/Python/Go 的 CPU/内存/IO 剖析 | 上游 |
+1. **Download** the zip for the scenario you need (or grab `_all.zip`).
+2. **Unzip** — you get one folder per skill, each containing a `SKILL.md`.
+3. **Drag** the skill folders into your AI tool's skills directory:
+   - Claude Code: `~/.claude/skills/` (global) or `.claude/skills/` (per-project)
+   - Other tools with skills support: use their documented skills directory.
+4. **Start a new session.** No environment variables, no config — the skill activates when the user's request matches its description.
 
-### 研究与写作
-
-| Scene pack | Skills | Scenario | Source |
-|--------|:---:|------|:---:|
-| AI Research & Writing | 19 | 从问题到成稿：多轮研究、选题、大纲、草稿、润色、SEO、图表、LaTeX | 自研 |
-| De-AI Writing | 3 | AI 痕迹审计、人声改写、个人声纹档案（降低 AI 感） | 自研 |
-
-### 内容发布
-
-| Scene pack | Skills | Scenario | Source |
-|--------|:---:|------|:---:|
-| Content Publishing Automation | 18 | 16+ 中文平台文章/视频发布、编辑、跨平台分发、AI 封面 | 自研 |
-
-### 视频创作
-
-| Scene pack | Skills | Scenario | Source |
-|--------|:---:|------|:---:|
-| AI Video Pipeline | 6 | 短视频全链路：脚本→配音→对口型→剪辑→字幕→封面→发布 | 自研 |
-| AI Media Toolkit | 4 | 文/图生视频、生图、生乐、封面（本地生成网关） | 自研 |
-| Video Design Studio | 4 | 视频前期：分镜、镜头配方、prompt 工程、风格锚点 | 自研 |
-| Viral Entertainment | 2 | 会说话宝宝播客、龙崽 meme 短片（角色一致性） | 自研 |
-
-### 图像与设计
-
-| Scene pack | Skills | Scenario | Source |
-|--------|:---:|------|:---:|
-| Image Studio | 4 | 图像创作工作台：prompt、重绘、扩图、超分 | 自研 |
-| Visual Design Studio | 4 | brief→spec→prompt→layout 审计，设计总监两遍工作流 | 自研 |
-
-### 音频
-
-| Scene pack | Skills | Scenario | Source |
-|--------|:---:|------|:---:|
-| Audio Studio | 3 | 播客链：脚本→配音→发布（Kokoro/Qwen3-TTS） | 自研 |
-
-### 数据科学
-
-| Scene pack | Skills | Scenario | Source |
-|--------|:---:|------|:---:|
-| Data, ML & Scientific Computing | 7 | ETL、特征工程、建模求解、仿真、可视化、ML 流水线 | 自研 |
-
-### 办公生产力
-
-| Scene pack | Skills | Scenario | Source |
-|--------|:---:|------|:---:|
-| Office Productivity | 8 | PPT、Excel、Word、PDF、简历、纪要、内部通讯 | 自研 |
-
-### 增长营销
-
-| Scene pack | Skills | Scenario | Source |
-|--------|:---:|------|:---:|
-| Growth Marketing | 3 | 电商营销链：文案框架、活动策划、渠道适配 | 自研 |
-
-### 教育
-
-| Scene pack | Skills | Scenario | Source |
-|--------|:---:|------|:---:|
-| Edu Craft | 3 | 精通教学链：课程→练习→费曼讲解 | 自研 |
-| Homework Autopilot | 3 | 一键作业完成（有温度版，降低冷血感） | 自研 |
-
-### 记忆系统
-
-| Scene pack | Skills | Scenario | Source |
-|--------|:---:|------|:---:|
-| Memory Systems | 4 | 长期记忆：设计/抽取/管理/检索（mem0/letta 蒸馏） | 自研 |
-
-### 工具与自动化
-
-| Scene pack | Skills | Scenario | Source |
-|--------|:---:|------|:---:|
-| Toolsmith | 4 | 文件整理、批量重命名、格式转换、定时任务（全部 dry-run 优先） | 自研 |
-
-### 元技能
-
-| Scene pack | Skills | Scenario | Source |
-|--------|:---:|------|:---:|
-| Skill Forge | 3 | 技能生成、规范校验（CI 门禁）、技能检索与装配 | 自研 |
-
-### 外部集成
-
-| Scene pack | Skills | Scenario | Source |
-|--------|:---:|------|:---:|
-| Workspace Integrations | 4 | Notion / 飞书·钉钉·企业微信 / Jira·Linear·GitHub Issues / 云盘归档 | 自研 |
-
-### 个人知识库
-
-| Scene pack | Skills | Scenario | Source |
-|--------|:---:|------|:---:|
-| Knowledge Base | 2 | 笔记库构建（索引/检索/体检）、知识图谱抽取与导出 | 自研 |
-
-### 数据可视化
-
-| Scene pack | Skills | Scenario | Source |
-|--------|:---:|------|:---:|
-| Data Viz Studio | 2 | CSV 剖析 → 仪表盘生成（零外部依赖）、图表选择词库 | 自研 |
-
-## Detail lexicons (the differentiator)
-
-Generation-quality skills live or die on *how detailed the prompt is*. We ship **high-density detail lexicons** — term + effect/mood + when-to-use + example — to consult before writing a prompt:
-
-| Lexicon | Domain | Coverage |
-|---------|:---:|---------|
-| `cinematography-lexicon.md` | 视频 | 17 种转场 / 动作动词空间语义 / 微表情表演 / 速度节奏 / 五模型方言 / 迭代修复对照 ||| `visual-detail-lexicon.md` | 图像 | 三层光照 30+ 词条 / 构图 / 焦段透视性格 / 材质堆叠公式 / 静态图动势词 ||| `music-style-lexicon.md` | 音乐 | 五槽位 Style 公式 / 曲风族谱 / 情绪×BPM 禁配 / 结构·人声·乐器 tag 全集 / 负面清单 ||| `emotion-delivery-lexicon.md` | 语音 | 情绪→文案手法 / 标点停顿层级 / 重音位置 / 双人对话节奏 ||| `copywriting-formulas.md` | 文案 | 10 型标题公式 / PAS·FAB·AIDA 结构 / CTA 按场景 / 四平台调性差异 ||| `layout-and-chart-rules.md` | PPT | 字号层级表 / 每页信息密度红线 / 图表选择决策树 / WCAG 对比度 ||| `camera-vocabulary.md` | 视频 | 运镜景别 / 基础转场（入门层） ||| `rest_design_rules.md` | API | REST 设计审查规则集 ||| `bounded_autonomy_rules.md` | CI/CD | 边界自治规则（人类审批节点） ||| `platform-rules.md` | SEO | 各平台发布规则与敏感词 |
-
-## Representative skill chains (pipelines, not single points)
-
-```mermaid
-flowchart LR
-    subgraph Short-video pipeline
-    S[video-script-writer] --> V[video-voice-synth]
-    V --> L[video-lip-sync] --> E[video-editor]
-    E --> SUB[video-subtitles] --> T[video-thumbnail] --> P[Publish]
-    end
-    subgraph Research-writing chain
-    R[deep-research] --> O[article-outliner] --> D[article-drafter]
-    D --> C[content-editor] --> Q[seo-optimizer]
-    end
-    subgraph Publishing chain
-    W[Article/Video] --> A[ai-cover-generator] --> X[cross-post-orchestrator]
-    X --> Z[16+ platforms]
-    end
-```
-
-`skill_chains.json` ships **18 chain domains / 58 chains**, pinning "who runs first, who hands off to whom" so cross-module calls never get lost.
-
-## Platform sync status
-
-Four platforms in parallel (same branches, tags, and HEAD) — no favorites:
-
-| Platform | Repo | Code sync | Release / assets | Status |
-|----------|------|:---:|:---:|--------|
-| GitHub | `x33834/awesome-skillkit` | ✅ through `0.22.0` | ✅ v0.22.0 + 37 zip assets | OK |
-| GitHub | `Morningstar202604/awesome-skillkit` | ✅ through `0.22.0` | ✅ site | OK |
-| GitCode | `badhope/awesome-skillkit` | ✅ through `0.22.0` | ✅ v0.22.0 release | OK |
-| Gitee | `badhope/awesome-skillkit` | ✅ through `0.22.0` | ✅ v0.22.0, 37 zip assets | OK |
-
-Sites (GitHub Pages, both accounts): <https://x33834.github.io/awesome-skillkit/> · <https://morningstar202604.github.io/awesome-skillkit/>
-
-> 2026-09-22: all four mirrors synced to **v0.22.0** (code + tags). v0.22.0 assets: GitHub 37 zips, Gitee 37 zips, GitCode auto source archives.
-
-## Directory layout
-
-```
-packs/              # scene pack definitions (one dir per scenario; pack.json = metadata + skill list + sources)
-skills/             # single source of truth for all skills (multi-level taxonomy)
-  ├─ programming/   # upstream curated (alirezarezvani, 33 programming skills)
-  ├─ writing/       # self-authored scenario skills
-  ├─ video/ design/ audio/ marketing/ education/ scenarios/ …
-  └─ skill_chains.json  # 13 domains / 48 chains
-dist/               # build output: one zip per pack (gitignored)
-```
-
-## Sources & attribution
-
-Two tracks, fully attributed per-skill in [manifest.json](manifest.json), each `packs/*/pack.json`, and [SOURCES.md](SOURCES.md):
-
-- **Self-authored (105)**: `skills/writing/`, `scenarios/`, `design/`, `audio/` etc. — China-platform automation, video/image/audio pipelines, de-AI writing, memory systems, homework autopilot, all original workflows with executable lint scripts + unit tests, dry-run by default.
-- **Upstream curated (36, MIT)**: [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) for programming/engineering skills.
-- **Other distilled (10)**: methodology distilled from Anthropic public skills docs, mem0/letta/Claude memory tool, Kokoro/Qwen3-TTS ecosystem — all credited in `references/sources-and-methodology.md`, **zero content copied**.
-
-## Build & release
+## Build from source
 
 ```bash
-python3 build.py                           # single build entry: dist/*.zip per pack + dist/_all.zip
-python3 tools/release.py 0.19.0 --commit   # validate CHANGELOG → bump → commit → tag
-git push origin main --follow-tags            # push code + three version tags
-# Create the release on Gitee / GitCode and upload dist/*.zip (manifest.json version is the single source of truth)
+python3 build.py     # regenerates dist/<pack-id>.zip for every pack + dist/_all.zip
 ```
+
+`build.py` reads [`manifest.json`](manifest.json) and `packs/*/pack.json`, stages the referenced skill folders from `skills/`, and writes the zips. The `dist/` directory is gitignored; CI / Releases attach the built artifacts.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). Short version: open an issue first for new packs; every new skill needs a `SKILL.md`, attribution in `packs/*/pack.json`, and a smoke test under [`tests/`](tests/).
 
 ## License
 

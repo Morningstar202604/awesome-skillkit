@@ -1,6 +1,6 @@
 ---
 name: ai-humanizer
-description: "Strip AI-flavored writing from academic text on two axes: lexical tells (clichés 'delve'/'leverage'/'state-of-the-art' spam, empty intensifiers, over-qualification, repetitive openers) AND structural tells (low sentence-length burstiness, consecutive same openers, low lexical diversity, repeated 5-grams), each hit located by line:col. Use when the user asks 去 AI 味 / 降低 AI 痕迹 / 学术文本去套路 / 去掉 AI 腔 / humanize text. 当用户要求 改写去掉机器味 / 降 AI 率 时使用。Do NOT use for defensive/hedging tone (use anti-defensive) or pure LaTeX formatting (use latex-formatter)."
+description: "Strip AI-flavored writing from academic text on two axes: lexical tells (cliches like 'delve'/'leverage'/'state-of-the-art' spam, empty intensifiers, over-qualification, repetitive openers) AND structural tells (low sentence-length burstiness, consecutive same openers, low lexical diversity, repeated 5-grams), each hit located by line:col. Use when the user asks to remove AI flavor / reduce AI traces / de-cliche academic text / remove AI tone / humanize text / de-robot writing / lower AI-detection rate. Do NOT use for defensive/hedging tone (use anti-defensive) or pure LaTeX formatting (use latex-formatter)."
 license: Apache-2.0
 compatibility: Stdlib only; requires python3; reads --text or --file, optional --report / --output.
 metadata:
@@ -14,90 +14,90 @@ metadata:
 
 # AI Humanizer (SOTA)
 
-检测并标记学术文本的 AI 腔——**词面层**（`AI_PATTERNS`）+ **结构层**（句长起伏、句首重复、词汇多样性、n-gram 重复），每条命中带 `line:col` 定位。
+Detect and flag AI-flavored academic writing on two layers: **lexical** (`AI_PATTERNS`) + **structural** (sentence-length burstiness, repeated openers, lexical diversity, n-gram repetition), with every hit located by `line:col`.
 
-> **诚实声明（务必读）**：AI 文本检测器在 2026 年依然**不可靠**（误报率高；OpenAI 已于 2023 年关停其 classifier；多所高校明确检测器分数不能作为学术不端证据）。本工具测的是**文风痕迹**，不是**作者身份**——输出只能用于**改写建议**，MUST NOT 用于指控。输出 JSON 的 `detector_note` 字段固化了这条声明，`--report` 也会打印。
+> **Honest Disclosure (must read)**: AI text detectors remain **unreliable** in 2026 (high false-positive rates; OpenAI shut down its classifier in 2023; many universities explicitly say detector scores cannot be evidence of academic misconduct). This tool measures **stylistic traces**, not **authorship** — output is only for **rewriting suggestions** and MUST NOT be used to make accusations. The output JSON's `detector_note` field hard-codes this disclosure, and `--report` prints it too.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |------|------|------|
-| 待处理文本 | 是 | `--text "..."` 直接传，或 `--file draft.tex` 读文件（`--file` 路径不存在会走 `--text` 分支，都没有则 rc≠0） |
-| 报告模式 | 否 | `--report` 打印人读摘要；否则输出 JSON |
-| 输出路径 | 否 | `--output report.json` 保存 JSON，缺省打印到 stdout |
+| text to process | yes | Pass directly with `--text "..."`, or read a file with `--file draft.tex` (if the `--file` path doesn't exist it falls through to the `--text` branch; neither given => rc != 0) |
+| report mode | no | `--report` prints a human-readable summary; otherwise JSON output |
+| output path | no | `--output report.json` saves JSON; default prints to stdout |
 
-缺失时一次性问齐：「请提供：① 待处理文本（直接贴出或用文件路径）② 是否需要人读报告（--report）③ 是否落盘（--output 路径）。其余用默认：仅输出 JSON 到 stdout。」
+When missing, ask everything at once: "Please provide: ① the text to process (paste directly or give a file path) ② whether you want a human-readable report (--report) ③ whether to save to disk (--output path). Otherwise defaults: JSON only to stdout."
 
-## 前置自检
+## Pre-flight Checks
 ```bash
-python3 --version                       # 预期 >= 3.8，否则报错并 STOP
-test -f scripts/ai_humanizer.py && echo OK   # 预期打印 OK，否则脚本缺失 STOP
+python3 --version                       # expect >= 3.8, else error and STOP
+test -f scripts/ai_humanizer.py && echo OK   # expect OK printed, else script missing STOP
 ```
-若 `python3` 不存在 → 提示安装 Python ≥3.8；若脚本缺失 → 提示本技能目录不完整，勿继续。
+If `python3` is missing -> prompt to install Python >=3.8; if the script is missing -> say this skill's directory is incomplete and don't continue.
 
-## 工作流
+## Workflow
 
-### 步骤 1：加载并检测文本
+### Step 1: Load and Detect the Text
 ```bash
 python3 scripts/ai_humanizer.py --file draft.tex --report
 python3 scripts/ai_humanizer.py --text "Our novel framework leverages state-of-the-art methods"
 python3 scripts/ai_humanizer.py --file draft.tex --output humanize_report.json
 ```
-预期：输出 JSON（无 `--report`）或人读摘要（有 `--report`），含 `score`、`status`、`method`（`lexical+structural`）、`issues[]`（词面，带 `positions`）、`structural[]`（结构）、`metrics{}`（`burstiness`/`max_opener_run`/`type_token_ratio`/`repeated_5grams`/`n_sentences`）、`detector_note`。
-若失败：`Need --text or --file` → 未给输入或文件不存在，回到输入清单补齐。
+Expected: JSON (without `--report`) or a human-readable summary (with `--report`), containing `score`, `status`, `method` (`lexical+structural`), `issues[]` (lexical, with `positions`), `structural[]` (structural), `metrics{}` (`burstiness`/`max_opener_run`/`type_token_ratio`/`repeated_5grams`/`n_sentences`), `detector_note`.
+If it fails: `Need --text or --file` -> no input given or the file doesn't exist; go back to the input checklist and complete it.
 
-### 步骤 2：判读 verdict 并改写
+### Step 2: Read the Verdict and Rewrite
 
-- `status == "clean"`（`score >= 85`）→ 通过；`needs_edit` → 按 `issues[].fix_hint` + `structural[].fix_hint` 逐条改。
-- 优先清 **high**（`buzzwords` / `template_phrases` / `llm_verb_spam`），再清结构项：
+- `status == "clean"` (`score >= 85`) -> pass; `needs_edit` -> fix item by item per `issues[].fix_hint` + `structural[].fix_hint`.
+- Clear **high** items first (`buzzwords` / `template_phrases` / `llm_verb_spam`), then structural items:
 
-| 结构项 | 阈值 | 含义 | 处置 |
+| Structural Item | Threshold | Meaning | Remedy |
 |--------|------|------|------|
-| `low_burstiness` | burstiness < 0.35 | 句长过于均匀（LLM 典型特征） | 长短句交替，用短句起头下结论 |
-| `opener_repetition` | 连续 ≥3 句同开头词 | 过渡词机械轮转 | 换过渡方式或直接删过渡词 |
-| `low_lexical_diversity` | TTR < 0.35 且 ≥20 句 | 词汇面过窄/句式模板化 | 检查重复句式，合并或改写 |
-| `repeated_ngram` | 同一 5-gram ≥2 次 | 原句反复出现 | 去重或合并那些句子 |
+| `low_burstiness` | burstiness < 0.35 | Sentence length too uniform (a typical LLM tell) | Alternate long and short sentences; open conclusions with short ones |
+| `opener_repetition` | >=3 consecutive sentences with the same opener word | Mechanical rotation of transition words | Change the transition style or drop the transition word outright |
+| `low_lexical_diversity` | TTR < 0.35 and >=20 sentences | Vocabulary too narrow / templated syntax | Check repeated sentence patterns; merge or rewrite |
+| `repeated_ngram` | The same 5-gram appears >=2 times | A phrase recurs verbatim | Dedupe or merge those sentences |
 
-预期：`issues` 每项含 `type`/`matches`/`severity`/`positions`/`fix_hint`，可直接照改。
-若失败：改写后仍 `needs_edit` → 复检 high 项与新出现的结构项，别只看总分。
+Expected: each `issues` item has `type`/`matches`/`severity`/`positions`/`fix_hint`, ready to apply directly.
+If it fails: still `needs_edit` after rewriting -> re-check the high items and newly appeared structural items; don't just look at the total score.
 
-### 步骤 3：存档（可选）
-预期：`humanize_report.json` 存在且为合法 JSON。
-若失败：路径不可写 → 换可写目录重试。
+### Step 3: Archive (Optional)
+Expected: `humanize_report.json` exists and is valid JSON.
+If it fails: path not writable -> switch to a writable directory and retry.
 
-## 参数速查表
+## Parameter Quick Reference
 
-| 参数 | 取值 | 说明 |
+| Parameter | Value | Notes |
 |------|------|------|
-| `--text` | 字符串 | 直接传入待检测文本 |
-| `--file` | 路径 | 读取文本 / .tex 文件 |
-| `--report` | 标志 | 打印人读摘要（含结构指标与诚实声明）而非 JSON |
-| `--output` | 路径 | 将 JSON 结果写入文件 |
+| `--text` | string | Pass the text to detect directly |
+| `--file` | path | Read a text / .tex file |
+| `--report` | flag | Print a human-readable summary (with structural metrics and honest disclosure) instead of JSON |
+| `--output` | path | Write JSON results to a file |
 
-## 失败处置表
+## Failure Remediation Table
 
-| 现象/错误码 | 原因 | 处置 |
+| Symptom / Error Code | Cause | Remedy |
 |------------|------|------|
-| `Need --text or --file` | 未提供输入 | 回到输入清单补齐 |
-| 空 `issues` 但 score 偏低 | 扣分来自 `structural`（结构层） | 看 `structural[]` 与 `metrics{}`，不是词表漏了 |
-| `burstiness` 为 `null` | 句子 < 3 句（无法算方差） | 属正常；短文本不做句长分析 |
-| 文件读取失败 | 路径不存在 / 编码错误 | 校验 `--file` 路径真实存在 |
-| 改写后分数不升反降 | 删掉旧措辞又引入了新的模板句式 | 重跑检测，重点看新出现的 high 项，别只看总分 |
-| 中文段落被误报 | 词表以英文 AI 高频词为主，中文规则较粗 | 人工判断中文命中项，确属误报则标注忽略理由 |
-| score 正常但读起来仍像 AI 写的 | 静态分析查不出论证逻辑与信息密度问题 | 本工具只覆盖词面+浅结构层；深度问题交人工，不要只信分数 |
+| `Need --text or --file` | No input provided | Return to the input checklist and complete it |
+| Empty `issues` but low score | Deductions come from `structural` (the structural layer) | Look at `structural[]` and `metrics{}`; it's not that the word list missed something |
+| `burstiness` is `null` | Fewer than 3 sentences (variance can't be computed) | Normal; short text isn't analyzed for sentence length |
+| File read failure | Path doesn't exist / encoding error | Verify the `--file` path actually exists |
+| Score drops after rewriting | Deleting old wording introduced new template patterns | Rerun detection, focus on newly appeared high items; don't just watch the total score |
+| Chinese paragraphs false-flagged | The word list centers on high-frequency English AI words; Chinese rules are coarse | Judge Chinese hits manually; if a false positive, note the reason and ignore it |
+| Score looks normal but it still reads like AI wrote it | Static analysis can't catch argumentation logic or information-density problems | This tool only covers the lexical + shallow-structural layer; leave deep issues to a human; don't trust the score alone |
 
-## 交付标准
+## Delivery Standard
 
-成功定义：`status` 为 `clean`，或已据 `needs_edit` 的 `fix_hint` 完成改写。
-产物命名：`humanize_report.json`（若指定 `--output`）。
-保存位置：调用方当前目录或 `--output` 指定路径。
-验证方法：`python3 -c "import json;d=json.load(open('<output>'));assert d['method']=='lexical+structural'"` 通过。
-诚实口径：任何场景下都不得把本工具输出当作「判定作者是 AI」的依据。
+Success: `status` is `clean`, or you've completed the rewrite per `needs_edit`'s `fix_hint`.
+Artifact name: `humanize_report.json` (if `--output` is given).
+Save location: the caller's current directory or the `--output` path.
+Verification: `python3 -c "import json;d=json.load(open('<output>'));assert d['method']=='lexical+structural'"` passes.
+Honest rule: under no circumstances may this tool's output be treated as evidence that "the author is AI".
 
-## 参考
+## References
 
-检测规则（`AI_PATTERNS`）、结构指标（`structural_metrics`）、定位工具（`_positions`）内置在 `scripts/ai_humanizer.py`，无需额外 reference 文件。停用词表见 `STOPWORDS`。
+Detection rules (`AI_PATTERNS`), structural metrics (`structural_metrics`), and the locator (`_positions`) are built into `scripts/ai_humanizer.py`; no external reference file needed. The stop-word list is in `STOPWORDS`.
 
-## 链路位置
+## Chain Position
 
-本技能管"AI 腔"，与 anti-defensive（管"防御腔"）并列；改完统一交 tex-cleaner 收口。
+This skill handles "AI tone", alongside anti-defensive (which handles "defensive tone"); after rewriting, hand off to tex-cleaner for final cleanup.

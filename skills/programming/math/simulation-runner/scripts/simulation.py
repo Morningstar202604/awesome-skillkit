@@ -92,7 +92,9 @@ def main():
     parser.add_argument("--mu", type=float, default=0)
     parser.add_argument("--sigma", type=float, default=1)
     parser.add_argument("--threshold", type=float, default=0)
-    parser.add_argument("--sensitivity", nargs="*", help="Params for OAT")
+    parser.add_argument("--sensitivity", nargs="*", help="Params for OAT (space- or comma-separated)")
+    parser.add_argument("--perturbation", type=float, default=0.1,
+                        help="Relative perturbation for OAT sensitivity (default 0.1 = 10%%)")
     parser.add_argument("--output", help="Output file")
     args = parser.parse_args()
 
@@ -114,13 +116,36 @@ def main():
         lo, hi = args.range if args.range else [0.1, 5.0]
         result = param_scan(spec, args.param, lo, hi, args.steps)
     elif args.sensitivity:
-        # 空 spec 跑敏感性 = 无意义的演示输出；旧版会照跑并标 success（静默降级）。
-        # 现在硬报错：敏感性分析必须提供真实 spec。
-        print(json.dumps({"status": "error",
-                          "error": "--sensitivity 需要配合 --spec 提供真实参数定义，"
-                                   "空 spec 跑出的敏感性结果无意义（旧版会静默降级）"},
-                         ensure_ascii=False))
-        return 2
+        # Normalize param list: accept space-separated (nargs="*") or
+        # comma-separated tokens like "rate,noise,decay".
+        raw_params = args.sensitivity
+        params = []
+        for token in raw_params:
+            params.extend(p.strip() for p in token.split(","))
+        params = [p for p in params if p]
+
+        spec = {}
+        base_values = {}
+        if args.spec:
+            spec_path = Path(args.spec)
+            if not spec_path.exists():
+                print(f"Error: spec file not found: {args.spec}", file=sys.stderr)
+                return 1
+            try:
+                spec = json.loads(spec_path.read_text(encoding="utf-8"))
+            except json.JSONDecodeError as e:
+                print(f"Error: invalid JSON in spec file: {e}", file=sys.stderr)
+                return 1
+            except OSError as e:
+                print(f"Error: cannot read spec file: {e}", file=sys.stderr)
+                return 1
+            # Pull numeric base values from spec where available.
+            for p in params:
+                if p in spec and isinstance(spec[p], (int, float)):
+                    base_values[p] = float(spec[p])
+
+        result = sensitivity(spec, params, base_values,
+                            perturbation=args.perturbation)
     else:
         # 什么都没给 → 演示轨，如实标注 demo，避免被当真实实验结果引用
         result = monte_carlo()

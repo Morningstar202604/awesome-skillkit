@@ -1,6 +1,6 @@
 ---
 name: self-eval
-description: "Honestly evaluate AI work quality using a two-axis scoring system. Use after completing a task, code review, or work session to get an unbiased assessment. Detects score inflation, forces devil's advocate reasoning, and persists scores across sessions. Use when the user runs /self-eval, asks for 评估我的工作质量 / 自评 / 复盘这次任务 / 打分是否虚高 / honest review / rate my work. Do NOT use for grading user answers or producing production artifacts."
+description: "Honestly evaluate AI work quality using a two-axis scoring system. Use after completing a task, code review, or work session to get an unbiased assessment. Detects score inflation, forces devil's advocate reasoning, and persists scores across sessions. Use when the user runs /self-eval, asks to evaluate my work quality / self-assessment / review this task / check if the score is inflated / honest review / rate my work. Do NOT use for grading user answers or producing production artifacts."
 license: Apache-2.0
 compatibility: Pure prompt-based; no external tools. May append to `.self-eval-scores.jsonl` in the working directory.
 metadata:
@@ -12,149 +12,149 @@ metadata:
 
 # Self-Eval: Honest Work Evaluation
 
-产出诚实、校准的工作评估。用结构化双轴评分、强制魔鬼辩护论证与跨会话反膨胀检测，替代 AI 默认"什么都打 4 分"的倾向。
+Produces an honest, calibrated work assessment. It replaces the AI default of "give everything a 4" with a structured two-axis score, forced devil's-advocate reasoning, and cross-session anti-inflation detection.
 
-核心洞察：AI 自评会收敛到"什么都是 4 分"，因为单轴评分把任务难度和执行质量混在一起。self-eval 把两个轴拆开，再用模型无法覆盖的固定矩阵合成分数。
+Core insight: AI self-evaluation converges on "everything is a 4" because a single axis conflates task difficulty with execution quality. self-eval splits the two axes apart, then combines the score using a fixed matrix the model cannot override.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Description |
 |------|------|------|
-| 待评估上下文 | 是 | 当前会话已完成的工作，或 `/self-eval <描述>` 传入的具体任务 |
-| 历史分数文件 | 否 | 工作目录下的 `.self-eval-scores.jsonl`；存在则用于反膨胀检查 |
+| Context to evaluate | Yes | Work completed in the current session, or a specific task passed via `/self-eval <description>` |
+| Historical scores file | No | `.self-eval-scores.jsonl` in the working directory; used for the anti-inflation check if present |
 
-缺失时一次性问齐：
-「请提供：①要评估的工作（默认=本会话已完成内容，可用 /self-eval <一句话描述> 指定）②是否需跨会话对比历史分数（默认读取 `.self-eval-scores.jsonl`，无则跳过）。确认后开始。」
+When something is missing, ask for it all at once:
+"Please provide: (1) the work to evaluate (default = what was completed in this session; you can use /self-eval <one-line description> to specify); (2) whether to compare against historical scores across sessions (default reads `.self-eval-scores.jsonl`; skip if none). Once confirmed, I'll start."
 
-## 前置自检
+## Pre-flight Checks
 
-- 本技能纯提示词驱动，无外部依赖；无需安装任何工具。
-- 工作目录可写（用于追加 `.self-eval-scores.jsonl`）：`test -w .` → 可写；否则仅输出评估、跳过持久化并提示。
-- 若用户传入 `$ARGUMENTS` 或 `/self-eval <内容>`，以该内容作为评估对象；否则审查整段会话历史，先用一句话概括本次成果再评分。
+- This skill is pure prompt-driven with no external dependencies; no tools need installing.
+- The working directory is writable (used to append to `.self-eval-scores.jsonl`): `test -w .` → writable; otherwise only output the evaluation, skip persistence, and say so.
+- If the user passes `$ARGUMENTS` or `/self-eval <content>`, use that content as the evaluation target; otherwise review the entire session history, first summarizing this session's outcome in one sentence before scoring.
 
-## 工作流
+## Workflow
 
-### 步骤 1：识别并概括工作
+### Step 1: Identify and summarize the work
 
-动作：从会话历史（或传入参数）中识别已完成的工作，用一句话概括。
-预期：产出 **Task** 单行摘要。
-若失败：历史为空或无法确定 → 要求用户用 `/self-eval <描述>` 明确指定评估对象。
+Action: identify completed work from the session history (or passed arguments) and summarize it in one sentence.
+Expected: produce a single-line **Task** summary.
+On failure: the history is empty or cannot be determined → ask the user to explicitly specify the evaluation target with `/self-eval <description>`.
 
-### 步骤 2：双轴独立打分
+### Step 2: Score the two axes independently
 
-动作：先评 Axis 1 任务野心（Low/Medium/High），再评 Axis 2 执行质量（Poor/Adequate/Strong）。**禁止先选分数再倒推**——两轴分别评定后查表。
-预期：两个轴均给出等级 + 一句理由。
-若失败：模型倾向给"全 4" → 强制回到矩阵，低野心封顶 2。
+Action: first score Axis 1 task ambition (Low/Medium/High), then score Axis 2 execution quality (Poor/Adequate/Strong). **Do not pick the score first and reverse-engineer it** — grade each axis separately, then look it up in the matrix.
+Expected: both axes get a level + one sentence of rationale.
+On failure: the model tends to give "all 4" → force it back to the matrix, capping low ambition at 2.
 
-### 步骤 3：魔鬼辩护（强制）
+### Step 3: Devil's advocate (mandatory)
 
-动作：在定稿前必须写出三种论证：
-1. **Case for LOWER**：为何该工作配更低分？什么很容易、被回避、野心不及表面？
-2. **Case for HIGHER**：什么真正有挑战、超出原计划？
-3. **Resolution**：若任一论证揭示轴评错，重评并重算矩阵，再给出最终分 + 1–2 句理由（必须覆盖两方各至少一点）。
-预期：三块合计 ≥3 句；不足则重做。
-若失败：不足 3 句 → 视为未真正参与，重做。
+Action: before finalizing, you must write three arguments:
+1. **Case for LOWER**: why does this work deserve a lower score? What was easy, dodged, or less ambitious than it looks?
+2. **Case for HIGHER**: what was genuinely challenging or exceeded the original plan?
+3. **Resolution**: if either argument reveals a mis-graded axis, re-grade and recompute the matrix, then give the final score + 1–2 sentences of rationale (must cover at least one point from each side).
+Expected: the three blocks total ≥3 sentences; if fewer, redo.
+On failure: fewer than 3 sentences → treat as not truly engaged, redo.
 
-### 步骤 4：反膨胀检查
+### Step 4: Anti-inflation check
 
-动作：检查工作目录 `.self-eval-scores.jsonl`；若存在，读最近 5 条。若最近 5 条中 ≥4 条相同 → 输出警告。
-预期：打印 `Warning: Score clustering detected. Last 5 scores: [...]`，并提示是否锚定默认值。
-若失败：文件不存在 → 自问"外部观察者会给我同样的评分吗？"，继续。
+Action: check `.self-eval-scores.jsonl` in the working directory; if it exists, read the most recent 5 entries. If ≥4 of the last 5 are identical → emit a warning.
+Expected: print `Warning: Score clustering detected. Last 5 scores: [...]` and ask whether you're anchoring to a default.
+On failure: the file does not exist → ask yourself "would an outside observer give me the same rating?" and continue.
 
-### 步骤 5：持久化并输出
+### Step 5: Persist and output
 
-动作：向 `.self-eval-scores.jsonl` 追加一行 JSON；按下方输出格式呈现评估。
-预期：文件追加成功（或工作目录不可写时仅输出）；输出含 Task/Ambition/Execution/Devil's Advocate/Score。
-若失败：写入失败 → 仍输出评估，注明未持久化。
+Action: append one JSON line to `.self-eval-scores.jsonl`; present the evaluation in the output format below.
+Expected: the file is appended (or, if the working directory is not writable, only the output); the output includes Task/Ambition/Execution/Devil's Advocate/Score.
+On failure: write fails → still output the evaluation, noting that it was not persisted.
 
-## 双轴评分模型
+## Two-Axis Scoring Model
 
-### Axis 1：任务野心（做了什么）
+### Axis 1: Task ambition (what was done)
 
-评难度与风险，**不是**做得好不好。
+Grades difficulty and risk, **not** how well it was done.
 
-- **Low (1)** — 安全、熟悉、例行。无真实失败风险。如：小配置改动、简单重构、带小改的复制粘贴、开始前就有把握完成的任务。
-- **Medium (2)** — 有意义且有新意或挑战。可能部分失败。如：新功能实现、接入陌生 API、架构改动、调试棘手问题。
-- **High (3)** — 野心大、陌生或高风险。存在彻底失败的真实风险。如：在陌生领域从零构建、复杂系统重设计、性能关键优化、高压下上线生产。
+- **Low (1)** — safe, familiar, routine. No real risk of failure. E.g., a small config change, a simple refactor, copy-paste with minor edits, a task you were confident about before starting.
+- **Medium (2)** — meaningful and with some novelty or challenge. Could partially fail. E.g., implementing a new feature, integrating an unfamiliar API, an architecture change, debugging a tricky problem.
+- **High (3)** — ambitious, unfamiliar, or high-risk. There is real risk of total failure. E.g., building from scratch in an unfamiliar domain, redesigning a complex system, a performance-critical optimization, shipping to production under pressure.
 
-**自检：** 若开始前就确信能成功，野心是 Low 或 Medium，不是 High。
+**Self-check:** if you were sure you'd succeed before starting, the ambition is Low or Medium, not High.
 
-### Axis 2：执行质量（做得如何）
+### Axis 2: Execution quality (how well it was done)
 
-独立于野心，评实际产出质量。
+Independent of ambition; grades the actual output quality.
 
-- **Poor (1)** — 重大失败、未完成、输出错误、中途放弃。交付物未达自身标准。
-- **Adequate (2)** — 完成但有缺口、捷径或欠严谨。做了但留下明显可改进处。
-- **Strong (3)** — 执行好、彻底、质量高。在范围内无遗留明显改进。
+- **Poor (1)** — major failure, incomplete, wrong output, gave up midway. The deliverable did not meet your own standards.
+- **Adequate (2)** — completed but with gaps, shortcuts, or lack of rigor. Done, but with obvious room for improvement left behind.
+- **Strong (3)** — well executed, thorough, high quality. No obvious improvements left within scope.
 
-### 合成分矩阵
+### Combined-score matrix
 
-|                        | 差执行 (1) | 足执行 (2) | 强执行 (3) |
+|                        | Poor execution (1) | Adequate execution (2) | Strong execution (3) |
 |------------------------|:---:|:---:|:---:|
-| **低野心 (1)**   |  1  |  2  |  2  |
-| **中野心 (2)**|  2  |  3  |  4  |
-| **高野心 (3)**  |  2  |  4  |  5  |
+| **Low ambition (1)**   |  1  |  2  |  2  |
+| **Medium ambition (2)**|  2 |  3  |  4  |
+| **High ambition (3)**  |  2  |  4  |  5  |
 
-**读矩阵，不要覆盖它。** 合成分即你的分数。魔鬼辩护可让你重评某一轴——但你不能直接覆盖矩阵结果。
+**Read the matrix; do not override it.** The combined score is your score. The devil's advocate may make you re-grade an axis — but you cannot directly override the matrix result.
 
-关键性质：
-- 低野心封顶 2。安全的工作做得再完美也是安全工作。
-- 5 分要求**既**高野心**又**强执行。应属罕见。
-- 高野心 + 差执行 = 2。大胆失败代价大。
-- 扎实工作最常见的诚实分是 3（中野心、足执行）。
+Key properties:
+- Low ambition is capped at 2. However perfectly safe work is done, it is still safe work.
+- A 5 requires **both** high ambition **and** strong execution. It should be rare.
+- High ambition + poor execution = 2. Bold failure is costly.
+- The most common honest score for solid work is 3 (medium ambition, adequate execution).
 
-## 魔鬼辩护（强制）
+## Devil's Advocate (Mandatory)
 
-定稿前必须写出上述三步（Lower/Higher/Resolution）。若魔鬼辩护合计不足 3 句，说明你没真正参与——重做。
+Before finalizing, you must write the three steps above (Lower/Higher/Resolution). If the devil's advocate totals fewer than 3 sentences, you are not truly engaged — redo it.
 
-## 反膨胀检查
+## Anti-inflation Check
 
-检查工作目录下 `.self-eval-scores.jsonl`。若存在，读最近 5 条；若其中 ≥4 条相同数字，标记：
+Check `.self-eval-scores.jsonl` in the working directory. If it exists, read the most recent 5 entries; if ≥4 of them are the same number, flag it:
 > **Warning: Score clustering detected.** Last 5 scores: [list]. Consider whether you're anchoring to a default.
 
-若不存在，自问："外部观察者会给我同样的评分吗？"
+If it does not exist, ask yourself: "would an outside observer give me the same rating?"
 
-## 分数持久化
+## Score Persistence
 
-评估后向工作目录 `.self-eval-scores.jsonl` 追加一行：
+After the evaluation, append one line to `.self-eval-scores.jsonl` in the working directory:
 
 ```json
 {"date":"YYYY-MM-DD","score":N,"ambition":"Low|Medium|High","execution":"Poor|Adequate|Strong","task":"1-sentence summary"}
 ```
 
-文件不存在则创建。这使跨会话反膨胀检查可用。
+Create the file if it does not exist. This makes cross-session anti-inflation checks possible.
 
-## 输出格式
+## Output Format
 
-## 自我评估
+## Self-Evaluation
 
-**Task:** [一句话概括所做工作]
-**Ambition:** [Low/Medium/High] — [一句理由]
-**Execution:** [Poor/Adequate/Strong] — [一句理由]
+**Task:** [one-sentence summary of the work]
+**Ambition:** [Low/Medium/High] — [one sentence of rationale]
+**Execution:** [Poor/Adequate/Strong] — [one sentence of rationale]
 
 **Devil's Advocate:**
-- Lower: [为何可能应打更低]
-- Higher: [为何可能应打更高]
-- Resolution: [最终裁定理由]
+- Lower: [why it might deserve a lower score]
+- Higher: [why it might deserve a higher score]
+- Resolution: [rationale for the final verdict]
 
-**Score: [1-5]** — [一句最终理由]
+**Score: [1-5]** — [one final sentence of rationale]
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象/错误 | 原因 | 处置 |
+| Symptom / error | Cause | Action |
 |-----------|------|------|
-| 会话历史为空、无 `$ARGUMENTS` | 无评估对象 | 要求用户用 `/self-eval <描述>` 明确指定 |
-| 模型给"全 4"倾向 | 单轴惯性 | 强制回矩阵，低野心封顶 2 |
-| 魔鬼辩护 <3 句 | 未真正参与 | 重做三块论证 |
-| `.self-eval-scores.jsonl` 写入失败 | 目录不可写 | 仍输出评估，注明未持久化 |
-| 最近 5 分 ≥4 相同 | 锚定默认值 | 输出聚类警告，重新校准 |
+| Session history empty, no `$ARGUMENTS` | Nothing to evaluate | Ask the user to specify with `/self-eval <description>` |
+| Model tends to give "all 4" | Single-axis inertia | Force it back to the matrix; cap low ambition at 2 |
+| Devil's advocate <3 sentences | Not truly engaged | Redo the three arguments |
+| `.self-eval-scores.jsonl` write fails | Directory not writable | Still output the evaluation, noting it was not persisted |
+| ≥4 of the last 5 scores identical | Anchoring to a default | Emit the clustering warning and recalibrate |
 
-## 交付标准
+## Delivery Criteria
 
-成功定义：产出含 Task/Ambition/Execution/Devil's Advocate/Score 五段，分数来自矩阵而非直接选定，魔鬼辩护覆盖两方；若目录可写则追加 `.self-eval-scores.jsonl` 一行。
-产物命名/位置：`.self-eval-scores.jsonl`（工作目录）。
-完整性验证：输出 Score 与矩阵查表一致；JSONL 末行字段齐全。
+Definition of success: output the five sections Task/Ambition/Execution/Devil's Advocate/Score, with the score derived from the matrix rather than picked directly, and the devil's advocate covering both sides; append one line to `.self-eval-scores.jsonl` if the directory is writable.
+Artifact naming/location: `.self-eval-scores.jsonl` (working directory).
+Completeness verification: the output Score matches the matrix lookup; the last JSONL line has all fields.
 
-## 参考
+## References
 
-本技能纯提示词驱动（prompt-only），无 bundled `references/*.md`、无 `scripts/`。评分矩阵、魔鬼辩护、反膨胀与持久化规则均已内联于上文。
+This skill is pure prompt-driven (prompt-only), with no bundled `references/*.md` and no `scripts/`. The scoring matrix, devil's advocate, anti-inflation, and persistence rules are all inlined above.

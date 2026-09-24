@@ -1,6 +1,15 @@
 ---
 name: frontend-design-director
-description: Act as a frontend design director who pulls AI-generated UI away from templated defaults toward opinionated, brief-specific design. Runs a two-pass workflow - first produce a named design-token plan (palette, type, layout concept, unique principle) without touching code, audit that plan against an AI-tell checklist, then implement with restrained motion and typographic care, and close with self-critique. Use when the user asks for 前端设计 / 页面设计 / UI 设计 / 落地页 / landing page / 设计稿 / visual design / frontend design / 官网页面 / 页面美化. Do NOT use for image or poster generation (design-brief-interpreter owns that), nor for backend or non-visual code tasks.
+description: >-
+  Act as a frontend design director who pulls AI-generated UI away from templated
+  defaults toward opinionated, brief-specific design. Runs a two-pass workflow -
+  first produce a named design-token plan (palette, type, layout concept, unique
+  principle) without touching code, audit that plan against an AI-tell checklist,
+  then implement with restrained motion and typographic care, and close with
+  self-critique. Use when the user asks for frontend design / page design / UI
+  design / landing page / visual design / website page / page beautification. Do
+  NOT use for image or poster generation (design-brief-interpreter owns that),
+  nor for backend or non-visual code tasks.
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime deps.
 metadata:
@@ -12,156 +21,211 @@ metadata:
   verified-date: "2026-09-16"
 ---
 
-# Frontend Design Director（前端设计总监）
+# Frontend Design Director
 
-AI 生成的前端页面普遍"安全但平庸"：技术上挑不出错，视觉上却像出自同一个模板——换掉 logo 就能挂到任何产品上。本技能以设计总监的方式工作：**先出设计计划、再动代码**，用两遍工作流（设计计划 → 默认味自查 → 实现 → 自我批评）配合一份 AI 味特征清单，把产出从"任何 brief 都会得到的默认值"拉到"只为这个 brief 存在的设计"。核心判断只有一句话：**这是为这个 brief 做的选择，还是任何 brief 都会得到的默认值？**
+AI-generated frontend pages are universally "safe but mediocre": technically
+flawless, visually from the same template—swap the logo and it could hang on any
+product. This skill works like a design director: **design plan first, code
+second**, using a two-pass workflow (design plan → default-taste self-check →
+implement → self-critique) paired with an AI-tell checklist to pull output from
+"the default every brief gets" to "designed only for this brief". Core judgment
+in one sentence: **is this a choice made for this brief, or a default every
+brief would get?**
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |------|------|------|
-| brief | ✓ | 要做什么产品/页面，最终要让访客做什么 |
-| 主题领域 | ✓（缺就问） | 行业、用户、内容气质——视觉语言的唯一源头 |
-| 平台 | ✓（缺就问） | Web 桌面 / 移动端 / H5，决定断点与交互假设 |
-| 约束 | ✗ | 品牌色、指定字体、必须保留的元素、现有页面风格 |
+| brief | yes | what product/page, what action should visitors take ultimately |
+| Topic domain | yes (ask if missing) | industry, users, content tone—the only source of visual language |
+| Platform | yes (ask if missing) | Web desktop / mobile / H5, determines breakpoints and interaction assumptions |
+| Constraints | no | brand colors, specified fonts, elements to preserve, existing page style |
 
-缺输入时一次性问齐（不分多轮挤牙膏）：
+When inputs are missing, ask all at once (no multi-round drip):
 
-> 请补充：① 这是什么产品、给谁用 ② 希望传达的气质（一个词也行）③ 投放在什么平台 ④ 有无品牌色/字体等既有约束。
+> Please add: 1) what product, for whom; 2) tone you hope to convey (one word is
+> fine); 3) which platform; 4) existing constraints like brand colors/fonts.
 
-最低可运行输入 = brief + 主题方向 + 平台。三者齐了就开工，气质拿不准先给 2 个方向让用户挑；只有 brief 一项时必须先问，不许开跑。
+Minimum runnable input = brief + topic direction + platform. Once all three are
+there, start; if tone uncertain, give 2 directions for user to pick first; with
+only brief, must ask first, don't start.
 
-## 前置自检
+## Pre-flight Checks
 
-本技能纯 prompt 驱动：无运行时依赖、无端点、无环境变量。唯一自检点：
+This skill is pure prompt-driven: no runtime dependencies, endpoints, or env
+vars. Only self-check:
 
 ```bash
 test -f references/ai-design-tells.md && echo OK
 ```
 
-预期输出 `OK`。失败说明技能包不完整：继续用内置判断力做自查，并在交付时注明清单文件缺失。
+Expected output `OK`. Failure means skill package incomplete: continue using
+built-in judgment for self-check, and note checklist file missing in delivery.
 
-## 工作流
+## Workflow
 
-四步总览（每步的预期与失败回退）：
+Four-step overview (expected and failure fallback per step):
 
-| 步骤 | 动作 | 预期产出 | 若失败 |
+| Step | Action | Expected Output | If Fails |
 |------|------|----------|--------|
-| 1 设计计划 | 提炼主题，产出 token 系统 | 四字段齐全的计划表 | 主题提炼不出 → 回输入清单一次性问齐 |
-| 2 默认味自查 | 对照清单逐条过计划 | ≥1 处默认值被替换，有记录 | 几乎全命中 → 回步骤 1 重做计划 |
-| 3 实现 | 按修订后计划写码 | 代码符合 token 与动效/排版纪律 | 实现跑偏 → 停手回读计划，不即兴发挥 |
-| 4 自我批评 | 截图回看，摘一件配饰 | 砍掉 1 个装饰并记录 | 没得可砍 → 警惕审查不狠，重看整体 |
+| 1 design plan | distill topic, produce token system | four-field plan table | can't distill topic → return to input checklist and ask all at once |
+| 2 default-taste self-check | go through plan against checklist line by line | ≥1 default replaced, with record | almost all hit → return to step 1 to redo plan |
+| 3 implement | code per revised plan | code matches token and motion/typography discipline | implementation drifts → stop and reread plan, don't improvise |
+| 4 self-critique | screenshot review, strip one accessory | cut 1 decoration and record | nothing to cut → suspect insufficient rigor, re-review whole |
 
-### 步骤 1：第一遍·设计计划（不动代码）
+### Step 1: First Pass · Design Plan (No Code)
 
-先从 brief 提炼主题：这个行业、这批用户、这类内容是什么？视觉语言从主题里来——主题世界里有什么材质、色彩、密度、节奏可以借用（陶瓷品牌与量化交易终端应该长得毫无相似之处）。提炼时问自己三个问题：
+First distill topic from brief: what is this industry, these users, this content?
+Visual language comes from the topic—what materials, colors, density, rhythm in
+the topic world can be borrowed (a ceramic brand and a quant trading terminal
+should look nothing alike). When distilling, ask three questions:
 
-1. **材料与触感**：这行的"实体感"是什么——纸、金属、木材、代码、水？页面质感往哪个方向靠。
-2. **使用状态**：用户在什么情绪与场景下打开它（紧张/休闲/专业/消遣）？这决定信息密度与页面节奏。
-3. **现成素材**：内容里自带的视觉资产——数字、器物、行话、地名——哪些可以直接进设计。
+1. **Material and tactile feel**: what is this industry's "physical presence"—
+   paper, metal, wood, code, water? Which direction does the page texture lean?
+2. **Usage state**: what emotion and scenario is the user opening it in (tense/
+   casual/professional/leisure)? This determines information density and page
+   rhythm.
+3. **Ready-made assets**: visual content the material itself brings—numbers,
+   objects, jargon, place names—which can go directly into the design.
 
-主题提炼不出来就回输入清单反问，**不许凭空发明一个"通用好看"**。
+If topic can't be distilled, return to input checklist and ask back; **don't
+invent a "generic beautiful"**.
 
-产出 token 系统，四个字段一个不能少：
+Produce token system, four fields, none missing:
 
-| 字段 | 要求 | 反例（不合格） |
+| Field | Requirement | Counterexample (failing) |
 |------|------|------|
-| 色板 | 4-6 个带名字的 hex，名字跟主题有关 | 只有"主色 #3B82F6"这种任何项目都通用的名字 |
-| 字体 | 最多两族，分工一句话写清（谁管标题、谁管正文） | "用无衬线" / 一族两族都说不清为什么 |
-| 布局概念 | 一句话 + ASCII 线框，写明主对齐方式 | 只说"上下结构，然后三栏" |
-| 独特原则 | 一句话，说清这个设计凭什么不像别人 | "简约大气、高级感" |
+| Palette | 4-6 named hex, names related to topic | only "primary #3B82F6", a name universal to any project |
+| Typography | at most two families, division of labor in one sentence (who does titles, who does body) | "use sans-serif" / can't explain why one or two families |
+| Layout concept | one sentence + ASCII wireframe, state main alignment | only says "top-bottom structure, then three columns" |
+| Unique principle | one sentence, explains why this design doesn't look like others | "minimal grand, high-end" |
 
-示例（主题：社区旧书店的官网首页）：
+Example (topic: community used bookstore homepage):
 
-| 字段 | 示例值 |
+| Field | Example Value |
 |------|------|
-| 色板 | 黄昏纸 #F3EBDD · 烟墨 #2B2723 · 书脊绿 #3E5641 · 钤印红 #B5442D |
-| 字体 | 标题用衬线族（书卷气，可扛大字号）；正文用无衬线族（清单与价签要清晰） |
-| 布局 | 不对称双栏：左 2/3 纵向书架式列表，右 1/3 便签式侧栏；正文左对齐 |
-| 独特原则 | 整页像翻一本被批注过的书：页边留批注位，色板只用书店里真实存在的颜色 |
+| Palette | dusk paper #F3EBDD · smoke ink #2B2723 · spine green #3E5641 · seal red #B5442D |
+| Typography | titles use serif family (bookish, can carry large sizes); body uses sans-serif (lists and price tags need clarity) |
+| Layout | asymmetric two columns: left 2/3 vertical bookshelf list, right 1/3 sticky-note sidebar; body left-aligned |
+| Unique principle | whole page like flipping through an annotated book: margins leave annotation room, palette only uses colors actually found in a bookstore |
 
 ```text
 +--------------------------------+--------------------+
-|  黄昏纸底 · 烟墨大标题（左对齐）  |  便签式侧栏         |
-|  本周书架 —— 纵向列表            |  （活动/店猫/留言） |
-|  每行：书名 · 作者 · 批注位      |  右缘留白做批注区   |
+|  dusk paper base · smoke ink large title (left-aligned)  |  sticky-note sidebar         |
+|  this week's bookshelf — vertical list            |  (events/store cat/messages) |
+|  each row: title · author · annotation slot      |  right margin whitespace as annotation area   |
 +--------------------------------+--------------------+
-|  钤印红：仅用于"到店取书"动作                       |
+|  seal red: only for "pick up in store" action                       |
 +----------------------------------------------------+
 ```
 
-设计计划统一用下面的骨架输出（四字段之外不加戏）：
+Design plan uniformly outputs with the skeleton below (no extra beyond four
+fields):
 
 ```markdown
 ## Design Plan
-- subject:   主题一句话：什么行业、给谁、内容气质
-- palette:   色名 #HEX × 4-6（名字与主题有关，拒绝 primary/secondary）
-- type:      标题族：…（负责什么）；正文族：…（负责什么）
-- layout:    布局一句话 + 主对齐方式 + 移动端假设
-- principle: 独特原则一句话
+- subject:   one-sentence topic: what industry, for whom, content tone
+- palette:   color name #HEX × 4-6 (names related to topic, reject primary/secondary)
+- type:      title family:… (responsible for what); body family:… (responsible for what)
+- layout:    one-sentence layout + main alignment + mobile assumption
+- principle: one-sentence unique principle
 ```
 
-### 步骤 2：默认味自查（改计划，不是改代码）
+### Step 2: Default-Taste Self-Check (Change Plan, Not Code)
 
-把整份设计计划对着 [references/ai-design-tells.md](references/ai-design-tells.md) 逐条过一遍，每条只问那句话：**"这是为这个 brief 做的选择，还是任何 brief 都会得到的默认值？"**
+Go through the whole design plan against [references/ai-design-tells.md](references/ai-design-tells.md)
+line by line, each time only asking that one question: **"is this a choice made
+for this brief, or a default every brief would get?"**
 
-- 是选择 → 保留，并保留那句理由。
-- 是默认值 → 改掉，写明改成了什么。
+- Is a choice → keep, and keep that reason.
+- Is a default → change it, write what it was changed to.
 
-预期：至少能找出 1-2 处默认值并替换。若几乎全命中，说明计划本身就是模板，回步骤 1 重做，不在坏计划上打补丁。自查记录（命中了什么、改了什么、为什么）要落进交付物，格式如下：
+Expected: at least find 1-2 defaults and replace. If almost all hit, the plan
+itself is a template, return to step 1 and redo, don't patch on a bad plan.
+Self-check record (what hit, what changed, why) must land in the deliverable,
+format as:
 
-| 清单命中 | 判定 | 处置 |
+| Checklist Hit | Judgment | Action |
 |----------|------|------|
-| 万物皆圆角卡片 | 默认值 | 改为无容器分区，靠留白与细分隔线 |
-| 全大写小字眉标 | 默认值 | 删除，眉标信息并入正文首句 |
-| 对齐永远居中 | 保留 | 仅开场句居中（"扉页"感来自主题），其余左对齐 |
+| everything is rounded-corner cards | default | change to container-free zoning, rely on whitespace and thin dividers |
+| all-caps small eyebrow labels | default | delete, merge eyebrow info into body first sentence |
+| always centered alignment | keep | only opening sentence centered ("title page" feel comes from topic), rest left-aligned |
 
-### 步骤 3：第二遍·实现
+### Step 3: Second Pass · Implement
 
-按自查后的计划写代码。实现顺序有讲究：
+Write code per the self-checked plan. Implementation order matters:
 
-1. 先搭骨架——布局栅格与断点，此阶段只允许 token 表里已命名的颜色与字体入场。
-2. 再做"独特原则"对应的那个核心元素或瞬间——它是页面的记忆点，资源向它倾斜。
-3. 最后补常规组件（导航、页脚、表单），常规组件保持安静，不许抢核心元素的戏。
+1. First build skeleton—layout grid and breakpoints; at this stage only colors
+   and fonts already named in the token table may enter.
+2. Then do the core element or moment corresponding to the "unique principle"—
+   it's the page's memory point, resources lean toward it.
+3. Finally fill in regular components (nav, footer, form), regular components
+   stay quiet, don't steal the core element's show.
 
-两处硬纪律：
+Two hard disciplines:
 
-- **动效克制**：只在页面加载或用户操作时给**一个**编排好的瞬间，其余一切保持安静。禁止每个元素都淡入上浮，禁止每张卡片同款悬停动画。用户动作引起的动效（展开、提交、确认）优先保留——它们回答了"刚才发生了什么"。
-- **排版细节**：正文行长 <80 字符；行高层级跟字号层级走（小字排密些、大字排疏些：正文约 1.5-1.7 倍行高，大标题可压到 1.1-1.2 倍）；标题当视觉元素处理——字重、字号、间距本身参与构图，而不是只做内容载体，手法（超大字号、跨栏、局部留白、与图形咬合）选一个用足，不要四处点墨。另注意 CSS 选择器优先级互相覆盖（尤其区块间距的 padding/margin 被组件类名抵消）这类生成代码常见事故。
+- **Restrained motion**: only give **one** choreographed moment on page load or
+  user action, everything else stays quiet. Forbid every element fading in and
+  floating up, forbid every card having the same hover animation. User-action
+  motion (expand, submit, confirm) is prioritized—they answer "what just
+  happened".
+- **Typographic detail**: body line length <80 characters; line-height hierarchy
+  follows font size hierarchy (small text denser, large text looser: body about
+  1.5-1.7 line-height, large titles can compress to 1.1-1.2); titles treated as
+  visual elements—weight, size, spacing themselves participate in composition,
+  not just content carriers; pick one technique (oversized type, cross-column,
+  local whitespace, interlock with graphics) and use it fully, don't dabble
+  everywhere. Also watch CSS selector specificity overriding each other
+  (especially block spacing padding/margin canceled by component class names), a
+  common generated-code accident.
 
-质量底线不张扬但要守住：移动端可用、键盘焦点可见、尊重系统"减少动效"偏好、正文对比度达标。这些不做会翻车，做了不必宣传。
+Quality floor, unflashy but held: mobile usable, keyboard focus visible, respect
+system "reduce motion" preference, body contrast meets standard. These not done
+will fail; done doesn't need to be advertised.
 
-### 步骤 4：自我批评
+### Step 4: Self-Critique
 
-- 有截图条件就在构建后截图回看，按三层看：先眯眼看明暗成块（整体气质对不对），再看留白节奏（松紧有没有呼吸），最后看字（行长、层级、对齐）——一张截图胜过一千个 token 的自我描述。
-- **"出门前摘掉一件配饰"**：交付前砍掉一个不必要装饰。哪个最抢眼就审视哪个——它若不在"独特原则"的路线上，优先砍它。
-- 把砍了什么写进交付说明。没有砍过任何东西，通常意味着审查得不够狠。
+- If screenshot possible, screenshot after build and review in three layers:
+  first squint at light/dark blocks (is overall tone right), then look at
+  whitespace rhythm (is there breathing room), finally look at type (line length,
+  hierarchy, alignment)—one screenshot beats a thousand tokens of self-description.
+- **"Strip one accessory before leaving the house"**: cut one unnecessary decoration
+  before delivery. Whichever is most eye-catching is which to scrutinize—if it's
+  not on the "unique principle" track, cut it first.
+- Write what was cut into delivery notes. Not cutting anything usually means
+  review wasn't harsh enough.
 
-## 交付标准
+## Delivery Criteria
 
-| 交付物 | 合格标准 |
+| Deliverable | Passing Standard |
 |--------|----------|
-| token 系统表 | 色板 4-6 个命名 hex、字体分工、布局一句话、独特原则一句话，四项齐全，无"待定" |
-| ASCII 线框 | ≥1 张，标注主对齐方式 |
-| 自查记录 | 命中项逐条可查：保留的带理由，改掉的和替换方案 |
-| 代码/页面 | 按修订后计划实现；响应式不崩；动效不超过"一个编排瞬间"；行长与行高符合排版纪律 |
+| token system table | palette 4-6 named hex, typography division, layout one sentence, unique principle one sentence, four complete, no "TBD" |
+| ASCII wireframe | ≥1, annotated with main alignment |
+| self-check record | hits item-by-item checkable: kept with reasons, changed with replacement |
+| code/page | implemented per revised plan; responsive doesn't break; motion no more than "one choreographed moment"; line length and line-height match typography discipline |
 
-完整性验证：四项交付物缺一即未完成；自查记录为空视为未执行步骤 2，返回重做。
+Integrity verification: four deliverables missing any means incomplete; empty
+self-check record counts as not executing step 2, return to redo.
 
-产物顺序：设计计划（token 表 + 线框）与自查记录在代码之前先输出给用户，默认不等确认直接连续执行；用户要求分段确认时才暂停。所有交付物直接输出在对话中，本技能不写文件。
+Delivery order: design plan (token table + wireframe) and self-check record
+output to user before code, default execute continuously without waiting for
+confirmation; pause only when user asks for segmented confirmation. All
+deliverables output directly in conversation, this skill doesn't write files.
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Action |
 |------|------|------|
-| brief 太空（"帮我做个好看的页面"） | 主题领域完全缺失 | 回输入清单一次性问齐；用户不答就提 2 个差异化方向让其选，不接受"随便做" |
-| 客户点名要某种"AI 味"样式 | brief 明确指定了默认味特征 | brief 原话永远赢，明说就要照做；在交付说明里注明该特征来自客户指定，不冒充自己的选择 |
-| 配色全冲突 | 主题色、品牌色、强调色互相打架 | 回主题重新提炼，砍到 1 主 1 辅 1 强调；做减法，不做叠加 |
-| 移动端崩 | 只按桌面宽度实现 | 先修断点再谈风格；步骤 1 的线框阶段就应写明移动端假设 |
-| 自查清单几乎全命中 | 计划本身就是默认模板 | 推翻 token 系统重做步骤 1，不在坏计划上打补丁 |
-| 已有旧页面要改版 | 约束里没给现状 | 先读旧页/截图，把既有品牌资产记入输入清单，再走流程 |
+| Brief too empty ("help me make a beautiful page") | topic domain completely missing | Return to input checklist and ask all at once; if user won't answer, propose 2 differentiated directions to choose, don't accept "whatever" |
+| Client explicitly names some "AI-taste" style | brief explicitly specified default-taste features | Client's original words always win; say clearly you'll follow; in delivery notes note this feature came from client spec, don't pass off as your own choice |
+| Palette all conflicts | topic color, brand color, accent color fighting each other | Return to topic and re-distill, cut to 1 main 1 secondary 1 accent; subtract, don't stack |
+| Mobile breaks | only implemented by desktop width | Fix breakpoints first then discuss style; step 1 wireframe stage should have written mobile assumption |
+| Self-check checklist almost all hits | plan itself is default template | Overthrow token system and redo step 1, don't patch on bad plan |
+| Existing old page to redesign | Constraints didn't give current state | First read old page/screenshot, record existing brand assets in input checklist, then go through flow |
 
-## 参考
+## References
 
-- [ai-design-tells.md](references/ai-design-tells.md) —— AI 味设计特征自查清单，步骤 2 逐条对照用
-- [sources-and-methodology.md](references/sources-and-methodology.md) —— 方法论来源与原创性声明
+- [ai-design-tells.md](references/ai-design-tells.md) — AI-taste design feature
+  self-check list, used line by line in step 2
+- [sources-and-methodology.md](references/sources-and-methodology.md) — methodology
+  source and originality statement

@@ -1,14 +1,15 @@
 ---
 name: webapp-e2e-harness
-description: >
+description: >-
   Scaffold a runnable Playwright end-to-end test suite for a local web app,
   with the discipline that keeps tests from rotting: semantic-first selectors,
   login-state reuse via storage_state, and anti-scrape/anti-429 etiquette. Use
-  when the user asks to e2e 测试 / 端到端测试 / Playwright 测试 / webapp 自动化
-  / 选择器漂移怎么修 / 登录态复用. Do NOT use for unit tests (use tdd-guide)
-  or for pure API testing (use api-test-suite-builder).
+  when the user asks for e2e testing, end-to-end testing, Playwright tests,
+  webapp automation, how to fix selector drift, or login-state reuse. Do NOT
+  use for unit tests (use tdd-guide) or for pure API testing (use
+  api-test-suite-builder).
 license: Apache-2.0
-compatibility: 产出 Python 测试脚手架；跑测试需用户 `pip install pytest playwright` + `playwright install chromium`（脚本本身离线，不下载二进制）
+compatibility: Produces a Python test scaffold; running tests requires the user's `pip install pytest playwright` + `playwright install chromium` (the script itself is offline and does not download binaries).
 metadata:
   author: "awesome-skillkit"
   version: "1.0"
@@ -18,73 +19,64 @@ metadata:
   verified-date: "2026-09-20"
 ---
 
-# Webapp E2E Harness（Playwright 端到端测试脚手架）
+# Webapp E2E Harness (Playwright End-to-End Test Scaffold)
 
-生成一套**能跑的 Playwright e2e 测试**（Python 版，无需 node），并内置"让测试
-不腐烂"的三套纪律：语义优先选择器、登录态复用、反爬礼仪。改造自
-anthropics/skills `webapp-testing` + skill-forge 的 Playwright 思路，裁剪为
-离线脚手架 + 处置指南。
+Generates a **runnable Playwright e2e test suite** (Python edition, no node required), with three built-in disciplines that keep tests from rotting: semantic-first selectors, login-state reuse, and anti-scrape etiquette. Adapted from anthropics/skills `webapp-testing` plus skill-forge's Playwright thinking, trimmed to an offline scaffold + handling guide.
 
-核心判断：**e2e 测试最大的成本不是写，是维护**。选择器漂移、登录态每条用例
-重登、被反爬 429——这三样决定测试能不能活过第二次重构。本技能把处置办法
-直接写进脚手架，而不只是给个空壳。
+The core judgment: **the biggest cost of e2e tests isn't writing them, it's maintaining them**. Selector drift, re-login on every case, and getting 429'd by anti-scraping — these three decide whether tests survive a second refactor. This skill writes the handling into the scaffold itself, not just an empty shell.
 
-> 红线：脚本**离线**（只写文件，不发网络请求）；真正跑测试由用户执行
-> `run_e2e.sh`；默认 dry-run，`--write` 才落盘；凭证只走 env。
+> Red line: the script is **offline** (it only writes files, makes no network requests); actually running the tests is done by the user via `run_e2e.sh`; it dry-runs by default and only writes files with `--write`; credentials go only through env.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必填 | 说明 |
+| Input | Required | Description |
 |---|---|---|
-| 目标 base URL | 否 | 默认 `http://127.0.0.1:8000`，可用 `E2E_BASE_URL` 覆盖 |
-| 输出目录 | 否 | 默认 `e2e/` |
+| Target base URL | No | Defaults to `http://127.0.0.1:8000`, overridable via `E2E_BASE_URL` |
+| Output directory | No | Defaults to `e2e/` |
 
-## 前置自检
+## Pre-flight Checks
 
-1. 被测应用是否已本地起好？（脚本不替你起服务；起好再跑）
-2. 是否装了 `pytest` + `playwright`？没装 → `run_e2e.sh` 第一步会装，但
-   浏览器二进制要 `python3 -m playwright install chromium`。
-3. 有登录态吗？有就准备 `auth.json`（codegen 首登产出）。
+1. Is the app under test already running locally? (The script doesn't start the service for you; start it first.)
+2. Is `pytest` + `playwright` installed? If not, `run_e2e.sh`'s first step installs them, but the browser binary needs `python3 -m playwright install chromium`.
+3. Is there a login state? If so, prepare `auth.json` (produced by the first codegen login).
 
-## 工作流
+## Workflow
 
 ```bash
-# 1. 干跑：看会生成哪些文件
+# 1. Dry run: see which files would be generated
 python3 scripts/e2e_scaffold.py --url http://127.0.0.1:8000 --out e2e
 
-# 2. 真生成
-python3 scripts/e2e_scaffold.py --url http://127.0.0.1:8000 --out examples/e2e --write   # 真实生成写 examples/e2e/；CI 场景可用临时目录
+# 2. Actually generate
+python3 scripts/e2e_scaffold.py --url http://127.0.0.1:8000 --out examples/e2e --write   # real generation writes examples/e2e/; in CI use a temp directory
 
-# 3. 一键跑（装依赖 + 装浏览器 + pytest）
+# 3. Run in one step (install deps + install browser + pytest)
 E2E_BASE_URL=http://127.0.0.1:8000 bash e2e/run_e2e.sh
 ```
 
-生成后，把 `test_<slug>.py` 里的 `# TODO: assert` 换成**语义断言**
-（`get_by_role` / `get_by_label`），再按 [references/e2e-playbook.md](references/e2e-playbook.md)
-补齐登录态与反爬段。
+After generation, replace the `# TODO: assert` in `test_<slug>.py` with **semantic assertions** (`get_by_role` / `get_by_label`), then fill in the login-state and anti-scrape sections per [references/e2e-playbook.md](references/e2e-playbook.md).
 
-## 交付标准
+## Delivery Criteria
 
-- 选择器**零 css 类名 / 零 xpath**，全走 role/label/testid
-- 登录态用 `storage_state` 复用，不每条用例重登
-- 凭证全部从 env 读，测试代码里搜不到明文账号
-- `bash run_e2e.sh` 绿（至少冒烟 title 断言过）
+- Selectors use **zero CSS class names / zero XPath**, all via role/label/testid
+- Login state is reused via `storage_state`, not re-logged-in on every case
+- Credentials are all read from env; no plaintext account is searchable in the test code
+- `bash run_e2e.sh` is green (at least the smoke title assertion passes)
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 根因 | 处置 |
+| Symptom | Root cause | Fix |
 |---|---|---|
-| `playwright install` 失败 | 浏览器没下载 | 手跑 `python3 -m playwright install chromium` |
-| 用例飘忽（flaky） | 用了 css 选择器 | 改 `get_by_role`，见 playbook |
-| 登录反复 | 没用 storage_state | 首登 codegen 出 auth.json，`new_context(storage_state=...)` |
-| 429/被拦 | 硬刚反爬 | 降并发 + 退避；验证码**不自动化**（合规） |
-| 基类断言全绿但页面没变 | 断言太弱（只断 title 非空） | 换成真实业务断言 |
+| `playwright install` failed | The browser wasn't downloaded | Run `python3 -m playwright install chromium` manually |
+| Flaky cases | Used CSS selectors | Switch to `get_by_role`; see the playbook |
+| Repeated logins | Didn't use storage_state | First-login codegen produces auth.json; use `new_context(storage_state=...)` |
+| 429 / blocked | Fighting anti-scraping head-on | Lower concurrency + backoff; **don't automate** CAPTCHAs (compliance) |
+| Base assertions all green but the page didn't change | Assertions too weak (only asserted a non-empty title) | Switch to real business assertions |
 
-## 参考
+## References
 
-- 选择器漂移 / 登录态 / 反爬完整处置：[references/e2e-playbook.md](references/e2e-playbook.md)
+- Full handling of selector drift / login state / anti-scraping: [references/e2e-playbook.md](references/e2e-playbook.md)
 
-## 链路位置
+## Pipeline Position
 
-- 上游：`webapp-flow-tester`（手工流程探查）
-- 下游：`ci-cd-pipeline-builder`（把 e2e 挂进 CI 门禁）
+- Upstream: `webapp-flow-tester` (manual flow exploration)
+- Downstream: `ci-cd-pipeline-builder` (hang the e2e tests into the CI gate)

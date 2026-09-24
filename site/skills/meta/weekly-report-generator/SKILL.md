@@ -1,15 +1,15 @@
 ---
 name: weekly-report-generator
-description: >
-  Auto-draft a weekly report from `git log` + `git diff --stat` over a
-  look-back window, structured into the three paragraphs every company
-  expects (done / blockers / next week), then let the human fill in the
-  qualitative bits. Use when the user asks for 周报 / 日报 / 周报模板 /
-  自动写周报 / weekly report / status update / sprint 总结. Do NOT use for
+description: >-
+  Auto-draft a weekly report from `git log` + `git diff --stat` over a look-back
+  window, structured into the three paragraphs every company expects (done /
+  blockers / next week), then let the human fill in the qualitative bits. Use
+  when the user asks for a weekly report / daily report / weekly report template
+  / auto-write weekly report / status update / sprint summary. Do NOT use for
   monthly business reviews (different scope) or for performance/HR narratives
   (this is a work-log, not a performance doc).
 license: Apache-2.0
-compatibility: 纯本地 git 操作；不联网、不碰 remote；默认 dry-run；需 python3 + git
+compatibility: Pure local git operations; no network, no remote; default dry-run; needs python3 + git.
 metadata:
   author: "awesome-skillkit"
   version: "1.0"
@@ -19,72 +19,77 @@ metadata:
   verified-date: "2026-09-20"
 ---
 
-# Weekly Report Generator（周报自动生成）
+# Weekly Report Generator (Weekly Report Auto-Generation)
 
-把一周的 git 活动拉出来，自动填好"做了什么"段，剩下的"卡在哪 / 下周计划"
-留占位给你人工补。解决的是：**周报最烦的不是写，是"想不起来这周到底干了啥"**——
-本技能替你回忆，你只负责定性判断。
+Pull a week's git activity, auto-fill the "what I did" section, and leave
+"blockers / next week" as placeholders for you to fill in manually. It solves:
+**the most annoying part of weekly reports isn't writing—it's "can't remember
+what I actually did this week."** This skill helps you recall; you only do
+qualitative judgment.
 
-> 红线：纯本地 git + 文件系统；不联网、不 push；默认 dry-run，`--write` 才落盘。
+> Red lines: pure local git + filesystem; no network, no push; default dry-run,
+> `--write` saves.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必填 | 说明 |
+| Input | Required | Notes |
 |---|---|---|
-| 回溯天数 | 否 | 默认 7 天；周报/双周报可调 |
-| 仓库路径 | 否 | 默认当前目录 |
-| 作者名 | 否 | 默认 `agent` |
-| 卡点 / 下周 | 否 | 不传则留占位；可走 `--input report.json` 结构化喂 |
+| Look-back days | no | Default 7; adjust for biweekly |
+| Repo path | no | Default current directory |
+| Author name | no | Default `agent` |
+| Blockers / next week | no | If not passed, leaves placeholders; can use `--input report.json` structured input |
 
-## 前置自检
+## Pre-flight Checks
 
-1. 当前目录是 git 仓库吗？（脚本会检查 `.git` 存在）
-2. 这一周有 commit 吗？没有就"做了什么"段是空的——正常，别误判成 bug。
-3. 公司周报有固定模板？把模板段落名对齐 `done/blockers/next`，或用 `--input` 喂。
+1. Is current directory a git repo? (script checks `.git` exists)
+2. Are there commits this week? If not, "what I did" section is empty—normal,
+   don't mistake for a bug.
+3. Does the company have a fixed weekly report template? Align template section
+   names to `done/blockers/next`, or feed via `--input`.
 
-## 工作流
+## Workflow
 
 ```bash
-# 1. 干跑：看自动填好的"做了什么"段
-python3 scripts/gen_report.py --days 7 --repo ../../.. --author 张三   # ../../.. = 从技能目录到仓库根；在仓库根运行时写 --repo .
+# 1. Dry run: see auto-filled "what I did" section
+python3 scripts/gen_report.py --days 7 --repo ../../.. --author AuthorName   # ../../.. = from skill directory to repo root; write --repo . when running at repo root
 
-# 2. 喂结构化输入（把"卡点/下周"也写好）
+# 2. Feed structured input (also writes "blockers/next week")
 python3 scripts/gen_report.py --days 7 --input report.json --repo ../../.. --write -o weekly.md
 
-# 3. 双周报
-python3 scripts/gen_report.py --days 14 --repo ../../.. --author 张三
+# 3. Biweekly
+python3 scripts/gen_report.py --days 14 --repo ../../.. --author AuthorName
 ```
 
-`report.json` 字段（可选）：
+`report.json` fields (optional):
 ```json
 {
-  "done": ["修复登录态漂移", "补 2 个安全扫描器"],
-  "blockers": "依赖审批流程慢，阻塞 P1 上线",
-  "next": "完成 e2e 脚手架接入 CI"
+  "done": ["Fixed session drift", "Added 2 security scanners"],
+  "blockers": "Dependency approval process slow, blocking P1 launch",
+  "next": "Finish e2e scaffold integration into CI"
 }
 ```
 
-## 交付标准
+## Delivery Criteria
 
-- 三段齐全：做了什么（git 自动）/ 卡在哪（人工）/ 下周（人工）
-- "做了什么"段按日期分组，每条 = `date author: subject`
-- 文件能直接贴进邮件 / 文档系统
+- Three sections complete: what I did (git auto) / blockers (human) / next week (human)
+- "What I did" grouped by date, each entry = `date author: subject`
+- File can be pasted directly into email / document system
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 根因 | 处置 |
+| Symptom | Root Cause | Action |
 |---|---|---|
-| `is not a git repo` | 路径不对 | 传 `--repo <路径>` |
-| "做了什么"段空 | 这一周没 commit | 正常；调大 `--days` 或人工补 |
-| 段落对不上公司模板 | 段落名不一样 | 用 `--input` 喂对应字段 |
-| 作者名乱 | git 配置 author 不一致 | 传 `--author` 覆盖 |
-| 想要月报 | 窗口太长 commit 太多 | 改 `--days 30` 并手动精简 |
+| `is not a git repo` | Wrong path | Pass `--repo <path>` |
+| "What I did" section empty | No commits this week | Normal; increase `--days` or fill manually |
+| Sections don't match company template | Section names differ | Use `--input` to feed corresponding fields |
+| Author name garbled | git config author inconsistent | Pass `--author` to override |
+| Want monthly report | Window too long, too many commits | Change to `--days 30` and trim manually |
 
-## 参考
+## References
 
-- 段落约定与 JSON 字段：[references/report-fields.md](references/report-fields.md)
+- Section conventions and JSON fields: [references/report-fields.md](references/report-fields.md)
 
-## 链路位置
+## Pipeline Position
 
-- 上游：日常 git 工作
-- 下游：`meeting-notes`（把周报转成团队同步纪要）
+- Upstream: daily git work
+- Downstream: `meeting-notes` (turn weekly report into team sync minutes)

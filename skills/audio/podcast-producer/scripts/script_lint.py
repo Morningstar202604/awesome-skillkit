@@ -8,7 +8,7 @@ Checks:
   1. stage directions: [pause] [停顿] （笑） (laughs) etc.
   2. bracketed asides: any [...] or （...）/ (...)-style insertion
   3. markdown debris: heading/bold/italic/bullets inside body lines
-  4. overlong lines: a single speaker line > 240 chars (three-sentence rule)
+  4. overlong lines: a single speaker line > 90 chars (three-sentence rule)
   5. speaker labels: dialogue mode expects HOST/GUEST prefixes per line
 
 Output: JSON report. Exit codes: 0 = clean; 1 = violations; 2 = usage error.

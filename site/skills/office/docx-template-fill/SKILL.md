@@ -1,13 +1,14 @@
 ---
 name: docx-template-fill
-description: >
+description: >-
   Fill an existing Word template's {{placeholders}} with JSON data, optionally
   append a review note, and keep the original template untouched. Use when the
-  user asks to 套模板 / 填模板 / 批量生成合同/报告/通知 docx / fill template /
-  populate a docx / 批注修订. Do NOT use for generating a brand-new document
-  from scratch (use docx-writer), spreadsheets, or slide decks.
+  user asks to fill a Word template / populate a docx / batch-generate contracts,
+  reports, or notices / fill template / merge data into document / comment
+  review. Do NOT use for generating a brand-new document from scratch (use
+  docx-writer), spreadsheets, or slide decks.
 license: Apache-2.0
-compatibility: 需要 python3 + python-docx（pip install python-docx）；缺失时降级为"只打印占位符清单"
+compatibility: Requires python3 + python-docx (pip install python-docx); degrades to "print placeholder list only" when missing
 metadata:
   author: "awesome-skillkit"
   version: "1.0"
@@ -17,75 +18,81 @@ metadata:
   verified-date: "2026-09-20"
 ---
 
-# DOCX Template Fill（Word 模板填写与批注）
+# DOCX Template Fill (Word Template Filling and Annotations)
 
-把一份**已有**的 Word 模板里的 `{{占位符}}` 用 JSON 数据填上，并可选追加
-一条修订批注。核心判断：**模板已存在、只差数据**才用本技能；要凭空造一份
-文档请用 `docx-writer`。
+Fill `{{placeholders}}` in an **existing** Word template with JSON data, and
+optionally append a revision comment. Core judgment: use this skill only when
+**the template already exists and only data is missing**; to create a document
+from nothing, use `docx-writer`.
 
-> 红线（SKILL-STANDARD-v2）：默认 **dry-run** 只打印将填什么、不写文件；
-> 加 `--apply` 才落到新文件，**源模板永不改动**；零网络、零拷贝。
+> Red lines (SKILL-STANDARD-v2): default **dry-run** only prints what would be
+> filled, no file written; add `--apply` to write to a new file, **source
+> template is never modified**; zero network, zero copying.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必填 | 说明 |
+| Input | Required | Notes |
 |---|---|---|
-| 模板 .docx | 是 | 含 `{{name}}` 式占位符 |
-| 数据 JSON | 是 | key 与占位符同名；缺失 key 会留空并告警 |
-| 输出文件名 | apply 时必填 | 默认 `filled.docx` |
-| 批注作者/文字 | 否 | `--note-author` / `--note-text` |
+| Template .docx | yes | Contains `{{name}}`-style placeholders |
+| Data JSON | yes | Keys match placeholder names exactly; missing keys are left blank and warned |
+| Output filename | required with apply | Defaults to `filled.docx` |
+| Comment author/text | no | `--note-author` / `--note-text` |
 
-缺输入一次性问齐：模板路径 + 数据文件路径 + 是否要加批注。
+When inputs are missing, ask all at once: template path + data file path +
+whether to add a comment.
 
-## 前置自检
+## Pre-flight Checks
 
-1. `python3 -c "import docx"` 通吗？不通 → 提示 `pip install python-docx`，
-   或先 `--list-only` 看占位符（list-only 也需 docx 解析；无 docx 时脚本降级打印数据 keys）。
-2. 占位符是否全是大写下划线命名（`EMP_NAME`）还是小写（`emp_name`）？JSON key 必须**精确匹配**。
+1. Does `python3 -c "import docx"` work? If not → prompt `pip install
+   python-docx`, or run `--list-only` first to see placeholders (list-only also
+   needs docx parsing; without docx the script degrades to printing data keys).
+2. Are placeholders all UPPER_SNAKE_CASE (`EMP_NAME`) or lowercase (`emp_name`)?
+   JSON keys must **exactly match**.
 
-## 工作流
+## Workflow
 
 ```bash
-# 1. 干跑：看会填什么、有哪些占位符没数据
+# 1. Dry run: see what will be filled and which placeholders lack data
 python3 scripts/fill_template.py --template assets/sample-template.docx --data assets/sample-data.json
 
-# 2. 真写（输出到新文件，模板不动）
+# 2. Real write (output to new file, template untouched)
 python3 scripts/fill_template.py --template assets/sample-template.docx --data assets/sample-data.json \
   --apply -o ./out.docx
 
-# 3. 加一条修订批注
+# 3. Add a revision comment
 python3 scripts/fill_template.py --template assets/sample-template.docx --data assets/sample-data.json \
-  --apply -o ./out.docx --note-author 张审 --note-text "第三条金额请复核"
+  --apply -o ./out.docx --note-author Reviewer Zhang --note-text "Please recheck the amount in item 3"
 
-# 4. 只看占位符清单
+# 4. List placeholders only
 python3 scripts/fill_template.py --template assets/sample-template.docx --data assets/sample-data.json --list-only
 ```
 
-批量场景：脚本单次只处理一份模板。要一份模板 + N 份数据 → 在 bash 里
+Batch scenario: the script handles one template per invocation. For one
+template + N data files → in bash:
 `for f in data/*.json; do python3 scripts/fill_template.py --template tpl.docx \
-  --data "$f" --apply -o "out/$(basename "${f%.json}").docx"; done`。
+  --data "$f" --apply -o "out/$(basename "${f%.json}").docx"; done`.
 
-## 交付标准
+## Delivery Criteria
 
-- 每个占位符要么被填、要么被明确列出在 `[NOTICE]` 里
-- 源模板 md5 前后不变（可用 `md5sum` 校验）
-- 输出文件能被 Word/WPS 打开且样式未崩（段落样式保留，不重建）
+- Every placeholder is either filled or explicitly listed in `[NOTICE]`
+- Source template md5 is unchanged before/after (verify with `md5sum`)
+- Output file opens in Word/WPS without style breakage (paragraph styles preserved, not rebuilt)
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 根因 | 处置 |
+| Symptom | Root Cause | Action |
 |---|---|---|
-| `[DEGRADE] python-docx not installed` | 没装依赖 | `pip install python-docx` 后重跑 |
-| 占位符没被替换 | JSON key 大小写/拼写与 `{{}}` 内不一致 | 对齐 key 名；用 `--list-only` 核对 |
-| 表格内没填到 | 占位符在表格里 | 脚本已覆盖 `doc.tables`，确认占位符确在单元格文字内 |
-| 输出文件 Word 打不开 | 源模板本身损坏/非真 docx | 用另一个合法 .docx 当模板 |
-| 想加真·Word 批注（comment 对象） | 本技能降级为脚注式批注段 | 需手改 docx parts（OXML），超出本技能范围 |
+| `[DEGRADE] python-docx not installed` | Dependency missing | `pip install python-docx` then rerun |
+| Placeholders not replaced | JSON key case/spelling differs from `{{}}` | Align key names; verify with `--list-only` |
+| Table cells not filled | Placeholder is inside a table | Script already covers `doc.tables`; confirm placeholder is in cell text |
+| Output won't open in Word | Source template is corrupt or not a real docx | Use another valid .docx as template |
+| Wants real Word comment objects | This skill degrades to footnote-style comment paragraph | Requires hand-editing docx parts (OXML), out of scope |
 
-## 参考
+## References
 
-- 占位符命名与降级策略：[references/fill-rules.md](references/fill-rules.md)
+- Placeholder naming and degradation policy: [references/fill-rules.md](references/fill-rules.md)
 
-## 链路位置
+## Pipeline Position
 
-- 上游：`docx-writer`（生成初稿模板）
-- 下游：`pdf-pipeline`（docx → pdf 终稿）
+- Upstream: `docx-writer` (generates the draft template)
+- Downstream: `pdf-pipeline` (docx → pdf final)

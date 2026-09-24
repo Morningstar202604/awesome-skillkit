@@ -5,13 +5,14 @@ description: >
   shape and the analytical intent, look up the selection lexicon, compare two or
   three candidate chart types with their trade-offs, and emit a drawing spec
   covering axes, legend, annotations, and number formatting. Use when the user
-  asks to 这个数据该画什么图 / 图表类型怎么选 / 帮我选个图 / 这个饼图合适吗 /
-  怎么把这份数据可视化最好 / which chart should I use / help me pick a
-  visualization / is a pie chart ok here. Do NOT use for actually building a
+  asks to what chart should this data use / how do I choose a chart type /
+  help me pick a chart / is this pie chart appropriate / how best to visualize
+  this data / which chart should I use / help me pick a visualization / is a pie chart ok here /
+  data visualization / charts / matplotlib / D3 / reporting / dashboard. Do NOT use for actually building a
   dashboard file (use dashboard-designer), for publication figures (use
   pub-plotter), or for statistical analysis of the data.
 license: Apache-2.0
-compatibility: 纯提示型，无需任何运行时；词库为本地 Markdown。
+compatibility: Prompt-only, no runtime required; the lexicon is a local Markdown file.
 metadata:
   author: "awesome-skillkit"
   version: "1.0"
@@ -21,155 +22,155 @@ metadata:
   verified-date: "2026-09-17"
 ---
 
-# Chart Recommender（图表推荐）
+# Chart Recommender
 
-在动笔画图**之前**回答一个问题：这份数据该用哪种图。方法是三步——
-读数据形态与**分析意图**、查词库定图型、给 2-3 个方案连同代价对比，
-最后输出一份可执行的**绘图规格**（轴怎么标、图例放哪、要不要注释、数字怎么格式化）。
+Answer one question **before** touching a pen: which chart should this data use. The method is three steps —
+read the data shape and the **analytical intent**, look up the lexicon to fix the chart type, give 2-3 options with their costs compared,
+and finally output an executable **drawing spec** (how to label axes, where the legend goes, whether to annotate, how to format numbers).
 
-核心判断：**先有意图，再选图型**。「我有一份销售数据」不足以选图，
-「我要说明华东的营收在下滑」才能。拿不到意图就问，不要替用户假设。
+Core judgment: **intent comes first, then the chart type**. "I have a sales dataset" is not enough to pick a chart;
+"I want to show that revenue in East China is declining" is. If you cannot get the intent, ask — do not assume for the user.
 
-本技能**只出方案不画图**。要生成可交付的仪表盘文件，用 `dashboard-designer`；
-要出论文级配图，用 `pub-plotter`；要做数据本身的统计分析，那是另一件事。
+This skill **only gives options and does not draw**. To produce a deliverable dashboard file, use `dashboard-designer`;
+to produce paper-grade figures, use `pub-plotter`; to do statistical analysis on the data itself, that is a different job.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 默认 | 说明 |
+| Input | Required | Default | Notes |
 |---|---|---|---|
-| **分析意图** | 是 | — | 「想让读者看到什么」，一句话 |
-| 数据形态 | 是 | — | 列数与类型（数值/分类/时间/地理），行数量级 |
-| 受众 | 否 | 通用 | 决定信息密度与是否需要解释性标注 |
-| 输出媒介 | 否 | 屏幕文档 | 大屏 / 打印 / 移动端会影响配色与标签策略 |
-| 已知候选图型 | 否 | 由本技能给 | 用户已倾向某图型时，重点评估它是否合适 |
+| **Analytical intent** | Yes | — | "what you want the reader to see," one sentence |
+| Data shape | Yes | — | Column count and types (numeric / categorical / temporal / geographic), order-of-magnitude row count |
+| Audience | No | General | Decides information density and whether explanatory annotations are needed |
+| Output medium | No | On-screen document | Big screen / print / mobile affects color and label strategy |
+| Known candidate chart type | No | Supplied by this skill | When the user already leans toward a type, focus on evaluating whether it fits |
 
-缺输入时，一次性问齐：
+When inputs are missing, ask for all at once:
 
-> 请提供：① 你想让读者看完图得出什么结论？② 数据有哪些列、各是什么类型、
-> 大概多少行？③ 给谁看（同行 / 老板 / 公众）？④ 印出来还是屏幕上？
-> ⑤ 你心里有想用的图型吗（有的话我重点评估它合不合适）？
+> Please provide: ① what conclusion do you want the reader to draw after seeing the chart? ② what columns does the data have, what type is each,
+> and roughly how many rows? ③ who is it for (peers / the boss / the public)? ④ print or on screen?
+> ⑤ do you have a chart type in mind (if so, I'll focus on evaluating whether it fits)?
 
-## 前置自检
+## Pre-flight Self-check
 
-逐条执行，任一失败 → 按处置动作做：
+Run each item; on any failure → take the stated action:
 
 ```bash
-# 1. 词库在位（本技能唯一依赖的资源）
+# 1. The lexicon is in place (this skill's only dependency)
 test -s references/chart-selection.md && echo "lexicon ok"
-# 预期：lexicon ok。失败→先恢复词库文件，无词库时凭记忆给建议会漏掉禁忌项。
+# expect: lexicon ok. Fail → restore the lexicon file first; recommending from memory without it will miss the taboo items.
 
-# 2. 关键词覆盖率抽查（确认词库内容完整）
+# 2. Spot-check keyword coverage (confirm the lexicon content is complete)
 grep -c "^|" references/chart-selection.md
-# 预期：≥40 行表格内容。失败→词库被截断，补齐后再执行。
+# expect: >=40 lines of table content. Fail → the lexicon was truncated; complete it before running.
 
-# 3. 意图是否明确（不需要命令，问自己）
-# 「用户想比较 / 看趋势 / 看构成 / 看相关 / 看分布 / 看流向 / 看空间」属于哪一种？
-# 答不上来 → 回输入清单追问 ①，不要开始推荐。
+# 3. Is the intent clear (no command needed; ask yourself)
+# 「Does the user want to compare / see a trend / see composition / see correlation / see distribution / see flow / see space」— which one?
+# Cannot answer → go back to the input checklist and re-ask ①; do not start recommending.
 ```
 
-## 工作流
+## Workflow
 
-### 步骤 1：抽数据形态
+### Step 1: Extract the Data Shape
 
-不看数据先看**结构**，用这张表把用户的描述归一化：
+Before looking at the data, look at its **structure**; normalize the user's description with this table:
 
-| 要素 | 问什么 | 示例 |
+| Element | What to ask | Example |
 |---|---|---|
-| 维度数 | 几列参与表达 | 时间 × 数值（2 维） |
-| 列类型 | 每列是数值/分类/时间/地理 | 日期(date) + 区域(cat) + 营收(num) |
-| 基数 | 分类列有几个取值 | 区域 6 个、门店 480 个（差额极大） |
-| 样本量 | 多少行 | 200 行 vs 50 万行（决定降绘制策略） |
-| 缺失 | 有空洞吗 | 营收缺失 6% → 须在图上说明 |
+| Number of dimensions | How many columns carry the expression | time × numeric (2D) |
+| Column types | Is each column numeric/categorical/temporal/geographic | date + region (cat) + revenue (num) |
+| Cardinality | How many values in a categorical column | 6 regions, 480 stores (huge gap) |
+| Sample size | How many rows | 200 rows vs 500k rows (decides the downsampling strategy) |
+| Missingness | Are there holes | Revenue missing 6% → must note it on the chart |
 
-- **预期**：得到一张「维度 × 类型 × 基数 × 样本量」的小表。
-- **若失败**：用户只说「有份 Excel」→ 按输入清单一次性追问，不要猜。
+- **Expected**: a small "dimensions × types × cardinality × sample size" table.
+- **On failure**: the user only says "there's an Excel file" → ask via the input checklist in one go; do not guess.
 
-### 步骤 2：定意图并查词库
+### Step 2: Fix the Intent and Look Up the Lexicon
 
-把意图归到七类之一，再到 `references/chart-selection.md` 第二节查映射：
+Classify the intent into one of seven types, then look up the mapping in section 2 of `references/chart-selection.md`:
 
-| 意图 | 去词库查 | 首选 |
+| Intent | Look up in the lexicon | First choice |
 |---|---|---|
-| 比大小 | 二、数据类型映射表 | 条形图 |
-| 看趋势 | 同表（时间 + 数值行） | 折线图 |
-| 看构成 | 同表（构成/层级行） | 堆叠条 / 饼图（≤5 类） |
-| 看相关 | 同表（2 数值行） | 散点图 |
-| 看分布 | 同表（1 数值行） | 直方图 / 箱线图 |
-| 看流向 | 同表（流程/转化行） | 漏斗 / 桑基 |
-| 看空间 | 同表（地理行） | 分级统计地图 |
+| Compare magnitudes | Section 2, data-type mapping table | Bar chart |
+| See a trend | Same table (time + numeric row) | Line chart |
+| See composition | Same table (composition/hierarchy row) | Stacked bar / pie (≤5 categories) |
+| See correlation | Same table (2 numeric row) | Scatter plot |
+| See distribution | Same table (1 numeric row) | Histogram / box plot |
+| See flow | Same table (process/conversion row) | Funnel / Sankey |
+| See space | Same table (geographic row) | Choropleth map |
 
-- **预期**：命中「推荐图型」并同时读到同行「禁忌」列。
-- **若失败**：意图不唯一（既要趋势又要构成）→ 拆成两张图，
-  或选小倍数图；**不要**用双 Y 轴硬塞（见词库第五节第 2 条）。
+- **Expected**: hit a "recommended chart type" while also reading the same row's "taboo" column.
+- **On failure**: the intent is not unique (wants both trend and composition) → split into two charts,
+  or choose small multiples; **do not** force it with a dual Y axis (see lexicon section 5, item 2).
 
-### 步骤 3：给 2-3 个方案并对比代价
+### Step 3: Give 2-3 Options and Compare Costs
 
-至少两个方案，每个都写清**代价**：
+At least two options, each with its **cost** spelled out:
 
 ```markdown
-方案 A：折线图（推荐）
-- 优点：时间趋势最直观，读者能读出拐点与斜率变化
-- 代价：5 条以上序列会互相缠绕；超过 3 条建议改小倍数图
-方案 B：分组柱状图
-- 优点：每个时点的数值可直接比长短，精度高于折线
-- 代价：时间点 >15 个时柱体过密，趋势线断断续续
-方案 C：面积图
-- 优点：强调总量累积感
-- 代价：多序列时下层被遮挡，仅适合单序列
+Option A: line chart (recommended)
+- Pros: the time trend is clearest; the reader can read inflection points and slope changes
+- Cost: more than 5 series tangle together; over 3 series, suggest small multiples
+Option B: grouped bar chart
+- Pros: the value at each time point can be compared directly by length, more precise than a line
+- Cost: with >15 time points the bars are too dense and the trend line is broken
+Option C: area chart
+- Pros: emphasizes the cumulative feel of the total
+- Cost: with multiple series the lower layers are occluded; only suits a single series
 ```
 
-- **预期**：2-3 个方案，每个都有优点与代价两栏；明确指出推荐哪个。
-- **若失败**：想不出第三个方案 → 两个就够了，不要凑数；
-  方案必须真的不同，不能是「折线图（改个颜色）」。
+- **Expected**: 2-3 options, each with a pros and a cost column; clearly state which is recommended.
+- **On failure**: cannot think of a third option → two is enough; do not pad;
+  the options must be genuinely different, not "a line chart (with a different color)."
 
-### 步骤 4：出绘图规格
+### Step 4: Emit the Drawing Spec
 
-按词库第七节的清单逐项落定，缺一项就是没交付完整：
+Settle each item per the lexicon's section 7 checklist; a missing item means the delivery is incomplete:
 
-| 规格项 | 本次取值 |
+| Spec item | This run's value |
 |---|---|
-| 轴 | x 轴按日期升序；y 轴从 0 起（柱状必须，折线可截断但需标注） |
-| 单位 | y 轴标注「万元」，大数用「万」不用科学计数法 |
-| 图例 | 置于图上直接标注（≤5 条）；超出改小倍数图 |
-| 注释 | 标注峰值日期与政策变更时点（用垂直参考线） |
-| 排序 | 分类轴按值降序（比大小场景）；时间轴固定升序 |
-| 缺失 | 说明「营收缺失 6%，未计入均值」 |
-| 配色 | 定性色板 5 色；强调的序列上色，其余用灰 |
+| Axes | X axis by date ascending; Y axis starts at 0 (required for bars; a line may truncate but must be labeled) |
+| Units | Y axis labeled "ten-thousand yuan"; use a ten-thousands-unit shorthand for large numbers, not scientific notation |
+| Legend | Direct on-chart labels (≤5 series); beyond that, switch to small multiples |
+| Annotations | Mark the peak date and policy-change point (with a vertical reference line) |
+| Sorting | Categorical axis descending by value (compare-magnitude case); time axis fixed ascending |
+| Missingness | State "revenue missing 6%, excluded from the mean" |
+| Color | Qualitative 5-color palette; color the emphasized series, the rest in gray |
 
-- **预期**：一张规格表，每项都有确定取值而非「看情况」。
-- **若失败**：某项定不下来（如媒介未知）→ 写明「待定 + 两个分支」，
-  并说明分支各自怎么改。
+- **Expected**: a spec table with a definite value for every item, not "it depends."
+- **On failure**: an item cannot be settled (e.g. the medium is unknown) → write "TBD + two branches,"
+  and explain how each branch changes.
 
-## 交付标准
+## Delivery Standards
 
-- 产物：一份 Markdown 建议，含 **意图复述 + 数据形态表 + 2-3 方案对比 + 绘图规格表**。
-- 位置：通常直接回复在对话中；用户要求留档时写成 `.md` 文件。
-- 完整性验证（自检三条）：
-  - 方案数 ≥2 且每个方案都有「代价」一栏；
-  - 绘图规格表覆盖轴 / 单位 / 图例 / 注释 / 缺失 / 配色六项；
-  - 建议里没有触碰词库第五节的错误清单（尤其截断 y 轴、双 Y 轴、3D）。
-- 若推荐的图型恰好是用户已知的候选，必须显式说明「合适」或「不合适 + 理由」，
-  不能沉默略过。
+- Artifacts: a Markdown recommendation containing **restated intent + data-shape table + 2-3 option comparison + drawing spec table**.
+- Location: usually replied directly in the conversation; when the user asks to keep a record, write a `.md` file.
+- Integrity verification (three self-checks):
+  - At least 2 options, each with a "cost" column;
+  - The drawing spec table covers all six: axes / units / legend / annotations / missingness / color;
+  - The recommendation does not touch the lexicon's section 5 error list (especially truncated Y axes, dual Y axes, 3D).
+- If the recommended chart happens to be the user's known candidate, you must explicitly say "fits" or "does not fit + why,"
+  and cannot skip it silently.
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Action |
 |---|---|---|
-| 用户只给数据不给意图 | 缺最关键的输入 | 追问「想让读者得出什么结论」；给不出就按最常见意图出两版方案 |
-| 意图是「既要又要」 | 单图承载多重意图 | 拆成主图 + 副图；明确说一张图讲不完 |
-| 用户坚持要 12 类饼图 | 饼图被误当通用图 | 给对比图；说明角度比较精度低于长度，用条形图更准 |
-| 分类基数极大（如 480 门店） | 逐类展示不可行 | 只画 top 12 并归并「其他」；或改分布型图（直方图） |
-| 两个数值量纲差异极大 | 想用双 Y 轴 | 优先各自单图画小倍数图；确要同图则显式标注双轴单位与颜色 |
-| 时间点过密（>200） | 逐点绘制不可读 | 聚合到周/月；或用折线 + 抽样标注 |
-| 数据含 0 值行导致柱全矮 | 量纲被极大值支配 | 指出右偏，建议对数轴或截断并标注；不静默改数据 |
-| 用户要求 3D 图 | 审美偏好 | 说明透视会放大近处元素、产生系统性误读；给 2D 替代 |
-| 拿不准某图型是否适用 | 词库未覆盖该冷门图型 | 回到视觉编码优先级推理：它用哪个通道编码、精度够不够 |
+| The user gives data but no intent | Missing the most critical input | Ask "what conclusion do you want the reader to draw"; if they cannot, produce two versions for the most common intents |
+| The intent is "I want it all" | One chart carrying multiple intents | Split into a main chart + a side chart; say plainly that one chart cannot tell the whole story |
+| The user insists on a 12-category pie chart | Pie chart mistaken for a general-purpose chart | Give a comparison chart; explain that comparing angles is less precise than comparing lengths, and a bar chart is more accurate |
+| Huge categorical cardinality (e.g. 480 stores) | Showing every category is infeasible | Plot only the top 12 and fold the rest into "Other"; or switch to a distribution chart (histogram) |
+| Two numeric measures with wildly different scales | Wants a dual Y axis | Prefer separate small-multiple charts; if they must share one chart, explicitly label both axes' units and colors |
+| Too dense time points (>200) | Drawing point-by-point is unreadable | Aggregate to week/month; or use a line + sampled labels |
+| Rows with 0 make all bars short | Scale dominated by extreme values | Point out the right skew, suggest a log axis or truncation with a label; do not silently alter the data |
+| The user demands a 3D chart | Aesthetic preference | Explain that perspective magnifies near elements and produces systematic misreading; give a 2D alternative |
+| Unsure whether a chart type applies | The lexicon does not cover the obscure type | Go back to visual-encoding priority reasoning: which channel does it encode with, and is the precision enough |
 
-## 参考
+## References
 
-- `references/chart-selection.md` —— 图表选择词库（约 137 行）：
-  意图速查、类型映射表、各图型适用与反例、视觉编码优先级、
-  12 条常见错误、三类配色方案。**步骤 2、3、4 都依赖它**。
-- `references/sources-and-methodology.md` —— 词库的方法论出处与原创性声明。
-- 相关技能：`dashboard-designer`（把方案落成 HTML 文件）、
-  `pub-plotter`（论文级配图）、`figure-maker`（通用插图）。
+- `references/chart-selection.md` — the chart-selection lexicon (about 137 lines):
+  intent quick reference, type-mapping table, per-type suitable and counter examples, visual-encoding priority,
+  12 common mistakes, three color schemes. **Steps 2, 3, and 4 all depend on it.**
+- `references/sources-and-methodology.md` — the lexicon's methodology provenance and originality statement.
+- Related skills: `dashboard-designer` (turns the plan into an HTML file),
+  `pub-plotter` (paper-grade figures), `figure-maker` (general illustrations).

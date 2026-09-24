@@ -1,6 +1,6 @@
 ---
 name: journal-adapt
-description: "Adapt a draft to a target venue's submission rules: IEEE / ACM / NeurIPS / ACL / Nature — column-aware page estimate with reference-page accounting, abstract word limit, venue-required sections (incl. NeurIPS/ACL Limitations), banned-phrase screening (e.g. Nature dislikes 'In this paper we' / 'Novel'), citation-style and double-blind checks. Use when the user asks 投 IEEE / 改成 Nature 风格 / 期刊格式适配 / 换会议模板 / 适配 ACL 格式. 当用户要求 按 venue 改稿 / 查禁词 时使用。Fails with rc=1 when the input file does not exist. Do NOT use for LaTeX template mechanics (use latex-formatter)."
+description: "Adapt a draft to a target venue's submission rules: IEEE / ACM / NeurIPS / ACL / Nature — column-aware page estimate with reference-page accounting, abstract word limit, venue-required sections (incl. NeurIPS/ACL Limitations), banned-phrase screening (e.g. Nature dislikes 'In this paper we' / 'Novel'), citation-style and double-blind checks. Use when the user asks to submit to IEEE / change to Nature style / journal format adaptation / switch conference template / adapt to ACL format / revise a draft for a venue / check banned phrases. Fails with rc=1 when the input file does not exist. Do NOT use for LaTeX template mechanics (use latex-formatter)."
 license: Apache-2.0
 compatibility: Stdlib only; requires python3; static text checks against per-venue rule tables. Page counts are estimates — always confirm with the official venue template.
 metadata:
@@ -14,93 +14,93 @@ metadata:
 
 # Journal Adapt (SOTA)
 
-按目标 venue 的真实投稿规则校验草稿：页数（分栏感知）、摘要上限、必填章节、禁词、引用风格、双盲。
+Check a draft against the target venue's real submission rules: page count (column-aware), abstract limit, required sections, banned phrases, citation style, double-blind.
 
-> 诚实声明：页数是**估算**——`words_per_page` 是分栏/字号下的社区经验值（NeurIPS 1 栏 ≈600 词/页；IEEE/ACM/ACL 2 栏 ≈950–1000 词/页），**正式投稿前 MUST 用 venue 官方模板编译确认**。`--template-year` 只替换类名里的年份串，不保证该年份模板存在。
+> Honest disclosure: page counts are **estimates** — `words_per_page` is a community empirical value under given columns/font size (NeurIPS 1 column ~600 words/page; IEEE/ACM/ACL 2 columns ~950-1000 words/page); **before formal submission you MUST compile with the venue's official template to confirm**. `--template-year` only replaces the year string in the class name; it doesn't guarantee that year's template exists.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |------|------|------|
-| 草稿文件 | 是 | `--input draft.tex`（.tex / 纯文本均可）；不存在则 rc=1 |
-| 目标 venue | 否 | `--target ieee_conf`/`acm`/`neurips`/`acl`/`nature`（别名 `ieee`/`nips`/`emnlp`…），默认 `ieee_conf` |
-| 模板年份 | 否 | `--template-year 2026`：把类名 `xxx_2025` 的年份替换掉 |
-| 输出路径 | 否 | `--output report.json`，缺省打印到 stdout |
+| draft file | yes | `--input draft.tex` (.tex or plain text both work); rc=1 if it doesn't exist |
+| target venue | no | `--target ieee_conf`/`acm`/`neurips`/`acl`/`nature` (aliases `ieee`/`nips`/`emnlp`...), default `ieee_conf` |
+| template year | no | `--template-year 2026`: replaces the year in class names like `xxx_2025` |
+| output path | no | `--output report.json`; default prints to stdout |
 
-缺失时一次性问齐：「请提供：① 草稿文件路径 `--input` ② 目标 venue ③ 目标年份的模板是否已发布 ④ 是否落盘 `--output`。其余用默认：target=ieee_conf，输出 JSON 到 stdout。」
+When missing, ask everything at once: "Please provide: ① draft file path `--input` ② target venue ③ whether the target-year template has been released ④ whether to save `--output`. Otherwise defaults: target=ieee_conf, JSON to stdout."
 
-## 前置自检
+## Pre-flight Checks
 ```bash
-python3 --version                          # 预期 >= 3.8，否则报错并 STOP
-test -f scripts/journal_adapt.py && echo OK   # 预期打印 OK，否则脚本缺失 STOP
-test -f draft.tex && echo SRC_OK            # 预期 SRC_OK；缺失则脚本 rc=1，先 STOP
+python3 --version                          # expect >= 3.8, else error and STOP
+test -f scripts/journal_adapt.py && echo OK   # expect OK printed, else script missing STOP
+test -f draft.tex && echo SRC_OK            # expect SRC_OK; if missing the script rc=1, STOP first
 ```
-若 `python3` 不存在 → 提示安装 Python ≥3.8；若脚本缺失 → 提示目录不完整；若 `--input` 文件不存在 → rc=1。
+If `python3` is missing -> prompt to install Python >=3.8; if the script is missing -> say the directory is incomplete; if the `--input` file doesn't exist -> rc=1.
 
-## 工作流
+## Workflow
 
-### 步骤 1：按目标 venue 检测
+### Step 1: Detect Per the Target Venue
 ```bash
 python3 scripts/journal_adapt.py --input draft.tex --target ieee_conf
 python3 scripts/journal_adapt.py --input draft.tex --target neurips --template-year 2026
 python3 scripts/journal_adapt.py --input draft.tex --target nature --output adapt_report.json
 ```
-预期：输出 JSON 含 `target`、`class`、`columns`、`score`、`status`、`issues[]`、`words`、`body_words`、`est_pages`、`est_billable_pages`、`page_limit`、`refs_included`、`ref_pages`、`abstract_words`、`abstract_limit`、`ref_style_detected`、`anonymous_ok`、`method`、`notes`。
-若失败：`rc=2` + `unknown target` → `--target` 取值不在规则表内，核对取值。
+Expected: JSON output containing `target`, `class`, `columns`, `score`, `status`, `issues[]`, `words`, `body_words`, `est_pages`, `est_billable_pages`, `page_limit`, `refs_included`, `ref_pages`, `abstract_words`, `abstract_limit`, `ref_style_detected`, `anonymous_ok`, `method`, `notes`.
+If it fails: `rc=2` + `unknown target` -> the `--target` value isn't in the rule table; check the value.
 
-### 步骤 2：判读 verdict 并改稿
+### Step 2: Read the Verdict and Revise
 
-- `status == "pass"`（`issues` 为空）→ 通过。
-- `status == "adjust_needed"` → 按 `issues[].severity` 优先级处置（high → medium → low）：
+- `status == "pass"` (`issues` empty) -> pass.
+- `status == "adjust_needed"` -> handle by `issues[].severity` priority (high -> medium -> low):
 
-| type | 含义 | 处置 |
+| type | Meaning | Remedy |
 |------|------|------|
-| `page_limit` | `est_billable_pages` 超限（已扣/含参考文献页） | 精简正文或把证明挪附录 |
-| `missing_abstract` / `abstract_too_long` | 缺摘要 / 摘要超 venue 上限 | 补摘要；压缩时删修饰不删结论 |
-| `missing_section` | 缺 venue 必填章节（NeurIPS/ACL 的 Limitations 常被漏） | 补章节 |
-| `banned` | 命中 venue 禁词（如 Nature 的 "Novel"、"In this paper we"） | 换成有具体证据的表述 |
-| `ref_style` | 检测到的引用风格与 venue 不符 | 用 venue 的 `.bst`/`.bbx` 重新生成参考文献 |
-| `anonymity` | 双盲 venue 里出现作者块/致谢 | 投稿版删除作者与致谢 |
+| `page_limit` | `est_billable_pages` over the cap (already deducts/includes reference pages) | Trim the body or move proofs to the appendix |
+| `missing_abstract` / `abstract_too_long` | Missing abstract / abstract over the venue's limit | Add an abstract; when compressing, cut modifiers not conclusions |
+| `missing_section` | Missing a venue-required section (NeurIPS/ACL's Limitations is often missed) | Add the section |
+| `banned` | Hit a venue banned phrase (e.g. Nature's "Novel", "In this paper we") | Rewrite into a statement with concrete evidence |
+| `ref_style` | Detected citation style doesn't match the venue | Regenerate references with the venue's `.bst`/`.bbx` |
+| `anonymity` | An author block / acknowledgements appear in a double-blind venue | Delete authors and acknowledgements in the submission version |
 
-预期：每条 issue 给出 `type`/`severity` 与可定位信息（具体禁词、缺失章节、billable 页数）。
-若失败：改稿后仍 `adjust_needed` → 先清 high，再清 medium/low。
+Expected: each issue gives `type`/`severity` and locatable info (the specific banned phrase, missing section, billable pages).
+If it fails: still `adjust_needed` after revising -> clear high first, then medium/low.
 
-### 步骤 3：存档（可选）
-预期：`--output` 指向的 JSON 文件存在且合法。
-若失败：路径不可写 → 换可写目录重试。
+### Step 3: Archive (Optional)
+Expected: the JSON file at `--output` exists and is valid.
+If it fails: path not writable -> switch to a writable directory and retry.
 
-## 参数速查表
+## Parameter Quick Reference
 
-| 参数 | 取值 | 说明 |
+| Parameter | Value | Notes |
 |------|------|------|
-| `--input` | 路径 | 草稿文件（必填） |
-| `--target` | ieee_conf / acm / neurips / acl / nature（+别名） | 目标 venue，默认 ieee_conf |
-| `--template-year` | 4 位年份 | 替换类名年份串，如 `neurips_2025` → `neurips_2026` |
-| `--output` | 路径 | 结果 JSON 输出路径 |
+| `--input` | path | Draft file (required) |
+| `--target` | ieee_conf / acm / neurips / acl / nature (+ aliases) | Target venue, default ieee_conf |
+| `--template-year` | 4-digit year | Replace the class-name year string, e.g. `neurips_2025` -> `neurips_2026` |
+| `--output` | path | Results JSON output path |
 
-## 失败处置表
+## Failure Remediation Table
 
-| 现象/错误码 | 原因 | 处置 |
+| Symptom / Error Code | Cause | Remedy |
 |------------|------|------|
-| rc=1，File not found | `--input` 不存在 | 核对路径后重试 |
-| rc=2，`unknown target` | `--target` 非法 | 改用规则表内 venue 或别名 |
-| 页数估算与模板编译结果不符 | 估算是经验值，未含图/表占位 | 以官方模板编译结果为准；本工具只做早期预警 |
-| `missing_section` 误报 | 章节标题本地化（写成中文或改名） | 用 venue 要求的英文标题 |
-| `anonymity` 误报 | `\author{Anonymous Submission}` 之类匿名写法 | 该写法不会触发；若仍报，检查是否有致谢或正文提及单位 |
-| 参考文献格式被标不合规 | bib 仍是上一套风格（编号 vs 作者年） | 改用目标 venue 的 style 文件重新生成参考文献 |
+| rc=1, File not found | `--input` doesn't exist | Verify the path and retry |
+| rc=2, `unknown target` | Illegal `--target` | Use a venue or alias from the rule table |
+| Page estimate doesn't match the template compile result | The estimate is empirical, doesn't include figure/table placeholders | Trust the official template compile result; this tool is early warning only |
+| `missing_section` false positive | Section heading localized (written in Chinese or renamed) | Use the English heading the venue requires |
+| `anonymity` false positive | Anonymized writing like `\author{Anonymous Submission}` | That writing doesn't trigger it; if still flagged, check for acknowledgements or body mentions of the affiliation |
+| Reference format flagged non-compliant | The bib is still the previous style (numbered vs author-year) | Regenerate references with the target venue's style file |
 
-## 交付标准
+## Delivery Standard
 
-成功定义：`status == "pass"`，或已据 `adjust_needed` 的 `issues[]` 完成改稿。
-产物命名：`adapt_report.json`（若指定 `--output`）。
-保存位置：调用方当前目录或 `--output` 指定路径。
-验证方法：`python3 -c "import json;d=json.load(open('<output>'));assert d['status'] in ('pass','adjust_needed')"` 通过。
-诚实口径：`method: "column-aware-estimate"` 表示页数为分栏经验值估算，非编译实测。
+Success: `status == "pass"`, or you've completed revisions per `adjust_needed`'s `issues[]`.
+Artifact name: `adapt_report.json` (if `--output` is given).
+Save location: the caller's current directory or the `--output` path.
+Verification: `python3 -c "import json;d=json.load(open('<output>'));assert d['status'] in ('pass','adjust_needed')"` passes.
+Honest rule: `method: "column-aware-estimate"` means page counts are column-aware empirical estimates, not a measured compile.
 
-## 参考
+## References
 
-无外部 references 文件；venue 规则表内置在 `scripts/journal_adapt.py` 的 `JOURNAL_SPECS`（含 cls/options/columns/font_size/page_limit/refs_included/words_per_page/abstract_max_words/anonymous/ref_style/required_sections/banned/notes）。页数模型见 `adapt()`，参考文献切分见 `_split_bibliography()`。
+No external reference files; the venue rule table is built into `scripts/journal_adapt.py`'s `JOURNAL_SPECS` (incl. cls/options/columns/font_size/page_limit/refs_included/words_per_page/abstract_max_words/anonymous/ref_style/required_sections/banned/notes). The page model is in `adapt()`; reference splitting in `_split_bibliography()`.
 
-## 链路位置
+## Chain Position
 
-上游接 self-reviewer 的 ready 判定；语气打磨可续接 anti-defensive 与 ai-humanizer，最终 tex-cleaner 收口提交包。
+Upstream connects to self-reviewer's ready judgment; tone polishing can continue to anti-defensive and ai-humanizer, and finally tex-cleaner closes out the submission package.

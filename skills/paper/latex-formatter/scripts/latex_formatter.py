@@ -50,10 +50,13 @@ def _external_lint(tex: str, tex_path: Path) -> dict:
     return {"tool": None, "available": bool(li or texfmt)}
 
 
-def format_latex(input_tex: str, template: str = "ieee", refs_bib: str = None) -> dict:
+def format_latex(input_tex: str, template: str = "ieee", refs_bib: str = None,
+                 ext: dict = None) -> dict:
     """Apply template formatting to LaTeX content.
 
     refs_bib: 可选 .bib 文本，用于跨文件检查 \\cite 是否都有对应 entry。
+    ext: 外部 lint 结果（由调用方经 _external_lint() 计算后传入）；
+         传 {} 或 None 时回退 stdlib。
     """
     tpl = TEMPLATES.get(template, TEMPLATES["generic"])
     issues = []
@@ -104,7 +107,7 @@ def format_latex(input_tex: str, template: str = "ieee", refs_bib: str = None) -
         issues.append(f"Undefined \\cite keys (no .bib entry): {sorted(set(undefined_cite))}")
 
     # 真实 lint（有工具则叠加，缺失如实回退）
-    ext = {}
+    ext = ext or {}
     status = "pass" if not issues and not warns else ("issues_found" if issues else "pass")
 
     return {
@@ -157,8 +160,7 @@ def main():
             return 1
 
     ext = _external_lint(tex, p)
-    result = format_latex(tex, args.template, refs)
-    result["external_lint"] = ext
+    result = format_latex(tex, args.template, refs, ext=ext)
     result["file"] = str(p)
     result["n_lines"] = len(tex.split("\n"))
 

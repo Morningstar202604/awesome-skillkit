@@ -1,6 +1,6 @@
 ---
 name: humanize-rewriter
-description: "Rewrite AI-flavored text into natural human writing: inject burstiness (long-short sentence rhythm), upgrade abstractions to concrete details, add first-person reaction and controlled imperfection, while freezing all facts, numbers, terms and conclusions. Use when the user asks to 去AI味 / 人性化改写 / 改得像人写的 / 降AI率重写 / humanize this text / make it sound human / rewrite the AI draft. Do NOT use for legal, medical or academic-submission texts, and never invent facts the source does not contain."
+description: "Rewrite AI-flavored text into natural human writing: inject burstiness (long-short sentence rhythm), upgrade abstractions to concrete details, add first-person reaction and controlled imperfection, while freezing all facts, numbers, terms and conclusions. Use when the user asks to remove AI flavor / humanize this text / make it sound human / rewrite to lower the AI rate / humanize text / make it sound human / rewrite the AI draft. Do NOT use for legal, medical or academic-submission texts, and never invent facts the source does not contain."
 license: Apache-2.0
 compatibility: Needs Python 3.8+ (stdlib only) for the baseline/rescan step via the ai-trace-auditor bundle scanner; if unavailable, degrade to its manual checklist and mark the report manual_mode.
 metadata:
@@ -12,186 +12,186 @@ metadata:
   verified-date: "2026-09-21"
 ---
 
-# Humanize Rewriter（人性化重写）
+# Humanize Rewriter (Humanizing Rewrite)
 
-AI 代笔的文字工整但冷冰冰。本技能把它的表达层拆掉重装——节奏、具体性、情绪、适度的不完美——信息层一根手指都不碰。每一步可验证：改写前有基线分，改写后必须显著下降。
+Ghostwritten AI prose is neat but cold. This skill tears down and rebuilds its expression layer — rhythm, concreteness, emotion, controlled imperfection — without touching the information layer with a single finger. Every step is verifiable: there's a baseline score before rewriting, and it must drop significantly after.
 
-## 适用决策表（先判断，再动笔）
+## Applicability Decision Table (Judge First, Then Write)
 
-| 你拿到的是 | 用不用本技能 | 怎么用 |
+| What You Have | Use This Skill? | How |
 |---|---|---|
-| AI 生成初稿，要变成"像人写的"成稿 | 深度人格化（默认） | 全流程，六步走完 |
-| 人写的稿子被检测器误伤，想压痕迹 | 轻度去痕 | 只消 findings 命中项，跳过情绪注入 |
-| 法律/医疗/学术提交文本 | **别用** | 措辞即合规边界，建议人工润色（红线 3） |
-| 低于 100 字的短文本 | **别用** | 没有改写空间，如实告知 |
-| 用户要求"把 AI 率降到 0" | 拒绝担保 | 只承诺可验证的分数下降（见暗知识 3） |
+| AI-generated first draft, want it to read "human-written" | Deep personification (default) | Full workflow, all six steps |
+| Human-written draft misflagged by a detector, want to reduce traces | Light de-tracing | Only erase findings hits, skip emotion injection |
+| Legal/medical/academic-submission text | **don't** | Wording is the compliance boundary; recommend manual polishing (Red Line 3) |
+| Short text under 100 chars | **don't** | No rewriting room; say so plainly |
+| User asks to "drop the AI rate to 0" | Refuse to guarantee | Only promise a verifiable score drop (see tacit knowledge 3) |
 
-## 领域暗知识（动笔前必须懂的四件事）
+## Domain Tacit Knowledge (Four Things You Must Know Before Writing)
 
-**1. 检测器（以及人类的"AI 感"）到底在测什么。** AI 文本的本质是"下一个词的概率分布"取最稳路径——产出困惑度低、句长均匀、结构工整的文字。这意味着：**工整本身就是痕迹**。你删掉十个 AI 高频词，只要全文还是"每句 30 字、每段三句话、每段开头都是总结句"，有经验的读者和统计型检测器照样一眼认出。所以本技能的重心不是换词，是**打破节奏的均匀性**——cv（句长变异系数）比词表命中更能代表"人味"。
+**1. What detectors (and humans' "AI feel") actually measure.** The essence of AI text is the "next-token probability distribution" taking the safest path — producing low-perplexity, even-sentence-length, neatly-structured prose. This means: **neatness itself is a trace**. Delete ten AI high-frequency words, and if the whole text is still "every sentence 30 chars, every paragraph three sentences, every paragraph opens with a summary," experienced readers and statistical detectors recognize it at a glance. So this skill's focus isn't word-swapping but **breaking rhythmic evenness** — cv (sentence-length coefficient of variation) represents "human-ness" better than word-list hits.
 
-**2. 排比与枚举是最大的暴露面。** LLM 的训练目标让"三个长度相近的并列分句"成为概率最高的安全表达——这是改写最难消、复发率最高的特征。经验规律：改写稿里只要还残留一组"不仅…而且…更…"或连续三条长度相近的并列句，全文的"AI 感"就由它定调，其他改动全白做。逐段重写时优先绞杀它。
+**2. Parallelism and enumeration are the biggest exposure surface.** The LLM training objective makes "three similar-length parallel clauses" the highest-probability safe expression — this is the hardest feature to erase and the highest-recurrence one. Rule of thumb: as long as a rewritten draft still has one "not only... but also... what's more" or three consecutive similar-length parallel sentences, the whole piece's "AI feel" is set by it, and every other change is wasted. When rewriting paragraph by paragraph, strangle it first.
 
-**3. "降 AI 率"是虚假安全感，必须当面说破。** 本技能的 score 与任何第三方检测器（商业或学校自建）**相关但不因果**：各家词表不同、加权不同、对 burstiness 的算法不同，同一份改写稿在不同检测器的分数可以相差 30 分以上。交付时的标准话术是"统计特征层面已显著下降"，绝不承诺"过 XX 检测"——用户追问就给暗知识 1 的原理，不给担保。
+**3. "Lowering the AI rate" is false security and must be broken to the user's face.** This skill's score correlates with any third-party detector (commercial or school-built) **without causation**: word lists differ, weights differ, burstiness algorithms differ, and the same rewritten draft can score 30+ points apart across detectors. The standard delivery phrasing is "statistical features have dropped significantly" — never promise "passes XX detector"; if the user presses, give the principle in tacit knowledge 1, not a guarantee.
 
-**4. 表演性人味是第二层机器腔。** 强行注入情绪句会制造新的破绽：每段都有"说实话"、每个长句配一个破折号、到处是"坦白讲我一开始不信"——人类编辑一眼识破的"假人味"，恰恰是词表测不出的。2025 年之后的模型改写稿普遍带有"破折号依赖症"，这已经是新一代 AI 套话。纪律：情绪句全文最多两三处、修辞标点每段最多一处、宁可留一段不动也不硬造情绪。
+**4. Performative human-ness is a second layer of machine tone.** Forcing in emotional sentences creates new tells: every paragraph has "to be honest", every long sentence paired with an em-dash, "frankly I didn't believe it at first" everywhere — "fake human-ness" that human editors spot at a glance is exactly what the word list can't measure. Post-2025 model rewrites universally carry "em-dash dependency"; it's already the new generation's AI cliche. Discipline: at most two or three emotional sentences in the whole text, at most one rhetorical punctuation per paragraph; better to leave one paragraph untouched than force emotion into it.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |---|---|---|
-| 待改写文本 | 是 | AI 生成的初稿或 AI 味明显的成稿；太短（<100 字）没有重写空间 |
-| voice profile | 否 | personal-voice-profile 产出的 voice-profile.json；缺省时用通用人味策略并声明 |
-| 改写强度 | 否 | 轻度去痕（只消体检命中项）/ 深度人格化（默认）；用户没说就按深度 |
-| 保护清单 | 否 | 用户点名不可动的表述；与红线 1 的默认冻结项合并执行 |
+| Text to rewrite | yes | AI-generated first draft or clearly AI-flavored finished piece; too short (<100 chars) leaves no rewriting room |
+| voice profile | no | voice-profile.json produced by personal-voice-profile; if absent, use a generic human-ness strategy and declare it |
+| Rewrite intensity | no | light de-tracing (only erase checkup hits) / deep personification (default); if the user doesn't say, go deep |
+| Protection list | no | expressions the user names as off-limits; merged with Red Line 1's default freeze items |
 
-缺必填项时，只问一次：
+When a required item is missing, ask only once:
 
-> 请提供：① 待改写的文本全文；② 可选——你的 voice profile 文件（没有就用通用策略）、改写强度（轻度去痕 / 深度人格化）、有特别不能动的句子吗？
+> Please provide: ① the full text to rewrite; ② optional — your voice profile file (generic strategy if none), rewrite intensity (light de-tracing / deep personification), any sentences that must not be touched?
 
-## 前置自检
+## Pre-flight Checks
 
-需要探测一项环境：复检依赖 ai-trace-auditor 技能目录内的 trace_scanner.py（纯标准库脚本，随该技能 bundle 交付）。
+Probe one environment: re-checking depends on trace_scanner.py inside the ai-trace-auditor skill directory (a pure-stdlib script, shipped with that skill's bundle).
 
 ```bash
-# SCANNER 填实际路径，例如：
+# set SCANNER to the actual path, e.g.:
 # SCANNER="C:/path/to/awesome-skillkit/skills/writing/ai-trace-auditor/scripts/trace_scanner.py"
-SCANNER="<ai-trace-auditor目录>/scripts/trace_scanner.py"
-python3 --version && test -f "$SCANNER" && printf '探针句。\n' | python3 "$SCANNER" - >/dev/null && echo "check=ok"
+SCANNER="<ai-trace-auditor dir>/scripts/trace_scanner.py"
+python3 --version && test -f "$SCANNER" && printf 'probe sentence.\n' | python3 "$SCANNER" - >/dev/null && echo "check=ok"
 ```
 
-（用管道喂一行探针文本而非 `--help`：该脚本以位置参数收文件，`--help` 会被当成文件名报错；且不要用 `| head`，否则 `$?` 恒为 0 失去意义。）
+(Pipe one line of probe text rather than `--help`: this script takes a file as a positional argument, and `--help` would be treated as a filename and error; and don't use `| head`, or `$?` is always 0 and meaningless.)
 
-脚本能跑 → 走标准流程；不能跑（无 python3 / 脚本缺失）→ 全程用人工清单（见步骤 1 若失败），交付时标注 `manual_mode: true`。输入侧自检：文本拿到了吗？低于 100 字 → 如实告知改写空间不足，不建议开工。改写强度未声明 → 按深度人格化执行并在首条回复中说明，不等用户第二轮确认。
+If the script runs -> use the standard flow; if not (no python3 / script missing) -> use the manual checklist throughout (see Step 1 if it fails), marking `manual_mode: true` at delivery. Input-side self-check: do you have the text? Under 100 chars -> say plainly there's insufficient rewriting room and don't recommend starting. Rewrite intensity unstated -> do deep personification and say so in the first reply; don't wait for a second user confirmation.
 
-## 红线（硬性禁令，不可协商）
+## Red Lines (Hard Bans, Non-Negotiable)
 
-1. 不改事实与结论：数字、术语、引用、论断、因果关系全部冻结——本技能只动表达层。禁改项在改写前先提取成清单，交付时逐条核对。
-2. 不加原文没有的信息：尤其数字。"从 3 小时压到 40 分钟"这种具体性升维，只能来自原文已有事实或向用户确认，绝不凭空造一个。
-3. 正式法律、医疗、学术提交文本不适用本技能：这类文本的措辞即合规边界，表达层的"人味"会引入风险；只可建议用户人工润色。
-4. 不承诺绕过任何平台或机构的 AI 检测：本技能提升可读性与真实感，改写结果与任何检测系统的结论无关——被问到时明确说明，原理见暗知识 3。
-5. 不制造表演性人味：情绪注入句全文 ≤3 处、修辞标点每段 ≤1 处；超出即违反本红线，复检时对照暗知识 4 回撤。
+1. Don't change facts and conclusions: numbers, terms, quotes, claims, causal relationships are all frozen — this skill only touches the expression layer. Extract the banned-change items into a list before rewriting, and check off each at delivery.
+2. Don't add information the original lacks: especially numbers. A concreteness upgrade like "from 3 hours to 40 minutes" can only come from facts already in the text or user confirmation; never make one up.
+3. Formal legal, medical, and academic-submission texts are out of scope for this skill: in such texts wording is the compliance boundary, and the expression layer's "human-ness" introduces risk; only recommend manual polishing.
+4. Don't promise to bypass any platform's or institution's AI detection: this skill improves readability and authenticity, and the rewrite result is unrelated to any detection system's conclusion — say so plainly when asked; see tacit knowledge 3 for the principle.
+5. Don't manufacture performative human-ness: emotion-injection sentences <=3 in the whole text, rhetorical punctuation <=1 per paragraph; exceeding this violates the red line, and at re-check roll back against tacit knowledge 4.
 
-## 工作流
+## Workflow
 
-### 步骤 1：体检基线
+### Step 1: Checkup Baseline
 
-- **动作：** 先用 ai-trace-auditor 的扫描器拿基线分（脚本在该技能目录内，先 cd 过去或写全路径）：
+- **Action:** first get a baseline score with ai-trace-auditor's scanner (the script is in that skill's directory; cd there first or write the full path):
 
 ```bash
-python3 "$SCANNER" 待改写文本.md     # $SCANNER 为前置自检里定好的全路径变量
-                                     # 也支持 cat 文本 | python3 "$SCANNER" -
+python3 "$SCANNER" text_to_rewrite.md     # $SCANNER is the full-path variable set in pre-flight checks
+                                          # also supports cat text | python3 "$SCANNER" -
 ```
 
-- **预期：** 输出 `{stats, findings[]}` JSON、退出码 0；记录基线 score 与 findings 清单——这是后面每一步的靶子。
-- **若失败：** python3 不可用 → 改用人工三查（词表逐词过 / 目测句长是否均匀 / 数列表行占比），把命中项手工记成对照清单，报告标注 manual_mode；用户直接粘贴的文本未落盘 → 先存临时文件再扫，或直接走 stdin——脚本支持 `-` 参数读取标准输入（用法见步骤 1 代码块注释）。
+- **Expected:** output `{stats, findings[]}` JSON, exit code 0; record the baseline score and the findings list — this is the target for every later step.
+- **If it fails:** python3 unavailable -> switch to the manual three-check (word list word by word / eyeball whether sentence lengths are even / count list-line ratio), manually record hits as a comparison checklist, mark the report manual_mode; text the user pasted directly isn't saved to disk -> first save a temp file then scan, or go straight via stdin — the script supports `-` to read standard input (usage in Step 1 code-block comments).
 
-### 步骤 2：锁定禁改清单
+### Step 2: Lock the Banned-Change List
 
-- **动作：** 从原文提取四类冻结项：全部数字与单位、专有名词与术语、直接引语、结论句。逐条编号列出。
-- **预期：** 禁改清单完整可核对；有歧义的表述（如"约 30%"算不算可动）当面向用户确认一次。清单样例：
+- **Action:** extract four kinds of freeze items from the original: all numbers and units, proper nouns and terms, direct quotes, conclusion sentences. Number them one by one.
+- **Expected:** the banned-change list is complete and checkable; ambiguous expressions (e.g. whether "about 30%" counts as movable) are confirmed with the user once face to face. Sample list:
 
 ```text
-禁改清单 #1 数字与单位：3 小时 / 40 分钟 / 12 人 / 2026 年 Q2
-禁改清单 #2 术语与专名：Kubernetes、HPBX 协议、A/B 测试
-禁改清单 #3 直接引语："用户告诉我们，加载慢一秒就走人。"
-禁改清单 #4 结论句：所以缓存层必须保留，砍掉它就是砍掉首屏体验。
+Banned list #1 numbers & units: 3 hours / 40 minutes / 12 people / 2026 Q2
+Banned list #2 terms & proper nouns: Kubernetes, HPBX protocol, A/B test
+Banned list #3 direct quotes: "Users told us they leave if loading is one second slower."
+Banned list #4 conclusion: so the cache layer must stay; cutting it is cutting first-screen experience.
 ```
 
-- **若失败：** 用户补充了保护清单 → 合并进本清单；提取不出来（全文皆结论）→ 告知本技能只宜做轻度去痕。
+- **If it fails:** the user adds a protection list -> merge into this list; can't extract (the whole text is conclusions) -> say this skill only suits light de-tracing.
 
-### 步骤 3：加载 voice profile
+### Step 3: Load the Voice Profile
 
-- **动作：** 有 voice-profile.json → 读出四层参数（lexical 口头禅与高频动词、syntactic 句长与段落习惯、tonal 语气与称呼、structural 开头结尾套路），改写时向其对齐；没有 → 用通用策略，并告知用户"先跑 personal-voice-profile 会更像你本人"。
-- **预期：** 改写基调确定——后续每段都问一句"这样写像不像 profile 里那个人"。对齐读法示例：
+- **Action:** if there's a voice-profile.json -> read out the four-layer parameters (lexical catchphrases and high-frequency verbs, syntactic sentence-length and paragraph habits, tonal tone and address, structural opening/closing routines), aligning the rewrite to them; if not -> use a generic strategy and tell the user "running personal-voice-profile first would make it more like you".
+- **Expected:** the rewrite baseline is set — every later paragraph asks "does this read like the person in the profile". Alignment-reading example:
 
 ```text
-profile.syntactic.median_sentence_len = 22  → 改写稿句长中位数控制在 20-25
-profile.tonal.habit = "爱用反问收段"        → 每段结尾最多一个反问，宁缺勿滥
+profile.syntactic.median_sentence_len = 22  -> keep the rewrite's median sentence length around 20-25
+profile.tonal.habit = "likes ending paragraphs with rhetorical questions"  -> at most one rhetorical question per paragraph; better fewer than overdone
 ```
 
-- **若失败：** profile 文件损坏或字段缺失 → 缺哪层补哪层的通用默认，不整个弃用。
+- **If it fails:** profile file corrupted or fields missing -> fill whichever layer is missing with its generic default; don't discard the whole thing.
 
-### 步骤 4：逐段重写
+### Step 4: Rewrite Paragraph by Paragraph
 
-- **动作：** 逐段执行"保信息、换表达、注情绪"，四个手法按优先级使用：
-  - **burstiness 注入：** 连续两个长句后接一个 ≤8 字短句；把一个 60 字长句拆成一个 40 字句加一个 12 字句。目标 cv ≥ 0.5（与体检阈值对齐）。
-  - **具体性升维：** 抽象概括换成具体名词、数字、场景——"效率显著提升"→"同样一批稿件，从 3 小时压到 40 分钟"（数字必须来自原文或用户确认，见红线 2）。
-  - **情绪注入：** 加第一人称反应、犹豫、吐槽——"说实话我一开始也不信"，全文最多两三处（红线 5），不堆砌。
-  - **不完美允许：** 口语插入语、破折号岔路、偶尔的反问；允许一处不算华丽的表达保留原样。
-- 同时对照步骤 1 的 findings 逐条消痕：ai_word 命中换具体表达，parallelism 拆句，enumerator_chain 改小标题或直接展开，list_density 把非并列列表揉回段落。
-- 手法优先级：**先绞杀排比与枚举（暗知识 2 的最大暴露面），再消 findings 命中项（可验证），最后上四手法（可感知）**——只做最后一层体检分会骗人，只做前两层读者会觉得没改。
-- **预期：** 每段改完能在原文与改写稿之间逐句对应；禁改清单项零变化；情绪句总数 ≤3；破折号总数不多于原文。改写前后对照示例：
+- **Action:** execute "keep information, change expression, inject emotion" paragraph by paragraph, using the four techniques in priority order:
+  - **Burstiness injection:** after two long sentences in a row, follow with a <=8-char short one; split a 60-char long sentence into a 40-char one plus a 12-char one. Target cv >= 0.5 (aligned with the checkup threshold).
+  - **Concreteness upgrade:** replace abstract generalizations with concrete nouns, numbers, scenes — "significantly improved efficiency" -> "the same batch of drafts, from 3 hours down to 40 minutes" (the number must come from the original or user confirmation, see Red Line 2).
+  - **Emotion injection:** add first-person reactions, hesitation, asides — "to be honest I didn't believe it at first", at most two or three in the whole text (Red Line 5), not piled up.
+  - **Imperfection allowed:** spoken insertions, em-dash detours, an occasional rhetorical question; let one unglamorous expression stay as-is.
+- At the same time, erase traces against Step 1's findings item by item: ai_word hits -> swap for concrete expression, parallelism -> split the sentence, enumerator_chain -> turn into subheadings or expand directly, list_density -> knead non-parallel lists back into paragraphs.
+- Technique priority: **first strangle parallelism and enumeration (tacit knowledge 2's biggest exposure surface), then erase findings hits (verifiable), finally apply the four techniques (perceptible)** — doing only the last layer misleads the checkup score; doing only the first two leaves readers feeling nothing changed.
+- **Expected:** after each paragraph, you can map sentence by sentence between original and rewrite; banned-list items have zero change; total emotional sentences <=3; total em-dashes no more than the original. Before/after example:
 
 ```text
-原文：综上所述，缓存优化显著提升了系统性能，不仅降低了延迟，而且提高了吞吐量。
-改后：缓存这一刀下去，接口延迟从 800ms 掉到 90ms，吞吐也跟着上来了——数字不会说谎。
-手法：删"综上所述/不仅…而且"（体检 L3 命中，且为排比暴露面）→ burstiness：长句后补一个短句收尾
-      → "800ms→90ms"为原文已有事实（红线 2：数字未新增）；破折号沿用原文节奏，未新增
+Original: In summary, cache optimization significantly improved system performance, not only lowering latency but also raising throughput.
+After: The moment we cut in the cache, endpoint latency dropped from 800ms to 90ms, and throughput climbed with it — numbers don't lie.
+Techniques: delete "in summary / not only...but also" (checkup L3 hit, and a parallelism exposure surface) -> burstiness: append a short sentence after the long one
+           -> "800ms->90ms" is a fact already in the original (Red Line 2: no new number); em-dash follows the original rhythm, not added
 ```
 
-- **若失败：** 某段怎么改都干瘪 → 保留原样并注明"该段信息密度高，未强行注入"，不硬造情绪。
+- **If it fails:** a paragraph stays no matter how you rewrite it -> keep it as-is and note "this paragraph is information-dense, not force-injected"; don't manufacture emotion.
 
-### 步骤 5：复检
+### Step 5: Re-check
 
-- **动作：** 对改写稿再跑一次步骤 1 的扫描命令，参数与基线一致。
-- **预期：** score 相比基线下降 ≥20 分（经验值，可调），且 cv 升到 0.5 以上；若加载了 voice profile，句长与段落形态应与 profile 的 syntactic 层接近。对比记录样例：
+- **Action:** run Step 1's scan command on the rewrite again, same parameters as the baseline.
+- **Expected:** score drops >=20 points vs. baseline (empirical, tunable), and cv rises above 0.5; if a voice profile was loaded, sentence length and paragraph shape should approach the profile's syntactic layer. Comparison-record example:
 
 ```text
-基线：score 23，heavy_ai_style，ai_word_hits=7，cv=0.38，list_ratio=0.55
-     （验算：100 - 7×6 - 20(cv<0.5) - 15(list_ratio>0.4) = 23，与脚本口径一致）
-复检：score 88，human_like，ai_word_hits=2，cv=0.61，list_ratio=0.32
-     （验算：100 - 2×6 = 88；cv 与 list_ratio 均已过线不再扣分）
-结论：降幅 65 ≥ 20，达标；残余 2 处命中在对照表中给出处理说明
+Baseline: score 23, heavy_ai_style, ai_word_hits=7, cv=0.38, list_ratio=0.55
+         (verify: 100 - 7*6 - 20(cv<0.5) - 15(list_ratio>0.4) = 23, matching the script's formula)
+Re-check: score 88, human_like, ai_word_hits=2, cv=0.61, list_ratio=0.32
+         (verify: 100 - 2*6 = 88; cv and list_ratio both passed the line, no longer docked)
+Conclusion: drop 65 >= 20, passes; the 2 residual hits get treatment notes in the comparison table
 ```
 
-- **若失败：** 分数不降反升 → 多半是把长句全改成了等长短句，回步骤 4 重做长短句交错；只差一点 → 只针对残余 findings 做点状修补，不整篇重写。分数达标但人读着仍假 → 回暗知识 4 排查表演性人味，逐句回撤。
+- **If it fails:** score rises instead of falling -> likely you turned all long sentences into even short ones; go back to Step 4 and redo long-short alternation; just short of the line -> only do point patching on residual findings, don't rewrite the whole piece. Score passes but it still reads fake -> go back to tacit knowledge 4 to hunt for performative human-ness, rolling back sentence by sentence.
 
-### 步骤 6：交付
+### Step 6: Deliver
 
-- **动作：** 输出三件产物：① 改写稿全文；② 修改对照表，每条 `原文 → 改后 ← 手法/依据`；③ 分数对比与边界声明——"统计特征层面已显著下降（基线 X → 复检 Y），与任何第三方检测器的结论无因果关联"。
-- **预期：** 用户能逐条接受或拒绝每处改动；边界声明随交付走（红线 4）。
-- **若失败：** 对照表与改写稿对不上 → 以改写稿为准重算对照表，禁止交付两张皮。
+- **Action:** output three artifacts: ① the full rewritten draft; ② a change comparison table, each `original -> after <- technique/basis`; ③ the score comparison and boundary disclaimer — "statistical features have dropped significantly (baseline X -> re-check Y), with no causal link to any third-party detector's conclusion".
+- **Expected:** the user can accept or reject each change item by item; the boundary disclaimer travels with delivery (Red Line 4).
+- **If it fails:** the comparison table doesn't match the rewrite -> recompute the table from the rewrite as authoritative; delivering two disconnected versions is forbidden.
 
-## 产出规格
+## Output Spec
 
-| 产物 | 结构 | 说明 |
+| Artifact | Structure | Notes |
 |---|---|---|
-| 改写稿 | 连贯正文 | 与原文逐段对应；禁改项逐字未动 |
-| 修改对照表 | 每条：原文 / 改后 / 手法 / 依据 | 依据指向体检 findings 的 pos 或 voice profile 字段 |
-| 复检结果 | `{score, verdict, findings[]}` | 与 ai-trace-auditor 报告同构；基线分与复检分并列展示 |
+| Rewritten draft | Continuous prose | Paragraph-by-paragraph correspondence with the original; banned items untouched verbatim |
+| Change comparison table | each row: original / after / technique / basis | basis points to a checkup finding's pos or a voice-profile field |
+| Re-check result | `{score, verdict, findings[]}` | Same structure as the ai-trace-auditor report; baseline and re-check scores shown side by side |
 
-## 失败处置表
+## Failure Remediation Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Remedy |
 |---|---|---|
-| 复检分不降反升 | 短句堆成新的均匀节奏 | 回步骤 4 重做长短句交错；验证 cv |
-| 分数达标但"读着还是假" | 表演性人味（暗知识 4） | 逐句回撤情绪堆料与破折号，再复检 |
-| 禁改内容被改动 | 重写时手滑 | 对照禁改清单逐条回滚，重跑复检 |
-| 用户要求补细节编数字 | 触碰红线 2 | 拒绝；提示插入 `<待你确认：具体数值>` 占位 |
-| 用户追问"能过 XX 检测吗" | 触碰红线 4 | 拒绝担保；用暗知识 3 解释相关非因果 |
-| 改完像另一个人写的 | 没加载 profile 或强度过大 | 退回轻度去痕：只消 findings 命中项，不做情绪注入 |
-| 全文都是结论没得改 | 信息层与表达层不可分 | 如实说明本技能适配性差，建议重写而非改写 |
-| 改写稿超长/缩水超过 20% | 情绪注入或删减失控 | 以原文长度为锚回调，偏差计入对照表说明 |
-| 情绪句与全文气质打架 | 强度选错或 profile 缺失 | 逐句回滚违和的注入句，保留结构层改动 |
-| 破折号/省略号用得比原文多一倍 | "不完美允许"被当成了标点堆料 | 修辞标点回撤到每段最多一处；对照表记录回撤项 |
-| 用户拿来的是合同/病历等正式文本 | 触碰红线 3 | 拒绝改写并说明理由；只提供人工润色的方向性建议 |
+| Re-check score rises instead of falling | Short sentences piled into a new even rhythm | Go back to Step 4 and redo long-short alternation; verify cv |
+| Score passes but "still reads fake" | Performative human-ness (tacit knowledge 4) | Roll back emotion stacking and em-dashes sentence by sentence, then re-check |
+| Banned content was changed | A slip while rewriting | Roll back against the banned list item by item, rerun re-check |
+| User asks to invent details/numbers | Hits Red Line 2 | Refuse; suggest inserting a `<to be confirmed by you: specific value>` placeholder |
+| User presses "will it pass XX detector" | Hits Red Line 4 | Refuse to guarantee; explain correlation-without-causation via tacit knowledge 3 |
+| After rewriting it reads like someone else wrote it | Profile not loaded or intensity too high | Revert to light de-tracing: only erase findings hits, no emotion injection |
+| The whole text is conclusions with nothing to change | Information layer and expression layer inseparable | Say plainly this skill fits poorly; recommend rewriting rather than revising |
+| Rewrite is >20% over/under length | Emotion injection or cuts out of control | Anchor back to the original length; note the deviation in the comparison table |
+| Emotional sentences clash with the piece's tone | Wrong intensity or missing profile | Roll back the jarring injected sentences; keep the structural-layer changes |
+| Em-dashes/ellipses used twice as much as the original | "Imperfection allowed" treated as punctuation stacking | Roll rhetorical punctuation back to at most one per paragraph; record rollbacks in the table |
+| The user brings a formal text like a contract/medical record | Hits Red Line 3 | Refuse to rewrite and explain why; only give directional manual-polishing advice |
 
-## 交付标准
+## Delivery Standard
 
-- 复检 score 相比基线下降 ≥20（经验值，可调），禁改清单逐条核对零改动。
-- 修改对照表完整：每处改动可追溯手法与依据，无未记录的改动。
-- 改写稿不含原文没有的数字与事实；含一句检测边界声明（相关非因果，暗知识 3 口径）。
-- 表演性人味自查通过：情绪句 ≤3 处、修辞标点每段 ≤1 处、排比枚举残留为零。
-- 改写稿可直接交 content-editor 或发布技能接手：无未确认的占位符残留（`<待你确认：…>` 必须已在步骤 4 向用户问明或保留为显式占位）。
-- 用户读完改写稿能说出"这句像我"或指出"这句不像"——后者进下一轮点状修补。
+- Re-check score drops >=20 vs. baseline (empirical, tunable); the banned list checked item by item with zero changes.
+- Change comparison table complete: every change traceable to a technique and basis, no unrecorded changes.
+- The rewrite contains no numbers or facts absent from the original; includes a detection-boundary disclaimer (correlation without causation, tacit knowledge 3 wording).
+- Performative human-ness self-check passes: emotional sentences <=3, rhetorical punctuation <=1 per paragraph, zero residual parallelism/enumeration.
+- The rewrite can be handed straight to content-editor or publishing skills: no unconfirmed placeholders left (`<to be confirmed by you: ...>` must either have been clarified with the user in Step 4 or kept as an explicit placeholder).
+- After reading the rewrite, the user can say "this sentence sounds like me" or point out "this one doesn't" — the latter goes into the next round of point patching.
 
-## 参考
+## References
 
-- `references/sources-and-methodology.md` —— 需要说明 burstiness 与具体性原则的来源、四手法的依据、如何对外署名时读。
+- `references/sources-and-methodology.md` — read when you need to explain the sources of the burstiness and concreteness principles, the basis for the four techniques, or external attribution.
 
-## 链路位置
+## Chain Position
 
-- 上游：ai-trace-auditor（体检报告是本技能的靶子清单）；personal-voice-profile（voice profile 让"人味"对齐到具体的人）。
-- 下游：content-editor（终稿润色）、各平台发布技能（wechat-mp-publisher、zhihu-content-manager、juejin-publisher 等）。
-- 平行：own-voice-rewrite（education 域学生作文的克制的版本；写作域通用场景用本技能）。
+- Upstream: ai-trace-auditor (its checkup report is this skill's target list); personal-voice-profile (the voice profile aligns "human-ness" to a specific person).
+- Downstream: content-editor (final-draft polishing), per-platform publishing skills (wechat-mp-publisher, zhihu-content-manager, juejin-publisher, etc.).
+- Parallel: own-voice-rewrite (the restrained version for the education domain's student essays; use this skill for general writing-domain cases).

@@ -1,6 +1,6 @@
 ---
 name: git-worktree-manager
-description: "Run parallel feature work safely with Git worktrees. Standardizes branch isolation, port allocation, environment sync, and cleanup so each worktree behaves like an independent local app. Optimized for multi-agent workflows where each agent or terminal session owns one worktree. Use when running multiple feature branches simultaneously, isolating experimental work, or coordinating multi-agent development across the same repo. 当用户要求 用 git worktree / 多分支并行开发 时使用。 Do NOT use for resolving merge conflicts inside a worktree."
+description: "Run parallel feature work safely with Git worktrees, using git worktrees, or doing multi-branch parallel development. Standardizes branch isolation, port allocation, environment sync, and cleanup so each worktree behaves like an independent local app. Optimized for multi-agent workflows where each agent or terminal session owns one worktree. Use when running multiple feature branches simultaneously, isolating experimental work, or coordinating multi-agent development across the same repo. Do NOT use for resolving merge conflicts inside a worktree."
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
@@ -14,36 +14,36 @@ metadata:
 
 # Git Worktree Manager
 
-用 Git worktree 安全地并行开发：每分支一个隔离工作树、自动化端口分配、环境同步与清理。面向多智能体工作流，每个 agent/终端会话独占一个 worktree。
+Develop in parallel safely with Git worktrees: one isolated work tree per branch, automated port allocation, environment sync, and cleanup. Built for multi-agent workflows where each agent/terminal session owns exactly one worktree.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Description |
 |------|------|------|
-| `--repo` | 必需 | 主仓库路径（默认 `.`） |
-| `--branch` | 必需（创建时） | 新/已有分支名，如 `feature/new-auth` |
-| `--name` | 必需（创建时） | worktree 目录名，建议 `wt-<topic>` |
-| `--base-branch` | 可选 | 新分支的基点，如 `main`/`develop` |
-| `--stale-days` | 可选 | 清理时判定陈旧的存活天数（默认 14） |
-| `--install-deps` | 可选 | 按 lockfile 探测安装依赖 |
-| `--format` | 可选 | `text`（人审，默认）或 `json`（流水线） |
+| `--repo` | Required | Main repo path (default `.`) |
+| `--branch` | Required (on create) | New or existing branch name, e.g. `feature/new-auth` |
+| `--name` | Required (on create) | Worktree directory name; suggest `wt-<topic>` |
+| `--base-branch` | Optional | The base for a new branch, e.g. `main`/`develop` |
+| `--stale-days` | Optional | Days alive before cleanup judges it stale (default 14) |
+| `--install-deps` | Optional | Detect and install dependencies per the lockfile |
+| `--format` | Optional | `text` (human review, default) or `json` (pipelines) |
 
-缺失输入时一次性问齐：「请提供：①主仓库路径（默认当前目录）②分支名 ③worktree 名（建议 `wt-<topic>`）④基点分支（默认 `main`）。其余默认：不装依赖、输出 text。」
+When inputs are missing, ask for all at once: "Please provide: (1) main repo path (default current directory), (2) branch name, (3) worktree name (suggested `wt-<topic>`), (4) base branch (default `main`). Everything else defaults: don't install deps, output text."
 
-## 前置自检
+## Pre-flight Checks
 
 ```bash
-git rev-parse --is-inside-work-tree   # 预期 true；失败：非 git 仓库 → STOP
-# 自检：python3 scripts/worktree_manager.py --help 与 worktree_cleanup.py --help 均预期退出码 0
-git rev-parse --verify main >/dev/null 2>&1   # 预期基点分支存在；失败：确认 --base-branch
+git rev-parse --is-inside-work-tree   # expected true; on failure: not a git repo → STOP
+# Self-check: python3 scripts/worktree_manager.py --help and worktree_cleanup.py --help should both exit 0
+git rev-parse --verify main >/dev/null 2>&1   # expected: the base branch exists; on failure: confirm --base-branch
 ```
 
-## 工作流
+## Workflow
 
-### 步骤 1：创建完整预置的 worktree
+### Step 1: Create a fully provisioned worktree
 
 ```bash
-# 单行用法见步骤 2 的 --input 示例（可直接运行）；下方续行排版仅为可读，复制时合并为一行：
+# Single-line usage is shown in Step 2's --input example (runnable as-is); the wrapped layout below is readability only; merge into one line when copying:
 # python3 scripts/worktree_manager.py \
 #   --repo . \
 #   --branch feature/new-auth \
@@ -53,80 +53,80 @@ git rev-parse --verify main >/dev/null 2>&1   # 预期基点分支存在；失�
 #   --format text
 ```
 
-预期：创建 worktree 目录并切到目标分支（不存在则基于基点新建），生成 `.worktree-ports.json` 端口映射，复制 `.env*`，脚本退出码 0。已存在同路径 worktree 时直接复用（幂等，退出码 0）。
-若失败：目标路径已存在→检查路径，勿覆盖；依赖安装失败→保留 worktree、标记状态转人工恢复；`.env` 复制失败→告警并列出缺失文件继续。
+Expected: create the worktree directory and switch to the target branch (create it from the base if it doesn't exist), generate a `.worktree-ports.json` port map, copy `.env*`, and the script exits 0. If a worktree already exists at the same path, reuse it directly (idempotent, exit 0).
+On failure: the target path already exists → check the path, don't overwrite; dependency install fails → keep the worktree, mark its status, and hand off for manual recovery; `.env` copy fails → warn and list the missing files, then continue.
 
-### 步骤 2：流水线/多智能体输入（JSON 模式）
+### Step 2: Pipeline / multi-agent input (JSON mode)
 
 ```bash
-# 管道用法：cat config.json | python3 scripts/worktree_manager.py --format json
-# 或
-python3 scripts/worktree_manager.py --input assets/sample-worktree-config.json --dry-run --format json   # 随包样例 + 只读预演（校验配置、打印计划，不落盘）；去掉 --dry-run 即真实创建
+# Piped usage: cat config.json | python3 scripts/worktree_manager.py --format json
+# Or
+python3 scripts/worktree_manager.py --input assets/sample-worktree-config.json --dry-run --format json   # bundled sample + read-only rehearsal (validates the config, prints the plan, writes nothing); drop --dry-run to actually create
 ```
 
-预期：同步骤 1，输出为 JSON 便于机器消费。
-若失败：JSON 字段缺 `branch`/`name`→校验输入 schema 后重传。
+Expected: same as Step 1, but the output is JSON for machine consumption.
+On failure: the JSON lacks `branch`/`name` fields → validate the input schema and resend.
 
-### 步骤 3：并行会话约定
+### Step 3: Parallel-session conventions
 
-- 主仓库：集成分支（`main`/`develop`）占默认端口。
-- 每个 worktree：偏移端口，端口分配写入该树下的 `.worktree-ports.json`。
-- 每个 worktree 独占一个 agent，避免共享分支。
+- Main repo: the integration branch (`main`/`develop`) owns the default ports.
+- Each worktree: offset ports; the port allocation is written to `.worktree-ports.json` inside that tree.
+- Each worktree is owned by exactly one agent; avoid shared branches.
 
-### 步骤 4：带安全检查的清理
+### Step 4: Cleanup with safety checks
 
 ```bash
 python3 scripts/worktree_cleanup.py --repo . --stale-days 14 --format text
 python3 scripts/worktree_cleanup.py --repo . --remove-merged --format text
 ```
 
-预期：仅移除「已合并 + 工作树干净」的 worktree；扫描报告无意外残留脏树。
-若失败：存在未提交改动→默认不移除，列出路径；需强制移除须显式 `--force` 且经用户确认（见安全红线）。
+Expected: only removes worktrees that are "merged + clean work tree"; the scan reports no unexpectedly leftover dirty trees.
+On failure: uncommitted changes exist → don't remove by default; list the path; a forced removal requires explicit `--force` and user confirmation (see the safety red lines).
 
-## 端口分配策略
+## Port Allocation Strategy
 
-默认 `base + (index * stride)` 并做冲突检测：App `3000`、Postgres `5432`、Redis `6379`、stride `10`。
-完整策略与边界情况见 `references/port-allocation-strategy.md`。
+Default `base + (index * stride)` with conflict detection: App `3000`, Postgres `5432`, Redis `6379`, stride `10`.
+See `references/port-allocation-strategy.md` for the full strategy and edge cases.
 
-## 参数速查表
+## Parameter Cheat Sheet
 
-| 参数 | 取值 | 说明 |
+| Parameter | Values | Description |
 |------|------|------|
-| `--repo` | 路径 | 主仓库（默认 `.`） |
-| `--branch` | 分支名 | 新/已有分支 |
-| `--name` | 名字 | worktree 目录名 |
-| `--base-branch` | 分支名 | 新分支基点 |
-| `--install-deps` | flag | 按 lockfile 安装依赖 |
-| `--stale-days` | 整数 | 清理陈旧阈值（默认 14） |
-| `--remove-merged` | flag | 仅移除已合并 worktree |
-| `--force` | flag | 强制移除（含脏树）—需用户确认 |
-| `--format` | `text`/`json` | 输出形态 |
+| `--repo` | path | Main repo (default `.`) |
+| `--branch` | branch name | New or existing branch |
+| `--name` | name | Worktree directory name |
+| `--base-branch` | branch name | Base for a new branch |
+| `--install-deps` | flag | Install dependencies per the lockfile |
+| `--stale-days` | integer | Staleness threshold for cleanup (default 14) |
+| `--remove-merged` | flag | Remove only merged worktrees |
+| `--force` | flag | Force removal (including dirty trees) — needs user confirmation |
+| `--format` | `text`/`json` | Output shape |
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象/错误码 | 原因 | 处置 |
+| Symptom / error code | Cause | Fix |
 |------------|------|------|
-| `git worktree add` 失败（路径已存在） | 目标路径占用 | 检查路径，勿覆盖 |
-| 依赖安装失败 | lockfile 或网络问题 | 保留 worktree 转人工恢复 |
-| `.env` 复制失败 | 源仓库无该文件 | 告警列出缺失项继续 |
-| 端口冲突 | 与外部服务撞端口 | 调 `--base` 重跑分配 |
-| 清理扫描到脏树 | 有未提交改动 | 默认不移除；强制须确认 |
+| `git worktree add` failed (path exists) | The target path is taken | Check the path; don't overwrite |
+| Dependency install failed | Lockfile or network issue | Keep the worktree, hand off for manual recovery |
+| `.env` copy failed | The source repo lacks the file | Warn, list the missing items, continue |
+| Port conflict | Collides with an external service | Adjust `--base` and rerun the allocation |
+| Cleanup scan found a dirty tree | Uncommitted changes | Don't remove by default; force requires confirmation |
 
-## 交付标准
+## Delivery Criteria
 
-成功定义：`git worktree list` 显示预期路径+分支；`.worktree-ports.json` 存在且端口唯一；`.env` 已复制（源有则成功）；依赖安装退出码 0；清理扫描无意外脏树。
-产物命名：worktree 目录 `<name>/`，端口映射 `.worktree-ports.json`（位于 worktree 内）。
-保存位置：主仓库同级目录；端口映射随 worktree 留存。
-验证完整性：运行上方三条 `git worktree list` / `.worktree-ports.json` / `git status` 检查。
+Definition of success: `git worktree list` shows the expected paths + branches; `.worktree-ports.json` exists with unique ports; `.env` was copied (succeeds if the source has it); dependency install exits 0; the cleanup scan finds no unexpected dirty trees.
+Artifact naming: worktree directory `<name>/`, port map `.worktree-ports.json` (inside the worktree).
+Save location: a directory sibling to the main repo; the port map stays with the worktree.
+Completeness verification: run the three checks above — `git worktree list` / `.worktree-ports.json` / `git status`.
 
-## 安全红线
+## Safety Red Lines
 
-- **移除是破坏性操作**：`worktree_cleanup.py` 默认只删「已合并且干净」的树；删脏树/未合并树必须显式 `--force` 且先向用户确认，确认前不执行。
-- 端口映射写入文件而非记忆/终端便签；多智能体用 `wt-<taskId>` 命名避免误提交到错误窗口。
-- 清理后若删错了，需从 `git worktree prune` 之外的备份恢复——因此确认前务必复核路径。
+- **Removal is destructive**: `worktree_cleanup.py` by default only deletes "merged and clean" trees; deleting a dirty/unmerged tree requires explicit `--force` and prior user confirmation — don't execute before confirmation.
+- Port maps are written to a file, not memory/terminal sticky notes; multi-agent setups use `wt-<taskId>` naming to avoid committing to the wrong window.
+- If cleanup deletes the wrong thing, recovery is from a backup outside `git worktree prune` — so double-check the path before confirming.
 
-## 参考
+## References
 
-- `references/port-allocation-strategy.md` —— 端口分配完整策略与边界情况
-- `references/docker-compose-patterns.md` —— 每 worktree 覆盖 `docker-compose` 模板
-- `README.md` —— 快速上手与安装
+- `references/port-allocation-strategy.md` — the full port-allocation strategy and edge cases
+- `references/docker-compose-patterns.md` — per-worktree `docker-compose` override templates
+- `README.md` — quick start and installation

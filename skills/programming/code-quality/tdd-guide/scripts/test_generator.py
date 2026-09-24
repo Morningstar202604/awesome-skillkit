@@ -439,3 +439,55 @@ import static org.junit.jupiter.api.Assertions.*;
             if keyword_lower in test_lower:
                 return True
         return False
+
+
+def main(argv=None):
+    """CLI: generate test stubs from a source file or requirements JSON."""
+    import argparse
+    import json
+    import sys
+    from pathlib import Path
+
+    ap = argparse.ArgumentParser(
+        description="Generate test cases and stubs from source or requirements")
+    ap.add_argument("--input", required=True,
+                    help="Source file path or requirements JSON file")
+    ap.add_argument("--framework", default="pytest",
+                    choices=[f.value for f in TestFramework],
+                    help="Target test framework (default: pytest)")
+    ap.add_argument("--language", default="python",
+                    help="Source language (default: python)")
+    args = ap.parse_args(argv)
+
+    inp = Path(args.input)
+    if not inp.exists():
+        print(f"Error: input file not found: {args.input}", file=sys.stderr)
+        return 2
+
+    framework = TestFramework(args.framework)
+    gen = TestGenerator(framework=framework, language=args.language)
+
+    content = inp.read_text(encoding="utf-8", errors="replace")
+
+    # Try to parse as requirements JSON; otherwise treat as source code.
+    try:
+        req = json.loads(content)
+        cases = gen.generate_from_requirements(req)
+    except (json.JSONDecodeError, ValueError):
+        # Treat as source: derive a module name and emit a single stub.
+        module_name = inp.stem
+        cases = [{
+            'name': f'test_{module_name}',
+            'type': 'unit',
+            'description': f'Tests for {inp.name}',
+        }]
+
+    gen.test_cases = cases
+    out = gen.generate_test_file(module_name=inp.stem)
+    print(out)
+    return 0
+
+
+if __name__ == "__main__":
+    import sys
+    sys.exit(main())

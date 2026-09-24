@@ -1,6 +1,6 @@
 ---
 name: spec-driven-workflow
-description: "Use when the user asks to write specs before code, define acceptance criteria, plan features before implementation, generate tests from specifications, or follow spec-first development practices. 当用户要求 写规格说明 / 验收标准 / 规格驱动开发 时使用。 Do NOT use for free-form coding without a written spec."
+description: "Use when the user asks to write a spec before code, write specifications, define acceptance criteria, do spec-driven development, plan features before implementation, generate tests from specifications, or follow spec-first development practices. Do NOT use for free-form coding without a written spec."
 license: Apache-2.0
 compatibility: Requires network access. No API keys required.
 metadata:
@@ -14,161 +14,161 @@ metadata:
 
 # Spec-Driven Workflow
 
-强制规格先行：先写 spec 再写任何代码，校验通过后从验收标准提取测试桩，再逐条实现。每一行代码都能追溯到 spec 里的某条需求。
+Enforces spec-first: write the spec before any code, extract test stubs from acceptance criteria after validation passes, then implement one item at a time. Every line of code traces back to a requirement in the spec.
 
-**铁律：**
+**Iron Law:**
 
 ```text
 NO CODE WITHOUT AN APPROVED SPEC.
 NO EXCEPTIONS. NO "QUICK PROTOTYPES." NO "I'LL DOCUMENT IT LATER."
 ```
 
-为什么规格先行：在 spec 里消除歧义只花几分钟，到生产环境再发现要花几天；spec 就是"完成"的定义；验收标准可以 1:1 翻译成测试用例。
+Why spec-first: resolving ambiguity in a spec takes minutes; discovering it in production takes days; the spec *is* the definition of "done"; acceptance criteria translate 1:1 into test cases.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Description |
 |---|---|---|
-| 功能名称与描述 | 是 | 生成 spec 模板的种子，如 `--name "User Authentication" --description "OAuth 2.0 login flow"` |
-| 需求来源 | 是 | 用户访谈要点、既有代码、约束（性能预算/安全/兼容性） |
-| 测试框架 | 否 | pytest / jest / go-test（test_extractor 的 `--framework`），缺省 pytest |
-| spec 存放路径 | 否 | 如 specs/ 下按功能命名（见交付标准），缺省按项目惯例 |
-| spec 状态 | 实现阶段必需 | Draft / In Review / **Approved**（未 Approved 不得实现） |
+| Feature name and description | Yes | The seed for generating the spec template, e.g. `--name "User Authentication" --description "OAuth 2.0 login flow"` |
+| Requirements source | Yes | User-interview notes, existing code, constraints (performance budget/security/compatibility) |
+| Test framework | No | pytest / jest / go-test (test_extractor's `--framework`); defaults to pytest |
+| Spec storage path | No | e.g. named by feature under specs/ (see delivery criteria); defaults to project convention |
+| Spec status | Required at the implementation stage | Draft / In Review / **Approved** (no implementation before Approved) |
 
-输入缺失时一次性问齐："请提供：① 功能名称与一句话描述；② 关键需求/约束/明确不做什么；③ 测试框架（pytest/jest/go-test）。"
+When inputs are missing, ask for all at once: "Please provide: (1) feature name and one-line description; (2) key requirements/constraints/explicit non-goals; (3) test framework (pytest/jest/go-test)."
 
-## 前置自检
+## Pre-flight Checks
 
-逐条执行，任一失败 → 按修复处置后 STOP：
+Run line by line; on any failure → fix per the remediation and STOP:
 
 ```bash
-# 1. Python 3 可用
+# 1. Python 3 is available
 python3 --version
-# 预期：Python 3.8+。
+# Expected: Python 3.8+.
 
-# 2. 两个工具脚本存在
+# 2. Both tool scripts exist
 ls scripts/spec_generator.py scripts/test_extractor.py
-# 预期：两个文件名（在技能目录内执行）。失败→cd 到技能目录；仍缺→STOP 回报。
-# 注意：本技能没有 spec_validator.py——spec 完整性由工作流步骤 3 的 checklist 人工校验。
+# Expected: both filenames (run inside the skill directory). On failure: cd to the skill directory; still missing → STOP and report.
+# Note: this skill has no spec_validator.py — spec completeness is validated manually by the Step 3 checklist.
 
-# 3. 参考模板在位
+# 3. The reference templates are in place
 ls references/spec_format_guide.md references/acceptance_criteria_patterns.md references/bounded_autonomy_rules.md
-# 预期：三个文件名。缺失→STOP 回报仓库不完整。
+# Expected: all three filenames. Missing → STOP and report an incomplete repo.
 ```
 
-## 工作流
+## Workflow
 
-### 步骤 1：收集需求
+### Step 1: Collect requirements
 
-- **动作**：访谈用户（解决什么问题、用户是谁、成功长什么样、明确不建什么）；读既有代码理解现状；记录约束与全部未知项。
-- **预期**：能用 2 分钟向不熟悉项目的人讲清这个功能；未知项已列成清单。
-- **若失败**：需求方答复不了核心问题 → 按"有界自治规则"（见参考）升级提问，STOP。
+- **Action**: interview the user (what problem it solves, who the user is, what success looks like, what is explicitly not being built); read existing code to understand the current state; record constraints and all unknowns.
+- **Expected**: you can explain the feature in 2 minutes to someone unfamiliar with the project; unknowns are listed as a checklist.
+- **On failure**: the requirement owner can't answer core questions → escalate the questioning per the bounded-autonomy rules (see references), STOP.
 
-### 步骤 2：生成并撰写 spec
+### Step 2: Generate and write the spec
 
 ```bash
 python3 scripts/spec_generator.py --name "User Authentication" --description "OAuth 2.0 login flow" --output specs/auth.md
 ```
 
-- **动作**：以生成的模板为基础填满全部 9 个节（不适用也写 "N/A — 理由"）：Title/Metadata、Context、Functional Requirements（RFC 2119 关键词，FR-N 编号）、Non-Functional Requirements（可度量阈值）、Acceptance Criteria（Given/When/Then，每个 AC 引用至少一个 FR-*/NFR-*）、Edge Cases（EC-N，覆盖每个外部依赖的失败模式）、API Contracts（TS 风格接口，含成功与错误响应）、Data Models（表格式：字段/类型/约束）、Out of Scope（显式排除+理由）。
-- **预期**：spec 文件生成于 `--output` 指定路径，且 9 节全部非空、编号完整。
-- **若失败**：生成器输出缺节 → 按参考 `spec_format_guide.md` 的模板手工补齐。
+- **Action**: using the generated template as a base, fill all 9 sections (write "N/A — reason" where not applicable): Title/Metadata, Context, Functional Requirements (RFC 2119 keywords, FR-N numbering), Non-Functional Requirements (measurable thresholds), Acceptance Criteria (Given/When/Then, each AC referencing at least one FR-*/NFR-*), Edge Cases (EC-N, covering the failure mode of every external dependency), API Contracts (TS-style interfaces, including success and error responses), Data Models (tabular: field/type/constraint), Out of Scope (explicit exclusions + reasons).
+- **Expected**: the spec file is generated at the `--output` path, with all 9 sections non-empty and numbering complete.
+- **On failure**: the generator output is missing sections → hand-fill them per the template in `references/spec_format_guide.md`.
 
-### 步骤 3：校验 spec
+### Step 3: Validate the spec
 
-逐项核对手工 checklist（本技能无自动 validator，此 checklist 即门禁）：
+Check off the manual checklist item by item (this skill has no automatic validator; this checklist is the gate):
 
-- [ ] 每条 functional requirement 至少有一个 acceptance criterion
-- [ ] 每条 acceptance criterion 机器可验证（无主观措辞）
-- [ ] API contracts 覆盖需求中提到的全部端点
-- [ ] Data models 覆盖需求中提到的全部实体
-- [ ] Edge cases 覆盖每个外部依赖的失败模式
-- [ ] Out of scope 显式记录了"考虑过但排除"的内容
-- [ ] Non-functional requirements 均有可度量阈值
+- [ ] Every functional requirement has at least one acceptance criterion
+- [ ] Every acceptance criterion is machine-verifiable (no subjective wording)
+- [ ] API contracts cover every endpoint mentioned in the requirements
+- [ ] Data models cover every entity mentioned in the requirements
+- [ ] Edge cases cover every external dependency's failure mode
+- [ ] Out of scope explicitly records things "considered but excluded"
+- [ ] Every non-functional requirement has a measurable threshold
 
-- **预期**：七项全勾。
-- **若失败**：任一项不满足 → 修订 spec 后重新核对；提交评审，状态达到 **Approved** 才进步骤 4。
+- **Expected**: all seven checked.
+- **On failure**: any item unmet → revise the spec and re-check; submit for review, and only advance to Step 4 once status reaches **Approved**.
 
-### 步骤 4：从验收标准生成测试
+### Step 4: Generate tests from acceptance criteria
 
 ```bash
 python3 scripts/test_extractor.py --file specs/auth.md --framework pytest --output tests/test_auth.py
 ```
 
-- **动作**：从 spec 的 acceptance criteria 与 edge cases 提取测试桩（定义断言，不含实现）；`--json` 可输出结构化清单。
-- **预期**：测试文件生成于 `--output` 指定路径，全部测试以 "not implemented" 或等价方式失败（TDD 红灯）。
-- **若失败**：提取结果遗漏某 AC → 手工补测试桩，使每个 AC 与 EC 都有对应测试。
+- **Action**: extract test stubs from the spec's acceptance criteria and edge cases (define assertions, no implementation); `--json` emits a structured list.
+- **Expected**: the test file is generated at the `--output` path, and all tests fail with "not implemented" or equivalent (TDD red).
+- **On failure**: the extraction misses an AC → hand-add a test stub so every AC and EC has a corresponding test.
 
-### 步骤 5：逐条实现
+### Step 5: Implement one item at a time
 
-- **动作**：选最简单的一条 AC → 最小代码使其测试通过 → 跑全量测试防回归 → commit → 下一条。
-- **预期**：每条 AC 的测试逐个转绿；全量测试无回归。
-- **若失败**：实现中发现 spec 缺需求 → STOP，先更新 spec 并回到步骤 3 重新评审；绝不顺手实现 spec 外内容。
+- **Action**: pick the simplest AC → write the minimum code to make its test pass → run the full suite to prevent regressions → commit → next.
+- **Expected**: each AC's test turns green one by one; no regressions in the full suite.
+- **On failure**: implementation reveals a missing requirement in the spec → STOP, update the spec first and return to Step 3 for re-review; never opportunistically implement out-of-spec content.
 
-### 步骤 6：自审
+### Step 6: Self-review
 
-实现标记完成前核对：
+Before marking implementation done, check:
 
-- [ ] 每条 AC 有通过的测试；每条 EC 有测试
-- [ ] 无范围蔓延（spec 外内容要么删掉要么先更新 spec）
-- [ ] API 契约与实现逐字段一致（名称、类型、状态码）
-- [ ] spec 定义的每个错误响应都有测试触发
-- [ ] NFR 有证据达标（benchmark/压测/profiling）
-- [ ] 数据库 schema 与 spec 一致；Out of Scope 未泄漏进实现
+- [ ] Every AC has a passing test; every EC has a test
+- [ ] No scope creep (out-of-spec content is either deleted or the spec is updated first)
+- [ ] API contracts match the implementation field by field (names, types, status codes)
+- [ ] Every error response defined in the spec has a test that triggers it
+- [ ] NFRs have evidence of meeting them (benchmark/load test/profiling)
+- [ ] The database schema matches the spec; Out of Scope hasn't leaked into the implementation
 
-- **预期**：六项全勾。
-- **若失败**：任一项不过 → 修复后重审，不得声明完成。
+- **Expected**: all six checked.
+- **On failure**: any item unmet → fix and re-review; don't declare done.
 
-### 有界自治（贯穿全程）
+### Bounded Autonomy (throughout)
 
-STOP 提问：范围蔓延（spec 里没有的东西，即使"显然需要"）、歧义超 30%、需要破坏性变更、涉及鉴权/加密/PII、性能指标无法度量、跨团队依赖未确认。
-可自主推进：spec 明确无歧义、全部 AC 有通过测试且只在重构内部、改动非破坏、实现是 AC 的直接翻译、错误处理沿用代码库既有模式。
-升级时必须给：被阻塞的需求编号、具体问题、带 Pros/Cons 的选项、推荐项、等待影响。见 `references/bounded_autonomy_rules.md`。
+STOP and ask: scope creep (things not in the spec, even if "obviously needed"), ambiguity over 30%, a need for breaking changes, anything touching auth/encryption/PII, non-measurable performance metrics, unconfirmed cross-team dependencies.
+May proceed autonomously: the spec is explicit and unambiguous, all ACs have passing tests and only refactor internals, the change is non-breaking, the implementation is a direct translation of the AC, and error handling follows existing codebase patterns.
+When escalating you must provide: the blocked requirement number, the specific problem, options with Pros/Cons, a recommendation, and the impact of waiting. See `references/bounded_autonomy_rules.md`.
 
-## 工具速查
+## Tool Quick Reference
 
-| 脚本 | 用途 | 关键参数 |
+| Script | Purpose | Key parameters |
 |--------|---------|-----------|
-| `spec_generator.py` | 从功能名/描述生成 spec 模板 | `--name`（必填）, `--description`, `--output/-o`, `--format md\|json` |
-| `test_extractor.py` | 从验收标准提取测试桩 | `--file/-f`, `--framework pytest\|jest\|go-test`, `--output/-o`, `--json` |
+| `spec_generator.py` | Generate a spec template from a feature name/description | `--name` (required), `--description`, `--output/-o`, `--format md\|json` |
+| `test_extractor.py` | Extract test stubs from acceptance criteria | `--file/-f`, `--framework pytest\|jest\|go-test`, `--output/-o`, `--json` |
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象/错误码 | 原因 | 处置 |
+| Symptom / error code | Cause | Fix |
 |---|---|---|
-| 提取的测试遗漏 AC | spec 的 Given/When/Then 格式不规范 | 对照 `references/acceptance_criteria_patterns.md` 重写该 AC，重新提取 |
-| spec 评审后被拒但已有代码 | 违反 Iron Law 先行编码 | 停止实现，按评审结论重写 spec，代码作废或重做 |
-| 实现需 spec 外改动 | 范围蔓延 | STOP → 更新 spec → 重新评审；禁止先斩后奏 |
-| NFR 无法验证 | 阈值不可度量 | 回步骤 3 把阈值改写为可度量指标（如 "p95 < 500ms"） |
-| `spec_generator.py` 报 `--name` 缺失 | 必填参数遗漏 | 补 `--name` 重跑 |
+| Extracted tests miss an AC | The spec's Given/When/Then format is non-standard | Rewrite that AC per `references/acceptance_criteria_patterns.md` and re-extract |
+| The spec was rejected in review but code already exists | The Iron Law was violated by coding first | Stop implementing, rewrite the spec per the review verdict, discard or redo the code |
+| Implementation needs an out-of-spec change | Scope creep | STOP → update the spec → re-review; no acting first |
+| An NFR can't be verified | The threshold isn't measurable | Return to Step 3 and rewrite the threshold as a measurable metric (e.g. "p95 < 500ms") |
+| `spec_generator.py` reports `--name` missing | A required parameter was omitted | Add `--name` and rerun |
 
-## 交付标准
+## Delivery Criteria
 
-- 成功定义：Approved 状态的 spec（9 节齐全、编号完整）+ 全部测试桩 + 测试全绿 + 自审 checklist 全勾。
-- 产物命名：spec 存 `specs/<feature>.md`；测试存 `tests/test_<feature>.py`（或对应框架惯例）。
-- 保存位置：项目内如上路径，或用户指定位置。
-- 完整性验证：`python3 scripts/test_extractor.py --file specs/<feature>.md --json` 输出的 AC/EC 清单与 spec 中的编号一一对应；测试文件中每个测试名可追溯到某个 AC 或 EC 编号。
+- Definition of success: an Approved spec (9 sections complete, numbering intact) + all test stubs + all tests green + the self-review checklist fully checked.
+- Artifact naming: spec at `specs/<feature>.md`; tests at `tests/test_<feature>.py` (or the corresponding framework convention).
+- Save location: the paths above within the project, or a user-specified location.
+- Completeness verification: the AC/EC list output by `python3 scripts/test_extractor.py --file specs/<feature>.md --json` maps 1:1 to the numbering in the spec; every test name in the test file traces to an AC or EC number.
 
-## 参考
+## References
 
-- `references/spec_format_guide.md` — 9 节完整模板、好/坏需求模式对照、CRUD/Integration/Migration 类型模板与 Password Reset 完整示例；步骤 2 写 spec 前读。
-- `references/acceptance_criteria_patterns.md` — Given/When/Then 验收标准模式库（auth/CRUD/search/upload/payment 等）；AC 写不出或被评审打回时读。
-- `references/bounded_autonomy_rules.md` — 何时停下提问 vs 自主推进的完整决策矩阵；执行中遇到边界情况时读。
+- `references/spec_format_guide.md` — the full 9-section template, good/bad requirement pattern comparisons, CRUD/Integration/Migration type templates, and a complete Password Reset example; read before writing the spec in Step 2.
+- `references/acceptance_criteria_patterns.md` — a Given/When/Then acceptance-criteria pattern library (auth/CRUD/search/upload/payment, etc.); read when an AC can't be written or gets bounced in review.
+- `references/bounded_autonomy_rules.md` — the full decision matrix for when to stop and ask vs proceed autonomously; read when hitting edge cases during execution.
 
-## 反模式
+## Anti-patterns
 
-| # | 反模式 | 后果 | 规则 |
+| # | Anti-pattern | Consequence | Rule |
 |---|---|---|---|
-| 1 | 评审未通过就开写代码 | 评审改动后代码实现的是被否决的设计 | spec 状态为 Approved 前不实现 |
-| 2 | 模糊验收标准（"响应快""体验好"） | 无法测试 | 机器可验证才可保留，否则重写 |
-| 3 | 缺 edge cases | 开发者临场发明错误处理 | 每个外部依赖至少一条失败场景 |
-| 4 | 事后补 spec | 那是文档不是规格，抓不住设计错误 | 代码后写的只能标注为文档 |
-| 5 | spec 外镀金 | 未经测试与评审的 bonus 代码 | 不在 spec 就不建；另立新 spec |
-| 6 | AC 不引用任何 FR/NFR | 孤儿标准，或缺需求或属多余 | 每个 AC 必须引用至少一个 FR-*/NFR-* |
-| 7 | 跳过校验直接开工 | 缺节在实现期才暴露，阻塞 | 步骤 3 checklist 全勾前不进步骤 4 |
+| 1 | Writing code before review passes | Post-review changes mean the code implements the rejected design | No implementation until spec status is Approved |
+| 2 | Vague acceptance criteria ("fast response", "great UX") | Can't be tested | Only keep machine-verifiable ones; otherwise rewrite |
+| 3 | Missing edge cases | Developers invent error handling on the fly | At least one failure scenario per external dependency |
+| 4 | Backfilling the spec after the fact | That's documentation, not a spec; it can't catch design errors | Code written afterward can only be labeled documentation |
+| 5 | Out-of-spec gold-plating | Bonus code without tests or review | If it's not in the spec, don't build it; write a new spec |
+| 6 | An AC references no FR/NFR | An orphan criterion, either a missing requirement or redundant | Every AC must reference at least one FR-*/NFR-* |
+| 7 | Skipping validation and starting work | Missing sections surface only during implementation, causing blocks | Don't enter Step 4 until the Step 3 checklist is all checked |
 
-## 相关技能
+## Related Skills
 
-- **`engineering-team/tdd-guide`** — red-green-refactor 纪律、覆盖率分析；步骤 4 之后使用。
-- **`engineering/focused-fix`** — 规格驱动实现出现系统性问题时用于诊断。
-- **`engineering/rag-architect`** — 功能涉及检索/知识系统时的技术设计。
+- **`engineering-team/tdd-guide`** — red-green-refactor discipline, coverage analysis; use after Step 4.
+- **`engineering/focused-fix`** — for diagnosing systematic problems that arise during spec-driven implementation.
+- **`engineering/rag-architect`** — technical design when the feature involves retrieval/knowledge systems.

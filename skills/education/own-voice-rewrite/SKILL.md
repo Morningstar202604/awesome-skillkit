@@ -1,6 +1,19 @@
 ---
 name: own-voice-rewrite
-description: "Rewrite a homework draft in the student's own voice. Two calibration paths: if a real writing sample from the student is available, extract distributional voice features (sentence-length band, punctuation rhythm, connective preferences) and a negative-constraint list; otherwise fall back to grade-level calibration (primary / middle / high-school vocabulary, sentence-length caps) and declare it as a proxy. Then force-inject the student's real materials in place of generic filler, add restrained human touches, re-audit with ai-trace-auditor, and deliver with a read-through-before-submitting reminder plus an append-only calibration record. The human-warmth core of the homework-autopilot chain. Use when the user asks to 学生口吻重写 / 改得像我写的 / 去掉作文腔 / rewrite in student voice / make it sound like me / 降维到我的水平 / 像学生写的. Do NOT use for experiences the student never had, nor as a guarantee against AI detection."
+description: >-
+  Rewrite a homework draft in the student's own voice. Two calibration paths:
+  if a real writing sample from the student is available, extract distributional
+  voice features (sentence-length band, punctuation rhythm, connective
+  preferences) and a negative-constraint list; otherwise fall back to grade-level
+  calibration (primary / middle / high-school vocabulary, sentence-length caps)
+  and declare it as a proxy. Then force-inject the student's real materials in
+  place of generic filler, add restrained human touches, re-audit with
+  ai-trace-auditor, and deliver with a read-through-before-submitting reminder
+  plus an append-only calibration record. The human-warmth core of the
+  homework-autopilot chain. Use when the user asks to rewrite in student voice /
+  make it sound like me / remove essay tone / rewrite at my level / sounds like
+  a student wrote it. Do NOT use for experiences the student never had, nor as a
+  guarantee against AI detection.
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime dependencies.
 metadata:
@@ -12,262 +25,393 @@ metadata:
   verified-date: "2026-09-22"
 ---
 
-# Own Voice Rewrite（学生口吻重写）
+# Own Voice Rewrite (Student-Voice Rewrite)
 
-AI 初稿工整但冷血，一眼机器。本技能是 homework-autopilot 链条的"有温度"核心：把 solution-drafter 的初稿改成学生本人的语言，用真实素材替换空话，再交给 ai-trace-auditor 复检——终稿必须经得起老师追问"这段你自己写的？说说你怎么想的"。
+AI first drafts are neat but cold, obviously machine-made. This skill is the
+"warmth" core of the homework-autopilot chain: change solution-drafter's first
+draft into the student's own language, replace empty phrases with real material,
+then hand to ai-trace-auditor for re-check—the final draft must survive the
+teacher asking "did you write this? tell me how you thought about it."
 
-**v2.0 的关键升级**：原版只会"按年级档位降维"——那只能让她写得**像个初中生**，不能让她写得**像她自己**。新版加了一条真正的校准路径：只要学生能提供一段自己以前写的东西，就用它抽取语言指纹；给不出样本时，才退回年级档位，并如实声明这是**代理**而非对齐。
+**v2.0 key upgrade**: the old version only "lowered by grade level"—that makes
+her write **like a middle schooler**, not **like herself**. The new version adds
+a real calibration path: as long as the student can provide a piece of their own
+past writing, use it to extract a language fingerprint; when no sample is
+available, fall back to grade level and honestly declare it a **proxy**, not
+alignment.
 
-## 适用决策表
+## Applicability Decision Table
 
-| 你的处境 | 本技能的位置 | 去向 |
+| Your Situation | This Skill's Role | Go To |
 |----------|--------------|------|
-| 有初稿要改得像学生自己写的 | ✅ 本技能 | 这里 |
-| 要从零写一篇（没有初稿） | ❌ 顺序不对 | solution-drafter 先出 draft |
-| 只要降 AI 痕迹，不在乎"像谁" | ⚠️ 可用但更低配 | humanize-rewriter 更直接 |
-| 要检查终稿还剩多少机器痕迹 | ✅ 步骤 4 会用 | ai-trace-auditor |
-| 学生给不出任何自己的旧文字 | ⚠️ 走年级档位代理路径，并声明局限 | 步骤 0 分支 B |
-| 要求"保证过 AI 检测" | ❌ 拒绝 | 红线 4 |
+| Have a draft, want it to sound like the student wrote it | yes, this skill | here |
+| Need to write from scratch (no draft) | wrong order | solution-drafter first to produce draft |
+| Only want to reduce AI trace, don't care "who it sounds like" | available but lower-tier | humanize-rewriter more direct |
+| Want to check how much machine trace remains in final | yes, step 4 uses | ai-trace-auditor |
+| Student can't provide any of their old writing | go grade-level proxy path, declare limitation | step 0 branch B |
+| "Guarantee it passes AI detection" | refuse | red line 4 |
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |---|---|---|
-| draft | 是 | solution-drafter 的 draft JSON；须含 content / used_materials / checklist_pass |
-| 年级与学科 | 是 | "初中二年级语文"——决定语言水平校准档位 |
-| **声音样本** | 否（但强烈建议） | 学生自己以前写的文字（随笔/周记/朋友圈长文均可）；有它才走"声音对齐"路径（步骤 0） |
-| 补充素材 | 否 | 重写中发现的素材缺口，允许中途补一轮 |
+| draft | yes | solution-drafter draft JSON; must contain content / used_materials / checklist_pass |
+| Grade and subject | yes | "8th-grade Chinese"—determines language level calibration band |
+| **Voice sample** | no (but strongly recommended) | Student's own past writing (journal/weekly note/social media long post all OK); with it, take "voice alignment" path (step 0) |
+| Supplementary material | no | material gaps found during rewriting, allows one mid-pass supplement |
 
-缺输入时的处理（**只有 ①② 是阻塞项**）：
+When inputs are missing (**only 1 and 2 are blocking**):
 
-> ① 初稿、② 年级与学科缺失 → 一次性问齐：请提供 ① 初稿（draft JSON 或全文）② 年级和学科。
-> ③ 经历真实性、④ 声音样本**缺失不阻塞**：③ 未说明即按"经历真实"处理并在交付中提示用户核对；④ 无样本即走年级代理路径（步骤 0 分支 B），`voice_alignment.mode` 标 `grade-proxy`。
-> **禁止因为缺可选输入（尤其声音样本）而把任务退回用户或只输出一句询问**——先交付可用结果，再在交付说明里列出"补一段你自己的文字可以让它更像你"这类可补强项。
+> 1 draft, 2 grade/subject missing → ask all at once: please provide 1) draft
+> (draft JSON or full text); 2) grade and subject.
+> 3 experience authenticity, 4 voice sample **missing don't block**: 3 if not
+> stated, treat as "experience authentic" and prompt user to verify in delivery;
+> 4 no sample → grade proxy path (step 0 branch B), `voice_alignment.mode` marked
+> `grade-proxy`.
+> **Forbidden to bounce the task back or output only a question because optional
+> input is missing (especially voice sample)**—deliver usable result first, then
+> list "send a piece of your own writing to make it sound more like you" as a
+> strengthenable item in delivery notes.
 
-## 前置自检
+## Pre-flight Checks
 
-本技能纯 prompt 驱动：无脚本、无端点、无环境变量。四点核对：
+This skill is pure prompt-driven: no scripts, endpoints, or env vars. Four checks:
 
-1. draft 里有 used_materials 吗？——空数组意味着正文不该有任何个人经历，重写只做语言校准。
-2. 年级明确吗？——不明确则语言校准失去基准，必须先问，不猜学段。
-3. 正文里有没有用户没提供过的经历？——有则先核对（红线 1），核对不过就删。
-4. **有声音样本吗？**——有 → 步骤 0 分支 A（声音对齐）；无 → 分支 B（年级代理），并在交付时按诚实声明 4 说明局限。
+1. Does draft have used_materials?—empty array means body shouldn't have any
+   personal experience, rewriting only does language calibration.
+2. Is grade clear?—not clear means language calibration loses baseline; must ask
+   first, don't guess school level.
+3. Does body contain experiences the user didn't provide?—if yes, verify first
+   (red line 1), delete if verification fails.
+4. **Is there a voice sample?**—yes → step 0 branch A (voice alignment); no →
+   branch B (grade proxy), and state limitation per honesty declaration 4 at
+   delivery.
 
-## 暗知识（"像她写的"到底难在哪）
+## Tacit Knowledge (What Makes "sounds like her" Hard)
 
-### 1. 声音指纹在分布特征里，不在"爱用的词"里
+### 1. Voice Fingerprint Is in Distribution Features, Not "Favorite Words"
 
-计量文体学（stylometry）几十年的结论：**最能区分写作者的是函数词频率、句长分布、标点节奏这类无意识习惯**——它们跨主题稳定、难以刻意模仿。而"她爱用某个词"这种表层特征，恰恰是最容易伪装、也最不像的层次。
+Stylometry's decades-long conclusion: **what best distinguishes writers is
+function word frequency, sentence length distribution, punctuation rhythm—these
+unconscious habits**—stable across topics, hard to deliberately imitate. While
+"she likes this word" surface features are exactly the easiest to fake and least
+con vincing layer.
 
-**实践含义**：只把 AI 稿里的词换成"学生会用的词"，得到的是**穿戏服的声音**（costume）——老师一句"这不像你写的"就打回。要动的是句子节奏：句长带（她习惯多长的句子）、连接词习惯（"然后"还是"后来"）、标点密度（用不用感叹号、逗号连不连句）。
+**Practical implication**: only swapping AI draft words for "student words" yields
+a **costume voice**—one "this doesn't sound like you" from the teacher sends it
+back. What to change is sentence rhythm: sentence length band (how long her
+sentences tend to be), connective habits ("then" vs "afterwards"), punctuation
+density (uses exclamation points? comma-chains?).
 
-### 2. 样本纪律：太短的样本建不起指纹
+### 2. Sample Discipline: Too-Short Samples Can't Build a Fingerprint
 
-stylometry 的样本量纪律：**样本太短，频率不稳定，结论不可靠**（短文本的文体特征噪声大）。可操作规则：
+Stylometry sample size discipline: **sample too short, frequencies unstable,
+conclusions unreliable** (short text's stylistic features are noisy). Actionable
+rule:
 
-| 样本量 | 可用程度 | 交付时的说法 |
+| Sample Size | Usability | Delivery Language |
 |---|---|---|
-| ≥800 字，且与作业同体裁（都是记叙/议论） | 可靠 | 可以说"按你的语言习惯对齐" |
-| 200–800 字 | 有限 | 只能说"部分对齐"，标出对不齐的段落 |
-| <200 字，或跨体裁（拿聊天记录对作文） | 不可用 | 退回年级代理路径，如实说明 |
+| ≥800 words, same genre as assignment (both narrative/argument) | reliable | can say "aligned to your language habits" |
+| 200–800 words | limited | can only say "partially aligned", mark paragraphs that don't align |
+| <200 words, or cross-genre (chat record vs essay) | unusable | fall back to grade proxy path, state honestly |
 
-### 3. 负面清单比正面指令更有效
+### 3. Negative Lists Work Better Than Positive Instructions
 
-一份公开的真实 AI 代笔系统（为真人代写社媒内容）公布的复盘里，最反直觉的发现是：**"她绝不会怎么写"的负面约束清单，比"要怎么写"的正面指令更有用**。
+A public real AI ghostwriting system (writing social media content for real
+people) published a retrospective; the most counterintuitive finding: **a "what
+she would never write" negative constraint list is more useful than a "how to
+write" positive instruction**.
 
-映射到学生场景：**"她从不用感叹号""她从不写排比句""她从不引用名言"** 这类排除项，比"多用成语"更能逼近她的声音。做法：从声音样本里抽取 3–5 条负面约束（她没做过的、与她学段不符的花哨表达），写成清单，改写时逐条兑现。
+Mapped to student scenarios: **"she never uses exclamation points", "she never
+writes parallelism", "she never quotes famous lines"**—these exclusions
+approximate her voice better than "use more idioms". Method: extract 3–5 negative
+constraints from the voice sample (things she doesn't do, fancy expressions
+unbefitting her school level), write as a list, honor each during rewriting.
 
-### 4. 可编辑的风格规则 > 原始样本堆
+### 4. Editable Style Rules > Raw Sample Pile
 
-显式写出来的风格规则（"句子控制在 15 字上下""连接词用'然后'不用'此外'”）**可以被学生逐条否决和修正**；而"我模仿了你这三篇文章"是隐式的，学生说"还是不像"时无从下手。
+Explicitly written style rules ("keep sentences around 15 words", "use 'then'
+not 'furthermore'") **can be rejected and corrected by the student line by
+line**; while "I imitated your three articles" is implicit, and when the student
+says "still doesn't sound like me" there's no entry point.
 
-**交付纪律**：把对齐用的特征清单随终稿交付（产出规格里的 `voice_alignment.features`），让学生能说"这条不对"。
+**Delivery discipline**: deliver the alignment feature list with the final draft
+(`voice_alignment.features` in output spec), so the student can say "this one is
+wrong".
 
-### 5. 校准是追加式的，不是重训练
+### 5. Calibration Is Append-Only, Not Retraining
 
-同一系统还证明了：**记录每次改动、追加到校准档案里**，比"重新学习"更有效。对应本技能：终稿交付时请学生回传"我读的时候改了哪里"——把 `changes` 列表与学生回传的修改一起存下，下次重写直接用这份档案。
+The same system proved: **recording each change and appending to a calibration
+file** works better than "relearning". For this skill: when delivering the final
+draft, ask the student to send back "what did you change when reading it"—save
+the `changes` list together with student-sent-back edits, next rewrite uses this
+file directly.
 
-### 6. 素材强制注入：感受必须落到场景
+### 6. Material Forced Injection: Feelings Must Land in a Scene
 
-（沿用本组原创机制）空话句（"我明白了坚持的意义"）必须用 used_materials 里的真实素材替换或锚定——否则一切语言处理都是给空壳化妆。对照示例见工作流步骤 2。
+(Carried over from this group's original mechanism) Empty-phrase sentences ("I
+understood the meaning of persistence") must be replaced or anchored with real
+material in used_materials—otherwise all language processing is putting makeup on
+an empty shell. Comparison examples in workflow step 2.
 
-### 7. 人味微调是表达层手术，不许碰信息层
+### 7. Human-Touch Micro-adjustments Are Expression-Layer Surgery, Don't Touch Information Layer
 
-burstiness（连续两个长句后接一个 ≤8 字短句）、抽象换具体、允许一处合理口语——这些只动表达层。数字、术语、结论、引用一律不动（红线 5）。
+Burstiness (two long sentences followed by a ≤8-character short sentence),
+abstract to concrete, allow one reasonable colloquialism—these only touch the
+expression layer. Numbers, terms, conclusions, quotes are untouched (red line 5).
 
-## 红线（硬性禁令，不可协商）
+## Red Lines (Hard Bans, Non-Negotiable)
 
-1. **不虚构用户未提供的经历**：重写只能调度 used_materials 里已有的素材，缺料处保留占位并提示用户补充。
-2. **终稿保留学生可复述的难度**：改写完成后学生必须能复述全文大意与关键细节——答不上老师追问 = 失败交付。
-3. **交付物必须附"建议通读一遍再提交"**：终稿附誊写建议，建议学生读一遍、顺手改成自己的习惯用词，再手抄或提交。
-4. **不担保过 AI 检测**：复检分数下降是设计目标，但禁止向用户承诺"老师看不出来"。
-5. **信息层只减不加**：数字、术语、结论、引用不可动（对齐 humanize-rewriter 禁改清单），改写只动表达层。
-6. **不声称超出样本能支撑的对齐程度**：样本不足时如实降级表述（暗知识 2 的表），把"年级代理"说成"你的声音"属于虚假交付。
+1. **Don't fabricate experiences the user didn't provide**: rewriting can only
+   draw from materials already in used_materials; keep placeholders where
+   material is missing and prompt user to supplement.
+2. **Final draft retains student's retellable difficulty**: after rewriting, the
+   student must be able to retell the whole gist and key details—can't answer
+   teacher follow-up = failed delivery.
+3. **Deliverable must attach "read through before submitting"**: final draft
+   attests transcription advice, suggests the student read it once, casually change
+   words to their own habit, then copy by hand or submit.
+4. **No guarantee of passing AI detection**: re-audit score dropping is a design
+   goal, but promising "teacher won't notice" to the user is forbidden.
+5. **Information layer only subtracts, doesn't add**: numbers, terms,
+   conclusions, quotes can't change (align with humanize-rewriter's no-change
+   list), rewriting only touches expression layer.
+6. **Don't claim alignment beyond what the sample supports**: when sample is
+   insufficient, honestly downgrade language (table in tacit knowledge 2);
+   calling grade proxy "your voice" is false delivery.
 
-## 诚实声明
+## Honesty Declarations
 
-1. **语言校准档位表（20/30/40 字句长上限、成语数量）是经验值**，不是课程标准原文数字；课标只提供学段划分依据，阈值可按学生实际水平调整。
-2. **声音对齐的可靠度取决于样本量与体裁匹配**（暗知识 2）：短样本或跨体裁样本给出的结论是方向性的，不是"指纹级"的。
-3. **复检分数来自同仓 ai-trace-auditor 的启发式口径**，命中与否都不是官方判定；本技能与任何 AI 检测器无隶属关系。
-4. **走年级代理路径时，只能声称"符合学段水平"，不能声称"像你写的"**——这是两条不同的验收标准。
-5. 本技能对齐的是**语言习惯层**，不建模方言、网络用语等个性风格（那是 personal-voice-profile 的职责，面向用户本人授权的历史文本）。
-6. 本技能不重写信息层，也不改善"素材本身的质量"——素材不够撑起字数时，正确动作是请用户补料，不是注水。
+1. **Language calibration band table (20/30/40 word sentence caps, idiom count)
+   are empirical values**, not curriculum standard numbers; curriculum standards
+   only provide school level divisions, thresholds adjust to actual student level.
+2. **Voice alignment reliability depends on sample size and genre match**
+   (tacit knowledge 2): short or cross-genre sample conclusions are directional,
+   not "fingerprint-level".
+3. **Re-audit score comes from same-repo ai-trace-auditor's heuristic basis**,
+   hit or not it's not an official judgment; this skill has no affiliation with
+   any AI detector.
+4. **On the grade proxy path, can only claim "matches school level", not "sounds
+   like you"**—these are two different acceptance criteria.
+5. This skill aligns at the **language habit layer**, doesn't model dialect,
+   internet slang, or other idiosyncratic style (that's personal-voice-profile's
+   job, oriented to user-authorized historical text).
+6. This skill doesn't rewrite the information layer, nor improve "material
+   quality itself"—when material isn't enough to reach word count, the correct
+   action is asking user to supplement material, not padding.
 
-## 工作流
+## Workflow
 
-### 步骤 0：定校准路径（声音样本采集）
+### Step 0: Set Calibration Path (Voice Sample Collection)
 
-- **分支 A（有样本）**：从样本中抽取对齐特征，至少覆盖四项：
-  1. **句长带**：样本的典型句长区间（如"8–18 字，偶有 25 字长句"）
-  2. **标点节奏**：逗号密度、是否用感叹号/省略号、有无断句习惯
-  3. **连接词偏好**：样本里实际出现的连接词（如"然后/后来/反正"），连同**不出现的**书面连接词（"此外/然而/综上所述"）
-  4. **负面清单**：3–5 条"她不会这样写"的排除项（暗知识 3）
-- **分支 B（无样本）**：用下方年级档位表，并在 `voice_alignment.mode` 标注 `grade-proxy`。
-- **预期：** `voice_alignment.mode` 为 `sample` 或 `grade-proxy`，`features` 非空。
-- **若失败：** 样本不足 200 字或体裁不匹配 → 按暗知识 2 的规则降级或转分支 B，不要硬凑特征。
+- **Branch A (with sample)**: extract alignment features from sample, at least
+  covering four:
+  1. **Sentence length band**: sample's typical sentence length range (like
+     "8–18 words, occasional 25-word long sentences")
+  2. **Punctuation rhythm**: comma density, uses exclamation points/ellipses?,
+     any break-sentence habit
+  3. **Connective preference**: connectives actually appearing in sample (like
+     "then/afterwards/anyway"), along with **absent** written connectives
+     ("furthermore/however/in summary")
+  4. **Negative list**: 3–5 "she wouldn't write this" exclusions (tacit
+     knowledge 3)
+- **Branch B (no sample)**: use the grade band table below, mark
+  `voice_alignment.mode` as `grade-proxy`.
+- **Expected**: `voice_alignment.mode` is `sample` or `grade-proxy`, `features`
+  non-empty.
+- **If it fails**: sample under 200 words or genre mismatch → degrade per tacit
+  knowledge 2 rules or switch to branch B, don't force-fit features.
 
-年级档位表（分支 B 用；上限均为经验值，可调）：
+Grade band table (branch B; caps are empirical, adjustable):
 
-| 学段 | 词汇上限 | 单句长度上限 | 修辞深度 | 禁用腔调 |
+| School Level | Vocabulary Cap | Single Sentence Cap | Rhetorical Depth | Forbidden Tone |
 |---|---|---|---|---|
-| 小学 | 常用字词，成语每篇 ≤3 个 | ≤20 字 | 比喻 / 拟人各 1-2 处 | 论文腔、四字堆砌、"首先其次最后" |
-| 初中 | 成语与书面语可用 | ≤30 字 | 排比、引用课文可用 | "综上所述"式总结、政论腔 |
-| 高中 | 抽象概念可用 | ≤40 字 | 辩证、让步、反问可用 | 空洞口号、堆砌名言 |
+| Primary | common words, idioms ≤3 per piece | ≤20 words | metaphor/personification 1-2 each | essay tone, four-character pile-up, "firstly secondly lastly" |
+| Middle | idioms and written language OK | ≤30 words | parallelism, textbook quotes OK | "in summary" style conclusion, political essay tone |
+| High | abstract concepts OK | ≤40 words | dialectical, concessive, rhetorical question OK | empty slogans, famous-line pile-up |
 
-### 步骤 1：语言校准（按步骤 0 的路径执行）
+### Step 1: Language Calibration (Execute per step 0 path)
 
-- **动作：** 分支 A → 按抽取的特征逐句校准（句长带、标点、连接词）；分支 B → 按档位表逐句扫描：超限句拆短、超档词换同义常用词、命中禁用腔调整句重写。**两种路径都必须兑现负面清单**。
-- **预期：** 全文无超档词与超限长句；高中生作文里不出现"综上所述，本文构建了……"；负面清单逐条兑现。
-- **若失败：** 某术语无法降维（如数学专名）→ 保留术语，并确保上下文给了白话解释。
+- **Action**: branch A → calibrate sentence by sentence per extracted features
+  (sentence band, punctuation, connectives); branch B → scan sentence by
+  sentence per band table: split over-cap sentences, swap over-band words for
+  common synonyms, rewrite sentences hitting forbidden tone. **Both paths must
+  honor the negative list**.
+- **Expected**: whole text free of over-band words and over-cap long sentences;
+  high school essay doesn't contain "in summary, this paper constructs…";
+  negative list honored line by line.
+- **If it fails**: some term can't be downgraded (like math proper noun) → keep
+  the term, ensure context gives a plain-language explanation.
 
-### 步骤 2：素材注入替换空话
+### Step 2: Material Injection Replace Empty Phrases
 
-- **动作：** 找出正文所有空话句（"我明白了坚持的意义""这让我受益匪浅"），用 used_materials 里的真实素材替换或锚定。
-- **预期：** "上周我弟把牛奶打翻在作业本上，我盯着那滩渍子发呆"替代"我认识到细节的重要性"——感受必须落到具体场景。
-- **若失败：** 素材不够撑全文 → 一次性列出缺口请用户补；补不齐处保留 <<material:xxx>> 占位，禁止编造（红线 1）。
+- **Action**: find all empty-phrase sentences in body ("I understood the meaning
+  of persistence", "this benefited me greatly"), replace or anchor with real
+  material in used_materials.
+- **Expected**: "last week my brother spilled milk on the workbook, I stared at
+  that stain" replaces "I realized the importance of details"—feelings must
+  land in a concrete scene.
+- **If it fails**: material not enough to cover whole text → list gaps all at
+  once and ask user to supplement; where gaps can't be filled, keep
+  <<material:xxx>> placeholders, fabrication forbidden (red line 1).
 
-空话句替换对照示例：
-
-```text
-空话：这次经历让我明白了坚持的意义
-替换：跑到第 4 圈时我腿肚子直转筋，但还是迈过去了——原来"坚持"就是那时候没停
-
-空话：这本书内容深刻，令我受益匪浅
-替换：读到主角把最后的面包分给妹妹那段，我停下来看了天花板好一会儿
-
-空话：我认识到细节的重要性
-替换：上周我弟把牛奶打翻在作业本上，我盯着那滩渍子发呆——少盖一秒杯盖，作业就得重写
-```
-
-- **预期（对照）：** 每条替换都满足"感受落到场景、场景来自 used_materials"两个条件。
-- **若失败：** 替换句写得很具体但素材库里没有对应条目 → 那就是编造，删掉换占位。
-
-### 步骤 3：人味微调（克制版）
-
-- **动作：** 沿用 humanize-rewriter 的手法但更克制——连续两个长句后接一个 ≤8 字短句（burstiness）；抽象概括换具体名词与数字；允许一处合理的口语化表达、一个不算华丽的排比；留一点"想写但没写透"的余地。**分支 A 时，本步服从步骤 0 抽取的句长带，不机械套 ≤8 字。**
-- **预期：** 全篇满分作文腔消失；但不刻意堆口语——学生腔是"真诚的平实"，不是"扮嫩"。
-- **若失败：** 改过头（口语密度过高）→ 回滚上一版，降低改动密度重试。
-
-### 步骤 4：ai-trace-auditor 复检
-
-- **动作：** 对终稿跑 ai-trace-auditor，与改写前的初稿分数对比。
-- **预期：** 复检分数必须低于改写前；verdict 至少提升一档。
-- **若失败：** 分数不降反升 → 按 findings 定位回步骤 3 针对性再改；两轮仍不过则如实告知剩余痕迹。
-
-### 步骤 5：输出终稿、誊写建议与校准记录
-
-- **动作：** 汇总为 final JSON（结构见产出规格），结尾必须附提示："建议通读一遍再提交——读出声，别扭的地方改成你自己的说法，老师问起来你也答得顺。"**并请学生回传"你改了哪里"**，把回传内容追加进 `calibration_log`（暗知识 5）。
-- **预期：** JSON 可被 json.loads 解析；reaudit.after 大于 reaudit.before；read_through_note 与 voice_alignment 在场。
-- **若失败：** 字数跌破 requirements 下限 → 用素材细节补足后重跑步骤 4，禁止注水空话。
-
-可复述性快测（红线 2 的落点，30 秒完成）：
+Empty-phrase replacement comparison:
 
 ```text
-1. 请学生用一句话说终稿写了什么；
-2. 抽问一个具体细节（"第 3 段那件事发生在哪天？"）；
-3. 两问都答得上 → 可复述达标；答不上 → 该处简化或回炉。
+empty: this experience made me understand the meaning of persistence
+replacement: by the 4th lap my calves were cramping, but I pushed through—turns out "persistence" is not stopping at that moment
+
+empty: this book is profound, it benefited me greatly
+replacement: reading the part where the protagonist gave his last bread to his sister, I stopped and stared at the ceiling for a while
+
+empty: I realized the importance of details
+replacement: last week my brother spilled milk on the workbook, I stared at that stain—one second less on the cup lid and the workbook had to be rewritten
 ```
 
-## 产出规格
+- **Expected (comparison)**: each replacement satisfies two conditions: feeling
+  lands in a scene, scene comes from used_materials.
+- **If it fails**: replacement sentence is concrete but no corresponding entry in
+  material library → that's fabrication, delete and replace with placeholder.
 
-final JSON 结构：
+### Step 3: Human-Touch Micro-adjustments (Restrained Edition)
+
+- **Action**: carry over humanize-rewriter technique but more restrained—two
+  long sentences followed by one ≤8-character short sentence (burstiness);
+  abstract generalizations to concrete nouns and numbers; allow one reasonable
+  colloquialism, one non-flashy parallelism; leave a bit of "wanted to write but
+  didn't fully work out" room. **In branch A, this step obeys step 0's extracted
+  sentence band, don't mechanically apply ≤8 characters.**
+- **Expected**: whole "perfect essay tone" gone; but don't deliberately pile on
+  colloquial—student tone is "sincere plainness", not "playing young".
+- **If it fails**: over-corrected (too dense colloquial) → roll back previous
+  version, lower change density and retry.
+
+### Step 4: ai-trace-auditor Re-check
+
+- **Action**: run ai-trace-auditor on final draft, compare with pre-rewrite
+  draft score.
+- **Expected**: re-audit score must be lower than pre-rewrite; verdict improves
+  at least one band.
+- **If it fails**: score rises instead of falls → locate per findings and return
+  to step 3 for targeted rework; after two rounds still not passing, honestly
+  report remaining trace.
+
+### Step 5: Output Final Draft, Transcription Advice, and Calibration Record
+
+- **Action**: consolidate into final JSON (structure in output spec), must end
+  with reminder: "Suggest reading through once before submitting—read aloud,
+  change awkward spots to your own phrasing, so when the teacher asks you can
+  answer smoothly." **And ask the student to send back 'what did you change'**,
+  append sent-back content to `calibration_log` (tacit knowledge 5).
+- **Expected**: JSON parseable by json.loads; reaudit.after > reaudit.before;
+  read_through_note and voice_alignment present.
+- **If it fails**: word count falls below requirements floor → pad with material
+  details and rerun step 4, empty-phrase padding forbidden.
+
+Retellability quick test (red line 2 landing, 30 seconds):
+
+```text
+1. Ask student to say in one sentence what the final draft is about;
+2. Pick a concrete detail to ask ("when did that thing in paragraph 3 happen?");
+3. Both answerable → retellable pass; not answerable → simplify that spot or rework.
+```
+
+## Output Spec
+
+final JSON structure:
 
 ```json
 {
-  "content": "学生口吻终稿",
+  "content": "student-voice final draft",
   "changes": [
-    {"pos": "第 2 段", "before": "我明白了坚持的意义", "after": "跑到第 4 圈时我腿肚子直转筋，但还是迈了", "why": "空话换具体场景"}
+    {"pos": "paragraph 2", "before": "I understood the meaning of persistence", "after": "by the 4th lap my calves were cramping, but I pushed through", "why": "empty phrase replaced with concrete scene"}
   ],
   "reaudit": {"before": 42, "after": 78},
-  "read_through_note": "建议通读一遍再提交：读出声，别扭处改成自己的说法",
-  "placeholders": ["<<material:春游感受>>"],
-  "grade_check": "小学档：无超 20 字长句，成语 2 个",
+  "read_through_note": "Suggest reading through once before submitting: read aloud, change awkward spots to your own phrasing",
+  "placeholders": ["<<material:spring trip feelings>>"],
+  "grade_check": "primary band: no sentences over 20 words, 2 idioms",
   "voice_alignment": {
     "mode": "sample",
-    "features": ["句长带 8-18 字", "几乎不用感叹号", "连接词偏好：然后/后来", "逗号连句少"],
-    "negative_list": ["不写排比", "不引用名言", "不用'综上所述'"],
-    "confidence_note": "样本约 600 字且同为记叙文 → 部分对齐；第 4 段素材非样本来源，按年级档位处理"
+    "features": ["sentence band 8-18 words", "almost no exclamation points", "connective preference: then/afterwards", "few comma-chains"],
+    "negative_list": ["no parallelism", "no famous quotes", "no 'in summary'"],
+    "confidence_note": "sample about 600 words, both narrative → partial alignment; paragraph 4 material not from sample, treated per grade band"
   },
   "calibration_log": [
-    {"round": 1, "student_edits": ["把'我有点想哭'改成了'我眼睛有点酸'"], "next_time_rule": "情绪表达用身体感受词，不用'想哭'这类直陈"}
+    {"round": 1, "student_edits": ["changed 'I wanted to cry a little' to 'my eyes felt a little sore'"], "next_time_rule": "emotion expressed via body-feel words, not direct 'wanted to cry'"}
   ]
 }
 ```
 
-| 字段 | 约束 |
+| Field | Constraint |
 |---|---|
-| changes | 每条含 before / after / why，可逐条回溯 |
-| reaudit.after | 必须大于 before（ai-trace-auditor 分数越高越像人写） |
-| read_through_note | 必填（红线 3） |
-| grade_check | 写明所用学段档位与核对结论 |
-| voice_alignment.mode | `sample` 或 `grade-proxy`（诚实声明 4 的落点） |
-| voice_alignment.negative_list | 非空（暗知识 3）；grade-proxy 时为学段禁用腔调清单 |
-| calibration_log | 首次交付可为空数组；学生回传修改后追加（暗知识 5） |
+| changes | each contains before / after / why, traceable line by line |
+| reaudit.after | must be greater than before (higher ai-trace-auditor score = more human-like) |
+| read_through_note | required (red line 3) |
+| grade_check | state which school band used and verification conclusion |
+| voice_alignment.mode | `sample` or `grade-proxy` (honesty declaration 4 landing) |
+| voice_alignment.negative_list | non-empty (tacit knowledge 3); on grade-proxy it's the school-band forbidden tone list |
+| calibration_log | first delivery can be empty array; append after student sends back edits (tacit knowledge 5) |
 
-## 内置验证步骤（交付前逐条打勾）
+## Built-in Verification Steps (Check Each Before Delivery)
 
-- [ ] **素材溯源**：每个场景、数字、感受都能溯源到 used_materials，无编造（红线 1）
-- [ ] **可复述性**：学生能完成复述快测（红线 2）
-- [ ] **信息层完好**：数字/术语/结论/引用与初稿一致（红线 5）
-- [ ] **校准一致性**：句长与标点符合步骤 0 的特征（分支 A）或档位表（分支 B）
-- [ ] **负面清单兑现**：`negative_list` 逐条检查无一违反（暗知识 3）
-- [ ] **诚实标注**：`voice_alignment.mode` 如实；样本不足时已按暗知识 2 降级表述
-- [ ] **占位清理**：全文搜 `<<material:`，有残留则提示补料或删除该段
-- [ ] **复检对比**：reaudit.after > before
+- [ ] **Material traceability**: every scene, number, feeling traceable to
+  used_materials, no fabrication (red line 1)
+- [ ] **Retellability**: student can complete retell quick test (red line 2)
+- [ ] **Information layer intact**: numbers/terms/conclusions/quotes match draft
+  (red line 5)
+- [ ] **Calibration consistency**: sentence length and punctuation match step 0
+  features (branch A) or band table (branch B)
+- [ ] **Negative list honored**: `negative_list` checked line by line, none
+  violated (tacit knowledge 3)
+- [ ] **Honest labeling**: `voice_alignment.mode` truthful; when sample
+  insufficient, degraded language per tacit knowledge 2
+- [ ] **Placeholder cleanup**: search whole text for `<<material:`, if any
+  remain, prompt material supplement or delete that paragraph
+- [ ] **Re-audit comparison**: reaudit.after > before
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Action |
 |---|---|---|
-| 复检分数不降反升 | 降维时引入新套话 | 按 findings 定位回改，两轮不过如实告知剩余痕迹 |
-| 素材撑不起全文 | 用户给料太少 | 一次性列缺口请补；补不齐保留占位，禁止编造 |
-| 学生说"不像我写的" | 校准路径错或负面清单没抽对 | 请学生给一段自己写的文字（哪怕 200 字），重走步骤 0 分支 A |
-| 学生给不出样本 | 常见情形 | 走年级代理，交付时按诚实声明 4 只声称"符合学段水平"，不声称"像你写的" |
-| 样本是聊天记录/跨体裁 | 体裁不匹配 | 按暗知识 2 降级（只能部分对齐），或转年级代理 |
-| 字数跌破下限 | 删空话删过头 | 补真实细节（素材展开），不加空话 |
-| 学生怕老师追问 | 可复述性不达标 | 让学生对终稿做一次复述练习，卡壳处简化到能复述为止 |
-| 高年级仍带论文腔 | 步骤 1 档位没用对 | 按禁用腔调清单逐句重扫 |
-| 老师要求"华丽文风" | 与人味目标冲突 | 以老师要求为准——升维文采，但素材仍必须真实 |
-| 正文含引用名句 | 用户初稿自带 | 保留引用并核对出处标注未丢（红线 5） |
-| 数学/英语题被改出歧义 | 表达层改动动了术语 | 回滚该句：理科术语与英语句型框架不可降维，只降说明文字 |
-| 学生年级跨档（如复读生） | 档位表只有三档 | 按学生实际写作水平就近取档，grade_check 里注明取档理由 |
-| 占位符忘在终稿里 | 步骤 5 汇总遗漏 | 交付前全文搜 <<material:，有残留就先提示用户补素材或删除该段 |
+| Re-audit score rises instead of falls | Introduced new boilerplate while downgrading | Locate per findings and rework, after two rounds honestly report remaining trace |
+| Material can't support whole text | User gave too little | List gaps all at once and ask for supplement; keep placeholders where gaps remain, fabrication forbidden |
+| Student says "doesn't sound like me" | Wrong calibration path or wrong negative list | Ask student for a piece of their own writing (even 200 words), redo step 0 branch A |
+| Student can't provide sample | Common situation | Go grade proxy, delivery per honesty declaration 4 only claim "matches school level", not "sounds like you" |
+| Sample is chat record / cross-genre | Genre mismatch | Degrade per tacit knowledge 2 (only partial alignment), or switch to grade proxy |
+| Word count below floor | Deleted empty phrases too aggressively | Pad with real details (material expansion), no empty phrases |
+| Student fears teacher follow-up | Retellability not passing | Have student do a retell exercise on final draft, simplify stuck spots until retellable |
+| Upper grade still carries essay tone | Step 1 band used wrong | Re-scan sentence by sentence per forbidden tone list |
+| Teacher demands "flowery style" | Conflicts with human-touch goal | Teacher requirement wins—elevate literary quality, but material must still be real |
+| Body contains famous quotes | User draft came with them | Keep quotes and verify source annotation not lost (red line 5) |
+| Math/English questions made ambiguous by changes | Expression-layer changes hit terms | Roll back that sentence: science terms and English sentence-framework can't be downgraded, only explanatory text |
+| Student crosses grade band (like repeat-year) | Band table only has three | Pick nearest band per actual writing level, note band-pick reason in grade_check |
+| Placeholder left in final draft | Step 5 consolidation missed | Search whole text for <<material: before delivery, if any remain first prompt user to supplement material or delete that paragraph |
 
-## 交付标准
+## Delivery Criteria
 
-- final JSON 可被 json.loads 解析，reaudit.after 大于 reaudit.before。
-- changes 可逐条回溯：每条 before 能在初稿定位，after 能在终稿定位。
-- 全文无虚构素材：每个场景、数字、感受都能溯源到 used_materials。
-- 校准通过：无超档词汇、无超限长句、无禁用腔调命中；负面清单逐条兑现。
-- `voice_alignment` 三件套在场（mode/features/negative_list），mode 与实际样本情况一致。
-- read_through_note 在场；学生对照终稿能完成一次复述。
+- final JSON parseable by json.loads, reaudit.after > reaudit.before.
+- changes traceable line by line: each before locatable in draft, each after
+  locatable in final.
+- Whole text no fabricated material: every scene, number, feeling traceable to
+  used_materials.
+- Calibration passes: no over-band vocabulary, no over-cap long sentences, no
+  forbidden tone hits; negative list honored line by line.
+- `voice_alignment` trio present (mode/features/negative_list), mode matches
+  actual sample situation.
+- read_through_note present; student can complete one retell against final draft.
 
-## 参考
+## References
 
-- `references/sources-and-methodology.md` —— 声音对齐的计量文体学依据、负面清单与追加式校准的来源、年级校准依据与诚实边界。**对外署名或需要解释"为什么这样对齐"时必读。**
+- `references/sources-and-methodology.md` — stylometric basis for voice
+  alignment, source of negative list and append-only calibration, grade
+  calibration basis and honest boundaries. **Must read when externally
+  attributing or needing to explain "why align this way".**
 
-## 链路位置
+## Pipeline Position
 
-- 上游：solution-drafter（必接——本技能只吃 draft JSON）。
-- 联动：ai-trace-auditor（改后复检，步骤 4）；humanize-rewriter（writing 域同源手法，本技能更克制且多了声音对齐层）。
-- 下游：feynman-explainer 闭环——把终稿复述给他人听一遍（复述 = 内化），讲不顺的段落回炉。
+- Upstream: solution-drafter (required—this skill only takes draft JSON).
+- Linked: ai-trace-auditor (re-check after changes, step 4); humanize-rewriter
+  (writing domain same-source technique, this skill more restrained plus voice
+  alignment layer).
+- Downstream: feynman-explainer loop—retell final draft to someone (retell =
+  internalize), paragraphs that don't read smoothly go back to rework.

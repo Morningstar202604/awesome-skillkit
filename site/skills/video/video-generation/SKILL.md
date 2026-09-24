@@ -3,10 +3,11 @@ name: video-generation
 description: >
   Generate short videos from text prompts or reference images through a local
   generation gateway (text-to-video and image-to-video with polling and
-  download). Use when the user asks to 生成视频 / 做个短视频 / 文生视频 /
-  图生视频 / make a video from this text / animate this image / 生成宣传片,
-  or wants AI-generated footage. Do NOT use for video editing, subtitle
-  burning, screen recording, or downloading existing videos from the web.
+  download). Use when the user asks to generate a video / make a short video /
+  text-to-video / image-to-video / make a video from this text / animate this
+  image / generate a promo video, or wants AI-generated footage. Do NOT use
+  for video editing, subtitle burning, screen recording, or downloading
+  existing videos from the web.
 license: Apache-2.0
 compatibility: Requires curl and network access to the generation gateway endpoint.
 metadata:
@@ -16,55 +17,55 @@ metadata:
   verified-date: "2026-08-26"
 ---
 
-# 视频生成（文生视频 / 图生视频）
+# Video Generation (Text-to-Video / Image-to-Video)
 
-用 curl 驱动本地生成网关：提交任务 → 轮询至完成 → 下载结果 → 把文件路径交给用户。不需要 ffmpeg，不装 Python 媒体库，不装任何依赖——网关负责渲染，你负责编排。
+Drive the local generation gateway with curl: submit a task -> poll until done -> download the result -> hand the file path to the user. No ffmpeg needed, no Python media libraries, no dependencies to install — the gateway handles rendering, you handle orchestration.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 默认 | 说明 |
+| Input | Required | Default | Notes |
 |---|---|---|---|
-| 主题 / 文案 | 是 | — | 视频拍什么；用户原话或一句话简报 |
-| aspect_ratio | 否 | `16:9` | `16:9` 横屏、`9:16` 竖屏、`1:1` 方形 |
-| duration | 否 | `6` | 秒数；`6` 或 `10` |
-| size | 否 | `720P` | `720P` 或 `1080P` |
-| reference_image_url | 否 | — | 提供即切换为图生视频模式 |
+| topic / brief | yes | — | What the video is about; the user's own words or a one-line brief |
+| aspect_ratio | no | `16:9` | `16:9` landscape, `9:16` vertical, `1:1` square |
+| duration | no | `6` | seconds; `6` or `10` |
+| size | no | `720P` | `720P` or `1080P` |
+| reference_image_url | no | — | Providing it switches to image-to-video mode |
 
-必需输入缺失时一次性问齐，其余按默认值补齐：
+When a required input is missing, ask everything at once; fill in the rest from defaults:
 
-> 请提供：① 视频主题或文案。可选告知：② 画面比例（默认 16:9）、③ 时长
-> （默认 6 秒，可选 10）、④ 画质（默认 720P）、⑤ 参考图 URL（有则走图生视频）。
+> Please provide: ① video topic or brief. Optionally tell me: ② aspect ratio (default 16:9), ③ duration
+> (default 6 seconds, optional 10), ④ quality (default 720P), ⑤ reference image URL (image-to-video if provided).
 
-## 前置自检
+## Pre-flight Checks
 
-最先执行——先解析网关基址（与工作流步骤 1 同一句），再探活：
+Run first — first resolve the gateway base URL (same command as workflow Step 1), then probe liveness:
 
 ```bash
 VIDEO_GATEWAY_BASE="${VIDEO_GATEWAY_BASE:-http://127.0.0.1:30080}"
 curl -s -o /dev/null -w "%{http_code}" --max-time 5 "$VIDEO_GATEWAY_BASE/api/video/status?task_id=0"
 ```
 
-预期：打印出任意 HTTP 码（网关可达）。若失败：curl 退出码非 0（连接失败）→ 告知用户 `$VIDEO_GATEWAY_BASE` 不可达，请其启动网关，STOP；HTTP 404 → 路由名与部署不符，对照网关文档核实端点后再继续。不要退回本地渲染工具。
+Expected: any HTTP code printed (gateway reachable). If it fails: curl exit code non-0 (connection failure) -> tell the user `$VIDEO_GATEWAY_BASE` is unreachable, ask them to start the gateway, STOP; HTTP 404 -> route name doesn't match the deployment; verify the endpoint against the gateway docs before continuing. Don't fall back to local rendering tools.
 
-## 工作流
+## Workflow
 
-### 步骤 1：确认网关地址
+### Step 1: Confirm the Gateway Address
 
 ```bash
 VIDEO_GATEWAY_BASE="${VIDEO_GATEWAY_BASE:-http://127.0.0.1:30080}"
 echo "$VIDEO_GATEWAY_BASE"
 ```
 
-预期：打印出一个 URL，且与前置自检探活通过的地址一致。
-若失败：展开后为空说明 shell 异常——停止。URL 与前置自检不一致 → 以前置自检通过的值为准，不要中途换地址。
+Expected: a URL printed, matching the address that passed the pre-flight probe.
+If it fails: it expands to empty -> shell anomaly — stop. The URL differs from pre-flight -> trust the value that passed pre-flight; don't switch addresses mid-run.
 
-### 步骤 2：撰写 prompt
+### Step 2: Write the Prompt
 
-只写一段描述性文字，覆盖动作、场景与情绪。遵循 `references/prompt-recipes.md` 的公式（简报单薄或用户在意质量时先读它）。绝不把光秃秃的名词短语当 prompt 发出去。
+Write just one descriptive paragraph covering action, scene, and mood. Follow the formula in `references/prompt-recipes.md` (read it first if the brief is thin or the user cares about quality). Never send a bare noun phrase as a prompt.
 
-### 步骤 3：提交生成任务
+### Step 3: Submit the Generation Task
 
-文生视频：
+Text-to-video:
 
 ```bash
 curl -s -X POST "$VIDEO_GATEWAY_BASE/api/video/generate" \
@@ -72,44 +73,44 @@ curl -s -X POST "$VIDEO_GATEWAY_BASE/api/video/generate" \
   -d '{"prompt":"<STEP-2 PROMPT>","params":{"aspect_ratio":"16:9","duration":"6","size":"720P"}}'
 ```
 
-图生视频在 `params` 里追加 `"images":["<url>"]`。
+For image-to-video, append `"images":["<url>"]` inside `params`.
 
-预期：返回含任务 ID（`task_id`）的 JSON，提取并记住它。若失败：HTTP 错误或返回 HTML 而非 JSON → 按失败处置表重查步骤 1 的 base 值后原样重跑一次；再失败则向用户报告状态行并停止。
+Expected: JSON returned containing the task ID (`task_id`); extract and remember it. If it fails: HTTP error or HTML returned instead of JSON -> per the failure table, re-check Step 1's base value and rerun once as-is; if it fails again, report the status line to the user and stop.
 
-### 步骤 4：轮询至终态
+### Step 4: Poll Until Terminal State
 
 ```bash
 curl -s "$VIDEO_GATEWAY_BASE/api/video/status?task_id=<TASK_ID>"
 ```
 
-每 10 秒轮询一次。成功条件：`is_final == true` 且 `state == "success"`，此时 `result_url` 即下载地址。`is_final == true` 但 state 为其他值即失败——查下方失败处置表。轮询不超过 60 次（10 分钟）；超时须给出清晰报告。
-若失败：`state == "failed"` → 按 prompt 配方重写后重交一次；超 10 分钟仍 `pending` → 报告 `task_id` 并建议重新提交；成功但缺 `result_url` → 端点标记「使用前核实」，原始 JSON 报给维护者。
+Poll every 10 seconds. Success condition: `is_final == true` and `state == "success"`; then `result_url` is the download address. `is_final == true` but any other state means failure — see the failure table below. Polling no more than 60 times (10 minutes); on timeout you must give a clear report.
+If it fails: `state == "failed"` -> rewrite per the prompt recipe and resubmit once; still `pending` after 10 minutes -> report `task_id` and suggest resubmitting; success but missing `result_url` -> flag the endpoint "verify before use" and report the raw JSON to maintainers.
 
-### 步骤 5：下载交付
+### Step 5: Download & Deliver
 
 ```bash
 curl -s -L -o "video_$(date +%Y%m%d_%H%M%S).mp4" "<RESULT_URL>"
 ls -lh video_*.mp4
 ```
 
-预期：工作目录出现非空 .mp4。确认文件大小 > 0 再宣布成功。向用户报告绝对路径。
-若失败：文件 0 字节 → `result_url` 已过期，重新轮询拿新 URL 再下载一次；仍为 0 → 如实报告未完成，附原始响应。
+Expected: a non-empty .mp4 appears in the working directory. Confirm file size > 0 before declaring success. Report the absolute path to the user.
+If it fails: file is 0 bytes -> `result_url` expired; re-poll for a fresh URL and download again; still 0 -> report honestly as incomplete, attaching the raw response.
 
-## 失败处置表
+## Failure Remediation Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Remedy |
 |---|---|---|
-| curl 无法连接（前置自检） | 网关未启动 | 请用户启动网关；停止 |
-| generate 返回非 JSON | base URL 错误或有代理 | 重查一次步骤 1 的值，重试一次，然后报告 |
-| status 一直 `pending` 超 10 分钟 | 队列卡住 | 报告 task_id，建议重新提交 |
-| `state == "failed"` | prompt 被拒（通常太短） | 按配方重写 prompt，重新提交一次 |
-| 下载文件 0 字节 | URL 过期/签名失效 | 重新轮询拿新的 result_url，再下载一次 |
-| 成功但缺 `result_url` | API 结构变更 | 把端点标记为"使用前核实"；把原始 JSON 报给维护者 |
+| curl can't connect (pre-flight) | Gateway not started | Ask the user to start the gateway; stop |
+| generate returns non-JSON | Wrong base URL or a proxy | Re-check Step 1's value, retry once, then report |
+| status stays `pending` over 10 minutes | Queue stuck | Report task_id, suggest resubmitting |
+| `state == "failed"` | Prompt rejected (usually too short) | Rewrite per the recipe, resubmit once |
+| Downloaded file is 0 bytes | URL expired / signature invalid | Re-poll for a fresh result_url, download again |
+| Success but missing `result_url` | API structure changed | Flag the endpoint "verify before use"; report raw JSON to maintainers |
 
-## 交付标准
+## Delivery Standard
 
-成功 = 本地 `.mp4`、大小 > 0、命名为 `video_YYYYMMDD_HHMMSS.mp4`（带时间戳），已向用户报告路径及所用的时长/比例。其余情况都算未完成——直说，并给出上方失败处置表的对应行。
+Success = a local `.mp4`, size > 0, named `video_YYYYMMDD_HHMMSS.mp4` (timestamped), with the path and the duration/ratio used reported to the user. Anything else counts as incomplete — say so plainly, and point to the matching row in the failure table above.
 
-## 参考
+## References
 
-- `references/prompt-recipes.md` —— prompt 公式与强弱示例；撰写任何 prompt 前先读
+- `references/prompt-recipes.md` — prompt formulas and strong/weak examples; read before writing any prompt

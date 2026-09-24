@@ -1,6 +1,6 @@
 ---
 name: video-prompt-engineer
-description: "Engineer and audit text-to-video prompts across generation models: the six-slot structure (subject + action + camera + lighting + style + duration), camera-move and transition vocabulary, and per-model dialect notes with verification steps. Two modes: write a prompt from a scene description, or audit an existing prompt and report which slots are missing or contradictory. Use when the user asks to 写视频提示词 / 视频 prompt / text-to-video prompt / 提示词审计 / prompt audit / 让画面更电影感. Do NOT use for generating the video itself, nor for image-generation prompts (static-image structure differs — no motion slots)."
+description: "Engineer and audit text-to-video prompts across generation models: the six-slot structure (subject + action + camera + lighting + style + duration), camera-move and transition vocabulary, and per-model dialect notes with verification steps. Two modes: write a prompt from a scene description, or audit an existing prompt and report which slots are missing or contradictory. Use when the user asks to write a video prompt / video prompt / text-to-video prompt / prompt audit / make the footage more cinematic. Do NOT use for generating the video itself, nor for image-generation prompts (static-image structure differs — no motion slots)."
 license: Apache-2.0
 compatibility: Pure prompt-based; the bundled prompt_audit.py needs Python 3.8+ only.
 metadata:
@@ -14,33 +14,33 @@ metadata:
 
 # Video Prompt Engineer
 
-写、审跨模型文生视频 prompt。核心是**六槽位结构**——模型不会读心，缺一个槽位就自由发挥一个，自由发挥就是废片来源。
+Write and audit cross-model text-to-video prompts. The core is the **six-slot structure** — models can't read minds; every missing slot gets improvised, and improvisation is where wasted clips come from.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |------|------|------|
-| 模式 | ✓ | `write`（从场景描述写 prompt）\| `audit`（审计已有 prompt） |
-| 场景描述 | write ✓ | 一句话画面：主体 + 动作 + 环境 |
-| 目标模型 | ✗ | 通用结构默认；指定模型（seedance/kling/veo 等）则套方言（见 references/model-dialects.md） |
-| 时长 | ✗ | 默认 5s |
-| 画幅 | ✗ | 默认 16:9 |
-| 待审 prompt | audit ✓ | 原文粘贴 |
+| mode | yes | `write` (write a prompt from a scene description) | `audit` (audit an existing prompt) |
+| scene description | write required | One-line frame: subject + action + environment |
+| target model | no | Default generic structure; if a specific model is given (seedance/kling/veo, etc.), apply its dialect (see references/model-dialects.md) |
+| duration | no | Default 5s |
+| aspect ratio | no | Default 16:9 |
+| prompt to audit | audit required | Paste the original text |
 
-## 前置自检
+## Pre-flight Checks
 
-- audit 模式：prompt 原文拿到了吗？没有就先要，不要凭记忆审计。
-- write 模式：场景描述里有主体吗？「拍一个好看的镜头」这种没有主体的描述直接退回。
+- audit mode: do you have the original prompt text? If not, ask for it first; don't audit from memory.
+- write mode: does the scene description have a subject? A subjectless description like "shoot a nice-looking shot" is rejected outright.
 
-## 工作流
+## Workflow
 
-### 步骤 1（write）：按六槽位填空
+### Step 1 (write): Fill In the Six Slots
 
 ```text
-[主体 subject] + [动作 action] + [镜头 camera] + [光影 lighting] + [风格 style] + [时长/画幅 duration]
+[subject] + [action] + [camera] + [lighting] + [style] + [duration/aspect]
 ```
 
-示例（可整段照抄换词）：
+Example (copy the whole block and swap words):
 
 ```text
 A young woman in a black hoodie walks through a rainy neon-lit street,
@@ -49,69 +49,69 @@ neon spill and wet-reflective asphalt, cinematic live-action look,
 5 seconds, 9:16 vertical.
 ```
 
-规则：
-- 动作必须**单一且可在一个镜头内完成**（"坐下并点燃打火机"是两个动作 → 拆两个 prompt）
-- 每槽位一个短语，禁止写成长句故事——prompt 是参数表不是剧本
-- 数字一律显式（"5 seconds"），不写 "a few seconds"
+Rules:
+- The action must be **single and completable in one shot** ("sit down and light a lighter" is two actions -> split into two prompts)
+- One phrase per slot; don't write long-story sentences — a prompt is a parameter table, not a script
+- Numbers are always explicit ("5 seconds"), never "a few seconds"
 
-预期：产出 prompt 含全部 6 槽位；跑 `python3 scripts/prompt_audit.py --prompt "<文本>" --mode write` 返回 6/6。
-若失败：自检返回 <6/6 → 读缺失清单逐槽补词后才交付，不带着 miss 项进下一步；某槽位实在填不出（如场景描述里没有光影信息）→ 回输入清单问用户要环境/时段，不要编；动作槽写成两个动词 → 拆成两个 prompt，不许合并。
+Expected: the output prompt has all 6 slots; running `python3 scripts/prompt_audit.py --prompt "<text>" --mode write` returns 6/6.
+If it fails: self-check returns <6/6 -> read the missing list and fill each slot before delivering; don't carry miss items into the next step. A slot truly can't be filled (e.g., no lighting info in the scene description) -> go back to the input checklist and ask the user for environment/time of day; don't invent. The action slot becomes two verbs -> split into two prompts; don't merge.
 
-### 步骤 2（audit）：跑结构审计
+### Step 2 (audit): Run the Structural Audit
 
 ```bash
-python3 scripts/prompt_audit.py --prompt "<待审文本>"
+python3 scripts/prompt_audit.py --prompt "<text to audit>"
 ```
 
-预期：输出 JSON，含每个槽位 `hit/miss` 与缺失清单。miss 项按下方处置表补齐。
-若失败：`--prompt` 传空/只有空白 → 脚本报错，回输入清单向用户要 prompt 原文；JSON 无法解析 → 确认 prompt 里的引号已转义（命令行下用单引号包裹，或把 prompt 存文件后再传）。
+Expected: JSON output with each slot's `hit/miss` and a missing list. Fill miss items per the remediation table below.
+If it fails: `--prompt` passed empty/whitespace only -> the script errors; go back to the input checklist and ask the user for the prompt text. JSON unparseable -> confirm quotes in the prompt are escaped (wrap in single quotes on the command line, or save the prompt to a file first).
 
-### 步骤 3：套模型方言（仅当指定了模型）
+### Step 3: Apply the Model Dialect (Only When a Model Is Specified)
 
-查 [model-dialects.md](references/model-dialects.md) 对应模型的语法差异（标记符号、参考图槽位、音频槽位）。**所有方言条目均为 2026-09 网络调研值，执行前按文档内给出的官方 prompt guide 链接核实（VERIFY BEFORE USE）**——模型语法月度级更新。
+Check [model-dialects.md](references/model-dialects.md) for the target model's syntax differences (marker tokens, reference-image slot, audio slot). **All dialect entries are 2026-09 web-researched values; verify against the official prompt-guide links given in the doc before use (VERIFY BEFORE USE)** — model syntax updates on a monthly cadence.
 
-预期：prompt 已按该模型方言改写，且文档内官方核实链接已点开确认。
-若失败：核实链接失效或文档缺失 → 按通用六槽位结构交付，并在交付物中注明「方言未核实」。文档里查不到用户指定的模型 → 同上按通用结构交付并注明，不要凭记忆发明该模型的语法。
+Expected: the prompt has been rewritten in that model's dialect, and the official verification link in the doc has been opened and confirmed.
+If it fails: the verification link is dead or the doc is missing -> deliver per the generic six-slot structure and note "dialect not verified" in the deliverable. The doc has no entry for the user's specified model -> same: deliver per the generic structure with a note; don't invent the model's syntax from memory.
 
-### 步骤 4：交付
+### Step 4: Deliver
 
-write 模式交付 prompt 原文 + 槽位标注版；audit 模式交付 JSON 报告 + 修复后的 prompt 对比版。
-若失败：用户只想要 prompt 原文、不要槽位标注 → 交付原文即止，标注版附后备查，不因格式分歧卡住交付。
+write mode delivers the original prompt + a slot-annotated version; audit mode delivers the JSON report + a side-by-side of the fixed prompt.
+If it fails: the user only wants the original prompt, no slot annotations -> deliver the original and stop; keep the annotated version on file for reference; don't block delivery over a format disagreement.
 
-## 六槽位词典（最快查表）
+## Six-Slot Dictionary (Fastest Lookup)
 
-| 槽位 | 常用词 |
+| Slot | Common Phrases |
 |------|--------|
-| 主体 | 身份 + 服装 + 表情：「a young woman in a black hoodie, tired eyes」 |
-| 动作 | 单一动词短语：「walks slowly toward camera」「picks up a blue lighter」 |
-| 镜头 | 景别 + 运镜：「extreme close-up, slow push-in」「wide establishing, static」 |
-| 光影 | 时段 + 光源 + 对比：「golden hour backlight」「high-contrast noir, practical neon」 |
-| 风格 | 媒介质感：「cinematic live-action」「stop-motion feel」「90s camcorder」 |
-| 时长画幅 | 「5 seconds, 9:16 vertical」 |
+| subject | identity + outfit + expression: "a young woman in a black hoodie, tired eyes" |
+| action | single verb phrase: "walks slowly toward camera" / "picks up a blue lighter" |
+| camera | shot size + move: "extreme close-up, slow push-in" / "wide establishing, static" |
+| lighting | time of day + source + contrast: "golden hour backlight" / "high-contrast noir, practical neon" |
+| style | medium texture: "cinematic live-action" / "stop-motion feel" / "90s camcorder" |
+| duration/aspect | "5 seconds, 9:16 vertical" |
 
-## 失败处置表
+## Failure Remediation Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Remedy |
 |------|------|------|
-| 主体每帧变脸 | 缺参考图槽 / 主体描述含糊 | 加角色卡描述或模型参考图槽位；见 visual-style-anchor 技能的角色卡 |
-| 动作没发生 | 动作被写成结果 | 「拿着点燃的打火机」→「ignites the lighter」（写过程不写状态）|
-| 运镜乱晃 | 两个运镜叠加 | 一个 prompt 只留一个运镜动词 |
-| 画面与时长不符 | 动作量超时长 | 按每秒 1 个动词砍动作 |
-| 审计 6/6 但生成仍差 | 结构对、选词弱 | 把形容词换成具体名词：beautiful lighting → cyan neon spill |
+| Subject's face changes every frame | Missing reference-image slot / vague subject description | Add character-card description or the model's reference-image slot; see the visual-style-anchor skill's character card |
+| The action doesn't happen | Action written as a result | "holding a lit lighter" -> "ignites the lighter" (write the process, not the state) |
+| Camera wanders erratically | Two camera moves stacked | Keep only one camera-move verb per prompt |
+| Footage doesn't match the duration | Action load exceeds the duration | Cut actions at one verb per second |
+| Audit 6/6 but generation is still poor | Right structure, weak word choice | Swap adjectives for concrete nouns: beautiful lighting -> cyan neon spill |
 
-## 交付标准
+## Delivery Standard
 
-- write：6 槽位齐全的英文 prompt + 中文槽位对照
-- audit：JSON 报告（每槽 hit/miss）+ 修复版 prompt
-- 方言条目使用前已按 model-dialects.md 的核实步骤确认
+- write: English prompt with all 6 slots + slot-by-slot mapping
+- audit: JSON report (hit/miss per slot) + fixed prompt
+- Dialect entries confirmed per model-dialects.md's verification steps before use
 
-## 参考
+## References
 
-- [camera-vocabulary.md](references/camera-vocabulary.md) —— 运镜与转场词汇表（快速版）
-- [cinematography-lexicon.md](references/cinematography-lexicon.md) —— 深度词库：17 种转场、动作动词空间语义、微表情表演、速度节奏、物理属性描述、各模型方言速查、迭代修复对照（写 prompt 时优先查这张）
-- [model-dialects.md](references/model-dialects.md) —— 各模型语法方言与核实链接
-- [sources-and-methodology.md](references/sources-and-methodology.md) —— 方法论开源出处与致谢（CC BY 4.0 署名信息）
+- [camera-vocabulary.md](references/camera-vocabulary.md) — camera-move and transition vocabulary (quick version)
+- [cinematography-lexicon.md](references/cinematography-lexicon.md) — deep lexicon: 17 transitions, action-verb spatial semantics, micro-expression performance, speed/rhythm, physical-attribute descriptions, per-model dialect quick reference, iteration-fix mapping (check this first when writing prompts)
+- [model-dialects.md](references/model-dialects.md) — per-model syntax dialects and verification links
+- [sources-and-methodology.md](references/sources-and-methodology.md) — open-source provenance and credits (CC BY 4.0 attribution info)
 
-## 链条衔接（下游建议）
+## Chain Handoff (Downstream Suggestions)
 
-本技能承接 storyboard-designer / shot-recipe-designer 的场景描述，产出六槽位 prompt 供 video-generation / image-generation 投喂；角色一致性须引用 visual-style-anchor 的身份行。建议作为 video 域 chains 的上游规划步骤。当前为游离技能，衔接仅为文字描述。
+This skill takes scene descriptions from storyboard-designer / shot-recipe-designer and produces six-slot prompts to feed video-generation / image-generation; character consistency must reference visual-style-anchor's identity line. Recommended as an upstream planning step in video-domain chains. Currently a standalone skill; handoff is descriptive only.

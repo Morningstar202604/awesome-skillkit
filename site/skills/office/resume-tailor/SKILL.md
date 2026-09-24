@@ -1,12 +1,12 @@
 ---
 name: resume-tailor
-description: >
+description: >-
   Tailor a resume to one specific job description: extract JD requirements,
   build a gap matrix, rewrite bullets with metrics (STAR), and output an
-  ATS-safe document plus an edit changelog. Use when the user asks to 改简历 /
-  简历定制 / 针对这个岗位改简历 / tailor my resume for this JD /
-  optimize my CV. Do NOT use for writing cover letters, LinkedIn profiles,
-  or fabricating experience.
+  ATS-safe document plus an edit changelog. Use when the user asks to tailor a
+  resume / customize CV for a job / rewrite resume for this JD / tailor my
+  resume for this JD / optimize my CV / resume customization. Do NOT use for
+  writing cover letters, LinkedIn profiles, or fabricating experience.
 license: Apache-2.0
 compatibility: No special environment needed; accepts plain text or pasted resume.
 metadata:
@@ -16,89 +16,108 @@ metadata:
   verified-date: "2026-08-26"
 ---
 
-# Resume Tailor（简历 + JD → 定制版）
+# Resume Tailor (Resume + JD → Tailored Version)
 
-一轮只处理一个 JD。机器优先原则：每处改动必须能追溯到 JD 的某一行，或原简历中的某条证据。虚构是硬性禁令——见红线。
+One JD per round. Machine-first principle: every change must trace back to a
+line in the JD or evidence in the original resume. Fabrication is a hard ban—
+see red lines.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必填 | 默认 | 说明 |
+| Input | Required | Default | Notes |
 |---|---|---|---|
-| 简历文本/文件 | 是 | — | 纯文本优先 |
-| 岗位描述 | 是 | — | 粘贴完整 JD，不是只给职位名 |
-| 目标语气 | 否 | 简洁量化 | 如：外企英文 / 国内互联网 |
+| Resume text/file | yes | — | Plain text preferred |
+| Job description | yes | — | Paste the full JD, not just the job title |
+| Target tone | no | Concise, quantified | e.g. foreign-company English / domestic internet |
 
-缺必填项时，只问一次：
+When required inputs are missing, ask once:
 
-> 请提供：① 现有简历全文；② 目标岗位的完整 JD（含任职要求）。
-> 可选：希望中文还是英文、有无特别想突出的项目。
+> Please provide: 1) your full existing resume; 2) the complete JD for the
+> target role (including requirements). Optional: Chinese or English, any
+> projects you especially want to highlight.
 
-## 前置自检
+## Pre-flight Checks
 
-无需探测环境——没有依赖、没有端点、没有环境变量。自检在输入侧：完整简历和完整 JD 都拿到了吗？缺任一项就按上面只问一次，然后 STOP。只有职位名的 JD（"帮我改简历，投产品经理"）不算 JD——先要全文，步骤 1 才可能做。
+No environment probing—no dependencies, endpoints, or env vars. Self-check is
+on the input side: do we have both the complete resume and complete JD? Missing
+either → ask once as above, then STOP. A JD that only gives a job title ("help
+me tailor my resume for product manager") doesn't count as a JD—ask for the
+full text first; step 1 can't run without it.
 
-## 红线（硬性禁令，不可协商）
+## Red Lines (Hard Bans, Non-Negotiable)
 
-1. 不得虚构经历、职级、证书或数字。量化只能来自原简历已有事实或向用户提问确认。
-2. 不得隐瞒真实性问题的美化（如把实习写成工作）。
-3. 原因：背调与面试深挖会放大任何造假，代价是 offer 作废乃至行业口碑。
+1. Never fabricate experience, level, certificates, or numbers. Quantification
+   can only come from facts already in the original resume or from user-confirmed
+   answers.
+2. Never beautify by hiding authenticity issues (e.g. writing an internship as
+   full-time work).
+3. Why: background checks and deep interview questioning amplify any fabrication;
+   the cost is a revoked offer and industry reputation damage.
 
-## 工作流
+## Workflow
 
-### 步骤 1：提取 JD 要求
+### Step 1: Extract JD Requirements
 
-建一张两列表：硬性要求（学历/年限/必备技能）｜软性优先项。
+Build a two-column list: hard requirements (education/years/must-have skills) |
+soft preferences.
 
-预期：5–12 行，每行引用 JD 原话。
+Expected: 5–12 rows, each quoting JD original wording.
 
-### 步骤 2：差距矩阵
+### Step 2: Gap Matrix
 
-把 JD 每一行对照简历判定：匹配(有证据) / 部分(需强化表述) /
-缺失(只能诚实留白或建议用户补充真实素材)。
+Judge each JD line against the resume: match (has evidence) / partial (needs
+stronger phrasing) / missing (honestly leave blank or suggest user supply real
+material).
 
-预期：没有未判定的行。
+Expected: no unjudged lines.
 
-### 步骤 3：重写条目
+### Step 3: Rewrite Bullets
 
-对"部分"匹配项，用 STAR + 数字重写：
-`动词 + 做了什么 + 方法/规模 + 可验证结果`。
+For "partial" matches, rewrite using STAR + numbers:
+`verb + what you did + method/scale + verifiable result`.
 
-改写示例——前："负责公众号运营"；
-后："独立运营公众号（3 个月），周更 2 篇，粉丝从 1.2k 增至 4.6k（+283%）"。
+Rewrite example—before: "responsible for official account operations";
+after: "Independently ran official account (3 months), 2 posts/week, followers
+grew from 1.2k to 4.6k (+283%)".
 
-源材料里没有的数字，插入 `<待你确认：具体数值>`，绝不编一个。
+Numbers not in source material get `<confirm with you: specific value>`; never
+invent one.
 
-### 步骤 4：ATS 卫生检查
+### Step 4: ATS Hygiene Check
 
-单栏排版；标准标题（教育经历/工作经历/项目/技能）；
-内容不放表格、文本框或图形；在真实的前提下从 JD 镜像关键词；
-文件命名 `姓名_岗位_简历.pdf`。
+Single-column layout; standard headings (Education/Experience/Projects/Skills);
+no tables, text boxes, or graphics in content; mirror keywords from the JD while
+staying truthful; filename `Name_Title_Resume.pdf`.
 
-### 步骤 5：交付两件产物
+### Step 5: Deliver Two Artifacts
 
-① 定制后的简历全文；② `edit_log.md`，每条改动记为
-`原文 → 改后 ← JD依据`，另附一份只有用户能补的待补充清单
-（数字、项目）。
+1. Full tailored resume text; 2. `edit_log.md`, each change recorded as
+   `original → revised ← JD basis`, plus a pending-material list (numbers,
+   projects) only the user can fill.
 
-预期：用户能对每处改动逐条接受或拒绝。
+Expected: user can accept or reject each change line by line.
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 可能原因 | 处置 |
+| Symptom | Likely Cause | Action |
 |---|---|---|
-| JD 每行都超出简历证据 | 匹配度太低 | 如实说明；建议相邻岗位而不是注水 |
-| 用户要求夸大数字/编造证书 | 触碰红线 | 拒绝该改动，重申禁令，提供诚实的强化方案 |
-| 定制后简历过长 | 遗留的无关板块 | 按 JD 相关度裁剪，每处删减记入 edit_log |
-| 关键技能完全缺失 | 真实差距 | 加入待补充清单，附一条快速补齐的具体路径 |
+| Every JD line exceeds resume evidence | Match too low | Say honestly; suggest adjacent roles rather than padding |
+| User asks to exaggerate numbers / fabricate certificates | Hits red line | Refuse the change, restate the ban, offer honest strengthening |
+| Tailored resume too long | Leftover irrelevant sections | Trim by JD relevance, record each cut in edit_log |
+| Key skills completely missing | Real gap | Add to pending list, attach a concrete fast-path |
 
-## 交付标准
+## Delivery Criteria
 
-成功 = 定制后的简历文本 + 每条改动可追溯的 `edit_log.md`，零不可验证的表述。缺任何一项即未完成——如实说明。
+Success = tailored resume text + `edit_log.md` tracing every change, zero
+unverifiable statements. Missing any item means incomplete—say so honestly.
 
-## 链条衔接（下游建议）
+## Pipeline Handoff (Downstream Suggestions)
 
-本技能属 office / productivity 类单点技能；定制后的简历可继续用 excel-assistant 做版本对照、meeting-notes 风格整理。建议在 skill_chains.json 中新增 office（或 productivity）域并登记本技能。衔接仅为文字描述。
+This is an office/productivity single-point skill; the tailored resume can feed
+excel-assistant for version comparison, or meeting-notes style organization.
+Suggest adding an office (or productivity) domain to skill_chains.json and
+registering this skill. Handoff is descriptive only.
 
-## 参考
+## References
 
-- 本技能为纯提示型，无需外部参考文件。
+- Pure prompt-based, no external reference files needed.

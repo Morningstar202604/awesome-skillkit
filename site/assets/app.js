@@ -106,16 +106,16 @@
     // 口径：n_skills 为入包技能数，n_skills_on_disk 含 sample-skill 等不入包模板
     const total = m.n_skills_on_disk || m.n_skills;
     const tpl = total - m.n_skills;
-    document.title = `${m.hub} — ${total} 技能 / ${m.n_packs} 场景包下载`;
+    document.title = `${m.hub} — ${total} Skills / ${m.n_packs} Scene Packs`;
     $("#brand").textContent = m.hub;
     const stats = $("#stats");
     stats.innerHTML = "";
     const items = [
-      [total, "个技能 SKILL.md"],
-      [m.n_packs, "个场景包 zip"],
-      [m.n_domains, "个技能域"],
-      [m.n_chains, "条技能链"],
-      ["v" + m.version, "当前版本"],
+      [total, "SKILL.md files"],
+      [m.n_packs, "scene packs (.zip)"],
+      [m.n_domains, "skill domains"],
+      [m.n_chains, "skill chains"],
+      ["v" + m.version, "version"],
     ];
     items.forEach(([v, label]) => {
       const s = el("div", "stat");
@@ -129,13 +129,14 @@
     $("#gcBtn").href = m.gitcode.url;
     $("#footGh").href = m.github.url;
     $("#footGc").href = m.gitcode.url;
-    $("#footMeta").textContent = `${m.n_skills} 技能 · ${m.n_packs} 包 · v${m.version}${m.updated ? " · 更新于 " + m.updated : ""}`;
+    $("#footMeta").textContent = `${m.n_skills} skills · ${m.n_packs} packs · v${m.version}${m.updated ? " · updated " + m.updated : ""}`;
     $("#cSkills").textContent = m.n_skills;
     $("#cPacks").textContent = m.n_packs;
     $("#cChains").textContent = m.n_chains;
-    $("#tagline").textContent = m.desc_zh || m.desc || $("#tagline").textContent;
+    // Hero tagline: English primary, Chinese subtitle lives in .tagline-zh (static in HTML)
+    $("#tagline").textContent = m.desc || $("#tagline").textContent;
     $("#statsNote").textContent = tpl > 0
-      ? `其中 ${m.n_skills} 个已打包进场景包，${tpl} 个为模板技能（不入包，仅供参照编写）。`
+      ? `${m.n_skills} are packaged into scene packs; ${tpl} are template-only reference skills (not shipped in any pack).`
       : "";
   }
 

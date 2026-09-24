@@ -1,6 +1,7 @@
 ---
 name: slo-architect
-description: "Use when defining, reviewing, or operating SLOs/SLIs/error budgets. Triggers on "define an SLO", "what should our SLO be", "error budget", "burn rate", "SLI", "service level objective", "Google SRE workbook", "multi-window burn-rate alert", or any reliability-target question. Ships SLO designer, error-budget calculator with multi-window burn-rate thresholds, and SLO reviewer that catches the common bugs (target too aggressive, window too short, conflicting SLOs, no SLI definition). 4 references on SLO principles + SLI design + error budget math + composition with feature-flags-architect/chaos-engineering/kubernetes-operator. NOT a generic observability skill — specifically the SLO discipline. 当用户要求 定 SLO / 设计 SLI 与错误预算 / 可用性目标 时使用。 Do NOT use for provisioning monitoring infrastructure."
+description: >-
+  Use when defining, reviewing, or operating SLOs/SLIs/error budgets, setting an SLO, designing SLIs and error budgets, or choosing availability targets. Triggers on "define an SLO", "what should our SLO be", "error budget", "burn rate", "SLI", "service level objective", "Google SRE workbook", "multi-window burn-rate alert", or any reliability-target question. Ships SLO designer, error-budget calculator with multi-window burn-rate thresholds, and SLO reviewer that catches the common bugs (target too aggressive, window too short, conflicting SLOs, no SLI definition). 4 references on SLO principles + SLI design + error budget math + composition with feature-flags-architect/chaos-engineering/kubernetes-operator. NOT a generic observability skill — specifically the SLO discipline. Do NOT use for provisioning monitoring infrastructure.
 license: Apache-2.0
 compatibility: Requires network access. No API keys required.
 metadata:
@@ -14,74 +15,74 @@ metadata:
 
 # SLO Architect
 
-定义有意义的 SLO。现实中的多数 "SLO" 是没人信的拍脑袋数字——每个端点都写 99.9%，没有 SLI 定义，没有错误预算，预算烧穿也没人知道该做什么。本技能执行 Google SRE Workbook 的纪律：选对 SLI，定一个用户真正在乎的目标值，算出错误预算，接好多窗口 burn-rate 告警，并写明预算耗尽时的处置策略。
+Define SLOs that mean something. Most real-world "SLOs" are numbers nobody believes — every endpoint says 99.9%, there's no SLI definition, no error budget, and no one knows what to do when the budget burns through. This skill executes the discipline of the Google SRE Workbook: pick the right SLI, set a target users actually care about, compute the error budget, wire up multi-window burn-rate alerts, and write the policy for what happens when the budget is exhausted.
 
-## 何时使用
+## When to Use
 
-- 为服务或功能定义新 SLO
-- 审查现有 SLO 的常见错误
-- 选对 SLI（基于事件 vs 基于时间窗 vs 基于请求）
-- 计算错误预算与 burn-rate 告警阈值
-- 把 SLO 与现有控制手段挂钩——feature flag 中止、chaos 爆炸半径、operator 能力等级
+- Defining a new SLO for a service or feature
+- Reviewing an existing SLO for common mistakes
+- Choosing the right SLI (event-based vs window-based vs request-based)
+- Computing error budgets and burn-rate alert thresholds
+- Linking SLOs to existing controls — feature-flag kill switches, chaos blast radius, operator capability levels
 
-## 何时不使用
+## When Not to Use
 
-- 泛用可观测性策略（metrics + logs + traces）→ 用 `observability-designer`
-- 有法律效力的客户 SLA → 那是合同起草，不是工程
-- 性能压测（容量问题，不是可靠性问题）→ 用 `performance-profiler`
-- 进行中的事故响应 → 用 `incident-response`
+- Generic observability strategy (metrics + logs + traces) → use `observability-designer`
+- Legally binding customer SLAs → that's contract drafting, not engineering
+- Performance load testing (a capacity problem, not a reliability problem) → use `performance-profiler`
+- An in-progress incident response → use `incident-response`
 
-## 输入清单
+## Input Checklist
 
-跑任何工具前一次性收集。缺输入时用这句话向用户问一次："要生成 SLO，请一次性提供：服务名、SLI 类型、目标值、窗口天数、负责人、错误预算策略文档路径（如已有 SLO 文档目录也给 review 用）。"
+Collect everything before running any tool. When inputs are missing, ask the user once with this line: "To generate an SLO, please provide all at once: service name, SLI type, target value, window in days, owner, and the error-budget policy doc path (also give the existing SLO-doc directory for review if you have one)."
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Description |
 |---|---|---|
-| 服务名 | 是 | 如 `checkout-svc` → `--service` |
-| SLI 类型 | 是 | `request-success-rate` / `request-latency` / `availability-time` / `data-freshness` / `correctness` 之一 → `--sli-type` |
-| 目标值 | 是 | 如 `99.9`（百分比）→ `--target`；从 30 天历史 SLI 数据中取，不要拍脑袋 |
-| 窗口天数 | 否 | 默认 28（= 4 个自然周）→ `--window-days` |
-| 负责人 | 生效 SLO 必需 | 担责的团队或个人 → `--owner`；缺省渲染 `<must define>` 占位符 |
-| 错误预算策略文档 | 生效 SLO 必需 | 书面策略的路径 → `--policy-doc`；缺省渲染 `<must define>` 占位符 |
-| SLO 文档目录 | 仅 review 用 | 现有 SLO 定义（markdown/JSON）所在目录 → `--slo-doc` |
+| Service name | Yes | e.g. `checkout-svc` → `--service` |
+| SLI type | Yes | One of `request-success-rate` / `request-latency` / `availability-time` / `data-freshness` / `correctness` → `--sli-type` |
+| Target value | Yes | e.g. `99.9` (percent) → `--target`; derive it from 30 days of historical SLI data, don't guess |
+| Window in days | No | Default 28 (= 4 calendar weeks) → `--window-days` |
+| Owner | Required for a live SLO | The accountable team or person → `--owner`; otherwise renders a `<must define>` placeholder |
+| Error-budget policy doc | Required for a live SLO | Path to the written policy → `--policy-doc`; otherwise renders a `<must define>` placeholder |
+| SLO-doc directory | Review only | Directory of existing SLO definitions (markdown/JSON) → `--slo-doc` |
 
-## 前置自检
+## Pre-flight Checks
 
-在仓库根目录运行（或本技能目录内运行下文相对路径形式）。第一个失败处停下修复——不要即兴发挥。
+Run at the repo root (or use the relative-path form below from this skill's directory). Stop at the first failure and fix it — don't improvise.
 
 ```bash
-python3 --version        # 预期：Python ≥ 3.8。3 个工具全部仅依赖标准库。
+python3 --version        # Expected: Python ≥ 3.8. All 3 tools depend only on the standard library.
 ls scripts/slo_designer.py scripts/error_budget_calculator.py scripts/slo_review.py
-                         # 预期：3 个文件全部列出。
+                         # Expected: all 3 files listed.
 ```
 
-- Python 缺失或版本过旧 → 安装 Python ≥ 3.8，然后停止（不要用未验证的另一个解释器版本跑工具）。
-- 脚本文件缺失 → 目录不对；`cd` 到本技能目录，然后停止并重查。
-- 审查现有 SLO？再跑 `ls <slo-doc-dir>` —— 预期：至少一份 `.md`/`.json` SLO 文档。为空 → 把 `--slo-doc` 指向真实目录，或先用 `--sample` 看工具输出形状。
+- Python missing or too old → install Python ≥ 3.8, then stop (don't run the tools with an unverified interpreter version).
+- Script files missing → wrong directory; `cd` to this skill's directory, then stop and re-check.
+- Reviewing existing SLOs? Also run `ls <slo-doc-dir>` — expected: at least one `.md`/`.json` SLO doc. Empty → point `--slo-doc` at a real directory, or use `--sample` first to see the tools' output shape.
 
-## 快速开始
+## Quick Start
 
 ```bash
-# 1. 设计一个 SLO（单行；--owner 与 --policy-doc 为必填约束，缺失退出码 1）
+# 1. Design an SLO (single line; --owner and --policy-doc are required constraints, missing → exit code 1)
 python scripts/slo_designer.py --service checkout-svc --sli-type request-success-rate --target 99.9 --window-days 30 --owner payments-team --policy-doc docs/slo-policy.md
 
-# 2. 计算错误预算 + 多窗口 burn-rate 告警
+# 2. Compute the error budget + multi-window burn-rate alerts
 python scripts/error_budget_calculator.py --target 99.9 --window-days 30
 
-# 3. 审查现有 SLO 定义的常见错误
-python scripts/slo_review.py --slo-doc assets/slos/   # 随包达标样例（target/window/numerator/denominator/error budget policy 五要素齐全）；你的真实项目换成 docs/slos/
+# 3. Review an existing SLO definition for common mistakes
+python scripts/slo_review.py --slo-doc assets/slos/   # bundled compliant sample (target/window/numerator/denominator/error-budget policy — all five elements present); swap in docs/slos/ for your real project
 ```
 
-## 三个 Python 工具
+## The Three Python Tools
 
-全部仅依赖标准库。
+All depend only on the standard library.
 
 ### `slo_designer.py`
 
-生成带必填字段的结构化 SLO 定义。缺 `--service`/`--sli-type`/`--target` → argparse 报错，退出码 2。缺 `--owner`/`--policy-doc` → 输出带 `<must define>` 占位符和一行 `WARNING: missing required fields`；占位符填完之前该 SLO 不算生效。
+Generates a structured SLO definition with required fields. Missing `--service`/`--sli-type`/`--target` → an argparse error, exit code 2. Missing `--owner`/`--policy-doc` → the output carries `<must define>` placeholders and a `WARNING: missing required fields` line; the SLO isn't live until the placeholders are filled.
 
 ```bash
-# 单行用法（下方续行排版仅为可读，复制时合并为一行）：
+# Single-line usage (the wrapped layout below is readability only; merge into one line when copying):
 # python scripts/slo_designer.py \
 #   --service checkout-svc \
 #   --sli-type request-success-rate \
@@ -90,7 +91,7 @@ python scripts/slo_review.py --slo-doc assets/slos/   # 随包达标样例（tar
 #   --owner team-checkout
 ```
 
-**支持的 SLI 类型：**
+**Supported SLI types:**
 
 - `request-success-rate` — `(total_requests - bad_requests) / total_requests`
 - `request-latency` — `count(requests < threshold) / total_requests`
@@ -98,18 +99,18 @@ python scripts/slo_review.py --slo-doc assets/slos/   # 随包达标样例（tar
 - `data-freshness` — `count(data_age < threshold) / total_data_points`
 - `correctness` — `count(correct_outputs) / total_outputs`
 
-默认输出 markdown，必填字段要么填好要么标 `<must define>`。JSON 输出（`--format json`）供 `slo_review.py` 消费。
+Default output is markdown; required fields are either filled in or marked `<must define>`. JSON output (`--format json`) is consumed by `slo_review.py`.
 
 ### `error_budget_calculator.py`
 
-给定目标可用性 + 窗口，计算：
+Given a target availability + window, it computes:
 
-- 窗口内允许的停机时长
-- 按 Google SRE Workbook（第 5 章）的多窗口 burn-rate 阈值：
-  - **Fast burn** — 1 小时内消耗月度预算的 2% 则 page
-  - **Slow burn** — 6 小时内消耗 5% 则 page
-  - **Ticket burn** — 3 天内消耗 10% 则开工单
-- 推荐告警规则（PromQL 形状的输出）
+- The allowed downtime within the window
+- Multi-window burn-rate thresholds per the Google SRE Workbook (Chapter 5):
+  - **Fast burn** — page if 2% of the monthly budget is consumed within 1 hour
+  - **Slow burn** — page if 5% is consumed within 6 hours
+  - **Ticket burn** — open a ticket if 10% is consumed within 3 days
+- Recommended alert rules (PromQL-shaped output)
 
 ```bash
 python scripts/error_budget_calculator.py --target 99.9 --window-days 30
@@ -118,202 +119,202 @@ python scripts/error_budget_calculator.py --target 99.95 --window-days 7 --forma
 
 ### `slo_review.py`
 
-审计 SLO 定义目录（markdown 或 JSON），查常见错误。退出码 0 = 干净，退出码 1 = 有发现项（可当合并前门禁用）。
+Audits a directory of SLO definitions (markdown or JSON) for common mistakes. Exit code 0 = clean; exit code 1 = findings (usable as a merge gate).
 
 ```bash
-python scripts/slo_review.py --slo-doc assets/slos/   # 随包样例 SLO 文档目录；你的真实项目换成 docs/slos/
+python scripts/slo_review.py --slo-doc assets/slos/   # bundled sample SLO-doc directory; swap in docs/slos/ for your real project
 ```
 
-**检查项：**
+**Checks:**
 
-- `target_too_high`：目标 ≥ 99.99%（只有巨额工程投入才可能持续）
-- `target_too_low`：目标 ≤ 99.0%（多半是 SLI 选错；用户会察觉）
-- `window_too_short`：窗口 < 7 天（统计噪声占主导）
-- `window_too_long`：窗口 > 90 天（反馈太慢）
-- `no_sli_definition`：SLI 一节缺失或含糊（"everything OK"）
-- `no_error_budget_policy`：预算烧穿时没有书面动作
-- `cpu_as_sli`：拿 CPU/内存当用户体验代理（信号选错）
+- `target_too_high`: target ≥ 99.99% (sustainable only with enormous engineering investment)
+- `target_too_low`: target ≤ 99.0% (usually a wrong SLI; users will notice)
+- `window_too_short`: window < 7 days (statistical noise dominates)
+- `window_too_long`: window > 90 days (feedback is too slow)
+- `no_sli_definition`: the SLI section is missing or vague ("everything OK")
+- `no_error_budget_policy`: no written action for when the budget burns through
+- `cpu_as_sli`: using CPU/memory as a proxy for user experience (wrong signal)
 
-## 参数速查表
+## Parameter Cheat Sheet
 
-| 参数 | 取值 | 说明 |
+| Parameter | Values | Description |
 |---|---|---|
-| `--sli-type` | `request-success-rate` / `request-latency` / `availability-time` / `data-freshness` / `correctness` | 仅 designer |
-| `--window-days` | 整数，默认 28 | designer + calculator；review 对 <7 或 >90 报发现项 |
-| `--target` | 浮点百分比，如 `99.9` | designer + calculator |
-| `--format` | `markdown`/`json`（designer），`text`/`json`（calculator、review） | designer 的 JSON 输出喂给 `slo_review.py` |
-| `--owner`, `--policy-doc`, `--user-journey`, `--sli-numerator`, `--sli-denominator`, `--sli-labels`, `--review-cadence` | 自由文本 | designer；缺 owner/policy → `<must define>` |
-| `--slo-doc` | 文件或目录路径 | 仅 review；`--sample` 审计内置示例 |
+| `--sli-type` | `request-success-rate` / `request-latency` / `availability-time` / `data-freshness` / `correctness` | Designer only |
+| `--window-days` | integer, default 28 | Designer + calculator; review flags <7 or >90 as findings |
+| `--target` | float percent, e.g. `99.9` | Designer + calculator |
+| `--format` | `markdown`/`json` (designer), `text`/`json` (calculator, review) | The designer's JSON output feeds `slo_review.py` |
+| `--owner`, `--policy-doc`, `--user-journey`, `--sli-numerator`, `--sli-denominator`, `--sli-labels`, `--review-cadence` | free text | Designer; missing owner/policy → `<must define>` |
+| `--slo-doc` | file or directory path | Review only; `--sample` audits the built-in example |
 
-## SLI 选型速查
+## SLI Selection Quick Reference
 
-| 用户体验问题 | SLI 类型 | 度量方式 |
+| User-experience question | SLI type | Measurement |
 |---|---|---|
-| "请求成功了吗？" | request-success-rate | `2xx / total` |
-| "响应够快吗？" | request-latency | `count(p99 < threshold) / total` |
-| "服务在线吗？" | availability-time | `(window - downtime) / window` |
-| "数据是最新的吗？" | data-freshness | `count(data_age < threshold) / total` |
-| "答案正确吗？" | correctness | `count(correct) / total` |
+| "Did the request succeed?" | request-success-rate | `2xx / total` |
+| "Is the response fast enough?" | request-latency | `count(p99 < threshold) / total` |
+| "Is the service up?" | availability-time | `(window - downtime) / window` |
+| "Is the data fresh?" | data-freshness | `count(data_age < threshold) / total` |
+| "Is the answer correct?" | correctness | `count(correct) / total` |
 
-示例与反模式见 `references/sli_design.md`。
+See `references/sli_design.md` for examples and anti-patterns.
 
-## 错误预算数学（基础）
+## Error-Budget Math (basics)
 
-以 30 天窗口的 99.9% SLO 为例（对应 `error_budget_calculator.py --target 99.9 --window-days 30`）：
+Take a 99.9% SLO over a 30-day window (corresponding to `error_budget_calculator.py --target 99.9 --window-days 30`):
 
-- 允许不可用：`0.1% × 30 × 24 × 60 = 43.2 minutes`
-- Fast burn：1 小时烧掉预算的 2% → burn-rate 倍数 `0.02 / (1/720) = 14.4`
-- Slow burn：6 小时烧掉预算的 5% → 倍数 `0.05 / (6/720) = 6.0`
-- Ticket burn：3 天烧掉预算的 10% → 倍数 `0.10 / (72/720) = 1.0`
+- Allowed downtime: `0.1% × 30 × 24 × 60 = 43.2 minutes`
+- Fast burn: burn 2% of the budget in 1 hour → burn-rate multiple `0.02 / (1/720) = 14.4`
+- Slow burn: burn 5% in 6 hours → multiple `0.05 / (6/720) = 6.0`
+- Ticket burn: burn 10% in 3 days → multiple `0.10 / (72/720) = 1.0`
 
-`error_budget_calculator.py` 替你算好并输出可直接粘贴的告警规则。
+`error_budget_calculator.py` computes this for you and emits paste-ready alert rules.
 
-## 与组合内其他技能的协同
+## Collaboration With the Rest of the Composition
 
-本技能明确与以下三个技能协同：
+This skill explicitly composes with three others:
 
-| 技能 | 协同方式 |
+| Skill | How they compose |
 |---|---|
-| `feature-flags-architect` | 灰度中止条件引用 SLO burn-rate 阈值 |
-| `chaos-engineering` | 爆炸半径计算器已把月度错误预算当输入——在这里定义它 |
-| `kubernetes-operator` | operator 能力 L4（Deep Insights）要求 SLO + Prometheus 规则 |
+| `feature-flags-architect` | Gradual-rollout abort conditions reference the SLO burn-rate thresholds |
+| `chaos-engineering` | The blast-radius calculator already takes the monthly error budget as input — define it here |
+| `kubernetes-operator` | Operator capability L4 (Deep Insights) requires an SLO + Prometheus rules |
 
-`error_budget_calculator.py` 的输出与 chaos-engineering 技能的 `blast_radius_calculator.py` 在 stdin 期望的形状一致。
+The output of `error_budget_calculator.py` matches the shape the chaos-engineering skill's `blast_radius_calculator.py` expects on stdin.
 
-## 工作流
+## Workflows
 
-### 工作流 1：定义一个新 SLO
+### Workflow 1: Define a new SLO
 
-#### 步骤 1：收集输入并锁定用户旅程
+#### Step 1: Collect inputs and lock the user journey
 
-- **动作：** 确定要保护的用户旅程（如 "checkout completion"）；一次性收集输入清单。
-- **预期：** 一句书面旅程描述，加上服务名、SLI 类型、负责人、策略文档路径。
-- **失败时：** 用户说不出旅程 → 不要编造；问哪个面向用户的流程出故障最伤收入。
+- **Action:** determine the user journey to protect (e.g. "checkout completion"); collect the input checklist all at once.
+- **Expected:** a written journey statement, plus service name, SLI type, owner, and policy-doc path.
+- **On failure:** the user can't name a journey → don't fabricate; ask which user-facing flow, when it breaks, hurts revenue most.
 
-#### 步骤 2：选择并定义 SLI
+#### Step 2: Choose and define the SLI
 
-- **动作：** 按速查表选 SLI 类型；用具体 label 定义分子/分母（或传 `--sli-numerator`/`--sli-denominator`/`--sli-labels`）。
-- **预期：** 一句 SLI，形如 `count(http_requests_total{status=~"2..|3.."}) / count(http_requests_total)`——绝不是 "everything OK"。
-- **失败时：** 只想得到系统指标（CPU/RAM）→ 这就是 `cpu_as_sli` 错误；重读 `references/sli_design.md`，选一个请求级 SLI。
+- **Action:** pick the SLI type per the quick reference; define numerator/denominator with concrete labels (or pass `--sli-numerator`/`--sli-denominator`/`--sli-labels`).
+- **Expected:** one SLI, in the form `count(http_requests_total{status=~"2..|3.."}) / count(http_requests_total)` — never "everything OK".
+- **On failure:** only system metrics (CPU/RAM) come to mind → that's exactly the `cpu_as_sli` mistake; reread `references/sli_design.md` and pick a request-level SLI.
 
-#### 步骤 3：从历史数据定目标
+#### Step 3: Set the target from historical data
 
-- **动作：** 度量最近 30 天的 SLI；`target = floor(p50 × 100) / 100`。
-- **预期：** 系统已经实际达到过的目标——不是愿望值。
-- **失败时：** 没有历史数据 → 先部署 SLI 度量，30 天后再来；不要猜。
+- **Action:** measure the SLI over the last 30 days; `target = floor(p50 × 100) / 100`.
+- **Expected:** a target the system has actually already met — not a wish.
+- **On failure:** no historical data → deploy SLI measurement first, and come back in 30 days; don't guess.
 
-#### 步骤 4：渲染 SLO 定义
+#### Step 4: Render the SLO definition
 
-- **动作：** `python scripts/slo_designer.py --service <svc> --sli-type <type> --target <t> --window-days 28 --owner <team> --policy-doc <path>`
-- **预期：** markdown 输出无 `<must define>` 占位符，无 `WARNING: missing required fields` 行。
-- **失败时：** 退出码 2 → 缺必填 flag，按报错补上；输出有 `<must define>` → 补 `--owner`/`--policy-doc` 重跑。
+- **Action:** `python scripts/slo_designer.py --service <svc> --sli-type <type> --target <t> --window-days 28 --owner <team> --policy-doc <path>`
+- **Expected:** the markdown output has no `<must define>` placeholder and no `WARNING: missing required fields` line.
+- **On failure:** exit code 2 → a required flag is missing; add it per the error; the output has `<must define>` → add `--owner`/`--policy-doc` and rerun.
 
-#### 步骤 5：生成 burn-rate 告警
+#### Step 5: Generate burn-rate alerts
 
-- **动作：** `python scripts/error_budget_calculator.py --target <t> --window-days <w>`
-- **预期：** 输出列出 `fast_burn`、`slow_burn`、`ticket_burn` 行，带 `burn rate` 值与 PromQL 形状规则。
-- **失败时：** 允许停机显示 `0` → 100% 目标不是 SLO；换一个现实的目标值。
+- **Action:** `python scripts/error_budget_calculator.py --target <t> --window-days <w>`
+- **Expected:** the output lists `fast_burn`, `slow_burn`, `ticket_burn` rows with `burn rate` values and PromQL-shaped rules.
+- **On failure:** the allowed downtime shows `0` → a 100% target isn't an SLO; pick a realistic target.
 
-#### 步骤 6：写错误预算策略
+#### Step 6: Write the error-budget policy
 
-- **动作：** 填 `assets/error_budget_policy.md`（预算 <50% / <10% / 耗尽时 → 谁做什么）。
-- **预期：** 策略文档提交入库，并从 SLO 定义链接过去。
-- **失败时：** 团队不肯承诺后果 → SLO 只是装饰；先升级再继续。
+- **Action:** fill in `assets/error_budget_policy.md` (budget <50% / <10% / exhausted → who does what).
+- **Expected:** the policy doc is committed and linked from the SLO definition.
+- **On failure:** the team won't commit to consequences → the SLO is decoration; escalate before continuing.
 
-#### 步骤 7：上线前 review
+#### Step 7: Review before going live
 
-- **动作：** `python scripts/slo_review.py --slo-doc <dir-or-file>`
-- **预期：** 退出码 0，无 FAIL/WARN。
-- **失败时：** 退出码 1 → 修每条 `[FAIL]` 行（降目标、定义 SLI、补策略链接），重跑直到退出码 0。
+- **Action:** `python scripts/slo_review.py --slo-doc <dir-or-file>`
+- **Expected:** exit code 0, no FAIL/WARN.
+- **On failure:** exit code 1 → fix every `[FAIL]` line (lower the target, define the SLI, add the policy link), and rerun until exit code 0.
 
-### 工作流 2：季度 SLO 复盘
+### Workflow 2: Quarterly SLO review
 
-#### 步骤 1：对所有活跃 SLO 跑 review 门禁
+#### Step 1: Run the review gate over all active SLOs
 
-- **动作：** `python scripts/slo_review.py --slo-doc assets/slos/   # 随包样例 SLO 文档目录；你的真实项目换成 docs/slos/`
-- **预期：** 退出码 0；任何 `[FAIL]`/`[WARN]` 行都是一个工作项。
-- **失败时：** 先修发现项；不要在同一个变更里同时调目标和调检查。
+- **Action:** `python scripts/slo_review.py --slo-doc assets/slos/   # bundled sample SLO-doc directory; swap in docs/slos/ for your real project`
+- **Expected:** exit code 0; any `[FAIL]`/`[WARN]` line is a work item.
+- **On failure:** fix findings first; don't tune targets and tune checks in the same change.
 
-#### 步骤 2：用上季度数据校准目标
+#### Step 2: Calibrate targets with last quarter's data
 
-- **动作：** 对每个 SLO 决策：从没烧过 → 收紧；反复烧 → 放宽目标或修系统；告警没用 → 调阈值。
-- **预期：** 每个 SLO 在复盘结束时有 keep/tighten/loosen 决定记录在案。
-- **失败时：** 没收集烧穿数据 → SLI 根本没被度量；回到工作流 1 步骤 2。
+- **Action:** for each SLO decide: never burned → tighten; repeatedly burned → loosen the target or fix the system; alerts ignored → adjust thresholds.
+- **Expected:** each SLO ends the review with a keep/tighten/loosen decision on record.
+- **On failure:** no burn data collected → the SLI isn't being measured at all; return to Workflow 1 Step 2.
 
-#### 步骤 3：审计策略执行并归档
+#### Step 3: Audit policy enforcement and archive
 
-- **动作：** 核查预算烧穿时错误预算策略是否真被执行；提交修订后的 SLO，带日期戳归档旧版。
-- **预期：** 修订文档已提交；归档可按日期检索。
-- **失败时：** 策略连续两次被无视 → 问题是组织性的，不是数字的；升级到归属团队的 lead。
+- **Action:** check whether the error-budget policy was actually followed when the budget burned through; commit the revised SLO and archive the old version with a date stamp.
+- **Expected:** the revised doc is committed; the archive is retrievable by date.
+- **On failure:** the policy was ignored twice running → the problem is organizational, not numerical; escalate to the owning team's lead.
 
-### 工作流 3：SLO 驱动的回滚
+### Workflow 3: SLO-driven rollback
 
-#### 步骤 1：发现异常烧穿
+#### Step 1: Detect abnormal burning
 
-- **动作：** burn-rate 告警由工作流 1 步骤 5 生成的阈值触发。
-- **预期：** 告警写明 SLO、窗口和当前 burn rate。
-- **失败时：** 告警缺这些字段 → 阈值被手改过；用计算器重新生成。
+- **Action:** a burn-rate alert fires from the thresholds generated in Workflow 1 Step 5.
+- **Expected:** the alert states the SLO, window, and current burn rate.
+- **On failure:** the alert lacks these fields → the thresholds were hand-edited; regenerate with the calculator.
 
-#### 步骤 2：经 kill switch 回滚
+#### Step 2: Roll back via the kill switch
 
-- **动作：** 触发 feature-flag kill switch（见 `feature-flags-architect`）；确认新发布停止烧预算。
-- **预期：** 一个告警窗口内 burn rate 回到基线。
-- **失败时：** 回滚后仍在烧 → 回归不是这次发布造成的；转开事故。
+- **Action:** trigger the feature-flag kill switch (see `feature-flags-architect`); confirm the new release stops burning the budget.
+- **Expected:** the burn rate returns to baseline within one alert window.
+- **On failure:** still burning after rollback → the regression wasn't caused by this release; declare an incident instead.
 
-#### 步骤 3：把复盘结论喂给下一版修订
+#### Step 3: Feed the post-mortem into the next revision
 
-- **动作：** 记录烧了什么、为什么、目标值定得对不对。
-- **预期：** 复盘 action items 引用具体的 SLO 参数变更。
-- **失败时：** 修订没有负责人 → SLO 会烂掉；收尾前指派。
+- **Action:** record what burned, why, and whether the target was set correctly.
+- **Expected:** the post-mortem action items reference concrete SLO parameter changes.
+- **On failure:** the revision has no owner → the SLO will rot; assign one before wrapping up.
 
-## 失败处置表
+## Failure Handling Table
 
-| 症状 / 退出码 | 原因 | 修复 |
+| Symptom / exit code | Cause | Fix |
 |---|---|---|
-| `slo_designer.py` 退出码 2 | 缺必填 flag（`--service`/`--sli-type`/`--target`） | 按 argparse 报错补 flag 重跑 |
-| `WARNING: missing required fields: owner, error_budget.policy_doc` | 未传 `--owner`/`--policy-doc` | 两项都补上；占位符清零前 SLO 不生效 |
-| `slo_review.py` 退出码 1 带 `[FAIL] ...` | SLO 文档命中 7 种错误模式之一 | 逐条修复，重跑直到退出码 0 |
-| `[FAIL] cpu_as_sli` | 选了 CPU/内存当 SLI | 换请求级 SLI（见速查表） |
-| 计算器输出允许停机 `0.00 min` | 目标 ≈ 100% | 选一个系统历史上真正达到过的目标 |
-| `python: command not found` | 无解释器 | 安装 Python ≥ 3.8；所有工具仅依赖标准库 |
-| 计算器 burn rate 与本文档数学不符 | `--target`/`--window-days` 不同 | 符合预期——本文数字按 99.9%/30d 算；以工具对你输入的计算为准 |
+| `slo_designer.py` exit code 2 | Missing required flag (`--service`/`--sli-type`/`--target`) | Add the flag per the argparse error and rerun |
+| `WARNING: missing required fields: owner, error_budget.policy_doc` | `--owner`/`--policy-doc` not passed | Add both; the SLO isn't live until the placeholders are gone |
+| `slo_review.py` exit code 1 with `[FAIL] ...` | The SLO doc hit one of the 7 mistake patterns | Fix each line, rerun until exit code 0 |
+| `[FAIL] cpu_as_sli` | CPU/memory chosen as the SLI | Switch to a request-level SLI (see the quick reference) |
+| The calculator shows allowed downtime `0.00 min` | Target ≈ 100% | Pick a target the system has historically actually met |
+| `python: command not found` | No interpreter | Install Python ≥ 3.8; all tools use only the standard library |
+| The calculator's burn rate doesn't match the math in this doc | Different `--target`/`--window-days` | Expected — the numbers here are for 99.9%/30d; trust the tool's computation for your input |
 
-## 参考
+## References
 
-仅在对应情况出现时读——不要预载全部三个：
+Read only when the corresponding situation arises — don't preload all three:
 
-- `references/sli_design.md` —— 选 SLI 类型时，或 `slo_review.py` 报 `no_sli_definition`/`cpu_as_sli` 时；5 种 SLI 类型带示例与反模式。
-- `references/error_budget.md` —— 计算预算、调 burn-rate 告警、写错误预算策略时。
-- `references/composition.md` —— 把 SLO 接入 feature flag 中止、chaos 爆炸半径、operator 能力等级时。
+- `references/sli_design.md` — when choosing an SLI type, or when `slo_review.py` reports `no_sli_definition`/`cpu_as_sli`; the 5 SLI types with examples and anti-patterns.
+- `references/error_budget.md` — when computing a budget, tuning burn-rate alerts, or writing an error-budget policy.
+- `references/composition.md` — when wiring the SLO into feature-flag aborts, chaos blast radius, or operator capability levels.
 
-（SLI 与 SLO 与 SLA 的基本概念全程以 Google SRE Workbook 为准。）
+(The fundamentals of SLI, SLO, and SLA follow the Google SRE Workbook throughout.)
 
-## 斜杠命令
+## Slash Commands
 
-`/slo-design` —— 交互式 SLO 设计向导，依次跑全部 3 个工具。
+`/slo-design` — an interactive SLO design wizard that runs all 3 tools in sequence.
 
-## 资产模板
+## Asset Templates
 
-- `assets/slo_template.yaml` —— 可填写的 SLO YAML
-- `assets/error_budget_policy.md` —— 可填写的策略模板
+- `assets/slo_template.yaml` — a fill-in SLO YAML
+- `assets/error_budget_policy.md` — a fill-in policy template
 
-## 反模式
+## Anti-patterns
 
-- **每个端点都 99.99%** —— 复制粘贴的 SLO，没人验证过系统能否持续达到
-- **CPU 用量当 SLI** —— 系统指标不是用户体验
-- **单窗口 burn-rate 告警** —— 5 分钟窗太吵，30 天窗太钝
-- **没有错误预算策略** —— 没有动作的烧穿等于没意义
-- **SLO 没有负责人** —— 无人担责，必然烂掉
-- **SLO 一年只 review 一次** —— 系统特征变化比这快得多
-- **SLA 写进 SLO 文档** —— 受众不同、利害不同；分开管理
-- **SLO 目标 = SLA 目标** —— SLO 必须更紧（要在客户察觉之前先跑赢合同）
+- **Every endpoint at 99.99%** — copy-pasted SLOs that nobody verified the system can sustain
+- **CPU usage as the SLI** — system metrics aren't user experience
+- **Single-window burn-rate alerting** — a 5-minute window is too noisy, a 30-day window too blunt
+- **No error-budget policy** — burning through with no action is meaningless
+- **An SLO with no owner** — nobody accountable, it inevitably rots
+- **Reviewing the SLO only once a year** — the system's character changes faster than that
+- **Writing the SLA into the SLO doc** — different audience, different stakes; manage them separately
+- **SLO target = SLA target** — the SLO must be tighter (beat the contract before the customer notices)
 
-## 交付标准
+## Delivery Criteria
 
-满足以下条件才算跑完本技能：
+This skill counts as done only when:
 
-- SLO 定义（`slo_designer.py` 的 markdown 输出，以渲染标题命名，如 `slo-<service>-<sli-type>.md`）存入团队 SLO 文档目录（如 `docs/slos/`），且**无 `<must define>` 占位符**。
-- `error_budget_calculator.py` 的 burn-rate 告警规则已粘贴进告警系统并在测试中真实触发。
-- 错误预算策略（按 `assets/error_budget_policy.md` 填写）已提交并从 SLO 文档链接。
-- 范围内每个 SLO 跑 `slo_review.py --slo-doc <dir>` 退出码 0。
-- 持续要求：命中的 SLO 其 burn-rate 告警每月 ≤2 次（要信号不要噪声）；违规平均发现时间 <30 分钟；季度复盘真的按季度发生。
+- The SLO definition (the markdown output of `slo_designer.py`, named after its rendered heading, e.g. `slo-<service>-<sli-type>.md`) is saved in the team's SLO-doc directory (e.g. `docs/slos/`) and has **no `<must define>` placeholder**.
+- The `error_budget_calculator.py` burn-rate alert rules are pasted into the alerting system and have actually fired in testing.
+- The error-budget policy (filled in per `assets/error_budget_policy.md`) is committed and linked from the SLO doc.
+- Every in-scope SLO passes `slo_review.py --slo-doc <dir>` with exit code 0.
+- Ongoing requirement: burn-rate alerts for targeted SLOs fire ≤2 times a month (signal, not noise); the average detection time for a violation is <30 minutes; the quarterly review actually happens quarterly.

@@ -1,6 +1,6 @@
 ---
 name: api-test-suite-builder
-description: "Use when the user asks to generate API tests, create integration test suites, test REST endpoints, or build contract tests. 当用户要求 生成接口测试 / 写集成测试 / 契约测试 时使用。 Do NOT use for running the generated suites inside CI (it only generates them)."
+description: "Generate API tests and integration test suites by scanning route definitions across frameworks (Next.js App Router, Express, FastAPI, Django REST). Covers auth, input validation, error codes, pagination, file upload, and rate limiting. Use when the user asks to generate API tests, generate interface tests, write integration tests, build contract tests, test REST endpoints, or create integration test suites. Do NOT use for running the generated suites inside CI (it only generates them)."
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
@@ -14,43 +14,43 @@ metadata:
 
 # API Test Suite Builder
 
-扫描各框架（Next.js App Router、Express、FastAPI、Django REST）的 API 路由定义，生成可直接运行的测试套件——Vitest+Supertest（Node）或 Pytest+httpx（Python），覆盖鉴权、输入校验、错误码、分页、文件上传与限流。
+Scans API route definitions across frameworks (Next.js App Router, Express, FastAPI, Django REST) and generates a runnable test suite — Vitest+Supertest (Node) or Pytest+httpx (Python) — covering auth, input validation, error codes, pagination, file upload, and rate limiting.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Description |
 |---|---|---|
-| 项目根目录 | 是 | 含 API 路由定义的代码库路径 |
-| 框架 | 是 | next-app-router / express / fastapi / django-rest（不确定时由步骤 1 探测命令判定） |
-| 测试栈 | 是 | vitest+supertest（Node）或 pytest+httpx（Python） |
-| 输出位置 | 否 | 测试文件目录，缺省按项目惯例（`tests/` 或 `__tests__/`） |
-| 生成范围 | 否 | 全部路由或指定路由组；缺省全部 |
+| Project root | Yes | Path to the repo containing the API route definitions |
+| Framework | Yes | next-app-router / express / fastapi / django-rest (if unsure, step 1's probe commands decide it) |
+| Test stack | Yes | vitest+supertest (Node) or pytest+httpx (Python) |
+| Output location | No | The directory for test files; defaults to project convention (`tests/` or `__tests__/`) |
+| Generation scope | No | All routes or a specified route group; defaults to all |
 
-输入缺失时一次性问齐："请提供：① 项目根目录；② 测试栈（Vitest+Supertest 还是 Pytest+httpx）；③ 是否只生成部分路由。框架不确定我会先用探测命令判定。"
+When inputs are missing, ask for all at once: "Please provide: (1) the project root; (2) the test stack (Vitest+Supertest or Pytest+httpx); (3) whether to generate only some routes. If the framework is unclear, I'll decide it with probe commands first."
 
-## 前置自检
+## Pre-flight Checks
 
-逐条执行，任一失败 → 按修复处置后 STOP：
+Run each in turn; on any failure → apply the fix, then STOP:
 
 ```bash
-# 1. 项目目录存在
-ls <项目根目录> > /dev/null && echo OK
-# 预期：OK。失败→向用户确认路径，STOP。
+# 1. The project directory exists
+ls <project-root> > /dev/null && echo OK
+# Expected: OK. On failure → confirm the path with the user, STOP.
 
-# 2. 探测框架信号（至少一种命中）
-ls <项目根目录>/package.json <项目根目录>/requirements.txt <项目根目录>/pyproject.toml 2>/dev/null
-# 预期：至少列出一个文件。全部缺失→确认这是否 API 项目，STOP。
+# 2. Probe for framework signals (at least one hits)
+ls <project-root>/package.json <project-root>/requirements.txt <project-root>/pyproject.toml 2>/dev/null
+# Expected: at least one file listed. If all are missing → confirm this is an API project, STOP.
 
-# 3. 测试运行器可用
+# 3. The test runner is available
 node --version || python3 --version
-# 预期：输出版本号。失败→测试文件生成不受影响，但向用户注明本地无法验证。
+# Expected: prints a version. On failure → test-file generation is unaffected, but note to the user that local verification isn't possible.
 ```
 
-## 工作流
+## Workflow
 
-### 步骤 1：探测路由
+### Step 1: Probe routes
 
-按框架执行对应探测命令（在项目根目录）：
+Run the probe command for the corresponding framework (in the project root):
 
 **Next.js App Router**
 ```bash
@@ -90,77 +90,77 @@ grep -rn "path\|re_path\|url(" . --include="*.py" | grep "urlpatterns" -A 50 | \
 grep -rn "router\.register\|DefaultRouter\|SimpleRouter" . --include="*.py"
 ```
 
-- **预期**：输出路由→HTTP 方法映射，至少一条路由。
-- **若失败**：输出为空 → 换下一种框架的探测命令；全空 → 该项目无 API 路由，回报并 STOP。
+- **Expected**: Output a route→HTTP-method mapping with at least one route.
+- **On failure**: Output is empty → try the next framework's probe command; if all are empty → the project has no API routes; report and STOP.
 
-### 步骤 2：读取路由处理程序
+### Step 2: Read route handlers
 
-- **动作**：逐个读路由文件，记录：请求体 schema、鉴权要求（middleware/decorator）、返回类型与状态码、业务规则（所有权/角色检查）。
-- **预期**：每个路由都有一份上述四项记录；未知项显式标注而不是假设。
-- **若失败**：路由文件无法定位处理逻辑 → 向用户确认该路由的契约后再生成，不要凭猜测写断言。
+- **Action**: Read each route file and record: the request-body schema, auth requirements (middleware/decorator), return type and status code, and business rules (ownership/role checks).
+- **Expected**: Each route has a record of the four items above; unknown items are flagged explicitly rather than assumed.
+- **On failure**: A route file's handler logic can't be located → confirm the route's contract with the user before generating; don't write assertions from guesswork.
 
-### 步骤 3：按矩阵生成测试
+### Step 3: Generate tests by matrix
 
-对每个鉴权端点生成 Auth 矩阵，对每个带请求体的 POST/PUT/PATCH 生成输入校验矩阵：
+Generate an auth matrix for each authenticated endpoint, and an input-validation matrix for each POST/PUT/PATCH with a request body:
 
-**鉴权测试矩阵**（预期状态码）：
+**Auth test matrix** (expected status codes):
 
-| 测试用例 | 预期状态码 |
-|-----------|----------------|
-| 缺 Authorization 头 | 401 |
-| token 格式无效 | 401 |
-| token 有效但用户角色错误 | 403 |
-| JWT token 已过期 | 401 |
-| token 有效且角色正确 | 2xx |
-| 已删除用户的 token | 401 |
+| Test case | Expected status |
+|-----------|-----------------|
+| Missing Authorization header | 401 |
+| Invalid token format | 401 |
+| Valid token but wrong user role | 403 |
+| Expired JWT token | 401 |
+| Valid token and correct role | 2xx |
+| Token for a deleted user | 401 |
 
-**输入校验矩阵**（预期状态码）：
+**Input-validation matrix** (expected status codes):
 
-| 测试用例 | 预期状态码 |
-|-----------|----------------|
-| 空请求体 `{}` | 400 或 422 |
-| 缺必填字段（每次只缺一个） | 400 或 422 |
-| 类型错误（应为 int 却传 string） | 400 或 422 |
-| 边界：取 min-1 | 400 或 422 |
-| 边界：取 min | 2xx |
-| 边界：取 max | 2xx |
-| 边界：取 max+1 | 400 或 422 |
-| 字符串字段注入 SQL | 400 或 200（已净化） |
-| 字符串字段注入 XSS payload | 400 或 200（已净化） |
-| 必填字段传 null | 400 或 422 |
+| Test case | Expected status |
+|-----------|-----------------|
+| Empty body `{}` | 400 or 422 |
+| Missing a required field (only one at a time) | 400 or 422 |
+| Wrong type (string where an int is expected) | 400 or 422 |
+| Boundary: min-1 | 400 or 422 |
+| Boundary: min | 2xx |
+| Boundary: max | 2xx |
+| Boundary: max+1 | 400 or 422 |
+| SQL injection in a string field | 400 or 200 (sanitized) |
+| XSS payload in a string field | 400 or 200 (sanitized) |
+| Required field passed as null | 400 or 422 |
 
-生成规则：
-1. 测试名描述化：`"returns 401 when token is expired"`，不用 `"auth test 3"`
-2. 用 factories/fixtures 构造数据，绝不硬编码 ID
-3. 断言响应结构，不只是状态码
-4. 每个端点一个 describe block
-5. 敏感字段（password/secret）断言不出现在响应中
+Generation rules:
+1. Descriptive test names: `"returns 401 when token is expired"`, not `"auth test 3"`
+2. Build data with factories/fixtures; never hardcode IDs
+3. Assert on the response structure, not just the status code
+4. One describe block per endpoint
+5. Sensitive fields (password/secret) must not appear in the response
 
-- **预期**：每个路由组产出一个测试文件；文件内矩阵条目与上表一一对应。
-- **若失败**：某矩阵项无法落地（如路由无鉴权）→ 删除该行并在文件头注释说明原因，不得留空测试。
+- **Expected**: Each route group produces one test file; the matrix entries inside correspond one-to-one with the tables above.
+- **On failure**: A matrix item can't be applied (e.g. the route has no auth) → delete that row and note the reason in a comment at the top of the file; don't leave an empty test.
 
-### 步骤 4：验证产物
+### Step 4: Verify the artifacts
 
-- **动作**：运行 `node --test` / `npx vitest list` 或 `python3 -m pytest --collect-only <生成的文件>` 验证语法可解析。
-- **预期**：collect/test-list 输出包含全部生成的测试名，无语法错误。
-- **若失败**：语法报错 → 修复生成文件后重跑收集；仍失败 → 回报生成器输出有误。
+- **Action**: Run `node --test` / `npx vitest list` or `python3 -m pytest --collect-only <generated file>` to verify the syntax parses.
+- **Expected**: The collect/test-list output includes all generated test names, with no syntax errors.
+- **On failure**: A syntax error → fix the generated file and rerun collection; if it still fails → report that the generator output is faulty.
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象/错误码 | 原因 | 处置 |
+| Symptom / error code | Cause | Fix |
 |---|---|---|
-| 探测命令输出为空 | 框架判定错误或无路由 | 依次尝试四种框架探测；全空则 STOP 回报 |
-| pytest collect 报 SyntaxError | 生成文件语法错误 | 修复后重跑 `--collect-only` |
-| 路由契约不明 | 处理程序逻辑分散/中间件隐式 | 向用户确认契约，禁止猜测断言 |
-| 测试间相互污染 | 共享状态未清理 | 在 afterEach/afterAll 中清理，rate limit 测试放最后单独跑 |
+| Probe command output is empty | Wrong framework guess or no routes | Try all four framework probes in turn; if all are empty, STOP and report |
+| pytest collect reports a SyntaxError | The generated file has a syntax error | Fix it and rerun `--collect-only` |
+| Route contract is unclear | Handler logic is scattered / middleware is implicit | Confirm the contract with the user; guessing assertions is forbidden |
+| Tests pollute each other | Shared state wasn't cleaned up | Clean up in afterEach/afterAll; run rate-limit tests last and separately |
 
-## 交付标准
+## Delivery Criteria
 
-- 成功定义：扫描到的每条路由都有对应测试块；Auth/输入校验矩阵按表落地；步骤 4 collect 通过。
-- 产物命名：每路由组一个文件，如 `tests/test_<route-group>_api.py` 或 `__tests__/<route-group>.test.ts`。
-- 保存位置：项目测试目录（`tests/` / `__tests__/`），或用户指定位置。
-- 完整性验证：`--collect-only`（pytest）或 `vitest list`（vitest）能列出全部测试名，数量与生成清单一致。
+- Definition of success: every scanned route has a corresponding test block; the auth/input-validation matrices land per the tables; step 4's collect passes.
+- Artifact naming: one file per route group, e.g. `tests/test_<route-group>_api.py` or `__tests__/<route-group>.test.ts`.
+- Save location: the project's test directory (`tests/` / `__tests__/`), or wherever the user specifies.
+- Completeness verification: `--collect-only` (pytest) or `vitest list` (vitest) lists all test names, matching the generation list in count.
 
-## 参考
+## References
 
-- `references/example-test-files.md` — Vitest+Supertest 与 Pytest+httpx 的完整示例测试文件；步骤 3 生成前通读一遍，按其风格生成。
+- `references/example-test-files.md` — complete example test files for Vitest+Supertest and Pytest+httpx; read through it once before generating in step 3, and generate in its style.

@@ -1,6 +1,6 @@
 ---
 name: seo-optimizer
-description: "Optimize article for search: extract keywords, generate meta tags, score SEO quality, and adapt titles/captions per platform. Use after editing, before publishing to specific platforms. Use when the user asks to 做 SEO 优化 / 选关键词 / 优化标题 / 检查关键词密度 / 生成 meta 描述 / optimize SEO / extract keywords / SEO score / meta description / platform title limits. Do NOT use for paid advertising strategy, ad bidding, or writing the article itself."
+description: "Optimize article for search: extract keywords, generate meta tags, score SEO quality, and adapt titles/captions per platform. Use after editing, before publishing to specific platforms. Use when the user asks to do SEO optimization / pick keywords / optimize the title / check keyword density / generate a meta description / optimize SEO / extract keywords / SEO score / meta description / platform title limits. Do NOT use for paid advertising strategy, ad bidding, or writing the article itself."
 license: Apache-2.0
 compatibility: Pure Python analysis. No API keys required.
 metadata:
@@ -12,146 +12,145 @@ metadata:
   verified-date: "2026-09-21"
 ---
 
-# SEO 优化器：评估文章 SEO 就绪度并按平台适配标题与 meta
+# SEO Optimizer: Evaluate an Article's SEO Readiness and Adapt Titles and Meta per Platform
 
-## 按任务选路径
+## Pick Your Path by Task
 
-| 你要做什么 | 直接去 | 关键动作 |
+| What You Want | Go Straight To | Key Actions |
 |---|---|---|
-| 给已写完的文章出标题 + meta | 步骤 1-4 | 跑脚本 → 按平台文化改标题 → 复评 |
-| 判断这篇文章能不能被搜到 | 先读「搜索意图匹配」再跑脚本 | 对齐搜索意图，别先调关键词 |
-| 标题改了反而流量更差 | 先读「平台标题文化」 | 检查是否踩了平台限流红线 |
-| 关键词选不出来 | [references/keyword-research.md](references/keyword-research.md) | 人工指定 `target_keywords` |
+| Produce a title + meta for a finished article | Steps 1-4 | run the script -> adjust the title per platform culture -> re-score |
+| Judge whether this article can be found | read "Search-Intent Matching" first, then run the script | align search intent; don't tune keywords first |
+| The title change made traffic worse | read "Platform Title Culture" first | check whether you hit a platform throttling red line |
+| Can't pick keywords | [references/keyword-research.md](references/keyword-research.md) | manually specify `target_keywords` |
 
-## 领域暗知识（跑脚本前先建立判断）
+## Domain Tacit Knowledge (Build Judgment Before Running the Script)
 
-### 1. 关键词密度是过时迷信，位置一致性才是现代 SEO
+### 1. Keyword Density Is an Outdated Superstition; Position Consistency Is Modern SEO
 
-关键词密度 1-3% 这类规则来自 2010 年代的 TF-IDF 时代。百度 2019 年上 BERT、Google 更早——
-**搜索引擎现在判断的是"这篇回答了什么搜索意图"，不是"这个词出现了几次"**。堆砌密度反而触发
-垃圾内容判定（百度飓风算法打击的就是采集与关键词堆砌）。
+Rules like 1-3% keyword density come from the 2010s TF-IDF era. Baidu adopted BERT in 2019, Google even earlier —
+**search engines now judge "what search intent does this article answer", not "how many times does this word appear"**. Stuffing density instead triggers thin/spammy-content judgment (Baidu's Hurricane Algorithm specifically targets scraping and keyword stuffing).
 
-现代 SEO 真正起作用的三处位置一致性：
+The three position-consistency points that actually matter in modern SEO:
 
-| 位置 | 为什么 | 怎么做 |
+| Position | Why | How |
 |---|---|---|
-| 标题 | 搜索结果点击率的第一因素，点击率反过来影响排名 | 主关键词放在标题**前半段**（截断安全区） |
-| 首段前 100 字 | 搜索摘要直接截取这段；读者 3 秒决定去留 | 主关键词自然出现一次 + 直接回答标题承诺 |
-| 至少一个 H2 | 长文的锚点跳转和精选摘要（featured snippet）来源 | 用读者会搜的问句形式写 H2（"为什么…" / "如何…"） |
+| Title | The #1 factor in search-result click-through, which feeds back into ranking | Put the main keyword in the title's **first half** (truncation-safe zone) |
+| First 100 chars of the lead | The search snippet is clipped right here; readers decide stay/leave in 3 seconds | Main keyword appears once naturally + directly answer the title's promise |
+| At least one H2 | Source for long-article anchor jumps and featured snippets | Write H2s as questions readers would search ("why..." / "how...") |
 
-本脚本的密度检查（权重 15）**保留但降权使用**：它的真实作用是抓"一个关键词都没有"的极端漏题，
-不是把 1.8% 调到 2.2%。
+This script's density check (weight 15) is **kept but downweighted**: its real job is catching the extreme case "zero keywords",
+not tuning 1.8% to 2.2%.
 
-### 2. 搜索意图三型，标题句式跟着意图走
+### 2. Three Search-Intent Types; Title Sentence Follows the Intent
 
-| 意图 | 用户在搜什么 | 标题句式 | 反例 |
+| Intent | What the User Is Searching | Title Sentence Form | Counter-example |
 |---|---|---|---|
-| 信息型 | "怎么做 / 为什么 / 是什么" | 疑问句或 How-to：「为什么你的 Redis 总是超时」 | ❌「Redis 超时问题的研究」 |
-| 对比型 | "A vs B / 哪个好 / 值不值" | 明确给出比较双方+立场：「SQLite vs PostgreSQL：小项目到底选哪个」 | ❌「两种数据库介绍」 |
-| 解决型 | "报错 / 优化 / 修复 + 具体症状" | 症状前置+结果前置：「从 200ms 到 30ms：FastAPI 接口优化实录」 | ❌「FastAPI 性能分析」 |
+| Informational | "how to / why / what is" | Question or how-to: "Why Does Your Redis Always Time Out" | "Research on Redis Timeout Issues" |
+| Comparative | "A vs B / which is better / is it worth it" | Name both comparators + a stance: "SQLite vs PostgreSQL: Which to Pick for a Small Project" | "An Introduction to Two Databases" |
+| Problem-solving | "error / optimize / fix + specific symptom" | Symptom first + result first: "From 200ms to 30ms: A FastAPI Endpoint Optimization Log" | "FastAPI Performance Analysis" |
 
-跑脚本前先判断文章属于哪型——**标题句式与意图错配，是"关键词都对了但没流量"的第一原因**。
+Before running the script, judge which type the article is — **a title sentence mismatched to intent is the #1 cause of "keywords all right but no traffic"**.
 
-### 3. 平台标题文化（同一个标题在五个平台是五种命运）
+### 3. Platform Title Culture (One Title Has Five Fates on Five Platforms)
 
-| 平台 | 流量来源 | 标题文化 | 红线（踩了限流/扣分） |
+| Platform | Traffic Source | Title Culture | Red Lines (triggers throttling/demotion) |
 |---|---|---|---|
-| CSDN | 站内搜索 + SEO 引流 | 技术关键词前置 + 具体数字；搜索用户扫的是技术栈词 | 标题党判定（"惊！""必看"）降曝光；标签与内容无关会被举报 |
-| 掘金 | 编辑推荐 + 关注流 | 口语化、场景化、"我"视角；【】修饰前缀有辨识度但别滥用 | 纯营销外链文会被下沉 |
-| 微信公众号 | 社交转发 | 情绪 + 悬念 + 身份标签（"做后端的都懂"）；30 字内必须完成钩子 | **标题党明文打击**：「震惊/必看/99% 的人不知道」这类词触发限流；诱导分享（"不转不是"）直接处罚 |
-| 百家号 | 百度搜索 + 信息流 | 数字 + 痛点，审核极严 | 极限词、医疗/财经夸大表述直接不过审；标题与正文不符扣信用分 |
-| 头条 | 信息流推荐，完读率导向 | 疑问句 + 数字效果好；标题承诺正文必须兑现，否则完读率崩 → 推荐腰斩 | 「标题党」机器审核：标题含正文没有的概念即判 |
+| CSDN | On-site search + SEO traffic | Technical keyword front-loaded + concrete numbers; searchers scan for tech-stack words | Clickbait judgment ("shocking!""must read") lowers exposure; tags unrelated to content get reported |
+| Juejin | Editor picks + follow feed | Conversational, scene-based, "I" perspective; 【】prefixes are recognizable but don't overuse | Pure-marketing outbound-link posts get demoted |
+| WeChat Official Account | Social sharing | Emotion + suspense + identity label ("anyone doing backend gets this"); the hook must land within 30 chars | **Clickbait explicitly cracked down on**: words like "shocking/must read/99% of people don't know" trigger throttling; share-bait ("if you don't repost you're not...") is directly penalized |
+| Baijiahao | Baidu search + feed | Numbers + pain points, review extremely strict | Extreme words, exaggerated medical/finance claims fail review outright; title-body mismatch docks credit score |
+| Toutiao | Feed recommendation, completion-rate driven | Question form + numbers perform well; the title's promise must be delivered in the body, or completion collapses -> recommendation halved | Machine "clickbait" review: a concept in the title absent from the body is judged clickbait |
 
-**通用红线词表**（各平台共通打击）：震惊、必看、秒懂、99% 的人、惊呆了、不转不是、
-刚刚传出、内部消息。脚本抓不到这些——**这 8 个词出现任何一个，手动改标题**。
+**Universal red-line word list** (cracked down on across all platforms): shocking, must read, instantly get it, 99% of people, stunned, if you don't repost you're not...,
+just leaked, inside information. The script can't catch these — **if any of these 8 appears, rewrite the title manually**.
 
-### 4. 诚实声明：这个分数是什么、不是什么
+### 4. Honest Disclosure: What This Score Is and Isn't
 
-`score` 是**自检启发式**，用途是把 20 篇草稿排序、找出漏做的基础项。
-它**不是**搜索引擎的真实排名预测——真实排名由站点权重、外链、用户行为信号决定，任何本地
-脚本都无法计算。不要对用户说"score 85 = 能排前三"；要说"基础项 8/9 已就位，缺 X"。
+`score` is a **self-check heuristic**, meant to sort 20 drafts and find which basics were skipped.
+It is **not** a real search-engine ranking prediction — real ranking is decided by site authority, backlinks, and user-behavior signals, which no local
+script can compute. Don't tell the user "score 85 = top-3 ranking"; say "8/9 basics are in place, missing X".
 
-## 工作流
+## Workflow
 
-### 前置自检
+### Pre-flight Checks
 
 ```bash
-python3 --version                                   # 预期 >= 3.8
-test -f scripts/seo_optimizer.py && echo OK         # 预期 OK；失败 → cd 到技能目录
+python3 --version                                   # expect >= 3.8
+test -f scripts/seo_optimizer.py && echo OK         # expect OK; on failure -> cd to the skill directory
 python3 scripts/seo_optimizer.py --title "smoke" --content "smoke content" | head -c 20
-# 预期：以 { 开头的 JSON；失败 → 见失败处置表
+# expect: JSON starting with {; on failure -> see the Failure Remediation Table
 ```
 
-### 步骤 1：判断搜索意图 + 跑基线
+### Step 1: Judge Search Intent + Run the Baseline
 
-先按「搜索意图三型」判断文章类型（这决定步骤 2 的标题句式），再跑：
+First judge the article's type by "Three Search-Intent Types" (this determines Step 2's title sentence form), then run:
 
 ```bash
 python3 scripts/seo_optimizer.py \
-  --title "FastAPI 性能优化" \
+  --title "FastAPI performance optimization" \
   --content article.md \
   --platform csdn \
   --output seo_result.json
 ```
 
-预期：退出码 0，JSON 含 `title`（`issues`/`suggestions`）与 `meta`（`meta_description`/`tags`/`keywords`/`score`）。
+Expected: exit code 0, JSON with `title` (`issues`/`suggestions`) and `meta` (`meta_description`/`tags`/`keywords`/`score`).
 
-### 步骤 2：按平台文化重写标题（人工环节，脚本只提建议）
+### Step 2: Rewrite the Title per Platform Culture (Human Step; the Script Only Suggests)
 
-按「平台标题文化」表 + 搜索意图句式改写，硬约束三条：主关键词在前半段、长度 ≤ 平台上限、
-数字或对比至少其一。**红线词表逐词过一遍**——脚本抓不到标题党词，这是人工闸门。
+Rewrite per the "Platform Title Culture" table + the search-intent sentence form, with three hard constraints: main keyword in the first half, length <= platform cap,
+at least one of a number or a comparison. **Run the red-line word list through word by word** — the script can't catch clickbait words; this is the human gate.
 
-### 步骤 3：meta description 与标签
+### Step 3: Meta Description and Tags
 
-- meta description：80-160 字符（搜索结果约 155 字符截断），主关键词出现一次会被搜索结果加亮；
-  写"用户点进来能看到什么"，不写口号。
-- 标签：`meta.tags` 去重后按平台上限截取（CSDN ≤5、掘金 ≤3）；**标签必须是正文真实覆盖的主题**，
-  挂热门无关标签是举报高发区。
+- Meta description: 80-160 chars (search results clip around 155); the main keyword appearing once gets highlighted in search results;
+  write "what the reader sees when they click in", not a slogan.
+- Tags: dedupe `meta.tags` then truncate per platform cap (CSDN <=5, Juejin <=3); **tags must be topics the body actually covers**;
+  hanging hot unrelated tags is a top report trigger.
 
-### 步骤 4：复评 + 真实验证
+### Step 4: Re-score + Real-World Verification
 
-1. 优化后的标题重跑脚本，`score` 不降（降了 = 挤掉了主关键词，回滚）。
-2. **真实验证（脚本测不出的部分）**：把最终标题放到目标平台的搜索框里搜一遍主关键词，
-   对比现有前三名——你的标题有没有提供它们都没有的角度？没有的话，流量不会来，改角度而不是改字。
+1. Rerun the script on the optimized title; `score` must not drop (if it dropped = you squeezed out the main keyword; roll back).
+2. **Real-world verification (what the script can't measure)**: put the final title in the target platform's search box and search the main keyword,
+   compare against the current top three — does your title offer an angle none of them has? If not, traffic won't come; change the angle, not the words.
 
-## 参数速查表
+## Parameter Quick Reference
 
-| 参数 | 取值 | 说明 |
+| Parameter | Value | Notes |
 |------|------|------|
-| `--title` | 字符串 | 文章标题原文 |
-| `--content` | 路径或文本 | 正文全文，两者皆可 |
-| `--platform` | `csdn`（默认）/`juejin`/`wechat`/`baijiahao`/`toutiao` | 决定标题长度规则 |
-| `--output` | JSON 文件路径 | 缺省打印 stdout |
+| `--title` | string | The original article title |
+| `--content` | path or text | Full body text; either works |
+| `--platform` | `csdn` (default) / `juejin`/`wechat`/`baijiahao`/`toutiao` | Determines title-length rules |
+| `--output` | JSON file path | default prints to stdout |
 
-## 评分因子（含权重理由）
+## Scoring Factors (With Weight Rationale)
 
-| 因子 | 权重 | 理由 |
+| Factor | Weight | Rationale |
 |------|------|------|
-| 标题含关键词 | 20 | 搜索结果点击率第一因素 |
-| Meta description | 15 | 摘要截取区，影响点击不直接影响排名 |
-| 关键词密度 | 15 | 只用于抓"零关键词"极端漏题（见暗知识 1） |
-| 标题长度 | 10 | 平台截断保护 |
-| 标题结构 | 10 | H1>H2>H3 层级 = H2 锚点与精选摘要资格 |
-| 正文字数 | 10 | <800 词难以完整回答一个意图 |
-| 内部链接 | 10 | 站内权重流动 |
-| 可读性 | 10 | 短段落影响完读，完读影响推荐 |
+| Title contains keyword | 20 | The #1 factor in search-result click-through |
+| Meta description | 15 | The snippet clip zone; affects clicks, not directly ranking |
+| Keyword density | 15 | Only for catching the "zero-keyword" extreme miss (see tacit knowledge 1) |
+| Title length | 10 | Platform truncation protection |
+| Title structure | 10 | H1>H2>H3 hierarchy = H2 anchors and featured-snippet eligibility |
+| Body word count | 10 | <800 words struggles to fully answer one intent |
+| Internal links | 10 | On-site authority flow |
+| Readability | 10 | Short paragraphs affect completion; completion affects recommendation |
 
-## 失败处置表
+## Failure Remediation Table
 
-| 现象/错误码 | 原因 | 处置 |
+| Symptom / Error Code | Cause | Remedy |
 |-------------|------|------|
-| `ModuleNotFoundError` / `python3: command not found` | Python 未装或不在 PATH | 安装 Python 3.8+ 后重跑前置自检 |
-| `FileNotFoundError` | `--content` 路径错误 | 改绝对路径；或直接把正文文本传给 `--content` |
-| `unrecognized arguments` | 参数名拼错 | 只用速查表里 4 个参数 |
-| `score` 恒 50 且 `keywords` 空 | 正文太短或全为无实义词 | 补正文 >800 词后重跑 |
-| `tags` 为空但正文正常 | 词频未命中 | 人工传 `target_keywords`，或接受空标签手动补 |
+| `ModuleNotFoundError` / `python3: command not found` | Python not installed or not on PATH | Install Python 3.8+ and rerun the pre-flight checks |
+| `FileNotFoundError` | Wrong `--content` path | Switch to an absolute path; or pass the body text directly to `--content` |
+| `unrecognized arguments` | Misspelled parameter name | Use only the 4 parameters in the quick reference |
+| `score` stuck at 50 and `keywords` empty | Body too short or all non-content words | Add >800 words of body and rerun |
+| `tags` empty but the body is normal | No word-frequency hits | Manually pass `target_keywords`, or accept empty tags and add them by hand |
 
-## 交付标准
+## Delivery Standard
 
-- 产物：`seo_result.json`（优化后标题 + meta + tags + score），`python3 -m json.tool` 校验通过。
-- 完整性：最终标题过红线词表、意图句式匹配、平台长度合规三项全绿。
+- Artifact: `seo_result.json` (optimized title + meta + tags + score), validated by `python3 -m json.tool`.
+- Completeness: final title passes the red-line word list, matches the intent sentence form, and complies with platform length — all three green.
 
-## 参考
+## References
 
-- [references/keyword-research.md](references/keyword-research.md) — 主关键词选不出或想换更优关键词时的选词方法
-- [references/platform-rules.md](references/platform-rules.md) — 各平台 SEO 细则（标签上限、审核尺度）
+- [references/keyword-research.md](references/keyword-research.md) — keyword-selection method when you can't pick a main keyword or want a better one.
+- [references/platform-rules.md](references/platform-rules.md) — per-platform SEO details (tag caps, review strictness).

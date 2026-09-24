@@ -1,6 +1,6 @@
 ---
 name: skill-tester
-description: "Validate, test, and score the quality of skills within the claude-skills ecosystem. Comprehensive meta-skill: structure validation, Python script testing (syntax + imports + runtime + output format), multi-dimensional quality scoring with letter grades and tier classification (BASIC/STANDARD/POWERFUL). Use when authoring a new skill, auditing existing skills for tier promotion, setting up pre-commit hooks for skill quality, or integrating skill QA into CI. 当用户要求 测试技能 / 校验 skill 是否合规 / 给技能打分 时使用。 Do NOT use for fixing the skills it audits (this skill only audits and scores)."
+description: "Validate, test, and score the quality of skills within the claude-skills ecosystem. Comprehensive meta-skill: structure validation, Python script testing (syntax + imports + runtime + output format), multi-dimensional quality scoring with letter grades and tier classification (BASIC/STANDARD/POWERFUL). Use when authoring a new skill, auditing existing skills for tier promotion, setting up pre-commit hooks for skill quality, integrating skill QA into CI, testing a skill, checking whether a skill is compliant, or grading a skill. Do NOT use for fixing the skills it audits (this skill only audits and scores)."
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
@@ -14,125 +14,125 @@ metadata:
 
 # Skill Tester
 
-用四件工具校验、测试并为一个技能目录的质量打分（结构校验、脚本测试、质量评分、安全评分），全部可在仓库根目录直接运行。
+Use four tools to validate, test, and score the quality of a skill directory (structure validation, script testing, quality scoring, security scoring), all runnable directly from the repo root.
 
-> **范围说明**：本技能的 tier 行数下限衡量的是*遗留*技能。编写*新*技能时，`engineering/write-a-skill`（SKILL.md 约 100 行以内，Matt Pocock 原则）才是约束标准——不要为凑本技能的 tier 下限而给新技能注水。
+> **Scope note**: this skill's tier line-count thresholds measure *legacy* skills. When authoring *new* skills, `engineering/write-a-skill` (SKILL.md around 100 lines or fewer, the Matt Pocock principle) is the binding standard — do not pad a new skill just to meet this skill's tier floor.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Description |
 |---|---|---|
-| 被审计技能路径 | 是 | 仓库内技能目录，如 `skills/programming/api/api-design-reviewer` |
-| 目标最低分 | 否 | `quality_scorer.py --minimum-score`，CI 常用 75 |
-| 目标 tier | 否 | `skill_validator.py --tier BASIC\|STANDARD\|POWERFUL`，缺省从 SKILL.md 行数推断 |
-| 是否含安全评分 | 否 | 加 `--include-security`（或单独跑 `security_scorer.py`） |
+| Path of the skill to audit | Yes | A skill directory in the repo, e.g. `skills/programming/api/api-design-reviewer` |
+| Target minimum score | No | `quality_scorer.py --minimum-score`; CI commonly uses 75 |
+| Target tier | No | `skill_validator.py --tier BASIC\|STANDARD\|POWERFUL`; if omitted, inferred from SKILL.md line count |
+| Include security scoring? | No | Add `--include-security` (or run `security_scorer.py` separately) |
 
-输入缺失时一次性问齐："请提供：① 要审计的技能目录路径；② 目标最低分（不填默认 75）；③ 是否需要安全评分。"
+When inputs are missing, ask for them all at once: "Please provide: (1) the path of the skill directory to audit; (2) target minimum score (default 75 if blank); (3) whether security scoring is needed."
 
-## 前置自检
+## Pre-flight Checks
 
-逐条执行，任一失败 → 按修复处置后 STOP：
+Run each item; if any fails → handle the fix and STOP:
 
 ```bash
-# 1. Python 3 可用
+# 1. Python 3 is available
 python3 --version
-# 预期：Python 3.8+。失败→安装 Python 3 后重试。
+# Expected: Python 3.8+. Failure → install Python 3 and retry.
 
-# 2. 四个工具脚本存在
+# 2. The four tool scripts exist
 ls skills/programming/ai-engineering/skill-tester/scripts/{skill_validator,script_tester,quality_scorer,security_scorer}.py
-# 预期：四个 .py 文件名。失败→确认在仓库根目录执行；仍缺→STOP 并回报仓库不完整。
+# Expected: four .py filenames. Failure → confirm you're running from the repo root; still missing → STOP and report the repo is incomplete.
 
-# 3. 目标技能目录存在且含 SKILL.md
+# 3. The target skill directory exists and contains SKILL.md
 cat skills/programming/ai-engineering/skill-tester/examples/good-skill/SKILL.md > /dev/null && echo OK
-# 预期：OK。失败→向用户确认正确路径后 STOP。
+# Expected: OK. Failure → confirm the correct path with the user, then STOP.
 ```
 
-## 工作流
+## Workflow
 
-全部命令在**仓库根目录**执行。
+Run all commands from the **repo root**.
 
-### 步骤 1：结构校验
+### Step 1: Structure validation
 
 ```bash
 python3 skills/programming/ai-engineering/skill-tester/scripts/skill_validator.py skills/programming/ai-engineering/skill-tester/examples/good-skill --json
 ```
 
-- **动作**：校验 frontmatter、必需章节、tier 行数下限、目录结构（README/scripts/references）、脚本 stdlib-only。
-- **预期**：退出码 0；JSON 中 `compliance_level` 非 `FAIL`。
-- **若失败**：退出码非 0 → 读 JSON `checks{}` 里 `passed:false` 的条目，逐项报告给用户（本技能只审计不修复），STOP。
+- **Action**: validate frontmatter, required sections, tier line-count floor, directory structure (README/scripts/references), and that scripts are stdlib-only.
+- **Expected**: exit code 0; `compliance_level` in the JSON is not `FAIL`.
+- **On failure**: non-zero exit code → read the `passed:false` entries in the JSON `checks{}`, report each to the user (this skill only audits, it does not fix), STOP.
 
-### 步骤 2：脚本测试
+### Step 2: Script testing
 
 ```bash
 python3 skills/programming/ai-engineering/skill-tester/scripts/script_tester.py skills/programming/ai-engineering/skill-tester/examples/good-skill --json
 ```
 
-- **动作**：对技能内每个 Python 脚本做 AST 语法检查、import 分析（标记外部依赖）、受控运行（默认 30s 超时，`--timeout` 可调）、`--help` 验证、按 `expected_outputs/` 比对样例输出。
-- **预期**：所有脚本 PASS，无 timeout/import 失败。
-- **若失败**：timeout → 用 `--timeout 60` 复跑一次；import 失败 → 脚本引入了非 stdlib 依赖，属仓库政策违规，报告为 FAIL。
+- **Action**: for each Python script in the skill, do an AST syntax check, import analysis (flag external dependencies), controlled run (default 30s timeout, adjustable via `--timeout`), `--help` verification, and compare sample output against `expected_outputs/`.
+- **Expected**: all scripts PASS, no timeout/import failures.
+- **On failure**: timeout → rerun once with `--timeout 60`; an import failure → the script pulled in a non-stdlib dependency, a repo-policy violation, report as FAIL.
 
-### 步骤 3：质量评分
+### Step 3: Quality scoring
 
 ```bash
 python3 skills/programming/ai-engineering/skill-tester/scripts/quality_scorer.py skills/programming/ai-engineering/skill-tester/examples/good-skill --json --detailed --minimum-score 75
 ```
 
-- **动作**：按 Documentation / Code Quality / Completeness / Usability 四维（各 25%）打分，输出 0-100 分、A-F 等级、tier 建议、`improvement_roadmap`。
-- **预期**：退出码 0（分数 ≥ 75）。
-- **若失败**：退出码非 0 → 按 `improvement_roadmap` 自顶向下列出改进项（只报告，不代改）。
+- **Action**: score across four dimensions (Documentation / Code Quality / Completeness / Usability, 25% each), outputting a 0-100 score, an A-F grade, a tier recommendation, and an `improvement_roadmap`.
+- **Expected**: exit code 0 (score ≥ 75).
+- **On failure**: non-zero exit code → list improvement items top-down per the `improvement_roadmap` (report only; do not edit on the user's behalf).
 
-### 步骤 4：安全评分（可选）
+### Step 4: Security scoring (optional)
 
 ```bash
 python3 skills/programming/ai-engineering/skill-tester/scripts/security_scorer.py skills/programming/ai-engineering/skill-tester/examples/good-skill --json
 ```
 
-- **动作**：对脚本做安全态势评分（0-100）。
-- **预期**：输出 JSON `overall_score`。
-- **若失败**：`--verbose` 查看逐条 finding，原样报告。
+- **Action**: score the scripts' security posture (0-100).
+- **Expected**: output the JSON `overall_score`.
+- **On failure**: use `--verbose` to see item-by-item findings and report them verbatim.
 
-### 步骤 5：汇总裁决
+### Step 5: Summary verdict
 
-- **动作**：汇总三/四项结果向用户报告。仓库级批量审计用 `scripts/audit_skills.py`（在本技能 scripts/ 内，父目录 + `--batch` 模式的 `quality_scorer.py` 亦可）。
-- **预期**：三项全绿才可称 "passes"——任一步骤失败绝不报部分通过。
+- **Action**: aggregate the three/four results and report to the user. For repo-wide batch audits use `scripts/audit_skills.py` (in this skill's scripts/; `quality_scorer.py` in parent-directory + `--batch` mode also works).
+- **Expected**: all three green before calling it "passes" — never report a partial pass if any step failed.
 
-## 参数速查表
+## Parameter Cheat Sheet
 
-| 参数 | 取值 | 说明 |
+| Parameter | Values | Description |
 |---|---|---|
-| `--tier` | BASIC / STANDARD / POWERFUL | 校验目标 tier（默认按 SKILL.md 行数推断） |
-| `--timeout` | 秒数（默认 30） | script_tester 每脚本运行超时 |
-| `--minimum-score` | 0-100（默认无门槛） | quality_scorer 低于该值退出码非 0，用作 CI 门禁 |
-| `--include-security` | 布尔 | quality_scorer 附加安全维度 |
-| `--batch` | 布尔 | quality_scorer 批量模式，skill_path 传父目录 |
-| `--json` | 布尔 | 所有工具均支持，机器可读输出 |
+| `--tier` | BASIC / STANDARD / POWERFUL | Target tier to validate (default inferred from SKILL.md line count) |
+| `--timeout` | seconds (default 30) | Per-script run timeout for script_tester |
+| `--minimum-score` | 0-100 (default no floor) | quality_scorer exits non-zero below this value; used as a CI gate |
+| `--include-security` | boolean | quality_scorer adds the security dimension |
+| `--batch` | boolean | quality_scorer batch mode; pass the parent directory as skill_path |
+| `--json` | boolean | supported by all tools; machine-readable output |
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象/错误码 | 原因 | 处置 |
+| Symptom / error code | Cause | Action |
 |---|---|---|
-| script_tester timeout | 脚本运行超 30s | `--timeout 60` 复跑；仍超时报告为失败 |
-| import failures | 检出外部依赖 | 仓库政策为 stdlib-only，报 FAIL 不修复 |
-| tier 误判 | 行数/LOC 与 tier 表不符 | 对照 tier 矩阵（见参考）；新技能适用 write-a-skill 豁免 |
-| validator 报 README 缺失 | 技能目录无 README.md | 报告扣分项，由技能作者补齐 |
-| `FileNotFoundError` | 不在仓库根目录执行 | `cd` 到仓库根目录，路径改用仓库相对路径 |
+| script_tester timeout | A script ran over 30s | Rerun with `--timeout 60`; still timing out → report as failure |
+| import failures | External dependencies detected | Repo policy is stdlib-only; report FAIL, do not fix |
+| tier misjudged | Line count/LOC doesn't match the tier table | Cross-check the tier matrix (see references); new skills are exempt under write-a-skill |
+| validator reports missing README | The skill directory has no README.md | Report the deduction; the skill author fills it in |
+| `FileNotFoundError` | Not running from the repo root | `cd` to the repo root; use repo-relative paths |
 
-## 交付标准
+## Delivery Criteria
 
-- 成功定义：步骤 1-3 全部退出码 0（含安全评分时四项全 0）。
-- 产物：对话内报告即可；如需留档，保存为 `skill-audit-<技能名>-<YYYYMMDD>.json`（各工具 `--json` 输出拼接），放仓库外或用户指定位置。
-- 完整性验证：报告含每个工具的 `overall_score` 与 FAIL 明细；无任何 "partial pass" 表述。
+- Definition of success: steps 1-3 all return exit code 0 (four all-zero when security scoring is included).
+- Artifact: an in-conversation report suffices; for archival, save as `skill-audit-<skill-name>-<YYYYMMDD>.json` (concatenating each tool's `--json` output), placed outside the repo or where the user specifies.
+- Completeness verification: the report includes each tool's `overall_score` and FAIL details; no "partial pass" wording anywhere.
 
-## 参考
+## References
 
-- `references/skill-structure-specification.md` — 校验器实现的结构规范；解读步骤 1 的 FAIL 项时读。
-- `references/tier-requirements-matrix.md` — tier 与行数/LOC 对照；步骤 1 tier 争议时读。
-- `references/quality-scoring-rubric.md` — 四维评分细则；向用户解释扣分原因时读。
+- `references/skill-structure-specification.md` — the structure spec the validator implements; read when interpreting Step 1 FAIL items.
+- `references/tier-requirements-matrix.md` — tier vs. line count/LOC mapping; read on Step 1 tier disputes.
+- `references/quality-scoring-rubric.md` — the four-dimension scoring details; read when explaining deductions to the user.
 
-## CI 集成
+## CI Integration
 
 ```yaml
-# GitHub Actions：对变更的技能做门禁（$skill 换成各变更技能目录；三条完整命令见上文工作流）
+# GitHub Actions: gate changed skills (replace $skill with each changed skill directory; the three full commands are in the workflow above)
 - name: "validate-changed-skills"
   run: |
     for skill in $changed_skills; do
@@ -142,10 +142,10 @@ python3 skills/programming/ai-engineering/skill-tester/scripts/security_scorer.p
     done
 ```
 
-Pre-commit hook：对暂存的技能目录运行校验器，退出码非 0 则阻止提交。
+Pre-commit hook: run the validator on staged skill directories; a non-zero exit blocks the commit.
 
-批量审计整个技能仓库（含安全评分）：
+Batch-audit the entire skill repo (including security scoring):
 
 ```bash
-python3 scripts/audit_skills.py assets --json   # 从技能目录内执行；assets/ 下即随包样例技能
+python3 scripts/audit_skills.py assets --json   # run from inside the skill directory; the bundled sample skills live under assets/
 ```

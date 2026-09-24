@@ -1,6 +1,6 @@
 ---
 name: webapp-flow-tester
-description: Drive end-to-end flow tests against a locally running web application with Playwright — discover interactive elements from the rendered page first, then navigate, interact, assert, and screenshot, with console-error collection and a server-lifecycle wrapper so crashing tests never leave orphan processes. Use when the user asks to 网页测试 / e2e 测试 / 自动化测试 / 跑一遍下单流程 / 验证页面功能 / web app testing / e2e test / playwright test / test user flow / verify page works. Do NOT use for production traffic, load/stress testing, or testing sites you are not authorized to automate.
+description: "Drive end-to-end flow tests against a locally running web application with Playwright — discover interactive elements from the rendered page first, then navigate, interact, assert, and screenshot, with console-error collection and a server-lifecycle wrapper so crashing tests never leave orphan processes. Use when the user asks for web testing, e2e testing, automated testing, to walk through an order/checkout flow, to verify page functionality, web app testing, e2e test, playwright test, test user flow, or verify page works. Do NOT use for production traffic, load/stress testing, or testing sites you are not authorized to automate."
 license: Apache-2.0
 compatibility: Requires Python 3.8+ with playwright (pip install playwright && playwright install chromium); scripts/with_server.py is stdlib-only.
 metadata:
@@ -12,48 +12,48 @@ metadata:
   verified-date: "2026-09-16"
 ---
 
-# Webapp Flow Tester（Web 应用流程自动化测试）
+# Webapp Flow Tester (Web App Flow Automation Testing)
 
-对本地起着的 Web 应用做端到端流程验证：像真实用户一样点一遍关键路径，留下截图与 console 错误清单作为证据。铁律只有一条——**先看页面里真有什么，再写选择器**，盲猜 selector 是流程测试失败的头号原因。
+Validates end-to-end flows against a locally running web app: walk through the critical paths like a real user, leaving screenshots and a console-error list as evidence. There's only one iron rule — **first look at what's actually on the page, then write selectors**; guessing selectors blindly is the number one cause of flow-test failures.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Description |
 |---|---|---|
-| 启动命令 | 是* | 把应用跑起来的命令，如 `npm run dev`；应用已在运行则不需要 |
-| 端口 | 是* | 应用监听的端口，如 3000；用于就绪探测 |
-| 待验证流程 | 是 | 用自然语言描述的步骤，如"打开首页 → 登录 → 加入购物车 → 结账" |
-| 验证标准 | 是 | 每步怎样算成功：出现某文案、URL 跳转、元素可见、请求返回 |
+| Start command | Yes* | The command that starts the app, e.g. `npm run dev`; not needed if the app is already running |
+| Port | Yes* | The port the app listens on, e.g. 3000; used for readiness probing |
+| Flow to verify | Yes | Steps described in natural language, e.g. "open the home page → log in → add to cart → check out" |
+| Success criteria | Yes | What counts as success at each step: some text appears, a URL change, an element visible, a request returning |
 
-\* 应用已经在跑时可不提供；否则两者缺一不可。
+\* Not required if the app is already running; otherwise both are mandatory.
 
-缺必填项时，只问一次：
+When a required item is missing, ask only once:
 
-> 请提供：1) 应用的启动命令和端口（若已在运行请直接给地址）；2) 要验证的完整流程步骤；3) 每一步成功的判断标准是什么？
+> Please provide: (1) the app's start command and port (or just the address if it's already running); (2) the complete flow steps to verify; (3) the success criterion for each step?
 
-## 前置自检
+## Pre-flight Checks
 
-每步给出预期与失败处置，全部通过才进入工作流：
+Give the expected result and failure handling for each step; only enter the workflow once all pass:
 
 ```bash
-python3 -c "import playwright; print('ok')"          # 预期 ok
-python3 -m playwright --version                       # 预期打印版本号
+python3 -c "import playwright; print('ok')"          # expected ok
+python3 -m playwright --version                       # expected to print the version
 python3 -m playwright install chromium --dry-run 2>/dev/null || \
-  echo "browser may be missing"                       # 提示性检查
+  echo "browser may be missing"                       # informational check
 ```
 
-- **若失败：** 无 playwright 模块 → 指引用户执行 `pip install playwright && python3 -m playwright install chromium`，安装属于环境变更，先征得同意再动手。
-- **若失败：** chromium 装了但启动报错（常见于缺系统依赖）→ 建议执行 `python3 -m playwright install-deps chromium`（需 sudo 权限，交由用户执行）。
-- 应用可启动性：若应用未在运行，先用启动命令手动起一次，curl 探测端口返回 200 再继续；起不来的应用不进入测试，把启动报错原样反馈给用户。
+- **On failure:** no playwright module → guide the user to run `pip install playwright && python3 -m playwright install chromium`; installation is an environment change, so get consent before doing it.
+- **On failure:** chromium is installed but errors on launch (often missing system deps) → suggest running `python3 -m playwright install-deps chromium` (needs sudo, left to the user).
+- App startability: if the app isn't running, start it manually once with the start command first, and continue only once curling the port returns 200; an app that won't start doesn't enter testing — report the startup error verbatim to the user.
 
-## 工作流
+## Workflow
 
-### 步骤 1：元素发现——先侦察，后行动
+### Step 1: Element discovery — recon first, then act
 
-- **动作：** 对目标页面先跑一段 dump 脚本，把当前可交互元素（role + 可见文本 + name/placeholder）打印出来，据实选择器写测试：
+- **Action:** first run a dump script against the target page that prints the currently interactive elements (role + visible text + name/placeholder), and write tests from the selectors based on what's actually there:
 
 ```python
-# dump_elements.py — 侦察页面可交互元素，禁止跳过此步盲写 selector
+# dump_elements.py — recon the page's interactive elements; never skip this step and write selectors blind
 from playwright.sync_api import sync_playwright
 import sys
 
@@ -71,15 +71,15 @@ with sync_playwright() as p:
             print(f"{role:10s} | text={text!r:44s} | name={name!r}")
 ```
 
-- **预期：** 每类元素都有输出；据此挑出"文本唯一 / aria-label 唯一"的元素作为定位依据，优先 `get_by_role(role, name=...)`，其次 `get_by_placeholder`，最后才是 CSS 选择器。
-- **若失败：** 页面空白或元素数全为 0 → 八成是 SPA 未渲染完：把 `wait_until` 改为 `networkidle` 再加 `page.wait_for_timeout(1000)` 重试；仍为空则说明 URL 不对或应用起错端口，回报用户而不是硬写选择器。
+- **Expected:** every element type produces output; based on it, pick elements with "unique text / unique aria-label" as the locator, preferring `get_by_role(role, name=...)`, then `get_by_placeholder`, and CSS selectors only as a last resort.
+- **On failure:** blank page or zero elements across the board → most likely the SPA hasn't finished rendering; change `wait_until` to `networkidle` and add `page.wait_for_timeout(1000)` before retrying; if still empty, the URL is wrong or the app started on the wrong port — report it to the user rather than hard-coding selectors.
 
-### 步骤 2：写流程测试脚本
+### Step 2: Write the flow-test script
 
-- **动作：** 按此模板组织脚本：goto → 交互 → 断言 → 截图，四段齐全；console 错误全程收集，任何失败自动截图：
+- **Action:** organize the script by this template: goto → interact → assert → screenshot, all four present; collect console errors throughout, and auto-screenshot on any failure:
 
 ```python
-# flow_test.py 模板 — 按业务流程填空，每步都留证据
+# flow_test.py template — fill in per the business flow; leave evidence at every step
 from playwright.sync_api import sync_playwright
 
 BASE = "http://127.0.0.1:3000"
@@ -96,33 +96,33 @@ with sync_playwright() as p:
             page.screenshot(path=f"{len(shots):02d}_{name}_ok.png")
         except Exception as exc:
             page.screenshot(path=f"{len(shots):02d}_{name}_FAIL.png")
-            raise AssertionError(f"步骤 {name} 失败: {exc}") from exc
+            raise AssertionError(f"step {name} failed: {exc}") from exc
         finally:
             shots.append(name)
 
     step("open_home", lambda: page.goto(BASE, wait_until="networkidle"))
     step("login", lambda: (
-        page.get_by_placeholder("用户名").fill("demo"),
-        page.get_by_placeholder("密码").fill("secret"),
-        page.get_by_role("button", name="登录").click(),
+        page.get_by_placeholder("Username").fill("demo"),
+        page.get_by_placeholder("Password").fill("secret"),
+        page.get_by_role("button", name="Sign in").click(),
         page.wait_for_url("**/dashboard"),
     ))
     step("assert_dashboard", lambda: (
-        page.get_by_role("heading", name="工作台").wait_for(state="visible", timeout=5000),
-        assert "欢迎" in page.content(),
+        page.get_by_role("heading", name="Dashboard").wait_for(state="visible", timeout=5000),
+        assert "Welcome" in page.content(),
     ))
 
     print(f"steps: {shots}")
     print(f"console errors: {console_errors or 'none'}")
-    assert not console_errors, "存在 console 错误，见截图与清单"
+    assert not console_errors, "console errors present; see screenshots and list"
 ```
 
-- **预期：** 脚本退出码 0，工作目录下每一步一张 `_ok.png`，stdout 打出步骤清单与 `console errors: none`。
-- **若失败：** 某步断言失败 → 该步截图为 `_FAIL.png`，先看截图再回步骤 1 重新侦察，禁止不改依据直接换第三种 selector 碰运气。
+- **Expected:** the script exits 0, each step leaves an `_ok.png` in the working directory, and stdout prints the step list plus `console errors: none`.
+- **On failure:** a step's assertion fails → that step's screenshot is `_FAIL.png`; look at the screenshot first, then return to Step 1 to re-recon; it's forbidden to blindly swap in a third selector based on nothing.
 
-### 步骤 3：用 with_server 包装服务生命周期
+### Step 3: Wrap the server lifecycle with with_server
 
-- **动作：** 应用不在运行时，永远通过包装器跑测试，保证测试崩溃也不留孤儿进程：
+- **Action:** when the app isn't running, always run tests through the wrapper so a crashing test never leaves an orphan process:
 
 ```bash
 python3 scripts/with_server.py \
@@ -131,38 +131,38 @@ python3 scripts/with_server.py \
   -- python3 flow_test.py
 ```
 
-- **机制：** 后台拉起服务 → socket 轮询端口就绪（给了 `--ready-path` 则还要求该路径 GET 200，默认超时 60s，可 `--timeout` 调整）→ 执行 `--` 之后的测试命令并透传退出码 → 无论测试成败，finally 中对服务进程树先 SIGTERM、宽限 5 秒后 SIGKILL。
-- **预期：** stderr 出现 `server is ready` 与 `test exit code: 0`；测试段落后 `server process tree terminated`；`ss -ltn | grep 3000` 无残留监听。
-- **若失败：** `server exited early with code N` → 是应用自身起不来，包装器会把服务输出尾部打到 stderr，据此排应用启动问题，不是测试脚本问题。
+- **Mechanism:** start the service in the background → socket-poll the port until ready (if `--ready-path` is given, also require that path to GET 200; default timeout 60s, adjustable via `--timeout`) → run the test command after `--` and pass through its exit code → regardless of test outcome, SIGTERM the service process tree in `finally`, grace period 5s, then SIGKILL.
+- **Expected:** stderr shows `server is ready` and `test exit code: 0`; after the test section, `server process tree terminated`; `ss -ltn | grep 3000` shows no leftover listener.
+- **On failure:** `server exited early with code N` → the app itself won't start; the wrapper prints the tail of the service output to stderr, so diagnose the app startup from that, not the test script.
 
-### 步骤 4：汇总证据并交付
+### Step 4: Aggregate evidence and deliver
 
-- **动作：** 汇齐四样交付物：测试脚本、运行日志（含退出码）、逐步截图、console 错误清单（无错误也要显式写 none）。
-- **预期：** 用户不看截图也能从日志复现结论；console 错误清单里标注每条发生时所在的步骤编号。
-- **若失败：** 某些错误来自页面第三方脚本（统计、字体）→ 在清单中单独归为"非被测代码错误"，不要混入业务结论。
+- **Action:** gather the four deliverables: test script, run log (with exit code), step-by-step screenshots, console-error list (write none explicitly if there are no errors).
+- **Expected:** the user can reproduce the conclusion from the logs without looking at screenshots; the console-error list marks which step number each error occurred in.
+- **On failure:** some errors come from third-party page scripts (analytics, fonts) → categorize them separately in the list as "errors not in code under test"; don't mix them into the business conclusion.
 
-## 交付标准
+## Delivery Criteria
 
-| 项 | 要求 |
+| Item | Requirement |
 |---|---|
-| 测试脚本 | 四段式齐全；选择器全部来自元素发现结果，脚本内注释标明依据 |
-| 运行日志 | 完整 stderr/stdout + 最终退出码；用 with_server 时含 ready/terminated 两行 |
-| 截图 | 每步一张；失败步骤有 `_FAIL.png` 且在报告中置顶说明 |
-| console 清单 | 逐条列出或显式写 none；第三方脚本错误单独归类 |
-| 边界声明 | 只测了哪些路径、未覆盖哪些（支付回调等真实第三方交互需注明未模拟） |
+| Test script | All four sections present; selectors all come from the element-discovery results, with the basis annotated in comments |
+| Run log | Complete stderr/stdout + final exit code; when using with_server, includes the ready/terminated lines |
+| Screenshots | One per step; failed steps have `_FAIL.png` and are highlighted at the top of the report |
+| Console list | List each error or write none explicitly; categorize third-party script errors separately |
+| Boundary statement | Which paths were tested, which weren't (real third-party interactions such as payment callbacks must be noted as not simulated) |
 
-## 失败处置表
+## Failure Handling Table
 
-| 症状 | 处置 |
+| Symptom | Fix |
 |---|---|
-| playwright 未安装 | 给出安装命令，征得同意后代跑；无法安装则降级为 curl 级接口冒烟并声明非 UI 级验证 |
-| 端口 60s 内未就绪 | 分层排查：进程活着吗 → 端口对吗 → ready-path 对吗；把每一层证据给用户，不盲目加大 timeout |
-| 元素定位不稳定（偶发超时） | 改用 `get_by_role` + `wait_for` 显式等待；仍抖动则检查是否有动画/懒加载，加固定状态等待 |
-| 测试把数据写坏了 | 只对用户提供或确认过的测试账号执行写操作；下单、删除类流程先问测试数据从哪来 |
-| 页面需要登录态 | 问用户拿测试凭据或 cookie；绝不猜测凭据，绝不测试生产环境地址 |
-| 步骤间强耦合难排查 | 拆成独立脚本逐段跑，定位到最短失败用例后再合回主脚本 |
+| playwright not installed | Give the install command, run it after consent; if it can't be installed, degrade to curl-level endpoint smoke tests and declare it non-UI verification |
+| Port not ready within 60s | Troubleshoot in layers: is the process alive → is the port right → is the ready-path right; give the user evidence at each layer; don't blindly increase the timeout |
+| Unstable element location (occasional timeouts) | Switch to `get_by_role` + explicit `wait_for`; still flaky → check for animations/lazy-loading and add fixed-state waits |
+| The test corrupted data | Only perform write operations against test accounts the user provided or approved; for order/deletion flows, first ask where the test data comes from |
+| The page needs a login state | Ask the user for test credentials or cookies; never guess credentials, never test production addresses |
+| Strong coupling between steps makes it hard to debug | Split into independent scripts run segment by segment; once the shortest failing case is located, merge back into the main script |
 
-## 参考
+## References
 
-- scripts/with_server.py —— 服务生命周期包装器（`--help` 查看全部参数），本技能实测记录见交付日志要求。
-- references/sources-and-methodology.md —— 方法论来源与许可说明。
+- scripts/with_server.py — the server-lifecycle wrapper (`--help` for all parameters); see the delivery-log requirement for this skill's measured record.
+- references/sources-and-methodology.md — methodology sources and license notes.

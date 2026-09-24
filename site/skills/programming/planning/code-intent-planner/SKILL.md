@@ -1,6 +1,6 @@
 ---
 name: code-intent-planner
-description: "Three-tier waterfall intent recognition (L1 regex <10ms, L2 Flash LLM, L3 Pro LLM) that classifies user intent into 10 types, decomposes tasks, and produces execution plans with evidence grading. Use when the user describes a coding task and needs structured planning before implementation. 当用户要求 理清需求 / 出实施计划 / 把模糊需求变具体 时使用。 Do NOT use for implementing the planned code itself (planning and orchestration only)."
+description: "Three-tier waterfall intent recognition (L1 regex <10ms, L2 Flash LLM, L3 Pro LLM) that classifies user intent into 10 types, decomposes tasks, and produces execution plans with evidence grading. Use when the user describes a coding task and needs structured planning before implementation, clarifying requirements, producing an implementation plan, or turning a vague requirement into something concrete. Do NOT use for implementing the planned code itself (planning and orchestration only)."
 license: Apache-2.0
 compatibility: Requires network access and docker. No API keys required.
 metadata:
@@ -14,32 +14,32 @@ metadata:
 
 # Code Intent Planner
 
-将编程需求识别为结构化意图 + 任务分解 + 方案建议。
-三层瀑布：L1 规则（<10ms） → L2 Flash LLM（置信度路由） → L3 Pro LLM（复杂场景）。
-所有命令均在技能目录（本文件所在目录）下执行。
+Recognizes a programming request as a structured intent + task decomposition + solution recommendations.
+Three-tier waterfall: L1 rules (<10ms) → L2 Flash LLM (confidence routing) → L3 Pro LLM (complex scenarios).
+All commands are run from the skill directory (the directory containing this file).
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 | 默认值 |
+| Input | Required | Description | Default |
 |------|------|------|--------|
-| raw_input | 是 | 用户原始输入（自然语言） | — |
-| session_id | 否 | 会话标识（跨轮累积用） | 自动生成 session_<时间戳> |
-| project_root | 否 | 项目根目录 | 自动探测（见前置自检） |
+| raw_input | Yes | The user's raw input (natural language) | — |
+| session_id | No | Session identifier (for cross-turn accumulation) | Auto-generated session_<timestamp> |
+| project_root | No | Project root directory | Auto-detected (see pre-flight) |
 
-缺失时一次性问齐：「请提供：① 你的需求描述。项目目录和 session_id 我自动处理。」
+When missing, ask all at once: "Please provide: (1) your requirement description. I'll handle the project directory and session_id automatically."
 
-## 前置自检
+## Pre-flight Checks
 
-依次执行；致命项失败 → 修复后 STOP，不带病继续。
+Run in order; if a fatal item fails → fix it, then STOP; don't push through with known issues.
 
 ```bash
-# 1. Python 可用（致命）
-python3 --version          # 预期：Python 3.x；失败 → 安装 python3 后 STOP
+# 1. Python available (fatal)
+python3 --version          # Expected: Python 3.x; failure → install python3, then STOP
 
-# 2. 脚本就位（致命；必须在技能目录执行）
-test -f scripts/pipeline.py && echo OK   # 预期：OK；失败 → cd 到技能目录重试，仍失败 STOP
+# 2. Script in place (fatal; must run from the skill directory)
+test -f scripts/pipeline.py && echo OK   # Expected: OK; failure → cd to the skill directory and retry; still failing → STOP
 
-# 3. 探测项目根目录（非致命；脚本内建同款逻辑）
+# 3. Detect the project root (non-fatal; the script has the same logic built in)
 for dir in . .. ../..; do
   for f in package.json pyproject.toml go.mod Cargo.toml pom.xml build.gradle requirements.txt; do
     [ -f "$dir/$f" ] && echo "$dir" && exit 0
@@ -48,112 +48,112 @@ done
 echo "."
 ```
 
-- 探测 3 预期：输出项目根路径。若失败（无工程标记文件）：使用当前目录，tech_stack 标记 unknown（显式降级，可继续）。
-- 仅 `--no-mock`（真实 LLM）时需要：`test -n "$LLM_API_KEY"` 预期非空；失败 → 导出 `LLM_API_KEY`（必要时 `LLM_BASE_URL`/`LLM_MODEL`）后重试。凭据只走环境变量，不写入文件或命令行。
-- 默认 mock 模式（`USE_MOCK_LLM=true`）：不发真实网络请求，先跑通流程再切换真实 LLM。
+- Detection 3 expected: prints the project root path. On failure (no project marker file): use the current directory, mark tech_stack as unknown (explicit degradation; can continue).
+- Only needed for `--no-mock` (real LLM): `test -n "$LLM_API_KEY"` expected non-empty; on failure → export `LLM_API_KEY` (and `LLM_BASE_URL`/`LLM_MODEL` as needed) and retry. Credentials go through environment variables only, never into files or the command line.
+- Default mock mode (`USE_MOCK_LLM=true`): makes no real network request; get the flow working first, then switch to the real LLM.
 
-## 参数速查表
+## Parameter Cheat Sheet
 
-`python3 scripts/pipeline.py`（run）：
+`python3 scripts/pipeline.py` (run):
 
-| 参数 | 取值 | 说明 |
+| Parameter | Values | Description |
 |------|------|------|
-| input（位置参数） | 自然语言文本 | 用户原始输入；缺省时打印帮助并 exit 1 |
-| --session / -s | 字符串 | Session ID，跨轮累积 |
-| --project / -p | 目录路径 | 项目根目录 |
-| --skip-normalization | 开关 | 跳过输入规范化 |
-| --no-mock | 开关 | 使用真实 LLM（需 LLM_API_KEY 等环境变量） |
-| --format / -f | markdown / json | 输出格式，默认 markdown |
-| --output / -o | 文件路径 | 写入文件；缺省打印到 stdout |
+| input (positional) | Natural-language text | The user's raw input; defaults to printing help and exit 1 |
+| --session / -s | string | Session ID, for cross-turn accumulation |
+| --project / -p | directory path | Project root directory |
+| --skip-normalization | switch | Skip input normalization |
+| --no-mock | switch | Use the real LLM (requires env vars like LLM_API_KEY) |
+| --format / -f | markdown / json | Output format, default markdown |
+| --output / -o | file path | Write to a file; defaults to stdout |
 
-## 工作流
+## Workflow
 
-### 步骤 1：运行三层瀑布流水线
+### Step 1: Run the three-tier waterfall pipeline
 
-动作（run）：
+Action (run):
 
 ```bash
-# 默认 mock，先验证流程
-python3 scripts/pipeline.py "帮我给 auth 模块加登录" --format json
-# 真实 LLM（配置好环境变量后）
-python3 scripts/pipeline.py "帮我给 auth 模块加登录" --no-mock --format json
-# 复用会话（跨轮累积）
-python3 scripts/pipeline.py "继续，加上注册" -s session_20260916_100000 --format json
+# Default mock; verify the flow first
+python3 scripts/pipeline.py "add login to the auth module for me" --format json
+# Real LLM (after configuring env vars)
+python3 scripts/pipeline.py "add login to the auth module for me" --no-mock --format json
+# Reuse a session (cross-turn accumulation)
+python3 scripts/pipeline.py "continue, add registration" -s session_20260916_100000 --format json
 ```
 
-预期：stdout 输出 JSON，含 `intent_type`、`confidence`、`source_layer`、`slots`、`sub_tasks`，退出码 0。
-若失败：退出码 1 且 JSON 含 `error` 字段（如 `L2 失败: ...`/`L3 失败: ...`）→ 查失败处置表；`--format markdown` 时渲染为计划文档。
+Expected: stdout outputs JSON with `intent_type`, `confidence`, `source_layer`, `slots`, `sub_tasks`, exit code 0.
+On failure: exit code 1 and the JSON has an `error` field (e.g. `L2 failed: ...`/`L3 failed: ...`) → see the failure-handling table; with `--format markdown` it renders as a plan document.
 
-### 步骤 2：输入规范化与缓存检查（脚本自动执行）
+### Step 2: Input normalization and cache check (done automatically by the script)
 
-动作（read 内部逻辑）：依次做缓存命中检查 → 指代消解（"它/这个/那个" 用上一轮 `last_intent.slots.target` 替换）→ 省略补全（"帮我写" → "帮我写代码"）→ 术语标准化（"后端/server/API" → backend）。
-预期：得到 `normalized_text`；同一 session 内相同 intent_type + 相似输入直接命中缓存（cache_key = `session_id:intent_type:hash(normalized[:100])`），不再调 LLM。
-若失败（无缓存）：正常进入 L1。
+Action (internal read logic): in order, do a cache-hit check → coreference resolution ("it/this/that" replaced with the previous turn's `last_intent.slots.target`) → ellipsis completion ("help me write" → "help me write code") → term standardization ("backend/server/API" → backend).
+Expected: get `normalized_text`; within the same session, identical intent_type + similar input hits the cache directly (cache_key = `session_id:intent_type:hash(normalized[:100])`) and doesn't call the LLM again.
+On failure (no cache): proceed normally into L1.
 
-### 步骤 3：L1 规则层判定（零 LLM，<10ms）
+### Step 3: L1 rule-layer decision (zero LLM, <10ms)
 
-按优先级顺序匹配，首个命中且置信度 ≥ 0.85 → 直接输出（`source_layer=L1`），跳过 L2/L3：
+Match in priority order; the first hit with confidence ≥ 0.85 → output directly (`source_layer=L1`), skipping L2/L3:
 
-| 规则 | 意图 | 置信度 | 优先级 |
+| Rule | Intent | Confidence | Priority |
 |------|------|--------|--------|
-| `删\|删除\|remove\|uninstall\|销毁` | destructive | 0.97 | 1 |
-| `fix\|修[好复]\|bug\|报错\|错误\|crash\|panic` | fix | 0.95 | 2 |
-| `测试\|test\|单测\|单元测试\|覆盖率\|coverage` | test | 0.90 | 3 |
-| `审查\|review\|code.?review\|audit\|检[查核]` | review | 0.92 | 4 |
-| `规划\|拆解\|分析.*需求\|怎么[做搞]\|plan\|break.?down` | plan | 0.95 | 5 |
-| `重构\|refactor\|优化代码\|整理代码` | refactor | 0.90 | 6 |
-| `性能\|加速\|profiling\|bottleneck` | optimize | 0.85 | 7 |
-| `设计\|架构\|设计方案` | design | 0.82 | 8 |
-| `迁移\|migrate\|升级\|upgrade\|版本升级` | migrate | 0.88 | 9 |
-| `写\|做\|实现\|添加\|新增\|build\|create\|开发` | implement | 0.88 | 10 |
+| `delete\|remove\|uninstall\|destroy` | destructive | 0.97 | 1 |
+| `fix\|bug\|error\|crash\|panic` | fix | 0.95 | 2 |
+| `test\|unit test\|coverage` | test | 0.90 | 3 |
+| `review\|code.?review\|audit\|inspect` | review | 0.92 | 4 |
+| `plan\|break.?down\|analyze.*requirement\|how to` | plan | 0.95 | 5 |
+| `refactor\|clean up code` | refactor | 0.90 | 6 |
+| `performance\|speed up\|profiling\|bottleneck` | optimize | 0.85 | 7 |
+| `design\|architecture\|design proposal` | design | 0.82 | 8 |
+| `migrate\|upgrade\|version upgrade` | migrate | 0.88 | 9 |
+| `implement\|build\|create\|add\|develop` | implement | 0.88 | 10 |
 
-预期：输出 intent_type + confidence；注意 design(0.82) 低于 0.85 阈值，实际会落入 L2 复核。
-若失败（无匹配）→ 升级 L2。
+Expected: output intent_type + confidence; note that design (0.82) is below the 0.85 threshold and will actually fall into L2 review.
+On failure (no match) → escalate to L2.
 
-### 步骤 4：L2 Flash LLM 与置信度路由
+### Step 4: L2 Flash LLM and confidence routing
 
-模型：Flash/Mini（如 deepseek-v4-flash, glm-4-flash）。Prompt 模板（脚本注入）：
+Model: Flash/Mini (e.g. deepseek-v4-flash, glm-4-flash). Prompt template (injected by the script):
 
 ```text
-分析用户编程意图，仅返回 JSON：
+Analyze the user's programming intent; return JSON only:
 {
   "intent_type": "<implement|fix|refactor|review|test|optimize|plan|design|migrate|destructive>",
   "confidence": <0.0-1.0>,
-  "description": "<需求简述>",
+  "description": "<short requirement summary>",
   "slots": {"target": "", "scope": "", "tech_stack": ""},
-  "assumptions": ["<假设1>"]
+  "assumptions": ["<assumption 1>"]
 }
 
-用户输入："{normalized_text}"
-项目技术栈：{tech_stack}
+User input: "{normalized_text}"
+Project tech stack: {tech_stack}
 ```
 
-置信度路由：
+Confidence routing:
 
-| 置信度 | 动作 |
+| Confidence | Action |
 |--------|------|
-| ≥ 0.85 | 接受 → 步骤 6 |
-| 0.60 - 0.85 | 澄清协议（见下） |
-| < 0.60 | 升级 L3 |
+| ≥ 0.85 | Accept → Step 6 |
+| 0.60 - 0.85 | Clarification protocol (see below) |
+| < 0.60 | Escalate to L3 |
 
-预期：返回可解析 JSON。若失败（error 字段）→ 失败处置表（多为 LLM 端点/密钥问题）。
+Expected: returns parseable JSON. On failure (an error field) → failure-handling table (mostly LLM endpoint/key issues).
 
-### 步骤 5：L3 Pro LLM 兜底（复杂场景）
+### Step 5: L3 Pro LLM fallback (complex scenarios)
 
-触发：L2 置信度 < 0.60，或五类复杂场景：① 复杂表达（隐含多层需求）② 跨轮上下文（"继续上次"）③ 意图切换（中途改变目标）④ 多意图分解（一个请求多个子任务）⑤ 隐式信息补全（需要项目上下文推断）。
-模型：Pro/推理模型。Prompt 模板（脚本注入）：
+Trigger: L2 confidence < 0.60, or five classes of complex scenarios: (1) complex expression (implicit multi-layer requirements) (2) cross-turn context ("continue from last time") (3) intent switch (changing goal mid-way) (4) multi-intent decomposition (one request, multiple subtasks) (5) implicit-info completion (needs project context to infer).
+Model: Pro/reasoning model. Prompt template (injected by the script):
 
 ```text
-你是架构师，将需求分解为可执行任务。仅返回 JSON：
+You are an architect; decompose the requirement into executable tasks. Return JSON only:
 
-原始输入："{raw_input}"
-规范化后："{normalized_text}"
-技术栈：{tech_stack}
-项目结构片段：
+Raw input: "{raw_input}"
+After normalization: "{normalized_text}"
+Tech stack: {tech_stack}
+Project structure snippet:
 {project_structure_snippet}
 
-已知意图：{intent_type}
-已知槽位：{slots_json}
+Known intent: {intent_type}
+Known slots: {slots_json}
 
 {
   "intent_type": "...",
@@ -163,70 +163,70 @@ python3 scripts/pipeline.py "继续，加上注册" -s session_20260916_100000 -
   ],
   "critical_path": ["T1", "T3"],
   "parallel_groups": [["T2", "T4"]],
-  "solution": "推荐实现路径",
+  "solution": "recommended implementation path",
   "assumptions": [{"text": "...", "impact": "medium", "evidence": "provisional"}]
 }
 ```
 
-预期：JSON 含 `sub_tasks`/`critical_path`/`parallel_groups`。若失败 → 失败处置表。
+Expected: the JSON contains `sub_tasks`/`critical_path`/`parallel_groups`. On failure → failure-handling table.
 
-### 步骤 6：解读输出并渲染交付物
+### Step 6: Interpret output and render deliverables
 
-槽位证据分级（输出 `slots[].evidence` 字段）：
+Slot evidence grading (the output `slots[].evidence` field):
 
-| 来源 | 证据级 | 示例 |
+| Source | Evidence level | Example |
 |------|--------|------|
-| 用户明确指定 | verified | "修改 auth 模块" → target=auth |
-| L1 规则推断 | verified | 含"bug"+"crash" → fix.runtime |
-| L2 LLM 输出 | provisional | L2 推断 target=api |
-| 项目上下文 | provisional | 从 package.json 推断 tech_stack |
-| 模型猜测 | assumed | 无证据，必须标注 |
+| User explicitly specified | verified | "modify the auth module" → target=auth |
+| L1 rule inference | verified | contains "bug" + "crash" → fix.runtime |
+| L2 LLM output | provisional | L2 infers target=api |
+| Project context | provisional | infer tech_stack from package.json |
+| Model guess | assumed | No evidence; must be flagged |
 
-硬约束（用户明确指定，不可违反）优先于软约束（建议，可调整）。
-按意图类型的推荐实现路径：
+Hard constraints (user explicitly specified, cannot be violated) take precedence over soft constraints (suggestions, adjustable).
+Recommended implementation path by intent type:
 
-| 意图类型 | 推荐实现路径 |
+| Intent type | Recommended implementation path |
 |---------|-------------|
 | implement.feature | design → implement → test |
-| implement.api | API 契约先行 → 各层实现 |
-| fix.runtime | 复现 → 定位 → 修复 → 回归测试 |
-| fix.security | 评估影响 → 修复 → 安全扫描 → 升级依赖 |
-| refactor | 分析影响 → 保护测试 → 小步重构 → 验证 |
-| test.coverage | 分析盲区 → 补充测试 → 验证 |
-| optimize | baseline → profiling → 优化 → 回归 |
-| design | 需求澄清 → 方案草稿 → 选型论证 → 评审 |
-| migrate | 兼容性分析 → 计划 → 试点 → 全量 |
-| destructive | 风险评估 → 备份 → 确认 → 执行 → 验证 |
+| implement.api | API contract first → implement each layer |
+| fix.runtime | reproduce → locate → fix → regression test |
+| fix.security | assess impact → fix → security scan → upgrade dependencies |
+| refactor | analyze impact → protect tests → small-step refactor → verify |
+| test.coverage | analyze blind spots → add tests → verify |
+| optimize | baseline → profiling → optimize → regression |
+| design | clarify requirements → draft proposal → selection rationale → review |
+| migrate | compatibility analysis → plan → pilot → full rollout |
+| destructive | risk assessment → backup → confirm → execute → verify |
 
-详见 [references/solution-templates.md](references/solution-templates.md)。
-destructive 意图属安全红线：任何删除/销毁动作前必须先备份并征得用户明确确认。
+See [references/solution-templates.md](references/solution-templates.md) for details.
+The destructive intent is a security red line: before any delete/destroy action, you must back up first and get the user's explicit confirmation.
 
-动作（run）：`python3 scripts/pipeline.py "<raw_input>" --format markdown -o plans/<session_id>_<YYYYMMDD>.md`
-预期：生成 Markdown 计划文档。
-若失败：plans/ 目录不存在 → 先 `mkdir -p plans` 再重跑。
+Action (run): `python3 scripts/pipeline.py "<raw_input>" --format markdown -o plans/<session_id>_<YYYYMMDD>.md`
+Expected: generate a Markdown plan document.
+On failure: the plans/ directory doesn't exist → `mkdir -p plans` first, then rerun.
 
 ---
 
-## 澄清协议
+## Clarification Protocol
 
-**触发**：L2 置信度 0.60-0.85 且无法消除歧义，或必需槽位缺失（此时流水线返回 `status=clarification_needed` + `questions` 列表）。
+**Trigger**: L2 confidence 0.60-0.85 and the ambiguity can't be resolved, or required slots are missing (in which case the pipeline returns `status=clarification_needed` + a `questions` list).
 
-**追问模板**（一次性问齐，最多 3 个问题）：
+**Follow-up template** (ask all at once, at most 3 questions):
 ```text
-为准确规划，请确认：
-① [问题1]
-② [问题2]
-③ [问题3]
-如暂不确定，可回答"待定"。
+To plan accurately, please confirm:
+(1) [question 1]
+(2) [question 2]
+(3) [question 3]
+If unsure for now, you may answer "TBD".
 ```
 
-**最大澄清轮次**：3 轮。超出 → 降级为保守方案，标注所有假设。
+**Max clarification rounds**: 3 rounds. Beyond that → degrade to a conservative proposal, flagging all assumptions.
 
 ---
 
-## 跨轮累积与会话
+## Cross-Turn Accumulation and Sessions
 
-- 状态文件真实位置：`~/.code_intent_planner/sessions/_session_<session_id>.json`（可用环境变量 `SKILLKIT_SESSION_DIR` 覆盖；脚本不会把会话文件写进项目目录，也不要手动编辑）。
+- Real state-file location: `~/.code_intent_planner/sessions/_session_<session_id>.json` (override with the env var `SKILLKIT_SESSION_DIR`; the script doesn't write session files into the project directory, and don't edit them by hand).
 
 ```json
 {
@@ -238,78 +238,78 @@ destructive 意图属安全红线：任何删除/销毁动作前必须先备份�
 }
 ```
 
-- 合并策略：latest-wins + 冲突检测。冲突时标记 provisional 并请用户裁决。
-- 注入规则：下一轮输入时，将 `last_intent.slots` 自动注入上下文。
+- Merge strategy: latest-wins + conflict detection. On conflict, mark provisional and ask the user to adjudicate.
+- Injection rule: on the next turn's input, automatically inject `last_intent.slots` into context.
 
 ---
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象/错误码 | 原因 | 处置 |
+| Symptom / error code | Cause | Action |
 |------|------|------|
-| L1 无匹配 | 输入不含规则关键词 | 正常分支：升级 L2 |
-| L2 置信度 0.60-0.85 | 输入歧义 | 走澄清协议；最多 3 轮，超出 → 降级保守方案并标注所有假设 |
-| L2 置信度 < 0.60 | 复杂/多意图输入 | 升级 L3 |
-| 退出码 1，JSON 含 `L2 失败: ...` / `L3 失败: ...` | LLM 端点不可达或密钥无效 | 检查 `LLM_API_KEY`/`LLM_BASE_URL`/`LLM_MODEL`；或先用默认 mock 模式验证流程 |
-| 打印帮助 + exit 1 | 未提供 input 位置参数 | 提供 raw_input 后重跑 |
-| 项目探测失败 | 目录无工程标记文件 | 继续，tech_stack = unknown |
-| session 状态丢失 | 状态目录被清理/换机器 | 新建 session，无跨轮累积 |
+| L1 no match | Input lacks rule keywords | Normal branch: escalate to L2 |
+| L2 confidence 0.60-0.85 | Ambiguous input | Follow the clarification protocol; at most 3 rounds, beyond that → degrade to a conservative proposal and flag all assumptions |
+| L2 confidence < 0.60 | Complex/multi-intent input | Escalate to L3 |
+| Exit code 1, JSON contains `L2 failed: ...` / `L3 failed: ...` | LLM endpoint unreachable or key invalid | Check `LLM_API_KEY`/`LLM_BASE_URL`/`LLM_MODEL`; or verify the flow first with the default mock mode |
+| Prints help + exit 1 | No input positional argument provided | Provide raw_input and rerun |
+| Project detection failed | Directory has no project marker files | Continue; tech_stack = unknown |
+| Session state lost | State directory cleaned / machine changed | Start a new session; no cross-turn accumulation |
 
 ---
 
-## 输出格式
+## Output Formats
 
-### 结构化 JSON
+### Structured JSON
 
 ```json
 {
   "intent_type": "implement",
   "confidence": 0.92,
   "source_layer": "L2",
-  "description": "实现用户认证模块",
+  "description": "Implement the user-authentication module",
   "slots": [
     {"name": "target", "value": "auth", "evidence": "verified"},
     {"name": "scope", "value": "login+register", "evidence": "provisional"}
   ],
   "constraints": {"hard": [], "soft": ["use JWT"]},
   "sub_tasks": [
-    {"id": "T1", "description": "设计用户数据模型", "depends_on": [], "priority": "P0", "effort": "S", "risk": "low"}
+    {"id": "T1", "description": "Design the user data model", "depends_on": [], "priority": "P0", "effort": "S", "risk": "low"}
   ],
   "critical_path": ["T1"],
-  "solution": "先设计 schema，再实现 model，最后加 API",
-  "assumptions": [{"text": "使用 PostgreSQL", "impact": "medium", "evidence": "provisional"}],
+  "solution": "Design the schema first, then implement the model, finally add the API",
+  "assumptions": [{"text": "Use PostgreSQL", "impact": "medium", "evidence": "provisional"}],
   "session_id": "...",
   "timestamp": "2026-09-08T10:00:00Z"
 }
 ```
 
-### Markdown 计划文档
+### Markdown plan document
 
-保存路径：`plans/<session_id>_<YYYYMMDD>.md`
+Save path: `plans/<session_id>_<YYYYMMDD>.md`
 
-结构：
-1. 需求概述
-2. 已知约束（硬/软）
-3. 任务分解表
-4. 关键路径
-5. 可并行组
-6. 假设与待确认
-7. 推荐方案
-
----
-
-## 交付标准
-
-- 成功定义：退出码 0，输出 JSON 无 `error` 字段且含 `intent_type`/`confidence`/`source_layer`；返回 `status=clarification_needed` + 问题列表同样是合法产出。
-- 产物命名：Markdown 计划 `plans/<session_id>_<YYYYMMDD>.md`；JSON 结果按需用 `-o` 指定落盘路径。
-- 保存位置：计划文档存项目根 `plans/`；会话状态由脚本写入 `~/.code_intent_planner/sessions/`。
-- 完整性验证：`python3 -m json.tool <输出>.json` 可解析；计划文档含上述 7 节；`source_layer` 与实际路由层一致；所有 `assumed` 证据级假设均已显式标注。
+Structure:
+1. Requirement overview
+2. Known constraints (hard/soft)
+3. Task breakdown table
+4. Critical path
+5. Parallelizable groups
+6. Assumptions and items to confirm
+7. Recommended solution
 
 ---
 
-## 参考
+## Delivery Criteria
 
-- references/solution-templates.md —— 步骤 6 选定意图类型后读，套用对应方案模板
-- references/prompt-templates.md —— 需要调整 L2/L3 prompt（换模型/改输出字段）时读
-- references/gotchas.md —— 结果异常或置信度系统性偏低时读（常见陷阱与反模式）
-- references/examples.md —— 校准判读标准时读（10 个真实案例，含边界场景）
+- Definition of success: exit code 0, the output JSON has no `error` field and contains `intent_type`/`confidence`/`source_layer`; returning `status=clarification_needed` + a question list is also a valid output.
+- Artifact naming: Markdown plan `plans/<session_id>_<YYYYMMDD>.md`; the JSON result is persisted to a path specified with `-o` as needed.
+- Save location: plan documents go in the project root `plans/`; session state is written by the script to `~/.code_intent_planner/sessions/`.
+- Completeness verification: `python3 -m json.tool <output>.json` parses cleanly; the plan document has the 7 sections above; `source_layer` matches the actual routing layer; all `assumed`-evidence-level assumptions are explicitly flagged.
+
+---
+
+## References
+
+- references/solution-templates.md — read after Step 6 selects the intent type, to apply the corresponding solution template
+- references/prompt-templates.md — read when you need to adjust the L2/L3 prompt (switch models / change output fields)
+- references/gotchas.md — read when results are abnormal or confidence is systematically low (common pitfalls and anti-patterns)
+- references/examples.md — read when calibrating the judgment standard (10 real cases, including edge scenarios)

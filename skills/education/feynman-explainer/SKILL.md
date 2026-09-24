@@ -1,6 +1,14 @@
 ---
 name: feynman-explainer
-description: "Teach one concept interactively via the Feynman loop: simplest-possible explanation, one diagnostic question, inspect the learner's answer for gaps, repair with analogy or worked example, require teach-back, then a transfer challenge — with depth control per learner level. Use when the user asks to 讲解概念 / 费曼 / 教我这个 / 用大白话解释 / 为什么听不懂 / teach me / teach-back, or when exercise results show a failed checkpoint needing remedial teaching. Do NOT use for course skeleton design (course-designer), nor for generating question banks (exercise-generator)."
+description: >-
+  Teach one concept interactively via the Feynman loop: simplest-possible
+  explanation, one diagnostic question, inspect the learner's answer for gaps,
+  repair with analogy or worked example, require teach-back, then a transfer
+  challenge — with depth control per learner level. Use when the user asks to
+  explain a concept / teach me this / explain in plain language / why don't I
+  understand / teach-back, or when exercise results show a failed checkpoint
+  needing remedial teaching. Do NOT use for course skeleton design
+  (course-designer), nor for generating question banks (exercise-generator).
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime dependencies.
 metadata:
@@ -14,69 +22,91 @@ metadata:
 
 # Feynman Explainer
 
-单概念**补救伴学**。核心是费曼循环——讲、问、查、修、回讲、迁移，一环不缺。核心信念：**能讲清楚才是真懂了**；学员讲不明白的地方，就是你下一段要修的地方。
+Single-concept **remedial tutoring**. Core is the Feynman loop—explain, ask,
+check, repair, teach-back, transfer, not a link missing. Core belief: **if you
+can explain it clearly, you truly understand it**; where the learner can't explain
+is where your next paragraph needs repair.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |------|------|------|
-| 概念 | ✓ | 一个概念一次循环，不打包 |
-| 学习者画像 | ✗ | 来自学习契约；缺则按 beginner 起步 |
-| 卡点线索 | ✗ | 习题判卷的失分要素——有则直击卡点 |
+| Concept | yes | one concept per loop, don't bundle |
+| Learner profile | no | from learning contract; defaults to beginner if missing |
+| Blocker clue | no | lost-point elements from exercise grading—aims directly at the blocker if present |
 
-缺输入时一次性问齐："请提供：① 要讲的概念（一次一个）② 学员当前水平（缺省按 beginner）③ 卡点线索（如习题失分要素，可选）。"
+When inputs are missing, ask all at once: "Please provide: 1) concept to explain
+(one at a time); 2) learner's current level (defaults to beginner); 3) blocker
+clue (like exercise lost-point elements, optional)."
 
-## 前置自检
+## Pre-flight Checks
 
-本技能纯 prompt 驱动：无运行时依赖、无端点、无环境变量。自检点是输入而非环境：概念未给 → 先问齐再 STOP；概念一次给了多个 → 拆开逐个循环，不许打包。
+This skill is pure prompt-driven: no runtime dependencies, endpoints, or env
+vars. Self-check is on input not environment: concept not given → ask all first
+then STOP; multiple concepts given at once → split into loops one by one, don't
+bundle.
 
-## 工作流
+## Workflow
 
-### 步骤 1：按深度控制定讲解档位
+### Step 1: Set Explanation Level by Depth Control
 
-| 级别 | 讲解纪律 |
+| Level | Explanation Discipline |
 |------|----------|
-| beginner | 先立词汇（每个术语配一句大白话），用日常案例，只问"是什么/为什么" |
-| intermediate | 对比易混方案、讲失效模式、问"什么场景会坏" |
-| advanced | 直接触及边界与权衡，问迁移与综合 |
-| exam | 加限时回忆、评分标准对照、常见陷阱清单 |
+| beginner | Establish vocabulary first (each term with a plain-language sentence), everyday cases, only ask "what/why" |
+| intermediate | Compare easily confused approaches, explain failure modes, ask "what scenario breaks" |
+| advanced | Go straight to boundaries and trade-offs, ask transfer and synthesis |
+| exam | Add timed recall, scoring criteria comparison, common trap list |
 
-### 步骤 2：跑费曼循环（六拍，缺一不可）
+### Step 2: Run Feynman Loop (Six Beats, None Missing)
 
 ```text
-1. 讲：用最小可用模型把概念讲一遍（一个类比 + 一句机制）
-2. 问：抛一个诊断问题——查核心机制，不查记忆
-3. 查：审回答——找要素缺失 / 含糊措辞 / 虚假自信 / 隐藏假设
-4. 修：针对缺口，换更简单的类比或走一个具体例子，不重复原话
-5. 回讲：要求学员用自己的话讲回来（不带你的措辞）
-6. 迁移：换一个表面无关的场景再问一次
+1. Explain: walk through the concept with a minimal usable model (one analogy + one mechanism sentence)
+2. Ask: pose one diagnostic question—probes core mechanism, not memory
+3. Check: inspect the answer—find missing elements / vague wording / false confidence / hidden assumptions
+4. Repair: target the gap with a simpler analogy or a worked example, don't repeat original words
+5. Teach-back: require learner to explain back in their own words (without your phrasing)
+6. Transfer: switch to a superficially unrelated scenario and ask again
 ```
 
-### 步骤 3：扮演"不太聪明的学生"（teach-back 高级形态）
+### Step 3: Role-Play "Not-Very-Smart Student" (Advanced Teach-Back)
 
-学员卡壳时切换模式：你扮演会犯错的学生，把概念讲错一个关键点，请学员纠正——**纠正别人的错误比复述正确答案暴露更深**。学员纠正对了即通过；纠正不了说明卡点没除，回第 4 拍换类比。
+When the learner is stuck, switch modes: you play the student who makes
+mistakes, explain a key point of the concept wrong, ask the learner to
+correct—**correcting someone else's error exposes deeper understanding than
+repeating the right answer**. Learner corrects correctly = passed; can't
+correct means the blocker isn't cleared, return to beat 4 with a new analogy.
 
-### 步骤 4：闭环与链条
+### Step 4: Close Loop and Chain
 
-产出：概念通过判定 + 卡点修复记录（哪个要素、用了什么类比）。通过后**交回 exercise-generator 换角度重测该 checkpoint**——掌握闭环收口：测不过 → 费曼重教 → 重测。
-- 预期：通过判定有依据（回讲或纠正成功），修复记录可追溯到具体要素。
-- 若失败：重测仍不过 → 回第 2 拍换诊断问题再来一轮，最多两轮后如实报告"该概念需换前置知识路线"，交回 course-designer。
+Output: concept pass judgment + blocker repair record (which element, what
+analogy used). After passing, **hand back to exercise-generator to retest the
+checkpoint from a different angle**—mastery loop closes: fail test → Feynman
+re-teach → retest.
+- Expected: pass judgment grounded (teach-back or correction success), repair
+  record traceable to a specific element.
+- If it fails: retest still fails → return to beat 2 with a new diagnostic
+  question for another round, at most two rounds then honestly report "this
+  concept needs a prerequisite knowledge route", hand back to course-designer.
 
-## 交付标准
+## Delivery Criteria
 
-- 产物：通过/未通过判定 + 卡点修复记录（卡点要素 → 所用类比/例子 → 验证方式）。
-- 保存位置：直接输出在对话中（本技能不写文件）。
-- 完整性验证：六拍全部走过（有对应产出物）；通过判定来自学员的回讲或纠错表现，不是自我宣布。
+- Artifact: pass/fail judgment + blocker repair record (blocker element → analogy/
+  example used → verification method).
+- Location: output directly in conversation (this skill doesn't write files).
+- Integrity verification: all six beats completed (with corresponding artifacts);
+  pass judgment comes from learner's teach-back or correction performance, not
+  self-declared.
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Action |
 |------|------|------|
-| 学员能复述不能应用 | 只走了"讲/回讲"，跳过迁移 | 补第 6 拍，换场景再问 |
-| 类比误导 | 类比与机制偏差太大 | 换类比时显式声明"类比哪里不像" |
-| 越讲越懵 | 一次灌了多个概念 | 回输入纪律：一个概念一次循环 |
-| 学员全程被动 | 六拍变成了单口相声 | 每拍必须以提问或回讲收尾 |
+| Learner can repeat but can't apply | Only did "explain/teach-back", skipped transfer | Add beat 6, switch scenario and ask again |
+| Analogy misleads | Analogy too far from mechanism | When switching analogies, explicitly state "where the analogy doesn't match" |
+| More confusing the more explained | Poured multiple concepts at once | Return to input discipline: one concept per loop |
+| Learner passive throughout | Six beats became a monologue | Each beat must end with a question or teach-back |
 
-## 参考
+## References
 
-费曼循环与深度控制出处见 course-designer 的 sources-and-methodology.md（同包共享）。
+Feynman loop and depth control source: see course-designer's
+sources-and-methodology.md (shared within pack).

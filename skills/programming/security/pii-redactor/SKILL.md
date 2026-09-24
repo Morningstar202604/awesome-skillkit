@@ -3,9 +3,10 @@ name: pii-redactor
 description: >
   Detect and redact personally identifiable information (PII) in logs, chat
   transcripts, files, and structured data before sharing or logging. Use when
-  the user asks to 脱敏 / 去敏 / PII 检测 / 打码 / 隐私清洗 / 合规日志 / GDPR 脱敏 /
-  anonymize logs / mask PII / redact personal data / scrub PII / 身份证 / 手机号 /
-  邮箱脱敏. Do NOT use for encryption at rest, key management, or secret
+  the user asks to redact PII / scrub sensitive data / PII detection / mask data /
+  privacy cleanup / compliant logging / GDPR redaction / anonymize logs / mask PII /
+  redact personal data / scrub PII / ID card / phone number / email redaction.
+  Do NOT use for encryption at rest, key management, or secret
   rotation (use secrets-vault-manager / env-secrets-manager); this skill
   redacts already-visible text and structured fields.
 license: Apache-2.0
@@ -21,106 +22,106 @@ metadata:
 
 # PII Redactor
 
-面向日志、聊天记录、工单、结构化数据（CSV/JSON）的 PII 检测与脱敏。
-覆盖 8 类 PII：身份证 / 手机号 / 邮箱 / 银行卡 / 姓名 / 住址 / 车牌 / 统一社会信用代码。
-核心原则：**默认 dry-run 只读扫描，脱敏产出新文件，源文件永不改写。**
+PII detection and redaction for logs, chat transcripts, tickets, and structured data (CSV/JSON).
+Covers 8 PII classes: ID card / phone number / email / bank card / name / address / license plate / unified social credit code.
+Core principle: **default to a read-only dry-run scan; redaction produces a new file; the source file is never rewritten.**
 
-**区别于 secrets-vault-manager**：那个管密钥基础设施。本技能管"已经可见的文本"里的个人数据脱敏，
-不碰密钥、不做加密、不联网。
+**Distinct from secrets-vault-manager**: that one manages secret infrastructure. This skill manages redaction of personal data in "already-visible text" —
+it does not touch keys, does no encryption, and does not go online.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Description |
 |------|------|------|
-| 目标文件 / 目录 | 是 | 待检测的路径；目录则递归扫描文本文件 |
-| PII 类别 | 否 | 默认全 8 类；可指定子集（如只脱 `id_card` + `phone`） |
-| 脱敏策略 | 否 | `mask`（保留前后 1-4 位）/ `hash`（SHA-256 前 8 位）/ `replace`（替换为占位符），默认 `mask` |
-| 输出文件 | 否 | 脱敏结果写入路径；缺省为 `<原文件>.redacted` |
-| 干跑 | 否 | `--dry-run`（默认开）：只报告命中，不写文件 |
+| Target file / directory | Yes | The path to scan; a directory is scanned recursively for text files |
+| PII classes | No | All 8 by default; a subset can be specified (e.g. only redact `id_card` + `phone`) |
+| Redaction strategy | No | `mask` (keep first/last 1-4 chars) / `hash` (first 8 chars of SHA-256) / `replace` (substitute a placeholder), default `mask` |
+| Output file | No | Path for the redacted result; defaults to `<original>.redacted` |
+| Dry run | No | `--dry-run` (on by default): only report hits, write no file |
 
-（缺失询问模板：「请提供：①待检测的文件或目录路径；②需要脱敏的 PII 类别（默认全部 8 类）；③脱敏策略（mask / hash / replace，默认 mask）。其余采用默认值：dry-run 开、输出 `<原文件>.redacted`。」）
+(Missing-input prompt template: "Please provide: (1) the file or directory path to scan; (2) the PII classes to redact (default all 8); (3) the redaction strategy (mask / hash / replace, default mask). Everything else uses defaults: dry-run on, output `<original>.redacted".)
 
-## 前置自检
+## Pre-flight Checks
 
 ```bash
 python3 -c "import sys; sys.exit(0 if sys.version_info>=(3,8) else 1)" \
-  && echo "python>=3.8 OK" || echo "需要 Python 3.8+"
+  && echo "python>=3.8 OK" || echo "Python 3.8+ required"
 ```
-预期：打印 `python>=3.8 OK`。若失败 → 提示升级 Python 或改用兼容环境，终止。
-无需网络、无需环境变量凭据（红线：本技能不读取任何密钥）。
+Expected: prints `python>=3.8 OK`. On failure → prompt to upgrade Python or switch to a compatible environment and stop.
+No network, no environment-variable credentials needed (red line: this skill does not read any secrets).
 
-## 工作流
+## Workflow
 
-### 步骤 1：确定输入形态
-判定是单文件还是目录。
-预期：拿到文件列表（目录时递归 `*.log *.txt *.json *.csv *.md`，跳过二进制与隐藏文件）。
-若失败：路径不存在 → 报 `PATH NOT FOUND: <path>`，终止。
+### Step 1: Determine the input shape
+Decide whether it is a single file or a directory.
+Expected: get a file list (for a directory, recurse over `*.log *.txt *.json *.csv *.md`, skipping binary and hidden files).
+On failure: the path does not exist → report `PATH NOT FOUND: <path>` and stop.
 
-### 步骤 2：dry-run 扫描（默认）
-运行 `scripts/pii_scan.py --dry-run <path> [--categories phone,id_card]`。
-预期：stdout 每行一条命中 `L<行号>\t<类别>\t<原值脱敏预览>\t<文件>`；末行 `SUMMARY: N hits across M files`。
-若失败：脚本报 `SYNTAX` 或依赖缺失 → 见失败处置表。
+### Step 2: Dry-run scan (default)
+Run `scripts/pii_scan.py --dry-run <path> [--categories phone,id_card]`.
+Expected: stdout prints one hit per line `L<line>\t<category>\t<redacted preview of original>\t<file>`; the last line is `SUMMARY: N hits across M files`.
+On failure: the script reports `SYNTAX` or a missing dependency → see the failure-handling table.
 
-### 步骤 3：复核命中
-人工抽查 3-5 条命中，确认无大量误报（如 `1001234` 被误判为手机号）。
-预期：误报率 <10%；若某类误报高 → 调 `--no-heuristics` 收紧规则或排除该类别。
-若失败：误报严重 → 改用 `--categories` 只保留高置信类别，重跑步骤 2。
+### Step 3: Review hits
+Manually spot-check 3-5 hits to confirm there isn't a flood of false positives (e.g. `1001234` misread as a phone number).
+Expected: false-positive rate <10%; if a class has high false positives → tighten rules with `--no-heuristics` or exclude that class.
+On failure: severe false positives → use `--categories` to keep only high-confidence classes, then rerun Step 2.
 
-### 步骤 4：落盘脱敏（非 dry-run）
-确认后运行 `scripts/pii_scan.py <path> --strategy mask --out <输出文件>`（去掉 `--dry-run`）。
-预期：stdout `REDACTED: <输出文件> (N hits masked)`，源文件字节不变（用 `diff` 或 `git status` 复核）。
-若失败：输出目录不可写 → 报 `PERM` 并提示改 `--out` 到可写路径。
+### Step 4: Persist the redaction (non-dry-run)
+After confirmation, run `scripts/pii_scan.py <path> --strategy mask --out <output file>` (drop `--dry-run`).
+Expected: stdout shows `REDACTED: <output file> (N hits masked)`, and the source file's bytes are unchanged (verify with `diff` or `git status`).
+On failure: the output directory is not writable → report `PERM` and suggest changing `--out` to a writable path.
 
-## 检测规则速查
+## Detection Rules Cheat Sheet
 
-| 类别 | 正则特征 | 默认 mask 形态 |
+| Class | Regex signature | Default mask form |
 |------|---------|---------------|
-| `id_card` | 18 位 `\d{17}[0-9Xx]`，校验位通过 | `1101***********123` |
-| `phone` | `1[3-9]\d{9}`（含 `+86`） | `138****5678` |
-| `email` | 标准邮箱 | `j***@example.com` |
-| `bank_card` | 13-19 位 Luhn 校验通过 | `6222********0123` |
-| `plate` | 车牌 `[京津沪...][A-Z]\d{5,6}[挂学警港]` | `京A*****1` |
-| `credit_code` | 统一社会信用代码 18 位 | `91110000***` |
-| `address` | 省/市/区/路号组合（启发式） | `[ADDR MASKED]` |
-| `name` | 仅启发式（上下文含"姓名/联系人"键） | `[NAME MASKED]` |
+| `id_card` | 18 digits `\d{17}[0-9Xx]`, checksum passes | `1101***********123` |
+| `phone` | `1[3-9]\d{9}` (incl. `+86`) | `138****5678` |
+| `email` | Standard email | `j***@example.com` |
+| `bank_card` | 13-19 digits passing Luhn | `6222********0123` |
+| `plate` | Chinese license plate: one CJK province-abbreviation char, `[A-Z]`, `\d{5,6}`, optional suffix CJK char | `A*****1` |
+| `credit_code` | 18-digit unified social credit code | `91110000***` |
+| `address` | Province/city/district/road-number combos (heuristic) | `[ADDR MASKED]` |
+| `name` | Heuristic only (context contains a "name/contact" key) | `[NAME MASKED]` |
 
-> `name` 与 `address` 为启发式类，误报率最高，默认不单独启用，需显式 `--categories name,address`。
+> `name` and `address` are heuristic classes with the highest false-positive rate; they are not enabled standalone by default and require explicit `--categories name,address`.
 
-## 脱敏策略暗知识（选错策略 = 白脱敏）
+## Redaction-Strategy Dark Knowledge (picking the wrong strategy = redacting for nothing)
 
-1. **三种策略的安全语义完全不同，按数据敏感级选，不要按习惯选**：
-   - `mask`（`138****5678`）：保留首尾位。适合**人工核对场景**（客服回访要认得出号码段），但末 4 位 + 号段组合在实名场景仍可缩小人群。
-   - `hash`（SHA-256 前 8 位）：**不是匿名化**。中国手机号空间只有 ~10¹⁰，攻击者可离线穷举全部号码建彩虹表反查（算力成本极低）；银行卡/身份证同理。hash 只防"肉眼直接读"，不防"有意反查"。
-   - `replace`（`[REDACTED:phone]`）：零残留，**对外发布/公开分享前唯一安全的选择**。代价是丢失格式信息，无法回溯。
-2. **校验位是误报第一道闸**：身份证走 mod11 校验、银行卡走 Luhn——随机数字串大概率被拦下。但 `phone` 只校验首位（1[3-9]），工单号、订单号这类长数字串容易误命中，复核步骤不能省。
-3. **dry-run 的 stdout 每行只报该行首个命中**，一行业多类 PII 不会重复报行；总量以末行 `SUMMARY` 为准。
-4. **复扫验证是交付的一部分**：脱敏产物重跑 dry-run，强校验类（id_card/bank_card/credit_code）命中必须为 0；`replace` 策略下全部类别都应为 0。
+1. **The three strategies have completely different security semantics; pick by data sensitivity, not habit**:
+   - `mask` (`138****5678`): keeps the head and tail. Suits **human-verification scenarios** (customer callbacks need to recognize the number segment), but the last 4 digits + segment combo can still narrow the population in real-name scenarios.
+   - `hash` (first 8 chars of SHA-256): **is not anonymization**. The Chinese phone-number space is only ~10^10, so an attacker can offline-enumerate all numbers and build a rainbow table for reverse lookup (compute cost is very low); the same applies to bank cards/ID cards. hash only defends against "naked-eye reading", not "deliberate reverse lookup".
+   - `replace` (`[REDACTED:phone]`): zero residual, **the only safe choice before external publication / public sharing**. The trade-off is lost format information and no ability to trace back.
+2. **Checksum digits are the first false-positive gate**: ID cards go through a mod11 check, bank cards through Luhn — random digit strings are mostly caught. But `phone` only validates the leading digit (1[3-9]), so long digit strings like ticket numbers and order numbers easily false-match; the review step cannot be skipped.
+3. **The dry-run stdout reports only the first hit per line**; a line with multiple PII classes isn't reported repeatedly; rely on the final `SUMMARY` line for totals.
+4. **Re-scan verification is part of delivery**: rerun dry-run on the redacted artifact; strong-check classes (id_card/bank_card/credit_code) must have 0 hits; under the `replace` strategy, all classes should be 0.
 
-## 红线（做了就违背技能初衷）
+## Red Lines (crossing these defeats the skill's purpose)
 
-1. **永不改写源文件**——脱敏只写新文件，源文件字节不变（`git status` 可验）。
-2. **不把 mask/hash 产物称为"匿名化数据"**——合规语境（GDPR/个保法）下它们仍是个人数据，只是"去标识化"；真正匿名化需 replace 级别 + 无法复原。
-3. **不默认开 name/address 启发式**——误报率高，且 free text 中的姓名无法穷举，开了也兜不住。
-4. **不承诺"检测完备"**——本技能降低泄露面，不构成合规认证；未识别的 PII（如口语化昵称、间接标识符）始终存在。
-5. **多文件合并输出必须保留 `===== 文件名 =====` 边界行**（v1.1 起脚本自动加）——脱敏后丢文件归属等于制造新的数据混乱。
+1. **Never rewrite the source file** — redaction writes only a new file; the source bytes are unchanged (verifiable with `git status`).
+2. **Do not call mask/hash artifacts "anonymized data"** — in compliance contexts (GDPR/PIPL) they are still personal data, merely "de-identified"; true anonymization requires replace-level + irrecoverability.
+3. **Do not enable name/address heuristics by default** — high false-positive rate, and names in free text can't be exhaustively covered, so enabling them doesn't fully catch them anyway.
+4. **Do not promise "detection completeness"** — this skill reduces the exposure surface, it is not a compliance certification; unrecognized PII (e.g. colloquial nicknames, indirect identifiers) always exists.
+5. **Multi-file merged output must preserve the `===== filename =====` boundary lines** (the script adds them automatically since v1.1) — losing file attribution after redaction is just creating new data chaos.
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 / 错误码 | 原因 | 处置 |
+| Symptom / error code | Cause | Action |
 |---|---|---|
-| `PATH NOT FOUND` | 输入路径不存在或拼错 | 核对路径，用 `ls` 确认；目录则去掉文件名 |
-| `PERM` | 输出路径不可写 | 改 `--out` 到用户可写目录 |
-| 命中率 0 但肉眼有 PII | 类别未启用 / 文本被转义 | 显式 `--categories` 加全；检查是否 URL 编码或 JSON 转义（`\u00XX`）需先解码 |
-| 大量误报 | 数字串巧合命中 | 加 `--no-heuristics` 只保留正则强校验类（id_card/phone/bank_card/credit_code/plate） |
-| `SYNTAX` | Python 版本过低 | 步骤 1 前置自检重跑，升级至 3.8+ |
+| `PATH NOT FOUND` | The input path doesn't exist or is misspelled | Double-check the path with `ls`; for a directory, drop the filename |
+| `PERM` | The output path isn't writable | Change `--out` to a directory the user can write to |
+| 0 hits but PII is visible to the eye | A class wasn't enabled / text is escaped | Add all via explicit `--categories`; check for URL-encoding or JSON escaping (`\u00XX`) that needs decoding first |
+| Flood of false positives | Digit strings coincidentally match | Add `--no-heuristics` to keep only strong-regex check classes (id_card/phone/bank_card/credit_code/plate) |
+| `SYNTAX` | Python version too old | Rerun the Step 1 pre-flight check; upgrade to 3.8+ |
 
-## 交付标准
+## Delivery Criteria
 
-- dry-run：stdout 命中清单 + `SUMMARY` 行，不落盘。
-- 非 dry-run：产出 `<输出文件>`（默认 `<原文件>.redacted`），stdout `REDACTED: <file> (N hits)`。
-- 验证方法：对输出文件重跑 dry-run，命中数应为 0（强校验类）；源文件 `git diff` 无变化。
+- dry-run: stdout hit list + `SUMMARY` line, nothing persisted.
+- non-dry-run: produce `<output file>` (default `<original>.redacted`), stdout `REDACTED: <file> (N hits)`.
+- Verification method: rerun dry-run on the output file; hit count should be 0 (strong-check classes); the source file shows no `git diff`.
 
-## 参考
+## References
 
-- `references/pii-rules.md` —— 8 类 PII 的正则全集、校验位算法（Luhn / 身份证 mod11）、误报案例对照、JSON/转义文本预处理。
-- `scripts/pii_scan.py` —— 执行入口：`--dry-run` 报告、`--out` 脱敏落盘、`--categories` 选择、`--no-heuristics` 收紧。运行它而非手抄算法。
+- `references/pii-rules.md` — the full regex set for the 8 PII classes, checksum algorithms (Luhn / ID-card mod11), false-positive case comparisons, and JSON/escaped-text preprocessing.
+- `scripts/pii_scan.py` — the execution entry point: `--dry-run` reports, `--out` persists redaction, `--categories` selection, `--no-heuristics` tightening. Run it rather than hand-copying the algorithms.

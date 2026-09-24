@@ -443,15 +443,24 @@ def main(argv=None):
 
     ap = argparse.ArgumentParser(
         description="Analyze coverage reports (lcov/json/xml/cobertura)")
-    ap.add_argument("reports", nargs="+", help="coverage report files")
+    ap.add_argument("reports", nargs="*", help="coverage report files (positional)")
+    ap.add_argument("--report", dest="report_flag", action="append", default=[],
+                    help="coverage report file (flag form, repeatable)")
     ap.add_argument("--threshold", type=float, default=80.0,
                     help="gap threshold percentage (default 80)")
     ap.add_argument("-o", "--output", help="write JSON here instead of stdout")
     args = ap.parse_args(argv)
 
+    # Merge positional reports and --report flag values.
+    report_paths = list(args.reports) + list(args.report_flag)
+    if not report_paths:
+        print(json.dumps({"status": "error", "error": "no reports given"},
+                         ensure_ascii=False))
+        return 2
+
     analyzer = CoverageAnalyzer()
     parsed_any = False
-    for path in args.reports:
+    for path in report_paths:
         f = Path(path)
         if not f.exists():
             print(json.dumps({"status": "error",
@@ -475,7 +484,7 @@ def main(argv=None):
 
     result = {
         "status": "success",
-        "reports": [Path(r).name for r in args.reports],
+        "reports": [Path(r).name for r in report_paths],
         "summary": analyzer.calculate_summary(),
         "gaps": analyzer.identify_gaps(threshold=args.threshold),
     }

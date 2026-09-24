@@ -1,9 +1,0 @@
-{
- "title": "示例多平台文章",
- "markdown": "sample-post.md",
- "targets": [
-  {
-   "platform": "zhihu"
-  }
- ]
-}

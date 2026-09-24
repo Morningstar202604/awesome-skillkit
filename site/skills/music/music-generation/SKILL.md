@@ -3,8 +3,9 @@ name: music-generation
 description: >
   Generate music tracks from a text brief through a local generation gateway
   (style, instruments, mood, duration; polling and download included). Use
-  when the user asks to 生成音乐 / 做首曲子 / 配乐 / background music /
-  generate a song / make BGM / 写段旋律. Do NOT use for text-to-speech,
+  when the user asks to generate music / make a track / score / background music /
+  generate a song / make BGM / write a melody / music generation /
+  composition / audio / MIDI / soundtrack. Do NOT use for text-to-speech,
   audio editing, trimming MP3s, or transcription.
 license: Apache-2.0
 compatibility: Requires curl and network access to the generation gateway endpoint.
@@ -15,65 +16,65 @@ metadata:
   verified-date: "2026-08-26"
 ---
 
-# Music Generation（需求简报 → 音轨）
+# Music Generation (Brief → Audio Track)
 
-用 curl 驱动本地生成网关：提交音乐任务，轮询到结束，下载音频文件。不用本地合成工具，不装依赖——渲染在网关侧，你负责编排。
+Drive the local generation gateway with curl: submit a music task, poll until it finishes, and download the audio file. No local synthesis tools, no dependencies to install — rendering happens on the gateway side; you handle the orchestration.
 
-> ENDPOINT STATUS: VERIFY BEFORE USE — 首次运行前，先对照你的网关文档确认
-> `/api/music/*` 路径；下方前置自检会在路由不同或缺失时快速失败。
+> ENDPOINT STATUS: VERIFY BEFORE USE — before the first run, confirm the
+> `/api/music/*` paths against your gateway docs; the pre-flight self-check below fails fast when the routes differ or are missing.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必填 | 默认 | 说明 |
+| Input | Required | Default | Notes |
 |---|---|---|---|
-| 风格/情绪简报 | 是 | — | 曲风 + 乐器 + 情绪，一句话 |
-| duration_seconds | 否 | `30` | 保持在网关文档标注的范围内 |
-| instrumental | 否 | `true` | 仅在提供歌词时设 `false` |
-| lyrics | 否 | — | instrumental 为 false 时必填 |
+| Style/mood brief | Yes | — | Genre + instruments + mood, one sentence |
+| duration_seconds | No | `30` | Keep within the range noted in the gateway docs |
+| instrumental | No | `true` | Set `false` only when lyrics are provided |
+| lyrics | No | — | Required when instrumental is false |
 
-缺必填项时，只问一次：
+When a required item is missing, ask once:
 
-> 请描述想要的音乐：风格（如轻快的企业宣传曲）、主要乐器、情绪。
-> 可选告知：时长（默认 30 秒）、是否需要人声歌词（默认纯音乐）。
+> Please describe the music you want: the style (e.g. upbeat corporate theme), the main instruments, and the mood.
+> Optionally tell me: the duration (default 30 seconds) and whether you want vocal lyrics (default instrumental).
 
-## 前置自检
+## Pre-flight Self-check
 
-先解析网关基址（与工作流步骤 1 同一句），再探活：
+First resolve the gateway base URL (same command as workflow step 1), then probe it:
 
 ```bash
 MUSIC_GATEWAY_BASE="${MUSIC_GATEWAY_BASE:-http://127.0.0.1:30080}"
 curl -s -o /dev/null -w "%{http_code}" --max-time 5 "$MUSIC_GATEWAY_BASE/api/music/status?task_id=0"
 ```
 
-预期：打印一个 HTTP 状态码。若失败：连接失败（curl 退出码非 0）→ 报告 `$MUSIC_GATEWAY_BASE` 处音乐端点不可用，请用户启动网关，STOP；返回 404 → 该网关路由名不同，查网关文档更新本文件常量并告知用户，STOP。绝不改用本地合成顶替。
+Expected: prints an HTTP status code. On failure: connection failed (curl exits non-zero) → report that the music endpoint at `$MUSIC_GATEWAY_BASE` is unavailable, ask the user to start the gateway, and STOP; returns 404 → that gateway's route name differs; check the gateway docs, update this file's constants, and tell the user, then STOP. Never substitute a local synthesis on your own.
 
-## 工作流
+## Workflow
 
-### 步骤 1：确定网关基址
+### Step 1: Determine the Gateway Base URL
 
 ```bash
 MUSIC_GATEWAY_BASE="${MUSIC_GATEWAY_BASE:-http://127.0.0.1:30080}"
 echo "$MUSIC_GATEWAY_BASE"
 ```
 
-预期：打印一个 URL，且与前置自检探活通过的地址一致。
-若失败：展开为空说明 shell 异常 → 停止；与前置自检不一致 → 以前置自检通过的值为准。
+Expected: prints a URL that matches the one the pre-flight probe passed.
+On failure: if it expands empty, the shell is abnormal → stop; if it disagrees with the pre-flight, use the value that passed pre-flight.
 
-### 步骤 2：组织音乐简报
+### Step 2: Compose the Music Brief
 
-一句话填满三个槽位：
+Fill three slots in one sentence:
 
 ```json
-[风格流派] + [主导乐器] + [情绪与用途]
+[genre] + [lead instrument] + [mood and use case]
 ```
 
-示例："轻快的流行电子风，钢琴与合成器主导，用于产品发布会的开场暖场，
-积极向上。" 不要点名艺术家；改用声音特征描述。
+Example: "upbeat pop-electronic, led by piano and synths, used as the opening warm-up for a product launch,
+positive and uplifting." Do not name artists; use descriptive sound characteristics instead.
 
-预期：简报三槽位齐全，未点名任何艺术家。
-若失败：某槽位填不出来（只有"好听的背景音乐"）→ 回输入清单问齐风格/乐器/情绪；完整词库见 [music-style-lexicon.md](references/music-style-lexicon.md)，用五槽位 Style 公式与情绪×BPM 对照补全。
+Expected: the brief fills all three slots and names no artist.
+On failure: a slot cannot be filled (only "nice background music") → go back to the input checklist and ask for style/instruments/mood; the full lexicon is in [music-style-lexicon.md](references/music-style-lexicon.md), use the five-slot Style formula and the mood×BPM mapping to fill it in.
 
-### 步骤 3：提交任务
+### Step 3: Submit the Task
 
 ```bash
 curl -s -X POST "$MUSIC_GATEWAY_BASE/api/music/generate" \
@@ -81,50 +82,50 @@ curl -s -X POST "$MUSIC_GATEWAY_BASE/api/music/generate" \
   -d '{"prompt":"<STEP-2 BRIEF>","params":{"duration":"30","instrumental":true}}'
 ```
 
-带歌词：加 `"instrumental":false` 和 `"lyrics":"<LYRICS>"`。
+With lyrics: add `"instrumental":false` and `"lyrics":"<LYRICS>"`.
 
-预期：JSON 含 `task_id`。若失败：HTTP 错误或返回 HTML → 原样重试一次，然后报告并停止；带歌词被拒（参数不匹配）→ 显式设 `"instrumental":false` 后重提交一次。
+Expected: JSON containing `task_id`. On failure: an HTTP error or HTML returned → retry once as-is, then report and stop; a lyrics submission rejected (parameter mismatch) → explicitly set `"instrumental":false` and resubmit once.
 
-### 步骤 4：轮询到终态
+### Step 4: Poll to a Terminal State
 
 ```bash
 curl -s "$MUSIC_GATEWAY_BASE/api/music/status?task_id=<TASK_ID>"
 ```
 
-每 10 秒轮询一次。成功条件：`is_final == true` 且
-`state == "success"`；取 `result_url`。上限 60 次（10 分钟）。
-若失败：`state == "failed"` → 把简报改具体或缩短歌词后重试一次；超 10 分钟仍 `pending` → 回报 `task_id` 并建议重提交。
+Poll every 10 seconds. Success condition: `is_final == true` and
+`state == "success"`; take the `result_url`. Cap at 60 tries (10 minutes).
+On failure: `state == "failed"` → make the brief more concrete or shorten the lyrics and retry once; still `pending` after 10 minutes → report the `task_id` and suggest resubmitting.
 
-### 步骤 5：下载并交付
+### Step 5: Download and Deliver
 
 ```bash
 curl -s -L -o "music_$(date +%Y%m%d_%H%M%S).mp3" "<RESULT_URL>"
 ls -lh music_*.mp3
 ```
 
-预期：非空音频文件。声称成功前先验证大小 > 0；
-回报绝对路径和所用简报。
-若失败：文件 0 字节 → `result_url` 已过期，重新轮询拿新 URL 再下载一次；仍为 0 → 如实报告未完成，不要用占位音频冒充。
+Expected: a non-empty audio file. Verify the size > 0 before claiming success;
+report the absolute path and the brief used.
+On failure: a 0-byte file → the `result_url` expired; re-poll for a new URL and download once more; still 0 → report honestly that it is incomplete, do not pass off a placeholder audio.
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 可能原因 | 处置 |
+| Symptom | Likely cause | Action |
 |---|---|---|
-| 前置自检 404 | 该网关路由名不同 | 查网关文档；更新本文件常量；告知用户 |
-| 前置自检连接失败 | 网关未启动 | 请用户启动；停止 |
-| 不带 flag 提交歌词被拒 | 参数不匹配 | 显式设 instrumental=false，重提交一次 |
-| status 长时间停在 `pending`（>10 分钟） | 队列卡住 | 回报 task_id，建议重提交 |
-| `state == "failed"` | 简报太模糊或命中歌词策略 | 把简报改具体 / 缩短歌词，重试一次 |
-| 下载文件 0 字节 | URL 过期 | 重新轮询拿新 result_url，再下载一次 |
+| Pre-flight 404 | That gateway's route name differs | Check the gateway docs; update this file's constants; tell the user |
+| Pre-flight connection failed | The gateway is not started | Ask the user to start it; stop |
+| A lyrics submission rejected without the flag | Parameter mismatch | Explicitly set instrumental=false and resubmit once |
+| status stuck at `pending` for a long time (>10 min) | The queue is jammed | Report the task_id and suggest resubmitting |
+| `state == "failed"` | The brief is too vague or it hit a lyrics policy | Make the brief more concrete / shorten the lyrics and retry once |
+| The downloaded file is 0 bytes | The URL expired | Re-poll for a new result_url and download once more |
 
-## 交付标准
+## Delivery Standards
 
-成功 = 本地非空音频文件 `music_YYYYMMDD_HHMMSS.mp3`，回报绝对路径并附风格简报与时长。缺任何一项即未完成——如实说明并指出上方对应的失败行。
+Success = a local non-empty audio file `music_YYYYMMDD_HHMMSS.mp3`, with the absolute path reported plus the style brief and duration. Missing any one means incomplete — say so honestly and point to the corresponding row above.
 
-## 链条衔接（下游建议）
+## Chain Handoff (downstream suggestion)
 
-本技能产出 BGM / 配乐，可作为 video 域 meme / talking_character 链的 music-generation 步骤输入（video 域 chains 已登记 music-generation，但本技能未列入 skills 列表，属游离）。建议在 video 域 skills 列表中补登本技能以完成衔接。衔接仅为文字描述。
+This skill produces BGM / scoring, which can feed the music-generation step of the video domain's meme / talking_character chains (the video domain chains already register music-generation, but this skill is not listed in the skills list, making it a drifter). Suggest registering this skill in the video domain's skills list to complete the handoff. The handoff is descriptive only.
 
-## 参考
+## References
 
-- [music-style-lexicon.md](references/music-style-lexicon.md) —— 音乐风格词库：五槽位 Style 公式、曲风族谱种子、情绪×BPM 对照、结构/人声/乐器 tag 全集、制作美学词、负面清单与现成种子（填风格简报时先查这张）
+- [music-style-lexicon.md](references/music-style-lexicon.md) — the music-style lexicon: the five-slot Style formula, genre-family seeds, mood×BPM mapping, the full set of structure/vocal/instrument tags, production-aesthetic words, and a negative list plus ready-made seeds (check this first when filling a style brief)

@@ -1,6 +1,6 @@
 ---
 name: paper-topic-selector
-description: "Identify research gaps and rank paper topics. Scans recent literature trends, finds underexplored areas, and scores candidates on the four-factor rubric (novelty 40% / feasibility 30% / impact 20% / buildability 10%) with a workload-vs-deadline feasibility model, returning ranked_topics plus rejected-with-reason. Use at the start of a research project. 当用户要求 选论文选题 / 找研究空白 / 投稿选刊 / 评估选题可行性 / research gap / 选题打分 时使用。 Do NOT use for writing the paper itself."
+description: "Identify research gaps and rank paper topics. Scans recent literature trends, finds underexplored areas, and scores candidates on the four-factor rubric (novelty 40% / feasibility 30% / impact 20% / buildability 10%) with a workload-vs-deadline feasibility model, returning ranked_topics plus rejected-with-reason. Use at the start of a research project, e.g. selecting a paper topic / finding a research gap / choosing a journal venue / evaluating topic feasibility / research gap / scoring topics. Do NOT use for writing the paper itself."
 license: Apache-2.0
 compatibility: Gap analysis is prompt-based (may call web-search for trend scanning). Heuristic scoring via scripts/topic_selector.py, stdlib only. No API keys required.
 metadata:
@@ -14,68 +14,68 @@ metadata:
 
 # Paper Topic Selector (SOTA)
 
-识别研究空白 → 多候选按四因子排序 → 输出 `ranked_topics[]` 与带原因的 `rejected[]`。
+Identify research gaps -> rank multiple candidates on four factors -> output `ranked_topics[]` and `rejected[]` with reasons.
 
-> **诚实声明**：两条轨道勿混淆——① 工作流中的 Novelty/Feasibility/Impact 判断由模型按下方评分表**分析**；
-> ② `scripts/topic_selector.py` 的 novelty 默认是**关键词启发式**（`novelty_source: "heuristic-keyword"`，
-> `novelty_verified: false`），**不得当查新结论引用**。只有传入 `--lit-review-json` 且 gap 命中时，
-> 才升级为 `novelty_source: "lit-review"` + `novelty_verified: true`。
+> **Honest disclosure**: don't confuse the two tracks — ① the Novelty/Feasibility/Impact judgments in the workflow are **analyzed** by the model per the scoring rubric below;
+> ② `scripts/topic_selector.py`'s novelty defaults to a **keyword heuristic** (`novelty_source: "heuristic-keyword"`,
+> `novelty_verified: false`) and **must not be cited as a novelty-search conclusion**. Only when you pass `--lit-review-json` and a gap hits does it
+> upgrade to `novelty_source: "lit-review"` + `novelty_verified: true`.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |------|------|------|
-| 研究方向 | 是 | `--topic "..."`（**可重复，多候选对比**）或 `--candidates FILE`（JSON：list 或 `{constraints, candidates}`） |
-| 资源约束 | 否 | `--constraints '{"time":"3mo","gpu":"1xA100"}'`；`time` 支持 `3mo`/`6 months`/`1y`/`8w`（纯数字视作月），`gpu` 形如 `8xA100` |
-| 查新证据 | 否 | `--lit-review-json lit_review.json`：用其 `summary.gaps_identified` 校验 novelty |
-| 返回条数 | 否 | `--top-n 5`（默认 5） |
-| 输出路径 | 否 | `--output topics.json`，缺省打印到 stdout |
+| research direction | yes | `--topic "..."` (**repeatable, for multi-candidate comparison**) or `--candidates FILE` (JSON: list or `{constraints, candidates}`) |
+| resource constraints | no | `--constraints '{"time":"3mo","gpu":"1xA100"}'`; `time` supports `3mo`/`6 months`/`1y`/`8w` (a bare number is treated as months), `gpu` like `8xA100` |
+| novelty-search evidence | no | `--lit-review-json lit_review.json`: uses its `summary.gaps_identified` to validate novelty |
+| number to return | no | `--top-n 5` (default 5) |
+| output path | no | `--output topics.json`; default prints to stdout |
 
-缺失时一次性问齐：「请提供：① 候选方向（一个或多个）② 约束（时间/算力/目标 venue）③ 是否已有 lit-review 结果可校验查新 ④ 是否落盘 `--output`。」
+When missing, ask everything at once: "Please provide: ① candidate direction(s) (one or more) ② constraints (time/compute/target venue) ③ whether you already have lit-review results to validate novelty ④ whether to save `--output`."
 
-## 前置自检
+## Pre-flight Checks
 ```bash
-python3 --version                                 # 预期 >= 3.8，否则报错并 STOP
-test -f scripts/topic_selector.py && echo OK      # 预期打印 OK，否则脚本缺失 STOP
+python3 --version                                 # expect >= 3.8, else error and STOP
+test -f scripts/topic_selector.py && echo OK      # expect OK printed, else script missing STOP
 ```
-纯工作流模式无脚本依赖；若联网扫描趋势，网络不可达 → 用本地已知文献做 gap 分析并在产出中注明「未联网核实」。
+Pure workflow mode has no script dependency; if web trend scanning is needed and the network is unreachable -> do gap analysis on locally known literature and note "not verified online" in the output.
 
-## 工作流
+## Workflow
 
-### 步骤 1：多候选粗筛打分
+### Step 1: Coarse Screening and Scoring of Candidates
 ```bash
 python3 scripts/topic_selector.py --topic "LLM agent coordination" --constraints '{"time":"3mo","gpu":"1xA100"}'
 python3 scripts/topic_selector.py --topic "A" --topic "B" --topic "C" --constraints '{"time":"6mo","gpu":"8xA100"}'
 python3 scripts/topic_selector.py --candidates candidates.json --lit-review-json lit_review.json --output topics.json
 ```
-预期：输出 JSON 含 `ranked_topics[]`（每项 `rank`/`topic`/`scores{novelty,feasibility,impact,buildability}`/`total`/`weights`/`recommendation`/`reason`/`novelty_source`/`novelty_verified`/`workload_weeks`/`deadline_weeks`/`gpu_count`/`next`）、`rejected[]`（含 `reason`）、`n_candidates`、`novelty_source`、`weights`、`honesty_note`。
-若失败：rc=2 → `--constraints` 非法 JSON 或未给任何候选；rc=1 → `--candidates`/`--lit-review-json` 路径不存在。
+Expected: JSON output containing `ranked_topics[]` (each with `rank`/`topic`/`scores{novelty,feasibility,impact,buildability}`/`total`/`weights`/`recommendation`/`reason`/`novelty_source`/`novelty_verified`/`workload_weeks`/`deadline_weeks`/`gpu_count`/`next`), `rejected[]` (with `reason`), `n_candidates`, `novelty_source`, `weights`, `honesty_note`.
+If it fails: rc=2 -> `--constraints` is invalid JSON or no candidate was given; rc=1 -> the `--candidates`/`--lit-review-json` path doesn't exist.
 
-### 步骤 2：扫描文献并识别 gap
+### Step 2: Scan the Literature and Identify the Gap
 
-1. 扫描该领域近期论文（近 6 个月）
-2. 梳理已有哪些工作
-3. 找出没人做的部分（gap）——把结果喂给 lit-review 的 `--s2`，或反过来把 lit-review 的 `gaps_identified` 传给本脚本
+1. Scan recent papers in the field (last 6 months)
+2. Lay out what work already exists
+3. Find what nobody has done (the gap) — feed the result into lit-review's `--s2`, or conversely pass lit-review's `gaps_identified` to this script
 
-预期：每个候选 gap 能指出「谁做了什么 / 缺什么」；产出格式见下例。
-若失败：领域太宽找不到边界 → 先收窄 sub_area 再扫描；联网失败 → 标注「未联网核实」后基于已知文献继续。
+Expected: each candidate's gap can point to "who did what / what's missing"; output format per the example below.
+If it fails: the field is too broad to find boundaries -> first narrow the sub_area, then scan; offline failure -> note "not verified online" and continue on known literature.
 
-### 步骤 3：核对四因子权重与约束
+### Step 3: Check the Four-Factor Weights and Constraints
 
-| 因子 | 权重 | 检查内容 |
+| Factor | Weight | What to Check |
 |------|--------|---------------|
-| Novelty | 40% | 具体切入角是否没人做过？（不是泛领域本身） |
-| Feasibility | 30% | `1 - workload_weeks / deadline_weeks`；工作量含复杂度词、from-scratch 惩罚、少卡折扣 |
-| Impact | 20% | 审稿人会在意吗？有清晰评测方案吗？ |
-| Buildability | 10% | 能在现有代码上构建吗？（fine-tune/adapter/LoRA 加分，from scratch 减分） |
+| Novelty | 40% | Has nobody done this specific angle? (not the broad field itself) |
+| Feasibility | 30% | `1 - workload_weeks / deadline_weeks`; workload includes complexity words, from-scratch penalty, few-GPU discount |
+| Impact | 20% | Will reviewers care? Is there a clear evaluation plan? |
+| Buildability | 10% | Can it be built on existing code? (fine-tune/adapter/LoRA get bonus, from-scratch loses points) |
 
-预期：`total` 恰为四因子加权和（脚本会回填 `weights` 以便复核）；`recommendation` ∈ `go`/`risky`/`reject`；被否项写明 `reason`。
-若失败：打分无依据 → 必须引用具体论文/事实支撑，否则降级进 `rejected`。
+Expected: `total` is exactly the weighted sum of the four factors (the script backfills `weights` for re-checking); `recommendation` in `go`/`risky`/`reject`; rejected items carry a `reason`.
+If it fails: a score has no basis -> it must cite specific papers/facts as support; otherwise downgrade it to `rejected`.
 
-### 步骤 4：产出 ranked list
+### Step 4: Produce the Ranked List
 
-预期：输出 `{"ranked_topics": [...], "rejected": [...]}`，推荐项附 `next`（默认指向 lit-review 查证）。
-若失败：清单为空 → 放宽 area 或改用 lit-review 先做系统调研。
+Expected: output `{"ranked_topics": [...], "rejected": [...]}`, with recommended items carrying `next` (default points to lit-review for verification).
+If it fails: the list is empty -> broaden the area or do a systematic lit-review first.
 
 ```json
 {
@@ -95,41 +95,41 @@ python3 scripts/topic_selector.py --candidates candidates.json --lit-review-json
 }
 ```
 
-## 参数速查表
+## Parameter Quick Reference
 
-| 参数 | 取值 | 说明 |
+| Parameter | Value | Notes |
 |------|------|------|
-| `--topic` | 字符串 | 候选方向，**可重复** |
-| `--candidates` | 路径(JSON) | list 或 `{constraints, candidates}`；与 `--topic` 可叠加 |
-| `--constraints` | JSON 字符串 | `time`（`3mo`/`6 months`/`1y`/`8w`）、`gpu`（`8xA100`） |
-| `--lit-review-json` | 路径(JSON) | 读 `summary.gaps_identified` 校验 novelty |
-| `--top-n` | 整数 | `ranked_topics` 返回条数，默认 5 |
-| `--output` | 路径 | 结果 JSON 输出路径 |
+| `--topic` | string | Candidate direction, **repeatable** |
+| `--candidates` | path(JSON) | list or `{constraints, candidates}`; stacks with `--topic` |
+| `--constraints` | JSON string | `time` (`3mo`/`6 months`/`1y`/`8w`), `gpu` (`8xA100`) |
+| `--lit-review-json` | path(JSON) | Reads `summary.gaps_identified` to validate novelty |
+| `--top-n` | int | Number of `ranked_topics` to return, default 5 |
+| `--output` | path | Results JSON output path |
 
-## 失败处置表
+## Failure Remediation Table
 
-| 现象/错误码 | 原因 | 处置 |
+| Symptom / Error Code | Cause | Remedy |
 |------------|------|------|
-| rc=2，`status: "error"` | `--constraints` 非法 JSON，或未给任何候选 | 先 `python3 -c "import json;json.loads(...)"` 自检；补 `--topic`/`--candidates` |
-| rc=1，`Not found` | `--candidates` 或 `--lit-review-json` 路径不存在 | 核对路径 |
-| 全部进 `rejected` | 领域已饱和或约束过紧（工期太短） | 换 sub_area、放宽 `time`，或读 `references/gap-finding.md` 换找法 |
-| `novelty_verified: false` 但你已读过文献 | 未传 `--lit-review-json` | 把 lit-review 输出 JSON 传进来，才对得起「已查新」的说法 |
-| 分数与直觉严重不符 | novelty 是关键词启发式、feasibility 是工作量估算 | 以步骤 3 的模型判断为准；把 `workload_weeks` 与 `deadline_weeks` 摆出来人工复核 |
+| rc=2, `status: "error"` | `--constraints` is invalid JSON, or no candidate given | First self-check with `python3 -c "import json;json.loads(...)"`; add `--topic`/`--candidates` |
+| rc=1, `Not found` | The `--candidates` or `--lit-review-json` path doesn't exist | Check the path |
+| Everything lands in `rejected` | The field is saturated or constraints are too tight (deadline too short) | Switch sub_area, relax `time`, or read `references/gap-finding.md` for another approach |
+| `novelty_verified: false` but you've already read the literature | Didn't pass `--lit-review-json` | Pass in the lit-review output JSON to justify the claim of "novelty searched" |
+| Scores badly contradict intuition | novelty is a keyword heuristic, feasibility is a workload estimate | Trust Step 3's model judgment; lay out `workload_weeks` vs `deadline_weeks` for manual review |
 
-## 交付标准
+## Delivery Standard
 
-成功定义：产出 ranked list，每项四因子有分有据、`total` = 加权和；被否项有 `reason`。
-产物命名：`topics.json`（若指定 `--output`）或直接输出文本。
-保存位置：调用方当前目录或 `--output` 指定路径。
-验证方法：`python3 -c "import json;d=json.load(open('<output>'));assert d['ranked_topics'] or d['rejected'];assert d['weights']"` 通过；工作流产出的分数必须能在正文找到依据句。
-诚实口径：`novelty_verified` 为 false 时，MUST NOT 在正文写「据我们所知无人研究」这类断言。
+Success: produce a ranked list, each item's four factors scored with evidence and `total` = weighted sum; rejected items carry a `reason`.
+Artifact name: `topics.json` (if `--output` is given) or direct text output.
+Save location: the caller's current directory or the `--output` path.
+Verification: `python3 -c "import json;d=json.load(open('<output>'));assert d['ranked_topics'] or d['rejected'];assert d['weights']"` passes; workflow-produced scores must have a supporting sentence findable in the body.
+Honest rule: when `novelty_verified` is false, you MUST NOT write claims like "to our knowledge, no one has studied this" in the body.
 
-## 参考
+## References
 
-- [references/gap-finding.md](references/gap-finding.md) — **步骤 2 前读**：系统化找 gap 的方法（分类维度、检索式写法）
-- [references/venue-matching.md](references/venue-matching.md) — **步骤 3 对照 target_venue 时读**：各 venue 偏好与匹配度判断
-- 脚本内部：`WEIGHTS`（四因子权重）、`_workload_weeks`/`_deadline_weeks`（可行性模型）、`_novelty`（novelty 来源与校验）、`rank`（排序与落选）。
+- [references/gap-finding.md](references/gap-finding.md) — **read before Step 2**: systematic gap-finding methods (classification dimensions, how to write search queries)
+- [references/venue-matching.md](references/venue-matching.md) — **read when matching target_venue in Step 3**: venue preferences and fit judgment
+- In-script internals: `WEIGHTS` (four-factor weights), `_workload_weeks`/`_deadline_weeks` (feasibility model), `_novelty` (novelty source and verification), `rank` (sorting and rejection).
 
-## 链路位置
+## Chain Position
 
-上游无前置；产出交 lit-review 验证 gap 是否真实存在（并把其输出回灌 `--lit-review-json` 提升 novelty 可信度），确定选题后进实验规划（experiment-runner）。
+No upstream prerequisite; hand the output to lit-review to verify whether the gap is real (and feed its output back into `--lit-review-json` to raise novelty confidence), then move into experiment planning (experiment-runner) once the topic is set.

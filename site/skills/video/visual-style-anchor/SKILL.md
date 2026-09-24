@@ -1,6 +1,6 @@
 ---
 name: visual-style-anchor
-description: "Create a reusable visual style anchor for a video or image project: one-page style guide locking color palette, lighting scheme, materials, era, and medium texture — plus a character consistency card (identity line, wardrobe, props, forbidden changes) that keeps every generated shot on-model. Use when the user asks to 定视觉风格 / 风格设定 / 角色设定 / 保持角色一致 / 人物不跑脸 / style guide / character sheet / 视觉统一 before batch generation. Do NOT use for writing per-shot prompts (use video-prompt-engineer), nor for generating the images themselves."
+description: "Create a reusable visual style anchor for a video or image project: one-page style guide locking color palette, lighting scheme, materials, era, and medium texture — plus a character consistency card (identity line, wardrobe, props, forbidden changes) that keeps every generated shot on-model. Use when the user asks to set the visual style / style setting / character setting / keep the character consistent / keep the face on-model / style guide / character sheet / visual consistency before batch generation. Do NOT use for writing per-shot prompts (use video-prompt-engineer), nor for generating the images themselves."
 license: Apache-2.0
 compatibility: Pure prompt-based design skill; no scripts, no API keys.
 metadata:
@@ -12,153 +12,153 @@ metadata:
   verified-date: "2026-09-21"
 ---
 
-# 视觉风格锚
+# Visual Style Anchor
 
-产出两个可复用资产：**风格锚**（style-anchor.md，全片视觉 DNA）+ **角色一致性卡**（character-card.md，角色不跑脸的合同）。批量生成前先锁风格，是全片视觉统一的最便宜手段——逐张返工比先写一页锚定文档贵十倍。
+Produce two reusable assets: a **style anchor** (style-anchor.md, the film's visual DNA) + a **character consistency card** (character-card.md, the contract that keeps the face on-model). Locking the style before batch generation is the cheapest way to unify the whole film's visuals — reworking image by image costs ten times more than writing one anchor doc first.
 
-## 适用决策表（先判断，再锚定）
+## Applicability Decision Table (Judge First, Then Anchor)
 
-| 你的场景 | 用不用本技能 | 怎么用 |
+| Your Situation | Use This Skill? | How |
 |---|---|---|
-| 批量生成镜头/图片前，要先统一视觉 | 用 | 全流程：风格锚 +（如需）角色卡 |
-| 单张一次性图，不复用 | 轻量用 | 只出风格锚，跳过角色卡与复用说明 |
-| 项目已有旧风格锚 | 在旧文件上改 | **禁止另起炉灶**——锚一变，已生成镜头全部作废 |
-| 只想生成一张图不等风格 | 别用 | 直接用图像生成工具，本技能是批量前的规划步骤 |
-| 每镜头的 prompt 写法 | 别用 | 归 video-prompt-engineer（本技能是它的上游） |
+| Before batch-generating shots/images, need to unify visuals first | yes | Full flow: style anchor + (if needed) character card |
+| One-off single image, no reuse | light use | Only produce the style anchor; skip the character card and reuse notes |
+| Project already has an old style anchor | edit the old file | **Don't start from scratch** — change the anchor and every already-generated shot is void |
+| Just want to generate one image, no style wait | no | Use the image-generation tool directly; this skill is a pre-batch planning step |
+| Per-shot prompt writing | no | Belongs to video-prompt-engineer (this skill is its upstream) |
 
-## 领域暗知识（锚风格前必须懂的四件事）
+## Domain Tacit Knowledge (Four Things You Must Know Before Anchoring a Style)
 
-**1. 青橙对比不是审美时尚，是生理学——但它已经是俗套。** 调色界共识（filmit.io 调色师长文及多家调色教程交叉印证）：人类肤色无论人种都落在光谱的橙色区间，青色（teal）是橙的互补色——把暗部推青、肤色保暖，人脸就会从背景里"跳"出来，这是不用合成技巧就能造纵深的物理机制。但它 2007 年前后（《变形金刚》+ 数字摄影机 + DaVinci Resolve LUT 工作流）被好莱坞工业化，**2012 年成为标准，2020 年成为俗套**——观众看两条调色教程就能认出它。落到风格锚上的纪律：选"电影感"时必须知道它是俗套起点；区分度来自题材与光线结构（画内光源/practical light），不是把暗部抹青。真正锁进锚里的是对比结构与光源类型，而不是某个流行色调本身。
+**1. Teal-orange contrast isn't aesthetic fashion, it's physiology — but it's already a cliche.** Color-grading consensus (cross-referenced across colorist essays and multiple grading tutorials): human skin, regardless of ethnicity, sits in the orange band of the spectrum, and teal is orange's complementary color — push the shadows toward teal and warm the skin, and faces "pop" off the background; this is a physical mechanism that creates depth without compositing tricks. But it was industrialized by Hollywood around 2007 (Transformers + digital cameras + DaVinci Resolve LUT workflows), **became standard by 2012 and a cliche by 2020** — viewers can recognize it after two grading tutorials. The discipline for the style anchor: when you choose "cinematic", you must know it's a cliche starting point; differentiation comes from subject matter and light structure (in-frame sources / practical light), not smearing the shadows teal. What you actually lock into the anchor is the contrast structure and source types, not a popular hue itself.
 
-**2. 调色的第一原则：先校正、后创作、留余量。** 调色师工作流（多源一致）：先做技术校正（白平衡/曝光）再做创意调色，顺序颠倒会把色偏放大而不是藏住；LUT 实际应用时透明度收到 **50-70%**（预置 LUT 为了预览效果都推得很猛）；**只推暗部、不动中间调**，肤色才有救；饱和度上限盯住肤色——皮肤发绿或发品红 = 病态感。落到风格锚上：色彩板规则一栏要写清"哪些允许溢出（高光）、哪些设上限（肤色/强调色饱和度）"，这就是锚里的"饱和度纪律"。
+**2. The first principle of grading: correct first, create later, leave headroom.** Colorist workflow (consistent across sources): do technical correction first (white balance / exposure), then creative grading; reversing the order amplifies rather than hides color casts; when applying a LUT, bring opacity down to **50-70%** (preset LUTs are pushed hard for preview); **push only the shadows, don't touch midtones**, so skin stays salvageable; cap saturation at skin tones — skin going green or magenta = a sickly look. For the style anchor: the palette rules column should spell out "what may bloom (highlights), what gets a cap (skin / accent-color saturation)" — this is the "saturation discipline" in the anchor.
 
-**3. 色彩情绪有行业温度字典，别自造对应关系。** 调色叙事的通用词典（多源一致）：暖调（琥珀/金/橙）= 怀旧、亲密、舒适；冷调（青/蓝/灰）= 距离、紧张、忧郁；高饱和 + 黑场上浮 = 商业感/明快；低饱和 + 压实黑场 = 电影感/阴郁。互补色（青橙、红绿、黄紫）制造张力，邻近色制造柔和统一（《月光男孩》式霓虹），单色系制造压抑氛围（《黑客帝国》绿）。风格锚的"色彩情绪"槽位从这本字典取词，用户给的"高级感/氛围感"按参考物换算成字典词——不要发明"灰色 = 高级"这类私人对应。
+**3. Color emotion has an industry temperature dictionary; don't invent mappings.** General lexicon of color storytelling (consistent across sources): warm (amber/gold/orange) = nostalgia, intimacy, comfort; cool (teal/blue/gray) = distance, tension, melancholy; high-saturation + lifted blacks = commercial/bright; low-saturation + crushed blacks = cinematic/foreboding. Complementary colors (teal-orange, red-green, yellow-purple) create tension; analogous colors create soft unity (Moonlight-style neon); monochrome creates oppressive mood (The Matrix green). The anchor's "color emotion" slot takes words from this dictionary; convert the user's "premium vibe / atmosphere" into dictionary words via reference objects — don't invent private mappings like "gray = premium".
 
-**4. 一致性比漂亮值钱——跨镜头稳定是专业分水岭。** 调色界的老话：观众最先注意到的是不自然的肤色，而**跨镜头肤色不一致 = 立刻露 amateur 底**。风格锚的全部价值就在"锁定"二字：批量生成时漂移的不是审美，是熵——每张图各美各的，合在一起就不是一部片。所以锚是合同不是参考：五槽位逐镜头原样引用，改一个词就是重开项目。
+**4. Consistency beats beauty — cross-shot stability is the professional dividing line.** The old color-grading saying: viewers first notice unnatural skin tones, and **inconsistent skin across shots instantly exposes the amateur**. The entire value of the style anchor is in the word "lock": what drifts during batch generation isn't taste, it's entropy — each image looks good on its own but together isn't one film. So the anchor is a contract, not a reference: the five slots are copied verbatim per shot; changing one word is restarting the project.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |------|------|------|
-| 项目一句话 | ✓ | 「雨夜便利店霓虹短片」这种粒度 |
-| 参考（文字/图链） | 可选 | 「像《银翼杀手》的雨夜」级别的参照即可 |
-| 角色数量 | ✗ | 0 = 只出风格锚；≥1 = 每角色一张一致性卡 |
-| 画幅/平台 | ✗ | 默认 16:9 |
+| one-line project brief | yes | At the granularity of "rainy-night convenience-store neon short" |
+| reference (text/image link) | optional | Something on the order of "like Blade Runner's rainy night" is enough |
+| character count | no | 0 = style anchor only; >=1 = one consistency card per character |
+| aspect ratio / platform | no | Default 16:9 |
 
-缺失时一次性问齐：「请提供：① 项目一句话 ② 角色数量（默认 0，只出风格锚）。其余我将采用默认值。」
+When missing, ask everything at once: "Please provide: ① one-line project brief ② character count (default 0, style anchor only). I'll take defaults for the rest."
 
-## 红线（硬性禁令，不可协商）
+## Red Lines (Hard Bans, Non-Negotiable)
 
-1. 已有旧锚不另起炉灶：风格锚中途变更 = 已生成镜头全部作废；确需变更 → 明确告知返工范围并获用户确认。
-2. 身份行禁止否定句：`not wearing hat` 会生成 hat——否定式一律改写为肯定式或移进「禁改 forbidden」段。
-3. 身份行禁止同义改写：每个含角色 prompt 的 subject 槽位原样复制粘贴，改一个词模型就可能换脸。
-4. 情绪词必须换算落盘：「高级感」类抽象词不进锚，参考物换算成可判定描述并经用户确认。
-5. 色彩板 ≤3 主色 + 强调色唯一：强调色只给焦点对象（60-30-10 稀缺性法则）；禁止"到处点缀"。
+1. If an old anchor exists, don't start from scratch: changing the style anchor mid-project voids all already-generated shots; if a change is truly needed -> explicitly state the rework scope and get user confirmation.
+2. The identity line forbids negations: `not wearing hat` will generate a hat — always rewrite negatives as positives or move them into the "forbidden changes" section.
+3. The identity line forbids paraphrase: every prompt's subject slot containing the character is copy-pasted verbatim; change one word and the model may swap the face.
+4. Emotion words must be converted to concrete descriptions: abstract words like "premium vibe" don't go into the anchor; convert them via reference objects into judgeable descriptions and confirm with the user.
+5. Palette <=3 main colors + a single accent: the accent color goes only on the focal object (60-30-10 scarcity rule); "sprinkled everywhere" is forbidden.
 
-## 前置自检
+## Pre-flight Checks
 
-- 本项目是否已有旧的 `style-anchor.md` / `character-card-*.md`？有 → 在旧文件上
-  更新，不要另起炉灶——风格锚一变，已生成的镜头全部作废（红线 1）。
-- 参考文件在盘：`test -f references/style-anchor-formula.md`（展开公式时要用），
-  缺失 → STOP 并回报仓库不完整。
+- Does this project already have an old `style-anchor.md` / `character-card-*.md`? If so -> update the old file,
+  don't start from scratch — change the anchor and all generated shots are void (Red Line 1).
+- The reference file is on disk: `test -f references/style-anchor-formula.md` (needed when expanding the formula);
+  if missing -> STOP and report the repo is incomplete.
 
-## 工作流
+## Workflow
 
-### 步骤 1：按五槽位公式定风格锚
+### Step 1: Set the Style Anchor Per the Five-Slot Formula
 
 ```markdown
-# Style Anchor: <项目名>
+# Style Anchor: <project name>
 
-## 色彩板 palette
-主色 #0E1A2B（夜空蓝黑）/ 强调 #FF6B35（霓虹橙）/ 辅助 #7FD1C9（青）
-规则：全片 ≤3 主色；强调色只给焦点对象；肤色饱和度设上限（暗知识 2）。
+## Palette
+Main #0E1A2B (night-sky blue-black) / Accent #FF6B35 (neon orange) / Secondary #7FD1C9 (teal)
+Rules: <=3 main colors across the film; accent only on focal objects; cap skin-tone saturation (tacit knowledge 2).
 
-## 光线 lighting
-夜外景：practical neon（画内光源）为主，青橙对比结构，高光允许溢出。
+## Lighting
+Night exterior: practical neon (in-frame sources) dominant, teal-orange contrast structure, highlights may bloom.
 
-## 材质 materials
-湿面反光沥青、磨砂塑料、玻璃橱窗。禁止：纯平色块、低饱和哑光。
+## Materials
+Wet reflective asphalt, frosted plastic, glass storefronts. Forbidden: flat color blocks, low-saturation matte.
 
-## 时代 era
-现代都市，无年代标记物冲突（全片禁: CRT 电视、胶片颗粒）。
+## Era
+Modern city, no conflicting period markers (film-wide ban: CRT TVs, film grain).
 
-## 媒介质感 medium
-cinematic live-action, 35mm depth-of-field feel, 轻微手持呼吸感。
+## Medium Texture
+cinematic live-action, 35mm depth-of-field feel, subtle handheld breathing.
 ```
 
-预期：五槽位全填，色彩板给了 HEX 值，色彩板规则含饱和度纪律。
-若失败：用户只给情绪词（「高级感」）→ 用暗知识 3 的温度字典换算：「高级感 = 低饱和 + 大面积暗部 + 单强调色」，向用户确认换算结果再定稿（红线 4）。
+Expected: all five slots filled, the palette gives HEX values, and palette rules include saturation discipline.
+If it fails: the user only gave emotion words ("premium vibe") -> convert via tacit-knowledge-3's temperature dictionary: "premium vibe = low saturation + large dark areas + single accent color"; confirm the conversion with the user before finalizing (Red Line 4).
 
-### 步骤 2：产出角色一致性卡（如需）
+### Step 2: Produce the Character Consistency Card (If Needed)
 
 ```markdown
-# Character Card: 小雨
+# Character Card: Xiaoyu
 
-## 身份行 identity line（可直接嵌进任何 prompt 的单句）
+## Identity line (single sentence, embeddable in any prompt)
 a young woman, short black bob hair, tired but sharp eyes, black oversized hoodie, white sneakers
 
-## 三视图清单 turnaround
-正面 / 3/4 侧面 / 背面（有图像生成工具时先出这三张定稿，后续所有镜头引用）
+## Turnaround list
+front / 3/4 side / back (if you have an image tool, lock these three first; all later shots reference them)
 
-## 锁定 wardrobe & props
-黑色连帽衫（帽子常垂）、白鞋、蓝色打火机（剧情道具）
+## Locked wardrobe & props
+black hoodie (hood usually down), white shoes, blue lighter (plot prop)
 
-## 禁改 forbidden
-发型、发色、瞳色、身高比例 —— 任何 prompt 不得添加眼镜/帽子/换装
-（如剧情需要变装 → 停止，回到本卡开新变体卡 variant-B，禁止临时改）
+## Forbidden changes
+hairstyle, hair color, eye color, height proportions — no prompt may add glasses/hat/costume changes
+(if the plot needs a costume change -> stop, return to this card and open a variant card variant-B; on-the-fly edits are forbidden)
 ```
 
-预期：身份行 ≤25 词（太长塞不进每个 prompt）、无否定句（红线 2）。
-若失败：身份行超 25 词 → 砍掉非辨识度特征（服装细节留到 wardrobe 段），只保留定脸要素；身份行里出现否定句 → 改写为肯定式或移进「禁改 forbidden」段；用户给不出参考图 → 仍产出文字版身份行，并注明「参考图未定稿，漂移风险自担」。
+Expected: identity line <=25 words (too long won't fit in every prompt), no negations (Red Line 2).
+If it fails: identity line over 25 words -> cut non-identifying features (wardrobe detail belongs in the wardrobe section), keep only face-defining elements; a negation appears in the identity line -> rewrite as a positive or move it into "forbidden changes"; the user can't supply a reference image -> still produce a text identity line and note "reference images not finalized; drift risk is on you".
 
-### 步骤 3：写复用说明
+### Step 3: Write Reuse Notes
 
-在两个文件末尾各加一段「如何使用」：
-- style-anchor → 每个 prompt 的 style 槽位整段引用
-- character-card 的身份行 → 每个含角色 prompt 的 subject 槽位原样嵌入，禁止改写措辞（改一个词，模型就可能换脸——红线 3）
+At the end of each file, add a "how to use" section:
+- style-anchor -> cite the whole style slot block in every prompt
+- character-card identity line -> embed verbatim into every character-bearing prompt's subject slot; paraphrase is forbidden (change one word and the model may swap the face — Red Line 3)
 
-预期：两个文件的「如何使用」段落都已写入，且明确写了「原样引用/禁止改写」。
-若失败：用户的项目不需要复用（单张图一次性）→ 省略本步，并在交付标准里注明「非复用场景，未附复用说明」。
+Expected: both files have "how to use" sections explicitly stating "cite verbatim / no paraphrase".
+If it fails: the project doesn't need reuse (one-off image) -> skip this step and note in the delivery standard "non-reuse scenario, no reuse notes attached".
 
-### 步骤 4：交付核对
+### Step 4: Delivery Check
 
-| 核对项 | 通过标准 |
+| Check Item | Pass Criterion |
 |--------|----------|
-| 五槽位齐全 | 色彩有 HEX、光线有光源类型、色彩板规则含饱和度纪律 |
-| 身份行可用 | ≤25 词、无否定句（「not wearing hat」模型会生成 hat）|
-| 禁改清单存在 | 每角色 ≥3 条 |
-| 情绪词已换算 | 锚内不存在「高级感」类抽象词（红线 4）|
+| Five slots complete | Palette has HEX, lighting has source types, palette rules include saturation discipline |
+| Identity line usable | <=25 words, no negations ("not wearing hat" makes the model generate a hat) |
+| Forbidden list exists | >=3 items per character |
+| Emotion words converted | No abstract words like "premium vibe" in the anchor (Red Line 4) |
 
-预期：四项全部通过，方可交付。
-若失败：任一项不通过 → 回对应步骤（五槽位缺 → 回步骤 1；身份行不合格 → 回步骤 2；禁改清单不足 3 条 → 补足后重核；情绪词残留 → 回暗知识 3 换算），不带着不合格项交付。
+Expected: all four pass before delivery.
+If it fails: any item fails -> return to the corresponding step (a missing slot -> Step 1; a bad identity line -> Step 2; forbidden list under 3 -> add items and re-check; residual emotion words -> convert via tacit knowledge 3); don't deliver with failing items.
 
-## 失败处置表
+## Failure Remediation Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Remedy |
 |---|---|---|
-| 生成仍跑脸 | prompt 里改写了身份行措辞 | 身份行必须复制粘贴，禁止同义改写（红线 3） |
-| 色彩板跨镜头漂移 | style 槽位没每 prompt 都带 | style 槽位是必填槽，见 video-prompt-engineer 的六槽位 |
-| 用户中途加新角色 | 卡没预留变体机制 | 开 variant 卡，并更新连续性约束表（storyboard-designer 产物）|
-| 情绪词无法落地 | 「高级感」类抽象词 | 强制走暗知识 3 温度字典换算并向用户确认 |
-| 用户点名"就要青橙大片感" | 触碰俗套风险（暗知识 1） | 不拒绝但说破：2020 年起已是俗套；改写为"青橙对比结构 + 题材化光源"，区分度靠光线与题材 |
-| 肤色跨镜头不一致 | 没锁饱和度纪律 | 回步骤 1 补饱和度上限规则；批量重生成受影响镜头 |
-| 用户中途要求改锚 | 触碰红线 1 | 列出作废镜头清单与返工成本，确认后开新锚 |
+| Generation still swaps the face | The identity line was paraphrased in the prompt | The identity line must be copy-pasted; paraphrase is forbidden (Red Line 3) |
+| Palette drifts across shots | The style slot isn't carried in every prompt | The style slot is mandatory; see video-prompt-engineer's six slots |
+| The user adds a new character mid-project | The card had no variant mechanism | Open a variant card and update the continuity constraint table (storyboard-designer's output) |
+| Emotion words can't land | Abstract words like "premium vibe" | Force conversion via tacit-knowledge-3's temperature dictionary and confirm with the user |
+| The user insists on "that teal-orange blockbuster look" | Hits the cliche risk (tacit knowledge 1) | Don't refuse but call it out: it's been a cliche since 2020; rewrite as "teal-orange contrast structure + subject-matter-specific sources"; differentiation comes from light and subject |
+| Skin tone inconsistent across shots | No saturation discipline locked | Return to Step 1 to add a saturation cap; regenerate the affected shots |
+| The user asks to change the anchor mid-project | Hits Red Line 1 | List the voided shots and rework cost; open a new anchor after confirmation |
 
-## 交付标准
+## Delivery Standard
 
-- `style-anchor.md` 一页（≤60 行），五槽位齐全，色彩板规则含饱和度纪律
-- `character-card-<名字>.md` 每角色一份，身份行 + 禁改清单齐全
-- 两个文件都含「如何使用」段落
-- 锚内无未换算的情绪词（红线 4 全查）
+- `style-anchor.md` one page (<=60 lines), five slots complete, palette rules include saturation discipline
+- `character-card-<name>.md` one per character, identity line + forbidden list complete
+- Both files include a "how to use" section
+- No unconverted emotion words in the anchor (Red Line 4 fully checked)
 
-## 参考
+## References
 
-- [style-anchor-formula.md](references/style-anchor-formula.md) —— 风格锚五槽位的展开公式与更多示例
-- [character-consistency.md](references/character-consistency.md) —— 角色一致性的完整纪律（含 seed/音色锁定、漂移审计）
-- [sources-and-methodology.md](references/sources-and-methodology.md) —— 方法论出处（含本仓 ai-baby-podcast 的既有实践与开源生态致谢）与 v2.0 调查来源（调色师工作流/青橙演化史/色彩温度词典）
+- [style-anchor-formula.md](references/style-anchor-formula.md) — expanded formulas for the style anchor's five slots and more examples
+- [character-consistency.md](references/character-consistency.md) — full discipline for character consistency (incl. seed/voice locking, drift audits)
+- [sources-and-methodology.md](references/sources-and-methodology.md) — methodology provenance (incl. this repo's existing ai-baby-podcast practice and open-source ecosystem credits) and v2.0 research sources (colorist workflow / teal-orange evolution / color temperature dictionary)
 
-## 链条衔接（下游建议）
+## Chain Handoff (Downstream Suggestions)
 
-本技能是视频域生产链（production chains）的上游「视觉规划」技能。建议编排顺序：
-visual-style-anchor → storyboard-designer → shot-recipe-designer → video-prompt-engineer → video-script-writer，之后再接入 video 域已登记的 talking_character / meme 链条（video-voice-synth → video-lip-sync → video-editor → video-subtitles → video-thumbnail）。
-当前 skill_chains.json 的 video 域 skills 列表未登记本技能（游离技能）；以上衔接仅为文字描述，无跨目录硬链接引用。
+This skill is the upstream "visual planning" skill in the video-domain production chains. Suggested orchestration order:
+visual-style-anchor -> storyboard-designer -> shot-recipe-designer -> video-prompt-engineer -> video-script-writer, then plug into the already-registered video-domain talking_character / meme chains (video-voice-synth -> video-lip-sync -> video-editor -> video-subtitles -> video-thumbnail).
+Currently this skill isn't registered in skill_chains.json's video-domain skills list (standalone); the handoff above is descriptive only, with no cross-directory hard links.

@@ -1,6 +1,6 @@
 ---
 name: model-formulator
-description: "将自然语言问题形式化为数学模型：识别变量、约束、目标函数与模型类型（ODE/ILP/随机/Bayesian），输出可供 model-solver 消费的模型规格。何时使用：问题已用文字描述但缺乏数学结构时。触发场景（中/英）：数学建模 / 把问题写成模型 / 定义变量与约束 / formalize a problem / write a math model / define variables and constraints。排除项：不对已形式化模型做数值求解（交给 model-solver）。 何时使用：已有文字描述、需要先定变量与目标再求解时。触发场景（中/英）：数学建模 / 把问题写成模型 / 定义变量与约束 / 形式化问题 / formalize a problem / write a math model.排除项：不做数值求解（交给 model-solver），不画结果图（交给 result-visualizer）。Use when the user asks 数学建模 / 把问题写成模型 / 定义变量与约束 / 形式化问题 / formalize a problem / write a math model. Do NOT use when a formal model already exists and only numerical solving (use model-solver) or plotting (use result-visualizer) is needed."
+description: "Formalize a natural-language problem into a mathematical model: identify variables, constraints, objective function, and model type (ODE/ILP/stochastic/Bayesian), and output a model spec consumable by model-solver. When to use: the problem is already described in prose but lacks mathematical structure — e.g. math modeling, turning a problem into a model, defining variables and constraints, formalizing a problem, or writing a math model. Do NOT use when a formal model already exists and only numerical solving (use model-solver) or plotting results (use result-visualizer) is needed."
 license: Apache-2.0
 compatibility: Pure Python + LLM assistance. No external solver needed at this step.
 metadata:
@@ -14,48 +14,48 @@ metadata:
 
 # Model Formulator
 
-把文字问题转成结构化数学模型规格（变量 / 约束 / 目标函数 / 模型类型），作为 model-solver 的输入。
+Turns a prose problem into a structured mathematical-model spec (variables / constraints / objective function / model type), serving as the input to model-solver.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Description |
 |------|------|------|
-| problem | 是 | 自然语言问题描述，含实体、数量、关系 |
-| domain | 否 | `optimization` / `differential` / `statistical` / `stochastic` / `bayesian` | optimization |
-| knowns | 否 | 已知量 JSON，如 `{"routes": 50, "trucks": 5}` | — |
-| unknowns | 否 | 待求变量名列表，如 `route_assignment truck_schedule` | — |
+| problem | Yes | Natural-language problem description, including entities, quantities, and relationships |
+| domain | No | `optimization` / `differential` / `statistical` / `stochastic` / `bayesian`; default optimization |
+| knowns | No | JSON of known quantities, e.g. `{"routes": 50, "trucks": 5}` |
+| unknowns | No | List of variable names to solve for, e.g. `route_assignment truck_schedule` |
 
-缺失时一次性问齐：「请提供：① problem（文字描述）。domain / knowns / unknowns 我会按缺省或自动推断。」
+When missing, ask all at once: "Please provide: (1) problem (prose description). I'll use defaults or auto-infer domain / knowns / unknowns."
 
-## 前置自检
+## Pre-flight Checks
 
 ```bash
-# 1. Python 可用
+# 1. Python available
 python3 --version
-# 2. 脚本存在
+# 2. Script exists
 test -f scripts/model_formulator.py && echo "OK script present"
 ```
 
-- 预期：`python3 --version` 输出版本号；脚本存在打印 `OK script present`。
-- 若失败：未装 Python → 安装 Python 3.10+ 后重试；脚本缺失 → STOP，回报脚本未随技能分发。
+- Expected: `python3 --version` prints a version number; the script exists and prints `OK script present`.
+- On failure: Python not installed → install Python 3.10+ and retry; script missing → STOP and report the script wasn't shipped with the skill.
 
-## 工作流
+## Workflow
 
-### 步骤 1：解析并分类问题
+### Step 1: Parse and classify the problem
 
-- 动作：从 problem 抽取实体、数量、关系，判定 domain（确定性 vs 随机、连续 vs 离散）。
-- 预期：得到 `domain` 与一个初步模型类型候选（见决策树）。
-- 若失败：描述过于模糊 → 回到输入清单要求补充 problem 细节，不要臆测。
+- Action: extract entities, quantities, and relationships from the problem, and determine the domain (deterministic vs stochastic, continuous vs discrete).
+- Expected: get a `domain` and an initial candidate model type (see the decision tree).
+- On failure: the description is too vague → return to the input checklist to request more problem detail; don't guess.
 
-### 步骤 2：定义变量与约束
+### Step 2: Define variables and constraints
 
-- 动作：列出决策变量、状态变量、目标函数与全部物理/逻辑约束。
-- 预期：每个变量有明确类型（如 binary / continuous）与含义。
-- 若失败：约束冲突 → 标注为假设或退回步骤 1 重新分类。
+- Action: list decision variables, state variables, the objective function, and all physical/logical constraints.
+- Expected: every variable has an explicit type (e.g. binary / continuous) and meaning.
+- On failure: conflicting constraints → flag as an assumption, or go back to Step 1 to reclassify.
 
-### 步骤 3：选择模型类型并生成规格
+### Step 3: Choose a model type and generate the spec
 
-- 动作：运行脚本生成结构化规格。
+- Action: run the script to generate a structured spec.
 
 ```bash
 python3 scripts/model_formulator.py \
@@ -66,24 +66,24 @@ python3 scripts/model_formulator.py \
   --output model_spec.json
 ```
 
-- 预期：标准输出一段 JSON，含 `model_type`、`variables`、`objective`、`constraints`、`assumptions`、`solver_hint`。若给 `--output` 则同时写入该文件。
-- 若失败：argparse 报错（如 domain 不在 choices）→ 用 `--help` 核对取值；网络/文件错误 → 修正路径后重试。
+- Expected: stdout prints a JSON blob with `model_type`, `variables`, `objective`, `constraints`, `assumptions`, `solver_hint`; if `--output` is given, it is also written to that file.
+- On failure: an argparse error (e.g. domain not in choices) → check valid values with `--help`; a network/file error → fix the path and retry.
 
-### 步骤 4：模型类型决策
+### Step 4: Model-type decision
 
 ```text
-确定性？
-├── 是 → 连续？→ ODE/PDE 或非线性优化
-│        └ 否 → ILP / 组合优化
-└── 否 → 时序？→ 马尔可夫链 / MDP / 仿真
-          └ 否 → Bayesian / 统计
+Deterministic?
+├── Yes → Continuous? → ODE/PDE or nonlinear optimization
+│        └ No → ILP / combinatorial optimization
+└── No → Time-series? → Markov chain / MDP / simulation
+          └ No → Bayesian / statistical
 ```
 
-- 动作：对照决策树确认 `model_type`，写入 `solver_hint`（`cvxpy | scipy.optimize | pulp | ortools`）。
-- 预期：`solver_hint` 与 `model_type` 一致。
-- 若失败：类型不确定 → 在 `assumptions` 中明确标注简化假设。
+- Action: confirm `model_type` against the decision tree and write `solver_hint` (`cvxpy | scipy.optimize | pulp | ortools`).
+- Expected: `solver_hint` is consistent with `model_type`.
+- On failure: the type is uncertain → explicitly flag the simplifying assumption in `assumptions`.
 
-## 输出格式
+## Output Format
 
 ```json
 {
@@ -104,35 +104,35 @@ python3 scripts/model_formulator.py \
 }
 ```
 
-## 参数速查表
+## Parameter Cheat Sheet
 
-| 参数 | 取值 | 说明 |
+| Parameter | Values | Description |
 |------|------|------|
-| --problem | 字符串 | 必需，文字问题 |
-| --domain | optimization/differential/statistical/stochastic/bayesian | 默认 optimization |
-| --knowns | JSON 字符串 | 已知量 |
-| --unknowns | 多个字符串 | 待求变量名 |
-| --output | 文件路径 | 可选，写入规格 JSON |
+| --problem | string | Required, the prose problem |
+| --domain | optimization/differential/statistical/stochastic/bayesian | Default optimization |
+| --knowns | JSON string | Known quantities |
+| --unknowns | multiple strings | Variable names to solve for |
+| --output | file path | Optional, write the spec JSON |
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象/错误码 | 原因 | 处置 |
+| Symptom / error code | Cause | Action |
 |------------|------|------|
-| `error: argument --domain: invalid choice` | domain 拼写错 | 用 `--help` 核对 5 个合法值 |
-| 输出缺少 `constraints` | 问题表述无边界条件 | 退回输入清单补齐约束描述 |
-| `solver_hint` 与 `model_type` 不符 | 决策树判定错 | 手动核对决策树并重写规格 |
-| 问题描述有歧义，无法定变量 | 输入只有结论诉求，没有数据与决策对象 | 退回用户补齐决策变量、取值范围与约束来源，再形式化 |
-| `objective` 方向写反 | min/max 与业务语义相反 | 对照目标描述重核方向，改后重新生成规格 |
-| 模型类型选成 LP 但含整数变量 | 忽略了下标或计数型变量 | 改判为 ILP/MIP 并补 `integrality` 字段 |
+| `error: argument --domain: invalid choice` | domain misspelled | Check the 5 valid values with `--help` |
+| Output lacks `constraints` | The problem statement has no boundary conditions | Return to the input checklist to complete the constraint description |
+| `solver_hint` doesn't match `model_type` | Wrong decision-tree judgment | Hand-check the decision tree and rewrite the spec |
+| The problem description is ambiguous, variables can't be set | Input has only a desired outcome, no data and no decision objects | Go back to the user to complete decision variables, value ranges, and constraint sources, then formalize |
+| `objective` direction reversed | min/max opposite to business semantics | Re-check the direction against the goal description and regenerate the spec |
+| Model type chosen as LP but contains integer variables | Subscript or count-type variables were ignored | Re-judge as ILP/MIP and add an `integrality` field |
 
-## 交付标准
+## Delivery Criteria
 
-- 成功定义：输出含 `model_type` + 非空 `variables` + `objective` + 至少 1 条 `constraints` 的 JSON。
-- 产物命名：`model_spec.json`（或用户指定路径）。
-- 保存位置：当前工作目录，或 `--output` 指定路径。
-- 验证完整性：用 `python3 -c "import json,sys; json.load(open('<path>'))"` 确认 JSON 可解析且含上述字段；随后交给 model-solver。
+- Definition of success: output JSON containing `model_type` + non-empty `variables` + `objective` + at least 1 `constraints`.
+- Artifact naming: `model_spec.json` (or a user-specified path).
+- Save location: current working directory, or the path specified by `--output`.
+- Completeness verification: confirm with `python3 -c "import json,sys; json.load(open('<path>'))"` that the JSON parses and contains the fields above; then hand it to model-solver.
 
-## 参考
+## References
 
-- references/model-types.md — 选模型类型、看各类示例时读
-- references/notation-guide.md — 写变量/目标函数符号约定时读
+- references/model-types.md — read when choosing a model type or browsing examples of each
+- references/notation-guide.md — read for symbol conventions when writing variables/objectives

@@ -1,6 +1,6 @@
 ---
 name: tts-voice-director
-description: "Direct text-to-speech synthesis for a produced script: cast voices per character from a voice catalog (Kokoro/DIA/Qwen3-TTS families), set per-segment synthesis parameters (speed, stability), plan stitching (per-segment render + ffmpeg concat + crossfade), and voice-design via descriptive prompts on supported models. Reads the script from podcast-producer, hands rendered audio plan to episode-publisher. Use when the user asks to 选声音 / TTS 配音 / 语音合成 / voice casting / 让声音自然 / 多角色配音. Do NOT use for writing or linting the script (podcast-producer), nor for publishing metadata (episode-publisher)."
+description: "Direct text-to-speech synthesis for a produced script: cast voices per character from a voice catalog (Kokoro/DIA/Qwen3-TTS families), set per-segment synthesis parameters (speed, stability), plan stitching (per-segment render + ffmpeg concat + crossfade), and voice-design via descriptive prompts on supported models. Reads the script from podcast-producer, hands rendered audio plan to episode-publisher. Use when the user asks to select voices / TTS voiceover / speech synthesis / voice casting / make the voice sound natural / multi-character voiceover / TTS / voice / audio production. Do NOT use for writing or linting the script (podcast-producer), nor for publishing metadata (episode-publisher)."
 license: Apache-2.0
 compatibility: Pure prompt-based; references only — no bundled synthesis binary (calls user-side TTS per catalog).
 metadata:
@@ -14,90 +14,90 @@ metadata:
 
 # TTS Voice Director
 
-给已过 lint 的脚本做**声音执导**：选声、定参、排拼接。核心判断是**角色-声音匹配表**——声音选错，脚本再好也是播报腔。
+Perform **voice direction** on a script that has passed lint: cast voices, set parameters, and plan the stitching. The core judgment is the **role-voice matching table** — pick the wrong voice and, no matter how good the script is, it sounds like a newsreader.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |------|------|------|
-| 脚本 | ✓ | podcast-producer 的产出（已过 script_lint） |
-| 形态 | ✓ | 单人 / 双人对话 / 有声书 |
-| TTS 引擎 | ✗ | 默认 Kokoro 系（本地免费）；指定则按目录适配 |
-| 情绪要求 | ✗ | 每段的情绪标签（沉稳/兴奋/低语） |
+| Script | Yes | podcast-producer's output (already passed script_lint) |
+| Format | Yes | Single / two-voice dialogue / audiobook |
+| TTS engine | No | Defaults to the Kokoro family (local, free); if specified, adapt per the catalog |
+| Emotion requirements | No | Per-segment emotion tags (calm / excited / whispered) |
 
-缺输入时一次性问齐："请提供：① 已过 lint 的脚本 ② 形态（单人/双人对话/有声书）③ TTS 引擎（缺省 Kokoro 系）④ 特殊情绪要求（可选）。"
+When inputs are missing, ask for all at once: "Please provide: ① the lint-passed script; ② the format (single / two-voice dialogue / audiobook); ③ the TTS engine (defaults to the Kokoro family); ④ special emotion requirements (optional)."
 
-## 前置自检
+## Pre-flight Self-check
 
-本技能自身无运行时依赖（纯规划，不捆绑合成引擎）。自检点：
+This skill itself has no runtime dependencies (pure planning, no bundled synthesis engine). Self-check point:
 
 ```bash
 test -f references/voice-catalog.md && echo CATALOG-OK
 ```
 
-- `CATALOG-OK` 必须出现；失败说明技能包不完整，STOP 并提示重装。
-- **引擎在位性是用户侧状态**，本技能不打包引擎、也没有统一探测命令：执行合成前按 [voice-catalog.md](references/voice-catalog.md) 的"核实方法"（各引擎官方页/HuggingFace 模型卡）确认所选引擎可用，再动第一段合成。规划阶段不被此阻塞。
+- `CATALOG-OK` must appear; failure means the skill package is incomplete — STOP and prompt for reinstall.
+- **Whether the engine is in place is a user-side state**; this skill does not bundle an engine and has no unified detection command: before running synthesis, confirm the chosen engine is available per [voice-catalog.md](references/voice-catalog.md)'s "verification method" (each engine's official page / HuggingFace model card), then start the first segment. The planning stage is not blocked by this.
 
-## 工作流
+## Workflow
 
-### 步骤 1：查声音目录选角
+### Step 1: Look Up the Voice Catalog and Cast
 
-打开 [voice-catalog.md](references/voice-catalog.md)，按「角色气质 → 声音 ID」映射表选声。纪律：
+Open [voice-catalog.md](references/voice-catalog.md) and cast voices per the "character temperament → voice ID" mapping table. Discipline:
 
-- **先定角色气质再挑声音**：温暖主持人 / 权威解说 / 轻松搭档 / 有声书旁白——气质词来自脚本大纲的人物设定，不是听到哪个顺耳用哪个
-- **双人对话必须声线差异最大化**：男女搭配或不同音区，同性别选不同 ID 且试听对比
-- **同节目全季固定卡司**：声音 ID 写进节目配置，换季不换声
+- **Decide the character temperament first, then pick the voice**: warm host / authoritative narrator / easygoing co-host / audiobook narrator — the temperament words come from the character setup in the script outline, not whichever sounds nice on a given day
+- **Two-voice dialogue must maximize vocal contrast**: male-female pairing or different registers; if same gender, pick different IDs and audition them against each other
+- **Fix the cast for the whole season of a show**: write the voice IDs into the show config; do not change voices between seasons
 
-预期：脚本每个角色都映射到一个候选声音 ID，双人对话两声线 ID 不同。
-若失败：目录里找不到匹配气质的音色 → 从最接近的气质族里挑 2 个做试听对比再定，不要跨族硬凑；用户对两个候选都听不惯 → 回 podcast-producer 调整角色气质描述，再回来重选。
+Expected: every character in the script maps to a candidate voice ID, and the two-voice dialogue has two different voice IDs.
+On failure: the catalog has no timbre matching the temperament → pick 2 from the closest temperament family to audition and compare before deciding; do not force a cross-family match. If the user likes neither candidate → go back to podcast-producer to adjust the character temperament description, then come back to re-cast.
 
-### 步骤 2：定合成参数
+### Step 2: Set Synthesis Parameters
 
-- **语速**：中文口播 1.0 基准，解说类可 1.05-1.1，沉思类 0.95
-- **停顿靠标点**：脚本里的句号/破折号就是全部停顿控制；合成参数里没有"情感"滑块时，改写文案比调参数有效
-- **voice design（仅支持的模型）**：Qwen3-TTS 类支持描述式生成音色（"图书馆里的低沉男声"），零样本克隆需 ≥3 秒样本并留授权记录
+- **Speed**: Chinese narration at 1.0 baseline; explanatory narration can be 1.05-1.1, reflective pieces 0.95
+- **Pauses rely on punctuation**: the periods/em dashes in the script are all the pause control there is; when the synthesis parameters have no "emotion" slider, rewriting the copy works better than tuning parameters
+- **Voice design (supported models only)**: Qwen3-TTS-family supports descriptive timbre generation ("a deep male voice in a library"); zero-shot cloning needs a ≥3-second sample with a record of authorization
 
-预期：每段都有明确的语速/参数取值，且注明所依据的气质。
-若失败：所选引擎不支持某个参数（如无 speed 档）→ 按引擎能力降级为「只用标点控节奏」，并把该限制写进合成计划；需要零样本克隆但拿不到 ≥3 秒样本或授权记录 → 不克隆，改用目录内既有音色。
+Expected: every segment has an explicit speed/parameter value, with the temperament it is based on noted.
+On failure: the chosen engine does not support a parameter (e.g. no speed control) → degrade to "use punctuation only to control pacing" per the engine's capability, and write that limit into the synthesis plan. If zero-shot cloning is needed but a ≥3-second sample or authorization record is unavailable → do not clone; use an existing timbre from the catalog.
 
-### 步骤 3：排拼接计划
+### Step 3: Plan the Stitching
 
 ```text
-intro 音乐（fade in 2s）
-  → seg-01（host 声）→ 500ms 间隔 → seg-02（guest 声）→ ...
-outro 音乐（fade out，匹配 intro 风格）
+intro music (fade in 2s)
+  → seg-01 (host voice) → 500ms gap → seg-02 (guest voice) → ...
+outro music (fade out, matching the intro style)
 ```
 
-- **逐段合成再拼接**（ffmpeg concat `-c copy` 不重编码，秒级完成）
-- 对话段相邻行 crossfade 300-500ms 消接缝
-- 音乐垫底只铺 intro/outro 与段间，人声段不压床（除非音量 -18dB 以下）
+- **Synthesize segment by segment, then concatenate** (ffmpeg concat `-c copy` does not re-encode and finishes in seconds)
+- Crossfade adjacent dialogue lines by 300-500ms to eliminate seams
+- Music beds only under intro/outro and between segments; do not duck the human voice (unless below -18dB)
 
-预期：拼接清单逐行给出段落、声源、间隔/交叉淡化时长与音乐段落位置。
-若失败：某段音频格式与其余不一致（concat 要求同编码）→ 先统一重编码该段再拼；出现接缝爆音 → 把该接缝的 crossfade 从 300ms 上调到 500ms。
+Expected: the stitching list gives, line by line, the segment, voice source, gap/crossfade duration, and music segment positions.
+On failure: a segment's audio format differs from the rest (concat requires the same encoding) → first re-encode that segment uniformly, then stitch; if a seam crackle appears → raise that seam's crossfade from 300ms to 500ms.
 
-### 步骤 4：链条移交
+### Step 4: Chain Handoff
 
-交付合成计划（角色-段落-参数表）+ 拼接清单。**接着说："合成计划已就绪，执行后调用 episode-publisher 产发布件"**——链条收口。
-- 预期：episode-publisher 拿到的计划每段有声源与参数，拼接清单可直接喂 ffmpeg。
-- 若失败：合成后发现某段音色不合适 → 只重合成该段再拼接（逐段合成的意义），不推倒整条时间线。
+Deliver the synthesis plan (role-segment-parameter table) + the stitching list. **Then say: "The synthesis plan is ready; after executing, call episode-publisher to produce the publish package"** — the chain closes.
+- Expected: the plan episode-publisher receives has a voice source and parameters per segment, and the stitching list can be fed directly to ffmpeg.
+- On failure: after synthesis a segment's timbre turns out unsuitable → re-synthesize only that segment and restitch (that is the point of per-segment synthesis), do not tear down the whole timeline.
 
-## 交付标准
+## Delivery Standards
 
-- 产物：合成计划表（段落 × 声音 ID × 语速/参数）+ 拼接清单（含 crossfade 时长与音乐段落）。
-- 保存位置：直接输出在对话中；实际音频由执行侧产出，本技能不落盘音频。
-- 完整性验证：脚本每个分段都分配到声音与参数；双人对话两声线 ID 不同；全季声音 ID 与节目配置一致。
+- Artifacts: the synthesis plan table (segment × voice ID × speed/parameters) + the stitching list (including crossfade durations and music segments).
+- Save location: output directly in the conversation; the actual audio is produced by the execution side, and this skill persists no audio.
+- Integrity verification: every segment in the script is assigned a voice and parameters; the two-voice dialogue has two different voice IDs; the season's voice IDs match the show config.
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Action |
 |------|------|------|
-| 声音出戏 | 气质与角色不匹配 | 回目录按气质重选，双人做声线差异对比 |
-| 语速赶/拖 | 语速参数一刀切 | 按段定速：解说 1.05+ / 沉思 0.95 |
-| 接缝爆音 | 硬拼接 | 相邻段 crossfade 300-500ms |
-| 专有名词读错 | 合成器词典缺词 | 错词记录进 shownotes 术语表；反复错就改写谐音字并同步人工校对 |
-| 情绪平 | 模型无情感参数 | 回到脚本改文案——节奏在标点和句子长短里，不在参数里 |
+| The voice breaks immersion | Temperament does not match the role | Go back to the catalog and re-cast by temperament; for two voices, audition the contrast |
+| The pace rushes or drags | Speed parameter applied one-size-fits-all | Set speed per segment: explanatory 1.05+ / reflective 0.95 |
+| Seam crackle | Hard concatenation | Crossfade adjacent segments 300-500ms |
+| Proper nouns mispronounced | The synthesizer's dictionary lacks the word | Record the wrong word in the shownotes glossary; if it recurs, rewrite with a homophone and arrange human proofreading |
+| The emotion is flat | The model has no emotion parameter | Go back to the script and rewrite the copy — pacing lives in punctuation and sentence length, not in parameters |
 
-## 参考
+## References
 
-- [voice-catalog.md](references/voice-catalog.md) —— 声音目录：各家 TTS 的声音 ID、气质映射与核实方法
-- [emotion-delivery-lexicon.md](references/emotion-delivery-lexicon.md) —— 情绪表演词库：情绪→文案手法对照、标点停顿层级、重音位置、对话节奏、参数档位（"情绪平"时先查这张再改脚本）
+- [voice-catalog.md](references/voice-catalog.md) — the voice catalog: each TTS's voice IDs, temperament mappings, and verification method
+- [emotion-delivery-lexicon.md](references/emotion-delivery-lexicon.md) — the emotion-performance word bank: emotion → copy technique mapping, punctuation pause hierarchy, stress placement, dialogue rhythm, and parameter tiers (check this before changing the script when "the emotion is flat")

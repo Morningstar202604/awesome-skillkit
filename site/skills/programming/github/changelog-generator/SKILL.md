@@ -1,6 +1,6 @@
 ---
 name: changelog-generator
-description: "Produce consistent, auditable release notes from Conventional Commits. Separates commit parsing, semantic-bump logic, and changelog rendering for automated releases with editorial control. Use when cutting a release, generating CHANGELOG.md from git history, computing the next semantic version from commits, automating release notes in CI, or planning a hotfix/rollback. Examples: 'generate the changelog for v1.4.0', 'what version bump do these commits require', 'we need an emergency hotfix process'. 当用户要求 生成更新日志 / 写 CHANGELOG / 整理版本变更 时使用。 Do NOT use for publishing releases (generation only)."
+description: "Produce consistent, auditable release notes from Conventional Commits. Separates commit parsing, semantic-bump logic, and changelog rendering for automated releases with editorial control. Use when cutting a release, generating CHANGELOG.md from git history, computing the next semantic version from commits, writing release notes, organizing version changes, automating release notes in CI, or planning a hotfix/rollback. Examples: 'generate the changelog for v1.4.0', 'what version bump do these commits require', 'we need an emergency hotfix process'. Do NOT use for publishing releases (generation only)."
 license: Apache-2.0
 compatibility: Requires docker. No API keys required.
 metadata:
@@ -14,43 +14,43 @@ metadata:
 
 # Changelog Generator
 
-从 Conventional Commits 生成一致、可审计的发布说明。编排 commit 解析、语义化版本推算与 CHANGELOG 渲染三步；只生成，不发布。
+Produces consistent, auditable release notes from Conventional Commits. It orchestrates three steps — commit parsing, semver inference, and CHANGELOG rendering; it only generates, it does not publish.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Description |
 |------|------|------|
-| 当前目录的 git 仓库 | 必需 | 脚本直接调用 `git` 读取历史 |
-| 版本范围 | 必需 | 二选一：`--from-tag/--to-tag` 或 `--input <文件\|stdin>` 提供 commit 列表 |
-| `--next-version` | 条件必需 | 渲染 CHANGELOG 条目时必须给出目标版本号 |
-| `--format` | 可选 | `markdown`（默认，给人看）或 `json`（CI 机读） |
-| `--write` | 可选 | 目标 `CHANGELOG.md` 路径；不传则只打印预览 |
+| A git repo in the current directory | Required | The scripts call `git` directly to read history |
+| Version range | Required | One of: `--from-tag/--to-tag`, or a commit list via `--input <file\|stdin>` |
+| `--next-version` | Conditionally required | The target version must be given when rendering a CHANGELOG entry |
+| `--format` | Optional | `markdown` (default, for humans) or `json` (machine-readable for CI) |
+| `--write` | Optional | Target `CHANGELOG.md` path; otherwise only prints a preview |
 
-缺失输入时一次性问齐：「请提供：①git 仓库路径（默认当前目录）②版本范围：起始 tag/结束 tag，或 commit 列表文件 ③目标版本号（如 v1.4.0）④输出格式 markdown/json（默认 markdown）。其余我采用默认值：不写文件、仅渲染 Added/Changed/Fixed。」
+When inputs are missing, ask for all at once: "Please provide: (1) git repo path (default current directory), (2) version range: start tag/end tag, or a commit-list file, (3) target version number (e.g. v1.4.0), (4) output format markdown/json (default markdown). I'll use the rest as defaults: don't write a file, render only Added/Changed/Fixed."
 
-## 前置自检
+## Pre-flight Checks
 
-运行前探测环境，任一失败→输出修复指引并 STOP：
-
-```bash
-git rev-parse --is-inside-work-tree   # 预期输出 true；失败：当前目录非 git 仓库 → cd 到仓库根或 STOP
-# 自检：python3 scripts/generate_changelog.py --help 预期退出码 0；失败：脚本缺失或 python3 不可用
-# 自检：python3 scripts/version_bumper.py --help 与 python3 scripts/commit_linter.py --help 同理
-```
-
-## 工作流
-
-### 步骤 1：计算下一个语义化版本（用户未定版本时）
+Probe the environment before running; on any failure → emit remediation guidance and STOP:
 
 ```bash
-python3 scripts/version_bumper.py --current-version 1.3.0 --input examples/commits.txt --output-format json   # 离线可跑：随包样例（git log --oneline 格式）
-# 真实用法（管道输入）：git log v1.3.0..HEAD --oneline | python3 scripts/version_bumper.py --current-version 1.3.0
+git rev-parse --is-inside-work-tree   # expected output true; on failure: the current dir isn't a git repo → cd to the repo root or STOP
+# Self-check: python3 scripts/generate_changelog.py --help should exit 0; on failure: script missing or python3 unavailable
+# Self-check: python3 scripts/version_bumper.py --help and python3 scripts/commit_linter.py --help likewise
 ```
 
-预期：输出含 `recommended_version` 与 `bump_type`（`major`/`minor`/`patch`/`none`）；加 `--include-commands` 时附 `git tag` 命令。
-若失败：输入非真实 `git log --oneline`（缺 hex 哈希）→ 改用 `git log v1.3.0..HEAD --oneline` 重取；`--current-version` 非纯 semver → 改为合规版本号。
+## Workflow
 
-### 步骤 2：从 git 范围或 commit 列表生成条目
+### Step 1: Compute the next semantic version (when the user hasn't set one)
+
+```bash
+python3 scripts/version_bumper.py --current-version 1.3.0 --input examples/commits.txt --output-format json   # runs offline: bundled sample (git log --oneline format)
+# Real usage (piped input): git log v1.3.0..HEAD --oneline | python3 scripts/version_bumper.py --current-version 1.3.0
+```
+
+Expected: output includes `recommended_version` and `bump_type` (`major`/`minor`/`patch`/`none`); with `--include-commands` it appends `git tag` commands.
+On failure: the input isn't real `git log --oneline` (missing hex hashes) → re-fetch with `git log v1.3.0..HEAD --oneline`; `--current-version` isn't pure semver → use a compliant version number.
+
+### Step 2: Generate entries from a git range or a commit list
 
 ```bash
 python3 scripts/generate_changelog.py \
@@ -58,90 +58,90 @@ python3 scripts/generate_changelog.py \
   --next-version v1.4.0 --format markdown
 ```
 
-或通过 stdin/文件：
+Or via stdin/file:
 
 ```bash
-python3 scripts/generate_changelog.py --input examples/commit-subjects.txt --next-version v1.4.0 --format markdown   # 随包样例（纯 subject 行，--pretty=format:'%s' 输出格式）
-# 真实用法（管道输入）：git log v1.3.0..v1.4.0 --pretty=format:'%s' | python3 scripts/generate_changelog.py --next-version v1.4.0 --format markdown
+python3 scripts/generate_changelog.py --input examples/commit-subjects.txt --next-version v1.4.0 --format markdown   # bundled sample (plain subject lines, --pretty=format:'%s' output format)
+# Real usage (piped input): git log v1.3.0..v1.4.0 --pretty=format:'%s' | python3 scripts/generate_changelog.py --next-version v1.4.0 --format markdown
 ```
 
-预期：stdout 输出 Keep a Changelog 分段（Added/Changed/Fixed…）；无有效 conventional commit 时脚本 early-fail，不产出误导性空说明。
-若失败：范围无效（`--from-tag` 不存在）→ 报错显式给出范围；commit 非 conventional → 提示先跑步骤 4 lint。
+Expected: stdout emits Keep a Changelog sections (Added/Changed/Fixed…); when there are no valid conventional commits the script early-fails rather than producing a misleading empty note.
+On failure: the range is invalid (`--from-tag` doesn't exist) → the error explicitly states the range; commits aren't conventional → prompt to run Step 4 lint first.
 
-### 步骤 3：写回 CHANGELOG.md（默认 dry-run，需确认）
+### Step 3: Write back to CHANGELOG.md (dry-run by default, needs confirmation)
 
 ```bash
-# 先预览（默认行为：不加 --write 只打印）
+# Preview first (default behavior: without --write it only prints)
 python3 scripts/generate_changelog.py \
   --from-tag v1.3.0 --to-tag HEAD \
   --next-version v1.4.0 --format markdown
-# 确认无误、经用户确认后再写：
+# After confirming it's correct and the user approves, write:
 python3 scripts/generate_changelog.py \
   --from-tag v1.3.0 --to-tag HEAD \
   --next-version v1.4.0 --write CHANGELOG.md
 ```
 
-预期：`--write` 后文件头部插入新条目，保留历史条目不覆盖。
-若失败：写目标缺失→脚本创建安全表头骨架；若误覆盖历史 sections→从 `git` 恢复历史条目（工具为 prepend，非覆盖）。
+Expected: after `--write` a new entry is inserted at the top of the file, preserving historical entries (no overwrite).
+On failure: the write target is missing → the script creates a safe header skeleton; if historical sections are accidentally overwritten → restore historical entries from `git` (the tool prepends, it doesn't overwrite).
 
-### 步骤 4：合并前 lint commit 格式
+### Step 4: Lint commit format before merge
 
 ```bash
 python3 scripts/commit_linter.py --from-ref origin/main --to-ref HEAD --strict --format text
-# 或文件/stdin：
+# Or file/stdin:
 python3 scripts/commit_linter.py --input commits.txt --strict
 cat commits.txt | python3 scripts/commit_linter.py --format json
 ```
 
-预期：`--strict` 下违例返回非零退出码，CI 据此阻断合并；text 模式打印违例行。
-若失败：取不到 `origin/main`（远端未配/无网）→ 改用本地 `main..HEAD`；有违例→按输出逐条修复后重跑。
+Expected: under `--strict`, violations return a non-zero exit code, which CI uses to block the merge; text mode prints the violating lines.
+On failure: `origin/main` can't be fetched (no remote/network) → use the local `main..HEAD` instead; violations exist → fix each per the output and rerun.
 
-## 参数速查表
+## Parameter Cheat Sheet
 
-| 参数 | 取值 | 说明 |
+| Parameter | Values | Description |
 |------|------|------|
-| `--from-tag` / `--to-tag` | git tag 名 | 定义版本范围；与 `--input` 互斥 |
-| `--input` | 文件路径或 stdin | commit 列表（`git log --pretty=format:'%s'` 或 `--oneline`） |
-| `--next-version` | semver（如 1.4.0） | 渲染的 CHANGELOG 版本号 |
-| `--format` | `markdown` \| `json` | markdown 给人看，json 给 CI |
-| `--write` | 文件路径 | 就地 prepend 到 CHANGELOG；不传=预览 |
-| `--prerelease` | `alpha`\|`beta`\|`rc` | 仅 `version_bumper.py`：预发布后缀 |
-| `--include-commands` | flag | 仅 `version_bumper.py`：输出 `git tag` 命令 |
-| `--strict` | flag | 仅 `commit_linter.py`：违例即非零退出 |
+| `--from-tag` / `--to-tag` | git tag names | Define the version range; mutually exclusive with `--input` |
+| `--input` | file path or stdin | Commit list (`git log --pretty=format:'%s'` or `--oneline`) |
+| `--next-version` | semver (e.g. 1.4.0) | The version number rendered into the CHANGELOG |
+| `--format` | `markdown` \| `json` | markdown for humans, json for CI |
+| `--write` | file path | Prepend in place to the CHANGELOG; omitted = preview |
+| `--prerelease` | `alpha`\|`beta`\|`rc` | `version_bumper.py` only: pre-release suffix |
+| `--include-commands` | flag | `version_bumper.py` only: emit `git tag` commands |
+| `--strict` | flag | `commit_linter.py` only: non-zero exit on any violation |
 
-## Conventional Commit 规则
+## Conventional Commit Rules
 
-支持类型：`feat` `fix` `perf` `refactor` `docs` `test` `build` `ci` `chore` `security` `deprecated` `remove`。
-破坏性变更：`type(scope)!: summary` 或 body 含 `BREAKING CHANGE:`。
-SemVer 映射：breaking → `major`；非破坏性 `feat` → `minor`；其余 → `patch`。
+Supported types: `feat` `fix` `perf` `refactor` `docs` `test` `build` `ci` `chore` `security` `deprecated` `remove`.
+Breaking changes: `type(scope)!: summary` or a body containing `BREAKING CHANGE:`.
+SemVer mapping: breaking → `major`; non-breaking `feat` → `minor`; everything else → `patch`.
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象/错误码 | 原因 | 处置 |
+| Symptom / error code | Cause | Fix |
 |------------|------|------|
-| `recommended_version` 为空 | 输入非真实 git log | 用 `git log vX..HEAD --oneline` 重取 |
-| early-fail「no valid conventional commits」 | 范围无合规提交 | 确认范围或先 lint；勿生成空说明 |
-| `--write` 覆盖历史 sections | 误用覆盖模式 | 工具为 prepend；已覆盖则从 `git` 恢复 |
-| `commit_linter` 非零退出 | 存在违例 commit | 按输出逐个修复后重跑 |
-| 取不到 `origin/main` | 远端未配/无网 | 改用本地 `main..HEAD` |
+| `recommended_version` is empty | The input isn't a real git log | Re-fetch with `git log vX..HEAD --oneline` |
+| early-fail "no valid conventional commits" | No compliant commits in the range | Confirm the range or lint first; don't generate an empty note |
+| `--write` overwrote historical sections | Overwrite mode used by mistake | The tool prepends; if already overwritten, restore from `git` |
+| `commit_linter` non-zero exit | Violating commits exist | Fix each per the output and rerun |
+| `origin/main` can't be fetched | No remote/network | Use the local `main..HEAD` |
 
-## 交付标准
+## Delivery Criteria
 
-成功定义：产出结构化 CHANGELOG 条目，breaking change 含迁移动作、安全修复归入 `Security` 段、空段省略、跨段重复去除。
-产物命名：`CHANGELOG.md`（仓库根，Keep a Changelog 格式）或 `<name>.json`（CI 产物）。
-保存位置：仓库根目录，进入版本控制。
-验证完整性：`--format json` 供 CI 校验；人工 review 草稿后再 `tag`；以 `commit_linter.py --strict` 作为合并门禁。
+Definition of success: produce a structured CHANGELOG entry, breaking changes include migration actions, security fixes go into a `Security` section, empty sections are omitted, and cross-section duplicates are removed.
+Artifact naming: `CHANGELOG.md` (repo root, Keep a Changelog format) or `<name>.json` (CI artifact).
+Save location: repo root, committed to version control.
+Completeness verification: `--format json` for CI validation; tag only after human review of the draft; use `commit_linter.py --strict` as the merge gate.
 
-## 安全红线
+## Safety Red Lines
 
-- `--write` 为写操作，默认 dry-run（不传只预览）；写 `CHANGELOG.md` 前必须向用户确认。
-- 仅生成不发布：本技能不执行 `git tag` / `git push`；tag 与发布由用户在生成确认后进行。
-- 示例样本 `assets/sample_git_log.txt` 仅作输入格式样例，非真实仓库数据。
+- `--write` is a write operation, dry-run by default (without it, it only previews); confirm with the user before writing `CHANGELOG.md`.
+- Generate only, don't publish: this skill doesn't run `git tag` / `git push`; tagging and releasing are done by the user after generation is confirmed.
+- The sample `assets/sample_git_log.txt` is only an input-format example, not real repo data.
 
-## 参考
+## References
 
-- `references/changelog-formatting-guide.md` —— 渲染分段规则与措辞规范时读
-- `references/ci-integration.md` —— 接入 CI 自动产出发布说明时读
-- `references/monorepo-strategy.md` —— 多包仓库按 scope 过滤 changelog 时读
-- `references/hotfix-procedures.md` —— 发布出错需分类 P0–P2 并定 hotfix/rollback 流程时读
-- `README.md` —— 安装与快速上手
+- `references/changelog-formatting-guide.md` — read when rendering section rules and wording conventions
+- `references/ci-integration.md` — read when wiring CI to produce release notes automatically
+- `references/monorepo-strategy.md` — read when filtering a changelog by scope in a multi-package repo
+- `references/hotfix-procedures.md` — read when a release goes wrong and you need to triage P0–P2 and define a hotfix/rollback process
+- `README.md` — installation and quick start

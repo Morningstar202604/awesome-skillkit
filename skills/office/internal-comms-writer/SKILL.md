@@ -1,6 +1,15 @@
 ---
 name: internal-comms-writer
-description: Draft company internal communications in four standard genres — recurring team updates, all-hands announcements, FAQ answers, and cross-team request emails — after pinning down audience, event, expected action and deadline. Use when the user asks to 写周报 / 写内部通知 / 发公司公告 / 回复员工 FAQ / 给其他团队发协调邮件 / team update / company announcement / internal comms / company newsletter / FAQ answer / cross-team request. Do NOT use for external customer-facing copy, marketing material, or legal/PR statements that require sign-off from comms or legal teams.
+description: >-
+  Draft company internal communications in four standard genres — recurring
+  team updates, all-hands announcements, FAQ answers, and cross-team request
+  emails — after pinning down audience, event, expected action and deadline.
+  Use when the user asks to write a team update / internal notice / company
+  announcement / reply to employee FAQ / send a cross-team coordination email /
+  team update / company announcement / internal comms / company newsletter /
+  FAQ answer / cross-team request. Do NOT use for external customer-facing copy,
+  marketing material, or legal/PR statements that require sign-off from comms
+  or legal teams.
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime deps.
 metadata:
@@ -12,139 +21,178 @@ metadata:
   verified-date: "2026-09-16"
 ---
 
-# Internal Comms Writer（内部通讯写作）
+# Internal Comms Writer (Internal Communications)
 
-内部通讯的第一杀手不是文笔差，而是信息没交代清：读者不知道要做什么、什么时候做完、找谁。本技能把内部写作收敛成四种文体模板加一份自查清单——先问清再动笔，一次问齐，不让用户被追问三轮。
+The #1 killer of internal comms isn't bad writing—it's unclear information:
+readers don't know what to do, by when, or whom to ask. This skill collapses
+internal writing into four genre templates plus a self-check checklist—ask
+first, write second, ask everything in one batch so the user isn't interrogated
+over three rounds.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |---|---|---|
-| 写给谁看 | 是 | 团队成员 / 全体员工 / 某个协作团队；人群规模和熟悉程度决定背景铺垫多少 |
-| 发生了什么 | 是 | 事实本身：进展、变更、政策、问题、求助事项 |
-| 希望读者做什么 | 是 | 知晓即可 / 切换系统 / 填表 / 回复确认；写不出这条就先和用户确认 |
-| 时间点 | 是 | 截止日期、生效日期、下次更新时间；没有时间点的行动项形同虚设 |
-| 补充素材 | 否 | 数据、链接、负责人名单、历史 FAQ 条目 |
+| Audience | yes | Team members / all employees / a collaborating team; audience size and familiarity set how much background to include |
+| What happened | yes | The facts: progress, change, policy, problem, ask |
+| Expected reader action | yes | Just be aware / switch systems / fill a form / reply to confirm; if you can't state this, confirm with user first |
+| Timing | yes | Deadline, effective date, next update time; an action item with no date is worthless |
+| Supporting material | no | Data, links, owner list, historical FAQ entries |
 
-缺必填项时，只问一次，四项一起问：
+When required inputs are missing, ask once—all four together:
 
-> 开始写之前请确认四件事：1) 这篇发给谁看？2) 核心事情是什么？3) 你希望他们读完做什么（或只是知晓）？4) 有什么时间点（截止 / 生效 / 下次更新）？有补充素材（数据、链接、负责人）也一并给我。
+> Before I start, please confirm four things: 1) who is this for? 2) what's the
+> core thing? 3) what do you want them to do after reading (or just be aware)?
+> 4) what timing applies (deadline / effective / next update)? Send any
+> supporting material (data, links, owners) as well.
 
-## 前置自检
+## Pre-flight Checks
 
-- 四个 W 齐了吗？缺任何一个 → 用上面的合并问题一次性问齐，不要逐条挤牙膏式追问。
-- 判断文体：拿到的是「定期同步」还是「变更通知」还是「答疑」还是「求助」？拿不准 → 问用户"这篇更接近哪种场景"并给出四个例子供选择。
-- 敏感内容扫描：涉及裁员、绩效、薪酬、组织调整、事故定责 → 提醒用户此类通讯通常需要 HR / 法务 / 管理层审阅，本技能产出仅供草稿。
-- 有没有内部黑话？读者群之外看不懂的缩写（如系统名、项目代号）→ 初稿中首次出现时补一句括号解释。
+- Are the four Ws present? Missing any → use the combined question above to ask
+  all at once, not drip-fed follow-ups.
+- Determine genre: is it a "regular sync" / "change notice" / "Q&A" / "ask for
+  help"? Unsure → ask user "which scenario does this most closely match" and
+  give four examples to choose from.
+- Sensitive content scan: involves layoffs, performance, compensation, org
+  changes, incident blame → warn that such comms usually need HR/legal/management
+  review; this skill's output is draft-only.
+- Internal jargon? Abbreviations outsiders won't get (system names, project
+  codenames) → add a parenthetical explanation on first appearance in the draft.
 
-## 工作流
+## Workflow
 
-### 步骤 1：定文体
+### Step 1: Determine Genre
 
-- **动作：** 按下表把请求映射到四类文体之一，并从 references/templates.md 取对应模板。
+- **Action:** Map the request to one of four genres per the table below, and
+  pull the corresponding template from references/templates.md.
 
-| 场景 | 文体 | 骨架 |
+| Scenario | Genre | Skeleton |
 |---|---|---|
-| 定期同步（周报 / 双周报 / 项目例行更新） | 团队更新 | 进度 → 计划 → 问题 |
-| 变更、政策、系统的全员通知 | 全员公告 | 结论 → 影响 → 行动 → 截止 |
-| 员工反复问的同一个问题 | FAQ 回答 | 问题 → 直接答案 → 背景 → 追问渠道 |
-| 请别的团队帮忙或对齐资源 | 求助协调邮件 | 上下文 → 请求 → 截止 → 替代方案 |
+| Regular sync (weekly / biweekly / project standup) | Team update | Progress → Plan → Issues |
+| All-hands notice of change/policy/system | All-hands announcement | Conclusion → Impact → Action → Deadline |
+| Same question employees repeatedly ask | FAQ answer | Question → Direct answer → Background → Follow-up channel |
+| Ask another team for help or resource alignment | Cross-team request email | Context → Request → Deadline → Alternative |
 
-- **预期：** 文体唯一确定；如果一篇通讯混了两种（如公告里带 FAQ）→ 分开写，主文体做正文，次文体做附录小节。
-- **若失败：** 四类都不像（如事故复盘、高管致辞）→ 如实告知超出模板范围，按"结论先行 + 时间点 + 行动项"三要素自由撰写，并说明该稿未经过模板自查。
+- **Expected:** genre uniquely determined; if one comms mixes two (e.g.
+  announcement with embedded FAQ) → write separately, main genre as body,
+  secondary as appendix section.
+- **If it fails:** none of the four fit (e.g. incident postmortem, executive
+  address) → say honestly it's outside template scope, write freely with
+  "conclusion first + timing + action items" three elements, and note the draft
+  didn't go through template self-check.
 
-文体判定示例（用户原话 → 判定）：
+Genre determination examples (user's words → verdict):
 
-| 用户说 | 判定 | 依据 |
+| User says | Verdict | Basis |
 |---|---|---|
-| "每周五发个组内同步，写写这周干啥了下周干啥" | 团队更新 | 定期 + 三段式诉求 |
-| "新审批系统下周一上线，全公司都得换入口" | 全员公告 | 变更 + 全员受众 + 行动项 |
-| "安全培训的事好多人来问，帮我写个统一答复" | FAQ 回答 | 同一问题的重复答疑 |
-| "需要数据组帮忙导一份报表，周五前要" | 求助协调邮件 | 跨团队 + 明确请求 + 截止 |
+| "Send a Friday team sync on what we did this week and next" | Team update | Recurring + three-part ask |
+| "New approval system goes live Monday, everyone must switch entry" | All-hands announcement | Change + all-employee audience + action item |
+| "Safety training questions keep coming, write a unified reply" | FAQ answer | Repeated Q&A on same topic |
+| "Need data team to export a report, by Friday" | Cross-team request email | Cross-team + explicit request + deadline |
 
-### 步骤 2：写初稿
+### Step 2: Write Draft
 
-- **动作：** 按模板填充，遵守三条写作纪律：
-  1. 一段只装一个信息点；段落之间如果需要"另外"、"顺便"，通常说明该拆段或该拆篇。
-  2. 结论放段首：每段第一句就是该段的全部重点，细节往后排。
-  3. 每个行动项必须带 owner（具体的人或角色，不能写"大家"）和截止时间（具体日期，不能写"尽快"、"近期"）。
-- **预期：** 初稿长度与读者投入成正比——团队更新 200-400 字，全员公告 300-500 字，FAQ 单条 100-200 字，求助邮件 200-400 字。
-- **若失败：** 用户给的素材太多塞不下 → 把细节移到"背景细节"或附链接，正文只留与本篇目的相关的部分，并在交付时列出被裁剪的内容供用户决定是否保留。
+- **Action:** Fill template, obey three writing disciplines:
+  1. One information point per paragraph; if you need "also" or "by the way"
+     between paragraphs, that usually means split the paragraph or the piece.
+  2. Conclusion first: the first sentence of each paragraph is its entire point;
+     details come after.
+  3. Every action item must carry an owner (specific person or role, not
+     "everyone") and a deadline (specific date, not "ASAP" or "soon").
+- **Expected:** draft length proportional to reader attention—team update
+  200-400 words, all-hands announcement 300-500 words, FAQ single entry
+  100-200 words, request email 200-400 words.
+- **If it fails:** user supplied too much material → move details to
+  "background details" or links, keep only what's relevant to this piece's
+  purpose in the body, and list what was cut for the user to decide.
 
-改稿对照示例（自查清单第 2、3、5 条如何落地）：
+Revision comparison example (how checklist items 2, 3, 5 land):
 
 ```text
-初稿（不合格）：
-  大家近期陆续切换新 VPN，请尽快在新入口登录一下，
-  遇到问题可能可以找 IT 看，最好在下月之前完成。
+Draft (failing):
+  Everyone will be switching to the new VPN soon; please log in at the new
+  entry ASAP. If you hit issues, maybe check with IT, ideally before next month.
 
-问题定位：
-  - "大家""尽快""下月之前" → 无 owner、无具体日期（第 2、5 条）
-  - "可能可以""一下" → 含糊，读者无法判断做到什么程度（第 3 条）
+Problem diagnosis:
+  - "everyone" "ASAP" "before next month" → no owner, no specific date (items 2, 5)
+  - "maybe" "a bit" → vague, reader can't tell when done (item 3)
 
-改后（合格）：
-  全体员工（owner：每位同事）请于 3 月 15 日（周五）下班前，
-  用新入口 vpn.example.com 登录一次并保持会话 5 分钟。
-  登录失败请当天在 #it-help 频道提单，IT 会在 1 个工作日内跟进。
+Revised (passing):
+  All employees (owner: every colleague) please log in once at the new entry
+  vpn.example.com by end of day Friday March 15 and keep the session open for
+  5 minutes. If login fails, file a ticket in the #it-help channel the same
+  day; IT will follow up within 1 business day.
 ```
 
-### 步骤 3：跑自查清单
+### Step 3: Run Self-Check Checklist
 
-- **动作：** 逐条核对，任何一条不过就回步骤 2 修改：
+- **Action:** Check item by item; any fail → return to step 2:
 
-| # | 自查项 | 不合格的典型症状 |
+| # | Check | Typical Failing Symptom |
 |---|---|---|
-| 1 | 一段是否只讲一个信息点？ | 出现"另外"、"顺便说一句" |
-| 2 | 每个行动项有没有 owner + 截止日期？ | 出现"大家"、"尽快"、"下周前尽量" |
-| 3 | 有没有防御性或含糊措辞？ | "可能大概也许"、"出于某些原因"、"不便透露更多" |
-| 4 | 读者读完 10 秒内能说出"我要做什么"？ | 结论埋在第三段之后 |
-| 5 | 时间点是否具体到日期？ | "下个月"、"Q4 晚些时候"无锚点日期 |
-| 6 | FAQ 是否避免了辩解口吻？ | 出现"我们此前已经说明"、"实际上并非如此" |
-| 7 | 求助邮件是否给了替代方案或让步空间？ | 只有一个要求且无任何回旋 |
+| 1 | One information point per paragraph? | "Also", "by the way" appears |
+| 2 | Every action item has owner + deadline? | "Everyone", "ASAP", "try by next week" appears |
+| 3 | Defensive or vague wording? | "might/maybe/possibly", "for some reason", "can't share more" |
+| 4 | Reader can state "what do I do" within 10 seconds? | Conclusion buried after third paragraph |
+| 5 | Timing specific to a date? | "Next month", "later in Q4" with no anchor date |
+| 6 | FAQ avoids defensive tone? | "As we previously stated", "actually that's not the case" |
+| 7 | Request email gives alternative or concession room? | Only one demand, no flexibility |
 
-- **预期：** 七条全过。
-- **若失败：** 第 3 条反复不过（用户坚持保留模糊表述）→ 保留用户原话但在交付说明里标注风险："此处表述可能被读者理解为……，建议与用户确认是否有意为之"。
+- **Expected:** all seven pass.
+- **If it fails:** item 3 repeatedly fails (user insists on vague wording) → keep
+  user's original phrasing but flag the risk in delivery notes: "this phrasing
+  may be read by readers as ...; recommend confirming with user whether
+  intentional."
 
-FAQ 防御性措辞对照（自查清单第 6 条如何落地）：
+FAQ defensive wording comparison (how checklist item 6 lands):
 
 ```text
-防御性（不合格）：
-  正如上季度公告里已经说明的，报销流程并未变得更复杂，
-  大家可能是没有仔细阅读通知。
+Defensive (failing):
+  As stated in last quarter's announcement, the reimbursement process has not
+  become more complex; everyone may simply not have read the notice carefully.
 
-直陈（合格）：
-  报销流程变了 1 处：发票附件从邮件改为系统上传。
-  3 月起旧邮件通道关闭。操作指引见内链，预计多花 2 分钟。
-  此前未单独发全员通知，是我们的疏漏，本条即为正式说明。
+Direct (passing):
+  One thing changed in reimbursement: invoice attachments move from email to
+  system upload. The old email channel closes in March. Steps are in the
+  internal link; expect about 2 extra minutes. We didn't send a separate
+  all-employee notice before—that was our oversight—and this entry is the
+  official explanation.
 ```
 
-### 步骤 4：交付
+### Step 4: Deliver
 
-- **动作：** 输出成品 + 三行交付说明：文体类型、假设了哪些未确认信息、建议发送渠道与时机。
-- **预期：** 用户拿到即可发；如仍有未确认假设（如截止日期是猜的），必须在交付说明里明确指出，不能静默带过。
-- **若失败：** 用户要求大改 → 只改被点名的问题，不趁机重写全文；改完重跑一次自查清单第 1-3 条。
+- **Action:** Output the finished piece + three-line delivery note: genre type,
+  assumptions about unconfirmed info, suggested send channel and timing.
+- **Expected:** user can send as-is; if unconfirmed assumptions remain (e.g.
+  deadline was guessed), must state them explicitly in delivery notes, don't
+  slip through silently.
+- **If it fails:** user requests major rework → only fix the called-out issues,
+  don't opportunistically rewrite the whole piece; rerun checklist items 1-3
+  after.
 
-## 交付标准
+## Delivery Criteria
 
-| 项 | 要求 |
+| Item | Requirement |
 |---|---|
-| 正文 | 四文体之一，段落 ≤ 5 行，行动项全部带 owner + 日期 |
-| 结构 | 结论先行；公告类含"影响面 + 行动项 + 截止时间"三件套 |
-| 语气 | 直陈、具体、无防御性措辞；FAQ 不辩解，求助不卑微 |
-| 交付说明 | 文体类型 + 未确认假设 + 建议发送渠道，缺一不可 |
+| Body | One of four genres, paragraphs ≤ 5 lines, all action items carry owner + date |
+| Structure | Conclusion first; announcements include "impact + action + deadline" trio |
+| Tone | Direct, specific, no defensive wording; FAQ doesn't justify, requests don't grovel |
+| Delivery note | Genre type + unconfirmed assumptions + suggested send channel, all required |
 
-## 失败处置表
+## Failure Handling Table
 
-| 症状 | 处置 |
+| Symptom | Action |
 |---|---|
-| 用户四个 W 只答得出一半 | 用已知部分先写占位稿，空缺处用 `【待确认：xx】` 标注，绝不编造日期或负责人 |
-| 通讯内容涉及负面事件（事故 / 故障 / 人员变动） | 只陈述事实与后续安排，不做归因和情绪评价，并提示需管理层过目 |
-| 用户要求"写得正式一点 / 活泼一点" | 只调整称谓与句式密度，文体骨架不动 |
-| 同一篇要发多个读者群 | 分层拆稿：全员版只留结论与行动，详细版给直接相关团队，两版都过自查清单 |
-| 用户只有口头素材没有数据 | 不虚构数字；数据位写 `【此处补数据】` 并在交付说明中列为待补项 |
-| 内容超出四种文体 | 按三要素自由写，明确声明未走模板自查 |
+| User answers only half of the four Ws | Write placeholder draft with known parts, mark gaps with `[TBD: xx]`, never fabricate dates or owners |
+| Comms involves negative event (incident / outage / personnel change) | State only facts and next steps, no blame or emotional judgment, flag that management review is needed |
+| User asks for "more formal / more lively" tone | Adjust salutation and sentence density only, keep genre skeleton |
+| Same piece for multiple reader groups | Layer and split: all-hands version keeps only conclusion and actions, detailed version for directly affected teams, both pass self-check |
+| User has only verbal material, no data | Don't invent numbers; put `[add data here]` placeholder and list as pending in delivery notes |
+| Content exceeds four genres | Write freely with three elements, explicitly state template self-check was skipped |
 
-## 参考
+## References
 
-- references/templates.md —— 四种文体的原创中文模板（部门周报 / 全员邮件 / FAQ 条目 / 跨团队求助），写初稿时对照取用。
-- references/sources-and-methodology.md —— 方法论来源与许可说明。
+- references/templates.md — original templates for four genres (department
+  weekly / all-hands email / FAQ entry / cross-team request); consult when
+  drafting.
+- references/sources-and-methodology.md — methodology sources and license.

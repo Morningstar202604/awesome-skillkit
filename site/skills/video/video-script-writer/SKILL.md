@@ -1,6 +1,6 @@
 ---
 name: video-script-writer
-description: "Write video scripts: dialogue, narration, shot descriptions, timing markers, and platform-compliant titles/captions. Supports multiple video types (talking character, meme, tutorial, vlog, short). Includes a golden-3-second hook discipline, single-CTA rule, and speaking-rate word budgeting. Use when the user needs a script for a video before production. 当用户要求 写视频脚本 / 短视频文案 / 分镜脚本 / 口播稿时使用。 Do NOT use for generating video files (script text only), nor for scene-by-scene storyboards and prompt pairs (use storyboard-designer)."
+description: "Write video scripts: dialogue, narration, shot descriptions, timing markers, and platform-compliant titles/captions. Supports multiple video types (talking character, meme, tutorial, vlog, short). Includes a golden-3-second hook discipline, single-CTA rule, and speaking-rate word budgeting. Use when the user needs a script for a video before production, e.g. writing a video script / short-video copy / storyboard script / voice-over script. Do NOT use for generating video files (script text only), nor for scene-by-scene storyboards and prompt pairs (use storyboard-designer)."
 license: Apache-2.0
 compatibility: "Prompt-based with an optional helper script. scripts/script_writer.py (Python 3.8+, stdlib only) generates a deterministic scene skeleton and — if SKILLKIT_LLM_URL/KEY env vars are set — calls an OpenAI-compatible gateway to write real dialogue. Without the gateway it emits template placeholder lines and labels them honestly (dialogue_source=template). No API keys required."
 metadata:
@@ -12,241 +12,241 @@ metadata:
   verified-date: "2026-09-22"
 ---
 
-# 视频脚本编写
+# Video Script Writer
 
-产出可投产的结构化视频脚本：台词、计时、画面指示、平台合规标题与标签。**脚本文本是唯一产物，不生成视频文件。**
+Produce production-ready structured video scripts: dialogue, timing, visual direction, platform-compliant titles and tags. **The script text is the only deliverable; no video files are generated.**
 
-短视频的评判标准不是"文案写得好"，而是**前 3 秒不被划走、看完知道做什么**。本技能的全部纪律围绕这两点。
+The judging standard for short videos is not "well-written copy" but **not being swiped away in the first 3 seconds, and viewers knowing what to do by the end**. Every discipline in this skill revolves around those two points.
 
-## 适用决策表
+## Applicability Decision Table
 
-| 你的处境 | 本技能的位置 | 去向 |
+| Your Situation | Where This Skill Sits | Go To |
 |----------|--------------|------|
-| 有一个概念，要成片脚本 | ✅ 本技能 | 这里 |
-| 已有脚本，要拆成分镜 | ❌ 越界 | storyboard-designer |
-| 要有画面的视频 prompt（非脚本） | ❌ 越界 | video-prompt-engineer |
-| 要文案但不涉及视频 | ❌ 越界 | product-copywriter |
-| 只给了"拍个好看的视频"这类空概念 | ⚠️ 先退回补：主体 + 钩子 | 前置自检 |
-| 目标时长超平台上限 | ⚠️ 先决策：拆集 or 下调 | 失败处置表 |
+| Have a concept, want a finished script | yes, this skill | here |
+| Have a script, want to break it into storyboards | out of scope | storyboard-designer |
+| Want a visual video prompt (not a script) | out of scope | video-prompt-engineer |
+| Want copy but not video-related | out of scope | product-copywriter |
+| Only gave an empty concept like "shoot a nice video" | note: push back for subject + hook first | pre-flight checks |
+| Target duration exceeds the platform cap | note: decide — split episodes or lower the length | failure table |
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |------|------|------|
-| concept | ✓ | 视频概念一句话（含主体与钩子） |
-| video_type | ✗ | `talking_character` / `meme` / `tutorial` / `vlog` / `short`，默认 `talking_character` |
-| duration | ✗ | 目标时长（秒），默认 30 |
-| platform | ✗ | `douyin` / `bilibili` / `tiktok`，默认 `douyin` |
-| language | ✗ | `zh` / `en`，默认 `zh` |
-| tone | ✗ | `funny` / `educational` / `dramatic`，默认 `funny` |
-| character | ✗ | 角色 JSON（name / persona / voice_style） |
+| concept | yes | One line of the video concept (subject + hook) |
+| video_type | no | `talking_character` / `meme` / `tutorial` / `vlog` / `short`, default `talking_character` |
+| duration | no | Target duration (seconds), default 30 |
+| platform | no | `douyin` / `bilibili` / `tiktok`, default `douyin` |
+| language | no | `zh` / `en`, default `zh` |
+| tone | no | `funny` / `educational` / `dramatic`, default `funny` |
+| character | no | Character JSON (name / persona / voice_style) |
 
-任一必需输入缺失时，一次性问齐：
+When any required input is missing, ask everything at once:
 
-> 请提供：① 视频概念（一句话，含主体与钩子）。可选：② 类型（默认 talking_character）、③ 时长（默认 30s）、④ 平台（默认 douyin）、⑤ 语言（默认 zh）、⑥ 角色设定、⑦ 基调（默认 funny）。
+> Please provide: ① video concept (one line, incl. subject and hook). Optional: ② type (default talking_character), ③ duration (default 30s), ④ platform (default douyin), ⑤ language (default zh), ⑥ character setting, ⑦ tone (default funny).
 
-## 前置自检
+## Pre-flight Checks
 
-- 概念非空：空概念（如"拍个好看的视频"）直接退回，要求补充主体与钩子。
-- 时长不超平台上限：douyin 60s / bilibili 900s / tiktok 600s。超限 → 让用户二选一：拆集 或 下调时长（脚本会静默截断，见诚实声明 5，不要默认接受）。
-- **选轨确认（仅当你实际要运行脚本时适用）**：环境是否配了 `SKILLKIT_LLM_URL` + `SKILLKIT_LLM_KEY`？
-  - 配了 → LLM 轨，脚本会调真模型写台词。
-  - 没配 → 模板轨，台词是自描述占位（`[角色] Attention grabber about: 概念`），**必须告诉用户这一点**，并给出两个选择：配网关重跑，或拿骨架人工写台词。
-  - **纯提示词模式（不运行脚本、直接手写脚本）跳过本项**：你按下方工作流把台词写完即可。**不得因为"无法检查环境变量"或"缺配置"而把任务退回用户**——交付物是本条视频的完整脚本，不是执行计划或环境检查结论。
+- Non-empty concept: an empty concept (e.g., "shoot a nice video") is rejected outright; ask for subject and hook.
+- Duration within the platform cap: douyin 60s / bilibili 900s / tiktok 600s. Over the cap -> have the user pick: split episodes or lower the duration (the script silently truncates otherwise, see Honest Disclosure 5 — don't accept that by default).
+- **Track-selection confirmation (only applies when you actually run the script)**: is the environment configured with `SKILLKIT_LLM_URL` + `SKILLKIT_LLM_KEY`?
+  - Configured -> LLM track; the script calls a real model to write dialogue.
+  - Not configured -> template track; dialogue is self-describing placeholders (`[Character] Attention grabber about: concept`); **you must tell the user this** and give two choices: configure the gateway and rerun, or take the skeleton and write dialogue by hand.
+  - **Pure-prompt mode (not running the script, writing the script directly) skips this item**: just finish the dialogue per the workflow below. **Don't bounce the task back to the user because you "can't check env vars" or "lack config"** — the deliverable is the complete script for this video, not an execution plan or an environment-check conclusion.
 
-## 暗知识（真正决定视频成败的东西）
+## Tacit Knowledge (What Actually Makes or Breaks a Video)
 
-### 1. 前 3 秒是黄金窗口：钩子不是"介绍"
+### 1. The First 3 Seconds Are the Golden Window: a Hook Is Not an "Introduction"
 
-观众在前 3 秒决定留或走。**钩子的定义是制造信息缺口**，不是自我介绍、不是"大家好"，也不是重复标题。
+Viewers decide stay-or-leave in the first 3 seconds. **The definition of a hook is creating an information gap**, not a self-introduction, not "hello everyone", and not repeating the title.
 
-六种可复用的钩子类型：
+Six reusable hook types:
 
-| 类型 | 句式骨架 | 适用 |
+| Type | Sentence Skeleton | Suits |
 |------|----------|------|
-| 痛点开场 | 「你的 X 是不是总 Y？」 | 教程、干货 |
-| 结果前置 | 「我用这招把 X 从 A 降到 B」 | 教程、评测 |
-| 反常识 | 「X 其实不是 Y 的原因」 | 观点、科普 |
-| 数字 | 「3 个动作，第 2 个最容易做错」 | 清单、教程 |
-| 提问 | 「为什么 A 时 B 总发生？」 | 科普、剧情 |
-| 利益承诺 | 「看完这条，你能 X」 | 教程、导流 |
+| Pain-point opener | "Does your X always Y?" | tutorials, how-tos |
+| Result first | "I used this trick to drop X from A to B" | tutorials, reviews |
+| Counterintuitive | "X is actually not the reason for Y" | opinion, explainer |
+| Number | "3 moves, the 2nd is the one people get wrong" | lists, tutorials |
+| Question | "Why does B always happen when A?" | explainer, story |
+| Benefit promise | "By the end of this, you'll be able to X" | tutorials, funnel |
 
-> 数字钩子里的数字**必须真实可核**（红线 1）；「90% 的人做错」式无从核实的比例属于编造，不许用。
+> Numbers in numeric hooks **must be real and verifiable** (Red Line 1); unverifiable ratios like "90% of people get it wrong" are fabrication and are forbidden.
 
-> 采信说明：钩子的重要性是行业通行共识；但"3 秒流失 X%""完播率提升 Y%"类的具体数字各家口径不一、无可核出处，本技能**不引用百分比**。
+> Sourcing note: the importance of hooks is an industry-wide consensus; but specific numbers like "3-second drop X%" or "completion-rate lift Y%" vary by source with no verifiable origin, so this skill **does not cite percentages**.
 
-### 2. 一条视频只给一个 CTA
+### 2. One CTA Per Video
 
-「点赞 + 关注 + 转发 + 评论 + 主页领表」= 没有 CTA——注意力被分摊就等于零。导流型视频的正确做法：**全片所有设计服务于结尾那一个动作**。
+"Like + follow + share + comment + grab the sheet on my homepage" = no CTA at all — attention spread thin equals zero. The right way for funnel-type videos: **every design in the film serves that one ending action**.
 
-### 3. 台词字数必须按口播语速核算
+### 3. Dialogue Word Count Must Be Budgeted by Speaking Rate
 
-中文口播通行语速约 **4–5 字/秒**（新闻联播式播报更快）。据此：
+Mandarin voice-over runs at about **4-5 characters/second** (news-anchor delivery is faster). Accordingly:
 
-| 时长 | 台词容量（字） |
+| Duration | Dialogue Capacity (chars) |
 |------|----------------|
-| 15s | 60–75 |
-| 30s | 120–150 |
-| 60s | 240–300 |
+| 15s | 60-75 |
+| 30s | 120-150 |
+| 60s | 240-300 |
 
-超容量的唯一正解是**砍词**，不是"说快点"——加速会牺牲清晰度与情绪。（语速为通行经验值，非平台规则；不同主播实际差异较大。）
+The only correct fix for over-capacity is **cutting words**, not "speak faster" — speeding up sacrifices clarity and emotion. (Speaking rate is a common empirical value, not a platform rule; actual hosts vary widely.)
 
-### 4. 口播与画面分工：能演的不说
+### 4. Voice-Over vs. Picture Division of Labor: Don't Say What Can Be Shown
 
-画面能演出来的信息，口播不要重复（「我打开了冰箱」+ 画面开冰箱 = 双重浪费）。口播只承担画面给不了的四种信息：**心理活动、背景交代、结论、数字**。
+Information the picture can show shouldn't be repeated in voice-over ("I opened the fridge" + a shot of opening the fridge = double waste). Voice-over only carries the four things the picture can't: **inner thoughts, background context, conclusions, numbers**.
 
-### 5. 循环设计：结尾接回开头
+### 5. Loop Design: Ending Feeds Back Into the Beginning
 
-meme / 短平快类型，让结尾画面或台词能直接接上开头 → 观众循环播放，完播与互动数据双赢。设计法：把钩子句写成能被"接住"的句子。
+For meme / fast-hit types, make the ending frame or line directly connect back to the opening -> viewers loop it, and completion + engagement both win. Design it by writing the hook sentence so it can be "caught".
 
-### 6. 封面/标题的承诺必须在前 3 秒兑现
+### 6. The Cover/Title Promise Must Pay Off in the First 3 Seconds
 
-承诺（封面/标题说有什么）与兑现（前 3 秒给什么）不一致 = 划走 + 负向反馈，这是流量衰减的常见原因。**写脚本时把封面文案和前 3 秒对照着写**。
+Promise (what the cover/title says) vs. payoff (what the first 3 seconds deliver) mismatch = swipe-away + negative feedback, a common cause of traffic decay. **Write the cover copy and the first 3 seconds side by side.**
 
-### 7. 合规不是可选项
+### 7. Compliance Is Not Optional
 
-- 带货/推广类：避开广告法极限词（最、第一、国家级、100% 等），避开虚假功效承诺。
-- 全类型：避免诱导互动（"点赞过万就发下期"）——主流平台规则明令限制。
-- 医疗健康类：不得承诺疗效。
-  > 具体类目规则以平台最新公示为准；本技能只做风险扫描，不做合规保证（诚实声明 7）。
+- Sales/promotion types: avoid advertising-law absolute terms (most, #1, national-level, 100%, etc.) and avoid false efficacy promises.
+- All types: avoid engagement bait ("if this gets 10k likes I'll post the next one") — mainstream platform rules explicitly restrict it.
+- Medical/health types: must not promise therapeutic effects.
+  > Category-specific rules follow the platform's latest public notices; this skill only does risk scanning, not a compliance guarantee (Honest Disclosure 7).
 
-## 红线（硬性禁令）
+## Red Lines (Hard Bans)
 
-1. **不编数据、不造假承诺**：钩子里的数字（"90% 的人做错"）必须有出处或改为定性表述；"3 天涨粉 10 万"式承诺直接禁止。
-2. **不写人设说不出口的台词**：角色是毒舌教练就写毒舌教练的话——人设一致性优先于文采。
-3. **模板轨台词不得冒充成品**：脚本产出的 `dialogue_source=template` 时，交付必须显式声明"这是骨架，台词待写"。
-4. **不承诺流量结果**：本技能保证结构合规与节奏合理，不对"爆款"作任何承诺。
-5. **单 CTA 不堆砌**（暗知识 2）。
+1. **Don't fabricate data or fake promises**: numbers in hooks ("90% get it wrong") must have a source or be rephrased qualitatively; promises like "100k followers in 3 days" are directly forbidden.
+2. **Don't write lines the persona couldn't say**: if the character is a snarky coach, write a snarky coach's lines — persona consistency beats literary polish.
+3. **Template-track dialogue must not be passed off as finished**: when the script's `dialogue_source=template`, delivery must explicitly state "this is a skeleton; dialogue to be written".
+4. **Don't promise traffic results**: this skill guarantees structural compliance and reasonable rhythm; it makes no promise about "going viral".
+5. **Single CTA, no stacking** (tacit knowledge 2).
 
-## 诚实声明（脚本的实际行为）
+## Honest Disclosure (The Script's Actual Behavior)
 
-`scripts/script_writer.py` 是**骨架生成器 + 可选的 LLM 台词轨**。以下为 2026-09-22 实跑核实：
+`scripts/script_writer.py` is a **skeleton generator + optional LLM dialogue track**. Verified by actual run on 2026-09-22:
 
-1. **LLM 双轨**：配置 `SKILLKIT_LLM_URL` + `SKILLKIT_LLM_KEY`（可选 `SKILLKIT_LLM_MODEL`）后，脚本调 OpenAI 兼容网关写台词，每场 `dialogue_source="llm"`；未配置、`--no-llm` 或网关失败 → 模板占位台词，`dialogue_source="template"`，且模板句**自描述为待补写**（如 `[Character] Payoff: 概念 (punchline here)`）。
-2. **顶层 `dialogue_source`** 汇总为 `llm` / `mixed` / `template` 三态；网关失败时 `llm_note` 记录原因（不静默冒充）。
-3. **`visual` 字段恒为占位**：`[role: describe visual action here]`——脚本不生成画面描述，必须人工或 LLM 补写。
-4. **`sfx` 大多数为空**：仅 hook / punchline / outro 三个角色有默认音效，其余为空字符串。
-5. **时长行为**：超出平台上限时**静默截断**并写入 `duration_note`；目标时长小于场景数时抬升到场景数（每场至少 1 秒）并写入 `duration_note`。
-6. **`caption` 是自动拼装的标签式文案**（含 emoji 前缀），脚本只做长度核对（`caption_check`），**不做内容合规审查**。
-7. **`tts_config.speed`**：funny 基调 = 1.2，其余 = 1.0；这是生成参数透传，不是"建议语速"。
-8. **`character.voice_style` 原样透传**，脚本不校验取值是否被下游 TTS 支持。
-9. **`status` 字段**：成功为 `"success"`；输入错误（缺 concept / JSON 不合法）时脚本**打印错误 JSON 而非静默失败**，退出码 2。
-10. **非法 `platform` 静默回退 `douyin`**：传入 `douyin/bilibili/tiktok` 以外的值不会报错，按 douyin 规则处理（平台上限与 caption 上限都按 douyin）。跨平台投递时注意这一条。
+1. **LLM dual track**: after configuring `SKILLKIT_LLM_URL` + `SKILLKIT_LLM_KEY` (optional `SKILLKIT_LLM_MODEL`), the script calls an OpenAI-compatible gateway to write dialogue, with each scene's `dialogue_source="llm"`; if unconfigured, `--no-llm`, or the gateway fails -> template placeholder dialogue, `dialogue_source="template"`, and template lines are **self-described as to-be-written** (e.g., `[Character] Payoff: concept (punchline here)`).
+2. **Top-level `dialogue_source`** aggregates to three states: `llm` / `mixed` / `template`; on gateway failure, `llm_note` records the reason (no silent impersonation).
+3. **The `visual` field is always a placeholder**: `[role: describe visual action here]` — the script doesn't generate visual descriptions; you must fill them in manually or via LLM.
+4. **`sfx` is mostly empty**: only the hook / punchline / outro roles have default sound effects; the rest are empty strings.
+5. **Duration behavior**: over the platform cap it **silently truncates** and writes `duration_note`; if the target duration is shorter than the scene count it raises to the scene count (>=1s per scene) and writes `duration_note`.
+6. **`caption` is auto-assembled tag-style copy** (with emoji prefixes); the script only does length checking (`caption_check`), **not content-compliance review**.
+7. **`tts_config.speed`**: tone funny = 1.2, others = 1.0; this is a passed-through generation parameter, not a "suggested speaking rate".
+8. **`character.voice_style` is passed through verbatim**; the script doesn't validate whether downstream TTS supports the value.
+9. **`status` field**: success is `"success"`; on input errors (missing concept / invalid JSON) the script **prints an error JSON rather than failing silently**, exit code 2.
+10. **Invalid `platform` silently falls back to `douyin`**: passing a value other than `douyin/bilibili/tiktok` doesn't error; it's processed under douyin rules (both platform caps and caption caps follow douyin). Watch this when cross-posting.
 
-## 工作流
+## Workflow
 
-### 步骤 1：概念收敛与选轨
+### Step 1: Concept Convergence & Track Selection
 
-按前置自检核对概念与选轨。概念里必须能读出"主体 + 钩子方向"。
+Check the concept and track per the pre-flight checks. The concept must let you read "subject + hook direction".
 
-**交付物是一份自包含的脚本 JSON**（逐场台词、`visual`/`camera`/`sfx` 指示、时长、标题与标签全部落在 `scenes[]` 与顶层字段里——下游 lip-sync 与剪辑按键值读取，另开的表格它读不到）——不是执行计划、不是"请提供更多信息"、不是环境检查结论。纯提示词模式下台词由你直接写完整；脚本模式才需要选轨。
-预期：concept 非空；用户已知晓本次是 LLM 轨还是模板轨。
-若失败：概念空泛 → 退回补，不猜着写。
+**The deliverable is a self-contained script JSON** (per-scene dialogue, `visual`/`camera`/`sfx` direction, duration, title and tags all live inside `scenes[]` and top-level fields — downstream lip-sync and editing read by key; a separately opened table isn't read) — not an execution plan, not "please provide more info", not an environment-check conclusion. In pure-prompt mode you write the dialogue completely yourself; track selection only matters in script mode.
+Expected: concept non-empty; the user knows whether this run is the LLM track or the template track.
+If it fails: concept is vague -> push back for more; don't guess your way through.
 
-### 步骤 2：生成脚本
+### Step 2: Generate the Script
 
 ```bash
-python3 scripts/script_writer.py --concept "宝宝测评手机" --type talking_character --duration 30 --platform douyin --language zh --tone funny
+python3 scripts/script_writer.py --concept "baby reviews a phone" --type talking_character --duration 30 --platform douyin --language zh --tone funny
 ```
 
-预期：stdout 输出 JSON，含 `title` / `hook` / `scenes`（id、role、duration_sec、dialogue、dialogue_source、visual、camera、sfx）/ `caption` / `total_duration` / `dialogue_source` / `caption_check`；`scenes` 总时长 = 目标时长（每场 ≥1s）。
-若失败：`status=error` → 读 error 字段定位；网关失败 → 看 `llm_note`，决定重试或转人工。
+Expected: stdout prints JSON containing `title` / `hook` / `scenes` (id, role, duration_sec, dialogue, dialogue_source, visual, camera, sfx) / `caption` / `total_duration` / `dialogue_source` / `caption_check`; `scenes` total duration = target duration (>=1s each).
+If it fails: `status=error` -> read the error field to locate; gateway failure -> check `llm_note` and decide to retry or switch to manual.
 
-### 步骤 3：把画面要素写回场景对象（必做）
+### Step 3: Write Visual Elements Back Into Scene Objects (Mandatory)
 
-脚本的 `visual` 全是占位。按「能演的不说」（暗知识 4）逐场补写：**主体 + 动作 + 景别/环境** 写进 `scenes[i].visual`，镜头运动写 `camera`，情绪拐点加 `sfx`——**写回场景对象本身，不要另开表格、不要出现字段缺失**（下游按键值读取）。
-**`dialogue` 只放能念出口的台词**；括号里的动作 / 表情 / 音效指示属于画面层（`visual`/`sfx`），不要混进 `dialogue`。
-自包含示例（交付照此形状，字段全部内嵌）：
+The script's `visual` values are all placeholders. Per "don't say what can be shown" (tacit knowledge 4), fill them per scene: write **subject + action + shot size/environment** into `scenes[i].visual`, camera movement into `camera`, emotional turning points into `sfx` — **write back into the scene object itself; don't open a separate table and don't leave fields missing** (downstream reads by key).
+**`dialogue` holds only speakable lines**; parenthetical action / expression / sound-effect directions belong to the visual layer (`visual`/`sfx`), not into `dialogue`.
+Self-contained example (deliver in this shape; all fields embedded):
 
 ```json
-{ "id": 2, "role": "主角", "duration_sec": 4, "dialogue": "我是谁…我在哪…", "dialogue_source": "llm", "visual": "浴室镜前，主角立牌式刷牙、眼神空洞，牙膏沫挂在嘴角", "camera": "中景，镜面反射带出背后疲惫身影", "sfx": "机械刷牙声" }
+{ "id": 2, "role": "lead", "duration_sec": 4, "dialogue": "Who am I... where am I...", "dialogue_source": "llm", "visual": "In front of the bathroom mirror, the lead brushes robotically, hollow-eyed, toothpaste foam at the corner of the mouth", "camera": "medium shot; the mirror reflection shows a tired figure behind", "sfx": "mechanical brushing sound" }
 ```
 
-预期：交付 JSON 的每个场景对象都含 `visual`（具体可执行），且 `dialogue` 内无括号动作指示。若失败：写不出画面 → 说明该场没有视觉信息，考虑合并或砍掉这场。
+Expected: every scene object in the delivered JSON has a concrete, executable `visual`, and `dialogue` contains no parenthetical action directions. If it fails: can't write visuals -> that scene has no visual information; consider merging or cutting it.
 
-### 步骤 4：按语速核算台词容量
+### Step 4: Budget Dialogue Capacity by Speaking Rate
 
-统计各场台词字数，对照暗知识 3 的容量表。超容量 → 砍词（优先砍重复信息与形容词）。
-预期：台词总字数 ÷ 时长 ∈ [4, 5] 字/秒。若失败：LLM 轨台词普遍超长 → 在 prompt 里加"每场不超过 N 字"重跑或人工删。
+Count the dialogue characters per scene against tacit-knowledge-3's capacity table. Over capacity -> cut words (prioritize repeated information and adjectives).
+Expected: total dialogue chars / duration in [4, 5] chars/sec. If it fails: LLM-track dialogue is universally too long -> rerun with "no more than N characters per scene" in the prompt, or trim manually.
 
-### 步骤 5：合规与承诺一致性核对
+### Step 5: Compliance & Promise-Consistency Check
 
-- 兑现测试：封面/标题（`title`）承诺的信息，前 3 秒（`hook`）是否给出（暗知识 6）。
-- 合规扫描：极限词 / 诱导互动 / 疗效承诺（暗知识 7）。
-- CTA 计数：全片是否只有一个行动号召（暗知识 2）。
-预期：三项全过。若失败：兑现不一致 → 改 title 或 hook（不要两边都改，无法归因）。
+- Payoff test: does the first 3 seconds (`hook`) deliver what the cover/title (`title`) promises (tacit knowledge 6)?
+- Compliance scan: absolute terms / engagement bait / efficacy promises (tacit knowledge 7).
+- CTA count: is there exactly one call to action in the film (tacit knowledge 2)?
+Expected: all three pass. If it fails: payoff mismatch -> change either title or hook (don't change both, or you can't attribute).
 
-## 脚本类型要点
+## Script-Type Notes
 
-### 口播角色（talking_character，baby、nailong 等）
+### Talking Character (talking_character, baby, nailong, etc.)
 
-- 对话驱动，2–4 场景；每场景一句台词 + 一个动作。
-- 金句落在 70–80% 处（经验值）；视觉以角色 + 道具为主，背景极简。
+- Dialogue-driven, 2-4 scenes; one line + one action per scene.
+- The punchline lands at 70-80% through (empirical); visuals center on character + props, background minimal.
 
-### 梗图/反应类（meme）
+### Meme / Reaction
 
-- 切镜率全类型最高（[timing-guide.md](references/timing-guide.md) 的 Meme 行：1.5–4s/镜、30s 片 8–15 镜）——**15s 片约 4–8 镜**。不要切成三个 5 秒的大段：均分时长 = 节奏平，是 meme 最常见的失败。
-- 节拍按「铺垫 → 重复/升级 → 反差落点」：笑点 / 崩溃点放在末 1–2 镜（期待落差），不是匀速线性吐槽；文字压屏 + 音频金句，每镜至多一句。
-- 结尾**必须**做循环衔接（暗知识 5）：末镜最后一帧回环到首帧。
+- Highest cut rate of all types ([timing-guide.md](references/timing-guide.md) Meme row: 1.5-4s/shot, 8-15 shots for a 30s piece) — **a 15s piece is ~4-8 shots**. Don't cut it into three 5-second blocks: evenly split duration = flat rhythm, the most common meme failure.
+- Beats follow "setup -> repeat/escalate -> punchline drop": put the laugh/crash point in the last 1-2 shots (expectation vs. payoff), not an even linear roast; overlay text + audio punchline, at most one line per shot.
+- The ending **must** loop back (tacit knowledge 5): the last frame loops to the first.
 
-### 教程/讲解类（tutorial）
+### Tutorial / Explainer
 
-- 开头 5s 给结果承诺（学完能得到什么）→ 步骤 20–60s（每步 <10s，一步一动作）→ 结尾 5s 收束 + 单 CTA（时间划分为经验值）。
-- **B 站与抖音的差异**：B 站观众耐心更高，可接受更长的铺垫与更深的原理；抖音前 3 秒定生死，不要把 B 站式开场搬到抖音。
+- Opening 5s gives the result promise (what you'll be able to do) -> steps 20-60s (each step <10s, one action per step) -> closing 5s wrap + single CTA (time splits are empirical).
+- **Bilibili vs. douyin differences**: Bilibili viewers have more patience and accept longer setup and deeper explanation; douyin lives or dies in the first 3 seconds — don't bring a Bilibili-style opening to douyin.
 
-## 内置验证步骤（交付前逐条打勾）
+## Built-in Verification Steps (Check Each Before Delivery)
 
-- [ ] **3 秒钩子测试**：`hook` 是信息缺口/张力，不是自我介绍或泛问
-- [ ] **单 CTA 测试**：全片只有一个行动号召
-- [ ] **语速测试**：台词总字数 ÷ 时长 ∈ [4, 5] 字/秒
-- [ ] **兑现测试**：title/封面承诺 ↔ 前 3 秒一致性
-- [ ] **循环测试**（meme）：结尾能接回开头
-- [ ] **合规扫描**：无极限词 / 诱导互动 / 疗效承诺
-- [ ] **占位清除**：`visual` 占位已全部替换；`dialogue_source=template` 时已向用户声明台词待写
-- [ ] **字段内嵌**：`visual`/`camera`/`sfx` 位于 `scenes[]` 对象内（未用表格替代）；`dialogue` 为纯净台词
+- [ ] **3-second hook test**: `hook` is an information gap / tension, not a self-introduction or generic question
+- [ ] **Single CTA test**: exactly one call to action in the film
+- [ ] **Speaking-rate test**: total dialogue chars / duration in [4, 5] chars/sec
+- [ ] **Payoff test**: title/cover promise <-> first-3-seconds consistency
+- [ ] **Loop test** (meme): the ending can feed back into the beginning
+- [ ] **Compliance scan**: no absolute terms / engagement bait / efficacy promises
+- [ ] **Placeholder cleared**: all `visual` placeholders replaced; when `dialogue_source=template`, told the user dialogue is to be written
+- [ ] **Fields embedded**: `visual`/`camera`/`sfx` live inside `scenes[]` objects (not replaced by a table); `dialogue` is pure lines
 
-## 失败处置表
+## Failure Remediation Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Remedy |
 |------|------|------|
-| `status=error`，`缺少 concept` | 无输入 | 退回要求补概念 |
-| `status=error`，`输入 JSON 不合法` | `--json-input` 语法错 | 修正 JSON 后重跑（rc=2） |
-| `llm_note` 提示网关失败 | 网关超时/坏 JSON | 重试；连续失败则转人工写台词，并如实告知 |
-| 总时长被截断（`duration_note`） | 超平台上限 | 与用户二选一：拆集 or 下调时长，不要默认接受截断 |
-| 某场 duration_sec = 1（疑似挤压） | 目标时长过短 | 确认 `duration_note` 是否记录抬升；必要时缩短概念或加时长 |
-| 台词超语速容量 | LLM 不懂"秒" | 按暗知识 3 砍词；或在网关 prompt 里加字数约束重跑 |
-| caption 超限（`caption_check.ok=false`） | 标题过长 | 裁剪 title 或合并标签 |
-| 用户要"必爆" | 期望管理 | 明确不做流量承诺（红线 4），改为解释结构合规性 |
+| `status=error`, `concept missing` | No input | Push back for a concept |
+| `status=error`, `invalid input JSON` | `--json-input` syntax error | Fix the JSON and rerun (rc=2) |
+| `llm_note` reports gateway failure | Gateway timeout / bad JSON | Retry; on repeated failure switch to manual dialogue and say so honestly |
+| Total duration truncated (`duration_note`) | Over platform cap | Have the user pick: split episodes or lower the duration; don't accept truncation by default |
+| A scene's duration_sec = 1 (looks squeezed) | Target duration too short | Confirm whether `duration_note` recorded a raise; if needed, shorten the concept or add duration |
+| Dialogue over speaking-rate capacity | The LLM doesn't understand "seconds" | Cut words per tacit knowledge 3; or add a word-count constraint to the gateway prompt and rerun |
+| Caption over limit (`caption_check.ok=false`) | Title too long | Trim title or merge tags |
+| User wants a "guaranteed hit" | Expectation management | Be clear you make no traffic promises (Red Line 4); instead explain structural compliance |
 
-## 交付标准
+## Delivery Standard
 
-- 结构化脚本 JSON：`title` / `hook` / `scenes[]`（含 `dialogue`、`dialogue_source`、`visual`、`camera`、`sfx`、`duration_sec`）/ `caption` / `total_duration`——**一份自包含 JSON**，画面 / 音效指示写在场景对象内，不用表格替代。
-- `dialogue` 只含可念出的台词（动作 / 表情 / 音效指示归 `visual`/`sfx`）。
-- `scenes` 总时长 = 目标时长；每场 ≥1s。
-- 每场 `visual` 可执行（非占位）；`dialogue_source` 如实标注。
-- 台词语速 ∈ [4, 5] 字/秒；`caption_check.ok = true`。
-- 内置验证 8 项全过。
-- 仅脚本文本，不生成视频文件；下游接 video-voice-synth → video-lip-sync → video-editor。
+- Structured script JSON: `title` / `hook` / `scenes[]` (with `dialogue`, `dialogue_source`, `visual`, `camera`, `sfx`, `duration_sec`) / `caption` / `total_duration` — **one self-contained JSON**, visual/sfx direction written inside scene objects, not replaced by a table.
+- `dialogue` holds only speakable lines (action / expression / sfx directions go to `visual`/`sfx`).
+- `scenes` total duration = target duration; >=1s per scene.
+- Each scene's `visual` is executable (not a placeholder); `dialogue_source` labeled honestly.
+- Dialogue speaking rate in [4, 5] chars/sec; `caption_check.ok = true`.
+- All 8 built-in verification items pass.
+- Script text only, no video files; downstream connects to video-voice-synth -> video-lip-sync -> video-editor.
 
-## 参考
+## References
 
-- `references/script-templates.md` — 各类型成品模板，写脚本前照抄骨架。
-- `references/timing-guide.md` — 节奏 / beat 规则与时长分配。
-- `references/sources-and-methodology.md` — 暗知识 1–7 的来源与采信纪律（拒绝百分比效果承诺）、脚本行为实测记录。交付/署名/被质疑时读。
-- [cinematography-lexicon.md](../video-prompt-engineer/references/cinematography-lexicon.md) — 镜头语言词库（转场/动作/表演细节）：脚本里的镜头指示词直接从这张选。
+- `references/script-templates.md` — finished templates per type; copy the skeleton before writing.
+- `references/timing-guide.md` — rhythm / beat rules and time allocation.
+- `references/sources-and-methodology.md` — sources of tacit knowledge 1-7 and sourcing discipline (reject percentage efficacy promises), script-behavior probe records. Read when delivering/attributing/being challenged.
+- [cinematography-lexicon.md](../video-prompt-engineer/references/cinematography-lexicon.md) — shot-language lexicon (transitions/actions/performance detail): pick shot-direction words for scripts from this.
 
-## 附录：CLI 契约（参数速查表）
+## Appendix: CLI Contract (Parameter Quick Reference)
 
-| 参数 | 取值 | 说明 |
+| Parameter | Value | Notes |
 |------|------|------|
-| `--concept` | str | 必填，视频概念 |
-| `--type` | enum | 模板类型（talking_character/meme/tutorial/vlog/short） |
-| `--duration` | int | 目标秒数，默认 30 |
+| `--concept` | str | Required, video concept |
+| `--type` | enum | Template type (talking_character/meme/tutorial/vlog/short) |
+| `--duration` | int | Target seconds, default 30 |
 | `--platform` | enum | douyin/bilibili/tiktok |
-| `--language` | zh/en | 默认 zh |
-| `--tone` | enum | 基调，默认 funny |
-| `--character` | JSON 串 | 角色设定（name/persona/voice_style） |
-| `--json-input` | 文件 | 完整 JSON 输入，覆盖单项参数 |
-| `--no-llm` | flag | 强制走模板轨（即使配了网关） |
-| `--output` | 文件 | 写文件替代 stdout |
-| env | `SKILLKIT_LLM_URL` / `SKILLKIT_LLM_KEY` / `SKILLKIT_LLM_MODEL` | 配置后启用 LLM 台词轨 |
+| `--language` | zh/en | default zh |
+| `--tone` | enum | Tone, default funny |
+| `--character` | JSON string | Character setting (name/persona/voice_style) |
+| `--json-input` | file | Full JSON input, overrides individual params |
+| `--no-llm` | flag | Force the template track (even if a gateway is configured) |
+| `--output` | file | Write to a file instead of stdout |
+| env | `SKILLKIT_LLM_URL` / `SKILLKIT_LLM_KEY` / `SKILLKIT_LLM_MODEL` | Enabling these turns on the LLM dialogue track |

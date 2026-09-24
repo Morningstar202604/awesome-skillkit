@@ -1,6 +1,6 @@
 ---
 name: video-subtitles
-description: "Generate SRT subtitles and platform-optimized captions from video script. Supports multi-language, timing sync, and per-platform caption formats. Use when the user asks to 加字幕 / 生成字幕 / 做字幕文件 / 短视频字幕 / 烧录字幕 / generate subtitles / add captions / make an SRT. Do NOT use for burning subtitles into video (see video-editor), translating audio (use a transcription tool), or styling thumbnails."
+description: "Generate SRT subtitles and platform-optimized captions from a video script. Supports multi-language, timing sync, and per-platform caption formats. Use when the user asks to add subtitles / generate subtitles / make a subtitle file / short-video subtitles / burn in subtitles / generate captions / add captions / make an SRT. Do NOT use for burning subtitles into video (see video-editor), translating audio (use a transcription tool), or styling thumbnails."
 license: Apache-2.0
 compatibility: Pure Python, no external dependencies. No API keys required.
 metadata:
@@ -14,101 +14,101 @@ metadata:
 
 # Video Subtitles & Captions
 
-从脚本场景列表生成时间轴对齐的 SRT 字幕与平台合规标题。默认用 `scripts/subtitles.py` 确定性产出；只产字幕文件，不烧录（烧录见 `video-editor`）。
+Generate time-aligned SRT subtitles and platform-compliant titles from the script's scene list. Default uses `scripts/subtitles.py` for deterministic output; it only produces subtitle files, doesn't burn them in (burn-in is `video-editor`'s job).
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |------|------|------|
-| script | ✓（批次）或 `text`+`start`+`end`（单条） | 场景列表 JSON，含 `dialogue` + `duration_sec` |
-| platform | ✗ | `douyin` / `bilibili` / `tiktok` / `youtube`，默认 `douyin` |
-| output | ✗ | SRT 输出路径，默认 `/tmp/subtitles.srt` |
+| script | yes (batch) or `text`+`start`+`end` (single) | Scene-list JSON, with `dialogue` + `duration_sec` |
+| platform | no | `douyin` / `bilibili` / `tiktok` / `youtube`, default `douyin` |
+| output | no | SRT output path, default `/tmp/subtitles.srt` |
 
-任一必需输入缺失时，一次性问齐：
+When any required input is missing, ask everything at once:
 
-> 请提供：① 脚本场景列表（JSON，含每条 dialogue 与 duration_sec），或 ② 单句文本 + 起止时间。可选：③ 平台（默认 douyin）、④ SRT 输出路径。
+> Please provide: ① the script scene list (JSON, with each item's dialogue and duration_sec), or ② a single line of text + start/end times. Optional: ③ platform (default douyin), ④ SRT output path.
 
-## 前置自检
+## Pre-flight Checks
 
-- `python3` 可用。
-- 输入可解析：批次 JSON 含 `scenes[].dialogue` 与 `duration_sec`；单条给出 `text` / `start` / `end`。
-- 总字幕时长与视频时长一致（误差 ≤ 0.5s），否则提示先校准脚本计时。
+- `python3` available.
+- Input parseable: batch JSON has `scenes[].dialogue` and `duration_sec`; single line gives `text` / `start` / `end`.
+- Total subtitle duration matches the video duration (within <= 0.5s); otherwise prompt to calibrate the script timing first.
 
-## 工作流
+## Workflow
 
-### 步骤 1：生成 SRT（批次）
+### Step 1: Generate SRT (Batch)
 
-动作：
+Action:
 
 ```bash
 python3 scripts/subtitles.py --script script.json --output subtitles.srt --platform douyin
 ```
 
-预期：退出码 0；`subtitles.srt` 存在，每条 cue = 序号 + 时间码 `HH:MM:SS,mmm --> ...` + 文本，时间码连续无重叠。
-若失败：JSON 缺 `duration_sec` → 补全后重跑；无 `dialogue` 的场景自动跳过该 cue。
+Expected: exit code 0; `subtitles.srt` exists, each cue = sequence number + timecode `HH:MM:SS,mmm --> ...` + text, timecodes continuous with no overlap.
+If it fails: JSON missing `duration_sec` -> fill it in and rerun; scenes with no `dialogue` are skipped for that cue.
 
-### 步骤 2：单句字幕（可选）
+### Step 2: Single-Line Subtitle (Optional)
 
-动作：
+Action:
 
 ```bash
-python3 scripts/subtitles.py --text "你们猜我花了多少钱？" --start 0 --end 3 --output line.srt
+python3 scripts/subtitles.py --text "Guess how much I spent?" --start 0 --end 3 --output line.srt
 ```
 
-预期：输出仅 1 条 cue，时间码 `00:00:00,000 --> 00:00:03,000`。
-若失败：`end <= start` → 报告时间区间非法，修正后重跑。
+Expected: output is just 1 cue, timecode `00:00:00,000 --> 00:00:03,000`.
+If it fails: `end <= start` -> report an invalid time range, fix and rerun.
 
-### 步骤 3：生成平台标题
+### Step 3: Generate the Platform Title
 
-动作：按下方「平台标题规则」从脚本 `caption` 字段裁剪出合规标题 + 标签。
-预期：不超平台字数 / 标签上限（douyin ≤50 字 + 3 标签）。
-若失败：超限 → 裁剪标题或合并标签。
+Action: cut a compliant title + tags from the script's `caption` field per the "platform title rules" below.
+Expected: within the platform's character / tag limits (douyin <=50 chars + 3 tags).
+If it fails: over the limit -> trim the title or merge tags.
 
-## SRT 格式示例
+## SRT Format Example
 
 ```text
 1
 00:00:00,000 --> 00:00:03,000
-你们猜我花了多少钱？
+Guess how much I spent?
 
 2
 00:00:03,000 --> 00:00:08,000
-八千九！就这个？
+Eight thousand nine hundred? That's it?
 ```
 
-## 平台标题规则
+## Platform Title Rules
 
 | Platform | Max Caption | Hashtag Limit | Style |
 |----------|-----------|---------------|-------|
 | Douyin | 50 chars | 3 tags | Emoji + keyword |
-| Bilibili | 100 chars | 5 tags | 【标题】 format |
+| Bilibili | 100 chars | 5 tags | 【title】 format |
 | TikTok | 220 chars | 5 tags | Lowercase + trending |
 | YouTube | 100 chars | N/A | Title + description |
 
-## 参数速查表
+## Parameter Quick Reference
 
-| 参数 | 取值 | 说明 |
+| Parameter | Value | Notes |
 |------|------|------|
-| `--script` | JSON 文件 | 批次场景列表 |
-| `--text` | str | 单句文本（与 `--script` 二选一） |
-| `--start` / `--end` | float | 单句起止秒，默认 0 / 3 |
-| `--platform` | enum | 平台 |
-| `--output` | 文件 | SRT 输出路径 |
+| `--script` | JSON file | Batch scene list |
+| `--text` | str | Single-line text (either this or `--script`) |
+| `--start` / `--end` | float | Single-line start/end seconds, default 0 / 3 |
+| `--platform` | enum | Platform |
+| `--output` | file | SRT output path |
 
-## 失败处置表
+## Failure Remediation Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Remedy |
 |------|------|------|
-| 时间码重叠 | 场景时长累加错 | 重算 `duration_sec` 后重跑 |
-| caption 超限 | 平台限制 | 裁剪标题 / 合并标签 |
-| SRT 为空 | 全场景无 dialogue | 补对话文本 |
-| 解析失败 | JSON 语法错 | 修正 `--script` 输入 |
+| Timecodes overlap | Scene-duration accumulation error | Recompute `duration_sec` and rerun |
+| Caption over limit | Platform limit | Trim title / merge tags |
+| SRT empty | No dialogue in any scene | Add dialogue text |
+| Parse failure | JSON syntax error | Fix the `--script` input |
 
-## 交付标准
+## Delivery Standard
 
-- `subtitles.srt` 时间码连续、与视频时长一致（误差 ≤ 0.5s）；`caption` 符合平台约束。
-- 仅产出字幕文件，不烧录；烧录进成片由 `video-editor` 负责。
+- `subtitles.srt` timecodes continuous, matching the video duration (within <= 0.5s); `caption` within platform constraints.
+- Only produces subtitle files, no burn-in; burning into the final cut is `video-editor`'s job.
 
-## 参考
+## References
 
-- `references/caption-formats.md` — 各平台字幕 / 标题格式细节与示例。
+- `references/caption-formats.md` — per-platform subtitle / title format details and examples.

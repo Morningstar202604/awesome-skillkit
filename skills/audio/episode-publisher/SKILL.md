@@ -1,6 +1,6 @@
 ---
 name: episode-publisher
-description: "Package a rendered podcast episode for publishing: markdown shownotes (summary, guest/links, terminology table), timestamped chapter markers (podcasting 2.0 style), platform metadata (title formulas, episode numbering, cover spec) for Chinese platforms (Xiaoyuzhou/Ximalaya) and Apple Podcasts, plus the AI-content disclosure line. Reads the script and synthesis plan from upstream chain steps. Use when the user asks to 发播客 / shownotes / 章节标记 / 播客发布 / 小宇宙发布 / 节目元数据. Do NOT use for writing the script (podcast-producer), nor for synthesis/voice selection (tts-voice-director)."
+description: "Package a rendered podcast episode for publishing: markdown shownotes (summary, guest/links, terminology table), timestamped chapter markers (podcasting 2.0 style), platform metadata (title formulas, episode numbering, cover spec) for Chinese platforms (Xiaoyuzhou/Ximalaya) and Apple Podcasts, plus the AI-content disclosure line. Reads the script and synthesis plan from upstream chain steps. Use when the user asks to publish a podcast / shownotes / chapter markers / podcast publishing / publish on Xiaoyuzhou / episode metadata / podcast / audio production. Do NOT use for writing the script (podcast-producer), nor for synthesis/voice selection (tts-voice-director)."
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime dependencies.
 metadata:
@@ -14,91 +14,91 @@ metadata:
 
 # Episode Publisher
 
-链条收口。把合成好的音频打包成**可发布件**：shownotes、章节标记、平台元数据、AI 披露声明。音频好了发布件拉胯 = 白做——小宇宙的转化一半在 shownotes。
+The chain's closing step. Package the synthesized audio into a **publishable deliverable**: shownotes, chapter markers, platform metadata, and the AI disclosure statement. Great audio but a weak publish package = wasted effort — half of Xiaoyuzhou's conversion happens in the shownotes.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |------|------|------|
-| 脚本 | ✓ | podcast-producer 产出（有分段结构才能推时间戳） |
-| 合成计划/音频 | ✓ | tts-voice-director 产出（段落时长用于章节估算） |
-| 平台 | ✗ | 默认小宇宙 + Apple Podcasts 双规格 |
+| Script | Yes | podcast-producer's output (segmented structure is needed to derive timestamps) |
+| Synthesis plan / audio | Yes | tts-voice-director's output (segment durations are used for chapter estimation) |
+| Platform | No | Defaults to the Xiaoyuzhou + Apple Podcasts dual spec |
 
-缺输入时一次性问齐："请提供：① 已合成的脚本 ② 每段实际时长（或音频文件时长）③ 期号与节目名（应来自节目配置，不手填）。"
+When inputs are missing, ask for all at once: "Please provide: ① the synthesized script; ② the actual duration of each segment (or the audio file's duration); ③ the episode number and show name (these should come from the show config, not be hand-filled)."
 
-## 前置自检
+## Pre-flight Self-check
 
-本技能纯 prompt 驱动：无运行时依赖、无端点、无环境变量。自检点是输入而非环境：**脚本与每段实际时长缺一不可**——没有实际时长就只能估时间戳，章节必然对不上音（见失败处置表第 1 行）。缺则问齐后 STOP。
+This skill is pure-prompt driven: no runtime dependencies, no endpoints, no environment variables. The self-check point is the inputs, not the environment: **the script and the actual per-segment durations are both indispensable** — without actual durations you can only estimate timestamps, and the chapters will inevitably not line up with the audio (see row 1 of the failure table). If missing, ask and then STOP.
 
-## 工作流
+## Workflow
 
-### 步骤 1：写 shownotes（固定结构）
+### Step 1: Write the Shownotes (fixed structure)
 
 ```markdown
-## 一句话摘要（≤40 字，钩子式）
-## 本期要点（3-5 条，每条一句话）
-## 提及资源（链接 + 一句话说明）
-## 术语表（脚本里易读错的词 → 正确读音/释义）
-## 时间线（见步骤 2）
-## 制作说明
-- 本期使用 AI 语音合成制作，内容经人工审校。
+## One-line summary (≤40 chars, hook style)
+## This episode's key points (3-5, one sentence each)
+## Resources mentioned (link + one-line note)
+## Glossary (easily misread words in the script → correct pronunciation/definition)
+## Timeline (see step 2)
+## Production note
+- This episode was produced using AI voice synthesis; the content has been human-reviewed.
 ```
 
-纪律：摘要写"这期让你明白什么"，不写"我们聊了聊"；术语表直接复用 podcast-producer 阶段记录的易错词；**AI 披露是硬要求**——多平台已要求合成内容标注，写死在模板里。
+Discipline: the summary writes "what this episode lets you understand," not "we chatted about"; the glossary directly reuses the error-prone words recorded during the podcast-producer stage; **AI disclosure is a hard requirement** — multiple platforms now require labeling synthetic content, so it is hardcoded into the template.
 
-预期：六段结构齐全、含 AI 披露行，摘要为钩子式且 ≤40 字。
-若失败：上游没留易错词记录 → 术语表写「本期待补」并在交付说明里点出来，不要编造读音；摘要写成"我们聊了聊"这类大纲式 → 重写为结论式；披露行缺失 → 立即补上，这是平台硬要求，不补不许交付。
+Expected: all six sections present, including the AI disclosure line; the summary is hook-style and ≤40 chars.
+On failure: upstream left no record of error-prone words → write "to be filled this episode" in the glossary and call it out in the delivery note; do not fabricate pronunciations. If the summary is written as an outline like "we chatted about," rewrite it as conclusions. If the disclosure line is missing, add it immediately — this is a platform hard requirement; no delivery without it.
 
-### 步骤 2：生成章节标记（podcasting 2.0 风格）
+### Step 2: Generate Chapter Markers (podcasting 2.0 style)
 
-按脚本分段 + 合成计划里每段的实际时长推时间戳：
+Derive timestamps from the script's segments plus each segment's actual duration in the synthesis plan:
 
 ```text
-00:00 开场
-00:35 现象：工具从 3 个涨到 30 个
-02:10 反直觉：演示与落地的差距
-04:20 怎么做：分段流水线
-06:00 收尾与预告
+00:00 Opening
+00:35 The phenomenon: tools grew from 3 to 30
+02:10 The counter-intuitive gap: demo vs. production
+04:20 How to do it: the segmented pipeline
+06:00 Wrap-up and preview
 ```
 
-格式按 `HH:MM 章节名`；正片开始后的第一章节不早于 00:30（平台规范）。
+Format is `HH:MM chapter name`; the first chapter after the main content starts no earlier than 00:30 (platform spec).
 
-预期：逐行 `HH:MM 章节名`，末章时间戳 ≤ 音频实际总时长。
-若失败：手上只有预估时长没有实际时长 → 先向用户要实际音频时长（见前置自检），不要用预估凑；末章超出音频总时长 → 按实际时长整体重算一遍；第一章节早于 00:30 → 与开场合并或后移，符合平台规范。
+Expected: line-by-line `HH:MM chapter name`, with the last chapter's timestamp ≤ the audio's actual total duration.
+On failure: you only have estimated durations, not actual ones → first ask the user for the actual audio duration (see pre-flight); do not pad with estimates. The last chapter exceeds the audio total duration → recompute everything against the actual duration. The first chapter is earlier than 00:30 → merge it with the opening or push it back, to meet the platform spec.
 
-### 步骤 3：平台元数据
+### Step 3: Platform Metadata
 
-| 字段 | 纪律 |
+| Field | Discipline |
 |------|------|
-| 标题 | `[期号] 主题钩子`——期号放前便于排序；钩子 ≤20 字 |
-| 副标题/一句话简介 | 与 shownotes 摘要同源，不另写 |
-| 封面 | 3000x3000 方图（Apple 规范）；复用 visual-design-studio 链产出 |
-| 分类 | 按平台分类表选一级；科技类默认「科技」+「教育」 |
+| Title | `[episode number] topic hook` — episode number first for sorting; the hook ≤20 chars |
+| Subtitle / one-line intro | Sourced from the shownotes summary; do not write a separate one |
+| Cover | 3000x3000 square (Apple spec); reuse the visual-design-studio chain's output |
+| Category | Pick a top-level category per the platform's category table; tech defaults to "Technology" + "Education" |
 
-预期：四个字段全部落值，标题带期号且钩子 ≤20 字。
-若失败：期号无从获取 → 向用户要节目配置（期号不手填，见失败处置表）；平台不在分类表内 → 选最接近的一级并注明所选平台与原分类的差异，等用户确认后再定稿。
+Expected: all four fields filled, the title carries the episode number and the hook ≤20 chars.
+On failure: the episode number cannot be obtained → ask the user for the show config (do not hand-fill episode numbers, see the failure table); the platform is not in the category table → pick the closest top-level category and note the difference from the platform's original category, then finalize after user confirmation.
 
-### 步骤 4：交付与链条闭环
+### Step 4: Deliver and Close the Chain
 
-交付：shownotes.md + chapters.txt + 各平台元数据卡。**链条到此收口**——"选题 → 脚本 → 合成 → 发布件"四步走完，缺哪步回哪步。
-- 预期：发布件可直接粘贴到平台后台，无需再补字段。
-- 若失败：平台审核驳回 → 按失败处置表对症修正后重交，不换平台绕审核。
+Deliver: shownotes.md + chapters.txt + per-platform metadata cards. **The chain closes here** — "topic selection → script → synthesis → publish package" is complete; whichever step is missing, go back to it.
+- Expected: the publish package can be pasted directly into the platform backend with no missing fields.
+- On failure: the platform review rejects → fix per the failure table and resubmit; do not switch platforms to dodge review.
 
-## 交付标准
+## Delivery Standards
 
-- 产物：`shownotes.md`（含 AI 披露行）、`chapters.txt`（`HH:MM 章节名` 逐行）、平台元数据卡（标题/副标题/封面规格/分类）。
-- 保存位置：直接输出在对话中；存文件时按上述命名。
-- 完整性验证：章节时间戳总和与音频实际时长一致（±1 章）；shownotes 六段结构齐全且含披露行；标题带期号且钩子 ≤20 字。
+- Artifacts: `shownotes.md` (with the AI disclosure line), `chapters.txt` (line-by-line `HH:MM chapter name`), and the platform metadata cards (title / subtitle / cover spec / category).
+- Save location: output directly in the conversation; when saving files, use the names above.
+- Integrity verification: the sum of chapter timestamps matches the audio's actual duration (±1 chapter); the shownotes have all six sections including the disclosure line; the title carries the episode number and the hook ≤20 chars.
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Action |
 |------|------|------|
-| 章节时间戳对不上 | 用了预估时长没回填实际值 | 合成后按实际音频时长重算一遍 |
-| 小宇宙审核不过 | AI 内容未披露 / 封面违规字 | 检查披露行；封面去极限词 |
-| shownotes 没人看 | 写成了大纲 | 每条要点带信息量，直接给结论 |
-| 期数乱 | 手写期号 | 期号从节目配置读，不手填 |
+| Chapter timestamps do not line up | Used estimated durations without back-filling actual values | After synthesis, recompute against the actual audio duration |
+| Xiaoyuzhou review rejected | AI content not disclosed / banned words on the cover | Check the disclosure line; strip extreme words from the cover |
+| No one reads the shownotes | Written as an outline | Every point carries information; give conclusions directly |
+| Episode numbers are messed up | Hand-filled episode numbers | Read episode numbers from the show config, do not hand-fill |
 
-## 参考
+## References
 
-方法论文献在 podcast-producer 技能包内（同包共享，技能包内不重复存放）：进入 podcast-producer 技能目录，读其 references 目录下的 sources-and-methodology 文档。平台披露要求与开源出处一并记录在该文件。
+The methodology references live in the podcast-producer skill package (shared within the package, not duplicated here): go into the podcast-producer skill directory and read its references directory's sources-and-methodology document. Platform disclosure requirements and open-source provenance are recorded in that file as well.

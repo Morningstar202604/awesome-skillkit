@@ -123,8 +123,9 @@ def _run(cmd: list, action: str) -> int:
         for line in tail[-12:]:
             print(f"  | {line}", file=sys.stderr)
         # 外部工具返回码可能超出 [0,255]（信号为负、ffmpeg 可返回 234 等），
-        # sys.exit() 只接受 0-255，越界会被截断成令人困惑的值；统一归为 1。
-        return 0 if proc.returncode == 0 else 1
+        # sys.exit() 只接受 0-255，越界会被截断成令人困惑的值；负值归为 1。
+        rc = proc.returncode
+        return rc if 0 <= rc <= 255 else 1
     return 0
 
 

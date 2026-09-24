@@ -1,6 +1,6 @@
 ---
 name: tech-debt-tracker
-description: "Scan codebases for technical debt, score severity, track trends, and generate prioritized remediation plans. Use when users mention tech debt, code quality, refactoring priority, debt scoring, cleanup sprints, or code health assessment. Also use for legacy code modernization planning and maintenance cost estimation. 当用户要求 梳理技术债 / 债项分级 / 还债计划 时使用。 Do NOT use for performing the refactors it tracks."
+description: "Scan codebases for technical debt, score severity, track trends, and generate prioritized remediation plans. Use when users mention tech debt, code quality, refactoring priority, debt scoring, cleanup sprints, or code health assessment. Also use for legacy code modernization planning and maintenance cost estimation, sorting out technical debt, grading debt items, or a debt-repayment plan. Do NOT use for performing the refactors it tracks."
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
@@ -12,110 +12,110 @@ metadata:
   verified-date: "2026-09-09"
 ---
 
-# 技术债追踪器
+# Tech Debt Tracker
 
-扫描代码库中的技术债信号，用 cost-of-delay 框架给待办排序，并基于带日期的快照追踪趋势。本技能只追踪和规划还债工作——不执行重构。
+Scans a codebase for technical-debt signals, ranks the backlog using a cost-of-delay framework, and tracks trends from dated snapshots. This skill only tracks and plans debt-repayment work — it does not perform refactors.
 
-流水线：`debt_scanner.py` → `debt_prioritizer.py` → `debt_dashboard.py`。扫描器的 JSON 输出直接喂给排序器；带日期的清单快照喂给看板。
+Pipeline: `debt_scanner.py` → `debt_prioritizer.py` → `debt_dashboard.py`. The scanner's JSON output feeds the prioritizer directly; dated inventory snapshots feed the dashboard.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Description |
 |------|------|------|
-| 代码库目录 | 必需 | 传给扫描器的路径；必须存在且可读 |
-| 排序框架 | 可选 | `cost_of_delay`（默认）、`wsjf` 或 `rice` |
-| `--team-size` | 可选 | 冲刺分配用的人数（prioritizer 默认：5） |
-| `--sprint-capacity` | 可选 | 冲刺容量（小时）（prioritizer 默认：80） |
-| 快照历史 | 可选 | 带日期的清单 JSON（`debt_YYYY-MM-DD.json`），趋势追踪用 |
+| Codebase directory | Required | The path passed to the scanner; must exist and be readable |
+| Prioritization framework | Optional | `cost_of_delay` (default), `wsjf`, or `rice` |
+| `--team-size` | Optional | Number of people for sprint allocation (prioritizer default: 5) |
+| `--sprint-capacity` | Optional | Sprint capacity in hours (prioritizer default: 80) |
+| Snapshot history | Optional | Dated inventory JSON (`debt_YYYY-MM-DD.json`) for trend tracking |
 
-输入缺失时一次性问齐："请提供：① 要扫描的代码库目录 ② 框架选择（cost_of_delay/wsjf/rice，默认 cost_of_delay）③ 冲刺分配用的人数与容量 ④ 如有历史快照文件一并给出，做趋势分析。其余按默认处理。"
+When inputs are missing, ask all at once: "Please provide: (1) the codebase directory to scan; (2) framework choice (cost_of_delay/wsjf/rice, default cost_of_delay); (3) team size and capacity for sprint allocation; (4) any historical snapshot files for trend analysis. Everything else uses defaults."
 
-## 前置自检
+## Pre-flight Checks
 
-逐条探测，任一失败 → 给出修复方法并 STOP：
-
-```bash
-python3 --version   # 预期 3.8+；失败：安装 python3
-# 自检：python3 scripts/debt_scanner.py --help / debt_prioritizer.py / debt_dashboard.py 均预期退出码 0
-test -d <codebase-directory>   # 预期退出码 0；失败：路径不对 → 向用户要正确目录
-```
-
-## 工作流
-
-### 步骤 1：扫描代码库
+Probe each item; if any fails → give the fix and STOP:
 
 ```bash
-python3 scripts/debt_scanner.py examples/sample-codebase --format json --output snapshots/2026-09.json   # 随包样例代码库；你的真实项目换成代码库根
+python3 --version   # expected 3.8+; failure: install python3
+# Self-check: python3 scripts/debt_scanner.py --help / debt_prioritizer.py / debt_dashboard.py all expected to exit 0
+test -d <codebase-directory>   # expected exit code 0; failure: wrong path → ask the user for the correct directory
 ```
 
-预期：生成 `debt_inventory.json`，含 `scan_metadata`、`summary`、`debt_items[]`、`file_statistics` 与 `recommendations`。把 `summary` 计数报给用户。演练：把扫描器指向 `assets/sample_codebase`。若失败：`debt_items[]` 为空 → 目录里可能没有可扫描的源码文件；确认路径里是代码，不只是文档/配置。
+## Workflow
 
-### 步骤 2：给待办排序
+### Step 1: Scan the codebase
 
 ```bash
-python3 scripts/debt_prioritizer.py examples/snapshots/2026-09.json --framework wsjf --team-size 6 --sprint-capacity 20 --format json --output snapshots/priorities.json   # 输入为上一步扫描产物（随包含样例）
+python3 scripts/debt_scanner.py examples/sample-codebase --format json --output snapshots/2026-09.json   # bundled sample codebase; swap in your real codebase root
 ```
 
-预期：`debt_priorities.json` 含 `prioritized_backlog`（自上而下执行）、`sprint_allocation`（直接贴进冲刺计划）与 `insights`。若失败：清单 JSON 非法 → 重跑步骤 1；框架名未知 → 从 `cost_of_delay`、`wsjf`、`rice` 中选一。
+Expected: produce `debt_inventory.json` containing `scan_metadata`, `summary`, `debt_items[]`, `file_statistics`, and `recommendations`. Report the `summary` counts to the user. To practice, point the scanner at `assets/sample_codebase`. On failure: `debt_items[]` is empty → the directory may have no scannable source files; confirm the path contains code, not just docs/config.
 
-### 步骤 3：追踪时间趋势
-
-保留带日期的快照（`debt_YYYY-MM-DD.json`），然后：
+### Step 2: Prioritize the backlog
 
 ```bash
-python3 scripts/debt_dashboard.py --input-dir examples/snapshots/ --period monthly --format both --output debt_dashboard   # 随包快照目录（两期对比）；你的真实快照换成 snapshots/
+python3 scripts/debt_prioritizer.py examples/snapshots/2026-09.json --framework wsjf --team-size 6 --sprint-capacity 20 --format json --output snapshots/priorities.json   # input is the Step 1 scan artifact (bundled sample included)
 ```
 
-或显式传文件：
+Expected: `debt_priorities.json` contains `prioritized_backlog` (execute top-down), `sprint_allocation` (paste directly into the sprint plan), and `insights`. On failure: the inventory JSON is invalid → rerun Step 1; unknown framework name → choose from `cost_of_delay`, `wsjf`, `rice`.
+
+### Step 3: Track the time trend
+
+Keep dated snapshots (`debt_YYYY-MM-DD.json`), then:
+
+```bash
+python3 scripts/debt_dashboard.py --input-dir examples/snapshots/ --period monthly --format both --output debt_dashboard   # bundled snapshot directory (two-period comparison); swap in your real snapshots/
+```
+
+Or pass files explicitly:
 
 ```bash
 python3 scripts/debt_dashboard.py assets/historical_debt_2024-01-15.json assets/historical_debt_2024-02-01.json --period monthly
 ```
 
-预期：看板输出趋势方向和一份可直接汇报的摘要。用它验证清理冲刺是否真的降了债。若失败：`--input-dir` 里没有清单文件 → 改为位置参数显式传文件；快照命名不一致 → 文件名必须含可解析的日期。
+Expected: the dashboard outputs the trend direction and a summary ready to present. Use it to verify whether a cleanup sprint actually reduced debt. On failure: no inventory files in `--input-dir` → pass files explicitly as positional args; inconsistent snapshot naming → filenames must contain a parseable date.
 
-### 步骤 4：验证闭环
+### Step 4: Verification loop
 
-还债冲刺结束后：重跑步骤 1 生成新快照，把它纳入步骤 3 重跑，断言目标类别的计数确实下降。看板没动的清理等于返工，不算还债。
+After a debt-repayment sprint: rerun Step 1 to produce a new snapshot, fold it into a rerun of Step 3, and assert that the target categories' counts actually dropped. Cleanup that doesn't move the dashboard is rework, not debt repayment.
 
-## 债务严重度评分
+## Debt Severity Scoring
 
-| 因子 | 权重 | 说明 |
+| Factor | Weight | Description |
 |------|------|------|
-| Impact | 30% | 影响多少用户/服务？ |
-| Risk | 25% | 有安全、数据丢失或合规风险吗？ |
-| Effort | 20% | 修复工作量多大？（反向计分） |
-| Frequency | 15% | 多久引发一次问题？ |
-| Age | 10% | 这笔债存在多久了？ |
+| Impact | 30% | How many users/services are affected? |
+| Risk | 25% | Is there security, data-loss, or compliance risk? |
+| Effort | 20% | How big is the fix? (inversely scored) |
+| Frequency | 15% | How often does it cause problems? |
+| Age | 10% | How long has this debt existed? |
 
-框架指南（WSJF、RICE、分类体系）在下方 references 里——用户质疑某个评分或追问特定框架的依据时读。
+Framework guidance (WSJF, RICE, the classification taxonomy) is in the references below — read when the user questions a score or asks about the basis for a particular framework.
 
-## 失败处置表
+## Failure Handling Table
 
-| 症状 / 报错 | 原因 | 修复 |
+| Symptom / error | Cause | Fix |
 |-------------|------|------|
-| 扫描器输出 `debt_items[]` 为空 | 目录里没有可扫描的源码文件 | 确认路径含代码；向用户要正确目录 |
-| 排序器拒绝清单文件 | 清单 JSON 损坏或被截断 | 重跑步骤 1，检查 `scan_metadata` 里的扫描错误 |
-| 看板不输出趋势 | 只有一份快照 | 至少收集两份带日期快照，或先生成一份日后对比 |
-| `--output` 文件没生成 | `--format both` 写的是带后缀的文件（如 `.json`/`.txt`） | 在输出基名旁边找两种扩展名 |
-| 用户觉得评分不对 | 默认权重不匹配团队情况 | 用扫描器 `--config` JSON 调整，或在报告里人工覆盖优先级 |
+| Scanner outputs empty `debt_items[]` | No scannable source files in the directory | Confirm the path contains code; ask the user for the correct directory |
+| Prioritizer rejects the inventory file | Inventory JSON corrupt or truncated | Rerun Step 1; check scan errors in `scan_metadata` |
+| Dashboard outputs no trend | Only one snapshot | Collect at least two dated snapshots, or produce one now for later comparison |
+| `--output` file not generated | `--format both` writes suffixed files (e.g. `.json`/`.txt`) | Look for the two extensions next to the output basename |
+| The user thinks the score is wrong | Default weights don't fit the team | Adjust with the scanner's `--config` JSON, or manually override priorities in the report |
 
-## 交付标准
+## Delivery Criteria
 
-- 成功定义：清单（计数 + 逐项债务）、按优先级排序且含冲刺分配的待办，以及——若有历史——趋势摘要。
-- 产物命名：`debt_inventory.json`、`debt_priorities.json`、`debt_dashboard.json` / `debt_dashboard.txt`，快照 `debt_YYYY-MM-DD.json`。
-- 保存位置：工作目录根；构建历史时用 `snapshots/` 目录。
-- 完整性核验：清单 `summary` 总数与 `len(debt_items)` 一致；待办每一条都能回溯到清单条目 ID；趋势输出覆盖所有传入的快照文件。
+- Definition of success: the inventory (counts + per-item debt), a prioritized backlog with sprint allocation, and — if history exists — a trend summary.
+- Artifact naming: `debt_inventory.json`, `debt_priorities.json`, `debt_dashboard.json` / `debt_dashboard.txt`, snapshots `debt_YYYY-MM-DD.json`.
+- Save location: working-directory root; use a `snapshots/` directory when building history.
+- Completeness check: the inventory `summary` total matches `len(debt_items)`; every backlog item traces back to an inventory item ID; the trend output covers all passed snapshot files.
 
-## 安全红线
+## Security Red Lines
 
-- 对目标代码库只读：扫描器绝不修改被扫描的文件。不要借本技能"顺手"修债项。
-- 快照文件是审计历史——绝不覆盖已有的带日期快照；要存就建新的。
-- 范围：只做分析与规划。执行重构、依赖升级或清理属于其他技能，且需用户明确确认。
+- Read-only against the target codebase: the scanner never modifies scanned files. Do not use this skill to "conveniently" fix debt items along the way.
+- Snapshot files are audit history — never overwrite an existing dated snapshot; create a new one if you want to save.
+- Scope: analysis and planning only. Performing refactors, dependency upgrades, or cleanup belongs to other skills and requires explicit user confirmation.
 
-## 参考
+## References
 
-- `references/debt-frameworks.md` — 选择或解释评分框架时读
-- `references/debt-classification-taxonomy.md` — 用户对某条债项的分类有异议时读
-- `references/prioritization-framework.md` — 产出或捍卫待办顺序时读
-- `references/stakeholder-communication-templates.md` — 写高管摘要或冲刺计划沟通稿时读
+- `references/debt-frameworks.md` — read when choosing or explaining the scoring framework
+- `references/debt-classification-taxonomy.md` — read when the user disputes an item's classification
+- `references/prioritization-framework.md` — read when producing or defending the backlog order
+- `references/stakeholder-communication-templates.md` — read when writing executive summaries or sprint-plan communications

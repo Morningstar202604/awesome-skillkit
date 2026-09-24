@@ -1,6 +1,6 @@
 ---
 name: self-reviewer
-description: "Simulate a peer review pass on your own draft: structural gates + ML reproducibility rubric (statistical significance, ablation, baselines, code/data/seeds), each check with reviewable evidence. Use before submitting or after finishing a draft. 当用户要求 模拟审稿 / 自查论文 / 投稿前检查 / 审稿人视角检查 / 论文结构自查 / paper self review / 检查够不够投稿 时使用。 Fails with rc=1 when the paper file does not exist. 何时使用：论文初稿写完、准备投稿或收到审稿意见需要自查时。触发场景（中/英）：模拟审稿 / 自查论文 / 投稿前检查 / 审稿人视角 / paper self review / pre-submission check. 排除项：不修正 LaTeX 格式与宏包问题（交给 latex-formatter），不换期刊模板（交给 journal-adapt）。Use when the user asks 模拟审稿 / 自查论文 / 投稿前检查 / 论文结构自查 / paper self review / pre-submission check. Do NOT use when the task is LaTeX formatting cleanup (use latex-formatter) or adapting to a journal template (use journal-adapt)."
+description: "Simulate a peer review pass on your own draft: structural gates + ML reproducibility rubric (statistical significance, ablation, baselines, code/data/seeds), each check with reviewable evidence. Use before submitting or after finishing a draft, e.g. simulating a review / self-checking a paper / pre-submission check / reviewer-perspective check / paper structure self-check / paper self review / checking whether it's ready to submit. Fails with rc=1 when the paper file does not exist. When to use: after the first draft, preparing to submit, or after receiving reviewer comments that need self-checking. Triggers (CN/EN): simulate review / self-check paper / pre-submission check / reviewer perspective / paper self review / pre-submission check. Out of scope: does NOT fix LaTeX format/package issues (hand to latex-formatter) and does NOT switch journal templates (hand to journal-adapt). Do NOT use when the task is LaTeX formatting cleanup (use latex-formatter) or adapting to a journal template (use journal-adapt)."
 license: Apache-2.0
 compatibility: Stdlib only; reads .tex or plain-text drafts. Optional LLM evidence via --llm-evidence JSON.
 metadata:
@@ -14,87 +14,87 @@ metadata:
 
 # Self Reviewer (SOTA)
 
-投稿前先当自己的 reviewer #4：结构门槛 + ML 可复现性 rubric，每个检查项给出**可复核的 evidence 片段**（而非只给布尔），uncertain 项显式标注「需 LLM/人工复核」。
+Before submission, be your own reviewer #4: structural gates + ML reproducibility rubric, with every check item backed by **reviewable evidence snippets** (not just a boolean), and uncertain items explicitly flagged as "needs LLM/human review".
 
-> 诚实声明：默认 `method=keyword-fallback`（纯字符串/词数统计，可离线复现）；提供 `--llm-evidence`（JSON：`{check: {evidence, confidence}}`）时切 `method=llm-evidence`，用模型给出的证据 + 置信度替代关键词命中。**无论哪种 method，`uncertain` 非空时 `status` 一律 `needs_work`，不得只凭 score 下结论。**
+> Honest disclosure: default `method=keyword-fallback` (pure string/word-count statistics, reproducible offline); when you provide `--llm-evidence` (JSON: `{check: {evidence, confidence}}`) it switches to `method=llm-evidence`, using the model's evidence + confidence instead of keyword hits. **Regardless of method, when `uncertain` is non-empty, `status` is always `needs_work`; you must not conclude from the score alone.**
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Notes |
 |------|------|------|
-| 论文文件 | 是 | `--paper draft.tex`（.tex 或纯文本草稿）；不存在则 **rc=1** |
-| LLM 证据 | 否 | `--llm-evidence llm_review.json`（`{check: {evidence, confidence}}`）；缺失则关键词回退 |
-| 完整清单 | 否 | `--checklist` 只打印四类检查清单 JSON 后退出，不做评审 |
-| 输出路径 | 否 | `--output review.json`，缺省打印到 stdout |
+| paper file | yes | `--paper draft.tex` (.tex or plain-text draft); **rc=1** if missing |
+| LLM evidence | no | `--llm-evidence llm_review.json` (`{check: {evidence, confidence}}`); if missing, falls back to keywords |
+| full checklist | no | `--checklist` only prints the four-category checklist JSON and exits, no review |
+| output path | no | `--output review.json`; default prints to stdout |
 
-缺失时一次性问齐：「请提供：① 论文文件路径 `--paper` ② 是否提供 `--llm-evidence`（否则关键词回退）③ 是否只要看检查清单 `--checklist` ④ 是否落盘 `--output`。」
+When missing, ask everything at once: "Please provide: ① paper file path `--paper` ② whether to provide `--llm-evidence` (otherwise keyword fallback) ③ whether you only want to see the checklist `--checklist` ④ whether to save `--output`."
 
-## 前置自检
+## Pre-flight Checks
 ```bash
-python3 --version                            # 预期 >= 3.8，否则报错并 STOP
-test -f scripts/self_reviewer.py && echo OK  # 预期打印 OK，否则脚本缺失 STOP
-test -f "$PAPER" && echo PAPER_OK            # 预期打印 PAPER_OK；缺失则脚本 rc=1，先 STOP
+python3 --version                            # expect >= 3.8, else error and STOP
+test -f scripts/self_reviewer.py && echo OK  # expect OK printed, else script missing STOP
+test -f "$PAPER" && echo PAPER_OK            # expect PAPER_OK; if missing the script rc=1, STOP first
 ```
 
-## 工作流
+## Workflow
 
-### 步骤 1：跑结构 + rubric 审查
+### Step 1: Run the Structure + Rubric Review
 ```bash
-# 关键词回退（离线可复现）
+# keyword fallback (reproducible offline)
 python3 scripts/self_reviewer.py --paper draft.tex
-# LLM 证据增强
+# LLM-evidence augmented
 python3 scripts/self_reviewer.py --paper draft.tex --llm-evidence llm_review.json --output review.json
 ```
-预期：输出 JSON 含 `word_count`、`score`（0-100）、`method`（`keyword-fallback`/`llm-evidence`）、`passed[]`、`failed[]`、`uncertain[]`、`evidence{}`、`status`、`next_steps[]`、`file`；文件不存在时 `{"error": "File not found: <path>"}` 且 **rc=1**。
-若失败：rc=1 → 核对 `--paper` 路径后重试；输出非 JSON → 检查文件是否可读（编码非 UTF-8 会抛异常）。
+Expected: JSON output containing `word_count`, `score` (0-100), `method` (`keyword-fallback`/`llm-evidence`), `passed[]`, `failed[]`, `uncertain[]`, `evidence{}`, `status`, `next_steps[]`, `file`; if the file doesn't exist, `{"error": "File not found: <path>"}` and **rc=1**.
+If it fails: rc=1 -> check the `--paper` path and retry; output isn't JSON -> check whether the file is readable (non-UTF-8 encoding throws).
 
-### 步骤 2：判读判定
-- **hard gate（failed 即 needs_work）**：abstract、`\section` ≥ 4、有 `\cite`/`\bibliography`、词数 ≥ 3000。
-- **rubric 项（uncertain 即 needs_work）**：Statistical significance tested / Ablation / Baselines(2+) / Limitations / Reproducibility(seeds,code,data)——命中关键词或 LLM 置信度 ≥0.6 记 passed（附 `evidence`），否则进 `uncertain` 待复核。
-- `status == "ready"`：`score ≥ 80` **且 `uncertain` 为空**。
-- `status == "needs_work"`：`score < 80` 或 `uncertain` 非空；`failed[]`/`uncertain[]` 指明缺什么，`evidence{}` 给出命中片段。
-若失败：`uncertain[]` 非空 → 逐条用 LLM/人工复核（补 `--llm-evidence` 或手改），切勿只信 `score` 定稿。
+### Step 2: Read the Judgment
+- **hard gate (failed means needs_work)**: abstract, `\section` count >= 4, has `\cite`/`\bibliography`, word count >= 3000.
+- **rubric items (uncertain means needs_work)**: Statistical significance tested / Ablation / Baselines(2+) / Limitations / Reproducibility(seeds,code,data) — a keyword hit or LLM confidence >=0.6 records passed (with `evidence`), otherwise goes to `uncertain` pending review.
+- `status == "ready"`: `score >= 80` **and `uncertain` is empty**.
+- `status == "needs_work"`: `score < 80` or `uncertain` non-empty; `failed[]`/`uncertain[]` point to what's missing, `evidence{}` gives the hit snippets.
+If it fails: `uncertain[]` non-empty -> review each item with LLM/human (add `--llm-evidence` or hand-fix); never finalize on `score` alone.
 
-### 步骤 3：按清单补查语义项
+### Step 3: Use the Checklist to Semantically Check Remaining Items
 ```bash
 python3 scripts/self_reviewer.py --paper draft.tex --checklist
 ```
-预期：打印 `structure` / `content` / `writing` / `formatting` 四类清单 JSON（含脚本不自动查的项）。
-若失败：无（纯打印）；清单中的语义项由模型对照原文逐条给出 pass/fail 与证据句。
+Expected: prints the four-category checklist JSON (`structure` / `content` / `writing` / `formatting`, including items the script doesn't auto-check).
+If it fails: none (pure printout); the semantic items in the checklist are judged pass/fail by the model against the original text, one by one, with evidence sentences.
 
-### 步骤 4：交接下游
-预期：`ready`（且 uncertain 空）→ 移交 journal-adapt 换目标模板，最后 tex-cleaner 收口；`needs_work` → 携带 `next_steps[]` 回正文修订，改完重跑步骤 1 复核分数上升。
-若失败：修完重跑分数没变 → 确认改动真的写回了 `--paper` 指向的同一文件。
+### Step 4: Hand Off Downstream
+Expected: `ready` (and uncertain empty) -> hand off to journal-adapt to switch the target template, and finally tex-cleaner closes out; `needs_work` -> take `next_steps[]` back to revise the body, then rerun Step 1 to re-check that the score rose.
+If it fails: after fixes the rerun score is unchanged -> confirm the edits were actually written back to the same file `--paper` points to.
 
-## 参数速查表
+## Parameter Quick Reference
 
-| 参数 | 取值 | 说明 |
+| Parameter | Value | Notes |
 |------|------|------|
-| `--paper` | 路径 | 论文文件（必填），.tex 或纯文本 |
-| `--llm-evidence` | 路径(JSON) | `{check:{evidence,confidence}}`；缺失则关键词回退 |
-| `--checklist` | 标志 | 只打印四类检查清单 JSON 并退出 |
-| `--output` | 路径 | 结果 JSON 输出路径，缺省打印 stdout |
+| `--paper` | path | Paper file (required), .tex or plain text |
+| `--llm-evidence` | path(JSON) | `{check:{evidence,confidence}}`; if missing, keyword fallback |
+| `--checklist` | flag | Only prints the four-category checklist JSON and exits |
+| `--output` | path | Results JSON output path; default prints to stdout |
 
-## 失败处置表
+## Failure Remediation Table
 
-| 现象/错误码 | 原因 | 处置 |
+| Symptom / Error Code | Cause | Remedy |
 |------------|------|------|
-| rc=1，`File not found` | `--paper` 路径不存在 | `ls` 确认路径后重试 |
-| `uncertain` 非空但 score 高 | rubric 项未命中关键词 | 补 `--llm-evidence` 或人工确认，不得据此 `ready` |
-| 词数远超预期 | 把 .bib/注释也算进了 split 计数 | 属静态统计口径，仅作下限检查；精确排版字数以编译后 PDF 为准 |
-| 非 UTF-8 文件读入异常 | 老编码文件 | `iconv -f GBK -t UTF-8` 转码后重试 |
+| rc=1, `File not found` | The `--paper` path doesn't exist | `ls` to confirm the path and retry |
+| `uncertain` non-empty but score is high | Rubric items didn't hit keywords | Add `--llm-evidence` or confirm manually; don't mark `ready` on this basis |
+| Word count far exceeds expectations | The .bib/comments got counted in the split | This is a static-counting convention, only a lower-bound check; exact typeset word count follows the compiled PDF |
+| Non-UTF-8 file read error | Legacy-encoded file | Transcode with `iconv -f GBK -t UTF-8` and retry |
 
-## 交付标准
+## Delivery Standard
 
-成功定义：输出 JSON 判定字段齐全（`status`/`score`/`method`/`passed`/`failed`/`uncertain`/`evidence`/`next_steps`），且 `uncertain` 项均已人工/LLM 复核；`ready` 仅当 uncertain 为空。
-产物命名：`review.json`（若指定 `--output`）。
-保存位置：调用方当前目录或 `--output` 指定路径。
-验证方法：`python3 -c "import json;d=json.load(open('<output>'));assert d['status'] in ('ready','needs_work')"` 通过。
+Success: the output JSON's judgment fields are complete (`status`/`score`/`method`/`passed`/`failed`/`uncertain`/`evidence`/`next_steps`), and all `uncertain` items have been human/LLM reviewed; `ready` only when uncertain is empty.
+Artifact name: `review.json` (if `--output` is given).
+Save location: the caller's current directory or the `--output` path.
+Verification: `python3 -c "import json;d=json.load(open('<output>'));assert d['status'] in ('ready','needs_work')"` passes.
 
-## 参考
+## References
 
-无外部 references 文件；rubric 与四类清单内置在 `scripts/self_reviewer.py` 的 `review_paper` / `CHECKLIST` / `KEYWORDS`。可复现性检查对齐 papers-with-code 清单与 IMRaD 统计门槛。
+No external reference files; the rubric and four-category checklist are built into `scripts/self_reviewer.py`'s `review_paper` / `CHECKLIST` / `KEYWORDS`. Reproducibility checks align with the papers-with-code checklist and IMRaD statistical thresholds.
 
-## 链路位置
+## Chain Position
 
-上游接 latex-formatter（格式先过关）。`needs_work` 时回到正文修订；`ready`（uncertain 空）后移交 journal-adapt 换目标模板，最后 tex-cleaner 收口。
+Upstream connects to latex-formatter (format passes first). On `needs_work`, return to body revision; on `ready` (uncertain empty), hand off to journal-adapt to switch the target template, and finally tex-cleaner closes out.

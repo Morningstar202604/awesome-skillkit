@@ -1,0 +1,311 @@
+{
+  "broken_refs": [
+    {
+      "skill": "agent-designer",
+      "ref": "assets/incident-triage.json",
+      "resolved_path": "skills/programming/workflow/agent-designer/assets/incident-triage.json",
+      "context": "r.py orchestrator --name incident-triage --output assets/incident-triage.json ```  预期：生成对应 pattern 的工作流骨架 JSON；`--output` 缺省时打印"
+    },
+    {
+      "skill": "agent-designer",
+      "ref": "references/workflow_patterns.md。",
+      "resolved_path": "skills/programming/workflow/agent-designer/references/workflow_patterns.md。",
+      "context": "_artifacts`、`budget_tokens`、`timeout_seconds`）→ 见 references/workflow_patterns.md。  工作流纪律：从满足需求的最小 pattern 起步；交接负载显式且有界；每次外部模型调用都配 r"
+    },
+    {
+      "skill": "agent-eval-harness",
+      "ref": "config/weights.json",
+      "resolved_path": "skills/meta/agent-eval-harness/config/weights.json",
+      "context": "-input cases.jsonl --index 3 \\ #   --weights-json config/weights.json --out reports/case3.json --write  # 3. LLM-as-jud"
+    },
+    {
+      "skill": "api-test-suite-builder",
+      "ref": "app/api",
+      "resolved_path": "skills/programming/api/api-test-suite-builder/app/api",
+      "context": "令（在项目根目录）：  **Next.js App Router** ```bash find ./app/api -name \"route.ts\" -o -name \"route.js\" | sort grep "
+    },
+    {
+      "skill": "api-test-suite-builder",
+      "ref": "src",
+      "resolved_path": "skills/programming/api/api-test-suite-builder/src",
+      "context": "hods $route\" done ```  **Express** ```bash find ./src -name \"*.ts\" -o -name \"*.js\" | xargs grep -l \"rou"
+    },
+    {
+      "skill": "bank-statement-reconcile",
+      "ref": "reconcile.json",
+      "resolved_path": "skills/tools/bank-statement-reconcile/reconcile.json",
+      "context": " 金额 --date-col 日期 --party-col 对方 \\   --write -o ./reconcile.json  # 3. 把未匹配清单导成 CSV 给人工 python3 -c \"import json;r="
+    },
+    {
+      "skill": "career-ops-lite",
+      "ref": "config/weights.json",
+      "resolved_path": "skills/office/career-ops-lite/config/weights.json",
+      "context": "y --jd ./jd.txt --resume ./me.txt \\   --weights ./config/weights.json  # 3. 落 JSON 报告（喂给跟踪表 / Notion / 人工审阅） python3 sc"
+    },
+    {
+      "skill": "career-ops-lite",
+      "ref": "jd.txt",
+      "resolved_path": "skills/office/career-ops-lite/jd.txt",
+      "context": "：评分 + 逐条 A-F python3 scripts/job_scorer.py --jd ./jd.txt --resume ./me.txt  # 2. 覆盖权重（更看重匹配度） python3 scri"
+    },
+    {
+      "skill": "career-ops-lite",
+      "ref": "me.txt",
+      "resolved_path": "skills/office/career-ops-lite/me.txt",
+      "context": "n3 scripts/job_scorer.py --jd ./jd.txt --resume ./me.txt  # 2. 覆盖权重（更看重匹配度） python3 scripts/job_scorer.py "
+    },
+    {
+      "skill": "career-ops-lite",
+      "ref": "report.json",
+      "resolved_path": "skills/office/career-ops-lite/report.json",
+      "context": " --jd ./jd.txt --resume ./me.txt \\   --write -o ./report.json ```  `score_5 >= 4` 才建议投（career-ops 的\"filter 不是 s"
+    },
+    {
+      "skill": "chat-prompt-engineer",
+      "ref": "references/platform-dialects.md）",
+      "resolved_path": "skills/chat/chat-prompt-engineer/references/platform-dialects.md）",
+      "context": "一句：\"帮我写个小红书文案\" | | 目标平台 | ✗ | 默认豆包系通用写法；指定平台套方言（见 references/platform-dialects.md） | | 受众 / 用途 | ✗ | 缺时主动问一句，不猜 | | 待审 prompt | audi"
+    },
+    {
+      "skill": "cnblogs-skill",
+      "ref": "references/account.local.json",
+      "resolved_path": "skills/writing/blog/cnblogs-skill/references/account.local.json",
+      "context": "OP，不要继续发文流程：  ```bash # 1. 账号文件已配置（首次使用时） test -f references/account.local.json && echo OK # 预期：OK；失败 → 复制 references/account.exa"
+    },
+    {
+      "skill": "database-designer",
+      "ref": "references/schema-design-playbook.md，完整示例",
+      "resolved_path": "skills/programming/database/database-designer/references/schema-design-playbook.md，完整示例",
+      "context": "→ 跨领域关注点（租户隔离、软删除、审计轨迹）、PostgreSQL RLS 策略、种子数据指南见 references/schema-design-playbook.md，完整示例 Schema 见 references/full-schema-examples.md  ## 查"
+    },
+    {
+      "skill": "docker-development",
+      "ref": "cmd/server",
+      "resolved_path": "skills/programming/containers/docker-development/cmd/server",
+      "context": "BLED=0 go build -ldflags=\"-s -w\" -o /app/server ./cmd/server  # Runtime stage FROM gcr.io/distroless/static-de"
+    },
+    {
+      "skill": "docker-development",
+      "ref": "dist",
+      "resolved_path": "skills/programming/containers/docker-development/dist",
+      "context": "/server ./cmd/server  # Runtime stage FROM gcr.io/distroless/static-debian12 COPY --from=builder /app/se"
+    },
+    {
+      "skill": "docker-development",
+      "ref": "node_modules",
+      "resolved_path": "skills/programming/containers/docker-development/node_modules",
+      "context": "体版本 tag。 - **无 .dockerignore** → 建一个。至少包含：`.git`、`node_modules`、`__pycache__`、`.env`。 - **依赖安装之前 COPY . .** → 缓存"
+    },
+    {
+      "skill": "docx-template-fill",
+      "ref": "data/*.json",
+      "resolved_path": "skills/office/docx-template-fill/data/*.json",
+      "context": "场景：脚本单次只处理一份模板。要一份模板 + N 份数据 → 在 bash 里 `for f in data/*.json; do python3 scripts/fill_template.py --template t"
+    },
+    {
+      "skill": "docx-template-fill",
+      "ref": "out.docx",
+      "resolved_path": "skills/office/docx-template-fill/out.docx",
+      "context": "x --data assets/sample-data.json \\   --apply -o ./out.docx  # 3. 加一条修订批注 python3 scripts/fill_template.py --"
+    },
+    {
+      "skill": "etl-builder",
+      "ref": "data/clean.csv",
+      "resolved_path": "skills/programming/data/etl-builder/data/clean.csv",
+      "context": "\"处理。缺省 data/raw.csv | | `--target` | 可选 | 输出路径，缺省 data/clean.csv。注意：脚本写入的是 JSON 状态摘要，不是数据本体 | | `--transform` | 可选"
+    },
+    {
+      "skill": "etl-builder",
+      "ref": "data/clean.csv。注意：脚本写入的是",
+      "resolved_path": "skills/programming/data/etl-builder/data/clean.csv。注意：脚本写入的是",
+      "context": "\"处理。缺省 data/raw.csv | | `--target` | 可选 | 输出路径，缺省 data/clean.csv。注意：脚本写入的是 JSON 状态摘要，不是数据本体 | | `--transform` | 可选 | 逗号分隔的变换"
+    },
+    {
+      "skill": "etl-builder",
+      "ref": "data/raw.csv",
+      "resolved_path": "skills/programming/data/etl-builder/data/raw.csv",
+      "context": " `.csv`（按行统计）与 `.json`（须为 list）；其他后缀按\"非标准格式\"处理。缺省 data/raw.csv | | `--target` | 可选 | 输出路径，缺省 data/clean.csv。注意：脚"
+    },
+    {
+      "skill": "etl-builder",
+      "ref": "data/raw.json",
+      "resolved_path": "skills/programming/data/etl-builder/data/raw.json",
+      "context": "ython3 -c \"import json;print(type(json.load(open('data/raw.json'))))\"应为 list`）；其他后缀会得到 `Non-standard format, read"
+    },
+    {
+      "skill": "feature-engineer",
+      "ref": "data/clean.csv",
+      "resolved_path": "skills/programming/data/feature-engineer/data/clean.csv",
+      "context": "户要正确路径 ```  ## 工作流  ### 步骤 1：取列名  ```bash head -1 data/clean.csv   # 预期输出逗号分隔的表头，与用户认知一致 ```  若失败：文件不存在或表头为空 → 用 `"
+    },
+    {
+      "skill": "frontend-component-lab",
+      "ref": "brand.json",
+      "resolved_path": "skills/design/frontend-component-lab/brand.json",
+      "context": "affold_component.py --name PricingCard --tokens ./brand.json \\   --out ./src/ui --write --force ```  生成后，按 [re"
+    },
+    {
+      "skill": "frontend-component-lab",
+      "ref": "src/ui",
+      "resolved_path": "skills/design/frontend-component-lab/src/ui",
+      "context": "-name PricingCard --props title,price,cta --out ./src/ui  # 2. 真生成 python3 scripts/scaffold_component.py -"
+    },
+    {
+      "skill": "image-prompt-engineer",
+      "ref": "references/model-dialects.md）",
+      "resolved_path": "skills/design/image-prompt-engineer/references/model-dialects.md）",
+      "context": "terpreter 的 7 字段规格 | | 目标模型 | ✗ | 默认通用结构；指定则套方言（见 references/model-dialects.md） | | 待审 prompt | audit ✓ | 原文粘贴 |  缺输入时一次性问齐：\"请提供："
+    },
+    {
+      "skill": "invoice-organizer",
+      "ref": "organized",
+      "resolved_path": "skills/tools/invoice-organizer/organized",
+      "context": "--|---| | 发票源目录 | 是 | 散落的发票文件 | | 目标根目录 | 否 | 默认 `organized/` | | 自定义类别映射 | 否 | `--map-json` 传 `[[正则, 类别], .."
+    },
+    {
+      "skill": "invoice-organizer",
+      "ref": "organized/ledger.csv",
+      "resolved_path": "skills/tools/invoice-organizer/organized/ledger.csv",
+      "context": "invoices --dst ./organized \\   --apply --ledger ./organized/ledger.csv  # 3. 自定义类别（公司自己的口径） python3 scripts/organize_inv"
+    },
+    {
+      "skill": "invoice-organizer",
+      "ref": "rules.json",
+      "resolved_path": "skills/tools/invoice-organizer/rules.json",
+      "context": ".py --src assets/sample-invoices \\   --map-json ./rules.json --apply ```  `rules.json` 示例： ```json [[\"差旅|出差|高铁"
+    },
+    {
+      "skill": "kubernetes-operator",
+      "ref": "config/crd/",
+      "resolved_path": "skills/programming/infrastructure/kubernetes-operator/config/crd",
+      "context": "| | CRD YAML 文件或目录 | 是（CRD 检查） | 用户 operator 仓库中的 config/crd/myapp.yaml → `--crd` | | Go controller 源码 | 是（reco"
+    },
+    {
+      "skill": "kubernetes-operator",
+      "ref": "config/crd/bases/apps.example.com_myapps.yaml",
+      "resolved_path": "skills/programming/infrastructure/kubernetes-operator/config/crd/bases/apps.example.com_myapps.yaml",
+      "context": "p apps --version v1alpha1 --kind MyApp` - **预期：** config/crd/bases/apps.example.com_myapps.yaml 与 `controllers/myapp_controller.go` 存在。 - **失败时：*"
+    },
+    {
+      "skill": "kubernetes-operator",
+      "ref": "config/crd/myapp.yaml",
+      "resolved_path": "skills/programming/infrastructure/kubernetes-operator/config/crd/myapp.yaml",
+      "context": "| | CRD YAML 文件或目录 | 是（CRD 检查） | 用户 operator 仓库中的 config/crd/myapp.yaml → `--crd` | | Go controller 源码 | 是（reconcile lint"
+    },
+    {
+      "skill": "kubernetes-operator",
+      "ref": "config/samples/",
+      "resolved_path": "skills/programming/infrastructure/kubernetes-operator/config/samples",
+      "context": "一次性集群里冒烟测试  - **动作：** 对 kind 集群 `kubectl apply -f config/samples/`；观察 `kubectl get myapps` 出现 conditions。 - **预期：**"
+    },
+    {
+      "skill": "mcp-server-builder",
+      "ref": "out",
+      "resolved_path": "skills/programming/ai-engineering/mcp-server-builder/out",
+      "context": "e python\\|typescript`，默认 python | | 输出目录 | 否 | `--output-dir`，默认 `./out` | | 运行时配置 | 否 | 供 mcp_validato"
+    },
+    {
+      "skill": "mcp-server-builder",
+      "ref": "references/production-hardening-guide.md。",
+      "resolved_path": "skills/programming/ai-engineering/mcp-server-builder/references/production-hardening-guide.md。",
+      "context": "ost 白名单，而非开放代理 - 仅做增量式改动；绝不在原地重命名 tool 名  完整加固指引见 references/production-hardening-guide.md。  ## 脚本接口  - `python3 scripts/openapi_to_mcp.py --"
+    },
+    {
+      "skill": "ml-pipeline",
+      "ref": "data/clean.csv",
+      "resolved_path": "skills/programming/ml/ml-pipeline/data/clean.csv",
+      "context": "集。  ```bash python3 scripts/ml_pipeline.py --data data/clean.csv --target label --model random_forest --cv 5 ```  "
+    },
+    {
+      "skill": "observability-designer",
+      "ref": "scripts/slo_designer.py）",
+      "resolved_path": "skills/programming/infrastructure/observability-designer/scripts/slo_designer.py）",
+      "context": "imized.json  # SLO 定义/错误预算 → 用 slo-architect 技能（其 scripts/slo_designer.py） ```  ## 工作流  ### 工作流 1：为服务生成仪表盘  #### 步骤 1：收集服务事实"
+    },
+    {
+      "skill": "self-eval",
+      "ref": "references/*.md",
+      "resolved_path": "skills/programming/ai-engineering/self-eval/references/*.md",
+      "context": "末行字段齐全。  ## 参考  本技能纯提示词驱动（prompt-only），无 bundled `references/*.md`、无 `scripts/`。评分矩阵、魔鬼辩护、反膨胀与持久化规则均已内联于上文。 "
+    },
+    {
+      "skill": "senior-architect",
+      "ref": "my-project",
+      "resolved_path": "skills/programming/architecture/senior-architect/my-project",
+      "context": "必需 | 说明 | |---|---|---| | 项目目录 | 是 | 待分析项目路径，如 `./my-project` | | 任务意图 | 是 | 画架构图 / 依赖分析 / 架构评估 / 技术选型 / 评审之一 "
+    },
+    {
+      "skill": "sql-database-assistant",
+      "ref": "references/optimization_guide.md。",
+      "resolved_path": "skills/programming/database/sql-database-assistant/references/optimization_guide.md。",
+      "context": "路径按文件处理但不存在时会报错退出，核对路径。  > EXPLAIN 计划解读、索引类型、连接池见 references/optimization_guide.md。  ## 迁移生成  ### 零停机迁移模式  **加列（安全）**  ```sql -- Up A"
+    },
+    {
+      "skill": "sql-database-assistant",
+      "ref": "references/query_patterns.md。",
+      "resolved_path": "skills/programming/database/sql-database-assistant/references/query_patterns.md。",
+      "context": "S(updated_at); ```  > JOIN、CTE、窗口函数、JSON 操作等更多模式见 references/query_patterns.md。  ## Schema 探索  ### 内省查询  **PostgreSQL — 列出表与列**  "
+    },
+    {
+      "skill": "storyboard-designer",
+      "ref": "examples/）",
+      "resolved_path": "skills/video/storyboard-designer/examples/）",
+      "context": "lint.py）  ```bash # 校验 storyboard/ 目录（需已存在；随包样例则用 examples/） python3 scripts/scene_lint.py storyboard/ ```  | "
+    },
+    {
+      "skill": "terraform-patterns",
+      "ref": "modules/name",
+      "resolved_path": "skills/programming/infrastructure/terraform-patterns/modules/name",
+      "context": "n root module └── Use module \"name\" { source = \"./modules/name\" } ```  - **预期：** 清单全部满足后，模块才交给消费方使用。 - **失败时：** "
+    },
+    {
+      "skill": "terraform-patterns",
+      "ref": "modules/vpc",
+      "resolved_path": "skills/programming/infrastructure/terraform-patterns/modules/vpc",
+      "context": "tput json python3 scripts/tf_module_analyzer.py ./modules/vpc  # 扫描一个 Terraform 目录 python3 scripts/tf_security_"
+    },
+    {
+      "skill": "terraform-patterns",
+      "ref": "terraform",
+      "resolved_path": "skills/programming/infrastructure/terraform-patterns/terraform",
+      "context": "--- name: terraform-patterns description: \"Terraform infrastructure-a"
+    },
+    {
+      "skill": "video-prompt-engineer",
+      "ref": "references/model-dialects.md）",
+      "resolved_path": "skills/video/video-prompt-engineer/references/model-dialects.md）",
+      "context": "标模型 | ✗ | 通用结构默认；指定模型（seedance/kling/veo 等）则套方言（见 references/model-dialects.md） | | 时长 | ✗ | 默认 5s | | 画幅 | ✗ | 默认 16:9 | | 待审 pr"
+    },
+    {
+      "skill": "web-search",
+      "ref": "references/parsers.md）。",
+      "resolved_path": "skills/programming/planning/web-search/references/parsers.md）。",
+      "context": "go.com/html/`，表单 `q=<query>&kl=cn-cn`；HTML 选择器解析见 references/parsers.md）。 - Brave：`GET https://api.search.brave.com/res/v1/"
+    },
+    {
+      "skill": "web-search",
+      "ref": "references/parsers.md），或换",
+      "resolved_path": "skills/programming/planning/web-search/references/parsers.md），或换",
+      "context": "或改用 searxng/ddg | | 结果格式错误/持续为空 | 引擎改版 | 更新解析逻辑（见 references/parsers.md），或换 engine 重试 | | 结果与查询明显无关 | 缓存脏数据 | `--no-cache` 重跑"
+    },
+    {
+      "skill": "webapp-e2e-harness",
+      "ref": "examples/e2e",
+      "resolved_path": "skills/programming/testing/webapp-e2e-harness/examples/e2e",
+      "context": "e2e_scaffold.py --url http://127.0.0.1:8000 --out examples/e2e --write   # 真实生成写 examples/e2e/；CI 场景可用临时目录  # 3."
+    },
+    {
+      "skill": "webapp-e2e-harness",
+      "ref": "examples/e2e/；CI",
+      "resolved_path": "skills/programming/testing/webapp-e2e-harness/examples/e2e/；CI",
+      "context": "7.0.0.1:8000 --out examples/e2e --write   # 真实生成写 examples/e2e/；CI 场景可用临时目录  # 3. 一键跑（装依赖 + 装浏览器 + pytest） E2E_BASE_"
+    },
+    {
+      "skill": "zhihu-content-manager",
+      "ref": "references/account.local.json",
+      "resolved_path": "skills/writing/zhihu/zhihu-content-manager/references/account.local.json",
+      "context": "ml`；封面 `cover.jpg`（<1MB）。 - 保存位置：专栏 ID 与已发布文章台账存 `references/account.local.json`（字段：`columns` 专栏名→专栏 ID；`published_articles` 系列→["
+    }
+  ],
+  "script_issues": []
+}

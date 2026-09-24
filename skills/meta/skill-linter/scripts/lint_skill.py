@@ -167,7 +167,7 @@ def count_trigger_words(desc):
     """
     low = desc.lower()
     segments = []
-    for hint in ("use when", "当用户", "触发"):
+    for hint in USE_WHEN_HINTS:
         idx = low.find(hint)
         if idx == -1:
             continue

@@ -1,6 +1,6 @@
 ---
 name: simulation-runner
-description: "运行仿真：参数扫描、蒙特卡洛、敏感性分析（OAT）与模型解的压测。何时使用：模型已求解、需要在变化条件下测试鲁棒性时。触发场景（中/英）：跑仿真 / 蒙特卡洛模拟 / 敏感性分析 / run a simulation / Monte Carlo / sensitivity analysis。排除项：不用于生产级仿真负载（仅本地实验运行）。 何时使用：模型已求解、需要测试鲁棒性或做参数扫描时。触发场景（中/英）：跑仿真 / 蒙特卡洛模拟 / 敏感性分析 / 参数扫描 / run a simulation / Monte Carlo / sensitivity analysis.排除项：不做生产级压测，不求解确定性模型（交给 model-solver）。Use when the user asks 跑仿真 / 蒙特卡洛模拟 / 敏感性分析 / 参数扫描 / run a simulation / Monte Carlo / sensitivity analysis. Do NOT use when the ask is deterministic solving (use model-solver) or production load testing."
+description: "Run simulations: parameter sweeps, Monte Carlo, one-at-a-time (OAT) sensitivity analysis, and stress-testing of a model's solution. When to use: the model is solved and you need to test robustness under varying conditions — e.g. running a simulation, Monte Carlo simulation, sensitivity analysis, or a parameter sweep. Do NOT use for deterministic solving (use model-solver) or for production-grade load testing."
 license: Apache-2.0
 compatibility: Requires numpy, random. No external solver needed.
 metadata:
@@ -14,19 +14,19 @@ metadata:
 
 # Simulation Runner
 
-参数扫描、蒙特卡洛与敏感性分析。
+Parameter sweeps, Monte Carlo, and sensitivity analysis.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Description |
 |------|------|------|
-| spec | 否 | 模型规格 JSON（参数扫描/敏感性读取） | — |
-| mode | 否 | `sweep` / `monte-carlo` / `sensitivity`（由参数决定） | 自动 |
-| output | 否 | 结果写入文件 | 标准输出 |
+| spec | No | Model-spec JSON (read by parameter sweep / sensitivity) |
+| mode | No | `sweep` / `monte-carlo` / `sensitivity` (determined by parameters); default auto |
+| output | No | Write results to a file; default stdout |
 
-缺失时一次性问齐：「请提供：① 要测的模型或参数（spec 路径，或直接在命令中给参数）。其余按默认。」
+When missing, ask all at once: "Please provide: (1) the model or parameters to test (spec path, or give parameters directly in the command). Everything else uses defaults."
 
-## 前置自检
+## Pre-flight Checks
 
 ```bash
 python3 --version
@@ -34,42 +34,42 @@ python3 -c "import numpy; print('numpy', numpy.__version__)"
 test -f scripts/simulation.py && echo "OK script present"
 ```
 
-- 预期：版本号输出；`numpy <版本>` 打印；脚本存在。
-- 若失败：缺 numpy → `pip install numpy`；脚本缺失 → STOP 回报。
+- Expected: version number printed; `numpy <version>` printed; the script exists.
+- On failure: missing numpy → `pip install numpy`; script missing → STOP and report.
 
-## 工作流
+## Workflow
 
-### 步骤 1：参数扫描（Parameter Sweep）
+### Step 1: Parameter Sweep
 
 ```bash
 python3 scripts/simulation.py --spec model.json --param rate --range 0.1 5.0 --steps 10
 ```
 
-- 动作：沿 `--param` 在 `--range LO HI` 间取 `--steps` 个点，记录目标值。
-- 预期：输出每个采样点对应的目标值序列。
-- 若失败：`--range` 需两个浮点 → 补齐 LO HI；spec 缺 `--param` 字段 → 确认字段名。
+- Action: sample `--steps` points along `--param` between `--range LO HI`, recording the objective value.
+- Expected: output a sequence of objective values corresponding to each sampled point.
+- On failure: `--range` needs two floats → supply LO HI; the spec lacks the `--param` field → confirm the field name.
 
-### 步骤 2：蒙特卡洛（Monte Carlo）
+### Step 2: Monte Carlo
 
 ```bash
 python3 scripts/simulation.py --monte-carlo --n 10000 --mu 0 --sigma 1 --threshold 2
 ```
 
-- 动作：生成 `--n` 个随机样本（均值 `--mu`、标准差 `--sigma`），计算 P(超阈) 与分位数。
-- 预期：输出 `mean` / `std` / `p95` / `p_exceed` / `threshold`。
-- 若失败：结果异常（如 p_exceed 非 0~1）→ 检查 `--sigma`/`--threshold` 量级。
+- Action: generate `--n` random samples (mean `--mu`, std `--sigma`), and compute P(exceeding threshold) and quantiles.
+- Expected: output `mean` / `std` / `p95` / `p_exceed` / `threshold`.
+- On failure: anomalous result (e.g. p_exceed not in 0~1) → check the `--sigma`/`--threshold` magnitudes.
 
-### 步骤 3：敏感性分析（OAT）
+### Step 3: Sensitivity Analysis (OAT)
 
 ```bash
 python3 scripts/simulation.py --sensitivity rate,noise,decay --perturbation 0.1
 ```
 
-- 动作：对每个参数单独 ±`--perturbation`（默认 0.1=10%）扰动，测输出变化。
-- 预期：输出各参数敏感度排序。
-- 若失败：参数名不在 spec → 对齐 `--sensitivity` 列表与 spec 字段。
+- Action: perturb each parameter individually by ±`--perturbation` (default 0.1 = 10%) and measure the output change.
+- Expected: output a sensitivity ranking of each parameter.
+- On failure: a parameter name isn't in the spec → align the `--sensitivity` list with the spec fields.
 
-## 输出格式
+## Output Format
 
 ```json
 {
@@ -83,39 +83,39 @@ python3 scripts/simulation.py --sensitivity rate,noise,decay --perturbation 0.1
 }
 ```
 
-## 参数速查表
+## Parameter Cheat Sheet
 
-| 参数 | 取值 | 说明 |
+| Parameter | Values | Description |
 |------|------|------|
-| --spec | 文件路径 | 模型规格 JSON |
-| --param | 名称 | 扫描目标参数 |
-| --range | LO HI | 两个浮点，扫描区间 |
-| --steps | 整数 | 采样点数，默认 10 |
-| --monte-carlo | 标志 | 启用蒙特卡洛 |
-| --n | 整数 | 样本数，默认 10000 |
-| --mu / --sigma | 浮点 | 默认 0 / 1 |
-| --threshold | 浮点 | 阈值，默认 0 |
-| --sensitivity | 名称列表 | OAT 参数 |
-| --output | 文件路径 | 可选，写入结果 |
+| --spec | file path | Model-spec JSON |
+| --param | name | Target parameter to sweep |
+| --range | LO HI | Two floats, the sweep interval |
+| --steps | integer | Number of sample points, default 10 |
+| --monte-carlo | flag | Enable Monte Carlo |
+| --n | integer | Number of samples, default 10000 |
+| --mu / --sigma | float | Default 0 / 1 |
+| --threshold | float | Threshold, default 0 |
+| --sensitivity | list of names | OAT parameters |
+| --output | file path | Optional, write results |
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象/错误码 | 原因 | 处置 |
+| Symptom / error code | Cause | Action |
 |------------|------|------|
-| `--range` 参数数量错 | 未给 LO HI | 补两个浮点 |
-| `p_exceed` 越界 | 量级不匹配 | 复核 `--sigma`/`--threshold` |
-| 参数不在 spec | 名称拼写错 | 对齐 `--sensitivity` 与 spec 字段 |
-| 多次仿真结果不可复现 | 随机种子未固定 | 显式固定 seed 并记录在输出里，重跑两次比对 |
-| 扫描点数过多跑不完 | 参数网格未设步长上限 | 先用粗网格定位敏感区，再对敏感区加密 |
-| `p_exceed` 恒为 0 或 1 | 阈值远远偏离分布支撑集 | 先看图分布范围，再据此设阈值重跑 |
+| Wrong number of `--range` arguments | LO HI not given | Supply two floats |
+| `p_exceed` out of range | Magnitudes don't match | Re-check `--sigma`/`--threshold` |
+| Parameter not in spec | Name misspelled | Align `--sensitivity` with the spec fields |
+| Repeated simulation results aren't reproducible | Random seed not fixed | Explicitly fix the seed and record it in the output; rerun twice and compare |
+| Too many sweep points to finish | The parameter grid has no step cap | First use a coarse grid to locate sensitive regions, then refine around them |
+| `p_exceed` is constantly 0 or 1 | The threshold is far from the distribution's support | First look at the distribution range, then set the threshold accordingly and rerun |
 
-## 交付标准
+## Delivery Criteria
 
-- 成功定义：输出 JSON 含 `mode` 与对应统计量，且数值有限。
-- 产物命名：`sim_<mode>.json`（或 `--output` 指定）。
-- 保存位置：当前工作目录或 `--output` 路径。
-- 验证完整性：`python3 -c "import json; json.load(open('sim_monte_carlo.json'))"` 确认可解析且字段齐全。
+- Definition of success: the output JSON contains `mode` and the corresponding statistics, with finite numerical values.
+- Artifact naming: `sim_<mode>.json` (or specified by `--output`).
+- Save location: current working directory or the `--output` path.
+- Completeness verification: `python3 -c "import json; json.load(open('sim_monte_carlo.json'))"` confirms it parses and has all fields.
 
-## 参考
+## References
 
-- references/mc-theory.md — 方差缩减、收敛速率、OAT 理论时读
+- references/mc-theory.md — read for variance reduction, convergence rates, and OAT theory

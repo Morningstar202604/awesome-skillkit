@@ -1,6 +1,7 @@
 ---
 name: env-secrets-manager
-description: "Manage environment-variable hygiene and secrets safety across local development and production. Triggers on "audit .env", "secrets scan", "check for leaked keys", "rotate credentials", "env file hygiene", "committed secrets", "detect-secrets or gitleaks setup", "missing env var incident". Practical auditing, drift awareness, rotation readiness. Use when auditing .env files for committed secrets, planning a credential rotation, debugging missing-env-var production incidents, or hardening a new project against secrets leakage. 当用户要求 管理环境变量 / 密钥审计 / 检查 .env 泄露 / 轮换准备 时使用。 Do NOT use for reading or printing secret values (hygiene checks only); production vault infrastructure and rotation execution live in secrets-vault-manager."
+description: >-
+  Manage environment-variable hygiene and secrets safety across local development and production. Triggers on "audit .env", "secrets scan", "check for leaked keys", "rotate credentials", "env file hygiene", "committed secrets", "detect-secrets or gitleaks setup", "missing env var incident". Practical auditing, drift awareness, rotation readiness. Use when auditing .env files for committed secrets, planning a credential rotation, debugging missing-env-var production incidents, hardening a new project against secrets leakage, managing environment variables, auditing secrets, checking .env leaks, or preparing for rotation. Do NOT use for reading or printing secret values (hygiene checks only); production vault infrastructure and rotation execution live in secrets-vault-manager.
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
@@ -14,110 +15,110 @@ metadata:
 
 # Env & Secrets Manager
 
-管理本地开发与生产流程中的环境变量卫生与密钥安全。本技能聚焦实操审计、漂移感知与轮换准备。
+Manages environment-variable hygiene and secret safety across local development and production flows. This skill focuses on hands-on auditing, drift awareness, and rotation readiness.
 
-## 核心能力
+## Core Capabilities
 
-- `.env` 与 `.env.example` 的生命周期指引
-- 仓库工作树的密钥泄露检测（`scripts/env_auditor.py`）
-- 按严重度分级报告疑似凭据
-- 轮换与止损的实操指引
-- 面向 CI 检查的即用型输出
+- Lifecycle guidance for `.env` and `.env.example`
+- Secret-leak detection across the repo working tree (`scripts/env_auditor.py`)
+- Severity-tiered reporting of suspected credentials
+- Practical guidance for rotation and stop-the-bleeding
+- Ready-to-consume output for CI checks
 
-## 何时使用
+## When to Use
 
-- 推送涉及 env/config 文件的提交之前
-- 安全审计与事故分诊过程中
-- 引导新贡献者建立安全的 env 约定时
-- 验证没有明显密钥被硬编码时
+- Before pushing commits that touch env/config files
+- During security audits and incident triage
+- Onboarding new contributors to safe env conventions
+- Verifying no obvious secrets are hard-coded
 
-## 何时不使用
+## When Not to Use
 
-- 读取或打印密钥值——只做卫生检查；发现项一律脱敏
-- 生产 vault 基础设施、轮换执行、审计日志后端、HA/DR → `secrets-vault-manager`
+- Reading or printing secret values — only hygiene checks; every finding is redacted
+- Production vault infrastructure, rotation execution, audit-log backends, HA/DR → `secrets-vault-manager`
 
-## 输入清单
+## Input Checklist
 
-扫描前一次性收集。缺输入时用这句话向用户问一次："要审计密钥泄露，请一次性提供：仓库根目录路径、是否需要 CI 用的 JSON 输出、是否已有 .secrets.baseline / .gitleaksignore。"
+Collect everything before scanning. When inputs are missing, ask the user once with this line: "To audit for secret leaks, please provide all at once: the repo-root path, whether you need CI-friendly JSON output, and whether you already have a .secrets.baseline / .gitleaksignore."
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Description |
 |---|---|---|
-| 仓库 / 项目根目录 | 是 | 扫描路径 → `env_auditor.py` 的位置参数 |
-| 输出格式 | 否 | text（默认）或 CI 流水线用 `--json` |
-| 扫描大小上限 | 否 | `--max-filesize <KB>`；大的生成文件会拖慢扫描 |
-| 已有的 baseline/ignore 文件 | 用于误报分诊 | `.secrets.baseline`（detect-secrets）和/或 `.gitleaksignore`（gitleaks），纳入版本控制 |
+| Repo / project root | Yes | Scan path → the positional argument to `env_auditor.py` |
+| Output format | No | text (default) or `--json` for CI pipelines |
+| Scan size cap | No | `--max-filesize <KB>`; large generated files slow the scan |
+| Existing baseline/ignore file | For false-positive triage | `.secrets.baseline` (detect-secrets) and/or `.gitleaksignore` (gitleaks), committed to version control |
 
-## 前置自检
+## Pre-flight Checks
 
 ```bash
-python3 --version        # 预期：Python ≥ 3.8。审计脚本仅依赖标准库。
+python3 --version        # Expected: Python ≥ 3.8. The audit script depends only on the standard library.
 ls scripts/env_auditor.py
-                         # 预期：文件列出。
+                         # Expected: the file is listed.
 test -d <repo-root> && echo ok
-                         # 预期：ok —— 目标仓库存在。
+                         # Expected: ok — the target repo exists.
 ```
 
-- Python 缺失或版本过旧 → 安装 Python ≥ 3.8，然后停止。
-- 脚本缺失 → 目录不对；`cd` 到本技能目录重新检查，然后停止。
-- 目标仓库不存在 → 扫描前与用户确认路径；不要扫错树。
+- Python missing or too old → install Python ≥ 3.8, then stop.
+- Script missing → wrong directory; `cd` to this skill's directory and re-check, then stop.
+- Target repo does not exist → confirm the path with the user before scanning; do not scan the wrong tree.
 
-## 快速开始
+## Quick Start
 
 ```bash
-# 扫描仓库中的疑似密钥泄露（输出已脱敏）
-python3 scripts/env_auditor.py assets/sample-repo   # 随包样例仓库（占位密钥+正确 .gitignore）；你的真实项目换成仓库根
+# Scan the repo for suspected secret leaks (output is redacted)
+python3 scripts/env_auditor.py assets/sample-repo   # bundled sample repo (placeholder keys + correct .gitignore); swap in your real project root
 
-# CI 流水线用的 JSON 输出
+# JSON output for CI pipelines
 python3 scripts/env_auditor.py assets/sample-repo --json
 ```
 
-## 工作流
+## Workflow
 
-### 步骤 1：扫描工作树
+### Step 1: Scan the working tree
 
-- **动作：** `python3 scripts/env_auditor.py <repo-root>`（CI 加 `--json`）。
-- **预期：** `=== ENV AUDITOR ===` 标头、`Findings: N (critical=x, high=y, ...)` 汇总行，以及每条带 `file:line` 和**已脱敏**摘录（如 `sk-F...(30 chars)`）的发现项；有发现项也退出码 0。
-- **失败时：** 输出 `usage: env_auditor.py ...` → 缺仓库路径位置参数；发现项为 0 → 确认扫的是目标根目录，不是子目录。
+- **Action:** `python3 scripts/env_auditor.py <repo-root>` (add `--json` for CI).
+- **Expected:** a `=== ENV AUDITOR ===` header, a `Findings: N (critical=x, high=y, ...)` summary line, and each finding with `file:line` and a **redacted** excerpt (e.g. `sk-F...(30 chars)`); exit code 0 even with findings.
+- **On failure:** output shows `usage: env_auditor.py ...` → the missing repo-path positional argument; 0 findings → confirm you scanned the target root, not a subdirectory.
 
-### 步骤 2：按严重度分诊
+### Step 2: Triage by severity
 
-- **动作：** 按 `critical` → `high` → `medium`/`low` 顺序处理；每条发现项判定：真实凭据、测试夹具，还是误报。
-- **预期：** 每条发现项标上 real / test-fixture / false-positive。
-- **失败时：** 分不清值是否真实 → 在证明之前一律当真实的；绝不打印值来判别（审计器的脱敏摘录足够定位）。
+- **Action:** handle in order `critical` → `high` → `medium`/`low`; for each finding decide whether it is a real credential, a test fixture, or a false positive.
+- **Expected:** each finding labeled real / test-fixture / false-positive.
+- **On failure:** if you can't tell whether a value is real → treat it as real until proven otherwise; never print the value to decide (the auditor's redacted excerpt is enough to locate it).
 
-### 步骤 3：轮换真实凭据并清除暴露值
+### Step 3: Rotate real credentials and purge the exposed value
 
-- **动作：** 先在 provider 侧轮换，再从工作树与历史中移除该值；把 `.env.example` 更新为空占位符，确认 `.gitignore` 覆盖 `.env`。
-- **预期：** provider 侧旧凭据已吊销；工作树只剩占位符。
-- **失败时：** 值已进 git 历史 → 删文件不够；无论怎样都必须轮换凭据，改写历史是另一项与用户显式确认的决定。
+- **Action:** rotate on the provider side first, then remove the value from the working tree and history; update `.env.example` to an empty placeholder and confirm `.gitignore` covers `.env`.
+- **Expected:** the old credential is revoked on the provider side; the working tree holds only placeholders.
+- **On failure:** the value is already in git history → deleting the file is not enough; the credential must be rotated regardless, and rewriting history is a separate decision to confirm explicitly with the user.
 
-### 步骤 4：记录轮换元数据
+### Step 4: Record rotation metadata
 
-- **动作：** 给每个凭据标注 `# ROTATED: <date>` 与过期元数据；为每个密钥维护消费方清单（哪些服务在读它）。
-- **预期：** 每个密钥都有轮换日期注释和已知消费方列表。
-- **失败时：** 某密钥消费方不明 → 不要盲轮换；先盘点消费方，否则轮换会弄坏它们。
+- **Action:** annotate each credential with `# ROTATED: <date>` and expiry metadata; maintain a consumer list for each key (which services read it).
+- **Expected:** each key has a rotation-date comment and a list of known consumers.
+- **On failure:** a key's consumers are unknown → do not rotate blindly; inventory consumers first, or the rotation will break them.
 
-### 步骤 5：加 CI/pre-commit 门禁
+### Step 5: Add CI/pre-commit gates
 
-- **动作：** 把 gitleaks 或 detect-secrets 接进 pre-commit 与 CI（配置见下）；重跑 `env_auditor.py` 与 `gitleaks detect` / `detect-secrets scan` 直到干净。
-- **预期：** 门禁能拦下植入的测试密钥；当前工作树跑出干净结果。
-- **失败时：** 明知有真实密钥门禁却放行 → 规则集太窄；加规则，而不是忽略文件。
+- **Action:** wire gitleaks or detect-secrets into pre-commit and CI (config below); rerun `env_auditor.py` and `gitleaks detect` / `detect-secrets scan` until clean.
+- **Expected:** the gate can catch a planted test secret; the current working tree scans clean.
+- **On failure:** a gate passes despite known real keys → the rule set is too narrow; add rules rather than ignoring files.
 
-## 失败处置表
+## Failure Handling Table
 
-| 症状 / 退出码 | 原因 | 修复 |
+| Symptom / exit code | Cause | Fix |
 |---|---|---|
-| `usage: env_auditor.py [-h] [--json] ...` | 缺仓库路径位置参数 | 把仓库根目录作为第一个参数传入 |
-| 明知有泄露却报 0 发现项 | 扫错根目录，或文件超过大小上限 | 从正确根目录重跑；调高 `--max-filesize` |
-| `tests/` 或 fixtures 中有发现项 | 有意的测试凭据 | 核实确实为假；确保不进生产配置，并记入 baseline |
-| `.env.example` 含看似真实的值 | 示例文件被填了真实配置 | 按泄露处理：轮换，替换为空占位符 |
-| 轮换凭据后下游服务故障 | 消费方不明 | 利用 provider 的重叠窗口恢复（如支持），补全消费方清单，再次轮换 |
-| 调试时密钥被打印进 CI 日志 | 日志语句打印了 env | 脱敏/删除该日志行；轮换被打印的值 |
-| gitleaks 误报泛滥 | 默认规则对该技术栈太宽 | 收紧 regex 或加 `.gitleaksignore` 指纹——默认绝不整文件忽略 |
+| `usage: env_auditor.py [-h] [--json] ...` | Missing repo-path positional argument | Pass the repo root as the first argument |
+| Reports 0 findings despite a known leak | Scanned the wrong root, or files exceed the size cap | Rerun from the correct root; raise `--max-filesize` |
+| Findings in `tests/` or fixtures | Intentional test credentials | Verify they are indeed fake; ensure they don't reach production config and record them in the baseline |
+| `.env.example` contains values that look real | The example file was filled with real config | Treat as a leak: rotate, replace with an empty placeholder |
+| Downstream services break after rotation | Unknown consumers | Use the provider's overlap window to recover (if supported), complete the consumer list, and rotate again |
+| A secret printed into CI logs during debugging | A log statement printed the env | Redact/remove that log line; rotate the printed value |
+| Flood of gitleaks false positives | Default rules are too broad for this stack | Tighten the regex or add `.gitleaksignore` fingerprints — never ignore whole files by default |
 
-## Pre-commit 密钥检测
+## Pre-commit Secret Detection
 
-在密钥进入版本控制之前拦住，是性价比最高的防御。两个主流工具覆盖这一领域。
+Catching secrets before they enter version control is the highest-leverage defense. Two mainstream tools cover this space.
 
 ### gitleaks
 
@@ -133,10 +134,10 @@ regex = '''INTERNAL_TOKEN_[A-Za-z0-9]{32}'''
 secretGroup = 0
 ```
 
-- 安装：`brew install gitleaks` 或从 GitHub releases 下载。
-- Pre-commit hook：`gitleaks git --pre-commit --staged`
-- Baseline 扫描：`gitleaks detect --source . --report-path gitleaks-report.json`
-- 误报在 `.gitleaksignore` 中管理（每行一个指纹）。
+- Install: `brew install gitleaks` or download from GitHub releases.
+- Pre-commit hook: `gitleaks git --pre-commit --staged`
+- Baseline scan: `gitleaks detect --source . --report-path gitleaks-report.json`
+- False positives are managed in `.gitleaksignore` (one fingerprint per line).
 
 ### detect-secrets
 
@@ -154,75 +155,75 @@ repos:
         args: ['--baseline', '.secrets.baseline']
 ```
 
-- 支持为组织特定模式编写**自定义插件**。
-- 审计流程：`detect-secrets audit .secrets.baseline`，交互式标记真/假阳性。
+- Supports writing **custom plugins** for organization-specific patterns.
+- Audit flow: `detect-secrets audit .secrets.baseline`, interactively marking true/false positives.
 
-### 误报管理
+### False-positive management
 
-- 把 `.gitleaksignore` 或 `.secrets.baseline` 纳入版本控制，全团队共享排除项。
-- 安全审计时复查误报清单——排除模式日久可能掩盖真实泄露。
-- 优先收紧 regex，而不是大范围忽略文件。
+- Commit `.gitleaksignore` or `.secrets.baseline` to version control so the whole team shares the exclusions.
+- Re-review the false-positive list during security audits — exclusion patterns can mask real leaks over time.
+- Prefer tightening the regex over broadly ignoring files.
 
-## 轮换准备（仅检测侧）
+## Rotation Readiness (Detection Side Only)
 
-深度轮换执行——provider 自动化、动态密钥、应急处置清单——属于 **secrets-vault-manager**。本技能覆盖准备侧：
+Deep rotation execution — provider automation, dynamic secrets, emergency runbooks — belongs to **secrets-vault-manager**. This skill covers the readiness side:
 
-- 在每个凭据旁记录创建/过期元数据。
-- 在过期前 30、14、7 天设提醒。
-- 跑 `scripts/env_auditor.py`，标出没有轮换日期注释（`# ROTATED: <date>`）的密钥。
-- 为每个密钥维护消费方清单，让轮换的爆炸半径在需要之前就已知。
+- Record creation/expiry metadata next to each credential.
+- Set reminders at 30, 14, and 7 days before expiry.
+- Run `scripts/env_auditor.py` and flag keys lacking a rotation-date comment (`# ROTATED: <date>`).
+- Maintain a consumer list for each key so the rotation blast radius is known before it's needed.
 
-> **交叉引用：** 生产 vault 基础设施、云密钥存储选型（Vault / AWS Secrets Manager / Azure Key Vault / GCP Secret Manager）、轮换执行流程、审计日志后端与灾备，见 `secrets-vault-manager`。
+> **Cross-reference:** for production vault infrastructure, cloud secret-store selection (Vault / AWS Secrets Manager / Azure Key Vault / GCP Secret Manager), rotation execution flows, audit-log backends, and disaster recovery, see `secrets-vault-manager`.
 
-## CI/CD 密钥注入（要点）
+## CI/CD Secret Injection (Key Points)
 
-- 优先 **OIDC federation / 短期令牌**，而不是长期访问密钥。
-- 绝不在流水线输出中回显或打印密钥值；依赖平台打码，但不要去测试它。
-- 不向不受信任 fork 触发的流水线暴露密钥。
-- 流水线架构模式 → `ci-cd-pipeline-builder`；vault 支撑的注入 → `secrets-vault-manager`。
+- Prefer **OIDC federation / short-lived tokens** over long-lived access keys.
+- Never echo or print secret values in pipeline output; rely on platform masking, but don't go test it.
+- Don't expose secrets to pipelines triggered by untrusted forks.
+- Pipeline architecture patterns → `ci-cd-pipeline-builder`; vault-backed injection → `secrets-vault-manager`.
 
-## 审计日志（要点）
+## Audit Logging (Key Points)
 
-谁在何时访问了哪个密钥属于 vault 领地——云原生审计链路（CloudTrail / Activity Log / Cloud Audit Logs / Vault audit backend）、批量读取告警与 SIEM 对接都在 `secrets-vault-manager` 覆盖。本地等价要求：`.env` 的值不进 shell 历史和 CI 日志。
+Who accessed which secret and when is vault territory — cloud-native audit trails (CloudTrail / Activity Log / Cloud Audit Logs / Vault audit backend), bulk-read alerting, and SIEM integration are covered by `secrets-vault-manager`. The local equivalent requirement: `.env` values must not end up in shell history or CI logs.
 
-## 常见坑
+## Common Pitfalls
 
-- 在 `.env.example` 里提交真实值
-- 轮换了一个系统，漏掉下游消费方
-- 调试或事故响应时把密钥打进日志
-- 未经核实就把疑似泄露当低优先级
+- Committing real values in `.env.example`
+- Rotating one system but missing downstream consumers
+- Logging secrets during debugging or incident response
+- Treating a suspected leak as low priority without verification
 
-## 最佳实践
+## Best Practices
 
-1. 生产环境的唯一事实源用密钥管理器。
-2. 开发用 env 文件留在本地并 gitignore。
-3. 合并前在 CI 强制检测。
-4. 凭据轮换后立即重测应用链路。
+1. Use a secret manager as the single source of truth in production.
+2. Keep dev env files local and gitignored.
+3. Enforce detection in CI before merge.
+4. Re-test the application path immediately after credential rotation.
 
-## 参考
+## References
 
-仅在对应情况出现时读：
+Read only when the corresponding situation arises:
 
-- `references/secret-patterns.md` —— 分诊发现项命中了什么（审计器检测哪些凭据形状）或编写自定义检测规则时。
-- `references/validation-detection-rotation.md` —— 判断发现项是否为活跃凭据，或规划轮换准备清单时。
+- `references/secret-patterns.md` — when triaging what a finding matched (which credential shapes the auditor detects) or writing custom detection rules.
+- `references/validation-detection-rotation.md` — when deciding whether a finding is an active credential or planning a rotation-readiness checklist.
 
-## 资产模板
+## Asset Templates
 
-- `assets/sample_env_leak.env` —— 含"假但逼真"凭据形状的样例文件；在信任一次干净结果之前，先用它验证审计器能命中你的模式。
+- `assets/sample_env_leak.env` — a sample file with "fake-but-realistic" credential shapes; before trusting a clean result, use it to verify the auditor hits your patterns.
 
-## 交叉引用
+## Cross-References
 
-| 技能 | 关系 |
+| Skill | Relationship |
 |-------|-------------|
-| **Secrets Vault Manager**（`secrets-vault-manager`） | 生产 vault 基础设施、轮换执行、审计日志、HA/DR |
-| **CI/CD Pipeline Builder**（`ci-cd-pipeline-builder`） | 流水线架构、密钥注入模式 |
+| **Secrets Vault Manager** (`secrets-vault-manager`) | Production vault infrastructure, rotation execution, audit logs, HA/DR |
+| **CI/CD Pipeline Builder** (`ci-cd-pipeline-builder`) | Pipeline architecture, secret injection patterns |
 
-## 交付标准
+## Delivery Criteria
 
-满足以下条件才算跑完本技能：
+This skill counts as done only when:
 
-- 审计报告以 `env_audit_<repo>_<date>.json`（经 `--json`）保存在仓库旁或安全工作区；原始发现项绝不以未脱敏形式贴进工单。
-- 每条发现项按以下之一收口：已轮换+已移除、误报已入 baseline、测试夹具已记录。
-- `.env.example` 只含占位符；`.gitignore` 覆盖 `.env`；每个凭据都有轮换元数据（`# ROTATED: <date>`）。
-- 完整性验证：`python3 scripts/env_auditor.py <repo-root>` 在当前工作树报 0 critical/high；pre-commit/CI 门禁能拦下植入的测试密钥。
-- 持续要求：过期前 30/14/7 天的轮换提醒真实触发；每个密钥的消费方清单保持最新。
+- The audit report is saved beside the repo (or in a secure workspace) as `env_audit_<repo>_<date>.json` (via `--json`); raw findings are never pasted into tickets unredacted.
+- Every finding is closed out as one of: rotated+removed, false positive added to baseline, or test fixture documented.
+- `.env.example` contains only placeholders; `.gitignore` covers `.env`; every credential has rotation metadata (`# ROTATED: <date>`).
+- Completeness verification: `python3 scripts/env_auditor.py <repo-root>` reports 0 critical/high on the current working tree; the pre-commit/CI gate can catch a planted test secret.
+- Ongoing requirement: rotation reminders at 30/14/7 days before expiry actually fire; each key's consumer list stays current.

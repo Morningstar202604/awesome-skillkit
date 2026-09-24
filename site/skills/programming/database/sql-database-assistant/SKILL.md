@@ -1,6 +1,6 @@
 ---
 name: sql-database-assistant
-description: "Use when the user asks to write SQL queries, optimize database performance, generate migrations, explore database schemas, or work with ORMs like Prisma, Drizzle, TypeORM, or SQLAlchemy. 当用户要求 写 SQL / 优化慢查询 / 生成表结构文档 时使用。 Do NOT use for provisioning database servers or managing replicas."
+description: "Use when the user asks to write SQL queries, write SQL, optimize slow queries, optimize database performance, generate migrations, generate table-structure docs, explore database schemas, or work with ORMs like Prisma, Drizzle, TypeORM, or SQLAlchemy. Do NOT use for provisioning database servers or managing replicas."
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
@@ -12,78 +12,78 @@ metadata:
   verified-date: "2026-09-09"
 ---
 
-# SQL 数据库助手
+# SQL Database Assistant
 
-database-designer 的日常操作搭档。**database-designer** 聚焦 Schema 架构、ERD 建模与多租户模式；本技能覆盖日常：写查询、优化性能、生成迁移、打通应用代码与数据库引擎之间的鸿沟。
+The day-to-day companion to database-designer. **database-designer** focuses on schema architecture, ERD modeling, and multi-tenancy patterns; this skill covers the everyday: writing queries, optimizing performance, generating migrations, and bridging app code with the database engine.
 
-## 工作流
+## Workflow
 
-本技能按以下主流程推进，各环节详细规则见后续对应章节：
+This skill proceeds through the following main flow; detailed rules for each stage are in the corresponding sections below:
 
-1. **接需求**：区分是"写成 SQL"、"优化已有 SQL"还是"设计/迁移 schema"（见 自然语言转 SQL / 查询优化 / 迁移生成）
-2. **摸 schema**：确认表结构与字段类型，不靠猜（见 Schema 探索）
-3. **产出**：给出 SQL 或迁移脚本，并说明假设条件（见 交付标准）
-4. **优化与校验**：有性能问题时走索引与执行计划分析（见 查询优化）
-5. **自检**：对着 安全红线 与 失败处置表 过一遍再交付
+1. **Take the request**: distinguish whether it's "write as SQL", "optimize existing SQL", or "design/migrate a schema" (see Natural-language-to-SQL / Query optimization / Migration generation)
+2. **Feel out the schema**: confirm the table structure and column types, don't guess (see Schema exploration)
+3. **Produce**: hand over the SQL or migration script, and state the assumptions (see Delivery criteria)
+4. **Optimize and validate**: when there's a performance problem, run index and execution-plan analysis (see Query optimization)
+5. **Self-check**: run it against the safety red lines and failure table before delivering
 
-> 目标数据库不同时，先按 多数据库支持 章节确认方言差异，避免语法不兼容。
+> When the target database differs, first confirm dialect differences in the Multi-database support section to avoid syntax incompatibility.
 
-## 核心能力
+## Core Capabilities
 
-- **自然语言转 SQL** — 把需求翻译成正确且高效的查询
-- **Schema 探索** — 内省 PostgreSQL、MySQL、SQLite、SQL Server 在线库
-- **查询优化** — EXPLAIN 分析、索引建议、改写模式
-- **迁移生成** — up/down 脚本、零停机策略、回滚预案
-- **ORM 集成** — Prisma、Drizzle、TypeORM、SQLAlchemy 模式与逃生通道
+- **Natural-language to SQL** — translate a request into a correct and efficient query
+- **Schema exploration** — introspect live PostgreSQL, MySQL, SQLite, and SQL Server databases
+- **Query optimization** — EXPLAIN analysis, index recommendations, rewrite patterns
+- **Migration generation** — up/down scripts, zero-downtime strategies, rollback plans
+- **ORM integration** — Prisma, Drizzle, TypeORM, SQLAlchemy patterns and escape hatches
 
-### 工具
+### Tools
 
-| 脚本 | 用途 |
+| Script | Purpose |
 |------|------|
-| `scripts/query_optimizer.py` | 静态分析 SQL 查询的性能问题 |
-| `scripts/migration_generator.py` | 从变更描述生成迁移文件模板 |
-| `scripts/schema_explorer.py` | 把内省结果（或 SQLite 文件）转成 Schema 文档 |
+| `scripts/query_optimizer.py` | Statically analyze SQL queries for performance problems |
+| `scripts/migration_generator.py` | Generate migration-file templates from a change description |
+| `scripts/schema_explorer.py` | Turn introspection results (or a SQLite file) into schema docs |
 
-> **Boundary / 与 database-designer 的划界**：本技能的 `migration_generator.py` 做 **自然语言 → 迁移模板**（`--change "add column ..." → up/down 文件`）。若需求是"对比两份 schema JSON、生成含回滚与零停机（expand-contract）的正式迁移 SQL"，请走 `database-designer` 的同名脚本（`--current/--target`），二者职责不同、互为上下游。
+> **Boundary / split with database-designer**: this skill's `migration_generator.py` does **natural-language → migration template** (`--change "add column ..." → up/down files`). If the need is "diff two schema JSONs and produce a formal migration SQL with rollback and zero-downtime (expand-contract)", use `database-designer`'s same-name script (`--current/--target`); the two have different responsibilities and sit upstream/downstream of each other.
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 说明 |
+| Input | Required | Description |
 |------|------|------|
-| SQL 查询或文件 | 条件必需 | 查询文本或 `.sql` 路径，优化请求用 |
-| 变更描述 | 条件必需 | 自然语言的表结构变更，迁移请求用 |
-| 内省数据源 | 条件必需 | 内省 JSON/CSV 文件，或 SQLite `.db` 文件，Schema 探索用 |
-| 方言 | 可选 | `postgres`（默认）、`mysql`、`sqlite`、`sqlserver` |
-| 输出格式 | 可选 | 默认 stdout；各工具支持 `--json` / `--output <file>` |
+| SQL query or file | Conditionally required | Query text or `.sql` path, used for optimization requests |
+| Change description | Conditionally required | A natural-language table-structure change, used for migration requests |
+| Introspection data source | Conditionally required | An introspection JSON/CSV file, or a SQLite `.db` file, used for schema exploration |
+| Dialect | Optional | `postgres` (default), `mysql`, `sqlite`, `sqlserver` |
+| Output format | Optional | Defaults to stdout; each tool supports `--json` / `--output <file>` |
 
-输入缺失时一次性问齐："请提供：① 查询 / 变更描述 / 内省数据（按任务取其一）② 目标方言（postgres/mysql/sqlite/sqlserver）③ 输出格式与目的地。其余按默认处理。"
+When inputs are missing, ask for all at once: "Please provide: (1) query / change description / introspection data (whichever the task needs), (2) target dialect (postgres/mysql/sqlite/sqlserver), (3) output format and destination. Everything else runs on defaults."
 
-## 前置自检
+## Pre-flight Checks
 
-逐条探测，任一失败 → 给出修复方法并 STOP：
+Probe one by one; on any failure → give the fix and STOP:
 
 ```bash
-python3 --version   # 预期 3.8+；失败：安装 python3
-# 自检：python3 scripts/query_optimizer.py --help / migration_generator.py / schema_explorer.py 均预期退出码 0；失败：脚本缺失 → 检查技能目录
+python3 --version   # expected 3.8+; on failure: install python3
+# Self-check: python3 scripts/query_optimizer.py --help / migration_generator.py / schema_explorer.py should all exit 0; on failure: script missing → check the skill directory
 ```
 
-按任务补充检查：优化只需查询文本；迁移生成只需变更描述；Schema 探索需要内省文件（或 SQLite 文件——传 `--sqlite` 前确认文件存在且可读）。
+Add checks per task: optimization only needs the query text; migration generation only needs the change description; schema exploration needs an introspection file (or a SQLite file — confirm the file exists and is readable before passing `--sqlite`).
 
-## 自然语言转 SQL
+## Natural-Language to SQL
 
-### 转换模式
+### Conversion Pattern
 
-把需求转成 SQL 时，按此顺序：
+When turning a request into SQL, follow this order:
 
-1. **识别实体** — 名词映射为表
-2. **识别关系** — 动词映射为 JOIN 或子查询
-3. **识别过滤条件** — 形容词/条件映射为 WHERE 子句
-4. **识别聚合** — "总数""平均""计数"映射为 GROUP BY
-5. **识别排序** — "前 N""最新""最高"映射为 ORDER BY + LIMIT
+1. **Identify entities** — nouns map to tables
+2. **Identify relationships** — verbs map to JOINs or subqueries
+3. **Identify filters** — adjectives/conditions map to WHERE clauses
+4. **Identify aggregations** — "total"/"average"/"count" map to GROUP BY
+5. **Identify ordering** — "top N"/"newest"/"highest" map to ORDER BY + LIMIT
 
-### 常用查询模板
+### Common Query Templates
 
-**每组 Top-N（窗口函数）**
+**Top-N per group (window functions)**
 
 ```sql
 SELECT * FROM (
@@ -92,7 +92,7 @@ SELECT * FROM (
 ) ranked WHERE rn <= 3;
 ```
 
-**累计求和**
+**Running total**
 
 ```sql
 SELECT date, amount,
@@ -100,7 +100,7 @@ SELECT date, amount,
 FROM transactions;
 ```
 
-**缺口检测**
+**Gap detection**
 
 ```sql
 SELECT curr.id, curr.seq_num, prev.seq_num AS prev_seq
@@ -109,7 +109,7 @@ LEFT JOIN records prev ON prev.seq_num = curr.seq_num - 1
 WHERE prev.id IS NULL AND curr.seq_num > 1;
 ```
 
-**UPSERT（PostgreSQL）**
+**UPSERT (PostgreSQL)**
 
 ```sql
 INSERT INTO settings (key, value, updated_at)
@@ -117,7 +117,7 @@ VALUES ('theme', 'dark', NOW())
 ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = EXCLUDED.updated_at;
 ```
 
-**UPSERT（MySQL）**
+**UPSERT (MySQL)**
 
 ```sql
 INSERT INTO settings (key_name, value, updated_at)
@@ -125,13 +125,13 @@ VALUES ('theme', 'dark', NOW())
 ON DUPLICATE KEY UPDATE value = VALUES(value), updated_at = VALUES(updated_at);
 ```
 
-> JOIN、CTE、窗口函数、JSON 操作等更多模式见 references/query_patterns.md。
+> For more patterns — JOINs, CTEs, window functions, JSON operations — see references/query_patterns.md.
 
-## Schema 探索
+## Schema Exploration
 
-### 内省查询
+### Introspection Queries
 
-**PostgreSQL — 列出表与列**
+**PostgreSQL — list tables and columns**
 
 ```sql
 SELECT table_name, column_name, data_type, is_nullable, column_default
@@ -140,7 +140,7 @@ WHERE table_schema = 'public'
 ORDER BY table_name, ordinal_position;
 ```
 
-**PostgreSQL — 外键**
+**PostgreSQL — foreign keys**
 
 ```sql
 SELECT tc.table_name, kcu.column_name,
@@ -151,7 +151,7 @@ JOIN information_schema.constraint_column_usage ccu ON tc.constraint_name = ccu.
 WHERE tc.constraint_type = 'FOREIGN KEY';
 ```
 
-**MySQL — 表大小**
+**MySQL — table sizes**
 
 ```sql
 SELECT table_name, table_rows,
@@ -162,13 +162,13 @@ WHERE table_schema = DATABASE()
 ORDER BY data_length DESC;
 ```
 
-**SQLite — Schema 导出**
+**SQLite — export the schema**
 
 ```sql
 SELECT name, sql FROM sqlite_master WHERE type = 'table' ORDER BY name;
 ```
 
-**SQL Server — 列与类型**
+**SQL Server — columns and types**
 
 ```sql
 SELECT t.name AS table_name, c.name AS column_name,
@@ -179,67 +179,67 @@ JOIN sys.types ty ON c.user_type_id = ty.user_type_id
 ORDER BY t.name, c.column_id;
 ```
 
-### 从 Schema 生成文档
+### Generating Docs From a Schema
 
-运行 `scripts/schema_explorer.py`——两个输入互斥，必填其一：
+Run `scripts/schema_explorer.py` — the two inputs are mutually exclusive; one is required:
 
 ```bash
-# 从 SQLite 数据库（只读打开）提取，单表过滤，JSON 输出
-python3 scripts/schema_explorer.py --sqlite assets/sample.db --table users --json   # 随包样例库（users/orders 两表）；你的真实库换成 app.db
+# Extract from a SQLite database (opened read-only), filter by a single table, JSON output
+python3 scripts/schema_explorer.py --sqlite assets/sample.db --table users --json   # bundled sample DB (users/orders, two tables); swap in app.db for your real DB
 
-# 从内省结果文件（JSON/CSV；`-` 读 stdin）生成 Markdown 文档
-python3 scripts/schema_explorer.py --input assets/introspection.json -o schema_doc.md   # 随包样例（行式内省：table_name/column_name/data_type 三列起）
+# Generate Markdown docs from an introspection file (JSON/CSV; `-` reads stdin)
+python3 scripts/schema_explorer.py --input assets/introspection.json -o schema_doc.md   # bundled sample (row-wise introspection: at least table_name/column_name/data_type)
 ```
 
-预期：stdout 输出 Markdown Schema 文档，或写到 `-o` 指定路径；`--json` 切换为规范化 JSON。若失败：`--input` 与 `--sqlite` 都没给 → 脚本以用法错误退出，补一个数据源；内省文件格式损坏 → 先用上面的查询重新生成。
+Expected: stdout emits a Markdown schema doc, or writes to the path given by `-o`; `--json` switches to normalized JSON. On failure: neither `--input` nor `--sqlite` given → the script exits with a usage error; supply one data source; the introspection file is malformed → regenerate it with the queries above.
 
-## 查询优化
+## Query Optimization
 
-### EXPLAIN 分析工作流
+### EXPLAIN Analysis Workflow
 
-1. **跑 EXPLAIN ANALYZE**（PostgreSQL）或 **EXPLAIN FORMAT=JSON**（MySQL）
-2. **定位最贵的节点** — 大表上的 Seq Scan、行数估算偏高的 Nested Loop
-3. **检查缺失索引** — 过滤列上的顺序扫描
-4. **留意估算偏差** — 计划行数与实际行数差异大，说明统计信息过期
-5. **评估 JOIN 顺序** — 让最小结果集驱动连接
+1. **Run EXPLAIN ANALYZE** (PostgreSQL) or **EXPLAIN FORMAT=JSON** (MySQL)
+2. **Locate the most expensive node** — a Seq Scan on a large table, a Nested Loop with over-estimated rows
+3. **Check for missing indexes** — sequential scans on filtered columns
+4. **Watch estimate drift** — large gaps between estimated and actual rows mean stale statistics
+5. **Evaluate JOIN order** — let the smallest result set drive the join
 
-### 索引建议清单
+### Index Recommendation Checklist
 
-- WHERE 子句中高选择性的列
-- JOIN 条件中的列（外键）
-- 与 LIMIT 组合使用的 ORDER BY 列
-- 匹配多列 WHERE 谓词的复合索引（选择性最高的列放前面）
-- 常量过滤查询的部分索引（如 `WHERE status = 'active'`）
-- 读多写少场景用覆盖索引，避免回表
+- High-selectivity columns in WHERE clauses
+- Columns in JOIN conditions (foreign keys)
+- ORDER BY columns combined with LIMIT
+- Composite indexes matching multi-column WHERE predicates (highest-selectivity column first)
+- Partial indexes for constant-filtered queries (e.g. `WHERE status = 'active'`)
+- Covering indexes for read-heavy cases to avoid lookups into the table
 
-### 查询改写模式
+### Query Rewrite Patterns
 
-| 反模式 | 改写 |
+| Anti-pattern | Rewrite |
 |--------|------|
-| `SELECT * FROM orders` | `SELECT id, status, total FROM orders`（显式列出列） |
-| `WHERE YEAR(created_at) = 2025` | `WHERE created_at >= '2025-01-01' AND created_at < '2026-01-01'`（可走索引） |
-| SELECT 中的关联子查询 | LEFT JOIN + 聚合 |
-| 带 NULL 的 `NOT IN (SELECT ...)` | `NOT EXISTS (SELECT 1 ...)` |
-| 不需要去重却用 `UNION` | `UNION ALL` |
-| `LIKE '%search%'` | 全文检索索引（GIN/FULLTEXT） |
-| `ORDER BY RAND()` | 应用侧随机抽样或 `TABLESAMPLE` |
+| `SELECT * FROM orders` | `SELECT id, status, total FROM orders` (list columns explicitly) |
+| `WHERE YEAR(created_at) = 2025` | `WHERE created_at >= '2025-01-01' AND created_at < '2026-01-01'` (index-friendly) |
+| A correlated subquery in the SELECT | LEFT JOIN + aggregation |
+| `NOT IN (SELECT ...)` with NULLs | `NOT EXISTS (SELECT 1 ...)` |
+| `UNION` when dedup isn't needed | `UNION ALL` |
+| `LIKE '%search%'` | A full-text index (GIN/FULLTEXT) |
+| `ORDER BY RAND()` | App-side random sampling or `TABLESAMPLE` |
 
-### 静态分析工具
+### Static Analysis Tool
 
 ```bash
 python3 scripts/query_optimizer.py --query "SELECT * FROM orders WHERE status = 'pending'" --dialect postgres
 python3 scripts/query_optimizer.py --query queries.sql --dialect mysql --json
 ```
 
-预期：逐语句输出发现清单（反模式、索引提示）；`--json` 输出机器可读结果。若失败：`--query` 接受 SQL 字符串或 `.sql` 文件路径——路径按文件处理但不存在时会报错退出，核对路径。
+Expected: per-statement findings (anti-patterns, index hints); `--json` gives machine-readable results. On failure: `--query` takes either a SQL string or a `.sql` file path — the path is treated as a file and errors if it doesn't exist; check the path.
 
-> EXPLAIN 计划解读、索引类型、连接池见 references/optimization_guide.md。
+> For reading EXPLAIN plans, index types, and connection pooling, see references/optimization_guide.md.
 
-## 迁移生成
+## Migration Generation
 
-### 零停机迁移模式
+### Zero-Downtime Migration Patterns
 
-**加列（安全）**
+**Add a column (safe)**
 
 ```sql
 -- Up
@@ -249,170 +249,168 @@ ALTER TABLE users ADD COLUMN phone VARCHAR(20);
 ALTER TABLE users DROP COLUMN phone;
 ```
 
-**重命名列（expand-contract）**
+**Rename a column (expand-contract)**
 
 ```sql
--- 步骤 1：加新列
+-- Step 1: add the new column
 ALTER TABLE users ADD COLUMN full_name VARCHAR(255);
--- 步骤 2：回填
+-- Step 2: backfill
 UPDATE users SET full_name = name;
--- 步骤 3：部署应用，读两列
--- 步骤 4：部署应用，只写新列
--- 步骤 5：删旧列
+-- Step 3: deploy the app reading both columns
+-- Step 4: deploy the app writing only the new column
+-- Step 5: drop the old column
 ALTER TABLE users DROP COLUMN name;
 ```
 
-**加 NOT NULL 列（安全顺序）**
+**Add a NOT NULL column (safe order)**
 
 ```sql
--- 步骤 1：加可空列
+-- Step 1: add the nullable column
 ALTER TABLE orders ADD COLUMN region VARCHAR(50);
--- 步骤 2：按默认值回填
+-- Step 2: backfill with a default
 UPDATE orders SET region = 'unknown' WHERE region IS NULL;
--- 步骤 3：加约束
+-- Step 3: add the constraint
 ALTER TABLE orders ALTER COLUMN region SET NOT NULL;
 ALTER TABLE orders ALTER COLUMN region SET DEFAULT 'unknown';
 ```
 
-**建索引（不阻塞，PostgreSQL）**
+**Build an index (non-blocking, PostgreSQL)**
 
 ```sql
 CREATE INDEX CONCURRENTLY idx_orders_status ON orders (status);
 ```
 
-### 回填与回滚策略
+### Backfill and Rollback Strategies
 
-- **分批更新** — 每批 1000-10000 行，避免锁竞争；过渡期**双写**新旧两列；每批跑完核对行数
-- 每个迁移必须有可逆的 down 脚本。不可逆变更：先 `pg_dump` 受影响表，用 feature flag 切换读路径，或窗口期保留影子表副本
+- **Batch updates** — 1000-10000 rows per batch to avoid lock contention; **dual-write** the old and new columns during the transition; verify row counts after each batch
+- Every migration must have a reversible down script. For irreversible changes: `pg_dump` the affected tables first, switch the read path with a feature flag, or keep a shadow-table copy in a maintenance window
 
-### 迁移生成工具
+### Migration Generation Tool
 
 ```bash
 python3 scripts/migration_generator.py --change "add email_verified boolean to users" --dialect postgres --format sql
 python3 scripts/migration_generator.py --change "rename column name to full_name in customers" --dialect mysql --format alembic --json
 ```
 
-预期：按 `--format`（`sql`/`prisma`/`alembic`）输出 up/down 迁移模板（SQL）或 Alembic/Prisma 模板；`--output` 写文件而非 stdout。若失败：变更措辞无法识别 → 改述为 "add/drop/rename column X to/in table Y"；方言不支持 → 从上述四种中选一。
+Expected: by `--format` (`sql`/`prisma`/`alembic`), output up/down migration templates (SQL) or Alembic/Prisma templates; `--output` writes to a file instead of stdout. On failure: the change phrasing isn't recognized — rephrase as "add/drop/rename column X to/in table Y"; dialect unsupported — pick one of the four above.
 
-## 多数据库支持与 ORM
+## Multi-Database Support and ORMs
 
-不同引擎的方言差异（UPSERT / 布尔 / 自增 / JSON / 窗口函数等 9 项对照）与四大 ORM
-（Prisma / SQLAlchemy / TypeORM / GORM）的 schema 定义、迁移命令与查询 API，
-已整理到参考文件，需要时再读：
+Dialect differences across engines (UPSERT / booleans / auto-increment / JSON / window functions — a 9-item comparison) and the schema definitions, migration commands, and query APIs of the four major ORMs (Prisma / SQLAlchemy / TypeORM / GORM) are organized in the reference files; read them when needed:
 
-- [dialect_and_orm.md](references/dialect_and_orm.md) —— 方言对照表 + 兼容性要点 + ORM 模式
-- [orm_patterns.md](references/orm_patterns.md) —— ORM 深度模式与关联查询
-- [optimization_guide.md](references/optimization_guide.md) —— 索引与执行计划优化
-- [query_patterns.md](references/query_patterns.md) —— 常用查询写法
+- [dialect_and_orm.md](references/dialect_and_orm.md) — dialect comparison table + compatibility notes + ORM patterns
+- [orm_patterns.md](references/orm_patterns.md) — deep ORM patterns and relation queries
+- [optimization_guide.md](references/optimization_guide.md) — index and execution-plan optimization
+- [query_patterns.md](references/query_patterns.md) — common query recipes
 
-> 跨引擎迁移前，先按方言对照表确认语法兼容；写 ORM 代码前，确认目标 ORM 的迁移命令形态。
+> Before a cross-engine migration, confirm syntax compatibility against the dialect table; before writing ORM code, confirm the target ORM's migration-command shape.
 
-## 数据完整性
+## Data Integrity
 
-### 约束策略
+### Constraint Strategy
 
-- **主键** — 每张表必须有；优先代理键（serial/UUID）
-- **外键** — 强制引用完整性；显式定义 ON DELETE 行为
-- **UNIQUE 约束** — 业务级唯一（email、slug、API key）
-- **CHECK 约束** — 在数据库层校验范围、枚举与业务规则
-- **NOT NULL** — 默认 NOT NULL；确实可空才放开
+- **Primary keys** — every table must have one; prefer surrogate keys (serial/UUID)
+- **Foreign keys** — enforce referential integrity; define ON DELETE behavior explicitly
+- **UNIQUE constraints** — business-level uniqueness (email, slug, API key)
+- **CHECK constraints** — validate ranges, enums, and business rules at the database layer
+- **NOT NULL** — default to NOT NULL; relax it only where genuinely nullable
 
-### 事务隔离级别
+### Transaction Isolation Levels
 
-| 级别 | 脏读 | 不可重复读 | 幻读 | 适用场景 |
+| Level | Dirty reads | Non-repeatable reads | Phantom reads | Use case |
 |------|------|-----------|------|----------|
-| READ UNCOMMITTED | 有 | 有 | 有 | 不建议使用 |
-| READ COMMITTED | 无 | 有 | 有 | PostgreSQL 默认，一般 OLTP |
-| REPEATABLE READ | 无 | 无 | 有（InnoDB：无） | 财务计算 |
-| SERIALIZABLE | 无 | 无 | 无 | 强一致性场景（计费、库存） |
+| READ UNCOMMITTED | Yes | Yes | Yes | Not recommended |
+| READ COMMITTED | No | Yes | Yes | PostgreSQL default, general OLTP |
+| REPEATABLE READ | No | No | Yes (InnoDB: no) | Financial calculations |
+| SERIALIZABLE | No | No | No | Strong-consistency cases (billing, inventory) |
 
-### 死锁预防
+### Deadlock Prevention
 
-1. **一致的加锁顺序** — 始终按相同顺序访问表/行
-2. **短事务** — 压缩从第一次加锁到提交的时间
-3. **咨询锁** — 用 `pg_advisory_lock()` 做应用层协调
-4. **重试逻辑** — 捕获死锁错误，指数退避重试
+1. **Consistent lock ordering** — always access tables/rows in the same order
+2. **Short transactions** — compress the time from first lock to commit
+3. **Advisory locks** — use `pg_advisory_lock()` for app-level coordination
+4. **Retry logic** — catch deadlock errors and retry with exponential backoff
 
-## 备份与恢复
+## Backup and Recovery
 
 ### PostgreSQL
 
 ```bash
-# 全量备份
+# Full backup
 pg_dump -Fc --no-owner dbname > backup.dump
-# 恢复
+# Restore
 pg_restore -d dbname --clean --no-owner backup.dump
-# 时间点恢复：配置 WAL 归档 + restore_command
+# Point-in-time recovery: configure WAL archiving + restore_command
 ```
 
 ### MySQL
 
 ```bash
-# 全量备份
+# Full backup
 mysqldump --single-transaction --routines --triggers dbname > backup.sql
-# 恢复
+# Restore
 mysql dbname < backup.sql
-# 用二进制日志做 PITR：mysqlbinlog --start-datetime="2025-01-01 00:00:00" binlog.000001
+# PITR with binary logs: mysqlbinlog --start-datetime="2025-01-01 00:00:00" binlog.000001
 ```
 
 ### SQLite
 
 ```bash
-# 备份（并发读安全）
+# Backup (safe under concurrent reads)
 sqlite3 dbname ".backup backup.db"
 ```
 
-备份纪律：自动化备份、定期演练恢复、异地留副本——没验证过恢复的备份不算备份。
+Backup discipline: automated backups, periodically rehearsed restores, offsite copies — a backup whose restore hasn't been verified isn't a backup.
 
-## 反模式
+## Anti-patterns
 
-| 反模式 | 问题 | 修复 |
+| Anti-pattern | Problem | Fix |
 |--------|------|------|
-| `SELECT *` | 传输多余数据，Schema 变更即崩 | 显式列清单 |
-| 外键列缺索引 | JOIN 慢、级联删除慢 | 给所有外键加索引 |
-| N+1 查询 | 1 + N 次往返；ORM 循环懒加载表现为大量相同 SELECT | 预加载（`include`/`joinedload`）、`WHERE id IN (...)` 或 DataLoader |
-| 隐式类型转换 | `WHERE id = '123'` 阻止走索引 | 谓词两侧类型一致 |
-| 无连接池 | 高负载下连接耗尽 | PgBouncer、ProxySQL 或 ORM 池 |
-| 无界查询 | 无 LIMIT 可能返回百万行 | 始终分页 |
-| 用 FLOAT 存金额 | 舍入误差 | 用 `DECIMAL(19,4)` 或整数分 |
-| 上帝表 | 一张表 50+ 列 | 规范化或垂直拆分 |
-| 到处软删除 | 每条查询都要带 `WHERE deleted_at IS NULL` | 归档表或事件溯源 |
-| 字符串拼接 SQL | SQL 注入 | 一律参数化查询 |
+| `SELECT *` | Transfers extra data; breaks on schema changes | Explicit column list |
+| Unindexed foreign-key columns | Slow JOINs, slow cascading deletes | Index every foreign key |
+| N+1 queries | 1 + N round trips; ORM lazy-loading in loops shows up as many identical SELECTs | Eager loading (`include`/`joinedload`), `WHERE id IN (...)`, or DataLoader |
+| Implicit type conversion | `WHERE id = '123'` blocks index use | Same types on both sides of the predicate |
+| No connection pool | Connection exhaustion under load | PgBouncer, ProxySQL, or an ORM pool |
+| Unbounded queries | No LIMIT can return millions of rows | Always paginate |
+| Storing money in FLOAT | Rounding errors | Use `DECIMAL(19,4)` or integer cents |
+| God table | One table with 50+ columns | Normalize or vertically split |
+| Soft deletes everywhere | Every query needs `WHERE deleted_at IS NULL` | Archive tables or event sourcing |
+| String-concatenated SQL | SQL injection | Always parameterized queries |
 
-## 失败处置表
+## Failure Handling Table
 
-| 症状 / 报错 | 原因 | 修复 |
+| Symptom / error | Cause | Fix |
 |-------------|------|------|
-| `schema_explorer.py` 用法错误（缺数据源） | 未提供 `--input` 也未提供 `--sqlite` | 恰好提供一个；二者互斥 |
-| `query_optimizer.py` 对 `--query` 报 file-not-found | 路径按文件处理但不存在 | 改传带引号的 SQL 字符串，或核对 `.sql` 路径 |
-| 迁移模板不符合意图 | 变更措辞未被识别 | 改述为 "add/drop/rename column X in table Y" |
-| 方言输出错误 | 未传 `--dialect`，默认 postgres | 始终传与用户引擎匹配的 `--dialect` |
-| 生成的 SQL 在目标引擎上报错 | 共享代码用了方言专属语法 | 查上方方言差异表；方言特性用适配层封装 |
+| `schema_explorer.py` usage error (missing data source) | Neither `--input` nor `--sqlite` provided | Provide exactly one; the two are mutually exclusive |
+| `query_optimizer.py` file-not-found on `--query` | The path is treated as a file but doesn't exist | Pass a quoted SQL string instead, or check the `.sql` path |
+| The migration template doesn't match intent | The change phrasing wasn't recognized | Rephrase as "add/drop/rename column X in table Y" |
+| Wrong dialect output | `--dialect` wasn't passed, defaulting to postgres | Always pass `--dialect` matching the user's engine |
+| The generated SQL errors on the target engine | Shared code used dialect-specific syntax | Check the dialect table above; wrap dialect-specific features in an adapter |
 
-## 交付标准
+## Delivery Criteria
 
-- 成功定义：方言正确、附优化依据的 SQL，或带配套 down 脚本的迁移模板，或忠实反映真实数据源的 Schema 文档。
-- 产物命名：迁移文件 `<timestamp>_<name>.up.sql` / `.down.sql`（或按 `--format` 用 Alembic/Prisma）；Schema 文档 `schema_doc.md` / `.json`。
-- 保存位置：迁移存项目的 `migrations/` 目录；Schema 文档存 `docs/` 或项目根目录。
-- 完整性核验：每条查询过优化器无反模式告警（或告警已被有意豁免）；每个迁移都有 down 脚本；Schema 文档覆盖内省数据源中的所有表。
+- Definition of success: dialect-correct SQL with optimization rationale, or a migration template with a matching down script, or schema docs faithfully reflecting the real data source.
+- Artifact naming: migration files `<timestamp>_<name>.up.sql` / `.down.sql` (or Alembic/Prisma per `--format`); schema docs `schema_doc.md` / `.json`.
+- Save location: migrations go in the project's `migrations/` directory; schema docs go in `docs/` or the project root.
+- Completeness verification: every query passes the optimizer with no anti-pattern warnings (or the warnings are intentionally waived); every migration has a down script; the schema doc covers every table in the introspection data source.
 
-## 安全红线
+## Safety Red Lines
 
-- 绝不把生成的 SQL 直接打到在线库上执行——产物是评审用的。破坏性 DDL（DROP/DELETE/TRUNCATE）必须向用户标出。
-- 凭据放环境变量或连接配置，绝不内联进查询或文档。
-- 上面的 `pg_dump`/`mysqldump` 命令供用户侧执行；仅在用户明确要求并提供凭据时运行。
+- Never run generated SQL directly against a live database — artifacts are for review. Destructive DDL (DROP/DELETE/TRUNCATE) must be flagged to the user.
+- Credentials go in environment variables or a connection config, never inline in a query or doc.
+- The `pg_dump`/`mysqldump` commands above are for the user to run; only run them when the user explicitly asks and provides credentials.
 
-## 参考
+## References
 
-- `references/query_patterns.md` — 写 JOIN、CTE、窗口函数或 JSON 操作时读
-- `references/optimization_guide.md` — 解读 EXPLAIN 计划或选索引类型时读
-- `references/orm_patterns.md` — 任务落在 ORM 内（Prisma/Drizzle/TypeORM/SQLAlchemy）时读
+- `references/query_patterns.md` — read when writing JOINs, CTEs, window functions, or JSON operations
+- `references/optimization_guide.md` — read when reading EXPLAIN plans or choosing index types
+- `references/orm_patterns.md` — read when the task lives inside an ORM (Prisma/Drizzle/TypeORM/SQLAlchemy)
 
-## 相关技能
+## Related Skills
 
-| 技能 | 关系 |
+| Skill | Relationship |
 |------|------|
-| **database-designer** | Schema 架构、规范化分析、ERD 生成、RLS/多租户模式 |
-| **migration-architect** | 复杂多步迁移编排 |
-| **api-design-reviewer** | 确保 API 端点与查询模式对齐 |
-| **observability-platform** | 查询性能监控、慢查询告警 |
+| **database-designer** | Schema architecture, normalization analysis, ERD generation, RLS/multi-tenancy patterns |
+| **migration-architect** | Complex multi-step migration orchestration |
+| **api-design-reviewer** | Ensuring API endpoints align with query patterns |
+| **observability-platform** | Query-performance monitoring, slow-query alerting |
