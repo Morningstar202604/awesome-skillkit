@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""hello_stats 的自动化测试（unittest，纯标准库）。
+"""Automated tests for hello_stats (unittest, stdlib only).
 
-运行：python3 -m unittest discover tests -v
+Run: python3 -m unittest discover tests -v
 """
 
 import io
@@ -76,7 +76,7 @@ class TestCli(unittest.TestCase):
     def test_missing_args_exit_code(self):
         rc, _, err = self.run_cli([])
         self.assertEqual(rc, 2)
-        self.assertIn("缺少 numbers", err)
+        self.assertIn("missing numbers", err)
 
     def test_help_lists_flags(self):
         with self.assertRaises(SystemExit) as ctx:
