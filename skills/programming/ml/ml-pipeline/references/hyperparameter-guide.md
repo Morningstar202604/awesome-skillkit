@@ -1,62 +1,62 @@
-# Hyperparameter Guide（调参优先级、搜索策略、泄漏陷阱）
+# Hyperparameter Guide (tuning priorities, search strategies, leakage pitfalls)
 
-> 配套 ml-pipeline。**不提供任何"最佳参数值"**——最优值取决于数据与任务，照抄别人的数字是常见错误。本文给的是：调哪些参数、按什么顺序、用多少预算、以及怎么避免调参过程本身引入泄漏。
-> 代码片段在 scikit-learn 1.8 + Python 3.11 实测可运行。
+> Companion to ml-pipeline. **Do not expect any "best parameter values" here**—the optimal values depend on the data and the task, and copying someone else's numbers is a common mistake. What this guide gives you is: which parameters to tune, in what order, how much budget to spend, and how to avoid the tuning process itself introducing leakage.
+> Code snippets are tested to run on scikit-learn 1.8 + Python 3.11.
 
 ## Table of Contents
-- §0 `ml_pipeline.py` 当前做了什么 / 没做什么
-- §1 调参优先级：先调什么
-- §2 搜索策略对照（网格 / 随机 / 贝叶斯）
-- §3 交叉验证设置与泄漏陷阱（重点）
-- §4 早停与过拟合监控
-- §5 结果判读：均值 ± 标准差
-- §6 复现与记录
-- §7 检查清单
+- §0 What `ml_pipeline.py` currently does / does not do
+- §1 Tuning priorities: what to tune first
+- §2 Search strategy comparison (grid / random / Bayesian)
+- §3 Cross-validation setup and leakage pitfalls (key)
+- §4 Early stopping and overfitting monitoring
+- §5 Interpreting results: mean ± std
+- §6 Reproducibility and record-keeping
+- §7 Checklist
 
-## §0 `ml_pipeline.py` 当前做了什么 / 没做什么
+## §0 What `ml_pipeline.py` currently does / does not do
 
-已实现（读源码确认）：
-- 读 CSV/JSON → `train_test_split(X, y, test_size=0.2, random_state=42)`
-- 三个模型**固定参数**：`RandomForestClassifier(n_estimators=100, random_state=42)`、`GradientBoostingClassifier(n_estimators=100, random_state=42)`、`LogisticRegression(max_iter=1000, random_state=42)`
+Implemented (confirmed by reading the source):
+- Reads CSV/JSON → `train_test_split(X, y, test_size=0.2, random_state=42)`
+- Three models with **fixed parameters**: `RandomForestClassifier(n_estimators=100, random_state=42)`, `GradientBoostingClassifier(n_estimators=100, random_state=42)`, `LogisticRegression(max_iter=1000, random_state=42)`
 - `cross_val_score(mdl, X, y, cv=min(cv, len(y)//10 or 2))`
-- 输出 `train_accuracy` / `test_accuracy` / `f1`（`average="weighted"`）/ `cv_mean` / `cv_std` / `n_samples` / `n_features`
+- Outputs `train_accuracy` / `test_accuracy` / `f1` (`average="weighted"`) / `cv_mean` / `cv_std` / `n_samples` / `n_features`
 
-**未实现**（SKILL.md 的 description 或 workflow 提到，但代码里没有）：
-- **没有任何调参**（无 GridSearchCV/RandomizedSearchCV）→ 需要按 §2 自己加
-- 未计算 ROC-AUC、precision、recall、混淆矩阵
-- 未保存模型（`workflow` 里的 save 步骤不存在）
-- 未做标准化/编码；类别列处理有风险（见下）
+**Not implemented** (mentioned in the SKILL.md description or workflow, but absent from the code):
+- **No hyperparameter tuning at all** (no GridSearchCV/RandomizedSearchCV) → you must add it yourself per §2
+- Does not compute ROC-AUC, precision, recall, or the confusion matrix
+- Does not save the model (the save step in `workflow` does not exist)
+- Does no scaling/encoding; categorical column handling is risky (see below)
 
-三个必须知道的现状（本机 pandas 3.0.0 实测）：
-1. **类别列会被压成 0**：脚本对含 object 的列做 `pd.to_numeric(errors="coerce").fillna(0)`，字符串类别（如 city="BJ"/"SH"）全部变成 `0.0`，**信息完全丢失**。有类别特征时必须先做 one-hot / 目标编码（见 feature-engineer 的 `feature-patterns.md`），或改用 `ColumnTransformer`。
-2. **切分未分层**：`train_test_split` 没传 `stratify=y`，不平衡数据下训练/测试集的类别比例可能不同 → 传 `stratify=y`。
-3. **CV 在全量数据上算**：`cross_val_score(mdl, X, y, ...)` 用的是完整 `X`（含测试集），且此时 `mdl` 已用训练集 fit 过。报告 CV 分数时说清它是"全量数据的交叉验证"，不要与测试集分数混为一谈。
-   补充一点准确信息：传入整数 `cv` 且估计器是分类器时，sklearn 默认使用 `StratifiedKFold`（实测 `check_cv(3, y, classifier=True)` 返回 `StratifiedKFold`），所以 CV 部分是分层的；但 `train_test_split` 不是。
+Three things you must know about the current state (tested on pandas 3.0.0 on this machine):
+1. **Categorical columns get squashed to 0**: the script applies `pd.to_numeric(errors="coerce").fillna(0)` to columns containing object dtype, so string categories (e.g. city="BJ"/"SH") all become `0.0`, and **the information is completely lost**. If you have categorical features, you must first do one-hot / target encoding (see feature-engineer's `feature-patterns.md`), or use `ColumnTransformer` instead.
+2. **The split is not stratified**: `train_test_split` does not pass `stratify=y`, so on imbalanced data the train/test class proportions may differ → pass `stratify=y`.
+3. **CV is computed on the full data**: `cross_val_score(mdl, X, y, ...)` uses the complete `X` (including the test set), and by then `mdl` has already been fit on the training set. When reporting the CV score, make clear that it is "cross-validation on the full dataset"; do not conflate it with the test-set score.
+   One accurate clarification: when you pass an integer `cv` and the estimator is a classifier, sklearn defaults to `StratifiedKFold` (tested: `check_cv(3, y, classifier=True)` returns `StratifiedKFold`), so the CV part is stratified; but `train_test_split` is not.
 
-## §1 调参优先级：先调什么
+## §1 Tuning priorities: what to tune first
 
-原则：**先定模型族的"容量旋钮"，再调细节**。本节给方向，不给数值。
+Principle: **first set the "capacity knobs" of the model family, then tune the details**. This section gives direction, not numbers.
 
-| 模型族 | 影响最大的参数（优先） | 次优先 | 通常可以不动 |
+| Model family | Highest-impact parameters (priority) | Next priority | Usually left alone |
 |---|---|---|---|
-| 随机森林 | `max_depth`、`min_samples_leaf`（控制过拟合） | `max_features`、`n_estimators`（越多越稳、边际收益递减、耗时线性增长） | `bootstrap`、`criterion` |
-| GBDT（`GradientBoostingClassifier`） | `learning_rate` 与 `n_estimators`（**必须一起调**，二者强耦合）、`max_depth`（常用浅树） | `subsample`、`min_samples_leaf` | `loss` |
-| 逻辑回归 | 正则强度 `C`（与其倒数相关，越小正则越强）、`penalty` 与 `solver` 的匹配 | `class_weight`（不平衡时优先） | `max_iter`（不足时报 ConvergenceWarning，加大即可） |
+| Random forest | `max_depth`, `min_samples_leaf` (control overfitting) | `max_features`, `n_estimators` (more is more stable, diminishing returns, linear runtime growth) | `bootstrap`, `criterion` |
+| GBDT (`GradientBoostingClassifier`) | `learning_rate` and `n_estimators` (**must be tuned together**, strongly coupled), `max_depth` (shallow trees commonly used) | `subsample`, `min_samples_leaf` | `loss` |
+| Logistic regression | regularization strength `C` (inverse of the penalty strength; smaller = stronger regularization), matching `penalty` to `solver` | `class_weight` (priority when imbalanced) | `max_iter` (raises ConvergenceWarning if too low; just raise it) |
 
-方向性规则（不是数值）：
-- 训练集分数远高于测试集 → 降容量（减 `max_depth`、增大 `min_samples_leaf`、加强正则）。
-- 训练/测试都差 → 升容量或加特征。
-- 树模型加 `n_estimators` 几乎总能改善或持平，但**不能修复过拟合**（过拟合要靠深度/叶子节点数控制）。
-- 线性模型对量纲敏感：务必标准化，否则惩罚项不公平、还可能收敛缓慢。
+Directional rules (not numbers):
+- Training score far above test score → reduce capacity (decrease `max_depth`, increase `min_samples_leaf`, strengthen regularization).
+- Both train and test scores are poor → increase capacity or add features.
+- Adding `n_estimators` to tree models almost always helps or holds steady, but **cannot fix overfitting** (overfitting must be controlled via depth / leaf count).
+- Linear models are sensitive to scale: always standardize, otherwise the penalty term is unfair and convergence may be slow.
 
-## §2 搜索策略对照（网格 / 随机 / 贝叶斯）
+## §2 Search strategy comparison (grid / random / Bayesian)
 
-| 策略 | 适合预算 | 优点 | 缺点 |
+| Strategy | Suitable budget | Pros | Cons |
 |---|---|---|---|
-| 网格 `GridSearchCV` | 参数 ≤ 3 个、每个取值少（组合数几十） | 可复现、覆盖完整 | 组合爆炸；对不重要的参数浪费预算 |
-| 随机 `RandomizedSearchCV` | 几十~几百次试验（默认推荐起点） | 同样预算覆盖更多取值；可指定试验次数 | 不保证找到全局最优 |
-| 贝叶斯（Optuna 等） | 几百次以上、单次训练较贵 | 用历史结果指导采样，昂贵场景更省预算 | 需额外依赖；调参本身有随机性 |
-| 逐次减半 `HalvingGridSearchCV` | 候选多、训练便宜 | 先用少量资源筛掉差候选 | sklearn 1.8 中仍属**实验性**，需 `from sklearn.experimental import enable_halving_search_cv` 才能导入（实测确认） |
+| Grid `GridSearchCV` | ≤ 3 parameters, few values each (dozens of combinations) | Reproducible, complete coverage | Combinatorial explosion; wastes budget on unimportant parameters |
+| Random `RandomizedSearchCV` | dozens to hundreds of trials (default recommended starting point) | Covers more values at the same budget; you can set the trial count | Does not guarantee the global optimum |
+| Bayesian (Optuna etc.) | hundreds+ trials, expensive per training run | Uses past results to guide sampling; saves budget in expensive settings | Extra dependency; tuning itself is stochastic |
+| Successive halving `HalvingGridSearchCV` | Many candidates, cheap training | Sifts out poor candidates with few resources first | Still **experimental** in sklearn 1.8; requires `from sklearn.experimental import enable_halving_search_cv` to import (confirmed by testing) |
 
 ```python
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, StratifiedKFold
@@ -69,83 +69,83 @@ pipe = Pipeline([("sc", StandardScaler()),
                  ("rf", RandomForestClassifier(random_state=42))])
 cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
-# ① 网格：参数少时用
+# ① Grid: use when there are few parameters
 gs = GridSearchCV(pipe, {"rf__max_depth": [3, 5, None],
                          "rf__min_samples_leaf": [1, 3]},
                   scoring="f1_macro", cv=cv, n_jobs=-1)
 gs.fit(X_train, y_train)
-print(gs.best_params_, round(gs.best_score_, 4))     # 预期：打印最优参数组合与 CV 分数
+print(gs.best_params_, round(gs.best_score_, 4))     # expected: prints the best parameter combo and CV score
 
-# ② 随机：给分布 + 试验次数预算
+# ② Random: give a distribution + a trial-count budget
 rs = RandomizedSearchCV(pipe, {"rf__max_depth": randint(2, 20)},
                         n_iter=20, scoring="f1_macro", cv=cv, random_state=42)
 rs.fit(X_train, y_train)
 ```
-要点：
-- 参数名前缀用 `步骤名__` （如 `rf__max_depth`）——这是 `Pipeline` 的写法，写错会得到 `ValueError: Invalid parameter`。
-- `scoring` 必须与业务指标一致（不平衡数据别用 `accuracy`，见 `metrics-explained.md`）。
-- `n_jobs=-1` 用满 CPU；但**结果的可复现性依赖 `random_state`**，不依赖 `n_jobs`。
-- 预算分配经验：先用随机搜索在大范围粗扫，再在最有希望的小范围做网格细化。
+Key points:
+- Parameter names use the `stepname__` prefix (e.g. `rf__max_depth`)—this is the `Pipeline` convention; getting it wrong gives `ValueError: Invalid parameter`.
+- `scoring` must match the business metric (don't use `accuracy` on imbalanced data; see `metrics-explained.md`).
+- `n_jobs=-1` uses all CPU cores; but **result reproducibility depends on `random_state`, not on `n_jobs`**.
+- Rule of thumb for budget allocation: first do a broad random search, then do a fine grid refinement in the most promising small region.
 
-## §3 交叉验证设置与泄漏陷阱（重点）
+## §3 Cross-validation setup and leakage pitfalls (key)
 
-CV 方案选择：
+Choosing a CV scheme:
 
-| 数据特点 | CV | 说明 |
+| Data characteristic | CV | Notes |
 |---|---|---|
-| 分类、类别不平衡 | `StratifiedKFold` | 保持每折类别比例 |
-| 时序 | `TimeSeriesSplit` | **不能**随机打乱，否则用未来预测过去 |
-| 同组样本相关（同一用户/同一患者多次记录） | `GroupKFold(groups=...)` | 否则同组样本同时出现在训练与验证折 |
-| 一般回归 | `KFold(shuffle=True, random_state=...)` | — |
+| Classification, class imbalance | `StratifiedKFold` | Preserves class ratio per fold |
+| Time series | `TimeSeriesSplit` | **Do not** shuffle, or you'll be predicting the past with the future |
+| Correlated samples in groups (same user / same patient, multiple records) | `GroupKFold(groups=...)` | Otherwise samples from the same group land in both train and validation folds |
+| General regression | `KFold(shuffle=True, random_state=...)` | — |
 
-泄漏陷阱（调参阶段最常犯）：
+Leakage pitfalls (most common during tuning):
 ```python
-# 错误：在全量数据上 fit 转换器，再做 CV → 验证折的信息泄进训练
-scaler.fit(X)                      # 包含了验证折
+# Wrong: fit the transformer on the full data, then do CV → validation-fold info leaks into training
+scaler.fit(X)                      # includes the validation fold
 X_s = scaler.transform(X)
 cross_val_score(model, X_s, y, cv=5)
 
-# 正确：把转换器放进 Pipeline，每折只在训练部分 fit
+# Correct: put the transformer in a Pipeline so it is fit only on the training portion per fold
 pipe = Pipeline([("sc", StandardScaler()), ("rf", RandomForestClassifier(random_state=42))])
 cross_val_score(pipe, X, y, cv=StratifiedKFold(5, shuffle=True, random_state=42))
 ```
-规则：**一切从数据里"学"出来的东西**（标准化参数、分箱边界、词表、填充值、特征选择、目标编码）都必须放进 `Pipeline`，或者在每折内部重新计算。
-另外两层陷阱：① 用测试集反复挑参数 → 测试集实际上变成了验证集，泛化估计失真；正确做法是"训练/验证（CV 调参）+ 测试集只用一次"。② 调参轮数很多时，即使有 CV，最优分数也会乐观偏差；用独立的验证集或嵌套 CV 评估（`cross_val_score(GridSearchCV(...), ...)`）能减少这种偏差。
+Rule: **everything "learned" from the data** (scaler parameters, bin edges, vocabularies, fill values, feature selection, target encoding) must go into the `Pipeline`, or be recomputed inside each fold.
+Two more layers of pitfalls: ① repeatedly picking parameters on the test set → the test set effectively becomes a validation set, and the generalization estimate is distorted; the correct approach is "train/validate (CV tuning) + use the test set only once". ② when there are many tuning rounds, even with CV the best score is optimistically biased; evaluating with an independent validation set or nested CV (`cross_val_score(GridSearchCV(...), ...)`) reduces this bias.
 
-## §4 早停与过拟合监控
+## §4 Early stopping and overfitting monitoring
 
-- 监控信号：`train_accuracy` 与 `test_accuracy` 的差距（脚本已同时输出两者）。差距持续扩大 = 过拟合。
-- 学习曲线判断是否该加数据还是降容量：
+- Monitoring signal: the gap between `train_accuracy` and `test_accuracy` (the script outputs both). A steadily widening gap = overfitting.
+- Use a learning curve to decide whether to add data or reduce capacity:
 ```python
 from sklearn.model_selection import learning_curve
 sizes, tr, va = learning_curve(pipe, X, y, cv=cv, scoring="f1_macro",
                                train_sizes=[0.2, 0.4, 0.6, 0.8, 1.0])
-print(va.mean(axis=1))     # 验证分数随样本量的变化
+print(va.mean(axis=1))     # how the validation score changes with sample size
 ```
-判读：两条曲线仍在上扬且间距大 → 加数据有效；曲线已平且间距大 → 降容量/加正则；都低 → 特征或模型族不合适。
-- 迭代式模型（GBDT / XGBoost / LightGBM）的早停：需要留出验证集并通过 `eval_set` 传入，配 `early_stopping_rounds`（XGBoost/LightGBM 的原生 API；sklearn 的 `GradientBoostingClassifier` 另有 `n_iter_no_change` + `validation_fraction` 参数，行为与库版本相关，**VERIFY BEFORE USE**）。
-- 早停的验证集不能与调参用的验证集是同一份，否则早停轮数本身也被"调"过拟合了。
+Interpretation: both curves still rising and a large gap → adding data helps; curves have flattened and a large gap → reduce capacity / add regularization; both low → the features or model family are unsuitable.
+- Early stopping for iterative models (GBDT / XGBoost / LightGBM): you need to hold out a validation set and pass it via `eval_set`, together with `early_stopping_rounds` (the native API of XGBoost/LightGBM; sklearn's `GradientBoostingClassifier` instead has `n_iter_no_change` + `validation_fraction` parameters, whose behavior depends on the library version—**VERIFY BEFORE USE**).
+- The validation set used for early stopping must not be the same one used for tuning, otherwise the early-stopping round count itself gets "tuned" to overfit.
 
-## §5 结果判读：均值 ± 标准差
+## §5 Interpreting results: mean ± std
 
-- 脚本输出的 `cv_std` 是 `scores.std()`（numpy 默认 `ddof=0`），表示各折分数的离散程度。
-- 判据：两个模型 CV 均值之差**小于**折间标准差的量级时，不能断言谁更好（差异可能来自折的划分）。若要更可靠：增大 `n_splits`、重复 CV（`RepeatedStratifiedKFold`）、或做配对比较（同一批折上比较两个模型）。
-- 报告格式：`f1_macro = 0.84 ± 0.03 (5-fold)`，而不是只写 0.84。
-- 调参收益要对比基线：先记录默认参数的分数，再判断调参是否真的带来了超出 CV 噪声的提升。
+- The script's `cv_std` is `scores.std()` (numpy default `ddof=0`), i.e. the dispersion of the per-fold scores.
+- Criterion: when the difference between two models' CV means is **smaller than** the order of magnitude of the between-fold std, you cannot claim one is better (the difference may come from fold partitioning). For more reliability: increase `n_splits`, repeat CV (`RepeatedStratifiedKFold`), or do a paired comparison (compare the two models on the same folds).
+- Report format: `f1_macro = 0.84 ± 0.03 (5-fold)`, rather than writing only 0.84.
+- Compare tuning gains against a baseline: first record the score with default parameters, then judge whether tuning truly brought an improvement beyond the CV noise.
 
-## §6 复现与记录
+## §6 Reproducibility and record-keeping
 
-- 固定所有随机源：模型的 `random_state`、CV 的 `random_state`（`shuffle=True` 时必须给）、搜索的 `random_state`。
-- 记录：数据版本（行数/哈希）、代码版本、库版本（`python3 -m pip freeze > requirements.txt`）、参数与分数。
-- 每次试验落成一行记录（参数 / cv_mean / cv_std / 耗时），比在脑子里比较可靠；`GridSearchCV` 的 `cv_results_` 可直接导出。
+- Fix all random sources: the model's `random_state`, the CV's `random_state` (required when `shuffle=True`), and the search's `random_state`.
+- Record: data version (row count / hash), code version, library versions (`python3 -m pip freeze > requirements.txt`), parameters and scores.
+- Log each trial as one row (parameters / cv_mean / cv_std / runtime); this is more reliable than comparing in your head. `GridSearchCV`'s `cv_results_` can be exported directly.
 
-## §7 检查清单
+## §7 Checklist
 
-- [ ] 类别特征已正确编码（不要让它们被 `to_numeric` 压成 0）
-- [ ] 需要标准化的模型已用 `Pipeline` 包裹
-- [ ] 切分用了 `stratify=y`（分类）/ `TimeSeriesSplit`（时序）/ `GroupKFold`（分组）
-- [ ] 调参只在训练集/验证折内进行，测试集只评估一次
-- [ ] `scoring` 与业务指标一致
-- [ ] 报告了 `cv_mean ± cv_std`，并用它判断模型差异是否可信
-- [ ] 记录了 seed、库版本与数据版本
-- [ ] 调参收益与默认参数基线做过对比
+- [ ] Categorical features are encoded correctly (don't let them get squashed to 0 by `to_numeric`)
+- [ ] Models that need scaling are wrapped in a `Pipeline`
+- [ ] The split uses `stratify=y` (classification) / `TimeSeriesSplit` (time series) / `GroupKFold` (grouped)
+- [ ] Tuning is done only within the training/validation folds; the test set is evaluated once
+- [ ] `scoring` matches the business metric
+- [ ] Reported `cv_mean ± cv_std`, and used it to judge whether model differences are credible
+- [ ] Recorded the seed, library versions, and data version
+- [ ] Tuning gains were compared against the default-parameter baseline

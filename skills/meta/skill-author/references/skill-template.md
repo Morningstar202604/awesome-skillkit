@@ -1,132 +1,132 @@
-# SKILL.md 填空模板
+# SKILL.md Fill-in Template
 
-> 复制本文件到 `skills/<category>/<skill-name>/SKILL.md`，把所有 `<...>` 换成实值。
-> 机器层字段（frontmatter）用英文，正文用中文。填完跑 `skill-linter` 自检。
-> 目标行数 150-190；低于 150 说明失败分支没写全，高于 190 说明知识该移入 `references/`。
+> Copy this file to `skills/<category>/<skill-name>/SKILL.md`, replace all `<...>` with real values.
+> Machine-layer fields (frontmatter) in English, body prose in English. After filling, run `skill-linter` self-check.
+> Target line count 150-190; below 150 means failure branches aren't fully written, above 190 means knowledge should move to `references/`.
 
 ---
 
 ```markdown
 ---
-name: <kebab-case-动作短语>            # 必须与目录名逐字相同
+name: <kebab-case-action-phrase>            # must match the directory name verbatim
 description: >
-  <做什么，一句话>。Use when the user asks to <英文触发1> / <英文触发2> /
-  <英文触发3> / <英文触发4>, or <英文场景描述>. Do NOT use for <排除项1> or
-  <排除项2>.
-                                # ↑ 英文触发 + 中文触发合计 ≥5 个，必须含排除项
-  # 中文触发词紧跟在 `当用户要求 ... 时使用` 之后：
-  # 当用户要求 <中文触发1> / <中文触发2> / <中文触发3> 时使用。
+  <what it does, one sentence>. Use when the user asks to <english trigger 1> / <english trigger 2> /
+  <english trigger 3> / <english trigger 4>, or <english scenario>. Do NOT use for <exclusion 1> or
+  <exclusion 2>.
+                                # ↑ english triggers + chinese triggers total >=5, must include exclusions
+  # Additional triggers follow right after the "when the user asks for ..." introducer:
+  # when the user asks for <trigger 1> / <trigger 2> / <trigger 3>.
 license: Apache-2.0
-compatibility: <运行时要求；依赖网络/系统包/本地服务时必填，否则可省>
+compatibility: <runtime requirements; required when depending on network/system packages/local services, otherwise optional>
 metadata:
-  author: "<署名>"
+  author: "<attribution>"
   version: "1.0"
-  category: <品类，如 meta / media-generation / content-publishing>
+  category: <category, e.g. meta / media-generation / content-publishing>
   pattern: single-task
   tier: standard
   verified-date: "<YYYY-MM-DD>"
 ---
 
-# <英文名>（<中文名>）
+# <English Name> (<Chinese name>)
 
-<开篇一段：这个技能把什么输入变成什么输出，用哪个工具，不做什么。>
+<Opening paragraph: what input this skill turns into what output, which tool it uses, what it does not do.>
 
-## 输入清单
+## Input Checklist
 
-| 输入 | 必需 | 默认 | 说明 |
+| Input | Required | Default | Notes |
 |---|---|---|---|
-| <主输入> | 是 | — | <用户原话长什么样> |
-| <选项A> | 否 | <默认值> | <取值范围> |
-| <选项B> | 否 | <默认值> | <取值范围> |
+| <main input> | yes | — | <what the user's original request looks like> |
+| <option A> | no | <default value> | <value range> |
+| <option B> | no | <default value> | <value range> |
 
-必需输入缺失时一次性问齐，其余按默认值补齐：
+When required input is missing, ask for everything at once; the rest fill in with defaults:
 
-> 请提供：① <必需1>。可选告知：② <选项A，默认 X>、③ <选项B，默认 Y>。
+> Please provide: ① <required 1>. Optionally tell me: ② <option A, default X>, ③ <option B, default Y>.
 
-## 前置自检
+## Pre-flight Self-check
 
-逐条执行，任一失败 → 按处置动作做，然后 STOP：
+Run item by item; any failure → take the handling action, then STOP:
 
 ```bash
-# 1. <依赖检查>
-<探测命令>
-# 预期：<可观察判据>。失败→<修复动作>。
+# 1. <dependency check>
+<probe command>
+# Expected: <observable criterion>. Failure → <fix action>.
 
-# 2. <输入检查>
-<探测命令>
-# 预期：<可观察判据>。失败→<修复动作>。
+# 2. <input check>
+<probe command>
+# Expected: <observable criterion>. Failure → <fix action>.
 ```
 
-## 工作流
+## Workflow
 
-### 步骤 1：<动词开头的短句>
+### Step 1: <short phrase starting with a verb>
 
-- **动作**：<精确命令或操作，不要写"检查一下"这种不可执行的描述>
-- **预期**：<退出码 / 文件存在 / 字段值，必须是可观察的>
-- **若失败**：<错误特征> → <处置动作>；仍失败则 <降级或 STOP>。
+- **Action**: <precise command or operation; do not write non-executable descriptions like "take a look">
+- **Expected**: <exit code / file exists / field value; must be observable>
+- **If it fails**: <error signature> → <handling action>; if still failing, <degrade or STOP>.
 
-### 步骤 2：<动词开头的短句>
+### Step 2: <short phrase starting with a verb>
 
-- **动作**：
-- **预期**：
-- **若失败**：
+- **Action**:
+- **Expected**:
+- **If it fails**:
 
-### 步骤 3：<动词开头的短句>
+### Step 3: <short phrase starting with a verb>
 
-- **动作**：
-- **预期**：
-- **若失败**：
+- **Action**:
+- **Expected**:
+- **If it fails**:
 
-## 参数速查表
+## Parameter Quick Reference
 
-| 参数 | 取值 | 说明 |
+| Parameter | Values | Notes |
 |---|---|---|
-| `<--flag>` | <取值域> | <何时改它> |
+| `<--flag>` | <value domain> | <when to change it> |
 
-## 失败处置表
+## Failure Handling Table
 
-| 现象/错误码 | 原因 | 处置 |
+| Symptom/error code | Cause | Handling |
 |---|---|---|
 | <error text or exit code> | <root cause> | <specific action> |
 | <error text or exit code> | <root cause> | <specific action> |
 | <error text or exit code> | <root cause> | <specific action> |
 | <error text or exit code> | <root cause> | <specific action> |
 
-## 交付标准
+## Delivery Standards
 
-- 成功定义：<怎样算成功，用可判定语句>
-- 产物命名：<固定格式，如 output_YYYYMMDD_HHmmss.ext>
-- 存放位置：<路径规则>
-- 完整性验证：<验证命令或检查项>
+- Success definition: <what counts as success, in decidable statements>
+- Artifact naming: <fixed format, e.g. output_YYYYMMDD_HHmmss.ext>
+- Storage location: <path rule>
+- Completeness verification: <verification command or checklist>
 
-## 参考
+## References
 
-- references/<topic>.md —— <何时读它，一句话>
-- references/sources-and-methodology.md —— 方法论出处与原创性声明。
+- references/<topic>.md — <when to read it, one sentence>
+- references/sources-and-methodology.md — methodology provenance and originality statement.
 ```
 
 ---
 
-## 十诫骨架（填完后逐条对照）
+## Ten-Commandment Skeleton (check off after filling)
 
-| # | 诫条 | 在模板里的落点 |
+| # | Commandment | Where it lands in the template |
 |---|---|---|
-| 1 | 零隐性假设 | 前置自检的「预期」与失败处置表的「现象」写原文长相 |
-| 2 | 一次性问齐 | 输入清单下的追问模板 |
-| 3 | 红线内联 | 工作流里「不可逆操作前确认」那一行 |
-| 4 | 每步给动作+预期+若失败 | 工作流每个 `### 步骤 N` 的三件套 |
-| 5 | 正文 <200 行 | 满 190 行前把细节移入 `references/` |
-| 6 | 正文全中文 | 段落叙述，术语与代码保留原文 |
-| 7 | frontmatter 机器层英文 | `name` / `description` 两字段 |
-| 8 | 参考资料署名 | 最后一个 `references/` 条目 |
-| 9 | dry-run 默认 | 有脚本时：写操作必须显式 `--execute` |
-| 10 | 可验证产出 | 交付标准的四项 |
+| 1 | No implicit assumptions | "Expected" in pre-flight self-check and "Symptom" in the failure table show the original appearance |
+| 2 | Ask everything at once | The follow-up template under Input Checklist |
+| 3 | Red lines inline | The "confirm before irreversible operations" line in the workflow |
+| 4 | Each step gives action + expected + if-fails | The trio in each `### Step N` of the workflow |
+| 5 | Body <200 lines | Move details into `references/` before hitting 190 lines |
+| 6 | Body in English | Paragraph prose; keep terms and code in original |
+| 7 | Frontmatter machine layer in English | The `name` / `description` two fields |
+| 8 | References attributed | The last `references/` entry |
+| 9 | dry-run by default | When there's a script: write operations must explicitly pass `--execute` |
+| 10 | Verifiable output | The four delivery standards |
 
-## 脚本型技能追加约定
+## Additional Conventions for Script-Based Skills
 
-有脚本时，`compatibility` 写明运行时；脚本目录固定为 `scripts/`，并满足：
+When there's a script, `compatibility` states the runtime; the script directory is fixed as `scripts/` and must satisfy:
 
-1. 每个子命令都支持 `--dry-run`，且**默认 dry-run**，真正写盘/发布需 `--execute`；
-2. 启动时探测依赖，缺失则打印安装命令后以非零码退出；
-3. 纯逻辑函数与 I/O 分离，纯函数可被 `tests/` 直接导入；
-4. `--help` 是契约的一部分，子命令改名视为破坏性变更。
+1. Every subcommand supports `--dry-run`, and **dry-run is the default**; real disk writes/releases require `--execute`;
+2. On startup, probe dependencies; if missing, print the install command and exit with a non-zero code;
+3. Pure-logic functions separated from I/O; pure functions can be imported directly by `tests/`;
+4. `--help` is part of the contract; renaming a subcommand is considered a breaking change.

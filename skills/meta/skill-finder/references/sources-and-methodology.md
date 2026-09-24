@@ -1,34 +1,34 @@
 # Sources & Methodology
 
-- 技能：`skill-finder`（awesome-skillkit 原创编写，Apache-2.0）。
-- 定位：本仓库元技能之一，与 `skill-author`（生成）、`skill-linter`（校验）共同组成场景包 `Skill Forge`。
+- Skill: `skill-finder` (originally written for awesome-skillkit, Apache-2.0).
+- Position: one of this repo's meta-skills; together with `skill-author` (generation) and `skill-linter` (validation) forms the scenario pack `Skill Forge`.
 
 ## Methodology borrowed (structural level only; no text or code copied)
 
 | Source | License | Methodology points borrowed |
 |---|---|---|
-| Anthropic《Skill Authoring Best Practices》公开文档 | 见原文 | 「元数据常驻、正文按需」意味着检索应当以 name/description 为主、正文为辅——本技能的三级权重由此而来 |
-| agentskills.io 开放规范 | 见站点 | 技能发现依赖 name + description 的路由机制，作为打分权重的分配依据 |
-| 社区 find-skills / 技能索引类工具 | 见各自仓库 | 「关键词 → 命中列表 + 所属集合 + 路径」的最小结果形态；本仓库未参考其实现，权重、排序与输出格式均为自定 |
-| 本仓库的技能列表脚本（仓库根 `tools/` 目录下的 `list_skills.py`） | Apache-2.0（同仓） | 借鉴「按 category 分组罗列技能」的输出惯例；本脚本为独立实现，并额外提供检索评分与包装配 |
+| Anthropic *Skill Authoring Best Practices* public doc | see original | "Metadata resident, body on demand" means retrieval should be name/description-primary, body-secondary—this skill's three-level weights come from this |
+| agentskills.io open spec | see site | Skill discovery relies on the name + description routing mechanism, as the basis for scoring weight allocation |
+| Community find-skills / skill-index tools | see respective repos | The minimal result form of "keyword → hit list + owning set + path"; this repo did not reference their implementation; weights, ranking, and output format are all self-defined |
+| This repo's skill-listing script (`list_skills.py` under the repo root `tools/`) | Apache-2.0 (same repo) | Borrowed the output convention of "list skills grouped by category"; this script is an independent implementation, additionally providing retrieval scoring and pack matching |
 
 ## Originality statement
 
-`scripts/find_skill.py` 的三个子命令、相关度权重表（名称 5 / 名称前缀额外 3 / description 3 /
-包描述 2 / 正文 1）、同分按名称升序的可复现排序、`pack` 的交集判定与顺序建议启发式
-（编排类优先 → 带脚本者 → 纯提示型），以及 `references/repo-map.md` 的统计口径表，
-均为本仓库从零设计。所有技能数据在运行时读自 `manifest.json` 与 `skills/**/SKILL.md`，
-脚本内**不含任何硬编码技能列表**——这是本技能可与仓库同步演进而无需改代码的前提。
-未翻译、未改写、未摘录任何第三方 SKILL.md、脚本或文档。
+`scripts/find_skill.py`'s three subcommands, relevance weight table (name 5 / name-prefix extra 3 / description 3 /
+pack description 2 / body 1), reproducible same-score sort by name ascending, `pack`'s intersection judgment and
+ordering-priority heuristic (orchestration-first → script-bearing → pure-prompt), and `references/repo-map.md`'s
+statistics methodology table are all designed from scratch for this repo. All skill data is read at runtime from
+`manifest.json` and `skills/**/SKILL.md`; the script contains **no hardcoded skill list**—this is the prerequisite
+for this skill to evolve in sync with the repo without code changes. No third-party SKILL.md, scripts, or documentation was translated, paraphrased, or excerpted.
 
 ## Merged adaptations to this repo's conventions
 
-1. **真实数据源优先**：把「技能清单」从代码里彻底移出，改为扫盘 + 读 manifest，
-   避免清单与仓库脱节；
-2. **可解释相关性**：放弃向量检索，改用可逐项复算的加权词频，
-   任意一条排序结果都能人工验算，符合本仓「确定性优先」的设计公理；
-3. **顺带做体检**：`stats` 额外暴露孤儿技能与悬空 pack 引用，
-   把「仓库家底」与「数据一致性告警」合并到一次调用里。
+1. **Real data source first**: move the "skill list" completely out of code, switching to disk scan + manifest read,
+   avoiding the list drifting from the repo;
+2. **Explainable relevance**: give up vector retrieval, switch to weighted word frequency that can be recomputed item by item,
+   so any ranking result can be manually verified—consistent with this repo's "determinism first" design axiom;
+3. **Health check as a bonus**: `stats` additionally exposes orphan skills and dangling pack references,
+   merging "repo inventory" and "data consistency alerts" into one call.
 
 ## License
 

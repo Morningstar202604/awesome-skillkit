@@ -1,4 +1,4 @@
-# Beta 笔记
+# Beta Note
 
-承接 [[alpha]] 的分层讨论，细化调度部分。
-关键词：调度、重试、幂等。
+Continuing the layering discussion from [[alpha]], elaborating on the scheduling part.
+Keywords: scheduling, retry, idempotency.

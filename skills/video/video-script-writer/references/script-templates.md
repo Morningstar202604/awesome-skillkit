@@ -1,206 +1,213 @@
-# 短视频脚本模板（video-script-writer）
+# Short Video Script Templates (video-script-writer)
 
-三段式骨架：**Hook（钩子）→ Body（主体）→ CTA（收尾/转化）**。方括号 `[...]` 是必填槽位，
-替换后删除方括号。给机器填空用，不要自由发挥结构。
+Three-act skeleton: **Hook → Body → CTA**. Brackets `[...]` are required slots;
+replace them and delete the brackets after filling. This is for machine fill-in—don't improvise the structure.
 
 ## Table of Contents
 
-0. 通用骨架与硬规则 / 1. 模板一：口播型测评吐槽 / 2. 模板二：解说型知识科普
-3. 模板三：教程/清单型 / 4. 劣质反例与逐条诊断 / 5. 交付前自检清单
+0. Universal skeleton and hard rules / 1. Template 1: talking-head review/roast / 2. Template 2: narrated explainer
+3. Template 3: tutorial/list / 4. Bad examples and line-by-line diagnosis / 5. Pre-delivery checklist
 
-## 0. 通用骨架与硬规则
+## 0. Universal skeleton and hard rules
 
 ```
-[HOOK 0-3s]      制造疑问/冲突/反差 → 决定观众是否划走
-[BODY 3-75%]     兑现 Hook 的承诺，[N] 个分镜逐步推进
-[CTA  最后 15%]  一个动作：反问 / 评论 / 收藏 / 下集预告
+[HOOK 0-3s]      Create a question/conflict/contrast → decides whether viewers swipe away
+[BODY 3-75%]     Deliver on the hook's promise, advance step by step through [N] shots
+[CTA  last 15%]  One action: rhetorical question / comment / save / next-episode tease
 ```
 
-硬规则（违反即返工）：
+Hard rules (violation means rework):
 
-1. **Hook 必须能被画面直接证明**。"你知道吗"是空的；"我花 8900 买了这个"配举起手机的动作才是钩子。
-2. **一句台词 ≤ 一次呼吸**：口播型中文单句 ≤15 字（快节奏角色 ≤10 字），解说型 ≤30 字。
-3. **一分镜只装一个信息点**。塞两个卖点 = 两个都记不住。
-4. **CTA 只留一个动作**。又要关注又要点赞又要评论 = 什么都不做。
-5. 三段占比建议（经验值，非硬标准）：Hook 10%、Body 75%、CTA 15%。秒数换算见本技能
-   SKILL.md 的 References 里的 timing-guide 文档。
+1. **The hook must be directly provable by a visual.** "Did you know" is empty; "I spent 8900 on this"
+   paired with the action of holding up the phone is a hook.
+2. **One line of dialogue ≤ one breath**: for talking-head Chinese, a single line ≤15 characters
+   (fast-paced character ≤10); for narrated, ≤30 characters.
+3. **One shot carries only one information point.** Cramming two selling points = viewers remember neither.
+4. **The CTA leaves only one action.** Asking for follows, likes, AND comments = viewers do nothing.
+5. Suggested three-act proportions (guideline, not hard standard): Hook 10%, Body 75%, CTA 15%.
+   For second conversion, see the timing-guide doc in this skill's SKILL.md References.
 
-## 1. 模板一：口播型测评吐槽（30 秒，4 分镜）
+## 1. Template 1: talking-head review/roast (30 seconds, 4 shots)
 
-适用：baby / 吉祥物 / 虚拟角色对镜头说话。台词驱动、角色即画面，切镜靠情绪转折。
+Use for: baby / mascot / virtual character talking to camera. Dialogue-driven, the character is the
+visual; cuts happen at emotional turns.
 
 ```json
 {
-  "title": "[角色名]测评[产品名]：我后悔了",
+  "title": "[Character] reviews [product]: I regret it",
   "video_type": "talking_character",
   "duration_seconds": 30,
   "platform": "douyin",
-  "hook": "我花[价格]买了这个，你们猜值不值？",
+  "hook": "I spent [price] on this—guess whether it's worth it?",
   "scenes": [
     {
       "id": 1, "duration_sec": 4,
-      "dialogue": "我花[价格]买了这个，你们猜值不值？",
-      "visual": "[角色]双手举起[产品]怼到镜头前，背景虚化",
-      "camera": "close-up, front-facing", "sfx": "[开箱提示音]"
+      "dialogue": "I spent [price] on this—guess whether it's worth it?",
+      "visual": "[Character] holds [product] up with both hands right to the lens, background blurred",
+      "camera": "close-up, front-facing", "sfx": "[unboxing chime]"
     },
     {
       "id": 2, "duration_sec": 8,
-      "dialogue": "优点只有一个：[优点]。",
-      "visual": "[角色]点头，画面切到[优点演示]特写",
-      "camera": "medium shot, slight tilt", "sfx": "[清脆叮声]"
+      "dialogue": "There's only one upside: [the upside].",
+      "visual": "[Character] nods; cut to a close-up of [the upside demo]",
+      "camera": "medium shot, slight tilt", "sfx": "[bright ding]"
     },
     {
       "id": 3, "duration_sec": 10,
-      "dialogue": "但[致命缺点]！[价格]买这个？我不理解。",
-      "visual": "[角色]皱眉摇头，[产品]被推到画面边缘",
-      "camera": "close-up, 轻微推近", "sfx": "[滑稽下滑音]"
+      "dialogue": "But [the fatal flaw]! [price] for this? I don't get it.",
+      "visual": "[Character] frowns and shakes the head; [product] pushed to the edge of frame",
+      "camera": "close-up, slight push-in", "sfx": "[comic slide-down tone]"
     },
     {
       "id": 4, "duration_sec": 8,
-      "dialogue": "你们会买吗？评论区告诉我。",
-      "visual": "[角色]歪头看镜头，画面下方留评论区位置",
-      "camera": "medium shot, 固定", "sfx": null
+      "dialogue": "Would you buy it? Tell me in the comments.",
+      "visual": "[Character] tilts head looking at camera; leave room for the comment area at the bottom",
+      "camera": "medium shot, locked off", "sfx": null
     }
   ],
-  "caption": "#[产品名] #[槽点标签] #[角色名]",
+  "caption": "#[product] #[complaint tag] #[character]",
   "total_duration": 30
 }
 ```
 
-填空提示：`[致命缺点]` 必须可拍摄（"充电两小时只能用 40 分钟"），
-不要写"体验一般"这类无法视觉化的抽象评价。
+Fill-in tips: `[the fatal flaw]` must be filmable ("charge two hours for 40 minutes of use"); don't
+write abstract verdicts like "mediocre experience" that can't be visualized.
 
-## 2. 模板二：解说型知识科普（45 秒，4 分镜）
+## 2. Template 2: narrated explainer (45 seconds, 4 shots)
 
-适用：科普、盘点、Vlog。画面先行，台词解释画面；句间留 0.3–0.5s 气口方便插 B-roll。
+Use for: science explainers, roundups, vlogs. Visual first, dialogue explains the picture; leave
+0.3–0.5s of air between sentences for inserting B-roll.
 
 ```json
 {
-  "title": "为什么[现象]？90% 的人不知道真正原因",
+  "title": "Why [phenomenon]? 90% of people don't know the real reason",
   "video_type": "short",
   "duration_seconds": 45,
   "platform": "bilibili",
-  "hook": "你以为[常见误解]？其实恰恰相反。",
+  "hook": "You think [common misconception]? It's actually the opposite.",
   "scenes": [
     {
       "id": 1, "duration_sec": 5,
-      "dialogue": "你以为[常见误解]？其实恰恰相反。",
-      "visual": "先给结果画面：[反直觉现象]的实拍或动画",
-      "camera": "wide shot 起手", "sfx": "[悬念鼓点]"
+      "dialogue": "You think [common misconception]? It's actually the opposite.",
+      "visual": "Open with the result: footage or animation of [the counter-intuitive phenomenon]",
+      "camera": "start on a wide shot", "sfx": "[suspense drumbeat]"
     },
     {
       "id": 2, "duration_sec": 12,
-      "dialogue": "先说背景：[一句话交代前提]。",
-      "visual": "[示意图或资料画面]，左上角留标题条",
-      "camera": "static, 图文为主", "sfx": null
+      "dialogue": "First, the background: [one-sentence setup].",
+      "visual": "[diagram or archive footage], leave a title bar in the top-left",
+      "camera": "static, mainly graphics", "sfx": null
     },
     {
       "id": 3, "duration_sec": 18,
-      "dialogue": "真正的原因是[核心机制]。记住这一个点就够了。",
-      "visual": "[机制动画或对比图]，关键帧停留不少于 2 秒",
-      "camera": "zoom in 到关键区域", "sfx": "[强调音]"
+      "dialogue": "The real reason is [the core mechanism]. Remember this one point and you're set.",
+      "visual": "[mechanism animation or comparison graphic], hold the key frame for at least 2 seconds",
+      "camera": "zoom in to the key area", "sfx": "[emphasis hit]"
     },
     {
       "id": 4, "duration_sec": 10,
-      "dialogue": "下次遇到[场景]，直接[可操作动作]。",
-      "visual": "[实操演示]，字幕标注步骤序号",
+      "dialogue": "Next time you hit [the situation], just [the actionable step].",
+      "visual": "[hands-on demo], on-screen step number labels",
       "camera": "medium shot", "sfx": null
     }
   ],
-  "caption": "#[话题] #科普 #[关键词]",
+  "caption": "#[topic] #science #[keyword]",
   "total_duration": 45
 }
 ```
 
-解说型的 CTA 可并入最后一个要点（本模板即如此），若需独立 CTA 再补一个 8 秒分镜。
+For narrated type, the CTA can be folded into the last point (as in this template); add a separate
+8-second CTA shot only if needed.
 
-## 3. 模板三：教程/清单型（60 秒，4 分镜）
+## 3. Template 3: tutorial/list (60 seconds, 4 shots)
 
-适用：教程、Top-N 盘点。结构固定可批量复制；每个要点用**同一句式开头**，观众能预期节奏。
+Use for: tutorials, Top-N roundups. Fixed structure, batch-replicable; open every point with the
+**same sentence frame** so viewers can anticipate the rhythm.
 
 ```json
 {
-  "title": "[N] 个[领域]小技巧，最后一个最容易被忽略",
+  "title": "[N] [domain] tips—the last one is the most overlooked",
   "video_type": "tutorial",
   "duration_seconds": 60,
   "platform": "douyin",
-  "hook": "[N] 个[领域]技巧，最后一个我用了三年。",
+  "hook": "[N] [domain] tips; I've used the last one for three years.",
   "scenes": [
     {
       "id": 1, "duration_sec": 6,
-      "dialogue": "[N] 个[领域]技巧，最后一个我用了三年。",
-      "visual": "快速闪过 [N] 个要点缩略画面，各 0.5 秒",
-      "camera": "fast cut", "sfx": "[快切节奏音]"
+      "dialogue": "[N] [domain] tips; I've used the last one for three years.",
+      "visual": "Flash quickly through thumbnails of the [N] points, 0.5s each",
+      "camera": "fast cut", "sfx": "[quick-cut rhythm hit]"
     },
     {
       "id": 2, "duration_sec": 15,
-      "dialogue": "第一个：[技巧一]。做法是[一句话动作]。",
-      "visual": "[屏幕录制或实拍]，顶部固定序号 01",
+      "dialogue": "First: [tip one]. The way to do it is [one-sentence action].",
+      "visual": "[screen recording or real shot], fixed number 01 at the top",
       "camera": "screen capture", "sfx": null
     },
     {
       "id": 3, "duration_sec": 15,
-      "dialogue": "第二个：[技巧二]。重点是[关键细节]。",
-      "visual": "[屏幕录制或实拍]，顶部固定序号 02",
+      "dialogue": "Second: [tip two]. The key is [the crucial detail].",
+      "visual": "[screen recording or real shot], fixed number 02 at the top",
       "camera": "screen capture", "sfx": null
     },
     {
       "id": 4, "duration_sec": 24,
-      "dialogue": "最后一个：[技巧三]。[前后效果的量化对比描述]。",
-      "visual": "前后对比分屏，右侧标注改善幅度",
-      "camera": "split screen", "sfx": "[转折音]"
+      "dialogue": "Last: [tip three]. [quantified before/after comparison].",
+      "visual": "Before/after split screen, label the improvement on the right",
+      "camera": "split screen", "sfx": "[transition stinger]"
     }
   ],
-  "caption": "#[领域] #干货 #技巧",
+  "caption": "#[domain] #hardcore #tips",
   "total_duration": 60
 }
 ```
 
-并列要点保持同一句式开头（"第一个/第二个/最后一个"），这是清单型能否被追看完的关键。
+Keep parallel points opening with the same frame ("first/second/last")—this is the key to whether a
+list video gets watched all the way through.
 
-## 4. 劣质反例与逐条诊断
+## 4. Bad examples and line-by-line diagnosis
 
-反例（同一需求：30 秒宝宝测评手机）：
+Bad example (same brief: 30-second baby reviews a phone):
 
 ```json
 {
-  "title": "手机测评",
-  "hook": "大家好，今天给大家带来一期手机测评视频，希望大家能够喜欢。",
+  "title": "Phone review",
+  "hook": "Hi everyone, today I bring you a phone review video, hope you enjoy it.",
   "scenes": [
     {
       "id": 1, "duration_sec": 15,
-      "dialogue": "这款手机采用了最新的处理器，性能非常强大，无论是日常使用还是玩游戏都非常流畅，而且它的拍照效果也特别好，夜景模式下表现尤为出色，另外续航方面也做了很大提升。",
-      "visual": "宝宝拿着手机", "camera": "中景", "sfx": null
+      "dialogue": "This phone uses the latest processor, very powerful, smooth for both daily use and gaming, and its camera is especially good, outstanding in night mode, plus the battery life has been greatly improved.",
+      "visual": "Baby holding the phone", "camera": "medium shot", "sfx": null
     },
     {
       "id": 2, "duration_sec": 15,
-      "dialogue": "总的来说这款手机还是非常值得购买的，如果大家感兴趣的话可以去了解一下，记得点赞关注收藏一键三连哦，我们下期再见。",
-      "visual": "宝宝微笑", "camera": "中景", "sfx": null
+      "dialogue": "Overall this phone is well worth buying; if you're interested go check it out, remember to like, follow, save, and triple-tap, see you next time.",
+      "visual": "Baby smiling", "camera": "medium shot", "sfx": null
     }
   ],
-  "caption": "#手机 #测评",
+  "caption": "#phone #review",
   "total_duration": 30
 }
 ```
 
-诊断：
+Diagnosis:
 
-| # | 问题 | 为什么致命 | 改法 |
+| # | Problem | Why it's fatal | Fix |
 |---|---|---|---|
-| 1 | Hook 是"大家好今天给大家带来" | 前 3 秒零信息，观众已划走，完播率崩 | 换成可验证的强主张："我花 8900 买了这个，用三天我想退货" |
-| 2 | 单句 70+ 字 | 超过一次呼吸，TTS 连读成一片；口播型需 ≤15 字 | 拆成 4–5 句，每句一个信息点 |
-| 3 | 一分镜 15 秒、塞 5 个卖点 | 观众一个都记不住；画面无变化导致视觉疲劳 | 每 3–6 秒切一次，一分镜一卖点 |
-| 4 | `visual` 只有"宝宝拿着手机" | 不可执行：没说景别、动作、道具、背景 | 补"特写 / 举起怼镜头 / 背景虚化"等可拍摄要素 |
-| 5 | CTA 要"点赞关注收藏一键三连" | 三个动作 = 零动作 | 只留一个："评论区告诉我你会买吗" |
-| 6 | 标签只有 2 个泛词 | 无搜索价值 | 补到平台上限的具体词（产品名 + 槽点 + 人群） |
-| 7 | 全程无 `sfx` | 静默段拖沓，节奏全靠语速 | 关键转折处补音效提示 |
+| 1 | Hook is "hi everyone, today I bring you" | Zero information in the first 3 seconds; viewers are already gone, completion rate collapses | Replace with a verifiable strong claim: "I spent 8900 on this, after three days I want to return it" |
+| 2 | Single line 70+ characters | More than one breath; TTS reads it as a run-on blob; talking-head needs ≤15 chars | Split into 4–5 sentences, one information point per sentence |
+| 3 | One shot 15s cramming 5 selling points | Viewers remember none; no visual change causes fatigue | Cut every 3–6 seconds, one selling point per shot |
+| 4 | `visual` is only "baby holding the phone" | Not executable: no shot size, action, prop, or background | Add filmable elements like "close-up / hold up to lens / background blurred" |
+| 5 | CTA asks for "like, follow, save, triple-tap" | Three actions = zero actions | Leave only one: "tell me in the comments if you'd buy it" |
+| 6 | Only 2 generic tags | No search value | Fill up to the platform limit with specific words (product name + complaint + audience) |
+| 7 | No `sfx` throughout | Silent stretches drag; all rhythm relies on speech rate | Add sound-effect cues at key turns |
 
-## 5. 交付前自检清单
+## 5. Pre-delivery checklist
 
-- [ ] Hook 在前 3 秒，且能被第一个画面直接证明
-- [ ] 每条 `dialogue` 长度符合形态上限（口播 ≤15 字 / 解说 ≤30 字）
-- [ ] `sum(scenes[].duration_sec) == total_duration`（差值必须为 0）
-- [ ] 每个 `visual` 都含：主体 + 动作 + 景别（缺一即不可执行）
-- [ ] 卖点/要点数量 = 分镜数量，没有一分镜多卖点
-- [ ] CTA 只有一个动作
-- [ ] `caption` 标签数不超过目标平台上限（平台限制属易变信息，发布前核对最新规范）
+- [ ] The hook is in the first 3 seconds and is directly provable by the first visual
+- [ ] Each `dialogue` length meets the form's ceiling (talking-head ≤15 chars / narrated ≤30 chars)
+- [ ] `sum(scenes[].duration_sec) == total_duration` (difference must be 0)
+- [ ] Every `visual` contains: subject + action + shot size (missing any one = not executable)
+- [ ] Number of selling points/points = number of shots; no shot carries multiple selling points
+- [ ] The CTA has exactly one action
+- [ ] Number of `caption` tags does not exceed the target platform's limit (platform limits are volatile; verify the latest spec before publishing)

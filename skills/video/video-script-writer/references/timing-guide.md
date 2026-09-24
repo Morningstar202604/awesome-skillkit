@@ -1,137 +1,140 @@
-# 时长与节奏参数表（video-script-writer）
+# Duration and Timing Parameter Table (video-script-writer)
 
-**本文所有数值都是经验区间，不是平台硬标准，也不是任何厂商的承诺。**
-用途只有一个：在没有实测数据时给一个能落地的初始值。一旦你拿到真实的 TTS 音频
-时长或平台后台数据，**以实测值为准并回填**。
+**All values in this document are guideline ranges, not hard platform standards, nor any vendor's
+promise.** Their only use: provide a workable initial value when you have no measured data. Once you
+have real TTS audio durations or platform backend data, **use the measured values and write them back.**
 
 ## Table of Contents
 
-0. 数值的可信度分级 / 1. 平台建议时长 / 2. 语速与字数换算 / 3. 分镜时长分配
-4. 停顿与气口 / 5. 节奏校验：用实测回填
+0. Confidence tiers of the numbers / 1. Recommended platform durations / 2. Speech rate and character-count conversion / 3. Shot-duration allocation
+4. Pauses and breath gaps / 5. Timing validation: write measured values back
 
-## 0. 数值的可信度分级
+## 0. Confidence tiers of the numbers
 
-| 级别 | 含义 | 本文中的例子 | 怎么用 |
+| Tier | Meaning | Examples in this doc | How to use |
 |---|---|---|---|
-| A 实测 | 你自己跑出来的 | TTS 音频实际时长、`ffprobe` 输出 | 直接用，并覆盖本文经验值 |
-| B 经验 | 行业常用做法（本表主体） | 语速 4–6 字/秒、分镜 3–6 秒 | 作初值，跑一轮后校准 |
-| C 易变 | 平台规则，随时会改 | 各平台时长上限、标签数上限 | **VERIFY BEFORE USE**，发布前必查 |
+| A Measured | What you ran yourself | Actual TTS audio duration, `ffprobe` output | Use directly, overriding this doc's guidelines |
+| B Guideline | Common industry practice (the bulk of this table) | Speech rate 4–6 chars/sec, shots 3–6s | As initial values; calibrate after one run |
+| C Volatile | Platform rules, change anytime | Per-platform duration caps, tag-count caps | **VERIFY BEFORE USE**, must check before publishing |
 
-判定 C 级数值是否过期的方法（不要凭记忆）：
+How to tell whether a Tier-C value is outdated (don't rely on memory):
 
-1. 打开该平台的创作者中心 / 上传页，上传页会直接显示当前允许的最大时长与体积；
-2. 查平台官方帮助文档里"视频规格""上传要求"页面；
-3. 用一条 1 秒测试视频实传一次，看是否报错——报错信息会写明当前限制。
+1. Open the platform's creator center / upload page; the upload page directly shows the current max duration and file size;
+2. Check the platform's official help docs "video specs" / "upload requirements" pages;
+3. Actually upload a 1-second test video and see whether it errors—the error message states the current limit.
 
-## 1. 平台建议时长
+## 1. Recommended platform durations
 
-| 平台 | 上限（C 级，需核对） | 建议成片时长（B 级） | 备注 |
+| Platform | Cap (Tier C, verify) | Recommended finished length (Tier B) | Notes |
 |---|---|---|---|
-| Douyin | 60s（短视频）/ 15min（长视频） | 15–45s | 上限值来自本仓 SKILL.md 记载，**发布前核对**；完播率压力下短片更稳 |
-| TikTok | 10min | 15–60s | 同上；前 3 秒决定一切 |
-| Bilibili | 无明显上限 | 60s–5min | 中长内容容忍度高，但前 15 秒仍需钩子 |
-| YouTube Shorts | — | 15–60s | 上限值本仓未记载，**不要猜**，用第 0 节方法核实 |
+| Douyin | 60s (short) / 15min (long) | 15–45s | Caps from this repo's SKILL.md notes, **verify before publishing**; shorter is safer under completion-rate pressure |
+| TikTok | 10min | 15–60s | Same; the first 3 seconds decide everything |
+| Bilibili | No hard cap | 60s–5min | Higher tolerance for medium-long content, but the first 15 seconds still need a hook |
+| YouTube Shorts | — | 15–60s | This repo has no recorded cap; **don't guess**, verify with the Section 0 method |
 
-未列入的平台 = 本仓没有可靠记载，**不要凭印象填**。宁可空着让用户自己查，
-也不要写一个看起来专业的假数字。
+Platforms not listed = this repo has no reliable record; **don't fill in from memory**. It's better
+to leave it blank and let the user check than to write a fake number that looks professional.
 
-成片时长选择逻辑（不依赖平台上限也能用）：
+Finished-length selection logic (works independent of platform caps):
 
-- 单点信息 → 15–30s（一个钩子 + 一个反转）
-- 清单/教程 3 条 → 45–60s
-- 科普有机制讲解 → 60–90s
+- Single-point information → 15–30s (one hook + one twist)
+- List/tutorial with 3 items → 45–60s
+- Explainer with mechanism walkthrough → 60–90s
 
-## 2. 语速与字数换算
+## 2. Speech rate and character-count conversion
 
-**换算公式**（B 级经验值，需按你的音色校准）：
+**Conversion formulas** (Tier B guideline values, calibrate to your voice):
 
 ```
-预估时长(秒) = 字数 / 语速(字每秒) × 停顿系数
-可写字数     = 目标时长(秒) × 语速(字每秒) / 停顿系数
+Estimated duration (sec) = characters / speech rate (chars/sec) × pause factor
+Writable characters      = target duration (sec) × speech rate (chars/sec) / pause factor
 ```
 
-| 参数 | 经验取值 | 说明 |
+| Parameter | Guideline value | Notes |
 |---|---|---|
-| 语速（中文） | 4–6 字/秒 | 快节奏角色口播取 6；稳重解说取 4；新闻播报类约 5 |
-| 语速（英文） | 2.2–2.5 词/秒 | 约 130–150 wpm，同样属经验区间 |
-| 停顿系数 | 1.10–1.25 | 句间气口、强调停顿的放大系数；句子越碎取值越大 |
+| Speech rate (Chinese) | 4–6 chars/sec | Fast-paced character voiceover uses 6; steady narration uses 4; news-broadcast style ≈5 |
+| Speech rate (English) | 2.2–2.5 words/sec | ≈130–150 wpm, also a guideline range |
+| Pause factor | 1.10–1.25 | Amplification for inter-sentence breath gaps and emphasis pauses; the choppier the sentences, the larger the value |
 
-示例（30 秒、中文快节奏口播、语速 6、系数 1.15）：
+Example (30 seconds, Chinese fast-paced voiceover, rate 6, factor 1.15):
 
 ```
-可写字数 = 30 × 6 / 1.15 ≈ 156 字
+Writable characters = 30 × 6 / 1.15 ≈ 156 chars
 ```
 
-按第 3 节分 4 个分镜，平均每镜约 39 字；但口播型单句要 ≤15 字，
-所以一个 39 字的分镜应拆成 2–3 句短台词 + 一处动作停顿。
+Split into 4 shots per Section 3, averaging ≈39 chars per shot; but a talking-head single line must
+be ≤15 chars, so a 39-char shot should be split into 2–3 short lines plus one action pause.
 
-**校准方法（强烈建议做一次）**：拿 30 字中文、用你的实际音色合成音频，
-`ffprobe` 读出真实时长，反推你的真实语速：
+**Calibration method (strongly recommended once)**: take 30 Chinese characters, synthesize audio
+with your actual voice, read the real duration with `ffprobe`, and back out your true speech rate:
 
 ```bash
 ffprobe -v error -show_entries format=duration -of default=nw=1 scene_1.wav
-# 真实语速(字每秒) = 字数 / 读出的时长
+# true speech rate (chars/sec) = characters / measured duration
 ```
 
-把这个值记下来，后面所有估算都用它，误差会明显小于通用区间。
+Record this value and use it for all later estimates; the error will be noticeably smaller than the
+generic range.
 
-## 3. 分镜时长分配
+## 3. Shot-duration allocation
 
-| 形态 | 单分镜时长（B 级） | 分镜数（30s / 60s） | 切镜节奏 |
+| Form | Single-shot length (Tier B) | Shot count (30s / 60s) | Cut rhythm |
 |---|---|---|---|
-| 口播型（角色对镜头） | 3–6s | 5–7 / 10–14 | 情绪转折即切，不要等话说完 |
-| 解说型（画外音 + B-roll） | 5–12s | 4–6 / 8–12 | 一个信息点一镜 |
-| 教程/清单型 | 10–18s | 2–3 / 4–6 | 一步一镜，步骤边界处切 |
-| Meme/反应型 | 1.5–4s | 8–15 / 20+ | 快切，最后一镜回环到首帧 |
+| Talking-head (character to camera) | 3–6s | 5–7 / 10–14 | Cut at emotional turns, don't wait for the line to finish |
+| Narrated (voiceover + B-roll) | 5–12s | 4–6 / 8–12 | One information point per shot |
+| Tutorial/list | 10–18s | 2–3 / 4–6 | One step per shot; cut at step boundaries |
+| Meme/reaction | 1.5–4s | 8–15 / 20+ | Fast cuts; the last shot loops back to the first frame |
 
-三段占比（B 级）：
+Three-act proportions (Tier B):
 
-| 段落 | 占比 | 30s 片 | 60s 片 |
+| Act | Share | 30s video | 60s video |
 |---|---|---|---|
 | Hook | 10% | 3s | 6s |
 | Body | 75% | 22s | 45s |
 | CTA | 15% | 5s | 9s |
 
-硬约束：**`sum(scenes[].duration_sec)` 必须严格等于 `total_duration`**，
-差值 0。分配完先做一次加法校验，再交付。
+Hard constraint: **`sum(scenes[].duration_sec)` must strictly equal `total_duration`**, difference 0.
+After allocating, do an addition check before delivering.
 
-分配操作步骤：
+Allocation steps:
 
-1. 按上表给 Hook / CTA 定值（30s 片：3s / 5s）；
-2. 剩余 22s 按信息点数量均分到 Body 各镜；
-3. 每镜取整到 0.5s，把舍入误差全部加/减到**最长**的那个分镜（改动最小、节奏影响最低）；
-4. 重新加一遍，确认等于总时长。
+1. Set Hook / CTA values per the table above (30s video: 3s / 5s);
+2. Divide the remaining 22s evenly across the Body shots by number of information points;
+3. Round each shot to 0.5s, and add/subtract all rounding error to/from the **longest** shot (smallest change, least rhythm impact);
+4. Add it all up again to confirm it equals the total duration.
 
-## 4. 停顿与气口
+## 4. Pauses and breath gaps
 
-| 场景 | 建议停顿（B 级） | 为什么 |
+| Situation | Suggested pause (Tier B) | Why |
 |---|---|---|
-| 句子之间 | 0.2–0.4s | 短于 0.2s TTS 会连读，长于 0.5s 显拖沓 |
-| Hook 之后（抛出问题等答案） | 0.5–0.8s | 给观众反应时间，是提高完播的低成本手段 |
-| 反转/笑点之前 | 0.3–0.5s | 留白制造预期 |
-| 要点之间（清单型） | 0.4–0.6s | 让"第一个/第二个"的结构被听清 |
-| 分镜切换处（画面已变） | 0.3–0.5s | 视觉切换本身也占注意力 |
+| Between sentences | 0.2–0.4s | Shorter than 0.2s TTS runs them together; longer than 0.5s drags |
+| After the hook (asking a question, awaiting the answer) | 0.5–0.8s | Gives viewers reaction time; a low-cost way to raise completion |
+| Before a twist/punchline | 0.3–0.5s | Silence builds expectation |
+| Between points (list type) | 0.4–0.6s | Lets the "first/second" structure be heard |
+| At shot cuts (visual already changed) | 0.3–0.5s | The visual switch itself consumes attention |
 
-注意：停顿**占时长**。写台词时按正文算字数，再按停顿系数放大总时长；
-不要把停顿单独写成"留白分镜"，那会让字幕时间轴出现空 cue。
+Note: pauses **count toward duration**. When writing dialogue, count characters from the body text,
+then scale up the total duration by the pause factor; don't write pauses as separate "silence shots,"
+or the subtitle timeline will have empty cues.
 
-## 5. 节奏校验：用实测回填
+## 5. Timing validation: write measured values back
 
-脚本阶段算出来的时长只是估计值。进入 TTS 之后必须做一次闭环校验：
+The duration calculated at the script stage is only an estimate. Once in TTS you must close the loop:
 
 ```bash
-# 对每个分镜音频取实际时长
+# Get the actual duration of each shot's audio
 for f in scene_*.wav; do
   printf "%-14s " "$f"
   ffprobe -v error -show_entries format=duration -of default=nw=1 "$f"
 done
 ```
 
-| 偏差 | 判定 | 处置 |
+| Deviation | Verdict | Action |
 |---|---|---|
-| 实测 ≤ 计划 | 音频短于画面 | 画面尾部会空：把该分镜 `duration_sec` 调小到实测值，或补 B-roll |
-| 实测 > 计划（<0.5s） | 可接受 | 直接把 `duration_sec` 改成实测值 |
-| 实测 > 计划（≥0.5s） | 台词超长 | 砍字重合成，或把该镜拆成两镜 |
-| 全片实测比计划长 >10% | 语速假设错了 | 用第 2 节方法重新校准语速，整篇重排 |
+| Measured ≤ planned | Audio shorter than picture | The tail of the shot goes empty: shrink that shot's `duration_sec` to the measured value, or add B-roll |
+| Measured > planned (<0.5s) | Acceptable | Just change `duration_sec` to the measured value |
+| Measured > planned (≥0.5s) | Line too long | Cut characters and re-synthesize, or split that shot into two |
+| Whole video measured >10% longer than planned | Wrong speech-rate assumption | Recalibrate speech rate with the Section 2 method and re-layout the whole thing |
 
-校验完把实测值写回脚本 JSON，下游 lip-sync 与字幕才会对得上。
+After validation, write the measured values back into the script JSON so downstream lip-sync and
+subtitles line up.

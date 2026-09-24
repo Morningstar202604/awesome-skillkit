@@ -1,50 +1,50 @@
-# 声音目录 / Voice Catalog (VERIFY BEFORE USE)
+# Voice Catalog (VERIFY BEFORE USE)
 
-> ⚠️ **时效声明**：TTS 模型与声音 ID 以**季度级**速度更新（新增/下架/改名）。
-> 本目录为 2026-09-14 网络调研快照，执行前按各节「核实方法」确认。
-> 来源分级：🟢 官方 · 🟡 第三方 · 🔵 社区。
+> ⚠️ **Time-sensitivity notice**: TTS models and voice IDs update at a **quarterly** cadence (added/removed/renamed).
+> This catalog is a 2026-09-14 web research snapshot; confirm per each section's "verification method" before execution.
+> Source grading: 🟢 official · 🟡 third-party · 🔵 community.
 
-## 气质 → 声音映射（选角顺序：先气质后 ID）
+## Temperament → Voice Mapping (casting order: temperament first, ID second)
 
-| 角色气质 | 首选特征 | 参考落点 |
+| Character temperament | Preferred traits | Reference entry |
 |----------|----------|----------|
-| 温暖主持人 | 女声、自然、亲和 | Kokoro `af_sarah` |
-| 专业播报/新闻 | 女声、清晰、稳定 | Kokoro `af_nicole` |
-| 权威解说/纪录片 | 男声、沉稳、权威 | Kokoro `am_michael` |
-| 轻松搭档/闲聊 | 男声、对话感 | Kokoro `am_adam` |
-| 有声书旁白 | 英音、雅致 | Kokoro `bf_emma` / `bm_george` |
-| 即兴对话感 | 对话专用模型 | DIA TTS（对话特化） |
+| Warm host | Female, natural, approachable | Kokoro `af_sarah` |
+| Professional announcer/news | Female, clear, steady | Kokoro `af_nicole` |
+| Authoritative narrator/documentary | Male, composed, authoritative | Kokoro `am_michael` |
+| Lighthearted companion/chitchat | Male, conversational | Kokoro `am_adam` |
+| Audiobook narration | British accent, refined | Kokoro `bf_emma` / `bm_george` |
+| Improvisational dialogue feel | Dialogue-specialized model | DIA TTS (dialogue-specialized) |
 
-*核实方法：各引擎官方声音列表页；ID 可能随版本改名，合成前先列声试听。*
+*Verification method: each engine's official voice list page; IDs may be renamed with versions—list and audition voices before synthesizing.*
 
-## 引擎能力边界
+## Engine Capability Boundaries
 
-| 引擎 | 强项 | 边界 | 适用 |
+| Engine | Strengths | Boundaries | Best for |
 |------|------|------|------|
-| Kokoro-82M | 82M 参数 CPU 可跑、零成本本地、音质自然 | 无情感滑块；长段平 | 解释型/新闻型节目 🟡 |
-| DIA TTS | 对话自然度特化 | 非对话内容一般 | 双人对话 🟡 |
-| Chatterbox | 表现力强 | 稳定性一般 | 娱乐向 🔵 |
-| Qwen3-TTS | 3 秒零样本克隆、描述式 voice design（"图书馆里的低沉男声"） | 克隆需授权链 | 个性化节目 🟢 |
-| Coqui XTTS / Piper | 开源自托管成熟 / 高速低耗 | XTTS 项目状态需核实 | 自托管流水线 🟡 |
+| Kokoro-82M | 82M params CPU-runnable, zero-cost local, natural audio quality | No emotion slider; long passages flat | Explanatory/news-style shows 🟡 |
+| DIA TTS | Dialogue naturalness specialized | Non-dialogue content mediocre | Two-person dialogue 🟡 |
+| Chatterbox | Strong expressiveness | Stability mediocre | Entertainment-oriented 🔵 |
+| Qwen3-TTS | 3-second zero-shot cloning, descriptive voice design ("low male voice in a library") | Cloning requires authorization chain | Personalized shows 🟢 |
+| Coqui XTTS / Piper | Open-source self-hosting mature / fast low-power | XTTS project status needs verification | Self-hosted pipeline 🟡 |
 
-*核实方法：Kokoro GitHub（hexgrad/Kokoro-82M）、Qwen3-TTS 官方博客、
-HuggingFace 模型卡。*
+*Verification method: Kokoro GitHub (hexgrad/Kokoro-82M), Qwen3-TTS official blog,
+HuggingFace model cards.*
 
-## 选型三问（同开源视频侧的决策树风格）
+## Three Selection Questions (same decision-tree style as the open-source video side)
 
-1. 跑在哪——本地 CPU/单卡，还是云端 API？
-2. 要不要克隆——需要本人声线则克隆系（留授权记录），不需要则零样本目录选声。
-3. 商用许可——Kokoro Apache-2.0 友好；商业 API 看配额与条款。
+1. Where does it run—local CPU/single GPU, or cloud API?
+2. Do you need cloning—if you need the person's own voice, go the cloning route (keep authorization records); if not, select a voice from the zero-shot catalog.
+3. Commercial license—Kokoro Apache-2.0 friendly; commercial APIs check quota and terms.
 
-## 合成参数速查 🔵
+## Synthesis Parameter Quick Reference 🔵
 
-| 参数 | 基准 | 说明 |
+| Parameter | Baseline | Notes |
 |------|------|------|
-| speed | 1.0 | 中文口播基准；解说 1.05-1.1；沉思 0.95 |
-| 逐段时长 | ≤2-3 分钟/段 | 分段合成再拼接，自然度与可修复性双高 |
-| 拼接 | ffmpeg concat `-c copy` | 不重编码秒级完成；对话段 crossfade 300-500ms |
-| BGM | 只铺 intro/outro | 人声段垫床需 ≤-18dB，默认不加 |
+| speed | 1.0 | Chinese voiceover baseline; narration 1.05-1.1; reflective 0.95 |
+| Per-segment duration | ≤2-3 min/segment | Synthesize in segments then concatenate; high naturalness and repairability |
+| Concatenation | ffmpeg concat `-c copy` | No re-encode, done in seconds; dialogue segments crossfade 300-500ms |
+| BGM | Only lay intro/outro | Vocal segments bed ≤-18dB; off by default |
 
 ## Change maintenance
 
-声音 ID 失效：更新对应行 + 顶部快照日期。新增引擎先跑「选型三问」再入表。
+Voice ID invalid: update the corresponding row + the snapshot date at the top. New engines go through the "three selection questions" first before entering the table.

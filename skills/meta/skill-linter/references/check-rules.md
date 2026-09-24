@@ -1,121 +1,124 @@
-# 八项检查的判定口径与边界用例
+# Judgment Criteria and Edge Cases for the Eight Checks
 
-本文件是 `scripts/lint_skill.py` 的行为说明书：SKILL.md 里只给了判定规则表，
-这里给**实现细节、边界用例与误报排查**。对某条结论有疑问、或要把规则移植到别处时读。
+This file is the behavior spec for `scripts/lint_skill.py`: SKILL.md only gives the judgment rules table;
+here it gives **implementation details, edge cases, and false-positive troubleshooting**. Read this when
+you have questions about a conclusion or want to port the rules elsewhere.
 
 ## Table of Contents
 
-- [检查执行顺序](#检查执行顺序)
-- [逐项边界用例](#逐项边界用例)
+- [Check execution order](#check-execution-order)
+- [Per-item edge cases](#per-item-edge-cases)
   - [FM-FIELDS](#fm-fields) / [NAME-SYNC](#name-sync) / [DESC-ROUTE](#desc-route)
   - [BODY-SECTS](#body-sects) / [BODY-LINES](#body-lines) / [LANG-CJK](#lang-cjk)
   - [REF-EXISTS](#ref-exists) / [FAIL-TABLE](#fail-table)
-- [退出码语义](#退出码语义)
-- [扩展新检查项的接入点](#扩展新检查项的接入点)
+- [Exit code semantics](#exit-code-semantics)
+- [Extension points for adding new checks](#extension-points-for-adding-new-checks)
 
-## 检查执行顺序
+## Check execution order
 
-脚本对每个 `SKILL.md` 固定按此顺序跑，八项互不依赖：
+The script runs each `SKILL.md` through these eight checks in this fixed order; they are independent:
 
 ```
 FM-FIELDS → NAME-SYNC → DESC-ROUTE → BODY-SECTS → BODY-LINES
           → LANG-CJK → REF-EXISTS → FAIL-TABLE
 ```
 
-任一 `FAIL` 都使退出码为 1；`WARN` 不影响退出码。批量模式下统计各技能结论之和。
+Any `FAIL` makes the exit code 1; `WARN` does not affect the exit code. In batch mode, results across skills are aggregated.
 
-## 逐项边界用例
+## Per-item edge cases
 
 ### FM-FIELDS
 
 | Input form | Judgment |
 |---|---|
-| 首行是 `---` 但无闭合 `---` | FAIL（`split_frontmatter` 返回 None） |
-| 首行是空行再 `---` | FAIL（要求行 1 恰好是 `---`） |
-| `metadata:` 下没有缩进子键 | FAIL（解析结果为空 dict） |
-| `description:` 用 `>` 折叠块 | 通过，多行被合并为一行再计长 |
-| `description` 长度 39 / 1025 | WARN，仅长度越界报 |
+| First line is `---` but no closing `---` | FAIL (`split_frontmatter` returns None) |
+| First line is a blank line then `---` | FAIL (line 1 must be exactly `---`) |
+| `metadata:` has no indented sub-keys | FAIL (parsed result is an empty dict) |
+| `description:` uses a `>` folded block | Pass; multi-line folded into one line before length counting |
+| `description` length 39 / 1025 | WARN; only out-of-bounds length is reported |
 
-解析器只实现最小 YAML 子集（标量 / 折叠块 / 字面块 / 一层嵌套 map），
-**不支持列表、锚点、多行字符串拼接**——技能 frontmatter 用不到，也不该用。
+The parser implements only a minimal YAML subset (scalars / folded blocks / literal blocks / one-level nested maps),
+**does not support lists, anchors, or multi-line string concatenation**—skill frontmatter doesn't need them, and shouldn't use them.
 
 ### NAME-SYNC
 
 | Input form | Judgment |
 |---|---|
-| `name: Skill-Linter` | FAIL：含大写 |
-| `name: skill--linter` | FAIL：连续连字符 |
-| `name: skill-linter` 但目录是 `skill_linter` | FAIL：目录名不一致 |
-| `name: 视频生成` | FAIL：不匹配 kebab-case 正则 |
+| `name: Skill-Linter` | FAIL: contains uppercase |
+| `name: skill--linter` | FAIL: consecutive hyphens |
+| `name: skill-linter` but directory is `skill_linter` | FAIL: directory name mismatch |
+| `name: Video Gen` | FAIL: does not match kebab-case regex |
 
-目录名比对用 `SKILL.md` 的直接父目录名。批量扫描时会跳过 `_common/`、`assets/`、
-`templates/`、`__pycache__/` 下的 `SKILL.md`——这些位置的同名文件是示例或共享模块，不是技能本体。
+Directory comparison uses the immediate parent directory name of `SKILL.md`. During batch scanning,
+`SKILL.md` under `_common/`, `assets/`, `templates/`, `__pycache__/` is skipped—same-named files in these
+locations are examples or shared modules, not the skill itself.
 
 ### DESC-ROUTE
 
-- 「何时使用」提示词：`use when` / `use this` / `when the user` / `当用户` / `何时使用` / `触发`。
-- 「排除项」提示词：`do not use` / `don't use` / `not for` / `排除` / `不适用` / `不要用于`。
-- 触发词计数：取上述「何时使用」引导语之后的文本，遇到排除项提示词或句末即截断；
-  按 `/`、`、`、`,`、`，`、`;`、`；`、` or `、` and ` 切分；片段去空白与首尾标点后长度 >=2 才计数。
+- "When to use" prompts: `use when` / `use this` / `when the user` / `use it to` / `triggered when`.
+- "Exclusions" prompts: `do not use` / `don't use` / `not for` / `exclude` / `not applicable` / `never use for`.
+- Trigger-word counting: take the text after the above "when to use" introducers, truncate at the
+  exclusion prompt or sentence end; split on `/`, `,`, `;`, ` or `, ` and `;` fragments
+  with whitespace and leading/trailing punctuation stripped are counted only if length >= 2.
 
-边界用例：
+Edge cases:
 
-| description 片段 | 计数 |
+| description fragment | Count |
 |---|---|
-| `Use when the user asks to 生成视频 / 做个短视频 / make a video` | 3 |
-| `当用户要求 校验技能 / 检查技能合不合规 时使用` | 2 |
-| `Use when needed.` | 0（片段 `needed` 只有 1 个词？—— 实际计入 1，缺 4 个） |
-| 整段中文但没有 `当用户`/`触发` 引导语 | 0 |
+| `Use when the user asks to generate a video / make a short clip / make a video` | 3 |
+| `Use when the user needs to lint a skill / check skill compliance` | 2 |
+| `Use when needed.` | 0 (fragment `needed` is only 1 word? — actually counts as 1, missing 4) |
+| No recognized "when to use" introducer at all | 0 |
 
-**已知误报**：若把触发词写在 `触发词：` 这类中文引导语之后但用顿号分隔的整句里，
-计数会偏高（把描述性短语也算作触发词）。判定以「>=5」为下限，偏高不产生假 FAIL，
-故不做额外收紧。
+**Known false positive**: if trigger words are written after an introducer like `triggers:` but separated by
+enumeration commas in a full sentence, the count will run high (descriptive phrases also counted as trigger words).
+The judgment threshold is ">=5" as a floor; running high does not produce a false FAIL, so no additional tightening is done.
 
 ### BODY-SECTS
 
-硬性六项按 `startswith` 匹配 H2 标题，因此 `## 参考` 也能匹配 `## 参考资料`。
-H2 总数 >=10 为推荐值，不足只 WARN。
+The six required sections are matched by `startswith` on H2 headings, so `## References` also matches `## Reference Materials`.
+H2 total >=10 is the recommended value; fewer only triggers WARN.
 
 ### BODY-LINES
 
-计的是**整个文件行数**（含 frontmatter 与代码块），不是正文字数。空行计入。
-和仓库级校验器（仓库根 `tools/` 目录下的 `validate_skills.py`）的 500 行 ERROR 线并存：本脚本的 220 是自律线，
-提前预警，避免技能膨胀后才在仓库门禁处被打回。
+This counts **total file lines** (including frontmatter and code blocks), not prose word count. Blank lines count.
+This coexists with the repo-level validator's 500-line ERROR line (in `validate_skills.py` under the repo root `tools/`):
+this script's 220 is a self-discipline line, an early warning to avoid being bounced back at the repo gate after the skill has already bloated.
 
 ### LANG-CJK
 
-去围栏代码块 → 去所有空白字符 → 用 `[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]` 计 CJK 字符数 →
-除以剩余字符总数。阈值 0.15。
+Strip fenced code blocks → strip all whitespace → count CJK characters with `[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]` →
+divide by total remaining characters. Threshold is 0.15.
 
-边界：纯英文技能正文占比约 0（必然 WARN）；中英混排且中文为叙述主体通常在 0.35 以上；
-本仓库现有技能实测区间约 0.30-0.55。**该检查对纯代码型技能一定有误报**，
-此时保留 WARN 并在交付说明里写明理由即可，不要为了消 WARN 去注水中文。
+Edge: pure-English skill bodies score ~0 (always WARN); mixed Chinese-English where Chinese is the narrative body
+usually scores above 0.35; existing skills in this repo measure around 0.30-0.55. **This check will definitely false-positive
+on code-heavy skills**—in that case, keep the WARN and state the reason in the delivery notes; do not pad Chinese text just to clear the WARN.
 
 ### REF-EXISTS
 
-识别两种写法：反引号内的 `references/<文件名>.md`，以及以它为开头的列表项。
-存在性判据是「该技能目录 / 相对路径」为文件。
+Recognizes two forms: `references/<filename>.md` inside backticks, and list items starting with it.
+Existence criterion is that "<skill directory>/<relative path>" is a file.
 
-边界：占位名（常见于写作模板或本节这类说明文字）会被当成真引用而报 FAIL。
-**修法**：写成不含 `.md` 后缀的形态，或放进围栏代码块——本检查不看围栏内的内容。
+Edge: placeholder names (common in writing templates or explanatory text like this section) will be treated as real references and report FAIL.
+**Fix**: write the form without the `.md` suffix, or put it inside a fenced code block—this check does not look inside fences.
 
 ### FAIL-TABLE
 
-取 `## 失败处置表` 到下一个 H2 之间的行；对其中每张三列表格，统计「以 `|` 开头且以 `|` 结尾」的行，
-扣掉分隔行与表头。要求数据行 >=4。
+Takes lines from `## Failure Handling Table` to the next H2; for each three-column table within, counts lines "starting with `|` and ending with `|`",
+subtracting separator rows and the header. Requires >=4 data rows.
 
-边界：表格里换行写的单元格（用 `<br>`）不额外计数；多个表格会分别计数后相加取总值。
+Edge: cells written with line breaks (`<br>`) are not counted separately; multiple tables are counted separately and summed.
 
-## 退出码语义
+## Exit code semantics
 
-| 码 | 含义 | CI 处理 |
+| Code | Meaning | CI handling |
 |---|---|---|
-| 0 | 无 FAIL（可能有 WARN） | 放行 |
-| 1 | 存在 FAIL | 拦截，打印 `FIX:` 行作为评论 |
-| 2 | 路径不存在 / 未找到任何 SKILL.md | 视为配置错误，不要当成技能不合格 |
+| 0 | No FAIL (WARN may exist) | Pass |
+| 1 | FAIL present | Block; print `FIX:` lines as comment |
+| 2 | Path does not exist / no SKILL.md found | Treat as configuration error, not skill noncompliance |
 
-## 扩展新检查项的接入点
+## Extension points for adding new checks
 
-新增一项检查只需三步：写一个 `check_xxx(skill_dir, meta, body_lines, raw)` 函数返回
-`Finding` 列表 → 在 `lint_one()` 的检查链里追加 → 在 SKILL.md 的判定规则表里加一行。
-`Finding` 的 `fix` 字段**必须非空**（除 PASS 外），否则使用者只能看到问题看不到修法。
+Adding a new check takes three steps: write a `check_xxx(skill_dir, meta, body_lines, raw)` function returning
+a list of `Finding`s → append it to the check chain in `lint_one()` → add a row to the judgment rules table in SKILL.md.
+The `Finding`'s `fix` field **must be non-empty** (except for PASS), otherwise the user sees the problem but not the fix.

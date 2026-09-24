@@ -1,132 +1,132 @@
-# 文章逻辑流设计指南
+# Article Logic-Flow Design Guide
 
-> 何时读：大纲的**章节顺序和衔接**已定、要检查「读起来顺不顺」时读本文件。
-> 本文件处理「结构」，不处理句式与用词（那属于 `article-drafter` 与 `content-editor`）。
-> 数值均为经验值，非平台规则。
+> When to read: read this file when the outline's **section order and transitions** are settled and you need to check "does it read smoothly".
+> This file handles "structure", not sentence patterns and word choice (those belong to `article-drafter` and `content-editor`).
+> All numbers are rules of thumb, not platform rules.
 
 ## Table of Contents
 
-- [1. 认知负荷分配](#1-认知负荷分配)
-- [2. 信息顺序：结论先行 vs 悬念铺垫](#2-信息顺序结论先行-vs-悬念铺垫)
-- [3. 节间关系标注法](#3-节间关系标注法)
-- [4. 过渡句库](#4-过渡句库)
-- [5. 常见逻辑断层：识别与修复](#5-常见逻辑断层识别与修复)
-- [6. 流检查表](#6-流检查表)
+- [1. Cognitive load allocation](#1-cognitive-load-allocation)
+- [2. Information order: conclusion-first vs suspense buildup](#2-information-order-conclusion-first-vs-suspense-buildup)
+- [3. Inter-section relation labeling](#3-inter-section-relation-labeling)
+- [4. Transition-sentence library](#4-transition-sentence-library)
+- [5. Common logic gaps: recognition and repair](#5-common-logic-gaps-recognition-and-repair)
+- [6. Flow checklist](#6-flow-checklist)
 
 ---
 
-## 1. 认知负荷分配
+## 1. Cognitive load allocation
 
-读者的工作记忆有限：一段里同时悬着的新概念越多，跳出率越高。
+Readers have limited working memory: the more new concepts floating in one paragraph at once, the higher the bounce rate.
 
-| 指标 | 上限（经验值） | 超限处置 |
+| Metric | Cap (rule of thumb) | Over-cap action |
 |------|----------------|----------|
-| 每 500 字引入的新术语 | ≤ 3 个 | 拆成两节，或把其中一个降级为脚注/括注 |
-| 连续无例证的抽象段落 | ≤ 2 段 | 第 3 段必须给具体例子或数字 |
-| 单个例子的跨度 | ≤ 15 行 | 拆分步骤，或抽成独立小节 |
-| 全文高潮（信息密度峰值）位置 | 全文 40%–70% 处 | 若峰值在开头 20%，说明后文注水；若在结尾 90%，说明铺垫过长 |
+| New terms introduced per 500 chars | ≤ 3 | Split into two sections, or demote one to a footnote/parenthetical |
+| Consecutive abstract paragraphs without examples | ≤ 2 | The 3rd must give a concrete example or number |
+| Span of a single example | ≤ 15 lines | Split steps, or pull it into its own subsection |
+| Position of the peak (information-density climax) | 40%–70% of the piece | If the peak is in the first 20%, the rest is filler; if in the last 90%, the buildup is too long |
 
-**负荷分配三原则**：
+**Three load-allocation principles**:
 
-1. **先定义后使用**：术语第一次出现时，同一句或下一句给出一句白话解释；禁止「先用一个词，第三节才解释」。
-2. **峰值前置**：最难的一段放在读者还有耐心的位置（约全文 1/3–1/2 处），不要在结尾堆干货。
-3. **每段只办一件事**：一段 = 一个主张 + 它的证据。若一段里出现第二个「因此/所以」，拆段。
+1. **Define before use**: when a term first appears, give a plain-language explanation in the same or next sentence; forbids "use a word first, explain it in section 3".
+2. **Front-load the peak**: put the hardest section where the reader still has patience (about 1/3–1/2 through), don't pile the substance at the end.
+3. **One job per paragraph**: a paragraph = one claim + its evidence. If a second "therefore/so" appears in a paragraph, split it.
 
-**机械检查**：给每节标注「新术语数 / 抽象段数 / 是否有例证」，形成下表，扫一眼就能看出负荷是否集中在一处。
+**Mechanical check**: label each section with "new-term count / abstract-paragraph count / has examples?", forming a table like the one below; one glance shows whether load is concentrated in one spot.
 
-| 节 | 字数 | 新术语数 | 连续抽象段 | 有例证 |
+| Section | Chars | New terms | Consecutive abstract paras | Has examples |
 |----|------|----------|-----------|--------|
-| 1 | 300 | 2 | 2 | 是 |
-| 2 | 800 | 5 | 4 | 否 | ← 超两项，需拆 + 补例 |
+| 1 | 300 | 2 | 2 | Yes |
+| 2 | 800 | 5 | 4 | No | ← Exceeds two limits; needs split + add examples |
 
 ---
 
-## 2. 信息顺序：结论先行 vs 悬念铺垫
+## 2. Information order: conclusion-first vs suspense buildup
 
-不是风格偏好，是**读者处境**决定的。按下表选，不要凭感觉。
+It's not a style preference; it's determined by the **reader's situation**. Choose per the table; don't go by feel.
 
-| 维度 | 结论先行（BLUF） | 悬念铺垫 |
+| Dimension | Conclusion-first (BLUF) | Suspense buildup |
 |------|------------------|----------|
-| 读者是谁 | 决策者、排查故障的人、搜索进来的人 | 来消遣/被标题吸引的人 |
-| 读者处境 | 有时间压力，可能随时退出 | 已决定读完 |
-| 内容类型 | 技术教程、评测、复盘、新闻 | 叙事、观点长文、案例故事 |
-| 载体 | CSDN / 掘金 / 搜索流量为主的页面 | 公众号 / 知乎首页推荐流 |
-| 失败代价 | 读者在前 3 屏读不到结论就走 | 提前剧透导致没人往下读 |
-| 开头形态 | 「结论是 X，理由如下」 | 场景/冲突 → 「为什么会这样？」 |
+| Who is the reader | Decision-makers, people debugging, people arriving from search | People here to be entertained / drawn in by the title |
+| Reader's situation | Time pressure, may leave at any moment | Already decided to read to the end |
+| Content type | Technical tutorials, reviews, postmortems, news | Narratives, opinion long-form, case stories |
+| Carrier | CSDN / Juejin / search-traffic-heavy pages | WeChat Official Account / Zhihu home recommendation feed |
+| Failure cost | Reader leaves without a conclusion in the first 3 screens | Spoiling it early means nobody reads on |
+| Opening shape | "The conclusion is X; here's why" | Scenario/conflict → "why is this happening?" |
 
-**混合用法（推荐）**：结论先行给**方向**，悬念留**细节**。
+**Hybrid use (recommended)**: conclusion-first gives the **direction**; suspense holds the **details**.
 
-> 「连接池配置是这次雪崩的根因——但为什么扩容反而让它更糟，得从一个反直觉的压测结果说起。」
+> "Connection-pool config was the root cause of this avalanche — but why did scaling up make it worse? It starts with a counterintuitive load-test result."
 
-这句话同时满足：搜索读者拿到结论，被推荐来的读者拿到了钩子。
+This sentence satisfies both: the search reader gets the conclusion, and the recommendation-fed reader gets the hook.
 
-**判定法**：问一句「读者如果是从搜索结果点进来的，会不会在 3 屏内得到他要的东西？」会 → 结论先行；不会但他愿意读完 → 悬念铺垫。
+**How to judge**: ask "if the reader arrived from a search results page, would they get what they want within 3 screens?" Yes → conclusion-first; no but they're willing to read on → suspense buildup.
 
 ---
 
-## 3. 节间关系标注法
+## 3. Inter-section relation labeling
 
-大纲定稿后，在每一对相邻节之间**强制标注**一种关系。标不出来的相邻节 = 逻辑断层，要么补过渡，要么换顺序。
+After the outline is finalized, **force-label** one relation between every pair of adjacent sections. Adjacent sections you can't label = a logic gap; either add a transition or reorder.
 
-| 关系 | 含义 | 检验问句 |
+| Relation | Meaning | Test question |
 |------|------|----------|
-| 递进 | 后一节在前一节基础上加深 | 「读完上一节，读者会自然问什么？」→ 下一节是不是在回答它 |
-| 转折 | 后一节修正/限定前一节 | 有没有显式的转折词（但/然而/当然/不过） |
-| 并列 | 同维度枚举 | 两条能不能互换顺序而不影响理解？能 → 真并列；不能 → 其实有隐含依赖，改标递进 |
-| 因果 | 前一节是因，后一节是果（或反之为「据-结」） | 去掉前一节，后一节的论据是否失效？ |
-| 举例 | 后一节是前一节的具体化 | 例子是否真的对应前一节的主张（不是换个话题） |
-| 问题-解决 | 前一节抛出问题，后一节给出方案 | 方案是否逐条回应了问题里列出的点 |
+| Progressive | The next section deepens the previous | "After reading the previous section, what will the reader naturally ask?" → does the next section answer it? |
+| Adversative | The next section revises/limits the previous | Is there an explicit transition word (but/however/of course/though)? |
+| Parallel | Same-dimension enumeration | Can the two swap order without affecting understanding? Yes → true parallel; no → there's a hidden dependency; relabel as progressive |
+| Causal | Previous section is the cause, next is the effect (or the reverse: claim-evidence) | Remove the previous section; does the next section's argument fall apart? |
+| Example | The next section instantiates the previous | Does the example really correspond to the previous claim (not a topic change)? |
+| Problem-solution | Previous section raises the problem, next gives the solution | Does the solution address each point listed in the problem? |
 
-**Approach:**在大纲 JSON 的每个 section 上加一个非标准字段 `link_to_prev`（取值：`递进/转折/并列/因果/举例/问题-解决`），模型与人都可机械核对。
+**Approach:** add a non-standard field `link_to_prev` to each section in the outline JSON (values: `progressive/adversative/parallel/causal/example/problem-solution`), so both model and human can check it mechanically.
 
 ---
 
-## 4. 过渡句库
+## 4. Transition-sentence library
 
-过渡句放在**节末**（引出下一节）或**节首**（承接上一节），全文不要两种都用，选一种保持一致。每条都是可填空的模板。
+Put transitions either at the **end of a section** (leading into the next) or the **start** of a section (picking up from the previous); pick one and be consistent throughout. Each is a fill-in-the-blank template.
 
-| 类型 | 句末过渡（引出下节） | 节首过渡（承接上节） |
+| Type | End-of-section transition (leads to next) | Section-start transition (picks up previous) |
 |------|----------------------|----------------------|
-| 递进 | 「但只做到这一步还不够，__ 才是关键。」 | 「知道了 __，下一步是 __。」 |
-| 转折 | 「当然，这套做法在 __ 场景下会失效。」 | 「上面的结论有个前提：__。去掉它呢？」 |
-| 因果 | 「原因在下面。」 | 「所以问题变成了：__ 为什么会发生？」 |
-| 并列 | 「这只是三类问题中的第一类。」 | 「第二类问题同样常见：__。」 |
-| 举例 | 「说个具体的。」 | 「拿一个真实场景来看：__。」 |
-| 问题-解决 | 「先看问题出在哪。」 | 「问题清楚了，怎么修？」 |
-| 收束 | 「到这里可以停一下，回顾三点：__。」 | 「前面三条里，只有第 __ 条值得立刻做。」 |
+| Progressive | "But stopping here isn't enough; __ is the key." | "Now that we know __, the next step is __." |
+| Adversative | "Of course, this approach breaks down in __ scenarios." | "The conclusion above has a premise: __. What if we remove it?" |
+| Causal | "The reason is below." | "So the question becomes: why does __ happen?" |
+| Parallel | "That's only the first of three problem classes." | "The second problem class is just as common: __." |
+| Example | "Here's a concrete one." | "Take a real scenario: __." |
+| Problem-solution | "First, where's the problem?" | "The problem is clear; how do we fix it?" |
+| Wrap-up | "Let's pause here and recap three points: __." | "Of the three above, only #__ is worth doing now." |
 
-**禁用过渡句**：`接下来我们看看`（无信息）、`下面进入正题`（暗示前面是废话）、`除此之外`（未说明关系）、`同时`（掩盖真实的因果/转折）。
+**Banned transitions**: `next let's look at` (no information), `now to the main topic` (implies what came before was filler), `besides` (doesn't state the relation), `meanwhile` (masks the real causal/adversative).
 
 ---
 
-## 5. 常见逻辑断层：识别与修复
+## 5. Common logic gaps: recognition and repair
 
-| 断层类型 | 典型长相 | 识别方法 | 修复动作 |
+| Gap type | Typical look | How to spot | Repair action |
 |----------|----------|----------|----------|
-| 跳跃论证 | 「A，因此 C」（中间缺 B） | 把「因此」前后两句单独抽出读，问「凭什么？」答不上来 | 补出 B 并给证据；补不上就删掉「因此」，降级为并列 |
-| 循环论证 | 「X 有效，因为 X 能带来 Y；Y 之所以重要，是因为 X 有效」 | 把结论和前提互换，句子仍然成立 | 引入独立于结论的证据（外部数据/实验） |
-| 无关展开 | 一节里有 1/3 内容与本节标题无关 | 逐段问「这段删掉，本节结论变吗？」不变 → 无关 | 删，或移入它真正归属的节 |
-| 稻草人 | 反驳的是一个没人持有的弱版本 | 检查被引述的观点是否有出处 | 换成对方最强的表述再反驳 |
-| 假因果 | 「用了 A 之后指标变好，所以 A 有效」 | 问「同期还有哪些改动？」 | 补对照/补时间线/改口为「相关」 |
-| 粒度跳变 | 上一节讲架构，下一节突然讲一行代码 | 检查两节的抽象层级是否同级 | 插入中间层（模块级说明）或调整顺序 |
-| 指代漂移 | 「它」在上句是框架，在下句变成数据库 | 高亮所有代词，逐个人工指代还原 | 换回名词；长距离指代一律改名词 |
-| 结论漂移 | 结尾结论与开头承诺的不是同一件事 | 把标题、开头断言、结尾结论三处并排读 | 改结尾回扣，或改标题（不要改开头） |
+| Leaping argument | "A, therefore C" (missing B in the middle) | Pull out the two sentences around "therefore" and read them alone; ask "on what basis?" If you can't answer | Supply B with evidence; if you can't, delete "therefore" and demote to parallel |
+| Circular argument | "X works because X brings Y; Y matters because X works" | Swap conclusion and premise; the sentence still holds | Introduce evidence independent of the conclusion (external data / experiment) |
+| Irrelevant digression | A third of a section is unrelated to its heading | Ask per paragraph "if I delete this, does the section's conclusion change?" Not → irrelevant | Delete, or move it to the section it actually belongs to |
+| Straw man | Rebuttal targets a weak version nobody holds | Check whether the quoted view has a source | Restate the opponent's strongest version, then rebut |
+| False causality | "After using A, the metric improved, so A works" | Ask "what else changed in the same period?" | Add a control / add a timeline / downgrade wording to "correlates" |
+| Granularity jump | Previous section on architecture, next suddenly on one line of code | Check whether the two sections are at the same abstraction level | Insert a middle layer (module-level explanation) or reorder |
+| Referential drift | "It" means the framework in the previous sentence, the database in the next | Highlight all pronouns; manually resolve each reference | Swap back to nouns; always use nouns for long-distance references |
+| Conclusion drift | The ending conclusion isn't the same thing as the opening promise | Read the title, opening claim, and ending conclusion side by side | Rewrite the ending callback, or rewrite the title (don't rewrite the opening) |
 
-**修复优先级**：结论漂移 > 循环论证 > 跳跃论证 > 粒度跳变 > 无关展开 > 指代漂移。前三种属于「文章不成立」，必须改；后三种影响可读性。
+**Repair priority**: conclusion drift > circular argument > leaping argument > granularity jump > irrelevant digression > referential drift. The first three are "the article doesn't hold" and must be fixed; the last three affect readability.
 
 ---
 
-## 6. 流检查表
+## 6. Flow checklist
 
-大纲或初稿完成后逐项打勾：
+After the outline or first draft is done, tick each item:
 
-- [ ] 每对相邻节都标出了 `link_to_prev`，无「标不出」的相邻对
-- [ ] 每 500 字新术语 ≤ 3，且每个术语首次出现即有一句解释
-- [ ] 无连续 3 段抽象无例证
-- [ ] 信息密度峰值落在全文 40%–70% 区间
-- [ ] 开头策略（结论先行/悬念铺垫/混合）是按读者处境选的，不是随手写的
-- [ ] 过渡句全部来自 §4 模板或等价表达，无「接下来我们看看」
-- [ ] 所有「因此/所以/由此可见」都通过了「凭什么」测试
-- [ ] 所有「它/这个/前者」的指代都能唯一还原
-- [ ] 标题、开头断言、结尾结论三处并排读，指向同一件事
-- [ ] 删掉任意一节后，文章仍成立？若是 → 该节为无关展开，删除
+- [ ] Every pair of adjacent sections has a `link_to_prev`; no adjacent pair is "unlabelable"
+- [ ] ≤3 new terms per 500 chars, and each term has an explanation on first occurrence
+- [ ] No 3 consecutive abstract paragraphs without examples
+- [ ] The information-density peak falls in the 40%–70% range of the piece
+- [ ] The opening strategy (conclusion-first / suspense / hybrid) is chosen by reader situation, not written by feel
+- [ ] All transitions come from the §4 templates or equivalent expressions; no "next let's look at"
+- [ ] All "therefore/so/from this we see" pass the "on what basis?" test
+- [ ] All "it/this/the former" references resolve uniquely
+- [ ] Title, opening claim, and ending conclusion read side by side as pointing to the same thing
+- [ ] Delete any one section; does the article still hold? If yes → that section is an irrelevant digression; delete it

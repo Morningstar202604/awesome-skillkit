@@ -1,9 +1,9 @@
-30天练出马甲线？我用这3个动作做到了。
+Get visible abs in 30 days? I did it with these 3 moves.
 
-每天只需12分钟，跟着做就行。
+Just 12 minutes a day, follow along.
 
-第一个动作是卷腹，每组15个做3组。
-第二个动作是登山跑，30秒一组。
-第三个动作是平板支撑，坚持45秒。
+The first move is crunches: 15 reps per set, 3 sets.
+The second move is mountain climbers: 30 seconds per set.
+The third move is the plank: hold for 45 seconds.
 
-坚持一个月，欢迎在评论区交作业。
+Stick with it for a month, and drop your progress in the comments.

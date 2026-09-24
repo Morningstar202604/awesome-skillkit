@@ -1,22 +1,22 @@
-# Sources & Methodology（pdf-pipeline）
+# Sources & Methodology (pdf-pipeline)
 
 ## Methodology sources
 
-本技能的设计思想蒸馏自 Anthropic 官方公开技能仓库中 pdf 技能的**公开
-描述所体现的任务划分思路**（合并/拆分/提取/元数据/旋转的子任务切分、
-"扫描件走 OCR"的路线判断），未复制其任何文本段落、脚本代码或文档内容；
-本目录下所有文字与代码均为原创。上游内容为专有许可，禁止再分发。
+This skill's design thinking is distilled from the **task-division ideas reflected in the public
+description of the pdf skill** in Anthropic's official public skills repository (subtask decomposition of merge/split/extract/metadata/rotate,
+the routing judgment of "scans go through OCR"). No text passages, script code, or documentation content was copied;
+all text and code in this directory are original. Upstream content is proprietary-licensed and redistribution is prohibited.
 
-- Anthropic skills 仓库（仅作思想参考）：
+- Anthropic skills repository (read only as conceptual reference):
   https://github.com/anthropics/skills/tree/main/skills/pdf
   https://github.com/anthropics/skills/tree/main/skills/docx
 
-## 技术依据
+## Technical basis
 
-- pypdf 官方文档（PdfReader / PdfWriter / append / add_metadata /
-  get_fields / rotate）：
+- pypdf official docs (PdfReader / PdfWriter / append / add_metadata /
+  get_fields / rotate):
   https://pypdf.readthedocs.io/
-- PDF 规范（ISO 32000）中的 AcroForm 字段字典与 /Rotate 页属性：
-  表单字段探测（/FT 类型）与旋转标志读回均直接对应标准结构。
-- 无文本层判定：extract_text() 对图像页返回空字符串，据此提示 OCR
-  路线（ocrmypdf / tesseract 为常见外部工具，本技能不捆绑）。
+- AcroForm field dictionaries and the /Rotate page attribute in the PDF spec (ISO 32000):
+  form-field detection (/FT type) and rotation-flag read-back directly correspond to the standard structures.
+- No-text-layer determination: extract_text() returns an empty string for image pages; based on this, prompt the OCR
+  route (ocrmypdf / tesseract are common external tools; this skill does not bundle them).

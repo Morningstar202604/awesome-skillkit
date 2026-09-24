@@ -1,48 +1,50 @@
-# 字幕格式对照（video-subtitles）
+# Caption Format Reference (video-subtitles)
 
-四种常用字幕载体：**SRT**（最通用）、**ASS**（要样式就用它）、**VTT**（Web）、
-**JSON 逐字时间戳**（程序生成/动画字幕）。每种给最小可运行示例 + 字段说明 +
-踩坑点 + ffmpeg 烧录/软挂命令。
+Four common subtitle carriers: **SRT** (most universal), **ASS** (use it when you want styling),
+**VTT** (Web), **JSON word-level timestamps** (programmatically generated / animated captions).
+Each gets a minimal runnable example + field explanation + pitfalls + ffmpeg burn/soft-mux command.
 
 ## Table of Contents
 
-0. 选型与通用规则 / 1. SRT / 2. ASS / 3. WebVTT / 4. JSON 逐字时间戳
-5. 编码与 BOM / 6. ffmpeg 烧录与软挂 / 7. 中文断句规则
+0. Choosing a format and general rules / 1. SRT / 2. ASS / 3. WebVTT / 4. JSON word-level timestamps
+5. Encoding and BOM / 6. ffmpeg burning and soft-muxing / 7. Chinese line-breaking rules
 
-## 0. 选型与通用规则
+## 0. Choosing a format and general rules
 
-| 格式 | 用途 | 样式能力 | 备注 |
+| Format | Use case | Styling capability | Notes |
 |---|---|---|---|
-| SRT | 平台上传、字幕轨软挂 | 无 | 兼容性最好，先做这个 |
-| ASS | 硬烧录、特效字幕 | 强（字体/颜色/位置/动画） | 平台上传通常不支持，只用于烧进画面 |
-| VTT | 网页播放器、Web 端 | 弱（有限 cue 设置） | 头部必须有 `WEBVTT` |
-| JSON 逐字 | "卡拉 OK 式"逐字高亮 | 由渲染端决定 | 无统一标准，schema 以你的工具为准 |
+| SRT | Platform upload, soft-muxed subtitle tracks | None | Best compatibility; do this first |
+| ASS | Hard burn, effects captions | Strong (font/color/position/animation) | Usually unsupported on platform upload; only for burning into the picture |
+| VTT | Web players, web side | Weak (limited cue settings) | The header must be `WEBVTT` |
+| JSON word-level | "Karaoke-style" word-by-word highlight | Up to the renderer | No universal standard; the schema is whatever your tool uses |
 
-通用规则：时间轴**单调递增**、相邻 cue 不重叠（重叠时部分播放器只显示后一条）；
-精度到毫秒且起 < 止；文件统一 UTF-8（BOM 取舍见第 5 节）；中文一条 cue ≤15 字、
-最多两行，英文一行 ≤42 字符（经验值，非硬标准）。
+General rules: the timeline must be **monotonically increasing**, adjacent cues must not overlap (when
+overlapping, some players show only the later one); precision to the millisecond with start < end;
+files are UTF-8 throughout (BOM tradeoff in Section 5); one Chinese cue ≤15 characters, at most two
+lines; English one line ≤42 characters (guideline values, not hard standards).
 
 ## 1. SRT
 
 ```
 1
 00:00:00,000 --> 00:00:03,000
-你们猜我花了多少钱？
+Guess how much I spent?
 
 2
 00:00:03,000 --> 00:00:08,000
-八千九！就这个？
+8900! For this?
 ```
 
-| 元素 | 写法 | 说明 |
+| Element | Syntax | Notes |
 |---|---|---|
-| 序号 | `1`、`2`… | 从 1 递增；部分解析器忽略，但不要省 |
-| 时间行 | `HH:MM:SS,mmm --> HH:MM:SS,mmm` | **毫秒分隔符是英文逗号**，不是点号 |
-| 文本 | 1–2 行 | 第三行起多数播放器不认 |
-| 分隔 | 空行 | 每条 cue 之间必须有且仅有一个空行，文件末尾也要换行 |
+| Sequence number | `1`, `2`… | Increment from 1; some parsers ignore it, but don't omit it |
+| Time line | `HH:MM:SS,mmm --> HH:MM:SS,mmm` | **The millisecond separator is a comma**, not a dot |
+| Text | 1–2 lines | Most players ignore a third line |
+| Separator | Blank line | There must be exactly one blank line between cues, and a trailing newline at file end |
 
-常见坑：写成 `00:00:00.000`（点号）→ 被当成 VTT 解析或直接报错；
-最后一条 cue 后没空行 → 部分解析器丢最后一条；写 `\n` 字面量不会换行，必须真换行。
+Common pitfalls: writing `00:00:00.000` (a dot) → it's parsed as VTT or errors outright; no blank
+line after the last cue → some parsers drop the last cue; writing a literal `\n` doesn't wrap—you must
+use a real newline.
 
 ## 2. ASS
 
@@ -59,23 +61,24 @@ Style: Default,Noto Sans CJK SC,64,&H00FFFFFF,&H00000000,&H80000000,0,0,0,0,100,
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
-Dialogue: 0,0:00:00.00,0:00:03.00,Default,,0,0,0,,你们猜我花了多少钱？
-Dialogue: 0,0:00:03.00,0:00:08.00,Default,,0,0,0,,八千九！就这个？
+Dialogue: 0,0:00:00.00,0:00:03.00,Default,,0,0,0,,Guess how much I spent?
+Dialogue: 0,0:00:03.00,0:00:08.00,Default,,0,0,0,,8900! For this?
 ```
 
-| 字段 | 含义 |
+| Field | Meaning |
 |---|---|
-| `PlayResX/Y` | 逻辑分辨率，坐标与字号基于它；竖屏设 `1080` / `1920` |
-| `Fontsize` | 基于 PlayRes 的字号；1080 宽竖屏 56–72 较常见（经验值） |
-| `PrimaryColour` | 主体色，格式 `&HAABBGGRR`（**与 `#RRGGBB` 通道相反**） |
-| `Outline` / `Shadow` | 描边/阴影宽度（像素）；黑底白字 `3` / `1` 起步 |
-| `Alignment` | 小键盘方位：1=左下 2=下中 3=右下 5=正中；竖屏常用 `2` |
-| `MarginV` | 垂直边距；竖屏底部要给平台 UI 留 200+ 像素 |
-| `Start` / `End` | `H:MM:SS.cc`，**百分秒两位**，不是毫秒 |
+| `PlayResX/Y` | Logical resolution; coordinates and font size are based on it; set to `1080` / `1920` for vertical |
+| `Fontsize` | Size based on PlayRes; 56–72 is common for a 1080-wide vertical (guideline) |
+| `PrimaryColour` | Main color, format `&HAABBGGRR` (**channels reversed vs. `#RRGGBB`**) |
+| `Outline` / `Shadow` | Outline/shadow width in pixels; for white-on-black start at `3` / `1` |
+| `Alignment` | Numpad position: 1=bottom-left 2=bottom-center 3=bottom-right 5=center; vertical usually uses `2` |
+| `MarginV` | Vertical margin; leave 200+ pixels at the bottom for platform UI on vertical |
+| `Start` / `End` | `H:MM:SS.cc`, **centiseconds (two digits)**, not milliseconds |
 
-常见坑：时间写三位毫秒（`0:00:03.000`）→ ASS 只认两位百分秒，会解析错；
-缺 `[V4+ Styles]` 或 `Format:` 行 → 解析直接失败；字体名系统里不存在 → 中文变方块，
-用 `fc-list :lang=zh` 取真实名字。
+Common pitfalls: writing milliseconds with three digits (`0:00:03.000`) → ASS only reads two
+centiseconds, so it parses wrong; missing `[V4+ Styles]` or `Format:` line → parsing fails outright;
+a font name that doesn't exist on the system → Chinese turns to boxes; use `fc-list :lang=zh` to get
+the real name.
 
 ## 3. WebVTT
 
@@ -84,26 +87,28 @@ WEBVTT
 
 1
 00:00:00.000 --> 00:00:03.000 line:85% align:center
-你们猜我花了多少钱？
+Guess how much I spent?
 
 2
 00:00:03.000 --> 00:00:08.000 line:85% align:center
-八千九！就这个？
+8900! For this?
 ```
 
-| 元素 | 写法 | 说明 |
+| Element | Syntax | Notes |
 |---|---|---|
-| 文件头 | `WEBVTT`（首行） | **必须有**，缺了整个文件不生效 |
-| 时间 | `HH:MM:SS.mmm` 或 `MM:SS.mmm` | **毫秒分隔符是点号**（与 SRT 相反） |
-| Cue 设置 | 追加在时间行末尾 | 常用 `line:85%`、`position:50%`、`align:center` |
-| 序号 | 可选 | 写了无害 |
+| File header | `WEBVTT` (first line) | **Required**; without it the whole file is inert |
+| Time | `HH:MM:SS.mmm` or `MM:SS.mmm` | **The millisecond separator is a dot** (opposite of SRT) |
+| Cue settings | Appended to the end of the time line | Common: `line:85%`, `position:50%`, `align:center` |
+| Sequence number | Optional | Harmless if present |
 
-常见坑：把 SRT 改扩展名当 VTT 用 → 逗号毫秒 + 缺 `WEBVTT` 头，播放器静默不显示。
+Common pitfall: renaming an SRT to `.vtt` and using it → comma milliseconds + missing `WEBVTT` header;
+the player silently shows nothing.
 
-## 4. JSON 逐字时间戳
+## 4. JSON word-level timestamps
 
-**没有统一标准**。下面是一种常见形态，字段名必须与你的 ASR / 渲染工具一致
-（**VERIFY BEFORE USE**：先跑一次你的工具看它实际输出什么，再照抄它的 schema）。
+**There is no universal standard.** Below is one common form; field names must match your ASR /
+rendering tool (**VERIFY BEFORE USE**: first run your tool once to see what it actually outputs, then
+copy its schema).
 
 ```json
 {
@@ -113,100 +118,104 @@ WEBVTT
       "index": 1,
       "start": 0.0,
       "end": 3.0,
-      "text": "你们猜我花了多少钱？",
+      "text": "Guess how much I spent?",
       "words": [
-        {"word": "你们", "start": 0.10, "end": 0.42},
-        {"word": "猜",   "start": 0.42, "end": 0.58},
-        {"word": "我",   "start": 0.58, "end": 0.70}
+        {"word": "Guess", "start": 0.10, "end": 0.42},
+        {"word": "how",   "start": 0.42, "end": 0.58},
+        {"word": "much",  "start": 0.58, "end": 0.70}
       ]
     }
   ]
 }
 ```
 
-`start`/`end` 用浮点秒（不要写 `HH:MM:SS` 字符串，浮点更好算）；`words[].start/end`
-是单字或词的时间，用于逐字高亮，中文按**词**切比按字更自然。
+`start`/`end` use floating-point seconds (don't write `HH:MM:SS` strings; floats are easier to
+compute); `words[].start/end` are per-word timings for word-by-word highlighting; for Chinese,
+segmenting by **word** feels more natural than by single character.
 
-生成后自检（防止时间轴错乱，失败就不要继续下游）：
+Post-generation self-check (to prevent a broken timeline; if it fails, don't continue downstream):
 
 ```bash
 python3 - <<'PY'
 import json
 d, prev = json.load(open("subs.json")), -1.0
 for c in d["cues"]:
-    assert prev <= c["start"] < c["end"], f"时间轴异常: {c}"
+    assert prev <= c["start"] < c["end"], f"timeline anomaly: {c}"
     prev = c["end"]
 print("OK cues =", len(d["cues"]))
 PY
 ```
 
-预期输出 `OK cues = N`。
+Expected output: `OK cues = N`.
 
-## 5. 编码与 BOM
+## 5. Encoding and BOM
 
-**首选 UTF-8 无 BOM**。BOM 是兼容性问题的主要来源：部分解析器把 BOM 当成第一条
-cue 的一部分，表现为"第一条字幕不显示"或"首行乱码"。
+**Prefer UTF-8 without BOM.** The BOM is the main source of compatibility issues: some parsers treat
+the BOM as part of the first cue, which shows up as "the first subtitle doesn't display" or "garbled
+first line."
 
 ```bash
-# 检测：前 3 字节 EF BB BF 即带 BOM
+# Detect: the first 3 bytes EF BB BF mean BOM present
 head -c 3 subs.srt | xxd
-file subs.srt            # 含 "with BOM" 即带 BOM
+file subs.srt            # contains "with BOM" means BOM present
 
-# 去 BOM（先备份，原地改写）
+# Strip the BOM (back up first, rewrite in place)
 cp subs.srt subs.srt.bak
 python3 -c "
 import pathlib
 p = pathlib.Path('subs.srt')
-p.write_bytes(p.read_bytes().lstrip(b'\xef\xbb\xbf'))"
+write_bytes(p.read_bytes().lstrip(b'\xef\xbb\xbf'))"
 
-# 源为 GBK 时转码：iconv -f GBK -t UTF-8 subs_gbk.srt > subs.srt
+# If the source is GBK, transcode: iconv -f GBK -t UTF-8 subs_gbk.srt > subs.srt
 ```
 
-例外：个别 Windows 端旧工具反而要 BOM 才认中文——先试无 BOM，
-第一条不显示或首行乱码时再补 BOM。
+Exception: a few old Windows-side tools actually require a BOM to recognize Chinese—try without BOM
+first, and add a BOM only if the first cue doesn't display or the first line is garbled.
 
-## 6. ffmpeg 烧录与软挂
+## 6. ffmpeg burning and soft-muxing
 
 ```bash
-# 硬烧录（任何平台都能看到）
+# Hard burn (visible on any platform)
 ffmpeg -y -i in.mp4 -vf "subtitles=subs.srt" -c:v libx264 -crf 20 -c:a copy burned.mp4
 
-# 硬烧录并覆盖样式（SRT 也能用，force_style 走 ASS 字段）
+# Hard burn and override style (works on SRT too; force_style uses ASS fields)
 ffmpeg -y -i in.mp4 -vf \
   "subtitles=subs.srt:force_style='FontName=Noto Sans CJK SC,FontSize=64,PrimaryColour=&H00FFFFFF,Outline=3,MarginV=200'" \
   -c:v libx264 -crf 20 -c:a copy burned_zh.mp4
 
-# 软挂到 MP4（可开关；mov_text 不支持 ASS 样式）
+# Soft-mux into MP4 (toggleable; mov_text does not support ASS styling)
 ffmpeg -y -i in.mp4 -i subs.srt -c:v copy -c:a copy -c:s mov_text \
   -metadata:s:s:0 language=chi soft.mp4
 
-# 软挂到 MKV（保留 ASS 样式用 -c:s ass，纯文本用 -c:s srt；WebVTT 进 WebM 用 -c:s webvtt）
+# Soft-mux into MKV (use -c:s ass to keep ASS styling, -c:s srt for plain text; for WebM use -c:s webvtt)
 ffmpeg -y -i in.mp4 -i subs.ass -c:v copy -c:a copy -c:s ass soft.mkv
 ```
 
-前置检查（缺任一项则烧录失败或出方块字）：
+Pre-check (missing either means burning fails or produces boxed glyphs):
 
 ```bash
-ffmpeg -filters 2>/dev/null | grep " subtitles "   # 有输出 = 编译了 libass
-fc-list :lang=zh | head -5                          # 有输出 = 有中文字体
+ffmpeg -filters 2>/dev/null | grep " subtitles "   # output present = compiled with libass
+fc-list :lang=zh | head -5                          # output present = Chinese fonts available
 ```
 
-失败分支：`No such filter: 'subtitles'` → 缺 libass，改走软挂或换构建；
-`Unable to open subs.srt` → 路径错（相对路径相对**当前目录**）；
-容器不支持该字幕编码 → MP4 用 `mov_text`，MKV 用 `srt`/`ass`。
+Failure branches: `No such filter: 'subtitles'` → missing libass; switch to soft-muxing or a different
+build; `Unable to open subs.srt` → wrong path (relative paths are relative to the **current
+directory**); the container doesn't support that subtitle codec → MP4 uses `mov_text`, MKV uses
+`srt`/`ass`.
 
-格式互转（转换后必查头部与实际播放效果，工具不保证时间轴零误差）：
-`ffmpeg -y -i subs.srt subs.vtt` / `ffmpeg -y -i subs.srt subs.ass`。
+Format conversion (always check the header and actual playback after converting; tools don't guarantee
+zero timeline drift): `ffmpeg -y -i subs.srt subs.vtt` / `ffmpeg -y -i subs.srt subs.ass`.
 
-## 7. 中文断句规则
+## 7. Chinese line-breaking rules
 
-| 规则 | 取值（经验值） | 理由 |
+| Rule | Value (guideline) | Reason |
 |---|---|---|
-| 单条 cue 字数 | ≤15 字 | 竖屏一行放不下更多，超过就断成两条 |
-| 单行行数 | ≤2 行 | 三行会盖住画面主体 |
-| 最短显示时长 | ≥0.8s | 短于 0.8s 来不及读，等于没加 |
-| 最长显示时长 | ≤6s | 超过说明该断句了 |
-| 相邻 cue 间隔 | 0.1–0.3s | 留间隙避免"连闪"，但不影响阅读 |
+| Characters per cue | ≤15 chars | A vertical line can't fit more; split into two cues if longer |
+| Lines per cue | ≤2 lines | Three lines cover the subject |
+| Minimum display time | ≥0.8s | Shorter than 0.8s isn't readable, equivalent to no caption |
+| Maximum display time | ≤6s | Longer means it should have been split |
+| Gap between adjacent cues | 0.1–0.3s | Leave a gap to avoid "flickering together" without hurting readability |
 
-断句位置：优先在标点（，。！？）处断，其次在主谓/动宾之间断；
-**不要**把词从中间劈开（"我花八千/九百"错，"我花了八千九/买了这个"对）。
+Where to break: prefer breaking at punctuation (commas/periods/exclamation/question marks), then
+between subject-predicate or verb-object; **don't** split a word in the middle (e.g. splitting the
+number phrase "eight-thousand-nine" across a break is wrong; breaking after a complete clause is right).

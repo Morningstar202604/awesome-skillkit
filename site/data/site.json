@@ -5,8 +5,8 @@
   "updated": "2026-09-24",
   "desc": "Curated scene packs for AI tools: each pack = one real-world scenario, containing multiple skills. Download zip -> unzip -> drag the skill folders into your AI tool's skills directory.",
   "desc_zh": "精选场景包合集：每个场景包 = 一个真实场景，内含多个 skill。下载 zip -> 解压 -> 把 skill 文件夹拖进 AI 工具的 skills 目录即可使用。",
-  "n_skills": 154,
-  "n_skills_on_disk": 156,
+  "n_skills": 153,
+  "n_skills_on_disk": 155,
   "n_packs": 36,
   "n_domains": 18,
   "n_chains": 62,
@@ -388,7 +388,7 @@
    "id": "paper",
    "label": "paper",
    "entry": "",
-   "n_skills": 13,
+   "n_skills": 12,
    "n_chains": 4,
    "chains": [
     {
@@ -397,7 +397,6 @@
       "paper-topic-selector",
       "lit-review",
       "experiment-runner?",
-      "figure-maker",
       "arch-diagram?",
       "neural-net-draw?",
       "latex-formatter",
@@ -866,7 +865,7 @@
    "domain": "paper",
    "path": "skills/paper/arch-diagram",
    "file": "skills/paper/arch-diagram/SKILL.md",
-   "desc": "Generate paper-style architecture/framework diagrams as compile-ready TikZ (LaTeX) plus well-formed editable SVG: pipelines with row/wrap/stack layouts, per-block colourblind-safe colours, automatic LaTeX/XML escaping. Use when the user asks to draw an architecture diagram / method overview figure / framework diagram / draw a flowchart / pipeline diagram / generate a methods-section figure / block diagram. Do NOT use for data charts (use pub-plotter / figure-maker) or neuron-level networks (use neural-net-draw).",
+   "desc": "Generate paper-style architecture/framework diagrams as compile-ready TikZ (LaTeX) plus well-formed editable SVG: pipelines with row/wrap/stack layouts, per-block colourblind-safe colours, automatic LaTeX/XML escaping. Use when the user asks to draw an architecture diagram / method overview figure / framework diagram / draw a flowchart / pipeline diagram / generate a methods-section figure / block diagram. Do NOT use for data charts (use pub-plotter) or neuron-level networks (use neural-net-draw).",
    "license": "Apache-2.0",
    "compatibility": "Stdlib only; requires python3; outputs TikZ source and SVG, no LaTeX compile required.",
    "version": "2.0",
@@ -1627,7 +1626,7 @@
    "domain": "paper",
    "path": "skills/paper/experiment-runner",
    "file": "skills/paper/experiment-runner/SKILL.md",
-   "desc": "Run reproducible experiments with fixed seeds, aggregate metrics across N runs, and apply REAL statistical tests (Welch t-test / p-value / Cohen's d / 95% CI) via scipy. Supports simulated (honest demo) and real (--metric module:func) modes; optional mlflow tracking. Use when the user asks to run experiments / run N times and average / statistical significance testing / repeat experiments / run N times with a fixed seed / reproduce an experiment / compute mean std / significance test / p-value. Do NOT use for drawing charts (hand results to figure-maker / pub-plotter).",
+   "desc": "Run reproducible experiments with fixed seeds, aggregate metrics across N runs, and apply REAL statistical tests (Welch t-test / p-value / Cohen's d / 95% CI) via scipy. Supports simulated (honest demo) and real (--metric module:func) modes; optional mlflow tracking. Use when the user asks to run experiments / run N times and average / statistical significance testing / repeat experiments / run N times with a fixed seed / reproduce an experiment / compute mean std / significance test / p-value. Do NOT use for drawing charts (hand results to pub-plotter).",
    "license": "Apache-2.0",
    "compatibility": "Stdlib + scipy (falls back to pure-stdlib Welch t when scipy absent). numpy/torch seeded when installed. real mode imports user metrics via importlib. mlflow optional.",
    "version": "2.0",
@@ -1716,25 +1715,6 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/education/feynman-explainer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/education/feynman-explainer/SKILL.md"
-  },
-  {
-   "name": "figure-maker",
-   "domain": "paper",
-   "path": "skills/paper/figure-maker",
-   "file": "skills/paper/figure-maker/SKILL.md",
-   "desc": "DEPRECATED — use `pub-plotter` instead. This skill is kept only as a compatibility shim: it preserves the original CLI (--data / --type bar|line|boxplot|heatmap / --output) and delegates to pub-plotter, adding `deprecated: true` / `superseded_by: \\\"pub-plotter\\\"` to its output. Kept for repo indexes (manifest/packs/skill_chains) and external callers that pinned the old CLI; the in-repo consumer (`paper_pipeline.py`) has already migrated to pub-plotter. Use when the user asks to plot experiment results / make a paper chart / results plot / turn experimental data into a figure / draw a bar chart — but prefer pub-plotter for anything new (it adds real journal widths, font embedding, and full heatmap support). Do NOT use for neural-network structure diagrams (use neural-net-draw) or architecture diagrams (use arch-diagram).",
-   "license": "Apache-2.0",
-   "compatibility": "DEPRECATED. Requires matplotlib (only indirectly, via pub-plotter). Delegates to `../pub-plotter/scripts/pub_plotter.py`.",
-   "version": "3.0",
-   "tier": "deprecated",
-   "pattern": "single-task",
-   "verified": "2026-09-21",
-   "repo_file": "skills/paper/figure-maker/SKILL.md",
-   "packs": [
-    "ai-research-writing"
-   ],
-   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/paper/figure-maker/SKILL.md",
-   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/paper/figure-maker/SKILL.md"
   },
   {
    "name": "file-organizer",
@@ -2087,7 +2067,7 @@
    "domain": "paper",
    "path": "skills/paper/latex-formatter",
    "file": "skills/paper/latex-formatter/SKILL.md",
-   "desc": "Check and normalize paper LaTeX: document class/template sniffing (IEEE etc), balanced environments, unescaped special chars, bibliography presence, and cross-file undefined \\\\cite/\\\\ref. Use when the user asks to check LaTeX / paper format check / pre-compile check / typeset a paper / fix LaTeX errors / normalize tex per template / check for unclosed environments / check paper formatting / normalize LaTeX / fix LaTeX errors. Fails with rc=1 when the input file does not exist. Do NOT use for writing paper content or generating figures (use figure-maker / article-drafter).",
+   "desc": "Check and normalize paper LaTeX: document class/template sniffing (IEEE etc), balanced environments, unescaped special chars, bibliography presence, and cross-file undefined \\\\cite/\\\\ref. Use when the user asks to check LaTeX / paper format check / pre-compile check / typeset a paper / fix LaTeX errors / normalize tex per template / check for unclosed environments / check paper formatting / normalize LaTeX / fix LaTeX errors. Fails with rc=1 when the input file does not exist. Do NOT use for writing paper content or generating figures (use pub-plotter / article-drafter).",
    "license": "Apache-2.0",
    "compatibility": "Stdlib-only static checks; optional chktex/latexindent/tex-fmt when installed (honest fallback to stdlib otherwise).",
    "version": "2.0",
@@ -2696,7 +2676,7 @@
    "domain": "paper",
    "path": "skills/paper/pub-plotter",
    "file": "skills/paper/pub-plotter/SKILL.md",
-   "desc": "Publication-grade plots with REAL journal physical widths (Nature/Science/IEEE/ACM/NeurIPS), Type-42 font embedding (pdf.fonttype=42, arXiv/LaTeX-safe), colorblind-safe palettes by default, and optional real `scienceplots` integration. Covers line / bar / boxplot / heatmap. This is the CANONICAL paper plotting skill — it supersedes `figure-maker`, which is kept only as a compatibility shim. Outputs PDF/PNG. Use when the user asks for journal-style figures / IEEE-style line plots / paper figures / publication-grade charts / camera-ready figures / figures sized to Nature/Science layout / heatmaps / publication plot. Do NOT use for architecture diagrams (use arch-diagram) or neuron-level networks (use neural-net-draw).",
+   "desc": "Publication-grade plots with REAL journal physical widths (Nature/Science/IEEE/ACM/NeurIPS), Type-42 font embedding (pdf.fonttype=42, arXiv/LaTeX-safe), colorblind-safe palettes by default, and optional real `scienceplots` integration. Covers line / bar / boxplot / heatmap. This is the canonical paper plotting skill. Outputs PDF/PNG. Use when the user asks for journal-style figures / IEEE-style line plots / paper figures / publication-grade charts / camera-ready figures / figures sized to Nature/Science layout / heatmaps / publication plot. Do NOT use for architecture diagrams (use arch-diagram) or neuron-level networks (use neural-net-draw).",
    "license": "Apache-2.0",
    "compatibility": "Requires matplotlib (Agg backend). Uses real `scienceplots` if installed, else built-in equivalent rcParams (offline). When matplotlib absent -> status \"mock\" (no image, MUST tell user).",
    "version": "2.0",
@@ -3673,7 +3653,7 @@
    "name_zh": "AI 媒体生成工具箱",
    "desc": "Generate videos, images, covers, and music from prompts through a local generation gateway.",
    "desc_zh": "通过本地生成网关用提示词生成视频、图片、封面与配乐：文生/图生全流程（提交、轮询、下载交付）。",
-   "size_kb": 23,
+   "size_kb": 22,
    "n_skills": 3,
    "skills": [
     "video-generation",
@@ -3692,8 +3672,8 @@
    "name_zh": "AI 研究与写作",
    "desc": "Research a topic and turn it into a structured article: multi-round search, outline, draft, edit, SEO.",
    "desc_zh": "从选题调研到成稿发布的长文生产链路：多轮检索与报告综合、大纲搭建、初稿撰写、风格润色、关键词与平台规则优化，以及学术选题的研究空白识别与投稿匹配。",
-   "size_kb": 199,
-   "n_skills": 19,
+   "size_kb": 194,
+   "n_skills": 18,
    "skills": [
     "deep-research",
     "web-search",
@@ -3704,7 +3684,6 @@
     "seo-optimizer",
     "lit-review",
     "experiment-runner",
-    "figure-maker",
     "arch-diagram",
     "neural-net-draw",
     "latex-formatter",
@@ -3727,7 +3706,7 @@
    "name_zh": "AI 短视频生产流水线",
    "desc": "End-to-end short-video production: script, voice, lip-sync, assembly, subtitles, thumbnail.",
    "desc_zh": "从脚本到成片的一条龙短视频生产线：脚本撰写、配音合成、口型对齐、剪辑合成、字幕、封面图。六个技能按序衔接，输出可直接发布的竖屏视频。",
-   "size_kb": 111,
+   "size_kb": 110,
    "n_skills": 9,
    "skills": [
     "video-script-writer",
@@ -3845,7 +3824,7 @@
    "name_zh": "代码规划与生成",
    "desc": "Turn vague requests into structured plans, then into working code; diagnose and fix failures.",
    "desc_zh": "把模糊需求变成可执行代码：三层瀑布式意图识别、结构化实施计划、两档代码生成（模板引擎 + LLM）、运行时故障诊断与调试清单。",
-   "size_kb": 66,
+   "size_kb": 65,
    "n_skills": 3,
    "skills": [
     "code-intent-planner",
@@ -3937,7 +3916,7 @@
    "name_zh": "数据科学与科学计算",
    "desc": "Data pipelines, feature engineering, mathematical modeling, simulation, and ML training workflows.",
    "desc_zh": "数据与建模的完整工具箱：ETL 清洗变换、特征工程、数学建模与求解器选型、蒙特卡洛仿真、结果可视化、ML 训练流水线与超参调优、指标体系解读。",
-   "size_kb": 76,
+   "size_kb": 75,
    "n_skills": 7,
    "skills": [
     "etl-builder",
@@ -3960,7 +3939,7 @@
    "name_zh": "数据库设计与管理",
    "desc": "Design schemas, ERD diagrams, migrations, and optimize SQL queries.",
    "desc_zh": "设计表结构、ERD 图、迁移方案，并优化 SQL 查询。",
-   "size_kb": 109,
+   "size_kb": 108,
    "n_skills": 2,
    "skills": [
     "database-designer",
@@ -3996,7 +3975,7 @@
    "name_zh": "去 AI 味写作",
    "desc": "Rewrite AI-generated text into natural human writing: trace auditing, humanized rewriting, personal voice profiling.",
    "desc_zh": "把 AI 生成文本改写成自然的人味文字：AI 痕迹审计、人性化重写、个人风格画像对齐。让 AI 代笔的内容读起来像你自己写的。",
-   "size_kb": 29,
+   "size_kb": 28,
    "n_skills": 3,
    "skills": [
     "ai-trace-auditor",
@@ -4091,7 +4070,7 @@
    "name_zh": "画图工作台",
    "desc": "End-to-end image creation workspace: prompt engineering, style anchoring, generation via gateway, cover art.",
    "desc_zh": "端到端画图工作台：生图提示词工程、风格锚定、网关生图执行、封面图生成。把散落的生图技能组装成一条龙。",
-   "size_kb": 38,
+   "size_kb": 37,
    "n_skills": 3,
    "skills": [
     "image-prompt-engineer",
@@ -4249,7 +4228,7 @@
    "name_zh": "技能锻造厂",
    "desc": "Meta skills about skills themselves: author a new SKILL.md from a one-batch clarification, lint an existing one against the repo spec with an exit code CI can gate on, and search/pack/stats this repo from real data. Idea in, compliant shipped skill out.",
    "desc_zh": "关于技能本身的元技能三件套：一次性问齐需求后生成合规 SKILL.md（skill-author）、八项静态检查并返回可做 CI 门禁的退出码（skill-linter）、基于真实数据检索技能与装配组合（skill-finder）。想法进、可提交的技能出。",
-   "size_kb": 49,
+   "size_kb": 48,
    "n_skills": 5,
    "skills": [
     "skill-author",
@@ -4312,7 +4291,7 @@
    "name_zh": "视频设计工作室",
    "desc": "Pre-production design layer for AI video: storyboards with continuity contracts, cinematic shot lists from recipe cards, cross-model text-to-video prompt engineering with structural audit, and reusable visual style anchors with character consistency cards.",
    "desc_zh": "AI 视频的前期设计层：分镜设计（节拍表 + 逐场景 prompt 对 + 连续性约束表，附机器校验）、12 卡镜头清单设计、跨模型文生视频提示词工程（六槽位结构 + 机器审计）、视觉风格锚与角色一致性卡。方法论借鉴 video-storyboard / video-shotcraft / visual-skills 等开源项目并已署名。",
-   "size_kb": 50,
+   "size_kb": 49,
    "n_skills": 5,
    "skills": [
     "storyboard-designer",
@@ -4351,7 +4330,7 @@
    "name_zh": "视觉设计工作室",
    "desc": "AI visual design chain: interpret a vague brief into a design spec (purpose, platform size, style anchor), engineer text-to-image prompts with model dialects and text-rendering rules, and audit output against platform layout specs (safe areas, ratios, text budgets). One brief flows through spec -> prompt -> audit without leaving the chain.",
    "desc_zh": "AI 视觉设计链条：把模糊需求翻译成设计规格单（用途/平台尺寸/风格锚），按模型方言与文字渲染规则写文生图 prompt，并按平台版面规格（比例/安全区/文字预算）审计产出。一条需求从规格到 prompt 到审计全程不出链。方法论借鉴 Anthropic canvas-design / designskills / Replicate prompting 指南并已署名。",
-   "size_kb": 47,
+   "size_kb": 46,
    "n_skills": 5,
    "skills": [
     "design-brief-interpreter",
@@ -4372,7 +4351,7 @@
    "name_zh": "外部集成工具箱",
    "desc": "Connect an AI session to the tools a team already lives in: Notion pages and databases, Feishu / DingTalk / WeCom group robots, Jira / Linear / GitHub Issues, and Baidu / Aliyun / OneDrive cloud drives. Every write path is dry-run by default, credentials live only in environment variables, and the bundled scripts build and parse payloads offline so they can be tested without a network.",
    "desc_zh": "把 AI 会话接到团队真正在用的工具上：Notion 页面与数据库、飞书/钉钉/企业微信群机器人、Jira/Linear/GitHub Issues 协同与周报、百度网盘/阿里云盘/OneDrive 归档校验。四条链路共享同一套操作契约——写操作默认 dry-run 先出负载、凭证只走环境变量、脚本离线构造与解析（不发网络请求），未接凭证即可完整演练。",
-   "size_kb": 59,
+   "size_kb": 58,
    "n_skills": 4,
    "skills": [
     "notion-workspace",

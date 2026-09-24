@@ -1,18 +1,18 @@
 # Sources & Methodology — ai-trace-auditor
 
-本技能属于**方法论蒸馏（methodology distilled）**：检测原理与词表来自公开文献与社区归纳，评分权重为本技能作者的工程经验值，未复制任何项目的源代码或付费检测器输出。
+This skill is a **methodology distillation**: the detection principles and word list come from public literature and community induction; the scoring weights are the author's engineering rules of thumb. It does not copy any project's source code or any paid detector's output.
 
 ## Methodology sources
 
 | Source | License | What was distilled | Attribution |
 |---|---|---|---|
-| 语言模型公开文献中的困惑度（perplexity）与突发性（burstiness）概念 | 概念性引用（学界通行概念） | 检测原理：人写文本词汇更不可预测、句长方差更大；本技能以句长方差比 cv = std/mean（报警线 0.5）与词表命中率作为二者的廉价代理 | 在本文件与 SKILL.md 参数速查表中注明原理出处 |
-| 写作社区对 LLM 高频词的公开归纳（如 "delve / tapestry / crucial / moreover / it's important to note" 英文清单，以及"赋能 / 抓手 / 闭环 / 值得注意的是"中文清单） | 社区公开讨论，无单一版权主体 | AI_PATTERNS 词表：脚本内置 29 条中英正则，每条附修改建议；词表可按需增删 | 在本文件声明词表为社区归纳 + 作者补充 |
-| 新闻与写作教学中通行的结构套路清单（三点式罗列、总结句开场、公文式收尾） | 概念性引用 | 步骤 4 的语义层人工检查项与 findings 的 type 枚举设计 | 在本文件声明为写作教学通行经验 |
+| Perplexity and burstiness concepts in public LLM literature | Conceptual citation (mainstream academic concept) | Detection principle: human writing has less predictable vocabulary and larger sentence-length variance; this skill uses the sentence-length variance ratio cv = std/mean (alert line 0.5) and word-list hit rate as cheap proxies for the two | The principle source is noted in this file and in the SKILL.md parameter quick-reference |
+| Public community compilations of high-frequency LLM words (e.g. the English lists "delve / tapestry / crucial / moreover / it's important to note", and the Chinese list "empower / lever / closed loop / it's worth noting") | Public community discussion, no single copyright holder | The AI_PATTERNS word list: 29 built-in Chinese/English regexes, each with a revision suggestion; the list can be trimmed as needed | This file declares the list as community induction + author additions |
+| Common structural templates in journalism and writing teaching (three-point lists, summary-sentence openings, official-style closers) | Conceptual citation | The semantic-layer manual checks in step 4 and the findings' type enum design | This file declares them as common writing-teaching experience |
 
 ## Distillation boundary (honest disclaimer)
 
-- 本技能**不是** perplexity/burstiness 的完整实现：无语言模型打分，只用统计代理，因此对词表外的新型 AI 套话存在盲区——这一边界已写入 SKILL.md 红线 1。
-- 评分权重（每命中 -6 分、cv 报警线 0.5、列表密度报警线 0.4 等）全部为作者经验值，非源自任何文献，可按使用场景校准；与 scripts/trace_scanner.py 内的常量一一对应。
-- 与任何商业 AI 检测器（如 GPTZero、Originality 等）无隶属或数据关系，分数与其结论不可互换。
-- 本技能为方法论蒸馏产物，不代表上述社区或文献作者的官方观点。
+- This skill is **not** a complete perplexity/burstiness implementation: there's no language-model scoring, only statistical proxies, so it has blind spots to new AI clichés outside the word list — this boundary is written into SKILL.md red line 1.
+- The scoring weights (each hit −6 points, cv alert line 0.5, list-density alert line 0.4, etc.) are all the author's rules of thumb, not from any literature; they can be calibrated per use case, and correspond one-to-one to the constants in scripts/trace_scanner.py.
+- No affiliation or data relationship with any commercial AI detector (e.g. GPTZero, Originality, etc.); scores and their conclusions are not interchangeable.
+- This skill is a methodology-distillation product and does not represent the official views of the communities or literature cited above.

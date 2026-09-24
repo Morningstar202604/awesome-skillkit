@@ -1,18 +1,18 @@
 # Sources & Methodology — humanize-rewriter
 
-本技能属于**方法论蒸馏（methodology distilled）**：改写手法来自写作教学与语言统计的公开通行概念，禁改清单与复检门槛为本技能作者的工程约束，未复制任何项目的源代码。
+This skill is a **methodology distillation**: the rewriting techniques come from mainstream public concepts in writing teaching and language statistics; the do-not-change list and re-check threshold are the author's engineering constraints. It does not copy any project's source code.
 
 ## Methodology sources
 
 | Source | License | What was distilled | Attribution |
 |---|---|---|---|
-| 语言模型公开文献中的突发性（burstiness）与困惑度（perplexity）概念 | 概念性引用（学界通行概念） | burstiness 注入手法的量化目标：人写文本句长方差更大，故以"连续两个长句后接一个 ≤8 字短句"为可执行规则，以 cv ≥ 0.5 为复检阈值（与 ai-trace-auditor 的报警线对齐） | 在本文件与 SKILL.md 工作流中注明 |
-| 新闻与创意写作教学中通行的 "show, don't tell" 原则 | 概念性引用（写作教学通行原则） | 具体性升维手法：抽象概括 → 具体名词/数字/场景；情绪注入中的第一人称反应与吐槽 | 在本文件声明为写作教学通行经验 |
-| 网络写作与个人博客实践中的口语化习惯（插入语、破折号岔路、反问、有意的不完美） | 社区公开实践 | 不完美允许手法的具体清单与"一处就够，不堆砌"的克制原则 | 在本文件声明为社区实践归纳 |
+| Burstiness and perplexity concepts in public LLM literature | Conceptual citation (mainstream academic concept) | The quantitative target for burstiness injection: human writing has larger sentence-length variance, so the executable rule is "after two consecutive long sentences, follow with one short sentence of ≤8 characters", with cv ≥ 0.5 as the re-check threshold (aligned with ai-trace-auditor's alert line) | Noted in this file and in the SKILL.md workflow |
+| The "show, don't tell" principle common to journalism and creative-writing teaching | Conceptual citation (mainstream writing-teaching principle) | The concreteness upgrade technique: abstract generalization → concrete nouns/numbers/scenarios; first-person reactions and asides in emotional injection | This file declares it as common writing-teaching experience |
+| Colloquial habits in online writing and personal-blog practice (parentheticals, dash detours, rhetorical questions, deliberate imperfection) | Public community practice | The concrete list of "imperfection allowed" techniques and the restraint principle of "one instance is enough; don't pile them up" | This file declares it as community-practice induction |
 
 ## Distillation boundary (honest disclaimer)
 
-- 手法规则（≤8 字短句、cv ≥ 0.5、复检降幅 ≥20 分等数值）全部为作者经验值，可按文体校准；不是任何文献的实验结论。
-- "禁改清单"（数字、术语、结论、引用冻结）为本技能作者补充的安全约束，非源自上述来源——它是防止"人味"伤害信息完整性的工程护栏。
-- 本技能明确**不承诺**降低任何商业 AI 检测器的评分；检测原理层面的对应关系（句长方差、词汇可预测性）只是启发式 proxy，已写入红线 4。
-- 本技能为方法论蒸馏产物，与上述写作教学传统无隶属关系，不代表其原作者观点。
+- The technique rules (≤8-character short sentences, cv ≥ 0.5, re-check drop ≥20 points, etc.) are all the author's rules of thumb and can be calibrated by genre; they are not experimental conclusions from any literature.
+- The "do-not-change list" (numbers, terms, conclusions, citations frozen) is a safety constraint added by this skill's author, not from the sources above — it's an engineering guardrail against "human warmth" damaging information integrity.
+- This skill explicitly makes **no promise** to lower any commercial AI detector's score; the correspondence at the detection-principle level (sentence-length variance, lexical predictability) is only a heuristic proxy, written into red line 4.
+- This skill is a methodology-distillation product, has no affiliation with the writing-teaching traditions cited above, and does not represent their original authors' views.

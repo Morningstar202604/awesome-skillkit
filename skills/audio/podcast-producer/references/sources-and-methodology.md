@@ -4,16 +4,15 @@ This skill is self-authored; its methodology skeleton is distilled from the foll
 
 | Source | Type | What was borrowed | License/attribution |
 |------|------|----------|-----------|
-| [Podify 实战（sammii.dev）](https://sammii.dev/blog/podify-podcast-generator-003-per-episode) | 🟡 实战博客 | 「纯口播词」铁律（TTS 原样读出一切标记）；分段 JSON 结构（title/segments/showNotes）；分段合成 + ffmpeg concat 拼接；无 BGM fade 处理即干净成片 | 实践方法论引用并署名 |
-| [inference-sh/skills ai-podcast-creation](https://github.com/inference-sh/skills) | 开源技能 | 多声线对话拆分模式（host/guest 分开合成再 crossfade 合并）；文档转播客（NotebookLM 式）两步法：先提炼要点再展开对话 | MIT 生态，结构借鉴并署名 |
-| [开源播客流水线综述（ainomam.com）](https://www.ainomam.com/post/ai-podcast-generator-open-source-20260807) | 🟡 第三方 | 「解释型/新闻型好做、即兴插科打诨做不了」的边界判断；长内容分段更自然；AI 声音披露义务 | 经验引用并署名 |
-| Kokoro-82M / Qwen3-TTS / Whisper V3 Turbo / PODTILE 生态 | 🟢🟡 模型生态 | TTS 选型与能力边界（见 tts-voice-director 的 voice-catalog.md） | 模型能力事实，标注核实方法 |
+| [Podify in practice (sammii.dev)](https://sammii.dev/blog/podify-podcast-generator-003-per-episode) | 🟡 practical blog | The "pure voiceover script" iron rule (TTS reads every marker verbatim); segmented JSON structure (title/segments/showNotes); segmented synthesis + ffmpeg concat joining; no BGM fade needed for a clean finish | Practical methodology cited with attribution |
+| [inference-sh/skills ai-podcast-creation](https://github.com/inference-sh/skills) | open-source skill | Multi-voice dialogue split mode (host/guest synthesized separately then crossfaded together); document-to-podcast (NotebookLM-style) two-step: first extract key points then expand into dialogue | MIT ecosystem, structural borrowing with attribution |
+| [Open-source podcast pipeline overview (ainomam.com)](https://www.ainomam.com/post/ai-podcast-generator-open-source-20260807) | 🟡 third-party | The boundary judgment that "explanatory/news shows are easy, improvisational banter is not"; long content is more natural when segmented; AI voice disclosure obligation | Experience cited with attribution |
+| Kokoro-82M / Qwen3-TTS / Whisper V3 Turbo / PODTILE ecosystem | 🟢🟡 model ecosystem | TTS selection and capability boundaries (see tts-voice-director's voice-catalog.md) | Model capability facts, verification method noted |
 
 ## Design decisions
 
-1. **script_lint.py 独立成脚本**：Podify 的「纯口播词」教训值得机器守门——
-   人检查 5000 字脚本必漏，正则查标记零成本。
-2. **分段脚本而非整篇**：三条来源（Podify/inference.sh/综述）都指向同一条
-   实战经验——分段生成再拼接，自然度与可修复性双高。
-3. **时长按字数倒推**：中文口播 150-180 字/分钟是社区公认换算，写进规则
-   避免"5 分钟节目写 3000 字"的系统性超支。
+1. **script_lint.py as a standalone script**: Podify's "pure voiceover script" lesson is worth machine enforcement—
+   a human checking a 5000-word script will always miss something, while regex checking markers costs nothing.
+2. **Segmented script rather than whole-script**: three sources (Podify/inference.sh/overview) all point to the same
+   practical lesson—generate in segments then join; high naturalness and repairability.
+3. **Duration back-calculated from word count**: Chinese voiceover at 150-180 words/minute is the community-accepted conversion, written into the rules to avoid the systematic overrun of "a 5-minute show written as 3000 words."

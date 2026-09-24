@@ -1,72 +1,72 @@
-# 方案模板
+# Solution Templates
 
 ## implement.feature
-1. 确认需求：功能边界、用户故事、成功标准
-2. 设计数据模型：表结构/类型定义
-3. 实现核心逻辑：按模块拆分，逐一实现
-4. 编写测试：单元测试覆盖核心逻辑
-5. 集成验证：端到端测试确认功能完整
+1. Confirm the requirement: feature boundaries, user stories, success criteria
+2. Design the data model: table schema / type definitions
+3. Implement the core logic: split by module and implement one by one
+4. Write tests: unit tests covering the core logic
+5. Integration verification: end-to-end tests confirm the feature is complete
 
 ## implement.api
-1. 定义 API 契约：路由、请求/响应格式、错误码
-2. 实现数据访问层：DAO/Repository
-3. 实现业务逻辑层：Service
-4. 实现控制器层：HTTP handler
-5. 编写 API 测试：swagger/openapi 验证 + 单元测试
+1. Define the API contract: routes, request/response format, error codes
+2. Implement the data access layer: DAO/Repository
+3. Implement the business logic layer: Service
+4. Implement the controller layer: HTTP handler
+5. Write API tests: swagger/openapi validation + unit tests
 
 ## fix.runtime
-1. 复现：编写最小复现脚本
-2. 定位：分析堆栈、日志、相关代码
-3. 方案：制定修复方案，评估影响范围
-4. 修复：实现修复，遵循最小改动原则
-5. 验证：回归测试 + 相关模块冒烟测试
-6. 预防：添加回归测试用例
+1. Reproduce: write a minimal repro script
+2. Locate: analyze the stack trace, logs, and related code
+3. Plan: draft a fix, assess the impact scope
+4. Fix: implement the fix, following the minimal-change principle
+5. Verify: regression tests + smoke tests on related modules
+6. Prevent: add a regression test case
 
 ## fix.security
-1. 评估：确认漏洞类型和影响范围
-2. 修复：按 OWASP 建议修复
-3. 扫描：运行安全扫描验证修复
-4. 依赖：检查并升级受影响依赖
-5. 文档：记录漏洞和修复方案
+1. Assess: confirm the vulnerability type and impact scope
+2. Fix: fix per OWASP recommendations
+3. Scan: run a security scan to verify the fix
+4. Dependencies: check and upgrade affected dependencies
+5. Documentation: record the vulnerability and the fix
 
 ## refactor
-1. 分析：扫描依赖关系和影响范围
-2. 保护：编写当前行为的测试
-3. 计划：制定小步重构计划
-4. 执行：按计划逐步重构
-5. 验证：运行全部测试确认无回归
+1. Analyze: scan dependencies and impact scope
+2. Protect: write tests for the current behavior
+3. Plan: draft a small-step refactoring plan
+4. Execute: refactor step by step per the plan
+5. Verify: run the full test suite to confirm no regression
 
 ## test.coverage
-1. 分析：生成现有覆盖率报告
-2. 识别：找出未覆盖的代码路径
-3. 补充：优先补充核心逻辑测试
-4. 验证：运行测试确认覆盖率提升
-5. 固化：将覆盖率要求加入 CI
+1. Analyze: generate the current coverage report
+2. Identify: find uncovered code paths
+3. Supplement: prioritize tests for core logic
+4. Verify: run tests to confirm coverage improved
+5. Lock in: add the coverage requirement to CI
 
 ## optimize
-1. 基线：建立性能基线（响应时间/QPS/内存）
-2. Profiling：定位瓶颈（CPU/IO/内存）
-3. 方案：制定优化策略
-4. 实现：逐步优化，每步验证
-5. 回归：确认优化不引入新问题
+1. Baseline: establish a performance baseline (response time/QPS/memory)
+2. Profile: locate the bottleneck (CPU/IO/memory)
+3. Plan: draft an optimization strategy
+4. Implement: optimize step by step, verifying each step
+5. Regression: confirm the optimization introduces no new problems
 
 ## design
-1. 需求澄清：确认功能边界和约束
-2. 方案草稿：列出 2-3 个可行方案
-3. 选型论证：对比各方案优缺点
-4. 架构草图：绘制组件关系图
-5. 评审：与相关方确认方案
+1. Requirement clarification: confirm feature boundaries and constraints
+2. Draft options: list 2-3 viable approaches
+3. Selection rationale: compare the pros and cons of each
+4. Architecture sketch: draw the component relationship diagram
+5. Review: confirm the approach with stakeholders
 
 ## migrate
-1. 兼容性分析：识别 breaking changes
-2. 计划：制定迁移步骤和回滚方案
-3. 试点：在小范围验证
-4. 全量：按计划执行
-5. 验证：全面测试确认正常
+1. Compatibility analysis: identify breaking changes
+2. Plan: draft the migration steps and rollback plan
+3. Pilot: validate on a small scale
+4. Full rollout: execute per the plan
+5. Verify: full testing confirms normal operation
 
 ## destructive
-1. 风险评估：确认影响范围
-2. 备份：备份相关数据/配置
-3. 确认：向用户明确说明风险
-4. 执行：执行删除操作
-5. 验证：确认影响符合预期
+1. Risk assessment: confirm the impact scope
+2. Backup: back up relevant data/config
+3. Confirm: clearly explain the risk to the user
+4. Execute: perform the deletion
+5. Verify: confirm the impact matches expectations

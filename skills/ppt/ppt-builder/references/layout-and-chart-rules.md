@@ -1,78 +1,78 @@
-# 版式与图表规则：字号层级 · 信息密度 · 图表决策树（layout-and-chart-rules）
+# Layout and Chart Rules: Type Hierarchy · Information Density · Chart Decision Tree (layout-and-chart-rules)
 
-> "丑 PPT"的根源 90% 是版式细节，不是审美天赋。这张表把可量化的规则钉死：字号、每页信息量、什么数据配什么图。
-> 铁律：一页只讲一件事；观众 3 秒内抓到重点；投影厅最后一排能看清正文字号才算达标。
+> "Ugly slides" are 90% a matter of layout detail, not aesthetic talent. This table nails down the quantifiable rules: font sizes, information per slide, and which data suits which chart.
+> Iron rule: one idea per slide; the audience gets the point within 3 seconds; body text must be readable from the back row of the projection hall.
 
-## 一、字号层级表（16:9 全页投影基准）
+## 1. Type hierarchy table (16:9 full-screen projection baseline)
 
-| 元素 | 最小字号 | 推荐区间 | 说明 |
+| Element | Minimum size | Recommended range | Notes |
 |------|---------|---------|------|
-| 封面主标题 | 36pt | 40-60pt | 页面最大的字，只放标题 |
-| 章节页标题 | 32pt | 36-48pt | 翻页节奏点，字大内容少 |
-| 页标题 | 24pt | 24-32pt | 每页顶部，**用结论句式**（"营收增长 40%"而非"营收情况"） |
-| 正文/要点 | 18pt | 18-24pt | **低于 18pt 投影看不清** |
-| 图表轴标签/图例 | 14pt | 14-18pt | 跟随正文缩小但不小于 14 |
-| 脚注/来源/页码 | 10pt | 10-12pt | 观众不需要读清，知道有出处即可 |
+| Cover title | 36pt | 40-60pt | Largest text on the page; holds only the title |
+| Section-divider title | 32pt | 36-48pt | Pacing beats between chapters; large text, little content |
+| Slide title | 24pt | 24-32pt | Top of every slide; **use a conclusion sentence** ("Revenue up 40%", not "Revenue status") |
+| Body / bullets | 18pt | 18-24pt | **Below 18pt it's unreadable in projection** |
+| Chart axis labels / legend | 14pt | 14-18pt | Scale down with the body but no smaller than 14 |
+| Footnote / source / page number | 10pt | 10-12pt | The audience needn't read it; just know the source exists |
 
-**行数与字数**：每页正文 ≤6 行（bullet），每行 ≤15 个中文字（6×15 粗则）。超了→拆页或转讲稿备注。
+**Line and character count**: ≤6 lines of body per slide (bullets), ≤15 Chinese characters per line (the 6×15 rule). Over → split slides or move to speaker notes.
 
-## 二、信息密度三档（先定档再排版）
+## 2. Three information-density tiers (set the tier before laying out)
 
-| 档位 | 每页内容 | 适用 |
+| Tier | Content per slide | Fits |
 |------|---------|------|
-| 陈述页 | 1 个大数字/1 句结论 + 极少装饰 | 关键转折、融资路演 |
-| 标准页 | 标题 + 3-5 bullet 或 1 图表 | 大多数页面 |
-| 对照页 | 双栏对比表 / 前后对照 | 方案对比、竞品分析 |
+| Statement slide | 1 big number / 1 conclusion + minimal decoration | Key turning points, fundraising pitches |
+| Standard slide | Title + 3-5 bullets or 1 chart | Most slides |
+| Comparison slide | Two-column comparison table / before-after contrast | Option comparison, competitive analysis |
 
-- 每页**一个视觉焦点**：要么图表是主角，要么大字是主角，不要两个都在抢
-- 备注区放讲稿：页面上的字是给观众扫的，完整句子进 speaker notes
+- **One visual focus per slide**: either the chart is the hero or the big type is the hero; don't let both compete.
+- Put the script in the notes area: the words on the slide are for the audience to scan; full sentences go in speaker notes.
 
-## 三、图表选择决策树（什么数据配什么图）
+## 3. Chart-selection decision tree (which data suits which chart)
 
 ```
-数据要表达什么？
-├─ 比较 ▸ 少量类目 → 柱状图（横向条形图当类目名长）
-│        ▸ 含时间维度的比较 → 分组柱状图
-├─ 趋势 ▸ 折线图（≤5 条线；超了拆图或加交互高亮）
-├─ 占比 ▸ ≤5 份 → 环形图（饼图慎用：角度比较人眼不敏感）
-│        ▸ 多期占比变化 → 100% 堆叠柱状图（别用多个饼图）
-├─ 相关性 ▸ 散点图（气泡大小 = 第三维度）
-├─ 流程/转化 ▸ 漏斗图（转化率） / 流程图（步骤依赖）
-├─ 排名 ▸ 横向条形图降序排列（永远排序，乱序条形图是灾难）
-└─ 单一指标 ▸ 大数字 + 环形进度（别用图表凑）
+What does the data need to express?
+├─ Comparison ▸ few categories → bar chart (horizontal bars when category names are long)
+│        ▸ comparison with a time dimension → grouped bar chart
+├─ Trend ▸ line chart (≤5 lines; beyond that, split charts or add interactive highlighting)
+├─ Share ▸ ≤5 parts → donut chart (use pie sparingly: angle comparison is hard for the eye)
+│        ▸ multi-period share change → 100% stacked bar (don't use multiple pies)
+├─ Correlation ▸ scatter plot (bubble size = third dimension)
+├─ Funnel/conversion ▸ funnel chart (conversion rate) / flowchart (step dependencies)
+├─ Ranking ▸ horizontal bars in descending order (always sort; unsorted bars are a disaster)
+└─ Single metric ▸ big number + ring progress (don't pad with a chart)
 ```
 
-**图表纪律**：
-- 柱状图 y 轴**从 0 开始**——截断轴 = 视觉撒谎
-- 数据标签只在关键点标（最高/最低/最新），全标=没标
-- 一张图一个信息，图标题直接写结论（"Q3 华南区贡献 45% 增量"）
-- 双轴图慎用，观众读不懂哪条线归哪个轴
+**Chart discipline**:
+- The bar-chart y-axis **starts at 0** — a truncated axis is visual lying.
+- Data labels only on key points (highest/lowest/latest); labeling everything = labeling nothing.
+- One message per chart; write the conclusion directly as the chart title ("Q3 South China drove 45% of the growth")
+- Dual-axis charts are risky; the audience can't tell which line belongs to which axis.
 
-## 四、对齐与网格
+## 4. Alignment and grid
 
-- 全片统一页边距（建议上下 1.2cm、左右 1.5cm 一套值，所有页对齐）
-- 元素对齐只有三种合法状态：左对齐（默认）/ 居中（封面章节页）/ 表格数字右对齐
-- 同类元素间距一致：bullet 间距、图表与标题间距全片统一（差 2px 观众说不出但会觉得乱）
-- 相关内容靠近，无关内容拉开——间距本身就是分组信息（格式塔邻近原则）
+- Uniform margins across the whole deck (suggest 1.2cm top/bottom, 1.5cm left/right as one set, aligned on every slide).
+- Only three legal alignment states: left-aligned (default) / centered (cover and section dividers) / table numbers right-aligned.
+- Consistent spacing for like elements: bullet spacing, chart-to-title spacing, uniform across the deck (a 2px gap the audience can't name but feels as messy).
+- Put related content close, pull unrelated content apart — spacing itself is grouping information (Gestalt proximity principle).
 
-## 五、配色与对比度
+## 5. Color and contrast
 
-| 规则 | 基准 |
+| Rule | Baseline |
 |------|------|
-| 正文对比度 | WCAG AA：对比度 ≥4.5:1（深灰 #333 on 白 ✓；浅灰 #999 on 白 ✗） |
-| 全片主色 | 1 个主色 + 1 个强调色 + 灰阶，**最多再加 1 个语义红/绿**（涨跌/成败） |
-| 图表系列色 | 同一图表系列用同色系深浅；跨图相同类目用同色（Q1 蓝、Q2 就永远蓝） |
-| 深底白字 | 对比度同样 ≥4.5:1；投影仪偏暗，深底页面字号再加一档 |
+| Body contrast | WCAG AA: contrast ≥4.5:1 (dark gray #333 on white ✓; light gray #999 on white ✗) |
+| Deck's main color | 1 primary + 1 accent + grayscale, **plus at most 1 semantic red/green** (up/down, success/failure) |
+| Chart series colors | Same chart series uses a single-hue lightness ramp; same category across charts uses the same color (Q1 blue → Q2 forever blue) |
+| Dark background, white text | Contrast still ≥4.5:1; projectors are dim, so bump the font size one notch on dark-background slides |
 
-- 强调色只给最重要的东西：一页最多一处强调色文字
-- 别用饱和度打架的红蓝绿黄四件套——那是对低对比度的补丁，不是配色
+- Give the accent color only to the most important thing: at most one accent-colored text block per slide.
+- Don't use a clashing red/blue/green/yellow set — that's a patch for low contrast, not a color scheme.
 
-## 六、负面清单（见过最多的翻车）
+## 6. Negative list (the most common failures we've seen)
 
-- **段落直接上屏**：一段 200 字贴到页面 → 拆成 3-4 个 bullet，动词开头
-- **标题只写主题不写结论**："销售情况" → "华东区销售超目标 23%"
-- **字数超载**：每页 >40 个中文字 → 拆页或删
-- **彩虹图表**：一张图 7 种颜色 → 同色系深浅 + 高亮关键系列
-- **3D 图表/阴影/渐变**：透视会扭曲数值感知，全部禁用
-- **艺术字/花体字**：投影字形糊化，用系统黑体/思源黑体即可
-- **页码缺失**：评审场景"翻到第 12 页那种"没页码=灾难
+- **Whole paragraphs on screen**: a 200-character paragraph pasted onto a slide → split into 3-4 bullets, verb-led.
+- **Titles state the topic, not the conclusion**: "Sales status" → "East China sales exceeded target by 23%"
+- **Overloaded text**: >40 Chinese characters per slide → split or delete
+- **Rainbow charts**: 7 colors in one chart → single-hue ramp + highlight the key series
+- **3D charts / shadows / gradients**: perspective distorts numeric perception; all banned.
+- **Fancy fonts / script fonts**: projection blurs the glyph; use a system sans-serif / Source Han Sans.
+- **Missing page numbers**: in a review, "turn to page 12" with no page number = disaster.

@@ -6,9 +6,9 @@
 - Optional: counterparties equal after normalization (lowercase + strip whitespace/punctuation)
 
 ## Column-name auto-detection
-- Amount: `amount` / `金额` / `amt`
-- Date: `date` / `日期`
-- Party: `party` / `对方` / `merchant` (must be passed explicitly via `--party-col`)
+- Amount: `amount` / `amt`
+- Date: `date`
+- Party: `party` / `merchant` (must be passed explicitly via `--party-col`)
 
 ## Date formats
 Supports `YYYY-MM-DD` / `YYYY/MM/DD` / `MM/DD/YYYY`; convert anything else to `YYYY-MM-DD` in the CSV first.

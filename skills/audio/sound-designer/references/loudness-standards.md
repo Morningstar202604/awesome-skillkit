@@ -10,14 +10,14 @@ Platforms normalize audio based on integrated loudness (the average over the who
 
 | Platform | Integrated LUFS | True Peak Ceiling | Short-term Max | Notes |
 |---|---|---|---|---|
-| Xiaoyuzhou (小宇宙) | −16 LUFS | −1.5 dBTP | −10 LUFS | Podcast standard; follows Apple Podcasts spec |
-| Ximalaya (喜马拉雅) | −16 LUFS | −1.5 dBTP | −10 LUFS | Same as Xiaoyuzhou |
+| Xiaoyuzhou | −16 LUFS | −1.5 dBTP | −10 LUFS | Podcast standard; follows Apple Podcasts spec |
+| Ximalaya | −16 LUFS | −1.5 dBTP | −10 LUFS | Same as Xiaoyuzhou |
 | Apple Podcasts | −16 LUFS | −1.5 dBTP | — | Global podcast reference |
 | WeChat MP audio | −14 LUFS | −1.0 dBTP | −8 LUFS | Slightly louder; WeChat player does not normalize |
-| Bilibili (B站) | −16 LUFS | −1.5 dBTP | −10 LUFS | Audio-only; video follows YouTube spec |
-| Douyin (抖音) | −14 LUFS | −1.0 dBTP | −8 LUFS | Short video; platform expects punchier audio |
-| Kuaishou (快手) | −14 LUFS | −1.0 dBTP | −8 LUFS | Same as Douyin |
-| WeChat Channels (视频号) | −14 LUFS | −1.0 dBTP | −8 LUFS | Short video |
+| Bilibili | −16 LUFS | −1.5 dBTP | −10 LUFS | Audio-only; video follows YouTube spec |
+| Douyin | −14 LUFS | −1.0 dBTP | −8 LUFS | Short video; platform expects punchier audio |
+| Kuaishou | −14 LUFS | −1.0 dBTP | −8 LUFS | Same as Douyin |
+| WeChat Channels | −14 LUFS | −1.0 dBTP | −8 LUFS | Short video |
 
 ## International Platforms
 

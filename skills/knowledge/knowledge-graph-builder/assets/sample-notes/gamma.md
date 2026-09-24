@@ -1,3 +1,3 @@
-# Gamma 笔记
+# Gamma Note
 
-进阶主题：观测性。引用 [[alpha]] 的分层结论。
+Advanced topic: observability. References the layering conclusion from [[alpha]].

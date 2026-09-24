@@ -1,6 +1,6 @@
-# sample-wiki — 个人知识库
+# sample-wiki — Personal Knowledge Base
 
-- `raw/` 原始资料（剪藏、原文），只进不改
-- `notes/` 编译后的笔记，用 [[双链]] 互连、用 #标签 分类
+- `raw/` raw source material (clippings, originals), in-only, never edited
+- `notes/` compiled notes, interconnected with [[wikilinks]], categorized with #tags
 
-重建索引：`python3 wiki_build.py index .`
+Rebuild index: `python3 wiki_build.py index .`

@@ -1,21 +1,21 @@
-# 代码模式速查表
+# Code Pattern Cheat Sheet
 
 ## Python FastAPI CRUD
 
 ### When to use
-- 实现新的资源模块（用户、订单、商品等）
-- 标准 RESTful API + 数据模型 + 服务层
+- Implementing a new resource module (users, orders, products, etc.)
+- Standard RESTful API + data model + service layer
 
 ### File structure
 ```
 src/{target}/
-├── models.py    # Pydantic 模型（Create/Update/Base）
-├── service.py   # 业务逻辑（CRUD 操作）
-└── api.py       # FastAPI 路由（REST 接口）
+├── models.py    # Pydantic models (Create/Update/Base)
+├── service.py   # business logic (CRUD operations)
+└── api.py       # FastAPI routes (REST endpoints)
 ```
 
-### 字段推断规则
-| scope 关键词 | 推断字段 |
+### Field inference rules
+| scope keyword | Inferred fields |
 |-------------|---------|
 | auth/login | username, password_hash, email |
 | user | username, email, name |
@@ -29,15 +29,15 @@ src/{target}/
 
 ### When to use
 - Node.js/Express REST API
-- TypeScript 项目
+- TypeScript project
 
 ### File structure
 ```
 src/{target}/
-├── {target}.router.ts    # 路由定义
-├── {target}.service.ts   # 服务层
-├── {target}.model.ts     # 类型定义
-└── {target}.dto.ts       # 数据传输对象
+├── {target}.router.ts    # route definitions
+├── {target}.service.ts   # service layer
+├── {target}.model.ts     # type definitions
+└── {target}.dto.ts       # data transfer objects
 ```
 
 ---
@@ -45,48 +45,48 @@ src/{target}/
 ## Go Gin CRUD
 
 ### When to use
-- Go + Gin 框架
-- 高性能 API 服务
+- Go + Gin framework
+- High-performance API service
 
 ### File structure
 ```
 internal/{target}/
-├── model.go      # 数据结构
-├── handler.go    # HTTP 处理器
-├── service.go    # 业务逻辑
-└── repository.go # 数据访问
+├── model.go      # data structures
+├── handler.go    # HTTP handlers
+├── service.go    # business logic
+└── repository.go # data access
 ```
 
 ---
 
-## Bug Fix 模式
+## Bug Fix pattern
 
 ### When to use
-- 修复运行时错误（crash、panic、exception）
-- 需要标注根因和修复说明
+- Fixing runtime errors (crash, panic, exception)
+- Need to annotate the root cause and fix notes
 
-### 文件规范
-1. 在修复处添加注释块，说明：
-   - Root cause（根因）
-   - Before（修复前）
-   - After（修复后）
-2. 添加 guard clause 防止再次触发
-3. 添加日志记录异常场景
+### File conventions
+1. Add a comment block at the fix point explaining:
+   - Root cause
+   - Before (the pre-fix state)
+   - After (the post-fix state)
+2. Add a guard clause to prevent recurrence
+3. Add logging for the exception scenario
 
 ---
 
-## 测试桩生成规则
+## Test stub generation rules
 
-### 覆盖场景
-1. **Happy path** — 正常流程
-2. **Edge case** — 边界条件
-3. **Error handling** — 错误处理
+### Coverage scenarios
+1. **Happy path** — the normal flow
+2. **Edge case** — boundary conditions
+3. **Error handling** — error handling
 
-### 命名规范
-- 测试类：`Test{ClassName}`
-- 测试方法：`test_{方法名}_{场景}`
+### Naming conventions
+- Test class: `Test{ClassName}`
+- Test method: `test_{method_name}_{scenario}`
 
-### 断言规范
-- 使用 `assert` 而非 `assertTrue`
-- 明确指定期望值
-- 错误信息包含上下文
+### Assertion conventions
+- Use `assert` rather than `assertTrue`
+- Specify the expected value explicitly
+- Error messages include context

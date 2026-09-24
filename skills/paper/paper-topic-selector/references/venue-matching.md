@@ -1,144 +1,144 @@
-# 选题与期刊/会议的匹配决策
+# Topic–Venue Matching Decisions
 
-> 何时读：已确定候选选题、要决定**投哪里**时读本文件。找 gap 的方法在同级的 gap-finding.md（由 SKILL.md 一并加载）。
+> When to read: read this file when you have candidate topics and need to decide **where to submit**. How to find a gap is in the sibling file gap-finding.md (loaded together by SKILL.md).
 >
-> ## 硬性约束（不要违反）
+> ## Hard constraints (do not violate)
 >
-> **本文件不提供任何期刊的影响因子（IF）、CiteScore、分区、录用率、审稿周期的具体数字。**
-> 原因：这类数值每年变动、不同来源口径不一，且凭记忆写出一个"看起来合理"的数字是本类文档最严重的错误——**写一个假的 IF，比不写更糟。**
-> 需要这些数据时，一律按 §3 的核实流程去查官方/权威来源，并把**查询日期 + 来源**一起记下来。
+> **This file provides no specific numbers for any journal's impact factor (IF), CiteScore, quartile, acceptance rate, or review cycle.**
+> Reason: these values change yearly, sources disagree on methodology, and writing a "plausible-looking" number from memory is the most serious error this kind of document can make — **writing a fake IF is worse than writing none.**
+> When you need these data, always follow the §3 verification process to check official / authoritative sources, and record the **query date + source** together.
 
 ## Table of Contents
 
-- [1. 匹配维度表](#1-匹配维度表)
-- [2. 决策流程](#2-决策流程)
-- [3. 如何核实最新 scope（不要凭记忆）](#3-如何核实最新-scope不要凭记忆)
-- [4. 常见错配与规避](#4-常见错配与规避)
-- [5. 匹配打分表模板](#5-匹配打分表模板)
-- [6. 期刊 vs 会议 vs Workshop 的选择](#6-期刊-vs-会议-vs-workshop-的选择)
-- [7. 检查清单](#7-检查清单)
+- [1. Matching dimensions table](#1-matching-dimensions-table)
+- [2. Decision workflow](#2-decision-workflow)
+- [3. How to verify the latest scope (don't rely on memory)](#3-how-to-verify-the-latest-scope-dont-rely-on-memory)
+- [4. Common mismatches and how to avoid them](#4-common-mismatches-and-how-to-avoid-them)
+- [5. Matching scorecard template](#5-matching-scorecard-template)
+- [6. Choosing between journal vs conference vs workshop](#6-choosing-between-journal-vs-conference-vs-workshop)
+- [7. Checklist](#7-checklist)
 
 ---
 
-## 1. 匹配维度表
+## 1. Matching dimensions table
 
-| 维度 | 要查什么 | 从哪查（官方/可核实来源） | 数值类信息怎么处理 |
+| Dimension | What to look up | Where to look (official / verifiable source) | How to handle numeric info |
 |------|----------|--------------------------|--------------------|
-| Scope（范围） | 该 venue 收什么主题、不收什么 | 期刊官网 **Aims & Scope** 页面；会议官网 **Call for Papers** | 不填数字；只记录「明确包含 / 明确排除 / 未提及」三类判断 |
-| 方法论偏好 | 偏实证/偏理论/偏系统/偏应用 | 近 2 年该 venue 实际发表的论文（看 Method 段），而非官网自述 | 定性描述 |
-| 影响力量级 | IF / CiteScore / 分区 / 录用率 | 期刊官网、权威引文数据库、会议官网公布的统计 | **只在使用时现查**，并把「来源 + 查询日期」写进笔记；不写入本文件 |
-| 审稿周期 | 是否有固定 deadline、从投稿到首次决定的时长 | 会议官网的**重要日期**页（abstract/full paper/notification）；期刊官网的 "time to first decision" 字段（若公布） | 以官网公布值为准；未公布则记为 `未公开`，按经验向导师/同僚打听，不写死数字 |
-| 格式要求 | 页数、模板、匿名要求、附录政策、字数 | 官网 **Author Guidelines / Instructions for Authors / Submission Template** | 直接抄官方页数，这是少数能确定的硬数字，但也每次核对（会改版） |
-| 篇幅与体裁 | 长文 / 短文 / short paper / extended abstract / demo | 同上 + CFP | 同上 |
-| 出版模式 | 订阅制 / 开放获取（OA）/ 是否收 APC、金额 | 官网 APC 页 | 金额以官网为准，不凭记忆 |
-| 双盲政策 | 是否双盲、是否允许 arXiv 预印本 | 官网 submission policy / FAQ | 定性 |
-| 伦理与数据要求 | 是否需要数据/代码可用性声明、伦理审查 | 官网 author guidelines | 定性 |
-| 可信度 | 是否被权威索引收录、是否为疑似掠夺性期刊 | 权威索引目录、DOAJ（开放获取期刊目录）、Think. Check. Submit. 自查清单 | 定性；有不确定的一律不投 |
+| Scope | What topics the venue accepts and rejects | Journal site **Aims & Scope** page; conference site **Call for Papers** | No numbers; record only three judgments: "explicitly includes / explicitly excludes / not mentioned" |
+| Method preference | Empirical / theoretical / systems / applied | Papers actually published by the venue in the last 2 years (look at the Method section), not the site's self-description | Qualitative description |
+| Impact level | IF / CiteScore / quartile / acceptance rate | Journal site, authoritative citation databases, statistics published on the conference site | **Look it up on demand only**, writing "source + query date" into your notes; do not write it into this file |
+| Review cycle | Whether there's a fixed deadline, time from submission to first decision | Conference site **Important Dates** page (abstract/full paper/notification); journal site's "time to first decision" field (if published) | Defer to the site's published value; if not published, record as `undisclosed`, ask mentors/colleagues by experience, and don't hard-code a number |
+| Format requirements | Page count, template, anonymity, appendix policy, word count | Site **Author Guidelines / Instructions for Authors / Submission Template** | Copy the official page count directly; this is one of the few hard numbers you can be sure of, but re-check it every time (templates change) |
+| Length and genre | Long / short / short paper / extended abstract / demo | Same as above + CFP | Same as above |
+| Publishing model | Subscription / open access (OA) / APC and amount | Site APC page | Amounts defer to the site; don't rely on memory |
+| Double-blind policy | Double-blind? arXiv preprints allowed? | Site submission policy / FAQ | Qualitative |
+| Ethics and data requirements | Data/code availability statement needed? ethics review? | Site author guidelines | Qualitative |
+| Credibility | Indexed by authoritative indexes? suspected predatory venue? | Authoritative index directories, DOAJ, Think. Check. Submit. self-check list | Qualitative; if unsure, don't submit |
 
 ---
 
-## 2. 决策流程
+## 2. Decision workflow
 
-| 步 | 动作 | 预期结果 | 失败分支 |
+| Step | Action | Expected result | Failure branch |
 |----|------|----------|----------|
-| 1 | 从 `ranked_topics` 取出选题的一句话 contribution，抽出**三个关键词 + 一个方法类型** | 得到「主题三元组 + 方法类型」 | 抽不出 → 选题还不够具体，回 `gap-finding.md` §8 |
-| 2 | 用这三个词去**候选 venue 官网的近期论文列表**里搜（不是搜你自己想投哪） | 找到 2–5 个近 2 年发表过高度相关论文的 venue | 0 个 → 该选题可能属于另一个社区，**换关键词或换社区**，不要硬投 |
-| 3 | 逐个打开候选 venue 的 **Aims & Scope / CFP**，逐句比对 | 每个 venue 得到一条「明确包含/明确排除/未提及」判断 | 全部「明确排除」→ 回第 2 步 |
-| 4 | 看该 venue 近 2 年论文的**方法类型分布**（实证/理论/系统/应用各占多少，定性即可） | 判断你的方法是否属于其主流 | 你的方法类型是 minority 且无先例 → 风险高，见 §4 |
-| 5 | 查硬约束：页数/模板/匿名政策/DDL 或 rolling | 得到可执行清单 | DDL 错过 → 找下一届或转 rolling 期刊 |
-| 6 | 查影响力与周期（**现查，记来源与日期**） | 得到排序依据 | 查不到 → 记为 `未公开`，用「scope 匹配度」优先排序 |
-| 7 | 出 3 档：冲刺 / 主投 / 保底 | 每档 1 个 venue，各写明理由与风险 | 只有 1 个可选 → 说明备选池太小，回到第 2 步扩检 |
+| 1 | Take the one-sentence contribution of the topic from `ranked_topics` and extract **three keywords + one method type** | Get a "topic triple + method type" | Can't extract → the topic isn't specific enough; go back to `gap-finding.md` §8 |
+| 2 | Use these three words to search the **recent papers list on candidate venue sites** (not where you personally want to submit) | Find 2–5 venues that have published highly related papers in the last 2 years | 0 → the topic may belong to another community; **change keywords or communities**, don't force a submission |
+| 3 | Open each candidate venue's **Aims & Scope / CFP** and compare sentence by sentence | One "explicitly includes/excludes/not mentioned" judgment per venue | All "explicitly excludes" → back to step 2 |
+| 4 | Look at the **method-type distribution** of the venue's last-2-year papers (empirical/theoretical/systems/applied shares; qualitative is fine) | Judge whether your method is mainstream there | Your method type is a minority with no precedent → high risk; see §4 |
+| 5 | Check hard constraints: page count / template / anonymity policy / DDL or rolling | Get an actionable checklist | Missed the DDL → wait for the next edition or switch to a rolling journal |
+| 6 | Check impact and cycle (**look it up on demand, record source and date**) | Get a ranking basis | Can't find → record as `undisclosed`; rank by "scope fit" first |
+| 7 | Produce 3 tiers: reach / main / safe | One venue per tier, each with reasons and risks | Only 1 option → the backup pool is too small; go back to step 2 and expand |
 
-**排序原则**：scope 匹配度 > 方法类型匹配度 > 周期与 DDL 可行性 > 影响力量级。**scope 不合投得再高也会被 desk reject**，这是新手最常犯的错误。
+**Ranking principle**: scope fit > method-type fit > cycle and DDL feasibility > impact level. **If the scope doesn't fit, no matter how high you aim it will be desk-rejected** — this is the most common newcomer mistake.
 
 ---
 
-## 3. 如何核实最新 scope（不要凭记忆）
+## 3. How to verify the latest scope (don't rely on memory)
 
-scope 会变（期刊换主编、会议加 track、新增 special issue）。核实次序如下，**至少做前三条**：
+Scopes change (journals change editors, conferences add tracks, new special issues appear). Verification order below; **do at least the first three**:
 
-1. **官网 Aims & Scope 页面**（期刊）/ **Call for Papers**（会议）：逐句读，特别注意**排除项**（很多期刊明确写「不收纯工程实现报告」「不收无理论贡献的实证研究」）。
-2. **近 2 年（最好近 1 年）实际接受的论文列表**：官网的 "Articles in press" / "Latest articles" / 会议论文集（ACL Anthology、IEEE Xplore、DBLP 等）。**看实际发了什么，比看自述更可靠**——自述往往宽泛，实际收稿口径更窄。
-3. **编委构成**：编委的研究方向能反推该 venue 的口味边界。
-4. **Special Issue / Track 的 CFP**：如果你做的是交叉方向，special issue 往往比正刊更容易命中，且有明确的范围说明。
-5. **Author Guidelines**：确认页数、模板、匿名要求、是否要求代码/数据可用性声明。
-6. **影响力与周期数据**：期刊官网（若公布）、权威引文数据库、会议官网的统计页。**查询时记录：来源 + 查询日期**。本文件不给任何具体数字，请自行填写。
+1. **Official Aims & Scope page** (journal) / **Call for Papers** (conference): read sentence by sentence, paying special attention to the **exclusions** (many journals explicitly state "we don't accept pure engineering implementation reports" or "we don't accept empirical studies with no theoretical contribution").
+2. **The list of actually accepted papers in the last 2 years (preferably last 1)**: "Articles in press" / "Latest articles" on the site, or the proceedings (ACL Anthology, IEEE Xplore, DBLP, etc.). **What they actually published is more reliable than what they say** — the self-description is often broad; the actual acceptance criteria are narrower.
+3. **Editorial board composition**: the editors' research directions can reverse-engineer the venue's taste boundary.
+4. **Special Issue / Track CFP**: if you work a cross-cutting area, a special issue is often easier to hit than the main track, with an explicit scope statement.
+5. **Author Guidelines**: confirm page count, template, anonymity, and whether a code/data availability statement is required.
+6. **Impact and cycle data**: journal site (if published), authoritative citation databases, the conference site's statistics page. **When querying, record: source + query date.** This file gives no specific numbers; fill them in yourself.
 
-**记录模板**（存你的笔记，不要回写本仓库）：
+**Record template** (keep in your notes; don't write back to this repo):
 
 ```text
-Venue: <名称>
-核实日期: YYYY-MM-DD
-Aims & Scope 原文关键句: "..."
-排除项: "..."
-近2年相关论文 3 篇: [标题+年份]
-方法类型分布（定性）: 实证为主 / 理论为主 / 系统为主 / 混合
-页数与模板: <取自 Author Guidelines>
-匿名政策: 双盲 / 单盲 / 非盲
-影响力与周期: <来源: ...; 查询日期: ...; 数值: ...>
-结论: 冲刺 / 主投 / 保底 / 不合适（理由）
+Venue: <name>
+Verification date: YYYY-MM-DD
+Key sentence from Aims & Scope: "..."
+Exclusions: "..."
+3 related papers from the last 2 years: [title+year]
+Method-type distribution (qualitative): empirical-heavy / theoretical-heavy / systems-heavy / mixed
+Page count and template: <from Author Guidelines>
+Anonymity policy: double-blind / single-blind / non-blind
+Impact and cycle: <source: ...; query date: ...; value: ...>
+Conclusion: reach / main / safe / unsuitable (reason)
 ```
 
 ---
 
-## 4. 常见错配与规避
+## 4. Common mismatches and how to avoid them
 
-| 错配类型 | 症状 | 审稿人/编辑的典型意见 | 规避动作 |
+| Mismatch type | Symptom | Typical reviewer/editor comment | Avoidance action |
 |----------|------|----------------------|----------|
-| Scope 不合 | 主题与该 venue 收稿方向只沾边 | 「out of scope」「更适合投 XX 类 venue」→ 常为 **desk reject** | 投稿前在 Aims & Scope 里找到**至少一句**能覆盖你主题的表述；找不到就换 venue |
-| 方法过于工程化 | 投理论/算法型 venue，但贡献是「我们实现了一个系统」 | 「缺乏普适性」「工程报告而非研究贡献」 | 补充可泛化的实验结论/设计原则/消融分析；或改投偏系统/应用的 venue 或 demo track |
-| 方法过于理论化 | 投系统/应用 venue，但通篇形式化无实测 | 「未在真实场景验证」「实用性不足」 | 补真实负载/真实数据的实验；或改投理论型 venue |
-| 增量不足 | 只是换数据集/换模型重跑 | 「incremental」「novelty 有限」 | 走 `gap-finding.md` §4/§5，给出机制解释或边界条件 |
-| 体量错配 | 短文体量写了长文，或反之 | 「超出篇幅限制」「细节不足无法复现」 | 按 Author Guidelines 的体裁要求选：短文投 short paper，完整工作投长文 |
-| 忽略格式硬约束 | 页数超限、未匿名、缺附录 | 直接退回（技术审查未过） | 提交前逐项核对 Author Guidelines，用官方模板 |
-| 一稿多投/重复发表 | 同一内容同时投多个 venue | 学术不端，后果严重 | 严格遵守各 venue 的 simultaneous submission 政策；预印本政策也要单独确认 |
-| 投到掠夺性 venue | 无同行评审、收费即发 | 损害学术声誉 | 用权威索引目录、DOAJ、Think. Check. Submit. 自查；无法确认的宁可不投 |
+| Scope mismatch | The topic only tangentially touches the venue's scope | "out of scope" / "better suited to an XX-type venue" → often a **desk reject** | Before submitting, find **at least one sentence** in Aims & Scope that covers your topic; if you can't, switch venues |
+| Method too engineering-heavy | Submitting to a theoretical/algorithmic venue, but the contribution is "we built a system" | "Lacks generality" / "engineering report, not a research contribution" | Add generalizable experimental conclusions / design principles / ablation analysis; or switch to a systems/applied venue or a demo track |
+| Method too theoretical | Submitting to a systems/applied venue, but the whole piece is formalization with no experiments | "Not validated in a real setting" / "insufficient practical value" | Add experiments on real load / real data; or switch to a theoretical venue |
+| Insufficient increment | Just rerunning on a different dataset / model | "incremental" / "novelty limited" | Go through `gap-finding.md` §4/§5 and give a mechanism explanation or boundary conditions |
+| Scale mismatch | Wrote a long paper in a short-paper size, or vice versa | "Exceeds length limit" / "insufficient detail to reproduce" | Choose the genre per the Author Guidelines: short work → short paper, complete work → long paper |
+| Ignoring hard format constraints | Over page limit, not anonymized, missing appendix | Rejected outright (technical screening failed) | Check the Author Guidelines item by item before submission; use the official template |
+| Multiple submission / duplicate publication | Same content submitted to multiple venues at once | Academic misconduct, severe consequences | Strictly follow each venue's simultaneous-submission policy; confirm preprint policy separately |
+| Submitting to a predatory venue | No peer review, publish-for-a-fee | Harms academic reputation | Self-check with authoritative index directories, DOAJ, Think. Check. Submit.; if you can't confirm, better not to submit |
 
 ---
 
-## 5. 匹配打分表模板
+## 5. Matching scorecard template
 
-复制使用。**不要给「影响力」一列填记忆里的数字**——那一列要么空着，要么填「来源+查询日期+数值」。
+Copy and use. **Do not fill the "impact" column with numbers from memory** — either leave it blank or fill "source + query date + value".
 
-| 候选 venue | Scope 匹配（明确包含/排除/未提及） | 方法类型匹配（高/中/低） | 近2年相关论文数 | 硬约束（页数/DDL/匿名） | 影响力（来源+日期） | 周期（来源+日期） | 定位 |
+| Candidate venue | Scope fit (includes/excludes/not mentioned) | Method-type fit (high/med/low) | Related papers in last 2 years | Hard constraints (pages/DDL/anonymity) | Impact (source+date) | Cycle (source+date) | Tier |
 |-----------|----------------------------------|--------------------------|----------------|------------------------|--------------------|------------------|------|
-| Venue A | 明确包含（引原文） | 高 | 4 | 8页/双盲/DDL 已确认 | 见笔记 2026-09-14 | 见笔记 2026-09-14 | 冲刺 |
-| Venue B | 未提及（交叉方向） | 中 | 1 | 12页/单盲/rolling | 同上 | 同上 | 主投 |
-| Venue C | 明确包含 | 高 | 2 | 6页/双盲/DDL 已确认 | 同上 | 同上 | 保底 |
+| Venue A | Explicitly includes (quote original) | High | 4 | 8pp/double-blind/DDL confirmed | See notes 2026-09-14 | See notes 2026-09-14 | Reach |
+| Venue B | Not mentioned (cross-cutting) | Medium | 1 | 12pp/single-blind/rolling | Same as above | Same as above | Main |
+| Venue C | Explicitly includes | High | 2 | 6pp/double-blind/DDL confirmed | Same as above | Same as above | Safe |
 
-**定位规则**：
-- 冲刺 = scope 与方法都匹配，但影响力/竞争度高于你当前工作的确定性；
-- 主投 = 三档里最「说得清为什么是这里」的那个；
-- 保底 = scope 明确包含、周期可控、你确信能中。
+**Tier rules**:
+- Reach = scope and method both fit, but impact/competitiveness is above your current work's certainty;
+- Main = the one of the three where you can best "say why it's here";
+- Safe = scope explicitly includes, cycle controllable, and you're confident it gets in.
 
-三档必须**都是真能投的 venue**，不要用「明显不合适」的凑数。
+All three tiers must be **real submittable venues**; don't pad with an "obviously unsuitable" one.
 
 ---
 
-## 6. 期刊 vs 会议 vs Workshop 的选择
+## 6. Choosing between journal vs conference vs workshop
 
-| 形态 | 特点（定性） | 适合什么时候投 |
+| Format | Traits (qualitative) | When to submit |
 |------|-------------|----------------|
-| 会议（有 DDL） | 固定截稿与通知日期，一轮评审为主（部分会议有 rebuttal / revision 机制，以官网为准） | 有时效性的结果；需要社区快速反馈；想先发一版再扩期刊版 |
-| 期刊（多为 rolling） | 随时可投，评审轮次与周期差异大，常见 major revision | 工作完整、需要充分篇幅；需要长期可引用版本 |
-| Workshop / Short paper | 篇幅小、范围聚焦、门槛相对低（不保证，以具体 CFP 为准） | 初步结果、negative result、位置论文、寻求反馈 |
-| 预印本（arXiv 等） | 先占时间戳，不等同行评审 | 抢发/公开结果；**注意**：各 venue 对预印本的政策不同，投稿前必须单独确认 |
+| Conference (has DDL) | Fixed deadline and notification dates, mainly one round of review (some have rebuttal / revision; defer to the site) | Time-sensitive results; need fast community feedback; want to publish a first version then extend it into a journal paper |
+| Journal (mostly rolling) | Submit any time; review rounds and cycles vary widely; major revision is common | Complete work needing full space; needs a long-term citable version |
+| Workshop / Short paper | Small size, focused scope, relatively low bar (not guaranteed; defer to the specific CFP) | Preliminary results, negative results, position papers, seeking feedback |
+| Preprint (arXiv, etc.) | Claim the timestamp first, no waiting on peer review | Scoop / public results; **note**: preprint policies differ by venue and must be confirmed separately before submission |
 
-**扩写路径**（常见做法，具体规则以各 venue 的 self-plagiarism / prior publication 政策为准）：会议短文 → 期刊扩展版。若走这条路，**扩展版必须有实质新增内容**（通常要求一定比例的新材料，具体比例以目标期刊政策为准，不要猜），并在投稿时声明与会议版的关系。
+**Extension path** (common practice; defer to each venue's self-plagiarism / prior-publication policy): conference short paper → journal extended version. If you go this route, **the extended version must have substantial new content** (usually a required proportion of new material; the exact proportion defers to the target journal's policy — don't guess), and declare the relationship to the conference version at submission.
 
 ---
 
-## 7. 检查清单
+## 7. Checklist
 
-投稿决策完成前逐项打勾：
+Tick each item before the submission decision is final:
 
-- [ ] 至少 3 个候选 venue，每个都打开过官网 Aims & Scope / CFP 并记录了关键句
-- [ ] 每个候选都查了**近 2 年实际发表的相关论文**，不是只看自述
-- [ ] 三档定位（冲刺/主投/保底）都已确定，且都真能投
-- [ ] 硬约束（页数、模板、匿名、附录、代码/数据声明）逐项核对完毕
-- [ ] 影响力与周期数据：**现查**，且记录了来源与查询日期；没有就写 `未公布`，不填记忆值
-- [ ] 已排除「工程化/理论化」错配（§4 前两行）
-- [ ] 已确认一稿多投与预印本政策
-- [ ] 已用权威索引目录/DOAJ/Think. Check. Submit. 做过可信度自查
-- [ ] **本文件与你的笔记里没有任何未经核实的影响因子、录用率、周期数字**
-- [ ] 若本轮发现某 venue 的 scope 与记忆不符，已更新你自己的笔记（**不要**回写本文件，本文件不含具体 venue 数据）
+- [ ] At least 3 candidate venues, each with its official Aims & Scope / CFP opened and key sentences recorded
+- [ ] Each candidate was checked for **actually published related papers in the last 2 years**, not just the self-description
+- [ ] All three tiers (reach/main/safe) are set, and all are really submittable
+- [ ] Hard constraints (page count, template, anonymity, appendix, code/data statement) checked item by item
+- [ ] Impact and cycle data: **looked up on demand**, with source and query date recorded; if not available, write `undisclosed`, not a memory value
+- [ ] Ruled out the "engineering-heavy / too-theoretical" mismatches (§4 first two rows)
+- [ ] Confirmed multiple-submission and preprint policies
+- [ ] Done a credibility self-check with authoritative index directories / DOAJ / Think. Check. Submit.
+- [ ] **Neither this file nor your notes contain any unverified impact factor, acceptance rate, or cycle number**
+- [ ] If this round found a venue's scope disagrees with your memory, you've updated your own notes (**do not** write back to this file; this file holds no specific venue data)

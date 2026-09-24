@@ -1,89 +1,90 @@
-# 仓库地图与统计口径
+# Repository Map and Statistics Methodology
 
-本文件说明 `find_skill.py` 看到的世界长什么样：哪些目录被扫、什么被跳过、
-`stats` 的每个数字怎么算出来。**解读统计数字或「明明有这个技能却搜不到」时读。**
+This file explains what the world looks like to `find_skill.py`: which directories are scanned, what is skipped,
+and how each number in `stats` is computed. **Read this when interpreting statistics or when "a skill should exist but I can't find it."**
 
-## Table of Contents地图
+## Table of Contents Map
 
 ```
 awesome-skillkit/
-├── manifest.json          # 唯一权威清单：hub / version / packs[]
-├── packs/<pack-id>/pack.json   # 每个包的成员技能名列表（与 manifest 镜像）
-├── skills/                # 技能本体，按品类分一级目录
-│   ├── meta/              # 元技能（本技能所在，Skill Forge 场景包）
-│   ├── programming/       # 软件开发，下分 19 个二级域
+├── manifest.json          # the single authoritative manifest: hub / version / packs[]
+├── packs/<pack-id>/pack.json   # member skill name list per pack (mirrored with manifest)
+├── skills/                # the skills themselves, one top-level directory per category
+│   ├── meta/              # meta-skills (where this skill lives, Skill Forge scenario pack)
+│   ├── programming/       # software development, split into 19 second-level domains
 │   ├── video/  ppt/  office/  paper/  audio/  design/  education/
-│   ├── writing/           # 内容发布，下分 blog/ community/ news/ social/ video/
+│   ├── writing/           # content publishing, split into blog/ community/ news/ social/ video/
 │   ├── marketing/  memory/  chat/  scenarios/
-│   └── _common/           # 跨技能共享模块，不是技能
-└── tools/                 # 仓库级门禁与构建脚本，不是技能```
+│   └── _common/           # cross-skill shared modules, not skills
+└── tools/                 # repo-level gates and build scripts, not skills
+```
 
-## 什么算一个「技能」
+## What counts as a "skill"
 
-扫描规则：`skills/**/SKILL.md`，**任一层级**都算（发布类技能常见的
-`skills/writing/…/csdn-publisher/SKILL.md` 三层深，与 `skills/video/video-generation/SKILL.md`
-两层深同等对待）。
+Scan rule: `skills/**/SKILL.md`, at **any depth** (the common publishing-skill
+`skills/writing/…/csdn-publisher/SKILL.md` three levels deep is treated the same as `skills/video/video-generation/SKILL.md`
+two levels deep).
 
-以下路径下的 `SKILL.md` 被**跳过**，因为它们不是技能本体：
+`SKILL.md` under the following paths is **skipped**, because these are not the skill itself:
 
-| 路径片段 | 为什么跳过 |
+| Path fragment | Why skipped |
 |---|---|
-| `assets/` | 技能自带的示例工程，如 `skill-tester/assets/sample-skill/SKILL.md` |
-| `templates/` | 模板文件，非可加载技能 |
-| `_common/` | 跨技能共享代码目录 |
-| `__pycache__/` | 编译产物 |
+| `assets/` | The skill's own example projects, e.g. `skill-tester/assets/sample-skill/SKILL.md` |
+| `templates/` | Template files, not loadable skills |
+| `_common/` | Cross-skill shared code directory |
+| `__pycache__/` | Compiled artifacts |
 
-因此 `stats` 的技能数会比 `find skills -name SKILL.md` 的原始计数少几个，
-差额就是上表这几类。两者对不上不是 bug。
+Therefore the skill count in `stats` will be a few less than the raw count from `find skills -name SKILL.md`;
+the difference is these categories above. The two not matching is not a bug.
 
-## 每个字段从哪来
+## Where each field comes from
 
-| 字段 | 来源 | 缺失时 |
+| Field | Source | When missing |
 |---|---|---|
-| `name` | SKILL.md frontmatter `name` | 回退为目录名 |
-| `description` | frontmatter `description` | 空串，检索时该技能只能靠名称与正文命中 |
-| `category` / `tier` | frontmatter `metadata.*` | 归入「（未标注）」桶 |
-| `title` | 正文第一个 `# ` 一级标题 | 空串 |
-| `summary` | 正文首个非标题、非空、非代码块的段落，截断到 80 字符 | 回退为 `title` |
-| `has_scripts` | 技能目录下是否存在 `scripts/` 子目录 | 布尔值，无需回退 |
-| `has_references` | 是否存在 `references/` 子目录 | 同上 |
-| 所属包 | `manifest.json` 的 `packs[].skills[].name` 反向索引 | 空列表 → 计入孤儿 |
-| 包中文名 | `packs[].name_zh` | 回退为包 id |
+| `name` | SKILL.md frontmatter `name` | falls back to directory name |
+| `description` | frontmatter `description` | empty string; during retrieval the skill can only be hit by name and body |
+| `category` / `tier` | frontmatter `metadata.*` | bucketed into "(unlabeled)" |
+| `title` | The first `# ` H1 heading in the body | empty string |
+| `summary` | The first non-heading, non-blank, non-code-block paragraph, truncated to 80 chars | falls back to `title` |
+| `has_scripts` | Whether a `scripts/` subdirectory exists under the skill directory | boolean, no fallback needed |
+| `has_references` | Whether a `references/` subdirectory exists | same as above |
+| Owning pack | Reverse index from `manifest.json`'s `packs[].skills[].name` | empty list → counted as orphan |
+| Pack Chinese name | `packs[].name_zh` | falls back to pack id |
 
-正文与 description 全部 `lower()` 后匹配，因此 `PDF` 与 `pdf` 等价；
-中文不受大小写影响，直接子串匹配。
+Body and description are both matched after `lower()`, so `PDF` and `pdf` are equivalent;
+Chinese is unaffected by case and is matched by direct substring.
 
-## `stats` 的统计口径
+## `stats` calculation methodology
 
-| 指标 | 算法 |
+| Metric | Algorithm |
 |---|---|
-| `skills_on_disk` | 扫到的技能记录数（已按上文规则跳过示例目录） |
-| `packs` | `manifest.json` 的 `packs` 数组长度 |
-| `skills_referenced_by_packs` | 所有 pack 成员技能名的**去重**集合大小 |
-| `skills_with_scripts` | 技能目录含 `scripts/` 的数量 |
-| `by_category` | 对 `category` 计数，未标注归入「（未标注）」 |
-| `by_tier` | 同上，对 `tier` 计数 |
-| `orphan_skills` | 在盘上但不在任何 pack 的 `skills[].name` 里 → WARN 级问题 |
-| `pack_references_missing_on_disk` | pack 引用了但盘上找不到 → ERROR 级问题（仓库门禁会拦） |
+| `skills_on_disk` | Number of skill records scanned (example directories skipped per the rules above) |
+| `packs` | Length of `manifest.json`'s `packs` array |
+| `skills_referenced_by_packs` | Size of the **deduplicated** set of all pack member skill names |
+| `skills_with_scripts` | Number of skill directories containing `scripts/` |
+| `by_category` | Count by `category`; unlabeled bucketed into "(unlabeled)" |
+| `by_tier` | Same, count by `tier` |
+| `orphan_skills` | On disk but not in any pack's `skills[].name` → WARN-level issue |
+| `pack_references_missing_on_disk` | Referenced by a pack but not found on disk → ERROR-level issue (repo gate will block) |
 
-`skills_on_disk` 通常略大于 `skills_referenced_by_packs`：差值是孤儿技能或新增未入包技能。
-两者相等且两个告警列表都为空，说明包 ↔ 磁盘完全一致。
+`skills_on_disk` is usually slightly larger than `skills_referenced_by_packs`: the difference is orphan skills
+or newly added skills not yet packed. When both are equal and both warning lists are empty, packs ↔ disk are fully consistent.
 
-## 检索不到技能时的排查顺序
+## Troubleshooting order when a skill can't be found
 
-1. **关键词太窄**：先用 `stats` 看 category 分布，按类别名再搜；
-2. **技能名记错了**：本仓技能名全是 kebab-case，不带空格、不带大写，
-   如 `video-generation` 而非 `Video Generation`；
-3. **该技能在 `assets/` 里**：那是示例，不是可加载技能，搜不到是预期行为；
-4. **技能在盘上但不在 `manifest.json`**：`search` 仍能命中（它扫盘），
-   但 `pack` 会告诉你它不属于任何包；
-5. **技能只在 `manifest.json` 里**：`search` 命不中，且 `stats` 会把它列进
-   `pack_references_missing_on_disk`——这是需要修的数据错误。
+1. **Keyword too narrow**: first use `stats` to see the category distribution, then search by category name;
+2. **Misremembered skill name**: skill names in this repo are all kebab-case, no spaces, no capitals,
+   e.g. `video-generation` not `Video Generation`;
+3. **The skill is in `assets/`**: that's an example, not a loadable skill—being unsearchable is expected behavior;
+4. **The skill is on disk but not in `manifest.json`**: `search` can still hit it (it scans disk),
+   but `pack` will tell you it doesn't belong to any pack;
+5. **The skill is only in `manifest.json`**: `search` won't hit it, and `stats` will list it in
+   `pack_references_missing_on_disk`—this is a data error that needs fixing.
 
-## 权重设计的取舍
+## Weight design trade-offs
 
-名称权重（5）远高于正文（1），是因为技能名本身就是一次人工压缩：
-作者在命名时已经把「这个技能干什么」压进了几个词。description 权重（3）
-对应「模型仅凭 name+description 决定是否加载」这一机制。
-包描述命中给 +2 且每技能只计一次，是为了让「整包都相关」的情形浮上来，
-同时防止同一个包里 20 个技能靠包描述互相刷分淹没真正命中的那个。
+Name weight (5) is far higher than body (1) because the skill name itself is a human compression:
+the author already compressed "what this skill does" into a few words when naming it. Description weight (3)
+corresponds to the mechanism of "the model decides whether to load based on name+description alone."
+Pack-description hits are worth +2 and counted once per skill, so that "the whole pack is relevant" cases float up,
+while preventing 20 skills in the same pack from inflating each other's scores via pack description and drowning out the truly hit one.

@@ -1,18 +1,18 @@
-# 方法论来源与署名
+# Methodology Sources and Attribution
 
-本技能的方法论 distilled from Anthropic public skills docs (no content copied)。
+This skill's methodology is distilled from Anthropic public skills docs (no content copied).
 
-## 参考与原创声明
+## Reference and Originality Statement
 
-- 工作流思想（先计划后实现的两遍流程、阶段化设计决策、"AI 生成设计存在可识别默认味"这一批判性视角）参考了 Anthropic 公开技能文档的方法论。
-- 具体吸收的方法论要点：设计决策应先于代码、以 token 系统（色板/字体/布局/原则）承载设计计划、把"默认味自查"作为独立工序、把克制与自我批评纳入交付环节。
-- 本目录下所有文字（含 SKILL.md 与 ai-design-tells.md）均为本仓库原创撰写：未复制、未翻译、未改写任何原文段落，未沿用原文中的任何具体示例、色值或案例清单。
-- 章节骨架说明：本技能的"输入清单 / 前置自检 / 工作流 / 交付标准 / 失败处置表"结构来自本仓库的技能撰写标准（见 docs/），与原文档的章节结构无关；触发词格式、失败处置表等亦为本仓库惯例。
-- Anthropic 官方技能文档的许可证禁止复制、衍生与再分发其文本；本技能仅学习其方法论思想，不构成衍生作品。
-- 原文许可与本技能许可相互独立：本技能以 Apache-2.0 授权（见仓库 LICENSE）。
+- The workflow thinking (plan-before-implement two-pass process, staged design decisions, the critical perspective that "AI-generated design has identifiable default tells") references the methodology of Anthropic's public skills documentation.
+- Specific methodology points absorbed: design decisions should precede code; the design plan should be carried by a token system (palette/typography/layout/principles); "default-tell self-check" should be a standalone step; restraint and self-critique should be part of the delivery stage.
+- All text in this directory (including SKILL.md and ai-design-tells.md) is originally written for this repository: no original passages were copied, translated, or paraphrased; no specific examples, color values, or case lists from the original were reused.
+- Section skeleton note: this skill's "input checklist / pre-flight self-check / workflow / delivery standards / failure-handling table" structure comes from this repository's skill-authoring standards (see docs/), and is unrelated to the original document's section structure; trigger-word format and failure-handling table are also this repository's conventions.
+- Anthropic's official skills documentation license prohibits copying, derivative works, and redistribution of its text; this skill only learns its methodology ideas and does not constitute a derivative work.
+- The original license and this skill's license are independent: this skill is licensed under Apache-2.0 (see repository LICENSE).
 
-## 出处
+## Provenance
 
-- Anthropic 公开技能仓库中的 frontend-design 技能——仅作为方法论思想的阅读参考，未复制其任何文本。
-- 本仓库 docs/ 下的技能撰写标准——章节骨架与质量门禁的出处。
-- 首次撰写与验证日期：2026-09-16。
+- The frontend-design skill in Anthropic's public skills repository—read only as a methodology reference; no text was copied.
+- The skill-authoring standards under this repository's docs/—the source of the section skeleton and quality gates.
+- First authored and validated: 2026-09-16.

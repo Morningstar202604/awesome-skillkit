@@ -1,67 +1,67 @@
-# 情绪表演词库：让 TTS 有温度（emotion-delivery-lexicon）
+# Emotion Delivery Lexicon: Giving TTS Warmth (emotion-delivery-lexicon)
 
-> TTS 模型大多没有"情感滑块"——**情绪在文案里，不在参数里**。这张表把情绪标签翻译成可执行的文案手法 + 参数档位。
-> 铁律：先改标点和句子长短（零成本、必生效），再调语速（轻度生效），最后才考虑换支持情感参数的引擎。
+> Most TTS models don't have an "emotion slider"—**emotion lives in the script, not in the parameters**. This table translates emotion labels into executable script techniques + parameter settings.
+> Iron rule: first change punctuation and sentence length (zero cost, guaranteed to work), then adjust speech rate (mild effect), and only finally consider switching to an engine that supports emotion parameters.
 
-## 一、情绪 → 文案手法对照表
+## 1. Emotion → Script Technique Mapping
 
-| 情绪标签 | 文案手法（改脚本） | 语速 | 停顿设计 |
+| Emotion label | Script technique (edit the script) | Speech rate | Pause design |
 |----------|-------------------|------|---------|
-| 沉稳/权威 | 中长句；避免语气词；术语前置 | 0.95-1.0 | 句号后 400-600ms（拆段实现） |
-| 兴奋/促销 | 极短句连排（"快。更快。最快。"）；数字和感叹前置 | 1.1-1.2 | 短句间不留长停顿 |
-| 低语/亲密 | 句尾省略号；用"你看""说真的"这类低门槛开场 | 0.85-0.95 | 省略号段后留 800ms |
-| 悬念/紧张 | 破折号切断（"他打开门——"）；信息延迟释放 | 0.9-1.0 | 破折号后 600ms 再接下段 |
-| 哀伤/怀旧 | 长句舒缓；重复关键词（"那年。那年冬天。"） | 0.85-0.9 | 句间 500-700ms |
-| 幽默/轻松 | 口语语气词（"诶""得嘞"）；自问自答 | 1.0-1.1 | 抖包袱前停 300ms |
+| Composed/authoritative | Medium-long sentences; avoid filler words; terms upfront | 0.95-1.0 | 400-600ms after periods (implement by splitting segments) |
+| Excited/promotional | Extremely short sentences in a row ("Fast. Faster. Fastest."); numbers and exclamations upfront | 1.1-1.2 | No long pauses between short sentences |
+| Whisper/intimate | Ellipses at sentence ends; use low-threshold openers like "look," "honestly" | 0.85-0.95 | Leave 800ms after ellipsis segments |
+| Suspense/tension | Dash cuts ("He opened the door—"); delayed information release | 0.9-1.0 | 600ms after the dash before continuing |
+| Sorrowful/nostalgic | Slow long sentences; repeat keywords ("That year. That winter.") | 0.85-0.9 | 500-700ms between sentences |
+| Humorous/light | Colloquial filler words; self-ask-self-answer | 1.0-1.1 | Pause 300ms before the punchline |
 
-## 二、标点即停顿（标点层级 = 停顿时长）
+## 2. Punctuation as Pauses (punctuation hierarchy = pause length)
 
-TTS 对标点的停顿处理有大致层级，写脚本时按需选用：
+TTS has a rough hierarchy of pause handling for punctuation; choose as needed when writing scripts:
 
-| 标点 | 停顿感 | 用途 |
+| Punctuation | Pause feel | Use |
 |------|--------|------|
-| 顿号 、 | 几乎无 | 列举连读 |
-| 逗号 ， | 短 | 半句换气 |
-| 句号 。 | 中 | 段内完整停顿 |
-| 破折号 —— | 中长 + 悬置感 | 切断、悬念 |
-| 省略号 …… | 长且下行 | 低语、怅然 |
-| 问号 ？ | 中 + 上扬 | 互动感 |
-| 换行（拆段） | 最长（由拼接间隔控制） | 章节、话题切换 |
+| Enumeration comma 、 | almost none | list read-through |
+| Comma ， | short | half-sentence breath |
+| Period 。 | medium | complete pause within a segment |
+| Dash —— | medium-long + suspended feel | cut-offs, suspense |
+| Ellipsis …… | long and descending | whispers, wistfulness |
+| Question mark ？ | medium + rising | interactive feel |
+| Line break (segment split) | longest (controlled by concatenation gap) | chapter/topic switches |
 
-**拼接间隔是最大的停顿控制器**：段间 500ms 是对话节奏，800-1200ms 是章节感，>1.5s 是换场。
+**The concatenation gap is the biggest pause controller**: 500ms between segments is conversational rhythm, 800-1200ms is chapter feel, >1.5s is scene change.
 
-## 三、重音位置（信息放句尾，钩子放句首）
+## 3. Stress Position (information at sentence end, hooks at sentence start)
 
-- TTS 重音天然落在**句尾**——把最重要的词放句尾："今天聊一个**改变认知的东西**"（"东西"被加重 → 不理想）改为"改变认知的，是**这个东西**"
-- 数字、否定词、转折词（但是/其实）尽量前置——TTS 对句首词的清晰度最高
-- 想强调某词：把它独立成短句（"记住三个字。**慢下来**。"）
+- TTS stress naturally falls on the **sentence end**—put the most important word at the end: "Today we're talking about something **that changes your perspective**" (where "something" is stressed → not ideal) → change to "What changes your perspective is **this thing**"
+- Numbers, negatives, and transition words (but/actually) should be placed upfront—TTS clarity is highest for sentence-initial words
+- To emphasize a word: make it a standalone short sentence ("Remember three words. **Slow down.**")
 
-## 四、对话节奏（双人播客专用）
+## 4. Dialogue Rhythm (for two-person podcasts only)
 
-| 手法 | 文案写法 | 效果 |
+| Technique | Script writing | Effect |
 |------|---------|------|
-| 插话 | 一方句子中途被接（"所以我觉得——" "对，就是这样"） | 真实感 |
-| 迟疑 | 加"嗯……""怎么说呢" | 思考中，避免播报腔 |
-| 附和 | "真的假的？""不会吧" 独立短段 | 双人感锚点 |
-| 争辩升级 | 句子越来越短 | 冲突张力 |
+| Interjection | One person's sentence cut off mid-way ("So I think—" "Right, exactly") | Realism |
+| Hesitation | Add "um…" "how should I put it" | Thinking, avoiding broadcast tone |
+| Affirmation | "No way?" "Really?" as standalone short segments | Two-person anchor points |
+| Argument escalation | Sentences get shorter and shorter | Conflict tension |
 
-- 对话行**每行单独成段**（拼接计划按行排），相邻行 crossfade 300-500ms
-- 两人语速差设 0.05 以上（如 host 1.05 / guest 0.95），听感立刻分开
+- Dialogue lines **each become their own segment** (the concatenation plan is laid out by line); adjacent lines crossfade 300-500ms
+- Set the speech-rate difference between the two voices to 0.05+ (e.g. host 1.05 / guest 0.95), and the listening feel immediately separates
 
-## 五、参数档位速查（Kokoro 系 / 通用）
+## 5. Parameter Quick Reference (Kokoro family / universal)
 
-| 参数 | 档位 | 说明 |
+| Parameter | Setting | Notes |
 |------|------|------|
-| speed | 0.85 低语慢 / 1.0 基准 / 1.1 解说 / 1.2 快节奏 | 超出 0.8-1.3 易破音 |
-| stability（支持引擎） | 高=稳但平 / 低=活但飘 | 叙事 0.7，对话 0.4-0.5 |
-| voice design 描述 | 「场景+性别+质感」："图书馆里的低沉男声""地铁报站感的清亮女声" | 仅描述式生成模型可用 |
+| speed | 0.85 slow whisper / 1.0 baseline / 1.1 narration / 1.2 fast-paced | Outside 0.8-1.3, distortion likely |
+| stability (supported engines) | high = steady but flat / low = lively but wandering | Narrative 0.7, dialogue 0.4-0.5 |
+| voice design description | "scene + gender + texture": "low male voice in a library," "bright female voice like a subway station announcement" | Only for descriptive-generation models |
 
-## 六、失败模式与修复
+## 6. Failure Modes and Fixes
 
-| 症状 | 根因 | 修复 |
+| Symptom | Root cause | Fix |
 |------|------|------|
-| 播报腔 | 全长句 + 全句号 + 语速 1.0 | 短句连排 + 破折号 + 语速 ±0.1 |
-| 情绪过火（AI 呻吟感） | 语气词堆太多（"啊！哇！天哪！"） | 每段最多 1 个语气词，其余靠节奏 |
-| 机关枪 | 无停顿标记 | 拆段 + 段间 500ms 起 |
-| 念经感 | 排比句全是同一结构 | 打散：短-长-短交替 |
-| 重点被吃掉 | 关键词在句中 | 关键词独立成句或移句尾 |
+| Broadcast tone | All long sentences + all periods + rate 1.0 | Short sentences in a row + dashes + rate ±0.1 |
+| Overwrought emotion (AI moaning feel) | Too many filler words ("Ah! Wow! Oh my god!") | Max 1 filler per segment; rely on rhythm for the rest |
+| Machine-gun | No pause markers | Split segments + 500ms minimum between segments |
+| Chanting feel | Parallel sentences all the same structure | Break up: alternate short-long-short |
+| Key point eaten | Keywords mid-sentence | Make the keyword a standalone sentence or move to the end |

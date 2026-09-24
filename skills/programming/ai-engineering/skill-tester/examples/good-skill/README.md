@@ -1,64 +1,64 @@
 # good-skill
 
-合规技能的最小示范样例（与 `assets/sample-skill/` 反面样例成对使用）。
+A minimal example of a compliant skill (used as a pair with the negative example in `assets/sample-skill/`).
 
-## 这是什么
+## What this is
 
-good-skill 回答一个具体问题："通过 skill-tester 全部校验的技能，最小长什么样？"
-它被 skill-tester 的文档示例引用，作为"审计一个合格技能"的目标；
-同时它本身就是一份**可运行的写作模板**——新技能作者可以从复制本目录开始。
+good-skill answers one concrete question: "what is the smallest a skill that passes all skill-tester checks looks like?"
+It is referenced by skill-tester's documentation examples as the target for "auditing a compliant skill";
+at the same time, it is itself a **runnable writing template**—new skill authors can start by copying this directory.
 
-对照关系：
+Comparison:
 
-| 对照项 | good-skill（本样例） | sample-skill（反面样例） |
+| Aspect | good-skill (this example) | sample-skill (negative example) |
 |---|---|---|
-| 校验器结论 | 全部通过，退出码 0 | 多项 FAIL，退出码非 0 |
-| 脚本 `__main__` guard | 有 | 缺失 |
-| 快速上手章节 | 有（quick start） | 缺失 |
-| 自动化测试 | tests/ 有 unittest | 无 |
-| 用途 | 正面教材：照着写 | 反面教材：练习解读 FAIL |
+| Validator verdict | All pass, exit code 0 | Multiple FAILs, non-zero exit code |
+| Script `__main__` guard | Present | Missing |
+| Quick-start section | Present (quick start) | Missing |
+| Automated tests | unittest in tests/ | None |
+| Purpose | Positive example: write by following it | Negative example: practice reading FAILs |
 
-## 目录结构
+## Directory structure
 
 ```
 good-skill/
-├── SKILL.md              # 技能主文档（frontmatter + 章节 + 可运行示例）
-├── README.md             # 本文件
+├── SKILL.md              # main skill doc (frontmatter + sections + runnable examples)
+├── README.md             # this file
 ├── scripts/
-│   └── hello_stats.py    # 演示脚本（纯标准库，150+ 行）
+│   └── hello_stats.py    # demo script (stdlib only, 150+ lines)
 ├── tests/
-│   └── test_hello_stats.py  # unittest 自动化测试
+│   └── test_hello_stats.py  # unittest automated tests
 ├── expected_outputs/
-│   └── sample_numbers_stats.json  # golden 输出（供 script_tester 比对）
+│   └── sample_numbers_stats.json  # golden output (for script_tester comparison)
 ├── assets/
-│   └── sample_numbers.txt   # 样例输入数据
+│   └── sample_numbers.txt   # sample input data
 └── references/
-    └── notes.md          # 设计说明
+    └── notes.md          # design notes
 ```
 
-## 快速验证
+## Quick verification
 
-在本目录内执行：
+Run from within this directory:
 
 ```bash
 python3 scripts/hello_stats.py 1,2,3.5,4 --json
 python3 -m unittest discover tests
 ```
 
-第一条命令输出统计 JSON（退出码 0）；第二条跑 10 个单元测试（全部通过）。
+The first command outputs stats JSON (exit code 0); the second runs 10 unit tests (all pass).
 
-## 作为模板使用
+## Using it as a template
 
-1. 复制本目录为新技能目录，改目录名与 frontmatter 的 `name`。
-2. 把 `scripts/hello_stats.py` 换成你的真实脚本——保留五条纪律：
-   stdlib-only、`__main__` guard、`--help` 自描述、`--json` 机器可读、
-   错误路径退出码非 0 且提示可读。
-3. 按你的功能重写 SKILL.md 各章节，**每条示例命令都必须可复制运行**。
-4. 用 `python3 ../../scripts/skill_validator.py . --json` 自检，
-   直到 `compliance_level` 不为 FAIL。
+1. Copy this directory to a new skill directory; rename the directory and the frontmatter `name`.
+2. Replace `scripts/hello_stats.py` with your real script—keep the five disciplines:
+   stdlib-only, `__main__` guard, self-describing `--help`, machine-readable `--json`,
+   non-zero exit code on error paths with a readable message.
+3. Rewrite each SKILL.md section for your feature; **every example command must be copy-paste runnable**.
+4. Self-check with `python3 ../../scripts/skill_validator.py . --json`,
+   until `compliance_level` is not FAIL.
 
-## 相关文档
+## Related docs
 
-- 详细设计说明见 [references/notes.md](references/notes.md)
-- 五条脚本纪律的逐条解释见 [SKILL.md](SKILL.md) 的 references 节
-- 反面样例：[../../assets/sample-skill/](../../assets/sample-skill/)
+- Detailed design notes: [references/notes.md](references/notes.md)
+- Line-by-line explanation of the five script disciplines: the references section of [SKILL.md](SKILL.md)
+- Negative example: [../../assets/sample-skill/](../../assets/sample-skill/)

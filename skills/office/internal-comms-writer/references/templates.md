@@ -1,72 +1,72 @@
-# 四文体原创模板（中文语境）
+# Original Templates for Four Genres (Chinese context)
 
-写初稿时取用对应模板，`【】` 为占位符，填写后删除括号标注。
+When drafting, take the corresponding template; `【】` are placeholders—delete the bracket marks after filling.
 
-## 一、定期团队更新（进度 / 计划 / 问题）
+## 1. Regular Team Update (progress / plans / issues)
 
 ```text
-标题：【团队名】周报 · 第 N 期（M月D日–M月D日）
+Title: [Team Name] Weekly Update · Issue N (M/D–M/D)
 
-一、进度
-- 【事项A】：完成【里程碑/百分比】，较上期【+x】。【一句关键数据或演示链接】
-- 【事项B】：进行中，预计【日期】完成。
+1. Progress
+- [Item A]: completed [milestone/percentage], [+x] from last period. [one key data point or demo link]
+- [Item B]: in progress, expected complete by [date].
 
-二、计划（下期）
-- 【事项C】：目标【可验证的结果】，owner：【姓名】，截止【日期】。
+2. Plans (next period)
+- [Item C]: goal [verifiable result], owner: [name], deadline [date].
 
-三、问题（需要关注或支援的）
-- 【问题】：影响：【影响范围】，当前对策：【对策】，需要的支持：【具体支援】。
-  （无问题则写"本期无阻塞"，不写"暂无更新"）
+3. Issues (need attention or support)
+- [Issue]: impact: [scope], current countermeasure: [countermeasure], needed support: [specific help].
+  (If no issues, write "no blockers this period," not "no updates for now")
 ```
 
-## 二、全员公告（变更 / 政策）
+## 2. Company-Wide Announcement (change / policy)
 
 ```text
-标题：【一句话结论，例如：内网 VPN 将于 X月X日 起切换为新入口】
+Title: [one-sentence conclusion, e.g.: the intranet VPN will switch to a new entry starting M/D]
 
-结论：【新旧怎么变，一句话说死，不加铺垫。】
+Conclusion: [what changes old→new, stated dead in one sentence, no preamble.]
 
-影响面：
-- 对象：【哪些人受影响，如何界定】
-- 变化：【操作方式 / 权限 / 流程的具体差异】
+Impact:
+- Who: [which people are affected, how scoped]
+- Change: [specific differences in operation / permissions / process]
 
-行动项：
-| 谁 | 做什么 | 什么时候前 |
+Action items:
+| Who | What to do | By when |
 |---|---|---|
-| 【角色/人群】 | 【具体动作，含入口链接】 | 【具体日期】 |
+| [role/group] | [specific action, including entry link] | [specific date] |
 
-截止【日期】未完成的后果：【一句客观陈述，如旧入口将停用】。
-疑问请联系：【姓名 / 答疑频道】，FAQ 见【链接】。
+Consequences of not completing by [date]: [one objective statement, e.g. the old entry will be retired].
+Questions: contact [name / Q&A channel], FAQ at [link].
 ```
 
-## 三、FAQ 回答
+## 3. FAQ Answer
 
 ```text
-Q：【原样引用员工的问题，不改写】
+Q: [quote the employee's question verbatim, don't paraphrase]
 
-A：【第一句直接给答案，能用"是/否/日期/数字"回答就用它。】
+A: [first sentence gives the answer directly; if it can be answered with "yes/no/date/number," use that.]
 
-背景：【为什么是这样，2-3 句；只解释成因与范围，不替任何人辩护。】
-【如涉及历史决定，写"当时的考虑是…"，不写"我们早已说明过"。】
+Background: [why it is this way, 2-3 sentences; only explain cause and scope, don't defend anyone.]
+[If it involves a past decision, write "the consideration at the time was…," not "we've already explained this."]
 
-还有疑问：【找谁 / 什么渠道】，我们会把高频追问更新进本条。
+Still have questions: [who to reach / what channel]; we'll update high-frequency follow-ups into this entry.
 ```
 
-## 四、跨团队求助 / 协调邮件
+## 4. Cross-Team Help / Coordination Email
 
 ```text
-收件：【对方 owner】；抄送：【双方主管，仅当升级或超期】
+To: [other-side owner]; CC: [both managers, only if escalating or overdue]
 
-主题：【请求类型 + 对象 + 截止，如：请求支援——A 系统接口联调，期望 3月10日前】
+Subject: [request type + object + deadline, e.g.: requesting support—A-system API joint debugging, expected by March 10]
 
-上下文：【我们在做什么、卡在哪，3 句以内；给对方判断所需的最小事实。】
+Context: [what we're doing, where we're stuck, within 3 sentences; give the minimum facts they need to judge.]
 
-请求：【明确到"人 × 时长 × 产出"，如：希望贵侧 1 位熟悉 X 的同学，
-本周内投入约半天完成联调。】
+Request: [specific to "person × duration × output," e.g.: we hope your side can spare one person familiar with X,
+about half a day this week, to complete the joint debugging.]
 
-时间窗口：【我们需要的时间点，以及晚了会撞上的下游节点。】
+Time window: [when we need it, and the downstream node it would bump into if late.]
 
-替代方案：【如果排不出：可接受的时间 / 范围折中 / 我们可先做的部分。】
+Fallback: [if scheduling can't work: acceptable timing / scope compromise / the part we can do first.]
 
-附：【接口文档、复现步骤等链接，让对方零追问开工。】
+Attachments: [links to API docs, reproduction steps, etc., so they can start with zero follow-up questions.]
 ```

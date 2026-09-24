@@ -1,66 +1,66 @@
-# Prompt 模板库
+# Prompt Template Library
 
 ## Table of Contents
 
 - [L2 Flash LLM Prompt](#l2-flash-llm-prompt)
 - [L3 Pro LLM Prompt](#l3-pro-llm-prompt)
-- [澄清问题生成 Prompt](#澄清问题生成-prompt)
-- [计划渲染 Prompt（可选，用于生成 markdown）](#计划渲染-prompt可选用于生成-markdown)
+- [Clarification Questions Generation Prompt](#clarification-questions-generation-prompt)
+- [Plan Rendering Prompt (optional, for generating markdown)](#plan-rendering-prompt-optional-for-generating-markdown)
 
 ## L2 Flash LLM Prompt
 
 ```markdown
-你是一位资深软件工程师，正在分析用户的编程需求。
+You are a senior software engineer analyzing a user's programming request.
 
-任务：识别用户意图类型，提取关键槽位，给出置信度。
+Task: identify the user's intent type, extract key slots, and give a confidence score.
 
-用户输入：{normalized_text}
-项目技术栈：{tech_stack}
-项目结构片段（可选）：{project_snippet}
+User input: {normalized_text}
+Project tech stack: {tech_stack}
+Project structure snippet (optional): {project_snippet}
 
-请仅返回以下 JSON，不要任何其他内容：
+Return ONLY the following JSON, with nothing else:
 
 {
   "intent_type": "implement|fix|refactor|review|test|optimize|plan|design|migrate|destructive",
   "confidence": 0.0-1.0,
-  "description": "一句话需求描述",
+  "description": "one-sentence requirement description",
   "slots": {
-    "target": "目标模块/文件，如 auth、user-service",
-    "scope": "改动范围，如 login+register、api-only",
-    "tech_stack": "技术栈，如 python/fastapi、node/express"
+    "target": "target module/file, e.g. auth, user-service",
+    "scope": "change scope, e.g. login+register, api-only",
+    "tech_stack": "tech stack, e.g. python/fastapi, node/express"
   },
-  "assumptions": ["假设1", "假设2"]
+  "assumptions": ["assumption 1", "assumption 2"]
 }
 ```
 
-**约束**：
-- confidence 必须诚实反映确信程度
-- 无法确定的槽位留空字符串
-- assumptions 列出你为得出结论而做的假设
+**Constraints**:
+- confidence must honestly reflect your degree of certainty
+- leave slots you cannot determine as empty strings
+- assumptions lists the assumptions you made to reach the conclusion
 
 ---
 
 ## L3 Pro LLM Prompt
 
 ```markdown
-你是一位系统架构师，需要将用户需求分解为可执行任务计划。
+You are a system architect who must break the user's request down into an executable task plan.
 
-原始输入：{raw_input}
-规范化后：{normalized_text}
-技术栈：{tech_stack}
-项目结构片段：
+Raw input: {raw_input}
+Normalized: {normalized_text}
+Tech stack: {tech_stack}
+Project structure snippet:
 {project_snippet}
 
-已识别意图：{intent_type}
-已知槽位：{slots_json}
-跨轮上下文：{last_intent_json}
+Recognized intent: {intent_type}
+Known slots: {slots_json}
+Cross-turn context: {last_intent_json}
 
-请仅返回以下 JSON，不要任何其他内容：
+Return ONLY the following JSON, with nothing else:
 
 {
   "intent_type": "implement|fix|refactor|review|test|optimize|plan|design|migrate|destructive",
   "confidence": 0.0-1.0,
-  "description": "需求完整描述",
+  "description": "full requirement description",
   "slots": {
     "target": "",
     "scope": "",
@@ -71,7 +71,7 @@
   "sub_tasks": [
     {
       "id": "T1",
-      "description": "任务描述",
+      "description": "task description",
       "depends_on": [],
       "priority": "P0|P1|P2",
       "effort": "S|M|L",
@@ -80,60 +80,60 @@
   ],
   "critical_path": ["T1", "T3"],
   "parallel_groups": [["T2", "T4"]],
-  "solution": "推荐实现路径的简述",
+  "solution": "brief description of the recommended implementation path",
   "assumptions": [
-    {"text": "假设内容", "impact": "low|medium|high", "evidence": "verified|provisional|assumed"}
+    {"text": "assumption content", "impact": "low|medium|high", "evidence": "verified|provisional|assumed"}
   ]
 }
 ```
 
-**约束**：
-- sub_tasks 粒度：单任务 1-4 小时
-- depends_on 必须显式声明，无依赖用空数组
-- critical_path 必须是 sub_tasks 中实际存在的 ID
-- priority：P0=关键路径阻塞项，P1=重要不阻塞，P2=常规
-- solution 必须对应 intent_type 的标准方案模板
+**Constraints**:
+- sub_tasks granularity: a single task is 1-4 hours
+- depends_on must be declared explicitly; use an empty array when there are no dependencies
+- critical_path must be IDs that actually exist in sub_tasks
+- priority: P0 = critical-path blocker, P1 = important but not blocking, P2 = routine
+- solution must correspond to the standard solution template for the intent_type
 
 ---
 
-## 澄清问题生成 Prompt
+## Clarification Questions Generation Prompt
 
 ```markdown
-用户输入：{normalized_text}
-当前识别结果：intent={intent_type}, confidence={confidence}
-缺失槽位：{missing_slots}
-歧义点：{ambiguity_points}
+User input: {normalized_text}
+Current recognition result: intent={intent_type}, confidence={confidence}
+Missing slots: {missing_slots}
+Ambiguity points: {ambiguity_points}
 
-请生成最多 3 个澄清问题，要求：
-1. 每个问题针对一个关键缺失信息
-2. 问题具体、可回答、不模糊
-3. 给出示例回答格式
+Generate at most 3 clarification questions, requiring:
+1. Each question targets one key missing piece of information
+2. The questions are specific, answerable, and unambiguous
+3. Give an example answer format
 
-输出格式：
+Output format:
 [
-  "问题1（示例：回答格式）",
-  "问题2（示例：回答格式）",
-  "问题3（示例：回答格式）"
+  "question 1 (example: answer format)",
+  "question 2 (example: answer format)",
+  "question 3 (example: answer format)"
 ]
 ```
 
 ---
 
-## 计划渲染 Prompt（可选，用于生成 markdown）
+## Plan Rendering Prompt (optional, for generating markdown)
 
 ```markdown
-输入：结构化意图 JSON（见输出格式）
+Input: structured intent JSON (see output format)
 
-输出：markdown 格式的任务计划文档
+Output: a task plan document in markdown
 
-包含：
-1. 标题：任务计划 — {session_id}
-2. 意图类型、置信度、来源层、生成时间
-3. 需求概述
-4. 已知约束（硬/软）
-5. 任务分解表（ID、任务、依赖、优先级、预估、风险）
-6. 关键路径
-7. 可并行组
-8. 假设与待确认表
-9. 推荐方案
+Includes:
+1. Title: Task Plan — {session_id}
+2. Intent type, confidence, source layer, generation time
+3. Requirement overview
+4. Known constraints (hard/soft)
+5. Task breakdown table (ID, task, depends on, priority, estimate, risk)
+6. Critical path
+7. Parallelizable groups
+8. Assumptions and pending-confirmation table
+9. Recommended approach
 ```

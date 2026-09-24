@@ -173,4 +173,4 @@ Settle each item per the lexicon's section 7 checklist; a missing item means the
   12 common mistakes, three color schemes. **Steps 2, 3, and 4 all depend on it.**
 - `references/sources-and-methodology.md` — the lexicon's methodology provenance and originality statement.
 - Related skills: `dashboard-designer` (turns the plan into an HTML file),
-  `pub-plotter` (paper-grade figures), `figure-maker` (general illustrations).
+  `pub-plotter` (paper-grade figures), `pub-plotter` (paper-grade figures).

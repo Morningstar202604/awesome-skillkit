@@ -1,308 +1,147 @@
 <p align="center"><img src="docs/logo.svg" alt="awesome-skillkit" width="220" /></p>
 
-# awesome-skillkit
+<h1 align="center">awesome-skillkit</h1>
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-![Skills](https://img.shields.io/badge/skills-154-brightgreen)
-![Packs](https://img.shields.io/badge/packs-36-blue)
-![Chains](https://img.shields.io/badge/chains-18%20domains%20%2F%2062-orange)
-![Version](https://img.shields.io/badge/version-0.22.0-success)
+<p align="center">
+  <b>36 の実務シーンパック · 154 の厳選スキル · 解凍してドロップイン——<br>AI ツールが即座に仕事を覚えます。</b>
+</p>
 
-[English](README.md) | [中文](README.zh-CN.md) | **日本語**
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
+  <img src="https://img.shields.io/badge/skills-154-brightgreen?style=flat-square" alt="Skills" />
+  <img src="https://img.shields.io/badge/packs-36-blue?style=flat-square" alt="Packs" />
+  <img src="https://img.shields.io/badge/version-0.22.0-success?style=flat-square" alt="Version" />
+</p>
+
+<p align="center">
+  <a href="https://x33834.github.io/awesome-skillkit/"><img src="https://img.shields.io/badge/%F0%9F%8C%90_Official_Site-Browse-brightgreen?style=flat-square" alt="Official Site" /></a>
+  <a href="https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip"><img src="https://img.shields.io/badge/%E2%AC%87%EF%B8%8F_Download-_all.zip-blue?style=flat-square" alt="Download all packs" /></a>
+  <a href="https://gitcode.com/badhope/awesome-skillkit"><img src="https://img.shields.io/badge/GitCode-Mirror-3A72BE?style=flat-square" alt="GitCode" /></a>
+  <a href="https://gitee.com/badhope/awesome-skillkit"><img src="https://img.shields.io/badge/Gitee-Mirror-C71D23?style=flat-square" alt="Gitee" /></a>
+</p>
+
+<p align="center"><a href="README.md">English</a> | <a href="README.zh-CN.md">简体中文</a> | <strong>日本語</strong></p>
 
 ---
 
-## 🌐 多言語で読む
+## 🌐 このページを他の言語で読む（ワンクリック）
 
-この日本語 README は現在やや古い状態です。最新の英語版は [README.md](README.md)、中国語版は [README.zh-CN.md](README.zh-CN.md) をご覧ください。中国語で読みたい場合は：
+リポジトリ内の SKILL.md ファイルは英語へ翻訳中ですが、ドキュメント・事例・プラットフォーム注記の多くはまだ中国語で書かれています。この README と公式サイトを他の言語で即座に読むには:
 
-- **[🌐 Google 翻訳 — 公式サイトを中国語で読む](https://translate.google.com/translate?sl=ja&tl=zh-CN&u=https://x33834.github.io/awesome-skillkit/)**（ワンクリック）
-- **[Bing Translator 代替](https://cn.bing.com/translator?from=ja&to=zh-Hans)**（URL を貼るだけ）
-- **[Immersive Translate ブラウザ拡張](https://github.com/immersive-translate/immersive-translate)**（日中英バイリンガル表示におすすめ）
-- 📄 中国語 README: [**README.zh-CN.md**](README.zh-CN.md)
+- **[🌐 Google 翻訳 — 公式サイトを中文（簡体字）で読む](https://translate.google.com/translate?sl=ja&tl=zh-CN&u=https://x33834.github.io/awesome-skillkit/)**（推奨 — ワンクリック、インストール不要）
+- **[🌐 Google 翻訳 — 公式サイトを English で読む](https://translate.google.com/translate?sl=ja&tl=en&u=https://x33834.github.io/awesome-skillkit/)**（推奨 — ワンクリック）
+- **[Bing Translator で翻訳](https://cn.bing.com/translator?from=ja&to=zh-Hans)**（任意のページ URL を貼り付けて翻訳）
+- **[Immersive Translate ブラウザ拡張](https://github.com/immersive-translate/immersive-translate)**（日常使いに推奨 — サイト全体のバイリンガル横並び表示）
+- 📄 他言語 README: [**English (README.md)**](README.md) ・ [**中文简体 (README.zh-CN.md)**](README.zh-CN.md)
 
 ---
 
-> 🌐 **閲覧 / ダウンロード**: 公式サイトは GitHub Pages で公開中（両アカウント、内容同一）：
-> [x33834.github.io/awesome-skillkit](https://x33834.github.io/awesome-skillkit/) · [morningstar202604.github.io/awesome-skillkit](https://morningstar202604.github.io/awesome-skillkit/)
-> パックごとの zip と全量 `_all.zip` は各プラットフォームの Releases にあります（下記「プラットフォーム同期状況」参照）。
-> デプロイ手順: [docs/DEPLOY-SITE.md](docs/DEPLOY-SITE.md)
+## これは何？
 
-AI ツール向けに精選した**シナリオスキルパック**集。**1 つのパック = 1 つの実世界シナリオ、その中に連携する複数の skill が入っています。** zip をダウンロード → 解凍 → skill フォルダを AI ツールの skills ディレクトリにドラッグ → すぐ使える。
+**awesome-skillkit** は、AI コーディング / エージェントツール（Claude Code や `SKILL.md` を読み込めるあらゆるツール）向けに精選した**シナリオパック集**です。各パックは、**1 つの具体的な実世界シナリオ**のために連携するスキルをまとめてバンドルしています——「PR をレビューする」「CI/CD パイプラインをリリースする」「記事を 16 の中国語プラットフォームにクロスポストする」「ショート動画をエンドツーエンドで制作する」といった単位です。
 
-## ポジショニング
-
-**シナリオこそが答え——プラットフォームとツールに着地する、抽象分野ではなく。**
+設計思想は徹底してシンプルです。
 
 ```mermaid
 flowchart LR
-    A[実世界のシナリオ] --> B[シナリオパック<br/>1 パック = 1 シナリオ]
-    B --> C[連携する skill 群<br/>2–18 個]
-    C --> D[AI ツールへドラッグ<br/>skills ディレクトリ]
-    D --> E[新セッションで即動作]
+    A[Real-world scenario] --> B[Scene pack<br/>1 pack = 1 scenario]
+    B --> C[Group of collaborating skills<br/>1–19 of them]
+    C --> D[Drop into AI tool<br/>skills directory]
+    D --> E[Works in a new session<br/>no config]
     style A fill:#eaf2ff,stroke:#5b8def
     style E fill:#eafaea,stroke:#4caf72
 ```
 
-- 各パックは**具体的なシナリオ**（「PR をレビュー」「CI/CD を構築」「ブログに投稿」）に対応し、「エンジニアリング」「マーケティング」のような曖昧な言葉ではありません。
-- 各パックは**そのシナリオで連携する skill の組み合わせ**をまとめています——絞り込んだ 1 ペアから、18 スキルのスイート `Content Publishing Automation`（中国系 16 プラットフォームをエンドツーエンドでカバー）まで。
-- 各 skill の**出典は明記**されます（上流 curated / 自作 / オープンソース蒸留）。
+- 各パックは**具体的なシナリオ**に対応しており、「エンジニアリング」のような曖昧なドメインではありません。
+- 各パックは、そのシナリオで**実際に連携するスキルだけ**をまとめています——絞り込んだ 2 スキル構成（`API Development & Testing`）から、18 スキルのスイート（`AI Research & Writing`）、18 プラットフォームの自動出版マシン（`Content Publishing Automation`）まで。
+- 各スキルの**出典はスキルごとに** [`manifest.json`](manifest.json) と各 `packs/*/pack.json` に明記されています——自作、上流からの精選（MIT）、公開ドキュメントからの蒸留のいずれかです。
 
-## 数字で見る
+## ダウンロードガイド — 2 つの経路
 
-> **154 skills** · **36 シナリオパック** · **18 チェーンドメイン / 62 スキルチェーン** · v0.22.0 · Apache-2.0
+### パス A · 公式サイトを見る（一番簡単）
 
-**出典の内訳**:
+1. **<https://x33834.github.io/awesome-skillkit/>** を開きます。
+2. スキル名、ドメインチップ、パック名で検索します。
+3. 任意のスキルカードで **↓ SKILL.md** をクリックすると単一ファイルをダウンロードできます。パックカードからパック全体を zip でダウンロードすることもできます。
+4. 全部まとめて取得するには、ヒーローセクションの **↓ `_all.zip`** をクリックします。
 
-```mermaid
-pie title スキルの出典（n=154）
-    "自作シナリオスキル" : 116
-    "上流 curated（alirezarezvani/claude-skills, MIT）" : 33
-    "その他オープンソース蒸留" : 5
-```
+### パス B · リポジトリを直接見る
 
-**パック規模の分布**（█ = 1 skill、全 36 パック）:
+| 欲しいもの | 入手先 |
+|---|---|
+| 単一の `SKILL.md` | [`skills/`](skills/) をブラウズしてファイルをそのまま開く |
+| 1 パックを zip で | [`dist/<pack-id>.zip`](dist/)（ローカルビルド）または [Releases](https://github.com/x33834/awesome-skillkit/releases/latest) のパック別アセット |
+| 全パックをまとめて | `dist/_all.zip`、または [`_all.zip` リリースアセット](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) |
+| 中国語ミラー | [GitCode](https://gitcode.com/badhope/awesome-skillkit) · [Gitee](https://gitee.com/badhope/awesome-skillkit)（同一タグ、リリース zip 添付） |
 
-| 场景包 | 技能数 | 规模 |
-|--------|:---:|------|
-| AI Research & Writing | 19 | ███████████████████ |
-| Content Publishing Automation | 18 | ██████████████████ |
-| Office Productivity | 8 | ████████ |
-| Data, ML & Scientific Computing | 7 | ███████ |
-| AI Video Pipeline | 6 | ██████ |
-| AI Agent Development | 5 | █████ |
-| Code Review | 5 | █████ |
-| AI Media Toolkit | 4 | ████ |
-| Image Studio | 4 | ████ |
-| Memory Systems | 4 | ████ |
-| Toolsmith | 4 | ████ |
-| Video Design Studio | 4 | ████ |
-| Visual Design Studio | 4 | ████ |
-| Workspace Integrations | 4 | ████ |
-| System Architecture | 3 | ███ |
-| Audio Studio | 3 | ███ |
-| CI/CD Pipeline | 3 | ███ |
-| Code Planning & Generation | 3 | ███ |
-| Containers & Orchestration | 3 | ███ |
-| De-AI Writing | 3 | ███ |
-| Edu Craft | 3 | ███ |
-| GitHub Collaboration | 3 | ███ |
-| Growth Marketing | 3 | ███ |
-| Homework Autopilot | 3 | ███ |
-| Incident Response & SRE | 3 | ███ |
-| Infrastructure as Code | 3 | ███ |
-| Skill Forge | 3 | ███ |
-| API Development & Testing | 2 | ██ |
-| Database Design & Management | 2 | ██ |
-| Data Viz Studio | 2 | ██ |
-| Knowledge Base | 2 | ██ |
-| Security & Secrets | 2 | ██ |
-| Test-Driven Development | 2 | ██ |
-| Viral Entertainment | 2 | ██ |
-| Chat Prompt Craft | 1 | █ |
-| Performance Profiling | 1 | █ |
+> パック別 zip は `python3 build.py` で再ビルドされ、すべての GitHub Release に添付されます。GitCode / Gitee ミラーは同一タグをプッシュし、同一アセットをアップロードしています。
 
-## 30 秒で始める
+## シナリオパック一覧（全 36 パック）
 
-1. 📦 必要な**シナリオ**の zip を **Releases** からダウンロード（または手元で `python3 build.py` を実行して `dist/*.zip` を生成）。
-2. 📂 解凍——**複数の skill フォルダ**（各 `SKILL.md` を含む）が得られます。
-3. 🧲 フォルダを AI ツールの skills ディレクトリに**ドラッグ**:
-   - Claude Code: `~/.claude/skills/`（グローバル）または `.claude/skills/`（プロジェクト内）
-   - skills に対応するその他のツール: 該当の skills ディレクトリを使用
-4. 🚀 新しいセッションを開始——設定不要ですぐ動作。
+以下が完全なカタログです。各行はパックフォルダへのリンクになっており、スキル列には同梱されるすべての `SKILL.md` を列挙しています。
 
-## シナリオパック一覧
+| Pack ID | パック名 (英語) | パック名 (日本語) | スキル数 | 同梱スキル |
+|---|---|---|:---:|---|
+| [`ai-agent-development`](packs/ai-agent-development) | AI Agent Development | AI Agent開発 | 5 | `agent-designer`, `mcp-server-builder`, `feature-flags-architect`, `self-eval`, `skill-tester` |
+| [`ai-media-toolkit`](packs/ai-media-toolkit) | AI Media Toolkit | AIメディア生成ツールボックス | 3 | `video-generation`, `image-generation`, `music-generation` |
+| [`ai-research-writing`](packs/ai-research-writing) | AI Research & Writing | AIリサーチ＆ライティング | 18 | `deep-research`, `web-search`, `paper-topic-selector`, `article-outliner`, `article-drafter`, `content-editor`, `seo-optimizer`, `lit-review`, `experiment-runner`, `arch-diagram`, `neural-net-draw`, `latex-formatter`, `self-reviewer`, `journal-adapt`, `anti-defensive`, `ai-humanizer`, `tex-cleaner`, `pub-plotter` |
+| [`ai-video-pipeline`](packs/ai-video-pipeline) | AI Video Pipeline | AIショート動画制作パイプライン | 9 | `video-script-writer`, `video-voice-synth`, `video-lip-sync`, `video-editor`, `video-subtitles`, `video-thumbnail`, `transition-designer`, `motion-effects-designer`, `sound-designer` |
+| [`api-development`](packs/api-development) | API Development & Testing | API開発とテスト | 2 | `api-design-reviewer`, `api-test-suite-builder` |
+| [`architecture`](packs/architecture) | System Architecture | システムアーキテクチャ設計 | 3 | `senior-architect`, `migration-architect`, `monorepo-navigator` |
+| [`audio-studio`](packs/audio-studio) | Audio Studio | オーディオスタジオ | 4 | `podcast-producer`, `tts-voice-director`, `episode-publisher`, `sound-designer` |
+| [`chat-prompt-craft`](packs/chat-prompt-craft) | Chat Prompt Craft | チャットプロンプト術 | 1 | `chat-prompt-engineer` |
+| [`ci-cd`](packs/ci-cd) | CI/CD Pipeline | CI/CDパイプライン | 3 | `ci-cd-pipeline-builder`, `ship-gate`, `spec-driven-workflow` |
+| [`code-planning`](packs/code-planning) | Code Planning & Generation | コード計画と生成 | 3 | `code-intent-planner`, `code-generator`, `debug-diagnoser` |
+| [`code-review`](packs/code-review) | Code Review | コードレビュー | 4 | `code-reviewer`, `api-design-reviewer`, `tech-debt-tracker`, `dependency-auditor` |
+| [`containers`](packs/containers) | Containers & Orchestration | コンテナとオーケストレーション | 3 | `docker-development`, `helm-chart-builder`, `kubernetes-operator` |
+| [`content-publishing`](packs/content-publishing) | Content Publishing Automation | コンテンツ多プラットフォーム自動公開 | 18 | `zhihu-content-manager`, `cnblogs-skill`, `wechat-mp-publisher`, `juejin-publisher`, `csdn-publisher`, `jianshu-publisher`, `bilibili-publisher`, `toutiao-publisher`, `baijiahao-publisher`, `xiaohongshu-publisher`, `weibo-publisher`, `douban-publisher`, `v2ex-publisher`, `segmentfault-publisher`, `oschina-publisher`, `static-blog-deploy`, `cross-post-orchestrator`, `image-generation` |
+| [`data-ml-science`](packs/data-ml-science) | Data, ML & Scientific Computing | データ・機械学習・科学計算 | 7 | `etl-builder`, `feature-engineer`, `model-formulator`, `model-solver`, `simulation-runner`, `result-visualizer`, `ml-pipeline` |
+| [`database`](packs/database) | Database Design & Management | データベース設計と管理 | 2 | `database-designer`, `sql-database-assistant` |
+| [`dataviz-studio`](packs/dataviz-studio) | Data Viz Studio | データ可視化スタジオ | 2 | `dashboard-designer`, `chart-recommender` |
+| [`de-ai-writing`](packs/de-ai-writing) | De-AI Writing | AIっぽさ除去ライティング | 3 | `ai-trace-auditor`, `humanize-rewriter`, `personal-voice-profile` |
+| [`edu-craft`](packs/edu-craft) | Edu Craft | 教育クラフト | 3 | `course-designer`, `exercise-generator`, `feynman-explainer` |
+| [`github-workflow`](packs/github-workflow) | GitHub Collaboration | GitHubコラボレーション | 3 | `git-worktree-manager`, `changelog-generator`, `code-reviewer` |
+| [`growth-marketing`](packs/growth-marketing) | Growth Marketing | グロースマーケティング | 3 | `product-copywriter`, `campaign-designer`, `channel-adapter` |
+| [`homework-autopilot`](packs/homework-autopilot) | Homework Autopilot | 宿題オートパイロット | 3 | `assignment-intake`, `solution-drafter`, `own-voice-rewrite` |
+| [`image-studio`](packs/image-studio) | Image Studio | 画像生成ワークベンチ | 3 | `image-prompt-engineer`, `image-generation`, `visual-style-anchor` |
+| [`incident-response`](packs/incident-response) | Incident Response & SRE | 障害対応とSRE | 3 | `incident-commander`, `runbook-generator`, `slo-architect` |
+| [`infrastructure`](packs/infrastructure) | Infrastructure as Code | インフラ as Code | 3 | `terraform-patterns`, `observability-designer`, `kubernetes-operator` |
+| [`knowledge-base`](packs/knowledge-base) | Knowledge Base | パーソナル知識ベース | 2 | `personal-wiki`, `knowledge-graph-builder` |
+| [`memory-systems`](packs/memory-systems) | Memory Systems | 長期記憶システム | 4 | `memory-architect`, `memory-extractor`, `memory-manager`, `memory-retriever` |
+| [`office-productivity`](packs/office-productivity) | Office Productivity | 業務効率ツールボックス | 10 | `ppt-builder`, `excel-assistant`, `resume-tailor`, `meeting-notes`, `internal-comms-writer`, `docx-writer`, `pdf-pipeline`, `epub-builder`, `docx-template-fill`, `career-ops-lite` |
+| [`performance`](packs/performance) | Performance Profiling | パフォーマンス最適化 | 1 | `performance-profiler` |
+| [`security`](packs/security) | Security & Secrets | セキュリティとシークレット管理 | 4 | `secrets-vault-manager`, `env-secrets-manager`, `pii-redactor`, `prompt-injection-guard` |
+| [`skill-forge`](packs/skill-forge) | Skill Forge | スキル鍛造所 | 5 | `skill-author`, `skill-linter`, `skill-finder`, `session-handoff`, `weekly-report-generator` |
+| [`tdd`](packs/tdd) | Test-Driven Development | テスト駆動開発 | 4 | `tdd-guide`, `webapp-flow-tester`, `webapp-e2e-harness`, `agent-eval-harness` |
+| [`toolsmith`](packs/toolsmith) | Toolsmith | ツールと自動化 | 6 | `file-organizer`, `batch-renamer`, `format-converter`, `task-scheduler`, `invoice-organizer`, `bank-statement-reconcile` |
+| [`video-design-studio`](packs/video-design-studio) | Video Design Studio | 動画デザインスタジオ | 5 | `storyboard-designer`, `shot-designer`, `visual-style-anchor`, `transition-designer`, `motion-effects-designer` |
+| [`viral-entertainment`](packs/viral-entertainment) | Viral Entertainment | バズるエンタメシナリオ | 2 | `ai-baby-podcast`, `nailong-laugh-shorts` |
+| [`visual-design-studio`](packs/visual-design-studio) | Visual Design Studio | ビジュアルデザインスタジオ | 5 | `design-brief-interpreter`, `image-prompt-engineer`, `layout-spec-auditor`, `frontend-design-director`, `frontend-component-lab` |
+| [`workspace-integrations`](packs/workspace-integrations) | Workspace Integrations | 外部連携ツールボックス | 4 | `notion-workspace`, `feishu-dingtalk-bridge`, `issue-tracker-sync`, `cloud-drive-manager` |
 
+> 一部のスキル（例: `api-design-reviewer`、`kubernetes-operator`、`image-generation`）は複数のパックに登場しますが、シナリオをまたいで再利用されるためです——意図的な設計です。
 
-### エンジニアリングとプログラミング
+## インストール方法（30 秒）
 
-| シナリオパック | スキル数 | シナリオ | 出典 |
-|--------|:---:|------|:---:|
-| AI Agent Development | 5 | 本番級エージェント、マルチエージェント、MCP、フィーチャーフラグ、自己評価 | 上游 |
-| Code Review | 5 | PR レビュー、コード品質、依存関係監査、技術的負債 | 上游 |
-| System Architecture | 3 | システムアーキテクチャ、ゼロダウンタイム移行、monorepo | 上游 |
-| CI/CD Pipeline | 3 | CI/CD パイプライン、リリースゲート、spec 駆動開発 | 上游 |
-| Code Planning & Generation | 3 | 曖昧な要件→構造化計画→生成→失敗診断 | 自研 |
-| Containers & Orchestration | 3 | Dockerfile、compose、Helm、K8s operator | 上游 |
-| GitHub Collaboration | 3 | 並列 worktree、Conventional changelog、PR レビュー | 上游 |
-| Incident Response & SRE | 3 | インシデント指揮、runbook、SLO/エラーバジェット | 上游 |
-| Infrastructure as Code | 3 | Terraform パターン、オブザーバビリティ、K8s | 上游 |
-| API Development & Testing | 2 | REST API 設計レビュー、契約/統合テスト | 上游 |
-| Database Design & Management | 2 | スキーマ設計、ERD、移行、SQL 最適化 | 上游 |
-| Security & Secrets | 2 | シークレット保管、環境変数の衛生管理 | 上游 |
-| Test-Driven Development | 2 | 単体テスト、fixture、mock、Red-Green リファクタ、Playwright フローテスト | 上游 |
-| Chat Prompt Craft | 1 | 対話 AI プロンプト設計：5 要素の式、agent システムプロンプト、逆制約 | 自研 |
-| Performance Profiling | 1 | Node/Python/Go の CPU/メモリ/IO プロファイリング | 上游 |
+1. 必要なシナリオの zip を**ダウンロード**します（または `_all.zip` を取得）。
+2. **解凍**すると、スキルごとに 1 フォルダ（各 `SKILL.md` を含む）が得られます。
+3. スキルフォルダを AI ツールの skills ディレクトリに**ドラッグ**します:
+   - Claude Code: `~/.claude/skills/`（グローバル）または `.claude/skills/`（プロジェクト別）
+   - その他の skills 対応ツール: 各ツールのドキュメントに記載された skills ディレクトリを使用します。
+4. **新しいセッションを開始**します。環境変数も設定も不要——ユーザーのリクエストがスキルの説明に一致すると、自動的に起動します。
 
-### リサーチとライティング
-
-| シナリオパック | スキル数 | シナリオ | 出典 |
-|--------|:---:|------|:---:|
-| AI Research & Writing | 19 | 問いから完成稿へ：多轮リサーチ、テーマ選定、アウトライン、草稿、推敲、SEO、図表、LaTeX | 自研 |
-| De-AI Writing | 3 | AI 痕跡の監査、人間らしい書き換え、個人の声紋プロファイル（AI 感低減） | 自研 |
-
-### コンテンツ配信
-
-| シナリオパック | スキル数 | シナリオ | 出典 |
-|--------|:---:|------|:---:|
-| Content Publishing Automation | 18 | 16+ 中国系プラットフォームの記事/動画配信、編集、クロスポスト、AI カバー | 自研 |
-
-### ビデオ制作
-
-| シナリオパック | スキル数 | シナリオ | 出典 |
-|--------|:---:|------|:---:|
-| AI Video Pipeline | 6 | ショート動画フルチェーン：脚本→ナレーション→リップシンク→編集→字幕→サムネイル→配信 | 自研 |
-| AI Media Toolkit | 4 | テキスト/画像から動画・画像生成・楽曲生成・カバー（ローカル生成ゲートウェイ） | 自研 |
-| Video Design Studio | 4 | 動画の前工程：絵コンテ、ショットレシピ、prompt 設計、スタイルアンカー | 自研 |
-| Viral Entertainment | 2 | しゃべる赤ちゃんポッドキャスト、龍のキャラ meme ショート（キャラ一貫性） | 自研 |
-
-### 画像とデザイン
-
-| シナリオパック | スキル数 | シナリオ | 出典 |
-|--------|:---:|------|:---:|
-| Image Studio | 4 | 画像制作ワークベンチ：prompt、再描画、拡張、超解像 | 自研 |
-| Visual Design Studio | 4 | brief→spec→prompt→layout 監査、デザインディレクターの 2 パス手法 | 自研 |
-
-### オーディオ
-
-| シナリオパック | スキル数 | シナリオ | 出典 |
-|--------|:---:|------|:---:|
-| Audio Studio | 3 | ポッドキャストチェーン：脚本→ナレーション→配信（Kokoro/Qwen3-TTS） | 自研 |
-
-### データサイエンス
-
-| シナリオパック | スキル数 | シナリオ | 出典 |
-|--------|:---:|------|:---:|
-| Data, ML & Scientific Computing | 7 | ETL、特徴エンジニアリング、モデリング求解、シミュレーション、可視化、ML パイプライン | 自研 |
-
-### オフィス効率化
-
-| シナリオパック | スキル数 | シナリオ | 出典 |
-|--------|:---:|------|:---:|
-| Office Productivity | 8 | PPT、Excel、Word、PDF、履歴書、議事録、社内報 | 自研 |
-
-### グロースマーケティング
-
-| シナリオパック | スキル数 | シナリオ | 出典 |
-|--------|:---:|------|:---:|
-| Growth Marketing | 3 | 電子商取引マーケティングチェーン：コピーフレーム、キャンペーン企画、チャネル適合 | 自研 |
-
-### 教育
-
-| シナリオパック | スキル数 | シナリオ | 出典 |
-|--------|:---:|------|:---:|
-| Edu Craft | 3 | マスター向け指導チェーン：講座→演習→フェインマン解説 | 自研 |
-| Homework Autopilot | 3 | ワンクリック宿題完了（温かみあり版、冷たさ低減） | 自研 |
-
-### メモリシステム
-
-| シナリオパック | スキル数 | シナリオ | 出典 |
-|--------|:---:|------|:---:|
-| Memory Systems | 4 | 長期記憶：設計/抽出/管理/検索（mem0/letta から蒸留） | 自研 |
-
-### ツールと自動化
-
-| シナリオパック | スキル数 | シナリオ | 出典 |
-|--------|:---:|------|:---:|
-| Toolsmith | 4 | ファイル整理、一括リネーム、形式変換、定期タスク（すべて dry-run 優先） | 自研 |
-
-### メタスキル
-
-| シナリオパック | スキル数 | シナリオ | 出典 |
-|--------|:---:|------|:---:|
-| Skill Forge | 3 | スキル生成、仕様チェック（CI ゲート）、スキル検索と組み立て | 自研 |
-
-### 外部連携
-
-| シナリオパック | スキル数 | シナリオ | 出典 |
-|--------|:---:|------|:---:|
-| Workspace Integrations | 4 | Notion / 飛書・釘釘・WeCom / Jira・Linear・GitHub Issues / クラウドストレージ | 自研 |
-
-### 個人ナレッジベース
-
-| シナリオパック | スキル数 | シナリオ | 出典 |
-|--------|:---:|------|:---:|
-| Knowledge Base | 2 | ノート庫の構築（索引・検索・点検）、ナレッジグラフの抽出と出力 | 自研 |
-
-### データ可視化
-
-| シナリオパック | スキル数 | シナリオ | 出典 |
-|--------|:---:|------|:---:|
-| Data Viz Studio | 2 | CSV 分析 → ダッシュボード生成（外部依存ゼロ）、グラフ選択辞書 | 自研 |
-
-## ディテール辞書（本リポジトリの差別化ポイント）
-
-生成系 skill の成否は「記述がどれだけ細かいか」にかかっています。高頻度シナリオ向けに**高密度のディテール辞書**を整備しました——用語 + 効果・感情 + 使いどき + 例。prompt を書く前にまず引いてください:
-
-| 辞書 | 領域 | カバー内容 |
-|------|:---:|-----------|
-| `cinematography-lexicon.md` | ビデオ | 17 種のトランジション / 動詞の空間的意味 / 微表情演技 / 速度・リズム / 5 モデル方言 / 反復修正対照 ||| `visual-detail-lexicon.md` | 画像 | 3 層のライティング 30+ 項目 / 構図 / 焦点距離と遠近性格 / マテリアル積み重ね式 / 静止画の動勢語 ||| `music-style-lexicon.md` | 音楽 | 5 スロット Style 式 / ジャンル系統樹 / 感情×BPM 相性禁止 / 構造・ボーカル・楽器 tag 全集 / ネガティブリスト ||| `emotion-delivery-lexicon.md` | 音声 | 感情→表現手法 / 句読点の停止階層 / アクセント位置 / 二人対話のリズム ||| `copywriting-formulas.md` | コピー | 10 型の見出し式 / PAS・FAB・AIDA 構造 / 場面別 CTA / 4 プラットフォームの調性差 ||| `layout-and-chart-rules.md` | PPT | フォントサイズ階層表 / 1 枚あたり情報密度の限界 / グラフ選択決定木 / WCAG コントラスト ||| `camera-vocabulary.md` | ビデオ | カメラワーク・ショットサイズ / 基本トランジション（入門層） ||| `rest_design_rules.md` | API | REST 設計レビュー規則セット ||| `bounded_autonomy_rules.md` | CI/CD | 境界自律規則（人間承認ノード） ||| `platform-rules.md` | SEO | 各プラットフォーム配信規則とセンシティブ語 |
-
-> 例: ビデオの `cinematography-lexicon.md` は「トランジション」を 17 種（smash cut / match cut / J-cut / invisible cut…）に分解し、「動詞の空間的意味表」も付属——`approaches` と `comes` のレベル差まで書かれており、AI に「どんなショットが欲しいか」を正確に伝えられます。
-
-## 代表スキルチェーン（単点ではなくパイプライン）
-
-```mermaid
-flowchart LR
-    subgraph ショート動画パイプライン
-    S[video-script-writer] --> V[video-voice-synth]
-    V --> L[video-lip-sync] --> E[video-editor]
-    E --> SUB[video-subtitles] --> T[video-thumbnail] --> P[配信]
-    end
-    subgraph リサーチ・ライティングチェーン
-    R[deep-research] --> O[article-outliner] --> D[article-drafter]
-    D --> C[content-editor] --> Q[seo-optimizer]
-    end
-    subgraph 配信チェーン
-    W[記事/動画] --> A[ai-cover-generator] --> X[cross-post-orchestrator]
-    X --> Z[16+ プラットフォーム]
-    end
-```
-
-`skill_chains.json` には **18 チェーンドメイン / 58 チェーン** が組み込まれ、「誰を先に呼ぶか、誰に渡すか」を固定し、モジュール間のクロスコールでも迷いません。
-
-## プラットフォーム同期状況
-
-四プラットフォームで並列同期（ブランチ / タグ / HEAD 完全一致）：
-
-| プラットフォーム | リポジトリ | コード同期 | Release / 添付 | 状態 |
-|----------------|-----------|:---:|:---:|------|
-| GitHub | `x33834/awesome-skillkit` | ✅ `0.22.0` まで | ✅ v0.22.0 + zip 37 個 | OK |
-| GitHub | `Morningstar202604/awesome-skillkit` | ✅ `0.22.0` まで | ✅ サイト | OK |
-| GitCode | `badhope/awesome-skillkit` | ✅ `0.22.0` まで | ✅ v0.22.0 リリース | OK |
-| Gitee | `badhope/awesome-skillkit` | ✅ `0.22.0` まで | ✅ v0.22.0、zip 添付 37 個 | OK |
-
-サイト（GitHub Pages 両アカウント、内容同一）：<https://x33834.github.io/awesome-skillkit/> · <https://morningstar202604.github.io/awesome-skillkit/>
-
-## ディレクトリ構成
-
-```
-packs/              # シナリオパック定義（シナリオごとに 1 ディレクトリ。pack.json = メタデータ + スキル一覧 + 出典）
-skills/             # 全 skill の単一ソース（多階層分類）
-  ├─ programming/   # 上流 curated（alirezarezvani、33 のプログラミングスキル）
-  ├─ writing/       # 自作シナリオスキル
-  ├─ video/ design/ audio/ marketing/ education/ scenarios/ …
-  └─ skill_chains.json  # 13 ドメイン / 48 チェーン
-dist/               # ビルド成果物：パックごと 1 zip（gitignored）
-```
-
-## 出典と署名
-
-2 つのトラックを採用し、すべて [manifest.json](manifest.json)、各 `packs/*/pack.json`、[SOURCES.md](SOURCES.md) で skill ごとに署名:
-
-- **自作シナリオスキル（116 個）**: `skills/writing/`、`scenarios/`、`design/`、`audio/` など。中国系プラットフォーム自動化、動画/画像/音声パイプライン、AI 感低減ライティング、メモリシステム、宿題オートパイロットなど——いずれも上流がカバーしていないオリジナルワークフローで、実行可能な lint スクリプトと単体テストを備え、デフォルトで dry-run。
-- **上流 curated（36 個、MIT）**: [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) 由来のプログラミング・エンジニアリング系スキル。
-- **その他オープンソース蒸留（10 個）**: Anthropic 公開 skills ドキュメント、mem0/letta/Claude memory tool、Kokoro/Qwen3-TTS エコシステムから方法論を蒸留。いずれも `references/sources-and-methodology.md` で署名、**内容のコピーはゼロ**。
-
-## ビルドとリリース
+## ソースからビルドする
 
 ```bash
-python3 build.py                           # 単一ビルド入口: パックごと dist/*.zip + dist/_all.zip
-python3 tools/release.py 0.19.0 --commit   # CHANGELOG 検証 → 昇格 → コミット → タグ
-git push origin main --follow-tags            # コード + 3 バージョンタグをプッシュ
-# Gitee / GitCode で Release を作成し dist/*.zip をアップロード（manifest.json の version が単一の真実）
+python3 build.py     # regenerates dist/<pack-id>.zip for every pack + dist/_all.zip
 ```
 
-## License
+`build.py` は [`manifest.json`](manifest.json) と `packs/*/pack.json` を読み込み、`skills/` から参照されたスキルフォルダをステージングして zip を書き出します。`dist/` ディレクトリは gitignore されており、CI / Releases がビルド成果物を添付します。
+
+## コントリビュート
+
+[CONTRIBUTING.md](CONTRIBUTING.md) を参照してください。要点: 新しいパックはまず issue を立ててください。新規スキルには `SKILL.md`、`packs/*/pack.json` への出典明記、[`tests/`](tests/) 配下のスモークテストが必須です。
+
+## ライセンス
 
 [Apache License 2.0](LICENSE) © 2026 Morningstar202604

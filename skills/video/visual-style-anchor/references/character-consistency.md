@@ -1,92 +1,95 @@
-# 角色一致性纪律 / Character Consistency Discipline
+# Character Consistency Discipline
 
-> 「人物不跑脸」不是玄学，是三条纪律：**描述固定、参考先行、漂移审计**。
-> 本文档是 visual-style-anchor 技能角色卡的完整操作手册，整合了本仓
-> ai-baby-podcast 技能（viral-entertainment 包）已验证的实践与开源社区方法。
+> "The face doesn't drift" isn't mysticism—it's three disciplines: **fixed description,
+> reference-first, drift audit**. This document is the full operating manual for the
+> visual-style-anchor skill's character card, integrating the proven practices of this repo's
+> ai-baby-podcast skill (viral-entertainment pack) and open-source community methods.
 
 ## Table of Contents
 
-1. [身份行 identity line](#1-身份行-identity-line)
-2. [三视图 turnaround](#2-三视图-turnaround)
-3. [锁定与禁改](#3-锁定与禁改)
-4. [漂移审计](#4-漂移审计)
-5. [变体机制](#5-变体机制)
-6. [声音一致性（配音角色）](#6-声音一致性配音角色)
+1. [Identity line](#1-identity-line)
+2. [Turnaround sheets](#2-turnaround-sheets)
+3. [Locking and do-not-change](#3-locking-and-do-not-change)
+4. [Drift audit](#4-drift-audit)
+5. [Variation mechanism](#5-variation-mechanism)
+6. [Voice consistency (dubbed characters)](#6-voice-consistency-dubbed-characters)
 
 ---
 
-## 1. 身份行 identity line
+## 1. Identity line
 
-可直接嵌入任何 prompt subject 槽位的**单句**，≤25 词：
+A **single sentence** you can drop straight into any prompt's subject slot, ≤25 words:
 
 ```text
 a young woman, short black bob hair, tired but sharp eyes, black oversized hoodie, white sneakers
 ```
 
-规则：
-- **复制粘贴，禁止同义改写**——「hoodie」改成「sweatshirt」，模型就可能换衣
-- 外观特征从「难改变」到「易改变」排序：发型/发色 → 五官 → 体型 → 服装 → 配饰
-- 禁止否定句：`not wearing glasses` 会生成 glasses（模型对 not 的处理不可靠）
-  → 要表达「没戴眼镜」就完全不提眼镜
+Rules:
+- **Copy-paste it; no synonym rewriting**—change "hoodie" to "sweatshirt" and the model may swap the clothing
+- Order appearance features from "hard to change" to "easy to change": hair style/color → facial features → body type → clothing → accessories
+- No negative prompts: `not wearing glasses` can still generate glasses (the model's handling of "not" is unreliable)
+  → to convey "no glasses," simply don't mention glasses at all
 
-## 2. 三视图 turnaround
+## 2. Turnaround sheets
 
-有图像生成工具时，角色出场前先出三张定稿：
+When you have an image-generation tool, finalize three sheets before the character appears:
 
-| 视图 | 用途 |
+| View | Use |
 |------|------|
-| 正面 | 五官基准 |
-| 3/4 侧面 | 多数镜头的实际角度 |
-| 背面 | 背影镜头 + 发型完整性 |
+| Front | Facial-feature baseline |
+| 3/4 side | The actual angle of most shots |
+| Back | Back-view shots + hairstyle completeness |
 
-三张图定稿后存入项目 `characters/` 目录，文件名 `char-<名字>-front.png` 等。
-后续生成时作为参考图输入（模型支持图参考时）或作为描述基准（纯文本时）。
+Once finalized, store the three images in the project's `characters/` directory, named
+`char-<name>-front.png` etc. In later generation, feed them as reference images (when the model
+supports image reference) or as the description baseline (when text-only).
 
-## 3. 锁定与禁改
+## 3. Locking and do-not-change
 
-角色卡必须有「禁改 forbidden」清单（≥3 条）：
+The character card must have a "do not change" list (≥3 items):
 
 ```text
-禁改: 发型（黑色齐耳 bob）、发色（纯黑）、瞳色（深棕）
+Do not change: hairstyle (black ear-length bob), hair color (pure black), eye color (dark brown)
 ```
 
-判据：**任何剧情不需要变化的特征都进禁改清单**。剧情需要变化的（换装、受伤妆）
-不进禁改——走变体机制（见 §5），禁止在单条 prompt 里临时改。
+Criterion: **any feature the plot doesn't require changing goes on the do-not-change list**. Features
+the plot does require to change (wardrobe, injury makeup) don't go on the list—use the variation
+mechanism (see §5); ad-hoc changes inside a single prompt are forbidden.
 
-## 4. 漂移审计
+## 4. Drift audit
 
-批量生成时按频率审计：
+During batch generation, audit on a cadence:
 
-- 每 10 个镜头抽 1 个，与三视图基准并排对比
-- 对比维度：发型轮廓 / 五官比例 / 服装色值（取色对比 HEX）
-- 连续 2 个抽检漂移 → 暂停生成，回查 prompt 是否改写了身份行
-- 长视频（>30 镜头）建议提高频率到每 5 镜 1 抽
+- Sample 1 out of every 10 shots, side by side against the turnaround baseline
+- Compare dimensions: hair outline / facial-feature proportions / clothing color value (sample and compare HEX)
+- Two consecutive sampled shots drift → pause generation, go back and check whether the prompt rewrote the identity line
+- For long videos (>30 shots), raise the cadence to 1 sample per 5 shots
 
-## 5. 变体机制
+## 5. Variation mechanism
 
-剧情要求角色状态变化（换装/受伤/老年）时的唯一合法路径：
+The only legitimate path when the plot requires the character's state to change (wardrobe/injury/old age):
 
-1. 停止当前批量生成
-2. 在角色卡内开变体段：`## Variant B: 受伤妆（scene-05 起）`
-3. 变体描述 = 原身份行 + 最小变更集（只写差异：`+ left cheek bandage`）
-4. 更新 storyboard-designer 的连续性约束表，标注变体生效场景范围
+1. Stop the current batch generation
+2. Open a variation section inside the character card: `## Variant B: injury makeup (from scene-05)`
+3. The variation description = the original identity line + the minimal change set (write only the difference: `+ left cheek bandage`)
+4. Update storyboard-designer's continuity constraint table, marking the scene range where the variation is in effect
 
-禁止：在 prompt 里临时加描述——那会同时污染身份行的复用。
+Forbidden: tacking a description onto the prompt ad hoc—that also pollutes reuse of the identity line.
 
-## 6. 声音一致性（配音角色）
+## 6. Voice consistency (dubbed characters)
 
-角色有台词时，声音也是「脸」的一部分（实践来自 ai-baby-podcast）：
+When a character has lines, the voice is also part of the "face" (practice from ai-baby-podcast):
 
-- 锁定：TTS 音色 ID / 音色描述（`high-pitched, fast, sarcastic adult in baby voice`）
-- 禁换：全片同一角色同一音色，禁止换 TTS 供应商重渲染
-- 漂移审计同画面：抽检听 5 秒，音色/语速/口音三项打分
-- 口癖（catchphrase）写进角色卡——「固定口癖 + 反差人设」是记忆点公式
+- Lock it: the TTS voice ID / voice description (`high-pitched, fast, sarcastic adult in baby voice`)
+- Never swap: the same character uses the same voice throughout; never re-render with a different TTS vendor
+- Drift audit like the picture: sample-listen 5 seconds, score on voice/tempo/accent
+- Write the catchphrase onto the character card—"fixed catchphrase + contrast persona" is the memory-point formula
 
-## 快速核对表
+## Quick checklist
 
-- [ ] 身份行 ≤25 词，复制粘贴复用
-- [ ] 三视图已定稿并存档
-- [ ] 禁改清单 ≥3 条
-- [ ] 抽检计划已定（每 10 镜 1 抽）
-- [ ] 变体走变体段，不污染身份行
-- [ ] 配音角色：音色已锁 + 口癖已写卡
+- [ ] Identity line ≤25 words, reused by copy-paste
+- [ ] Turnaround sheets finalized and archived
+- [ ] Do-not-change list ≥3 items
+- [ ] Sampling plan set (1 sample per 10 shots)
+- [ ] Variations go through a variation section, not polluting the identity line
+- [ ] For dubbed characters: voice locked + catchphrase written on the card

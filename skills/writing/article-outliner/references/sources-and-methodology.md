@@ -1,47 +1,47 @@
 # Sources & Methodology — article-outliner
 
-本技能的**方法论主体在参考文件中**（`outline-templates.md` 的模板与判据、`flow-guide.md` 的逻辑流设计）。本文件只负责两件事：声明哪些暗知识有外部出处、附上脚本行为的实测记录（诚实声明的证据）。
+This skill's **methodology body lives in the reference files** (the templates and criteria in `outline-templates.md`, the logic-flow design in `flow-guide.md`). This file does only two things: declares which tacit knowledge has an external source, and attaches live-test records of script behavior (evidence for the honest disclaimers).
 
-## 暗知识来源
+## Tacit-knowledge sources
 
-| 暗知识（SKILL.md 编号） | 来源 | 采信程度 |
+| Tacit knowledge (SKILL.md number) | Source | Degree of trust |
 |---|---|---|
-| 1. 问答链（每节回答上一节的问题） | Barbara Minto《The Pyramid Principle》的问答链与金字塔结构；本轮联网核实 | 采信：原理层结论，非数字 |
-| 2. 结论先行 vs 悬念铺垫由读者处境决定 | 同 Minto（结论先行/BLUF）；"读者处境决定"的判定维度为本组对通行内容运营实践的归纳 | 半采信：Minto 部分有出处；判定维度表属经验归纳，已在 flow-guide.md 标注"经验值" |
-| 3. MECE 的适用边界 | 同 Minto；MECE 难完全达成、不适合开放式探讨是该框架公认的局限 | 采信（含局限声明） |
-| 4. 标题含「与/和/及」= 两节压成一节 | 本组经验判据，无外部出处 | 标注为启发式：用于 prompting 自查，不是硬规则 |
-| 5. title 与 hook 分工 | 内容运营通行实践（标题服务搜索/信息流，钩子服务到达用户）；未在本轮联网核实到单一权威原文 | 通行口径：按实践归纳采信，不作实证主张 |
-| 6. 字数预算是防挤压装置 | 本组设计判据（脚本 `word_count_target` 的用途说明） | 原创声明：这是对脚本字段语义的解释 |
-| 7. 反向大纲（reverse outlining） | 学术写作教学通行手法（reverse outlining）；本轮未联网核实到单一权威原文 | 通行口径：按教学实践归纳采信 |
-| 8. CTA 因平台而异 | 各平台互动按钮的公开事实 | 采信：可直接核对的平台事实 |
+| 1. Q&A chain (each section answers the previous section's question) | Barbara Minto's *The Pyramid Principle* Q&A chain and pyramid structure; verified online this round | Trusted: principle-level conclusions, not numbers |
+| 2. Conclusion-first vs suspense buildup is decided by the reader's situation | Same Minto (conclusion-first / BLUF); the "reader's situation decides" decision dimensions are our group's induction from common content-operations practice | Half-trusted: the Minto part has a source; the decision-dimension table is empirical induction, already labeled "rule of thumb" in flow-guide.md |
+| 3. MECE's applicability boundary | Same Minto; that MECE is hard to fully achieve and unsuited to open-ended exploration is a widely recognized limitation of the framework | Trusted (with the limitation stated) |
+| 4. A title containing "and/&" = two sections compressed into one | Our group's empirical criterion, no external source | Labeled heuristic: for prompting self-check, not a hard rule |
+| 5. Division of labor between title and hook | Common content-operations practice (the title serves search/feed, the hook serves the arrived user); no single authoritative original text verified online this round | Common-knowledge caliber: trusted as an induction from practice, not claimed as an empirical result |
+| 6. The word budget is an anti-crushing device | Our group's design criterion (the purpose of the script's `word_count_target` field) | Original declaration: this is an interpretation of the script field's semantics |
+| 7. Reverse outlining | Common academic-writing teaching practice (reverse outlining); no single authoritative original text verified online this round | Common-knowledge caliber: trusted as an induction from teaching practice |
+| 8. CTAs differ by platform | Public facts about each platform's interaction buttons | Trusted: directly checkable platform facts |
 
-## 未采信的内容（采信纪律）
+## Content we did not trust (evidence discipline)
 
-- 未见来源的"写作效率提升 X%""读完率 Y%"类数字一律不写入 SKILL.md。
-- Minto 金字塔的"结论先行"未被扩写为"所有文章都必须结论先行"——原文自身声明该框架不适用于开放式探讨，本技能据此限定其在 technical/news 场景使用。
+- Any unsourced "writing efficiency up X%" / "read-through rate Y%" numbers are never written into SKILL.md.
+- Minto's pyramid "conclusion-first" was not expanded into "every article must be conclusion-first" — the original text itself states the framework doesn't apply to open-ended exploration, and this skill accordingly restricts it to technical/news scenarios.
 
-## 脚本行为实测记录（2026-09-22）
+## Script-behavior live-test record (2026-09-22)
 
-对 `scripts/outliner.py` 实跑核实（`--type technical --points async caching "DB indexing"`）：
+Live-run verification of `scripts/outliner.py` (`--type technical --points async caching "DB indexing"`):
 
-| 事实 | 实测值 |
+| Fact | Measured value |
 |---|---|
-| 章节标题来源 | 固定模板表（`问题背景/原因分析/解决方案/对比测试/总结`），与 topic 无关 |
-| `title` 形态 | `{topic}：从入门到精通`（固定后缀） |
-| `hook` 形态 | `你遇到过{topic}相关的痛点吗？` |
-| `conclusion` 形态 | 字面字符串 `总结要点 + CTA` |
-| `points` 分配 | 要点数 ≤ 节数时逐节一条；> 节数时轮转（不丢点） |
-| `word_count_target` | 均分，余数前移；各节之和恒等于 `total_words_target` |
-| `reading_time_min` | `total_words_target // 250`（英文 250 词/分惯例，中文偏保守） |
-| `level` | 恒为 2（不产嵌套标题） |
-| `--type` 非法值 | argparse 报错退出 rc=2（无自动回退） |
+| Section-title source | Fixed template table (`problem background / cause analysis / solution / comparison test / summary`), independent of topic |
+| `title` shape | `{topic}: from beginner to mastery` (fixed suffix) |
+| `hook` shape | "Have you hit the pain point of {topic}?" |
+| `conclusion` shape | The literal string "key takeaways + CTA" |
+| `points` distribution | When point count ≤ section count, one point per section; > section count, it round-robins (no point dropped) |
+| `word_count_target` | Evenly split, remainder shifted forward; the sum per section always equals `total_words_target` |
+| `reading_time_min` | `total_words_target // 250` (the English 250 wpm convention; conservative for Chinese) |
+| `level` | Always 2 (no nested headings produced) |
+| Invalid `--type` value | argparse errors out, rc=2 (no automatic fallback) |
 
-> 本节记录的目的是让"诚实声明"可被复核：任何一条与代码不符，以代码为准并回改 SKILL.md。
+> The purpose of this section is to make the "honest disclaimers" auditable: if any entry disagrees with the code, the code wins and SKILL.md is corrected.
 
-## 与参考文件的分工
+## Division of labor with the reference files
 
-| 文件 | 内容 | 采信状态 |
+| File | Content | Trust status |
 |---|---|---|
-| `outline-templates.md` | 5 套模板、字数占比、大纲合格判据 | 文件内自带"经验值"声明；占比数字为经验值非平台规则 |
-| `flow-guide.md` | 认知负荷、结论先行判定、节间关系、过渡句库、逻辑断层、流检查表 | 文件内自带"经验值"声明 |
-| 本文件 | 来源与实测 | 采信纪律声明 |
+| `outline-templates.md` | 5 templates, length shares, outline acceptance criteria | Carries its own "rule of thumb" disclaimer; the share numbers are rules of thumb, not platform rules |
+| `flow-guide.md` | Cognitive load, conclusion-first decision, inter-section relations, transition library, logic gaps, flow checklist | Carries its own "rule of thumb" disclaimer |
+| This file | Sources and live tests | Evidence-discipline declaration |

@@ -1,28 +1,28 @@
-# 搜索结果解析器
+# Search Result Parsers
 
 ## Table of Contents
 
-- [SearXNG 解析](#searxng-解析)
-  - [JSON 结构](#json-结构)
-  - [解析函数](#解析函数)
-- [DuckDuckGo 解析](#duckduckgo-解析)
-  - [HTML 结构](#html-结构)
-  - [解析函数](#解析函数)
-- [Brave Search 解析](#brave-search-解析)
-  - [JSON 结构](#json-结构)
-- [统一输出格式](#统一输出格式)
+- [SearXNG parsing](#searxng-parsing)
+  - [JSON structure](#json-structure)
+  - [Parser function](#parser-function)
+- [DuckDuckGo parsing](#duckduckgo-parsing)
+  - [HTML structure](#html-structure)
+  - [Parser function](#parser-function)
+- [Brave Search parsing](#brave-search-parsing)
+  - [JSON structure](#json-structure)
+- [Unified output format](#unified-output-format)
 
-## SearXNG 解析
+## SearXNG parsing
 
-### JSON 结构
+### JSON structure
 
 ```json
 {
   "results": [
     {
-      "title": "页面标题",
+      "title": "page title",
       "url": "https://example.com",
-      "content": "页面摘要...",
+      "content": "page snippet...",
       "engine": "google",
       "engine_id": "",
       "score": 0.95,
@@ -38,7 +38,7 @@
 }
 ```
 
-### 解析函数
+### Parser function
 
 ```python
 def parse_searxng_results(data: Dict) -> List[Dict]:
@@ -64,9 +64,9 @@ def parse_searxng_results(data: Dict) -> List[Dict]:
 
 ---
 
-## DuckDuckGo 解析
+## DuckDuckGo parsing
 
-### HTML 结构
+### HTML structure
 
 ```html
 <div class="result">
@@ -82,7 +82,7 @@ def parse_searxng_results(data: Dict) -> List[Dict]:
 </div>
 ```
 
-### 解析函数
+### Parser function
 
 ```python
 from bs4 import BeautifulSoup
@@ -100,7 +100,7 @@ def parse_ddg_html(html: str) -> List[Dict]:
         if title_el and url_el:
             url = url_el.get("href", "")
             
-            # 处理 DuckDuckGo 重定向
+            # handle DuckDuckGo redirects
             if "/l/?uddg=" in url:
                 url = unquote(url.split("uddg=")[1].split("&")[0])
             
@@ -117,9 +117,9 @@ def parse_ddg_html(html: str) -> List[Dict]:
 
 ---
 
-## Brave Search 解析
+## Brave Search parsing
 
-### JSON 结构
+### JSON structure
 
 ```json
 {
@@ -138,21 +138,21 @@ def parse_ddg_html(html: str) -> List[Dict]:
 
 ---
 
-## 统一输出格式
+## Unified output format
 
-所有引擎的输出统一为：
+All engines output a unified format:
 
 ```python
 {
-    "title": str,           # 页面标题
-    "url": str,             # 原始 URL
-    "content": str,         # 页面摘要/内容
-    "engine": str,          # 来源引擎
-    "parsed_url": {         # 解析后的 URL 组件
+    "title": str,           # page title
+    "url": str,             # raw URL
+    "content": str,         # page snippet/content
+    "engine": str,          # source engine
+    "parsed_url": {         # parsed URL components
         "scheme": str,
         "domain": str,
         "path": str,
     },
-    "score": float,         # 相关度分数（0-1）
+    "score": float,         # relevance score (0-1)
 }
 ```

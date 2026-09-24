@@ -1,37 +1,37 @@
-# 方言差异与 ORM 模式速查
+# Dialect Differences and ORM Patterns Quick Reference
 
-> 本文件由 SKILL.md 正文外移而来（progressive disclosure）：正文只留导航与工作流，
-> 长篇幅的参考型知识按需读取。
+> This file was moved out of the SKILL.md body (progressive disclosure): the body keeps only navigation and workflow,
+> and the long-form reference knowledge is read on demand.
 
-## 多数据库支持
+## Multi-database support
 
-### 方言差异
+### Dialect differences
 
-| 特性 | PostgreSQL | MySQL | SQLite | SQL Server |
+| Feature | PostgreSQL | MySQL | SQLite | SQL Server |
 |------|-----------|-------|--------|------------|
 | UPSERT | `ON CONFLICT DO UPDATE` | `ON DUPLICATE KEY UPDATE` | `ON CONFLICT DO UPDATE` | `MERGE` |
-| 布尔 | 原生 `BOOLEAN` | `TINYINT(1)` | `INTEGER` | `BIT` |
-| 自增 | `SERIAL` / `GENERATED` | `AUTO_INCREMENT` | `INTEGER PRIMARY KEY` | `IDENTITY` |
-| JSON | `JSONB`（可索引） | `JSON` | 文本（扩展） | `NVARCHAR(MAX)` |
-| 数组 | 原生 `ARRAY` | 不支持 | 不支持 | 不支持 |
-| CTE（递归） | 完整支持 | 8.0+ | 3.8.3+ | 完整支持 |
-| 窗口函数 | 完整支持 | 8.0+ | 3.25.0+ | 完整支持 |
-| 全文检索 | `tsvector` + GIN | `FULLTEXT` 索引 | FTS5 扩展 | 全文目录 |
+| Boolean | Native `BOOLEAN` | `TINYINT(1)` | `INTEGER` | `BIT` |
+| Auto-increment | `SERIAL` / `GENERATED` | `AUTO_INCREMENT` | `INTEGER PRIMARY KEY` | `IDENTITY` |
+| JSON | `JSONB` (indexable) | `JSON` | text (extension) | `NVARCHAR(MAX)` |
+| Array | Native `ARRAY` | Unsupported | Unsupported | Unsupported |
+| Recursive CTE | Full support | 8.0+ | 3.8.3+ | Full support |
+| Window functions | Full support | 8.0+ | 3.25.0+ | Full support |
+| Full-text search | `tsvector` + GIN | `FULLTEXT` index | FTS5 extension | Full-text catalog |
 | LIMIT/OFFSET | `LIMIT n OFFSET m` | `LIMIT n OFFSET m` | `LIMIT n OFFSET m` | `OFFSET m ROWS FETCH NEXT n ROWS ONLY` |
 
-### 兼容性要点
+### Compatibility notes
 
-- **始终用参数化查询** — 所有方言下防 SQL 注入
-- **共享代码避免方言专属函数** — 用适配层封装
-- **在目标引擎上测迁移** — `information_schema` 各引擎不同
-- **用 ISO 日期格式** — `'YYYY-MM-DD'` 到处可用
-- **给标识符加引号** — 双引号（SQL 标准）或反引号（MySQL）
+- **Always use parameterized queries** — prevents SQL injection under all dialects
+- **Avoid dialect-specific functions in shared code** — wrap them in an adapter layer
+- **Test migrations on the target engine** — `information_schema` differs across engines
+- **Use ISO date formats** — `'YYYY-MM-DD'` works everywhere
+- **Quote identifiers** — double quotes (SQL standard) or backticks (MySQL)
 
-## ORM 模式
+## ORM patterns
 
 ### Prisma
 
-**Schema 定义**
+**Schema definition**
 
 ```prisma
 model User {
@@ -50,15 +50,15 @@ model Post {
 }
 ```
 
-**迁移**：`npx prisma migrate dev --name add_user_email`
+**Migration**: `npx prisma migrate dev --name add_user_email`
 
-**查询 API**：`prisma.user.findMany({ where: { email: { contains: '@' } }, include: { posts: true } })`
+**Query API**: `prisma.user.findMany({ where: { email: { contains: '@' } }, include: { posts: true } })`
 
-**原生 SQL 逃生通道**：`prisma.$queryRaw\`SELECT * FROM users WHERE id = ${userId}\``
+**Raw SQL escape hatch**: `prisma.$queryRaw\`SELECT * FROM users WHERE id = ${userId}\``
 
 ### Drizzle
 
-**Schema 优先定义**
+**Schema-first definition**
 
 ```typescript
 export const users = pgTable('users', {
@@ -69,13 +69,13 @@ export const users = pgTable('users', {
 });
 ```
 
-**查询构造器**：`db.select().from(users).where(eq(users.email, email))`
+**Query builder**: `db.select().from(users).where(eq(users.email, email))`
 
-**迁移**：`npx drizzle-kit generate:pg` 后接 `npx drizzle-kit push:pg`
+**Migration**: `npx drizzle-kit generate:pg` followed by `npx drizzle-kit push:pg`
 
 ### TypeORM
 
-**实体装饰器**
+**Entity decorators**
 
 ```typescript
 @Entity()
@@ -91,13 +91,13 @@ export class User {
 }
 ```
 
-**Repository 模式**：`userRepo.find({ where: { email }, relations: ['posts'] })`
+**Repository pattern**: `userRepo.find({ where: { email }, relations: ['posts'] })`
 
-**迁移**：`npx typeorm migration:generate -n AddUserEmail`
+**Migration**: `npx typeorm migration:generate -n AddUserEmail`
 
 ### SQLAlchemy
 
-**声明式模型**
+**Declarative model**
 
 ```python
 class User(Base):
@@ -108,8 +108,8 @@ class User(Base):
     posts = relationship('Post', back_populates='author')
 ```
 
-**Session 管理**：始终用 `with Session() as session:` 上下文管理器
+**Session management**: always use the `with Session() as session:` context manager
 
-**Alembic 迁移**：`alembic revision --autogenerate -m "add user email"`
+**Alembic migration**: `alembic revision --autogenerate -m "add user email"`
 
-> 各 ORM 并排对比与迁移工作流见 references/orm_patterns.md。
+> For a side-by-side comparison of the ORMs and migration workflows, see references/orm_patterns.md.

@@ -1,73 +1,73 @@
-# 搜索策略详解
+# Search Strategy Guide
 
-## 查询拆解策略
+## Query decomposition strategies
 
-### 模式匹配规则
+### Pattern-matching rules
 
-| 模式 | 触发条件 | 生成查询 |
+| Pattern | Trigger | Generated query |
 |------|---------|---------|
-| A 和 B | 含"和"/"vs"/"对比" | 添加"A vs B"查询 |
-| 最佳X | 含"最佳"/"最优" | 添加"X 最佳实践"、"X 优缺点" |
-| 如何X | 含"如何"/"怎么" | 添加"X 教程"、"X 示例" |
-| X框架 | 含"框架" | 添加"X 介绍"、"X 教程" |
+| A and B | Contains "and"/"vs"/"compare" | Add "A vs B" query |
+| Best X | Contains "best"/"optimal" | Add "X best practices", "X pros and cons" |
+| How to X | Contains "how"/"how to" | Add "X tutorial", "X examples" |
+| X framework | Contains "framework" | Add "X introduction", "X tutorial" |
 
-### 时间维度扩展
+### Time-dimension expansion
 
 ```python
-# 自动添加年份查询
+# automatically add year queries
 if "2024" not in topic and "2025" not in topic:
     queries.append(f"{topic} 2024")
     queries.append(f"{topic} 2025")
 ```
 
-### 语言维度扩展
+### Language-dimension expansion
 
 ```python
-# 自动添加英文查询
+# automatically add English queries
 if any('\u4e00' <= c <= '\u9fff' for c in topic):
     queries.append(to_english(topic))
 ```
 
 ---
 
-## 搜索引擎选择策略
+## Search-engine selection strategy
 
-| 场景 | 首选引擎 | 备选引擎 | 原因 |
+| Scenario | First choice | Backup | Reason |
 |------|---------|---------|------|
-| 技术文档 | SearXNG | DDG | 聚合 GitHub/官方文档 |
-| 新闻事件 | SearXNG + DDG | - | 多源验证 |
-| 中文内容 | DDG | SearXNG | DDG 中文结果更好 |
-| 英文内容 | SearXNG | DDG | SearXNG 英文结果更准 |
+| Technical docs | SearXNG | DDG | Aggregates GitHub/official docs |
+| News events | SearXNG + DDG | - | Multi-source verification |
+| Chinese content | DDG | SearXNG | DDG's Chinese results are better |
+| English content | SearXNG | DDG | SearXNG's English results are more accurate |
 
 ---
 
-## 可信度评估模型
+## Credibility scoring model
 
-### 域名可信度权重
+### Domain credibility weights
 
-| 类型 | 权重 | 示例 |
+| Type | Weight | Examples |
 |------|------|------|
-| 官方文档 | 1.0 | docs.python.org, fastapi.tiangolo.com |
-| 知名博客 | 0.85 | realpython.com |
-| 问答社区 | 0.85 | stackoverflow.com |
-| 技术博客 | 0.65 | medium.com, dev.to |
-| 中文博客 | 0.6 | csdn.net, jianshu.com |
-| 新闻网站 | 0.7 | techcrunch.com |
+| Official docs | 1.0 | docs.python.org, fastapi.tiangolo.com |
+| Well-known blogs | 0.85 | realpython.com |
+| Q&A communities | 0.85 | stackoverflow.com |
+| Tech blogs | 0.65 | medium.com, dev.to |
+| Chinese blogs | 0.6 | csdn.net, jianshu.com |
+| News sites | 0.7 | techcrunch.com |
 
-### 引擎权威性权重
+### Engine authority weights
 
-| 引擎 | 权重 | 说明 |
+| Engine | Weight | Notes |
 |------|------|------|
-| Google | 0.9 | 搜索质量最高 |
-| Bing | 0.85 | 微软引擎，质量可靠 |
-| DuckDuckGo | 0.7 | 隐私优先，结果稍弱 |
+| Google | 0.9 | Highest search quality |
+| Bing | 0.85 | Microsoft's engine, reliable quality |
+| DuckDuckGo | 0.7 | Privacy-first, slightly weaker results |
 
 ---
 
-## 深度控制策略
+## Depth control strategy
 
-| 深度级别 | 轮次 | 每轮查询数 | 适用场景 |
+| Depth level | Rounds | Queries per round | Suitable for |
 |---------|------|-----------|---------|
-| Basic | 1 | 3 | 简单查询 |
-| Standard | 2-3 | 5 | 一般调研 |
-| Deep | 3-5 | 8 | 复杂课题 |
+| Basic | 1 | 3 | Simple queries |
+| Standard | 2-3 | 5 | General research |
+| Deep | 3-5 | 8 | Complex topics |

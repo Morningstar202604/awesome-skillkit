@@ -1,45 +1,45 @@
-# PII 检测规则全集（8 类）
+# Full PII Detection Rules (8 categories)
 
-> 本文件为 `pii_scan.py` 的方法论参考，供人工复核误报时查阅。正则均为 Python `re` 语法。
+> This file is the methodology reference for `pii_scan.py`, for use when manually reviewing false positives. All regexes use Python `re` syntax.
 
-## 强校验类（默认启用，误报低）
+## Strong-validation classes (enabled by default, low false-positive rate)
 
-| 类别 | 正则 | 校验 |
+| Category | Regex | Validation |
 |------|------|------|
-| `id_card` | `(?<!\d)(\d{17}[\dXx])(?!\d)` | 身份证 mod-11 校验位（`ID_WEIGHTS` + `ID_CHECK`） |
-| `phone` | `(?<!\d)(\+?86[-\s]?)?(1[3-9]\d{9})(?!\d)` | 号段前缀 `1[3-9]` |
-| `bank_card` | `(?<!\d)(\d{13,19})(?!\d)` | Luhn mod-10 校验 |
-| `credit_code` | `(?<![0-9A-Za-z])([0-9A-HJ-NP-RTUWXY]{2}\d{6}[0-9A-HJ-NP-RTUWXY]{10})(?![0-9A-Za-z])` | 统一社会信用代码长度 18（字符集含数字/字母，排除 I/O/S/V/Z） |
-| `plate` | `(省简称[A-Z])\d{4,5}[A-Z0-9挂学警港使领]` | 省份简称集 |
+| `id_card` | `(?<!\d)(\d{17}[\dXx])(?!\d)` | ID-card mod-11 check digit (`ID_WEIGHTS` + `ID_CHECK`) |
+| `phone` | `(?<!\d)(\+?86[-\s]?)?(1[3-9]\d{9})(?!\d)` | Prefix `1[3-9]` |
+| `bank_card` | `(?<!\d)(\d{13,19})(?!\d)` | Luhn mod-10 check |
+| `credit_code` | `(?<![0-9A-Za-z])([0-9A-HJ-NP-RTUWXY]{2}\d{6}[0-9A-HJ-NP-RTUWXY]{10})(?![0-9A-Za-z])` | Unified social credit code length 18 (charset digits/letters, excludes I/O/S/V/Z) |
+| `plate` | `(province_abbrev[A-Z])\d{4,5}[A-Z0-9 special_suffix]` | Chinese province-abbreviation set + special suffix chars (trailer/student/police/HK/military/consulate) |
 
-## 启发式类（需 `--categories` 显式启用，误报高）
+## Heuristic classes (require explicit `--categories` to enable, high false-positive rate)
 
-| 类别 | 正则 | 说明 |
+| Category | Regex | Notes |
 |------|------|------|
-| `email` | `([A-Za-z0-9._%+-]+)@([A-Za-z0-9.-]+\.[A-Za-z]{2,})` | 强特征，但误报取决于数据 |
-| `address` | `省简称[省市]?...路/街/道/巷/号` | 地理前缀 + 路号组合，噪声大 |
-| `name` | `(姓名\|联系人\|...)[:：=]\s*(汉字/字母 2-15)` | 依赖上下文键 |
+| `email` | `([A-Za-z0-9._%+-]+)@([A-Za-z0-9.-]+\.[A-Za-z]{2,})` | Strong signal, but false positives depend on the data |
+| `address` | `province_abbrev[city]?...road/street/alley/number` | Geographic prefix + street-number combo, noisy |
+| `name` | `(name\|contact\|... )[:：=]\s*(CJK/letters 2-15)` | Relies on context keys (the `：` colon is the CJK full-width form) |
 
-## 校验位算法
+## Check-digit algorithms
 
-- **身份证 mod-11**：前 17 位乘 `ID_WEIGHTS=[7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2]`，求和 mod 11，对照 `ID_CHECK="10X98765432"` 取末位。
-- **Luhn mod-10**：从右往左，偶数位翻倍（>9 减 9），全列求和 mod 10 == 0。
+- **ID-card mod-11**: multiply the first 17 digits by `ID_WEIGHTS=[7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2]`, sum, mod 11, and look up the last digit in `ID_CHECK="10X98765432"`.
+- **Luhn mod-10**: from right to left, double every other digit (subtract 9 if >9), sum the whole column, mod 10 == 0.
 
-## 误报对照
+## False-positive reference
 
-| 输入 | 期望命中 | 备注 |
+| Input | Expected hit | Notes |
 |------|---------|------|
-| `13800138000` | phone | 号段合法 |
-| `1001234` | 无 | 数字串非手机号（长度不足 11） |
-| `110101199003078518`（校验位对） | id_card | mod-11 通过 |
-| `11010119900307851X`（校验位错） | 无 | mod-11 不通过 → 自动剔除 |
-| `622202020011223344`（Luhn 过） | bank_card | Luhn 通过 |
-| 任意 16 位非卡号 | 无 | Luhn 不通过 → 剔除 |
+| `13800138000` | phone | Valid prefix |
+| `1001234` | none | Digit string not a phone number (fewer than 11 digits) |
+| `110101199003078518` (correct check digit) | id_card | mod-11 passes |
+| `11010119900307851X` (wrong check digit) | none | mod-11 fails → auto-rejected |
+| `622202020011223344` (Luhn passes) | bank_card | Luhn passes |
+| Any 16-digit non-card number | none | Luhn fails → rejected |
 
-> 收紧建议：数据里数字噪声多时，先 `--no-heuristics` 只跑强校验 5 类；确认干净后再开 `email`。
+> Tightening advice: when the data has lots of numeric noise, first run only the 5 strong-validation classes with `--no-heuristics`; enable `email` once you've confirmed it's clean.
 
-## 转义 / 编码文本预处理
+## Escaped / encoded text preprocessing
 
-若文本经 URL 编码或 JSON 转义（`\u00XX`、`%XX`），PII 形态被破坏，命中数会骤降。
-处置：先 `urllib.parse.unquote` / `json.loads` 解码再喂给扫描器；本脚本默认对原始文本扫描，
-故命中 0 但肉眼有 PII 时，先排查是否被编码层包了。
+If the text is URL-encoded or JSON-escaped (`\u00XX`, `%XX`), the PII shape is broken and hit counts drop sharply.
+Handling: decode first with `urllib.parse.unquote` / `json.loads` before feeding to the scanner; this script scans the raw text by default,
+so when hits are 0 but PII is visible to the eye, first check whether it's wrapped by an encoding layer.

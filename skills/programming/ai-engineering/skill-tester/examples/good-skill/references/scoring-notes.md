@@ -1,38 +1,38 @@
-# 评分器怎么给分（作者视角速查）
+# How the scorer grades (author-side quick reference)
 
-quality_scorer.py 的四个维度各占 25%。本文件记录每个维度的检查点，
-写新技能时按此自检，避免反复试错。
+quality_scorer.py's four dimensions each weigh 25%. This file records the checkpoints per dimension,
+so when writing a new skill you can self-check against it and avoid trial and error.
 
-## Documentation（文档 40% SKILL.md + 25% README + 20% references + 15% 其他）
+## Documentation (40% SKILL.md + 25% README + 20% references + 15% other)
 
-- SKILL.md 深度：行数（300 行满分）、frontmatter 完整、代码块数量（4 个满分）。
-- README：字符数分档（<200 字符只有 45 分，≥1000 字符 95 分）——所以 README
-  要写实内容，不要一句话占位。
-- references/：≥2 个文件且合计 ≥2000 字符拿 90 分——设计说明、速查表都算。
+- SKILL.md depth: line count (300 lines = full marks), complete frontmatter, number of code blocks (4 = full marks).
+- README: character-count tiers (<200 chars only scores 45, ≥1000 chars scores 95)—so the README
+  should have real content, not a one-line placeholder.
+- references/: ≥2 files totaling ≥2000 chars scores 90—design notes and cheat sheets all count.
 
-## Code Quality（脚本质量）
+## Code Quality (script quality)
 
-- 脚本平均 LOC 太薄会扣分（avg <100 LOC 记 "Scripts are thin"）。
-- 每个脚本都要支持 --json 与人类可读两种输出。
-- 脚本须有 __main__ guard、--help、stdlib-only。
+- Scripts averaging too thin in LOC lose points (avg <100 LOC marked "Scripts are thin").
+- Every script must support both --json and human-readable output.
+- Scripts must have a __main__ guard, --help, and be stdlib-only.
 
-## Completeness（完备性）
+## Completeness
 
-- scripts/ 数量、tests/ 自动化测试目录、assets/ 样例数据、
-  expected_outputs/ golden 输出、references/ 说明文档——五类都查。
+- scripts/ count, tests/ automated-test directory, assets/ sample data,
+  expected_outputs/ golden output, references/ docs—all five categories are checked.
 
-## Usability（易用性）
+## Usability
 
-- Quick Start / Usage 章节存在性、示例是否可复制运行。
+- Existence of a Quick Start / Usage section, and whether the examples are copy-paste runnable.
 
-## 退出码语义（CI 视角）
+## Exit-code semantics (CI view)
 
-| 脚本 | 全部通过 | 发现问题 |
+| Script | All pass | Problem found |
 |---|---|---|
 | skill_validator.py | 0 | 1 |
 | script_tester.py | 0 | 1 |
-| quality_scorer.py --minimum-score N | 0 | 2（评分低于 N） |
-| audit_skills.py | 0 | 1（仅 --fail-under 时） |
+| quality_scorer.py --minimum-score N | 0 | 2 (score below N) |
+| audit_skills.py | 0 | 1 (only with --fail-under) |
 
-这就是为什么文档示例要指向 good-skill：它保证示例命令退出码为 0，
-读者复制运行不会被"预期内的失败"绊住。
+This is why the docs point their examples at good-skill: it guarantees the example commands exit 0,
+so readers copy-pasting won't get tripped up by an "expected failure".

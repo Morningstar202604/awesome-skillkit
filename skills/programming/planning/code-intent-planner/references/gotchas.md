@@ -1,43 +1,43 @@
-# 常见陷阱
+# Common Pitfalls
 
-## L1 规则陷阱
+## L1 rule pitfalls
 
-1. **关键词歧义**："帮我 review 一下这个文档"可能被识别为代码审查。规则：含"代码/PR"时才匹配 review，否则降级 L2。
+1. **Keyword ambiguity**: "Help me review this document" may be recognized as code review. Rule: only match review when "code/PR" is present, otherwise degrade to L2.
 
-2. **多意图覆盖**："修复 bug 并添加验证码"同时命中 fix 和 implement。规则：按优先级排序（fix > implement），输出 primary/secondary 标注。
+2. **Multi-intent override**: "fix the bug and add a captcha" hits both fix and implement. Rule: rank by priority (fix > implement), output with primary/secondary labels.
 
-3. **口语化遗漏**："这个功能怎么做"未被匹配。规则：补充 L1 规则 `"怎么|如何|怎样做"` → plan（置信度 0.80）。
+3. **Colloquial omissions**: "How do I build this feature?" was not matched. Rule: add the L1 rule `"how|how to|what's the approach"` → plan (confidence 0.80).
 
-## L2 LLM 陷阱
+## L2 LLM pitfalls
 
-4. **置信度膨胀**：L2 输出 0.82 但实际可能错误。规则：通过多信号融合校准（规则匹配 + 向量相似度 + 历史准确率）。
+4. **Confidence inflation**: L2 outputs 0.82 but it may actually be wrong. Rule: calibrate via multi-signal fusion (rule match + vector similarity + historical accuracy).
 
-5. **槽位幻觉**：推断出 target=auth 但用户未提及。规则：无明确证据的槽位置为 provisional 并标注。
+5. **Slot hallucination**: infers target=auth though the user never mentioned it. Rule: slots with no explicit evidence are set to provisional and flagged.
 
-6. **澄清过度**：每个小问题都追问。规则：仅澄清影响决策的关键信息，非关键信息记录为 assumption 继续。
+6. **Over-clarification**: asking follow-ups on every small point. Rule: only clarify key information that affects the decision; record non-key info as an assumption and proceed.
 
-## 跨轮累积陷阱
+## Cross-turn accumulation pitfalls
 
-7. **槽位覆盖丢失**：第 2 轮新值覆盖了第 1 轮的关键约束。规则：latest-wins 仅适用于新增槽位；已有槽位需冲突检测。
+7. **Slot override loss**: a new value in turn 2 overwrites a key constraint from turn 1. Rule: latest-wins applies only to newly added slots; existing slots need conflict detection.
 
-8. **session 泄漏**：`_session_*.json` 被提交到 git。规则：`.gitignore` 必须包含 `_session_*.json`。
+8. **Session leakage**: `_session_*.json` files committed to git. Rule: `.gitignore` must include `_session_*.json`.
 
-## 任务分解陷阱
+## Task-breakdown pitfalls
 
-9. **任务过细**：分解出 50+ 子任务，协调成本超过执行成本。规则：单任务粒度不超过 4 小时，超过则合并。
+9. **Tasks too fine-grained**: breaking down 50+ subtasks, where coordination cost exceeds execution cost. Rule: a single task is at most 4 hours; merge if larger.
 
-10. **依赖遗漏**：T3 依赖 T1 但未声明。规则：每个任务必须有显式 depends_on，无依赖声明空数组。
+10. **Missing dependencies**: T3 depends on T1 but doesn't declare it. Rule: every task must have an explicit depends_on; declare an empty array when there are no dependencies.
 
-11. **关键路径误判**：非关键路径任务标为 P0。规则：P0 = 在关键路径上 且 无并行替代。
+11. **Critical-path misjudgment**: a non-critical-path task labeled P0. Rule: P0 = on the critical path AND no parallel alternative exists.
 
-## 安全陷阱
+## Security pitfalls
 
-12. **destructive 误判**："删除临时文件"触发高风险确认。规则：仅当涉及项目代码/数据库/配置时才触发高风险流程。
+12. **Destructive false positive**: "delete temp files" triggers a high-risk confirmation. Rule: only trigger the high-risk flow when it involves project code/database/config.
 
-13. **硬约束软化**：用户明确"必须用 PostgreSQL"被降级为软约束。规则：用户明确指定的约束必须标记为 hard。
+13. **Hard constraint softened**: the user explicitly said "must use PostgreSQL" but it was downgraded to a soft constraint. Rule: constraints the user explicitly specifies must be marked hard.
 
-## 缓存陷阱
+## Cache pitfalls
 
-14. **缓存污染**：不同意图类型共用缓存键。规则：缓存键必须包含 intent_type。
+14. **Cache pollution**: different intent types share a cache key. Rule: the cache key must include intent_type.
 
-15. **缓存过期**：长 session 导致缓存过时。规则：session 过期时间 24h，或显式清除。
+15. **Cache expiry**: long sessions make the cache stale. Rule: session expiry of 24h, or explicit clearing.

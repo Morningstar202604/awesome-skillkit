@@ -1,6 +1,6 @@
 ### Q1 [recall]
-题干：下列哪个是质数？A. 4 B. 7 C. 9
-参考答案：B
-评分标准：选对得1分，错选不得分。
-常见陷阱：把 9 当成质数（9=3x3）。
-关联：CP1
+Question: Which of the following is a prime number? A. 4 B. 7 C. 9
+Reference answer: B
+Scoring: 1 point for correct, no points for wrong.
+Common trap: treating 9 as prime (9=3x3).
+Related: CP1

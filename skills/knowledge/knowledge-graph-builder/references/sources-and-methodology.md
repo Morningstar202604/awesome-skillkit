@@ -1,54 +1,54 @@
 # Sources & Methodology
 
-- 技能：`knowledge-graph-builder`（awesome-skillkit 原创编写，Apache-2.0）。
-- 定位：场景包 `knowledge` 的第二个技能。与 `personal-wiki` 的分工是：
-  后者负责「把资料收好、能搜到」，本技能负责「把关系抽出来、能看懂结构」。
+- Skill: `knowledge-graph-builder` (originally written for awesome-skillkit, Apache-2.0).
+- Position: the second skill in the `knowledge` scenario pack. Its division of labor with `personal-wiki` is:
+  the latter handles "store materials well, make them searchable," while this skill handles "extract relations, make the structure readable."
 
 ## Methodology borrowed (ideas and taxonomy only; no text or code copied)
 
 | Source | License | Methodology points borrowed |
 |---|---|---|
-| Zettelkasten 双链笔记公开阐述 | 见原文 | 笔记间显式链接构成一张图，图的结构本身是可读的「知识骨架」 |
-| Mermaid 官方 flowchart 语法文档 | MIT | `flowchart LR`、方括号节点、`-->` 实线 / `-.->` 虚线；节点 id 不得含路径字符 |
-| Graphviz DOT 语言公开文档 | EPL | `digraph`、`rankdir`、节点 `shape`/`fillcolor` 属性、字符串转义规则 |
-| 图论通识（度中心性、连通分量、BFS） | 教科书级公开知识 | 归一化度中心性 `deg/(N-1)`；连通分量用广度优先遍历 |
-| 维基百科 / 知识图谱领域的实体-关系三元组表述 | CC BY-SA | 「节点 = 实体、边 = 关系」的基本建模语言 |
+| Public writings on Zettelkasten linked notes | see original | Explicit links between notes form a graph; the graph's structure itself is a readable "knowledge skeleton" |
+| Mermaid official flowchart syntax docs | MIT | `flowchart LR`, square-bracket nodes, `-->` solid / `-.->` dashed; node ids must not contain path characters |
+| Graphviz DOT language public docs | EPL | `digraph`, `rankdir`, node `shape`/`fillcolor` attributes, string escaping rules |
+| General graph theory (degree centrality, connected components, BFS) | textbook-level public knowledge | Normalized degree centrality `deg/(N-1)`; connected components via breadth-first traversal |
+| Wikipedia / knowledge-graph domain entity-relation triple formulation | CC BY-SA | The basic modeling language of "node = entity, edge = relation" |
 
-上述来源全部作为**方法论骨架**被再表述。特别地，本技能刻意**不采用**任何
-NLP/机器学习实体抽取方案（如 NER 模型、依存句法、共指消解），
-而是用 `[[双链]]` + 首个 H1 + 加粗词三条可解释的启发式：
-这是为了在没有模型依赖的裸环境下也能跑，并且让抽取结果**可预测、可复核**。
-`scripts/graph_build.py` 的全部实现（图构建、去重、指标计算、三种导出器）
-均为从零撰写，No upstream passage, example, or code was translated, rewritten, or excerpted.
+All the above sources are restated as a **methodology skeleton**. Notably, this skill deliberately **does not adopt** any
+NLP/machine-learning entity extraction scheme (e.g. NER models, dependency parsing, coreference resolution),
+but instead uses three explainable heuristics: `[[wikilinks]]` + first H1 + bolded terms:
+this is so it can run in a bare environment with no model dependencies, and so extraction results are **predictable and auditable**.
+The entire implementation of `scripts/graph_build.py` (graph construction, deduplication, metric calculation, three exporters)
+is written from scratch. No upstream passage, example, or code was translated, rewritten, or excerpted.
 
 ## Key design decisions (why this way)
 
-1. **边分两类而不是一类**：`links`（笔记间链接）是**人的判断**，
-   `mentions`（加粗词共现）是**词面统计**。混在一起会让「经常出现的词」
-   伪装成「重要的关联」。分类型 + `--note-only` 开关，让用户能按需分开看。
-2. **同名加粗词跨笔记合并为同一 concept 节点**：这是本技能唯一的「聚合」动作，
-   目的是让反复出现的概念形成可识别的中枢；代价是**不做语义消歧**——
-   同形异义词会被错误合并。这是被明示的已知局限。
-3. **指标按无向图算**：度中心性用于衡量「关联紧密程度」，
-   A 链 B 与 B 链 A 在直觉上都算「这两个有关系」，
-   因此 `adjacency()` 对称加边。若需要入度/出度的方向性分析，应另建指标。
-4. **导出器重写 Mermaid 节点 id**：Mermaid 对含 `/`、`.`、`-` 的 id 会解析失败，
-   这是最常见的「导出成功但渲染炸掉」来源。改为 `n0`、`n1`… 顺序编号，
-   标题只出现在方括号里，从根上消除该错误类别。
-5. **代码块内容不参与抽取**：笔记里常粘贴代码，其中的标识符若被当成概念，
-   会污染概念层。用围栏与行内代码正则先剥离再抽取。
-6. **诊断行给出结论而非数字**：`components: 2` 对用户没有意义，
-   「最大分量覆盖 11/13 个节点，用链接把孤立部分接进来」才是可执行的。
+1. **Two edge types instead of one**: `links` (inter-note links) are **human judgments**,
+   `mentions` (bolded-term co-occurrence) are **surface statistics**. Mixing them would let "frequently appearing words"
+   masquerade as "important associations." Separate types + a `--note-only` switch let users view them separately as needed.
+2. **Same-named bolded terms across notes merge into one concept node**: this is the skill's only "aggregation" action,
+   intended to let recurring concepts form identifiable hubs; the cost is **no semantic disambiguation**—
+   homographs will be wrongly merged. This is an explicitly stated known limitation.
+3. **Metrics computed on an undirected graph**: degree centrality measures "tightness of association";
+   A linking B and B linking A both intuitively count as "these two are related,"
+   so `adjacency()` adds edges symmetrically. If directed in/out-degree analysis is needed, separate metrics should be built.
+4. **Exporters rewrite Mermaid node ids**: Mermaid fails to parse ids containing `/`, `.`, `-`;
+   this is the most common source of "export succeeds but rendering explodes." Changed to sequential numbering
+   `n0`, `n1`…, with titles only inside brackets, eliminating this error category at the root.
+5. **Code block content is excluded from extraction**: notes often paste code; if identifiers in it were treated as concepts,
+   they'd pollute the concept layer. Strip fenced and inline code with regex first, then extract.
+6. **Diagnostic lines give conclusions, not numbers**: `components: 2` means nothing to the user;
+   "the largest component covers 11/13 nodes; use links to bring in the isolated part" is actionable.
 
 ## Limitations and boundaries
 
-- **不做实体消歧**：`**HNSW**` 与 `**Hierarchical NSW**` 会算两个概念。
-- **不做关系类型识别**：所有链接都是同一种 `links` 关系，
-  不区分「引用/反驳/扩展」；需要类型化关系请在链接别名的书写约定上自行扩展。
-- **不做图数据库直连**：输出的 JSON 是通用的 `{nodes, edges}` 结构，
-  导入 Neo4j 等需用户侧再写一层映射，本技能不内置任何驱动。
-- **规模上限**：全量读入内存，适合数千篇笔记量级；
-  十万级规模需要换增量索引方案，不在本技能范围。
+- **No entity disambiguation**: `**HNSW**` and `**Hierarchical NSW**` count as two concepts.
+- **No relation type identification**: all links are the same `links` relation,
+  not distinguishing "cite/rebut/extend"; if typed relations are needed, extend on the link-alias naming convention yourself.
+- **No direct graph-database connection**: the output JSON is a generic `{nodes, edges}` structure;
+  importing into Neo4j etc. requires an additional mapping layer on the user side; this skill bundles no driver.
+- **Scale ceiling**: fully read into memory, suitable for thousands of notes;
+  hundred-thousand-scale needs a switch to an incremental index approach, out of scope for this skill.
 
 ## License
 

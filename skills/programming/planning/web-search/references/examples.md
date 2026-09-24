@@ -1,28 +1,28 @@
-# 搜索案例库
+# Search Case Library
 
 ## Table of Contents
 
-- [案例 1：基础搜索（SearXNG）](#案例-1基础搜索searxng)
-- [案例 2：中文搜索](#案例-2中文搜索)
-- [案例 3：缓存命中](#案例-3缓存命中)
-- [案例 4：搜索引擎降级](#案例-4搜索引擎降级)
-- [案例 5：深度搜索](#案例-5深度搜索)
-- [案例 6：错误处理](#案例-6错误处理)
-- [案例来源](#案例来源)
+- [Case 1: Basic search (SearXNG)](#case-1-basic-search-searxng)
+- [Case 2: Chinese-language search](#case-2-chinese-language-search)
+- [Case 3: Cache hit](#case-3-cache-hit)
+- [Case 4: Search-engine fallback](#case-4-search-engine-fallback)
+- [Case 5: Deep search](#case-5-deep-search)
+- [Case 6: Error handling](#case-6-error-handling)
+- [Case sources](#case-sources)
 
 ---
 
-## 案例 1：基础搜索（SearXNG）
+## Case 1: Basic search (SearXNG)
 
 **Input:**
 ```python
-result = search("Python FastAPI 最佳实践", engine="searxng")
+result = search("Python FastAPI best practices", engine="searxng")
 ```
 
 **Output:**
 ```json
 {
-  "query": "Python FastAPI 最佳实践",
+  "query": "Python FastAPI best practices",
   "total_results": 10,
   "search_time_ms": 342,
   "engine": "searxng",
@@ -47,24 +47,24 @@ result = search("Python FastAPI 最佳实践", engine="searxng")
 
 ---
 
-## 案例 2：中文搜索
+## Case 2: Chinese-language search
 
 **Input:**
 ```python
-result = search("机器学习入门教程", engine="searxng", language="zh")
+result = search("machine learning beginner tutorial", engine="searxng", language="zh")
 ```
 
 **Output:**
 ```json
 {
-  "query": "机器学习入门教程",
+  "query": "machine learning beginner tutorial",
   "total_results": 10,
   "engine": "searxng",
   "results": [
     {
-      "title": "机器学习入门 - 菜鸟教程",
+      "title": "Machine Learning Intro - Runoob Tutorial",
       "url": "https://www.runoob.com/ml/ml-tutorial.html",
-      "content": "机器学习是人工智能的一个分支...",
+      "content": "Machine learning is a branch of artificial intelligence...",
       "engine": "bing",
       "score": 0.92
     }
@@ -74,56 +74,56 @@ result = search("机器学习入门教程", engine="searxng", language="zh")
 
 ---
 
-## 案例 3：缓存命中
+## Case 3: Cache hit
 
-**第一次搜索：**
+**First search:**
 ```python
-result1 = search("Python 爬虫", use_cache=True)
-# 输出：search_time_ms=450, cached=False
+result1 = search("Python web scraping", use_cache=True)
+# output: search_time_ms=450, cached=False
 ```
 
-**第二次搜索（相同查询）：**
+**Second search (same query):**
 ```python
-result2 = search("Python 爬虫", use_cache=True)
-# 输出：search_time_ms=2, cached=True
+result2 = search("Python web scraping", use_cache=True)
+# output: search_time_ms=2, cached=True
 ```
 
-**说明：** 第二次直接从缓存读取，耗时从 450ms 降至 2ms。
+**Note:** the second read straight from cache, dropping the latency from 450ms to 2ms.
 
 ---
 
-## 案例 4：搜索引擎降级
+## Case 4: Search-engine fallback
 
-**SearXNG 失败场景：**
+**SearXNG failure scenario:**
 ```python
-# 所有 SearXNG 实例不可用时
+# when all SearXNG instances are unavailable
 result = search("test query", engine="searxng")
-# 自动降级到 DuckDuckGo
+# auto-fallback to DuckDuckGo
 # result["engine"] = "duckduckgo"
 ```
 
 ---
 
-## 案例 5：深度搜索
+## Case 5: Deep search
 
 **Input:**
 ```python
-result = deep_search("2024年AI发展趋势", max_rounds=3)
+result = deep_search("2024 AI development trends", max_rounds=3)
 ```
 
-**流程：**
-1. 第 1 轮：搜索 "2024年AI发展趋势" → 10 条结果
-2. 分析结果，生成子查询：
-   - "2024年AI大模型"
-   - "2024年AI应用"
-3. 第 2 轮：搜索子查询 → 各 5 条结果
-4. 第 3 轮：继续深入 → 各 3 条结果
-5. 汇总去重 → 最终 15 条结果
+**Flow:**
+1. Round 1: search "2024 AI development trends" → 10 results
+2. Analyze results, generate sub-queries:
+   - "2024 AI large models"
+   - "2024 AI applications"
+3. Round 2: search the sub-queries → 5 results each
+4. Round 3: go deeper → 3 results each
+5. Aggregate and dedupe → final 15 results
 
 **Output:**
 ```json
 {
-  "query": "2024年AI发展趋势",
+  "query": "2024 AI development trends",
   "total_results": 15,
   "rounds": 3,
   "results": [...]
@@ -132,15 +132,15 @@ result = deep_search("2024年AI发展趋势", max_rounds=3)
 
 ---
 
-## 案例 6：错误处理
+## Case 6: Error handling
 
-**网络不可达：**
+**Network unreachable:**
 ```python
 result = search("test", use_cache=False)
-# 输出：
+# output:
 {
   "query": "test",
-  "error": "所有搜索引擎不可用",
+  "error": "all search engines unavailable",
   "results": [],
   "total_results": 0
 }
@@ -152,9 +152,9 @@ result = search("test", use_cache=False)
 
 | Case | Source | Scenario |
 |------|------|------|
-| 案例 1 | 真实搜索 | 技术文档查询 |
-| 案例 2 | 真实搜索 | 中文内容检索 |
-| 案例 3 | 测试用例 | 缓存功能验证 |
-| 案例 4 | 测试用例 | 降级逻辑验证 |
-| 案例 5 | 测试用例 | 深度搜索验证 |
-| 案例 6 | 测试用例 | 错误处理验证 |
+| Case 1 | Real search | Technical documentation lookup |
+| Case 2 | Real search | Chinese content retrieval |
+| Case 3 | Test case | Cache feature verification |
+| Case 4 | Test case | Fallback logic verification |
+| Case 5 | Test case | Deep search verification |
+| Case 6 | Test case | Error handling verification |

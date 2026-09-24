@@ -1,86 +1,86 @@
-# 文案公式库：标题 · 结构 · CTA · 平台调性（copywriting-formulas）
+# Copywriting Formula Library: Headlines · Structure · CTA · Platform Tone (copywriting-formulas)
 
-> 写转化型文案时按层查表。**标题决定 80% 的阅读量，第一句决定剩下的 20%**。
-> 铁律：具体打败抽象（"省了 3000 块" > "超省钱"）；数字打败形容词；一个文案只推一个动作。
+> Look up the table layer by layer when writing conversion copy. **The headline determines 80% of readership; the first sentence decides the remaining 20%.**
+> Iron rule: concrete beats abstract ("saved ¥3000" > "super-saving"); numbers beat adjectives; one piece of copy pushes exactly one action.
 
-## 一、标题公式库（每型带骨架 + 示例）
+## 1. Headline formula library (each type with skeleton + example)
 
-| 公式 | 骨架 | 示例 |
+| Formula | Skeleton | Example |
 |------|------|------|
-| 数字清单 | N 个 X 让你 Y | 「3 个配置让旧手机再战两年」 |
-| 结果承诺 | 不用 X 也能 Y | 「不写一行 CSS，做出设计感主页」 |
-| 反常识 | 大家都说 X，其实 Y | 「代码写得快的人，反而是删得多的人」 |
-| 疑问钩子 | 为什么 X 却 Y？ | 「为什么涨粉 10 万，收入反而降了？」 |
-| 时间锚 | X 天/分钟，从 A 到 B | 「30 分钟，从需求文档到可运行原型」 |
-| 对比冲突 | A 花 1 万，B 花 0 还更好 | 「付费工具没解决的问题，被一个开源脚本解决了」 |
-| 身份代入 | 写给所有 X | 「写给所有想搞副业的程序员」 |
-| 恐惧规避 | 还在 X？你在丢 Y | 「还在用默认密码？你的服务器正在被扫」 |
-| 揭秘 | X 的 Y 个内幕/真相 | 「做了 50 个视频后，我总结的 5 条内幕」 |
-| 前后反差 | 从 X 到 Y 的 Z | 「从被拒 12 次到拿到 offer，我改了什么」 |
+| Number list | N X that make you Y | "3 settings that give your old phone two more years" |
+| Result promise | Y without even X | "Design-forward homepage without writing a line of CSS" |
+| Counterintuitive | Everyone says X, but actually Y | "The people who write code fast are the ones who delete the most" |
+| Question hook | Why X yet Y? | "Why did followers hit 100k, yet income dropped?" |
+| Time anchor | X days/minutes, from A to B | "30 minutes, from requirements doc to a runnable prototype" |
+| Contrast conflict | A spent ¥10k, B spent 0 and is better | "The problem paid tools didn't solve, solved by one open-source script" |
+| Identity targeting | Written for all X | "Written for every programmer who wants a side hustle" |
+| Fear avoidance | Still doing X? You're losing Y | "Still on the default password? Your server is being scanned right now" |
+| Reveal | Y insider truths / truths about X | "After making 50 videos, 5 insider truths I've summed up" |
+| Before-after contrast | From X to Y in Z | "From 12 rejections to an offer — what I changed" |
 
-**标题自检**：遮住正文只看标题——知道内容是什么、跟我有什么关系、凭什么点开？三者缺一改写。
+**Headline self-check**: cover the body and look only at the headline — do you know what the content is, why it matters to you, and why you should click? If any of the three is missing, rewrite.
 
-## 二、文案结构模板（正文骨架）
+## 2. Copy structure templates (body skeleton)
 
-### PAS（痛点→放大→方案，短文案万能）
-
-```
-P：说出痛点原话（用户嘴里的话，不是你的术语）——"每次部署都手心冒汗？"
-A：放大代价——不是吓唬，是算账：出错一次平均赔多少时间/钱
-S：给方案 + 最小行动——一个按钮/一行命令/一个链接
-```
-
-### FAB（卖点→优势→利益，产品文案）
+### PAS (Pain → Amplify → Solution; universal for short copy)
 
 ```
-F：功能事实——"支持一键回滚"
-A：相对优势——"传统方式要手动比对 5 个文件"
-B：用户利益——"半夜上线出问题，60 秒回到上一个版本，接着睡"
-```
-> 写三条卖点 = 三轮 FAB，**每条都落到 B 层才算写完**，停在 A 层等于没写。
-
-### AIDA（注意→兴趣→欲望→行动，长文案）
-
-```
-A：标题/首图抓注意
-I：给一个反常识事实或故事建立兴趣
-D：场景化——"想象一下周五 18:00……"，让读者已经在用
-A：唯一行动指令 + 消除顾虑（退款/免费试/不用绑卡）
+P: State the pain point in the user's own words (not your jargon) — "Sweaty palms every deploy?"
+A: Amplify the cost — not scaring, but tallying: how much time/money does one mistake cost on average
+S: Give the solution + the smallest action — one button / one command / one link
 ```
 
-### 段落节奏（长文防弃读）
+### FAB (Feature → Advantage → Benefit; product copy)
 
-- 首段 ≤3 行；每 3-4 段给一个"钩子"（数据/金句/反问）
-- 金句公式：**短句 + 具体数字 + 反差**（"我们砍掉了 90% 的功能，留存涨了一倍"）
+```
+F: The feature fact — "supports one-click rollback"
+A: The relative advantage — "the old way was manually diffing 5 files"
+B: The user benefit — "something breaks at midnight, roll back to the last version in 60 seconds, go back to sleep"
+```
+> Writing three selling points = three rounds of FAB; **each isn't done until it lands on the B layer**; stopping at the A layer is the same as not writing.
 
-## 三、CTA 词库（按行动场景选动词，别用"点击这里"）
+### AIDA (Attention → Interest → Desire → Action; long copy)
 
-| 场景 | 高转化写法 | 弱写法 |
+```
+A: Headline / cover image grabs attention
+I: Build interest with a counterintuitive fact or story
+D: Make it scenario-based — "imagine it's Friday 6 PM…" — so the reader is already using it
+A: The single call to action + remove objections (refund / free trial / no card required)
+```
+
+### Paragraph rhythm (long-form abandonment prevention)
+
+- First paragraph ≤3 lines; every 3-4 paragraphs give a "hook" (data / punchline / rhetorical question)
+- Punchline formula: **short sentence + concrete number + contrast** ("we cut 90% of features, retention doubled")
+
+## 3. CTA word bank (pick the verb by action scenario; don't use "click here")
+
+| Scenario | High-conversion phrasing | Weak phrasing |
 |------|-----------|--------|
-| 购买 | 「立即锁定早鸟价」/「今天下单减 ¥50」 | 点击购买 |
-| 注册 | 「免费开始，无需绑卡」/「30 秒创建账号」 | 立即注册 |
-| 下载 | 「获取完整清单 PDF」 | 下载资料 |
-| 关注 | 「下期拆解 X，关注不迷路」 | 求关注 |
-| 咨询 | 「回复'方案'领取模板」 | 欢迎咨询 |
-| 分享 | 「转给那个还在手动备份的朋友」 | 分享给好友 |
+| Buy | "Lock in the early-bird price now" / "Order today, ¥50 off" | Click to buy |
+| Sign up | "Start free, no card required" / "Create an account in 30 seconds" | Sign up now |
+| Download | "Get the full checklist PDF" | Download the material |
+| Follow | "Next issue breaks down X; follow so you don't miss it" | Please follow |
+| Inquire | "Reply 'plan' to get the template" | Welcome to inquire |
+| Share | "Forward this to the friend still backing up manually" | Share with friends |
 
-- **一文案一 CTA**：又让关注又让下单=两个都不做
-- CTA 前一句给"零风险"锚（免费/随时退/已验证/3 分钟搞定）
+- **One CTA per piece**: asking to both follow and buy = they do neither
+- The sentence before the CTA gives a "zero-risk" anchor (free / refundable anytime / verified / done in 3 minutes)
 
-## 四、平台调性差异表（同一卖点，四种写法）
+## 4. Platform tone-difference table (same selling point, four ways)
 
-| 平台 | 调性 | 标题风格 | 示例（卖同一门课） |
+| Platform | Tone | Headline style | Example (selling the same course) |
 |------|------|---------|------------------|
-| 小红书 | 闺蜜口吻、emoji 节制使用、个人体验感 | 「谁懂啊」式 + 具体结果 | 「白天上班晚上自学，3 个月上岸数据岗」 |
-| 知乎 | 专业论证、先给结论再推演、反调性 | 「如何评价/是不是智商税」式 | 「自学数据分析 6 个月找到工作，说点实话」 |
-| 公众号 | 完整叙事、金句收尾、转发理由 | 观点句直接做标题 | 「中年转行最怕的不是年龄，是学习方法错了」 |
-| 抖音/视频号 | 前 3 秒钩子、口语、冲突前置 | 口播第一句=标题 | 「面试官问我 SQL 优化，我反手给他画了张表」 |
+| Xiaohongshu | Girlfriend tone, sparing emoji, personal-experience feel | "Who gets it" style + concrete result | "Working by day, self-studying by night, landed a data role in 3 months" |
+| Zhihu | Professional argument, conclusion first then reasoning, anti-formula | "How would you rate / is it a scam" style | "Self-studied data analysis for 6 months and got a job; some honest talk" |
+| WeChat Official Account | Complete narrative, punchline ending, reason to forward | A thesis sentence as the title | "The scariest thing about midlife career change isn't age, it's the wrong study method" |
+| Douyin / Video Account | 3-second hook, spoken, conflict up front | The first spoken line = the title | "The interviewer asked me about SQL optimization, so I drew him a table" |
 
-## 五、负面清单
+## 5. Negative list
 
-- **自嗨词**：「颠覆」「革命性」「极致体验」——用户无感，删掉换成具体数字
-- **堆形容词**：「超好用超级方便超级快」——一个「3 分钟搞定」全解决
-- **术语轰炸**：面向新手用「零拷贝架构」——先说「不用来回复制文件」
-- **多重否定**：「不是不能说没有效果」——改成「效果有限」
-- **全大写/全感叹号**：「限时！！重磅！！！必看！！」——数字比感叹号可信
-- **开头自我介绍**：没人关心你是谁，先给读者要的东西，简介放结尾
+- **Self-indulgent words**: "disruptive" / "revolutionary" / "ultimate experience" — the user feels nothing; delete and replace with a concrete number
+- **Adjective piling**: "super-useful super-convenient super-fast" — one "done in 3 minutes" solves it all
+- **Jargon bombing**: using "zero-copy architecture" on beginners — first say "no more copying files back and forth"
+- **Double negatives**: "can't say it has no effect" → change to "the effect is limited"
+- **ALL CAPS / all exclamation marks**: "LIMITED!! BIG NEWS!!! MUST READ!!" — numbers are more credible than exclamation marks
+- **Opening self-introduction**: nobody cares who you are; give the reader what they want first, and put the bio at the end

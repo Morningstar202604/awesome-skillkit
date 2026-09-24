@@ -1,15 +1,15 @@
 # Sources & Methodology — memory-retriever
 
-本技能的方法论蒸馏自 mem0 与 letta (MemGPT) 的公开实践，属于**方法论提炼（methodology distilled）**：只借鉴公开文档中描述的检索思想与注入模式，未复制任何源代码。
+This skill's methodology is distilled from the public practices of mem0 and letta (MemGPT), and is a **methodology distilled** result: it only borrows the retrieval ideas and injection patterns described in public docs; no source code was copied.
 
 | Source project | License | What was distilled | Attribution |
 |---|---|---|---|
-| mem0 | Apache-2.0 | 记忆检索以结构化条目（自然语言事实 + metadata）为单位返回，而非裸 embedding 片段；条目级置信度与来源可追溯 | 本技能注入块的 source/时间戳要素与 confidence 标注线即源于此；在上游 pack（memory-systems）与本文件中署名 |
-| letta (MemGPT) | Apache-2.0 | 分层检索与上下文压力管理：按需从 archival 层检索注入，控制注入量以给工作记忆留空间；对话历史（recall）与知识记忆分离 | 本技能 token 预算硬截断与"记忆块边界标记"的设计即源于此；在上游 pack 与本文件中署名 |
+| mem0 | Apache-2.0 | Memory retrieval returns structured entries (natural-language fact + metadata) as the unit, not bare embedding chunks; entry-level confidence and source traceability | This skill's injection-block source/timestamp elements and confidence annotation line are derived from this; attributed in the upstream pack (memory-systems) and in this file |
+| letta (MemGPT) | Apache-2.0 | Layered retrieval and context-pressure management: retrieve and inject from the archival layer on demand, control injection volume to leave room for working memory; separate conversation history (recall) from knowledge memory | This skill's token-budget hard cutoff and "memory-block boundary markers" design are derived from this; attributed in the upstream pack and in this file |
 
 ## Distillation boundary (honest disclaimer)
 
-- hybrid retrieval 的融合公式与权重（0.4 semantic / 0.3 keyword / 0.2 recency / 0.1 confidence）、top-K、相关性下限均为本技能作者给出的经验值，非源自上述项目，可按业务校准。
-- BM25 与向量召回为业界通用检索技术，不属于任何单一项目的专有方法论。
-- 查询改写与指代消解为本技能作者补充的工程实践；keyword_only 降级路径为本技能作者设计的无向量库方案。
+- The hybrid-retrieval fusion formula and weights (0.4 semantic / 0.3 keyword / 0.2 recency / 0.1 confidence), top-K, and relevance floor are experiential values given by this skill's author, not derived from the above projects, and can be calibrated to the business.
+- BM25 and vector recall are industry-standard retrieval techniques, not proprietary methodology of any single project.
+- Query rewriting and coreference resolution are engineering practices added by this skill's author; the keyword_only degradation path is a no-vector-store solution designed by this skill's author.
 - This skill is a methodology distillation; it is not affiliated with the projects above and does not represent their official views.

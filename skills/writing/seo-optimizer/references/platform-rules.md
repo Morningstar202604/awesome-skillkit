@@ -1,77 +1,77 @@
-# 各内容平台 SEO / 推荐规则差异
+# SEO / Recommendation Rule Differences Across Content Platforms
 
-> 何时读：确定目标平台、要做**标题长度 / 标签 / 外链 / 原创标识**适配时读本文件。
+> When to read: read this file when you've settled on a target platform and need to adapt **title length / tags / external links / original-content marking**.
 >
-> ## 免责声明（必读，不要跳过）
+> ## Disclaimer (required reading — do not skip)
 >
-> **以下全部为 2026-09 常见情况，以平台最新规则为准。** 平台规则变更频繁，且多数平台不公开推荐算法与收录口径。
-> 本文件的处理原则是：**能确定地说"不确定"的，绝不编一个数字出来。**
-> - 凡标 `需实测` 的项：请在发布页实际操作一遍，以输入时的真实限制/报错/截断为准。
-> - 凡标 `未公开` 的项：平台未公开具体数值，任何"影响 X% 权重"的说法都不可信。
-> - 建议区间为**经验值**，是为了展示效果与可读性，不是平台限制。
-> - 另：`SKILL.md` 的「Platform Title Limits」表与 `scripts/seo_optimizer.py` 的 `PLATFORM_META` 数值（如 csdn 标题 50、掘金 60）是**脚本内默认基线**，来源为技能编写时的经验设定，**未逐平台官方核实**。用它们做粗筛可以，发布前必须实测。
+> **Everything below reflects common situations as of 2026-09; defer to each platform's latest rules.** Platform rules change frequently, and most platforms do not publish their recommendation algorithms or indexing criteria.
+> The guiding principle of this file is: **if we cannot say something for certain, we will never fabricate a number.**
+> - Any item marked `needs live testing`: please run through the publish page once yourself, and treat the real limits / errors / truncation you hit while entering as authoritative.
+> - Any item marked `undisclosed`: the platform has not published the exact value; any claim like "affects X% of weight" is not credible.
+> - Suggested ranges are **rules of thumb**, chosen for demonstration and readability — they are not platform limits.
+> - Also: the "Platform Title Limits" table in `SKILL.md` and the `PLATFORM_META` values in `scripts/seo_optimizer.py` (e.g. csdn title 50, Juejin 60) are **script-internal default baselines**, set from the author's experience at skill-writing time, **not officially verified platform-by-platform**. They are fine for rough filtering, but must be live-tested before publishing.
 
 ## Table of Contents
 
-- [1. 速查总表](#1-速查总表)
-- [2. 微信生态（公众号）](#2-微信生态公众号)
-- [3. 知乎](#3-知乎)
+- [1. Quick-reference master table](#1-quick-reference-master-table)
+- [2. WeChat ecosystem (Official Account)](#2-wechat-ecosystem-official-account)
+- [3. Zhihu](#3-zhihu)
 - [4. CSDN](#4-csdn)
-- [5. 掘金](#5-掘金)
-- [6. 今日头条](#6-今日头条)
-- [7. 百家号](#7-百家号)
-- [8. 小红书](#8-小红书)
-- [9. B站（专栏 / 视频）](#9-b站专栏--视频)
-- [10. 通用核实流程与多平台分发注意](#10-通用核实流程与多平台分发注意)
+- [5. Juejin](#5-juejin)
+- [6. Toutiao](#6-toutiao)
+- [7. Baijiahao](#7-baijiahao)
+- [8. Xiaohongshu](#8-xiaohongshu)
+- [9. Bilibili (columns / video)](#9-bilibili-columns--video)
+- [10. General verification workflow and multi-platform distribution notes](#10-general-verification-workflow-and-multi-platform-distribution-notes)
 
 ---
 
-## 1. 速查总表
+## 1. Quick-reference master table
 
-> 表中「收录」「外链」「标签数」三列均为**定性描述 + 核实状态**，不给未经核实的精确数字。所有条目均为 2026-09 常见情况，以平台最新规则为准。
+> The "indexing", "external links", and "tag count" columns are all **qualitative descriptions + verification status**; no unverified precise numbers are given. All entries reflect common situations as of 2026-09; defer to the platform's latest rules.
 
-| 平台 | 外部搜索引擎收录 | 外链政策 | 标签/话题数量 | 硬限制核实 |
+| Platform | External search-engine indexing | External-link policy | Tags / topics count | Hard-limit verification |
 |------|------------------|----------|---------------|-----------|
-| 微信公众号 | 站内为主，站外收录长期受限且不稳定 | 正文超链接受限，主要指向微信域内 | 无标签体系（靠公众号定位与合集） | 需实测 |
-| 知乎 | 站外收录情况较好（但会变） | 可放，但外链观感与推荐影响不确定 | 有话题机制，数量上限需实测 | 需实测 |
-| CSDN | 站外收录情况较好（但会变） | 相对宽松，可放参考链接 | 有标签，数量上限需实测 | 需实测 |
-| 掘金 | 站外收录情况一般（未公开） | 相对宽松 | 有标签，数量上限需实测 | 需实测 |
-| 今日头条 | 站内推荐为主，站外收录未公开 | 正文外链受限情况需实测 | 有标签，需实测 | 需实测 |
-| 百家号 | 同属百度生态，搜索展现有自家优势（未公开权重） | 需实测 | 有标签，需实测 | 需实测 |
-| 小红书 | 站内搜索为核心，站外收录有限 | 站外导流通常受限，风险较高 | 有话题，数量上限需实测 | 需实测 |
-| B站 | 站内搜索为核心，站外收录有限 | 简介/评论外链政策需实测 | 有分区与标签，需实测 | 需实测 |
+| WeChat Official Account | Primarily in-app; off-site indexing has long been restricted and unstable | In-body hyperlinks restricted; mostly pointing inside the WeChat domain | No tag system (relies on account positioning and collections) | needs live testing |
+| Zhihu | Off-site indexing historically good (but changes) | Allowed, but impact on recommendation and presentation uncertain | Has a topic mechanism; count limit needs live testing | needs live testing |
+| CSDN | Off-site indexing historically good (but changes) | Relatively permissive; reference links allowed | Has tags; count limit needs live testing | needs live testing |
+| Juejin | Off-site indexing mediocre (undisclosed) | Relatively permissive | Has tags; count limit needs live testing | needs live testing |
+| Toutiao | Primarily in-app recommendation; off-site indexing undisclosed | Whether in-body external links are restricted needs live testing | Has tags; needs live testing | needs live testing |
+| Baijiahao | Part of the Baidu ecosystem; search visibility has a home-court advantage (weight undisclosed) | needs live testing | Has tags; needs live testing | needs live testing |
+| Xiaohongshu | In-app search is central; off-site indexing limited | Off-site traffic diversion usually restricted; higher risk | Has topics; count limit needs live testing | needs live testing |
+| Bilibili | In-app search is central; off-site indexing limited | Description / comment external-link policy needs live testing | Has sections and tags; needs live testing | needs live testing |
 
-**用法**：这张表用来做**方向性选择**（先发哪、能不能放链接、要不要打标签），不用来做精确配置。精确值一律实测。
+**How to use**: this table is for **directional choices** (publish where first, whether you can include links, whether to add tags), not for precise configuration. Precise values must always be live-tested.
 
 ---
 
-## 2. 微信生态（公众号）
+## 2. WeChat ecosystem (Official Account)
 
 > The below reflects common situations as of 2026-09; defer to the platform's latest rules.
 
 | Dimension | Description |
 |------|------|
-| 收录 | 内容主要在微信内分发（会话、朋友圈、看一看、搜一搜）。**是否被外部搜索引擎收录、收录多少，平台未公开且历史上多次变化** → 按「站外收录不稳定」处理，不要把外搜流量当主要来源 |
-| 标题 | 硬上限 `需实测`（发布页输入即知）。建议区间：**20–30 字内**（经验值），保证在会话列表与分享卡片中不截断；前半句必须自解释 |
-| 标签 | 无传统标签体系。可用的分类手段：公众号定位、合集/专辑、话题标签（若当前版本提供 → `需实测`） |
-| 外链 | 正文超链接长期受限，通常只能指向微信域内地址或已关联内容；外部链接投放方式与限制 `需实测`，不要假设能自由放 |
-| 原创标识 | 有原创声明机制。**具体对推荐/搜索的加权幅度未公开**；通行做法是原创内容才声明，转载不声明 |
-| 摘要 | 发布时可填摘要（字数上限 `需实测`），未填时系统自动截取正文开头 → 建议手写 |
+| Indexing | Content is distributed mainly inside WeChat (chats, Moments, Top Stories, Search). **Whether and how much it is indexed by external search engines is undisclosed and has changed repeatedly historically** → treat it as "unstable off-site indexing"; do not treat external-search traffic as your main source. |
+| Title | Hard cap `needs live testing` (visible once you type on the publish page). Suggested range: **within 20–30 characters** (rule of thumb), so it is not truncated in chat lists and share cards; the first clause must be self-explanatory. |
+| Tags | No traditional tag system. Available categorization tools: account positioning, collections / albums, topic tags (if the current version offers them → `needs live testing`). |
+| External links | In-body hyperlinks have long been restricted; usually they can only point to addresses inside the WeChat domain or to associated content. How external links can be placed and their limits are `needs live testing` — do not assume you can freely include them. |
+| Original marking | Has an original-declaration mechanism. **The exact weighting it gives to recommendation / search is undisclosed.** Common practice is to declare original only for original content, and not to declare for reposts. |
+| Abstract | You can fill in an abstract at publish time (char limit `needs live testing`); if left blank, the system auto-truncates the opening of the body → write it by hand. |
 
 ---
 
-## 3. 知乎
+## 3. Zhihu
 
 > The below reflects common situations as of 2026-09; defer to the platform's latest rules.
 
 | Dimension | Description |
 |------|------|
-| 收录 | 站外搜索收录情况历来较好，但**具体口径未公开且会变**。判断方法：用站点检索语法在目标搜索引擎搜自己的文章标题，看是否被收录（实测，别猜） |
-| 标题 | 硬上限 `需实测`。建议区间：**25–40 字**（经验值），知乎标题偏「提问式/陈述式长标题」，比公众号能承载更多信息 |
-| 标签 | 话题绑定存在，数量与选择方式 `需实测`。建议：优先选**流量大且精确**的话题，不选泛话题凑数 |
-| 外链 | 可放外链，但对推荐/观感的影响 `未公开`。保守做法：引用来源放在文末「参考」，不在正文高频插入 |
-| 原创标识 | 有原创/转载机制，具体影响 `未公开` |
-| 结构 | 长文友好，支持多级标题、代码块、公式（`article-drafter` 与 `content-editor` 的长文模板可直接用） |
+| Indexing | Off-site search indexing has historically been good, but **the exact criteria are undisclosed and change**. How to check: use a site-search operator on the target search engine with your own article title, and see whether it is indexed (live test — do not guess). |
+| Title | Hard cap `needs live testing`. Suggested range: **25–40 characters** (rule of thumb). Zhihu titles lean toward "question-form / declarative long titles" and can carry more information than Official Account titles. |
+| Tags | Topic binding exists; count and selection method `needs live testing`. Suggestion: prefer **high-traffic and precise** topics, not generic topics just to fill a quota. |
+| External links | You can include them, but the impact on recommendation / presentation is `undisclosed`. Conservative approach: put sources at the end under "References" rather than inserting them frequently in the body. |
+| Original marking | Has an original / repost mechanism; exact impact `undisclosed`. |
+| Structure | Long-form friendly; supports multi-level headings, code blocks, formulas (the long-form templates in `article-drafter` and `content-editor` can be used directly). |
 
 ---
 
@@ -81,117 +81,117 @@
 
 | Dimension | Description |
 |------|------|
-| 收录 | 站外搜索收录情况历来较好，`未公开`且会变 → 实测 |
-| 标题 | 硬上限 `需实测`（`seo_optimizer.py` 默认 50，未官方核实）。建议区间：**含关键词 + 数字 + 场景**，如「X 从 A 优化到 B：N 个步骤」 |
-| 标签 | 有标签，数量上限 `需实测`（脚本默认 5，未核实）。建议 3–5 个，全部与正文强相关 |
-| 外链 | 相对宽松，可放参考链接与原文出处。`需实测`是否有特殊限制（如短链、外站跳转） |
-| 原创标识 | 有原创/转载/翻译等分类选项，具体对推荐的影响 `未公开` |
-| 注意 | 技术类内容对**代码完整性与可复现性**敏感；代码块外的中文与英文之间空格、术语统一（`content-editor` 的风格规则）直接影响观感 |
+| Indexing | Off-site search indexing has historically been good, `undisclosed` and changes → live test. |
+| Title | Hard cap `needs live testing` (`seo_optimizer.py` defaults to 50, not officially verified). Suggested range: **keyword + number + scenario**, e.g. "Optimizing X from A to B: N steps". |
+| Tags | Has tags; count cap `needs live testing` (script default 5, unverified). Suggest 3–5, all strongly related to the body. |
+| External links | Relatively permissive; reference links and original sources allowed. `needs live testing` whether there are special restrictions (e.g. short links, off-site redirects). |
+| Original marking | Has classification options like original / repost / translation; exact impact on recommendation `undisclosed`. |
+| Notes | Technical content is sensitive to **code completeness and reproducibility**; spacing between Chinese and English outside code blocks and consistent terminology (the style rules in `content-editor`) directly affect presentation. |
 
 ---
 
-## 5. 掘金
+## 5. Juejin
 
 > The below reflects common situations as of 2026-09; defer to the platform's latest rules.
 
 | Dimension | Description |
 |------|------|
-| 收录 | 站外收录情况一般，`未公开` → 实测 |
-| 标题 | 硬上限 `需实测`（脚本默认 60，未核实）。建议区间：30–50 字，技术关键词前置 |
-| 标签 | 有标签/分类，数量上限 `需实测`（脚本默认 3，未核实） |
-| 外链 | 相对宽松，`需实测` |
-| 原创标识 | 有原创机制，影响 `未公开` |
-| 注意 | 读者偏前端/全栈，示例尽量可复制运行；`内容 > 形式`，标题党代价高 |
+| Indexing | Off-site indexing mediocre, `undisclosed` → live test. |
+| Title | Hard cap `needs live testing` (script default 60, unverified). Suggested range: 30–50 characters, technical keywords up front. |
+| Tags | Has tags / categories; count cap `needs live testing` (script default 3, unverified). |
+| External links | Relatively permissive, `needs live testing`. |
+| Original marking | Has an original mechanism; impact `undisclosed`. |
+| Notes | Readers lean toward front-end / full-stack; examples should be copy-paste-runnable; `content > form`, and clickbait carries a high cost. |
 
 ---
 
-## 6. 今日头条
+## 6. Toutiao
 
 > The below reflects common situations as of 2026-09; defer to the platform's latest rules.
 
 | Dimension | Description |
 |------|------|
-| 收录 | 以**站内推荐分发**为主；站外收录 `未公开` → 不要以外搜流量为主要目标 |
-| 标题 | 硬上限 `需实测`（脚本默认 30，未核实）。建议区间：20–30 字，**数字 + 疑问/痛点**型标题在该生态较常见（经验观察，非官方结论） |
-| 标签 | 有标签，上限 `需实测` |
-| 外链 | 正文外链政策 `需实测`；推荐流内容里外链通常不受鼓励 |
-| 原创标识 | 有原创机制，且平台对**非原创/低质**内容有处置规则，具体标准 `未公开` |
-| 注意 | 推荐机制对**完读率/互动**敏感（具体权重 `未公开`）→ 开头 hook 与段落节奏比关键词密度更重要 |
+| Indexing | Primarily **in-app recommendation distribution**; off-site indexing `undisclosed` → do not target external-search traffic as your main goal. |
+| Title | Hard cap `needs live testing` (script default 30, unverified). Suggested range: 20–30 characters; **number + question/pain-point** titles are common in this ecosystem (empirical observation, not an official conclusion). |
+| Tags | Has tags; cap `needs live testing`. |
+| External links | In-body external-link policy `needs live testing`; external links in recommendation-feed content are usually discouraged. |
+| Original marking | Has an original mechanism, and the platform has handling rules for **non-original / low-quality** content; exact standards `undisclosed`. |
+| Notes | The recommendation mechanism is sensitive to **completion rate / engagement** (exact weights `undisclosed`) → the opening hook and paragraph rhythm matter more than keyword density. |
 
 ---
 
-## 7. 百家号
+## 7. Baijiahao
 
 > The below reflects common situations as of 2026-09; defer to the platform's latest rules.
 
 | Dimension | Description |
 |------|------|
-| 收录 | 与百度搜索同生态，内容在百度搜索中的展现通常有优势 —— 但**具体加权规则未公开**，不要把它当成确定性的流量保证 → 实测 |
-| 标题 | 硬上限 `需实测`（脚本默认 30，未核实）。建议区间：20–30 字，关键词前置 |
-| 标签 | 有标签，上限 `需实测`（脚本默认 3，未核实） |
-| 外链 | `需实测` |
-| 原创标识 | 有原创机制，对推荐/搜索的影响 `未公开` |
-| 注意 | 对**标题党、夸大表述**有审核规则，具体判罚标准 `未公开` → 标题不要用「震惊/绝了」类词（`content-editor` 的 news 风格禁词已覆盖） |
+| Indexing | Same ecosystem as Baidu Search; content usually has an advantage in Baidu search results — but **the exact weighting rules are undisclosed**, so do not treat it as a guaranteed-traffic promise → live test. |
+| Title | Hard cap `needs live testing` (script default 30, unverified). Suggested range: 20–30 characters, keywords up front. |
+| Tags | Has tags; cap `needs live testing` (script default 3, unverified). |
+| External links | `needs live testing`. |
+| Original marking | Has an original mechanism; impact on recommendation / search `undisclosed`. |
+| Notes | Has review rules against **clickbait and exaggerated claims**; exact penalty standards `undisclosed` → avoid words like "shocking / incredible" in titles (the banned words for the news style in `content-editor` already cover this). |
 
 ---
 
-## 8. 小红书
+## 8. Xiaohongshu
 
 > The below reflects common situations as of 2026-09; defer to the platform's latest rules.
 
 | Dimension | Description |
 |------|------|
-| 收录 | **站内搜索是核心**；站外收录有限且 `未公开` → 按「站内搜索」优化，关键词要放进标题与正文前几行 |
-| 标题 | 硬上限 `需实测`（社区内容标题通常较短）。建议区间：**20 字以内**（经验值），含 1 个核心搜索词 |
-| 标签 | 有话题标签，数量上限 `需实测`。建议：话题要选**社区内真实存在且有一定热度**的，自造话题无效 |
-| 外链 | **站外导流通常受限，风险较高**（未公开具体判罚标准）→ 保守做法：正文不放外部链接与联系方式 |
-| 原创标识 | 社区对**非原创/搬运**处置较严，标准 `未公开` |
-| 注意 | 图片/封面权重高，正文排版需短句、多换行、可用 emoji 分段（风格与公众号长文不同，`article-drafter` 的长段需压缩） |
+| Indexing | **In-app search is central**; off-site indexing is limited and `undisclosed` → optimize for "in-app search"; put keywords in the title and the first few lines of the body. |
+| Title | Hard cap `needs live testing` (community content titles are usually short). Suggested range: **within 20 characters** (rule of thumb), containing 1 core search term. |
+| Tags | Has topic tags; count cap `needs live testing`. Suggestion: choose topics that **actually exist in the community and have some heat**; made-up topics do not work. |
+| External links | **Off-site traffic diversion is usually restricted and carries higher risk** (exact penalty standards undisclosed) → conservative approach: no external links or contact info in the body. |
+| Original marking | The community handles **non-original / reposted** content strictly; standards `undisclosed`. |
+| Notes | Images / covers carry high weight; the body should use short sentences, frequent line breaks, and emoji as section dividers (the style differs from long Official Account articles; the long paragraphs in `article-drafter` need to be compressed). |
 
 ---
 
-## 9. B站（专栏 / 视频）
+## 9. Bilibili (columns / video)
 
 > The below reflects common situations as of 2026-09; defer to the platform's latest rules.
 
 | Dimension | Description |
 |------|------|
-| 收录 | 站内搜索为核心；站外收录有限，`未公开` → 实测 |
-| 标题 | 硬上限 `需实测`。建议区间：视频标题 20–30 字，**前 10 字承载核心关键词**（列表页展示会截断） |
-| 标签 | 视频有分区 + 标签，数量上限 `需实测`。分区选错的影响大于标签选错 |
-| 外链 | 简介/评论区外链政策 `需实测` |
-| 原创标识 | 有自制/转载标识，影响 `未公开` |
-| 注意 | 视频的关键词主要在**标题 + 简介 + 标签 + 字幕**四处；字幕文本对站内检索有价值（是否被检索 `未公开`） |
+| Indexing | In-app search is central; off-site indexing limited, `undisclosed` → live test. |
+| Title | Hard cap `needs live testing`. Suggested range: video title 20–30 characters; **the first 10 characters should carry the core keyword** (the list view truncates). |
+| Tags | Videos have sections + tags; count cap `needs live testing`. Picking the wrong section matters more than picking the wrong tag. |
+| External links | Description / comment-area external-link policy `needs live testing`. |
+| Original marking | Has self-made / reposted marking; impact `undisclosed`. |
+| Notes | A video's keywords live mainly in **title + description + tags + subtitles**; subtitle text has value for in-app search (whether it is indexed is `undisclosed`). |
 
 ---
 
-## 10. 通用核实流程与多平台分发注意
+## 10. General verification workflow and multi-platform distribution notes
 
-### 10.1 发布前核实流程（每个平台、每篇文章都要过一遍）
+### 10.1 Pre-publish verification workflow (run through this for every platform, every article)
 
-| 步 | 动作 | 预期结果 | 失败分支 |
+| Step | Action | Expected result | Failure branch |
 |----|------|----------|----------|
-| 1 | 打开目标平台**发布页**，把标题粘进去 | 观察到实际字数上限/计数器/是否被截断 | 无计数器 → 用二分法试长度，记录首次被拒的长度 |
-| 2 | 打开平台官方帮助中心/创作者规范，搜「原创」「外链」「标签」关键词 | 得到官方表述 | 找不到 → 判定为 `未公开`，按保守策略执行并记录 |
-| 3 | 用站点检索语法在外部搜索引擎搜一篇你自己已发的该平台文章 | 确认是否收录 | 未收录 → 该平台按「站内分发」规划流量，不写外搜预期 |
-| 4 | 实测外链：发一篇含 1 个外链的测试内容，观察是否被限制/降权 | 得到该平台当前的外链态度 | 被限制 → 改用「文末文字出处」代替可点链接 |
-| 5 | 把实测结果回填到本文件的表格旁 | 形成你自己的基线 | — |
+| 1 | Open the target platform's **publish page**, paste in the title | Observe the actual character cap / counter / whether it is truncated | No counter → binary-search the length, record the first length that is rejected |
+| 2 | Open the platform's official help center / creator guidelines and search for "original", "external links", "tags" | Get the official wording | Can't find it → mark as `undisclosed`, follow the conservative strategy and record it |
+| 3 | Use a site-search operator on an external search engine to search one of your own already-published articles on that platform | Confirm whether it is indexed | Not indexed → plan traffic around "in-app distribution" for that platform; do not write external-search expectations |
+| 4 | Live-test external links: publish a test piece with 1 external link, observe whether it is restricted / down-ranked | Get the platform's current stance on external links | Restricted → replace clickable links with "text source at the end" |
+| 5 | Backfill the live-test results next to the tables in this file | Build your own baseline | — |
 
-**记录格式建议**（存在你自己的 notes 里，不要回写本仓库）：
+**Suggested record format** (keep in your own notes; do not write back to this repo):
 
 ```text
-平台 / 核实日期 / 标题实际上限 / 标签上限 / 是否收录 / 外链是否可用 / 备注
-csdn / 2026-09-14 / 实测 50 字后仍可输入 → 上限≥50（未测到硬边界） / 5 / 已收录 / 可用 / 以发布页为准
+platform / verification date / actual title cap / tag cap / indexed? / external link works? / notes
+csdn / 2026-09-14 / still accepts input past 50 chars → cap ≥50 (hard edge not found) / 5 / indexed / works / defer to publish page
 ```
 
-### 10.2 多平台分发注意
+### 10.2 Multi-platform distribution notes
 
-- **首发平台选择**：把「原创声明 + 收录能力 + 你自己的账号权重」三者结合。若某平台要求首发才能声明原创，具体规则 `需实测`（各平台政策不同且会变）。
-- **一稿多投**：同一内容发多平台时，各平台对重复内容的处置 `未公开`。保守做法：不同平台改标题 + 改开头 + 改排版，避免完全一致的正文。
-- **标题分版本**：主版本写完后，按各平台建议区间做**长度裁剪**，不是重新起标题；核心关键词保持在标题前半段。
-- **不要做的事**：不要因为脚本 `PLATFORM_META` 给了数字就认为那是官方值；不要把本文件的任何描述当成平台的承诺。
+- **First-publish platform choice**: combine "original declaration + indexing capability + your own account weight". If a platform requires first-publish in order to declare original, the exact rule is `needs live testing` (policies differ by platform and change).
+- **Syndicating one piece to multiple platforms**: each platform's handling of duplicate content is `undisclosed`. Conservative approach: change the title, the opening, and the layout for different platforms; avoid identical bodies across all of them.
+- **Version titles**: after writing the main version, **trim the length** to each platform's suggested range rather than writing a new title; keep the core keyword in the first half of the title.
+- **Do not**: assume a number from the script's `PLATFORM_META` is the official value; treat any description in this file as a platform promise.
 
-### 10.3 本文件的更新约定
+### 10.3 Update convention for this file
 
-- 每次实测到新数据，更新对应小节并**同时更新“核实日期”**（写实际日期，不要沿用 2026-09）。
-- 若某条规则你无法核实，就把状态写回 `需实测` / `未公开`，**不要填一个看起来合理的数字**——写一个假的字数上限，比留白更糟。
+- Every time you live-test new data, update the corresponding section and **also update the "verification date"** (write the actual date; do not carry over 2026-09).
+- If you cannot verify a rule, write its status back as `needs live testing` / `undisclosed`; **do not fill in a plausible-looking number** — writing a fake character cap is worse than leaving it blank.

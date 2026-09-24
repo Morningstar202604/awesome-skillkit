@@ -1,23 +1,23 @@
 # Sources & Methodology — own-voice-rewrite
 
-本技能属于**原创素材注入规则 + 校准机制有明确外部依据**：空话句替换机制与素材调度纪律为本组原创；v2.0 新增的声音对齐层、负面清单与追加式校准来自计量文体学与一份公开的真实 AI 代笔系统复盘。
+This skill is primarily **original material-injection rules + calibration mechanism with clear external basis**: the empty-phrase replacement mechanism and material-scheduling discipline are original to this group; the v2.0-added voice-alignment layer, negative list, and append-only calibration come from computational stylometry and a public post-mortem of a real AI ghostwriting system.
 
 ## Methodology sources
 
 | Source | License | What was distilled | Attribution |
 |---|---|---|---|
-| 本仓库 humanize-rewriter / ai-trace-auditor | 同仓 Apache-2.0 | 步骤 3 人味微调的手法库：burstiness（连续两个长句后接短句）、具体性升维（抽象换具体名词与数字）、允许自然瑕疵；红线 5 的信息层禁改清单；步骤 4 的改前改后分数对比机制 | 在本文件声明同仓同源，且声明本技能为"更克制版"（面向学生习作，口语密度低于成人内容场景） |
-| **计量文体学（stylometry）**：作者身份归属研究（Mosteller & Wallace 的联邦党人文集分析为标志起点；后续以 Burrows's Delta 等距离度量为主流方法） | 概念性引用（学术领域通行结论） | **暗知识 1**：声音指纹在函数词频率、句长分布、标点节奏等无意识分布特征，不在"爱用的词"；**暗知识 2**：样本量纪律（短样本频率不稳定、体裁需匹配、结论应报为排序假设而非判决）；步骤 0 分支 A 的特征抽取清单 | 本轮联网核实（多个来源一致：函数词是最可靠特征、短文本不可靠、体裁与样本长度是纪律要求）；本文件声明为领域通行结论的概念性引用 |
-| **Voice Fidelity in AI Ghostwriting**（zylos.ai 公布的代笔系统设计复盘，2026-07） | 公开方法论文章 | **暗知识 3**：负面约束清单比正面指令更有效（其原始表述：negative-constraint list "turned out to matter more than the positive instructions"）；**暗知识 4**：显式可编辑的风格规则优于原始样本堆；**暗知识 5**：校准用追加式记录（append-only calibration record）而非重训练；暗知识 2 的 few-shot 样本效率结论 | 在本文件声明来源；本技能对"社媒代笔"场景做了学生习作的迁移，未复制其文本或结构 |
-| 语文课程标准分学段写作要求（公开口径） | 概念性引用（公开课标口径） | 步骤 0 年级档位表的学段划分依据：小学 / 初中 / 高中三档的词汇、句长、修辞深度分档 | 在本文件声明为课标口径的概念性参考，具体阈值为作者经验值 |
-| 费曼技巧（Feynman Technique，通行学习法） | 概念性引用（通行学习法） | "可复述性"验收标准：学生能复述 = 内化达成；与 feynman-explainer 链路闭环的依据 | 在本文件声明思想来源 |
-| 素材强制注入规则（空话句替换机制） | 本组原创 | 步骤 2 的"感受必须落到具体场景"、used_materials 调度纪律、缺料占位保留 | 原创声明 |
+| This repo's humanize-rewriter / ai-trace-auditor | same-repo Apache-2.0 | The technique library for step 3 humanizing tweaks: burstiness (a short sentence after two long ones), specificity escalation (abstract → concrete nouns and numbers), allowing natural blemishes; the red-line 5 information-layer no-change list; the step 4 before/after score comparison mechanism | Same-repo same-source noted; this skill declares itself a "more restrained version" (for student writing, lower colloquial density than adult-content scenarios) |
+| **Computational stylometry**: authorship attribution research (Mosteller & Wallace's Federalist Papers analysis as the landmark start; later mainstream methods like Burrows's Delta distance metric) | conceptual citation (field-standard conclusions) | **Tacit knowledge 1**: the voice fingerprint lies in unconscious distribution features—function-word frequency, sentence-length distribution, punctuation rhythm—not in "favorite words"; **Tacit knowledge 2**: sample-size discipline (short-sample frequencies are unstable, genre must match, conclusions reported as ranking hypotheses not verdicts); the feature-extraction checklist in step 0 branch A | Verified online this round (multiple sources agree: function words are the most reliable feature, short text is unreliable, genre and sample length are discipline requirements); stated in this file as a conceptual citation of field-standard conclusions |
+| **Voice Fidelity in AI Ghostwriting** (zylos.ai's published ghostwriting-system design post-mortem, 2026-07) | public methodology article | **Tacit knowledge 3**: negative-constraint lists beat positive instructions (its original phrasing: the negative-constraint list "turned out to matter more than the positive instructions"); **Tacit knowledge 4**: explicit editable style rules beat piles of raw samples; **Tacit knowledge 5**: calibration uses an append-only calibration record rather than retraining; the few-shot sample-efficiency conclusion of tacit knowledge 2 | Source noted in this file; this skill migrated the "social-media ghostwriting" scenario to student writing, without copying its text or structure |
+| Chinese curriculum-standard writing requirements by school stage (public standard) | conceptual citation (public curriculum-standard) | The stage-division basis for the step 0 grade-tier table: vocabulary, sentence length, and rhetorical depth tiers across elementary / middle / high school | Stated in this file as a conceptual reference to the curriculum standard; specific thresholds are the author's experiential values |
+| Feynman Technique (common learning method) | conceptual citation (common learning method) | The "retellability" acceptance criterion: a student who can retell = internalization achieved; the basis for closing the loop with the feynman-explainer chain | Thought source noted in this file |
+| Material-forced injection rules (empty-phrase replacement mechanism) | original to this group | Step 2's "feelings must land on a concrete scene," the used_materials scheduling discipline, missing-material placeholder retention | Original declaration |
 
 ## Distillation boundary (honest disclaimer)
 
-- 句长上限（20 / 30 / 40 字）、成语数量上限等为作者经验值，非课标原文数字；课标只提供学段划分依据，具体阈值可按学生实际水平调整。
-- **"学生腔"与"这个学生的声音"是两条不同的验收标准**：前者是年级代理（分支 B），后者是样本对齐（分支 A）。v2.0 起在 `voice_alignment.mode` 字段显式区分，禁止混用表述（SKILL.md 诚实声明 4）。
-- 样本量的分档规则（≥800 / 200–800 / <200 字）是把计量文体学的样本纪律**可操作化**的产物：领域共识是"短样本不稳、需体裁匹配、结论只能报为排序假设"，具体字数分档为本组经验值。
-- 复检分数来自同仓 ai-trace-auditor 的启发式口径，命中与否都不是官方判定；本技能与任何 AI 检测器无隶属关系，不构成"能骗过检测"的承诺（对应 SKILL.md 红线 4）。
-- 本技能不建模方言、网络用语等个性风格（那是 personal-voice-profile 的职责，且面向用户本人授权的历史文本）。
-- 本技能为方法论蒸馏产物，不代表上述文献、课标或项目方的官方观点。
+- Sentence-length caps (20 / 30 / 40 characters), idiom-count caps, etc. are the author's experiential values, not numbers from the curriculum standard; the standard only provides the stage-division basis, and specific thresholds can be adjusted to the student's actual level.
+- **"Student tone" and "this student's voice" are two different acceptance criteria**: the former is a grade proxy (branch B), the latter is sample alignment (branch A). Since v2.0, the `voice_alignment.mode` field explicitly distinguishes them; conflating the two is forbidden (SKILL.md honesty declaration 4).
+- The sample-size tiering rules (≥800 / 200–800 / <200 characters) are an **operationalization** of stylometry's sample discipline: the field consensus is "short samples are unstable, genre must match, conclusions can only be reported as ranking hypotheses"; the specific character thresholds are this group's experiential values.
+- The re-check score comes from the same-repo ai-trace-auditor's heuristic metric; a hit or non-hit is not an official verdict; this skill has no affiliation with any AI detector and makes no "can evade detection" promise (corresponding to SKILL.md red line 4).
+- This skill does not model dialect, internet slang, or other idiosyncratic styles (that's personal-voice-profile's job, and it works on the user's own authorized historical text).
+- This skill is a methodology distillation and does not represent the official views of the cited works, curriculum standards, or project authors.

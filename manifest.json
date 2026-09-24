@@ -39,7 +39,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "765b0a069c10ff5423e4067b1956a07947a7f00eaafe70de5ed589768a84443a"
+      "sha256": "aeb53d4f5f67a6cbb44c385776fd08619c2aaf3fc7a3761f5ab3cc21fade9d0e"
     },
     {
       "id": "ai-media-toolkit",
@@ -48,7 +48,7 @@
       "description": "Generate videos, images, covers, and music from prompts through a local generation gateway.",
       "description_zh": "通过本地生成网关用提示词生成视频、图片、封面与配乐：文生/图生全流程（提交、轮询、下载交付）。",
       "file": "dist/ai-media-toolkit.zip",
-      "size_kb": 23,
+      "size_kb": 22,
       "skills": [
         {
           "name": "video-generation",
@@ -63,7 +63,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "906944e28abc1792728f459489ad39685ba001db524cb482db94f27e3017cb99"
+      "sha256": "0dddc1a2ca39ccec45f990139ff99de89159c6266a87e0ddc2c670c4c765e19b"
     },
     {
       "id": "ai-research-writing",
@@ -110,10 +110,6 @@
           "source": "self-authored"
         },
         {
-          "name": "figure-maker",
-          "source": "self-authored"
-        },
-        {
           "name": "arch-diagram",
           "source": "self-authored"
         },
@@ -150,8 +146,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 199,
-      "sha256": "e4a491f8bb05a8801fb7a3bf48fb983305f9ae99b278d84f9aa13adcf1cefc70"
+      "size_kb": 194,
+      "sha256": "baa6b6b8e688b9559516a7f1f454b501d3361d8c223b857a9c899a4de918d2ce"
     },
     {
       "id": "ai-video-pipeline",
@@ -198,8 +194,8 @@
           "source": "skillkit authors (self-authored)"
         }
       ],
-      "size_kb": 111,
-      "sha256": "e5efaee145eceea498233e9cd5a374d19b1b9534eafd92f5adb9827389712539"
+      "size_kb": 110,
+      "sha256": "ae60e79763f55f439d1ad6d7f50b63e7083200ae16b1346ed375591cccb6465c"
     },
     {
       "id": "api-development",
@@ -271,7 +267,7 @@
         }
       ],
       "size_kb": 25,
-      "sha256": "bb05ebb8284f87750c973ec7167510aa96b17b1505f0d66fde88588d1850b6c2"
+      "sha256": "2fd86f742697fa7cac18618de88f693bca03614b4ef90e9a07f40a677925adb8"
     },
     {
       "id": "chat-prompt-craft",
@@ -287,7 +283,7 @@
         }
       ],
       "size_kb": 10,
-      "sha256": "53c34b46efa02f25457796452903a2687b2b08e5cdf60fb637b896718e5a5ee0"
+      "sha256": "37bf675887ee16e5407c9cde8e568987bfc8f3f90a67312acfa492f7c7ee01e5"
     },
     {
       "id": "ci-cd",
@@ -334,8 +330,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 66,
-      "sha256": "3101569ea7bc4fd137261042f5f16e21631126634eb926d051fa5c18c7f73118"
+      "size_kb": 65,
+      "sha256": "37d08b16df471d6b8e0f196b605ce59aa98ec7c4adb39e9e2c714c6b887b6739"
     },
     {
       "id": "code-review",
@@ -510,15 +506,15 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 76,
-      "sha256": "cd934c2077b832109e82a4f58ee54db0195e7f4c9bb5ffc73446c02f9ef0e2ba"
+      "size_kb": 75,
+      "sha256": "84940f2a5c9173fb601bc971bfc816e64211cce68949e127c6af56d6630d98e5"
     },
     {
       "id": "database",
       "name": "Database Design & Management",
       "name_zh": "数据库设计与管理",
       "file": "dist/database.zip",
-      "size_kb": 109,
+      "size_kb": 108,
       "description": "Design schemas, ERD diagrams, migrations, and optimize SQL queries.",
       "description_zh": "设计表结构、ERD 图、迁移方案，并优化 SQL 查询。",
       "skills": [
@@ -531,7 +527,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "c1f6d232bc501fdff0ab6aa6f8be9e003aa4eabf4b68996fa43f20dbf0cbaf15"
+      "sha256": "df24335d1eb82db93b3f9187a6b1db6bb64220f28133a001b8c9dd6badf1c771"
     },
     {
       "id": "dataviz-studio",
@@ -551,7 +547,7 @@
         }
       ],
       "size_kb": 33,
-      "sha256": "0683dbe81527c316c89d2c1e1c102cf963b1acacc53aeccc35b462aff6374fe0"
+      "sha256": "137092d14b568b3f09fc26f99b0779e5230d8fbacc7b41bb1d0841c02ef734cb"
     },
     {
       "id": "de-ai-writing",
@@ -574,8 +570,8 @@
           "source": "original"
         }
       ],
-      "size_kb": 29,
-      "sha256": "7831d35d57db4bb6bff1805e895fb1961923198f08f20a5f119d0e5cd2000871"
+      "size_kb": 28,
+      "sha256": "848de09b83a55eb90602a69d8e6169b91f0f296fa1317a135f9b1956809611ac"
     },
     {
       "id": "edu-craft",
@@ -599,7 +595,7 @@
         }
       ],
       "size_kb": 11,
-      "sha256": "03b67518c3380e7fa5867287dfe59b75434818cdbea43b7592665b74f9da3421"
+      "sha256": "c0a87db630a0236b8c9cbbcfd73f75e75da928f050f98888cdd3a418cdb92aff"
     },
     {
       "id": "github-workflow",
@@ -647,7 +643,7 @@
         }
       ],
       "size_kb": 16,
-      "sha256": "9cc99f8640d8f05782c63244de5a0748ecd3003bac85c8b31b085c224bd45771"
+      "sha256": "85ace46196dd251d62e11840ef86f69459be857503f994e97701946d19eef0c1"
     },
     {
       "id": "homework-autopilot",
@@ -671,7 +667,7 @@
         }
       ],
       "size_kb": 24,
-      "sha256": "5fde31b4f83f663af62a50b72c78942623de35886196005cac5d8c962da2b542"
+      "sha256": "fd9e3eb6ba3ecc4f0ad336fb0666e6916c9fde6532eb1a660a729a828efae9a5"
     },
     {
       "id": "image-studio",
@@ -694,8 +690,8 @@
           "source": "existing (video)"
         }
       ],
-      "size_kb": 38,
-      "sha256": "82a091c302512d2ee386dd5c5d327974390910d480e0b71c13d9e16807d44798"
+      "size_kb": 37,
+      "sha256": "fc9d616dcd51ddb52e1da4963acaac4e25680d8ea92001b93661cc8b633623c7"
     },
     {
       "id": "incident-response",
@@ -763,7 +759,7 @@
         }
       ],
       "size_kb": 29,
-      "sha256": "ff0e8c4e02a6213848e629bed364c6383c48a259877afc32cbbbb21282702a8d"
+      "sha256": "ec6d614d72b389bd1a3d16bb6b6b8b532e6d4d4dc20e138dcae97a934c982afd"
     },
     {
       "id": "memory-systems",
@@ -791,7 +787,7 @@
         }
       ],
       "size_kb": 25,
-      "sha256": "35ce12947f53c1e09adc263a7d46f4b8912dc787f7bee01a17e7df7124f2b965"
+      "sha256": "b208135a183d517590ccc4dce926ba40f8af6f65a5ced15aa3c44416224260af"
     },
     {
       "id": "office-productivity",
@@ -843,7 +839,7 @@
           "source": "self-authored (adapted from santifer/career-ops, MIT)"
         }
       ],
-      "sha256": "69580fa276d2edeae4eab5396ed959ca29d5ab12700f1ec2978c04a1383a95d1"
+      "sha256": "fdbef42a95f7b8e2d7057d7b5431d4581707f55839901b7ac4ced19327b07cd0"
     },
     {
       "id": "performance",
@@ -887,7 +883,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "45774b9cf39aa09620fc5363173a6a77416061ca1c2642dcb5def39b8412d480"
+      "sha256": "422ce6c096d80326860491909f2b4eb0910fcd11d978be9594d3842f6d2010c1"
     },
     {
       "id": "skill-forge",
@@ -918,8 +914,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 49,
-      "sha256": "743b25ada0ec84848c435f58bf08cb7895ddc58d360f207fb7bccfec32f980ee"
+      "size_kb": 48,
+      "sha256": "031958c9cabfe2dca3867f1bb9c689646f707213d44e173e9053c9a6ba3b4520"
     },
     {
       "id": "tdd",
@@ -947,7 +943,7 @@
           "source": "self-authored (verification-type agent behavior scoring: 5-dim 0-100 rubric + LLM-as-judge prompt, offline)"
         }
       ],
-      "sha256": "a4d04a17dc3f390a4be54f29e6c7aa11db99dba3551865be74b241c071fb968c"
+      "sha256": "27514913f606afb6c2abac95b82443065f2e0cba97b3203e32f9f8f13cad1dd1"
     },
     {
       "id": "toolsmith",
@@ -983,7 +979,7 @@
         }
       ],
       "size_kb": 62,
-      "sha256": "115373b12a3607714f60eed8ec1ad566a6d8f8bdc2c0115950a97737770a187f"
+      "sha256": "3c4e42031d124913fa529408249d21895e68e938c4592376c7d3031b1cdb307b"
     },
     {
       "id": "video-design-studio",
@@ -1014,8 +1010,8 @@
           "source": "skillkit authors (self-authored)"
         }
       ],
-      "size_kb": 50,
-      "sha256": "bf23a6eecd6d0c9cb5616800a592e90da646aec753b3f7d2ff73c285bd59ad74"
+      "size_kb": 49,
+      "sha256": "3adff402f0bbb10e5deef906cb793f76e949beb411df9777cc4389469b9ee6ae"
     },
     {
       "id": "viral-entertainment",
@@ -1035,7 +1031,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "19d36d752ee234913af28b375a4a4091a57ba224c9908fced28c54a86e3f1725"
+      "sha256": "967158ecad3d9dad9771ecaf5005260417e0a6a6320989195907e120d5941493"
     },
     {
       "id": "visual-design-studio",
@@ -1066,8 +1062,8 @@
           "source": "self-authored (adapted from mattpocock/skills frontend-design + ECC frontend-patterns)"
         }
       ],
-      "size_kb": 47,
-      "sha256": "51bf5dbccdef35a10e8b982ca66b65632cdf9d17406f28d544c865fd5d63c19c"
+      "size_kb": 46,
+      "sha256": "8c2664bf774505f2ee7b8def3533f1e06c5b3111def206896ded055e667e3ffa"
     },
     {
       "id": "workspace-integrations",
@@ -1094,8 +1090,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 59,
-      "sha256": "f3ced39eec3fe2cd62daff68bd0be392455fe86e7b47bd9f524e8ad267673ed3"
+      "size_kb": 58,
+      "sha256": "50ec7f82977e5ee6d2d5f8faf4fd3cfb67bcfbc947e518d57029fb9632793177"
     }
   ]
 }

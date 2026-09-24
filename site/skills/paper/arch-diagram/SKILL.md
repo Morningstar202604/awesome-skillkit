@@ -1,6 +1,6 @@
 ---
 name: arch-diagram
-description: "Generate paper-style architecture/framework diagrams as compile-ready TikZ (LaTeX) plus well-formed editable SVG: pipelines with row/wrap/stack layouts, per-block colourblind-safe colours, automatic LaTeX/XML escaping. Use when the user asks to draw an architecture diagram / method overview figure / framework diagram / draw a flowchart / pipeline diagram / generate a methods-section figure / block diagram. Do NOT use for data charts (use pub-plotter / figure-maker) or neuron-level networks (use neural-net-draw)."
+description: "Generate paper-style architecture/framework diagrams as compile-ready TikZ (LaTeX) plus well-formed editable SVG: pipelines with row/wrap/stack layouts, per-block colourblind-safe colours, automatic LaTeX/XML escaping. Use when the user asks to draw an architecture diagram / method overview figure / framework diagram / draw a flowchart / pipeline diagram / generate a methods-section figure / block diagram. Do NOT use for data charts (use pub-plotter) or neuron-level networks (use neural-net-draw)."
 license: Apache-2.0
 compatibility: Stdlib only; requires python3; outputs TikZ source and SVG, no LaTeX compile required.
 metadata:

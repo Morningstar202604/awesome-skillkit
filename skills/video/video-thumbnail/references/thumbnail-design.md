@@ -1,157 +1,164 @@
-# 封面图设计参数（video-thumbnail）
+# Thumbnail Design Parameters (video-thumbnail)
 
-封面决定点击率。**尺寸数值是易变信息**，平台上限和规范会随版本调整；
-构图、安全区、字号下限是相对稳定的人因经验，可长期使用。
+The thumbnail decides click-through rate. **Dimension values are volatile information**—platform
+limits and specs change with versions; composition, safe zones, and minimum font sizes are
+relatively stable human-factor heuristics that can be used long-term.
 
 ## Table of Contents
 
-0. 数值可信度与核对方法 / 1. 平台尺寸对照 / 2. 构图：三分法与主体占比
-3. 文字安全区 / 4. 字号下限与对比度 / 5. 文案规则 / 6. 点击率常见误区
-7. 落地：抽帧 + 叠加 / 8. 交付前自检
+0. Data credibility and how to verify / 1. Platform size reference / 2. Composition: rule of thirds and subject proportion
+3. Text safe zone / 4. Minimum font size and contrast / 5. Copy rules / 6. Common click-through mistakes
+7. Implementation: frame extraction + overlay / 8. Pre-delivery self-check
 
-## 0. 数值可信度与核对方法
+## 0. Data credibility and how to verify
 
-| 级别 | 例子 | 用法 |
+| Tier | Examples | How to use |
 |---|---|---|
-| 易变（平台规范） | 封面尺寸、体积上限、格式 | **发布前必须核对**，见下方方法 |
-| 稳定（人因经验） | 三分构图、字号下限、对比度 | 直接用，按你的实测数据微调 |
+| Volatile (platform specs) | Thumbnail dimensions, file size limits, format | **Must verify before publishing**, see method below |
+| Stable (human-factor heuristics) | Rule-of-thirds composition, minimum font size, contrast | Use directly, fine-tune with your own measured data |
 
-核对平台当前规范的三条路径（任选其一，不要靠记忆）：
+Three ways to verify the platform's current spec (pick one; don't rely on memory):
 
-1. 打开平台创作者中心 / 上传页，上传页会显示当前允许的封面尺寸与体积；
-2. 查平台帮助文档的"封面/视频规格"条目；
-3. 传一张测试图，报错信息会写明当前限制。
+1. Open the platform's creator center / upload page; the upload page shows the currently allowed thumbnail size and file size;
+2. Check the platform help docs' "thumbnail/video specs" entry;
+3. Upload a test image; the error message will state the current limit.
 
-**所有尺寸值均按「2026 年常见值，发布前请核对平台最新规范」使用。**
+**Treat all dimension values as "common values as of 2026; verify the platform's latest spec before publishing."**
 
-## 1. 平台尺寸对照
+## 1. Platform size reference
 
-下表数值来自本仓 SKILL.md 记载 + 常见实践，**属易变信息，发布前核对**：
+The values below come from this repo's SKILL.md notes + common practice; **they are volatile information—verify before publishing**:
 
-| 平台 | 常见封面尺寸 | 比例 | 体积上限（常见值） | 备注 |
+| Platform | Common thumbnail size | Aspect ratio | File size limit (common value) | Notes |
 |---|---|---|---|---|
-| Douyin | 1080 × 1920 | 9:16 | 2 MB | 竖屏；实际以发布页提示为准 |
-| TikTok | 1080 × 1920 | 9:16 | 2 MB | 竖屏 |
-| Bilibili | 1920 × 1080 | 16:9 | 2 MB | 横屏封面 |
-| YouTube | 1280 × 720 | 16:9 | 2 MB | 横屏封面 |
+| Douyin | 1080 × 1920 | 9:16 | 2 MB | Vertical; defer to the publish-page prompt |
+| TikTok | 1080 × 1920 | 9:16 | 2 MB | Vertical |
+| Bilibili | 1920 × 1080 | 16:9 | 2 MB | Landscape cover |
+| YouTube | 1280 × 720 | 16:9 | 2 MB | Landscape cover |
 
-未列出的平台 = 本仓无可靠记载，**不要凭印象填**。
+Platforms not listed = this repo has no reliable record; **don't fill in from memory**.
 
-导出通用原则：
+General export principles:
 
-- 先按上表尺寸导出 PNG；超体积再转 JPG 并降质量（PNG 保文字锐利，JPG 保体积）。
-- 输出后必查实际尺寸，不要相信"我设了 1080"：
+- First export PNG at the size in the table above; if over size, convert to JPG and lower quality
+  (PNG keeps text sharp; JPG keeps file size down).
+- After outputting, always check the actual dimensions—don't trust "I set it to 1080":
 
 ```bash
 ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=p=0 thumb.png
-ls -l thumb.png        # 体积是否超平台上限
+ls -l thumb.png        # is the file over the platform limit?
 ```
 
-## 2. 构图：三分法与主体占比
+## 2. Composition: rule of thirds and subject proportion
 
-- **三分法**：把画面横竖各三等分，主体（人脸 / 产品）放在四条分割线的交点附近。
-  竖屏封面把主体放在**上半部**交点，因为下半部会被标题和 UI 压住。
-- **主体占比**（经验值）：人物或产品占画面高度 40%–60%。小于 30% 在手机缩略图上
-  看不清；大于 70% 会让文字无处安放。
-- **视线方向**：人物视线朝向画面中心或朝向标题文字，能自然把观众注意力引到文案上。
-- **主体唯一**：一个视觉中心。两个主体 = 视觉打架 = 缩略图上糊成一团。
-- **背景简化**：背景元素降低饱和度/加模糊，让主体和文字跳出来。
+- **Rule of thirds**: divide the frame into thirds horizontally and vertically; place the subject
+  (face / product) near the intersections of the four dividing lines. For vertical thumbnails, place
+  the subject at the **upper-half** intersections, because the lower half is covered by titles and UI.
+- **Subject proportion** (guideline): the person or product occupies 40%–60% of the frame height.
+  Below 30% it's unrecognizable on a mobile thumbnail; above 70% there's nowhere to put the text.
+- **Gaze direction**: having the person's eyes look toward frame center or toward the title text
+  naturally draws the viewer's attention to the copy.
+- **Single subject**: one visual center. Two subjects = visual conflict = a muddy blob on the thumbnail.
+- **Simplify the background**: lower background saturation / add blur so the subject and text pop.
 
-## 3. 文字安全区
+## 3. Text safe zone
 
-平台上会在封面上叠加自己的 UI（标题、作者名、播放按钮、底部文案）。文字压进这些
-区域就会被遮住。
+Platforms overlay their own UI on top of the thumbnail (title, author name, play button, bottom
+copy). Text pushed into these areas will be covered.
 
-| 平台 | 安全区（本仓 SKILL.md 记载，易变） |
+| Platform | Safe zone (per this repo's SKILL.md, volatile) |
 |---|---|
-| Douyin / TikTok | 顶部 10%、底部 15% 不放关键文字 |
-| Bilibili | 全画幅可用，但右下角常被时长角标占用 |
-| YouTube | 右下角常被时长角标占用 |
+| Douyin / TikTok | Keep key text out of the top 10% and bottom 15% |
+| Bilibili | Full frame usable, but the bottom-right corner is often taken by a duration badge |
+| YouTube | Bottom-right corner often taken by a duration badge |
 
-实操建议（经验值，比上表更保守，通常都安全）：
+Practical recommendations (guideline values, more conservative than the table above, usually safe):
 
-- 竖屏 9:16：标题文字放在**垂直方向 55%–70%** 处，左右各留 8% 边距；
-- 横屏 16:9：文字压在主体一侧，四周留 5% 边距，右下角预留角标位；
-- 任何平台都不要把文字放到画面最底部的 10%。
+- Vertical 9:16: place the title text at **55%–70% of the vertical** dimension, with 8% margins on left and right;
+- Landscape 16:9: place text beside the subject, with 5% margins all around, reserve the bottom-right for a badge;
+- On any platform, never put text in the bottom 10% of the frame.
 
-## 4. 字号下限与对比度
+## 4. Minimum font size and contrast
 
-字号下限（经验值，按封面宽度给出；竖屏 1080 宽 / 横屏 1280 宽为基准）：
+Minimum font sizes (guideline values, given by thumbnail width; based on 1080-wide vertical / 1280-wide landscape):
 
-| 用途 | 1080 宽（9:16） | 1280 宽（16:9） | 说明 |
+| Use | 1080 wide (9:16) | 1280 wide (16:9) | Notes |
 |---|---|---|---|
-| 主标题 | ≥ 72 px | ≥ 64 px | 再小在手机缩略图上就糊了 |
-| 副标题 | ≥ 48 px | ≥ 40 px | 仅在主标题不足 6 字时补充 |
-| 角标 / 徽章 | ≥ 36 px | ≥ 32 px | "NEW""完整版"一类短标签 |
+| Main title | ≥ 72 px | ≥ 64 px | Any smaller turns to mush on a mobile thumbnail |
+| Subtitle | ≥ 48 px | ≥ 40 px | Only supplement when the main title is under 6 characters |
+| Badge / badge icon | ≥ 36 px | ≥ 32 px | Short labels like "NEW", "FULL VERSION" |
 
-主标题**不超过 8 个字**（中文）。超过就砍，不要试图缩小字号塞进去——
-封面是在几十像素的缩略图尺寸下被扫一眼的。
+The main title should be **no more than 8 Chinese characters**. If it's longer, cut it—don't try to
+shrink the font to cram it in: a thumbnail is glanced at at a few dozen pixels.
 
-对比度（引用可核查的公开标准，非自造）：
+Contrast (citing a verifiable public standard, not invented):
 
-- 正文级文字与背景对比度 ≥ **4.5:1**；大字号（≥18pt，或 ≥14pt 且加粗）≥ **3:1**
-  （WCAG 2.1 AA 阈值，`VERIFY BEFORE USE`：以 w3.org 现行 WCAG 为准）。
-- 达标最省事的做法不是调色，而是**加描边或半透明底条**：
-  白字 + 2–4 px 深色描边，或文字下方压一层 30%–50% 不透明度的深色渐变。
-- 禁止：浅灰字压浅色背景、白字压雪景/白墙、彩色字压彩色背景。
+- Body-level text vs. background contrast ≥ **4.5:1**; large text (≥18pt, or ≥14pt and bold) ≥ **3:1**
+  (WCAG 2.1 AA thresholds, `VERIFY BEFORE USE`: defer to the current WCAG at w3.org).
+- The easiest way to meet this isn't adjusting colors but **adding an outline or a translucent bar**:
+  white text + 2–4 px dark outline, or a 30%–50% opacity dark gradient under the text.
+- Forbidden: light gray text on a light background, white text on snow/white walls, colored text on a colored background.
 
-## 5. 文案规则
+## 5. Copy rules
 
-| 规则 | 说明 |
+| Rule | Notes |
 |---|---|
-| 字数 | 中文主标题 2–8 字，最多两行 |
-| 与视频标题的关系 | **互补而非重复**：封面写冲突/结果，视频标题写悬念 |
-| 动词优先 | "我退货了" 强于 "退货经历分享" |
-| 数字具体 | "8900 元" 强于 "很贵"；具体数字自带信息量 |
-| 疑问句留悬念 | 问句要能被视频回答，否则是标题党 |
-| 不用生僻字/梗 | 缩略图尺寸下识别成本过高 |
+| Length | Chinese main title 2–8 characters, at most two lines |
+| Relationship to video title | **Complementary, not repetitive**: the thumbnail states the conflict/result, the video title states the hook |
+| Verbs first | "I returned it" beats "my return-experience sharing" |
+| Specific numbers | "8900 yuan" beats "very expensive"; a concrete number carries information by itself |
+| Questions leave a hook | The question must be answerable by the video, otherwise it's clickbait |
+| No obscure words/memes | Recognition cost is too high at thumbnail size |
 
-## 6. 点击率常见误区
+## 6. Common click-through mistakes
 
-| 误区 | 后果 | 改法 |
+| Mistake | Consequence | Fix |
 |---|---|---|
-| 封面文字 = 视频标题原文 | 信息零增量，观众已看过标题直接划走 | 封面写结论/反差，标题写悬念 |
-| 文字塞满画面 | 缩略图上是糊的，等于没有 | 主标题 ≤8 字，其余信息交给标题 |
-| 主体太小或太偏 | 缩略图看不清是什么 | 主体占画高 40%–60%，放三分交点 |
-| 误导性封面（内容不兑现） | 短期点击率↑，但完播率↓，长期被平台降权 | 封面必须是视频里真实出现的画面/结论 |
-| 无人物、无表情 | 缺少情绪钩子 | 有人物就给正脸 + 明显表情 |
-| 每期风格全不一样 | 无法形成认知，老粉认不出是你 | 固定配色/字号/位置，形成系列识别 |
-| A/B 测试一次改三个变量 | 不知道是哪个变量起作用 | 一次只改一个变量（文案 / 主体 / 配色） |
-| 直接用视频首帧 | 常是黑场或过渡帧 | 从 1–3 秒后抽帧，或人工挑"表情最满"的一帧 |
+| Thumbnail text = the video title verbatim | Zero information gain; viewers already saw the title and swipe away | Thumbnail states the conclusion/contrast, title states the hook |
+| Text crammed all over the frame | It's mush on a thumbnail, equivalent to nothing | Main title ≤8 characters; leave other info to the title |
+| Subject too small or off-center | Unrecognizable on a thumbnail | Subject occupies 40%–60% of frame height, placed at a rule-of-thirds intersection |
+| Misleading thumbnail (content doesn't deliver) | Short-term CTR↑ but completion rate↓; long-term platform demotion | The thumbnail must be a shot/conclusion that actually appears in the video |
+| No person, no expression | No emotional hook | If there's a person, show a face + an obvious expression |
+| Completely different style every episode | No recognition; existing fans can't tell it's you | Fix the colors/font/position to build series recognition |
+| Changing three variables at once in an A/B test | You don't know which variable worked | Change only one variable at a time (copy / subject / colors) |
+| Using the video's first frame directly | Usually a black frame or a transition frame | Extract a frame after 1–3 seconds, or manually pick the frame with the fullest expression |
 
-A/B 测试的正确姿势：同一视频准备 2 个封面，**只改一个变量**，其余完全一致；
-对比同一时间窗口的点击率；样本不足（播放量过低）时不要下结论。
+The right way to A/B test: prepare 2 thumbnails for the same video, **change only one variable** and
+keep everything else identical; compare click-through rates over the same time window; don't conclude
+when the sample is too small (views too low).
 
-## 7. 落地：抽帧 + 叠加
+## 7. Implementation: frame extraction + overlay
 
-路线 A（有素材视频时，最快、最保真）：
+Route A (when you have a source video; fastest, most faithful):
 
 ```bash
-# 从 1.5 秒处抽一帧（避开片头黑场）
+# Extract one frame at 1.5 seconds (skip the opening black frame)
 ffmpeg -y -ss 1.5 -i final.mp4 -frames:v 1 -q:v 2 base.png
 
-# 叠加标题文字（字体路径因发行版而异，用 fc-list :lang=zh 确认后替换）
+# Overlay the title text (font path varies by distro; confirm with fc-list :lang=zh and replace)
 ffmpeg -y -i base.png -vf \
   "drawtext=fontfile=/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc:\
-text='宝宝测评':fontcolor=white:fontsize=88:borderw=4:bordercolor=black:\
+text='Baby Review':fontcolor=white:fontsize=88:borderw=4:bordercolor=black:\
 x=(w-text_w)/2:y=h*0.60" -q:v 2 thumb.png
 ```
 
-失败分支：`No such filter: 'drawtext'` → 该构建未编译 drawtext（需 freetype）；
-字体路径不存在 → `fc-list :lang=zh` 找真实路径；中文变方块 → 字体不含 CJK 字形。
+Failure branches: `No such filter: 'drawtext'` → this build wasn't compiled with drawtext (needs
+freetype); font path doesn't exist → find the real path with `fc-list :lang=zh`; Chinese turns into
+boxes → the font has no CJK glyphs.
 
-路线 B（AI 生成）：走图像生成能力，prompt 里必须写死**比例**（如 `9:16 vertical`）、
-**主体占比**、**留白位置**、**不要文字**（生成的文字通常错乱，文字一律后期叠加）。
+Route B (AI-generated): use image generation; the prompt must hard-code the **aspect ratio** (e.g.
+`9:16 vertical`), **subject proportion**, **negative-space position**, and **no text** (generated
+text is usually garbled—always overlay text in post).
 
-两种方式都必须以第 1 节的尺寸命令收尾校验。
+Both methods must end with the dimension-check command from Section 1.
 
-## 8. 交付前自检
+## 8. Pre-delivery self-check
 
-- [ ] 尺寸与比例符合目标平台（`ffprobe` 实测，不是"我以为"）
-- [ ] 体积未超平台上限（`ls -l`）
-- [ ] 主体位于三分交点，占画高 40%–60%
-- [ ] 文字在安全区内，未被底部 10% / 角标位遮挡
-- [ ] 主标题 ≤8 字，字号不低于第 4 节下限
-- [ ] 文字与背景对比达标（有描边或底条）
-- [ ] 封面承诺与视频内容一致（不是标题党）
-- [ ] 同系列封面风格一致
+- [ ] Dimensions and aspect ratio match the target platform (measured with `ffprobe`, not "I think")
+- [ ] File size is within the platform limit (`ls -l`)
+- [ ] Subject is at a rule-of-thirds intersection, occupying 40%–60% of frame height
+- [ ] Text is within the safe zone, not covered by the bottom 10% / badge position
+- [ ] Main title ≤8 characters, font size no smaller than the Section 4 minimum
+- [ ] Text vs. background contrast meets the bar (outline or underlay present)
+- [ ] The thumbnail's promise matches the video content (not clickbait)
+- [ ] Thumbnails in the same series are stylistically consistent

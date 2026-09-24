@@ -1,52 +1,55 @@
-# TTS 网关接入（video-voice-synth）
+# TTS Gateway Integration (video-voice-synth)
 
-本技能采用「**用户自备网关**」模式：**仓库不提供、也不内嵌任何 TTS 厂商端点**。
-你需要自己部署或指定一个 TTS 服务，并把它告诉脚本。
+This skill uses a "**bring-your-own-gateway**" model: **the repo does not provide, and does not embed,
+any TTS vendor endpoint**. You must deploy or designate a TTS service yourself and tell the script about it.
 
-> **端点以你的实际部署为准，执行前必须确认。** 本文出现的 `127.0.0.1:30081`、
-> 路径 `/v1/tts`、字段名 `speed` / `pitch` / `format` 均为**仓库示例默认值**
-> （来自本技能脚本的初始常量），不是任何厂商的公开 API 承诺。**VERIFY BEFORE USE**：
-> 执行前用你的服务文档或 `curl` 探测结果覆盖，见第 3 节。
+> **Endpoints depend on your actual deployment and must be confirmed before running.** The
+> `127.0.0.1:30081`, path `/v1/tts`, and field names `speed` / `pitch` / `format` appearing in this
+> document are all **repo example defaults** (from the initial constants in this skill's scripts),
+> not any vendor's public API promise. **VERIFY BEFORE USE**: override them with your service docs or
+> `curl` probe results before executing—see Section 3.
 
 ## Table of Contents
 
-0. 前置自检 / 1. 环境变量约定 / 2. 请求与响应约定 / 3. 三步连通性探测
-4. 失败处置表 / 5. 批量合成与并发 / 6. Mock 模式边界 / 7. 安全红线
+0. Pre-flight self-check / 1. Environment variable conventions / 2. Request and response conventions / 3. Three-step connectivity probe
+4. Failure handling table / 5. Batch synthesis and concurrency / 6. Mock mode boundaries / 7. Security red lines
 
-## 0. 前置自检
+## 0. Pre-flight self-check
 
 ```bash
-command -v ffprobe >/dev/null && echo "ffprobe=OK" || echo "ffprobe=缺失(时长校验不可用)"
-echo "BASE=${GATEWAY_BASE_URL:-<未设置>}  TIMEOUT=${GATEWAY_TIMEOUT:-30}"
-[ -n "$GATEWAY_API_KEY" ] && echo "KEY=已设置(长度 ${#GATEWAY_API_KEY})" || echo "KEY=未设置"
+command -v ffprobe >/dev/null && echo "ffprobe=OK" || echo "ffprobe=missing (duration validation unavailable)"
+echo "BASE=${GATEWAY_BASE_URL:-<not set>}  TIMEOUT=${GATEWAY_TIMEOUT:-30}"
+[ -n "$GATEWAY_API_KEY" ] && echo "KEY=set (length ${#GATEWAY_API_KEY})" || echo "KEY=not set"
 ```
 
-预期：BASE 为你的网关根地址，ffprobe 可用（用于校验音频时长）。
-BASE 为 `<未设置>` → 先按第 1 节设置，不要用脚本内置默认值蒙混过关。
+Expected: BASE is your gateway root address, ffprobe is available (used to validate audio duration).
+If BASE is `<not set>`, set it per Section 1 first—don't fudge it with the script's built-in defaults.
 
-## 1. 环境变量约定
+## 1. Environment variable conventions
 
-以下名称是**本仓库的约定示例**，不是行业标准；若你的网关要求别的名字，
-以你的部署为准，只改脚本读取变量的那一行。
+The names below are **convention examples for this repo**, not industry standards; if your gateway
+requires different names, defer to your deployment and change only the line where the script reads
+the variable.
 
-| 变量 | 示例值 | 必需 | 说明 |
+| Variable | Example value | Required | Notes |
 |---|---|---|---|
-| `GATEWAY_BASE_URL` | `http://127.0.0.1:30081` | 是 | 网关根地址，**不带尾斜杠、不带路径** |
-| `GATEWAY_API_KEY` | （你的密钥） | 视网关而定 | 以 `Authorization` 头发送，不落盘 |
-| `GATEWAY_TIMEOUT` | `30` | 否 | 单次请求超时秒数；长文本按字数上调（见第 5 节） |
-| `TTS_OUTPUT_FORMAT` | `wav` | 否 | 目标音频容器；下游 lip-sync 一般吃 `wav` |
+| `GATEWAY_BASE_URL` | `http://127.0.0.1:30081` | Yes | Gateway root address, **no trailing slash, no path** |
+| `GATEWAY_API_KEY` | (your key) | Depends on gateway | Sent via the `Authorization` header, never written to disk |
+| `GATEWAY_TIMEOUT` | `30` | No | Per-request timeout in seconds; raise for long text based on character count (see Section 5) |
+| `TTS_OUTPUT_FORMAT` | `wav` | No | Target audio container; downstream lip-sync generally expects `wav` |
 
 ```bash
-export GATEWAY_BASE_URL="http://127.0.0.1:30081"   # ← 改成你的实际地址
+export GATEWAY_BASE_URL="http://127.0.0.1:30081"   # ← change to your actual address
 export GATEWAY_API_KEY="..."
 export GATEWAY_TIMEOUT=30
 ```
 
-## 2. 请求与响应约定
+## 2. Request and response conventions
 
-**VERIFY BEFORE USE**：以下是本技能脚本当前发出的请求体。字段名、取值域、音色 ID
-（如 `baby_f01`）**必须与你部署的服务一致**——音色 ID 尤其如此，它们来自本技能的
-Voice Catalog 表，仅在你的网关登记了同名音色时才有效。
+**VERIFY BEFORE USE**: below is the request body this skill's scripts currently send. Field names,
+value ranges, and voice IDs (e.g. `baby_f01`) **must match your deployed service**—especially the
+voice IDs, which come from this skill's Voice Catalog table and are only valid if your gateway has
+registered a voice with the same name.
 
 ```
 POST {GATEWAY_BASE_URL}/v1/tts
@@ -54,7 +57,7 @@ Content-Type: application/json
 Authorization: Bearer ${GATEWAY_API_KEY}
 
 {
-  "text": "你们猜我花了多少钱买了这个？",
+  "text": "Guess how much I paid for this?",
   "voice": "baby_f01",
   "speed": 1.2,
   "pitch": 3,
@@ -62,74 +65,81 @@ Authorization: Bearer ${GATEWAY_API_KEY}
 }
 ```
 
-成功判据（三条同时满足）：
+Success criteria (all three must hold):
 
-1. HTTP `2xx`；
-2. 响应体是音频二进制（不是 JSON 错误对象）——用 `file out.wav` 看是否识别为音频；
-3. `ffprobe -v error -show_entries format=duration -of default=nw=1 out.wav` 得到
-   **合理时长**（经验区间：中文约 4–6 字/秒，属经验值，需按你的音色实测校准）。
+1. HTTP `2xx`;
+2. The response body is audio binary (not a JSON error object)—use `file out.wav` to check it's recognized as audio;
+3. `ffprobe -v error -show_entries format=duration -of default=nw=1 out.wav` yields a
+   **reasonable duration** (rule of thumb: Chinese ≈ 4–6 chars/sec; this is a guideline value,
+   calibrate against your actual voice).
 
-**音色清单核实**（在批量合成前做一次）：
+**Voice list verification** (do once before batch synthesis):
 
 ```bash
 curl -sS -m 10 -H "Authorization: Bearer ${GATEWAY_API_KEY}" "$GATEWAY_BASE_URL/v1/voices"
-# 有该端点则返回可用音色；404 表示此网关没有列目录接口 → 逐个试合成 1 句短文本验证
+# If the endpoint exists it returns available voices; 404 means this gateway has no directory endpoint → test-synthesize 1 short sentence per voice
 ```
 
-若返回列表里没有 `baby_f01` 这类 ID，就不能在脚本里填它，否则一定失败。
+If the returned list doesn't contain IDs like `baby_f01`, don't put it in the script—it will definitely fail.
 
-## 3. 三步连通性探测
+## 3. Three-step connectivity probe
 
 ```bash
-# 步骤 1：服务是否在跑
+# Step 1: is the service running?
 curl -sS -m 5 -o /dev/null -w "HTTP=%{http_code} connect=%{time_connect}s\n" "$GATEWAY_BASE_URL/"
-# 预期：200/401/403/404 任一。
-# (7) Failed to connect = 没起或地址错；(28) timed out = 防火墙/安全组
+# Expected: any of 200/401/403/404.
+# (7) Failed to connect = not started or wrong address; (28) timed out = firewall/security group
 
-# 步骤 2：健康检查（路径以你的服务为准）
+# Step 2: health check (path depends on your service)
 for p in /health /healthz /v1/health /docs; do
   printf "%-12s " "$p"; curl -sS -m 5 -o /dev/null -w "%{http_code}\n" "$GATEWAY_BASE_URL$p"
 done
 
-# 步骤 3：真实探活（一句短文本即可，确认鉴权+合成链路）
+# Step 3: real liveness check (one short sentence is enough, confirms auth + synthesis pipeline)
 curl -sS -m "$GATEWAY_TIMEOUT" -o probe.wav -w "HTTP=%{http_code} total=%{time_total}s\n" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer ${GATEWAY_API_KEY}" \
-  -d '{"text":"测试","voice":"baby_f01","speed":1.0,"pitch":0,"format":"wav"}' \
+  -d '{"text":"test","voice":"baby_f01","speed":1.0,"pitch":0,"format":"wav"}' \
   "$GATEWAY_BASE_URL/v1/tts"
 ls -l probe.wav && file probe.wav
 ```
 
-预期：步骤 3 的 HTTP=200，且 `file probe.wav` 输出含 `WAV` / `RIFF` / `Audio`。
-若 `file` 显示 `ASCII text` 或 `JSON` → 服务端返回了错误信息，把内容 `cat probe.wav` 看具体原因。
+Expected: Step 3 shows HTTP=200, and `file probe.wav` output contains `WAV` / `RIFF` / `Audio`.
+If `file` shows `ASCII text` or `JSON`, the server returned an error message—`cat probe.wav` to see
+the specific reason.
 
-## 4. 失败处置表
+## 4. Failure handling table
 
-| 现象 | 原因 | 处置 |
+| Symptom | Cause | Action |
 |---|---|---|
-| `curl: (7) Failed to connect` | 服务未启动 / 端口错 | 确认进程与端口：`ss -ltnp \| grep 30081` |
-| `curl: (28) timed out` | 网络被拦，或文本过长渲染超时 | 调大 `GATEWAY_TIMEOUT`；长句拆成短句分次合成 |
-| HTTP `401` | 密钥缺失或错误 | 重新 export；密钥含 `$`、空格时用单引号 |
-| HTTP `403` | 无该接口权限 / IP 白名单 | 查服务端权限配置 |
-| HTTP `404` | 路径不对 | 步骤 2 循环探路径 |
-| HTTP `422` / `400` | 字段不匹配（常见于 `voice` 值不在音色表） | 用第 2 节的音色清单端点核实 ID |
-| HTTP `429` | 限流 | 串行 + 每次请求间 `sleep 0.5`；批量模式降低并发 |
-| HTTP `5xx` | 服务端错误（模型未加载、显存不足） | 查服务端日志；重试一次仍失败则 `--mock` 占位 |
-| 200 但文件是 JSON 文本 | 服务端返回错误对象 | `cat` 文件看 message 字段 |
-| 200 但时长异常短（<0.3s） | 文本为空或编码问题 | 检查 JSON 是否 UTF-8；中文不要做 `\uXXXX` 转义以外的事 |
-| 音频无声（全零采样） | 合成失败但返回了静音 | 判据：`ffprobe -af volumedetect` 看 `mean_volume`；接近 -91 dB 即为空 |
+| `curl: (7) Failed to connect` | Service not started / wrong port | Confirm process and port: `ss -ltnp \| grep 30081` |
+| `curl: (28) timed out` | Network blocked, or text too long causing render timeout | Increase `GATEWAY_TIMEOUT`; split long sentences into shorter ones and synthesize separately |
+| HTTP `401` | Key missing or wrong | Re-export; use single quotes if the key contains `$` or spaces |
+| HTTP `403` | No permission for this endpoint / IP allowlist | Check server-side permission config |
+| HTTP `404` | Wrong path | Loop-probe paths in Step 2 |
+| HTTP `422` / `400` | Field mismatch (often `voice` value not in the voice table) | Verify the ID using the voice-list endpoint in Section 2 |
+| HTTP `429` | Rate limited | Serialize + `sleep 0.5` between requests; reduce concurrency in batch mode |
+| HTTP `5xx` | Server error (model not loaded, out of VRAM) | Check server logs; retry once, and if still failing, use `--mock` as a placeholder |
+| 200 but file is JSON text | Server returned an error object | `cat` the file and look at the message field |
+| 200 but duration abnormally short (<0.3s) | Empty text or encoding issue | Check whether JSON is UTF-8; for Chinese, do nothing beyond `\uXXXX` escaping |
+| Silent audio (all-zero samples) | Synthesis failed but silence was returned | Criterion: `ffprobe -af volumedetect` and check `mean_volume`; near -91 dB means empty |
 
-## 5. 批量合成与并发
+## 5. Batch synthesis and concurrency
 
-批量模式按脚本 `scenes` 逐条合成，输出 `scene_<id>.wav`。要点：
+Batch mode synthesizes item by item according to the script's `scenes`, outputting `scene_<id>.wav`.
+Key points:
 
-1. **串行优先**。自建网关多为单卡，并发很容易触发 5xx 或 429；先串行跑通再加并发。
-2. **超时按字数放大**。经验做法：`GATEWAY_TIMEOUT = 15 + 字数 × 0.2` 秒；长句先拆句。
-3. **逐条落盘并校验**。每条合成完立刻 `ffprobe` 取时长，与脚本里 `duration_sec`
-   对比，偏差 > 0.5s 记录下来——下游 lip-sync 与画面时长会跟着偏。
-4. **失败不中断全流程**：记录失败的 scene id，全部跑完后再补跑失败项。
+1. **Prefer serial.** Self-hosted gateways are often single-GPU; concurrency easily triggers 5xx or 429;
+   get serial working before adding concurrency.
+2. **Scale timeout by character count.** Rule of thumb: `GATEWAY_TIMEOUT = 15 + chars × 0.2` seconds;
+   split long sentences first.
+3. **Save and validate each item to disk.** Immediately after each synthesis, run `ffprobe` to get the
+   duration and compare with the script's `duration_sec`; record any deviation > 0.5s—downstream
+   lip-sync and picture timing will drift along with it.
+4. **Don't abort the whole run on failure**: record the failed scene ids, then re-run the failures after
+   everything else finishes.
 
-补跑示例（对失败场景单独重试）：
+Re-run example (retry failed scenes individually):
 
 ```bash
 python3 - <<'PY'
@@ -137,20 +147,21 @@ import json, pathlib
 for p in sorted(pathlib.Path(".").glob("scene_*.wav")):
     print(p.name, p.stat().st_size)
 PY
-# 预期：每个 scene 都有文件且大小 > 0；为 0 的即需补跑
+# Expected: every scene has a file and size > 0; any zero-length file needs a re-run
 ```
 
-## 6. Mock 模式边界
+## 6. Mock mode boundaries
 
-`--mock` 或 `SKILLKIT_MOCK=1` 时脚本生成**静音 WAV**（时长按字数估算）并输出
-`"mock": true`。合法用途：联调下游 lip-sync / 拼接流程、CI 无网关自测。
+With `--mock` or `SKILLKIT_MOCK=1`, the script generates **silent WAVs** (duration estimated from
+character count) and outputs `"mock": true`. Legitimate uses: downstream lip-sync / concatenation
+pipeline integration testing, CI self-testing without a gateway.
 
-**禁止**把 mock 音频当作交付物：它是全零采样的静音文件。交付前确认：
-`ffprobe -v error -af volumedetect -f null -` 的 `mean_volume` 明显高于 -91 dB，
-且结果里 `mock` 不为 `true`。
+**Never** treat mock audio as a deliverable: it's a silent file of all-zero samples. Before delivery,
+confirm: `ffprobe -v error -af volumedetect -f null -` shows `mean_volume` well above -91 dB, and
+the result does not have `mock` set to `true`.
 
-## 7. 安全红线
+## 7. Security red lines
 
-- 密钥只走环境变量；不进脚本、不进 Git、不用明文打日志（打印长度即可）。
-- 文本输入视为不可信：不要把用户文本直接拼进 shell 命令，走 JSON 序列化。
-- 覆盖已有音频、删除文件属不可逆操作，执行前先向用户确认。
+- Keys only go through environment variables; never into scripts, Git, or plaintext logs (print only the length).
+- Treat text input as untrusted: don't splice user text directly into shell commands; use JSON serialization.
+- Overwriting existing audio or deleting files is irreversible—confirm with the user before doing so.

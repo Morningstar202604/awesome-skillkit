@@ -1,149 +1,149 @@
-# 关键词研究：可执行流程（无付费工具版）
+# Keyword Research: An Executable Workflow (No Paid Tools)
 
-> 何时读：文章已定稿、要选**主关键词与长尾词**并做平台适配时读本文件。平台规则差异在同级的 platform-rules.md（由 SKILL.md 一并加载）。
-> **本文件不提供任何搜索量 API，也不给出任何平台的搜索量数字。** 凡是「量级」类数据（搜索量、指数、竞争度分数），只能来自平台官方工具或你自购的第三方服务；本文件只提供**不依赖数据的判断流程**。
-> 所有比例区间均为**经验值**，非任何平台的官方规则。
+> When to read: read this file when the article is finalized and you need to pick **primary and long-tail keywords** and adapt them to the platform. Platform rule differences are in the sibling file platform-rules.md (loaded together by SKILL.md).
+> **This file provides no search-volume API and no search-volume numbers for any platform.** Any "magnitude" data (search volume, index, competition score) can only come from official platform tools or third-party services you pay for yourself; this file only provides a **data-free judgment workflow**.
+> All ratio ranges are **rules of thumb**, not official platform rules.
 
 ## Table of Contents
 
-- [1. 输入 / 产出契约](#1-输入--产出契约)
-- [2. 五步流程总览](#2-五步流程总览)
-- [3. 种子词扩展（免费）](#3-种子词扩展免费)
-- [4. 长尾挖掘（免费）](#4-长尾挖掘免费)
-- [5. 意图分类](#5-意图分类)
-- [6. 竞争度评估（无数据版）](#6-竞争度评估无数据版)
-- [7. 关键词分层表模板](#7-关键词分层表模板)
-- [8. 密度与放置位置（经验值）](#8-密度与放置位置经验值)
-- [9. 常见错误](#9-常见错误)
+- [1. Input / output contract](#1-input--output-contract)
+- [2. Five-step workflow overview](#2-five-step-workflow-overview)
+- [3. Seed-keyword expansion (free)](#3-seed-keyword-expansion-free)
+- [4. Long-tail mining (free)](#4-long-tail-mining-free)
+- [5. Intent classification](#5-intent-classification)
+- [6. Competition assessment (no-data version)](#6-competition-assessment-no-data-version)
+- [7. Keyword tiering table template](#7-keyword-tiering-table-template)
+- [8. Density and placement (rules of thumb)](#8-density-and-placement-rules-of-thumb)
+- [9. Common mistakes](#9-common-mistakes)
 
 ---
 
-## 1. 输入 / 产出契约
+## 1. Input / output contract
 
-**输入**：`topic`（主题）、`target_keywords`（可选，用户已给的词）、`platform`、`audience`。
-**产出**：填入 `seo_optimizer.py` 的 `target_keywords` 字段的一组词，以及一张分层表（§7）。
+**Input**: `topic`, `target_keywords` (optional, words the user already gave), `platform`, `audience`.
+**Output**: a set of words to fill into the `target_keywords` field of `seo_optimizer.py`, plus a tiering table (§7).
 
-与脚本的衔接：`scripts/seo_optimizer.py` 的 `extract_keywords()` 做的是**纯词频统计**（正则取 2–4 字中文片段与 ≥3 字母英文词，取 top 5，过滤只出现 1 次的）。它只能告诉你「文章里已经写了什么」，**不能**告诉你「用户会搜什么」。所以关键词研究必须在脚本之外人工/模型完成，脚本只负责落地检查。
+How it connects to the script: `scripts/seo_optimizer.py`'s `extract_keywords()` does **pure word-frequency counting** (regex extracts 2–4 character Chinese fragments and English words of ≥3 letters, takes the top 5, and filters out those appearing only once). It can only tell you "what the article already says", **not** "what users will search for". So keyword research must be done by a human / model outside the script; the script only handles on-page checks.
 
 ---
 
-## 2. 五步流程总览
+## 2. Five-step workflow overview
 
-| 步 | 动作 | 预期产出 | 失败分支 |
+| Step | Action | Expected output | Failure branch |
 |----|------|----------|----------|
-| 1 | 种子词扩展：把主题拆成 5–15 个候选 | 候选词池 | <5 个 → 主题太窄，先扩到上位概念再收窄 |
-| 2 | 长尾挖掘：给每个种子词找 3–5 个具体变体 | 长尾清单 | 找不到变体 → 该词可能无真实需求，降级 |
-| 3 | 意图分类：给每个词打意图标签 | 带意图的词表 | 一个词同时像两种意图 → 拆成两篇文章，不要一篇塞两种 |
-| 4 | 竞争度评估：在目标平台实际搜一遍 | 竞争度粗判（高/中/低） | 全高 → 换长尾或换平台首发 |
-| 5 | 分层与定稿：选出 1 主 2–3 次 5–10 长尾 | 分层表 + `target_keywords` | 主词与标题无法自然融合 → 换主词，不要硬塞 |
+| 1 | Seed expansion: break the topic into 5–15 candidates | Candidate word pool | <5 → the topic is too narrow; broaden to a higher-level concept first, then narrow |
+| 2 | Long-tail mining: find 3–5 specific variants for each seed | Long-tail list | Can't find variants → the word may have no real demand; demote it |
+| 3 | Intent classification: tag each word with an intent | Word list with intent | One word looks like two intents at once → split into two articles; don't cram two into one |
+| 4 | Competition assessment: actually search on the target platform | Rough competition read (high/medium/low) | All high → switch to long-tail or change the first-publish platform |
+| 5 | Tiering and finalizing: pick 1 primary, 2–3 secondary, 5–10 long-tail | Tiering table + `target_keywords` | Primary word can't blend naturally into the title → change the primary word; don't force it in |
 
 ---
 
-## 3. 种子词扩展（免费）
+## 3. Seed-keyword expansion (free)
 
-三种不花钱的做法，按顺序做：
+Three free methods, done in order:
 
-1. **上位/下位拆解法**：把主题往上问一层（所属大类）、往下问两层（具体场景/具体报错/具体版本）。
-   - 例：`FastAPI 性能优化` → 上位：`Python Web 性能`；下位：`FastAPI 慢查询`、`FastAPI asyncpg`、`FastAPI 连接池配置`。
-2. **同义词与叫法收集法**：把你知道的别名全列出来，再到目标平台搜索框里逐个输入，看**搜索下拉（自动补全）**是否出现该词——出现即说明平台认可这个叫法；不出现说明该叫法在平台上不通。
-   - 例：`消息队列` / `MQ` / `message queue`；`向量数据库` / `向量库` / `vector DB`。
-3. **竞品标题词频统计法**（可脚本化）：
-   - 在目标平台搜索种子词，按相关度或热度排序；
-   - 取前 20 条结果的**标题 + 前 100 字摘要**；
-   - 用与 `extract_keywords()` 相同的正则切词，统计 2–4 字片段出现频次；
-   - 取频次 top 10，人工剔除停用词（的/了/如何/什么）。
-   - 判据：某词在 ≥30% 的竞品标题中出现 → 该平台的「通用叫法」，值得进主词候选。
-   - 注意：抓取前确认目标页面的 robots 与服务条款允许，不要高频批量请求。
+1. **Hyponym / hypernym breakdown**: ask one level up (the parent category) and two levels down (specific scenarios / specific errors / specific versions).
+   - Example: `FastAPI performance optimization` → hypernym: `Python Web performance`; hyponyms: `FastAPI slow query`, `FastAPI asyncpg`, `FastAPI connection pool config`.
+2. **Collect synonyms and naming variants**: list every alias you know, then type each one into the target platform's search box and see whether the **search dropdown (autocomplete)** suggests it — if it appears, the platform recognizes that naming; if not, that naming doesn't work on the platform.
+   - Example: `message queue` / `MQ` / Chinese equivalent; `vector database` / `vector DB` / Chinese shorthand.
+3. **Competitor-title frequency count** (scriptable):
+   - Search the seed word on the target platform, sort by relevance or popularity;
+   - take the **title + first 100-character abstract** of the top 20 results;
+   - tokenize with the same regex as `extract_keywords()`, count the frequency of 2–4 character fragments;
+   - take the top 10 frequencies and manually remove stop words.
+   - Criterion: a word appearing in ≥30% of competitor titles → it's the platform's "common naming" and is worth a primary-word candidate.
+   - Note: before scraping, confirm the target pages' robots and terms of service allow it; don't send high-frequency bulk requests.
 
 ---
 
-## 4. 长尾挖掘（免费）
+## 4. Long-tail mining (free)
 
-| 来源 | 具体做法 | 产出形态 |
+| Source | How to do it | Output shape |
 |------|----------|----------|
-| 平台搜索下拉 | 在目标平台搜索框输入种子词 + 空格 + 各字母/常用后缀，记录补全项 | 「种子词 + 怎么办/报错/配置/对比」 |
-| 相关搜索区 | 搜索结果页底部或侧栏的「相关搜索」模块，逐条记录 | 平台自己认定的同主题词 |
-| 用户原话 | 评论区、问答区、issue 区里**用户的原始提问句** | 长尾句（往往就是天然标题） |
-| 报错信息 | 把真实报错字符串原样作为关键词 | 极低竞争、极高意图明确度 |
-| 版本/年份限定 | 种子词 + 版本号 / + 年份 | `FastAPI 0.110 连接池`、`2026 Redis 缓存方案` |
+| Platform search dropdown | Type the seed word + space + each letter / common suffix into the target search box; record the completions | "seed word + how-to / error / config / compare" |
+| Related searches area | The "related searches" module at the bottom or side of the results page; record each one | Same-topic words the platform itself recognizes |
+| Users' own words | **Users' original question sentences** in comments, Q&A, and issue threads | Long-tail sentences (often ready-made titles) |
+| Error messages | Use the real error string verbatim as a keyword | Very low competition, very high intent clarity |
+| Version / year qualifiers | Seed word + version number / + year | `FastAPI 0.110 connection pool`, `2026 Redis caching solutions` |
 
-**用户原话是最值钱的长尾来源**：把它直接改造成标题，搜索意图匹配度最高。例：用户问「压测的时候 QPS 上不去是不是连接池的问题」→ 标题《压测 QPS 上不去？先查连接池这 3 个参数》。
+**Users' own words are the most valuable long-tail source**: turn them directly into titles; the search-intent match is highest. Example: a user asks "during load testing, QPS won't go up — is it the connection pool?" → title "QPS stuck during load testing? Check these 3 connection-pool parameters first".
 
 ---
 
-## 5. 意图分类
+## 5. Intent classification
 
-| 意图 | 触发词特征 | 该给什么内容 | 不该给什么 |
+| Intent | Trigger-word features | What content to give | What not to give |
 |------|-----------|-------------|-----------|
-| 信息型（是什么/为什么） | 是什么、原理、为什么、怎么理解 | 解释 + 图 + 例子 | 上来就推销方案 |
-| 操作型（怎么做） | 怎么、如何、教程、配置、步骤 | 步骤 + 命令 + 预期输出 + 失败分支 | 长篇背景铺垫 |
-| 排错型（报错） | 报错原文、失败、卡住、不行 | 现象 → 原因 → 处置，一条龙 | 只讲原理不给解法 |
-| 对比型（选哪个） | vs、对比、哪个好、选型 | 评测数据 + 场景化推荐 | 只列参数无结论 |
-| 交易型（买/下载） | 价格、购买、下载、优惠 | 明确的入口与条件 | 绕圈子 |
+| Informational (what / why) | what is, principle, why, how to understand | Explanation + diagram + example | Pushing a solution right off the bat |
+| Operational (how to) | how to, tutorial, config, steps | Steps + commands + expected output + failure branches | Long background preamble |
+| Troubleshooting (error) | error message, failed, stuck, doesn't work | Symptom → cause → fix, end to end | Only explaining the principle without a solution |
+| Comparative (which to pick) | vs, compare, which is better, selection | Evaluation data + scenario-based recommendation | Only listing parameters with no conclusion |
+| Transactional (buy / download) | price, buy, download, discount | Clear entry point and conditions | Beating around the bush |
 
-**判定法**：把关键词里的疑问词抽出来对表；抽不出疑问词（如 `Redis 缓存`）→ 大概率是信息型或对比型，去搜索结果页看排名靠前的内容形态是哪种，**跟它保持一致**。
+**How to judge**: extract the question word from the keyword and match it against the table; if there's no question word (e.g. `Redis caching`), it's likely informational or comparative — look at the top-ranked content on the results page and **match its format**.
 
 ---
 
-## 6. 竞争度评估（无数据版）
+## 6. Competition assessment (no-data version)
 
-没有搜索量数据时，用**观察法**打「高/中/低」三档，三个信号各占一票：
+Without search-volume data, use **observation** to rate "high/medium/low"; three signals, each one vote:
 
-| 信号 | 低竞争（好） | 高竞争（难） |
+| Signal | Low competition (good) | High competition (hard) |
 |------|-------------|-------------|
-| 结果页内容质量 | 前 10 条多为拼凑、无实测、无数据、发布时间久 | 前 10 条多为长文、有实测数据、有表格图 |
-| 结果同质度 | 标题与结构高度雷同，几乎没有新角度 | 多篇角度各异、互相引用 |
-| 权威站点占比 | 官方文档/大厂账号少，个人号多 | 前 5 条有一半是官方或头部账号 |
+| Content quality of results | Top 10 are mostly cobbled-together, no live testing, no data, old | Top 10 are mostly long-form, with live-test data and tables/charts |
+| Result homogeneity | Titles and structures are highly similar, almost no new angles | Several pieces with different angles, citing each other |
+| Authoritative-site share | Few official docs / big-vendor accounts; mostly personal accounts | Half of the top 5 are official or top accounts |
 
-**判据**：≥2 个信号指向低 → 可做；≥2 个指向高 → 换长尾（加限定词：版本、场景、报错、数据量级）。
+**Criterion**: ≥2 signals point to low → doable; ≥2 point to high → switch to a long-tail (add qualifiers: version, scenario, error, data scale).
 
-**不要在「高竞争」上硬碰**：把主词降级为次级词，用长尾切入，等长尾文章被收录后再补主词文章。
+**Don't go head-to-head on "high competition"**: demote the primary word to a secondary word, enter through the long-tail, and add the primary-word article after the long-tail one gets indexed.
 
 ---
 
-## 7. 关键词分层表模板
+## 7. Keyword tiering table template
 
-复制使用，一篇文章一份：
+Copy and use one per article:
 
-| 层级 | 关键词 | 意图 | 竞争度 | 放哪里 | 目标排名位 | 备注 |
+| Tier | Keyword | Intent | Competition | Placement | Target rank | Notes |
 |------|--------|------|--------|--------|-----------|------|
-| 主词（1 个） | FastAPI 性能优化 | 操作型 | 中 | 标题、首段、首个 H2、meta | 前 3 | 全文唯一主词 |
-| 次级词（2-3 个） | asyncpg、连接池配置 | 操作型 | 低 | 各自占一个 H2 | 前 5 | 与主词同主题不同切面 |
-| 长尾词（5-10 个） | FastAPI 压测 QPS 上不去 | 排错型 | 低 | 分散在 H3 与正文 | 前 10 | 允许只出现 1-2 次 |
-| 否定词（排除） | FastAPI 教程、FastAPI 入门 | — | — | 不出现 | — | 避免稀释主题 |
+| Primary (1) | FastAPI performance optimization | Operational | Medium | Title, first paragraph, first H2, meta | Top 3 | The only primary word in the whole piece |
+| Secondary (2–3) | asyncpg, connection pool config | Operational | Low | Each takes one H2 | Top 5 | Same topic as primary, different facet |
+| Long-tail (5–10) | FastAPI load testing QPS won't go up | Troubleshooting | Low | Scattered across H3 and body | Top 10 | Allowed to appear only 1–2 times |
+| Negative words (exclude) | FastAPI tutorial, FastAPI getting started | — | — | Do not appear | — | Avoid diluting the topic |
 
-规则：
-- 主词**唯一**。一篇文章服务两个主词，等于两个都没服务好。
-- 长尾词不强行凑数；凑不出 5 个说明选题太窄。
-- 否定词必须显式列出——写稿时最容易无意中引入上位泛词，导致主题稀释。
+Rules:
+- The primary word is **unique**. Serving two primary words in one article means serving neither well.
+- Don't pad long-tail words; if you can't come up with 5, the topic is too narrow.
+- Negative words must be listed explicitly — the easiest accidental dilution while drafting is letting in a broad hypernym, which dilutes the topic.
 
 ---
 
-## 8. 密度与放置位置（经验值）
+## 8. Density and placement (rules of thumb)
 
-**密度口径先统一**（中文特有坑）：密度 = 关键词出现次数 ÷ **总字符数**（不是 ÷ 分词后的词数）。因为中文无空格分词，不同口径算出来的数值能差 3 倍以上。务必在报告里写明口径。
+**First, align on the density definition** (a Chinese-specific pitfall): density = keyword occurrences ÷ **total character count** (not ÷ the number of tokens). Because Chinese has no spaces, different definitions can differ by 3× or more. Always state the definition in your report.
 
-| 位置 | 经验区间 | 说明 |
+| Placement | Rule-of-thumb range | Notes |
 |------|----------|------|
-| 主词全文密度 | 1%–3%（经验值，非平台规则） | <1% 可能主题信号弱；>3% 疑似堆砌，人工复核 |
-| 主词在标题 | 1 次，越靠前越好 | 标题前置优于后置 |
-| 主词在首段 | 前 100 字内出现 1 次 | 不要首段硬塞两次 |
-| 主词在 H2/H3 | 30%–50% 的小标题含主词或次级词（经验值） | 不是每个标题都塞 |
-| meta description | 80–160 字内含主词 1 次 | 与 `seo_optimizer.py` 的 desc_max 对齐 |
+| Primary-word density across the piece | 1%–3% (rule of thumb, not a platform rule) | <1% may mean a weak topical signal; >3% looks like stuffing — manual review |
+| Primary word in title | 1 time, the earlier the better | Front-loaded beats back-loaded |
+| Primary word in first paragraph | Appears once within the first 100 characters | Don't force it in twice in the first paragraph |
+| Primary word in H2/H3 | 30%–50% of subheadings contain the primary or secondary word (rule of thumb) | Not every heading gets stuffed |
+| meta description | Contains the primary word once within 80–160 characters | Aligns with `seo_optimizer.py`'s desc_max |
 
-> **与脚本的差异要知晓**：`scripts/seo_optimizer.py` 的 `_seo_score()` 目前把密度 `0.01 < d < 0.08` 判为合格、≥8% 扣分——上限偏宽松。实操按上表的 3% 上限人工复核，不要因为脚本给了分就放行。
+> **Be aware of the difference from the script**: `scripts/seo_optimizer.py`'s `_seo_score()` currently marks density `0.01 < d < 0.08` as passing and deducts at ≥8% — the upper bound is loose. In practice, manually review against the 3% cap in the table above; don't let it through just because the script scored it.
 
-**放置优先级**（从高到低）：标题 > 首个 H2 > 首段 > meta/摘要 > 正文均匀分布 > 图片 alt/说明文字 > 结尾。
+**Placement priority** (high to low): title > first H2 > first paragraph > meta/abstract > even body distribution > image alt/caption text > ending.
 
 ---
 
-## 9. 常见错误
+## 9. Common mistakes
 
-| 错误 | 后果 | 处置 |
+| Mistake | Consequence | Fix |
 |------|------|------|
-| 一篇塞 2 个主词 | 主题信号分散，两边都排不上 | 拆成两篇，或降级一个为次级词 |
-| 主词与标题无法自然融合 | 强行拼贴，标题读不通 | 换主词。标题通顺优先于关键词位置 |
-| 用「官方叫法」而不是「用户叫法」 | 用户搜的词你一个都没写 | 做 §3 的下拉验证，采用平台认可的叫法 |
-| 只看词频不看意图 | 流量来了但跳出率高 | 补 §5 意图分类，按意图重写对应段落 |
-| 把搜索量数字写进交付物 | 引入无法核实的数据 | 不写。只写「高/中/低」粗判与判断依据 |
-| 密度靠重复堆出来 | 被判堆砌，且读起来差 | 用同义词与长尾变体承接，主词保持 1%–3% |
+| Cramming 2 primary words into one article | Topic signal scattered; ranks for neither | Split into two, or demote one to secondary |
+| Primary word won't blend naturally into the title | Forced patchwork; the title doesn't read | Change the primary word. A readable title beats keyword placement |
+| Using the "official name" instead of the "user's name" | None of the words users actually search are in your piece | Do the dropdown check in §3; adopt the platform's recognized naming |
+| Looking only at frequency, not intent | Traffic arrives but bounce rate is high | Add the §5 intent classification; rewrite the corresponding paragraphs by intent |
+| Writing search-volume numbers into the deliverable | Introducing unverifiable data | Don't. Write only the high/medium/low rough call and the rationale |
+| Density achieved by repetition | Flagged as stuffing, and reads badly | Carry it with synonyms and long-tail variants; keep the primary word at 1%–3% |

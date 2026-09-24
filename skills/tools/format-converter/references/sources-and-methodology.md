@@ -7,35 +7,35 @@
 
 | This script's approach | Idea distilled from |
 |--------------|--------------|
-| 依赖先探测、缺失给安装命令 | Unix `autoconf`/`./configure` 的"能力探测再决定"传统；现代 CLI 的 actionable error 理念（错误信息里直接给出修复动作） |
-| 一条命令多个子命令 | `git` / `docker` / `ffmpeg` 的子命令组织法：减少用户记忆的顶层入口，把差异收进子命令 |
-| 拒绝输入输出同路径 | `mv`/`cp` 保护机制的显式化；"源与目标同一文件"是数据丢失的经典事故 |
-| 批量默认 dry-run | 与同域 file-organizer 保持一致的操作契约（见该技能 `references/`） |
-| 按扩展名推断管线 | `pandoc` 的格式自动识别、`ImageMagick` 的输出格式推断——但本脚本把推断结果**显式打印**，避免静默猜错 |
+| Probe dependencies first, give install command if missing | The Unix `autoconf`/`./configure` tradition of "probe capability then decide"; modern CLI's actionable-error philosophy (the error message directly gives the fix) |
+| One command, multiple subcommands | The `git` / `docker` / `ffmpeg` subcommand organization: fewer top-level entries for users to remember, differences tucked into subcommands |
+| Reject same input/output path | The explicitization of `mv`/`cp` protection; "source and target are the same file" is a classic data-loss accident |
+| Batch mode dry-run by default | Consistent operation contract with the same-domain file-organizer (see that skill's `references/`) |
+| Infer pipeline by extension | `pandoc`'s automatic format recognition, `ImageMagick`'s output-format inference—but this script **explicitly prints** the inference, avoiding silent wrong guesses |
 
 ## Key trade-offs
 
-**为什么拒绝跨管线转换？** `.mp4 → .jpg` 实际是**抽帧**（需选时间点、选第几帧），
-`.md → .jpg` 实际是**渲染**（需排版引擎）。这两件事的语义与"换个容器格式"完全不同：
-前者有无限种合理结果，后者依赖浏览器/LaTeX 环境。放进同一个 `batch` 会产出用户不想要的垃圾。
-拒绝比猜错好——错误信息里直接给出正确做法（`ffmpeg -frames:v 1`）。
+**Why reject cross-pipeline conversion?** `.mp4 → .jpg` is actually **frame extraction** (need to pick a time point, pick which frame),
+`.md → .jpg` is actually **rendering** (needs a layout engine). The semantics of these two are completely different from "change the container format":
+the former has infinitely many reasonable results, the latter depends on a browser/LaTeX environment. Putting them in the same `batch` produces garbage the user doesn't want.
+Rejecting beats guessing wrong—the error message directly gives the right approach (`ffmpeg -frames:v 1`).
 
-**为什么 `-f`/`-t` 要显式传给 pandoc？** pandoc 对 `.tex`、`.rst` 的自动识别在部分版本上
-不一致，且 `-t latex` 与 `-t pdf` 的行为差异大（后者需要外部 LaTeX 引擎）。显式传参让
-脚本行为跨版本稳定，也让打印出来的命令可被用户直接复制复现。
+**Why pass `-f`/`-t` explicitly to pandoc?** pandoc's automatic recognition of `.tex`, `.rst` is inconsistent across versions,
+and `-t latex` vs `-t pdf` behave very differently (the latter needs an external LaTeX engine). Explicit parameters make
+script behavior stable across versions, and make the printed command directly copy-pasteable by the user.
 
-**为什么批量模式单个失败不中断？** 批量场景下用户关心的是"100 个文件里坏了几个"，
-而不是"第 3 个坏了所以全部白跑"。失败项逐个打印并在结尾计数，用户可只重跑失败的那几个。
+**Why doesn't a single failure abort batch mode?** In batch scenarios the user cares about "how many of 100 files broke,"
+not "the 3rd broke so the whole run was wasted." Failed items are printed one by one and counted at the end; the user can rerun only the failed ones.
 
-**为什么 `--kind` 手动覆盖存在？** 扩展名→管线的映射表是硬编码的闭集：遇到未登记的新格式
-（如 `.avif`、`.heic` 的不同实现），用户可用 `--kind image` 强制走某条管线，无需改脚本。
+**Why does `--kind` manual override exist?** The extension→pipeline mapping table is a hardcoded closed set: encountering an unregistered new format
+(e.g. different implementations of `.avif`, `.heic`), the user can force a pipeline with `--kind image` without modifying the script.
 
 ## Official documentation
 
-- pandoc 用户指南（`-f`/`-t`、`--pdf-engine`）：<https://pandoc.org/MANUAL.html>
-- pandoc 支持的格式清单：<https://pandoc.org/MANUAL.html#option--list-input-formats>
-- Pillow `Image.resize`（`LANCZOS` 重采样）：<https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.resize>
-- Pillow `Image.save` 与 `quality` 参数：<https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#jpeg>
-- Pillow 模式转换（RGBA → RGB）：<https://pillow.readthedocs.io/en/stable/handbook/concepts.html#concept-modes>
-- FFmpeg 官方文档：<https://ffmpeg.org/ffmpeg.html>
-- FFmpeg 编解码器选择指南：<https://trac.ffmpeg.org/wiki/Encode/H.264>
+- pandoc user guide (`-f`/`-t`, `--pdf-engine`): <https://pandoc.org/MANUAL.html>
+- pandoc supported formats list: <https://pandoc.org/MANUAL.html#option--list-input-formats>
+- Pillow `Image.resize` (`LANCZOS` resampling): <https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.resize>
+- Pillow `Image.save` and the `quality` parameter: <https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#jpeg>
+- Pillow mode conversion (RGBA → RGB): <https://pillow.readthedocs.io/en/stable/handbook/concepts.html#concept-modes>
+- FFmpeg official docs: <https://ffmpeg.org/ffmpeg.html>
+- FFmpeg codec selection guide: <https://trac.ffmpeg.org/wiki/Encode/H.264>

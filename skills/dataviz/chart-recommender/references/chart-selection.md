@@ -1,137 +1,136 @@
-# 图表选择词库 / Chart Selection Lexicon
+# Chart Selection Lexicon
 
-> 拿到数据特征后，按本表定图型。查表顺序：**先定分析意图（第二节）→ 再套图型适用条件（第三节）
-> → 最后过视觉编码与禁忌（第四、五节）**。本文只解决「画什么」，不解决「怎么画好看」。
+> Once you have the data characteristics, use this table to pick the chart type. Look-up order: **first fix the analytical intent (§2) → then match the chart-type applicability conditions (§3) → finally run visual encoding and taboos (§§4–5)**. This document only solves "what to draw," not "how to draw it prettily."
 
 ## Table of Contents
 
-- [一、三十秒速查：意图 → 图型](#一三十秒速查意图--图型)
-- [二、数据类型 → 图型映射表](#二数据类型--图型映射表)
-- [三、每种图型的适用条件与反例](#三每种图型的适用条件与反例)
-- [四、视觉编码优先级](#四视觉编码优先级)
-- [五、常见错误清单](#五常见错误清单)
-- [六、配色方案](#六配色方案)
-- [七、输出规格清单](#七输出规格清单)
+- [1. 30-second quick reference: intent → chart type](#1-30-second-quick-reference-intent--chart-type)
+- [2. Data type → chart type mapping table](#2-data-type--chart-type-mapping-table)
+- [3. Applicability conditions and counterexamples for each chart type](#3-applicability-conditions-and-counterexamples-for-each-chart-type)
+- [4. Visual encoding priority](#4-visual-encoding-priority)
+- [5. Common error list](#5-common-error-list)
+- [6. Color schemes](#6-color-schemes)
+- [7. Output specification checklist](#7-output-specification-checklist)
 
-## 一、三十秒速查：意图 → 图型
+## 1. 30-second quick reference: intent → chart type
 
-| 你想说什么 | 首选 | 次选 | 绝对不要 |
+| What you want to say | First choice | Second choice | Never |
 |---|---|---|---|
-| 「谁更大」 | 条形图 | 点阵图 / 棒棒糖图 | 饼图（>5 类）、雷达图 |
-| 「怎么变的」 | 折线图 | 面积图（仅单序列） | 用柱状图画 50 个时间点 |
-| 「占多少」 | 堆叠条 / 百分比堆叠 | 饼图（≤5 类） | 3D 饼图、圆环套圆环 |
-| 「有关系吗」 | 散点图 | 热力图（密集时） | 双 Y 轴折线 |
-| 「分布长什么样」 | 直方图 / 箱线图 | 小提琴图 / 蜂群图 | 用均值单点代表整个分布 |
-| 「从哪来到哪去」 | 桑基图 | 漏斗图（单链） | 饼图拼出的「流程」 |
-| 「在哪」 | 分级统计地图 | 散点地图 | 3D 地球 |
-| 「和基准比差多少」 | 偏差条形图 | 哑铃图 | 双 Y 轴 |
+| "Who is bigger" | Bar chart | Dot plot / lollipop | Pie (>5 categories), radar |
+| "How did it change" | Line chart | Area chart (single series only) | Using bars to plot 50 time points |
+| "How much of the total" | Stacked bar / percentage stack | Pie (≤5 categories) | 3D pie, nested donuts |
+| "Is there a relationship" | Scatter plot | Heatmap (when dense) | Dual-y-axis line |
+| "What does the distribution look like" | Histogram / box plot | Violin / beeswarm | Using a single mean point to stand for the whole distribution |
+| "Where does it come from / go to" | Sankey | Funnel (single chain) | A "flow" cobbled from pies |
+| "Where is it" | Choropleth map | Scatter map | 3D globe |
+| "How far from baseline" | Deviation bar chart | Dumbbell chart | Dual y-axis |
 
-## 二、数据类型 → 图型映射表
+## 2. Data type → chart type mapping table
 
-| 数据形态 | 意图 | 推荐图型 | 备选 | 禁忌 |
+| Data shape | Intent | Recommended type | Alternative | Taboo |
 |---|---|---|---|---|
-| 1 分类 + 1 数值 | 比大小 | 水平条形图 | 棒棒糖图 | 饼图 >5 类、雷达图 |
-| 1 分类 + 1 数值 + 时间 | 比大小 + 趋势 | 分组条形 / 折线 | 小倍数图（facet） | 一张图塞 20 条线 |
-| 1 时间 + 1 数值 | 趋势 | 折线图 | 面积图 | 柱状图（点太密时） |
-| 1 时间 + 多序列 | 趋势对比 | 多折线（≤5 条） | 小倍数图 | 双 Y 轴、彩虹色 |
-| 1 时间 + 正负累计 | 增减 | 瀑布图 | 偏差条形图 | 折线（丢失累计语义） |
-| 2 数值 | 相关性 | 散点图 | 六边分箱 / 密度等高线 | 折线图（无序数据连成线） |
-| 1 分类 + 1 数值分布 | 分布对比 | 箱线图 / 小提琴图 | 蜂群图（n 小） | 只画均值柱 |
-| 1 数值 | 分布形状 | 直方图 | 核密度曲线 | 饼图 |
-| 2 分类 + 1 数值 | 交叉对比 | 热力图 | 分组条形 | 3D 柱 |
-| 3 数值 | 多元关系 | 散点矩阵 / 气泡图 | 平行坐标 | 3D 散点 |
-| 层级 + 数值 | 构成 | 矩形树图 | 旭日图 | 多层饼图 |
-| 两阶段流量 | 转化 | 漏斗图 | 桑基图 | 堆叠条（丢失顺序） |
-| 地理 + 数值 | 空间分布 | 分级统计地图 | 气泡地图 | 3D 地球、无投影说明的地图 |
+| 1 categorical + 1 numeric | Compare magnitudes | Horizontal bar | Lollipop | Pie >5 categories, radar |
+| 1 categorical + 1 numeric + time | Compare + trend | Grouped bar / line | Small multiples (facet) | Cramming 20 lines into one chart |
+| 1 time + 1 numeric | Trend | Line chart | Area chart | Bar (when points are too dense) |
+| 1 time + multiple series | Trend comparison | Multi-line (≤5) | Small multiples | Dual y-axis, rainbow colors |
+| 1 time + positive/negative cumulative | Up/down | Waterfall | Deviation bar | Line (loses cumulative semantics) |
+| 2 numeric | Correlation | Scatter | Hex binning / density contour | Line (connects unordered data) |
+| 1 categorical + 1 numeric distribution | Distribution comparison | Box plot / violin | Beeswarm (small n) | Drawing only the mean bar |
+| 1 numeric | Distribution shape | Histogram | Kernel density curve | Pie |
+| 2 categorical + 1 numeric | Cross comparison | Heatmap | Grouped bar | 3D bar |
+| 3 numeric | Multivariate relationship | Scatter matrix / bubble | Parallel coordinates | 3D scatter |
+| Hierarchy + numeric | Composition | Treemap | Sunburst | Nested pies |
+| Two-stage flow | Conversion | Funnel | Sankey | Stacked bar (loses order) |
+| Geography + numeric | Spatial distribution | Choropleth | Bubble map | 3D globe, map without a projection note |
 
-## 三、每种图型的适用条件与反例
+## 3. Applicability conditions and counterexamples for each chart type
 
-**条形图**——适用：分类 ≤20 个、比大小。要点：基线必须为 0；类别多或标签长时转水平。
-反例：12 个分类用竖柱且标签旋转 90°，读者要歪头读。
+**Bar chart** — fits: ≤20 categories, comparing magnitudes. Key points: baseline must be 0; switch to horizontal when there are many categories or long labels.
+Counterexample: 12 categories as vertical bars with labels rotated 90°, forcing readers to tilt their heads.
 
-**折线图**——适用：时间等距、强调变化率。要点：≤5 条线；线宽 > 点大小。
-反例：把 30 个国家的 10 年数据画成 30 条线，图例比图还长。
+**Line chart** — fits: evenly spaced time, emphasizing rate of change. Key points: ≤5 lines; line width > point size.
+Counterexample: plotting 30 countries' 10-year data as 30 lines, the legend longer than the chart.
 
-**饼图**——适用：**仅当**类别 ≤5 且最大最小占比差异显著、且要表达「部分占整体」。
-反例：12 个类别用饼图是灾难，人眼比较角度与面积的精度远低于比较长度。
-若各扇区接近 1/5，读者无法判断谁大——此时换条形图。
+**Pie chart** — fits: **only when** categories ≤5 and the max/min share differ markedly, and you need to express "part of a whole."
+Counterexample: a pie for 12 categories is a disaster; the eye is far worse at comparing angles and areas than lengths.
+If slices are near 1/5 each, readers can't tell which is bigger — switch to a bar chart.
 
-**直方图**——适用：看单变量分布形状（双峰、偏态、离群）。要点：分箱数取
-`√n` 到 `2∛n` 之间，分箱不同结论可能不同，应当标注分箱数。
-反例：用直方图比较两组样本量差异极大的分布（应改用密度曲线或按比例归一）。
+**Histogram** — fits: seeing the shape of a univariate distribution (bimodal, skew, outliers). Key points: bin count between
+`√n` and `2∛n`; different binning can change conclusions, so always label the bin count.
+Counterexample: using a histogram to compare two groups with very different sample sizes (use a density curve or normalize by proportion instead).
 
-**箱线图**——适用：多组分布对比、样本量中等、存在离群点。要点：必须标注 n。
-反例：n<10 时四分位极不稳定，改用蜂群图把每个点画出来。
+**Box plot** — fits: comparing multiple distributions, medium sample sizes, outliers present. Key points: must label n.
+Counterexample: at n<10 the quartiles are highly unstable; use a beeswarm to plot every point instead.
 
-**散点图**——适用：两数值列的相关性、离群点识别。要点：过度绘制时降透明度或分箱。
-反例：把散点按某一列排序后连成折线，制造出并不存在的趋势。
+**Scatter plot** — fits: correlation between two numeric columns, outlier detection. Key points: when overplotting, lower opacity or bin.
+Counterexample: sorting the scatter by a column then connecting it into a line, manufacturing a trend that doesn't exist.
 
-**堆叠图**——适用：总量随时间变化且关心构成。要点：类目 ≤5，最大类目放底部；
-比较各类目大小时改用分组或百分比堆叠。
-反例：用堆叠柱比较中间某个类目——它的基线被下面的类目抬起，高度不可比。
+**Stacked chart** — fits: total changes over time and you care about composition. Key points: ≤5 categories, largest on the bottom;
+when comparing category magnitudes, switch to grouped or percentage stack.
+Counterexample: using a stacked bar to compare one middle category — its baseline is lifted by the categories below, so the heights aren't comparable.
 
-**热力图**——适用：两个分类维度的交叉矩阵。要点：配顺序色板；缺失值用独立灰色。
-反例：给本无语义顺序的类别配渐变色谱，暗示了不存在的连续性。
+**Heatmap** — fits: a cross matrix of two categorical dimensions. Key points: use a sequential color palette; missing values get their own neutral gray.
+Counterexample: coloring categories with no inherent order with a gradient, implying a continuity that doesn't exist.
 
-**雷达图**——适用：几乎只适合「同一实体的多个维度 vs 自身另一时点」，且轴 ≤6 且同量纲。
-反例：多实体雷达图，面积随轴顺序变化而变，排序可以被人为操纵。
+**Radar chart** — fits: almost only "multiple dimensions of the same entity vs itself at another time point," with ≤6 axes and the same unit.
+Counterexample: multi-entity radar charts; the area changes with axis order, and the ordering can be manipulated.
 
-**双 Y 轴**——适用：两个量纲不同但需要放在同一时间轴对照，且必须显式标注两侧单位与颜色。
-反例：把两个不相关的指标放一起，通过调整轴范围制造「高度同步」的假相关。
+**Dual y-axis** — fits: two different units that need to sit on the same time axis for comparison, with both sides' units and colors explicitly labeled.
+Counterexample: putting two unrelated metrics together and manufacturing "high synchronization" fake correlation by tuning the axis ranges.
 
-## 四、视觉编码优先级
+## 4. Visual encoding priority
 
-精度由高到低：**位置 > 长度 > 角度 > 面积 > 体积 > 色彩明度 > 色彩色相**。
+Precision from high to low: **position > length > angle > area > volume > lightness > hue**.
 
-| 编码 | 可读精度 | 为什么 |
+| Encoding | Readable precision | Why |
 |---|---|---|
-| 位置（散点、点阵） | 最高 | 共享同一条标尺，可直接比较距离 |
-| 长度（条形） | 高 | 线性映射，人对长度比例的估计误差约 5% |
-| 角度（饼图） | 中低 | 需在脑中重建比例，小角度尤难 |
-| 面积（气泡） | 低 | 读数被开方，半径翻倍面积变 4 倍，易高估 |
-| 色彩明度（热力图） | 低 | 依赖色板感知均匀性，跨屏差异大 |
-| 色彩色相（分类着色） | 仅用于区分 | 不能表达大小，只表达「不同」 |
+| Position (scatter, dot plot) | Highest | Shared scale; distances compared directly |
+| Length (bar) | High | Linear mapping; human length-ratio estimates err by ~5% |
+| Angle (pie) | Medium-low | Must reconstruct the ratio in the head; small angles especially hard |
+| Area (bubble) | Low | Read off by square root; doubling radius quadruples area, easy to overestimate |
+| Lightness (heatmap) | Low | Relies on uniform palette perception; varies across screens |
+| Hue (categorical coloring) | Distinction only | Can't express magnitude, only "different" |
 
-推论：**同一份数据能用位置表达就别用面积**；气泡图旁应给出参考圆；
-「重要的量」放在位置/长度通道，「次要的量」才交给颜色。
+Corollary: **if the same data can be shown by position, don't use area**; put a reference circle beside a bubble chart;
+put "the important quantity" on the position/length channel, and hand "the secondary quantity" to color.
 
-## 五、常见错误清单
+## 5. Common error list
 
-1. **截断 y 轴**：柱状图不从 0 起会夸大差异。折线图可截断，但必须标注。
-2. **双 y 轴滥用**：轴范围任选，能造出任意「相关」。非必要不用。
-3. **3D 任何东西**：3D 饼图 / 3D 柱的透视会让近处元素显得更大，产生系统性误读。
-4. **彩虹配色表数值**：色相不带大小语义，且感知不均匀；数值用顺序色板。
-5. **把序数当分类着色**：`低/中/高` 用三个无关色相，读者无法看出顺序；
-   应改用同色系深浅。
-6. **用颜色编码超过 7 类**：人眼可靠区分的色相有上限，超出应改用分面或分组。
-7. **双编码冗余还打架**：同一信息同时用长度与颜色表达且方向不一致，徒增困惑。
-8. **图例与图形分离**：图例太多太远，读者要来回扫视；能直接标注就标在图上。
-9. **均值柱代表分布**：掩盖双峰、偏态与离群，应叠加误差线或改箱线图。
-10. **缺失值当 0**：求和与趋势会被系统性拉低；缺失应留空并说明。
-11. **面积/体积编码比例**：按直径而非面积缩放圆圈，高估幅度往往达数倍。
-12. **时间轴不等距**：按月画但每月天数不同、或跳过的月份被等距压缩，趋势失真。
+1. **Truncated y-axis**: bars that don't start at 0 exaggerate differences. Lines may be truncated, but must be labeled.
+2. **Dual-y-axis abuse**: axis ranges are arbitrary, manufacturing any "correlation." Don't use unless necessary.
+3. **Anything 3D**: 3D pie / 3D bar perspective makes near elements look bigger, causing systematic misreading.
+4. **Rainbow palette for values**: hue carries no magnitude semantics and is perceptually non-uniform; use a sequential palette for values.
+5. **Coloring ordinal values as categorical**: `low/mid/high` in three unrelated hues, so readers can't see the order;
+   use a single-hue lightness ramp instead.
+6. **Encoding >7 categories with color**: the eye has a reliable limit on distinguishable hues; beyond that, facet or group.
+7. **Redundant, conflicting double encoding**: expressing the same info with both length and color in inconsistent directions, adding confusion.
+8. **Legend detached from the graphic**: too many, too far away, forcing the eye to dart back and forth; label directly on the chart when you can.
+9. **Mean bar standing for a distribution**: hides bimodality, skew, and outliers; overlay error bars or switch to a box plot.
+10. **Treating missing as 0**: sums and trends get systematically dragged down; leave missing blank and explain.
+11. **Area/volume encoding proportion**: scaling circles by diameter rather than area, overestimating by often several times.
+12. **Uneven time axis**: plotting by month but months have different day counts, or skipped months compressed to equal spacing, distorting the trend.
 
-## 六、配色方案
+## 6. Color schemes
 
-| 类型 | 用途 | 要点 | 示例色值 |
+| Type | Use | Key points | Example values |
 |---|---|---|---|
-| 定性（categorical） | 无顺序的类别区分 | ≤7 色；色觉缺陷下仍可分辨；避免红绿配对 | `#4C72B0` `#DD8452` `#55A868` `#C44E52` `#8172B3` |
-| 顺序（sequential） | 有大小/强度的连续量 | 单色相由浅到深；感知均匀（如 viridis）；不要用彩虹 | 浅 `#EAF2FB` → 深 `#1F4E79` |
-| 发散（diverging） | 有天然中点（0、均值、±偏差） | 两端异色、中点中性；中点必须在数据意义上真实 | `#C44E52` ↔ `#F2F2F2` ↔ `#4C72B0` |
+| Qualitative | Distinguishing unordered categories | ≤7 colors; distinguishable under color-vision deficiency; avoid red-green pairs | `#4C72B0` `#DD8452` `#55A868` `#C44E52` `#8172B3` |
+| Sequential | Continuous magnitude/intensity | Single hue light to dark; perceptually uniform (e.g. viridis); no rainbow | Light `#EAF2FB` → dark `#1F4E79` |
+| Diverging | Natural midpoint (0, mean, ±deviation) | Two end hues, neutral midpoint; the midpoint must be meaningful in the data | `#C44E52` ↔ `#F2F2F2` ↔ `#4C72B0` |
 
-补充规则：背景与网格用中性灰（`#E6E9ED`），让数据成为唯一的颜色来源；
-需要强调某一个序列时，其余序列统一用灰色，而不是给每个都配鲜艳色；
-打印场景避免纯色块大面积填充，改用描边加浅填充。
+Supplementary rules: use neutral gray for background and grid (`#E6E9ED`), so the data is the only source of color;
+when highlighting one series, render all the others in gray rather than giving each a bright color;
+for print, avoid large solid fills; use outlines with light fills instead.
 
-## 七、输出规格清单
+## 7. Output specification checklist
 
-给出图型建议时，同时给出以下规格，缺一项就是没交付完整：
+When giving a chart-type recommendation, also give the following specs; missing one means an incomplete deliverable:
 
-| 项 | 要求 |
+| Item | Requirement |
 |---|---|
-| 轴 | 标注单位；y 轴是否从 0 开始并说明；分类轴排序规则（按值降序还是固定序） |
-| 图例 | 位置；条数；>7 条时改为直接标注 |
-| 标注 | 关键点（峰值、拐点、异常）是否需要注释；数据来源与时间范围 |
-| 数值格式 | 千分位；大数用「万/亿」；小数位数统一；不出现科学计数法 |
-| 缺失处理 | 明确说明「缺失数据未计入」还是按 0 处理 |
-| 备选方案 | 给出 2-3 个方案及各自代价，让用户选，而不是只给一个答案 |
+| Axes | Label units; whether the y-axis starts at 0 and why; category-axis ordering rule (descending by value or fixed order) |
+| Legend | Position; number of entries; if >7, switch to direct labels |
+| Annotations | Whether key points (peak, inflection, anomaly) need callouts; data source and time range |
+| Number format | Thousands separators; large numbers in ten-thousand/hundred-million units (CN convention); consistent decimal places; no scientific notation |
+| Missing handling | State explicitly whether "missing data is excluded" or treated as 0 |
+| Alternatives | Give 2-3 options with each one's tradeoff, and let the user choose, rather than a single answer |

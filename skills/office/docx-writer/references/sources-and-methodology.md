@@ -1,20 +1,20 @@
-# Sources & Methodology（docx-writer）
+# Sources & Methodology (docx-writer)
 
 ## Methodology sources
 
-本技能的设计思想蒸馏自 Anthropic 官方公开技能仓库中 docx 与 pdf 两个技能的
-**公开描述与结构思路**（按任务选路径、生成后必须读回验证、把易错点写成清单），
-未复制其任何文本段落、脚本代码或文档内容；本目录下所有文字与代码均为原创。
-上游内容为专有许可，禁止再分发。
+This skill's design thinking is distilled from the **public descriptions and structural ideas** of the docx and pdf skills
+in Anthropic's official public skills repository (choose the path by task, read back and verify after generation, write
+error-prone points into a checklist). No text passages, script code, or documentation content was copied;
+all text and code in this directory are original. Upstream content is proprietary-licensed and redistribution is prohibited.
 
-- Anthropic skills 仓库（仅作思想参考）：
+- Anthropic skills repository (read only as conceptual reference):
   https://github.com/anthropics/skills/tree/main/skills/docx
   https://github.com/anthropics/skills/tree/main/skills/pdf
 
-## 技术依据
+## Technical basis
 
-- python-docx 官方文档（Document/Paragraph/Table API）：
+- python-docx official docs (Document/Paragraph/Table API):
   https://python-docx.readthedocs.io/
-- OOXML / ECMA-376 标准中 `w:rFonts/@w:eastAsia` 属性：中文字形由 eastAsia
-  字体渲染，仅设 latin 字体会导致中文回退默认字体——这是"中文乱码/方块"
-  问题的标准层原因，`scripts/docx_ops.py` 的 styles 子命令据此实现。
+- The `w:rFonts/@w:eastAsia` attribute in the OOXML / ECMA-376 standard: Chinese glyphs are rendered by the eastAsia
+  font; setting only the latin font causes Chinese to fall back to the default font—this is the standards-layer cause of the
+  "Chinese garbled/tofu" problem, and the `scripts/docx_ops.py` styles subcommand implements accordingly.

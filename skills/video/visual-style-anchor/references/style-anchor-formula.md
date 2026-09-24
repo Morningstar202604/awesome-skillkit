@@ -1,74 +1,74 @@
-# 风格锚五槽位展开公式 / Style Anchor Formula
+# Style Anchor Formula
 
-> 风格锚是全片视觉 DNA：一页纸，五槽位，每次生成时 style 槽位整段引用。
-> 本文给每个槽位更细的填法与示例。
+> The style anchor is the visual DNA of the whole film: one page, five slots; every generation cites
+> the style slot verbatim. This document gives finer ways to fill each slot, with examples.
 
-## 槽位 1：色彩板 palette
+## Slot 1: Color palette
 
-三层结构：
+Three-layer structure:
 
 ```text
-主色 ×1（占画面 ~60%）：环境基调
-强调色 ×1（~10%）：只给焦点对象（主角、产品、按钮）
-辅助色 ×1-2（~30%）：过渡与层次
+Dominant color ×1 (~60% of frame): the ambient base
+Accent color ×1 (~10%): only for the focal object (protagonist, product, button)
+Supporting colors ×1-2 (~30%): transitions and layering
 ```
 
-- 每色必须给 HEX 值（`#0E1A2B`），「深蓝」不是规格是感觉
-- 从参考图取色的方法：截图 → 取色器 → 记 3 个关键区域（天空/主体/阴影）的值
-- 一致性规则：强调色出现次数越少越高级；全片 ≤3 主色，多平台分发时同锚不改色
+- Every color must carry a HEX value (`#0E1A2B`); "deep blue" is a feeling, not a spec
+- How to sample colors from a reference image: screenshot → eyedropper → record the values of 3 key regions (sky/subject/shadow)
+- Consistency rule: the fewer times the accent color appears, the more premium it feels; ≤3 dominant colors across the whole film; when distributing to multiple platforms, don't change the colors of the same anchor
 
-## 槽位 2：光线 lighting
+## Slot 2: Lighting
 
-三个变量：
+Three variables:
 
-| 变量 | 选项 | 示例 |
+| Variable | Options | Example |
 |------|------|------|
-| 光源类型 | natural / practical / studio | practical = 画内可见光源（霓虹、台灯、屏幕） |
-| 时段 | dawn / noon / golden hour / blue hour / night | 时段决定色温基调 |
-| 对比度 | high-contrast / soft / flat | 高对比=戏剧，软=温和，平=文档感 |
+| Light type | natural / practical / studio | practical = light sources visible in frame (neon, desk lamp, screen) |
+| Time of day | dawn / noon / golden hour / blue hour / night | time of day sets the color-temperature base |
+| Contrast | high-contrast / soft / flat | high contrast = drama, soft = gentle, flat = document feel |
 
-一句合成示例：`night exterior, practical neon signage as key light, high contrast with cyan-orange split`
+One assembled example: `night exterior, practical neon signage as key light, high contrast with cyan-orange split`
 
-## 槽位 3：材质 materials
+## Slot 3: Materials
 
-- 列 3-5 个全片会反复出现的表面：`湿面反光沥青 / 磨砂塑料 / 玻璃橱窗`
-- 禁止清单同样重要：写明「禁止出现的质感」（如纯平色块、低饱和哑光）——
-  生成模型的默认质感往往不是你想要的，负向约束比正向描述更能锁住画面
+- List 3-5 surfaces that recur throughout the film: `wet reflective asphalt / matte plastic / glass storefront`
+- The do-not list matters just as much: write out the "textures forbidden" (e.g. flat color blocks, low-saturation matte)—
+  the generation model's default texture is often not what you want, and negative constraints lock the picture better than positive descriptions
 
-## 槽位 4：时代 era
+## Slot 4: Era
 
-- 明确年代与「年代标记物」：出现的物件的年代必须 ≤ 故事年代
-- 正向写法：`现代都市 2020s`；负向写法：`全片禁: CRT 电视、胶片颗粒、翻盖手机`
-- 年代标记物是跑片高发区——观众对年代穿帮零容忍
+- State the decade and the "era markers": objects appearing on screen must be ≤ the story's era
+- Positive phrasing: `modern city, 2020s`; negative phrasing: `film-wide ban: CRT TVs, film grain, flip phones`
+- Era markers are a high-frequency anachronism zone—viewers have zero tolerance for period slips
 
-## 槽位 5：媒介质感 medium
+## Slot 5: Medium
 
-按项目类型三选一并整段复用：
+Pick one by project type and reuse the whole phrase:
 
-| 类型 | 媒介短语 |
+| Type | Medium phrase |
 |------|----------|
-| 剧情/电影感 | `cinematic live-action, 35mm depth-of-field feel, subtle handheld breathing` |
-| 产品/商业 | `product-commercial gloss, clean studio backdrop, crisp reflections` |
-| 动画/风格化 | `anime cel style, flat shading with rim light` |
+| Narrative / cinematic | `cinematic live-action, 35mm depth-of-field feel, subtle handheld breathing` |
+| Product / commercial | `product-commercial gloss, clean studio backdrop, crisp reflections` |
+| Animated / stylized | `anime cel style, flat shading with rim light` |
 
-## 完整示例（雨夜便利店短片）
+## Full example (rainy-night convenience-store short)
 
 ```markdown
-# Style Anchor: 雨夜便利店
-## 色彩板
-主色 #0E1A2B / 强调 #FF6B35 / 辅助 #7FD1C9（青）
-规则：强调色只给剧情道具与主角高光。
-## 光线
-夜外景，practical neon 主光，青橙对比，高光允许溢出。
-## 材质
-湿面反光沥青、磨砂塑料、玻璃橱窗。禁止: 纯平色块、低饱和哑光。
-## 时代
-2020s 都市。全片禁: CRT 电视、胶片颗粒。
-## 媒介
-cinematic live-action, 35mm depth-of-field feel, 轻微手持呼吸感。
+# Style Anchor: rainy-night convenience store
+## Palette
+Dominant #0E1A2B / Accent #FF6B35 / Supporting #7FD1C9 (teal)
+Rule: accent color only on story props and the protagonist's highlights.
+## Lighting
+Night exterior, practical neon as key light, cyan-orange contrast, highlights allowed to blow out.
+## Materials
+Wet reflective asphalt, matte plastic, glass storefront. Forbidden: flat color blocks, low-saturation matte.
+## Era
+2020s city. Film-wide ban: CRT TVs, film grain.
+## Medium
+cinematic live-action, 35mm depth-of-field feel, subtle handheld camera breathing.
 ```
 
-## 验收
+## Acceptance
 
-- 五槽位齐 + 色彩有 HEX + 材质有禁止清单 + 媒介三选一
-- ≤60 行：超过说明在写 prompt 而不是锚——细内容归 prompt 层
+- All five slots present + colors have HEX + materials have a do-not list + medium picked from the three
+- ≤60 lines: more than that means you're writing a prompt, not an anchor—the fine content belongs at the prompt layer

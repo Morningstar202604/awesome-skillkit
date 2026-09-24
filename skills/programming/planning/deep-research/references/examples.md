@@ -1,114 +1,114 @@
-# 深度调研案例库
+# Deep Research Case Library
 
 ## Table of Contents
 
-- [案例 1：技术框架对比](#案例-1技术框架对比)
-- [案例 2：技术方案调研](#案例-2技术方案调研)
-- [案例 3：新闻事件调研](#案例-3新闻事件调研)
-- [案例 4：失败案例](#案例-4失败案例)
-- [案例来源](#案例来源)
+- [Case 1: Technology framework comparison](#case-1-technology-framework-comparison)
+- [Case 2: Technical solution research](#case-2-technical-solution-research)
+- [Case 3: News event research](#case-3-news-event-research)
+- [Case 4: Failure case](#case-4-failure-case)
+- [Case sources](#case-sources)
 
 ---
 
-## 案例 1：技术框架对比
+## Case 1: Technology framework comparison
 
 **Query:**
 ```
-FastAPI 和 Flask 对比 2024
+FastAPI vs Flask comparison 2024
 ```
 
 **Analysis:**
-- 拆解为：FastAPI vs Flask、FastAPI 2024、Flask 2024
-- 搜索策略：deep（对比分析）
-- 预期轮次：3
+- Decomposed into: FastAPI vs Flask, FastAPI 2024, Flask 2024
+- Search strategy: deep (comparative analysis)
+- Expected rounds: 3
 
-**输出报告：**
+**Output report:**
 ```markdown
-# 深度研究报告：FastAPI 和 Flask 对比 2024
+# Deep Research Report: FastAPI vs Flask comparison 2024
 
-**生成时间：** 2026-09-09 10:00  
-**搜索轮次：** 3  
-**信源数量：** 18  
-**整体可信度：** 0.82/1.0
-
----
-
-## 摘要
-
-FastAPI 在性能和异步支持方面显著优于 Flask，适合现代高并发场景。Flask 在简单项目和生态系统成熟度上仍有优势。
+**Generated:** 2026-09-09 10:00  
+**Search rounds:** 3  
+**Source count:** 18  
+**Overall credibility:** 0.82/1.0
 
 ---
 
-## 核心发现
+## Abstract
 
-### 1. 性能对比
-FastAPI 基准测试性能约为 Flask 的 2-3 倍，主要得益于 Starlette 和 Pydantic 的异步架构。
+FastAPI significantly outperforms Flask in performance and async support, suiting modern high-concurrency scenarios. Flask still has advantages in simple projects and ecosystem maturity.
 
-**来源：**
-- [FastAPI Documentation](https://fastapi.tiangolo.com/) (可信度: ⭐⭐⭐⭐⭐)
-- [Real Python Benchmark](https://realpython.com/) (可信度: ⭐⭐⭐⭐)
+---
 
-### 2. 学习曲线
-Flask 更简单易学，适合新手。FastAPI 需要理解类型注解和异步编程。
+## Key findings
+
+### 1. Performance
+FastAPI benchmarks are roughly 2-3x Flask, thanks mainly to the async architecture of Starlette and Pydantic.
+
+**Sources:**
+- [FastAPI Documentation](https://fastapi.tiangolo.com/) (credibility: ⭐⭐⭐⭐⭐)
+- [Real Python Benchmark](https://realpython.com/) (credibility: ⭐⭐⭐⭐)
+
+### 2. Learning curve
+Flask is simpler and easier to learn, suiting beginners. FastAPI requires understanding type annotations and async programming.
 
 ...
 ```
 
 ---
 
-## 案例 2：技术方案调研
+## Case 2: Technical solution research
 
 **Query:**
 ```
-Python 异步编程最佳实践 2024
+Python async programming best practices 2024
 ```
 
 **Analysis:**
-- 拆解为：Python asyncio best practices、asyncio tutorial、asyncio examples 2024
-- 搜索策略：standard（教程类）
-- 预期轮次：2
+- Decomposed into: Python asyncio best practices, asyncio tutorial, asyncio examples 2024
+- Search strategy: standard (tutorial-type)
+- Expected rounds: 2
 
 ---
 
-## 案例 3：新闻事件调研
+## Case 3: News event research
 
 **Query:**
 ```
-GPT-5 发布最新消息
+Latest news on the GPT-5 release
 ```
 
 **Analysis:**
-- 拆解为：GPT-5 release 2024、GPT-5 announcement、OpenAI GPT-5 news
-- 搜索策略：deep（新闻类，多源验证）
-- 预期轮次：3
+- Decomposed into: GPT-5 release 2024, GPT-5 announcement, OpenAI GPT-5 news
+- Search strategy: deep (news-type, multi-source verification)
+- Expected rounds: 3
 
-**可信度评估：**
-- 官方公告（OpenAI Blog）：⭐⭐⭐⭐⭐
-- 科技媒体（TechCrunch）：⭐⭐⭐⭐
-- 博客文章：⭐⭐⭐
+**Credibility assessment:**
+- Official announcement (OpenAI Blog): ⭐⭐⭐⭐⭐
+- Tech media (TechCrunch): ⭐⭐⭐⭐
+- Blog posts: ⭐⭐⭐
 
 ---
 
-## 案例 4：失败案例
+## Case 4: Failure case
 
 **Query:**
 ```
-某个非常小众的技术框架对比
+Comparison of some very niche technology frameworks
 ```
 
-**结果：**
-- 信源数量：2（不足最低要求5）
-- 报告标注：⚠️ 信源不足，建议人工补充
+**Result:**
+- Source count: 2 (below the minimum requirement of 5)
+- Report flagged: ⚠️ Insufficient sources, manual supplementation recommended
 
 **Output:**
 ```markdown
-## 信息不足警告
+## Insufficient-information warning
 
-本次调研仅找到 2 个相关信源，低于推荐的最低数量（5个）。
-建议：
-1. 扩大搜索范围
-2. 咨询相关领域专家
-3. 查看官方文档
+This research found only 2 relevant sources, below the recommended minimum (5).
+Recommendations:
+1. Broaden the search scope
+2. Consult experts in the relevant field
+3. Check the official documentation
 ```
 
 ---
@@ -117,7 +117,7 @@ GPT-5 发布最新消息
 
 | Case | Source | Scenario |
 |------|------|------|
-| 案例 1 | 模拟数据 | 技术框架对比 |
-| 案例 2 | 模拟数据 | 最佳实践调研 |
-| 案例 3 | 模拟数据 | 新闻事件调研 |
-| 案例 4 | 模拟数据 | 信源不足场景 |
+| Case 1 | Simulated data | Technology framework comparison |
+| Case 2 | Simulated data | Best-practices research |
+| Case 3 | Simulated data | News event research |
+| Case 4 | Simulated data | Insufficient-source scenario |

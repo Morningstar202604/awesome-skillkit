@@ -1,32 +1,32 @@
-# 典型输入输出案例库
+# Typical Input/Output Case Library
 
 ## Table of Contents
 
-- [案例 1：L1 直接命中（fix + 多关键词）](#案例-1l1-直接命中fix-多关键词)
-- [案例 2：L1 未命中，L2 Flash 处理（implement + 含技术栈）](#案例-2l1-未命中l2-flash-处理implement-含技术栈)
-- [案例 3：多意图并存（primary + secondary）](#案例-3多意图并存primary-secondary)
-- [案例 4：跨轮累积（session 记忆）](#案例-4跨轮累积session-记忆)
-- [案例 5：澄清协议触发](#案例-5澄清协议触发)
-- [案例 6：复杂表述 → L3 深度推理](#案例-6复杂表述-l3-深度推理)
-- [案例 7：destructive 意图（高风险，人工确认）](#案例-7destructive-意图高风险人工确认)
-- [案例 8：英文输入](#案例-8英文输入)
-- [案例 9：口语化/模糊输入](#案例-9口语化模糊输入)
-- [案例 10：边界情况（无匹配）](#案例-10边界情况无匹配)
-- [案例来源说明](#案例来源说明)
+- [Case 1: L1 direct hit (fix + multiple keywords)](#case-1-l1-direct-hit-fix--multiple-keywords)
+- [Case 2: L1 miss, L2 Flash handles it (implement + tech stack given)](#case-2-l1-miss-l2-flash-handles-it-implement--tech-stack-given)
+- [Case 3: Multiple intents coexist (primary + secondary)](#case-3-multiple-intents-coexist-primary--secondary)
+- [Case 4: Cross-turn accumulation (session memory)](#case-4-cross-turn-accumulation-session-memory)
+- [Case 5: Clarification protocol triggered](#case-5-clarification-protocol-triggered)
+- [Case 6: Complex phrasing → L3 deep reasoning](#case-6-complex-phrasing--l3-deep-reasoning)
+- [Case 7: Destructive intent (high risk, manual confirmation)](#case-7-destructive-intent-high-risk-manual-confirmation)
+- [Case 8: English input](#case-8-english-input)
+- [Case 9: Colloquial / vague input](#case-9-colloquial--vague-input)
+- [Case 10: Edge case (no match)](#case-10-edge-case-no-match)
+- [Case source notes](#case-source-notes)
 
-> 来源：真实用户使用 `code-intent-planner` 的对话记录 + 边缘场景测试
-> 用途：训练触发词、验证输出格式、帮助模型理解边界
+> Sources: real user conversations with `code-intent-planner` + edge-case tests
+> Purpose: training trigger words, validating output format, helping the model understand boundaries
 
 ---
 
-## 案例 1：L1 直接命中（fix + 多关键词）
+## Case 1: L1 direct hit (fix + multiple keywords)
 
 **Input:**
 ```
-帮我修复一下，一登录就 crash，报错 panic: runtime error: invalid memory address
+Help me fix this—it crashes on login, error: panic: runtime error: invalid memory address
 ```
 
-**L1 匹配：** `fix|修[好复]|bug|报错|错误|crash|panic` → 命中 fix，置信度 0.95
+**L1 match:** `fix|bug|error|crash|panic` → hits fix, confidence 0.95
 
 **Output:**
 ```json
@@ -35,129 +35,129 @@
   "subtype": "runtime",
   "confidence": 0.95,
   "source_layer": "L1",
-  "description": "修复登录时 crash 的 runtime panic",
+  "description": "Fix the runtime panic that crashes on login",
   "slots": [
     {"name": "target", "value": "", "evidence": "assumed"},
     {"name": "scope", "value": "login", "evidence": "verified"},
     {"name": "tech_stack", "value": "", "evidence": "assumed"}
   ],
   "constraints": {"hard": [], "soft": []},
-  "solution": "先复现 → 定位堆栈 → 修复空指针 → 回归测试"
+  "solution": "Reproduce first → locate the stack trace → fix the null pointer → regression test"
 }
 ```
 
-**渲染后 Markdown：**
+**Rendered Markdown:**
 ```markdown
-# 任务计划 — fix_login_crash
+# Task Plan — fix_login_crash
 
-**意图类型：** fix.runtime
-**置信度：** 0.95（来源：L1）
+**Intent type:** fix.runtime
+**Confidence:** 0.95 (source: L1)
 
-## 需求概述
-修复登录时 crash 的 runtime panic
+## Requirement overview
+Fix the runtime panic that crashes on login
 
-## 推荐方案
-先复现 → 定位堆栈 → 修复空指针 → 回归测试
+## Recommended approach
+Reproduce first → locate the stack trace → fix the null pointer → regression test
 ```
 
 ---
 
-## 案例 2：L1 未命中，L2 Flash 处理（implement + 含技术栈）
+## Case 2: L1 miss, L2 Flash handles it (implement + tech stack given)
 
 **Input:**
 ```
-我想做一个类似 Vercel 的部署平台，支持一键部署 Next.js 项目，用 Go 写后端
+I want to build a deployment platform like Vercel, supporting one-click deploy of Next.js projects, with a Go backend
 ```
 
-**L1 匹配：** `build|create|开发` → 命中 implement，但置信度 0.88 < 需要确认
-→ 升级 L2
+**L1 match:** `build|create|implement` → hits implement, but confidence 0.88 < needs confirmation
+→ escalate to L2
 
-**L2 输出（Mock）：**
+**L2 output (Mock):**
 ```json
 {
   "intent_type": "implement",
   "subtype": "feature",
   "confidence": 0.90,
-  "description": "实现类 Vercel 的一键部署平台",
+  "description": "Build a Vercel-like one-click deployment platform",
   "slots": {
     "target": "deployment-platform",
     "scope": "Next.js auto-deploy",
     "tech_stack": "Go backend"
   },
   "assumptions": [
-    {"text": "使用 PostgreSQL 存储部署记录", "impact": "medium", "evidence": "provisional"},
-    {"text": "前端用 React + TypeScript", "impact": "medium", "evidence": "provisional"}
+    {"text": "Use PostgreSQL to store deployment records", "impact": "medium", "evidence": "provisional"},
+    {"text": "Frontend uses React + TypeScript", "impact": "medium", "evidence": "provisional"}
   ]
 }
 ```
 
-**输出（Markdown）：**
+**Output (Markdown):**
 ```markdown
-# 任务计划 — deployment_platform
+# Task Plan — deployment_platform
 
-**意图类型：** implement.feature
-**置信度：** 0.90（来源：L2）
+**Intent type:** implement.feature
+**Confidence:** 0.90 (source: L2)
 
-## 需求概述
-实现类 Vercel 的一键部署平台，支持 Next.js
+## Requirement overview
+Build a Vercel-like one-click deployment platform, supporting Next.js
 
-## 任务分解
-| ID | 任务 | 依赖 | 优先级 | 预估 | 风险 |
+## Task breakdown
+| ID | Task | Depends on | Priority | Est. | Risk |
 |----|------|------|--------|------|------|
-| T1 | 设计部署调度模型 | — | P0 | M | medium |
-| T2 | 实现 Git webhook 接收 | T1 | P0 | M | medium |
-| T3 | 实现构建流水线 | T2 | P0 | L | high |
-| T4 | 实现容器部署 | T3 | P1 | L | high |
-| T5 | 前端管理面板 | T3 | P2 | M | medium |
+| T1 | Design the deployment scheduling model | — | P0 | M | medium |
+| T2 | Implement Git webhook reception | T1 | P0 | M | medium |
+| T3 | Implement the build pipeline | T2 | P0 | L | high |
+| T4 | Implement container deployment | T3 | P1 | L | high |
+| T5 | Admin dashboard frontend | T3 | P2 | M | medium |
 
-## 关键路径
+## Critical path
 T1 → T2 → T3 → T4
 
-## 假设
-| 假设 | 置信度 | 影响 |
+## Assumptions
+| Assumption | Confidence | Impact |
 |------|--------|------|
-| 使用 PostgreSQL | 🟡 provisional | medium |
-| 前端用 React+TS | 🟡 provisional | medium |
+| Use PostgreSQL | 🟡 provisional | medium |
+| Frontend uses React+TS | 🟡 provisional | medium |
 ```
 
 ---
 
-## 案例 3：多意图并存（primary + secondary）
+## Case 3: Multiple intents coexist (primary + secondary)
 
 **Input:**
 ```
-查一下这个接口为啥报错，顺便帮我加个缓存层
+Look into why this endpoint errors, and by the way add a caching layer for me
 ```
 
-**L1 匹配结果：**
-| 规则 | 意图 | 优先级 |
+**L1 match results:**
+| Rule | Intent | Priority |
 |------|------|--------|
-| `报错` | fix | 2 |
-| `加` | implement | 10 |
+| `error` | fix | 2 |
+| `add` | implement | 10 |
 
-**输出（多意图）：**
+**Output (multi-intent):**
 ```json
 {
   "primary_intent": "fix",
   "secondary_intents": ["implement"],
   "multi_intent": true,
-  "recommendation": "先定位报错原因（fix），再设计缓存层（implement）",
+  "recommendation": "First locate the error cause (fix), then design the caching layer (implement)",
   "sub_tasks": [
-    {"id": "T1", "description": "复现接口报错", "priority": "P0", "depends_on": []},
-    {"id": "T2", "description": "定位根因并修复", "priority": "P0", "depends_on": ["T1"]},
-    {"id": "T3", "description": "设计缓存方案", "priority": "P1", "depends_on": ["T2"]},
-    {"id": "T4", "description": "实现缓存层", "priority": "P1", "depends_on": ["T3"]}
+    {"id": "T1", "description": "Reproduce the endpoint error", "priority": "P0", "depends_on": []},
+    {"id": "T2", "description": "Locate root cause and fix", "priority": "P0", "depends_on": ["T1"]},
+    {"id": "T3", "description": "Design the caching solution", "priority": "P1", "depends_on": ["T2"]},
+    {"id": "T4", "description": "Implement the caching layer", "priority": "P1", "depends_on": ["T3"]}
   ]
 }
 ```
 
 ---
 
-## 案例 4：跨轮累积（session 记忆）
+## Case 4: Cross-turn accumulation (session memory)
 
-**第 1 轮：**
+**Turn 1:**
 ```
-> 帮我设计一个用户权限系统，用 RBAC 模型，Python FastAPI
+> Help me design a user permission system using the RBAC model, Python FastAPI
 ```
 **Output:**
 ```json
@@ -169,14 +169,14 @@ T1 → T2 → T3 → T4
 }
 ```
 
-**第 2 轮：**
+**Turn 2:**
 ```
-> 再加个基于角色的接口权限校验，不需要数据库那块了
+> Also add role-based endpoint permission checks; I don't need the database part anymore
 ```
-**注入上下文：** `{target: auth-system, scope: RBAC, tech_stack: python/fastapi}`
-**增量识别：** `{target: auth-system, scope: rbac+permission-check}`
+**Injected context:** `{target: auth-system, scope: RBAC, tech_stack: python/fastapi}`
+**Incremental recognition:** `{target: auth-system, scope: rbac+permission-check}`
 
-**输出（合并）：**
+**Output (merged):**
 ```json
 {
   "session_id": "s1",
@@ -184,153 +184,154 @@ T1 → T2 → T3 → T4
   "intent_type": "implement",
   "slots": {
     "target": "auth-system",
-    "scope": "RBAC + 接口权限校验",
+    "scope": "RBAC + endpoint permission check",
     "tech_stack": "python/fastapi",
-    "excludes": "数据库部分"
+    "excludes": "database part"
   }
 }
 ```
 
 ---
 
-## 案例 5：澄清协议触发
+## Case 5: Clarification protocol triggered
 
 **Input:**
 ```
-帮我做个东西
+Help me make something
 ```
 
-**L1 匹配：** `做` → implement（置信度 0.88 ≥ 0.85）→ 直接命中
+**L1 match:** `build` → implement (confidence 0.88 ≥ 0.85) → direct hit
 
-但如果 L2 返回置信度 0.70（灰色区间）：
+But if L2 returns confidence 0.70 (gray zone):
 **Output:**
 ```json
 {
   "status": "clarification_needed",
   "questions": [
-    "① 需要实现什么功能或模块？（如：用户认证、订单管理）",
-    "② 改动范围是？（新功能开发 / 现有功能修改 / 代码重构）",
-    "③ 目标技术栈是什么？（如：python/fastapi、node/express）"
+    "① What feature or module needs to be implemented? (e.g. user auth, order management)",
+    "② What is the scope of the change? (new feature development / modifying existing features / code refactoring)",
+    "③ What is the target tech stack? (e.g. python/fastapi, node/express)"
   ],
   "partial_intent": {
     "intent_type": "implement",
     "confidence": 0.70,
-    "description": "需求模糊，需澄清"
+    "description": "Requirement is vague; needs clarification"
   }
 }
 ```
 
 ---
 
-## 案例 6：复杂表述 → L3 深度推理
+## Case 6: Complex phrasing → L3 deep reasoning
 
 **Input:**
 ```
-我现在有个电商系统，用户下单后会调用库存服务扣减库存，但高并发下经常库存超卖，
-而且退款后库存没恢复。想先分析一下瓶颈在哪里，再出优化方案，技术栈是 Java Spring Boot + Redis。
+I have an e-commerce system now; when a user places an order it calls the inventory service to deduct stock,
+but under high concurrency the stock is frequently oversold,
+and after a refund the stock isn't restored. I want to first analyze where the bottleneck is, then produce an optimization plan. Tech stack is Java Spring Boot + Redis.
 ```
 
-**分析：**
-- L1 命中 `优化` → optimize（置信度 0.85）
-- 但包含多意图：分析瓶颈 + 优化方案 + 涉及库存/退款/高并发
-- L2 置信度可能 < 0.60 → 升级 L3
+**Analysis:**
+- L1 hits `optimize` → optimize (confidence 0.85)
+- But it contains multiple intents: analyze bottleneck + optimization plan + involves inventory/refund/high concurrency
+- L2 confidence may be < 0.60 → escalate to L3
 
-**L3 输出：**
+**L3 output:**
 ```json
 {
   "intent_type": "optimize",
   "confidence": 0.88,
-  "description": "电商库存超卖问题：高并发扣减 + 退款恢复双重问题",
+  "description": "E-commerce inventory overselling: dual problems of high-concurrency deduction + refund restoration",
   "sub_tasks": [
-    {"id": "T1", "description": "复现超卖场景，建立性能基线", "priority": "P0", "risk": "high"},
-    {"id": "T2", "description": "Profiling 定位库存扣减热点", "priority": "P0", "risk": "high"},
-    {"id": "T3", "description": "分析 Redis 缓存策略是否合理", "priority": "P1", "risk": "medium"},
-    {"id": "T4", "description": "设计乐观锁/分布式锁方案", "priority": "P1", "risk": "medium"},
-    {"id": "T5", "description": "设计退款库存恢复机制", "priority": "P1", "risk": "medium"},
-    {"id": "T6", "description": "压测验证优化效果", "priority": "P2", "risk": "low"}
+    {"id": "T1", "description": "Reproduce the oversold scenario and establish a performance baseline", "priority": "P0", "risk": "high"},
+    {"id": "T2", "description": "Profile to locate the inventory deduction hotspot", "priority": "P0", "risk": "high"},
+    {"id": "T3", "description": "Analyze whether the Redis cache strategy is reasonable", "priority": "P1", "risk": "medium"},
+    {"id": "T4", "description": "Design an optimistic-lock / distributed-lock solution", "priority": "P1", "risk": "medium"},
+    {"id": "T5", "description": "Design the refund inventory restoration mechanism", "priority": "P1", "risk": "medium"},
+    {"id": "T6", "description": "Load-test to verify the optimization effect", "priority": "P2", "risk": "low"}
   ],
   "critical_path": ["T1", "T2", "T4"],
   "parallel_groups": [["T3", "T5"]],
-  "solution": "先 profiling 定位瓶颈，再决定锁方案（Redis 原子操作 vs 分布式锁）"
+  "solution": "Profile to locate the bottleneck first, then decide on a locking scheme (Redis atomic ops vs. distributed lock)"
 }
 ```
 
 ---
 
-## 案例 7：destructive 意图（高风险，人工确认）
+## Case 7: Destructive intent (high risk, manual confirmation)
 
 **Input:**
 ```
-把 users 表里所有 created_at 超过一年的数据都删掉
+Delete all rows in the users table where created_at is over a year old
 ```
 
-**L1 匹配：** `删|删除` → destructive（置信度 0.97）
+**L1 match:** `delete|remove` → destructive (confidence 0.97)
 
-**输出（安全强化版）：**
+**Output (hardened version):**
 ```json
 {
   "intent_type": "destructive",
   "confidence": 0.97,
   "risk_level": "high",
   "requires_confirmation": true,
-  "confirmation_message": "⚠️ 检测到 destructive 意图：删除 users 表超过一年的数据。此操作不可逆。请确认：\n1. 是否已备份相关数据？\n2. 删除范围是否正确？\n3. 是否有依赖此数据的报表/缓存？\n\n回复 '确认删除' 继续，否则中断。",
-  "fallback_solution": "先用 SELECT 确认影响行数，再用 DELETE 分批次执行，每批验证后继续"
+  "confirmation_message": "⚠️ Destructive intent detected: deleting rows from the users table older than one year. This operation is irreversible. Please confirm:\n1. Have you backed up the relevant data?\n2. Is the deletion scope correct?\n3. Are there reports/caches that depend on this data?\n\nReply 'confirm deletion' to continue, otherwise abort.",
+  "fallback_solution": "First use SELECT to confirm the affected row count, then run DELETE in batches, verifying after each batch before continuing"
 }
 ```
 
 ---
 
-## 案例 8：英文输入
+## Case 8: English input
 
 **Input:**
 ```
 I need to refactor the authentication module to support OAuth2, and also add unit tests for the new login endpoint
 ```
 
-**L1 匹配：**
-- `refactor` → refactor（优先级 6）
-- `add` → implement（优先级 10）
+**L1 match:**
+- `refactor` → refactor (priority 6)
+- `add` → implement (priority 10)
 
-**多意图输出：**
+**Multi-intent output:**
 ```json
 {
   "primary_intent": "refactor",
   "secondary_intents": ["implement"],
-  "recommendation": "先重构 auth 模块支持 OAuth2，再写单元测试"
+  "recommendation": "First refactor the auth module to support OAuth2, then write the unit tests"
 }
 ```
 
 ---
 
-## 案例 9：口语化/模糊输入
+## Case 9: Colloquial / vague input
 
 **Input:**
 ```
-这个功能怎么搞
+How do I get this feature done?
 ```
 
-**L1 匹配：** `怎么[做搞]` → plan（置信度 0.95）
+**L1 match:** `how|how to` → plan (confidence 0.95)
 
 **Output:**
 ```json
 {
   "intent_type": "plan",
   "confidence": 0.95,
-  "description": "需求规划：功能实现路径分析",
-  "solution": "需求澄清 → 技术方案设计 → 任务分解 → 优先级排序"
+  "description": "Requirement planning: analysis of the feature's implementation path",
+  "solution": "Requirement clarification → technical design → task breakdown → priority ranking"
 }
 ```
 
 ---
 
-## 案例 10：边界情况（无匹配）
+## Case 10: Edge case (no match)
 
 **Input:**
 ```
-今天天气不错啊
+The weather is nice today
 ```
 
-**L1 匹配：** 无命中
+**L1 match:** no hit
 
 **Output:**
 ```json
@@ -343,17 +344,17 @@ I need to refactor the authentication module to support OAuth2, and also add uni
 }
 ```
 
-**行为：** 提示用户澄清需求，或交给 L2 做宽泛意图识别。
+**Behavior:** prompt the user to clarify the requirement, or hand off to L2 for broad intent recognition.
 
 ---
 
-## Case sources说明
+## Case source notes
 
-| 案例 | 来源 | 提取方式 |
+| Case | Source | Extraction method |
 |------|------|----------|
-| 案例 1,2,3 | 真实用户对话（脱敏） | 从 opencode 会话日志提取 |
-| 案例 4 | XIntent 跨轮测试用例 | 参考 XIntent session 测试 |
-| 案例 5 | 澄清协议测试 | 构造低置信度 L2 输出 |
-| 案例 6 | 实际生产问题 | 来自电商系统优化需求 |
-| 案例 7 | 安全规范 | 参考 Ship-Gate destructive 规则 |
-| 案例 8,9,10 | 边界测试 | 构造极端输入验证鲁棒性 |
+| Cases 1, 2, 3 | Real user conversations (anonymized) | Extracted from opencode session logs |
+| Case 4 | XIntent cross-turn test case | Reference XIntent session tests |
+| Case 5 | Clarification protocol test | Constructed low-confidence L2 output |
+| Case 6 | Real production issue | From an e-commerce system optimization request |
+| Case 7 | Security spec | Reference Ship-Gate destructive rules |
+| Cases 8, 9, 10 | Edge tests | Constructed extreme inputs to verify robustness |

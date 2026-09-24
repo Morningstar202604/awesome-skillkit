@@ -1,55 +1,53 @@
-# 图像模型方言笔记 / Image Model Dialects (VERIFY BEFORE USE)
+# Image Model Dialect Notes / Image Model Dialects (VERIFY BEFORE USE)
 
-> ⚠️ **时效声明**：图像模型以**月度级**速度更新（型号/能力/定价都会变）。
-> 本文件为 2026-09-14 网络调研快照，执行前按「核实方法」列重新确认
-> （SKILL-STANDARD-v2 诫 7/诫 8）。来源分级：🟢 官方 · 🟡 第三方 · 🔵 社区。
+> ⚠️ **Time-sensitivity notice**: image models update at a **monthly** cadence (model names/capabilities/pricing all change).
+> This file is a 2026-09-14 web research snapshot; before executing, re-confirm per the "verification method" column
+> (SKILL-STANDARD-v2 precept 7 / precept 8). Source grading: 🟢 official · 🟡 third-party · 🔵 community.
 
-## 跨模型硬规则（先查这条再写 prompt）
+## Cross-model hard rules (check this first before writing prompts)
 
-1. **文字渲染铁律**：图上需要可读文字（标题/标签/图表轴/OG 文案）→ 选
-   GPT Image 系；Gemini 系图像模型基本不渲染可读文字。🟡🟢
-2. **透明背景（图标/logo）**：需 RGBA alpha 的选原生透明支持的型号
-   （如 GPT Image 1.5），并非所有图像模型都能出透明通道。🟡
-3. **自然语言整句**优于关键词堆砌——所有现代图像模型通用。🟡
-4. **文字逐字双引号包裹** + 编辑用 "change 'old' to 'new'" 句式 + 字符数
-   剧变会破坏版式。🟡
-5. **负向约束名词式**：`blurry, watermark` 而非 `no blur`。🟡
+1. **Text rendering iron rule**: if the image needs readable text (headings/labels/chart axes/OG copy) → choose
+   the GPT Image family; Gemini-family image models basically do not render readable text. 🟡🟢
+2. **Transparent background (icons/logos)**: if RGBA alpha is needed, choose a model with native transparency support
+   (e.g. GPT Image 1.5); not all image models can output an alpha channel. 🟡
+3. **Natural language full sentences** beat keyword stuffing—universal across all modern image models. 🟡
+4. **Wrap text in verbatim double quotes** + use the "change 'old' to 'new'" pattern for edits + drastic character count
+   changes will break layout. 🟡
+5. **Negative constraints should be noun-style**: `blurry, watermark` rather than `no blur`. 🟡
 
-## 模型选型速查
+## Model selection quick reference
 
-| 需求 | 首选 | 理由 |
-|------|------|------|
-| 真实感场景/氛围图 | Gemini 3.x Flash Image 系 | 深度、环境复杂度好；不渲染文字 |
-| 海报/信息图/带字 OG 图 | GPT Image 2 系 | 文字渲染可用（含多语种） |
-| 批量风格探索（同构图多色） | GPT Image 2 系 | 单次调用原生多变体 |
-| 透明图标/logo | GPT Image 1.5 | 原生 RGBA |
-| 快速草稿迭代 | Flash 档 | 免费额度/低延迟 |
-| 开源自托管 | SD 系/Flux 系 | 权限自由但文字渲染更弱，配后期排版 |
+| Need | First choice | Rationale |
+|------|--------------|-----------|
+| Photorealistic scenes/atmosphere | Gemini 3.x Flash Image family | Good depth and environmental complexity; does not render text |
+| Posters/infographics/OG images with text | GPT Image 2 family | Usable text rendering (including multilingual) |
+| Batch style exploration (same composition, multiple colors) | GPT Image 2 family | Native multi-variant in a single call |
+| Transparent icons/logos | GPT Image 1.5 | Native RGBA |
+| Quick draft iteration | Flash tier | Free quota / low latency |
+| Open-source self-hosted | SD family / Flux family | Full control but weaker text rendering; pair with post-layout |
 
-*核实方法：搜索各家「image model docs」最新版；模型 ID 随版本漂移，执行前
-先查官方模型列表接口。*
+*Verification method: search each vendor's latest "image model docs"; model IDs drift with versions—
+check the official model list API before executing.*
 
-## 摄影与构图词汇（跨模型通用）🔵
+## Photography and composition vocabulary (cross-model universal) 🔵
 
-- **胶片/镜头**：Kodak Portra 800（人像肤色）、Fuji Velvia 50（高饱和风光）、
-  50mm f/1.4（浅景深）、24mm 广角、tilt-shift（移轴微缩）
-- **布光**：Rembrandt lighting（三角光）、soft diffused（软光棚拍）、
-  rim/backlight（轮廓光）、volumetric（体积光雾感）
-- **构图**：rule of thirds、centered symmetry、generous negative space、
+- **Film/lens**: Kodak Portra 800 (portrait skin tones), Fuji Velvia 50 (high-saturation landscapes),
+  50mm f/1.4 (shallow depth of field), 24mm wide angle, tilt-shift (miniature effect)
+- **Lighting**: Rembrandt lighting (triangle light), soft diffused (soft studio light),
+  rim/backlight (rim light), volumetric (volumetric fog feel)
+- **Composition**: rule of thirds, centered symmetry, generous negative space,
   bird's-eye / low-angle hero shot
-- **风格点名**：写不出风格名就描述特征——"visible brushstrokes, thick paint
-  texture" 胜过 "painterly style"
+- **Style naming**: if you can't name the style, describe features—"visible brushstrokes, thick paint
+  texture" beats "painterly style"
 
-## 通用兜底
+## Universal fallback
 
-方言不确定时：**五段结构 + 双引号包文字 + 名词式负向**，跳过模型专属参数。
-写错专属标记比不写更糟。
+When dialect is uncertain: **five-part structure + double quotes around text + noun-style negatives**, skip model-specific parameters. Writing the wrong specific marker is worse than not writing one.
 
 ## Audit vs dialect
 
-五段结构是跨模型不变量；模型选型与专属参数靠人工对照本文件核实。两层检查，
-缺一不可。
+The five-part structure is the cross-model invariant; model selection and specific parameters are verified manually against this file. Two layers of checking, neither may be skipped.
 
 ## Change maintenance
 
-发现方言失效：更新对应条目 + 顶部快照日期，PR 走正常门禁。
+When a dialect is found to be invalid: update the corresponding entry + the snapshot date at the top; PRs go through normal gates.

@@ -1,6 +1,6 @@
 ---
 name: pub-plotter
-description: "Publication-grade plots with REAL journal physical widths (Nature/Science/IEEE/ACM/NeurIPS), Type-42 font embedding (pdf.fonttype=42, arXiv/LaTeX-safe), colorblind-safe palettes by default, and optional real `scienceplots` integration. Covers line / bar / boxplot / heatmap. This is the CANONICAL paper plotting skill — it supersedes `figure-maker`, which is kept only as a compatibility shim. Outputs PDF/PNG. Use when the user asks for journal-style figures / IEEE-style line plots / paper figures / publication-grade charts / camera-ready figures / figures sized to Nature/Science layout / heatmaps / publication plot. Do NOT use for architecture diagrams (use arch-diagram) or neuron-level networks (use neural-net-draw)."
+description: "Publication-grade plots with REAL journal physical widths (Nature/Science/IEEE/ACM/NeurIPS), Type-42 font embedding (pdf.fonttype=42, arXiv/LaTeX-safe), colorblind-safe palettes by default, and optional real `scienceplots` integration. Covers line / bar / boxplot / heatmap. This is the canonical paper plotting skill. Outputs PDF/PNG. Use when the user asks for journal-style figures / IEEE-style line plots / paper figures / publication-grade charts / camera-ready figures / figures sized to Nature/Science layout / heatmaps / publication plot. Do NOT use for architecture diagrams (use arch-diagram) or neuron-level networks (use neural-net-draw)."
 license: Apache-2.0
 compatibility: Requires matplotlib (Agg backend). Uses real `scienceplots` if installed, else built-in equivalent rcParams (offline). When matplotlib absent -> status "mock" (no image, MUST tell user).
 metadata:
@@ -16,7 +16,7 @@ metadata:
 
 One-click produce publication-grade figures from a data JSON: **real journal physical widths + Type-42 font embedding + colorblind-safe palette by default**, no hand-tuning rcParams; if the `scienceplots` package is installed it automatically uses the official style.
 
-**This skill is the paper domain's single plotting entry** (`line` / `bar` / `boxplot` / `heatmap`). The same-domain `figure-maker` is deprecated and downgraded to a thin delegation shim (see its SKILL.md); don't add new calls based on it.
+**This skill is the paper domain's single plotting entry** (`line` / `bar` / `boxplot` / `heatmap`).
 
 > Honest disclosure (two tracks): matplotlib installed -> `status:"success"`, `rendered:true`, the artifact is a real PDF/PNG (with embedded fonts); not installed -> it doesn't error but reports `status:"mock"`, **no image produced**, and you MUST tell the user no figure was generated; don't pass the JSON report as the deliverable.
 
@@ -110,5 +110,4 @@ SOTA toolchain: `scienceplots` (official IEEE/Nature/Science presets), `pdf.font
 
 ## Chain Position
 
-**The paper domain's plotting entry**: upstream connects to experiment-runner's `results.json`; artifacts go into latex-formatter for assembly, and tex-cleaner closes out the submission. `paper_pipeline.py`'s figures stage has already migrated from `figure-maker` to this skill (plotting per `--journal ieee`).
-The same-domain `figure-maker` is a compatibility shim (`deprecated: true`, internally delegating to this skill), kept only for external callers that pinned its CLI; don't write new code on it. `arch-diagram` handles architecture block diagrams and `neural-net-draw` handles neuron-level network diagrams — a complementary division of labor with this skill.
+**The paper domain's plotting entry**: upstream connects to experiment-runner's `results.json`; artifacts go into latex-formatter for assembly, and tex-cleaner closes out the submission. `arch-diagram` handles architecture block diagrams and `neural-net-draw` handles neuron-level network diagrams — a complementary division of labor with this skill.

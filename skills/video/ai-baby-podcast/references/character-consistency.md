@@ -1,45 +1,49 @@
-# Character Consistency Discipline (系列账号生存手册)
+# Character Consistency Discipline (a survival manual for a series account)
 
-为什么单条爆款容易、系列账号难：观众订阅的是"同一个角色的下一期"。
-脸变了、声音变了，算法和粉丝同时抛弃你。本文是 `ai-baby-podcast` Step 0
-的完整展开。
+Why a single viral hit is easy but a series account is hard: viewers subscribe to "the next episode
+of the same character." If the face changes or the voice changes, the algorithm and your fans abandon
+you at once. This document is the full expansion of `ai-baby-podcast` Step 0.
 
 ## Contents
-- [角色卡七件套](#角色卡七件套)
-- [每期生成的四条纪律](#每期生成的四条纪律)
-- [漂移检测：每 10 条一次](#漂移检测每-10-条一次)
-- [双人/多角色](#双人多角色)
+- [The seven-piece character card](#the-seven-piece-character-card)
+- [Four disciplines per-generation](#four-disciplines-per-generation)
+- [Drift detection: every 10 episodes](#drift-detection-every-10-episodes)
+- [Two-person / multi-character](#two-person--multi-character)
 
-## 角色卡七件套
+## The seven-piece character card
 
-在仓库外建一个 `character_bible/` 目录（勿打包进视频工程），内含：
+Create a `character_bible/` directory outside the repo (don't bundle it into the video project), containing:
 
-1. `ref_front.png` — 正面参考图（锁定的"官方脸"）
-2. `ref_left.png` / `ref_right.png` / `ref_talking.png` — 左右侧与说话中表情，
-   全部用同一 seed + 同一 prompt 从正面图变体生成（多角度参考集）
-3. `voice.txt` — TTS 音色 ID、语速、情感参数（一行都别改地复用）
-4. `prompt_locked.txt` — 形象 prompt 原文，之后只许复制不许改写
-5. `dont_rules.md` — 3–5 条禁止项（"不换眼镜""不换服装色系""不变年龄感"）
-6. `episodes.log` — 每期一行：日期/主题/成片文件名/是否通过漂移审计
+1. `ref_front.png` — front reference image (the locked "official face")
+2. `ref_left.png` / `ref_right.png` / `ref_talking.png` — left/right sides and a mid-speech expression,
+   all generated from the front image by varying it with the same seed + same prompt (multi-angle reference set)
+3. `voice.txt` — TTS voice ID, speech rate, emotion parameters (reuse it without changing a single line)
+4. `prompt_locked.txt` — the verbatim appearance prompt; afterward you may only copy it, never rewrite it
+5. `dont_rules.md` — 3–5 prohibitions ("don't swap the glasses," "don't change the clothing color family," "don't change the perceived age")
+6. `episodes.log` — one line per episode: date / topic / finished-filename / whether it passed the drift audit
 
-## 每期生成的四条纪律
+## Four disciplines per-generation
 
-1. 只用参考图驱动口型/动作，**永不从文字重新生成角色**——最常见的死法就是
-   "我觉得可以再优化一下形象"，然后观众不认识他了。
-2. 每条 prompt 都带上锁定特征（眼镜/耳机/服装色）。
-3. 声音只用 voice.txt 里的音色；换声比换脸更毁人设。
-4. 每期素材按 `episodes/NNN_<topic>/` 归档，成片与中间产物分开放。
+1. Only use reference images to drive lip-sync/motion; **never regenerate the character from text**—the
+   most common way to die is "I think I could optimize the look a bit," after which viewers no longer recognize him.
+2. Every prompt carries the locked features (glasses/headphone/clothing color).
+3. Use only the voice in voice.txt; changing the voice ruins the persona even more than changing the face.
+4. Archive each episode's assets under `episodes/NNN_<topic>/`, keeping finished files and intermediate products apart.
 
-## 漂移检测：每 10 条一次
+## Drift detection: every 10 episodes
 
-把 ref_front.png 和最近 3 期成片首帧并排对比三个点位：
-眼距（瞳孔间距）、人中长度（鼻底到上唇）、耳位高低。
-任一点位肉眼可见偏移 → **从原始参考图重新生成该期**，不要在漂移图上继续修。
-原因：每次生成引入微量随机噪声，30–50 条后累积必然可见；越早回滚成本越低。
+Place ref_front.png side by side with the first frames of the last 3 episodes and compare three points:
+eye distance (pupil spacing), philtrum length (base of nose to upper lip), and ear height.
+If any point is visibly off to the naked eye, **regenerate that episode from the original reference
+image**—don't keep fixing on top of the drifted image. Reason: every generation introduces a tiny
+amount of random noise; after 30–50 episodes the accumulation is inevitably visible; the earlier you
+roll back, the cheaper it is.
 
-## 双人/多角色
+## Two-person / multi-character
 
-- 每个角色独立建卡、独立锁 seed；两人若常同框，额外生成一张双人同框参考图
-  作为同框镜头专用 seed。
-- 口型生成永远单人单条，剪辑切镜拼接——同框生成必串脸。
-- 选角时先让两个角色并排出一张测试图：五官结构太像、发色相同的组合要重选。
+- Give each character its own card and its own locked seed; if the two are often in frame together,
+  additionally generate a two-shot reference image as the dedicated seed for two-shot frames.
+- Always generate lip-sync one person at a time per clip, then cut and join in the edit—generating a
+  two-shot always cross-contaminates the faces.
+- When casting, first render a side-by-side test image of the two characters: combos with too-similar
+  facial structure or the same hair color should be re-cast.

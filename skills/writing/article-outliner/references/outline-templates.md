@@ -1,176 +1,176 @@
-# 中文文章大纲模板库（5 套）
+# Chinese Article Outline Template Library (5 Templates)
 
-> 何时读：已确定主题、要定结构时。先选模板，再填内容，不要边写边想结构。
-> 字数占比为**经验值**（按 2000 字中篇基准），短篇（800）压缩「背景」与「延展」，长篇（5000）放大「论证/步骤」部分。
-> 与 `scripts/outliner.py --type` 的对应关系见 §1，脚本只生成章节名骨架，本文件负责填肉。
+> When to read: when the topic is set and you need to lock the structure. Pick a template first, then fill in content; don't improvise structure while writing.
+> The length shares are **rules of thumb** (based on a 2000-character mid-length baseline); short pieces (800) compress "background" and "extension", long pieces (5000) enlarge the "argument/steps" parts.
+> The mapping to `scripts/outliner.py --type` is in §1; the script only generates the section-name skeleton, and this file fills in the meat.
 
 ## Table of Contents
 
-- [1. 模板选型速查](#1-模板选型速查)
-- [2. 模板 A：技术教程型](#2-模板-a技术教程型)
-- [3. 模板 B：观点评论型](#3-模板-b观点评论型)
-- [4. 模板 C：清单盘点型](#4-模板-c清单盘点型)
-- [5. 模板 D：案例复盘型](#5-模板-d案例复盘型)
-- [6. 模板 E：评测对比型](#6-模板-e评测对比型)
-- [7. 通用校验：大纲合格判据](#7-通用校验大纲合格判据)
+- [1. Template selection quick reference](#1-template-selection-quick-reference)
+- [2. Template A: technical tutorial](#2-template-a-technical-tutorial)
+- [3. Template B: opinion / commentary](#3-template-b-opinion--commentary)
+- [4. Template C: listicle / roundup](#4-template-c-listicle--roundup)
+- [5. Template D: case postmortem](#5-template-d-case-postmortem)
+- [6. Template E: review / comparison](#6-template-e-review--comparison)
+- [7. Universal validation: outline acceptance criteria](#7-universal-validation-outline-acceptance-criteria)
 
 ---
 
-## 1. 模板选型速查
+## 1. Template selection quick reference
 
-| 你要回答的核心问题 | 选模板 | `--type` | 典型载体 |
+| Core question you're answering | Pick template | `--type` | Typical carrier |
 |--------------------|--------|----------|----------|
-| 「怎么做？」 | A 技术教程型 | `tutorial` | CSDN、掘金、公众号 |
-| 「我怎么看？凭什么？」 | B 观点评论型 | `opinion` | 知乎、公众号 |
-| 「有哪些？哪个适合我？」 | C 清单盘点型 | `listicle` | 公众号、小红书、CSDN |
-| 「当时发生了什么？学到什么？」 | D 案例复盘型 | `blog` | 知乎、公众号、B站文稿 |
-| 「A 和 B 哪个好？」 | E 评测对比型 | `technical` | 掘金、CSDN、B站 |
+| "How do I do it?" | A technical tutorial | `tutorial` | CSDN, Juejin, WeChat Official Account |
+| "What do I think? Why?" | B opinion / commentary | `opinion` | Zhihu, WeChat Official Account |
+| "What's out there? Which fits me?" | C listicle / roundup | `listicle` | WeChat Official Account, Xiaohongshu, CSDN |
+| "What happened? What did we learn?" | D case postmortem | `blog` | Zhihu, WeChat Official Account, Bilibili scripts |
+| "Which is better, A or B?" | E review / comparison | `technical` | Juejin, CSDN, Bilibili |
 
-判定法：把标题里的疑问词抽出来——「怎么/如何」→A；「该不该/真的是吗」→B；「哪些/几个」→C；「为什么失败/如何恢复」→D；「vs/还是/对比」→E。标题没有疑问词 → 先补疑问词，主题还没收敛。
+How to judge: extract the question word from the title — "how to" → A; "should I / is it really" → B; "which ones / how many" → C; "why did it fail / how to recover" → D; "vs / or / compare" → E. If the title has no question word → add a question word first; the topic hasn't converged yet.
 
 ---
 
-## 2. 模板 A：技术教程型
+## 2. Template A: technical tutorial
 
-**适用**：手把手教一个可复现结果（装、配、跑、验）。
+**Fits**: hand-holding teaching of a reproducible result (install, configure, run, verify).
 
 | Section | Purpose | Share of length | Required elements |
 |------|------|----------|----------|
-| 结果前置 | 先给终态，让读者知道学完能得到什么 | 5% | 一句可验证的结果（数字/截图） |
-| 前置要求 | 拦截跑不通的人 | 5% | 版本号、系统、依赖、耗时 |
-| 步骤 1..N | 主体，一步一节 | 60% | 每步：命令 + 预期输出 + 失败分支 |
-| 验证 | 证明做对了 | 10% | 可复制的验证命令与判据 |
-| 常见坑 | 提前拦截 | 15% | ≥3 条「现象 → 原因 → 处置」 |
-| FAQ / 下一步 | 收口 | 5% | 3 个高频追问 |
+| Result up front | Give the end state first, so readers know what they'll walk away with | 5% | One verifiable result (number / screenshot) |
+| Prerequisites | Intercept people who can't run it | 5% | Version numbers, OS, dependencies, time needed |
+| Steps 1..N | The body, one step per section | 60% | Per step: command + expected output + failure branch |
+| Verification | Prove you did it right | 10% | A copy-pasteable verification command and the criterion |
+| Common pitfalls | Intercept early | 15% | ≥3 "symptom → cause → fix" |
+| FAQ / next steps | Wrap up | 5% | 3 high-frequency follow-up questions |
 
-**填好的示例**：《用 asyncpg 把 FastAPI 的 P99 从 200ms 降到 60ms》
+**Filled-in example**: "Using asyncpg to drop FastAPI's P99 from 200ms to 60ms"
 
-- 结果前置（100 字）：4 核 8G、Postgres 15，只读接口 P99 200ms → 62ms，改动 3 处。
-- 前置要求（100 字）：Python 3.11+、FastAPI 0.110+、PostgreSQL 14+；全程约 20 分钟。
-- 步骤 1：把 `psycopg2` 换成 `asyncpg`（含 `pip install` 与 `create_async_engine` 改法）
-- 步骤 2：给 `where user_id` 建联合索引（含 `CREATE INDEX` 语句与 `EXPLAIN` 前后对比）
-- 步骤 3：连接池 `pool_size=20, max_overflow=10`（含为什么不是越大越好）
-- 验证（200 字）：`locust -u 200 -r 20` 跑 3 分钟，给出 P50/P99 表格
-- 常见坑（300 字）：① 混用 `async def` 与同步 ORM 会话导致事件循环阻塞；② 索引建了但查询走了 `OR`；③ 压测机与服务端同机导致数据失真
-- FAQ（100 字）：能用在 SQLAlchemy 2.0 吗 / 需要改业务代码吗 / 读写分离要不要一起做
+- Result up front (100 chars): 4-core 8G, Postgres 15, read-only endpoint P99 200ms → 62ms, 3 changes.
+- Prerequisites (100 chars): Python 3.11+, FastAPI 0.110+, PostgreSQL 14+; about 20 minutes total.
+- Step 1: swap `psycopg2` for `asyncpg` (including `pip install` and the `create_async_engine` change)
+- Step 2: build a composite index on `where user_id` (including the `CREATE INDEX` statement and before/after `EXPLAIN` comparison)
+- Step 3: connection pool `pool_size=20, max_overflow=10` (including why bigger isn't better)
+- Verification (200 chars): `locust -u 200 -r 20` for 3 minutes; give the P50/P99 table
+- Common pitfalls (300 chars): 1) mixing `async def` with a sync ORM session blocks the event loop; 2) index built but the query uses `OR`; 3) load-test machine colocated with the server skews the data
+- FAQ (100 chars): works with SQLAlchemy 2.0? / need to change business code? / should read-write splitting be done at the same time?
 
 ---
 
-## 3. 模板 B：观点评论型
+## 3. Template B: opinion / commentary
 
-**适用**：对现象/技术路线下判断，需要说服而非教会。
+**Fits**: passing judgment on a phenomenon / technical route; needs to persuade, not teach.
 
 | Section | Purpose | Share of length | Required elements |
 |------|------|----------|----------|
-| 靶子 | 明确你要反驳/修正的那个流行说法 | 10% | 一句话引述，最好带出处 |
-| 论点 | 你的判断，可证伪 | 5% | 「我认为 X，因为 Y」单句 |
-| 论据 1..3 | 每条一个独立支撑 | 45% | 每条 = 数据/案例 + 推理 |
-| 反方最强观点 | 主动树靶 | 20% | 用对方最有力的版本，不用稻草人 |
-| 回应与边界 | 承认 + 限定 | 15% | 「在 __ 条件下我这个判断不成立」 |
-| 结论 | 收口 | 5% | 回扣论点，不引入新论据 |
+| The target | Name the popular view you're rebutting/revising | 10% | One-sentence quote, ideally with a source |
+| Thesis | Your judgment, falsifiable | 5% | "I believe X because Y" in one sentence |
+| Arguments 1..3 | Each an independent pillar | 45% | Each = data/case + reasoning |
+| Opponent's strongest view | Proactively build the straw man | 20% | Use their strongest version, not a straw man |
+| Response and boundary | Concede + qualify | 15% | "Under __ conditions, my judgment doesn't hold" |
+| Conclusion | Wrap up | 5% | Callback to the thesis; no new evidence |
 
-**填好的示例**：《「用 AI 写代码就该全量生成」是个危险的误读》
+**Filled-in example**: ""If AI writes code, it should generate everything" is a dangerous misreading"
 
-- 靶子（200 字）：近期常见说法「模型能一次写完整模块，人只需 review」。
-- 论点（100 字）：在**有既有代码库的团队**里，全量生成的净收益为负；在从零起项目里为正。
-- 论据 1（300 字）：接口一致性成本——生成代码与既有约定的冲突率（自建 30 个 PR 的统计，附统计口径）
-- 论据 2（300 字）：review 成本转移——人读 800 行陌生代码比写 200 行更慢
-- 论据 3（300 字）：回归风险——测试覆盖率未覆盖的路径
-- 反方最强观点（400 字）：生成速度确实快 3-5 倍，且新项目无历史包袱，这点我接受
-- 回应与边界（300 字）：给出分界线——代码库规模、是否有类型系统、是否有测试
-- 结论（100 字）：按规模分策略，别按阵营站队
+- The target (200 chars): the recent common claim that "the model can write a whole module in one shot, and humans just review."
+- Thesis (100 chars): in **teams with an existing codebase**, full generation has a negative net benefit; in greenfield projects, it's positive.
+- Argument 1 (300 chars): interface-consistency cost — the conflict rate between generated code and existing conventions (a self-run count of 30 PRs, with the counting method attached)
+- Argument 2 (300 chars): review-cost transfer — a person reading 800 lines of unfamiliar code is slower than writing 200
+- Argument 3 (300 chars): regression risk — paths your test coverage doesn't reach
+- Opponent's strongest view (400 chars): generation is indeed 3–5× faster, and new projects carry no historical baggage; I accept that point
+- Response and boundary (300 chars): give the dividing line — codebase size, whether there's a type system, whether there are tests
+- Conclusion (100 chars): split strategy by size, don't take sides by camp
 
 ---
 
-## 4. 模板 C：清单盘点型
+## 4. Template C: listicle / roundup
 
-**适用**：并列条目集合（工具、技巧、资源、误区）。
+**Fits**: a set of parallel items (tools, tips, resources, mistakes).
 
 | Section | Purpose | Share of length | Required elements |
 |------|------|----------|----------|
-| 引言 + 入选标准 | 说明凭什么这 N 条上榜 | 10% | 可核对的筛选条件 |
-| 条目 1..N | 并列主体 | 70% | 每条：是什么 / 适合谁 / 一个具体用法 / 坑 |
-| 速选表 | 帮读者决策 | 10% | 二维表：条目 × 适用场景 |
-| 怎么挑 | 决策路径 | 5% | 3 步选择法 |
-| 收尾 | 引导 | 5% | CTA |
+| Intro + inclusion criteria | Explain why these N items made the cut | 10% | Verifiable screening conditions |
+| Items 1..N | The parallel body | 70% | Per item: what it is / who it's for / one concrete use / the pitfall |
+| Quick-pick table | Help the reader decide | 10% | 2D table: item × applicable scenario |
+| How to choose | Decision path | 5% | 3-step selection method |
+| Closing | Guidance | 5% | CTA |
 
-**结构硬约束**：条目之间必须**同维度**（要么都是工具，要么都是技巧），禁止混入不同粒度；每条字数差 ≤ 30%，否则读者会认为排序即权重。
+**Hard structural constraint**: items must be **same-dimension** (all tools or all tips); mixing granularities is forbidden; each item's length must differ by ≤30%, or readers will assume the ordering is the weighting.
 
-**填好的示例**：《排查 Python 服务 CPU 打满的 6 个工具》
+**Filled-in example**: "6 tools for troubleshooting a CPU-pinned Python service"
 
-- 引言（200 字）：入选标准——无需改代码接入、能在生产只读环境用、有活跃维护
-- 条目：`py-spy`（采样式，无侵入）/`cProfile`（标准库，函数级）/`flamegraph`（可视化）/`perf`（系统级）/`Scalene`（区分 Python 与原生）/`austin`（低开销）
-- 每条 230 字左右：一句话定位 + 最小可用命令 + 输出长什么样 + 一个坑
-- 速选表（200 字）：工具 × 「能否上生产 / 是否需重启 / 粒度 / 开销」
-- 怎么挑（100 字）：先看能不能上生产 → 再看要不要重启 → 最后看粒度
-- 收尾（100 字）：CTA
+- Intro (200 chars): inclusion criteria — no code change to integrate, usable in a production read-only environment, actively maintained
+- Items: `py-spy` (sampling, no intrusion) / `cProfile` (stdlib, function-level) / `flamegraph` (visualization) / `perf` (system-level) / `Scalene` (separates Python vs native) / `austin` (low overhead)
+- Each ~230 chars: one-line positioning + minimal usable command + what the output looks like + one pitfall
+- Quick-pick table (200 chars): tool × "production-safe? / needs restart? / granularity / overhead"
+- How to choose (100 chars): first see if it's production-safe → then whether it needs a restart → finally the granularity
+- Closing (100 chars): CTA
 
 ---
 
-## 5. 模板 D：案例复盘型
+## 5. Template D: case postmortem
 
-**适用**：故障、事故、项目回顾，重点是「为什么」和「下次怎么办」。
+**Fits**: outages, incidents, project retrospectives; the focus is "why" and "what to do next time".
 
 | Section | Purpose | Share of length | Required elements |
 |------|------|----------|----------|
-| 时间线 | 客观还原 | 20% | 精确到分钟的事件序列（表格） |
-| 影响面 | 定损 | 10% | 影响用户数/时长/金额，或明确写「无 externally 影响」 |
-| 根因 | 技术层面 | 20% | 一条链：触发条件 → 直接原因 → 根本原因 |
-| 为什么没早发现 | 流程/监控层面 | 20% | 监控盲区、告警阈值、发布流程 |
-| 处置过程 | 做了什么 | 10% | 每一步操作 + 效果 + 是否回退 |
-| 改进项 | 可跟踪 | 15% | 条目化，带责任人与期限（可脱敏） |
-| 可复用结论 | 抽象出来 | 5% | 一句话，能被别人套用 |
+| Timeline | Objective reconstruction | 20% | Minute-level event sequence (table) |
+| Blast radius | Damage assessment | 10% | Affected users / duration / amount, or explicitly write "no external impact" |
+| Root cause | Technical layer | 20% | One chain: trigger → direct cause → root cause |
+| Why we didn't catch it earlier | Process/monitoring layer | 20% | Monitoring blind spots, alert thresholds, release process |
+| What we did | Actions taken | 10% | Each step + effect + whether rolled back |
+| Action items | Trackable | 15% | Itemized, with owner and deadline (can be redacted) |
+| Reusable conclusion | Abstracted out | 5% | One sentence others can apply |
 
-**禁止**：把复盘写成表扬稿（「团队反应迅速」占篇幅）或流水账（只有时间线没有根因）。
+**Banned**: writing the retrospective as a praise piece (devoting space to "the team responded quickly") or as a running log (only a timeline with no root cause).
 
-**填好的示例**：《一次由连接池打满引发的接口雪崩》
+**Filled-in example**: "An endpoint avalanche triggered by a saturated connection pool"
 
-- 时间线（400 字）：`03:12` 首个告警 → `03:15` P99 破 5s → `03:22` 决定扩容（无效）→ `03:40` 定位到连接数 → `03:47` 限流恢复
-- 影响面（200 字）：下单接口 35 分钟不可用，影响订单 N 笔（脱敏写法：`约 X%` + 口径说明）
-- 根因（400 字）：慢查询（触发）→ 连接持有时间变长（直接）→ 连接池上限 200 被打满且无超时回收（根本）
-- 为什么没早发现（400 字）：只监控了 CPU，没监控连接池使用率；告警阈值为 P99>1s，慢查询期间未触发
-- 处置（200 字）：扩容为什么无效（连接数随实例数线性增长，压力传导到 DB）
-- 改进项（300 字）：5 条，含指标、阈值、owner
-- 可复用结论（100 字）：「连接池类故障，扩容是负优化，先限流再查持有时间」
+- Timeline (400 chars): `03:12` first alert → `03:15` P99 breaks 5s → `03:22` decide to scale out (ineffective) → `03:40` locate the connection count → `03:47` rate limiting restores service
+- Blast radius (200 chars): ordering endpoint down 35 minutes, affecting N orders (redacted: `about X%` + method note)
+- Root cause (400 chars): slow query (trigger) → longer connection hold time (direct) → connection-pool cap of 200 saturated with no timeout recycling (root)
+- Why we didn't catch it earlier (400 chars): only monitored CPU, not connection-pool utilization; alert threshold P99>1s, never triggered during the slow-query period
+- What we did (200 chars): why scaling out didn't help (connections grew linearly with instances, pushing pressure to the DB)
+- Action items (300 chars): 5 items, with metric, threshold, owner
+- Reusable conclusion (100 chars): "for connection-pool outages, scaling out is a negative optimization; rate-limit first, then check hold time"
 
 ---
 
-## 6. 模板 E：评测对比型
+## 6. Template E: review / comparison
 
-**适用**：A vs B（框架、方案、模型、工具）。
+**Fits**: A vs B (frameworks, approaches, models, tools).
 
 | Section | Purpose | Share of length | Required elements |
 |------|------|----------|----------|
-| 结论前置 | 先给结论 | 5% | 「在 X 场景下选 A，在 Y 场景下选 B」 |
-| 评测设计 | 建立可信度 | 15% | 环境（版本/硬件）、数据集、指标定义、为什么这么测 |
-| 维度 1..N 对比 | 主体 | 45% | 每维：数据 + 表格/图 + 一句话解读 |
-| 场景化推荐 | 落到决策 | 20% | 按读者类型给建议（初创/大厂/个人/…） |
-| 局限与未测项 | 诚实边界 | 10% | 明确写出没测什么、结论适用范围 |
-| 结论 | 回扣 | 5% | 与开头一致，不新增结论 |
+| Conclusion up front | Give the verdict first | 5% | "Pick A in scenario X, pick B in scenario Y" |
+| Evaluation design | Build credibility | 15% | Environment (version/hardware), dataset, metric definitions, why tested this way |
+| Dimension 1..N comparison | The body | 45% | Per dimension: data + table/chart + one-line interpretation |
+| Scenario-based recommendation | Land on decisions | 20% | Advice by reader type (startup/big corp/individual/…) |
+| Limitations and untested items | Honest boundaries | 10% | Explicitly state what wasn't tested and the conclusion's scope |
+| Conclusion | Callback | 5% | Same as the opening; no new conclusions |
 
-**填好的示例**：《FastAPI vs Flask：在 4 核容器上的实测对比》
+**Filled-in example**: "FastAPI vs Flask: a live comparison on a 4-core container"
 
-- 结论前置（100 字）：要 async 与自动文档选 FastAPI；要生态插件与同步心智负担低选 Flask
-- 评测设计（300 字）：Python 3.11 / 4 核 8G / `wrk -t4 -c200 -d60s` / 三种接口（纯计算、DB 读、JSON 序列化）/ 每项跑 3 次取中位数；说明为何不用 hello world
-- 维度对比（900 字）：吞吐、P99 延迟、冷启动、生态插件数、类型提示与文档、学习曲线——每维配表
-- 场景化推荐（400 字）：内部工具 / 高并发 API / 教学 / 迁移存量项目
-- 局限（200 字）：未测 WebSocket 长连接；未测 ORM 层差异；硬件单一
-- 结论（100 字）
+- Conclusion up front (100 chars): want async and auto-docs → FastAPI; want ecosystem plugins and lower sync mental load → Flask
+- Evaluation design (300 chars): Python 3.11 / 4-core 8G / `wrk -t4 -c200 -d60s` / three endpoint types (pure compute, DB read, JSON serialization) / 3 runs each, take the median; explain why not hello world
+- Dimension comparison (900 chars): throughput, P99 latency, cold start, ecosystem plugin count, type hints and docs, learning curve — a table per dimension
+- Scenario recommendation (400 chars): internal tools / high-concurrency API / teaching / migrating legacy projects
+- Limitations (200 chars): didn't test WebSocket long connections; didn't test ORM-layer differences; single hardware
+- Conclusion (100 chars)
 
 ---
 
-## 7. 通用校验：大纲合格判据
+## 7. Universal validation: outline acceptance criteria
 
-大纲写完后逐条检查，任一不过则返工：
+After the outline is written, check each item; if any fails, rework:
 
-- [ ] 标题含具体对象与可验证信息（数字/场景/限定词），不是「XX 入门」
-- [ ] 章节数在 3–7 之间；超出则合并同类项
-- [ ] 每个 h2 都能改写成一句**断言**（不是「什么是 X」「概述」）
-- [ ] 每节 `points` 2–5 条；少于 2 条说明该节该合并，多于 5 条该拆
-- [ ] 各节 `word_count_target` 之和 = `total_words_target`（±10%）
-- [ ] 主体部分（论证/步骤/条目）占比 ≥ 55%，背景铺垫 ≤ 15%
-- [ ] `hook` 在 2 句内，且与标题承诺一致
-- [ ] `conclusion` 里写明了具体 CTA，不是「总结全文」
-- [ ] 反方/局限/边界至少占 10%（模板 B/D/E 强制，A 用「常见坑」替代）
+- [ ] The title contains a concrete object and verifiable information (number/scenario/qualifier), not "XX getting started"
+- [ ] Section count is between 3–7; beyond that, merge like items
+- [ ] Every h2 can be rewritten as a single **assertion** (not "what is X" / "overview")
+- [ ] Each section has 2–5 `points`; fewer than 2 means the section should merge, more than 5 means it should split
+- [ ] Sum of each section's `word_count_target` = `total_words_target` (±10%)
+- [ ] The body (argument/steps/items) is ≥55%, background buildup ≤15%
+- [ ] The `hook` is within 2 sentences and matches the title's promise
+- [ ] The `conclusion` states a concrete CTA, not "summarize the whole piece"
+- [ ] Opponent/limitations/boundaries are at least 10% (mandatory for templates B/D/E; template A uses "common pitfalls" instead)
 
-若目标平台有多个（`platforms` 字段），**只做一份大纲**，在 `word_count_target` 上按平台缩放：短篇平台取长篇版的 40%，并保留「结论前置」与「速选表」两个模块，其余可删。
+If the target platform is multi (`platforms` field), make **only one outline**, scaling `word_count_target` by platform: short-form platforms take 40% of the long-form version, keeping only the "conclusion up front" and "quick-pick table" modules; the rest can be cut.

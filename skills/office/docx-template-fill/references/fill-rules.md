@@ -1,15 +1,15 @@
-# 占位符填写规则
+# Placeholder Fill Rules
 
-## 命名约定
-- 占位符：`{{KEY}}`，KEY 为 `[a-zA-Z0-9_]+`，建议全大写下划线（`EMP_NAME`、`AMOUNT`）。
-- JSON key **精确匹配**（区分大小写）；缺失 key → 原样保留 `{{KEY}}` 并列入 `[NOTICE]`。
+## Naming convention
+- Placeholder: `{{KEY}}`, where KEY is `[a-zA-Z0-9_]+`; recommend all-caps with underscores (`EMP_NAME`, `AMOUNT`).
+- JSON key **exact match** (case-sensitive); missing key → leave `{{KEY}}` as-is and list it in `[NOTICE]`.
 
-## 降级与边界
-- 未装 `python-docx`：脚本只打印"数据 keys 本可填入"，rc=3，不写文件。
-- 批注：本技能用"文末【批注·作者】斜体段"近似；真 Word comment（w:comment part）需改
-  document.xml + comments.xml + 关系表，超出脚本范围，按需手工 OXML。
-- 表格：`doc.tables[].rows[].cells[].paragraphs` 全部覆盖；合并单元格的文字只改首格。
+## Degradation and boundaries
+- `python-docx` not installed: the script only prints "data keys that could be filled", rc=3, no file written.
+- Comments: this skill approximates with an "end-of-document [Comment·Author] italic paragraph"; a true Word comment
+  (w:comment part) requires modifying document.xml + comments.xml + the relationship table, beyond the script's scope—do manual OXML as needed.
+- Tables: `doc.tables[].rows[].cells[].paragraphs` are all covered; merged-cell text only changes the first cell.
 
-## 校验
-- 填前后对源模板 `md5sum` 应一致（源从不写）。
-- 输出可被 Word/WPS 打开；段落样式保留（脚本清空 runs 写回首 run，不重建段落样式）。
+## Verification
+- The source template's `md5sum` before and after filling should match (source is never written to).
+- Output opens in Word/WPS; paragraph styles are preserved (the script clears runs and writes back to the first run, does not rebuild paragraph styles).

@@ -386,3 +386,64 @@ All 36 packs assessed via full-process demand mapping. **One new skill created, 
 - [x] build_site.py: site data updated (154 skills / 36 packs)
 - [x] README.md + README.zh-CN.md pack tables updated
 - [x] Git commit: ca3ab26
+
+---
+
+## 第四轮：figure-maker 删除、references 全量英译、README.ja 重写
+
+### 1. figure-maker 删除（已弃用 shim）
+
+**确认依据**：figure-maker 是委托 pub-plotter 的薄封装 shim（`deprecated: true`），pub-plotter 是严格超集，无独立价值。
+
+**删除与清理**：
+- 删除 `skills/paper/figure-maker/` 目录（含 figure_maker.py）
+- `packs/ai-research-writing/pack.json`：19→18 技能
+- `manifest.json`：从 ai-research-writing pack 的 skills 列表移除
+- `skills/skill_chains.json`：移除引用
+- `README.md` / `README.zh-CN.md`：ai-research-writing 行 19→18，技能列表移除 figure-maker
+- 5 个 SKILL.md 中的 figure-maker 引用替换为 pub-plotter（arch-diagram、experiment-runner、latex-formatter、pub-plotter、chart-recommender）
+- `site/data/site.json`：重新运行 build_site.py 后自动清除（0 引用）
+
+**验证**：全仓库 SKILL.md / pack.json / manifest.json / skill_chains.json / site.json 中零 figure-maker 引用。
+
+### 2. references/*.md 全量英译
+
+**规模**：131 个文件、约 100,713 中文字符，按域分 4 个并行代理处理：
+- programming：33 文件 / 24,858 字符 → 零中文
+- video：17 文件 / ~16,000 字符 → 零中文（v1 代理未实际写入，v2 代理完成）
+- writing+paper+ppt+marketing+dataviz+chat：25 文件 / 32,238 字符 → 371 字符（功能性正则+语言学术语，合理保留）
+- 其余域（knowledge/office/meta/design/tools/education/audio/memory/integrations/music/ARCHITECTURE.md）：56 文件 / ~26,000 字符 → 零中文
+
+**最终状态**：
+- 130/131 文件零中文
+- 1 个文件（`writing/content-editor/references/grammar-checks.md`）保留 351 中文字符：全部为功能性正则检测模式（`通过.*使`、`[一-龥]` 等）和中文语法指南的语言学术语（的/地/得、量词等），属于"代码正则"和"被文档化的对象"，不可翻译
+- 所有 SKILL.md 零中文（153/153）
+- Markdown 结构完整：代码块、表格、链接、frontmatter 均未破坏
+
+**翻译原则**：信达雅，技术术语准确；代码块/命令/路径/URL/JSON 原样保留；中文平台名使用标准英译（Zhihu、Bilibili、Douyin、Xiaohongshu 等）。
+
+### 3. README.ja.md 全文重写
+
+- 基于当前英文版 README.md 全文重写（147 行），非仅更新链接
+- 36 场景包目录表与 pack.json 逐一核对，反映最新技能列表（figure-maker 已删、shot-designer/transition-designer/motion-effects-designer/sound-designer 已加、合并技能已更新）
+- 版本号 0.22.0 与 manifest.json 同步
+- 双路径下载引导、一键翻译链接（Google Translate ja→zh-CN/en、Bing、Immersive Translate）、安装/构建说明齐全
+- 信达雅日文，技术术语使用标准日译（スキル、シナリオパック、ワークフロー等）
+
+### 4. 构建与验证
+
+| 检查项 | 结果 |
+|--------|------|
+| SKILL.md 零中文 | 153/153 ✅ |
+| references/*.md 零中文 | 130/131（1 个为功能性正则+语法术语）✅ |
+| YAML frontmatter 有效 | 全部通过 ✅ |
+| Linter | 153 真实技能全 PASS，1 个测试夹具（good-skill）预期 FAIL ✅ |
+| build.py | 37 zip（36 包 + _all.zip），153 技能，2.26MB ✅ |
+| build_site.py | 153 技能 / 36 包 / 18 域 / 62 链 ✅ |
+| figure-maker 全仓库清除 | 零引用 ✅ |
+
+### 5. 未完成项 / 无法验证项
+
+- `grammar-checks.md` 保留 351 中文字符（功能性正则+中文语法术语），如需严格零中文需将正则改为 Unicode 转义并将语法示例改为描述性英文——但会降低文档可读性
+- 官网实际浏览器预览未在沙箱中验证（无 GUI 环境），但 site.json 数据完整、下载链接路径正确
+- `lint_skill.py` 的 LANG-CJK 检查对英文技能报 WARN（body length 等），均为非阻塞性建议

@@ -1,144 +1,144 @@
-# Error Patterns（Python 报错模式速查）
+# Error Patterns (Python error-message quick reference)
 
-> 配套 debug-diagnoser。`diagnoser.py` 用 10 条正则（`ERROR_PATTERNS`）对整段日志做 `re.search`（忽略大小写）并按 severity 排序输出 JSON；它对**单行错误文本**最有效，无法替代人工定位。本文件是人工侧的补充：按错误类型给成因、定位步骤和修复示例。
-> 每个模式格式：`原文片段` → 成因 → 定位 → 修复。
+> Companion to debug-diagnoser. `diagnoser.py` runs 10 regexes (`ERROR_PATTERNS`) over the whole log with `re.search` (case-insensitive) and outputs JSON sorted by severity; it works best on **single-line error text** and cannot replace manual localization. This file is the manual-side supplement: by error type, it gives causes, localization steps, and fix examples.
+> Each pattern's format: `original snippet` → cause → localization → fix.
 
 ## Table of Contents
-- §0 读 traceback 的三条规则 + 二分定位
+- §0 Three rules for reading tracebacks + bisection localization
 - §1 TypeError
-- §2 KeyError（含 pandas 列名陷阱）
+- §2 KeyError (including the pandas column-name trap)
 - §3 AttributeError
-- §4 ValueError（含 pandas Length mismatch）
+- §4 ValueError (including pandas Length mismatch)
 - §5 IndexError
 - §6 ImportError / ModuleNotFoundError
-- §7 pandas / numpy 特有误导性报错
-- §8 把新模式加进 diagnoser
+- §7 Misleading pandas/numpy-specific errors
+- §8 Adding new patterns to diagnoser
 
-## §0 读 traceback 的三条规则 + 二分定位
+## §0 Three rules for reading tracebacks + bisection localization
 
-1. **最后一行**是错误类型与消息（`TypeError: ...`）；**倒数第二部分**是异常发生的具体代码行。中间的 `File "...", line N, in func` 是调用链，自下而上读。
-2. 有 `During handling of the above exception, another exception occurred:` 时，**真正原因是上面那个**，下面是处理失败时抛出的新异常。
-3. 有 `The above exception was the direct cause of ...` 时，看 `raise X from Y` 里的 Y。
+1. The **last line** is the error type and message (`TypeError: ...`); the **second-to-last section** is the specific code line where the exception occurred. The `File "...", line N, in func` lines in between are the call chain, read bottom-up.
+2. When you see `During handling of the above exception, another exception occurred:`, the **real cause is the one above**; the one below is a new exception raised while handling the failure.
+3. When you see `The above exception was the direct cause of ...`, look at Y in `raise X from Y`.
 
-二分定位（报错点不等于根因时）：
+Bisection localization (when the error point is not the root cause):
 ```bash
-python3 -m pdb your_script.py        # 交互调试：在报错帧用 p 打印变量
-python3 -X dev your_script.py        # 开发模式：打开额外警告，常能暴露根因
+python3 -m pdb your_script.py        # interactive debug: use p to print variables at the error frame
+python3 -X dev your_script.py        # dev mode: turns on extra warnings, often exposing the root cause
 ```
-或在可疑段前后各插一行 `print(repr(x))`，先确认**输入**是否正确，再确认**输出**；若输入已错，继续向上游函数重复该动作。
+Or insert a `print(repr(x))` line before and after the suspicious segment; first confirm whether the **input** is correct, then the **output**; if the input is already wrong, repeat the action on the upstream function.
 
 ## §1 TypeError
 
 | Original snippet | Common cause |
 |---|---|
-| `TypeError: 'NoneType' object is not subscriptable` | 函数无返回值（默认返回 None）却被 `x[0]` 索引；`dict.get()` 未命中返回 None |
-| `TypeError: unsupported operand type(s) for +: 'int' and 'str'` | 输入来自 CSV/JSON 未转换类型 |
-| `TypeError: f() missing 1 required positional argument: 'y'` | 调用漏参 / 方法当函数用（少传 self 场景多见于把实例方法当回调） |
-| `TypeError: 'int' object is not callable` | 变量覆盖了同名函数（如 `len = 5`） |
+| `TypeError: 'NoneType' object is not subscriptable` | A function with no return value (defaults to returning None) is indexed by `x[0]`; `dict.get()` returns None on a miss |
+| `TypeError: unsupported operand type(s) for +: 'int' and 'str'` | Input from CSV/JSON was not type-converted |
+| `TypeError: f() missing 1 required positional argument: 'y'` | Missing argument on the call / using a method as a function (missing self when an instance method is used as a callback) |
+| `TypeError: 'int' object is not callable` | A variable shadowed a same-named function (e.g. `len = 5`) |
 
-定位：打印被操作对象的类型，而不是值——`print(type(obj), repr(obj)[:80])`。
-修复：
+Localization: print the type of the object being operated on, not its value—`print(type(obj), repr(obj)[:80])`.
+Fix:
 ```python
 val = d.get("key")
-if val is None:                 # 显式处理 None，而非假设存在
+if val is None:                 # explicitly handle None rather than assuming presence
     val = default
-val = int(val)                  # 输入边界统一转类型
+val = int(val)                  # unify type conversion at the input boundary
 ```
 
 ## §2 KeyError
 
 | Original snippet | Common cause |
 |---|---|
-| `KeyError: 'amount'`（dict） | 键不存在或拼写/大小写不一致 |
-| `KeyError: 'amount '`（pandas） | **列名带首尾空格**（CSV 导出常见） |
-| `KeyError: ('a', 'b')` | 这是 MultiIndex，需传元组 |
+| `KeyError: 'amount'` (dict) | The key doesn't exist, or there's a spelling/case mismatch |
+| `KeyError: 'amount '` (pandas) | **The column name has leading/trailing whitespace** (common in CSV exports) |
+| `KeyError: ('a', 'b')` | This is a MultiIndex; you must pass a tuple |
 
-定位（pandas 第一步必做）：
+Localization (mandatory first step in pandas):
 ```python
-print([repr(c) for c in df.columns])      # repr 能暴露看不见的空格与换行
-df.columns = df.columns.str.strip()       # 修复：统一去空格
+print([repr(c) for c in df.columns])      # repr exposes invisible spaces and newlines
+df.columns = df.columns.str.strip()       # fix: strip whitespace uniformly
 print(df.columns.tolist())
 ```
-修复：`d.get(k, default)`；pandas 先校验 `if col not in df.columns: raise KeyError(f"missing {col}; available={list(df.columns)}")`（把可用键打出来，比原生 KeyError 有用得多）。
+Fix: `d.get(k, default)`; in pandas, first validate `if col not in df.columns: raise KeyError(f"missing {col}; available={list(df.columns)}")` (printing the available keys is far more useful than the raw KeyError).
 
 ## §3 AttributeError
 
 | Original snippet | Common cause |
 |---|---|
-| `AttributeError: 'NoneType' object has no attribute 'append'` | 链式调用中间返回 None（`list.append` / `sort` 原地返回 None） |
-| `AttributeError: 'DataFrame' object has no attribute 'append'` | pandas 2.0 起移除了 `DataFrame.append`（改用 `pd.concat`） |
-| `AttributeError: Can only use .dt accessor with datetimelike values` | 列还是 object，日期解析失败（多半 `errors="coerce"` 产生了 NaN） |
-| `AttributeError: module 'x' has no attribute 'y'` | 循环导入导致模块未初始化完；或本地文件与库同名（如当前目录有 `json.py`） |
+| `AttributeError: 'NoneType' object has no attribute 'append'` | A chained call returned None in the middle (`list.append` / `sort` return None in place) |
+| `AttributeError: 'DataFrame' object has no attribute 'append'` | `DataFrame.append` was removed in pandas 2.0 (use `pd.concat` instead) |
+| `AttributeError: Can only use .dt accessor with datetimelike values` | The column is still object; date parsing failed (usually `errors="coerce"` produced NaN) |
+| `AttributeError: module 'x' has no attribute 'y'` | Circular import left the module uninitialized; or a local file shares a name with a library (e.g. `json.py` in the current directory) |
 
-定位：确认对象是**你认为的类**——`print(type(obj), obj is None)`；模块类问题打 `print(mod.__file__)` 看导入的是不是你以为的那个文件。
-修复：`out = []` 然后 `out.append(x)`（不要 `out = out.append(x)`）；`pd.concat([df1, df2])`；`df["ts"] = pd.to_datetime(df["ts"], errors="coerce")` 后检查 `isna().sum()`。
+Localization: confirm the object is **the class you think**—`print(type(obj), obj is None)`; for module issues, print `print(mod.__file__)` to see whether the imported file is the one you think.
+Fix: `out = []` then `out.append(x)` (not `out = out.append(x)`); `pd.concat([df1, df2])`; after `df["ts"] = pd.to_datetime(df["ts"], errors="coerce")`, check `isna().sum()`.
 
 ## §4 ValueError
 
 | Original snippet | Common cause |
 |---|---|
-| `ValueError: could not convert string to float: 'abc'` | 脏数据（单位后缀、千分位逗号、空串） |
-| `ValueError: Length of values (3) does not match length of index (4)` | 赋值右侧长度与 DataFrame 行数不等（常见于 `apply` 返回变长结果后直接赋列） |
-| `ValueError: The truth value of a Series is ambiguous...` | 把 Series 用在 `if` / `and` / `or` 里；布尔运算要用 `&`、`|`、`~` 并加括号，聚合用 `.any()` / `.all()` |
-| `ValueError: cannot set a DataFrame with multiple columns to the single column y` | 赋值形状不匹配（右侧是一维，左侧选中多列） |
+| `ValueError: could not convert string to float: 'abc'` | Dirty data (unit suffixes, thousands separators, empty strings) |
+| `ValueError: Length of values (3) does not match length of index (4)` | The assigned right-hand length doesn't match the DataFrame row count (common after `apply` returns variable-length results that are directly assigned to a column) |
+| `ValueError: The truth value of a Series is ambiguous...` | A Series used in `if` / `and` / `or`; use `&`, `|`, `~` with parentheses for boolean ops, and `.any()` / `.all()` for aggregation |
+| `ValueError: cannot set a DataFrame with multiple columns to the single column y` | Assignment shape mismatch (right side is 1D, left side selected multiple columns) |
 
-修复示例：
+Fix example:
 ```python
-df["x"] = pd.to_numeric(df["x"].str.replace(",", ""), errors="coerce")   # 先清格式再转
-mask = (df["a"] > 0) & (df["b"] < 10)      # 括号必加，& 优先级高于比较
-if mask.any():                              # 用 any()/all() 坍缩成标量
+df["x"] = pd.to_numeric(df["x"].str.replace(",", ""), errors="coerce")   # clean the format first, then convert
+mask = (df["a"] > 0) & (df["b"] < 10)      # parentheses required; & binds tighter than comparisons
+if mask.any():                              # collapse to a scalar with any()/all()
     ...
 ```
-长度不匹配的定位：`print(len(rhs), len(df))`，再查 `apply` 的返回是否是列表（`result_type="expand"` 或 `pd.Series(...)` 处理）。
+Localizing length mismatch: `print(len(rhs), len(df))`, then check whether the `apply` return is a list (handle with `result_type="expand"` or `pd.Series(...)`).
 
 ## §5 IndexError
 
 | Original snippet | Common cause |
 |---|---|
-| `IndexError: list index out of range` | 循环上界写错；空列表取 `[0]`（如 `re.findall(...)[0]` 未匹配） |
-| `IndexError: single positional indexer is out-of-bounds`（pandas `.iloc`） | `.iloc` 按**位置**索引，与 `.loc` 的**标签**混用 |
+| `IndexError: list index out of range` | Wrong loop upper bound; indexing `[0]` on an empty list (e.g. `re.findall(...)[0]` with no match) |
+| `IndexError: single positional indexer is out-of-bounds` (pandas `.iloc`) | `.iloc` indexes by **position**, mixed up with `.loc`'s **labels** |
 
-定位：`print(len(seq))` 后立即打印索引值；正则类用 `m = re.search(...)` + `if m:` 判空，别直接 `[0]`。
-修复：`seq[i] if i < len(seq) else default`；pandas 用 `.loc[label]` 取标签、`.iloc[pos]` 取位置，混用时先 `df.index` 确认。
+Localization: after `print(len(seq))`, immediately print the index value; for regex cases use `m = re.search(...)` + `if m:` to check for emptiness, don't index `[0]` directly.
+Fix: `seq[i] if i < len(seq) else default`; in pandas use `.loc[label]` for labels and `.iloc[pos]` for positions; when mixing, confirm with `df.index` first.
 
 ## §6 ImportError / ModuleNotFoundError
 
 | Original snippet | Common cause |
 |---|---|
-| `ModuleNotFoundError: No module named 'cv2'` | **包名 ≠ import 名**（`cv2 → opencv-python`、`PIL → Pillow`、`sklearn → scikit-learn`、`yaml → PyYAML`） |
-| `ImportError: cannot import name 'X' from 'Y' (unknown location)` | 循环导入；或本地文件与库同名被优先导入 |
-| `ImportError: attempted relative import with no known parent package` | 直接 `python3 pkg/mod.py` 运行包内文件；改用 `python3 -m pkg.mod` |
+| `ModuleNotFoundError: No module named 'cv2'` | **Package name ≠ import name** (`cv2 → opencv-python`, `PIL → Pillow`, `sklearn → scikit-learn`, `yaml → PyYAML`) |
+| `ImportError: cannot import name 'X' from 'Y' (unknown location)` | Circular import; or a local file shares a name with the library and is imported first |
+| `ImportError: attempted relative import with no known parent package` | Running a file inside a package directly with `python3 pkg/mod.py`; use `python3 -m pkg.mod` instead |
 
-定位：
+Localization:
 ```bash
-python3 -c "import mod; print(mod.__file__)"   # 看实际导入路径
-python3 -m pip show -f scikit-learn            # 确认已安装与安装位置
-python3 -m pip install package                 # 用当前解释器装，避免装到别的环境
+python3 -c "import mod; print(mod.__file__)"   # see the actual import path
+python3 -m pip show -f scikit-learn            # confirm it's installed and where
+python3 -m pip install package                 # install with the current interpreter to avoid installing into another environment
 ```
-注意：`pip` 与 `python3` 必须属于同一环境，`python3 -m pip` 是避免"装了却导不到"的最稳写法。
+Note: `pip` and `python3` must belong to the same environment; `python3 -m pip` is the most robust way to avoid "installed but can't import".
 
-## §7 pandas / numpy 特有误导性报错
+## §7 Misleading pandas/numpy-specific errors
 
-| 现象 | 真相 |
+| Symptom | Truth |
 |---|---|
-| `SettingWithCopyWarning`（**警告不是错误**） | 链式赋值可能未生效。改 `df.loc[mask, "col"] = v`；切片后先 `.copy()`。pandas 3.0 起默认 Copy-on-Write，该警告不再出现（VERIFY BEFORE USE） |
-| `ValueError: cannot reindex on an axis with duplicate labels` | 索引有重复值，`join` / `reindex` 无法确定一一对应 → `df.reset_index(drop=True)` 或先去重 |
-| `ValueError: Length mismatch: Expected axis has N elements, new values have M elements` | 赋 `columns=` 或 `index=` 时数量对不上 → 打印两侧长度 |
-| `RuntimeWarning: invalid value encountered in divide` | 0/0 或 inf 参与运算，结果是 NaN/inf 而非报错 → 用 `np.errstate` 或先过滤分母 |
-| `ValueError: operands could not be broadcast together with shapes (3,) (4,)` | numpy 形状不匹配；打印 `.shape` 逐个对齐 |
-| `KeyError` 实为 MultiIndex | 见 §2；用 `df.columns.nlevels` 确认层级数 |
-| 明明没错却结果不对 | 多为静默 dtype 变化或静默 NaN 引入，每个变换后 `df.dtypes` + `isna().sum()` 复核 |
+| `SettingWithCopyWarning` (**a warning, not an error**) | Chained assignment may not have taken effect. Change to `df.loc[mask, "col"] = v`; after slicing, `.copy()` first. As of pandas 3.0, Copy-on-Write is on by default and this warning no longer appears (VERIFY BEFORE USE) |
+| `ValueError: cannot reindex on an axis with duplicate labels` | The index has duplicate values; `join` / `reindex` cannot determine a one-to-one correspondence → `df.reset_index(drop=True)` or dedupe first |
+| `ValueError: Length mismatch: Expected axis has N elements, new values have M elements` | The counts don't match when assigning `columns=` or `index=` → print the lengths on both sides |
+| `RuntimeWarning: invalid value encountered in divide` | 0/0 or inf participated in the operation; the result is NaN/inf rather than an error → use `np.errstate` or filter the denominator first |
+| `ValueError: operands could not be broadcast together with shapes (3,) (4,)` | numpy shape mismatch; print `.shape` and align one by one |
+| A `KeyError` that is actually a MultiIndex | See §2; confirm the number of levels with `df.columns.nlevels` |
+| The result is wrong though nothing seems wrong | Usually a silent dtype change or silent NaN introduction; after every transform re-check `df.dtypes` + `isna().sum()` |
 
-## §8 把新模式加进 diagnoser
+## §8 Adding new patterns to diagnoser
 
-`diagnoser.py` 顶部 `ERROR_PATTERNS` 是列表，每项含 `pattern`（正则）、`cause`、`fix`、`severity`。新增一条：
+The `ERROR_PATTERNS` list at the top of `diagnoser.py` contains entries with `pattern` (regex), `cause`, `fix`, `severity`. To add one:
 ```python
 {
-    "pattern": r"ValueError: cannot reindex",      # 用 re.search，不必匹配整行
-    "cause": "索引有重复标签",
-    "fix": "reset_index(drop=True) 或先 drop_duplicates",
+    "pattern": r"ValueError: cannot reindex",      # uses re.search; no need to match the whole line
+    "cause": "The index has duplicate labels",
+    "fix": "reset_index(drop=True) or drop_duplicates first",
     "severity": "medium",
 }
 ```
-预期：命中后 JSON 输出 `status: "diagnosed"` 且 `top_severity` 取 critical > high > medium > low 的最大值；未命中时 `status: "no_match"`，此时按 §0 人工定位，不要相信"没匹配 = 没问题"。
-注意：脚本对整段日志做忽略大小写的 `re.search`，因此"日志里提到过某错误"也会命中——`locations` 字段的 `file:line` 才是判断当前错误位置的主要依据（最多保留 5 条）。
+Expected: on a hit, the JSON output is `status: "diagnosed"` and `top_severity` takes the max of critical > high > medium > low; on no hit, `status: "no_match"`, in which case localize manually per §0—do not trust "no match = no problem".
+Note: the script runs a case-insensitive `re.search` over the whole log, so "the log merely mentions an error" also counts as a hit—the `file:line` in the `locations` field is the primary basis for judging the current error location (at most 5 entries kept).

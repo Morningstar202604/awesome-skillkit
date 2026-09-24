@@ -1,148 +1,148 @@
-# 中文技术写作风格规则表
+# Chinese Technical Writing Style Rules
 
-> 何时读：进入润色/校对阶段，需要**统一风格**时读本文件。语病与句法问题在同级的 grammar-checks.md（由 SKILL.md 一并加载）。
-> 体例：每条 = **规则（可机械判定）/ 正例 / 反例**。规则优先做到「能用正则或字符串匹配判出来」。
-> 部分规则参照 GB/T 15834《标点符号用法》、GB/T 15835《出版物上数字用法》——标准会修订，**以现行有效版本为准**；本文件其余数值为经验值。
+> When to read: read this file when entering the proofreading / polishing stage and needing to **unify the style**. Grammatical and syntactic issues are in the sibling file grammar-checks.md (loaded together by SKILL.md).
+> Format: each entry = **rule (mechanically checkable) / good example / bad example**. Rules should, as far as possible, be "detectable by regex or string matching".
+> Some rules reference GB/T 15834 "Usage of Punctuation Marks" and GB/T 15835 "Usage of Numerals in Publications" — standards get revised, **defer to the currently valid version**; all other numbers in this file are rules of thumb.
 
 ## Table of Contents
 
-- [1. 中英文混排与空格](#1-中英文混排与空格)
-- [2. 标点全半角](#2-标点全半角)
-- [3. 引号与书名号](#3-引号与书名号)
-- [4. 数字与单位](#4-数字与单位)
-- [5. 术语一致性](#5-术语一致性)
-- [6. 人称、语气与时态](#6-人称语气与时态)
-- [7. 标题层级](#7-标题层级)
-- [8. 机械检查脚本思路](#8-机械检查脚本思路)
+- [1. Chinese–English mixed typesetting and spacing](#1-chineseenglish-mixed-typesetting-and-spacing)
+- [2. Full-width vs half-width punctuation](#2-full-width-vs-half-width-punctuation)
+- [3. Quotation marks and book-title marks](#3-quotation-marks-and-book-title-marks)
+- [4. Numbers and units](#4-numbers-and-units)
+- [5. Terminology consistency](#5-terminology-consistency)
+- [6. Person, tone, and tense](#6-person-tone-and-tense)
+- [7. Heading hierarchy](#7-heading-hierarchy)
+- [8. Mechanical check-script approach](#8-mechanical-check-script-approach)
 
 ---
 
-## 1. 中英文混排与空格
+## 1. Chinese–English mixed typesetting and spacing
 
-| 规则（可机械判定） | 正例 | 反例 |
+| Rule (mechanically checkable) | Good example | Bad example |
 |--------------------|------|------|
-| 中文字符与英文/数字之间加一个半角空格 | 使用 `FastAPI` 框架 | 使用FastAPI框架 |
-| 中文与英文标点之间不加空格 | 本文介绍 FastAPI，重点是性能优化。 | 本文介绍 FastAPI ，重点是性能优化。 |
-| 数字与中文之间同样加空格 | 共 3 个步骤 | 共3个步骤 |
-| 行内代码、标识符用反引号包裹，且反引号外侧保留空格 | 调用 `create_async_engine()` 建立连接 | 调用create_async_engine()建立连接 |
-| 连续英文单词之间只用一个半角空格（不因中文规则加宽） | `async def handler` | `async  def  handler` |
+| Add a half-width space between Chinese characters and English/numbers | Use the `FastAPI` framework | UseFastAPIframework |
+| No space between Chinese and English punctuation | This article covers FastAPI, focusing on performance. | This article covers FastAPI , focusing on performance. |
+| Add a space between numbers and Chinese | 3 steps total | 3steps total |
+| Wrap inline code / identifiers in backticks, and keep a space outside the backticks | Call `create_async_engine()` to establish a connection | Callcreate_async_engine()to establish a connection |
+| Use only one half-width space between consecutive English words (don't widen for Chinese rules) | `async def handler` | `async  def  handler` |
 
-判定正则（用于扫描，命中即疑似违规）：
+Detection regex (for scanning; a hit means a suspected violation):
 
 ```text
-[\u4e00-\u9fa5][A-Za-z0-9]     → 中文紧接英文/数字，缺空格
-[A-Za-z0-9][\u4e00-\u9fa5]     → 英文/数字紧接中文，缺空格
-[\u4e00-\u9fa5] ?[，。；：！？]  → 中文后紧跟全角标点前的空格需删除
+[一-龥][A-Za-z0-9]     → Chinese immediately followed by English/number, missing space
+[A-Za-z0-9][一-龥]     → English/number immediately followed by Chinese, missing space
+[一-龥] ?[，。；：！？]  → space between Chinese and full-width punctuation should be removed
 ```
 
-**豁免（不要报）**：英文标点后的空格、代码块内部、URL、单位符号紧邻数字（见 §4）、中文后的英文句点缩写（`等等.`）。
+**Exemptions (don't flag)**: spaces after English punctuation, inside code blocks, URLs, unit symbols adjacent to numbers (see §4), and English-period abbreviations after Chinese.
 
 ---
 
-## 2. 标点全半角
+## 2. Full-width vs half-width punctuation
 
 | Rule | Good example | Bad example |
 |------|------|------|
-| 中文句子用全角标点 `，。；：！？（）` | 先测，再优化。 | 先测,再优化. |
-| 英文/代码内部用半角标点，不受中文规则影响 | `if x > 0 and y < 10:` | `if x > 0 and y < 10：` |
-| 并列中文短词之间用顿号 `、` | 吞吐、延迟、内存 | 吞吐,延迟,内存 |
-| 句号不用于小标题末尾 | `## 为什么慢` | `## 为什么慢。` |
-| 列表项若为中文整句，末尾用句号且各项一致 | 全部带句号 / 全部不带 | 有的带句号有的不带 |
-| 省略号用两个 `……`（全角），不写三个点 | 还有更多…… | 还有更多... |
-| 括号内的中文用全角括号，括号内有英文时空格照 §1 | （见 §3） | (见 §3) |
+| Chinese sentences use full-width punctuation `，。；：！？（）` | Test first, then optimize. | Test first, then optimize. |
+| Inside English/code, use half-width punctuation, unaffected by Chinese rules | `if x > 0 and y < 10:` | `if x > 0 and y < 10：` |
+| Use the enumeration comma `、` between short coordinated Chinese words | Throughput, latency, memory | Throughput,latency,memory |
+| No period at the end of a subheading | `## Why it's slow` | `## Why it's slow。` |
+| If a list item is a full Chinese sentence, end it with a period and make all items consistent | All with periods / all without | Some with periods, some without |
+| Use two `……` (full-width) for ellipsis, not three dots | And more… | And more... |
+| Chinese inside parentheses uses full-width parens; if there's English inside, space per §1 | (See §3) | (See §3) |
 
 ---
 
-## 3. 引号与书名号
+## 3. Quotation marks and book-title marks
 
 | Rule | Good example | Bad example |
 |------|------|------|
-| 全文**只使用一种**中文引号，不混用 | 统一用 “” 或统一用 「」 | 前段“”后段「」 |
-| 引号内是完整句子时，句末标点在引号内 | 他说：“这一步必须加压测。” | 他说：“这一步必须加压测”。 |
-| 引号内只是被引用的词/短语时，句末标点在引号外 | 这就是所谓的“零拷贝”。 | 这就是所谓的“零拷贝。” |
-| 嵌套引号：外层双引号，内层单引号 | “他提到的‘连接池’其实是……” | “他提到的“连接池”其实是……” |
-| 作品名/文件名/平台名不作书名号处理 | 本文示例见 `drafter.py` | 本文示例见《drafter.py》 |
-| 书籍、论文、标准、报刊、影视作品用书名号 | 《标点符号用法》 | "标点符号用法" |
-| 书名号之间不用顿号 | 《A》《B》 | 《A》、《B》 |
-| 课程/项目/产品名不用书名号，可用引号或反引号 | 项目 `awesome-skillkit` | 《awesome-skillkit》 |
+| Use **only one kind** of Chinese quotation marks throughout; don't mix | Consistently use “” or consistently use 「」 | “” in the first half, 「」 in the second |
+| When the quoted content is a full sentence, place the sentence-ending punctuation inside the quotes | He said: "This step must add load testing." | He said: "This step must add load testing". |
+| When the quotes only quote a word/phrase, place the ending punctuation outside the quotes | This is the so-called "zero copy". | This is the so-called "zero copy。" |
+| Nested quotes: outer double, inner single | "What he called the 'connection pool' was actually…" | "What he called the "connection pool" was actually…" |
+| Don't put work / file / platform names in book-title marks | The example in this article is `drafter.py` | The example in this article is 《drafter.py》 |
+| Use book-title marks for books, papers, standards, newspapers, films/TV | 《Usage of Punctuation》 | "Usage of Punctuation" |
+| No enumeration comma between book-title marks | 《A》《B》 | 《A》、《B》 |
+| Course / project / product names don't use book-title marks; quotes or backticks are fine | Project `awesome-skillkit` | 《awesome-skillkit》 |
 
 ---
 
-## 4. 数字与单位
+## 4. Numbers and units
 
 | Rule | Good example | Bad example |
 |------|------|------|
-| 统计数据、版本号、参数值一律用阿拉伯数字 | P99 从 200ms 降到 30ms | P99 从二百毫秒降到三十毫秒 |
-| 固定词组、成语、概数用中文数字 | 三方共识 / 十几次 | 3 方共识 / 10 几次 |
-| 「两」用于量词前，不写「二」 | 两个方案 | 二个方案 |
-| 数字与单位符号之间不加空格（`%`、`ms`、`GB` 除外见下行） | 8GB 内存 / 30ms | 8 GB 内存 / 30 ms |
-| 百分号紧邻数字 | 下降 12% | 下降 12 % |
-| 四位以上数字用千分位或不加，全文统一 | 12,000 或 12000（二选一） | 混用 |
-| 年份、版本号不加千分位 | Python 3.11 / 2026 年 | Python 3.11.0 写作 3,11（错误示范） |
-| 范围用 `~` 或 `–` 或「至」，全文统一 | 300~500 字 | 300-500字（半角连字符且无空格） |
-| 单位重复出现时写成「数值 单位」不写「数值单位」混排不一致 | 4 核 8G | 4核8G（与上下文不一致时） |
+| Statistics, version numbers, and parameter values always use Arabic numerals | P99 dropped from 200ms to 30ms | P99 dropped from two hundred ms to thirty ms |
+| Fixed phrases, idioms, and approximations use Chinese numerals | Three-party consensus / a dozen times | 3-party consensus / 10-some times |
+| Use the "two" variant before a classifier, not the "two/second" variant | Two approaches | The wrong numeral variant before a classifier |
+| No space between number and unit symbol (except `%`, `ms`, `GB` — see next row) | 8GB memory / 30ms | 8 GB memory / 30 ms |
+| Percent sign sits right next to the number | Down 12% | Down 12 % |
+| Numbers of 4+ digits either all use thousands separators or none; be consistent throughout | 12,000 or 12000 (pick one) | Mixed |
+| No thousands separators in years or version numbers | Python 3.11 / 2026 | Writing Python 3.11.0 as 3,11 (bad example) |
+| Use `~` or `–` or "to" for ranges; be consistent throughout | 300~500 words | 300-500 words (half-width hyphen with no space) |
+| When units repeat, write "number unit" consistently, not mixed | 4 cores 8G | 4core8G (inconsistent with context) |
 
-> 上表「数字与单位之间不加空格」与「中英文之间加空格」看似冲突，处理顺序是：先判单位符号（`ms` `GB` `%` `KB/s`），命中单位则**不加**空格；否则按 §1 加空格。
+> The row above ("no space between number and unit") and §1 ("space between Chinese and English") look like they conflict; the resolution order is: first detect unit symbols (`ms` `GB` `%` `KB/s`) — if it's a unit, add **no** space; otherwise add a space per §1.
 
 ---
 
-## 5. 术语一致性
+## 5. Terminology consistency
 
 | Rule | Good example | Bad example |
 |------|------|------|
-| 同一概念全文只用一个译名，第一次出现时给「中文（English）」 | 连接池（connection pool） | 连接池 / 连接缓冲 / connection pool 混用 |
-| 大小写固定写法不随意改 | `FastAPI`、`PostgreSQL`、`Redis` | `fastapi`、`postgresql`、`redis`（正文中） |
-| 缩写首次出现给全称 | 每秒查询数（QPS） | 上来就用 QPS |
-| 同一缩写不指代两个概念 | QPS 全程只指 queries per second | QPS 在第三节指「每秒请求数」、第五节指「查询数」 |
-| 中英术语不同义时以英文为准，中文只作注解 | 使用 `asyncio` 事件循环 | 把 event loop 译成「事件轮询/事件循环」混用 |
+| Use only one translation of the same concept throughout; on first occurrence give "Chinese (English)" | Connection pool | Mixing connection pool / connection buffer / connection pool |
+| Keep fixed capitalization; don't change it freely | `FastAPI`, `PostgreSQL`, `Redis` | `fastapi`, `postgresql`, `redis` (in body text) |
+| On first use of an abbreviation, give the full name | Queries per second (QPS) | Using QPS right off the bat |
+| The same abbreviation doesn't stand for two concepts | QPS means only "queries per second" throughout | QPS meaning "requests per second" in section 3 and "queries" in section 5 |
+| When Chinese and English terms differ, defer to English; Chinese is only an annotation | Use the `asyncio` event loop | Translating "event loop" as both "event polling" and "event loop" |
 
-**Approach:**开一个术语表，写稿前填好，改稿时按表全文替换。
+**Approach:** open a glossary, fill it before drafting, and replace by the table when revising.
 
-| 中文 | 英文/原文 | 首次出现章节 | 禁用别名 |
+| Chinese | English / original | First-occurrence section | Banned aliases |
 |------|-----------|--------------|----------|
-| 连接池 | connection pool | §2 | 连接缓冲、连接缓存 |
+| Connection pool | connection pool | §2 | Connection buffer, connection cache |
 
 ---
 
-## 6. 人称、语气与时态
+## 6. Person, tone, and tense
 
 | Rule | Good example | Bad example |
 |------|------|------|
-| 技术文用「我们」指代作者+读者共同体，避免「笔者」 | 我们先跑一次压测 | 笔者先跑了一次压测 |
-| 不要用「你」指责读者 | 新手常在这里踩坑 | 你肯定没加索引 |
-| 陈述事实用现在时 | 该函数返回 None | 该函数将返回 None |
-| 描述已完成的实验用过去时或明确时间 | 我们上周在 4 核容器上测得 62ms | 我们测得 62ms（未说明何时/何环境） |
-| 不用「应该/可能/大概」作断言（technical 风格禁用词） | 实测 P99 为 62ms | P99 应该是 60ms 左右 |
-| 不给无来源的量化断言 | 该方案在同类场景中表现更好（补：依据见 §3 表格） | 该方案能提升 80% 性能（无来源） |
-| 主动语态优先 | 我们用 `EXPLAIN` 定位到慢查询 | 慢查询被我们通过 `EXPLAIN` 定位到了 |
+| In technical writing, use "we" to mean author + reader as a group; avoid "the author" | Let's first run a load test | The author first ran a load test |
+| Don't use "you" to blame the reader | Beginners often trip up here | You definitely didn't add an index |
+| State facts in present tense | This function returns None | This function will return None |
+| Describe completed experiments in past tense or with an explicit time | Last week we measured 62ms on a 4-core container | We measured 62ms (without saying when/in what env) |
+| Don't make assertions with "should/maybe/probably" (banned words in the technical style) | Live-tested P99 is 62ms | P99 should be around 60ms |
+| Don't give unsourced quantitative claims | This approach performs better in comparable scenarios (add: see the §3 table for the basis) | This approach improves performance by 80% (no source) |
+| Prefer active voice | We used `EXPLAIN` to locate the slow query | The slow query was located by us via `EXPLAIN` |
 
-> technical 风格禁词与 `scripts/editor.py` 的 `STYLE_RULES["technical"]["ban"]` 一致：`我觉得 / 应该 / 可能 / 大概`。命中即计入 `banned_word` 问题项。
+> The banned words for the technical style match `scripts/editor.py`'s `STYLE_RULES["technical"]["ban"]`: `I think / should / maybe / probably`. A hit counts as a `banned_word` issue.
 
 ---
 
-## 7. 标题层级
+## 7. Heading hierarchy
 
 | Rule | Good example | Bad example |
 |------|------|------|
-| 一级标题（`#`）全文仅 1 个，即文章标题 | `# FastAPI 性能优化` | 正文中间再出现 `#` |
-| 层级不跳级：`##` 下直接用 `###`，不出现 `####` 跳层 | `##` → `###` | `##` → `####` |
-| 同级标题结构平行（都是名词短语或都是判断句） | `为什么慢 / 怎么查 / 怎么改` | `为什么慢 / 优化方法 / 三、` |
-| 标题不带句号、不带引号强调 | `## 连接池不是越大越好` | `## 连接池不是越大越好！` |
-| 标题不写空词 | `## 实测数据` | `## 概述` / `## 前言` / `## 一些说明` |
-| 标题携带信息，读标题能复述文章脉络 | 把 6 个 `##` 连续读出来是一句话故事 | 读完标题仍不知道文章讲什么 |
-| 编号规则全文统一 | 全用「一、二、三」或全用「1. 2. 3.」 | 混用两种编号 |
+| Only one level-1 heading (`#`) in the whole piece, i.e. the article title | `# FastAPI performance optimization` | Another `#` mid-body |
+| Don't skip levels: from `##` go directly to `###`; don't jump to `####` | `##` → `###` | `##` → `####` |
+| Same-level headings are parallel in structure (all noun phrases or all judgments) | `Why it's slow / how to check / how to fix` | `Why it's slow / optimization methods / numbered heading` |
+| Headings carry no period and no quoted emphasis | `## The bigger the connection pool, the better? No` | `## The bigger the connection pool, the better!` |
+| Headings carry no empty words | `## Live-test data` | `## Overview` / `## Preface` / `## Some notes` |
+| Headings carry information; reading the headings lets you retell the article's arc | Reading the 6 `##`s in order tells a one-sentence story | After reading the headings you still don't know what the article is about |
+| Numbering is consistent throughout | All "一、二、三" or all "1. 2. 3." | Mixing the two |
 
 ---
 
-## 8. 机械检查脚本思路
+## 8. Mechanical check-script approach
 
-不要写复杂断言。可行的做法（思路，非完整实现）：
+Don't write complex assertions. A workable approach (an idea, not a full implementation):
 
-1. **空格检查**：逐行扫描 `[\u4e00-\u9fa5][A-Za-z0-9]` 与 `[A-Za-z0-9][\u4e00-\u9fa5]`，输出行号与上下文；命中后先判断是否落在豁免白名单（单位、URL、代码块）。
-2. **全半角检查**：在**非代码块**区域内查找 `,` `.` `;` `:` `(` `)`，若其左右是中文字符 → 疑似该用全角。做法是先把 ```` ``` ```` 包裹的代码块整段剔除，再扫。
-3. **术语一致性**：把术语表读成 `别名 → 规范名` 映射，逐个别名做 `str.count()`，非零即报告位置。
-4. **禁词**：`for w in ban_list: if w in text` → 记录 `text.find(w)` 作为位置（与 `scripts/editor.py` 现有实现一致）。
-5. **标题层级**：按行匹配 `^(#{1,6})\s`，记录层级序列，检查① `#` 出现次数；② 相邻层级差 > 1 的跳级。
-6. **句长**：按 `。！？；` 切句，`len(sentence) > max_sentence_len` 即报（technical=40 / news=30 / casual=25，与 `editor.py` 对齐）。
+1. **Spacing check**: scan line by line for `[一-龥][A-Za-z0-9]` and `[A-Za-z0-9][一-龥]`, outputting line number and context; on a hit, first judge whether it's in the exemption whitelist (units, URLs, code blocks).
+2. **Full/half-width check**: within **non-code-block** regions, look for `,` `.` `;` `:` `(` `)`; if their left and right are Chinese characters → suspected need for full-width. Approach: first strip out the whole code blocks wrapped in ```` ``` ````, then scan.
+3. **Terminology consistency**: read the glossary as an `alias → canonical name` map, run `str.count()` on each alias, and report the location if nonzero.
+4. **Banned words**: `for w in ban_list: if w in text` → record `text.find(w)` as the position (consistent with the existing implementation in `scripts/editor.py`).
+5. **Heading hierarchy**: match `^(#{1,6})\s` line by line, record the level sequence, and check ① how many times `#` appears; ② any adjacent-level jump > 1.
+6. **Sentence length**: split on `。！？；`; report when `len(sentence) > max_sentence_len` (technical=40 / news=30 / casual=25, aligned with `editor.py`).
 
-**输出契约**：每类问题输出 `{type, 原文片段, 行号, 建议替换}`，不要直接改文件——`content-editor` 的产出是**问题清单 + 分数**，改写动作由人或下一轮模型执行。
+**Output contract**: for each category of issue, output `{type, original fragment, line number, suggested replacement}` — don't edit the file directly. The `content-editor` output is a **problem list + score**; the rewriting action is done by a human or the next model pass.

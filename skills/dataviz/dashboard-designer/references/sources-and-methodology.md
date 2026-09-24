@@ -1,50 +1,49 @@
 # Sources & Methodology
 
-- 技能：`dashboard-designer`（awesome-skillkit 原创编写，Apache-2.0）。
-- 定位：场景包 `dataviz` 的生成侧技能。与 `chart-recommender`（选择侧，纯词库咨询）
-  互补：本技能把「该画什么」落到「画出来一个可交付的文件」。
+- Skill: `dashboard-designer` (authored from scratch by awesome-skillkit, Apache-2.0).
+- Positioning: the generation-side skill of the `dataviz` scenario pack. Complementary to `chart-recommender` (the selection side, pure lexicon consultation):
+  this skill lands "what should be drawn" as "a deliverable file that's actually drawn."
 
 ## Methodology borrowed (ideas and taxonomy only; no text or code copied)
 
 | Source | License | Methodology points borrowed |
 |---|---|---|
-| Leland Wilkinson《The Grammar of Graphics》公开概念 | 见原书 | 图形 = 数据 + 映射 + 标度 + 几何对象 + 分面；「先定维度与度量再选几何」的次序 |
-| 数据可视化通识中的图形语法实践（ggplot2 / Vega-Lite 公开文档） | MIT / BSD | 「数据特征 → 几何对象」的映射直觉；分类数量与标签长度影响几何朝向 |
-| 描述性统计通识（四分位、IQR、稳健统计） | 教科书级公开知识 | 用中位数与四分位抵御离群点；均值与中位数并列以暴露偏态 |
-| 无障碍与色盲友好配色公开资料 | CC BY-SA 等 | 定性色板的对比度与色觉缺陷可分辨性要求 |
-| 本仓库既有技能规范（docs/ 下 SKILL-STANDARD-v2） | Apache-2.0 | 骨架章节、失败处置表、脚本子命令化与降级路径要求 |
+| Leland Wilkinson's public concepts in *The Grammar of Graphics* | See the original book | Graphics = data + mapping + scale + geometric object + faceting; the order of "fix dimensions and measures first, then pick the geometry" |
+| Grammar-of-graphics practice in general data-viz knowledge (ggplot2 / Vega-Lite public docs) | MIT / BSD | The mapping intuition of "data feature → geometric object"; how category count and label length affect geometry orientation |
+| Descriptive-statistics common knowledge (quartiles, IQR, robust statistics) | Textbook-level public knowledge | Using median and quartiles to resist outliers; reporting mean and median together to expose skew |
+| Public material on accessible and colorblind-friendly palettes | CC BY-SA etc. | Qualitative-palette contrast and color-vision-deficiency distinguishability requirements |
+| This repo's existing skill conventions (SKILL-STANDARD-v2 under docs/) | Apache-2.0 | Skeleton sections, failure-handling tables, script subcommandization, and fallback-path requirements |
 
-上述来源全部作为**方法论骨架**被再表述。`scripts/dashboard.py` 的类型推断阈值、
-`fmt_num` 数值缩写规则、`nice_ticks` 刻度算法（1/2/2.5/5 × 10^k）、
-内联 SVG 生成器与 HTML 组装模板，均为从零撰写，
+All the above sources were re-expressed as a **methodology skeleton**. `scripts/dashboard.py`'s type-inference thresholds,
+the `fmt_num` number-abbreviation rules, the `nice_ticks` tick algorithm (1/2/2.5/5 × 10^k),
+the inline SVG generator, and the HTML assembly template were all written from scratch.
 No upstream passage, example, or code was translated, rewritten, or excerpted.
 
 ## Key design decisions (why this way)
 
-1. **禁止任何 CDN 依赖，图表用服务端生成的纯 SVG**：仪表盘最常见的失效场景是
-   内网/离线环境打不开、或某天 CDN 挂掉页面变白。因此本技能**不用** Chart.js 之类的
-   运行时绘图库——图表坐标在 Python 侧算好、写死成 SVG 元素，
-   `external: 0` 成为可断言的交付标准。
-2. **`fmt_num` 用「万/亿」而非科学计数法**：`8000000` 经 `{:g}` 会变成 `8e+06`，
-   读者被迫在脑中换算数量级，轴的比较功能被破坏。
-3. **`PAD_T = 52` 给图题留净空**：图题与 y 轴最高刻度极易视觉粘连，
-   这是实测截图才暴露的问题——顶部预留 26px 色带放标题。
-4. **缺失率 ≥1% 就告警**：聚合值（尤其合计与均值）会因缺失被系统性低估，
-   而这一点在图上完全看不出来，必须在交付说明里交代。
-5. **右偏检测（max > 中位数 20 倍）**：直接画会被离群点压扁成一条线，
-   建议对数轴或截断并标注；不静默处理，因为两种处理都会改变读者的解读。
-6. **数值格式化统一**：KPI 卡片主数值与副信息用同一套格式化，
-   避免出现「4.9万」配「48990.39」的两套精度。
+1. **Forbid any CDN dependency; charts use server-rendered pure SVG**: the most common dashboard failure is
+   opening it in an intranet/offline environment, or the page going white when some CDN happens to be down. So this skill **doesn't use** a runtime charting library like Chart.js — chart coordinates are computed on the Python side and hard-coded as SVG elements,
+   making `external: 0` an assertable delivery standard.
+2. **`fmt_num` uses ten-thousand/hundred-million units (CN convention) rather than scientific notation**: `8000000` via `{:g}` becomes `8e+06`,
+   forcing the reader to mentally convert the order of magnitude and breaking the axis's comparison function.
+3. **`PAD_T = 52` gives the title headroom**: the title and the y-axis's top tick easily stick together visually,
+   a problem that only surfaced in live screenshots — reserving a 26px band at the top for the title.
+4. **Alert when missingness ≥1%**: aggregate values (especially totals and means) get systematically underestimated by missingness,
+   which is completely invisible on the chart and must be stated in the delivery notes.
+5. **Right-skew detection (max > median × 20)**: plotting directly gets squashed into a line by outliers;
+   suggest a log axis or truncate with a label; don't silently handle it, because either treatment changes the reader's interpretation.
+6. **Unified number formatting**: the KPI card's main value and sub-info use the same format,
+   avoiding the two-precision mismatch of "49K" next to "48990.39".
 
 ## Limitations and boundaries
 
-- **不做数据清洗**：发现混单位、混类型时只报告，不改写用户的原始数据。
-- **不做统计建模**：只有描述性摘要与相关性散点，不计算相关系数显著性、不做预测。
-- **明细表截断到 200 行**：完整数据用 CSV 交付，HTML 只是快照与视图。
-- **时间聚合为按日**：同日期多行取均值；需要按周/月聚合请在外部预处理。
-- **单文件体积随行数增长**：`MAX_SCAN_ROWS = 50000`，超大数据集需先聚合再传入。
-- **纯 SVG 无交互**：不做 tooltip、缩放、下钻；需要交互式看板应改用
-  Plotly/Dash 等方案（此时须接受其依赖与联网代价）。
+- **No data cleaning**: when it finds mixed units or mixed types, it only reports, doesn't rewrite the user's raw data.
+- **No statistical modeling**: only descriptive summaries and correlation scatters; doesn't compute correlation-significance or make predictions.
+- **Detail tables truncated to 200 rows**: full data is delivered as CSV; HTML is only a snapshot and view.
+- **Time aggregation is by day**: multiple rows on the same date take the mean; for weekly/monthly aggregation, preprocess externally.
+- **Single-file size grows with row count**: `MAX_SCAN_ROWS = 50000`; very large datasets must be aggregated before being passed in.
+- **Pure SVG, no interaction**: no tooltips, zoom, or drill-down; for an interactive dashboard, use
+  Plotly/Dash instead (accepting their dependency and networking cost at that point).
 
 ## License
 

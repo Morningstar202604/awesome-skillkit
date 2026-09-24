@@ -1,174 +1,175 @@
-# 中文长文起草技巧（可直接套用）
+# Drafting Tips for Long-Form Chinese Articles (Ready to Apply)
 
-> 何时读：进入「把大纲填成 prose」阶段时读本文件。
-> 本文件是**写作手法**参考；硬性风格/语法检查在 `content-editor` 技能下，不要在本阶段纠结标点。
-> 所有数值若无出处，均为**经验值（非平台规则）**，可按读者群与载体调整。
+> When to read: read this file when entering the stage of "filling the outline into prose".
+> This file is a reference for **writing craft**; hard style/grammar checks live under the `content-editor` skill — don't fuss over punctuation at this stage.
+> All numbers, unless sourced, are **rules of thumb (not platform rules)** and can be adjusted for your audience and carrier.
 
 ## Table of Contents
 
-- [1. 与 drafter.py 的输入输出契约](#1-与-drafterpy-的输入输出契约)
-- [2. 开头 hook：5 种可套用句式](#2-开头-hook5-种可套用句式)
-- [3. 段落节奏：段长、句长、小标题密度](#3-段落节奏段长句长小标题密度)
-- [4. 论据组织：观点-证据-反驳三段式](#4-论据组织观点-证据-反驳三段式)
-- [5. AI 腔识别词表与替换](#5-ai-腔识别词表与替换)
-- [6. 结尾 CTA 写法](#6-结尾-cta-写法)
-- [7. 正误对照（同一段的两种写法）](#7-正误对照同一段的两种写法)
-- [8. 交稿前自检清单](#8-交稿前自检清单)
+- [1. Input/output contract with drafter.py](#1-inputoutput-contract-with-drafterpy)
+- [2. Opening hook: 5 reusable sentence patterns](#2-opening-hook-5-reusable-sentence-patterns)
+- [3. Paragraph rhythm: paragraph length, sentence length, subheading density](#3-paragraph-rhythm-paragraph-length-sentence-length-subheading-density)
+- [4. Argument organization: claim–evidence–rebuttal three-part structure](#4-argument-organization-claim-evidence-rebuttal-three-part-structure)
+- [5. AI-tell phrase list and replacements](#5-ai-tell-phrase-list-and-replacements)
+- [6. Ending CTA writing](#6-ending-cta-writing)
+- [7. Right/wrong contrast (two versions of the same passage)](#7-rightwrong-contrast-two-versions-of-the-same-passage)
+- [8. Pre-submission self-check checklist](#8-pre-submission-self-check-checklist)
 
 ---
 
-## 1. 与 drafter.py 的输入输出契约
+## 1. Input/output contract with drafter.py
 
-`scripts/drafter.py` 只做骨架装配，**不生成正文**（`status: draft_placeholder`）。正文由模型按本文件规则填充。
+`scripts/drafter.py` only assembles the skeleton and **does not generate body text** (`status: draft_placeholder`). The body is filled in by the model following the rules in this file.
 
-| 字段 | 来源 | 起草时怎么用 |
+| Field | Source | How to use while drafting |
 |------|------|--------------|
-| `section.points[]` | 大纲 | 一个 point = 一个自然段的最小单位，不要跨 point 混写 |
-| `section.word_count_target` | 大纲 | 允许 ±20% 偏差；超 ±35% 必须拆段或补证 |
-| `audience` | 输入 | 决定术语密度与示例数量，见下表 |
-| `hook` | 大纲 | 第 1 段必须复用/改写它，不要另起炉灶 |
+| `section.points[]` | Outline | One point = the smallest unit of one natural paragraph; don't mix across points |
+| `section.word_count_target` | Outline | Allow ±20% deviation; beyond ±35% you must split paragraphs or add evidence |
+| `audience` | Input | Determines terminology density and example count — see the table below |
+| `hook` | Outline | The first paragraph must reuse/rewrite it; don't start from scratch |
 
-读者档位 → 写作参数（经验值）：
+Audience tier → writing parameters (rules of thumb):
 
-| Audience | 每个新术语 | 每节示例数 | 代码 | 单句上限（字） |
+| Audience | Each new term | Examples per section | Code | Max sentence length (chars) |
 |----------|-----------|-----------|------|----------------|
-| beginner | 首次出现即给一句白话解释 | 3-4 | 完整可运行片段 | 30 |
-| intermediate | 只解释非标准术语 | 2-3 | 关键片段 | 40 |
-| expert | 不解释 | 0-1 | 一行命令/签名 | 50 |
+| beginner | Give a plain-language explanation on first occurrence | 3-4 | Complete runnable snippet | 30 |
+| intermediate | Explain only non-standard terms | 2-3 | Key snippet | 40 |
+| expert | No explanation | 0-1 | One command / signature | 50 |
 
-> 单句上限与 `content-editor` 的 `max_sentence_len=40`（technical）对齐；若目标风格是 casual，压到 25。
+> The max sentence length aligns with `content-editor`'s `max_sentence_len=40` (technical); if the target style is casual, press it to 25.
 
 ---
 
-## 2. 开头 hook：5 种可套用句式
+## 2. Opening hook: 5 reusable sentence patterns
 
-规则：hook 必须落在**前 2 句（≤ 80 字）**内完成，第 3 句开始进入实质内容。5 选 1，不要叠加两种以上。
+Rule: the hook must land within **the first 2 sentences (≤ 80 characters)**; start delivering substance at the 3rd sentence. Pick 1 of 5; don't stack two or more.
 
-| # | 句式 | 模板（填空即可） | 适用文体 | 示例 |
+| # | Pattern | Template (just fill in the blanks) | Fits | Example |
 |---|------|------------------|----------|------|
-| 1 | 反常识结论 | 「大多数人以为 X，实测下来 Y 才是主因。」 | 技术、评测 | 大多数 FastAPI 接口慢，问题不在框架，而在你那几行同步 I/O。 |
-| 2 | 具体数字对比 | 「同一个接口，改了 N 处，从 A 降到 B。」 | 教程、案例复盘 | 同一个查询接口，改了 5 处，P99 从 200ms 降到 30ms。 |
-| 3 | 场景痛点提问 | 「你有没有遇到过：__？我上周就踩了。」 | 教程、清单 | 你有没有遇到过：压测一上去，QPS 卡在 300 不动了？我上周刚踩。 |
-| 4 | 切片叙事 | 「上周三凌晨，__ 挂了。原因是 __。」 | 案例复盘、评论 | 上周三凌晨，订单服务超时告警。查了 4 小时，凶手是一条没走索引的 SQL。 |
-| 5 | 直接下判 | 「如果只能改一处，改 __。理由在下面。」 | 观点、清单 | 如果只改一处，改连接池。理由和实测数据在下面。 |
+| 1 | Counterintuitive conclusion | "Most people think X, but live testing shows Y is the real cause." | Technical, reviews | Most slow FastAPI endpoints aren't the framework's fault — they're your few lines of sync I/O. |
+| 2 | Concrete number contrast | "Same endpoint, changed N places, dropped from A to B." | Tutorials, postmortems | Same query endpoint, 5 changes, P99 dropped from 200ms to 30ms. |
+| 3 | Scenario pain-point question | "Ever hit this: __? I tripped on it last week." | Tutorials, checklists | Ever hit this: load testing starts and QPS sticks at 300? I tripped on it last week. |
+| 4 | Slice-of-life narrative | "Last Wednesday at 3 AM, __ went down. The cause was __." | Postmortems, commentary | Last Wednesday at 3 AM, the order service timed out. Four hours of digging, and the culprit was one SQL that didn't use an index. |
+| 5 | Direct verdict | "If you can only change one thing, change __. Reasons below." | Opinion, checklists | If you can only change one thing, change the connection pool. Reasons and live-test data below. |
 
-**失败判据**：hook 写完读一遍，若删掉它文章结论不变 → 无效 hook（只是寒暄），换一种句式重写。
+**Failure criterion**: after writing the hook, read it — if deleting it doesn't weaken the article's conclusion, it's an ineffective hook (just pleasantries); rewrite with another pattern.
 
 ---
 
-## 3. 段落节奏：段长、句长、小标题密度
+## 3. Paragraph rhythm: paragraph length, sentence length, subheading density
 
-| 指标 | 上限（经验值，手机端阅读） | 超限处置 |
+| Metric | Cap (rule of thumb, mobile reading) | Over-cap action |
 |------|--------------------------|----------|
-| 单段字数 | 120 字 | 按「一个 point 一段」拆分 |
-| 单段行数（手机） | 5 行 | 同上 |
-| 连续纯文字段 | 3 段 | 第 4 段必须插列表/代码块/引用/图 |
-| 小标题间距 | 每 300–500 字一个小标题 | 长节拆 h3 |
-| 单句字数 | 见 §1 表格 | 拆成两句，或用分号改短句 |
-| 一节段数 | 2–4 段 | >4 段说明该拆成两个 h3 |
+| Chars per paragraph | 120 | Split by "one point per paragraph" |
+| Lines per paragraph (mobile) | 5 | Same as above |
+| Consecutive pure-text paragraphs | 3 | The 4th must insert a list / code block / quote / figure |
+| Subheading spacing | One subheading every 300–500 chars | Split long sections into h3 |
+| Chars per sentence | See §1 table | Split into two sentences, or use a semicolon to shorten |
+| Paragraphs per section | 2–4 | >4 means it should be split into two h3s |
 
-**节奏机械检查**（起草完逐节跑一遍）：
+**Mechanical rhythm check** (run per section after drafting):
 
-1. 数本节字数 ÷ 段数 > 120 → 拆段。
-2. 本节有没有连续 4 段都是纯文字 → 插入结构化块。
-3. 本节 > 500 字且无 h3 → 补 h3，标题写本节结论而非「概述」「介绍」。
+1. Section char count ÷ paragraph count > 120 → split paragraphs.
+2. Does the section have 4 consecutive pure-text paragraphs? → insert a structured block.
+3. Is the section > 500 chars with no h3? → add an h3; the heading states the section's conclusion, not "Overview" / "Introduction".
 
-**小标题命名禁令**：`概述` `介绍` `前言` `什么是X`（当作标题）`小结`。标题必须携带信息，写成判断句：`X 不是瓶颈，Y 才是`。
-
----
-
-## 4. 论据组织：观点-证据-反驳三段式
-
-每个「主张」按下面三段展开，缺任何一段则该主张降级为「个人感受」，需要删掉或补证。
-
-```
-[观点] 一句话断言（不含"可能/应该/我觉得"）
-   ↓
-[证据] 可复现的事实：命令+输出 / 数据+来源 / 文档引用+版本
-   ↓
-[反驳] 主动给出最强反例或限制条件，说明为何该断言仍成立（或退让到什么程度）
-```
-
-- **观点**：一句，主谓宾完整，可证伪。写成「P99 从 200ms 降到 30ms」而不是「性能提升明显」。
-- **证据三类**（优先级从高到低）：① 自己跑出的命令与原始输出；② 带版本号/日期的官方文档或论文；③ 明确标注来源的第三方数据。**无来源的数据不许出现具体数字。**
-- **反驳**：至少一句「当然，__ 的情况下这个结论不成立」。缺反驳的段落是 AI 腔的重灾区。
-
-**示例（技术文）**
-
-> 连接池上限设成 20 就够了。我们在 4 核 8G 容器上用 `pgbench -c 100` 压测，连接数从 20 提到 100 时 QPS 反而下降 12%（`pgbench` 输出见下文）。当然，如果单条查询本身耗时在秒级、且并发低于 20，这个上限就要往上调——那种场景下瓶颈在 SQL 不在连接数。
+**Subheading naming bans**: `Overview`, `Introduction`, `Preface`, `What is X` (as a title), `Summary`. Headings must carry information, written as a judgment: `X is not the bottleneck, Y is`.
 
 ---
 
-## 5. AI 腔识别词表与替换
+## 4. Argument organization: claim–evidence–rebuttal three-part structure
 
-起草完成后，对全文做一次字符串扫描。下表左列命中即改写，不要保留。
+Expand each "claim" in three parts below; if any part is missing, demote that claim to "personal feeling" and either delete it or add evidence.
 
-| 命中词 | 为什么是 AI 腔 | 替换建议 |
+```
+[Claim] A one-sentence assertion (no "maybe/should/I think")
+   ↓
+[Evidence] Reproducible facts: command + output / data + source / doc citation + version
+   ↓
+[Rebuttal] Proactively give the strongest counterexample or limiting condition,
+   explaining why the claim still holds (or how far it yields)
+```
+
+- **Claim**: one sentence, complete subject–verb–object, falsifiable. Write "P99 dropped from 200ms to 30ms", not "performance improved noticeably".
+- **Three kinds of evidence** (priority high to low): ① commands you ran yourself with raw output; ② official docs or papers with version/date; ③ third-party data with a clearly labeled source. **Unsourced data must not carry specific numbers.**
+- **Rebuttal**: at least one sentence like "of course, this conclusion doesn't hold when __". Paragraphs without a rebuttal are the hardest hit zone of AI tone.
+
+**Example (technical writing)**
+
+> Setting the connection-pool cap to 20 is enough. We load-tested with `pgbench -c 100` on a 4-core 8G container; when connections went from 20 to 100, QPS actually dropped 12% (see `pgbench` output below). Of course, if each query itself takes seconds and concurrency is below 20, this cap needs to go up — in that scenario the bottleneck is the SQL, not the connection count.
+
+---
+
+## 5. AI-tell phrase list and replacements
+
+After drafting, run a string scan over the whole piece. Anything hit in the left column of the table below should be rewritten; don't keep it.
+
+| Hit phrase | Why it's AI tone | Suggested replacement |
 |--------|----------------|----------|
-| 首先 / 其次 / 再次 / 最后 | 机械顺序词，暴露模板结构 | 直接删；顺序靠小标题和过渡句体现 |
-| 总而言之 / 综上所述 / 一言以蔽之 | 空转总结，读者已知你在总结 | 写具体结论：「三条里只有第 2 条值得立刻做」 |
-| 值得注意的是 / 需要指出的是 | 无信息量的强调提示 | 直接陈述，或改用「这里有个坑：」 |
-| 在当今社会 / 在当今这个…的时代 | 无效时代背景 | 删掉，直接进主题 |
-| 随着…的不断发展 / 日益普及 | 无信息量的铺垫 | 换成具体数据或事件：「2026-09 的 DB-Engines 排名里…」 |
-| 众所周知 / 不难发现 / 显而易见 | 把断言伪装成共识 | 给来源，或删 |
-| 事实上 / 本质上 / 从根本上讲 / 从某种意义上说 | 虚化限定，掩盖论证不足 | 删，或补出真正的限定条件 |
-| 无缝衔接 / 赋能 / 抓手 / 闭环 / 落地 / 颗粒度 | 互联网黑话 | 换成具体动作：「让 A 直接读取 B 的输出」 |
-| 全方位 / 多维度 / 深度剖析 / 系统性 | 无成本的夸大形容词 | 换成可数的描述：「覆盖 3 类场景」 |
-| 不仅仅是…更是… | 空洞递进 | 只留后半句 |
-| 让我们一起… / 希望对你有所帮助 / 欢迎在评论区讨论 | 廉价互动 | 换成具体 CTA（见 §6） |
-| 保驾护航 / 保驾护航式结尾 | 套话 | 删 |
-| 进行 / 实现 / 开展 + 动词（如「进行优化」） | 名词化赘语 | 直接用动词：「优化」 |
+| First / second / third / finally | Mechanical sequence words that expose the template structure | Delete outright; show order via subheadings and transitions |
+| In summary / to sum up / in a word | Empty summary spins; the reader knows you're summarizing | Write the specific conclusion: "of the three, only #2 is worth doing now" |
+| It's worth noting / it should be pointed out | An emphasis cue with zero information | State directly, or switch to "here's a trap:" |
+| In today's society / in this day and age | Useless era backdrop | Delete, go straight to the topic |
+| With the continuous development of… / increasingly popular | Useless preamble | Replace with concrete data or event: "in the 2026-09 DB-Engines ranking…" |
+| As everyone knows / it's not hard to see / obviously | Disguising an assertion as consensus | Give a source, or delete |
+| In fact / essentially / fundamentally / in a sense | Vague hedging that hides weak argument | Delete, or supply the real limiting condition |
+| Seamlessly connect / empower / lever / closed loop / ship / granularity | Internet jargon | Replace with a concrete action: "let A read B's output directly" |
+| All-around / multi-dimensional / in-depth analysis / systematic | Cost-free exaggerated adjectives | Replace with countable description: "covers 3 scenarios" |
+| Not just… but even… | Hollow escalation | Keep only the second half |
+| Let's… / hope this helps / welcome discussion in the comments | Cheap engagement | Replace with a concrete CTA (see §6) |
+| Escort / escort-style ending | Cliché | Delete |
+| Carry out / implement / conduct + verb (e.g. "carry out optimization") | Nominalization clutter | Use the verb directly: "optimize" |
 
-**机械扫法**：把上表左列做成列表，逐个 `if word in text: 标记`。命中 ≥3 处 → 该节整段重写，不要逐词替换（逐词替换会产生新的不通顺）。
+**Mechanical scan**: make the left column above a list and, one by one, `if word in text: flag`. ≥3 hits → rewrite that whole section; don't replace word-by-word (word-by-word replacement produces new awkwardness).
 
 ---
 
-## 6. 结尾 CTA 写法
+## 6. Ending CTA writing
 
-结尾 = 1 句结论回扣 + 1–3 条具体行动 + 1 个 CTA。总长 ≤ 全文 5%。
+Ending = 1 callback conclusion + 1–3 concrete actions + 1 CTA. Total length ≤ 5% of the whole piece.
 
-CTA 三选一，按平台选，**不要三个都写**：
+Pick 1 of 3 CTA types by platform; **don't write all three**:
 
-| 类型 | 模板 | 适用 |
+| Type | Template | Fits |
 |------|------|------|
-| 行动型 | 「照着 §2 的三步改完，把你的 P99 打到评论区，我帮你看看还剩什么可压的。」 | 知乎、公众号 |
-| 收藏型 | 「这套检查清单我整理成了表格，收藏前先确认你手上项目能对上 3 条以上。」 | CSDN、掘金 |
-| 延伸型 | 「下一步我会写连接池参数的实测对比，关注后不迷路。」 | 公众号、B站简介 |
+| Action | "Follow §2's three steps, drop your P99 in the comments, and I'll help you see what's left to squeeze." | Zhihu, WeChat Official Account |
+| Save | "I've turned this checklist into a table; before you save, confirm your current project matches at least 3 items." | CSDN, Juejin |
+| Follow-up | "Next I'll write the live-tested comparison of connection-pool parameters; follow so you don't miss it." | WeChat Official Account, Bilibili description |
 
-**禁止**：`希望对你有所帮助`、`如果你觉得有用请点赞`、`感谢阅读`（单独成句）。
-
----
-
-## 7. 正误对照（同一段的两种写法）
-
-**反例（典型 AI 稿）**
-
-> 随着 Web 框架的不断发展，性能优化日益成为开发者关注的重点。首先，我们需要了解 FastAPI 的基本原理；其次，要善用异步特性；最后，还要注意数据库查询。值得注意的是，缓存也是非常重要的一环。总而言之，性能优化是一个系统性工程，希望对你有所帮助。
-
-问题：时代背景铺垫（2 句 0 信息）+ 首先其次最后（模板暴露）+ 值得注意的是（空强调）+ 无证据 + 无反驳 + 廉价 CTA。
-
-**正例**
-
-> FastAPI 接口的耗时，八成不在框架本身。我们用 `locust` 在 4 核容器上压了一个只读接口，火焰图显示 78% 的时间卡在 `psycopg2` 的同步等待上——换 `asyncpg` 之后 P99 从 200ms 掉到 62ms。
->
-> 当然，如果你的查询本身要跑 800ms，换驱动也救不回来，那种情况先看 `EXPLAIN ANALYZE`。
->
-> 剩下三类瓶颈（N+1、无索引、连接池打满）的排查顺序，见下一节。
-
-差异：首句即断言 → 命令+数字证据 → 主动反驳给边界 → 指向下一节（承担过渡功能）。
+**Banned**: `hope this helps`, `if you found this useful please like`, `thanks for reading` (as a standalone sentence).
 
 ---
 
-## 8. 交稿前自检清单
+## 7. Right/wrong contrast (two versions of the same passage)
 
-逐项打勾，任一未通过则返回修改：
+**Bad example (typical AI draft)**
 
-- [ ] hook 在前 2 句内完成，删掉它文章的结论会变弱（不是寒暄）
-- [ ] 每个 `points[]` 至少对应一个自然段，无漏写
-- [ ] 各节字数在 `word_count_target` ±20% 内
-- [ ] 无连续 4 段纯文字；单段 ≤120 字；单句长度符合 audience 档位
-- [ ] 每个主张都带证据，且证据有来源或复现命令
-- [ ] 每个主张都带至少一句反驳/边界条件
-- [ ] AI 腔词表扫描命中 < 3 处
-- [ ] 结尾有结论回扣 + 一个具体 CTA，无「希望对你有所帮助」
-- [ ] 输出 JSON 中 `status: "draft"`、`needs_review: true`（drafter 产出默认未过审）
+> With the continuous development of web frameworks, performance optimization has increasingly become a focus for developers. First, we need to understand FastAPI's basics; second, we should leverage async; finally, we must also pay attention to database queries. It's worth noting that caching is also a very important part. In summary, performance optimization is a systematic project, and I hope this helps.
+
+Problems: era-backdrop preamble (2 sentences, 0 information) + first/second/finally (template exposed) + "it's worth noting" (empty emphasis) + no evidence + no rebuttal + cheap CTA.
+
+**Good example**
+
+> Eight out of ten slow FastAPI calls aren't the framework's fault. We load-tested a read-only endpoint with `locust` on a 4-core container; the flame graph showed 78% of time stuck on `psycopg2`'s synchronous wait — after switching to `asyncpg`, P99 dropped from 200ms to 62ms.
+>
+> Of course, if your query itself takes 800ms, switching the driver won't save you; in that case, look at `EXPLAIN ANALYZE` first.
+>
+> For the other three bottleneck types (N+1, no index, connection pool full), the troubleshooting order is in the next section.
+
+Difference: first sentence is an assertion → command + numeric evidence → proactive rebuttal giving the boundary → points to the next section (carrying the transition).
+
+---
+
+## 8. Pre-submission self-check checklist
+
+Tick each item; if any fails, go back and revise:
+
+- [ ] The hook completes within the first 2 sentences, and deleting it would weaken the article's conclusion (not pleasantries)
+- [ ] Each `points[]` corresponds to at least one natural paragraph; nothing skipped
+- [ ] Each section's char count is within `word_count_target` ±20%
+- [ ] No 4 consecutive pure-text paragraphs; each paragraph ≤120 chars; sentence length matches the audience tier
+- [ ] Every claim carries evidence, and the evidence has a source or a reproducible command
+- [ ] Every claim carries at least one rebuttal / boundary condition
+- [ ] The AI-tell phrase scan hits < 3
+- [ ] The ending has a conclusion callback + one concrete CTA, with no "hope this helps"
+- [ ] In the output JSON, `status: "draft"`, `needs_review: true` (the drafter's output is by default unreviewed)

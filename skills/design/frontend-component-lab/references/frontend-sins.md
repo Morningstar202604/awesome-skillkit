@@ -1,15 +1,15 @@
-# 前端八宗罪（LLM 写组件最常翻车的 8 类，逐一堵死）
+# The Eight Frontend Sins (the 8 categories where LLMs most often mess up components, each plugged shut)
 
-1. **魔法数字** — 颜色/间距/圆角/字号直接写死在样式里。堵：全部取自
-   `design-tokens.json`（CSS 变量或内联 token 引用），组件里搜不到 `#` 和 `px` 裸值。
-2. **内联样式对象** — `style={{ color: 'red' }}`。堵：一律走 CSS Modules class。
-3. **Props 无类型** — `function X(props){}`。堵：先写 `XxxProps` 接口，无 `any`。
-4. **可交互无 a11y** — `<div onClick>`。堵：用 `<button>`/`<a>` 或补 `role`/`aria-*`。
-5. **状态管理越权** — 组件内塞全局逻辑。堵：只接收 props + 本地 `useState`。
-6. **未处理异步/空态** — 列表直接 `.map`。堵：加 loading / empty / error 三态。
-7. **命名歧义** — `btn`/`go`/`item`。堵：语义化组件名 + 动词 props。
-8. **样式方案假设** — 默认 CSS Modules；工程用 Tailwind/Styled 需手改。
+1. **Magic numbers** — colors/spacing/corner radius/font sizes hardcoded directly in styles. Plug: all values pulled from
+   `design-tokens.json` (CSS variables or inline token references); no bare `#` or `px` values should be found in components.
+2. **Inline style objects** — `style={{ color: 'red' }}`. Plug: always use CSS Modules class.
+3. **Untyped props** — `function X(props){}`. Plug: write the `XxxProps` interface first; no `any`.
+4. **Interactive without a11y** — `<div onClick>`. Plug: use `<button>`/`<a>` or add `role`/`aria-*`.
+5. **Overreaching state management** — stuffing global logic inside a component. Plug: only accept props + local `useState`.
+6. **Unhandled async/empty states** — calling `.map` directly on a list. Plug: add loading / empty / error three states.
+7. **Ambiguous naming** — `btn`/`go`/`item`. Plug: semantic component names + verb props.
+8. **Styling assumption** — default CSS Modules; if the project uses Tailwind/Styled, needs manual adjustment.
 
-## 自检命令（在用户工程内）
-- `tsc --noEmit`（类型）
-- `grep -RE "('#[0-9a-f]{3,6}|[0-9]+px)" src/ui/`（魔法数字扫描，理想输出为空）
+## Self-check commands (run in the user's project)
+- `tsc --noEmit` (types)
+- `grep -RE "('#[0-9a-f]{3,6}|[0-9]+px)" src/ui/` (magic number scan; ideal output is empty)

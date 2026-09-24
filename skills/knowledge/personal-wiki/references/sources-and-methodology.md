@@ -1,41 +1,42 @@
 # Sources & Methodology
 
-- 技能：`personal-wiki`（awesome-skillkit 原创编写，Apache-2.0）。
-- 定位：场景包 `knowledge` 的入口技能，负责知识库的目录治理、索引、检索与体检；
-  与之互补的是 `knowledge-graph-builder`（实体关系图与中心性指标）。
+- Skill: `personal-wiki` (originally written for awesome-skillkit, Apache-2.0).
+- Position: the entry skill of the `knowledge` scenario pack, responsible for knowledge-base directory governance, indexing, retrieval, and health checks;
+  complemented by `knowledge-graph-builder` (entity-relation graphs and centrality metrics).
 
 ## Methodology borrowed (ideas and taxonomy only; no text or code copied)
 
 | Source | License | Methodology points borrowed |
 |---|---|---|
-| Zettelkasten 卡片盒笔记法的公开阐述 | 见原文 | 「原子化笔记 + 显式链接」优于按文件夹分类；建立关联的动作本身产生理解 |
-| 双链笔记社区（Obsidian / Roam 生态）公开文档 | 见各自仓库 | `[[wikilink]]` 语法、反向链接（backlink）作为笔记间关系的派生视图、别名链接 `[[目标\|显示]]` |
-| PARA / 渐进式总结（Progressive Summarization）公开文章 | 见原文 | 原始层与提炼层分离：原文只进不改，结论另立笔记 |
-| 本仓库既有技能规范（docs/ 下 SKILL-STANDARD-v2） | Apache-2.0 | 骨架章节、dry-run 默认、脚本子命令化（argparse）与失败处置表 |
+| Public writings on the Zettelkasten card-box method | see original | "Atomic notes + explicit links" beats folder-based classification; the act of building associations itself produces understanding |
+| Linked-notes community (Obsidian / Roam ecosystem) public docs | see respective repos | `[[wikilink]]` syntax, backlinks as a derived view of inter-note relations, alias links `[[target\|display]]` |
+| PARA / Progressive Summarization public articles | see original | Separation of raw layer from distilled layer: originals in-only, conclusions as separate notes |
+| This repo's existing skill standards (SKILL-STANDARD-v2 under docs/) | Apache-2.0 | Skeleton sections, dry-run default, script subcommandization (argparse), and failure-handling table |
 
-上述来源全部作为**方法论骨架**被再表述：`raw/` 与 `notes/` 的两层划分、
-「标题 > 标签 > 正文」的检索权重设计（10 / 5 / 1）、孤儿与断链的判定口径、
-以及 `scripts/wiki_build.py` 的全部实现，均为从零撰写，未翻译、未改写、
-未摘录任何上游段落、示例或代码。
+All the above sources are restated as a **methodology skeleton**: the two-layer split of `raw/` and `notes/`,
+the "title > tag > body" retrieval weight design (10 / 5 / 1), the orphan and broken-link judgment criteria,
+and the entire implementation of `scripts/wiki_build.py` are all written from scratch—no upstream passages, examples,
+or code were translated, rewritten, or excerpted.
 
 ## Key design decisions (why this way)
 
-1. **两层而非一层**：`raw/` 不参与孤儿判定。剪藏本来就常常是孤立的，
-   若与自己的笔记同池检查，孤儿告警会淹没真正需要处理的信号。
-2. **检索权重 10 / 5 / 1**：标题命中意味着「这篇的主题就是它」，与正文顺带提及
-   有量级差异；用计数累加而非布尔命中，避免长文仅凭篇幅霸榜。
-3. **索引只存元数据、不存全文**：`index.json` 存标题/标签/字数/链接关系，
-   检索时按路径现读正文。好处是索引体积小且不会因笔记改动而陈旧失真。
-4. **`lint` 用退出码 1 表达「有发现」**：与「脚本崩溃」区分开，方便接进 CI；
-   但明示该约定，避免用户误判为程序错误。
-5. **纯标准库**：知识库可能在任何机器上维护，引入第三方依赖会让技能在换环境后直接失效。
+1. **Two layers rather than one**: `raw/` does not participate in orphan detection. Clippings are inherently often isolated;
+   if checked in the same pool as one's own notes, orphan alerts would drown out the signals that actually need attention.
+2. **Retrieval weights 10 / 5 / 1**: a title hit means "this note's topic is exactly it," an order of magnitude different from
+   an incidental body mention; using accumulated counts rather than boolean hits prevents long articles from dominating the board purely by length.
+3. **Index stores only metadata, not full text**: `index.json` stores title/tags/word count/link relations;
+   on retrieval, body text is read live by path. The benefit is a small index that never goes stale as notes change.
+4. **`lint` uses exit code 1 to mean "findings exist"**: separated from "script crashed," easy to wire into CI;
+   but this convention is stated explicitly to avoid users mistaking it for a program error.
+5. **Pure standard library**: the knowledge base may be maintained on any machine; introducing third-party dependencies
+   would make the skill break outright after an environment change.
 
 ## Limitations and boundaries
 
-- 中文检索是**子串匹配**，不做分词、不做同义词扩展；需要语义检索请换向量方案。
-- 链接解析按「文件名 slug」与「H1 标题」两种别名，二者冲突时优先级为 slug 高。
-- 链接方向不做「双向自动成链」：A 链 B 不会让 B 自动链回 A，
-  但 B 的 backlinks 会记录 A——这是派生视图，不写回文件。
+- Chinese retrieval is **substring matching**—no tokenization, no synonym expansion; for semantic retrieval, switch to a vector approach.
+- Link resolution uses two aliases: "filename slug" and "H1 title"; when they conflict, slug takes priority.
+- Link direction does not do "automatic bidirectional linking": A linking B does not make B automatically link back to A,
+  but B's backlinks will record A—this is a derived view, not written back to the file.
 
 ## License
 

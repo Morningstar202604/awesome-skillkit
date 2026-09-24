@@ -1,4 +1,4 @@
-# Alpha 笔记
+# Alpha Note
 
-入门概念见 [[beta]]，进阶阅读 [[gamma]]。
-本文介绍数据管道的基本分层。
+Introductory concepts see [[beta]], advanced reading [[gamma]].
+This article covers the basic layering of data pipelines.

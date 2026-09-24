@@ -1,12 +1,15 @@
-# 片头
-HOST: 欢迎收听本期节目，今天我们聊测试驱动开发。
-GUEST: 大家好，我是嘉宾小测。
+# Intro
 
-# 正文
-HOST: 你觉得 TDD 最大的好处是什么？
-GUEST: 反馈快，写完测试立刻知道有没有改坏东西。
-HOST: 那代价呢？
-GUEST: 前期写测试要多花一点时间，但返工更少。
+HOST: Welcome to this episode. Today we're talking about test-driven development.
+GUEST: Hi everyone, I'm guest Xiaoce.
 
-# 片尾
-HOST: 本期就到这里，下期我们聊持续集成。
+# Body
+
+HOST: What do you think is the biggest benefit of TDD?
+GUEST: Fast feedback—write a test and immediately know whether you've broken something.
+HOST: What's the cost then?
+GUEST: Writing tests upfront takes a bit more time, but there's less rework later.
+
+# Outro
+
+HOST: That's it for this episode. Next time we'll talk about continuous integration.

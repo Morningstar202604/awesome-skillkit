@@ -1,60 +1,60 @@
-# AI 味设计特征自查清单
+# AI-Tell Design Self-Check List
 
-本清单收录的是"换个 brief 也照样成立"的默认设计特征。它们的共同点不是丑，而是与主题无关：把页面上的产品换成另一个行业，版式一个字都不用改。每条特征后附自查问句，对应 SKILL.md 工作流步骤 2。
+This list catalogs default design traits that "would still hold under any other brief." What they have in common isn't ugliness—it's irrelevance to the subject: swap the product on the page for one from a different industry, and not a single typographic detail would need to change. Each trait is followed by a self-check question, corresponding to SKILL.md workflow step 2.
 
-总问句只有一句：
+The one overarching question:
 
-> 这是为这个 brief 做的选择，还是任何 brief 都会得到的默认值？
+> Is this a choice made for *this* brief, or a default that any brief would produce?
 
-三条判别原则：
+Three diagnostic principles:
 
-1. **换皮测试**：把页面里的产品换成另一个行业的产品，若版式一个字都不用改，命中的就是默认值。
-2. **理由测试**：能用一句与主题有关的话解释"为什么用它"才算选择；"因为好看 / 流行 / 显得专业"不算理由。
-3. **比例测试**：默认值不是碰不得，而是不能堆——页面上超过三处与主题无关的装饰手法，整体就会滑回模板。
-
----
-
-## 一、布局骨架的惰性
-
-- **图标 + 三栏等距**：所有功能点都被切成"线性图标 + 短标题 + 一句解释"，三列等宽排开，内容有几种就摆几栏。问：栏目数是内容长出来的，还是模板给的？内容真的是并列关系吗？
-- **万物皆圆角卡片**：全部内容装进同款圆角容器，全站一个圆角半径，每张卡片底下压同一参数的柔和投影，层级靠卡片套卡片。问：去掉卡片和阴影后，层级还在吗？分区靠的是留白与对齐，还是容器边框？
-- **hero 必放抽象几何**：首屏固定一颗渐变 3D 球体、漂浮玻璃块或流体色块，与产品毫无叙事关系。问：这个形状是从主题世界里来的，还是从素材库里来的？
-- **区块顺序公式化**：首屏 → 合作 logo 墙 → 三栏功能 → 数据条 → 用户夸赞 → 大 CTA，不管卖的是软件、课程还是咖啡豆，章节顺序永远这一套。问：这个顺序由内容的逻辑决定过吗？
-- **半屏对切万能首屏**：左文右图（或镜像）的 50/50 对切首屏，图片与文案没有语义关联，换张图也不影响理解。问：图文的位置关系是由内容决定的，还是默认栅格给的？
-- **波浪与渐变分隔**：区块之间垫同一条波浪 SVG 或渐变过渡带，全站每个接缝都是它。问：分区靠的是节奏与留白，还是贴上去的装饰件？
-- **图标风格混搭**：同一页混用线性、面性、emoji 三种图标画法，像从三个图标库各抓了几个。问：图标有一套统一的笔画语言吗？
-- **首尾密度失衡**：首屏一句话占半屏，往下信息却挤成一团，密度没有过渡。问：信息的疏密是按内容重要性排的，还是模板给了头重脚轻？
-
-## 二、颜色的偷懒
-
-- **一条渐变贯穿全站**：同一组主色渐变同时充当横幅背景、标题高亮、按钮和图表配色，渐变本身被当成了"品牌"。问：颜色是从主题里提炼的，还是从渐变生成器里滑出来的？
-- **深底 + 唯一荧光点缀**：近黑背景上只允许一个高饱和点缀色（酸绿、橘红一类）承担所有强调，页面像同一套模板换了 logo。问：这个组合是主题的气质，还是"显得高级"的快捷键？
-- **末尾渐变 CTA 条**：页面收尾固定一条全宽渐变色带，中间蹲一个大圆角按钮，文案是"立即开始"级别的空话。问：收尾方式跟内容有关系，还是每一页都这样结束？
-- **单色透明度阶梯**：正文、次要文字、背景全部由同一个主色调不同透明度得来，整页像隔着有色玻璃看东西。问：色彩层级是围绕主题搭的，还是围绕一个 hex 调的？
-
-## 三、排版的套路
-
-- **全大写小字眉标**：每个标题头顶都加一行加字距的全大写小字，不管这行字有没有实际信息量。问：删掉这行字，读者会损失什么？答不上来就删。
-- **对齐永远居中**：整页所有文本一律居中，长段落也居中，读起来像贺卡。问：对齐方式是跟着内容选的（正文左对齐、仪式性短句居中），还是全站默认居中？
-- **标题不排版**：标题与正文的差别只有字号，字重、字距、行高全部一致，大标题念起来像一段被放大的正文。问：标题的字面处理本身在参与构图吗？
-
-## 四、动效的过量
-
-- **全员淡入上浮**：页面加载时每个元素按相同间隔依次淡入并上移一截，滚到哪淡到哪，动效像流水线出厂。问：动效数量是否超过"一个编排好的瞬间"？用户操作（展开、提交、确认）引起的动效优先保留。
-- **hover 同款反应**：每张卡片悬停都是同一个上浮加阴影加深，不看内容是否值得被强调。问：悬停反馈区分了内容的主次吗？
-- **永动装饰**：背景色块缓慢漂浮、光晕持续旋转，与任何用户目标无关，只为"看起来有生命力"。问：这个动效停掉，页面损失了什么信息？
-
-## 五、文案的味道
-
-- **放之四海的口号**：标题是"赋能 / 解锁 / 重新定义 X"式空话，换成任何行业都通顺——文案和版式一样模板化。问：这句话只有这个产品说得出来吗？
-- **编造的夸赞墙**：推荐区全是"改变了我的工作方式"式好评，头像、姓名、职位与主题行业对不上。问：这些人是真实存在的吗？没有真实素材就该换别的信任信号。
-- **同构三件套**：每个区块都是"一句口号 + 一句解释 + 一个按钮"的同款节奏，像复制粘贴出来的章节。问：有的区块也许只需要一句话，或只需要一张图——节奏是内容定的吗？
-- **按钮说姿态不说动作**：满页"了解更多 / 探索更多 / 开始旅程"，没有一个说清按下后会发生什么。问：按钮文案删掉图标后，还知道它干什么吗？
+1. **Skin-swap test**: Replace the product on the page with one from another industry. If not a single layout detail changes, you've hit a default.
+2. **Rationale test**: You've made a choice only if you can explain "why this is used" in one sentence tied to the subject. "Because it looks good / is trendy / feels professional" is not a reason.
+3. **Ratio test**: Defaults aren't forbidden—they just can't pile up. Once more than three subject-irrelevant decorative devices appear on a page, the whole thing slides back into template territory.
 
 ---
 
-## 使用规则
+## 1. Layout Skeleton Inertia
 
-对照本清单不是"命中即删除"。某条特征恰好是主题的正确答案时可以保留，但必须能一句话说清"为什么这个 brief 值得它"。说不清理由的命中项一律改掉，并把改动写进交付说明（见 SKILL.md 步骤 2 与交付标准）。
+- **Icons + three equal columns**: Every feature point is cut into "line icon + short heading + one-line explanation," laid out in three equal-width columns, one column per content type. Ask: Did the column count grow out of the content, or was it handed by the template? Are the items actually in a parallel relationship?
+- **Everything is a rounded card**: All content goes into identical rounded containers, one corner radius site-wide, every card stacked with a soft shadow of the same parameters, hierarchy achieved by nesting cards inside cards. Ask: Remove the cards and shadows—does the hierarchy still hold? Is division achieved through whitespace and alignment, or through container borders?
+- **Hero always gets abstract geometry**: The first screen is fixed with a gradient 3D sphere, floating glass blocks, or fluid color blobs, with no narrative relation to the product. Ask: Did this shape come from the subject's world, or from a stock asset library?
+- **Section order is formulaic**: Hero → partner logo wall → three-column features → data strip → user praise → big CTA. Whether selling software, courses, or coffee beans, the chapter order is always the same. Ask: Has this order ever been determined by the logic of the content?
+- **Half-screen split universal hero**: A 50/50 left-text-right-image (or mirrored) split hero, where the image and copy have no semantic connection—swap the image and understanding doesn't change. Ask: Was the image-text positional relationship determined by content, or by the default grid?
+- **Waves and gradient dividers**: Sections are padded with the same wave SVG or gradient transition band; every seam site-wide is this. Ask: Is division achieved through rhythm and whitespace, or through a pasted-on decorative element?
+- **Mixed icon styles**: One page mixes line, filled, and emoji icon styles, as if grabbing a few from each of three icon libraries. Ask: Is there a unified stroke language across the icons?
+- **Unbalanced density at head and tail**: The hero's single sentence occupies half the screen, then further down the information is crammed together with no density transition. Ask: Is information density arranged by content importance, or did the template hand you a top-heavy layout?
 
-清单维护：实践中新发现的高频默认味，可按五大类补充新条目；每条必须自带一个自查问句，只描述现象不给问句的不收。
+## 2. Color Laziness
+
+- **One gradient runs the whole site**: The same primary gradient serves simultaneously as banner background, heading highlight, button, and chart palette—the gradient itself is treated as the "brand." Ask: Was the color extracted from the subject, or slid out of a gradient generator?
+- **Dark background + single fluorescent accent**: On a near-black background, only one high-saturation accent color (acid green, tangerine red, etc.) is allowed to carry all emphasis; the page looks like the same template with a different logo. Ask: Is this combination the temperament of the subject, or a shortcut to "looking premium"?
+- **Tail-end gradient CTA strip**: The page always ends with a full-width gradient band, with a large rounded button crouching in the middle, and copy at the "Get Started Now" level of empty rhetoric. Ask: Does the closing method relate to the content, or does every page end this way?
+- **Single-color opacity ladder**: Body text, secondary text, and background are all derived from the same primary hue at different opacities; the whole page looks like viewing things through colored glass. Ask: Is the color hierarchy built around the subject, or around a single hex code?
+
+## 3. Typographic Routines
+
+- **All-caps micro eyebrows**: Every heading gets a line of letter-spaced all-caps small text on top, regardless of whether that line carries any actual information. Ask: Delete this line—what does the reader lose? If you can't answer, delete it.
+- **Always center-aligned**: All text on the page is centered, long paragraphs included, reading like a greeting card. Ask: Is alignment chosen by content (body left-aligned, ceremonial short lines centered), or is it site-wide default center?
+- **Headings not typeset**: The only difference between heading and body is font size; weight, tracking, and line-height are all identical—big headlines read like enlarged body text. Ask: Is the literal treatment of the heading itself participating in composition?
+
+## 4. Animation Overkill
+
+- **Everyone fades up**: On page load, every element fades in and shifts up by a fixed interval in sequence; wherever you scroll, it fades there—the animation feels like a production line. Ask: Does the number of animations exceed "one choreographed moment"? Prioritize keeping animations triggered by user actions (expand, submit, confirm).
+- **Identical hover reactions**: Every card on hover does the same lift with deepened shadow, regardless of whether the content deserves emphasis. Ask: Does hover feedback distinguish content priority?
+- **Perpetual motion decoration**: Background color blobs drift slowly, glows rotate continuously, unrelated to any user goal—just to "look alive." Ask: Stop this animation—what information does the page lose?
+
+## 5. Copy Flavor
+
+- **Universal slogans**: Headlines are empty talk in the "empower / unlock / redefine X" mold—fluent in any industry. Copy is as templated as the layout. Ask: Is this sentence something only *this* product could say?
+- **Fabricated praise wall**: The testimonial section is full of "changed the way I work" reviews; avatars, names, and titles don't match the subject industry. Ask: Are these people real? Without real source material, use a different trust signal.
+- **Isomorphic triplets**: Every section follows the same rhythm of "one slogan + one explanation + one button," like copy-pasted chapters. Ask: Maybe some sections only need one sentence, or only an image—is the rhythm set by content?
+- **Buttons state posture, not action**: The page is full of "Learn More / Explore More / Start Your Journey," none saying what happens when pressed. Ask: After removing the icon, do you still know what the button does?
+
+---
+
+## Usage Rules
+
+Checking against this list is not "delete on hit." When a trait happens to be the right answer for the subject, it may be kept—but you must be able to state in one sentence "why this brief deserves it." Any hit you can't justify must be changed, and the change must be noted in the delivery notes (see SKILL.md step 2 and delivery standards).
+
+List maintenance: high-frequency default tells newly discovered in practice may be added under the five categories; each entry must come with a self-check question—descriptions that only state the phenomenon without a question are not accepted.

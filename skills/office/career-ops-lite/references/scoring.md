@@ -1,22 +1,22 @@
-# 评分维度与权重
+# Scoring Dimensions and Weights
 
-五个维度（0-1 分）加权成 overall，再 ×5 得 0-5 分：
+Five dimensions (0-1) are weighted into an overall, then ×5 to get a 0-5 score:
 
-| 维度 | 默认权重 | 含义 | 来源 |
+| Dimension | Default weight | Meaning | Source |
 |---|---|---|---|
-| requirement_match | 0.35 | 逐条要求命中度（A=1/B=0.7/C=0.4） | 脚本自动 |
-| level_fit | 0.20 | 级别匹配（检出级别给 0.6，否则 0.4） | 脚本自动 |
-| comp_band | 0.15 | 薪资带匹配 | **人工补** |
-| domain_match | 0.20 | 领域匹配 | **人工补** |
-| stability | 0.10 | 公司/岗位稳定性 | **人工补** |
+| requirement_match | 0.35 | Per-requirement hit rate (A=1/B=0.7/C=0.4) | automated by script |
+| level_fit | 0.20 | Level match (detected level gives 0.6, otherwise 0.4) | automated by script |
+| comp_band | 0.15 | Salary band match | **human-filled** |
+| domain_match | 0.20 | Domain match | **human-filled** |
+| stability | 0.10 | Company/role stability | **human-filled** |
 
-- `score_5 >= 4` → STRONG（建议投）
-- `3 ≤ score_5 < 4` → OK（可投，注意补齐短板）
-- `score_5 < 3` → WEAK（跳过）
+- `score_5 >= 4` → STRONG (recommend applying)
+- `3 ≤ score_5 < 4` → OK (applicable; mind filling gaps)
+- `score_5 < 3` → WEAK (skip)
 
-## 权重覆盖
-传 `--weights ./weights.json`，格式 `{"requirement_match":0.5,...}`，缺的维度保留默认。
+## Weight override
+Pass `--weights ./weights.json`, format `{"requirement_match":0.5,...}`; missing dimensions keep defaults.
 
 ## Boundaries
-- 评分是**启发式词面匹配**，不是 LLM 语义理解——术语要对得上。
-- 三维默认 0.5，务必人工补值后再出最终决策。
+- Scoring is **heuristic surface matching**, not LLM semantic understanding—terms must match literally.
+- The three human dimensions default to 0.5; be sure to fill them in before making a final decision.

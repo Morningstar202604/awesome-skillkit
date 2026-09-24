@@ -4,17 +4,14 @@ This skill is self-authored; its methodology skeleton is distilled from the foll
 
 | Source | Type | What was borrowed | License/attribution |
 |------|------|----------|-----------|
-| AIDA / PAS / FAB 直复营销框架（行业公版方法论） | 公版 | 框架选型表：受众决策阶段 ↔ 框架匹配 | 经典框架，无需授权 |
-| [reef-copywriting](https://fast.io/resources/best-openclaw-skills-ai-product-description-ecommerce-copywriting)（OpenClaw 生态实测） | 🟡 第三方 | benefit-first 标题纪律；PAS 的"问题-激化-解决"用于痛点未觉醒受众；多内容类型（详情页/口播/海报）一套方法论 | 结构借鉴并署名 |
-| [Copywriting（openclaw/skills 官方）](https://fast.io/resources/best-openclaw-skills-ai-product-description-ecommerce-copywriting) | 🟡 官方技能 | FAB 把技术规格翻译成客户利益的纪律；headline 公式；CTA 变体；**异议处理**（objection handling）独立成段 | 结构借鉴并署名 |
-| [commerce-copywriting（modu-ai）](https://skills.rest/skill/commerce-copywriting) | 开源技能 | 渠道特定变体 + A/B 测试变体自动生成 + 上线前 AI 审查的流水线分工 | MIT 生态，结构借鉴并署名 |
-| 中国广告法极限词纪律 | 法规 | "最/第一/国家级"禁用与可比较表述改写 | 合规要求，非借鉴 |
+| AIDA / PAS / FAB direct-response marketing frameworks (industry public-domain methodology) | Public domain | Framework-selection table: audience decision stage ↔ framework match | Classic frameworks, no authorization needed |
+| [reef-copywriting](https://fast.io/resources/best-openclaw-skills-ai-product-description-ecommerce-copywriting) (tested in the OpenClaw ecosystem) | 🟡 Third party | Benefit-first headline discipline; PAS's "problem-agitate-solution" for audiences not yet aware of their pain; one methodology across content types (detail page / spoken script / poster) | Structural borrowing with attribution |
+| [Copywriting (openclaw/skills official)](https://fast.io/resources/best-openclaw-skills-ai-product-description-ecommerce-copywriting) | 🟡 Official skill | FAB discipline for translating technical specs into customer benefits; headline formulas; CTA variants; **objection handling** as its own section | Structural borrowing with attribution |
+| [commerce-copywriting (modu-ai)](https://skills.rest/skill/commerce-copywriting) | Open-source skill | Channel-specific variants + automatic A/B variant generation + the pipeline split of pre-launch AI review | MIT ecosystem, structural borrowing with attribution |
+| Chinese Advertising Law extreme-word discipline | Regulation | The "most / first / national-level" bans and how to rewrite into comparable claims | Compliance requirement, not borrowing |
 
 ## Design decisions
 
-1. **框架先行**：三框架选型表按"受众决策阶段"分流，比开源技能的"多框架并列"
-   更可执行——先回答"受众卡在哪"再选枪。
-2. **异议处理独立成段**：openclaw 官方技能的可取之处，实测中它是转化率与
-   详情页停留时长的最大杠杆，值得强制。
-3. **事实卫生前置**：与仓库"审计文化"同源——输入不干净（无事实）时拒绝动笔，
-   而不是生成后清理。
+1. **Framework first**: the three-framework selection table routes by "audience decision stage," which is more executable than the open-source skills' "list frameworks in parallel" — first answer "where is the audience stuck," then pick the gun.
+2. **Objection handling as its own section**: a worthwhile point from openclaw's official skill; in practice it's the biggest lever on conversion rate and detail-page dwell time, so it's worth making mandatory.
+3. **Fact hygiene up front**: same root as the repo's "audit culture" — refuse to start writing when the input is dirty (no facts), rather than cleaning up after generating.

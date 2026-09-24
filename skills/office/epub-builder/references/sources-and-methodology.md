@@ -1,54 +1,54 @@
 # Sources & Methodology
 
-- 技能：`epub-builder`（awesome-skillkit 原创编写，Apache-2.0）。
-- 定位：场景包 `office` 的补强技能。`office` 原有 `docx-writer`（Word）与
-  `pdf-pipeline`（PDF），缺一个「可重排的电子书」出口，本技能补齐这一格。
+- Skill: `epub-builder` (originally written for awesome-skillkit, Apache-2.0).
+- Position: a reinforcing skill for the `office` scenario pack. `office` originally had `docx-writer` (Word) and
+  `pdf-pipeline` (PDF), missing a "reflowable e-book" outlet; this skill fills that slot.
 
-## 方法论借鉴（仅思想与规范事实，未复制任何文本或代码）
+## Methodology borrowed (ideas and normative facts only; no text or code copied)
 
-| 来源 | 许可证 | 借鉴的规范要点 |
+| Source | License | Normative points borrowed |
 |---|---|---|
-| EPUB 3 规范（W3C / IDPF 公开文档） | W3C 文档许可 | 包结构（mimetype / META-INF / OEBPS）、`container.xml` 的 rootfile 指向、OPF 的 manifest 与 spine 分工 |
-| EPUB 2 的 NCX 目录约定（DAISY 公开规范） | 公开规范 | `toc.ncx` 为老阅读器提供目录，需与 EPUB3 的 `nav.xhtml` 并存 |
-| Markdown 公开语法说明 | 见原文 | 标题/列表/引用/代码块/表格/行内强调的基础语义 |
-| 通用 ZIP 文件格式公开说明 | 公开规范 | `mimetype` 需为第一条目且不压缩（STORED），这是 EPUB 的 OCF 层硬性要求 |
-| 本仓库既有技能规范（docs/ 下 SKILL-STANDARD-v2） | Apache-2.0 | 骨架章节、失败处置表、子命令化与可验证交付标准 |
+| EPUB 3 spec (W3C / IDPF public docs) | W3C doc license | Package structure (mimetype / META-INF / OEBPS), `container.xml` rootfile pointer, OPF manifest vs. spine division of labor |
+| EPUB 2 NCX TOC convention (DAISY public spec) | public spec | `toc.ncx` provides the TOC for older readers, must coexist with EPUB3's `nav.xhtml` |
+| Markdown public syntax docs | see original | Basic semantics of headings/lists/quotes/code blocks/tables/inline emphasis |
+| Generic ZIP file format public docs | public spec | `mimetype` must be the first entry and uncompressed (STORED), a hard OCF-layer requirement of EPUB |
+| This repo's existing skill standards (SKILL-STANDARD-v2 under docs/) | Apache-2.0 | Skeleton sections, failure-handling table, subcommandization, and verifiable delivery standards |
 
-上述来源全部作为**规范事实与结构骨架**被使用。`scripts/epub_build.py` 的
-Markdown 解析器、OPF/NCX/NAV 的三份 XML 模板、`slugify` 命名规则、
-章节切分逻辑与 inspect 回读实现，均为从零撰写，
+All the above sources are used as **normative facts and structural skeleton**. The Markdown parser in `scripts/epub_build.py`,
+the three XML templates for OPF/NCX/NAV, the `slugify` naming rule,
+chapter-splitting logic, and the inspect read-back implementation are all written from scratch.
 No upstream passage, example, or code was translated, rewritten, or excerpted.
 
 ## Key design decisions (why this way)
 
-1. **只用标准库**：EPUB 是「zip + XML」，`zipfile` 与 `xml.etree.ElementTree`
-   已足够。引入第三方库会让技能在裸环境下失效，而收益接近于零。
-2. **`mimetype` 写入顺序被当作一等公民**：构建时用 `ZipInfo` 显式指定
-   `ZIP_STORED` 并第一个写入，且 `build` 结束前重新打开文件自查一遍——
-   这是最容易出错、且出错后**最难从表面察觉**的一步（文件能生成、大小正常，
-   但阅读器拒收）。
-3. **固定 ZIP 时间戳**：`ZIP_TIMESTAMP = (1980,1,1,0,0,0)`，
-   使同样的输入产出**逐字节可复现**的文件，便于比对与版本控制。
-4. **章节顺序读 spine 而非 manifest**：manifest 只是资源清单，顺序无规范保证；
-   spine 才定义阅读顺序。inspect 按 spine 输出，与阅读器行为一致。
-5. **同时生成 toc.ncx 与 nav.xhtml**：新老阅读器各认一份，缺一则部分设备无目录。
-6. **UID 用 `uuid5` 由书名+作者+章节数派生**：同一本书重复构建得到相同
-   `dc:identifier`，避免每次构建都被阅读器当成新书而重建阅读进度。
-7. **不做花哨样式**：EPUB 的最终排版由阅读器与用户设置主导，
-   过度指定 CSS 会在不同设备上崩版。只提供最小可读样式。
-8. **不含图片支持且明确说明**：不假装支持。图片需要资源清单、媒体类型与
-   相对路径管理，属于另一个技能的范围，含糊承诺比直说「不支持」更有害。
+1. **Standard library only**: EPUB is "zip + XML"; `zipfile` and `xml.etree.ElementTree`
+   suffice. Adding third-party libraries would break the skill in a bare environment, for near-zero benefit.
+2. **`mimetype` write order treated as first-class**: at build time, use `ZipInfo` to explicitly specify
+   `ZIP_STORED` and write it first, and reopen the file to self-check before `build` finishes—
+   this is the most error-prone step and the one **hardest to notice on the surface** when wrong (the file generates, size looks normal,
+   but readers reject it).
+3. **Fixed ZIP timestamp**: `ZIP_TIMESTAMP = (1980,1,1,0,0,0)`,
+   so the same input produces a **byte-for-byte reproducible** file, easy to diff and version-control.
+4. **Chapter order read from spine, not manifest**: the manifest is just a resource list with no ordering guarantee;
+   the spine defines reading order. inspect outputs by spine, matching reader behavior.
+5. **Generate both toc.ncx and nav.xhtml**: old and new readers each recognize one; missing either means some devices get no TOC.
+6. **UID derived from title+author+chapter count via `uuid5`**: rebuilding the same book yields the same
+   `dc:identifier`, so readers don't treat each build as a new book and reset reading progress.
+7. **No fancy styling**: EPUB's final typography is dominated by readers and user settings;
+   over-specifying CSS breaks layouts across devices. Only minimal readable styles are provided.
+8. **No image support, stated explicitly**: no pretending to support it. Images need a resource manifest, media types, and
+   relative-path management—out of scope for another skill; vague promises are more harmful than saying "not supported."
 
 ## Limitations and boundaries
 
-- **不支持图片与封面**：仅处理文本结构。需要插图请另行加工。
-- **章节切分只认 H1**：不识别「第一章」等中文序数模式；用户应按 H1 组织原稿。
-- **Markdown 子集**：支持标题/列表/引用/代码块/表格/行内强调/链接/分隔线；
-  不支持脚注、数学公式、定义列表、HTML 内嵌。
-- **不做 EPUB 校验器级别检查**：不实现 epubcheck 的全部规则（如
-  `dc:identifier` 的 URI 规范形式、媒体类型白名单的完整校验）。
-  需要发布级校验应另跑 epubcheck。
-- **中文字体不嵌入**：依赖阅读器的字体回退，不打包字体文件。
+- **No images or cover**: text structure only. Illustrations require separate processing.
+- **Chapter splitting recognizes H1 only**: does not recognize Chinese ordinal patterns like "Chapter 1"; users should organize the manuscript by H1.
+- **Markdown subset**: supports headings/lists/quotes/code blocks/tables/inline emphasis/links/dividers;
+  does not support footnotes, math, definition lists, embedded HTML.
+- **Not epubcheck-level checking**: does not implement all epubcheck rules (e.g.
+  the URI canonical form of `dc:identifier`, full media-type whitelist validation).
+  For publication-level validation, run epubcheck separately.
+- **No Chinese font embedding**: relies on reader font fallback; does not bundle font files.
 
 ## License
 

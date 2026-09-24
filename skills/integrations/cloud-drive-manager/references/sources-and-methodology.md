@@ -1,59 +1,59 @@
-# Methodology sources and design trade-offs（cloud-drive-manager）
+# Methodology sources and design trade-offs (cloud-drive-manager)
 
-> 何时读：当你要接入第四个云盘、调整分片阈值，或质疑"为什么脚本没有上传和删除
-> 命令"时读本文件。本文件只讲设计依据。
+> When to read: when you're onboarding a fourth cloud drive, adjusting chunking thresholds, or questioning "why the script has no upload and delete
+> commands". This file only covers design rationale.
 
 ## Idea sources (distilled from public methodology; not copied text)
 
 | This skill's approach | Idea distilled from |
 |---|---|
-| 先出上传计划再执行 | Terraform `plan`/`apply` 与 `rsync -n` 的两阶段惯例：先看将发生什么 |
-| 上传前后各跑一次哈希清单 | 备份领域的 verify-after-write 原则（如 `rsync --checksum`、ZFS scrub 的思路）：写完必须读回验证 |
-| 用标准 `sha256sum -c` 格式输出 | Unix 工具链的"输出可被既有工具消费"传统：不发明私有格式 |
-| 跳过符号链接 | 与 file-organizer 一致：跟随链接会让操作范围脱离用户意图 |
-| 不提供删除命令 | 最小权限/最小破坏面原则：能力越小，误用面越小；把不可逆操作留在人手里 |
-| 敏感信息只从环境变量取 | 十二要素应用 config 原则；凭证不进代码、不进命令行参数 |
+| Produce an upload plan before executing | The Terraform `plan`/`apply` and `rsync -n` two-phase convention: see what will happen first |
+| Run a hash manifest before and after upload | The backup-domain verify-after-write principle (e.g. `rsync --checksum`, ZFS scrub idea): after writing, must read back and verify |
+| Output in standard `sha256sum -c` format | The Unix toolchain tradition of "output consumable by existing tools": don't invent a private format |
+| Skip symlinks | Consistent with file-organizer: following links lets the operation scope escape user intent |
+| No delete command provided | Least-privilege/minimum-blast-radius principle: smaller capability = smaller misuse surface; keep irreversible operations in human hands |
+| Sensitive info only from environment variables | Twelve-factor-app config principle; credentials don't go in code or command-line args |
 
 ## Key trade-offs
 
-**为什么脚本完全不碰网络？** 上传逻辑与"传什么"的逻辑耦合后，会导致一个
-尴尬处境：想验证清单是否正确，就必须先有真实凭证并真的上传。拆开之后，
-`plan-upload` 与 `checksum-plan` 在离线、无凭证的环境里可被完整测试，
-而用户能在**付出任何传输成本之前**看到将要发生什么。代价是上传步骤需要
-AI 或用户自己写——SKILL.md 步骤 3 把关键约束（分片顺序、令牌周期、断点续传）
-列清楚了。
+**Why does the script not touch the network at all?** Once upload logic is coupled with the "what to upload" logic, you land in an
+awkward spot: to verify whether the manifest is correct, you must first have real credentials and actually upload. After the split,
+`plan-upload` and `checksum-plan` can be fully tested offline, with no credentials,
+and the user sees what will happen **before paying any transfer cost**. The cost is that the upload step needs to be
+written by the AI or the user—SKILL.md step 3 lists the key constraints (chunk order, token lifetime, resumable upload)
+clearly.
 
-**为什么不提供删除命令？** 删除是云盘场景里唯一不可逆、且**后果随规模放大**
-的操作——`rm -rf` 错一个路径，可能删掉整个归档目录。脚本提供删除会带来两个
-风险：一是 AI 可能在没有充分确认时调用它；二是命令行参数里一个拼写错误就
-造成不可逆损失。本技能的选择是：只提供"看清将删什么"的能力（`parse-list`），
-把执行动作留给用户在自己的网盘客户端里做——那里有回收站和二次弹窗。
+**Why no delete command?** Deletion is the only irreversible operation in the cloud-drive scenario, and one whose
+**consequences scale with size**—`rm -rf` with one wrong path can delete the entire archive directory. The script providing delete brings two
+risks: one, the AI might call it without sufficient confirmation; two, one typo in a command-line arg causes
+irreversible loss. This skill's choice: only provide the capability to "see clearly what will be deleted" (`parse-list`),
+leaving the execution to the user in their own drive client—where there's a recycle bin and a second confirmation dialog.
 
-**为什么把秒传原理写进 SKILL.md 而不是脚本？** 秒传是**协议层的约束**，
-不是一个函数能解决的问题：它要求客户端用对哈希算法、在上传前算好哈希、
-并在命中后仍做校验。这三条都是流程要求，写进文档才能指导真实实现；
-脚本能做的只是提供 `checksum-plan` 这个算哈希的工具。
+**Why is the instant-upload principle written into SKILL.md rather than the script?** Instant upload is a **protocol-layer constraint**,
+not something a function can solve: it requires the client to use the right hash algorithm, compute the hash before upload,
+and still verify after a hit. All three are process requirements, written into docs to guide real implementation;
+what the script can do is only provide the `checksum-plan` hash-computing tool.
 
-**为什么分片阈值写成数据表而不是硬编码分支？** 三家的阈值（4MB / 100MB / 250MB）
-是平台策略，会随版本调整。收敛成 `CHUNK_POLICY` 字典后，修正一处即可全链路生效，
-且阈值与"依据说明"（`note` 字段）放在一起，不会出现"改了数忘了改文档"的漂移。
+**Why are chunking thresholds a data table rather than hardcoded branches?** The three vendors' thresholds (4MB / 100MB / 250MB)
+are platform policies that change with versions. Consolidated into a `CHUNK_POLICY` dict, fixing one point takes effect across the whole chain,
+and the threshold sits next to the "rationale" (the `note` field), so there's no drift of "changed the number but forgot the doc."
 
-**为什么 `parse-list` 要归一化三家字段？** 三家的列表条目结构差异大
-（百度的 `isdir` 整数、阿里的 `type` 字符串、OneDrive 的子对象），
-但它们承载的信息相同。归一成 `(name, size, is_dir, mtime, id)` 之后，
-"这个目录里有多少文件、共多大"这类判断只需写一次。归一化是**只读侧**的，
-因为它不涉及写入语义——写入侧的差异（分片、秒传）无法这样统一。
+**Why does `parse-list` normalize the three vendors' fields?** The three vendors' list-entry structures differ a lot
+(Baidu's `isdir` integer, Aliyun's `type` string, OneDrive's child objects),
+but they carry the same information. Normalized into `(name, size, is_dir, mtime, id)`,
+judgments like "how many files in this directory, total size" need be written only once. Normalization is **read-side only**,
+because it doesn't touch write semantics—the write-side differences (chunking, instant upload) can't be unified this way.
 
-**为什么体积校验和哈希校验要同时做？** 体积能极快地发现"没传完"；
-哈希能发现"传完了但内容错了"（分片顺序错、编码转换）。只比体积会漏掉内容
-损坏，只比哈希在大目录上代价高。两级检查，先便宜后昂贵。
+**Why do both size checksum and hash checksum?** Size catches "incomplete transfer" extremely fast;
+hash catches "transferred but content wrong" (chunk order wrong, encoding conversion). Size-only misses content
+corruption; hash-only is expensive on large directories. Two levels of checking, cheap first, expensive second.
 
 ## Official documentation
 
-- 百度网盘开放平台（分片上传、秒传、文件列表）：<https://pan.baidu.com/union/doc/>
-- 百度网盘上传流程与 4MB 分片约定：<https://pan.baidu.com/union/doc/nksg0sbfs>
-- 阿里云盘开放平台（文件列表、上传、SHA1 去重）：<https://www.yuque.com/aliyundrive/zpfszx>
-- OneDrive 上传 API（250MB 单请求上限）：<https://learn.microsoft.com/en-us/graph/api/driveitem-put-content>
-- OneDrive 创建上传会话（分片必须为 320KiB 倍数）：<https://learn.microsoft.com/en-us/graph/api/driveitem-createuploadsession>
-- Microsoft Graph 列表 children（`value[]` 与 `folder`/`file` 子对象）：<https://learn.microsoft.com/en-us/graph/api/driveitem-list-children>
-- Python `hashlib`（`new()` 支持的算法名与流式摘要）：<https://docs.python.org/3/library/hashlib.html>
+- Baidu Netdisk open platform (chunked upload, instant upload, file list): <https://pan.baidu.com/union/doc/>
+- Baidu Netdisk upload flow and 4MB chunk convention: <https://pan.baidu.com/union/doc/nksg0sbfs>
+- Aliyun Drive open platform (file list, upload, SHA1 dedup): <https://www.yuque.com/aliyundrive/zpfszx>
+- OneDrive upload API (250MB single-request cap): <https://learn.microsoft.com/en-us/graph/api/driveitem-put-content>
+- OneDrive create upload session (chunks must be multiples of 320 KiB): <https://learn.microsoft.com/en-us/graph/api/driveitem-createuploadsession>
+- Microsoft Graph list children (`value[]` and `folder`/`file` child objects): <https://learn.microsoft.com/en-us/graph/api/driveitem-list-children>
+- Python `hashlib` (algorithm names supported by `new()` and streaming digest): <https://docs.python.org/3/library/hashlib.html>

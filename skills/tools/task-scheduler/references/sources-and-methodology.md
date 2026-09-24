@@ -1,58 +1,58 @@
 # Methodology sources and design trade-offs
 
-> 何时读：想扩展字段翻译规则、新增平台映射，或理解"为什么不直接写 crontab"时读本文件。
-> 命令参数见 SKILL.md，此处只讲设计依据。
+> When to read: when you want to extend field translation rules, add platform mappings, or understand "why not just write a crontab."
+> Command parameters are in SKILL.md; this file only covers design rationale.
 
 ## Idea sources (distilled from public methodology; no code copied)
 
 | This script's approach | Idea distilled from |
 |--------------|--------------|
-| 表达式翻译成人话后再执行 | 「先复述再动手」的变更管理惯例：执行前用另一种表述确认理解一致，是发现误解最便宜的手段 |
-| 生成而不安装 | 配置管理工具的"渲染 + 人工 apply"模式；crontab 无版本控制、无撤销栈，写入即高风险 |
-| 下次触发时间预览 | `systemd-analyze calendar`、云厂商 cron 预览器的通用交互：用具体时刻替代抽象的字段组合 |
-| 绝对路径 + 重定向告警 | cron 运维的经典经验总结（`cron` 的 PATH 与邮件机制是其最著名的两个陷阱） |
-| 语法先验证再输出 | 编译器前端思路：先做语法/语义检查，再产出目标代码，避免把坏配置交给下游 |
+| Translate the expression into plain language before executing | The change-management convention of "restate before acting": confirming shared understanding with a different formulation before executing is the cheapest way to catch misunderstanding |
+| Generate but don't install | The config-management tool "render + human apply" model; crontab has no version control, no undo stack—writing it in is high-risk |
+| Next-fire-time preview | The common interaction of `systemd-analyze calendar` and cloud-vendor cron previewers: use concrete moments instead of abstract field combinations |
+| Absolute path + redirect warning | The classic distillation of cron ops experience (cron's PATH and mail mechanism are its two most famous pitfalls) |
+| Validate syntax before output | The compiler-frontend approach: do syntax/semantic checks first, then emit target code, avoiding handing bad config downstream |
 
 ## Key trade-offs
 
-**为什么内置解析器而不用 croniter 做唯一实现？** croniter 能算时间但**不产生中文描述**，
-而"人话确认"才是本技能的核心价值。两者分工：内置解析器负责字段展开与中文翻译（零依赖，
-永远可用），croniter 负责精确的下次触发时刻（可选，缺失则降级并明确告知用户精度下降）。
+**Why a built-in parser rather than using croniter as the sole implementation?** croniter can compute times but **produces no Chinese description**,
+and the "plain-language confirmation" is this skill's core value. Division of labor: the built-in parser handles field expansion and translation (zero-dependency,
+always available), croniter handles the precise next fire time (optional; if missing, degrade and clearly tell the user precision has dropped).
 
-**为什么 `@reboot` 不做时间预测？** 它没有可预测的时间点——机器什么时候重启是不可知的。
-早期的实现让 croniter 去算，结果它直接抛错；现在提前挡掉并说明"仅在启动时触发"。
+**Why no time prediction for `@reboot`?** It has no predictable time point—when the machine reboots is unknowable.
+The early implementation had croniter compute it, and it threw an error outright; now it's blocked early with the note "triggers only on startup."
 
-**为什么 `cron-add` 要检查命令里的绝对路径？** 这是定时任务第一大失败原因，
-且它的表现是**静默不执行**——用户不会看到任何报错。把检查放在生成阶段，
-成本极低而收益极高。
+**Why does `cron-add` check for absolute paths in the command?** This is the #1 failure cause of scheduled tasks,
+and its manifestation is **silent non-execution**—the user sees no error. Putting the check at generation time
+costs almost nothing and pays off hugely.
 
-**为什么告警里区分"未指定 --log"和"命令里没有重定向"？** 两者处置不同：
-前者加 `--log` 即可（脚本会自动补重定向），后者要改命令本身。
-更早的版本把它们混为一谈，导致指定了 `--log` 还报警告，属于误报。
+**Why does the warning distinguish "no `--log` specified" from "no redirect in the command"?** The two have different fixes:
+the former just needs `--log` (the script auto-adds the redirect), the latter needs changing the command itself.
+An earlier version conflated them, causing a warning even when `--log` was specified—a false positive.
 
-**为什么字段翻译要处理 `工作日` / `周末` 这类档位？** `* * * * 1-5` 逐字翻译成
-"周一、周二、周三、周四、周五" 可读性差且易漏看；归约为"工作日"更接近用户的心智模型。
-判据必须是**精确匹配**（恰好是那五个/两个），否则退回逐项列举，避免误归约。
+**Why does field translation handle tiers like "weekday" / "weekend"?** Translating `* * * * 1-5` verbatim to
+"Monday, Tuesday, Wednesday, Thursday, Friday" is poorly readable and easy to gloss over; reducing it to "weekday" is closer to the user's mental model.
+The criterion must be **exact match** (exactly those five/two), otherwise fall back to itemized listing, avoiding false reduction.
 
-## cron 字段语义要点（实现依据）
+## cron field semantics essentials (implementation basis)
 
-| 字段 | 取值范围 | 易错点 |
+| Field | Range | Common pitfall |
 |------|---------|--------|
-| 分钟 | 0-59 | `*/5` 是每 5 分钟，不是"第 5 分钟" |
-| 小时 | 0-23 | **没有 24**；`0` 是午夜 |
-| 日 | 1-31 | 与"星期"同时限定时，cron 语义是**或**而非且 |
-| 月 | 1-12 | 不支持 0 |
-| 星期 | 0-7 | **0 和 7 都是星期日**；1 是星期一（不是星期日） |
-| 特殊 | `@reboot` `@daily` `@hourly` 等 | `@reboot` 无固定时刻 |
+| Minute | 0-59 | `*/5` is every 5 minutes, not "the 5th minute" |
+| Hour | 0-23 | **No 24**; `0` is midnight |
+| Day of month | 1-31 | When constrained together with "day of week," cron semantics are **OR** not AND |
+| Month | 1-12 | 0 not supported |
+| Day of week | 0-7 | **0 and 7 are both Sunday**; 1 is Monday (not Sunday) |
+| Special | `@reboot` `@daily` `@hourly`, etc. | `@reboot` has no fixed moment |
 
-日与星期同时限定时取"或"关系，是 cron 语义中最反直觉的一点，脚本在描述里会显式标注。
+The OR relationship when day-of-month and day-of-week are both constrained is the most counterintuitive point in cron semantics; the script marks it explicitly in the description.
 
 ## Official documentation
 
-- `crontab(5)` 手册（字段定义与 `@` 特殊表达式）：<https://man7.org/linux/man-pages/man5/crontab.5.html>
-- `cron(8)` 手册（环境变量与邮件机制）：<https://man7.org/linux/man-pages/man8/cron.8.html>
-- Apple `launchd.plist` 手册（`StartCalendarInterval`、`StandardOutPath`）：<https://www.manpagez.com/man/5/launchd.plist/>
-- Apple `launchctl` 手册（`load`/`kickstart`）：<https://www.manpagez.com/man/1/launchctl/>
-- Microsoft `schtasks` 命令参考：<https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/schtasks>
-- Microsoft 任务计划程序 XML 架构：<https://learn.microsoft.com/en-us/windows/win32/taskschd/task-scheduler-schema>
-- croniter 项目（`croniter` 表达式迭代器）：<https://github.com/pallets-eco/croniter>
+- `crontab(5)` man page (field definitions and `@` special expressions): <https://man7.org/linux/man-pages/man5/crontab.5.html>
+- `cron(8)` man page (environment variables and mail mechanism): <https://man7.org/linux/man-pages/man8/cron.8.html>
+- Apple `launchd.plist` man page (`StartCalendarInterval`, `StandardOutPath`): <https://www.manpagez.com/man/5/launchd.plist/>
+- Apple `launchctl` man page (`load`/`kickstart`): <https://www.manpagez.com/man/1/launchctl/>
+- Microsoft `schtasks` command reference: <https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/schtasks>
+- Microsoft Task Scheduler XML schema: <https://learn.microsoft.com/en-us/windows/win32/taskschd/task-scheduler-schema>
+- croniter project (`croniter` expression iterator): <https://github.com/pallets-eco/croniter>

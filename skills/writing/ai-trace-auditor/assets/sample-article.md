@@ -1,13 +1,13 @@
-## 背景
+## Background
 
-AI 痕迹审查用于检测文本中的模板化表达。本样例正文供扫描器离线运行。
+AI-trace auditing detects templated expression in text. This sample body is for the scanner to run offline.
 
-## 要点
+## Key points
 
-- 句长分布
-- 枚举密度
-- 过渡词占比
+- Sentence-length distribution
+- Enumeration density
+- Transition-word proportion
 
-## 小结
+## Summary
 
-以上为扫描输入。
+The above is the scanning input.

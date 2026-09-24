@@ -4,24 +4,24 @@ This skill is self-authored; its methodology skeleton is distilled from the foll
 
 | Source | Type | What was borrowed | License/attribution |
 |------|------|----------|-----------|
-| 豆包官方教程与《豆包进阶手册》系列（五要素公式：身份+场景+任务+要求+格式） | 🟡 第三方聚合（ima 知识库收录） | task 模式五要素、三步框架（背景定位→目标明确→要求细化） | 结构性方法论引用，已注明出处 |
-| 《豆包，总结出 5 条"最强指令"》（头条实测文，2026-09） | 🟡 第三方 | 反向约束纪律（禁用词表、字数硬限、"每句有信息量"）、三轮迭代法（骨架→血肉→抛光）、角色锚定+输出格式锁定 | 结构性方法论引用，已注明出处 |
-| Coze 扣子官方文档（人设与回复逻辑：人物设定/功能和流程/约束与限制/回复格式四段式） | 🟢 官方 | agent 模式五段骨架的直接前身（本技能在四段基础上拆出"边界处理"独立成段） | 官方文档结构引用，已注明出处 |
-| Coze 社区最佳实践（五模块：Role/Context/Skills&Tools/Workflow/Output） | 🟡 第三方 | "工作流 Step-by-Step 是智能体变聪明的核心"、能力定义三要素（何时触发+怎么做+返回什么） | 结构性方法论引用，已注明出处 |
-| CO-STAR 框架（Context/Objective/Steps/Tone/Audience） | 🟡 第三方 | agent 模式五段的英文命名对照 | 框架名引用，已注明出处 |
+| Doubao official tutorials and the "Doubao Advanced Handbook" series (the five-element formula: identity + scenario + task + requirements + format) | 🟡 Third-party aggregation (collected in the ima knowledge base) | The task-mode five elements, the three-step framework (background positioning → objective clarified → requirements detailed) | Structural methodology citation, source noted |
+| "Doubao summarized 5 'strongest prompts'" (a Toutiao hands-on article, 2026-09) | 🟡 Third party | Reverse-constraint discipline (banned-word list, hard word-count limit, "every sentence carries information"), the three-round iteration method (skeleton → flesh → polish), role anchoring + output-format lock | Structural methodology citation, source noted |
+| Coze official docs (persona and reply logic: the four-part persona/function-and-flow/constraints/reply-format) | 🟢 Official | The direct predecessor of the agent-mode five-part skeleton (this skill splits out "edge handling" as its own part on top of the four) | Official doc structural citation, source noted |
+| Coze community best practices (five modules: Role/Context/Skills&Tools/Workflow/Output) | 🟡 Third party | "Step-by-step workflows are the core of making an agent smarter," and the three elements of capability definition (when to trigger + how + what to return) | Structural methodology citation, source noted |
+| CO-STAR framework (Context/Objective/Steps/Tone/Audience) | 🟡 Third party | The English naming counterpart for the agent-mode five parts | Framework-name citation, source noted |
 
 ## Design decisions
 
-1. **与 video-prompt-engineer 同构**：五要素之于聊天 = 六槽位之于视频。同一套
-   "缺槽就自由发挥 → 自由发挥即废稿"的心智模型，用户学一次跨场景复用。
-2. **边界处理独立成段**：Coze 官方四段式没有兜底节，但实测中"超出范围反问/
-   不编造"是智能体幻觉的第一道闸，值得独立成段强制审计。
-3. **反向约束前置**：官方教程把要求放第四位，本技能在写法上把反向约束排在要求段
-   首位——它是砍套话最有效的一刀。
-4. **启发式审计而非语义评分**：与仓库 video 侧同款哲学——脚本管结构完整性，
-   人管选词质量。两层检查，缺一不可。
+1. **Isomorphic with video-prompt-engineer**: the five elements for chat = the six slots for video. The same
+   mental model of "missing a slot and it improvises → improvisation means a wasted draft," learned once and reused across scenarios.
+2. **Edge handling as its own part**: Coze's official four-part has no fallback section, but in practice "answer outside scope /
+   don't make things up" is the first gate against agent hallucination, worth making a mandatory, separately audited part.
+3. **Reverse constraints up front**: official tutorials put requirements fourth; this skill puts reverse constraints first within the requirements section —
+   it's the most effective cut against boilerplate.
+4. **Heuristic auditing, not semantic scoring**: same philosophy as the repo's video side — the script handles structural completeness,
+   the human handles word choice. Two layers, neither optional.
 
-## 核实义务
+## Verification obligation
 
-所有方言条目（platform-dialects.md）均标注来源分级与核实方法，使用前必须
-重新核实——模型生态月度级变化，本文件不豁免 VERIFY BEFORE USE。
+Every dialect entry (platform-dialects.md) carries a source grade and a verification method, and must be
+re-verified before use — the model ecosystem changes monthly; this file does not exempt VERIFY BEFORE USE.

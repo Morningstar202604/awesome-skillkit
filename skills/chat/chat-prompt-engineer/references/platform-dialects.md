@@ -1,60 +1,58 @@
-# 平台方言笔记 / Platform Dialects (VERIFY BEFORE USE)
+# Platform Dialect Notes (VERIFY BEFORE USE)
 
-> ⚠️ **时效声明**：对话助手的官方提示词教程以**季度级**速度更新。本文件条目为
-> 2026-09-14 网络调研快照。执行前按各节「核实方法」重新确认（SKILL-STANDARD-v2
-> 诫 7/诫 8）。来源分级：🟢 官方文档 · 🟡 第三方聚合 · 🔵 社区经验。
+> ⚠️ **Timeliness statement**: the official prompt tutorials for chat assistants update on a **quarterly** cadence. The entries in this file are a 2026-09-14 web-research snapshot. Before using, re-confirm per each section's "verification method" (SKILL-STANDARD-v2 commandments 7/8). Source grading: 🟢 official docs · 🟡 third-party aggregation · 🔵 community experience.
 
-## 通用五要素（不指定平台时的默认）
+## Universal five elements (default when no platform is specified)
 
 ```text
-[角色 role] + [背景 background] + [任务 task] + [要求 requirements] + [格式 format]
+[role] + [background] + [task] + [requirements] + [format]
 ```
 
-先补齐五要素，再叠加平台方言。方言不确定时的兜底：**只写五要素 + 反向约束**，
-跳过平台专属功能（智能体面板、预置问题等）。
+Fill in the five elements first, then layer on the platform dialect. The fallback when the dialect is uncertain: **write only the five elements + reverse constraints**,
+skipping platform-specific features (agent panels, preset questions, etc.).
 
-## 豆包（字节跳动）
+## Doubao (ByteDance)
 
-- 官方教程反复推荐**五要素公式**：身份 + 场景/背景 + 任务 + 要求 + 格式——
-  核心思想是"提示词不是越长越好，而是越完整越好"。🟡
-- 三步框架：背景定位（角色 + 品牌信息 + 用户画像）→ 目标明确 → 要求细化。🟡
-- 豆包智能体（对话内创建的自定义角色）：system prompt 套 agent 五段骨架；
-  发布件建议配开场白 + 3-4 条预置问题。🟡
-- 深度绑定生态：生成结果可直连剪映/飞书，任务 prompt 可在尾部声明交付形态。🔵
-- 核实方法：豆包 App 内官方教程 / 搜索「豆包 提示词 公式 官方」
+- The official tutorial repeatedly recommends the **five-element formula**: identity + scenario/background + task + requirements + format —
+  the core idea is "a prompt isn't better the longer it is, but the more complete it is." 🟡
+- Three-step framework: background positioning (role + brand info + user persona) → objective clarified → requirements detailed. 🟡
+- Doubao agent (a custom role created inside a chat): the system prompt follows the agent five-part skeleton;
+  a published agent should pair an opening line with 3-4 preset questions. 🟡
+- Deep ecosystem binding: results can be sent straight to Jianying/Feishu, and the task prompt can declare the delivery form at the tail. 🔵
+- Verification method: official tutorials inside the Doubao app / search "Doubao prompt formula official"
 
-## Coze 扣子（字节，智能体平台）
+## Coze (ByteDance, agent platform)
 
-- 五模块结构：Role（角色）/ Context（背景）/ Skills & Tools（技能与工具）/ 
-  Workflow（工作流）/ Output（输出规范）——工作流 Step-by-Step 是智能体变聪明的核心。🟡
-- 官方极简四段式：人物设定 / 功能和流程 / 约束与限制 / 回复格式。🟢
-- 官方编写建议：简洁具体、用上下文、避免歧义、给示例输入输出、测异常输入。🟢
-- 变量语法：提示词内可嵌 `{{变量}}`（如时间）实现动态注入。🟢
-- 核实方法：扣子官网帮助文档「人设与回复逻辑」
+- Five-module structure: Role / Context / Skills & Tools /
+  Workflow / Output — step-by-step workflows are the core of making an agent smarter. 🟡
+- Official minimal four-part: persona setup / function and flow / constraints and limits / reply format. 🟢
+- Official writing advice: concise and concrete, use context, avoid ambiguity, give example inputs/outputs, test edge-case inputs. 🟢
+- Variable syntax: you can embed `{{variables}}` (e.g. time) inside the prompt for dynamic injection. 🟢
+- Verification method: the Coze site's help doc "Persona and Reply Logic"
 
-## CO-STAR 框架（跨平台通用）
+## CO-STAR framework (cross-platform universal)
 
-- Context / Objective / Steps / Tone / Audience 五段——与五要素高度同构
-  （Tone 并入要求，Audience 并入背景）。适合作为 agent 模式的英文骨架命名。🟡
-- 核实方法：搜索「CO-STAR framework prompt」交叉验证至少两个独立来源
+- Context / Objective / Steps / Tone / Audience five parts — highly isomorphic to the five elements
+  (Tone folds into requirements, Audience into background). Good as the English-named skeleton for agent mode. 🟡
+- Verification method: search "CO-STAR framework prompt" and cross-check at least two independent sources
 
 ## ChatGPT / GPTs
 
-- Custom GPT 的 instructions 与对话 prompt 分离；agent 五段骨架直接适用。🟢
-- 核实方法：OpenAI 官方「GPTs instructions best practices」
+- Custom GPT instructions are separate from the chat prompt; the agent five-part skeleton applies directly. 🟢
+- Verification method: OpenAI official "GPTs instructions best practices"
 
-## Kimi / DeepSeek / 通义等
+## Kimi / DeepSeek / Qwen, etc.
 
-- 未见官方结构化教程，默认走通用五要素；长上下文类（Kimi）可在背景要素里
-  放整份材料而非摘要。🔵 经验值，须实测。
-- 核实方法：各家官方文档 / 帮助中心
+- No official structured tutorial found; default to the universal five elements; long-context models (Kimi) can put
+  the whole material rather than a summary in the background element. 🔵 Rule of thumb, must live-test.
+- Verification method: each provider's official docs / help center
 
 ## Audit vs dialect
 
-`prompt_audit.py` 只审五要素 / 五段骨架（跨平台不变量）。平台专属能力
-（插件调用声明、变量注入、预置问题）靠人工对照本文件 + 官方文档核实——
-两层检查，缺一不可。
+`prompt_audit.py` only audits the five elements / five-part skeleton (the cross-platform invariants). Platform-specific capabilities
+(plugin-call declarations, variable injection, preset questions) are checked manually against this file + the official docs —
+two layers, neither optional.
 
 ## Change maintenance
 
-发现方言失效时：直接更新本文件对应条目 + 顶部快照日期，PR 走正常门禁。
+When a dialect is found to be stale: update the corresponding entry in this file + the snapshot date at the top directly, and let the PR go through normal gates.

@@ -1,184 +1,184 @@
-# 研究空白（Gap）识别的系统方法
+# A Systematic Method for Identifying Research Gaps
 
-> 何时读：在「确定大方向之后、锁定具体题目之前」读本文件。投稿匹配在同级的 venue-matching.md（由 SKILL.md 一并加载）。
-> **本文件不提供任何文献数据库的 API 细节，也不给任何检索量的数字。** 检索入口（arXiv / ACL Anthology / IEEE Xplore / Google Scholar / DBLP / PubMed / CNKI 等）与检索语法会变，使用前自行确认；下面只讲**方法**。
-> 核心警告：**「我没检索到」不等于「不存在」。** 所有 gap 结论在写进 proposal 前，必须做一次 §5 的反证检索。
+> When to read: read this file "after you've settled the broad direction but before you've locked the specific topic". Submission matching is in the sibling file venue-matching.md (loaded together by SKILL.md).
+> **This file provides no literature-database API details and no search-volume numbers.** The search portals (arXiv / ACL Anthology / IEEE Xplore / Google Scholar / DBLP / PubMed / CNKI, etc.) and search syntax change; confirm them yourself before use. Below we only cover **method**.
+> Core warning: **"I didn't find it" does not mean "it doesn't exist."** Every gap conclusion must go through the §5 counter-evidence search before being written into a proposal.
 
 ## Table of Contents
 
-- [1. 与 topic_selector.py 的契约](#1-与-topic_selectorpy-的契约)
-- [2. 方法 A：文献矩阵法](#2-方法-a文献矩阵法)
-- [3. 方法 B：矛盾发现法](#3-方法-b矛盾发现法)
-- [4. 方法 C：方法迁移法](#4-方法-c方法迁移法)
-- [5. 方法 D：边界条件法](#5-方法-d边界条件法)
-- [6. 方法 E：future work 挖掘法](#6-方法-e-future-work-挖掘法)
-- [7. 文献矩阵模板与读法](#7-文献矩阵模板与读法)
-- [8. Gap 有效性检验（反证）](#8-gap-有效性检验反证)
-- [9. 执行检查清单](#9-执行检查清单)
+- [1. Contract with topic_selector.py](#1-contract-with-topic_selectorpy)
+- [2. Method A: literature matrix](#2-method-a-literature-matrix)
+- [3. Method B: contradiction spotting](#3-method-b-contradiction-spotting)
+- [4. Method C: method transfer](#4-method-c-method-transfer)
+- [5. Method D: boundary-condition method](#5-method-d-boundary-condition-method)
+- [6. Method E: mining future work](#6-method-e-mining-future-work)
+- [7. Literature matrix template and how to read it](#7-literature-matrix-template-and-how-to-read-it)
+- [8. Gap validity check (counter-evidence)](#8-gap-validity-check-counter-evidence)
+- [9. Execution checklist](#9-execution-checklist)
 
 ---
 
-## 1. 与 topic_selector.py 的契约
+## 1. Contract with topic_selector.py
 
-`scripts/topic_selector.py` 只做**关键词启发式打分**（`novelty` 由 `first/novel/unexplored/without/zero-shot` 等词触发，`feasibility` 由 `large/multi/distributed/real-time/end-to-end` 等词扣减），它的输出里明确写了：
+`scripts/topic_selector.py` only does **keyword heuristic scoring** (`novelty` is triggered by words like `first/novel/unexplored/without/zero-shot`; `feasibility` is penalized by words like `large/multi/distributed/real-time/end-to-end`), and its output explicitly states:
 
 ```text
 "next": "Run lit-review to verify gap exists"
 ```
 
-也就是说：**脚本给的是待验证的假设，不是结论。** 本文件负责的就是那一步验证。
+In other words: **the script gives hypotheses to verify, not conclusions.** This file handles that verification step.
 
-| 脚本输出字段 | 由本文件的哪一步来落实 |
+| Script output field | Which step of this file lands it |
 |--------------|------------------------|
-| `novelty` | §2–§6 找到 gap → §8 反证后回填 |
-| `feasibility` | §7 矩阵里的「数据/算力/代码」列读出来 |
-| `impact` | 看矩阵里该维度是否有人引用、是否有 benchmark |
-| `recommendation: risky` | 回到 §8 检查是「真不可行」还是「只是我没找到基线」 |
+| `novelty` | §2–§6 finds a gap → §8 counter-evidence → backfill |
+| `feasibility` | Read off the "data/compute/code" column in the §7 matrix |
+| `impact` | Look at whether anyone cites that dimension in the matrix, and whether there's a benchmark |
+| `recommendation: risky` | Return to §8 to check whether it's "truly infeasible" or just "I didn't find the baseline" |
 
 ---
 
-## 2. 方法 A：文献矩阵法
+## 2. Method A: literature matrix
 
-**思路**：把同一子方向的 N 篇论文按**固定维度**摊成一张表，空白格就是候选 gap。
+**Idea**: lay N papers in the same subfield out as a table across **fixed dimensions**; the blank cells are candidate gaps.
 
 **Approach:**
 
-1. 用 2–3 组不同检索式（同义词/上下位词/英文与中文）在同一数据库检索，再对高相关论文做**引文滚雪球**（前向引用 + 后向参考文献）。
-2. 取 10–25 篇高相关论文（近 3–5 年为主，加 2–3 篇奠基性老论文）。
-3. 按 §7 的列逐篇填表。**每格必须填原文依据，不许凭印象填。**
-4. 读表：找**空白列**（没人做的维度）与**众数列**（人人都这么干、换个做法可能就是 gap）。
+1. Search the same database with 2–3 different query sets (synonyms/hypernyms-hyponyms/English and Chinese), then do **citation snowballing** (forward citations + backward references) on highly relevant papers.
+2. Take 10–25 highly relevant papers (mostly from the last 3–5 years, plus 2–3 foundational older papers).
+3. Fill in the table paper by paper using the columns in §7. **Every cell must be filled with a basis from the original text; don't fill from impression.**
+4. Read the table: look for **blank columns** (dimensions nobody has done) and **mode columns** (everyone does it this way; a different approach may be a gap).
 
-**产出**：一张填满的矩阵 + 3–5 个候选 gap。
+**Output**: one filled matrix + 3–5 candidate gaps.
 
-**失败分支**：
+**Failure branches**:
 
-- 表格填不满（很多格是「?」）→ 论文读得不够细，回去读 Method 与 Limitation 段，不要靠 abstract 脑补。
-- 少于 10 篇 → 子方向可能过窄或被别的术语称呼，扩大检索式；若扩到 3 组检索式仍不足 10 篇，记录为「该子方向文献稀少」——这既可能是 gap 也可能是**无人区（无价值）**，必须走 §8。
+- Can't fill the table (many cells are "?") → you haven't read the papers closely enough; go back and read the Method and Limitation sections; don't infer from the abstract.
+- Fewer than 10 papers → the subfield may be too narrow or known by a different term; broaden the queries. If broadening to 3 query sets still gives fewer than 10, record it as "sparse literature in this subfield" — this could be a gap or a **no-man's-land (no value)**, and it must go through §8.
 
 ---
 
-## 3. 方法 B：矛盾发现法
+## 3. Method B: contradiction spotting
 
-**思路**：同类研究给出**互相冲突**的结论，冲突本身就是 gap。
+**Idea**: when similar studies give **mutually conflicting** conclusions, the conflict itself is the gap.
 
 **Approach:**
 
-1. 在矩阵里专门标一列「核心结论」。
-2. 找出结论方向相反的两组论文（例：A 说方法 X 在小模型上有效，B 说在同等规模下无效）。
-3. 逐项对比它们的**差异变量**：数据集、模型规模、评测指标定义、prompt/超参、代码实现是否同一份。
-4. 若差异变量无法解释冲突 → 这是一个真 gap（例：「X 的有效性依赖于 __，该依赖关系此前未被系统研究」）。
+1. Add a dedicated "core conclusion" column to the matrix.
+2. Find two groups of papers with opposite conclusion directions (e.g. A says method X works on small models; B says it doesn't work at the same scale).
+3. Compare their **differing variables** one by one: dataset, model size, metric definitions, prompt/hyperparameters, whether the code implementation is the same.
+4. If the differing variables can't explain the conflict → it's a real gap (e.g. "X's effectiveness depends on __, a dependency not systematically studied before").
 
-**产出形态（直接可用的 gap 表述）**：
+**Output shape (a directly usable gap statement)**:
 
-> 「已有研究对 X 在 Y 条件下的效果给出相反结论（A 2024 vs B 2025），两者在 __ 上存在差异且未被控制。本文在统一设置下复现并给出边界条件。」
+> "Existing work gives opposite conclusions on X's effect under condition Y (A 2024 vs B 2025); the two differ on __, which was not controlled. We reproduce under a unified setup and give the boundary conditions."
 
-**注意**：矛盾必须**逐条核对实验设置**，不能只看 abstract 的结论句——很多「矛盾」其实是评测口径不同，那属于「评测标准化」类 gap，价值低于真矛盾。
+**Note**: contradictions must be **checked line by line against the experimental setup**, not just the abstract's conclusion sentence — many "contradictions" are actually different evaluation protocols, which is a lower-value "evaluation standardization" gap, not a real contradiction.
 
 ---
 
-## 4. 方法 C：方法迁移法
+## 4. Method C: method transfer
 
-**思路**：把 A 领域成熟的方法用到 B 领域尚未使用的地方。
+**Idea**: take a mature method from field A and apply it where field B hasn't used it.
 
 **Approach:**
 
-1. 列出 B 领域当前的主流方法（从矩阵「方法」列读）。
-2. 列出 A 领域的成熟方法（来自你对邻近领域的了解，或读 1–2 篇 A 领域综述）。
-3. 交叉：**A 的方法 × B 的问题**，逐个问「为什么 B 没用过？」
-   - 答案若是「没人试过」→ 候选 gap（但价值取决于是否有理由相信它会更好，见下）。
-   - 答案若是「试过，但有本质障碍（数据形态不匹配 / 假设不成立 / 复杂度不可接受）」→ 放弃，或改研究「如何克服该障碍」。
-4. **必须回答「凭什么相信迁移后有效」**：给出机制性理由（如 B 问题的结构等价于 A 的某种形式化），否则只是暴力套方法，审稿人会问「why this method」。
+1. List field B's current mainstream methods (read from the matrix's "method" column).
+2. List field A's mature methods (from your knowledge of neighboring fields, or read 1–2 A-field surveys).
+3. Cross: **A's methods × B's problems**, and ask for each "why hasn't B used it?"
+   - If the answer is "nobody tried" → candidate gap (but the value depends on whether there's reason to believe it would work better, see below).
+   - If the answer is "tried, but there's a fundamental obstacle (data shape mismatch / assumption doesn't hold / unacceptable complexity)" → give up, or research "how to overcome the obstacle".
+4. **Must answer "on what basis do you believe the transfer works"**: give a mechanistic reason (e.g. the B problem's structure is equivalent to some formalization in A); otherwise it's just brute-force method-applying, and reviewers will ask "why this method?"
 
-**产出形态**：
+**Output shape**:
 
-> 「X 方法在 A 领域被广泛用于 __，但 B 领域的 __ 任务具有同构的 __ 结构。本文首次将 X 引入 B，并针对 __ 差异做 Y 适配。」
+> "Method X is widely used for __ in field A, but the __ task in field B has an isomorphic __ structure. We introduce X to B for the first time and adapt Y for the __ difference."
 
 ---
 
-## 5. 方法 D：边界条件法
+## 5. Method D: boundary-condition method
 
-**思路**：已有结论的**适用范围**没被刻画清楚。
+**Idea**: the **applicable range** of an existing conclusion hasn't been characterized.
 
 **Approach:**
 
-1. 找一条被广泛引用的结论（例：「方法 X 优于基线」）。
-2. 列出它的隐含前提：数据规模、语言/领域、模型规模、任务类型、标注量、延迟预算、分布是否偏移。
-3. 挑一个前提，问「前提不成立时会怎样？」
-4. 若原论文只在单一设置下验证，而该前提在实践中经常不成立 → gap。
+1. Find a widely cited conclusion (e.g. "method X beats the baseline").
+2. List its implicit premises: data scale, language/domain, model size, task type, annotation volume, latency budget, distribution shift.
+3. Pick one premise and ask "what happens when the premise doesn't hold?"
+4. If the original paper only validated under a single setup, and that premise often doesn't hold in practice → gap.
 
-**产出形态**：
+**Output shape**:
 
-> 「X 的有效性仅在 __ 设置下被验证。本文在 __（更贴近实际的设置）下系统评测，发现 __，并给出 __ 的适用边界。」
+> "X's effectiveness has only been validated under __ setup. We systematically evaluate under __ (a more realistic setup), find __, and give the applicability boundary of __."
 
-**为什么这类 gap 好做**：不需要提出全新方法，实验设计清晰，容易写清楚 contribution；且对 reviewer 有明确价值（防止社区误用）。**但**要避免被判「增量不足」——需要给出**机制解释**或**可操作的判据**，而不只是「我们测了发现不行」。
+**Why this kind of gap is easy to do**: no need to propose a brand-new method, the experiment design is clear, and it's easy to write the contribution clearly; and it has clear value to reviewers (preventing community misuse). **But** avoid being judged "insufficiently incremental" — you need a **mechanism explanation** or an **operational criterion**, not just "we tested it and it doesn't work."
 
 ---
 
-## 6. 方法 E：future work 挖掘法
+## 6. Method E: mining future work
 
-**思路**：综述与高引论文的 future work 段落是**公开的 gap 清单**，但也是竞争最激烈的地方。
+**Idea**: the future-work sections of surveys and highly cited papers are **public gap lists**, but also the most competitive spot.
 
 **Approach:**
 
-1. 找 3–5 篇近 2 年的相关**综述**（survey / systematic review），精读 future work / open challenges 段落。
-2. 把每条 future work 抄进一张表，标注：提出时间、提出者、是否已被做（再去检索验证）。
-3. **关键动作**：对每条 future work 做一次「是否已被解决」的针对性检索（用该句的核心词 + 近 1 年 + 预印本库）。
-4. 仍然open的条目：评估可行性（是否有数据/算力/基线代码）。
+1. Find 3–5 related **surveys** from the last 2 years; read the future work / open challenges sections closely.
+2. Copy each future-work item into a table, noting: proposed when, by whom, and whether it's been done already (verify by searching again).
+3. **Key action**: for each future-work item, run a targeted "has it been solved?" search (using the sentence's core words + last 1 year + preprint servers).
+4. For items still open: assess feasibility (is data/compute/baseline code available?).
 
-**风险与对策**：
+**Risks and countermeasures**:
 
-- 风险：所有人都在读同一批综述 → 撞车率高；且部分 future work 之所以没人做，是因为**难或没价值**。
-- 对策：优先选①被多篇综述独立提及，②但**没有明确技术路线**的条目（说明大家知道重要但不知怎么做，你若能给出路线就是贡献）。
+- Risk: everyone reads the same surveys → high collision; and some future work goes undone because it's **hard or worthless**.
+- Countermeasure: prefer items that ① are independently mentioned by multiple surveys, but ② have **no clear technical roadmap** (meaning everyone knows it matters but not how; if you can give the roadmap, that's a contribution).
 
-**产出形态**：`{future work 原文引用, 出处+年份, 检索式, 是否已解决(证据), 我的切入点}`。
+**Output shape**: `{future-work original quote, source+year, query, already solved? (evidence), my entry point}`.
 
 ---
 
-## 7. 文献矩阵模板与读法
+## 7. Literature matrix template and how to read it
 
-复制使用（每格填原文依据，不确定写 `?` 并回原文核实）：
+Copy and use (fill each cell with an original-text basis; if unsure, write `?` and go back to the source to verify):
 
-| 论文（作者+年+venue） | 任务/问题 | 方法 | 数据/规模 | 评测指标 | 核心结论 | 已声明局限 | 是否开源 | 未覆盖维度 |
+| Paper (author+year+venue) | Task/problem | Method | Data/scale | Metrics | Core conclusion | Declared limitations | Open-sourced? | Uncovered dimensions |
 |---|---|---|---|---|---|---|---|---|
-| A et al. 2024, ACL | 多智能体协商 | 角色提示 + 投票 | 自建 500 例 | 成功率 | 投票优于单智能体 | 仅英文、仅 3 智能体 | 是 | 无共享记忆场景 |
-| B et al. 2025, arXiv | 多智能体协作 | 共享黑板 | AgentBench | 任务完成度 | 黑板机制有效 | 假设共享上下文 | 否 | 零共享场景 |
+| A et al. 2024, ACL | Multi-agent negotiation | Role prompts + voting | Self-built 500 cases | Success rate | Voting beats single-agent | English only, 3 agents only | Yes | No shared-memory setting |
+| B et al. 2025, arXiv | Multi-agent collaboration | Shared blackboard | AgentBench | Task completion | Blackboard mechanism works | Assumes shared context | No | Zero-sharing setting |
 
-**读法（按顺序看）**：
+**How to read it (in order)**:
 
-1. **横看一行**：这篇论文没做什么？（→ 「已声明局限」列）
-2. **竖看一列**：所有论文在这个维度上是不是都一样？（→ 众数即盲区；例：全部只测英文 → 多语言是 gap）
-3. **找空格**：矩阵里某篇论文某列是空的/写 `?` → 该论文在该维度上未评估（可能是你复现与补测的机会）
-4. **找冲突**：结论列方向相反的行 → 走 §3
-5. **看「是否开源」**：全部不开源 → **复现与基准本身就是贡献**（但要先确认社区确实需要这个基准）
-6. **看时间**：近 12 个月内是否有新论文突然增多 → 该方向正在变热（早进场 vs 已红海，自行判断，本文件不给热度数据）
+1. **Read a row across**: what didn't this paper do? (→ the "declared limitations" column)
+2. **Read a column down**: does every paper look the same on this dimension? (→ the mode is the blind spot; e.g. all tested English only → multilingual is a gap)
+3. **Find blanks**: a cell in a paper is empty / `?` → that paper didn't evaluate on that dimension (could be your reproduction-and-fill-in opportunity)
+4. **Find conflicts**: rows with opposite conclusion directions → go to §3
+5. **Look at "open-sourced?"**: none open → **reproduction and the benchmark itself is the contribution** (but first confirm the community actually needs this benchmark)
+6. **Look at time**: have new papers suddenly increased in the last 12 months → the area is heating up (early entry vs already red ocean; judge yourself; this file gives no heat data)
 
 ---
 
-## 8. Gap 有效性检验（反证）
+## 8. Gap validity check (counter-evidence)
 
-找到候选 gap 后，**先尝试否定它**。以下任一不通过，就不写进 `ranked_topics`：
+After finding a candidate gap, **first try to falsify it**. If any check below fails, don't write it into `ranked_topics`:
 
-| 检验 | 做法 | 不通过的处置 |
+| Check | How | Failure handling |
 |------|------|--------------|
-| 存在性反证 | 换 3 组检索式（同义/上下位/缩写）、换 1 个数据库、查近 12 个月**预印本**（arXiv 等，很多 gap 已被抢发但未正式发表） | 找到同类工作 → 降级或转向其未覆盖的子维度 |
-| 无价值假设 | 问「如果做成了，谁会引用？在什么问题上是必要的一步？」 | 答不出 → 疑似无人区，放弃 |
-| 不可行假设 | 问「是不是因为缺数据/缺算力/不可证伪才没人做？」 | 若是且你也无法解决 → 放弃；若能解决，把「如何解决」写成 contribution 之一 |
-| 可证伪性 | gap 表述必须能被实验判定成立/不成立 | 不能 → 改写成可测量的形式 |
-| 切入点唯一性 | 你的角度是否与已有工作只是「换了个数据集」 | 若是 → 补机制解释或方法改进，否则判为增量不足 |
-| 资源核对 | 数据、算力、基线代码、评测脚本是否都可得 | 缺一项 → 记入 `feasibility` 扣分，并在 constraints 里写明 |
+| Existence counter-evidence | Swap in 3 query sets (synonyms/hypernyms-hyponyms/abbreviations), swap 1 database, check the last 12 months of **preprints** (arXiv, etc. — many gaps have been scooped but not formally published) | Found similar work → demote or pivot to the sub-dimension it doesn't cover |
+| No-value hypothesis | Ask "if done, who would cite it? On what problem is it a necessary step?" | Can't answer → suspected no-man's-land; give up |
+| Infeasibility hypothesis | Ask "is it undone because of missing data / compute / unfalsifiability?" | If yes and you also can't solve it → give up; if you can solve it, write "how to solve it" as one of the contributions |
+| Falsifiability | The gap statement must be decidable as true/false by experiment | Can't → rewrite it into a measurable form |
+| Entry-point uniqueness | Is your angle just "a different dataset" from existing work? | If yes → add a mechanism explanation or method improvement; otherwise judge it insufficiently incremental |
+| Resource check | Are data, compute, baseline code, and evaluation scripts all available? | Missing one → record it as a `feasibility` deduction and write it into constraints |
 
-**脚本输出的 `rejected` 列表**要写清楚拒绝理由（例：`Already covered by X et al. 2025 — 检索式：...，检索日期：...`），便于后续复核。
+The script's `rejected` list must state the rejection reason clearly (e.g. `Already covered by X et al. 2025 — query: ..., search date: ...`), so it can be reviewed later.
 
 ---
 
-## 9. 执行检查清单
+## 9. Execution checklist
 
-- [ ] 至少 3 组检索式 + 引文滚雪球，覆盖近 3–5 年（含预印本）
-- [ ] 文献矩阵 ≥10 篇，每格有原文依据，无凭印象填写
-- [ ] 至少用了 2 种找 gap 的方法（不要只靠 future work）
-- [ ] 每个候选 gap 都过了 §8 的 6 项反证，且有检索式与检索日期记录
-- [ ] gap 表述可证伪，含「在什么条件下、用什么指标、判定成立/不成立」
-- [ ] 已确认数据/算力/基线代码可得性，并反映在 `feasibility`
-- [ ] `ranked_topics` 每条都填了 `gap` / `baseline` / `contribution_angle` 三个字段
-- [ ] `rejected` 列表非空（说明你真的筛过，而不是把想到的都留下）
-- [ ] 明确记录了「本轮检索的覆盖边界」（哪些数据库、截止日期、哪些术语没查） —— 这一步决定后续能否复现你的结论
+- [ ] At least 3 query sets + citation snowballing, covering the last 3–5 years (including preprints)
+- [ ] Literature matrix ≥10 papers, every cell has an original-text basis, nothing filled from impression
+- [ ] Used at least 2 gap-finding methods (don't rely only on future work)
+- [ ] Every candidate gap passed the 6 counter-evidence checks in §8, with query sets and search dates recorded
+- [ ] The gap statement is falsifiable, stating "under what conditions, with what metrics, judged true/false"
+- [ ] Confirmed data/compute/baseline-code availability, reflected in `feasibility`
+- [ ] Every `ranked_topics` entry fills in the three fields `gap` / `baseline` / `contribution_angle`
+- [ ] The `rejected` list is non-empty (showing you really screened, not just kept everything you thought of)
+- [ ] Explicitly recorded "the coverage boundary of this round of searching" (which databases, cutoff date, which terms weren't searched) — this step determines whether your conclusions can be reproduced later

@@ -1,158 +1,158 @@
-# 中文语病机械检查清单
+# Mechanical Checklist for Chinese Grammatical Errors
 
-> 何时读：润色阶段做**句法层**检查时读本文件。标点/术语/空格等风格问题在同级的 style-guide.md（由 SKILL.md 一并加载）。
-> 体例：每条 = 病句原文 / 修改后 / 判定方法。判定方法尽量给出可扫的字符串或正则特征。
-> 所有正则均为**启发式（会误报）**，只用于「定位候选」，最终判定必须人工或模型确认——不要写自认为能百分百判对复杂断言。
+> When to read: read this file when doing **syntactic-layer** checks during the polishing stage. Style issues (punctuation / terminology / spacing) are in the sibling file style-guide.md (loaded together by SKILL.md).
+> Format: each entry = bad original / corrected / how to tell. The "how to tell" column gives scannable strings or regex features wherever possible.
+> All regexes are **heuristic (they will false-positive)**, and are only used to "locate candidates"; final judgment must be by a human or the model — do not write a complex assertion you believe is 100% correct.
 
 ## Table of Contents
 
-- [1. 成分残缺](#1-成分残缺)
-- [2. 搭配不当](#2-搭配不当)
-- [3. 主语偷换（暗换主语）](#3-主语偷换暗换主语)
-- [4. 歧义指代](#4-歧义指代)
-- [5. 冗余重复](#5-冗余重复)
-- [6. 量词误用](#6-量词误用)
-- [7. 的 / 地 / 得](#7-的--地--得)
-- [8. 关联词与两面对一面](#8-关联词与两面对一面)
-- [9. 检查脚本思路与正则片段](#9-检查脚本思路与正则片段)
+- [1. Missing components](#1-missing-components)
+- [2. Improper collocation](#2-improper-collocation)
+- [3. Subject switching (hidden subject change)](#3-subject-switching-hidden-subject-change)
+- [4. Ambiguous reference](#4-ambiguous-reference)
+- [5. Redundancy](#5-redundancy)
+- [6. Misused classifiers](#6-misused-classifiers)
+- [7. de / de / de (的 / 地 / 得)](#7-de--de--de--的--地--得)
+- [8. Connectives and two-sided vs one-sided](#8-connectives-and-two-sided-vs-one-sided)
+- [9. Check-script approach and regex snippets](#9-check-script-approach-and-regex-snippets)
 
 ---
 
-## 1. 成分残缺
+## 1. Missing components
 
 | # | Original (bad) | Rewritten | How to tell |
 |---|----------|--------|----------|
-| 1.1 | 通过这次压测，使连接池成为瓶颈。 | 这次压测表明连接池是瓶颈。 | 句首出现「通过/经过/由于」+ 句中出现「使/让/令」→ 主语被吞。扫 `通过.*使` `由于.*让` |
-| 1.2 | 本文将详细介绍如何排查，以及优化。 | 本文将详细介绍如何排查瓶颈，以及如何优化配置。 | 「以及/和」连接的并列项语法层级不同（一个是子句，一个是名词）→ 宾语残缺。并列项各自补出中心词 |
-| 1.3 | 关于连接池参数，需要根据压测结果。 | 连接池参数需要根据压测结果调整。 | 「关于…」介词结构作状语，句子没有谓语 → 缺谓语。扫句首「关于/对于」后是否只有一个逗号分句 |
-| 1.4 | 从 62ms 降低。 | 从 200ms 降到 62ms。 | 「从/由」缺少起点或终点。扫 `从[^，。]*?（降低\|提升\|减少）` 且句中无「到/至/了+数值」 |
-| 1.5 | 在排查过程中发现，索引未被使用。 | 我们在排查过程中发现，索引未被使用。 | 「在…中/时」后直接跟动词，无主语。扫 `在[^，]*?(中\|过程中\|时)，[^我你他它我们]*?[发动]` |
+| 1.1 | Through this load test, made the connection pool the bottleneck. | This load test shows the connection pool is the bottleneck. | Sentence-initial "通过/经过/由于" + mid-sentence "使/让/令" → subject swallowed. Scan `通过.*使` `由于.*让`. |
+| 1.2 | This article will detail how to troubleshoot, and how to optimize. | This article will detail how to troubleshoot the bottleneck, and how to optimize the config. | Coordinated items joined by "以及/和" are at different grammatical levels (one a clause, one a noun) → missing object. Restore the head noun in each coordinated item. |
+| 1.3 | Regarding connection-pool parameters, need to based on load-test results. | Connection-pool parameters need to be adjusted based on load-test results. | "关于…" prepositional phrase acts as adverbial, and the sentence has no predicate → missing predicate. Scan whether after sentence-initial "关于/对于" there is only one comma-separated clause. |
+| 1.4 | Reduced from 62ms. | Dropped from 200ms to 62ms. | "从/由" lacks a start or end. Scan `从[^，。]*?（降低\|提升\|减少）` with no "到/至/了+number" in the sentence. |
+| 1.5 | During troubleshooting found that the index was unused. | During troubleshooting we found that the index was unused. | "在…中/时" directly followed by a verb with no subject. Scan `在[^，]*?(中\|过程中\|时)，[^我你他它我们]*?[发动]`. |
 
 ---
 
-## 2. 搭配不当
+## 2. Improper collocation
 
 | # | Original (bad) | Rewritten | How to tell |
 |---|----------|--------|----------|
-| 2.1 | 这个方案提高了延迟。 | 这个方案降低了延迟 / 提高了吞吐。 | 「提高」与「延迟/耗时/错误率」语义冲突。维护「动词 → 可搭配名词」白名单，命中反向搭配即报 |
-| 2.2 | 我们把性能增强了 30%。 | 我们把性能提升了 30%。 | 「增强」不与「性能」搭配（增强：能力/信心/防护）。查搭配词典 |
-| 2.3 | 一个非常巨大的提升。 | 一个巨大的提升。 | 「非常」不修饰本身含程度义的词（巨大/极其/唯一）。扫 `非常(巨大\|极其\|唯一\|首选)` |
-| 2.4 | 解决了用户的痛点问题。 | 解决了用户的痛点 / 解决了问题。 | 「痛点」已含「问题」义，构成修饰冗余（同时命中 §5） |
-| 2.5 | 该方法的准确率非常精确。 | 该方法的准确率很高 / 该方法非常精确。 | 「准确率」配「高/低」，「方法」配「精确」。主语与形容词错配 |
+| 2.1 | This approach raised latency. | This approach lowered latency / raised throughput. | "提高" clashes semantically with "latency/elapsed time/error rate". Maintain a whitelist of "verb → collocating nouns"; flag reverse collocations. |
+| 2.2 | We enhanced performance by 30%. | We improved performance by 30%. | "增强" doesn't collocate with "performance" (enhance: capability/confidence/protection). Check a collocation dictionary. |
+| 2.3 | A very enormous improvement. | An enormous improvement. | "非常" doesn't modify words that already contain a degree sense (huge/extremely/unique). Scan `非常(巨大\|极其\|唯一\|首选)`. |
+| 2.4 | Solved users' pain-point problem. | Solved users' pain point / solved the problem. | "痛点" already contains the sense of "problem", creating redundant modification (also hits §5). |
+| 2.5 | This method's accuracy is very precise. | This method's accuracy is high / this method is very precise. | "Accuracy" pairs with "high/low"; "method" pairs with "precise". Subject–adjective mismatch. |
 
 ---
 
-## 3. 主语偷换（暗换主语）
+## 3. Subject switching (hidden subject change)
 
 | # | Original (bad) | Rewritten | How to tell |
 |---|----------|--------|----------|
-| 3.1 | 连接池打满之后，数据库连接数一直不降。 | 连接池打满之后，其连接数一直不降。 | 前句主语是「连接池」，后句实际主语变成「连接数」，读者会误读。检查：相邻分句主语是否为同一实体 |
-| 3.2 | 我们先看火焰图，发现 78% 的时间在等待 I/O。 | 我们先看火焰图，从中发现 78% 的时间在等待 I/O。 | 「发现」的主语应是「我们」还是「火焰图」？加「从中」消歧 |
-| 3.3 | 这个库支持异步，但需要你自己管理事务。 | 这个库支持异步，但事务需要你自己管理。 | 「需要」前省略的主语变成了「这个库」。补出真实主语 |
-| 3.4 | 优化后 P99 从 200ms 降到 62ms，团队决定全量上线。 | 优化后 P99 从 200ms 降到 62ms；基于这个结果，团队决定全量上线。 | 无连接词的两个分句主语突变 → 加连接成分 |
+| 3.1 | After the connection pool filled up, the database connection count kept not dropping. | After the connection pool filled up, its connection count kept not dropping. | The previous clause's subject is "connection pool"; the next clause's actual subject becomes "connection count" — the reader misreads. Check: are adjacent clauses' subjects the same entity? |
+| 3.2 | We first looked at the flame graph, found 78% of time waiting on I/O. | We first looked at the flame graph, and from it found 78% of time waiting on I/O. | Should the subject of "found" be "we" or "the flame graph"? Add "from it" to disambiguate. |
+| 3.3 | This library supports async, but requires you to manage transactions yourself. | This library supports async, but transactions require you to manage them yourself. | The omitted subject before "requires" has become "this library". Restore the real subject. |
+| 3.4 | After optimization P99 dropped from 200ms to 62ms, the team decided to roll out fully. | After optimization P99 dropped from 200ms to 62ms; based on this result, the team decided to roll out fully. | Two clauses with no connective and a sudden subject change → add a connective. |
 
-**判定法（可半自动）**：以 `，；` 切分句子 → 对每个分句抽取**第一个名词短语**作为候选主语 → 若相邻两个分句候选主语不同且后一分句无显式主语 → 标记为「疑似主语偷换」，人工确认。
+**How to tell (semi-automatic)**: split the sentence on `，；` → extract the **first noun phrase** of each clause as the candidate subject → if two adjacent clauses have different candidate subjects and the latter has no explicit subject → flag as "suspected subject switch" for human confirmation.
 
 ---
 
-## 4. 歧义指代
+## 4. Ambiguous reference
 
 | # | Original (bad) | Rewritten | How to tell |
 |---|----------|--------|----------|
-| 4.1 | 我们把 Redis 接到了 Postgres 前面，它在高并发下会先崩。 | 我们把 Redis 接到了 Postgres 前面，前者在高并发下会先崩。 | 句中出现 ≥2 个同类型实体时，「它」不可还原。扫「它/其/这个/那个/前者/后者」，统计其前 60 字内的名词数量 |
-| 4.2 | 这个方案比上一个快，但它还没经过压测。 | 这个方案比上一个快，但新方案还没经过压测。 | 「它」可能指新方案也可能指旧方案 |
-| 4.3 | 该问题与该方案的关系不大。 | 该方案对这个问题帮助不大。 | 「该」滥用造成抽象堆叠，两个「该」指向不同对象 |
-| 4.4 | 前者比后者更稳定，这在我们的测试中已验证。 | 前者比后者更稳定，这一结论在我们的测试中已得到验证。 | 「这」回指整个句子还是「前者」→ 补出中心词 |
+| 4.1 | We put Redis in front of Postgres; it will crash first under high concurrency. | We put Redis in front of Postgres; the former will crash first under high concurrency. | When ≥2 entities of the same type appear in the sentence, "it" is unrecoverable. Scan "它/其/这个/那个/前者/后者" and count the nouns within the preceding 60 characters. |
+| 4.2 | This approach is faster than the last one, but it hasn't been load-tested. | This approach is faster than the last one, but the new one hasn't been load-tested. | "It" could mean the new or the old approach. |
+| 4.3 | This problem has little to do with that approach. | That approach helps little with this problem. | Overuse of "该" creates an abstract pile-up where the two "该"s point to different objects. |
+| 4.4 | The former is more stable than the latter, which we've verified in our tests. | The former is more stable than the latter, a conclusion we've verified in our tests. | Does "这" refer to the whole sentence or to "the former"? Restore the head noun. |
 
-**判定法**：统计 `它|其|这个|那个|前者|后者|该` 的出现位置；对每个位置向前查找 80 字内的候选先行词数量，≥2 即标记。跨段落的指代一律改回名词。
+**How to tell**: count the positions of `它|其|这个|那个|前者|后者|该`; for each, look back 80 characters and count candidate antecedents — ≥2 means flag it. Cross-paragraph references must always be turned back into nouns.
 
 ---
 
-## 5. 冗余重复
+## 5. Redundancy
 
 | # | Original (bad) | Rewritten | How to tell |
 |---|----------|--------|----------|
-| 5.1 | 这是我们必须要做的必要条件。 | 这是必要条件。 | 「必须」与「必要」重复。扫 `必须.*必要` `必要.*必须` |
-| 5.2 | 大约 30ms 左右。 | 约 30ms。 / 30ms 左右。 | 「大约」与「左右」同为约数标记。扫 `大约.*左右` `大概.*上下` |
-| 5.3 | 免费赠送 / 提前预约 / 共同协作 / 凯旋归来 | 赠送 / 预约 / 协作 / 凯旋 | 词内已含该语义的固定冗余表 |
-| 5.4 | 这是一个非常独特而且独一无二的方案。 | 这是一个独特的方案。 | 同义并列（独特 / 独一无二）只留一个。扫同义词对的共现 |
-| 5.5 | 进行了优化处理。 | 优化了。 | 「进行/加以/予以 + 双音节动词」名词化赘语。扫 `(进行\|加以\|予以\|给予)(优化\|调整\|分析\|处理\|改进)` |
-| 5.6 | 之所以变慢的原因是因为索引没建。 | 变慢的原因是索引没建。 | 「之所以…的原因」+「因为」双重因果标记。扫 `之所以.*原因` |
+| 5.1 | This is a necessary condition we must do. | This is a necessary condition. | "必须" and "必要" repeat. Scan `必须.*必要` `必要.*必须`. |
+| 5.2 | About 30ms or so. | About 30ms. / Around 30ms. | "大约" and "左右" are both approximate-number markers. Scan `大约.*左右` `大概.*上下`. |
+| 5.3 | Free gift / book ahead / mutual cooperate / triumphant return | Gift / book / cooperate / triumph | Fixed redundancy where the word already contains the sense. |
+| 5.4 | This is a very unique and one-of-a-kind approach. | This is a unique approach. | Synonymous coordination (unique / one-of-a-kind) — keep one. Scan for co-occurring synonym pairs. |
+| 5.5 | Carried out optimization processing. | Optimized it. | "进行/加以/予以 + disyllabic verb" nominalization clutter. Scan `(进行\|加以\|予以\|给予)(优化\|调整\|分析\|处理\|改进)`. |
+| 5.6 | The reason it slowed down is because the index wasn't created. | It slowed down because the index wasn't created. | "之所以…的原因" + "because" double causal marking. Scan `之所以.*原因`. |
 
 ---
 
-## 6. 量词误用
+## 6. Misused classifiers
 
 | # | Original (bad) | Rewritten | How to tell |
 |---|----------|--------|----------|
-| 6.1 | 三个优化的技巧 | 三个优化技巧 / 三条优化技巧 | 名词与量词错配：抽象条目用「条/点」，具体物件用「个」 |
-| 6.2 | 一个连接池打满的问题 | 一个连接池问题 | 多层定语堆叠导致量词与中心词距离过远，中心词应为「问题」 |
-| 6.3 | 这个命令跑出了 5 个种错误 | 这个命令跑出了 5 种错误 | 「个」与「种」连用。扫 `\d+\s*个(种\|类\|条\|份)` |
-| 6.4 | 一台 4 核的服务器们 | 多台 4 核服务器 | 「们」不用于无生命名词，也不与数量词共现。扫 `[数量词].*们` 与非人名词 + 们 |
+| 6.1 | Three optimization techniques (个) | Three optimization techniques | Noun–classifier mismatch: abstract items use "条/点", concrete objects use "个". |
+| 6.2 | A problem of the connection pool filling up | A connection-pool problem | Stacked modifiers push the classifier too far from the head noun; the head should be "problem". |
+| 6.3 | This command threw 5 kinds (个种) of errors. | This command threw 5 types of errors. | "个" used together with "种". Scan `\d+\s*个(种\|类\|条\|份)`. |
+| 6.4 | Several 4-core servers (们) | Multiple 4-core servers | "们" isn't used for inanimate nouns or with quantity words. Scan `[数量词].*们` and non-human nouns + 们. |
 
-常用搭配（经验表，非穷举）：方案/技巧/建议 → 个/条；问题/错误 → 个/类/种；数据 → 组/份/条；指标 → 个/项；服务器/机器 → 台；代码 → 段/行/份。
+Common collocations (rule-of-thumb table, not exhaustive): approach/technique/suggestion → 个/条; problem/error → 个/类/种; data → 组/份/条; metric → 个/项; server/machine → 台; code → 段/行/份.
 
 ---
 
-## 7. 的 / 地 / 得
+## 7. de / de / de (的 / 地 / 得)
 
 | # | Original (bad) | Rewritten | How to tell |
 |---|----------|--------|----------|
-| 7.1 | 这个方案可以快速的定位问题。 | 这个方案可以快速地定位问题。 | 「地」+ 动词/形容词谓语：「快速」修饰动词「定位」→ 用「地」 |
-| 7.2 | 他分析的很清楚。 | 他分析得很清楚。 | 「得」+ 补语（程度/结果）。动词 + 得 + 补充说明 |
-| 7.3 | 这是一份详细地说明了原理的文档。 | 这是一份详细地说明了原理的文档。（若强调动作的地；若作定语则应为「的」） | 判定顺序见下 |
-| 7.4 | 连接池打满地问题 | 连接池打满的问题 | 名词性偏正结构 → 「的」 |
+| 7.1 | This approach can quickly (的) locate the problem. | This approach can quickly (地) locate the problem. | "地" + verb/adjective predicate: "quickly" modifies the verb "locate" → use "地". |
+| 7.2 | He analyzed very clear (的). | He analyzed very clearly (得). | "得" + complement (degree/result). Verb + 得 + elaboration. |
+| 7.3 | This is a doc that detailed (地) explains the principle. | (If emphasizing the action, use 地; if as an attributive, it should be 的.) | See the judgment order below. |
+| 7.4 | The problem of the connection pool filling up (地) | The problem of the connection pool filling up (的) | Noun modifier-head structure → "的". |
 
-**判定顺序（写成规则而不是直觉）**：
+**Judgment order (as rules, not intuition)**:
 
-1. 「X 的 Y」：Y 是名词或名词短语 → **的**。
-2. 「X 地 V」：V 是动词/形容词谓语，X 是状语 → **地**。
-3. 「V 得 C」：C 是补语（程度/结果/可能），中间插入「得」→ **得**。
-4. 无法归入以上三种 → 交给人工，不要猜。
+1. "X 的 Y": Y is a noun or noun phrase → **的**.
+2. "X 地 V": V is a verb/adjective predicate, X is an adverbial → **地**.
+3. "V 得 C": C is a complement (degree/result/possibility), with "得" inserted → **得**.
+4. Doesn't fit any of the three → hand to a human; don't guess.
 
-简易扫描：找 `地` 后紧跟名词性词尾（「问题/方案/原因/情况」等）→ 疑似应为 `的`；找 `的` 后紧跟动词且前面是副词（如「快速的详细」）→ 疑似应为 `地`。
+Quick scan: if `地` is immediately followed by a nominal tail ("problem/approach/reason/situation", etc.) → likely should be `的`; if `的` is immediately followed by a verb preceded by an adverb (e.g. "quickly detail") → likely should be `地`.
 
 ---
 
-## 8. 关联词与两面对一面
+## 8. Connectives and two-sided vs one-sided
 
 | # | Original (bad) | Rewritten | How to tell |
 |---|----------|--------|----------|
-| 8.1 | 虽然连接池调大了，但是 QPS 没变。 | 虽然连接池调大了，但 QPS 没变。（可保留「但是」，但不要与「然而」叠用） | 扫 `虽然.*然而.*但是` 多重转折 |
-| 8.2 | 不但提升了吞吐，而且延迟也降低了。 | 不但提升了吞吐，还降低了延迟。 | 「不但…而且」两分句主语一致时，主语应在「不但」前；不一致时应分置 |
-| 8.3 | 能否压到 60ms，取决于索引是否正确建立。 | 能否压到 60ms，取决于索引能否正确建立。 | **两面对一面**：前半「能否」是两面，后半「正确」是一面。扫 `能否\|是否\|有没有` 与后半句是否出现对应两面词 |
-| 8.4 | 因为我们加了缓存，所以延迟降低的原因。 | 因为我们加了缓存，所以延迟降低了。 | 「因为…所以」与「…的原因」杂糅。扫 `因为.*原因` |
+| 8.1 | Although the connection pool was enlarged, however QPS didn't change. | Although the connection pool was enlarged, QPS didn't change. (Keep "but" if you like, but don't stack it with "however".) | Scan `虽然.*然而.*但是` for multiple adversatives. |
+| 8.2 | Not only raised throughput, but also lowered latency. | Not only raised throughput, but also lowered latency. | When the two clauses of "不但…而且" share a subject, the subject should precede "不但"; when they differ, place them separately. |
+| 8.3 | Whether we can hit 60ms depends on whether the index is built correctly. | Whether we can hit 60ms depends on whether the index can be built correctly. | **Two-sided vs one-sided**: the front "能否" is two-sided, the back "正确" is one-sided. Scan `能否\|是否\|有没有` and check whether the second half has a matching two-sided word. |
+| 8.4 | Because we added caching, so the reason latency dropped. | Because we added caching, latency dropped. | "因为…所以" mixed with "…的原因". Scan `因为.*原因`. |
 
 ---
 
-## 9. 检查脚本思路与正则片段
+## 9. Check-script approach and regex snippets
 
-只做「候选定位」，不做自动改写。建议的检查顺序：
+Only do "candidate location", not automatic rewriting. Suggested check order:
 
-1. **预处理**：剔除代码块（```` ``` ```` 包裹）与行内代码（`` ` `` 包裹），避免把代码里的内容当语病。
-2. **切句**：按 `。！？；\n` 切分为句子，保留原始行号（用累计偏移算，不要按 `split` 后下标当行号）。
-3. **逐类扫描**：每类一个独立函数，返回 `{type, 片段, 行号, 建议}`。
-4. **聚合输出**：与 `scripts/editor.py` 的 `issues` 结构保持一致，便于上层直接消费。
+1. **Preprocessing**: strip code blocks (wrapped in ```` ``` ````) and inline code (wrapped in `` ` ``), so content inside code isn't treated as a grammatical error.
+2. **Sentence splitting**: split on `。！？；\n` into sentences, preserving original line numbers (compute via cumulative offsets; don't use post-`split` indices as line numbers).
+3. **Per-category scan**: one independent function per category, returning `{type, fragment, line, suggestion}`.
+4. **Aggregate output**: keep consistent with the `issues` structure in `scripts/editor.py` so the upper layer can consume it directly.
 
-可用的简单正则片段（**明确声明：会误报，仅供定位**）：
+Simple regex snippets you can use (**explicitly: these will false-positive, for location only**):
 
 ```python
 import re
 
 CANDIDATES = {
-    # 介词结构吞主语：通过/经过/由于 … 使/让/令
+    # Prepositional phrase swallowing the subject: 通过/经过/由于 … 使/让/令
     "missing_subject": re.compile(r"(通过|经过|由于)[^。；]{0,30}(使|让|令)"),
-    # 约数重复
+    # Redundant approximate numbers
     "approx_dup": re.compile(r"(大约|大概|约)[^。；]{0,15}(左右|上下)"),
-    # 名词化赘语
+    # Nominalization clutter
     "nominalization": re.compile(r"(进行|加以|予以|给予)(优化|调整|分析|处理|改进|讨论)"),
-    # 「之所以」与「原因」杂糅
+    # "之所以" mixed with "原因"
     "causal_mix": re.compile(r"之所以[^。；]{0,30}原因"),
-    # 量词连用
+    # Repeated classifiers
     "classifier_dup": re.compile(r"\d+\s*个(种|类|条|份)"),
-    # 两面对一面的前置线索（需进一步判断后半句）
+    # Two-sided-vs-one-sided leading clue (needs further judgment of the second half)
     "two_vs_one": re.compile(r"(能否|是否|有没有)[^。；]{0,40}"),
-    # 指代候选（只定位，不判定）
+    # Anaphora candidates (locate only, don't judge)
     "anaphora": re.compile(r"(它|其|这个|那个|前者|后者|该)"),
 }
 
@@ -161,9 +161,9 @@ def scan(text: str):
         for m in pat.finditer(text):
             line = text.count("\n", 0, m.start()) + 1
             yield {"type": t, "fragment": m.group(0), "line": line,
-                   "advice": "候选，需人工确认"}
+                   "advice": "candidate, needs human confirmation"}
 ```
 
-**为什么不给复杂断言**：中文没有空格分词，主语、谓语、补语的边界无法用正则可靠判定；「地/得」的正确性依赖词性标注。与其写一条看起来聪明但会漏报、会误报的长正则，不如给候选 + 强制人工确认这一条**确定**的流程。
+**Why no complex assertions**: Chinese has no whitespace tokenization, so the boundaries of subject, predicate, and complement can't be reliably judged by regex; correctness of "地/得" depends on part-of-speech tagging. Rather than writing one long regex that looks clever but both misses and false-flags, the **certain** procedure is "candidates + mandatory human confirmation".
 
-**输出契约**：问题条目并入 `scripts/editor.py` 的 `issues` 列表；`score = 100 - 问题数×5 - 长句数×2`（与现有实现一致），不要另起一套评分。
+**Output contract**: problem entries merge into the `issues` list in `scripts/editor.py`; `score = 100 - issue_count×5 - long_sentence_count×2` (consistent with the existing implementation) — don't invent a separate scoring scheme.

@@ -1,33 +1,33 @@
-# 生成陷阱
+# Generation Pitfalls
 
-## L1 模板陷阱
+## L1 template pitfalls
 
-1. **模板变量未填充**：context 中缺少必要变量导致渲染失败。规则：渲染前校验所有占位符。
+1. **Template variable not filled**: a missing required variable in the context causes rendering to fail. Rule: validate all placeholders before rendering.
 
-2. **文件名冲突**：目标文件已存在时直接覆盖会丢失代码。规则：检查文件是否存在，如存在则读取并合并。
+2. **Filename collision**: overwriting an existing target file directly loses code. Rule: check whether the file exists; if it does, read and merge.
 
-3. **技术栈误判**：检测到的 tech_stack 与实际不符。规则：优先读取用户的 tech_stack 槽位，其次才是自动检测。
+3. **Tech stack misdetection**: the detected tech_stack doesn't match reality. Rule: read the user's tech_stack slot first, auto-detection second.
 
-## L2 LLM 陷阱
+## L2 LLM pitfalls
 
-4. **幻觉代码**：LLM 生成了不存在的 API 或依赖。规则：生成后检查 import，缺失则报告。
+4. **Hallucinated code**: the LLM generated a non-existent API or dependency. Rule: check imports after generation; report if missing.
 
-5. **风格不一致**：生成的代码与项目现有风格差异大。规则：注入 code_style_samples 到 prompt。
+5. **Style inconsistency**: generated code differs greatly from the project's existing style. Rule: inject code_style_samples into the prompt.
 
-6. **超出范围**：生成了计划外的文件。规则：严格只生成 sub_tasks 中指定的文件。
+6. **Out of scope**: generated files not in the plan. Rule: strictly generate only the files specified in sub_tasks.
 
-## 跨 skill 协作陷阱
+## Cross-skill collaboration pitfalls
 
-7. **与 tdd-guide 衔接断裂**：code-generator 生成的代码与 tdd-guide 的测试期望不匹配。规则：生成代码后自动调用 tdd-guide 验证。
+7. **Broken handoff with tdd-guide**: code-generator's code doesn't match tdd-guide's test expectations. Rule: after generating code, automatically call tdd-guide to verify.
 
-8. **与 code-intent-planner 数据格式不匹配**：plan JSON 格式变化导致解析失败。规则：定义严格的 JSON Schema。
+8. **Data-format mismatch with code-intent-planner**: a plan JSON format change causes parsing failure. Rule: define a strict JSON Schema.
 
-## 工程化陷阱
+## Engineering pitfalls
 
-9. **目录不存在**：生成文件时父目录不存在。规则：mkdir -p 确保目录存在。
+9. **Directory doesn't exist**: the parent directory is missing when writing a generated file. Rule: mkdir -p to ensure the directory exists.
 
-10. **编码问题**：Windows 下 UTF-8 编码错误。规则：所有文件写入指定 encoding="utf-8"。
+10. **Encoding issues**: UTF-8 encoding errors on Windows. Rule: write all files with encoding="utf-8".
 
-11. **循环依赖**：L1 和 L2 互相调用导致无限递归。规则：设置最大递归深度为 1。
+11. **Circular dependency**: L1 and L2 calling each other causes infinite recursion. Rule: set max recursion depth to 1.
 
-12. **内存泄漏**：大量文件生成时未正确关闭文件句柄。规则：使用 with open(...) 上下文管理器。
+12. **Memory leak**: file handles not properly closed when generating many files. Rule: use the with open(...) context manager.

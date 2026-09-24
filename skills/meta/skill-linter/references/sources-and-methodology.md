@@ -1,32 +1,32 @@
 # Sources & Methodology
 
-- 技能：`skill-linter`（awesome-skillkit 原创编写，Apache-2.0）。
-- 定位：本仓库元技能之一，与 `skill-author`（生成）、`skill-finder`（检索）共同组成场景包 `Skill Forge`。
+- Skill: `skill-linter` (originally written for awesome-skillkit, Apache-2.0).
+- Position: one of this repo's meta-skills; together with `skill-author` (generation) and `skill-finder` (retrieval) forms the scenario pack `Skill Forge`.
 
 ## Methodology borrowed (structural level only; no text or code copied)
 
 | Source | License | Methodology points borrowed |
 |---|---|---|
-| agentskills.io 开放规范 | 见站点 | frontmatter 字段集与 name 的 kebab-case 约束，作为 `FM-FIELDS` / `NAME-SYNC` 的判定依据 |
-| Anthropic《Skill Authoring Best Practices》公开文档 | 见原文 | 「description 决定技能是否被加载」，因此把路由信息独立成 `DESC-ROUTE` 而非并入字段检查 |
-| 社区 lint 类工具（SkillCheck 等）的公开定位说明 | 见各自仓库 | 「报告 + 修法建议 + 退出码」三件套的输出形态；本仓库未参考其规则实现或代码 |
-| 本仓库的仓库级校验器（仓库根 `tools/` 目录下的 `validate_skills.py`） | Apache-2.0（同仓） | 复用了「最小 YAML 子集解析 + 围栏代码块跳过」的解析策略，属同仓内复用；本脚本为独立实现，未复制代码 |
+| agentskills.io open spec | see site | The frontmatter field set and name kebab-case constraint, as the judgment basis for `FM-FIELDS` / `NAME-SYNC` |
+| Anthropic *Skill Authoring Best Practices* public doc | see original | "Description determines whether a skill is loaded," therefore routing information is made into a standalone `DESC-ROUTE` rather than merged into field checks |
+| Community lint tools' public positioning notes (SkillCheck, etc.) | see respective repos | The "report + fix suggestion + exit code" output trio; this repo did not reference their rule implementations or code |
+| This repo's repo-level validator (`validate_skills.py` under the repo root `tools/`) | Apache-2.0 (same repo) | Reused the parsing strategy of "minimal YAML subset parsing + fenced code block skipping," within-repo reuse; this script is an independent implementation, no code copied |
 
 ## Originality statement
 
-`scripts/lint_skill.py` 的八项检查、判定阈值（220 行 / 0.15 CJK 占比 / 触发词 >=5 /
-失败处置表 >=4 行）、`Finding` 数据结构、`FIX:` 输出格式均为本仓库从零设计与实现。
-`references/check-rules.md` 中的边界用例表来自对本脚本的实际执行观察，非引自任何外部清单。
-未翻译、未改写、未摘录任何第三方 SKILL.md、校验脚本或其文档。
+`scripts/lint_skill.py`'s eight checks, judgment thresholds (220 lines / 0.15 CJK ratio / trigger words >=5 /
+failure table >=4 rows), the `Finding` data structure, and the `FIX:` output format are all designed and implemented from scratch for this repo.
+The edge-case table in `references/check-rules.md` comes from actual execution observation of this script, not cited from any external checklist.
+No third-party SKILL.md, validation script, or its documentation was translated, paraphrased, or excerpted.
 
 ## Merged adaptations to this repo's conventions
 
-1. **双轨门禁**：本技能定位为技能级自律线（更严的行数线、更细的修法提示），
-   与仓库级校验器（仓库根 `tools/` 目录下的 `validate_skills.py`）并存，冲突时以后者为合并判据；
-2. **可执行化**：把「规范符合性」这种主观判断降级为八条确定性谓词 + 一个退出码，
-   便于挂进 CI 与 pre-commit；
-3. **中文优先**：新增 `LANG-CJK` 检查，对应本仓「正文全中文、frontmatter 机器层英文」的写作要求；
-   该检查对纯代码技能存在已知误报，已在 `check-rules.md` 中显式记录。
+1. **Dual-track gate**: this skill is positioned as the skill-level self-discipline line (stricter line count, more granular fix hints),
+   coexisting with the repo-level validator (`validate_skills.py` under the repo root `tools/`); in conflict, the latter is the merge criterion;
+2. **Executable**: downgrades "standards compliance," a subjective judgment, to eight deterministic predicates + one exit code,
+   easy to hang into CI and pre-commit;
+3. **Chinese-first**: adds the `LANG-CJK` check, corresponding to this repo's writing requirement of "body all Chinese, frontmatter machine layer English";
+   this check has known false positives for pure-code skills, explicitly documented in `check-rules.md`.
 
 ## License
 

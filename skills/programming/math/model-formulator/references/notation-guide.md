@@ -1,97 +1,97 @@
-# Notation Guide（数学建模符号与表达规范）
+# Notation Guide (mathematical modeling notation and expression conventions)
 
-> 配套 model-formulator。`model_formulator.py` 输出的 `variables` 字段是 **JSON 的键 → 字符串说明**（如 `"x[i,j]": "truck i assigned to delivery j (binary)"`），键必须保持 ASCII 才能被 model-solver 与代码生成安全使用。本文件规定这些键怎么起、公式怎么写、单位怎么标。
+> Companion to model-formulator. The `variables` field output by `model_formulator.py` is **JSON keys → string descriptions** (e.g. `"x[i,j]": "truck i assigned to delivery j (binary)"`); the keys must stay ASCII so that model-solver and code generation can use them safely. This file prescribes how to name these keys, how to write formulas, and how to label units.
 
 ## Table of Contents
-- §1 四类符号：集合 / 索引 / 参数 / 变量
-- §2 上下标与命名约定对照表
-- §3 单位与量纲
-- §4 公式可读化规则
-- §5 在 Markdown / LaTeX 中书写
-- §6 常见错误对照表
-- §7 与 model spec JSON 的对应
+- §1 Four classes of symbols: sets / indices / parameters / variables
+- §2 Subscript/superscript and naming convention reference
+- §3 Units and dimensions
+- §4 Formula readability rules
+- §5 Writing in Markdown / LaTeX
+- §6 Common error reference
+- §7 Correspondence with the model spec JSON
 
-## §1 四类符号：集合 / 索引 / 参数 / 变量
+## §1 Four classes of symbols: sets / indices / parameters / variables
 
-建模第一步不是写公式，而是把符号分到四类并列表；四类齐全后再写目标与约束。
+The first step of modeling is not writing formulas, but partitioning symbols into four classes and listing them; write the objective and constraints only after all four classes are present.
 
-| 类别 | 含义 | 惯例 | 例子 |
+| Class | Meaning | Convention | Example |
 |---|---|---|---|
-| 集合（Set） | 实体/时段的全集 | 大写字母 `I, J, T, N` | `I`：卡车集合，`T`：时段集合 |
-| 索引（Index） | 集合中元素 | 小写 `i, j, t` | `i ∈ I`，`t ∈ T` |
-| 参数（Parameter） | 已知的、输入给定的量 | 小写希腊或大写 `c, a, b, d` | `d[j]`：配送点 j 的需求量（件） |
-| 变量（Variable） | 待求解的量 | 小写末尾字母 `x, y, z` | `x[i,j] ∈ {0,1}`：是否指派 |
+| Set | The full universe of entities/time periods | Uppercase `I, J, T, N` | `I`: set of trucks, `T`: set of time periods |
+| Index | An element in a set | Lowercase `i, j, t` | `i ∈ I`, `t ∈ T` |
+| Parameter | A known quantity given as input | Lowercase Greek or uppercase `c, a, b, d` | `d[j]`: demand at delivery point j (units) |
+| Variable | The quantity to solve for | Lowercase end-of-alphabet letters `x, y, z` | `x[i,j] ∈ {0,1}`: whether assigned |
 
-写成表而不是散落在正文里（示例）：
+Write it as a table rather than scattered in the prose (example):
 
-| 符号 | 类型 | 含义 | 单位 |
+| Symbol | Type | Meaning | Unit |
 |---|---|---|---|
-| `I` | 集合 | 卡车集合，`|I| = 5` | — |
-| `c[i,j]` | 参数 | 卡车 i 服务配送点 j 的成本 | 元 |
-| `x[i,j]` | 变量 | 是否指派（1/0） | — |
-| `z` | 变量 | 总成本 | 元 |
+| `I` | set | set of trucks, `|I| = 5` | — |
+| `c[i,j]` | parameter | cost of truck i serving delivery point j | CNY |
+| `x[i,j]` | variable | whether assigned (1/0) | — |
+| `z` | variable | total cost | CNY |
 
-## §2 上下标与命名约定对照表
+## §2 Subscript/superscript and naming convention reference
 
-| 场景 | 推荐写法 | 反例 | 原因 |
+| Situation | Recommended | Counter-example | Reason |
 |---|---|---|---|
-| 实体编号 | 下标 `x[i,j]` | 上标 `xⁱʲ` | 上标留给幂次/时间步，避免歧义 |
-| 时间步 / 迭代次数 | 上标 `x⁽ᵏ⁾`、`x^{(k)}` | 下标 `x_k` 与实体下标混用 | 区分"第 k 次迭代"与"第 k 个元素" |
-| 转置 | `Aᵀ` / `A^T` | `A'` | 撇号易与导数混淆 |
-| 幂次 | `x^2`、`x²` | `x**2` | 数学文本里用数学记号，`**` 是代码 |
-| 最优值 | `x*`、`x^*` | `x_opt` 与 `x*` 混用 | 同一文档内二选一，保持统一 |
-| 估计值 | `ĥ`、`\hat{y}` | `y_est` 与 `ŷ` 混用 | 同上 |
-| 向量/矩阵 | 粗体小写/大写 `x`、`A` | 全靠读者猜 | 首次出现时声明维度：`x ∈ ℝⁿ` |
-| 集合基数 | `|I|` | `#I`（代码味） | 数学文本用竖线 |
-| 求和 | `Σ_{i∈I} c[i]·x[i]` | `sum(c*x)` | 公式用数学式，代码块里才写代码 |
-| 布尔/指示 | `x[i,j] ∈ {0,1}` | `x[i,j] = 0 或 1` | 前者可直接被求解器理解 |
-| 整数 | `y ∈ ℤ₊` | `y 是整数` | 明确非负 |
-| 实数 | `x ∈ ℝ` | 不写 | 缺省时读者无法确定域 |
+| Entity numbering | Subscript `x[i,j]` | Superscript `xⁱʲ` | Reserve superscripts for powers/time steps to avoid ambiguity |
+| Time step / iteration count | Superscript `x⁽ᵏ⁾`, `x^{(k)}` | Subscript `x_k` mixed with entity subscripts | Distinguish "the k-th iteration" from "the k-th element" |
+| Transpose | `Aᵀ` / `A^T` | `A'` | The prime is easily confused with a derivative |
+| Power | `x^2`, `x²` | `x**2` | Use math notation in math text; `**` is code |
+| Optimal value | `x*`, `x^*` | Mixing `x_opt` and `x*` | Pick one within a document and stay consistent |
+| Estimate | `ĥ`, `\hat{y}` | Mixing `y_est` and `ŷ` | Same as above |
+| Vector/matrix | Bold lowercase/uppercase `x`, `A` | Leaving it to the reader to guess | State dimensions on first use: `x ∈ ℝⁿ` |
+| Set cardinality | `|I|` | `#I` (code smell) | Use bars in math text |
+| Summation | `Σ_{i∈I} c[i]·x[i]` | `sum(c*x)` | Use math notation in formulas; code goes in code blocks |
+| Boolean/indicator | `x[i,j] ∈ {0,1}` | `x[i,j] = 0 or 1` | The former is directly understandable by a solver |
+| Integer | `y ∈ ℤ₊` | `y is an integer` | Make nonnegativity explicit |
+| Real | `x ∈ ℝ` | omitted | Without it, the reader cannot determine the domain |
 
-规则：**同一文档内同一含义只用一种记号**；引入新符号必须在本表登记。
+Rule: **use only one notation for the same meaning within a document**; any newly introduced symbol must be registered in this table.
 
-## §3 单位与量纲
+## §3 Units and dimensions
 
-- 每个参数与变量在符号表最后一列标注单位；无单位的（计数、比例、0-1 变量）写 `—`，不要留空。
-- 量纲一致性检验（写约束前必做）：约束两边单位必须相同。
-  - 反例：`travel_time[i,j] ≤ 30`（左边是小时、右边是分钟）→ 要么统一单位，要么写 `travel_time[i,j] ≤ 0.5 h`。
-- 无量纲化：当变量跨越多个数量级（如元与万元、秒与天）时，在建模阶段统一到一套基准单位，并在文档说明"本文统一以 **元 / 小时 / 件** 为基准单位"。
-- 目标函数的单位是成本/收益单位本身；多目标时**必须先说明**如何合并（加权和？ε-约束法？优先级？），不能同时 min 两个量而不给合并规则。
-- 数值量级：把参数的典型量级写进符号表（如 `c[i,j] ~ 10² 元`），便于发现系数输错一位的 bug，也便于判断求解器数值稳定性。
+- Label the unit in the last column of the symbol table for every parameter and variable; write `—` for dimensionless ones (counts, ratios, 0-1 variables)—do not leave it blank.
+- Dimensional consistency check (required before writing constraints): the two sides of a constraint must have the same units.
+  - Counter-example: `travel_time[i,j] ≤ 30` (left side hours, right side minutes) → either unify units, or write `travel_time[i,j] ≤ 0.5 h`.
+- Dimensionless scaling: when variables span multiple orders of magnitude (e.g. CNY vs. 10k CNY, seconds vs. days), unify to a baseline unit set at modeling time, and state in the doc "this document uses **CNY / hour / units** as the baseline units".
+- The objective's unit is the cost/revenue unit itself; in multi-objective cases you **must first state** how to combine them (weighted sum? ε-constraint? lexicographic priority?)—you cannot min two quantities simultaneously without a combination rule.
+- Numerical magnitude: write the typical magnitude of parameters into the symbol table (e.g. `c[i,j] ~ 10² CNY`), which helps spot an off-by-one coefficient typo and judge solver numerical stability.
 
-## §4 公式可读化规则
+## §4 Formula readability rules
 
-1. 一个公式只表达一件事；约束逐条编号（C1、C2…）以便报错时定位。
-2. 求和号写全范围：`Σ_{i∈I}`，不要写 `Σᵢ` 后靠正文解释。
-3. 量词放末尾并加括号：`Σ_{i∈I} x[i,j] = 1, ∀ j ∈ J`。
-4. 复杂公式先给文字读法，再给符号式。例：
-   - 文字：每个配送点必须且只能被一辆车服务一次。
-   - 符号：`Σ_{i∈I} x[i,j] = 1, ∀ j ∈ J`（C1）
-5. 长公式换行对齐等号/加号，不要挤在一行。
-6. 变量名用有意义的字母而非随机字母：`cost[i,j]` 优于 `a[i,j]`；但公式里用单字母时要在符号表登记。
-7. 涉及 0-1/整数时，把定义域写在变量说明里，而不是只写在约束里。
+1. One formula expresses one thing; number constraints one by one (C1, C2…) so errors can be located.
+2. Write the summation range explicitly: `Σ_{i∈I}`, not `Σᵢ` with the range explained in prose.
+3. Put quantifiers at the end, parenthesized: `Σ_{i∈I} x[i,j] = 1, ∀ j ∈ J`.
+4. For complex formulas, give the verbal reading first, then the symbolic form. Example:
+   - Verbal: each delivery point must be served by exactly one vehicle, exactly once.
+   - Symbolic: `Σ_{i∈I} x[i,j] = 1, ∀ j ∈ J` (C1)
+5. Break long formulas and align at the equals/plus sign; don't cram them on one line.
+6. Use meaningful letters rather than random ones for variables: `cost[i,j]` beats `a[i,j]`; but when using single letters in formulas, register them in the symbol table.
+7. When 0-1/integer is involved, write the domain in the variable description, not only in the constraints.
 
-## §5 在 Markdown / LaTeX 中书写
+## §5 Writing in Markdown / LaTeX
 
-- 行内公式 `$...$`，独立成块 `$$ ... $$`。
-- 常用写法对照：
+- Inline formulas `$...$`, display block `$$ ... $$`.
+- Common notations:
 
-| 想表达 | LaTeX |
+| Want to express | LaTeX |
 |---|---|
-| 求和 | `\sum_{i=1}^{n}` |
-| 连乘 | `\prod_{i=1}^{n}` |
-| 属于 / 任意 | `\in` / `\forall` |
-| 实数 / 非负整数 | `\mathbb{R}` / `\mathbb{Z}_{+}` |
-| 小于等于 / 大于等于 | `\leq` / `\geq` |
-| 乘号（点乘） | `\cdot` |
-| 上下标 | `x_{i,j}` / `x^{(k)}` |
-| 转置 | `A^{\top}` |
+| Summation | `\sum_{i=1}^{n}` |
+| Product | `\prod_{i=1}^{n}` |
+| In / for all | `\in` / `\forall` |
+| Reals / nonnegative integers | `\mathbb{R}` / `\mathbb{Z}_{+}` |
+| ≤ / ≥ | `\leq` / `\geq` |
+| Dot product | `\cdot` |
+| Sub/superscript | `x_{i,j}` / `x^{(k)}` |
+| Transpose | `A^{\top}` |
 | hat / bar | `\hat{y}` / `\bar{x}` |
-| 分段函数 | `\begin{cases} ... \end{cases}` |
+| Piecewise function | `\begin{cases} ... \end{cases}` |
 
-- Markdown 注意：下划线在部分渲染器里会被当作强调标记，写 `x_i` 时若渲染异常，用 LaTeX 包裹 `$x_{i}$` 或转义 `x\_i`。
-- `$$` 块级公式的支持情况随渲染器而异（GitHub、部分 Markdown 编辑器支持程度不同，**VERIFY BEFORE USE**：先在目标平台试渲染一个 `$$x^2$$` 再写全文）。若目标平台不支持，退路：① 行内 `$...$`；② 纯 ASCII 写法（如 `sum_{i in I} c[i]*x[i] <= B`）；③ 渲染成图片后插入。
-- 代码块里写公式时用 ASCII 形式，方便复制进求解器代码：
+- Markdown note: underscores are treated as emphasis markers in some renderers; if `x_i` renders oddly, wrap it in LaTeX `$x_{i}$` or escape it as `x\_i`.
+- Support for `$$` display blocks varies across renderers (GitHub and various Markdown editors differ; **VERIFY BEFORE USE**: first render a `$$x^2$$` on the target platform before writing the whole document). If the target platform does not support it, fallbacks: ① inline `$...$`; ② pure ASCII form (e.g. `sum_{i in I} c[i]*x[i] <= B`); ③ render to an image and insert it.
+- When writing formulas in code blocks, use ASCII form for easy copying into solver code:
 
 ```text
 min  sum_{i in I} sum_{j in J} c[i,j] * x[i,j]
@@ -99,24 +99,24 @@ s.t. sum_{i in I} x[i,j] = 1          for all j in J   (C1)
      x[i,j] in {0,1}
 ```
 
-## §6 常见错误对照表
+## §6 Common error reference
 
-| 错误写法 | 问题 | 正确写法 |
+| Wrong | Problem | Correct |
 |---|---|---|
-| `x[ij]` | 二维索引不可读 | `x[i,j]` |
-| `X` 与 `x` 混用表示同一变量 | 大小写被当成两个符号 | 统一大小写 |
-| `x[i,j] = 1 if assigned` | 自然语言混进公式 | `x[i,j] ∈ {0,1}`，含义写进符号表 |
-| `min cost` | 未说明对谁求和、量纲 | `min Σ_{i∈I} Σ_{j∈J} c[i,j]·x[i,j]`（元） |
-| `≤ 30` | 单位不明 | `≤ 30 min` 或换算成基准单位 |
-| `s.t.` 后一堆约束无编号 | 报错无法定位 | 逐条编号 C1、C2… |
-| 目标里出现两个 min | 多目标未合并 | 说明加权/优先级/ε-约束 |
+| `x[ij]` | 2D index unreadable | `x[i,j]` |
+| Mixing `X` and `x` for the same variable | Case is treated as two symbols | Unify the case |
+| `x[i,j] = 1 if assigned` | Natural language inside the formula | `x[i,j] ∈ {0,1}`, meaning goes in the symbol table |
+| `min cost` | Doesn't say over what or the dimension | `min Σ_{i∈I} Σ_{j∈J} c[i,j]·x[i,j]` (CNY) |
+| `≤ 30` | Unit unclear | `≤ 30 min` or convert to baseline units |
+| A pile of unnumbered constraints after `s.t.` | Errors cannot be located | Number them C1, C2… |
+| Two mins in the objective | Multi-objective not combined | State weighting / priority / ε-constraint |
 
-## §7 与 model spec JSON 的对应
+## §7 Correspondence with the model spec JSON
 
-`model_formulator.py` 的字段填写规范：
+Field-filling conventions for `model_formulator.py`:
 
-- `variables`：键用 ASCII（`"x[i,j]"`），值用中文说明并**注明类型与单位**，例 `"x[i,j]": "0-1，卡车 i 是否服务配送点 j"`。
-- `objective`：一行 ASCII 公式，与 §5 代码块写法一致，便于后续直接翻译为求解器代码。
-- `constraints`：字符串数组，每条以 `(C1)` 这类编号结尾，与正文公式编号一致。
-- `assumptions`：写成可检验陈述（"各点服务时长恒为 10 min"），不写"适当简化"。
-- `knowns` / `unknowns`：前者是参数（含单位），后者是待求量；两者不要重复登记同一个符号。
+- `variables`: keys in ASCII (`"x[i,j]"`), values with an English description and **type and unit**, e.g. `"x[i,j]": "0-1; whether truck i serves delivery point j"`.
+- `objective`: one line of ASCII formula, consistent with the code-block style in §5, so it can later be translated directly into solver code.
+- `constraints`: array of strings, each ending with a number like `(C1)`, matching the numbering of the formulas in the prose.
+- `assumptions`: written as testable statements ("service time at every point is a constant 10 min"), not "appropriately simplified".
+- `knowns` / `unknowns`: the former are parameters (with units), the latter the quantities to solve for; do not register the same symbol in both.

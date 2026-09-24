@@ -1,24 +1,24 @@
-# 代码生成案例库
+# Code Generation Case Library
 
-> 来源：真实项目 + 边缘场景测试
+> Sources: real projects + edge-case tests
 
 ## Table of Contents
 
-- [案例 1：L1 模板直接生成（Python FastAPI CRUD）](#case-1)
-- [案例 2：L2 LLM 生成（复杂业务逻辑）](#case-2)
-- [案例 3：Bug Fix 生成](#case-3)
-- [案例 4：多意图混合生成](#case-4)
-- [案例 5：L1 无匹配 → L2 兜底](#case-5)
-- [案例 6：生成验证失败 → 重试](#case-6)
-- [案例来源](#case-sources)
+- [Case 1: L1 template direct generation (Python FastAPI CRUD)](#case-1)
+- [Case 2: L2 LLM generation (complex business logic)](#case-2)
+- [Case 3: Bug fix generation](#case-3)
+- [Case 4: Multi-intent mixed generation](#case-4)
+- [Case 5: L1 no match → L2 fallback](#case-5)
+- [Case 6: Generated validation fails → retry](#case-6)
+- [Case sources](#case-sources)
 
 ---
 
 <a id="case-1"></a>
 
-## 案例 1：L1 模板直接生成（Python FastAPI CRUD）
+## Case 1: L1 template direct generation (Python FastAPI CRUD)
 
-**输入（来自 code-intent-planner）：**
+**Input (from code-intent-planner):**
 ```json
 {
   "intent_type": "implement",
@@ -29,21 +29,21 @@
     {"name": "scope", "value": "crud", "evidence": "provisional"}
   ],
   "sub_tasks": [
-    {"id": "T1", "description": "设计数据模型", "priority": "P0"},
-    {"id": "T2", "description": "实现服务层", "priority": "P0"},
-    {"id": "T3", "description": "实现 API 接口", "priority": "P1"}
+    {"id": "T1", "description": "Design the data model", "priority": "P0"},
+    {"id": "T2", "description": "Implement the service layer", "priority": "P0"},
+    {"id": "T3", "description": "Implement the API endpoints", "priority": "P1"}
   ]
 }
 ```
 
-**输出文件：**
+**Output files:**
 ```
-src/product/models.py    (42 行)
-src/product/service.py   (68 行)
-src/product/api.py       (55 行)
+src/product/models.py    (42 lines)
+src/product/service.py   (68 lines)
+src/product/api.py       (55 lines)
 ```
 
-**生成的 models.py 片段：**
+**Generated models.py snippet:**
 ```python
 class ProductCreate(BaseModel):
     name: str = Field(..., min_length=1, max_length=100)
@@ -56,7 +56,7 @@ class ProductCreate(BaseModel):
 
 <a id="case-2"></a>
 
-## 案例 2：L2 LLM 生成（复杂业务逻辑）
+## Case 2: L2 LLM generation (complex business logic)
 
 **Input:**
 ```json
@@ -64,7 +64,7 @@ class ProductCreate(BaseModel):
   "intent_type": "implement",
   "confidence": 0.55,
   "source_layer": "L2",
-  "description": "实现库存扣减逻辑，需要分布式锁",
+  "description": "Implement the inventory deduction logic, requiring a distributed lock",
   "slots": [
     {"name": "target", "value": "inventory", "evidence": "verified"},
     {"name": "scope", "value": "deduct+lock", "evidence": "provisional"}
@@ -72,14 +72,14 @@ class ProductCreate(BaseModel):
 }
 ```
 
-**分析：** L1 无库存扣减模板 → 升级 L2
+**Analysis:** L1 has no inventory-deduction template → escalate to L2
 
-**L2 Prompt 注入：**
-- 项目技术栈：python/fastapi + redis
-- 已有模块：auth, orders
-- 代码风格样本：2 个代表性文件
+**L2 prompt injection:**
+- Project tech stack: python/fastapi + redis
+- Existing modules: auth, orders
+- Code-style samples: 2 representative files
 
-**L2 输出：**
+**L2 output:**
 ```python
 # src/inventory/service.py
 import redis
@@ -91,16 +91,16 @@ class InventoryService:
         self.redis = redis.Redis(host='localhost', port=6379)
     
     def deduct(self, product_id: int, quantity: int, user: User) -> bool:
-        """分布式锁扣减库存"""
+        """Deduct stock under a distributed lock"""
         lock_key = f"inventory:lock:{product_id}"
         with redis.lock(lock_key, timeout=10):
-            # 检查库存
+            # check stock
             stock = self.redis.get(f"inventory:{product_id}:stock")
             if not stock or int(stock) < quantity:
                 raise InsufficientStockError(product_id)
-            # 扣减
+            # deduct
             self.redis.decrby(f"inventory:{product_id}:stock", quantity)
-            # 记录日志
+            # log
             self.redis.lpush("inventory:log", f"{user.id} deducted {quantity}")
             return True
 ```
@@ -109,7 +109,7 @@ class InventoryService:
 
 <a id="case-3"></a>
 
-## 案例 3：Bug Fix 生成
+## Case 3: Bug fix generation
 
 **Input:**
 ```json
@@ -118,7 +118,7 @@ class InventoryService:
   "subtype": "runtime",
   "confidence": 0.95,
   "source_layer": "L1",
-  "description": "修复用户登录时 null pointer crash",
+  "description": "Fix the null pointer crash on user login",
   "slots": [
     {"name": "target", "value": "auth", "evidence": "verified"},
     {"name": "scope", "value": "login", "evidence": "verified"}
@@ -126,22 +126,22 @@ class InventoryService:
 }
 ```
 
-**输出（带注释的修复）：**
+**Output (annotated fix):**
 ```python
 # src/auth/service.py
 def login(self, username: str, password: str) -> Optional[Token]:
     """
-    Fixed: 修复 null pointer crash
+    Fixed: fix the null pointer crash
     
-    Root cause: user 对象可能为 None 时直接访问 .email
+    Root cause: the user object may be None while .email is accessed directly
     Before:
         return Token(user.email, user.id)  # crash if user is None
     
     After:
-        添加 guard clause
+        add a guard clause
     """
     user = self.find_by_username(username)
-    if not user:  # ← 新增 guard
+    if not user:  # ← new guard
         logger.warning(f"Login failed: user {username} not found")
         return None
     
@@ -155,36 +155,36 @@ def login(self, username: str, password: str) -> Optional[Token]:
 
 <a id="case-4"></a>
 
-## 案例 4：多意图混合生成
+## Case 4: Multi-intent mixed generation
 
-**输入（多意图）：**
+**Input (multi-intent):**
 ```json
 {
   "primary_intent": "implement",
   "secondary_intents": ["test"],
-  "recommendation": "先实现 API，再写测试",
+  "recommendation": "Implement the API first, then write the tests",
   "sub_tasks": [
-    {"id": "T1", "description": "实现用户注册 API", "priority": "P0"},
-    {"id": "T2", "description": "编写注册 API 测试", "priority": "P0", "depends_on": ["T1"]}
+    {"id": "T1", "description": "Implement the user registration API", "priority": "P0"},
+    {"id": "T2", "description": "Write registration API tests", "priority": "P0", "depends_on": ["T1"]}
   ]
 }
 ```
 
-**Output:**（下列路径相对**被生成项目的根目录**，不是本技能包内的文件）
+**Output:** (the following paths are relative to **the generated project's root**, not to files in this skill pack)
 
 ```text
-1. 先生成 src/auth/api.py（T1）
-2. 再生成 tests/test_auth_api.py（T2，依赖 T1 完成）
+1. First generate src/auth/api.py (T1)
+2. Then generate tests/test_auth_api.py (T2, depends on T1)
 ```
 
-两次产出分别来自 `references/templates/` 下的 FastAPI CRUD 模板与测试桩模板，
-渲染后都需先过 SKILL.md 步骤 4 的语法校验才落盘。
+The two outputs come respectively from the FastAPI CRUD template and the test stub template under `references/templates/`;
+after rendering, both must pass the syntax check in SKILL.md step 4 before being written to disk.
 
 ---
 
 <a id="case-5"></a>
 
-## 案例 5：L1 无匹配 → L2 兜底
+## Case 5: L1 no match → L2 fallback
 
 **Input:**
 ```json
@@ -192,7 +192,7 @@ def login(self, username: str, password: str) -> Optional[Token]:
   "intent_type": "implement",
   "confidence": 0.88,
   "source_layer": "L1",
-  "description": "实现一个实时聊天 WebSocket 服务",
+  "description": "Implement a real-time chat WebSocket service",
   "slots": [
     {"name": "target", "value": "chat", "evidence": "verified"},
     {"name": "scope", "value": "websocket+realtime", "evidence": "provisional"}
@@ -200,9 +200,9 @@ def login(self, username: str, password: str) -> Optional[Token]:
 }
 ```
 
-**分析：** L1 无 WebSocket 模板 → 自动升级 L2
+**Analysis:** L1 has no WebSocket template → auto-escalate to L2
 
-**L2 输出：**
+**L2 output:**
 ```python
 # src/chat/handler.py
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
@@ -241,18 +241,18 @@ async def websocket_endpoint(websocket: WebSocket, room: str):
 
 <a id="case-6"></a>
 
-## 案例 6：生成验证失败 → 重试
+## Case 6: Generated validation fails → retry
 
 **Input:**
 ```json
 {
   "intent_type": "implement",
   "source_layer": "L1",
-  "description": "实现用户模块"
+  "description": "Implement the user module"
 }
 ```
 
-**L1 生成：**
+**L1 generation:**
 ```python
 # src/user/models.py
 from pydantic import BaseModel
@@ -260,12 +260,12 @@ class UserCreate(BaseModel):
     name: str
 ```
 
-**验证失败：** `ImportError: cannot import name 'Field' from 'pydantic'`
+**Validation failure:** `ImportError: cannot import name 'Field' from 'pydantic'`
 
-**处置：** 
-1. 检测到 pydantic v1/v2 兼容性问题
-2. 自动调整模板（移除 Field 导入）
-3. 重新生成 → 通过
+**Handling:** 
+1. Detected a pydantic v1/v2 compatibility issue
+2. Auto-adjusted the template (removed the Field import)
+3. Regenerated → passed
 
 ---
 
@@ -275,9 +275,9 @@ class UserCreate(BaseModel):
 
 | Case | Source | Scenario |
 |------|------|------|
-| 案例 1 | 真实电商项目 | 标准 CRUD |
-| 案例 2 | 并发编程挑战 | 分布式锁 |
-| 案例 3 | Bug 报告 | 运行时错误修复 |
-| 案例 4 | 多步骤需求 | 主从任务依赖 |
-| 案例 5 | 新技术引入 | WebSocket |
-| 案例 6 | 版本兼容性 | 库版本差异 |
+| Case 1 | Real e-commerce project | Standard CRUD |
+| Case 2 | Concurrency programming challenge | Distributed lock |
+| Case 3 | Bug report | Runtime error fix |
+| Case 4 | Multi-step requirement | Master/slave task dependency |
+| Case 5 | New technology introduction | WebSocket |
+| Case 6 | Version compatibility | Library version differences |

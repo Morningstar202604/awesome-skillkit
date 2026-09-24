@@ -1,190 +1,198 @@
-# TTS 语音参数（video-voice-synth）
+# TTS Voice Parameters (video-voice-synth)
 
-**参数名与取值域高度依赖你实际使用的 TTS 引擎。** 本文给出的名称
-（`speed` / `pitch` / `emotion` / `break`）是常见约定，不是标准。
-凡未在你所用引擎文档中确认过的，一律标 `VERIFY BEFORE USE` 并给出核实方法。
+**Parameter names and value ranges depend heavily on the TTS engine you actually use.** The names
+given here (`speed` / `pitch` / `emotion` / `break`) are common conventions, not a standard.
+Anything not confirmed in your engine's documentation must be marked `VERIFY BEFORE USE`,
+along with how to verify it.
 
 ## Table of Contents
 
-0. 先核实你的引擎 / 1. 语速 speed / 2. 音调 pitch / 3. 情绪 emotion / 4. 停顿与断句
-5. 中文多音字与数字读法 / 6. 音色选择场景匹配 / 7. 参数组合配方 / 8. 交付前自检
+0. Verify your engine first / 1. Speech rate speed / 2. Pitch / 3. Emotion / 4. Pauses and phrasing
+5. Chinese polyphonic characters and number reading / 6. Voice selection by scene / 7. Parameter presets / 8. Pre-delivery self-check
 
-## 0. 先核实你的引擎
+## 0. Verify your engine first
 
-在调任何参数之前，先跑一次探活拿到"这台引擎到底认什么"：
+Before tuning any parameter, run a probe call to find out exactly what this engine accepts:
 
 ```bash
-# 1) 看有没有能力/音色清单端点（路径名以你的网关为准，VERIFY BEFORE USE）
+# 1) Check whether there is a voices/capabilities endpoint (path names depend on your gateway, VERIFY BEFORE USE)
 curl -sS -m 10 -H "Authorization: Bearer ${GATEWAY_API_KEY}" "$GATEWAY_BASE_URL/v1/voices"
 
-# 2) 用同一句文本跑参数扫描，听/测差异（speed 从 0.8 到 1.4）
+# 2) Run a parameter sweep with the same sentence, listen/measure the differences (speed from 0.8 to 1.4)
 for s in 0.8 1.0 1.2 1.4; do
   curl -sS -m 30 -o "probe_$s.wav" -H "Content-Type: application/json" \
     -H "Authorization: Bearer ${GATEWAY_API_KEY}" \
-    -d "{\"text\":\"今天天气不错\",\"voice\":\"baby_f01\",\"speed\":$s,\"format\":\"wav\"}" \
+    -d "{\"text\":\"Nice weather today\",\"voice\":\"baby_f01\",\"speed\":$s,\"format\":\"wav\"}" \
     "$GATEWAY_BASE_URL/v1/tts"
   printf "speed=%s  " "$s"
   ffprobe -v error -show_entries format=duration -of default=nw=1 "probe_$s.wav"
 done
 ```
 
-预期：时长随 speed 增大而单调变短。若四个时长完全一样 → 该引擎**不认 `speed` 字段**，
-换它文档里的实际参数名重跑（不要以为"设了就生效"）。
+Expected: duration should monotonically decrease as speed increases. If all four durations are identical,
+the engine **does not recognize the `speed` field**—rerun using the actual parameter name from its
+documentation (don't assume "setting it means it took effect").
 
-## 1. 语速 speed
+## 1. Speech rate speed
 
-常见形态有两种，**先确认你的引擎是哪一种**：
+There are two common forms; **first confirm which one your engine uses**:
 
-| 形态 | 取值范围 | 含义 |
+| Form | Range | Meaning |
 |---|---|---|
-| 倍率（最常见） | `0.5` – `2.0`，`1.0` 为原速 | 相对原始语速的倍数 |
-| 百分比 | `50` – `200`，`100` 为原速 | 同上，只是单位不同（VERIFY BEFORE USE） |
+| Multiplier (most common) | `0.5` – `2.0`, `1.0` = original speed | Multiple of the original speech rate |
+| Percentage | `50` – `200`, `100` = original speed | Same meaning, different unit (VERIFY BEFORE USE) |
 
-经验取值（B 级，非硬标准）：
+Guideline values (Tier B, not hard standards):
 
-| 场景 | 建议 | 理由 |
+| Scene | Recommendation | Reason |
 |---|---|---|
-| 快节奏角色口播（baby、吉祥物） | 1.15 – 1.35 | 短视频需要密度，慢了显拖沓 |
-| 常规解说 | 1.0 – 1.1 | 兼顾清晰与节奏 |
-| 教程/说明 | 0.9 – 1.0 | 观众要跟着做，快了跟不上 |
-| 情绪高潮/反转 | 在基准上 +0.1 | 局部提速制造紧迫感 |
-| 强调句 | 在基准上 −0.15 | 局部放慢，比单纯加重音更自然 |
+| Fast-paced character voiceover (baby, mascot) | 1.15 – 1.35 | Short video needs density; too slow feels dragging |
+| Regular narration | 1.0 – 1.1 | Balances clarity and rhythm |
+| Tutorial/instructional | 0.9 – 1.0 | Viewers must follow along; too fast loses them |
+| Emotional peak/twist | +0.1 over baseline | Local speedup creates urgency |
+| Emphasis sentence | −0.15 over baseline | Local slowdown feels more natural than simply stressing |
 
-硬边界：**超过 1.5 后清晰度会明显下降**，中文尤其明显（音节被压扁）。
-判断标准：合成后自己盲听一遍，听不清就回调。
+Hard boundary: **above 1.5, clarity drops noticeably**, especially in Chinese (syllables get crushed).
+Judgment criterion: blind-listen once after synthesis; if unclear, back off.
 
-## 2. 音调 pitch
+## 2. Pitch
 
-同样有两种形态，**先确认单位**：
+Again two forms; **confirm the unit first**:
 
-| 形态 | 取值范围 | 说明 |
+| Form | Range | Notes |
 |---|---|---|
-| 半音偏移（semitone） | 常见 `-12` – `+12`，`0` 为原始 | 每 ±1 为一个半音，±12 为一个八度 |
-| 倍率 / Hz（部分引擎） | 因引擎而异 | VERIFY BEFORE USE，别猜 |
+| Semitone shift | commonly `-12` – `+12`, `0` = original | Each ±1 is one semitone, ±12 is one octave |
+| Multiplier / Hz (some engines) | varies by engine | VERIFY BEFORE USE, don't guess |
 
-经验取值：
+Guideline values:
 
-| 目标 | 建议偏移 | 说明 |
+| Goal | Suggested shift | Notes |
 |---|---|---|
-| 幼童感（baby） | `+3` – `+7` | 再高会失真发尖 |
-| 成年女性 | `0` – `+2` | 微调即可 |
-| 成年男性 | `-2` – `0` | 微调即可 |
-| 旁白/中性 | `0` | 不动最稳 |
-| 反派/低沉 | `-4` – `-8` | 再低会糊 |
+| Toddler feel (baby) | `+3` – `+7` | Higher distorts and sounds shrill |
+| Adult female | `0` – `+2` | Minor tweak only |
+| Adult male | `-2` – `0` | Minor tweak only |
+| Narrator/neutral | `0` | Leaving it alone is safest |
+| Villain/deep | `-4` – `-8` | Lower gets muddy |
 
-**pitch 与 speed 常常耦合**：只加 pitch 不加 speed，听起来像"慢速尖叫"，
-不像小孩。做幼童音色时两者一起调（pitch +4 配 speed 1.2 是常见起点，经验值）。
+**pitch and speed are often coupled**: raising pitch without speed sounds like "slow screaming,"
+not like a child. When making a toddler voice, adjust both together (pitch +4 with speed 1.2 is a
+common starting point, a guideline value).
 
-## 3. 情绪 emotion
+## 3. Emotion
 
-**这是差异最大的一项**：有些引擎用 `emotion` 字符串，有些用 `style`，有些根本没有，
-还有些只能通过参考音频（reference audio / voice clone）表达情绪。
-**VERIFY BEFORE USE**：查你的引擎文档看它到底叫什么、有哪些合法取值；
-填一个引擎不认识的值通常不会报错，而是**静默回退到默认情绪**——
-这比报错更危险，你会以为设置生效了。
+**This is the most variable item**: some engines use an `emotion` string, some use `style`, some
+have none at all, and some can only express emotion through a reference audio / voice clone.
+**VERIFY BEFORE USE**: check your engine docs for what it's actually called and what valid values are;
+sending a value the engine doesn't recognize usually doesn't error—it **silently falls back to the
+default emotion**, which is more dangerous than an error because you'll think the setting took effect.
 
-常见取值（仅当引擎明确支持时才用，不要假设）：
+Common values (only use when the engine explicitly supports them; don't assume):
 
-| 取值（示例） | 适用 | 说明 |
+| Value (example) | Suitable for | Notes |
 |---|---|---|
-| `neutral` | 旁白、说明 | 安全默认值 |
-| `happy` / `cheerful` | 种草、开箱、吉祥物 | 与 `+speed` 搭配 |
-| `sad` | 讲述挫折、转折铺垫 | 与 `−speed` 搭配 |
-| `angry` | 吐槽、冲突 | 慎用，长时间听感疲劳 |
-| `excited` | 高潮、反转 | 常与 `+pitch` 一起 |
-| `serious` | 科普结论、警示 | 与 `−speed` 搭配 |
+| `neutral` | Narration, explanation | Safe default |
+| `happy` / `cheerful` | Product promos, unboxing, mascot | Pair with `+speed` |
+| `sad` | Setbacks, transition buildup | Pair with `−speed` |
+| `angry` | Roasts, conflict | Use sparingly; fatiguing on long listens |
+| `excited` | Climax, twist | Usually with `+pitch` |
+| `serious` | Science conclusions, warnings | Pair with `−speed` |
 
-不支持 emotion 的引擎的替代方案：用 speed + pitch + 停顿组合模拟；
-或在文案层面改（加语气词、改标点），这是最稳的做法。
+Workaround for engines without emotion support: simulate with a speed + pitch + pause combination,
+or change it at the copy level (add filler words, change punctuation)—this is the most reliable approach.
 
-## 4. 停顿与断句
+## 4. Pauses and phrasing
 
-| 机制 | 常见写法（VERIFY BEFORE USE） | 说明 |
+| Mechanism | Common syntax (VERIFY BEFORE USE) | Notes |
 |---|---|---|
-| 标点隐式停顿 | `，` 短停、`。` 长停 | 几乎所有引擎都支持，最稳 |
-| SSML `<break>` | `<break time="500ms"/>` | 需引擎开启 SSML 支持（**很多网关默认不开**） |
-| 自定义标记 | `[break:500]`、`|` 之类 | 完全因引擎而异，必须实测 |
-| 空行分段 | 文本里空一行 | 部分引擎识别为段落停顿 |
+| Implicit punctuation pauses | `，` short pause, `。` long pause | Supported by almost all engines, most reliable |
+| SSML `<break>` | `<break time="500ms"/>` | Requires engine to enable SSML support (**many gateways leave it off by default**) |
+| Custom markers | `[break:500]`, `|` and the like | Completely engine-dependent, must test |
+| Blank-line segmentation | Leave a blank line in the text | Some engines treat it as a paragraph pause |
 
-**推荐做法：优先用标点控制停顿**，不依赖引擎私有标记。原因：标点在任何引擎上
-都有效，私有标记换引擎就失效，且失效时通常静默（不报错）。
+**Recommended approach: prefer punctuation to control pauses**, don't rely on engine-private markers.
+Reason: punctuation works on any engine; private markers break when you switch engines, and the
+failure is usually silent (no error).
 
-停顿经验值（B 级）：句间 0.2–0.4s；Hook 后 0.5–0.8s；反转前 0.3–0.5s；
-清单项之间 0.4–0.6s。停顿**占时长**，估算总时长时要计入
-（经验系数：总时长 ≈ 字数 / 语速 / 停顿系数，停顿系数取 1.10–1.25）。
+Guideline pause values (Tier B): 0.2–0.4s between sentences; 0.5–0.8s after a hook; 0.3–0.5s
+before a twist; 0.4–0.6s between list items. Pauses **count toward duration**, so include them when
+estimating total length (rule of thumb: total duration ≈ characters / speech rate / pause factor,
+pause factor 1.10–1.25).
 
-## 5. 中文多音字与数字读法
+## 5. Chinese polyphonic characters and number reading
 
-这是中文 TTS 最常见的翻车点。处理顺序：先预防，再修正。
+This is the most common failure point of Chinese TTS. Processing order: prevent first, then fix.
 
-**预防（文案层面，最有效）**：
+**Prevention (at the copy level, most effective)**:
 
-| 问题 | 例子 | 改法 |
+| Problem | Example | Fix |
 |---|---|---|
-| 多音字 | "银行(háng)" 读成 "yín xíng" | 换同义写法："这家银行" → "这家网点" |
-| 多音字 | "重(zhòng)要" / "重(chóng)新" | 上下文无法消歧时换词："再次" 替 "重新" |
-| 数字 | "8900" 读成 "八千九百"还是"八九零零" | 金额写"八千九"，编号写"八千九百" |
-| 年份 | "2026 年" | 一般读"二零二六年"，不要写"两千零二十六"除非你要那个读法 |
-| 百分号 | "30%" | 写"百分之三十"最保险 |
-| 小数点 | "3.5" | 写"三点五" |
-| 单位 | "5G""iPhone 16" | 中文语境写"五 G""iPhone 十六"或按引擎文档标注 |
-| 英文缩写 | "AI""CPU" | 逐字母读的就写大写，想读成词的要确认引擎行为 |
-| 长串数字 | 电话号、订单号 | 逐位读时加空格/分隔符分隔 |
+| Polyphonic character | The word for "bank" (háng) misread as yín xíng | Rephrase with a synonym: say "this branch" instead of "this bank" |
+| Polyphonic character | zhòng-yào ("important") vs. chóng-xīn ("again") | When context can't disambiguate, swap words: use the clearer "once more" instead of the ambiguous "chóngxīn" |
+| Numbers | "8900" read as "eight-thousand-nine-hundred" or "eight-nine-zero-zero" | Write amounts as a compact grouping; write serial numbers digit-by-digit |
+| Years | "2026" | Usually read digit-by-digit ("two-zero-two-six"); don't write it as a big round number unless you want that reading |
+| Percent sign | "30%" | Writing "thirty percent" out is safest |
+| Decimal point | "3.5" | Write it out as "three point five" |
+| Units | "5G" "iPhone 16" | In Chinese context spell out the digit ("five G", "iPhone sixteen") or annotate per engine docs |
+| English abbreviations | "AI" "CPU" | Write uppercase for letter-by-letter reading; confirm engine behavior if you want it read as a word |
+| Long digit strings | Phone numbers, order IDs | Add spaces/separators for digit-by-digit reading |
 
-**修正（引擎层面，能力因引擎而异，VERIFY BEFORE USE）**：
+**Fixes (at the engine level, capabilities vary by engine, VERIFY BEFORE USE)**:
 
-- SSML `<phoneme>` / `<say-as>`：标准做法，但需引擎开启 SSML。
-- 自定义词典 / 音素表：部分引擎支持上传 `词语<TAB>读音` 的词典文件。
-- 拼音内联标记：部分中文引擎支持 `你(ni3)好(hao3)` 这类写法。
+- SSML `<phoneme>` / `<say-as>`: the standard approach, but requires the engine to enable SSML.
+- Custom lexicon / phoneme table: some engines support uploading a `word<TAB>pronunciation` lexicon file.
+- Inline pinyin markup: some Chinese engines support annotating each character with tone-numbered pinyin (e.g. ni3-hao3).
 
-**核实方法**：合成后用 `ffprobe` 看时长是否异常（多音字错读通常时长正常，
-所以**必须人工听**），或拿 10 个易错词做一遍回归测试，把结果记下来。
+**How to verify**: after synthesis, use `ffprobe` to check whether the duration is abnormal
+(mispronounced polyphonic characters usually have normal duration, so **you must listen manually**),
+or run a regression test on 10 error-prone words and record the results.
 
-回归测试小样本（每次换引擎/换音色都跑一遍）：
-银行、重(zhòng)要、重(chóng)新、2026 年、30%、3.5 秒、iPhone 16、
-5G、三分之一、八千九。
+Small regression-test sample (run every time you switch engine/voice):
+the word for "bank" (háng), "important" (zhòng), "again" (chóng), year "2026", "30%", "3.5 seconds",
+"iPhone 16", "5G", "one third", and "8900" as an amount.
 
-## 6. 音色选择场景匹配
+## 6. Voice selection by scene
 
-下表的音色 ID 来自本技能 SKILL.md 的 Voice Catalog，**仅在你的网关登记了同名
-音色时才有效**。核实方法：`curl -sS "$GATEWAY_BASE_URL/v1/voices"` 看返回列表
-（路径以你的网关为准，VERIFY BEFORE USE）；无该端点就逐条试合成一句短文本验证。
+The voice IDs below come from the Voice Catalog in this skill's SKILL.md; they are **only valid
+if your gateway has registered a voice with the same name**. How to verify:
+`curl -sS "$GATEWAY_BASE_URL/v1/voices"` and inspect the returned list (path depends on your
+gateway, VERIFY BEFORE USE); if there's no such endpoint, test-synthesize a short sentence per voice.
 
-| 音色 ID | 特征 | 匹配场景 | 不宜 |
+| Voice ID | Characteristics | Best scenes | Not suited for |
 |---|---|---|---|
-| `baby_f01` | 高音调、快 | 宝宝播客、萌系吐槽、搞笑反转 | 严肃科普、长句说明 |
-| `baby_f02` | 稍低、慢 | 儿童教育、睡前故事 | 快节奏盘点 |
-| `adult_m01` | 男声、沉稳 | 教程、Vlog、评测 | 萌系角色、情绪夸张段落 |
-| `adult_f01` | 女声、温暖 | 种草、测评、生活分享 | 反派/冲突角色 |
-| `mascot_01` | 热情、略机械 | 吉祥物、动画角色 | 需要真实感的人物旁白 |
-| `narrator_01` | 中性、清晰 | 解说、说明、知识类 | 需要强情绪的内容 |
+| `baby_f01` | High pitch, fast | Baby podcasts, cute roasts, funny twists | Serious science, long explanatory sentences |
+| `baby_f02` | Slightly lower, slower | Children's education, bedtime stories | Fast-paced roundups |
+| `adult_m01` | Male voice, steady | Tutorials, vlogs, reviews | Cute characters, highly emotional segments |
+| `adult_f01` | Female voice, warm | Product promos, reviews, lifestyle sharing | Villain/conflict characters |
+| `mascot_01` | Enthusiastic, slightly mechanical | Mascots, animated characters | Realistic human narration |
+| `narrator_01` | Neutral, clear | Voiceover, explanation, knowledge content | Content needing strong emotion |
 
-选择逻辑（当上表不适用时按这个推）：
+Selection logic (use this when the table above doesn't apply):
 
-1. 先定**内容类型**（搞笑 / 教育 / 种草 / 说明）；
-2. 再定**角色是否存在**（有角色 → 音色要像那个角色；无角色 → 选中性旁白）；
-3. 最后定**节奏**（快节奏内容配快语速音色，慢内容配稳音色）；
-4. **同一视频内不要频繁换音色**，除非是对话场景（对话时每个角色固定一个音色）。
+1. First decide the **content type** (comedy / education / promo / explanatory);
+2. Then decide **whether a character exists** (with a character → the voice should sound like that character; no character → pick a neutral narrator);
+3. Finally decide **rhythm** (fast-paced content pairs with a fast voice, slow content with a steady voice);
+4. **Don't switch voices frequently within one video**, except in dialogue scenes (in dialogue, fix one voice per character).
 
-## 7. 参数组合配方
+## 7. Parameter presets
 
-| 目标 | speed | pitch | emotion | 备注 |
+| Goal | speed | pitch | emotion | Notes |
 |---|---|---|---|---|
-| 萌娃吐槽（30s 短视频） | 1.25 | +5 | happy/cheerful（若支持） | 本仓 `baby_f01` 默认 speed 1.3 / pitch 5，可作起点 |
-| 儿童教育 | 1.0 | +4 | neutral | 慢一点便于跟读 |
-| 知识科普旁白 | 1.0 | 0 | neutral / serious | 重点是清晰，不要加 emotion |
-| 种草测评 | 1.1 | +1 | happy | 略快显得有精神 |
-| 教程步骤 | 0.95 | 0 | neutral | 观众要跟着做 |
-| 反转/高潮句 | 基准 +0.15 | 基准 +2 | excited | 只在这一句改，不要全片改 |
+| Cute kid roast (30s short video) | 1.25 | +5 | happy/cheerful (if supported) | This repo's `baby_f01` defaults to speed 1.3 / pitch 5, usable as a starting point |
+| Children's education | 1.0 | +4 | neutral | Slower for read-along |
+| Knowledge narration | 1.0 | 0 | neutral / serious | Focus on clarity; don't add emotion |
+| Product promo review | 1.1 | +1 | happy | Slightly faster feels energetic |
+| Tutorial steps | 0.95 | 0 | neutral | Viewers must follow along |
+| Twist/climax sentence | baseline +0.15 | baseline +2 | excited | Change only this sentence, not the whole video |
 
-全片统一用一组参数，只在**个别句子**上做局部微调；全片参数忽快忽慢会被听出来。
+Use one consistent parameter set across the whole video, with only local tweaks on **individual
+sentences**; an erratic speed across the whole video will be noticed.
 
-## 8. 交付前自检
+## 8. Pre-delivery self-check
 
-- [ ] 参数名已用第 0 节的扫描法确认**真的生效**（时长随 speed 变化）
-- [ ] 音色 ID 在当前网关的音色清单里存在
-- [ ] 每条音频时长与脚本 `duration_sec` 偏差 < 0.5s
-- [ ] 音频非静音（`ffprobe -af volumedetect` 的 `mean_volume` 明显高于 -91 dB）
-- [ ] 易错词回归样本逐条听过，多音字/数字读法正确
-- [ ] 没有依赖引擎不支持的私有标记（不确定就改用标点）
-- [ ] 结果 JSON 中 `mock` 不为 `true`
+- [ ] Parameter names have been confirmed to **actually take effect** via the Section 0 sweep (duration changes with speed)
+- [ ] The voice ID exists in the current gateway's voice list
+- [ ] Each audio's duration deviates from the script `duration_sec` by < 0.5s
+- [ ] The audio is not silent (`ffprobe -af volumedetect` shows `mean_volume` well above -91 dB)
+- [ ] The error-prone regression sample has been listened through item by item; polyphonic characters/number readings are correct
+- [ ] No reliance on private markers the engine doesn't support (when unsure, switch to punctuation)
+- [ ] The result JSON does not have `mock` set to `true`

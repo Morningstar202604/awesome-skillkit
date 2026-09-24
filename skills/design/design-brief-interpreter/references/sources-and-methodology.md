@@ -4,31 +4,28 @@ This skill is self-authored; its methodology skeleton is distilled from the foll
 
 | Source | Type | What was borrowed | License/attribution |
 |------|------|----------|-----------|
-| [designskills](https://github.com/ArnavPuri/designskills)（ArnavPuri，MIT） | 开源技能库 | `design-context` 先行模式——品牌/受众/风格上下文作为所有下游技能的共享参数，保证系列一致性 | MIT，结构借鉴并署名 |
-| [Anthropic canvas-design](https://github.com/anthropics/skills)（官方） | 🟢 官方 | "视觉哲学先行 → 画布执行"两阶段法；反 AI slop 纪律（极简文字、强视觉主导、杂志级构图） | 官方方法论引用并署名 |
-| designskills 全家桶的分工视角 | 开源技能库 | 规格（context）→ 生成（prompt）→ 评估（critique）三段式链条划分 | MIT，结构借鉴并署名 |
+| [designskills](https://github.com/ArnavPuri/designskills) (ArnavPuri, MIT) | open-source skill library | The `design-context` first pattern—brand/audience/style context as shared parameters for all downstream skills, ensuring series consistency | MIT, structural borrowing with attribution |
+| [Anthropic canvas-design](https://github.com/anthropics/skills) (official) | 🟢 official | The two-stage method "visual philosophy first → canvas execution"; anti-AI-slop discipline (minimal text, strong visual dominance, magazine-grade composition) | Official methodology cited with attribution |
+| The division-of-labor perspective from the designskills full suite | open-source skill library | The three-stage chain division: spec (context) → generation (prompt) → evaluation (critique) | MIT, structural borrowing with attribution |
 
 ## Design decisions
 
-1. **规格单固定 7 字段**：purpose/platform/subject/style/palette/text/do-not——
-   字段即可审计单元，比自由散文可验收。
-2. **风格锚必须可判定**：吸收 canvas-design 的"哲学先行"，但强制改写为
-   3-5 个可判定词——哲学描述给人看，可判定词给模型和审计脚本看。
-3. **文字逐条列出并限字数**：图上文字是生成模型第一大翻车源，规格阶段就
-   把它锁到最少。
+1. **Spec sheet fixed at 7 fields**: purpose/platform/subject/style/palette/text/do-not—the fields are the auditable unit, more verifiable than free prose.
+2. **Style anchors must be decidable**: adopting canvas-design's "philosophy first," but forced into
+   3-5 decidable words—philosophy descriptions are for humans; decidable words are for models and audit scripts.
+3. **Text listed one by one and word-capped**: on-image text is the #1 failure source for generative models; lock it to the minimum at the spec stage.
 
-## v2.0 调查来源（2026-09-21，领域暗知识补强）
+## v2.0 Research Sources (2026-09-21, domain tacit-knowledge reinforcement)
 
-SKILL.md v2.0 的"领域暗知识"四条均来自以下公开信源（多源交叉验证后引用，
-弃用无出处的伪精确统计）：
+The four "domain tacit knowledge" items in SKILL.md v2.0 all come from the following public sources (cited after multi-source cross-validation;
+unsourced pseudo-precise statistics are discarded):
 
-| 暗知识条目 | 信源 | 采信内容 |
+| Tacit knowledge item | Source | Content adopted |
 |------|------|----------|
-| 1. 层级硬通货（强调一切=什么都没强调） | Robin Williams《The Non-Designer's Design Book》（CRAP 四原则）；IEEE ProComm《Elements of Visual Communication》（Melissa Clarkson）；Gestalt 心理学（Max Wertheimer 以来接近性/相似性/图底等定律）；Affinity Studio 设计博客（三档尺寸、眯眼测试） | CRAP 四原则、层级三档差距、亲密性成组、squint test |
-| 2. 强调色稀缺性 | 60-30-10 法则（室内设计起源，Figma 官方资源库《Types of color palettes》收录；多家 UI 配色指南一致引用） | 60/30/10 配比、"最大胆的颜色应最稀有" |
-| 3. 文字预算实证 | YouTube 创作者实证共识（0-5 词）；中文平台创作者经验（≤12 字）；WCAG 2.x AA（4.5:1，正文 16px 起）；澳洲政府 Accessibility Toolkit（45-75 字符行宽口径） | 文字上限、移动端缩略可读、对比度底线 |
-| 4. 风格锚对竞品信息流 | filmit.io《Teal & Orange Explained》（"2012 成标准、2020 成俗套"演化弧线）；高创收创作者封面框架（feed-level contrast，多家创作者工具指南交叉印证） | 俗套风险、对照系纪律 |
+| 1. Hierarchy hard currency (emphasizing everything = emphasizing nothing) | Robin Williams, *The Non-Designer's Design Book* (CRAP four principles); IEEE ProComm, *Elements of Visual Communication* (Melissa Clarkson); Gestalt psychology (proximity/similarity/figure-ground laws since Max Wertheimer); Affinity Studio design blog (three size tiers, squint test) | CRAP four principles, three-tier hierarchy gaps, proximity grouping, squint test |
+| 2. Accent color scarcity | 60-30-10 rule (originated in interior design; cataloged in Figma official resource library *Types of color palettes*; consistently cited by multiple UI color guides) | 60/30/10 ratio, "the boldest color should be the rarest" |
+| 3. Text budget evidence | YouTube creator empirical consensus (0-5 words); Chinese-platform creator experience (≤12 characters); WCAG 2.x AA (4.5:1, body text from 16px); Australian Government Accessibility Toolkit (45-75 character line-length metric) | Text upper limit, mobile thumbnail readability, contrast floor |
+| 4. Style anchors vs. competitor feed | filmit.io, *Teal & Orange Explained* ("became standard in 2012, became cliché in 2020" evolution arc); high-earning creator cover frameworks (feed-level contrast, cross-confirmed by multiple creator-tool guides) | Cliché risk, control-group discipline |
 
-**采信纪律**：只引有明确出处且多源一致的原则；单源精确百分比（如"提升 62%"类）
-一律不采信，改用定性表述。
-
+**Adoption discipline**: only cite principles that have clear sources and multi-source agreement;
+single-source precise percentages (e.g. "62% improvement") are never adopted, replaced with qualitative statements.

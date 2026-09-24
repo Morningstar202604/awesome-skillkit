@@ -1,3 +1,3 @@
-# 首页
+# Home
 
-本站点是随包样例 wiki，条目见 [[glossary]]。
+This site is a sample wiki bundled with the package; entries see [[glossary]].

@@ -1,6 +1,6 @@
 ---
 name: latex-formatter
-description: "Check and normalize paper LaTeX: document class/template sniffing (IEEE etc), balanced environments, unescaped special chars, bibliography presence, and cross-file undefined \\cite/\\ref. Use when the user asks to check LaTeX / paper format check / pre-compile check / typeset a paper / fix LaTeX errors / normalize tex per template / check for unclosed environments / check paper formatting / normalize LaTeX / fix LaTeX errors. Fails with rc=1 when the input file does not exist. Do NOT use for writing paper content or generating figures (use figure-maker / article-drafter)."
+description: "Check and normalize paper LaTeX: document class/template sniffing (IEEE etc), balanced environments, unescaped special chars, bibliography presence, and cross-file undefined \\cite/\\ref. Use when the user asks to check LaTeX / paper format check / pre-compile check / typeset a paper / fix LaTeX errors / normalize tex per template / check for unclosed environments / check paper formatting / normalize LaTeX / fix LaTeX errors. Fails with rc=1 when the input file does not exist. Do NOT use for writing paper content or generating figures (use pub-plotter / article-drafter)."
 license: Apache-2.0
 compatibility: Stdlib-only static checks; optional chktex/latexindent/tex-fmt when installed (honest fallback to stdlib otherwise).
 metadata:
@@ -98,4 +98,4 @@ No external reference files; the template table is built into `scripts/latex_for
 
 ## Chain Position
 
-Upstream connects to figure-maker / arch-diagram / neural-net-draw figure outputs; after checks pass, hand off to self-reviewer for content review, then into journal-adapt to switch templates.
+Upstream connects to pub-plotter / arch-diagram / neural-net-draw figure outputs; after checks pass, hand off to self-reviewer for content review, then into journal-adapt to switch templates.

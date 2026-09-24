@@ -1,83 +1,83 @@
-# 搜索陷阱与规避
+# Search Pitfalls and Mitigations
 
-## 引擎限制陷阱
+## Engine-limit pitfalls
 
-1. **SearXNG 公共实例不稳定**
-   - 现象：间歇性超时或返回空结果
-   - 规避：实现多实例自动切换，设置合理超时
-   - 建议：生产环境自建 SearXNG 实例
+1. **SearXNG public instances are unstable**
+   - Symptom: intermittent timeouts or empty results
+   - Mitigation: implement automatic switching across instances, set reasonable timeouts
+   - Recommendation: self-host a SearXNG instance in production
 
-2. **DuckDuckGo 反爬**
-   - 现象：连续请求后返回 CAPTCHA 或空结果
-   - 规避：请求间隔 ≥1 秒，使用代理池
-   - 建议：限制频率，不要高频调用
+2. **DuckDuckGo anti-scraping**
+   - Symptom: after consecutive requests, returns CAPTCHA or empty results
+   - Mitigation: request interval ≥ 1 second, use a proxy pool
+   - Recommendation: rate-limit; don't call at high frequency
 
-3. **Brave Search 额度耗尽**
-   - 现象：返回 403 或空结果
-   - 规避：监控额度使用，实现自动降级
-   - 建议：免费额度足够个人使用
+3. **Brave Search quota exhausted**
+   - Symptom: returns 403 or empty results
+   - Mitigation: monitor quota usage, implement automatic degradation
+   - Recommendation: the free quota is enough for personal use
 
-## 结果质量问题
+## Result-quality issues
 
-4. **搜索结果无关**
-   - 现象：返回的结果与查询无关
-   - 规避：优化查询词，使用引号精确匹配
-   - 建议：提供多个备选查询
+4. **Irrelevant search results**
+   - Symptom: returned results are unrelated to the query
+   - Mitigation: refine query terms, use quotes for exact match
+   - Recommendation: provide multiple alternative queries
 
-5. **结果过期**
-   - 现象：返回的内容已过期或链接失效
-   - 规避：检查结果日期，优先选择近期内容
-   - 建议：标注结果发布日期
+5. **Stale results**
+   - Symptom: returned content is outdated or links are dead
+   - Mitigation: check result dates, prefer recent content
+   - Recommendation: label the result publication date
 
-6. **重复结果**
-   - 现象：同一内容出现在多个结果中
-   - 规避：URL 去重，合并相似结果
-   - 建议：设置去重阈值
+6. **Duplicate results**
+   - Symptom: the same content appears in multiple results
+   - Mitigation: dedupe by URL, merge similar results
+   - Recommendation: set a dedup threshold
 
-## 缓存陷阱
+## Cache pitfalls
 
-7. **缓存污染**
-   - 现象：缓存了错误结果，后续所有请求都返回错误
-   - 规避：缓存前验证结果有效性
-   - 建议：设置缓存有效期，过期自动清除
+7. **Cache pollution**
+   - Symptom: a wrong result is cached, and all subsequent requests return the wrong thing
+   - Mitigation: validate result validity before caching
+   - Recommendation: set a cache TTL, auto-expire on expiry
 
-8. **缓存击穿**
-   - 现象：高热点查询导致缓存频繁失效
-   - 规避：延长热点查询的缓存时间
-   - 建议：实现缓存预热
+8. **Cache breakdown**
+   - Symptom: hot queries cause frequent cache invalidation
+   - Mitigation: extend the cache time for hot queries
+   - Recommendation: implement cache warm-up
 
-## 解析陷阱
+## Parsing pitfalls
 
-9. **HTML 结构变化**
-   - 现象：搜索引擎更新页面结构导致解析失败
-   - 规避：使用健壮的解析器，支持多种选择器
-   - 建议：监控解析成功率，及时更新
+9. **HTML structure changes**
+   - Symptom: the search engine updates its page structure, breaking parsing
+   - Mitigation: use robust parsers that support multiple selectors
+   - Recommendation: monitor the parse success rate and update promptly
 
-10. **编码问题**
-    - 现象：中文结果出现乱码
-    - 规避：正确设置编码，使用 UTF-8
-    - 建议：检测编码并自动转换
+10. **Encoding issues**
+    - Symptom: CJK results show garbled text
+    - Mitigation: set encoding correctly, use UTF-8
+    - Recommendation: detect the encoding and convert automatically
 
-## 安全陷阱
+## Security pitfalls
 
-11. **恶意网站**
-    - 现象：搜索结果包含恶意网站
-    - 规避：过滤可疑域名，标注安全风险
-    - 建议：使用安全搜索引擎白名单
+11. **Malicious websites**
+    - Symptom: search results include malicious sites
+    - Mitigation: filter suspicious domains, flag security risks
+    - Recommendation: use a whitelist of safe search engines
 
-12. **隐私泄露**
-    - 现象：搜索请求泄露用户隐私
-    - 规避：使用匿名引擎，不记录搜索历史
-    - 建议：本地部署搜索引擎
+12. **Privacy leakage**
+    - Symptom: search requests leak user privacy
+    - Mitigation: use anonymous engines, don't record search history
+    - Recommendation: deploy the search engine locally
 
-## 工程陷阱
+## Engineering pitfalls
 
-13. **资源泄漏**
-    - 现象：大量搜索请求导致内存泄漏
-    - 规避：使用连接池，及时释放资源
-    - 建议：监控内存使用
+13. **Resource leaks**
+    - Symptom: a large volume of search requests causes a memory leak
+    - Mitigation: use a connection pool, release resources promptly
+    - Recommendation: monitor memory usage
 
-14. **循环依赖**
-    - 现象：搜索模块被其他模块循环依赖
-    - 规避：清晰定义模块边界
-    - 建议：使用依赖注入
+14. **Circular dependencies**
+    - Symptom: the search module is circularly depended on by other modules
+    - Mitigation: define module boundaries clearly
+    - Recommendation: use dependency injection

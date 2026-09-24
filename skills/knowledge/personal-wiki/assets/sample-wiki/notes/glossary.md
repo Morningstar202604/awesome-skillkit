@@ -1,6 +1,6 @@
-# 术语表
+# Glossary
 
-- 幂等：同一操作执行多次效果一致。
-- SLI：服务水平指标。
+- Idempotent: executing the same operation multiple times yields the same result.
+- SLI: Service Level Indicator.
 
-返回 [[home]]。
+Back to [[home]].

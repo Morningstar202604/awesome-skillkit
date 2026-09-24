@@ -1,42 +1,51 @@
 # Sources & Methodology — video-script-writer
 
-SKILL.md 暗知识 1–7 的采信纪律：短视频赛道没有学术文献层，本轮调研的是**从业者方法论材料**。处理规则——
+Trust discipline for SKILL.md tacit knowledge 1–7: the short-video track has no academic-literature
+layer; this round researched **practitioner methodology materials**. The processing rule:
 
-> **能交叉验证的写为共识；只有单一来源或带营销数字的，一律降级或拒绝。**
+> **What can be cross-validated is written as consensus; anything single-sourced or carrying
+> marketing numbers is downgraded or rejected outright.**
 
-## 来源与采信
+## Sources and trust
 
-| 暗知识 | 来源性质 | 采信程度 |
+| Tacit knowledge | Source nature | Degree of trust |
 |---|---|---|
-| 1. 前 3 秒是黄金窗口 | 短视频从业者方法论（多来源一致，业内称 "golden 3 seconds"） | 采信**概念**：前 3 秒决定留存 |
-| 1b. 六种钩子类型（痛点/结果前置/反常识/数字/提问/利益承诺） | 从业者材料中的钩子分类归纳 | 采信：分类是可操作的写作工具 |
-| 1c. "3 秒流失 X%""完播率提升 Y%"类**具体数字** | 各来源口径互不一致、无可核出处 | **拒绝**：不写入 SKILL.md（见下方采信纪律） |
-| 2. 一条视频只给一个 CTA | 从业者共识（注意力分摊 = 无 CTA） | 采信：原理层结论 |
-| 3. 中文口播语速 4–5 字/秒 | 播音/口播通行经验值（新闻联播式播报更快） | **降级采信**：标注为经验值，不同主播差异大；仅用于台词容量核算 |
-| 4. 口播与画面分工（能演的不说） | "Show, don't tell" 在短视频语境的迁移 | 本组迁移表述，非某来源原文 |
-| 5. 循环设计（meme 类） | 从业者共识（首尾衔接提升循环播放） | 采信：原理层结论 |
-| 6. 封面/标题承诺必须前 3 秒兑现 | 内容运营通行实践 | 通行口径：按实践归纳采信 |
-| 7. 合规（极限词/诱导互动/疗效承诺） | 广告法与主流平台规则的公开事实 | 采信：可核对的监管/平台事实；具体类目以平台最新公示为准 |
+| 1. The first 3 seconds are the golden window | Short-video practitioner methodology (multiple sources agree; known in the industry as the "golden 3 seconds") | Trust the **concept**: the first 3 seconds decide retention |
+| 1b. Six hook types (pain point / result-first / counter-intuitive / number / question / benefit promise) | Hook taxonomy distilled from practitioner materials | Trust it: the taxonomy is an actionable writing tool |
+| 1c. **Specific numbers** like "X% drop-off in 3 seconds" / "Y% completion-rate lift" | Sources disagree and have no verifiable origin | **Rejected**: not written into SKILL.md (see trust discipline below) |
+| 2. One CTA per video | Practitioner consensus (splitting attention = no CTA) | Trust: a principle-level conclusion |
+| 3. Chinese voiceover speech rate 4–5 chars/sec | Common broadcast/voiceover rule of thumb (news-bulletin style is faster) | **Downgraded trust**: marked as a guideline; varies widely across hosts; only used for line-capacity budgeting |
+| 4. Division of labor between voiceover and picture (show, don't say) | The migration of "Show, don't tell" into the short-video context | This group's restatement, not any one source's original text |
+| 5. Loop design (meme type) | Practitioner consensus (head-tail seam raises looped replays) | Trust: a principle-level conclusion |
+| 6. The thumbnail/title promise must be delivered in the first 3 seconds | Common content-operations practice | Common line: trusted as distilled from practice |
+| 7. Compliance (extreme-word bans / engagement bait / efficacy promises) | Public facts from ad law and mainstream platform rules | Trust: verifiable regulatory/platform facts; specific categories defer to the platform's latest public notice |
 
-## 采信纪律
+## Trust discipline
 
-1. **凡带百分比的"效果承诺"一律不采信**：短视频领域大量流传"开场 X 秒流失 80%""加钩子完播率提升 45%"类数字，来源多是课程/工具营销页，互相矛盾且无实验披露 → 本技能全部拒绝，SKILL.md 明写"不引用百分比"。
-2. **语速数字降级为区间**：4–5 字/秒作为核算工具使用，并明示为经验值——它服务的是"台词别超载"这个可验证目标，不是精确语音学参数。
-3. **平台规则标注时效**：`PLATFORM_RULES` 在脚本里的上限（douyin 60s 等）是工程常量；平台规则会变，交付时以平台公示为准。
+1. **No "effect promise" carrying a percentage is ever trusted**: the short-video field circulates
+   plenty of numbers like "X seconds in, 80% drop off" / "adding a hook raises completion by 45%";
+   most come from course/tool marketing pages, contradict each other, and disclose no experiment →
+   this skill rejects them all, and SKILL.md explicitly states "no percentages cited."
+2. **Speech-rate numbers are downgraded to a range**: 4–5 chars/sec is used as a budgeting tool and
+   stated as a guideline—it serves the verifiable goal of "don't overload the lines," not a precise
+   phonetic parameter.
+3. **Platform rules carry a time stamp**: the caps in `PLATFORM_RULES` (e.g. douyin 60s) are engineering
+   constants; platform rules change, so defer to the platform's public notice at delivery time.
 
-## 脚本行为实测记录（2026-09-22，诚实声明的证据）
+## Script-behavior measurement record (2026-09-22, evidence for the honesty statement)
 
-| 事实 | 实测值 |
+| Fact | Measured value |
 |---|---|
-| 模板轨台词 | 自描述占位（`[角色] Attention grabber about: 概念`），`dialogue_source="template"` |
-| LLM 轨触发 | `SKILLKIT_LLM_URL` + `SKILLKIT_LLM_KEY`（可选 MODEL）；失败落回模板并记 `llm_note` |
-| `visual` 字段 | 恒为 `[role: describe visual action here]` 占位 |
-| `sfx` | 仅 hook/punchline/outro 有值，其余空串 |
-| 时长不变量 | 每场 ≥1s；各场之和 == total_duration；**300 组（5 类型 × 1–60s）扫描零违规** |
-| 超平台上限 | 截断并写 `duration_note`（记 `requested_duration`），不静默 |
-| 目标 < 场景数 | 抬升到场景数并写 `duration_note` |
-| caption | 自动拼装（含 emoji 前缀）；`caption_check` 给长度/上限/标签数/是否合规 |
-| 非法 platform | 静默回退 douyin |
-| tts 语速参数 | funny=1.2，其余=1.0（生成参数透传，非建议语速） |
+| Template-track dialogue | Self-describing placeholder (`[role] Attention grabber about: concept`), `dialogue_source="template"` |
+| LLM-track trigger | `SKILLKIT_LLM_URL` + `SKILLKIT_LLM_KEY` (optional MODEL); on failure it falls back to the template and records `llm_note` |
+| `visual` field | Always the placeholder `[role: describe visual action here]` |
+| `sfx` | Only the hook/punchline/outro have values; the rest are empty strings |
+| Duration invariant | Each scene ≥1s; the sum of scenes == total_duration; **a scan of 300 sets (5 types × 1–60s) found zero violations** |
+| Over platform cap | Truncates and writes `duration_note` (recording `requested_duration`), not silently |
+| Target < number of scenes | Raises to the scene count and writes `duration_note` |
+| caption | Auto-assembled (with an emoji prefix); `caption_check` reports length/cap/tag count/compliance |
+| Illegal platform | Silently falls back to douyin |
+| tts speech-rate parameter | funny=1.2, everything else=1.0 (passthrough generation parameter, not a suggested speech rate) |
 
-> 记录目的：让 SKILL.md 的「诚实声明」可被独立复核；任何一条与代码不符，以代码为准并回改文档。
+> Purpose of the record: let SKILL.md's "honesty statement" be independently re-checkable; whenever
+> any item disagrees with the code, the code wins and the docs are revised back.
