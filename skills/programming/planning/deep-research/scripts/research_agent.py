@@ -4,6 +4,7 @@
 Multi-round search + information synthesis + structured report generation.
 Depends on the web-search skill.
 """
+
 import json
 import sys
 import os
@@ -14,9 +15,18 @@ from typing import List, Dict, Any, Optional
 from datetime import datetime
 from urllib.parse import urlparse
 
-# try to import web-search
+# try to import web-search (sibling skill: skills/programming/planning/web-search)
 try:
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "web-search", "scripts"))
+    sys.path.insert(
+        0,
+        os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            "..",
+            "..",
+            "web-search",
+            "scripts",
+        ),
+    )
     from search_client import search, SearchEngineError
 except ImportError:
     search = None
@@ -32,7 +42,6 @@ DOMAIN_TRUSTWORTHINESS = {
     "flask.palletsprojects.com": 1.0,
     "github.com": 0.9,
     "stackoverflow.com": 0.85,
-
     # technical blogs
     "medium.com": 0.6,
     "dev.to": 0.65,
@@ -40,17 +49,14 @@ DOMAIN_TRUSTWORTHINESS = {
     "realpython.com": 0.85,
     "segmentfault.com": 0.7,
     "jianshu.com": 0.5,
-
     # news
     "techcrunch.com": 0.7,
     "thenewstack.io": 0.75,
-
     # Chinese tech sites
     "cnblogs.com": 0.65,
     "csdn.net": 0.6,
     "juejin.cn": 0.7,
     "oschina.net": 0.7,
-
     # other
     "wikipedia.org": 0.8,
     "reddit.com": 0.5,
@@ -58,6 +64,7 @@ DOMAIN_TRUSTWORTHINESS = {
 
 
 # -- Query analyzer ----------------------------------------------------------
+
 
 class QueryAnalyzer:
     """Analyze a research topic and decompose it into sub-questions."""
@@ -67,14 +74,17 @@ class QueryAnalyzer:
         (r"(\w+) (?:and|vs|or) (\w+)", ["compare {0} and {1}", "{0} vs {1}"]),
         (r"best (\w+)", ["{0} best practices", "{0} pros and cons", "{0} comparison"]),
         (r"how to (\w+)", ["{0} methods", "{0} tutorial", "{0} examples"]),
-        (r"(\w+) framework", ["{0} introduction", "{0} tutorial", "{0} best practices"]),
+        (
+            r"(\w+) framework",
+            ["{0} introduction", "{0} tutorial", "{0} best practices"],
+        ),
     ]
 
     def analyze(self, topic: str, focus_areas: List[str] = None) -> Dict[str, Any]:
         """Analyze the query and return structured information."""
         sub_queries = self._decompose(topic)
         strategy = self._select_strategy(topic, sub_queries)
-        
+
         return {
             "original_topic": topic,
             "sub_queries": sub_queries,
@@ -82,7 +92,7 @@ class QueryAnalyzer:
             "expected_rounds": self._estimate_rounds(topic),
             "focus_areas": focus_areas or [],
         }
-    
+
     def _decompose(self, topic: str) -> List[str]:
         """Decompose into sub-queries."""
         queries = [topic]
@@ -125,19 +135,31 @@ class QueryAnalyzer:
 
     def _select_strategy(self, topic: str, queries: List[str]) -> Dict:
         """Choose the search strategy."""
-        is_comparison = any("vs" in q.lower() or "compare" in q.lower() for q in queries)
-        is_tutorial = any("tutorial" in q.lower() or "how" in q.lower() for q in queries)
+        is_comparison = any(
+            "vs" in q.lower() or "compare" in q.lower() for q in queries
+        )
+        is_tutorial = any(
+            "tutorial" in q.lower() or "how" in q.lower() for q in queries
+        )
         is_news = any(any(y in q for y in ["2024", "2025", "2026"]) for q in queries)
-        
+
         if is_comparison:
-            return {"depth": "deep", "engines": ["searxng", "ddg"], "focus": "comparison"}
+            return {
+                "depth": "deep",
+                "engines": ["searxng", "ddg"],
+                "focus": "comparison",
+            }
         elif is_tutorial:
-            return {"depth": "standard", "engines": ["searxng"], "focus": "implementation"}
+            return {
+                "depth": "standard",
+                "engines": ["searxng"],
+                "focus": "implementation",
+            }
         elif is_news:
             return {"depth": "deep", "engines": ["searxng", "ddg"], "focus": "latest"}
         else:
             return {"depth": "standard", "engines": ["searxng"], "focus": "general"}
-    
+
     def _estimate_rounds(self, topic: str) -> int:
         """Estimate the required number of search rounds."""
         complexity = len(topic.split())
@@ -149,6 +171,7 @@ class QueryAnalyzer:
 
 
 # -- Search engine ----------------------------------------------------------
+
 
 class SearchOrchestrator:
     """Search orchestrator"""
@@ -215,7 +238,9 @@ class SearchOrchestrator:
         # de-duplicate
         return list(dict.fromkeys(queries))[:5]
 
-    def _should_continue(self, results: Dict, current_round: int, max_rounds: int) -> bool:
+    def _should_continue(
+        self, results: Dict, current_round: int, max_rounds: int
+    ) -> bool:
         """Decide whether to continue searching."""
         # insufficient number of results
         total_results = sum(
@@ -223,12 +248,12 @@ class SearchOrchestrator:
             for round_results in results.values()
             for r in round_results.values()
         )
-        
+
         if total_results < 5 and current_round < max_rounds:
             return True
-        
+
         return False
-    
+
     def _summarize(self, topic: str, all_results: Dict, analysis: Dict) -> Dict:
         """Summarize search results."""
         # collect all results
@@ -248,32 +273,30 @@ class SearchOrchestrator:
 
         # trustworthiness assessment
         trust_scores = self._assess_trustworthiness(evaluated)
-        
+
         return {
             "topic": topic,
-            "total_queries": sum(
-                len(r) for r in all_results.values()
-            ),
+            "total_queries": sum(len(r) for r in all_results.values()),
             "total_results": len(deduped),
             "deduped_results": len(evaluated),
             "results": evaluated,
             "trust_scores": trust_scores,
             "analysis": analysis,
         }
-    
+
     def _deduplicate(self, results: List[Dict]) -> List[Dict]:
         """De-duplicate."""
         seen_urls = set()
         unique = []
-        
+
         for r in results:
             url = r.get("url", "")
             if url and url not in seen_urls:
                 seen_urls.add(url)
                 unique.append(r)
-        
+
         return unique
-    
+
     def _evaluate_quality(self, results: List[Dict]) -> List[Dict]:
         """Evaluate result quality."""
         evaluated = []
@@ -324,15 +347,16 @@ class SearchOrchestrator:
     def _assess_trustworthiness(self, results: List[Dict]) -> Dict[str, float]:
         """Assess trustworthiness."""
         trust_scores = {}
-        
+
         for r in results:
             url = r.get("url", "")
             trust_scores[url] = r.get("quality_score", 0.5)
-        
+
         return trust_scores
 
 
 # -- Report generator -------------------------------------------------------
+
 
 class ReportGenerator:
     """Generate a research report."""
@@ -359,7 +383,9 @@ class ReportGenerator:
         lines.append("")
         if results:
             top_result = results[0]
-            lines.append(f"Based on a synthesis of {len(results)} sources, the key findings are:")
+            lines.append(
+                f"Based on a synthesis of {len(results)} sources, the key findings are:"
+            )
         else:
             lines.append("*No relevant results found.*")
         lines.append("")
@@ -407,6 +433,7 @@ class ReportGenerator:
 
 # -- Main pipeline ----------------------------------------------------------
 
+
 def deep_research(
     topic: str,
     max_rounds: int = 3,
@@ -445,12 +472,18 @@ def deep_research(
 
 # -- CLI entry point --------------------------------------------------------
 
+
 def main():
     import argparse
+
     parser = argparse.ArgumentParser(description="Deep Research -- deep-research agent")
     parser.add_argument("topic", help="research topic")
-    parser.add_argument("--rounds", "-r", type=int, default=3, help="maximum search rounds")
-    parser.add_argument("--format", "-f", choices=["markdown", "json", "both"], default="markdown")
+    parser.add_argument(
+        "--rounds", "-r", type=int, default=3, help="maximum search rounds"
+    )
+    parser.add_argument(
+        "--format", "-f", choices=["markdown", "json", "both"], default="markdown"
+    )
     parser.add_argument("--no-cache", action="store_true", help="disable the cache")
 
     args = parser.parse_args()
@@ -466,7 +499,9 @@ def main():
     if args.format == "markdown":
         print(result.get("markdown_report", ""))
     elif args.format == "json":
-        print(result.get("json_report", json.dumps(result, ensure_ascii=False, indent=2)))
+        print(
+            result.get("json_report", json.dumps(result, ensure_ascii=False, indent=2))
+        )
     else:
         print(result.get("markdown_report", ""))
         print("\n--- JSON ---\n")

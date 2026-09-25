@@ -25,17 +25,32 @@ import json
 import os
 import sys
 import time
+import urllib.error
 import urllib.request
 
-# 复用发布公共工具（HTTP / 异常 / dry-run），避免重复造轮子
-_common = os.path.normpath(
-    os.path.join(
-        os.path.dirname(os.path.realpath(__file__)), "..", "..", "..", "_common"
+
+class PublishError(Exception):
+    pass
+
+
+def http_json(url, payload=None, timeout=60):
+    data = json.dumps(payload).encode("utf-8") if payload is not None else None
+    headers = {"Content-Type": "application/json"} if data is not None else {}
+    req = urllib.request.Request(
+        url, data=data, headers=headers, method="POST" if data is not None else "GET"
     )
-)
-if os.path.isdir(_common) and _common not in sys.path:
-    sys.path.insert(0, _common)
-from publish_common import http_json, PublishError, dry_run_guard, dump_json
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            body = resp.read().decode("utf-8", "replace")
+    except urllib.error.HTTPError as exc:
+        raise PublishError("HTTP %s %s" % (exc.code, exc.reason)) from exc
+    except urllib.error.URLError as exc:
+        raise PublishError(str(exc.reason)) from exc
+    try:
+        return json.loads(body)
+    except ValueError as exc:
+        raise PublishError("response is not JSON: %s" % body[:200]) from exc
+
 
 DEFAULT_BASE = os.environ.get("IMAGE_API_BASE", "http://127.0.0.1:30080")
 
@@ -130,9 +145,9 @@ def main(argv=None):
         print("[error] %s" % exc)
         return 1
 
-    if not dry_run_guard(args.execute):
+    if not args.execute:
         print("[PLAN] POST %s/api/image/generate" % DEFAULT_BASE)
-        print(dump_json(payload))
+        print(json.dumps(payload, ensure_ascii=False, indent=2))
         return 0
 
     # 1. 提交任务

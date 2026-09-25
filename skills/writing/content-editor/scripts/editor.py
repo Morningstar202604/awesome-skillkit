@@ -5,10 +5,15 @@ Usage:
   python3 editor.py --draft draft.json
   python3 editor.py --text "original text" --style technical
 """
+
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
+
+SENT_SPLIT_RE = re.compile(r"[.!?。！？…]+")
+WORD_RE = re.compile(r"[一-鿿]+|[A-Za-z0-9]+")
 
 STYLE_RULES = {
     "technical": {
@@ -40,14 +45,16 @@ def edit_text(text: str, style: str = "technical") -> dict:
 
     for word in rules["ban"]:
         if word in text:
-            issues.append({"type": "banned_word", "word": word, "line": text.find(word)})
+            issues.append(
+                {"type": "banned_word", "word": word, "line": text.find(word)}
+            )
 
     for word in rules["use"]:
         if word not in text and len(text) > 200:
             suggestions.append(f"Consider using '{word}' for {style} tone")
 
-    # Check sentence length
-    sentences = text.split(".")
+    # Check sentence length (works for both CJK and Latin terminators)
+    sentences = [s.strip() for s in SENT_SPLIT_RE.split(text) if s.strip()]
     long_sentences = [s for s in sentences if len(s) > rules["max_sentence_len"]]
 
     return {
@@ -56,7 +63,8 @@ def edit_text(text: str, style: str = "technical") -> dict:
         "suggestions": suggestions,
         "long_sentences": len(long_sentences),
         "total_sentences": len(sentences),
-        "word_count": len(text),
+        "char_count": len(text),
+        "word_count": len(WORD_RE.findall(text)),
         "score": max(0, 100 - len(issues) * 5 - len(long_sentences) * 2),
         "edited": text,
         "status": "reviewed",
@@ -65,9 +73,7 @@ def edit_text(text: str, style: str = "technical") -> dict:
 
 def edit_article(article: dict, style: str = "technical") -> dict:
     """Edit full article."""
-    all_text = " ".join(
-        s.get("draft", "") for s in article.get("sections", [])
-    )
+    all_text = " ".join(s.get("draft", "") for s in article.get("sections", []))
     result = edit_text(all_text, style)
     result["title"] = article.get("title", "")
     result["sections_edited"] = len(article.get("sections", []))
@@ -78,7 +84,9 @@ def main():
     parser = argparse.ArgumentParser(description="Edit/proofread content")
     parser.add_argument("--draft", help="Draft JSON file")
     parser.add_argument("--text", help="Raw text to edit")
-    parser.add_argument("--style", default="technical", choices=list(STYLE_RULES.keys()))
+    parser.add_argument(
+        "--style", default="technical", choices=list(STYLE_RULES.keys())
+    )
     parser.add_argument("--output", help="Output file")
     args = parser.parse_args()
 
@@ -87,16 +95,25 @@ def main():
         if not p.exists():
             # the old version threw a raw FileNotFoundError traceback (rc=1, no JSON);
             # now emit a clean error
-            print(json.dumps({"status": "error",
-                              "error": f"--draft file does not exist: {args.draft}"},
-                             ensure_ascii=False))
+            print(
+                json.dumps(
+                    {
+                        "status": "error",
+                        "error": f"--draft file does not exist: {args.draft}",
+                    },
+                    ensure_ascii=False,
+                )
+            )
             return 2
         try:
             article = json.loads(p.read_text(encoding="utf-8"))
         except json.JSONDecodeError as e:
-            print(json.dumps({"status": "error",
-                              "error": f"--draft is not valid JSON: {e}"},
-                             ensure_ascii=False))
+            print(
+                json.dumps(
+                    {"status": "error", "error": f"--draft is not valid JSON: {e}"},
+                    ensure_ascii=False,
+                )
+            )
             return 2
         result = edit_article(article, args.style)
     elif args.text:

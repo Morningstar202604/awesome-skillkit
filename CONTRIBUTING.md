@@ -31,7 +31,7 @@ New and edited skills must follow `docs/SKILL-STANDARD-v2.md` (machine-first wri
 - It must contain a `SKILL.md` (at any depth) plus any runtime-required files (`references/`, `scripts/`, `templates/`).
 - It should map to one **concrete scenario** and be grounded in a **platform + tool** (see the project positioning in the README).
 - Keep the pack focused on its one scenario — a couple of skills for narrow scenarios, more (10+) only when the scenario genuinely spans many platforms (see `content-publishing`).
-- Reuse shared helpers from `skills/writing/_common/publish_common.py` (HTTP / dry-run / credentials) instead of re-implementing them.
+- Keep shared, non-skill helpers next to the domain orchestrators (e.g. `skills/writing/writing_pipeline.py`) and re-use them instead of re-implementing HTTP / dry-run / credentials handling.
 - Update `manifest.json` and the README tables accordingly.
 
 ## Commit conventions

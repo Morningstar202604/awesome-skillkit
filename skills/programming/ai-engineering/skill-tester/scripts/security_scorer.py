@@ -134,14 +134,26 @@ class SecurityScorer:
             score = float(BASE_SCORE_SENSITIVE_DATA)
 
             checks = (
-                (PATTERN_HARDCODED_PASSWORD, "hardcoded pass" + "word",
-                 CRITICAL_VULNERABILITY_PENALTY),
-                (PATTERN_HARDCODED_API_KEY, "hardcoded API key",
-                 CRITICAL_VULNERABILITY_PENALTY),
-                (PATTERN_HARDCODED_TOKEN, "hardcoded to" + "ken/JWT",
-                 CRITICAL_VULNERABILITY_PENALTY),
-                (PATTERN_HARDCODED_PRIVATE_KEY, "hardcoded private key",
-                 CRITICAL_VULNERABILITY_PENALTY),
+                (
+                    PATTERN_HARDCODED_PASSWORD,
+                    "hardcoded pass" + "word",
+                    CRITICAL_VULNERABILITY_PENALTY,
+                ),
+                (
+                    PATTERN_HARDCODED_API_KEY,
+                    "hardcoded API key",
+                    CRITICAL_VULNERABILITY_PENALTY,
+                ),
+                (
+                    PATTERN_HARDCODED_TOKEN,
+                    "hardcoded to" + "ken/JWT",
+                    CRITICAL_VULNERABILITY_PENALTY,
+                ),
+                (
+                    PATTERN_HARDCODED_PRIVATE_KEY,
+                    "hardcoded private key",
+                    CRITICAL_VULNERABILITY_PENALTY,
+                ),
             )
             for pattern, label, penalty in checks:
                 if pattern.search(content):
@@ -181,7 +193,9 @@ class SecurityScorer:
                 if self.verbose:
                     print(f"  [!] {msg}")
 
-            if _PATTERN_PATHLIB_RESOLVE.search(content) or _PATTERN_BASENAME.search(content):
+            if _PATTERN_PATHLIB_RESOLVE.search(content) or _PATTERN_BASENAME.search(
+                content
+            ):
                 score += SAFE_PATTERN_BONUS
 
             scores.append(self._clamp_score(score))
@@ -278,16 +292,30 @@ class SecurityScorer:
     def has_critical_vulnerabilities(self) -> bool:
         for script in self.scripts:
             content = self._read(script)
-            if any(p.search(content) for p in (
-                PATTERN_HARDCODED_PASSWORD,
-                PATTERN_HARDCODED_API_KEY,
-                PATTERN_HARDCODED_TOKEN,
-                PATTERN_HARDCODED_PRIVATE_KEY,
-            )):
+            if any(
+                p.search(content)
+                for p in (
+                    PATTERN_HARDCODED_PASSWORD,
+                    PATTERN_HARDCODED_API_KEY,
+                    PATTERN_HARDCODED_TOKEN,
+                    PATTERN_HARDCODED_PRIVATE_KEY,
+                )
+            ):
                 return True
         return False
 
     def get_overall_score(self) -> Dict[str, Any]:
+        if not self.scripts:
+            return {
+                "overall_score": None,
+                "max_score": 100,
+                "components": {},
+                "findings": [],
+                "suggestions": [],
+                "has_critical_vulnerabilities": False,
+                "scripts_scored": 0,
+            }
+
         sens_score, sens_findings = self.score_sensitive_data_exposure()
         file_score, file_findings = self.score_safe_file_operations()
         cmd_score, cmd_findings = self.score_command_injection_prevention()
@@ -324,11 +352,13 @@ class SecurityScorer:
 # CLI
 # ============================================================
 
+
 def collect_python_scripts(target: Path) -> List[Path]:
     if target.is_file():
         return [target]
     scripts_dir = target / "scripts" if (target / "scripts").is_dir() else target
-    return sorted(scripts_dir.glob("*.py"))
+    skip = {"__pycache__", "node_modules", ".venv", "venv"}
+    return sorted(p for p in scripts_dir.rglob("*.py") if not (skip & set(p.parts)))
 
 
 def main(argv: Optional[List[str]] = None) -> int:
@@ -336,8 +366,9 @@ def main(argv: Optional[List[str]] = None) -> int:
         description="Score Python scripts for security posture (0-100)."
     )
     parser.add_argument("target", help="Skill directory (or individual .py files)")
-    parser.add_argument("--json", action="store_true", dest="as_json",
-                        help="Emit machine-readable JSON")
+    parser.add_argument(
+        "--json", action="store_true", dest="as_json", help="Emit machine-readable JSON"
+    )
     parser.add_argument("--verbose", action="store_true", help="Print findings live")
     args = parser.parse_args(argv)
 
@@ -358,7 +389,10 @@ def main(argv: Optional[List[str]] = None) -> int:
         print("=== SECURITY SCORER ===")
         print(f"Target: {target}")
         print(f"Scripts scored: {results['scripts_scored']}")
-        print(f"Overall security score: {results['overall_score']}/100")
+        if results["overall_score"] is None:
+            print("No Python scripts found - security score not available")
+        else:
+            print(f"Overall security score: {results['overall_score']}/100")
         if results["has_critical_vulnerabilities"]:
             print("CRITICAL vulnerabilities present - overall score capped at 30")
         if results["findings"]:

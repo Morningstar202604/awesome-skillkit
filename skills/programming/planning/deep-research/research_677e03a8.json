@@ -1,6 +1,0 @@
-{
-  "error": "web-search skill not found",
-  "results": [],
-  "markdown_report": "# 深度研究报告：Unknown Topic\n\n**生成时间：** 2026-09-22 09:19\n**搜索查询数：** 0\n**信源数量：** 0\n\n---\n\n## 摘要\n\n*未找到相关结果*\n\n## 核心发现\n\n## 完整来源\n\n| # | 标题 | URL | 可信度 |\n|---|------|-----|--------|\n\n---\n*由 deep-research v1.0 生成*",
-  "json_report": "{\n  \"error\": \"web-search skill not found\",\n  \"results\": [],\n  \"markdown_report\": \"# 深度研究报告：Unknown Topic\\n\\n**生成时间：** 2026-09-22 09:19\\n**搜索查询数：** 0\\n**信源数量：** 0\\n\\n---\\n\\n## 摘要\\n\\n*未找到相关结果*\\n\\n## 核心发现\\n\\n## 完整来源\\n\\n| # | 标题 | URL | 可信度 |\\n|---|------|-----|--------|\\n\\n---\\n*由 deep-research v1.0 生成*\"\n}"
-}

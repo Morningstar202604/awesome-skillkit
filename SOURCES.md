@@ -1,15 +1,16 @@
 # SOURCES — 技能来源与更新指引 / Skill Sources & Updates
 
-> 本仓库维护三条线（截至 v0.20，共 **154 个技能 / 36 个场景包** = 上游精选 33 + 上游改造 5 + 自建 116）：
-> 1. **上游精选**（`skills/programming/` 下 13 个分类目录，33 个）——全部来自下方上游项目；
+> 本仓库维护三条线（截至 v0.22，共 **163 个技能 / 39 个场景包** = 上游精选 32 + 上游改造 5 + 自建 126）：
+> 1. **上游精选**（`skills/programming/` 下 13 个分类目录，32 个）——全部来自下方上游项目；
 > 2. **上游改造**（5 个：`docx-template-fill`、`frontend-component-lab`、`career-ops-lite`、
 >    `session-handoff`、`webapp-e2e-harness`，改造自其他开源项目，见「上游改造」一节）；
-> 3. **自建场景技能**（116 个）——分布在 `skills/writing/`、`skills/video/`、`skills/office/`、`skills/music/`、
+> 3. **自建场景技能**（126 个）——分布在 `skills/writing/`、`skills/video/`、`skills/office/`、`skills/music/`、
 >    `skills/paper/`、`skills/ppt/`、`skills/tools/`、`skills/integrations/`、`skills/memory/`、`skills/knowledge/`、
->    `skills/education/`、`skills/meta/`、`skills/dataviz/`、`skills/design/` 等，及
->    `skills/programming/` 下的 5 个自建子目录（`data/`、`debug/`、`math/`、`ml/`、`planning/`）
->    与 3 个编在上游目录里的自建技能（`security/pii-redactor`、`security/prompt-injection-guard`、
->    `testing/webapp-flow-tester`），本仓库原创维护。
+>    `skills/education/`、`skills/meta/`、`skills/dataviz/`、`skills/design/`、`skills/life/`、
+>    `skills/communication/` 等，及 `skills/programming/` 下的 6 个自建子目录（`data/`、`debug/`、
+>    `math/`、`ml/`、`planning/`、`web-data-extractor/`）与 3 个编在上游目录里的自建技能
+>    （`security/pii-redactor`、`security/prompt-injection-guard`、`testing/webapp-flow-tester`），
+>    本仓库原创维护。
 
 ## 上游仓库 / Upstream（skills/programming/ 的 13 个分类目录）
 
@@ -17,12 +18,12 @@
 |------|------|------|
 | alirezarezvani/claude-skills | <https://github.com/alirezarezvani/claude-skills> | MIT |
 
-- 收录数量：**33 个 skill**（全部来自上述上游）。
+- 收录数量：**32 个 skill**（全部来自上述上游；原收录的 `pr-review-expert` 已移除）。
 - 与上游的差异：上游两个近似重复项 `database-schema-designer`、`agent-workflow-designer`
   已合并进同源兄弟 skill，其独有内容以参考文档形式保留在对应 skill 内。
-- ⚠️ 注意：`skills/programming/` 下的 `data/`、`debug/`、`math/`、`ml/`、`planning/`
-  五个目录是**自建**技能（共 12 个），不属于上游——更新上游时请勿覆盖。另有 3 个自建技能
-  编在上游目录里（`security/pii-redactor`、`security/prompt-injection-guard`、
+- ⚠️ 注意：`skills/programming/` 下的 `data/`、`debug/`、`math/`、`ml/`、`planning/`、
+  `web-data-extractor/` 六个目录是**自建**技能（共 13 个），不属于上游——更新上游时请勿覆盖。
+  另有 3 个自建技能编在上游目录里（`security/pii-redactor`、`security/prompt-injection-guard`、
   `testing/webapp-flow-tester`），同步上游时同样勿覆盖。
 
 ## 更新方法 / How to update
@@ -34,7 +35,7 @@ git clone https://github.com/alirezarezvani/claude-skills.git D:\_upstream\claud
 
 # 2. 把需要更新的 skill 文件夹覆盖到本仓库对应位置
 #    skills/programming/<分类>/<skill-name>/...
-#    （仅限上游 13 个分类目录，勿碰 data/debug/math/ml/planning）
+#    （仅限上游 13 个分类目录，勿碰 data/debug/math/ml/planning/web-data-extractor）
 
 # 3. 校验 manifest.json 中该 skill 的条目仍一致（名称、分类）
 
@@ -57,9 +58,9 @@ anthropics、santifer-career-ops——逐技能对应关系以各技能 `referen
 | session-handoff | `skills/meta/session-handoff` |
 | webapp-e2e-harness | `skills/programming/testing/webapp-e2e-harness` |
 
-## 自建场景技能 / Self-authored scenarios（116 个）
+## 自建场景技能 / Self-authored scenarios（126 个）
 
-### 内容发布与写作（skills/writing/，22 个）
+### 内容发布与写作（skills/writing/，21 个）
 
 | Skill | 场景包 | 说明 |
 |-------|--------|------|
@@ -68,7 +69,6 @@ anthropics、santifer-career-ops——逐技能对应关系以各技能 `referen
 | wechat-mp-publisher | content-publishing | 公众号官方草稿箱/发布 API，默认 dry-run |
 | juejin-publisher | content-publishing | 掘金 Web 接口发布（端点需按文档核对） |
 | cross-post-orchestrator | content-publishing | 多平台编排：计划→调度→台账 |
-| ai-cover-generator | content-publishing / ai-media-toolkit | 对接本地图片服务的封面图生成 |
 | csdn-publisher | content-publishing | CSDN 博客发布/管理，Web 内部 API，7 子命令 |
 | jianshu-publisher | content-publishing | 简书发布/管理，Web 内部 API，4 子命令 |
 | bilibili-publisher | content-publishing | B 站视频/专栏/动态发布，官方 API + Web API，5 子命令 |
@@ -86,7 +86,7 @@ anthropics、santifer-career-ops——逐技能对应关系以各技能 `referen
 | content-editor | ai-research-writing | 内容编辑润色 |
 | seo-optimizer | ai-research-writing | SEO 优化 |
 
-### AI 视频（skills/video/，14 个）
+### AI 视频（skills/video/，15 个）
 
 | Skill | 场景包 | 说明 |
 |-------|--------|------|
@@ -101,11 +101,12 @@ anthropics、santifer-career-ops——逐技能对应关系以各技能 `referen
 | ai-baby-podcast | viral-entertainment | AI 宝宝播客短视频 |
 | nailong-laugh-shorts | viral-entertainment | 奶龙搞笑短片 |
 | storyboard-designer | video-design-studio | 分镜设计：节拍表 + 逐场景 prompt 对 + 连续性约束表 |
-| shot-recipe-designer | video-design-studio | 12 张配方卡组装镜头清单 |
-| video-prompt-engineer | video-design-studio | 跨模型视频提示词工程 + 六槽位结构审计 |
+| shot-designer | video-design-studio | 镜头清单设计（目的/能量/运镜/出场转场） |
+| motion-effects-designer | video-design-studio | 动态图形与特效设计（动态排版/角标/动态图表/粒子） |
+| transition-designer | video-design-studio | 场景转场设计（转场选型/时长/踩点/交接清单） |
 | visual-style-anchor | video-design-studio | 风格锚 + 角色一致性卡 |
 
-### 编程自建（skills/programming/ 下 5 个目录，12 个）
+### 编程自建（skills/programming/ 下 6 个目录，13 个）
 
 | Skill | 场景包 | 说明 |
 |-------|--------|------|
@@ -121,6 +122,7 @@ anthropics、santifer-career-ops——逐技能对应关系以各技能 `referen
 | code-generator | code-planning | 按计划生成代码骨架 |
 | deep-research | ai-research-writing | 深度研究流水线 |
 | web-search | ai-research-writing | 网络检索聚合 |
+| web-data-extractor | web-ops | 网页数据提取（结构化抽取/批量抓取） |
 
 ### 办公/研究/娱乐（skills/office/ + skills/music/ + skills/paper/ + skills/ppt/，6 个）
 
@@ -133,7 +135,7 @@ anthropics、santifer-career-ops——逐技能对应关系以各技能 `referen
 | resume-tailor | office-productivity | 简历定制 |
 | music-generation | ai-media-toolkit | 音乐生成 |
 
-### AI 对话/设计/营销/教育（skills/chat/ + skills/design/ + skills/audio/ + skills/marketing/ + skills/education/，13 个）
+### AI 对话/设计/营销/教育（skills/chat/ + skills/design/ + skills/audio/ + skills/marketing/ + skills/education/，17 个）
 
 | Skill | 场景包 | 说明 |
 |-------|--------|------|
@@ -141,8 +143,12 @@ anthropics、santifer-career-ops——逐技能对应关系以各技能 `referen
 | design-brief-interpreter | visual-design-studio | 模糊需求 → 7 字段设计规格单（链条入口） |
 | image-prompt-engineer | visual-design-studio | 五段式文生图 prompt（含文字渲染铁律与模型方言） |
 | layout-spec-auditor | visual-design-studio | 平台版面规格审计脚本（比例/分辨率/安全区/文字预算） |
+| design-system-foundations | visual-design-studio | 设计系统基础：令牌/组件/间距体系搭建 |
+| ui-ux-accessibility | visual-design-studio | UI/UX 无障碍审计（对比度/键盘/读屏） |
+| image-batch-processor | image-studio | 图片批量处理（压缩/转格式/批量改尺寸） |
 | podcast-producer | audio-studio | 播客分段脚本（纯口播词纪律 + TTS 安全 lint） |
 | tts-voice-director | audio-studio | 跨引擎声音目录选角 + ffmpeg 拼接计划 |
+| sound-designer | audio-studio | 音频床设计与混音（SFX/BGM 选型、音量/响度规范） |
 | episode-publisher | audio-studio | shownotes + 时间戳章节 + 平台元数据 + AI 披露 |
 | product-copywriter | growth-marketing | 转化框架商品文案（FAB/PAS/AIDA + 异议处理 + 广告法卫生） |
 | campaign-designer | growth-marketing | 营销日历 + 渠道矩阵 + 单变量 A/B 变体对 |
@@ -151,13 +157,12 @@ anthropics、santifer-career-ops——逐技能对应关系以各技能 `referen
 | exercise-generator | edu-craft | 开放题严格题库（禁选择题，附评分标准与 lint） |
 | feynman-explainer | edu-craft | 费曼六拍补救伴学（诊断→修复→回讲→迁移） |
 
-### 学术论文工具（skills/paper/，12 个）
+### 学术论文工具（skills/paper/，11 个）
 
 | Skill | 场景包 | 说明 |
 |-------|--------|------|
 | lit-review | ai-research-writing | 文献检索+关系图谱+总结（--arxiv 为离线 mock，输出须标注模拟数据） |
 | experiment-runner | ai-research-writing | 实验多轮运行+统计检验（实验体为 mock 逻辑，同上） |
-| figure-maker | ai-research-writing | bar/line/boxplot 论文图表（heatmap 未实现，诚实返回 unsupported） |
 | arch-diagram | ai-research-writing | 架构/框架图 TikZ+SVG（学习自 torchdiagram / archscope / PlotNeuralNet） |
 | neural-net-draw | ai-research-writing | 神经网络结构图 TikZ（学习自 PlotNeuralNet） |
 | latex-formatter | ai-research-writing | LaTeX 格式化+编译前检查（缺文件 rc=1 门禁语义） |
@@ -176,6 +181,17 @@ anthropics、santifer-career-ops——逐技能对应关系以各技能 `referen
 | feishu-dingtalk-bridge | workspace-integrations | 飞书/钉钉/企业微信三家消息负载构造与回调解析，含协议差异对照表与钉钉加签算法 |
 | issue-tracker-sync | workspace-integrations | Jira/Linear/GitHub Issues 建单请求构造 + 跨平台状态语义映射 + 离线周报生成 |
 | cloud-drive-manager | workspace-integrations | 云盘归档：上传计划（分片策略）、sha256/md5 校验清单、三家列表响应解析；不提供删除命令 |
+
+### 生活与沟通（skills/life/ + skills/communication/，6 个）
+
+| Skill | 场景包 | 说明 |
+|-------|--------|------|
+| car-purchase-maintenance | life-essentials | 买车与保养决策（比价/合同/维保避坑） |
+| home-renovation-avoidance | life-essentials | 家装避坑（报价审核/增项/验收） |
+| medical-visit-guide | life-essentials | 就诊准备与沟通（症状梳理/问诊清单/报告解读） |
+| rental-contract-guide | life-essentials | 租房合同审查（条款风险/押金/退租） |
+| decision-debiasing | communication-essentials | 决策去偏（识别常见偏差并给出纠偏流程） |
+| tactful-communication | communication-essentials | 得体沟通（措辞策略/难对话脚本/分寸检查） |
 
 ### v0.16–v0.20 新增自研（33 个）
 
@@ -217,11 +233,11 @@ v0.18 发版后新增、未及登记进上文分域表格的技能，此处补�
 | webapp-flow-tester | Test-Driven Development | `programming/testing/webapp-flow-tester` |
 | weekly-report-generator | Skill Forge | `meta/weekly-report-generator` |
 
-以上 116 个自建技能不来自上游（另 5 个上游改造见上文），由本仓库原创维护，更新即改本仓库。
+以上 126 个自建技能不来自上游（另 5 个上游改造见上文），由本仓库原创维护，更新即改本仓库。
 
-## 全部技能清单（154 = 上游 33 + 上游改造 5 + 自建 116）
+## 全部技能清单（163 = 上游 32 + 上游改造 5 + 自建 126）
 
-### 上游精选（33）
+### 上游精选（32）
 
 | # | Skill | 所在 pack | 上游路径参考 |
 |---|-------|-----------|--------------|
@@ -238,39 +254,37 @@ v0.18 发版后新增、未及登记进上文分域表格的技能，此处补�
 | 11 | ci-cd-pipeline-builder | ci-cd | 同上 |
 | 12 | ship-gate | ci-cd | 同上 |
 | 13 | spec-driven-workflow | ci-cd | 同上 |
-| 14 | pr-review-expert | code-review, github-workflow | 同上 |
-| 15 | code-reviewer | code-review | 同上 |
-| 16 | tech-debt-tracker | code-review | 同上 |
-| 17 | dependency-auditor | code-review | 同上 |
-| 18 | docker-development | containers | 同上 |
-| 19 | helm-chart-builder | containers | 同上 |
-| 20 | kubernetes-operator | containers, infrastructure | 同上 |
-| 21 | database-designer | database | 同上 |
-| 22 | sql-database-assistant | database | 同上 |
-| 23 | git-worktree-manager | github-workflow | 同上 |
-| 24 | changelog-generator | github-workflow | 同上 |
-| 25 | incident-commander | incident-response | 同上 |
-| 26 | runbook-generator | incident-response | 同上 |
-| 27 | slo-architect | incident-response | 同上 |
-| 28 | terraform-patterns | infrastructure | 同上 |
-| 29 | observability-designer | infrastructure | 同上 |
-| 30 | performance-profiler | performance | 同上 |
-| 31 | secrets-vault-manager | security | 同上 |
-| 32 | env-secrets-manager | security | 同上 |
-| 33 | tdd-guide | tdd | 同上 |
+| 14 | code-reviewer | code-review | 同上 |
+| 15 | tech-debt-tracker | code-review | 同上 |
+| 16 | dependency-auditor | code-review | 同上 |
+| 17 | docker-development | containers | 同上 |
+| 18 | helm-chart-builder | containers | 同上 |
+| 19 | kubernetes-operator | containers, infrastructure | 同上 |
+| 20 | database-designer | database | 同上 |
+| 21 | sql-database-assistant | database | 同上 |
+| 22 | git-worktree-manager | github-workflow | 同上 |
+| 23 | changelog-generator | github-workflow | 同上 |
+| 24 | incident-commander | incident-response | 同上 |
+| 25 | runbook-generator | incident-response | 同上 |
+| 26 | slo-architect | incident-response | 同上 |
+| 27 | terraform-patterns | infrastructure | 同上 |
+| 28 | observability-designer | infrastructure | 同上 |
+| 29 | performance-profiler | performance | 同上 |
+| 30 | secrets-vault-manager | security | 同上 |
+| 31 | env-secrets-manager | security | 同上 |
+| 32 | tdd-guide | tdd | 同上 |
 
 > 注：`skill-tester/assets/sample-skill/` 是 skill-tester 自带的示例资产，不算独立 skill。
 
-### 自建（79）
+### 自建（126）
 
-按上文"自建场景技能"四个小节的表格为准，此处不重复罗列。
+按上文"自建场景技能"各小节的表格为准，此处不重复罗列。
 单一事实来源是 `manifest.json`（由 `build.py` 从 `packs/*/pack.json` 自动同步）。
 
 ## 共享工具 / Shared helpers
 
 | 模块 | 说明 |
 |------|------|
-| `skills/writing/_common/publish_common.py` | 发布类脚本共用的 HTTP/dry-run/凭据逻辑；被 wechat / juejin / ai-cover-generator 复用，避免重复造轮子。非技能（无 SKILL.md），不计入技能数。 |
 | `skills/writing/writing_pipeline.py` | 写作域编排器：选题→大纲→初稿→编辑→SEO→发布 |
 | `skills/video/video_pipeline.py` | 视频域编排器：脚本→配音→口型→剪辑→字幕→封面 |
 | `skills/paper/paper_pipeline.py` | 论文域编排器 |
@@ -279,6 +293,14 @@ v0.18 发版后新增、未及登记进上文分域表格的技能，此处补�
 | `skills/programming/planning/pipeline_orchestrator.py` | 代码计划域编排器：意图→计划→生成 |
 
 ## 历史 / History
+
+- 2026-09-26（v0.22.0）：**SOURCES 数字对账（第二次）**——总数 154→163、场景包 36→39；
+  上游精选 33→32（`pr-review-expert` 已随重构移除），自建 116→126；分域表格补齐 v0.21
+  以来未入表的 14 个自研技能（life/communication/design/video/audio/programming 各域），
+  并移除 5 个已删技能行（`ai-cover-generator`、`shot-recipe-designer`、`video-prompt-engineer`、
+  `figure-maker`、`pr-review-expert`）与共享模块 `_common/publish_common.py` 行
+  （`_common/` 已在内容改造中删除）。账目 163 = 32+5+126，与 `manifest.json` 逐一对齐；
+  三语 README 徽章 `skills-156`→`163`。
 
 - 2026-09-21（v0.20.0）：**SOURCES 数字对账 + 归属补登记**——总数 137→154、场景包 34→36；
   口径从「两条线」改为「三条线」（上游精选 33 + 上游改造 5 + 自建 116）；补登记 v0.16 以来

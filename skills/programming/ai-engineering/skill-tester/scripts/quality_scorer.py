@@ -32,8 +32,16 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from security_scorer import MAX_COMPONENT_SCORE, SecurityScorer  # noqa: E402
 
 GRADE_THRESHOLDS = (
-    (95, "A+"), (90, "A"), (85, "A-"), (80, "B+"), (75, "B"), (70, "B-"),
-    (65, "C+"), (60, "C"), (55, "C-"), (50, "D"),
+    (95, "A+"),
+    (90, "A"),
+    (85, "A-"),
+    (80, "B+"),
+    (75, "B"),
+    (70, "B-"),
+    (65, "C+"),
+    (60, "C"),
+    (55, "C-"),
+    (50, "D"),
 )
 
 TIER_SKILL_MD_MIN_LINES = {"BASIC": 100, "STANDARD": 200, "POWERFUL": 300}
@@ -85,7 +93,9 @@ class QualityScorer:
             length_pts = min(lines / 300, 1.0)
             fm_pts = 1.0 if has_frontmatter else 0.4
             example_pts = min(code_blocks / 4, 1.0)
-            md_score = round((length_pts * 0.45 + fm_pts * 0.25 + example_pts * 0.30) * 100)
+            md_score = round(
+                (length_pts * 0.45 + fm_pts * 0.25 + example_pts * 0.30) * 100
+            )
             if not has_frontmatter:
                 notes.append("SKILL.md lacks YAML frontmatter (name/description)")
             if code_blocks < 2:
@@ -93,18 +103,37 @@ class QualityScorer:
 
         # README (25%)
         chars = len(readme.strip())
-        readme_score = 95.0 if chars >= 1000 else 80.0 if chars >= 500 else \
-            65.0 if chars >= 200 else 45.0 if chars > 0 else 0.0
+        readme_score = (
+            95.0
+            if chars >= 1000
+            else 80.0
+            if chars >= 500
+            else 65.0
+            if chars >= 200
+            else 45.0
+            if chars > 0
+            else 0.0
+        )
         if chars == 0:
             notes.append("README.md missing or empty")
 
         # references (20%)
         refs_dir = self.skill_path / "references"
         ref_files = list(refs_dir.glob("*")) if refs_dir.is_dir() else []
-        ref_chars = sum(len(p.read_text(encoding="utf-8", errors="replace"))
-                        for p in ref_files if p.is_file()) or len(ref_files)
-        refs_score = 90.0 if ref_chars >= 2000 and len(ref_files) >= 2 else \
-            75.0 if len(ref_files) >= 2 else 60.0 if len(ref_files) == 1 else 20.0
+        ref_chars = sum(
+            len(p.read_text(encoding="utf-8", errors="replace"))
+            for p in ref_files
+            if p.is_file()
+        ) or len(ref_files)
+        refs_score = (
+            90.0
+            if ref_chars >= 2000 and len(ref_files) >= 2
+            else 75.0
+            if len(ref_files) >= 2
+            else 60.0
+            if len(ref_files) == 1
+            else 20.0
+        )
         if not ref_files:
             notes.append("No reference documentation in references/")
 
@@ -112,8 +141,9 @@ class QualityScorer:
         example_count = skill_md.lower().count("example")
         ex_score = min(example_count / 4, 1.0) * 100
 
-        doc_score = round(md_score * 0.40 + readme_score * 0.25 +
-                          refs_score * 0.20 + ex_score * 0.15)
+        doc_score = round(
+            md_score * 0.40 + readme_score * 0.25 + refs_score * 0.20 + ex_score * 0.15
+        )
         return float(doc_score), notes
 
     def score_code_quality(self) -> Tuple[float, List[str]]:
@@ -150,8 +180,9 @@ class QualityScorer:
         if avg_loc < 100:
             notes.append(f"Scripts are thin (avg {avg_loc:.0f} LOC)")
 
-        score = round(loc_score * 0.25 + eh_score * 0.25 +
-                      ds_score * 0.25 + do_score * 0.25)
+        score = round(
+            loc_score * 0.25 + eh_score * 0.25 + ds_score * 0.25 + do_score * 0.25
+        )
         return float(score), notes
 
     def score_completeness(self) -> Tuple[float, List[str]]:
@@ -160,16 +191,26 @@ class QualityScorer:
         recommended = ["assets", "references", "expected_outputs"]
         present_req = sum((self.skill_path / d).is_dir() for d in required)
         present_rec = sum((self.skill_path / d).is_dir() for d in recommended)
-        structure = ((present_req / len(required)) * 0.6 +
-                     (present_rec / len(recommended)) * 0.4)
+        structure = (present_req / len(required)) * 0.6 + (
+            present_rec / len(recommended)
+        ) * 0.4
 
-        assets = list((self.skill_path / "assets").rglob("*")) \
-            if (self.skill_path / "assets").is_dir() else []
+        assets = (
+            list((self.skill_path / "assets").rglob("*"))
+            if (self.skill_path / "assets").is_dir()
+            else []
+        )
         assets_n = len([a for a in assets if a.is_file()])
-        expected = list((self.skill_path / "expected_outputs").glob("*")) \
-            if (self.skill_path / "expected_outputs").is_dir() else []
-        tests = list((self.skill_path / "tests").glob("*.py")) \
-            if (self.skill_path / "tests").is_dir() else []
+        expected = (
+            list((self.skill_path / "expected_outputs").glob("*"))
+            if (self.skill_path / "expected_outputs").is_dir()
+            else []
+        )
+        tests = (
+            list((self.skill_path / "tests").glob("*.py"))
+            if (self.skill_path / "tests").is_dir()
+            else []
+        )
 
         asset_score = min(assets_n / 3, 1.0) * 100
         exp_score = min(len(expected) / 2, 1.0) * 100
@@ -182,8 +223,12 @@ class QualityScorer:
         if not tests:
             notes.append("No automated tests under tests/")
 
-        score = structure * 100 * 0.25 + asset_score * 0.25 + \
-            exp_score * 0.25 + test_score * 0.25
+        score = (
+            structure * 100 * 0.25
+            + asset_score * 0.25
+            + exp_score * 0.25
+            + test_score * 0.25
+        )
         return float(round(score)), notes
 
     def score_usability(self) -> Tuple[float, List[str]]:
@@ -199,7 +244,9 @@ class QualityScorer:
         n = max(len(scripts), 1)
         cli_score = (argparse_scripts / n) * 70 + (help_scripts / n) * 30
         skill_md = self._read("SKILL.md")
-        quickstart = int(bool(re.search(r"quick\s*start|\busage\b", skill_md, re.IGNORECASE)))
+        quickstart = int(
+            bool(re.search(r"quick\s*start|\busage\b", skill_md, re.IGNORECASE))
+        )
         examples = skill_md.count("```") // 2
         qs_score = min(quickstart + examples / 3, 1.0) * 100
 
@@ -214,6 +261,12 @@ class QualityScorer:
     def score_security(self) -> Tuple[float, List[str], Dict[str, Any]]:
         scorer = SecurityScorer(self._scripts())
         raw = scorer.get_overall_score()
+        if raw["overall_score"] is None:
+            return (
+                0.0,
+                ["[security] no python scripts found - security not scored"],
+                raw,
+            )
         # SecurityScorer works on a 0-25 component scale; map it to percent.
         pct = round(raw["overall_score"] / MAX_COMPONENT_SCORE * 100, 1)
         findings = [f"[security] {f}" for f in raw["findings"]]
@@ -226,16 +279,26 @@ class QualityScorer:
         skill_md = self._read("SKILL.md")
         lines = skill_md.count("\n") + 1 if skill_md else 0
         scripts = self._scripts()
-        loc = sum(p.read_text(encoding="utf-8", errors="replace").count("\n") + 1
-                  for p in scripts) if scripts else 0
-        if lines >= TIER_SKILL_MD_MIN_LINES["POWERFUL"] and loc >= TIER_SCRIPTS_LOC["STANDARD"][0]:
+        loc = (
+            sum(
+                p.read_text(encoding="utf-8", errors="replace").count("\n") + 1
+                for p in scripts
+            )
+            if scripts
+            else 0
+        )
+        if (
+            lines >= TIER_SKILL_MD_MIN_LINES["POWERFUL"]
+            and loc >= TIER_SCRIPTS_LOC["STANDARD"][0]
+        ):
             return "POWERFUL"
         if lines >= TIER_SKILL_MD_MIN_LINES["STANDARD"]:
             return "STANDARD"
         return "BASIC"
 
-    def build_roadmap(self, per_dimension_notes: Dict[str, List[str]],
-                      dimensions: Dict[str, float]) -> List[str]:
+    def build_roadmap(
+        self, per_dimension_notes: Dict[str, List[str]], dimensions: Dict[str, float]
+    ) -> List[str]:
         roadmap: List[str] = []
         for name, score in sorted(dimensions.items(), key=lambda kv: kv[1]):
             for note in per_dimension_notes.get(name, [])[:3]:
@@ -255,8 +318,12 @@ class QualityScorer:
             "Usability": use,
         }
         weights = {name: 0.25 for name in dimensions}
-        notes = {"Documentation": doc_notes, "Code Quality": code_notes,
-                 "Completeness": comp_notes, "Usability": use_notes}
+        notes = {
+            "Documentation": doc_notes,
+            "Code Quality": code_notes,
+            "Completeness": comp_notes,
+            "Usability": use_notes,
+        }
         security_raw: Dict[str, Any] = {}
 
         if self.include_security:
@@ -279,8 +346,9 @@ class QualityScorer:
         }
         if security_raw:
             result["security_detail"] = {
-                "has_critical_vulnerabilities":
-                    security_raw.get("has_critical_vulnerabilities", False),
+                "has_critical_vulnerabilities": security_raw.get(
+                    "has_critical_vulnerabilities", False
+                ),
                 "findings": security_raw.get("findings", []),
             }
         return result
@@ -305,19 +373,36 @@ def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(
         description="Multi-dimensional quality scoring for skills."
     )
-    parser.add_argument("skill_path",
-                        help="Skill directory (or parent dir with --batch)")
-    parser.add_argument("--json", action="store_true", dest="as_json",
-                        help="Emit machine-readable JSON")
-    parser.add_argument("--detailed", action="store_true",
-                        help="Include improvement roadmap in text output")
-    parser.add_argument("--minimum-score", type=float, default=None, dest="minimum_score",
-                        help="Exit non-zero when the score is below this threshold")
-    parser.add_argument("--include-security", action="store_true",
-                        dest="include_security",
-                        help="Add the Security dimension (weights rebalance to 5 x 20%%)")
-    parser.add_argument("--batch", action="store_true",
-                        help="Score every child directory of skill_path")
+    parser.add_argument(
+        "skill_path", help="Skill directory (or parent dir with --batch)"
+    )
+    parser.add_argument(
+        "--json", action="store_true", dest="as_json", help="Emit machine-readable JSON"
+    )
+    parser.add_argument(
+        "--detailed",
+        action="store_true",
+        help="Include improvement roadmap in text output",
+    )
+    parser.add_argument(
+        "--minimum-score",
+        type=float,
+        default=None,
+        dest="minimum_score",
+        help="Exit non-zero when the score is below this threshold",
+    )
+    parser.add_argument(
+        "--include-security",
+        action="store_true",
+        dest="include_security",
+        help="Add the Security dimension (weights rebalance to 5 x 20%%)",
+    )
+    parser.add_argument(
+        "--batch",
+        action="store_true",
+        help="Score every skill (directory with SKILL.md) under "
+        "skill_path, recursively; examples/assets fixtures skipped",
+    )
     args = parser.parse_args(argv)
 
     root = Path(args.skill_path)
@@ -326,10 +411,29 @@ def main(argv: Optional[List[str]] = None) -> int:
         print(json.dumps({"error": msg}) if args.as_json else msg, file=sys.stderr)
         return 1
 
-    targets = ([p for p in sorted(root.iterdir()) if p.is_dir()]
-               if args.batch else [root])
-    results = [QualityScorer(t, include_security=args.include_security).score()
-               for t in targets]
+    if args.batch:
+        targets = []
+        for md in sorted(root.rglob("SKILL.md")):
+            skill_dir = md.parent
+            try:
+                rel_parts = skill_dir.relative_to(root).parts
+            except ValueError:
+                rel_parts = skill_dir.parts
+            if {"examples", "assets"} & set(rel_parts[:-1]):
+                continue
+            if skill_dir not in targets:
+                targets.append(skill_dir)
+    else:
+        targets = [root]
+    results = [
+        QualityScorer(t, include_security=args.include_security).score()
+        for t in targets
+    ]
+
+    if not results:
+        msg = f"error: no skills (SKILL.md) found under: {root}"
+        print(json.dumps({"error": msg}) if args.as_json else msg, file=sys.stderr)
+        return 1
 
     if args.as_json:
         payload = results[0] if len(results) == 1 else {"skills": results}
@@ -347,7 +451,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         return 0
     if lowest >= args.minimum_score - 10:
         return 2  # needs improvement
-    return 1      # failed
+    return 1  # failed
 
 
 if __name__ == "__main__":

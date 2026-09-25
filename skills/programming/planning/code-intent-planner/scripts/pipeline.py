@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Main pipeline -- the full three-tier waterfall intent-recognition flow."""
+
 import json
 import sys
 import os
 import argparse
+import hashlib
 from datetime import datetime
 from typing import Dict, Any, Optional
 
@@ -14,10 +16,28 @@ from llm_client import call_l2, call_l3
 from plan_renderer import render_markdown, render_json
 
 
+def _stable_cache_key(*parts: str) -> str:
+    """sha256-based cache key -- hash() is randomized per process (PYTHONHASHSEED),
+    which made cache hits impossible across processes."""
+    h = hashlib.sha256()
+    for p in parts:
+        h.update(p.encode("utf-8", "replace"))
+        h.update(b"\x1f")
+    return h.hexdigest()
+
+
 def detect_project_root() -> str:
     """Detect the project root directory"""
     for dir in [".", "..", "../.."]:
-        for f in ["package.json", "pyproject.toml", "go.mod", "Cargo.toml", "pom.xml", "build.gradle", "requirements.txt"]:
+        for f in [
+            "package.json",
+            "pyproject.toml",
+            "go.mod",
+            "Cargo.toml",
+            "pom.xml",
+            "build.gradle",
+            "requirements.txt",
+        ]:
             if os.path.exists(os.path.join(dir, f)):
                 return os.path.abspath(dir)
     return os.getcwd()
@@ -28,7 +48,9 @@ def detect_tech_stack(root: str) -> str:
     stacks = []
     if os.path.exists(os.path.join(root, "package.json")):
         stacks.append("javascript/typescript")
-    if os.path.exists(os.path.join(root, "pyproject.toml")) or os.path.exists(os.path.join(root, "requirements.txt")):
+    if os.path.exists(os.path.join(root, "pyproject.toml")) or os.path.exists(
+        os.path.join(root, "requirements.txt")
+    ):
         stacks.append("python")
     if os.path.exists(os.path.join(root, "go.mod")):
         stacks.append("go")
@@ -37,7 +59,9 @@ def detect_tech_stack(root: str) -> str:
     return ", ".join(stacks) if stacks else "unknown"
 
 
-def normalize_input(raw_input: str, last_intent: Optional[Dict[str, Any]] = None) -> str:
+def normalize_input(
+    raw_input: str, last_intent: Optional[Dict[str, Any]] = None
+) -> str:
     """Input normalization (simplified: coreference resolution + ellipsis completion + term standardization)."""
     text = raw_input.strip()
 
@@ -55,9 +79,16 @@ def normalize_input(raw_input: str, last_intent: Optional[Dict[str, Any]] = None
 
     # term standardization
     term_map = {
-        "backend": "backend", "server": "backend", "API": "backend", "api": "backend",
-        "frontend": "frontend", "client": "frontend", "UI": "frontend",
-        "database": "database", "DB": "database", "persistence": "database",
+        "backend": "backend",
+        "server": "backend",
+        "API": "backend",
+        "api": "backend",
+        "frontend": "frontend",
+        "client": "frontend",
+        "UI": "frontend",
+        "database": "database",
+        "DB": "database",
+        "persistence": "database",
     }
     for src, dst in term_map.items():
         text = text.replace(src, dst)
@@ -94,10 +125,12 @@ def load_session(session_id: str) -> Optional[Dict[str, Any]]:
 
 
 def save_session(session_id: str, state: Dict[str, Any]):
-    """Save the session state"""
+    """Save the session state (atomic: tmp file + os.replace, never a half-written JSON)"""
     path = _session_path(session_id)
-    with open(path, "w", encoding="utf-8") as f:
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
         json.dump(state, f, ensure_ascii=False, indent=2)
+    os.replace(tmp, path)
 
 
 def get_clarification_questions(l2_result: Dict[str, Any], missing_slots: list) -> list:
@@ -127,23 +160,29 @@ def run_pipeline(
     # initialize
     if not session_id:
         session_id = f"session_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-    
+
     if not project_root:
         project_root = detect_project_root()
-    
+
     tech_stack = detect_tech_stack(project_root)
     session = load_session(session_id)
     last_intent = session.get("last_intent") if session else None
-    
+
+    # step 1: input normalization (before cache lookup so store/lookup share one key basis)
+    normalized = (
+        raw_input if skip_normalization else normalize_input(raw_input, last_intent)
+    )
+
     # step 0: cache check
     if session:
-        cache_key = f"{session_id}:{last_intent.get('intent_type', '')}:{hash(raw_input[:100])}"
+        cache_key = _stable_cache_key(
+            session_id,
+            last_intent.get("type", "") if last_intent else "",
+            normalized[:100],
+        )
         if cache_key in session.get("cache", {}):
             print(f"[Cache Hit] returning cached result", file=sys.stderr)
             return session["cache"][cache_key]
-
-    # step 1: input normalization
-    normalized = raw_input if skip_normalization else normalize_input(raw_input, last_intent)
 
     # step 2: L1 rule layer
     l1_result = match(normalized)
@@ -172,7 +211,10 @@ def run_pipeline(
         l2_result = call_l2(normalized, tech_stack)
 
         if "error" in l2_result:
-            return {"error": f"L2 failed: {l2_result['error']}", "session_id": session_id}
+            return {
+                "error": f"L2 failed: {l2_result['error']}",
+                "session_id": session_id,
+            }
 
         confidence = l2_result.get("confidence", 0)
         intent_type = l2_result.get("intent_type")
@@ -199,11 +241,14 @@ def run_pipeline(
                 project_snippet="",
                 intent_type=l2_result.get("intent_type", "implement"),
                 slots=l2_result.get("slots", {}),
-                last_intent=last_intent
+                last_intent=last_intent,
             )
 
             if "error" in l3_result:
-                return {"error": f"L3 failed: {l3_result['error']}", "session_id": session_id}
+                return {
+                    "error": f"L3 failed: {l3_result['error']}",
+                    "session_id": session_id,
+                }
 
             # merge L3 results
             intent_type = l3_result.get("intent_type")
@@ -215,17 +260,25 @@ def run_pipeline(
     slots = l2_result.get("slots", {})
     if source_layer == "L1":
         # L1 direct hit, no slot info
-        slots = {"target": "", "scope": "", "tech_stack": detect_tech_stack(detect_project_root())}
-    
+        slots = {
+            "target": "",
+            "scope": "",
+            "tech_stack": tech_stack,
+        }
+
     slot_list = []
     for name, value in slots.items():
         if not value:
             continue
         evidence = "provisional"
         if name in ["target", "tech_stack"] and value:
-            evidence = "verified" if any(k in raw_input.lower() for k in [value.lower()]) else "provisional"
+            evidence = (
+                "verified"
+                if any(k in raw_input.lower() for k in [value.lower()])
+                else "provisional"
+            )
         slot_list.append({"name": name, "value": value, "evidence": evidence})
-    
+
     # solution recommendation (L1/L2 simple cases use a template; L3 already includes one)
     solution = l2_result.get("solution", "")
     if source_layer == "L1" and not solution:
@@ -250,9 +303,13 @@ def run_pipeline(
         "subtype": subtype,
         "confidence": confidence,
         "source_layer": source_layer,
-        "description": l2_result.get("description", normalized) if source_layer != "L1" else normalized,
+        "description": l2_result.get("description", normalized)
+        if source_layer != "L1"
+        else normalized,
         "slots": slot_list,
-        "constraints": constraints if source_layer != "L1" else {"hard": [], "soft": []},
+        "constraints": constraints
+        if source_layer != "L1"
+        else {"hard": [], "soft": []},
         "sub_tasks": sub_tasks,
         "critical_path": critical_path,
         "parallel_groups": parallel_groups,
@@ -261,23 +318,25 @@ def run_pipeline(
         "session_id": session_id,
         "timestamp": datetime.now().isoformat(),
     }
-    
+
     # update the session
     new_session = {
         "session_id": session_id,
         "turn": (session.get("turn", 0) + 1) if session else 1,
         "last_intent": {
             "type": intent_type,
-            "slots": {s["name"]: s["value"] for s in slot_list}
+            "slots": {s["name"]: s["value"] for s in slot_list},
         },
-        "slots_history": (session.get("slots_history", []) + [slot_list]) if session else [slot_list],
+        "slots_history": (session.get("slots_history", []) + [slot_list])
+        if session
+        else [slot_list],
         "cache": session.get("cache", {}) if session else {},
     }
     # update the cache
-    cache_key = f"{session_id}:{intent_type}:{hash(normalized[:100])}"
+    cache_key = _stable_cache_key(session_id, intent_type or "", normalized[:100])
     new_session["cache"][cache_key] = result
     save_session(session_id, new_session)
-    
+
     return result
 
 
@@ -300,21 +359,29 @@ def get_default_solution(intent_type: str) -> str:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Code Intent Planner -- three-tier waterfall intent recognition")
+    parser = argparse.ArgumentParser(
+        description="Code Intent Planner -- three-tier waterfall intent recognition"
+    )
     parser.add_argument("input", nargs="?", help="user input (natural language)")
     parser.add_argument("--session", "-s", help="Session ID")
     parser.add_argument("--project", "-p", help="project root directory")
     parser.add_argument("--skip-normalization", action="store_true")
-    parser.add_argument("--no-mock", action="store_true", help="use a real LLM (requires environment variables configured)")
-    parser.add_argument("--format", "-f", choices=["markdown", "json"], default="markdown")
+    parser.add_argument(
+        "--no-mock",
+        action="store_true",
+        help="use a real LLM (requires environment variables configured)",
+    )
+    parser.add_argument(
+        "--format", "-f", choices=["markdown", "json"], default="markdown"
+    )
     parser.add_argument("--output", "-o", help="output file path")
-    
+
     args = parser.parse_args()
-    
+
     if not args.input:
         parser.print_help()
         sys.exit(1)
-    
+
     result = run_pipeline(
         raw_input=args.input,
         session_id=args.session,
@@ -322,12 +389,12 @@ def main():
         skip_normalization=args.skip_normalization,
         use_mock=not args.no_mock,
     )
-    
+
     if args.format == "markdown":
         output = render_markdown(result)
     else:
         output = render_json(result)
-    
+
     if args.output:
         with open(args.output, "w", encoding="utf-8") as f:
             f.write(output)
