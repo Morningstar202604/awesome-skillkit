@@ -5,11 +5,11 @@
   "updated": "2026-09-25",
   "desc": "Curated scene packs for AI tools: each pack = one real-world scenario, containing multiple skills. Download zip -> unzip -> drag the skill folders into your AI tool's skills directory.",
   "desc_zh": "精选场景包合集：每个场景包 = 一个真实场景，内含多个 skill。下载 zip -> 解压 -> 把 skill 文件夹拖进 AI 工具的 skills 目录即可使用。",
-  "n_skills": 155,
-  "n_skills_on_disk": 157,
+  "n_skills": 157,
+  "n_skills_on_disk": 159,
   "n_packs": 37,
   "n_domains": 18,
-  "n_chains": 64,
+  "n_chains": 66,
   "github": {
    "repo": "x33834/awesome-skillkit",
    "url": "https://github.com/x33834/awesome-skillkit",
@@ -93,8 +93,8 @@
    "id": "design",
    "label": "design",
    "entry": "",
-   "n_skills": 6,
-   "n_chains": 7,
+   "n_skills": 8,
+   "n_chains": 9,
    "chains": [
     {
      "name": "banner",
@@ -116,6 +116,14 @@
       "design-brief-interpreter",
       "image-prompt-engineer",
       "layout-spec-auditor"
+     ]
+    },
+    {
+     "name": "design_system_build",
+     "steps": [
+      "design-system-foundations",
+      "frontend-design-director",
+      "frontend-component-lab"
      ]
     },
     {
@@ -146,6 +154,14 @@
      "steps": [
       "design-brief-interpreter",
       "image-prompt-engineer",
+      "layout-spec-auditor"
+     ]
+    },
+    {
+     "name": "ui_audit",
+     "steps": [
+      "design-system-foundations",
+      "ui-ux-accessibility",
       "layout-spec-auditor"
      ]
     }
@@ -1444,6 +1460,25 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/design/design-brief-interpreter/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/design/design-brief-interpreter/SKILL.md"
+  },
+  {
+   "name": "design-system-foundations",
+   "domain": "design",
+   "path": "skills/design/design-system-foundations",
+   "file": "skills/design/design-system-foundations/SKILL.md",
+   "desc": ">-",
+   "license": "Apache-2.0",
+   "compatibility": "Pure prompt-based; no runtime deps.",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "reference",
+   "verified": "2026-09-25",
+   "repo_file": "skills/design/design-system-foundations/SKILL.md",
+   "packs": [
+    "visual-design-studio"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/design/design-system-foundations/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/design/design-system-foundations/SKILL.md"
   },
   {
    "name": "docker-development",
@@ -3334,6 +3369,25 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/audio/tts-voice-director/SKILL.md"
   },
   {
+   "name": "ui-ux-accessibility",
+   "domain": "design",
+   "path": "skills/design/ui-ux-accessibility",
+   "file": "skills/design/ui-ux-accessibility/SKILL.md",
+   "desc": ">-",
+   "license": "Apache-2.0",
+   "compatibility": "Pure prompt-based; no runtime deps.",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-25",
+   "repo_file": "skills/design/ui-ux-accessibility/SKILL.md",
+   "packs": [
+    "visual-design-studio"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/design/ui-ux-accessibility/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/design/ui-ux-accessibility/SKILL.md"
+  },
+  {
    "name": "v2ex-publisher",
    "domain": "writing",
    "path": "skills/writing/community/v2ex-publisher",
@@ -4383,14 +4437,16 @@
    "name_zh": "视觉设计工作室",
    "desc": "AI visual design chain: interpret a vague brief into a design spec (purpose, platform size, style anchor), engineer text-to-image prompts with model dialects and text-rendering rules, and audit output against platform layout specs (safe areas, ratios, text budgets). One brief flows through spec -> prompt -> audit without leaving the chain.",
    "desc_zh": "AI 视觉设计链条：把模糊需求翻译成设计规格单（用途/平台尺寸/风格锚），按模型方言与文字渲染规则写文生图 prompt，并按平台版面规格（比例/安全区/文字预算）审计产出。一条需求从规格到 prompt 到审计全程不出链。方法论借鉴 Anthropic canvas-design / designskills / Replicate prompting 指南并已署名。",
-   "size_kb": 46,
-   "n_skills": 5,
+   "size_kb": 87,
+   "n_skills": 7,
    "skills": [
     "design-brief-interpreter",
     "image-prompt-engineer",
     "layout-spec-auditor",
     "frontend-design-director",
-    "frontend-component-lab"
+    "frontend-component-lab",
+    "ui-ux-accessibility",
+    "design-system-foundations"
    ],
    "local_url": "packs/visual-design-studio.zip",
    "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/visual-design-studio.zip",

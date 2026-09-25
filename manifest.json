@@ -1064,10 +1064,18 @@
         {
           "name": "frontend-component-lab",
           "source": "self-authored (adapted from mattpocock/skills frontend-design + ECC frontend-patterns)"
+        },
+        {
+          "name": "ui-ux-accessibility",
+          "source": "self-authored"
+        },
+        {
+          "name": "design-system-foundations",
+          "source": "self-authored"
         }
       ],
-      "size_kb": 46,
-      "sha256": "8c2664bf774505f2ee7b8def3533f1e06c5b3111def206896ded055e667e3ffa"
+      "size_kb": 87,
+      "sha256": "5595b0824588e40e6ae7a66d3820a7c18c54f87dfc1ff9624b70880bf8795d22"
     },
     {
       "id": "web-ops",

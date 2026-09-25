@@ -115,7 +115,7 @@ Below is the complete catalog. Each row links to its pack folder; the skill colu
 | [`toolsmith`](packs/toolsmith) | Toolsmith | 工具与自动化 | 6 | `file-organizer`, `batch-renamer`, `format-converter`, `task-scheduler`, `invoice-organizer`, `bank-statement-reconcile` |
 | [`video-design-studio`](packs/video-design-studio) | Video Design Studio | 视频设计工作室 | 5 | `storyboard-designer`, `shot-designer`, `visual-style-anchor`, `transition-designer`, `motion-effects-designer` |
 | [`viral-entertainment`](packs/viral-entertainment) | Viral Entertainment | 爆款娱乐场景 | 2 | `ai-baby-podcast`, `nailong-laugh-shorts` |
-| [`visual-design-studio`](packs/visual-design-studio) | Visual Design Studio | 视觉设计工作室 | 5 | `design-brief-interpreter`, `image-prompt-engineer`, `layout-spec-auditor`, `frontend-design-director`, `frontend-component-lab` |
+| [`visual-design-studio`](packs/visual-design-studio) | Visual Design Studio | 视觉设计工作室 | 7 | `design-brief-interpreter`, `image-prompt-engineer`, `layout-spec-auditor`, `frontend-design-director`, `frontend-component-lab`, `ui-ux-accessibility`, `design-system-foundations` |
 | [`web-ops`](packs/web-ops) | Web Operations | 网页操作 | 1 | `web-data-extractor` |
 | [`workspace-integrations`](packs/workspace-integrations) | Workspace Integrations | 外部集成工具箱 | 4 | `notion-workspace`, `feishu-dingtalk-bridge`, `issue-tracker-sync`, `cloud-drive-manager` |
 

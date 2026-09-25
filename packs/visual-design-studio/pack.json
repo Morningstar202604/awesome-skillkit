@@ -24,6 +24,14 @@
     {
       "name": "frontend-component-lab",
       "source": "self-authored (adapted from mattpocock/skills frontend-design + ECC frontend-patterns)"
+    },
+    {
+      "name": "ui-ux-accessibility",
+      "source": "self-authored"
+    },
+    {
+      "name": "design-system-foundations",
+      "source": "self-authored"
     }
   ]
 }

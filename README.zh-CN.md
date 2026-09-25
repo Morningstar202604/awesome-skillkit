@@ -115,7 +115,7 @@ flowchart LR
 | [`toolsmith`](packs/toolsmith) | **工具与自动化** | Toolsmith | 6 | `file-organizer`, `batch-renamer`, `format-converter`, `task-scheduler`, `invoice-organizer`, `bank-statement-reconcile` |
 | [`video-design-studio`](packs/video-design-studio) | **视频设计工作室** | Video Design Studio | 5 | `storyboard-designer`, `shot-designer`, `visual-style-anchor`, `transition-designer`, `motion-effects-designer` |
 | [`viral-entertainment`](packs/viral-entertainment) | **爆款娱乐场景** | Viral Entertainment | 2 | `ai-baby-podcast`, `nailong-laugh-shorts` |
-| [`visual-design-studio`](packs/visual-design-studio) | **视觉设计工作室** | Visual Design Studio | 5 | `design-brief-interpreter`, `image-prompt-engineer`, `layout-spec-auditor`, `frontend-design-director`, `frontend-component-lab` |
+| [`visual-design-studio`](packs/visual-design-studio) | **视觉设计工作室** | Visual Design Studio | 7 | `design-brief-interpreter`, `image-prompt-engineer`, `layout-spec-auditor`, `frontend-design-director`, `frontend-component-lab`, `ui-ux-accessibility`, `design-system-foundations` |
 | [`web-ops`](packs/web-ops) | **网页操作** | Web Operations | 1 | `web-data-extractor` |
 | [`workspace-integrations`](packs/workspace-integrations) | **外部集成工具箱** | Workspace Integrations | 4 | `notion-workspace`, `feishu-dingtalk-bridge`, `issue-tracker-sync`, `cloud-drive-manager` |
 

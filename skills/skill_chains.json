@@ -282,7 +282,9 @@
         "layout-spec-auditor",
         "frontend-design-director",
         "frontend-component-lab",
-        "image-batch-processor"
+        "image-batch-processor",
+        "ui-ux-accessibility",
+        "design-system-foundations"
       ],
       "chains": {
         "cover": [
@@ -316,6 +318,16 @@
         ],
         "batch_asset_prep": [
           "image-batch-processor"
+        ],
+        "ui_audit": [
+          "design-system-foundations",
+          "ui-ux-accessibility",
+          "layout-spec-auditor"
+        ],
+        "design_system_build": [
+          "design-system-foundations",
+          "frontend-design-director",
+          "frontend-component-lab"
         ]
       }
     },

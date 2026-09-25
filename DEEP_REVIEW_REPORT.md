@@ -508,3 +508,75 @@ All 36 packs assessed via full-process demand mapping. **One new skill created, 
 ### 6. 未完成项 / 无法验证项
 - OCR 功能：pytesseract 未安装，脚本设计为缺失时警告降级，未实测 OCR 输出
 - 四平台推送：执行中
+
+---
+
+## 第六轮：设计知识开源收集与技能化改造
+
+### 1. 收集来源与许可
+
+调研开源世界中"AI 写不出来/容易做错"的设计硬知识，来源包括：
+
+| 来源 | 许可 | 提取内容 |
+|------|------|----------|
+| WCAG 2.2 (w3.org/WAI/WCAG22) | W3C Document License | 对比度 4.5:1/3:1/7:1、目标尺寸 24x24px、焦点 2px、重排 320px、文本间距等精确数值 |
+| Nielsen Norman Group 10 Heuristics | 引用/署名 | 10 条可用性启发式名称与检查点 |
+| Laws of UX (lawsofux.com) | CC BY-NC-SA 4.0 | 14 条 UX 定律（Fitts/Hick/Jacob/Miller/Tesler/Von Restorff 等） |
+| ARIA Authoring Practices (w3.org) | W3C Document License | 8 种常见组件的 role/属性/键盘交互表 |
+| UI Patterns (ui-patterns.com) | 引用 | 模态 vs 抽屉、标签 vs 手风琴、无限滚动 vs 分页等决策表 |
+| Material Design 3 | Apache 2.0 | 类型系统、色彩系统、海拔阴影、动效时长/缓动、48dp 触摸目标 |
+| Tailwind CSS | MIT | 断点体系 (sm640/md768/lg1024/xl1280/2xl1536)、间距、圆角、阴影 |
+| Bootstrap 5 | MIT | 断点、z-index 层级、间距系统 |
+| Apple HIG | 引用 | 44pt 点击目标、Dynamic Type、reduce motion |
+| Ant Design | MIT | 设计令牌、组件规则、字号阶 |
+
+### 2. 新增技能
+
+#### ui-ux-accessibility（UI/UX 与可访问性规则库）
+- 位置：`skills/design/ui-ux-accessibility/`
+- 归属：`visual-design-studio` 包（5→7 技能）
+- SKILL.md：202 行，5 步审计工作流（范围→启发式→WCAG 数值→ARIA/键盘→报告）
+- references/（4 个文件，846 行）：
+  - `wcag-2.2-checklist.md`（270 行）：完整 WCAG AA 检查清单，按 POUR 原则组织，全部带精确数值和测试方法
+  - `aria-patterns.md`（236 行）：8 种组件的 role/属性/键盘交互表
+  - `ui-patterns.md`（229 行）：模式选择决策表 + 平台目标尺寸
+  - `sources-and-licenses.md`（111 行）：全部来源与许可
+- 核心硬知识：对比度 4.5:1/3:1、目标 24px/48dp/44pt、焦点 2px、重排 320px、10 启发式、14 UX 定律
+
+#### design-system-foundations（设计系统基础参数库）
+- 位置：`skills/design/design-system-foundations/`
+- 归属：`visual-design-studio` 包
+- SKILL.md：337 行，5 步工作流（审计→选阶→生成令牌→应用→验证）+ 6 个速查表
+- references/（6 个文件，916 行）：
+  - `typography-scale.md`（163 行）：5 种模数比的完整字号阶表、行高/字间距规则、最大行宽
+  - `color-system.md`（161 行）：OKLCH vs HSL、60-30-10、暗色模式转换表、可访问配色对
+  - `spacing-layout.md`（141 行）：8pt 网格、16 级间距、容器宽度、z-index 层级
+  - `elevation-motion.md`（179 行）：圆角阶、5 级阴影精确 CSS、动效时长/缓动 cubic-bezier、stagger
+  - `breakpoints-tokens.md`（189 行）：Tailwind/Bootstrap/MUI/M3 断点对比、令牌层级命名
+  - `sources-and-licenses.md`（83 行）：全部来源与许可
+- 核心硬知识：字号阶 1.25/1.333/1.414/1.5/1.618、行高 1.2/1.5/1.75、间距 4-128、圆角 2-9999、阴影 5 级、动效 100-500ms、缓动 cubic-bezier 精确值、断点 640/768/1024/1280/1536
+
+### 3. 未新增的方向（评估后不建）
+- **图标设计**：AI 生成图标已有 image-generation 覆盖，图标库是资源而非技能
+- **插画风格**：visual-style-anchor 已覆盖风格锚定
+- **品牌识别系统**：偏品牌咨询，LLM 原生推理可覆盖，无精确参数表
+- **印刷/出版设计**：与现有 docx/epub/pdf 技能重叠，且非线上操作高频场景
+
+### 4. 验证结果
+
+| 检查项 | 结果 |
+|--------|------|
+| SKILL.md 零中文 | 157/157 ✅ |
+| 新技能 references 零中文 | 10/10 文件 ✅ |
+| YAML frontmatter 有效 | 全部通过 ✅ |
+| validate_skills.py | 157 技能，0 错 9 警，PASSED ✅ |
+| Linter | 157 真实技能全 PASS（good-skill 夹具预期 FAIL）✅ |
+| build.py | 38 zip，157 技能，2.32MB ✅ |
+| build_site.py | 157 技能 / 37 包 / 18 域 / 66 链 ✅ |
+| 来源许可注明 | 两个技能均含 sources-and-licenses.md ✅ |
+
+### 5. 合规说明
+- 所有来源均注明 URL 与许可类型
+- 未整篇复制任何来源内容，仅提炼精确数值、参数表、模式名到自有表格
+- WCAG/ARIA 为 W3C 开放标准，Laws of UX 为 CC BY-NC-SA（提炼事实非复制）
+- Material/Tailwind/Bootstrap/Ant Design 为 MIT/Apache 开源项目的设计令牌值
