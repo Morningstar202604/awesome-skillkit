@@ -642,3 +642,61 @@ All 36 packs assessed via full-process demand mapping. **One new skill created, 
 
 ### 6. 待用户确认的后续方向
 10 个强候选中仅落地 1 个试点。其余 9 个（决策去偏、装修避坑、就医指导、购车保养、租房合同、困难对话、以及社交沟通类的进一步拆分）待用户确认优先级后分批落地。建议优先顺序：决策去偏（元技能，补偿 AI 自身谄媚）→ 装修避坑（最高金额风险）→ 就医指导（最高频）。
+
+---
+
+## 第八轮：AI 盲区全部强候选落地
+
+### 1. 新建 5 个技能
+
+| 技能 | 归属包 | 域 | SKILL行数 | references | 核心能力 |
+|------|--------|-----|-----------|------------|---------|
+| **decision-debiasing** | communication-essentials | communication | 219 | 5个 | 事前验尸（过去时态框架）、12种认知偏误去偏动作、红队协议（强制反对用户偏好选项）、可逆性测试、决策记录模板 |
+| **home-renovation-avoidance** | life-essentials | life | 146 | 6个 | 合同陷阱（增项不超5%）、验收数值阈值（水压≥0.8MPa/30min、闭水≥48h查楼下、空鼓≤5%、板材E1/ENF/E0）、材料核验、付款纪律（首付≤30%）、承包商红旗 |
+| **medical-visit-guide** | life-essentials | life | 155 | 7个 | 一句话症状锚定公式、5个必问问题、就诊携带清单、科室选择、急诊红旗（立即拨120）、诊后记录模板。**严格边界：不诊断/不处方/急诊引导** |
+| **car-purchase-maintenance** | life-essentials | life | 150 | 6个 | 裸车价vs综合优惠、库存车议价（国产>3月/进口>6月）、提车日期码检查（轮胎DOT/玻璃日期/发动机螺丝力矩标记）、保养间隔真相（全合成1万km/1年，非5000km）、二手车第三方检测 |
+| **rental-contract-guide** | life-essentials | life | 146 | 6个 | 定金vs订金（定金不退且上限20%/民法典）、租金贷陷阱、二房东身份核验、隔断房、入住交接拍照录像、押金纠纷维权（12348/12345/小额诉讼） |
+
+### 2. 扩展 tactful-communication
+
+- **phrase-banks.md** 新增 5 个场景：谈薪/晋升、婉拒社交邀请、同级反馈、接受批评、社交破冰
+- **workplace-scripts.md** 新增 4 个脚本：向上管理（大领导放松/小领导抬权威）、双线领导冲突（共享优先级文档）、会议时机（前3分钟发言/大小领导在场闭嘴）、汇报坏消息（影响→已做→选项）
+
+### 3. 重叠项处理结论
+
+| 原候选 | 处理 | 覆盖位置 |
+|--------|------|---------|
+| 高情商话术（拒绝/安慰/道歉/批评） | ✅ 已覆盖，扩展至9场景 | tactful-communication/references/phrase-banks.md |
+| 潜台词解读 | ✅ 已覆盖 | tactful-communication/references/subtext-decoder.md |
+| 随份子/送礼禁忌 | ✅ 已覆盖 | tactful-communication/references/social-etiquette.md |
+| 宴席座次/敬酒 | ✅ 已覆盖 | tactful-communication/references/social-etiquette.md |
+| 职场汇报 | ✅ 已覆盖，扩展至7脚本 | tactful-communication/references/workplace-scripts.md |
+| 困难对话（吊唁/分手/冲突降级） | ⚠️ 部分覆盖（phrase-banks含安慰），未独立建技能 | 建议下轮评估是否拆分 difficult-conversation-coach |
+
+### 4. 安全合规
+
+- 所有技能含明确"非专业建议"边界
+- medical-visit-guide：三处重复"不诊断/不处方/急诊拨120"，含急诊红旗预检门
+- rental-contract-guide："法律信息非法律意见"，引导12348法律援助
+- home-renovation-avoidance："消费者指导非法律意见"，引导12315/消协
+- decision-debiasing："改善判断不保证结果"，金融/法律/医疗决策引导专业人士
+- 无任何操纵/PUA/煤气灯/欺骗内容
+
+### 5. 验证结果
+
+| 检查项 | 结果 |
+|--------|------|
+| 新技能 SKILL.md 零中文 | 6/6 ✅ |
+| YAML frontmatter 有效 | 全部通过 ✅ |
+| Linter（5个新技能） | 全部 0 FAIL 0 WARN ✅ |
+| Linter（tactful-communication扩展后） | 0 FAIL 0 WARN ✅ |
+| validate_skills.py | 163 技能，0 错 11 警，PASSED ✅ |
+| Linter（全量） | 163 真实技能全 PASS ✅ |
+| build.py | 40 zip，163 技能，2.41MB ✅ |
+| build_site.py | 163 技能 / 39 包 / 20 域 / 73 链 ✅ |
+
+### 6. 最终计数
+- **技能**：163 个真实技能（+5 新建，+1 扩展）
+- **场景包**：39 个（+1 新建 life-essentials）
+- **域**：20 个（+1 新建 life）
+- **链**：73 条（+5 新建）

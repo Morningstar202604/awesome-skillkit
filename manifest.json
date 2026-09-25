@@ -371,10 +371,14 @@
         {
           "name": "tactful-communication",
           "source": "original"
+        },
+        {
+          "name": "decision-debiasing",
+          "source": "self-authored"
         }
       ],
-      "size_kb": 13,
-      "sha256": "397dddf9222685cc6e3752afffd982f7d41edc98da91547add789a056151245f",
+      "size_kb": 34,
+      "sha256": "5f92a41d4dd90bd6453322faea32314844ade34bb0dda4a8882cbf5a75b31842",
       "updated": ""
     },
     {
@@ -780,6 +784,34 @@
       ],
       "size_kb": 29,
       "sha256": "ec6d614d72b389bd1a3d16bb6b6b8b532e6d4d4dc20e138dcae97a934c982afd"
+    },
+    {
+      "id": "life-essentials",
+      "name": "Life Essentials",
+      "name_zh": "生活必备",
+      "description": "Consumer protection and life-navigation skills: renovation pitfalls, medical visit coaching, car purchase and maintenance, rental contract review.",
+      "description_zh": "消费者保护与生活导航技能：装修避坑、就医指导、购车保养、租房合同审查。",
+      "skills": [
+        {
+          "name": "home-renovation-avoidance",
+          "source": "self-authored"
+        },
+        {
+          "name": "medical-visit-guide",
+          "source": "self-authored"
+        },
+        {
+          "name": "car-purchase-maintenance",
+          "source": "self-authored"
+        },
+        {
+          "name": "rental-contract-guide",
+          "source": "self-authored"
+        }
+      ],
+      "size_kb": 49,
+      "sha256": "6109ab0b4be6688f86e86c7252329638be8e27dd8d6635609828bf6061f56a26",
+      "updated": ""
     },
     {
       "id": "memory-systems",

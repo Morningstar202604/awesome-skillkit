@@ -1,0 +1,13 @@
+{
+  "id": "life-essentials",
+  "name": "Life Essentials",
+  "name_zh": "生活必备",
+  "description": "Consumer protection and life-navigation skills: renovation pitfalls, medical visit coaching, car purchase and maintenance, rental contract review.",
+  "description_zh": "消费者保护与生活导航技能：装修避坑、就医指导、购车保养、租房合同审查。",
+  "skills": [
+    {"name": "home-renovation-avoidance", "source": "self-authored"},
+    {"name": "medical-visit-guide", "source": "self-authored"},
+    {"name": "car-purchase-maintenance", "source": "self-authored"},
+    {"name": "rental-contract-guide", "source": "self-authored"}
+  ]
+}

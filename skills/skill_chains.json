@@ -635,7 +635,8 @@
     "communication": {
       "entry": "tactful-communication",
       "skills": [
-        "tactful-communication"
+        "tactful-communication",
+        "decision-debiasing"
       ],
       "chains": {
         "tactful_reply": [
@@ -643,6 +644,33 @@
         ],
         "workplace_report": [
           "tactful-communication"
+        ],
+        "decision_review": [
+          "decision-debiasing",
+          "tactful-communication"
+        ]
+      }
+    },
+    "life": {
+      "entry": "home-renovation-avoidance",
+      "skills": [
+        "home-renovation-avoidance",
+        "medical-visit-guide",
+        "car-purchase-maintenance",
+        "rental-contract-guide"
+      ],
+      "chains": {
+        "renovation_guard": [
+          "home-renovation-avoidance"
+        ],
+        "medical_visit_prep": [
+          "medical-visit-guide"
+        ],
+        "car_purchase_guard": [
+          "car-purchase-maintenance"
+        ],
+        "rental_contract_review": [
+          "rental-contract-guide"
         ]
       }
     }

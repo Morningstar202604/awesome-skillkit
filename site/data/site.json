@@ -5,11 +5,11 @@
   "updated": "2026-09-25",
   "desc": "Curated scene packs for AI tools: each pack = one real-world scenario, containing multiple skills. Download zip -> unzip -> drag the skill folders into your AI tool's skills directory.",
   "desc_zh": "精选场景包合集：每个场景包 = 一个真实场景，内含多个 skill。下载 zip -> 解压 -> 把 skill 文件夹拖进 AI 工具的 skills 目录即可使用。",
-  "n_skills": 158,
-  "n_skills_on_disk": 160,
-  "n_packs": 38,
-  "n_domains": 19,
-  "n_chains": 68,
+  "n_skills": 163,
+  "n_skills_on_disk": 165,
+  "n_packs": 39,
+  "n_domains": 20,
+  "n_chains": 73,
   "github": {
    "repo": "x33834/awesome-skillkit",
    "url": "https://github.com/x33834/awesome-skillkit",
@@ -77,9 +77,16 @@
    "id": "communication",
    "label": "communication",
    "entry": "tactful-communication",
-   "n_skills": 1,
-   "n_chains": 2,
+   "n_skills": 2,
+   "n_chains": 3,
    "chains": [
+    {
+     "name": "decision_review",
+     "steps": [
+      "decision-debiasing",
+      "tactful-communication"
+     ]
+    },
     {
      "name": "tactful_reply",
      "steps": [
@@ -276,6 +283,39 @@
      "steps": [
       "personal-wiki",
       "knowledge-graph-builder"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "life",
+   "label": "life",
+   "entry": "home-renovation-avoidance",
+   "n_skills": 4,
+   "n_chains": 4,
+   "chains": [
+    {
+     "name": "car_purchase_guard",
+     "steps": [
+      "car-purchase-maintenance"
+     ]
+    },
+    {
+     "name": "medical_visit_prep",
+     "steps": [
+      "medical-visit-guide"
+     ]
+    },
+    {
+     "name": "renovation_guard",
+     "steps": [
+      "home-renovation-avoidance"
+     ]
+    },
+    {
+     "name": "rental_contract_review",
+     "steps": [
+      "rental-contract-guide"
      ]
     }
    ]
@@ -1083,6 +1123,25 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/campaign-designer/SKILL.md"
   },
   {
+   "name": "car-purchase-maintenance",
+   "domain": "life",
+   "path": "skills/life/car-purchase-maintenance",
+   "file": "skills/life/car-purchase-maintenance/SKILL.md",
+   "desc": ">-",
+   "license": "Apache-2.0",
+   "compatibility": "Pure prompt skill, no scripts.",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-25",
+   "repo_file": "skills/life/car-purchase-maintenance/SKILL.md",
+   "packs": [
+    "life-essentials"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/life/car-purchase-maintenance/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/life/car-purchase-maintenance/SKILL.md"
+  },
+  {
    "name": "career-ops-lite",
    "domain": "office",
    "path": "skills/office/career-ops-lite",
@@ -1424,6 +1483,25 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/debug/debug-diagnoser/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/debug/debug-diagnoser/SKILL.md"
+  },
+  {
+   "name": "decision-debiasing",
+   "domain": "communication",
+   "path": "skills/communication/decision-debiasing",
+   "file": "skills/communication/decision-debiasing/SKILL.md",
+   "desc": ">-",
+   "license": "Apache-2.0",
+   "compatibility": "Pure prompt skill, no scripts or runtime deps.",
+   "version": "1.0",
+   "tier": "pilot",
+   "pattern": "adversarial-protocol",
+   "verified": "2026-09-25",
+   "repo_file": "skills/communication/decision-debiasing/SKILL.md",
+   "packs": [
+    "communication-essentials"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/communication/decision-debiasing/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/communication/decision-debiasing/SKILL.md"
   },
   {
    "name": "deep-research",
@@ -1901,6 +1979,25 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/containers/helm-chart-builder/SKILL.md"
   },
   {
+   "name": "home-renovation-avoidance",
+   "domain": "life",
+   "path": "skills/life/home-renovation-avoidance",
+   "file": "skills/life/home-renovation-avoidance/SKILL.md",
+   "desc": ">-",
+   "license": "Apache-2.0",
+   "compatibility": "Pure prompt skill, no scripts.",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-25",
+   "repo_file": "skills/life/home-renovation-avoidance/SKILL.md",
+   "packs": [
+    "life-essentials"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/life/home-renovation-avoidance/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/life/home-renovation-avoidance/SKILL.md"
+  },
+  {
    "name": "humanize-rewriter",
    "domain": "writing",
    "path": "skills/writing/humanize-rewriter",
@@ -2226,6 +2323,25 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/ai-engineering/mcp-server-builder/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/ai-engineering/mcp-server-builder/SKILL.md"
+  },
+  {
+   "name": "medical-visit-guide",
+   "domain": "life",
+   "path": "skills/life/medical-visit-guide",
+   "file": "skills/life/medical-visit-guide/SKILL.md",
+   "desc": ">-",
+   "license": "Apache-2.0",
+   "compatibility": "Pure prompt skill, no scripts.",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-25",
+   "repo_file": "skills/life/medical-visit-guide/SKILL.md",
+   "packs": [
+    "life-essentials"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/life/medical-visit-guide/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/life/medical-visit-guide/SKILL.md"
   },
   {
    "name": "meeting-notes",
@@ -2778,6 +2894,25 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/paper/pub-plotter/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/paper/pub-plotter/SKILL.md"
+  },
+  {
+   "name": "rental-contract-guide",
+   "domain": "life",
+   "path": "skills/life/rental-contract-guide",
+   "file": "skills/life/rental-contract-guide/SKILL.md",
+   "desc": ">-",
+   "license": "Apache-2.0",
+   "compatibility": "Pure prompt skill, no scripts.",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-25",
+   "repo_file": "skills/life/rental-contract-guide/SKILL.md",
+   "packs": [
+    "life-essentials"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/life/rental-contract-guide/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/life/rental-contract-guide/SKILL.md"
   },
   {
    "name": "result-visualizer",
@@ -4009,10 +4144,11 @@
    "name_zh": "沟通必备",
    "desc": "Tactful Chinese social and workplace communication scripts, etiquette, and subtext decoding.",
    "desc_zh": "得体的中文社交与职场沟通话术、礼仪与潜台词解读。",
-   "size_kb": 13,
-   "n_skills": 1,
+   "size_kb": 34,
+   "n_skills": 2,
    "skills": [
-    "tactful-communication"
+    "tactful-communication",
+    "decision-debiasing"
    ],
    "local_url": "packs/communication-essentials.zip",
    "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/communication-essentials.zip",
@@ -4301,6 +4437,26 @@
    "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/knowledge-base.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
    "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/knowledge-base.zip",
+   "dist_exists": true
+  },
+  {
+   "id": "life-essentials",
+   "name": "Life Essentials",
+   "name_zh": "生活必备",
+   "desc": "Consumer protection and life-navigation skills: renovation pitfalls, medical visit coaching, car purchase and maintenance, rental contract review.",
+   "desc_zh": "消费者保护与生活导航技能：装修避坑、就医指导、购车保养、租房合同审查。",
+   "size_kb": 49,
+   "n_skills": 4,
+   "skills": [
+    "home-renovation-avoidance",
+    "medical-visit-guide",
+    "car-purchase-maintenance",
+    "rental-contract-guide"
+   ],
+   "local_url": "packs/life-essentials.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/life-essentials.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/life-essentials.zip",
    "dist_exists": true
   },
   {

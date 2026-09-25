@@ -8,6 +8,10 @@
     {
       "name": "tactful-communication",
       "source": "original"
+    },
+    {
+      "name": "decision-debiasing",
+      "source": "self-authored"
     }
   ]
 }
