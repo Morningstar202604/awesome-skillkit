@@ -3,13 +3,13 @@
 <h1 align="center">awesome-skillkit</h1>
 
 <p align="center">
-  <b>37 个真实场景包 · 156 个精选技能 · 解压即用——<br>把整套工作能力，一次交给你的 AI 工具。</b>
+  <b>38 个真实场景包 · 158 个精选技能 · 解压即用——<br>把整套工作能力，一次交给你的 AI 工具。</b>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
   <img src="https://img.shields.io/badge/skills-156-brightgreen?style=flat-square" alt="Skills" />
-  <img src="https://img.shields.io/badge/packs-37-blue?style=flat-square" alt="Packs" />
+  <img src="https://img.shields.io/badge/packs-38-blue?style=flat-square" alt="Packs" />
   <img src="https://img.shields.io/badge/version-0.22.0-success?style=flat-square" alt="Version" />
 </p>
 
@@ -75,7 +75,7 @@ flowchart LR
 
 > 每个包的 zip 由 `python3 build.py` 构建，并随每次 GitHub Release 一起发布；GitCode / Gitee 镜像推送相同标签并上传相同资源。
 
-## 场景包目录（全部 37 个）
+## 场景包目录（全部 38 个）
 
 下表是完整目录。每行链接到对应包目录，技能列列出了包内打包的全部 `SKILL.md`。
 
@@ -92,6 +92,7 @@ flowchart LR
 | [`ci-cd`](packs/ci-cd) | **CI/CD 流水线** | CI/CD Pipeline | 3 | `ci-cd-pipeline-builder`, `ship-gate`, `spec-driven-workflow` |
 | [`code-planning`](packs/code-planning) | **代码规划与生成** | Code Planning & Generation | 3 | `code-intent-planner`, `code-generator`, `debug-diagnoser` |
 | [`code-review`](packs/code-review) | **代码审查** | Code Review | 4 | `code-reviewer`, `api-design-reviewer`, `tech-debt-tracker`, `dependency-auditor` |
+| [`communication-essentials`](packs/communication-essentials) | **沟通必备** | Communication Essentials | 1 | `tactful-communication` |
 | [`containers`](packs/containers) | **容器与编排** | Containers & Orchestration | 3 | `docker-development`, `helm-chart-builder`, `kubernetes-operator` |
 | [`content-publishing`](packs/content-publishing) | **内容多平台发布自动化** | Content Publishing Automation | 18 | `zhihu-content-manager`, `cnblogs-skill`, `wechat-mp-publisher`, `juejin-publisher`, `csdn-publisher`, `jianshu-publisher`, `bilibili-publisher`, `toutiao-publisher`, `baijiahao-publisher`, `xiaohongshu-publisher`, `weibo-publisher`, `douban-publisher`, `v2ex-publisher`, `segmentfault-publisher`, `oschina-publisher`, `static-blog-deploy`, `cross-post-orchestrator`, `image-generation` |
 | [`data-ml-science`](packs/data-ml-science) | **数据科学与科学计算** | Data, ML & Scientific Computing | 7 | `etl-builder`, `feature-engineer`, `model-formulator`, `model-solver`, `simulation-runner`, `result-visualizer`, `ml-pipeline` |

@@ -1,0 +1,13 @@
+{
+  "id": "communication-essentials",
+  "name": "Communication Essentials",
+  "name_zh": "沟通基本功",
+  "description": "Tactful, high-EQ communication coaching for Chinese social and workplace contexts: graceful refusals, comfort without hollow advice, apologies, subtext decoding, and workplace reporting scripts.",
+  "description_zh": "面向中文社交与职场场景的高情商沟通教练：得体拒绝、不说空话的安慰、具体道歉、潜台词解读，以及职场汇报话术。",
+  "skills": [
+    {
+      "name": "tactful-communication",
+      "source": "original"
+    }
+  ]
+}

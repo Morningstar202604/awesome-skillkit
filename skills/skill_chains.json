@@ -631,6 +631,20 @@
           "dashboard-designer"
         ]
       }
+    },
+    "communication": {
+      "entry": "tactful-communication",
+      "skills": [
+        "tactful-communication"
+      ],
+      "chains": {
+        "tactful_reply": [
+          "tactful-communication"
+        ],
+        "workplace_report": [
+          "tactful-communication"
+        ]
+      }
     }
   }
 }

@@ -580,3 +580,65 @@ All 36 packs assessed via full-process demand mapping. **One new skill created, 
 - 未整篇复制任何来源内容，仅提炼精确数值、参数表、模式名到自有表格
 - WCAG/ARIA 为 W3C 开放标准，Laws of UX 为 CC BY-NC-SA（提炼事实非复制）
 - Material/Tailwind/Bootstrap/Ant Design 为 MIT/Apache 开源项目的设计令牌值
+
+---
+
+## 第七轮：AI 盲区领域调研与试点技能
+
+### 1. 调研范围
+
+系统梳理"AI 模型天然薄弱、只有人类经验才能提供"的知识领域，覆盖 6 大方向：人际沟通、认知偏误、生活实操避坑、感官与身体经验、情感与困难对话、业界 benchmark。调研报告见 `AI_BLIND_SPOTS_RESEARCH.md`（466 行）。
+
+### 2. 候选领域评估（10 强候选 + 3 边缘 + 否决项）
+
+| 领域 | 判定 | 理由 | 建议技能名 |
+|------|------|------|-----------|
+| 中文高情商话术（拒绝/安慰/道歉/批评） | **强候选** | AI 中文输出要么生硬要么 uncanny；话术公式可直接编码 | `chinese-high-eq-phrases` |
+| 随份子/送礼禁忌 | **强候选** | 关系层级金额表 + 谐音禁忌是 AI 权重不足的文化编码数据 | `chinese-gift-etiquette` |
+| 宴席座次/敬酒礼仪 | **强候选** | AI 扁平化层级；座次/敬酒规则是具体决策表 | `chinese-banquet-etiquette` |
+| 潜台词解读 | **强候选** | arXiv 基准证明模型误读中文间接表达；字面→意图表紧凑 | `chinese-subtext-decoder` |
+| 职场向上汇报/会议政治 | **强候选** | 三段式汇报、推回框架、会议时机是 AI 不编码的具体脚本 | `chinese-workplace-reporting` |
+| 决策去偏/事前验尸/红队 | **强候选** | LLM 自身有锚定/确认偏误/谄媚；结构化协议强制对抗性思考 | `decision-debiasing-workbench` |
+| 装修避坑清单 | **强候选** | 数值阈值（0.8MPa/30min/48h）、轮换骗局、高金额风险 | `renovation-pitfall-checklist` |
+| 就医沟通指导 | **强候选** | AI 不指导患者行为；高频；安全边界清晰（不诊断） | `doctor-visit-coach` |
+| 购车/保养避坑 | **强候选** | 日期码检查技巧、保养间隔是 AI 幻觉的具体数值 | `car-buy-maintenance-checklist` |
+| 租房合同陷阱 | **强候选** | 定金/订金、租金贷、入住交接是 2025-2026 活跃陷阱 | `rental-contract-checklist` |
+| 困难对话脚本（吊唁/分手/冲突降级） | **强候选（需严格边界）** | AI 共情是模板化/谄媚的；话术正确是缺口；需危机安全门控 | `difficult-conversation-coach` |
+| 办证指南 | 边缘 | 低频、城市差异大、政策变动快；需实时官方数据 | `prc-document-checklists`（可选） |
+| 烹饪火候 troubleshooting | 边缘 | 真实感官缺口但视频饱和；文本无法传递手感 | `cooking-troubleshooter`（小型） |
+| 咖啡/茶冲泡参数 | 边缘 | 小众爱好者；参数表小；已有专用 App | 不优先 |
+
+### 3. 否决项
+- PUA/操纵/煤气灯/欺骗性说服 → 明确拒绝
+- 法律/医疗/金融专业建议 → 仅提供框架和清单，始终引导持牌专业人士
+- 政治敏感内容、欺骗性冒充 → 超出范围
+
+### 4. 试点技能：tactful-communication（得体沟通）
+
+**判断依据**：中文社交沟通是 AI 失败最具体、知识最可编码、用户频率最高的领域。研究已提取完整话术公式、决策表、数值阈值，方案成熟。
+
+- 位置：`skills/communication/tactful-communication/`（新建 communication 域）
+- 归属：新建 `communication-essentials` 包（第 38 包）
+- SKILL.md：纯英文工作流外壳（场景选择→关系层级→语域→公式选择→生成 2-3 个话术选项→诚实边界检查）
+- references/（5 个文件，中文作为被文档化对象，与 grammar-checks.md 先例一致）：
+  - `phrase-banks.md`：拒绝/安慰/道歉/批评四大话术公式 + 禁用表达
+  - `subtext-decoder.md`：字面→意图对照表（"我们再考虑考虑"=礼貌拒绝等 9 条）
+  - `workplace-scripts.md`：三段式汇报、推回框架、会议规则
+  - `social-etiquette.md`：随份子金额表（同事¥200→兄弟姐妹¥2000+）、谐音禁忌、宴席座次/敬酒
+  - `sources-and-licenses.md`：arXiv 2602.03107 + 综合来源说明
+- 安全边界：明确禁止操纵/煤气灯/PUA；危机信号（丧亲/家暴/自杀倾向）立即引导专业帮助；话术必须诚实且尊重对方自主权
+
+### 5. 验证结果
+
+| 检查项 | 结果 |
+|--------|------|
+| SKILL.md 零中文 | ✅（0 字符） |
+| YAML frontmatter 有效 | ✅ |
+| Linter（新技能） | ✅ 0 FAIL 0 WARN |
+| validate_skills.py | 158 技能，0 错 10 警，PASSED ✅ |
+| Linter（全量） | 158 真实技能全 PASS ✅ |
+| build.py | 39 zip，158 技能，2.34MB ✅ |
+| build_site.py | 158 技能 / 38 包 / 19 域 / 68 链 ✅ |
+
+### 6. 待用户确认的后续方向
+10 个强候选中仅落地 1 个试点。其余 9 个（决策去偏、装修避坑、就医指导、购车保养、租房合同、困难对话、以及社交沟通类的进一步拆分）待用户确认优先级后分批落地。建议优先顺序：决策去偏（元技能，补偿 AI 自身谄媚）→ 装修避坑（最高金额风险）→ 就医指导（最高频）。

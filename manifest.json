@@ -362,6 +362,22 @@
       "sha256": "3050bcdf417642d904633ac31234511b1544021f62bace3e21e383db283aee6f"
     },
     {
+      "id": "communication-essentials",
+      "name": "Communication Essentials",
+      "name_zh": "沟通必备",
+      "description": "Tactful Chinese social and workplace communication scripts, etiquette, and subtext decoding.",
+      "description_zh": "得体的中文社交与职场沟通话术、礼仪与潜台词解读。",
+      "skills": [
+        {
+          "name": "tactful-communication",
+          "source": "original"
+        }
+      ],
+      "size_kb": 13,
+      "sha256": "397dddf9222685cc6e3752afffd982f7d41edc98da91547add789a056151245f",
+      "updated": ""
+    },
+    {
       "id": "containers",
       "name": "Containers & Orchestration",
       "name_zh": "容器与编排",
