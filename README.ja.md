@@ -3,13 +3,13 @@
 <h1 align="center">awesome-skillkit</h1>
 
 <p align="center">
-  <b>36 の実務シーンパック · 154 の厳選スキル · 解凍してドロップイン——<br>AI ツールが即座に仕事を覚えます。</b>
+  <b>37 の実務シーンパック · 156 の厳選スキル · 解凍してドロップイン——<br>AI ツールが即座に仕事を覚えます。</b>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
-  <img src="https://img.shields.io/badge/skills-154-brightgreen?style=flat-square" alt="Skills" />
-  <img src="https://img.shields.io/badge/packs-36-blue?style=flat-square" alt="Packs" />
+  <img src="https://img.shields.io/badge/skills-156-brightgreen?style=flat-square" alt="Skills" />
+  <img src="https://img.shields.io/badge/packs-37-blue?style=flat-square" alt="Packs" />
   <img src="https://img.shields.io/badge/version-0.22.0-success?style=flat-square" alt="Version" />
 </p>
 
@@ -76,7 +76,7 @@ flowchart LR
 
 > パック別 zip は `python3 build.py` で再ビルドされ、すべての GitHub Release に添付されます。GitCode / Gitee ミラーは同一タグをプッシュし、同一アセットをアップロードしています。
 
-## シナリオパック一覧（全 36 パック）
+## シナリオパック一覧（全 37 パック）
 
 以下が完全なカタログです。各行はパックフォルダへのリンクになっており、スキル列には同梱されるすべての `SKILL.md` を列挙しています。
 
@@ -103,7 +103,7 @@ flowchart LR
 | [`github-workflow`](packs/github-workflow) | GitHub Collaboration | GitHubコラボレーション | 3 | `git-worktree-manager`, `changelog-generator`, `code-reviewer` |
 | [`growth-marketing`](packs/growth-marketing) | Growth Marketing | グロースマーケティング | 3 | `product-copywriter`, `campaign-designer`, `channel-adapter` |
 | [`homework-autopilot`](packs/homework-autopilot) | Homework Autopilot | 宿題オートパイロット | 3 | `assignment-intake`, `solution-drafter`, `own-voice-rewrite` |
-| [`image-studio`](packs/image-studio) | Image Studio | 画像生成ワークベンチ | 3 | `image-prompt-engineer`, `image-generation`, `visual-style-anchor` |
+| [`image-studio`](packs/image-studio) | Image Studio | 画像生成ワークベンチ | 4 | `image-prompt-engineer`, `image-generation`, `visual-style-anchor`, `image-batch-processor` |
 | [`incident-response`](packs/incident-response) | Incident Response & SRE | 障害対応とSRE | 3 | `incident-commander`, `runbook-generator`, `slo-architect` |
 | [`infrastructure`](packs/infrastructure) | Infrastructure as Code | インフラ as Code | 3 | `terraform-patterns`, `observability-designer`, `kubernetes-operator` |
 | [`knowledge-base`](packs/knowledge-base) | Knowledge Base | パーソナル知識ベース | 2 | `personal-wiki`, `knowledge-graph-builder` |
@@ -117,6 +117,7 @@ flowchart LR
 | [`video-design-studio`](packs/video-design-studio) | Video Design Studio | 動画デザインスタジオ | 5 | `storyboard-designer`, `shot-designer`, `visual-style-anchor`, `transition-designer`, `motion-effects-designer` |
 | [`viral-entertainment`](packs/viral-entertainment) | Viral Entertainment | バズるエンタメシナリオ | 2 | `ai-baby-podcast`, `nailong-laugh-shorts` |
 | [`visual-design-studio`](packs/visual-design-studio) | Visual Design Studio | ビジュアルデザインスタジオ | 5 | `design-brief-interpreter`, `image-prompt-engineer`, `layout-spec-auditor`, `frontend-design-director`, `frontend-component-lab` |
+| [`web-ops`](packs/web-ops) | Web Operations | ウェブ操作 | 1 | `web-data-extractor` |
 | [`workspace-integrations`](packs/workspace-integrations) | Workspace Integrations | 外部連携ツールボックス | 4 | `notion-workspace`, `feishu-dingtalk-bridge`, `issue-tracker-sync`, `cloud-drive-manager` |
 
 > 一部のスキル（例: `api-design-reviewer`、`kubernetes-operator`、`image-generation`）は複数のパックに登場しますが、シナリオをまたいで再利用されるためです——意図的な設計です。

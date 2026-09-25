@@ -1,7 +1,7 @@
 {
   "hub": "awesome-skillkit",
   "version": "0.22.0",
-  "updated": "2026-09-24",
+  "updated": "2026-09-25",
   "description": "Curated scene packs for AI tools: each pack = one real-world scenario, containing multiple skills. Download zip -> unzip -> drag the skill folders into your AI tool's skills directory.",
   "description_zh": "精选场景包合集：每个场景包 = 一个真实场景，内含多个 skill。下载 zip -> 解压 -> 把 skill 文件夹拖进 AI 工具的 skills 目录即可使用。",
   "source_notes": {
@@ -39,7 +39,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "aeb53d4f5f67a6cbb44c385776fd08619c2aaf3fc7a3761f5ab3cc21fade9d0e"
+      "sha256": "5c8b33668d4c7145fa48bc9ce06c13ee6d37ab89ff8d63b08abc022200f7117b"
     },
     {
       "id": "ai-media-toolkit",
@@ -195,7 +195,7 @@
         }
       ],
       "size_kb": 110,
-      "sha256": "ae60e79763f55f439d1ad6d7f50b63e7083200ae16b1346ed375591cccb6465c"
+      "sha256": "6f4720044ec3833e290d18570eb399fe1ba4df47c0e0a91756332a6fb56c9128"
     },
     {
       "id": "api-development",
@@ -467,7 +467,7 @@
           "source": "existing (video)"
         }
       ],
-      "sha256": "ddf7b4eac02229e1069fe096d63bd0199ae73b1c7f82fc730f8c8003b651bb5a"
+      "sha256": "36f2dd946cab0d8cd4c6a305906bd83b7bb6a1272c8a8c0b1b3fccc2463a5d25"
     },
     {
       "id": "data-ml-science",
@@ -527,7 +527,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "df24335d1eb82db93b3f9187a6b1db6bb64220f28133a001b8c9dd6badf1c771"
+      "sha256": "2736326aee77d92bc36c37c3f0e1f7d6288d0c8f475870b2a8b0ca125ec5eebe"
     },
     {
       "id": "dataviz-studio",
@@ -688,10 +688,14 @@
         {
           "name": "visual-style-anchor",
           "source": "existing (video)"
+        },
+        {
+          "name": "image-batch-processor",
+          "source": "self-authored"
         }
       ],
-      "size_kb": 37,
-      "sha256": "fc9d616dcd51ddb52e1da4963acaac4e25680d8ea92001b93661cc8b633623c7"
+      "size_kb": 47,
+      "sha256": "d841ba47fd7103dbfa46ac2ceb7c3d9d229dc6ab07a5144cf56783344447c676"
     },
     {
       "id": "incident-response",
@@ -915,7 +919,7 @@
         }
       ],
       "size_kb": 48,
-      "sha256": "031958c9cabfe2dca3867f1bb9c689646f707213d44e173e9053c9a6ba3b4520"
+      "sha256": "bf2ac285e8495955e6129b463fbcf45add36fe874c55e1c4bf867a2eea0577bf"
     },
     {
       "id": "tdd",
@@ -1011,7 +1015,7 @@
         }
       ],
       "size_kb": 49,
-      "sha256": "3adff402f0bbb10e5deef906cb793f76e949beb411df9777cc4389469b9ee6ae"
+      "sha256": "2383db64027bc33cca5b70d75d261526b0be69a5421bf28f82c87edb3dcd43ef"
     },
     {
       "id": "viral-entertainment",
@@ -1064,6 +1068,22 @@
       ],
       "size_kb": 46,
       "sha256": "8c2664bf774505f2ee7b8def3533f1e06c5b3111def206896ded055e667e3ffa"
+    },
+    {
+      "id": "web-ops",
+      "name": "Web Operations",
+      "name_zh": "网页操作",
+      "description": "Polite, dry-run-first extraction of structured data from static websites: CSS-selector field mapping, pagination, rate limiting, and CSV/JSON output.",
+      "description_zh": "礼貌、先预览的静态网页结构化数据提取：CSS 选择器字段映射、自动翻页、速率限制、CSV/JSON 输出。",
+      "file": "dist/web-ops.zip",
+      "skills": [
+        {
+          "name": "web-data-extractor",
+          "source": "self-authored"
+        }
+      ],
+      "size_kb": 8,
+      "sha256": "7dee58c9729a8298f5c4eb4461fbaa12526363a6f241d276e1cb900738921e01"
     },
     {
       "id": "workspace-integrations",

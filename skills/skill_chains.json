@@ -51,7 +51,8 @@
         "changelog-generator",
         "git-worktree-manager",
         "webapp-flow-tester",
-        "webapp-e2e-harness"
+        "webapp-e2e-harness",
+        "web-data-extractor"
       ],
       "chains": {
         "full_project": [
@@ -141,6 +142,11 @@
         "web_flow_test": [
           "tdd-guide?",
           "webapp-flow-tester"
+        ],
+        "web_data_pipeline": [
+          "web-data-extractor",
+          "etl-builder",
+          "feature-engineer"
         ]
       }
     },
@@ -275,7 +281,8 @@
         "image-prompt-engineer",
         "layout-spec-auditor",
         "frontend-design-director",
-        "frontend-component-lab"
+        "frontend-component-lab",
+        "image-batch-processor"
       ],
       "chains": {
         "cover": [
@@ -306,6 +313,9 @@
         "frontend_design": [
           "design-brief-interpreter?",
           "frontend-design-director"
+        ],
+        "batch_asset_prep": [
+          "image-batch-processor"
         ]
       }
     },

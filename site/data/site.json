@@ -2,14 +2,14 @@
  "meta": {
   "hub": "awesome-skillkit",
   "version": "0.22.0",
-  "updated": "2026-09-24",
+  "updated": "2026-09-25",
   "desc": "Curated scene packs for AI tools: each pack = one real-world scenario, containing multiple skills. Download zip -> unzip -> drag the skill folders into your AI tool's skills directory.",
   "desc_zh": "精选场景包合集：每个场景包 = 一个真实场景，内含多个 skill。下载 zip -> 解压 -> 把 skill 文件夹拖进 AI 工具的 skills 目录即可使用。",
-  "n_skills": 153,
-  "n_skills_on_disk": 155,
-  "n_packs": 36,
+  "n_skills": 155,
+  "n_skills_on_disk": 157,
+  "n_packs": 37,
   "n_domains": 18,
-  "n_chains": 62,
+  "n_chains": 64,
   "github": {
    "repo": "x33834/awesome-skillkit",
    "url": "https://github.com/x33834/awesome-skillkit",
@@ -93,8 +93,8 @@
    "id": "design",
    "label": "design",
    "entry": "",
-   "n_skills": 5,
-   "n_chains": 6,
+   "n_skills": 6,
+   "n_chains": 7,
    "chains": [
     {
      "name": "banner",
@@ -102,6 +102,12 @@
       "design-brief-interpreter",
       "image-prompt-engineer",
       "layout-spec-auditor"
+     ]
+    },
+    {
+     "name": "batch_asset_prep",
+     "steps": [
+      "image-batch-processor"
      ]
     },
     {
@@ -454,8 +460,8 @@
    "id": "programming",
    "label": "programming",
    "entry": "",
-   "n_skills": 47,
-   "n_chains": 13,
+   "n_skills": 48,
+   "n_chains": 14,
    "chains": [
     {
      "name": "api_design",
@@ -575,6 +581,14 @@
       "observability-designer",
       "runbook-generator",
       "incident-commander"
+     ]
+    },
+    {
+     "name": "web_data_pipeline",
+     "steps": [
+      "web-data-extractor",
+      "etl-builder",
+      "feature-engineer"
      ]
     },
     {
@@ -1848,6 +1862,25 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/humanize-rewriter/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/humanize-rewriter/SKILL.md"
+  },
+  {
+   "name": "image-batch-processor",
+   "domain": "design",
+   "path": "skills/design/image-batch-processor",
+   "file": "skills/design/image-batch-processor/SKILL.md",
+   "desc": ">-",
+   "license": "Apache-2.0",
+   "compatibility": "Python 3.8+; requires Pillow (pip install pillow). --ocr additionally needs pytesseract and a tesseract binary; it degrades to a warning if absent. Reads inputs, writes only to --output; originals are never modified.",
+   "version": "1.0",
+   "tier": "",
+   "pattern": "",
+   "verified": "2026-09-25",
+   "repo_file": "skills/design/image-batch-processor/SKILL.md",
+   "packs": [
+    "image-studio"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/design/image-batch-processor/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/design/image-batch-processor/SKILL.md"
   },
   {
    "name": "image-generation",
@@ -3473,6 +3506,25 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/video/visual-style-anchor/SKILL.md"
   },
   {
+   "name": "web-data-extractor",
+   "domain": "programming",
+   "path": "skills/programming/web-data-extractor",
+   "file": "skills/programming/web-data-extractor/SKILL.md",
+   "desc": ">-",
+   "license": "Apache-2.0",
+   "compatibility": "Python 3.8+; requires requests and beautifulsoup4 (pip install requests beautifulsoup4). CSV/JSON output uses stdlib. Needs network access to the target site; respects a configurable delay between pages.",
+   "version": "1.0",
+   "tier": "",
+   "pattern": "",
+   "verified": "2026-09-25",
+   "repo_file": "skills/programming/web-data-extractor/SKILL.md",
+   "packs": [
+    "web-ops"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/web-data-extractor/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/web-data-extractor/SKILL.md"
+  },
+  {
    "name": "web-search",
    "domain": "programming",
    "path": "skills/programming/planning/web-search",
@@ -4070,12 +4122,13 @@
    "name_zh": "画图工作台",
    "desc": "End-to-end image creation workspace: prompt engineering, style anchoring, generation via gateway, cover art.",
    "desc_zh": "端到端画图工作台：生图提示词工程、风格锚定、网关生图执行、封面图生成。把散落的生图技能组装成一条龙。",
-   "size_kb": 37,
-   "n_skills": 3,
+   "size_kb": 47,
+   "n_skills": 4,
    "skills": [
     "image-prompt-engineer",
     "image-generation",
-    "visual-style-anchor"
+    "visual-style-anchor",
+    "image-batch-processor"
    ],
    "local_url": "packs/image-studio.zip",
    "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/image-studio.zip",
@@ -4343,6 +4396,23 @@
    "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/visual-design-studio.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
    "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/visual-design-studio.zip",
+   "dist_exists": true
+  },
+  {
+   "id": "web-ops",
+   "name": "Web Operations",
+   "name_zh": "网页操作",
+   "desc": "Polite, dry-run-first extraction of structured data from static websites: CSS-selector field mapping, pagination, rate limiting, and CSV/JSON output.",
+   "desc_zh": "礼貌、先预览的静态网页结构化数据提取：CSS 选择器字段映射、自动翻页、速率限制、CSV/JSON 输出。",
+   "size_kb": 8,
+   "n_skills": 1,
+   "skills": [
+    "web-data-extractor"
+   ],
+   "local_url": "packs/web-ops.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/web-ops.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/web-ops.zip",
    "dist_exists": true
   },
   {

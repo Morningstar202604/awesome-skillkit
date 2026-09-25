@@ -3,13 +3,13 @@
 <h1 align="center">awesome-skillkit</h1>
 
 <p align="center">
-  <b>36 个真实场景包 · 154 个精选技能 · 解压即用——<br>把整套工作能力，一次交给你的 AI 工具。</b>
+  <b>37 个真实场景包 · 156 个精选技能 · 解压即用——<br>把整套工作能力，一次交给你的 AI 工具。</b>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
-  <img src="https://img.shields.io/badge/skills-154-brightgreen?style=flat-square" alt="Skills" />
-  <img src="https://img.shields.io/badge/packs-36-blue?style=flat-square" alt="Packs" />
+  <img src="https://img.shields.io/badge/skills-156-brightgreen?style=flat-square" alt="Skills" />
+  <img src="https://img.shields.io/badge/packs-37-blue?style=flat-square" alt="Packs" />
   <img src="https://img.shields.io/badge/version-0.22.0-success?style=flat-square" alt="Version" />
 </p>
 
@@ -75,7 +75,7 @@ flowchart LR
 
 > 每个包的 zip 由 `python3 build.py` 构建，并随每次 GitHub Release 一起发布；GitCode / Gitee 镜像推送相同标签并上传相同资源。
 
-## 场景包目录（全部 36 个）
+## 场景包目录（全部 37 个）
 
 下表是完整目录。每行链接到对应包目录，技能列列出了包内打包的全部 `SKILL.md`。
 
@@ -102,7 +102,7 @@ flowchart LR
 | [`github-workflow`](packs/github-workflow) | **GitHub 协作工作流** | GitHub Collaboration | 3 | `git-worktree-manager`, `changelog-generator`, `code-reviewer` |
 | [`growth-marketing`](packs/growth-marketing) | **增长营销** | Growth Marketing | 3 | `product-copywriter`, `campaign-designer`, `channel-adapter` |
 | [`homework-autopilot`](packs/homework-autopilot) | **作业自动驾驶** | Homework Autopilot | 3 | `assignment-intake`, `solution-drafter`, `own-voice-rewrite` |
-| [`image-studio`](packs/image-studio) | **画图工作台** | Image Studio | 3 | `image-prompt-engineer`, `image-generation`, `visual-style-anchor` |
+| [`image-studio`](packs/image-studio) | **画图工作台** | Image Studio | 4 | `image-prompt-engineer`, `image-generation`, `visual-style-anchor`, `image-batch-processor` |
 | [`incident-response`](packs/incident-response) | **故障响应与 SRE** | Incident Response & SRE | 3 | `incident-commander`, `runbook-generator`, `slo-architect` |
 | [`infrastructure`](packs/infrastructure) | **基础设施即代码** | Infrastructure as Code | 3 | `terraform-patterns`, `observability-designer`, `kubernetes-operator` |
 | [`knowledge-base`](packs/knowledge-base) | **个人知识库** | Knowledge Base | 2 | `personal-wiki`, `knowledge-graph-builder` |
@@ -116,6 +116,7 @@ flowchart LR
 | [`video-design-studio`](packs/video-design-studio) | **视频设计工作室** | Video Design Studio | 5 | `storyboard-designer`, `shot-designer`, `visual-style-anchor`, `transition-designer`, `motion-effects-designer` |
 | [`viral-entertainment`](packs/viral-entertainment) | **爆款娱乐场景** | Viral Entertainment | 2 | `ai-baby-podcast`, `nailong-laugh-shorts` |
 | [`visual-design-studio`](packs/visual-design-studio) | **视觉设计工作室** | Visual Design Studio | 5 | `design-brief-interpreter`, `image-prompt-engineer`, `layout-spec-auditor`, `frontend-design-director`, `frontend-component-lab` |
+| [`web-ops`](packs/web-ops) | **网页操作** | Web Operations | 1 | `web-data-extractor` |
 | [`workspace-integrations`](packs/workspace-integrations) | **外部集成工具箱** | Workspace Integrations | 4 | `notion-workspace`, `feishu-dingtalk-bridge`, `issue-tracker-sync`, `cloud-drive-manager` |
 
 > 部分技能（如 `api-design-reviewer`、`kubernetes-operator`、`image-generation`）会出现在多个包中——这是有意为之，因为它们在不同场景下被复用。

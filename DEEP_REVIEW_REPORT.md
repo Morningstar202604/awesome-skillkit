@@ -447,3 +447,64 @@ All 36 packs assessed via full-process demand mapping. **One new skill created, 
 - `grammar-checks.md` 保留 351 中文字符（功能性正则+中文语法术语），如需严格零中文需将正则改为 Unicode 转义并将语法示例改为描述性英文——但会降低文档可读性
 - 官网实际浏览器预览未在沙箱中验证（无 GUI 环境），但 site.json 数据完整、下载链接路径正确
 - `lint_skill.py` 的 LANG-CJK 检查对英文技能报 WARN（body length 等），均为非阻塞性建议
+
+---
+
+## 第五轮：覆盖度审计 + 新增 2 技能 + 高级工具调研
+
+### 1. 线上操作场景覆盖度审计
+
+审计 20 类"AI 使用者线上高频操作"场景，对照 153 技能 + 业界 benchmark（Anthropic Agent Skills、aihero.dev、agnt.gg Top 100、DataCamp）：
+- **深度覆盖 10 类**：内容创作、搜索、数据表格、文件文档、编程、设计、自动化、社媒运营、知识管理、安全
+- **部分/弱覆盖 7 类**：邮件沟通、日程会议、电商、金融、网页采集、图片批处理、API 调用
+- **未覆盖但不需新增 3 类**：健康（高风险）、旅行（LLM 原生）、邮件管理（平台工具）
+
+报告存为 `COVERAGE_AUDIT.md`。
+
+### 2. 新增技能（用户授权执行）
+
+#### web-data-extractor（P0，网页数据采集）
+- 位置：`skills/programming/web-data-extractor/`
+- 新包：`packs/web-ops/`（第 37 个场景包）
+- 脚本：`scripts/extract.py`（requests + BeautifulSoup，CSS 选择器字段映射、自动翻页、速率限制、CSV/JSON 输出、dry-run）
+- 覆盖：结构化页面提取、分页、反爬处理、JS 渲染边界、合规（robots.txt/ToS/PII）
+- 验证：ast.parse ✅、YAML ✅、零中文 ✅、linter PASS ✅、dry-run 实测 ✅
+
+#### image-batch-processor（P1，图片批处理）
+- 位置：`skills/design/image-batch-processor/`
+- 归属：`image-studio` 包（3→4 技能）
+- 脚本：`scripts/batch_process.py`（Pillow，批量压缩/缩放/裁剪/水印/格式转换/OCR，dry-run 优先）
+- 覆盖：批量压缩、加水印（文字/图片/位置/透明度）、裁剪缩放、格式转换、OCR（pytesseract 可选）
+- 验证：ast.parse ✅、YAML ✅、零中文 ✅、linter PASS ✅、dry-run + 实测 ✅（损坏文件自动跳过）
+
+### 3. 索引同步
+- pack.json：新增 web-ops，image-studio 3→4
+- manifest.json：37 包，155 技能
+- skill_chains.json：新增 web_data_pipeline、batch_asset_prep 链路
+- README.md / README.zh-CN.md / README.ja.md：37 包目录表同步
+- build.py：38 zip（37 包 + _all.zip），155 技能，2.28MB
+- build_site.py：155 技能 / 37 包 / 18 域 / 64 链
+
+### 4. 高级工具调研（Task B）
+
+调研 45 个高级 agent 技能/工具模式（Anthropic 官方、aihero.dev、MCP 生态、多智能体编排），严格过滤后：
+- **无明显新增缺口**。业界"顶级技能"多为 API 封装（Slack/Gmail/HubSpot/Stripe/Shopify），属于平台/MCP 集成范畴，非工作流方法论技能
+- 8 个候选方向全部未通过过滤：浏览器自动化（平台有 computer_use_tool）、MCP 消费（运行时基础设施）、子智能体编排（session-handoff 已覆盖）、代码沙箱（平台提供）、GitHub 发布管理（changelog-generator + LLM 推理）、ETL/webhook（LLM 原生编程）、合同/文档智能（LLM 原生文本理解）、Issue 分诊（issue-tracker-sync + LLM 推理）
+- **2 个弱候选待观察**（暂不构建）：入站 webhook 接收模板（HMAC 验证）、PDF 表单填充（pdf-pipeline 自然扩展）
+- 报告存为 `ADVANCED_TOOLS_RESEARCH.md`
+
+### 5. 验证结果
+
+| 检查项 | 结果 |
+|--------|------|
+| SKILL.md 零中文 | 155/155 ✅ |
+| YAML frontmatter 有效 | 全部通过 ✅ |
+| validate_skills.py | 155 技能，0 错 0 警 ✅ |
+| Linter | 155 真实技能全 PASS（good-skill 夹具预期 FAIL）✅ |
+| build.py | 38 zip，155 技能，2.28MB ✅ |
+| build_site.py | 155/37/18/64 ✅ |
+| 新技能脚本 dry-run 实测 | extract.py + batch_process.py 均通过 ✅ |
+
+### 6. 未完成项 / 无法验证项
+- OCR 功能：pytesseract 未安装，脚本设计为缺失时警告降级，未实测 OCR 输出
+- 四平台推送：执行中

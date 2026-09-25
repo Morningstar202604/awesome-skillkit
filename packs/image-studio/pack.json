@@ -16,6 +16,10 @@
     {
       "name": "visual-style-anchor",
       "source": "existing (video)"
+    },
+    {
+      "name": "image-batch-processor",
+      "source": "self-authored"
     }
   ]
 }

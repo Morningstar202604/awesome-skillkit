@@ -3,13 +3,13 @@
 <h1 align="center">awesome-skillkit</h1>
 
 <p align="center">
-  <b>36 real-world scene packs · 154 curated skills · unzip &amp; drop-in —<br>your AI tool instantly knows the job.</b>
+  <b>37 real-world scene packs · 156 curated skills · unzip &amp; drop-in —<br>your AI tool instantly knows the job.</b>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
-  <img src="https://img.shields.io/badge/skills-154-brightgreen?style=flat-square" alt="Skills" />
-  <img src="https://img.shields.io/badge/packs-36-blue?style=flat-square" alt="Packs" />
+  <img src="https://img.shields.io/badge/skills-156-brightgreen?style=flat-square" alt="Skills" />
+  <img src="https://img.shields.io/badge/packs-37-blue?style=flat-square" alt="Packs" />
   <img src="https://img.shields.io/badge/version-0.22.0-success?style=flat-square" alt="Version" />
 </p>
 
@@ -75,7 +75,7 @@ flowchart LR
 
 > Per-pack zips are rebuilt by `python3 build.py` and attached to every GitHub Release; the GitCode / Gitee mirrors push the same tags and upload the same assets.
 
-## Scenario pack directory (all 36 packs)
+## Scenario pack directory (all 37 packs)
 
 Below is the complete catalog. Each row links to its pack folder; the skill column lists every `SKILL.md` shipped inside.
 
@@ -102,7 +102,7 @@ Below is the complete catalog. Each row links to its pack folder; the skill colu
 | [`github-workflow`](packs/github-workflow) | GitHub Collaboration | GitHub 协作工作流 | 3 | `git-worktree-manager`, `changelog-generator`, `code-reviewer` |
 | [`growth-marketing`](packs/growth-marketing) | Growth Marketing | 增长营销 | 3 | `product-copywriter`, `campaign-designer`, `channel-adapter` |
 | [`homework-autopilot`](packs/homework-autopilot) | Homework Autopilot | 作业自动驾驶 | 3 | `assignment-intake`, `solution-drafter`, `own-voice-rewrite` |
-| [`image-studio`](packs/image-studio) | Image Studio | 画图工作台 | 3 | `image-prompt-engineer`, `image-generation`, `visual-style-anchor` |
+| [`image-studio`](packs/image-studio) | Image Studio | 画图工作台 | 4 | `image-prompt-engineer`, `image-generation`, `visual-style-anchor`, `image-batch-processor` |
 | [`incident-response`](packs/incident-response) | Incident Response & SRE | 故障响应与 SRE | 3 | `incident-commander`, `runbook-generator`, `slo-architect` |
 | [`infrastructure`](packs/infrastructure) | Infrastructure as Code | 基础设施即代码 | 3 | `terraform-patterns`, `observability-designer`, `kubernetes-operator` |
 | [`knowledge-base`](packs/knowledge-base) | Knowledge Base | 个人知识库 | 2 | `personal-wiki`, `knowledge-graph-builder` |
@@ -116,6 +116,7 @@ Below is the complete catalog. Each row links to its pack folder; the skill colu
 | [`video-design-studio`](packs/video-design-studio) | Video Design Studio | 视频设计工作室 | 5 | `storyboard-designer`, `shot-designer`, `visual-style-anchor`, `transition-designer`, `motion-effects-designer` |
 | [`viral-entertainment`](packs/viral-entertainment) | Viral Entertainment | 爆款娱乐场景 | 2 | `ai-baby-podcast`, `nailong-laugh-shorts` |
 | [`visual-design-studio`](packs/visual-design-studio) | Visual Design Studio | 视觉设计工作室 | 5 | `design-brief-interpreter`, `image-prompt-engineer`, `layout-spec-auditor`, `frontend-design-director`, `frontend-component-lab` |
+| [`web-ops`](packs/web-ops) | Web Operations | 网页操作 | 1 | `web-data-extractor` |
 | [`workspace-integrations`](packs/workspace-integrations) | Workspace Integrations | 外部集成工具箱 | 4 | `notion-workspace`, `feishu-dingtalk-bridge`, `issue-tracker-sync`, `cloud-drive-manager` |
 
 > Some skills (e.g. `api-design-reviewer`, `kubernetes-operator`, `image-generation`) appear in more than one pack because they are reused across scenarios — that is intentional.

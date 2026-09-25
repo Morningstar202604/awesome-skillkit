@@ -1,0 +1,10 @@
+{
+  "id": "web-ops",
+  "name": "Web Operations",
+  "name_zh": "网页操作",
+  "description": "Polite, dry-run-first extraction of structured data from static websites: CSS-selector field mapping, pagination, rate limiting, and CSV/JSON output.",
+  "description_zh": "礼貌、先预览的静态网页结构化数据提取：CSS 选择器字段映射、自动翻页、速率限制、CSV/JSON 输出。",
+  "skills": [
+    { "name": "web-data-extractor", "source": "self-authored" }
+  ]
+}
