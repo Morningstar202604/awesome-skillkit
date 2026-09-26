@@ -77,12 +77,12 @@ FENCE_RE = re.compile(r"^\s*```")
 H2_RE = re.compile(r"^##\s+(.+?)\s*$")
 REF_LINK_RE = re.compile(r"`(references/[A-Za-z0-9._\-/]+\.md)`")
 REF_BULLET_RE = re.compile(r"^\s*[-*]\s+`?(references/[A-Za-z0-9._\-/]+\.md)")
-#: When a directory name appears in this set it is not a skill directory and is
-#: skipped (so templates/shared snippets are not reported as broken skills).
-#: Note: **does not include `assets`** — `skills/writing/assets/ai-cover-generator`
-#: is a real skill referenced by three packs; skipping it would let it escape lint
-#: forever (consistent with validate_skills.py).
-SKIP_DIR_NAMES = {"_common", "__pycache__", "templates"}
+#: When a directory name appears in this set it is not a shipped skill and is
+#: skipped in batch scans (shared modules, templates, and examples/ fixtures such
+#: as skill-tester's good-skill, which is validated against skill-tester's own
+#: spec). Direct file/dir targets bypass this skip so fixtures can still be
+#: linted explicitly. `assets` is deliberately not listed.
+SKIP_DIR_NAMES = {"_common", "__pycache__", "templates", "examples"}
 
 
 class Finding:

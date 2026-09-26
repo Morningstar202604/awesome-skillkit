@@ -50,8 +50,9 @@ The parser implements only a minimal YAML subset (scalars / folded blocks / lite
 | `name: Video Gen` | FAIL: does not match kebab-case regex |
 
 Directory comparison uses the immediate parent directory name of `SKILL.md`. During batch scanning,
-`SKILL.md` under `_common/`, `assets/`, `templates/`, `__pycache__/` is skipped—same-named files in these
-locations are examples or shared modules, not the skill itself.
+`SKILL.md` under `_common/`, `templates/`, `__pycache__/`, `examples/`, or any `sample-*` directory
+is skipped — files in these locations are fixtures, examples, or shared modules, not shipped
+skills. Passing a file or skill directory directly always lints it, skips notwithstanding.
 
 ### DESC-ROUTE
 
