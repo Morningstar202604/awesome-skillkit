@@ -3,6 +3,17 @@
 Chinese workplace communication favors the bottom line up front, deference in
 public, and written follow-through. Below are reusable scripts.
 
+## Table of Contents
+
+- [1. Three-part report (三段式汇报)](#1-three-part-report-三段式汇报)
+- [2. Pushback framing](#2-pushback-framing)
+- [3. Meeting rules](#3-meeting-rules)
+- [4. Declining extra work from the boss](#4-declining-extra-work-from-the-boss)
+- [5. Managing up (向上管理)](#5-managing-up-向上管理)
+- [6. Dual-manager conflict (两个领导)](#6-dual-manager-conflict-两个领导)
+- [7. Meeting timing and in-meeting rules](#7-meeting-timing-and-in-meeting-rules)
+- [8. Reporting bad news (汇报坏消息)](#8-reporting-bad-news-汇报坏消息)
+
 ## 1. Three-part report (三段式汇报)
 
 **Formula:** conclusion in one sentence → evidence / data → decision request.

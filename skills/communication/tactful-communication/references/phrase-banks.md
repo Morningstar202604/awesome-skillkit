@@ -8,6 +8,18 @@
 
 ---
 
+## Table of Contents
+
+- [1. Decline (拒绝) — the sandwich](#1-decline-拒绝--the-sandwich)
+- [2. Comfort (安慰) — observe + acknowledge + presence, NO advice](#2-comfort-安慰--observe--acknowledge--presence-no-advice)
+- [3. Apology (道歉) — specific behavior + impact + remedy](#3-apology-道歉--specific-behavior--impact--remedy)
+- [4. Criticism / Feedback (批评/反馈) — behavior not person + joint solving + blocker inquiry](#4-criticism--feedback-批评反馈--behavior-not-person--joint-solving--blocker-inquiry)
+- [5. Asking for a raise / promotion (谈薪/晋升)](#5-asking-for-a-raise--promotion-谈薪晋升)
+- [6. Declining a social invitation (婉拒社交)](#6-declining-a-social-invitation-婉拒社交)
+- [7. Giving feedback to a peer (同级反馈)](#7-giving-feedback-to-a-peer-同级反馈)
+- [8. Receiving criticism (接受批评)](#8-receiving-criticism-接受批评)
+- [9. Networking / cold outreach (社交破冰)](#9-networking--cold-outreach-社交破冰)
+
 ## 1. Decline (拒绝) — the sandwich
 
 **Formula:** affirmation of the request/relationship + honest reason + an

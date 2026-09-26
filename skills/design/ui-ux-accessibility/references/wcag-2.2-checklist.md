@@ -6,6 +6,14 @@ manually. Source: W3C WCAG 2.2 Recommendation (W3C Document License).
 
 ---
 
+## Table of Contents
+
+- [Perceivable](#perceivable)
+- [Operable](#operable)
+- [Understandable](#understandable)
+- [Robust](#robust)
+- [AAA Bonus Numbers (if requested)](#aaa-bonus-numbers-if-requested)
+
 ## Perceivable
 
 ### 1.1.1 Non-text Content (A)

@@ -3,6 +3,17 @@
 Hard-number tables for modular type scales, line height, letter spacing, and line
 length. All px values computed from a 16px base unless noted.
 
+## Table of Contents
+
+- [Modular Ratios](#modular-ratios)
+- [Full Type Scale Tables (16px base)](#full-type-scale-tables-16px-base)
+- [Line Height by Element](#line-height-by-element)
+- [Letter Spacing (Tracking)](#letter-spacing-tracking)
+- [Max Line Length (Measure)](#max-line-length-measure)
+- [Paragraph Spacing](#paragraph-spacing)
+- [Font Pairing Rules](#font-pairing-rules)
+- [Sources](#sources)
+
 ## Modular Ratios
 
 | Ratio | Name | Character | Best For |

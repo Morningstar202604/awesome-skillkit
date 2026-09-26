@@ -4,6 +4,18 @@ Hard-number tables for responsive breakpoint comparison across frameworks,
 navigation pattern transitions, container queries vs media queries, and design
 token hierarchy with naming conventions.
 
+## Table of Contents
+
+- [Responsive Breakpoint Comparison](#responsive-breakpoint-comparison)
+- [Container Max Widths](#container-max-widths)
+- [Navigation Pattern Transitions](#navigation-pattern-transitions)
+- [Media Queries vs Container Queries](#media-queries-vs-container-queries)
+- [Mobile-First Approach](#mobile-first-approach)
+- [Design Token Hierarchy](#design-token-hierarchy)
+- [Token Naming Convention](#token-naming-convention)
+- [Token Categories Checklist](#token-categories-checklist)
+- [Sources](#sources)
+
 ## Responsive Breakpoint Comparison
 
 ### Mobile-first min-width breakpoints

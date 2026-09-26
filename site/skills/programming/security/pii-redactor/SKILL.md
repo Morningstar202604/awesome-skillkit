@@ -37,7 +37,7 @@ it does not touch keys, does no encryption, and does not go online.
 | PII classes | No | All 8 by default; a subset can be specified (e.g. only redact `id_card` + `phone`) |
 | Redaction strategy | No | `mask` (keep first/last 1-4 chars) / `hash` (first 8 chars of SHA-256) / `replace` (substitute a placeholder), default `mask` |
 | Output file | No | Path for the redacted result; defaults to `<original>.redacted` |
-| Dry run | No | `--dry-run` (on by default): only report hits, write no file |
+| Dry run | No | On by default: only report hits, write no file. Pass `--execute` to persist; `--dry-run` is kept as an explicit no-op |
 
 (Missing-input prompt template: "Please provide: (1) the file or directory path to scan; (2) the PII classes to redact (default all 8); (3) the redaction strategy (mask / hash / replace, default mask). Everything else uses defaults: dry-run on, output `<original>.redacted".)
 
@@ -58,7 +58,7 @@ Expected: get a file list (for a directory, recurse over `*.log *.txt *.json *.c
 On failure: the path does not exist → report `PATH NOT FOUND: <path>` and stop.
 
 ### Step 2: Dry-run scan (default)
-Run `scripts/pii_scan.py --dry-run <path> [--categories phone,id_card]`.
+Run `scripts/pii_scan.py <path> [--categories phone,id_card]`.
 Expected: stdout prints one hit per line `L<line>\t<category>\t<redacted preview of original>\t<file>`; the last line is `SUMMARY: N hits across M files`.
 On failure: the script reports `SYNTAX` or a missing dependency → see the failure-handling table.
 
@@ -68,7 +68,7 @@ Expected: false-positive rate <10%; if a class has high false positives → tigh
 On failure: severe false positives → use `--categories` to keep only high-confidence classes, then rerun Step 2.
 
 ### Step 4: Persist the redaction (non-dry-run)
-After confirmation, run `scripts/pii_scan.py <path> --strategy mask --out <output file>` (drop `--dry-run`).
+After confirmation, run `scripts/pii_scan.py <path> --strategy mask --out <output file> --execute`.
 Expected: stdout shows `REDACTED: <output file> (N hits masked)`, and the source file's bytes are unchanged (verify with `diff` or `git status`).
 On failure: the output directory is not writable → report `PERM` and suggest changing `--out` to a writable path.
 
@@ -118,10 +118,10 @@ On failure: the output directory is not writable → report `PERM` and suggest c
 ## Delivery Criteria
 
 - dry-run: stdout hit list + `SUMMARY` line, nothing persisted.
-- non-dry-run: produce `<output file>` (default `<original>.redacted`), stdout `REDACTED: <file> (N hits)`.
+- with `--execute`: produce `<output file>` (default `<original>.redacted`), stdout `REDACTED: <file> (N hits)`.
 - Verification method: rerun dry-run on the output file; hit count should be 0 (strong-check classes); the source file shows no `git diff`.
 
 ## References
 
 - `references/pii-rules.md` — the full regex set for the 8 PII classes, checksum algorithms (Luhn / ID-card mod11), false-positive case comparisons, and JSON/escaped-text preprocessing.
-- `scripts/pii_scan.py` — the execution entry point: `--dry-run` reports, `--out` persists redaction, `--categories` selection, `--no-heuristics` tightening. Run it rather than hand-copying the algorithms.
+- `scripts/pii_scan.py` — the execution entry point: reports hits by default (dry-run), `--execute` persists redaction to `--out`, `--categories` selection, `--no-heuristics` tightening. Run it rather than hand-copying the algorithms.

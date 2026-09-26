@@ -18,9 +18,17 @@
 """
 import argparse
 import json
+import os
 import re
 import sys
 from pathlib import Path
+
+
+def write_text_lf(path: Path, text: str) -> None:
+    """LF + 原子写：构建中途失败不会把已提交的站点文件截断成半截。"""
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(text, encoding="utf-8", newline="\n")
+    os.replace(tmp, path)
 
 SCRIPT_DIR = Path(__file__).resolve().parent.parent
 SKILLS_DIR = SCRIPT_DIR / "skills"
@@ -197,7 +205,8 @@ def collect(github_repo: str, gitcode_repo: str, gitee_repo: str,
             "desc": manifest.get("description", ""),
             "desc_zh": manifest.get("description_zh", ""),
             "n_skills": len(skills),
-            # 磁盘 SKILL.md 总数：含 sample-skill 等不入包模板，与 README 徽章口径一致
+            # 磁盘 SKILL.md 总数：含 good-skill / sample-skill 等不入包夹具；
+            # README 徽章与站点标题用的是 n_skills，此值仅供 diff 参考
             "n_skills_on_disk": len(list(SKILLS_DIR.rglob("SKILL.md"))),
             "n_packs": len(packs),
             "n_domains": len(domains),
@@ -212,6 +221,41 @@ def collect(github_repo: str, gitcode_repo: str, gitee_repo: str,
         "skills": skills,
         "packs": packs,
     }
+
+
+# index.html 里 4 处静态计数锚点。锚点缺失 = 页面结构已变，fail-closed 报错，
+# 避免计数再次静默漂移（历史上曾长期显示 153/36/18/62）。
+INDEX_COUNT_ANCHORS = (
+    (r"— \d+ Skills & \d+ Scene Packs",
+     "— {n_skills} Skills & {n_packs} Scene Packs"),
+    (r"\d+ curated SKILL\.md files and \d+ scene packs \(zips\) for AI coding tools, "
+     r"across \d+ domains and \d+ skill chains",
+     "{n_skills} curated SKILL.md files and {n_packs} scene packs (zips) for AI coding "
+     "tools, across {n_domains} domains and {n_chains} skill chains"),
+    (r"\d+ skills · \d+ scene packs · \d+ domains · \d+ skill chains",
+     "{n_skills} skills · {n_packs} scene packs · {n_domains} domains · {n_chains} skill chains"),
+    (r"\d+ 个场景包", "{n_packs} 个场景包"),
+)
+
+
+def inject_index_counts(out_dir: Path, meta: dict) -> int:
+    """把 index.html 的静态计数改写为与 site.json meta 同源；重复运行幂等。"""
+    page = out_dir / "index.html"
+    if not page.is_file():
+        print(f"WARN: {page} 不存在，跳过计数注入", file=sys.stderr)
+        return 0
+    text = page.read_text(encoding="utf-8")
+    missing = []
+    for pattern, repl in INDEX_COUNT_ANCHORS:
+        text, n = re.subn(pattern, repl.format(**meta), text)
+        if n == 0:
+            missing.append(pattern)
+    if missing:
+        raise SystemExit(
+            "index.html 计数锚点缺失（页面结构已变？）: " + " | ".join(missing)
+        )
+    write_text_lf(page, text)
+    return len(INDEX_COUNT_ANCHORS)
 
 
 def main(argv: list[str]) -> int:
@@ -230,8 +274,9 @@ def main(argv: list[str]) -> int:
     data = collect(args.github_repo, args.gitcode_repo, args.gitee_repo, dist_dir)
 
     (out_dir / "data").mkdir(parents=True, exist_ok=True)
-    (out_dir / "data" / "site.json").write_text(
-        json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+    write_text_lf(out_dir / "data" / "site.json",
+                  json.dumps(data, ensure_ascii=False, indent=1))
+    inject_index_counts(out_dir, data["meta"])
 
     # SKILL.md 副本
     copied = 0
@@ -240,7 +285,7 @@ def main(argv: list[str]) -> int:
             src = SCRIPT_DIR / skill["repo_file"]
             dst = out_dir / skill["file"]
             dst.parent.mkdir(parents=True, exist_ok=True)
-            dst.write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
+            dst.write_text(src.read_text(encoding="utf-8"), encoding="utf-8", newline="\n")
             copied += 1
 
     # zip 副本（站内镜像）

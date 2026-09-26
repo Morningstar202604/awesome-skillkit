@@ -6,6 +6,15 @@ to avoid.
 
 ---
 
+## Table of Contents
+
+- [Overlay Patterns](#overlay-patterns)
+- [Content Organization](#content-organization)
+- [Form & Input Patterns](#form--input-patterns)
+- [Navigation Patterns](#navigation-patterns)
+- [Feedback Patterns](#feedback-patterns)
+- [Platform-Specific Target Size Rules](#platform-specific-target-size-rules)
+
 ## Overlay Patterns
 
 ### Modal Dialog

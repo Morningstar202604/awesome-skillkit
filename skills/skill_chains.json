@@ -156,6 +156,8 @@
         "visual-style-anchor",
         "storyboard-designer",
         "shot-designer",
+        "motion-effects-designer",
+        "transition-designer",
         "video-script-writer",
         "video-voice-synth",
         "video-lip-sync",
@@ -196,6 +198,8 @@
           "visual-style-anchor",
           "storyboard-designer",
           "shot-designer?",
+          "motion-effects-designer?",
+          "transition-designer?",
           "video-script-writer"
         ]
       }
@@ -336,12 +340,14 @@
       "skills": [
         "podcast-producer",
         "tts-voice-director",
+        "sound-designer",
         "episode-publisher"
       ],
       "chains": {
         "podcast_episode": [
           "podcast-producer",
           "tts-voice-director",
+          "sound-designer?",
           "episode-publisher"
         ],
         "document_to_podcast": [
@@ -558,12 +564,14 @@
         "skill-finder",
         "session-handoff",
         "weekly-report-generator",
-        "agent-eval-harness"
+        "agent-eval-harness",
+        "self-eval"
       ],
       "chains": {
         "new_skill_pipeline": [
           "skill-author",
-          "skill-linter"
+          "skill-linter",
+          "self-eval?"
         ],
         "discover_and_compose": [
           "skill-finder",

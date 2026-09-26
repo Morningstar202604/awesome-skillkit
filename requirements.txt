@@ -5,7 +5,7 @@
 # recommended for a friction-free experience. Playwright additionally needs
 # `playwright install chromium` after pip install.
 
-# --- plotting (result-visualizer, paper figure-maker/pub-plotter, math pipeline) ---
+# --- plotting (result-visualizer, paper pub-plotter, math pipeline) ---
 matplotlib
 
 # --- data / ML (etl-builder, feature-engineer, ml-pipeline, model-solver) ---
@@ -22,7 +22,7 @@ jinja2
 requests
 beautifulsoup4
 
-# --- imaging (ai-cover-generator, video-thumbnail) ---
+# --- imaging (image-generation, video-thumbnail, image-batch-processor) ---
 pillow
 
 # --- browser automation (zhihu-content-manager, cnblogs-skill) ---

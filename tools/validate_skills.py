@@ -24,9 +24,8 @@ SKILLS_DIR = ROOT / "skills"
 
 # Refs exempted from existence checks:
 #   - "*.local.json": documented user-local config pattern (never ships)
-#   - "_common/..." : bundle-level shared module sitting NEXT to skill dirs
 EXEMPT_SUFFIXES = (".local.json",)
-EXEMPT_PREFIXES = ("_common/",)
+EXEMPT_PREFIXES: tuple = ()
 
 NAME_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 RESERVED_WORDS = ("anthropic", "claude")
@@ -150,7 +149,10 @@ def check_reference_integrity(skill_dir: Path, issues):
                     continue
                 # resolve against the skill dir first, then the repo root so
                 # cross-skill navigation (e.g. "skills/video/...") stays valid
-                if not (skill_dir / tok).exists() and not (SCRIPT_DIR.parent / tok).exists():
+                if (
+                    not (skill_dir / tok).exists()
+                    and not (SCRIPT_DIR.parent / tok).exists()
+                ):
                     if tok.startswith("scripts/"):
                         # advertised helper tooling missing from the bundle:
                         # degrades execution, not navigation -> tracked debt
@@ -287,12 +289,11 @@ def validate_skill(skill_md: Path):
 def iter_skills():
     """枚举需要深度校验的技能。
 
-    跳过 `_common/`（共享片段，非技能）、`templates/`（模板素材）与
+    跳过 `templates/`（模板素材）与
     `examples/`（测试夹具/随包样例项目，如 skill-tester 的 good-skill——
     它们不是要分发的技能，保持极简正是其设计意图）。
-    **不跳过 `assets/`**：`skills/writing/assets/ai-cover-generator` 是被
-    ai-media-toolkit / content-publishing / image-studio 三个 pack 真实引用的技能，
-    跳过它会让该技能长期逃过深度校验（历史遗留问题，已修）。
+    **不跳过 `assets/`**：历史上曾把 pack 真实引用的技能藏在 `assets/` 下，
+    跳过它会让该技能长期逃过深度校验（已修）。
     仅排除明确标注为样例/模板的技能目录（`sample-*`），它们不参与发布。
     """
     for p in sorted(SKILLS_DIR.rglob("SKILL.md")):
@@ -342,6 +343,100 @@ def check_pack_consistency_for_all(per_skill: dict):
             )
 
 
+def _chain_step_name(step):
+    """链步骤允许 str（可带 '?' 表示可选）或 {'skill': ...} 两种写法。
+
+    返回 None 表示形状无法识别——调用方必须报 ERROR，不得静默跳过（fail-closed）。
+    """
+    if isinstance(step, dict):
+        nm = step.get("skill") or step.get("name")
+        if not nm:
+            return None
+        step = nm
+    nm = str(step).strip().rstrip("?").strip()
+    return nm or None
+
+
+def check_chain_consistency(on_disk: set):
+    """校验 skills/skill_chains.json ↔ 磁盘技能双向一致（同 pack 检查口径）。
+
+    - 域 skills / 链步骤引用了盘上不存在的技能 → ERROR（链是假的）
+    - 技能在盘上但未被任何域登记 → ERROR（该技能在链图谱里是隐身的）
+    """
+    chains_path = SKILLS_DIR / "skill_chains.json"
+    if not chains_path.exists():
+        issues_global.append(Issue("ERROR", "skill_chains.json not found"))
+        return
+    try:
+        doc = json.loads(chains_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as e:
+        issues_global.append(Issue("ERROR", f"skill_chains.json unreadable ({e})"))
+        return
+
+    domains = doc.get("domains")
+    if not isinstance(domains, dict):
+        issues_global.append(
+            Issue("ERROR", "skill_chains.json: 'domains' is not an object")
+        )
+        return
+
+    declared: set = set()
+    for dom, info in sorted(domains.items()):
+        if not isinstance(info, dict):
+            issues_global.append(Issue("ERROR", f"chain domain '{dom}': not an object"))
+            continue
+        skills = info.get("skills")
+        if skills is None:
+            skills = []
+        if not isinstance(skills, list):
+            issues_global.append(
+                Issue("ERROR", f"chain domain '{dom}': 'skills' is not a list")
+            )
+            skills = []
+        for nm in skills:
+            declared.add(nm)
+            if nm not in on_disk:
+                issues_global.append(
+                    Issue(
+                        "ERROR", f"chain domain '{dom}': skill '{nm}' not found on disk"
+                    )
+                )
+        chains = info.get("chains")
+        if chains is None:
+            chains = {}
+        if not isinstance(chains, dict):
+            issues_global.append(
+                Issue("ERROR", f"chain domain '{dom}': 'chains' is not an object")
+            )
+            chains = {}
+        for cname, steps in chains.items():
+            if not isinstance(steps, list):
+                issues_global.append(
+                    Issue("ERROR", f"chain '{dom}/{cname}': steps is not a list")
+                )
+                continue
+            for st in steps:
+                nm = _chain_step_name(st)
+                if nm is None:
+                    issues_global.append(
+                        Issue(
+                            "ERROR",
+                            f"chain '{dom}/{cname}': unrecognized step shape {st!r}",
+                        )
+                    )
+                elif nm not in on_disk:
+                    issues_global.append(
+                        Issue(
+                            "ERROR",
+                            f"chain '{dom}/{cname}': step '{nm}' not found on disk",
+                        )
+                    )
+    for nm in sorted(on_disk - declared):
+        issues_global.append(
+            Issue("ERROR", f"'{nm}' on disk but declared in no chain domain (orphan)")
+        )
+
+
 issues_global: list = []
 
 
@@ -353,12 +448,14 @@ def main(argv):
 
     # pack 一致性检查要给每个技能带上 orphan / not-found 标记，
     # 因此先用全部技能名建桶，再让检查函数往里填。
-    for skill_md in iter_skills():
+    skill_paths = list(iter_skills())
+    for skill_md in skill_paths:
         per_skill_issues.setdefault(skill_md.parent.name, [])
 
     check_pack_consistency_for_all(per_skill_issues)
+    check_chain_consistency({p.parent.name for p in skill_paths})
 
-    for skill_md in iter_skills():
+    for skill_md in skill_paths:
         issues, score = validate_skill(skill_md)
         issues = issues + per_skill_issues.get(skill_md.parent.name, [])
         errs = [x for x in issues if x.level == "ERROR"]

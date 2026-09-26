@@ -6,6 +6,19 @@ and rewritten in this skill's own structure.
 
 ---
 
+## Table of Contents
+
+- [W3C / WCAG 2.2](#w3c--wcag-22)
+- [W3C ARIA Authoring Practices (APG)](#w3c-aria-authoring-practices-apg)
+- [Nielsen Norman Group — 10 Usability Heuristics](#nielsen-norman-group--10-usability-heuristics)
+- [Laws of UX](#laws-of-ux)
+- [Material Design — Accessibility](#material-design--accessibility)
+- [Apple Human Interface Guidelines — Accessibility](#apple-human-interface-guidelines--accessibility)
+- [UI Patterns](#ui-patterns)
+- [GoodUI](#goodui)
+- [Ant Design Design Values](#ant-design-design-values)
+- [Summary](#summary)
+
 ## W3C / WCAG 2.2
 
 - **URL**: https://www.w3.org/TR/WCAG22/

@@ -3,6 +3,17 @@
 Hard-number tables for border radius, box shadow elevation levels, border widths,
 motion duration tiers, easing curves, stagger rules, and reduced motion.
 
+## Table of Contents
+
+- [Border Radius Scale](#border-radius-scale)
+- [Box Shadow Elevation](#box-shadow-elevation)
+- [Border Width Rules](#border-width-rules)
+- [Motion Duration Tiers](#motion-duration-tiers)
+- [Easing Curves (CSS cubic-bezier)](#easing-curves-css-cubic-bezier)
+- [Stagger Rules](#stagger-rules)
+- [Reduced Motion](#reduced-motion)
+- [Sources](#sources)
+
 ## Border Radius Scale
 
 ### Standard scale

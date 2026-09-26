@@ -3,6 +3,17 @@
 Hard-number tables for the 8pt grid, spacing scale, container widths, gutters,
 section spacing, and z-index layering.
 
+## Table of Contents
+
+- [8pt Grid Rules](#8pt-grid-rules)
+- [Full Spacing Scale](#full-spacing-scale)
+- [Container Max Widths by Breakpoint](#container-max-widths-by-breakpoint)
+- [Gutter Sizes (Horizontal Padding)](#gutter-sizes-horizontal-padding)
+- [Margin and Padding Ratios](#margin-and-padding-ratios)
+- [Section Spacing](#section-spacing)
+- [Z-Index Scale](#z-index-scale)
+- [Sources](#sources)
+
 ## 8pt Grid Rules
 
 | Rule | Detail |

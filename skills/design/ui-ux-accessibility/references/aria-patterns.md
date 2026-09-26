@@ -5,6 +5,20 @@ required roles, attributes, and full keyboard interaction contract.
 
 ---
 
+## Table of Contents
+
+- [Global Keyboard Conventions](#global-keyboard-conventions)
+- [Tabs](#tabs)
+- [Modal Dialog](#modal-dialog)
+- [Combobox](#combobox)
+- [Menu / Menubar](#menu--menubar)
+- [Switch (Toggle)](#switch-toggle)
+- [Listbox](#listbox)
+- [Treegrid](#treegrid)
+- [Tooltip](#tooltip)
+- [Alert / Status](#alert--status)
+- [Roving tabindex Pattern](#roving-tabindex-pattern)
+
 ## Global Keyboard Conventions
 
 - **Tab / Shift+Tab**: move focus between components (the tab ring)

@@ -3,6 +3,17 @@
 Hard-number tables for color spaces, contrast ratios, palette construction, dark
 mode conversion, and accessible color pairs.
 
+## Table of Contents
+
+- [Color Space Comparison](#color-space-comparison)
+- [WCAG Contrast Ratios](#wcag-contrast-ratios)
+- [60-30-10 Color Distribution](#60-30-10-color-distribution)
+- [Palette Construction Steps](#palette-construction-steps)
+- [Dark Mode Conversion Rules](#dark-mode-conversion-rules)
+- [Common Accessible Color Pairs (>= 4.5:1)](#common-accessible-color-pairs--451)
+- [Color Temperature and Saturation Guidelines](#color-temperature-and-saturation-guidelines)
+- [Sources](#sources)
+
 ## Color Space Comparison
 
 | Space | Perceptually Uniform? | Use Case | Notes |
