@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **仓库整理**：移除根目录 8 个研究/审计残留（`DEEP_REVIEW_REPORT.md`、`COVERAGE_AUDIT.md`、`REFACTORING_REPORT.md`、`ADVANCED_TOOLS_RESEARCH.md`、`AI_BLIND_SPOTS_RESEARCH.md`、3 个 json 遗留），`awesome-skillkit-content-review.md` 归档至 `docs/`，`robots.txt` 移入 `site/` 使 Pages 部署实际生效；根目录只保留技能仓库该有的文件。
 - **展示强化**：三语 README 新增「为什么值得用」五点重点段（场景优先、粒度随挑、官网先逛、质量可验证、Agent 原生）。
+- **CI 与依赖钉版**：pages 部署前置 `validate_skills.py` 质量校验（原先数据坏了也会照常发站）、Pages 构建从 Python 3.11 升至 3.13；CI 测试依赖（pytest 9.1.1 / python-docx 1.2.0 / pypdf 6.19.0 / matplotlib 3.11.2）与 `requirements.txt` 全部 11 项手动钉到 2026-09-26 的 PyPI latest（与本机门禁环境一致）。仓库确认**无任何自动更新机制**（无 Dependabot / Renovate / pre-commit autoupdate），依赖升级一律手动改文件。
 
 ## [0.22.0] - 2026-09-22
 

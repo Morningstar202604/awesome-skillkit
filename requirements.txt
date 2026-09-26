@@ -4,26 +4,31 @@
 # dependency is missing, so installing everything here is optional but
 # recommended for a friction-free experience. Playwright additionally needs
 # `playwright install chromium` after pip install.
+#
+# 版本策略：全部钉死（==）。本仓库不使用 Dependabot / Renovate 等自动更新，
+# 依赖升级一律由维护者手动完成——统一改本文件，升级后本地跑
+# `python tools/validate_skills.py` 与 `python -m pytest skills -q` 再提交。
+# 版本基线：2026-09-26，取 PyPI 当日 latest（与本仓库 CI 测试环境一致）。
 
 # --- plotting (result-visualizer, paper pub-plotter, math pipeline) ---
-matplotlib
+matplotlib==3.11.2
 
 # --- data / ML (etl-builder, feature-engineer, ml-pipeline, model-solver) ---
-numpy
-pandas
-scipy
-scikit-learn
+numpy==2.5.3
+pandas==3.0.6
+scipy==1.18.1
+scikit-learn==1.9.1
 
 # --- documents (ppt-builder, content pipelines) ---
-python-pptx
-jinja2
+python-pptx==1.0.2
+jinja2==3.1.6
 
 # --- web / parsing (web-search, zhihu HTML lint, publishing helpers) ---
-requests
-beautifulsoup4
+requests==2.34.2
+beautifulsoup4==4.15.0
 
 # --- imaging (image-generation, video-thumbnail, image-batch-processor) ---
-pillow
+pillow==12.3.0
 
 # --- browser automation (zhihu-content-manager, cnblogs-skill) ---
-playwright
+playwright==1.63.0

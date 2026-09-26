@@ -91,7 +91,7 @@ jobs:
         run: |
           # 测试依赖与技能脚本对齐：docx-writer→python-docx、pdf-pipeline→pypdf、
           # pub-plotter→matplotlib（test_all_scripts_import_cleanly 会真实导入脚本）。
-          python3 -m pip install --quiet pytest python-docx pypdf matplotlib
+          python3 -m pip install --quiet pytest==9.1.1 python-docx==1.2.0 pypdf==6.19.0 matplotlib==3.11.2
           python3 -m pytest skills -q
         # 为什么不用"直接执行 test_*.py"：pytest 风格的测试文件（如
         # test_smoke_*.py 的 assert 函数）直接运行不会执行任何断言——
