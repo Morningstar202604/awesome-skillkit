@@ -13,6 +13,7 @@ Usage: python tools/validate_skills.py [--verbose]
 Stdlib only.
 """
 
+import hashlib
 import json
 import re
 import sys
@@ -437,6 +438,80 @@ def check_chain_consistency(on_disk: set):
         )
 
 
+def check_manifest_digests(manifest_path: Path, site_packs_dir: Path, issues: list):
+    """manifest.json 包摘要 ↔ site/packs 已提交 zip 双向一致（缺文件/错摘要/野包都算错）。
+
+    口径对齐 build.py:181-183（size_kb = max(bytes // 1024, 1)，sha256 = 整文件哈希）；
+    无 `file` 字段的历史包按 `dist/<id>.zip` 约定回退到 `<id>.zip`。
+    """
+    if not site_packs_dir.is_dir():
+        issues.append(Issue("ERROR", f"{site_packs_dir} not found"))
+        return
+    if not manifest_path.is_file():
+        issues.append(Issue("ERROR", "manifest.json not found"))
+        return
+    try:
+        doc = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as e:
+        issues.append(Issue("ERROR", f"manifest.json unreadable ({e})"))
+        return
+    packs = doc.get("packs")
+    if not isinstance(packs, list):
+        issues.append(Issue("ERROR", "manifest.json: 'packs' is not a list"))
+        return
+
+    referenced: set = set()
+    for entry in packs:
+        if not isinstance(entry, dict):
+            issues.append(Issue("ERROR", "manifest.json: pack entry is not an object"))
+            continue
+        pid = entry.get("id")
+        if entry.get("file"):
+            fname = Path(str(entry["file"])).name
+        elif pid:
+            fname = f"{pid}.zip"
+        else:
+            issues.append(
+                Issue(
+                    "ERROR", f"manifest pack has neither id nor file: {entry!r}"[:200]
+                )
+            )
+            continue
+        referenced.add(fname)
+        zpath = site_packs_dir / fname
+        label = pid or fname
+        if not zpath.is_file():
+            issues.append(Issue("ERROR", f"pack '{label}': site/packs/{fname} missing"))
+            continue
+        raw = zpath.read_bytes()
+        sha = entry.get("sha256")
+        if not isinstance(sha, str) or len(sha) != 64:
+            issues.append(Issue("ERROR", f"pack '{label}': sha256 missing/malformed"))
+        elif hashlib.sha256(raw).hexdigest() != sha:
+            issues.append(
+                Issue(
+                    "ERROR", f"pack '{label}': sha256 mismatch for site/packs/{fname}"
+                )
+            )
+        expected_size = max(len(raw) // 1024, 1)
+        if entry.get("size_kb") != expected_size:
+            issues.append(
+                Issue(
+                    "ERROR",
+                    f"pack '{label}': size_kb {entry.get('size_kb')!r} != {expected_size} "
+                    f"for site/packs/{fname}",
+                )
+            )
+    for z in sorted(site_packs_dir.glob("*.zip")):
+        if z.name not in referenced and z.name != "_all.zip":
+            issues.append(
+                Issue(
+                    "ERROR",
+                    f"site/packs/{z.name} referenced by no manifest pack (orphan)",
+                )
+            )
+
+
 issues_global: list = []
 
 
@@ -454,6 +529,9 @@ def main(argv):
 
     check_pack_consistency_for_all(per_skill_issues)
     check_chain_consistency({p.parent.name for p in skill_paths})
+    check_manifest_digests(
+        ROOT / "manifest.json", ROOT / "site" / "packs", issues_global
+    )
 
     for skill_md in skill_paths:
         issues, score = validate_skill(skill_md)
