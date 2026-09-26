@@ -132,6 +132,16 @@ flowchart LR
    - 其他支持 skills 的工具：放到其官方文档指定的目录即可。
 4. **开一个新会话**。无需环境变量、无需配置——当你的请求命中技能描述时，它会自动生效。
 
+## 配合 AI 使用——先查技能，再动手
+
+AI agent 在本仓库工作时，遵守 [AGENTS.md](AGENTS.md) 的全局规则：**每个任务开始时，以及每进入一个新阶段、遇到新子问题时，先查本仓库有没有现成的匹配技能；有就用上。**
+
+1. 扫描述：`skills/**/SKILL.md` 的 frontmatter `description`——触发词（「当用户…」「Do NOT…」）就是匹配依据。
+2. 关键词检索：`python3 skills/meta/skill-finder/scripts/find_skill.py search <关键词>`。
+3. 多步任务查链：[`skills/skill_chains.json`](skills/skill_chains.json) 的 `domains[].entry` 是该域编排器，`chains` 是工序链——从编排器进，按 step 推进。
+
+查不到就正常干活，不许硬套技能。
+
 ## 从源码构建
 
 ```bash

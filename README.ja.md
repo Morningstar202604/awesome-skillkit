@@ -76,7 +76,7 @@ flowchart LR
 
 > パック別 zip は `python3 build.py` で再ビルドされ、すべての GitHub Release に添付されます。GitCode / Gitee ミラーは同一タグをプッシュし、同一アセットをアップロードしています。
 
-## シナリオパック一覧（全 37 パック）
+## シナリオパック一覧（全 39 パック）
 
 以下が完全なカタログです。各行はパックフォルダへのリンクになっており、スキル列には同梱されるすべての `SKILL.md` を列挙しています。
 
@@ -132,6 +132,16 @@ flowchart LR
    - Claude Code: `~/.claude/skills/`（グローバル）または `.claude/skills/`（プロジェクト別）
    - その他の skills 対応ツール: 各ツールのドキュメントに記載された skills ディレクトリを使用します。
 4. **新しいセッションを開始**します。環境変数も設定も不要——ユーザーのリクエストがスキルの説明に一致すると、自動的に起動します。
+
+## AI と一緒に使う — まずスキルを確認
+
+AI エージェントが本リポジトリで作業するときは、[AGENTS.md](AGENTS.md) のグローバルルールに従います：**各タスクの開始時、および新しい段階に入ったとき・サブ問題に出会ったとき、まず本リポジトリに該当するスキルがあるか確認し、あればそれを使うこと。**
+
+1. 説明を確認：`skills/**/SKILL.md` の frontmatter `description`（トリガー語 / "Use when" / "Do NOT"）が照合基準です。
+2. キーワード検索：`python3 skills/meta/skill-finder/scripts/find_skill.py search <キーワード>`。
+3. 複数ステップのタスクは [`skills/skill_chains.json`](skills/skill_chains.json) の `domains[].entry`（オーケストレーター）から入って chain の step をたどります。
+
+該当がなければ通常どおり進みます。無理にスキルを当てはめないこと。
 
 ## ソースからビルドする
 

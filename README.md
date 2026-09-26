@@ -132,6 +132,16 @@ Below is the complete catalog. Each row links to its pack folder; the skill colu
    - Other tools with skills support: use their documented skills directory.
 4. **Start a new session.** No environment variables, no config — the skill activates when the user's request matches its description.
 
+## Use with an AI agent — check skills first
+
+When an AI agent works in or with this repo, the global rule in [AGENTS.md](AGENTS.md) applies: **at the start of every task — and again whenever you enter a new stage or hit a sub-problem — check whether this repo already ships a matching skill, and use it if so.**
+
+1. Scan skill descriptions: `skills/**/SKILL.md` frontmatter `description` — its trigger words ("Use when" / "Do NOT") are the matching criteria.
+2. Search by keyword: `python3 skills/meta/skill-finder/scripts/find_skill.py search <keyword>`.
+3. Multi-step jobs: look up the domain's orchestrator (`domains[].entry`) and the chain steps in [`skills/skill_chains.json`](skills/skill_chains.json); start from the entry and follow the chain.
+
+No match → proceed normally; never force-fit a skill.
+
 ## Build from source
 
 ```bash
