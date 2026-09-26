@@ -10,7 +10,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
   <img src="https://img.shields.io/badge/skills-163-brightgreen?style=flat-square" alt="Skills" />
   <img src="https://img.shields.io/badge/packs-39-blue?style=flat-square" alt="Packs" />
-  <img src="https://img.shields.io/badge/version-0.22.0-success?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-0.22.1-success?style=flat-square" alt="Version" />
 </p>
 
 <p align="center">
@@ -54,6 +54,14 @@ flowchart LR
 - Every pack maps to a **concrete scenario**, not a vague domain like "engineering".
 - Every pack bundles **the skills that actually work together** for that scenario — from a focused pair (`API Development & Testing`) to a 19-skill suite (`AI Research & Writing`) or an 18-platform publishing machine (`Content Publishing Automation`).
 - Every skill's **source is attributed** per-skill in [`manifest.json`](manifest.json) and each `packs/*/pack.json` — self-authored, upstream curated (MIT), or distilled from public docs.
+
+## Why this repo — five reasons to grab it
+
+- **Scenario-first, not topic soup**: 163 skills / 39 packs / 20 domains / 73 chains — one pack = one concrete job you can hand to an AI ("review a PR", "cross-post an article to 16 Chinese platforms").
+- **Pick your granularity**: a single `SKILL.md`, one pack zip, or everything via [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) — unzip into your tool's skills directory and it works in a fresh session, no config.
+- **Browse before you commit**: the [official site](https://x33834.github.io/awesome-skillkit/) searches skills / domains / packs with per-card downloads (EN · 简中 · 日本語 README + bilingual site); or ask your agent to run `find_skill.py search <keyword>`.
+- **Quality you can verify**: `tools/validate_skills.py` gates the repo at **0 errors / 0 warnings** (manifest ↔ shipped zips digests locked), and CI runs the full unit-test suite on every PR.
+- **Agent-native**: [`AGENTS.md`](AGENTS.md) tells any AI to check this repo for a matching skill at task start and mid-task; [`skills/skill_chains.json`](skills/skill_chains.json) documents how skills hand off inside a workflow.
 
 ## Download guide — two paths
 

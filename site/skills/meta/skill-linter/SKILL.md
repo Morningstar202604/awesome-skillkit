@@ -29,23 +29,11 @@ Only reports and gives fixes, **doesn't modify files for you**.
 Boundary with same-pack skills: `skill-author` generates from scratch,
 `skill-finder` searches and assembles; this skill only judges spec compliance.
 
-> **Known script/repo drift (read before trusting FAIL output).** This repo's
-> SKILL.md files were refactored to **English** headings and English prose, but
-> the shipped `scripts/lint_skill.py` still hard-codes the **Chinese** names of
-> the six mandatory H2 sections and a Chinese-body CJK ratio. Consequences on a
-> correctly English skill:
-> - `BODY-SECTS` reports 6 spurious FAILs (it looks for the Chinese H2 names,
->   not the English `## Input Checklist` / `## Pre-flight Checks` / `## Workflow`
->   / `## Delivery Criteria` / `## Failure Handling Table` / `## References`).
-> - `FAIL-TABLE` reports 1 spurious FAIL (it looks for the Chinese heading).
-> - `LANG-CJK` reports a WARN (English body has ~0 CJK ratio).
-> These are **code mismatches, not skill defects**. Until the script's section
-> map and language check are flipped to English, judge a skill by the English
-> headings listed in the table below, and treat the 6–7 `BODY-SECTS`/`FAIL-TABLE`
-> FAILs and the `LANG-CJK` WARN as expected noise. The exact Chinese strings the
-> script greps for are printed in its own `FIX:` lines when you run it. This
-> SKILL.md documents the intended (English) spec; fixing the script is a separate
-> code change.
+> **Batch scope.** Batch scans skip `_common/`, `templates/`, `__pycache__/`,
+> `examples/` fixtures (e.g. skill-tester's `good-skill`, which targets
+> skill-tester's own spec) and `sample-*` directories — they are not shipped
+> skills. To lint one explicitly, pass its file or directory as the target.
+> Full rules: [check-rules.md](references/check-rules.md).
 
 ## Input Checklist
 

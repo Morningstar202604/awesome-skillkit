@@ -1,8 +1,8 @@
 {
  "meta": {
   "hub": "awesome-skillkit",
-  "version": "0.22.0",
-  "updated": "2026-09-25",
+  "version": "0.22.1",
+  "updated": "2026-09-26",
   "desc": "Curated scene packs for AI tools: each pack = one real-world scenario, containing multiple skills. Download zip -> unzip -> drag the skill folders into your AI tool's skills directory.",
   "desc_zh": "精选场景包合集：每个场景包 = 一个真实场景，内含多个 skill。下载 zip -> 解压 -> 把 skill 文件夹拖进 AI 工具的 skills 目录即可使用。",
   "n_skills": 163,
@@ -3927,9 +3927,9 @@
     "skill-tester"
    ],
    "local_url": "packs/ai-agent-development.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/ai-agent-development.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/ai-agent-development.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/ai-agent-development.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/ai-agent-development.zip",
    "dist_exists": true
   },
   {
@@ -3946,9 +3946,9 @@
     "music-generation"
    ],
    "local_url": "packs/ai-media-toolkit.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/ai-media-toolkit.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/ai-media-toolkit.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/ai-media-toolkit.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/ai-media-toolkit.zip",
    "dist_exists": true
   },
   {
@@ -3980,9 +3980,9 @@
     "pub-plotter"
    ],
    "local_url": "packs/ai-research-writing.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/ai-research-writing.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/ai-research-writing.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/ai-research-writing.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/ai-research-writing.zip",
    "dist_exists": true
   },
   {
@@ -4005,9 +4005,9 @@
     "sound-designer"
    ],
    "local_url": "packs/ai-video-pipeline.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/ai-video-pipeline.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/ai-video-pipeline.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/ai-video-pipeline.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/ai-video-pipeline.zip",
    "dist_exists": true
   },
   {
@@ -4023,9 +4023,9 @@
     "api-test-suite-builder"
    ],
    "local_url": "packs/api-development.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/api-development.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/api-development.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/api-development.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/api-development.zip",
    "dist_exists": true
   },
   {
@@ -4042,9 +4042,9 @@
     "monorepo-navigator"
    ],
    "local_url": "packs/architecture.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/architecture.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/architecture.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/architecture.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/architecture.zip",
    "dist_exists": true
   },
   {
@@ -4062,9 +4062,9 @@
     "sound-designer"
    ],
    "local_url": "packs/audio-studio.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/audio-studio.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/audio-studio.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/audio-studio.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/audio-studio.zip",
    "dist_exists": true
   },
   {
@@ -4079,9 +4079,9 @@
     "chat-prompt-engineer"
    ],
    "local_url": "packs/chat-prompt-craft.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/chat-prompt-craft.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/chat-prompt-craft.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/chat-prompt-craft.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/chat-prompt-craft.zip",
    "dist_exists": true
   },
   {
@@ -4098,9 +4098,9 @@
     "spec-driven-workflow"
    ],
    "local_url": "packs/ci-cd.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/ci-cd.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/ci-cd.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/ci-cd.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/ci-cd.zip",
    "dist_exists": true
   },
   {
@@ -4117,9 +4117,9 @@
     "debug-diagnoser"
    ],
    "local_url": "packs/code-planning.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/code-planning.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/code-planning.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/code-planning.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/code-planning.zip",
    "dist_exists": true
   },
   {
@@ -4137,9 +4137,9 @@
     "dependency-auditor"
    ],
    "local_url": "packs/code-review.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/code-review.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/code-review.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/code-review.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/code-review.zip",
    "dist_exists": true
   },
   {
@@ -4155,9 +4155,9 @@
     "decision-debiasing"
    ],
    "local_url": "packs/communication-essentials.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/communication-essentials.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/communication-essentials.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/communication-essentials.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/communication-essentials.zip",
    "dist_exists": true
   },
   {
@@ -4174,9 +4174,9 @@
     "kubernetes-operator"
    ],
    "local_url": "packs/containers.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/containers.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/containers.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/containers.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/containers.zip",
    "dist_exists": true
   },
   {
@@ -4208,9 +4208,9 @@
     "image-generation"
    ],
    "local_url": "packs/content-publishing.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/content-publishing.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/content-publishing.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/content-publishing.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/content-publishing.zip",
    "dist_exists": true
   },
   {
@@ -4231,9 +4231,9 @@
     "ml-pipeline"
    ],
    "local_url": "packs/data-ml-science.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/data-ml-science.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/data-ml-science.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/data-ml-science.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/data-ml-science.zip",
    "dist_exists": true
   },
   {
@@ -4249,9 +4249,9 @@
     "sql-database-assistant"
    ],
    "local_url": "packs/database.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/database.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/database.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/database.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/database.zip",
    "dist_exists": true
   },
   {
@@ -4267,9 +4267,9 @@
     "chart-recommender"
    ],
    "local_url": "packs/dataviz-studio.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/dataviz-studio.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/dataviz-studio.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/dataviz-studio.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/dataviz-studio.zip",
    "dist_exists": true
   },
   {
@@ -4286,9 +4286,9 @@
     "personal-voice-profile"
    ],
    "local_url": "packs/de-ai-writing.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/de-ai-writing.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/de-ai-writing.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/de-ai-writing.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/de-ai-writing.zip",
    "dist_exists": true
   },
   {
@@ -4305,9 +4305,9 @@
     "feynman-explainer"
    ],
    "local_url": "packs/edu-craft.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/edu-craft.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/edu-craft.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/edu-craft.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/edu-craft.zip",
    "dist_exists": true
   },
   {
@@ -4324,9 +4324,9 @@
     "code-reviewer"
    ],
    "local_url": "packs/github-workflow.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/github-workflow.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/github-workflow.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/github-workflow.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/github-workflow.zip",
    "dist_exists": true
   },
   {
@@ -4343,9 +4343,9 @@
     "channel-adapter"
    ],
    "local_url": "packs/growth-marketing.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/growth-marketing.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/growth-marketing.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/growth-marketing.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/growth-marketing.zip",
    "dist_exists": true
   },
   {
@@ -4362,9 +4362,9 @@
     "own-voice-rewrite"
    ],
    "local_url": "packs/homework-autopilot.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/homework-autopilot.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/homework-autopilot.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/homework-autopilot.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/homework-autopilot.zip",
    "dist_exists": true
   },
   {
@@ -4382,9 +4382,9 @@
     "image-batch-processor"
    ],
    "local_url": "packs/image-studio.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/image-studio.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/image-studio.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/image-studio.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/image-studio.zip",
    "dist_exists": true
   },
   {
@@ -4401,9 +4401,9 @@
     "slo-architect"
    ],
    "local_url": "packs/incident-response.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/incident-response.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/incident-response.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/incident-response.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/incident-response.zip",
    "dist_exists": true
   },
   {
@@ -4420,9 +4420,9 @@
     "kubernetes-operator"
    ],
    "local_url": "packs/infrastructure.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/infrastructure.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/infrastructure.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/infrastructure.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/infrastructure.zip",
    "dist_exists": true
   },
   {
@@ -4438,9 +4438,9 @@
     "knowledge-graph-builder"
    ],
    "local_url": "packs/knowledge-base.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/knowledge-base.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/knowledge-base.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/knowledge-base.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/knowledge-base.zip",
    "dist_exists": true
   },
   {
@@ -4458,9 +4458,9 @@
     "rental-contract-guide"
    ],
    "local_url": "packs/life-essentials.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/life-essentials.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/life-essentials.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/life-essentials.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/life-essentials.zip",
    "dist_exists": true
   },
   {
@@ -4478,9 +4478,9 @@
     "memory-retriever"
    ],
    "local_url": "packs/memory-systems.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/memory-systems.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/memory-systems.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/memory-systems.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/memory-systems.zip",
    "dist_exists": true
   },
   {
@@ -4504,9 +4504,9 @@
     "career-ops-lite"
    ],
    "local_url": "packs/office-productivity.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/office-productivity.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/office-productivity.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/office-productivity.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/office-productivity.zip",
    "dist_exists": true
   },
   {
@@ -4521,9 +4521,9 @@
     "performance-profiler"
    ],
    "local_url": "packs/performance.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/performance.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/performance.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/performance.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/performance.zip",
    "dist_exists": true
   },
   {
@@ -4541,9 +4541,9 @@
     "prompt-injection-guard"
    ],
    "local_url": "packs/security.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/security.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/security.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/security.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/security.zip",
    "dist_exists": true
   },
   {
@@ -4562,9 +4562,9 @@
     "weekly-report-generator"
    ],
    "local_url": "packs/skill-forge.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/skill-forge.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/skill-forge.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/skill-forge.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/skill-forge.zip",
    "dist_exists": true
   },
   {
@@ -4582,9 +4582,9 @@
     "agent-eval-harness"
    ],
    "local_url": "packs/tdd.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/tdd.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/tdd.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/tdd.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/tdd.zip",
    "dist_exists": true
   },
   {
@@ -4604,9 +4604,9 @@
     "bank-statement-reconcile"
    ],
    "local_url": "packs/toolsmith.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/toolsmith.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/toolsmith.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/toolsmith.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/toolsmith.zip",
    "dist_exists": true
   },
   {
@@ -4625,9 +4625,9 @@
     "motion-effects-designer"
    ],
    "local_url": "packs/video-design-studio.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/video-design-studio.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/video-design-studio.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/video-design-studio.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/video-design-studio.zip",
    "dist_exists": true
   },
   {
@@ -4643,9 +4643,9 @@
     "nailong-laugh-shorts"
    ],
    "local_url": "packs/viral-entertainment.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/viral-entertainment.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/viral-entertainment.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/viral-entertainment.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/viral-entertainment.zip",
    "dist_exists": true
   },
   {
@@ -4666,9 +4666,9 @@
     "design-system-foundations"
    ],
    "local_url": "packs/visual-design-studio.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/visual-design-studio.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/visual-design-studio.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/visual-design-studio.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/visual-design-studio.zip",
    "dist_exists": true
   },
   {
@@ -4683,9 +4683,9 @@
     "web-data-extractor"
    ],
    "local_url": "packs/web-ops.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/web-ops.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/web-ops.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/web-ops.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/web-ops.zip",
    "dist_exists": true
   },
   {
@@ -4703,9 +4703,9 @@
     "cloud-drive-manager"
    ],
    "local_url": "packs/workspace-integrations.zip",
-   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.0/workspace-integrations.zip",
-   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.0",
-   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.0/workspace-integrations.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/workspace-integrations.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/workspace-integrations.zip",
    "dist_exists": true
   }
  ]

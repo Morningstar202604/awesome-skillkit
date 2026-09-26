@@ -10,7 +10,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
   <img src="https://img.shields.io/badge/skills-163-brightgreen?style=flat-square" alt="Skills" />
   <img src="https://img.shields.io/badge/packs-39-blue?style=flat-square" alt="Packs" />
-  <img src="https://img.shields.io/badge/version-0.22.0-success?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-0.22.1-success?style=flat-square" alt="Version" />
 </p>
 
 <p align="center">
@@ -55,6 +55,14 @@ flowchart LR
 - 各パックは**具体的なシナリオ**に対応しており、「エンジニアリング」のような曖昧なドメインではありません。
 - 各パックは、そのシナリオで**実際に連携するスキルだけ**をまとめています——絞り込んだ 2 スキル構成（`API Development & Testing`）から、18 スキルのスイート（`AI Research & Writing`）、18 プラットフォームの自動出版マシン（`Content Publishing Automation`）まで。
 - 各スキルの**出典はスキルごとに** [`manifest.json`](manifest.json) と各 `packs/*/pack.json` に明記されています——自作、上流からの精選（MIT）、公開ドキュメントからの蒸留のいずれかです。
+
+## 使い込む理由 — 5 つの要点
+
+- **場面優先、テーマの寄せ集めではない**：163 スキル / 39 パック / 20 ドメイン / 73 チェーン——1 パック = AI にそのまま渡せる具体的な仕事（「PR レビュー」「記事を 16 つの中国語プラットフォームへ同時配信」）。
+- **粒度は選べる**：単一 `SKILL.md`、パック単体 zip、[`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) の全量——解凍して skills ディレクトリへ入れ、新しいセッションで設定なしで動作。
+- **まず見てから**：[公式サイト](https://x33834.github.io/awesome-skillkit/) でスキル / ドメイン / パックを検索してカードから直接ダウンロード（日英中 README + 双語サイト）。または AI に `find_skill.py search <キーワード>` を実行させる。
+- **品質は検証可能**：`tools/validate_skills.py` が **0 errors / 0 warnings** を通過（manifest と配布 zip のダイジェスト相互固定）、CI が全 PR でユニットテスト実行。
+- **Agent 対応**：[`AGENTS.md`](AGENTS.md) がタスク開始時・作業途中のスキル先行確認を規定、[`skills/skill_chains.json`](skills/skill_chains.json) がワークフロー内のスキル連携を記録。
 
 ## ダウンロードガイド — 2 つの経路
 

@@ -14,6 +14,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > 另：0.4.0 – 0.6.1 发布于重置整理期，其内容随后被 squash 进 0.6.2 对应的提交
 > （`21769cb`），独立提交已不可考，故这四个版本没有对应的 git tag。
 
+## [0.22.1] - 2026-09-26
+
+### Added
+
+- **AGENTS.md 全局规则（skill-first）**：任务开始与每进入新阶段时先查本仓库有无匹配技能（扫 `SKILL.md` 描述触发词 / `find_skill.py search` 检索 / `skill_chains.json` 域编排器入口），命中即用；三语 README 增加「配合 AI 使用」指引段。
+- **manifest 摘要门禁**：`validate_skills.py` 校验 `manifest.json` 的 sha256/size_kb 与 `site/packs/*.zip` 双向一致，缺包、孤儿 zip、摘要漂移均报 ERROR。
+- **链域 entry 门禁**：`domains[].entry` 必须可解析且属于该域技能；补齐 12 个域的编排器入口，站点「编排器」达 20/20。
+
+### Fixed
+
+- **skill-linter 全仓 0 FAIL**：batch 扫描排除 `examples/` 夹具（单目标直指旁路不受影响），规则书跳过清单纠错（补 `examples/`、`sample-*`，移除已不存在的 `assets/`），删除过期的「已知漂移」声明。
+- 站点入口数据与计数、三语 README 徽章同步至 0.22.1。
+
+### Changed
+
+- **仓库整理**：移除根目录 8 个研究/审计残留（`DEEP_REVIEW_REPORT.md`、`COVERAGE_AUDIT.md`、`REFACTORING_REPORT.md`、`ADVANCED_TOOLS_RESEARCH.md`、`AI_BLIND_SPOTS_RESEARCH.md`、3 个 json 遗留），`awesome-skillkit-content-review.md` 归档至 `docs/`，`robots.txt` 移入 `site/` 使 Pages 部署实际生效；根目录只保留技能仓库该有的文件。
+- **展示强化**：三语 README 新增「为什么值得用」五点重点段（场景优先、粒度随挑、官网先逛、质量可验证、Agent 原生）。
+
 ## [0.22.0] - 2026-09-22
 
 ### Fixed

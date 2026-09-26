@@ -10,7 +10,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
   <img src="https://img.shields.io/badge/skills-163-brightgreen?style=flat-square" alt="Skills" />
   <img src="https://img.shields.io/badge/packs-39-blue?style=flat-square" alt="Packs" />
-  <img src="https://img.shields.io/badge/version-0.22.0-success?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-0.22.1-success?style=flat-square" alt="Version" />
 </p>
 
 <p align="center">
@@ -54,6 +54,14 @@ flowchart LR
 - 每个包都对应一个**具体场景**，落点是平台与工具，而非空泛的领域名词。
 - 每个包打包的是**该场景下真正协同工作的那组技能**——小到双人搭档（`API 开发与测试`），大到 19 个技能的全家桶（`AI 研究与写作`），或是一台覆盖 18 个中文平台的分发机器（`内容多平台发布自动化`）。
 - 每个技能的**来源都逐项标注**于 [`manifest.json`](manifest.json) 和各 `packs/*/pack.json`——自研、上游精选（MIT）、或基于公开文档蒸馏，不含糊、不混装。
+
+## 为什么值得用——五个重点
+
+- **场景优先，不是领域大杂烩**：163 个技能 / 39 个包 / 20 个域 / 73 条链——一包 = 一个能直接交给 AI 的具体活儿（「审 PR」「一篇文章分发 16 个中文平台」）。
+- **粒度随你挑**：单个 `SKILL.md`、单个场景包 zip、或 [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) 全量——解压拖进 skills 目录，新开会话即用，零配置。
+- **先逛再拿**：[官网](https://x33834.github.io/awesome-skillkit/) 按技能 / 域 / 包检索、卡片上直接下载（简中 · English · 日本語 README + 双语站点）；也可以让 AI 跑 `find_skill.py search <关键词>` 自己找。
+- **质量可验证**：`tools/validate_skills.py` 以 **0 错误 / 0 警告** 为门槛（manifest 与站点 zip 摘要双向锁定），CI 每个 PR 跑全量单测。
+- **Agent 原生**：[`AGENTS.md`](AGENTS.md) 规定 AI 在任务开始与进入新阶段时先查本仓库有没有匹配技能；[`skills/skill_chains.json`](skills/skill_chains.json) 记录工作流内技能如何接力。
 
 ## 下载指南（两条路径）
 
