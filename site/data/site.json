@@ -29,7 +29,7 @@
   {
    "id": "audio",
    "label": "audio",
-   "entry": "",
+   "entry": "podcast-producer",
    "n_skills": 4,
    "n_chains": 3,
    "chains": [
@@ -62,7 +62,7 @@
   {
    "id": "chat",
    "label": "chat",
-   "entry": "",
+   "entry": "chat-prompt-engineer",
    "n_skills": 1,
    "n_chains": 1,
    "chains": [
@@ -121,7 +121,7 @@
   {
    "id": "design",
    "label": "design",
-   "entry": "",
+   "entry": "design-brief-interpreter",
    "n_skills": 8,
    "n_chains": 9,
    "chains": [
@@ -199,7 +199,7 @@
   {
    "id": "education",
    "label": "education",
-   "entry": "",
+   "entry": "course-designer",
    "n_skills": 6,
    "n_chains": 5,
    "chains": [
@@ -324,7 +324,7 @@
   {
    "id": "marketing",
    "label": "marketing",
-   "entry": "",
+   "entry": "product-copywriter",
    "n_skills": 3,
    "n_chains": 2,
    "chains": [
@@ -425,7 +425,7 @@
   {
    "id": "music",
    "label": "music",
-   "entry": "",
+   "entry": "music-generation",
    "n_skills": 1,
    "n_chains": 1,
    "chains": [
@@ -440,7 +440,7 @@
   {
    "id": "office",
    "label": "office",
-   "entry": "",
+   "entry": "docx-writer",
    "n_skills": 9,
    "n_chains": 3,
    "chains": [
@@ -472,7 +472,7 @@
   {
    "id": "paper",
    "label": "paper",
-   "entry": "",
+   "entry": "paper-topic-selector",
    "n_skills": 12,
    "n_chains": 4,
    "chains": [
@@ -523,7 +523,7 @@
   {
    "id": "ppt",
    "label": "ppt",
-   "entry": "",
+   "entry": "ppt-builder",
    "n_skills": 1,
    "n_chains": 1,
    "chains": [
@@ -538,7 +538,7 @@
   {
    "id": "programming",
    "label": "programming",
-   "entry": "",
+   "entry": "code-intent-planner",
    "n_skills": 48,
    "n_chains": 14,
    "chains": [
@@ -713,7 +713,7 @@
   {
    "id": "video",
    "label": "video",
-   "entry": "",
+   "entry": "video-script-writer",
    "n_skills": 16,
    "n_chains": 4,
    "chains": [
@@ -765,7 +765,7 @@
   {
    "id": "writing",
    "label": "writing",
-   "entry": "",
+   "entry": "article-outliner",
    "n_skills": 25,
    "n_chains": 3,
    "chains": [

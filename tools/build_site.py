@@ -164,7 +164,8 @@ def collect(github_repo: str, gitcode_repo: str, gitee_repo: str,
             "n_skills": len(pack.get("skills", [])),
             "skills": [s.get("name") for s in pack.get("skills", [])],
             "local_url": f"packs/{zip_name}",
-            # GitHub：附件直链（发版时由 release 流程上传 28 个 zip 到 Release 资产）
+            # GitHub：附件直链（发版时由 release 流程上传 dist/*.zip 到 Release 资产，
+            # 见 docs/DEPLOY-SITE.md §5）
             "release_github": (f"https://github.com/{github_repo}/releases/download/"
                                f"v{version}/{zip_name}"),
             # GitCode：API 不支持上传 Release 附件（attach_files 405/404），

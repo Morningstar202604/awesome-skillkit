@@ -3,7 +3,7 @@
   "note": "Each domain is self-contained. No cross-domain skill reuse.",
   "domains": {
     "programming": {
-      "entry": null,
+      "entry": "code-intent-planner",
       "skills": [
         "code-intent-planner",
         "deep-research",
@@ -151,7 +151,7 @@
       }
     },
     "video": {
-      "entry": null,
+      "entry": "video-script-writer",
       "skills": [
         "visual-style-anchor",
         "storyboard-designer",
@@ -205,7 +205,7 @@
       }
     },
     "writing": {
-      "entry": null,
+      "entry": "article-outliner",
       "skills": [
         "article-outliner",
         "article-drafter",
@@ -257,7 +257,7 @@
       }
     },
     "ppt": {
-      "entry": null,
+      "entry": "ppt-builder",
       "skills": [
         "ppt-builder"
       ],
@@ -268,7 +268,7 @@
       }
     },
     "music": {
-      "entry": null,
+      "entry": "music-generation",
       "skills": [
         "music-generation"
       ],
@@ -279,7 +279,7 @@
       }
     },
     "design": {
-      "entry": null,
+      "entry": "design-brief-interpreter",
       "skills": [
         "design-brief-interpreter",
         "image-prompt-engineer",
@@ -336,7 +336,7 @@
       }
     },
     "audio": {
-      "entry": null,
+      "entry": "podcast-producer",
       "skills": [
         "podcast-producer",
         "tts-voice-director",
@@ -362,7 +362,7 @@
       }
     },
     "marketing": {
-      "entry": null,
+      "entry": "product-copywriter",
       "skills": [
         "product-copywriter",
         "campaign-designer",
@@ -381,7 +381,7 @@
       }
     },
     "education": {
-      "entry": null,
+      "entry": "course-designer",
       "skills": [
         "course-designer",
         "exercise-generator",
@@ -415,7 +415,7 @@
       }
     },
     "chat": {
-      "entry": null,
+      "entry": "chat-prompt-engineer",
       "skills": [
         "chat-prompt-engineer"
       ],
@@ -426,7 +426,7 @@
       }
     },
     "office": {
-      "entry": null,
+      "entry": "docx-writer",
       "skills": [
         "excel-assistant",
         "meeting-notes",
@@ -456,7 +456,7 @@
       }
     },
     "paper": {
-      "entry": null,
+      "entry": "paper-topic-selector",
       "skills": [
         "paper-topic-selector",
         "lit-review",

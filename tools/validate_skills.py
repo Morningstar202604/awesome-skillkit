@@ -402,6 +402,23 @@ def check_chain_consistency(on_disk: set):
                         "ERROR", f"chain domain '{dom}': skill '{nm}' not found on disk"
                     )
                 )
+        entry = info.get("entry")
+        if not isinstance(entry, str) or not entry.strip():
+            issues_global.append(
+                Issue(
+                    "ERROR",
+                    f"chain domain '{dom}': missing entry (domain orchestrator)",
+                )
+            )
+        else:
+            base = Path(entry.strip()).name
+            if base not in skills:
+                issues_global.append(
+                    Issue(
+                        "ERROR",
+                        f"chain domain '{dom}': entry '{entry}' not in domain skills",
+                    )
+                )
         chains = info.get("chains")
         if chains is None:
             chains = {}
