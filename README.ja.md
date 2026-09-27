@@ -3,13 +3,13 @@
 <h1 align="center">awesome-skillkit</h1>
 
 <p align="center">
-  <b>2 つのプロダクトライン、1 つのリポジトリ：<br>AI ツール向け 39 シーンパック · 163 スキル&nbsp;＋&nbsp; マルチエージェント協働向け 18 チーム · 219 エージェント——<br>解凍してドロップイン、AI ツールが即座に仕事を覚えます。</b>
+  <b>2 つのプロダクトライン、1 つのリポジトリ：<br>AI ツール向け 40 シーンパック · 191 スキル&nbsp;＋&nbsp; マルチエージェント協働向け 18 チーム · 219 エージェント——<br>解凍してドロップイン、AI ツールが即座に仕事を覚えます。</b>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
-  <img src="https://img.shields.io/badge/skills-163-brightgreen?style=flat-square" alt="Skills" />
-  <img src="https://img.shields.io/badge/packs-39-blue?style=flat-square" alt="Packs" />
+  <img src="https://img.shields.io/badge/skills-191-brightgreen?style=flat-square" alt="Skills" />
+  <img src="https://img.shields.io/badge/packs-40-blue?style=flat-square" alt="Packs" />
   <img src="https://img.shields.io/badge/expert%20teams-18%20%C2%B7%20219%20agents-blueviolet?style=flat-square" alt="Expert Teams" />
   <img src="https://img.shields.io/badge/version-0.22.1-success?style=flat-square" alt="Version" />
 </p>
@@ -42,7 +42,7 @@
 | | **A · シーンパック（スキル）** | **B · Expert Teams（专家团）** |
 |---|---|---|
 | **ポジション** | AI コーディング / エージェントツール向けのスキル。1 パック = 1 つの実務シナリオ、skills ディレクトリに入れれば使える | AI コーディングツールや各種 AI ツールにおける**マルチエージェント協働**。役割分担した専門チームが計画・ディスパッチ・品質ゲートを担う |
-| **アセット** | 39 パック · 163 スキル · 20 ドメイン · 73 チェーン | 18 チーム · 219 エキスパートエージェント · 100 スキル · オーケストレーション規約（純 Markdown） |
+| **アセット** | 40 パック · 191 スキル · 20 ドメイン · 75 チェーン | 18 チーム · 219 エキスパートエージェント · 100 スキル · オーケストレーション規約（純 Markdown） |
 | **場所** | [`packs/`](packs/) + [`skills/`](skills/) | [`expert-teams/`](expert-teams/) |
 | **入手** | [公式サイト](https://x33834.github.io/awesome-skillkit/) · [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) | [オンライン閲覧](https://x33834.github.io/awesome-skillkit/expert-teams.html) · [4 プラットフォーム用パッケージ](https://x33834.github.io/awesome-skillkit/expert-teams.html#download) |
 
@@ -93,7 +93,7 @@ flowchart LR
 
 ## 使い込む理由 — 5 つの要点
 
-- **場面優先、テーマの寄せ集めではない**：163 スキル / 39 パック / 20 ドメイン / 73 チェーン——1 パック = AI にそのまま渡せる具体的な仕事（「PR レビュー」「記事を 16 つの中国語プラットフォームへ同時配信」）。
+- **場面優先、テーマの寄せ集めではない**：191 スキル / 40 パック / 20 ドメイン / 75 チェーン——1 パック = AI にそのまま渡せる具体的な仕事（「PR レビュー」「記事を 16 つの中国語プラットフォームへ同時配信」）。
 - **粒度は選べる**：単一 `SKILL.md`、パック単体 zip、[`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) の全量——解凍して skills ディレクトリへ入れ、新しいセッションで設定なしで動作。
 - **まず見てから**：[公式サイト](https://x33834.github.io/awesome-skillkit/) でスキル / ドメイン / パックを検索してカードから直接ダウンロード（日英中 README + 双語サイト）。または AI に `find_skill.py search <キーワード>` を実行させる。
 - **品質は検証可能**：`tools/validate_skills.py` が **0 errors / 0 warnings** を通過（manifest と配布 zip のダイジェスト相互固定）、CI が全 PR でユニットテスト実行。
@@ -120,7 +120,7 @@ flowchart LR
 
 > パック別 zip は `python3 build.py` で再ビルドされ、すべての GitHub Release に添付されます。GitCode / Gitee ミラーは同一タグをプッシュし、同一アセットをアップロードしています。
 
-## シナリオパック一覧（全 39 パック）
+## シナリオパック一覧（全 40 パック）
 
 以下が完全なカタログです。各行はパックフォルダへのリンクになっており、スキル列には同梱されるすべての `SKILL.md` を列挙しています。
 
@@ -145,6 +145,7 @@ flowchart LR
 | [`dataviz-studio`](packs/dataviz-studio) | Data Viz Studio | データ可視化スタジオ | 2 | `dashboard-designer`, `chart-recommender` |
 | [`de-ai-writing`](packs/de-ai-writing) | De-AI Writing | AIっぽさ除去ライティング | 3 | `ai-trace-auditor`, `humanize-rewriter`, `personal-voice-profile` |
 | [`edu-craft`](packs/edu-craft) | Edu Craft | 教育クラフト | 3 | `course-designer`, `exercise-generator`, `feynman-explainer` |
+| [`feishu-suite`](packs/feishu-suite) | Feishu Suite (official Lark CLI) | Feishu スイート（公式 CLI） | 28 | `lark-shared`, `lark-im`, `lark-doc`, `lark-wiki`, `lark-base`, `lark-sheets`, `lark-slides`, `lark-calendar`, `lark-mail`, `lark-task`, `lark-meeting`, `lark-drive`, `lark-approval`, `lark-okr`, `lark-contact`, `lark-event`, `lark-markdown`, `lark-whiteboard`, `lark-apps`, `lark-attendance`, `lark-openapi-explorer`, `lark-skill-maker`, `lark-minutes`, `lark-note`, `lark-vc`, `lark-vc-agent`, `lark-workflow-meeting-summary`, `lark-workflow-standup-report` |
 | [`github-workflow`](packs/github-workflow) | GitHub Collaboration | GitHubコラボレーション | 3 | `git-worktree-manager`, `changelog-generator`, `code-reviewer` |
 | [`growth-marketing`](packs/growth-marketing) | Growth Marketing | グロースマーケティング | 3 | `product-copywriter`, `campaign-designer`, `channel-adapter` |
 | [`homework-autopilot`](packs/homework-autopilot) | Homework Autopilot | 宿題オートパイロット | 3 | `assignment-intake`, `solution-drafter`, `own-voice-rewrite` |

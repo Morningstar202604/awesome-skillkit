@@ -3,13 +3,13 @@
 <h1 align="center">awesome-skillkit</h1>
 
 <p align="center">
-  <b>两条产品线，一个仓库：<br>39 个场景包 · 163 个技能（喂给 AI 工具）&nbsp;+&nbsp; 18 支专家团队 · 219 位专家（多智能体协作）——<br>解压即用，把整套工作能力一次交给你的 AI 工具。</b>
+  <b>两条产品线，一个仓库：<br>40 个场景包 · 191 个技能（喂给 AI 工具）&nbsp;+&nbsp; 18 支专家团队 · 219 位专家（多智能体协作）——<br>解压即用，把整套工作能力一次交给你的 AI 工具。</b>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
-  <img src="https://img.shields.io/badge/skills-163-brightgreen?style=flat-square" alt="Skills" />
-  <img src="https://img.shields.io/badge/packs-39-blue?style=flat-square" alt="Packs" />
+  <img src="https://img.shields.io/badge/skills-191-brightgreen?style=flat-square" alt="Skills" />
+  <img src="https://img.shields.io/badge/packs-40-blue?style=flat-square" alt="Packs" />
   <img src="https://img.shields.io/badge/expert%20teams-18%20%C2%B7%20219%20agents-blueviolet?style=flat-square" alt="Expert Teams" />
   <img src="https://img.shields.io/badge/version-0.22.1-success?style=flat-square" alt="Version" />
 </p>
@@ -41,7 +41,7 @@
 | | **A · 场景技能包（skills）** | **B · 专家团（expert-teams）** |
 |---|---|---|
 | **定位** | 面向 AI 编程 / 智能体工具的技能：一包 = 一个真实场景，拖进 skills 目录即可用 | 面向 AI 编程工具及各类 AI 工具里的**多智能体协作**：分工明确的专家团队，互相规划、派单、门禁把关 |
-| **资产** | 39 包 · 163 技能 · 20 域 · 73 条链 | 18 支团队 · 219 位专家 agent · 100 个技能 · 编排协议（纯 Markdown） |
+| **资产** | 40 包 · 191 技能 · 20 域 · 75 条链 | 18 支团队 · 219 位专家 agent · 100 个技能 · 编排协议（纯 Markdown） |
 | **位置** | [`packs/`](packs/) + [`skills/`](skills/) | [`expert-teams/`](expert-teams/) |
 | **入口** | [官网](https://x33834.github.io/awesome-skillkit/) · [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) | [在线浏览](https://x33834.github.io/awesome-skillkit/expert-teams.html) · [四平台安装包](https://x33834.github.io/awesome-skillkit/expert-teams.html#download) |
 
@@ -92,7 +92,7 @@ flowchart LR
 
 ## 为什么值得用——五个重点
 
-- **场景优先，不是领域大杂烩**：163 个技能 / 39 个包 / 20 个域 / 73 条链——一包 = 一个能直接交给 AI 的具体活儿（「审 PR」「一篇文章分发 16 个中文平台」）。
+- **场景优先，不是领域大杂烩**：191 个技能 / 40 个包 / 20 个域 / 75 条链——一包 = 一个能直接交给 AI 的具体活儿（「审 PR」「一篇文章分发 16 个中文平台」）。
 - **粒度随你挑**：单个 `SKILL.md`、单个场景包 zip、或 [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) 全量——解压拖进 skills 目录，新开会话即用，零配置。
 - **先逛再拿**：[官网](https://x33834.github.io/awesome-skillkit/) 按技能 / 域 / 包检索、卡片上直接下载（简中 · English · 日本語 README + 双语站点）；也可以让 AI 跑 `find_skill.py search <关键词>` 自己找。
 - **质量可验证**：`tools/validate_skills.py` 以 **0 错误 / 0 警告** 为门槛（manifest 与站点 zip 摘要双向锁定），CI 每个 PR 跑全量单测。
@@ -119,7 +119,7 @@ flowchart LR
 
 > 每个包的 zip 由 `python3 build.py` 构建，并随每次 GitHub Release 一起发布；GitCode / Gitee 镜像推送相同标签并上传相同资源。
 
-## 场景包目录（全部 39 个）
+## 场景包目录（全部 40 个）
 
 下表是完整目录。每行链接到对应包目录，技能列列出了包内打包的全部 `SKILL.md`。
 
@@ -144,6 +144,7 @@ flowchart LR
 | [`dataviz-studio`](packs/dataviz-studio) | **数据可视化工作室** | Data Viz Studio | 2 | `dashboard-designer`, `chart-recommender` |
 | [`de-ai-writing`](packs/de-ai-writing) | **去 AI 味写作** | De-AI Writing | 3 | `ai-trace-auditor`, `humanize-rewriter`, `personal-voice-profile` |
 | [`edu-craft`](packs/edu-craft) | **教育工艺** | Edu Craft | 3 | `course-designer`, `exercise-generator`, `feynman-explainer` |
+| [`feishu-suite`](packs/feishu-suite) | **飞书套件（官方 CLI）** | Feishu Suite (official Lark CLI) | 28 | `lark-shared`, `lark-im`, `lark-doc`, `lark-wiki`, `lark-base`, `lark-sheets`, `lark-slides`, `lark-calendar`, `lark-mail`, `lark-task`, `lark-meeting`, `lark-drive`, `lark-approval`, `lark-okr`, `lark-contact`, `lark-event`, `lark-markdown`, `lark-whiteboard`, `lark-apps`, `lark-attendance`, `lark-openapi-explorer`, `lark-skill-maker`, `lark-minutes`, `lark-note`, `lark-vc`, `lark-vc-agent`, `lark-workflow-meeting-summary`, `lark-workflow-standup-report` |
 | [`github-workflow`](packs/github-workflow) | **GitHub 协作工作流** | GitHub Collaboration | 3 | `git-worktree-manager`, `changelog-generator`, `code-reviewer` |
 | [`growth-marketing`](packs/growth-marketing) | **增长营销** | Growth Marketing | 3 | `product-copywriter`, `campaign-designer`, `channel-adapter` |
 | [`homework-autopilot`](packs/homework-autopilot) | **作业自动驾驶** | Homework Autopilot | 3 | `assignment-intake`, `solution-drafter`, `own-voice-rewrite` |

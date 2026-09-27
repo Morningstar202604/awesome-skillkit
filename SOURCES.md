@@ -1,6 +1,8 @@
 # SOURCES — 技能来源与更新指引 / Skill Sources & Updates
 
-> 本仓库维护三条线（截至 v0.22，共 **163 个技能 / 39 个场景包** = 上游精选 32 + 上游改造 5 + 自建 126）：
+> 本仓库维护四条线（截至 0.23 候选，共 **191 个技能 / 40 个场景包** = 官方收录 28 + 上游精选 32 + 上游改造 5 + 自建 126）：
+> 0. **官方收录**（28 个，2026-09-27 起，`skills/integrations/lark/`）——飞书官方仓库 `larksuite/cli` 的
+>    Agent Skills，整包收录为 `feishu-suite`，见「官方收录」一节；
 > 1. **上游精选**（`skills/programming/` 下 13 个分类目录，32 个）——全部来自下方上游项目；
 > 2. **上游改造**（5 个：`docx-template-fill`、`frontend-component-lab`、`career-ops-lite`、
 >    `session-handoff`、`webapp-e2e-harness`，改造自其他开源项目，见「上游改造」一节）；
@@ -61,6 +63,27 @@ anthropics、santifer-career-ops——逐技能对应关系以各技能 `referen
 | career-ops-lite | `skills/office/career-ops-lite` |
 | session-handoff | `skills/meta/session-handoff` |
 | webapp-e2e-harness | `skills/programming/testing/webapp-e2e-harness` |
+
+## 官方收录 / Official upstream —— 飞书套件 `feishu-suite`（28 个）
+
+| 项目 | 地址 | 协议 |
+|------|------|------|
+| larksuite/cli（飞书官方 CLI） | <https://github.com/larksuite/cli> | MIT（Copyright (c) 2026 Lark Technologies Pte. Ltd.） |
+
+- 收录数量：**28 个 skill**（`skills/integrations/lark/<skill-name>/`，整包 = `packs/feishu-suite`）：
+  `lark-shared`（认证/权限底座）、`lark-im`、`lark-doc`、`lark-wiki`、`lark-base`、`lark-sheets`、`lark-slides`、
+  `lark-calendar`、`lark-mail`、`lark-task`、`lark-meeting`、`lark-drive`、`lark-approval`、`lark-okr`、
+  `lark-contact`、`lark-event`、`lark-markdown`、`lark-whiteboard`、`lark-apps`、`lark-attendance`、
+  `lark-openapi-explorer`、`lark-skill-maker`，以及 4 个兼容重定向项（`lark-minutes` / `lark-note` / `lark-vc` /
+  `lark-vc-agent`）与 2 个流程配方（`lark-workflow-meeting-summary` / `lark-workflow-standup-report`）。
+- **与上游的差异**（同步上游时注意，勿覆盖）：
+  1. frontmatter 规范化为本仓库 schema（`license: MIT` + `compatibility` + `metadata.{author,version,category,pattern,tier,verified-date,source}`）；
+  2. 每个技能正文尾附「来源与署名」段；
+  3. 长参考文档（>100 行且无目录）增补 `## 目录`；
+  4. 相对链接归一化为「技能目录相对」口径（本仓库 `validate_skills.py` 的解析约定）；
+  5. 少量文案修正（去盘符示例、去掉会误判为路径的写法）；`lark-slides/scripts/conftest.py` 为 pytest 收集补的 sys.path 垫片。
+- 更新方法：上游更新后，用 `skills/integrations/lark/<name>/` 覆盖同名目录（`references/` / `scripts/` 一并覆盖），
+  再按上述 1–4 重新规范化，最后跑门禁（`python3 tools/validate_skills.py` / `pytest skills -q` / `build.py` / `tools/build_site.py`）。
 
 ## 并入资产 / Merged-in assets
 

@@ -97,6 +97,7 @@
       "domains": ["communication", "integrations", "knowledge", "office", "ppt", "tools"],
       "packs": [
         "communication-essentials",
+        "feishu-suite",
         "knowledge-base",
         "office-productivity",
         "toolsmith",

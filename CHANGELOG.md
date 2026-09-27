@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **CI 新增专家团门禁作业**：`expert-teams` job 运行子树 `verify.py`、`unittest discover -s expert-teams/tests`、`build-site.py --check`，并校验 `site/downloads/*.zip` 摘要与重新构建产物一致（防安装包静默漂移）。
 - `tools/build_site.py` 新增专家团实装统计（`meta.n_et_teams/n_et_agents/n_et_skills`）与首页双主线计数锚点注入（沿用既有 fail-closed 防漂移机制）。
 - **场景库分类 v2 + 站点两级导航**：新增 [`taxonomy.json`](taxonomy.json)（8 个场景库，20 能力域与 39 场景包各归唯一一组，含能力域中文名）；站点首页导航由单层域筛选升级为「场景库 → 能力域」两级联动（技能按能力域归组、场景包按使用场景归组），场景包卡片带场景库标签、技能链按中文域名分组；新增 [`tools/taxonomy_check.py`](tools/taxonomy_check.py) 覆盖校验，接入 `validate_skills.py`（CI 门禁）与 `tools/build_site.py`（构建前 fail-closed），漏登记/重复/幽灵 id 一律 FAIL。方案与扩容「开户」清单见 [`docs/TAXONOMY-V2.md`](docs/TAXONOMY-V2.md)。
+- **P0-1 落地：飞书套件 `feishu-suite`（28 技能，官方上游 larksuite/cli，MIT）**：整包收录飞书官方 Agent Skills——`skills/integrations/lark/` 下 28 个（消息 / 云文档 / 知识库 / 多维表格 / 表格 / 幻灯片 / 日历 / 邮箱 / 任务 / 会议 / 云盘 / 审批 / OKR / 通讯录 / 事件订阅 / Markdown / 画板 / 应用 / 考勤 / 开放能力探索 / 技能工厂 + 认证权限底座 `lark-shared`、4 个兼容重定向项、2 条流程配方）。迁移处理：frontmatter 规范化为本仓库 schema（`license: MIT` + `metadata.source` 等）、140 个长参考文档补目录、相对链接按本仓库门禁解析口径归一化（约 230 处）、每个技能正文尾附来源署名段。注册：新包 `packs/feishu-suite`、`skill_chains.json` integrations 域 +2 链（`feishu_approval_flow` / `feishu_doc_publish`）、`taxonomy.json` 归入「办公与效率」；上游自带的 232 项测试随包纳入 CI（`lark-slides/scripts/conftest.py` 补同目录 sys.path）。来源与更新指引见 `SOURCES.md`「官方收录」一节。
 
 ### Fixed
 
@@ -34,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **三语 README 计数与目录同步**：39→40 包 / 163→191 技能 / 73→75 链，目录表新增 `feishu-suite` 行；`SOURCES.md` 升为「四条线」（新增官方收录 28 个）并补飞书套件来源与更新指引。
 - **三语 README 改为并列双主线结构**：新增「两条产品线——互不冲突」总览表，专家团升格为「产品线 B（多智能体协作）」独立小节（定位、18 支团队清单、安装包下载表、来源说明）；`README.ja.md` 首屏计数同步为 39 包 / 163 技能（此前停留在 37 / 156）。根 `AGENTS.md` 增加子目录使用与门禁指引。
 - 专家团子目录：顶部「迁移说明 + 路径基准」；新增「下载安装包」小节；`export-platforms.py` 增加 `--no-zip` 开关；`CONTRIBUTING.md` 发布流程补充安装包上传说明。
 - 版本号保持 0.22.1 不变；按 [docs/VERSIONING.md](docs/VERSIONING.md) 流程，本批改动随下次发版升位（0.23.0 候选，发版时附带安装包到 Release）。

@@ -596,7 +596,35 @@
         "notion-workspace",
         "feishu-dingtalk-bridge",
         "issue-tracker-sync",
-        "cloud-drive-manager"
+        "cloud-drive-manager",
+        "lark-shared",
+        "lark-im",
+        "lark-doc",
+        "lark-wiki",
+        "lark-base",
+        "lark-sheets",
+        "lark-slides",
+        "lark-calendar",
+        "lark-mail",
+        "lark-task",
+        "lark-meeting",
+        "lark-drive",
+        "lark-approval",
+        "lark-okr",
+        "lark-contact",
+        "lark-event",
+        "lark-markdown",
+        "lark-whiteboard",
+        "lark-apps",
+        "lark-attendance",
+        "lark-openapi-explorer",
+        "lark-skill-maker",
+        "lark-minutes",
+        "lark-note",
+        "lark-vc",
+        "lark-vc-agent",
+        "lark-workflow-meeting-summary",
+        "lark-workflow-standup-report"
       ],
       "chains": {
         "weekly_status_broadcast": [
@@ -611,6 +639,15 @@
         "deliverable_archive": [
           "cloud-drive-manager",
           "feishu-dingtalk-bridge?"
+        ],
+        "feishu_approval_flow": [
+          "lark-shared",
+          "lark-contact?",
+          "lark-approval"
+        ],
+        "feishu_doc_publish": [
+          "lark-doc",
+          "lark-wiki?"
         ]
       }
     },

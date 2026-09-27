@@ -3,13 +3,13 @@
 <h1 align="center">awesome-skillkit</h1>
 
 <p align="center">
-  <b>Two product lines, one repo:<br>39 scene packs · 163 skills for AI tools &nbsp;+&nbsp; 18 expert teams · 219 agents for multi-agent collaboration —<br>unzip &amp; drop-in, your AI tool instantly knows the job.</b>
+  <b>Two product lines, one repo:<br>40 scene packs · 191 skills for AI tools &nbsp;+&nbsp; 18 expert teams · 219 agents for multi-agent collaboration —<br>unzip &amp; drop-in, your AI tool instantly knows the job.</b>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
-  <img src="https://img.shields.io/badge/skills-163-brightgreen?style=flat-square" alt="Skills" />
-  <img src="https://img.shields.io/badge/packs-39-blue?style=flat-square" alt="Packs" />
+  <img src="https://img.shields.io/badge/skills-191-brightgreen?style=flat-square" alt="Skills" />
+  <img src="https://img.shields.io/badge/packs-40-blue?style=flat-square" alt="Packs" />
   <img src="https://img.shields.io/badge/expert%20teams-18%20%C2%B7%20219%20agents-blueviolet?style=flat-square" alt="Expert Teams" />
   <img src="https://img.shields.io/badge/version-0.22.1-success?style=flat-square" alt="Version" />
 </p>
@@ -41,7 +41,7 @@ The SKILL.md files inside the repo are being translated to English, but many of 
 | | **A · Scene packs (skills)** | **B · Expert Teams (专家团)** |
 |---|---|---|
 | **Positioning** | Tool skills for AI coding / agent tools — one pack = one real-world scenario, drop it into the skills directory and go | Multi-agent collaboration inside AI coding tools and other AI tools — role-specialised agent teams that plan, dispatch, and gate each other's work |
-| **Assets** | 39 packs · 163 skills · 20 domains · 73 skill chains | 18 teams · 219 expert agents · 100 skills · orchestration protocol (pure Markdown) |
+| **Assets** | 40 packs · 191 skills · 20 domains · 75 skill chains | 18 teams · 219 expert agents · 100 skills · orchestration protocol (pure Markdown) |
 | **Location** | [`packs/`](packs/) + [`skills/`](skills/) | [`expert-teams/`](expert-teams/) |
 | **Get started** | [Official site](https://x33834.github.io/awesome-skillkit/) · [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) | [Browse page](https://x33834.github.io/awesome-skillkit/expert-teams.html) · [platform packages](https://x33834.github.io/awesome-skillkit/expert-teams.html#download) |
 
@@ -92,7 +92,7 @@ Packages are reproducible builds (digest-locked in CI); rebuild anytime with `py
 
 ## Why this repo — five reasons to grab it
 
-- **Scenario-first, not topic soup**: 163 skills / 39 packs / 20 domains / 73 chains — one pack = one concrete job you can hand to an AI ("review a PR", "cross-post an article to 16 Chinese platforms").
+- **Scenario-first, not topic soup**: 191 skills / 40 packs / 20 domains / 75 chains — one pack = one concrete job you can hand to an AI ("review a PR", "cross-post an article to 16 Chinese platforms").
 - **Pick your granularity**: a single `SKILL.md`, one pack zip, or everything via [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) — unzip into your tool's skills directory and it works in a fresh session, no config.
 - **Browse before you commit**: the [official site](https://x33834.github.io/awesome-skillkit/) searches skills / domains / packs with per-card downloads (EN · 简中 · 日本語 README + bilingual site); or ask your agent to run `find_skill.py search <keyword>`.
 - **Quality you can verify**: `tools/validate_skills.py` gates the repo at **0 errors / 0 warnings** (manifest ↔ shipped zips digests locked), and CI runs the full unit-test suite on every PR.
@@ -119,7 +119,7 @@ Packages are reproducible builds (digest-locked in CI); rebuild anytime with `py
 
 > Per-pack zips are rebuilt by `python3 build.py` and attached to every GitHub Release; the GitCode / Gitee mirrors push the same tags and upload the same assets.
 
-## Scenario pack directory (all 39 packs)
+## Scenario pack directory (all 40 packs)
 
 Below is the complete catalog. Each row links to its pack folder; the skill column lists every `SKILL.md` shipped inside.
 
@@ -144,6 +144,7 @@ Below is the complete catalog. Each row links to its pack folder; the skill colu
 | [`dataviz-studio`](packs/dataviz-studio) | Data Viz Studio | 数据可视化工作室 | 2 | `dashboard-designer`, `chart-recommender` |
 | [`de-ai-writing`](packs/de-ai-writing) | De-AI Writing | 去 AI 味写作 | 3 | `ai-trace-auditor`, `humanize-rewriter`, `personal-voice-profile` |
 | [`edu-craft`](packs/edu-craft) | Edu Craft | 教育工艺 | 3 | `course-designer`, `exercise-generator`, `feynman-explainer` |
+| [`feishu-suite`](packs/feishu-suite) | Feishu Suite (official Lark CLI) | 飞书套件（官方 CLI） | 28 | `lark-shared`, `lark-im`, `lark-doc`, `lark-wiki`, `lark-base`, `lark-sheets`, `lark-slides`, `lark-calendar`, `lark-mail`, `lark-task`, `lark-meeting`, `lark-drive`, `lark-approval`, `lark-okr`, `lark-contact`, `lark-event`, `lark-markdown`, `lark-whiteboard`, `lark-apps`, `lark-attendance`, `lark-openapi-explorer`, `lark-skill-maker`, `lark-minutes`, `lark-note`, `lark-vc`, `lark-vc-agent`, `lark-workflow-meeting-summary`, `lark-workflow-standup-report` |
 | [`github-workflow`](packs/github-workflow) | GitHub Collaboration | GitHub 协作工作流 | 3 | `git-worktree-manager`, `changelog-generator`, `code-reviewer` |
 | [`growth-marketing`](packs/growth-marketing) | Growth Marketing | 增长营销 | 3 | `product-copywriter`, `campaign-designer`, `channel-adapter` |
 | [`homework-autopilot`](packs/homework-autopilot) | Homework Autopilot | 作业自动驾驶 | 3 | `assignment-intake`, `solution-drafter`, `own-voice-rewrite` |

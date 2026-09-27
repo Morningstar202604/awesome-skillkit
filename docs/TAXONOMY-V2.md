@@ -1,6 +1,6 @@
 # 分类 v2：场景库信息架构 + 领域扩容「开户」方案
 
-> 制定日期：**2026-09-27** · 状态：**导航部分已落地**（随下次发版，0.23.0 候选）；扩容清单按 §6 顺序执行
+> 制定日期：**2026-09-27** · 状态：**导航已落地**；**P0-1 飞书套件（`feishu-suite`，28 技能）已落地**；其余开户按 §6 顺序执行（随下次发版，0.23.0 候选）
 > 依据：2026-09-27 生态调研报告（GitHub raw LICENSE 逐仓实测 + skills.sh 装机榜 + Skillful/Agentman 生态报告）+ 本仓库资产实测（39 包 / 163 技能 / 20 域 / 73 链）
 > 配套数据文件：[`taxonomy.json`](../taxonomy.json)（站点一级导航的单一事实源）
 
@@ -67,7 +67,7 @@
 
 | # | 场景库 | 新包（建议 id） | 内容来源 | 许可（09-27 实测） | 规模建议 |
 |---|---|---|---|---|---|
-| 1 | 🗂 办公与效率 | `feishu-suite` | [larksuite/cli](https://github.com/larksuite/cli) 官方 26 技能（消息/文档/Base/表格/日历/邮箱/任务/会议/Markdown） | **MIT** | 26（整包） |
+| 1 | 🗂 办公与效率 | `feishu-suite` ✅ **已落地** | [larksuite/cli](https://github.com/larksuite/cli) 官方 26→实际 28 技能（消息/文档/Base/表格/日历/邮箱/任务/会议/Markdown/画板 + 底座与配方） | **MIT** | 28（整包） |
 | 2 | 🗂 办公与效率 | `knowledge-work` | [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins)（数据可视化/任务管理/内容创作/竞争情报） | **Apache-2.0**（根 LICENSE 实测；入库前逐技能复核） | 挑 15~30 |
 | 3 | 🛠 软件开发 | `engineering-lifecycle` | [obra/superpowers](https://github.com/obra/superpowers)（TDD / 系统化调试 / 计划执行 / 子代理并行 / worktree） | **MIT** | 16（整包） |
 | 4 | 🛠 软件开发 | `frontend-standards` | [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)（QA/spec/PRD）+ [mattpocock/skills](https://github.com/mattpocock/skills)（tdd / triage / to-prd / handoff / grill-me） | **MIT + MIT**（raw LICENSE 双实测） | 8~12 |
@@ -97,7 +97,7 @@ Lawvable Legal 272 · OpenClaw Medical 863 · Cybersecurity 818 · headcount 172
 
 ---
 
-## 4. 本次已落地（导航、门禁与三个修复）
+## 4. 本次已落地（导航、门禁、P0-1 与四个修复）
 
 **新增**
 
@@ -105,6 +105,7 @@ Lawvable Legal 272 · OpenClaw Medical 863 · Cybersecurity 818 · headcount 172
 - 站点首页导航升级为两级 chips：「场景」（8+全部）→「能力域」（随场景联动收缩）+ 用法提示行；场景包卡片带场景库标签；技能链视图按中文域名分组。
 - `tools/taxonomy_check.py`：覆盖校验的单一事实源，`validate_skills.py`（CI 门禁）与 `tools/build_site.py`（构建，构建前 fail-closed）共用。
 - 首页产品线 A 卡片新增「8 大场景库」计数锚点（与 site.json meta 同源，防漂移）。
+- **P0-1 落地：`feishu-suite`（28 技能）**——`skills/integrations/lark/` 收录飞书官方 `larksuite/cli`（MIT）全套 Agent Skills；frontmatter 规范化、140 个长参考文档补目录、约 230 处相对链接按门禁口径归一化、每技能附来源署名；integrations 域 +2 链、taxonomy 归入「办公与效率」；上游自带 232 项测试纳入 CI。仓库总量更新为 **191 技能 / 40 包 / 20 域 / 75 链**。
 
 **顺手修掉的四个历史问题**（浏览器实测通过）
 
@@ -117,10 +118,10 @@ Lawvable Legal 272 · OpenClaw Medical 863 · Cybersecurity 818 · headcount 172
 
 ## 5. 待办（不阻塞本轮）
 
-1. **三语 README 的 39 包目录**按场景库重排（等本分类定稿后再动，避免二次改版）。
-2. **中文检索**：技能 frontmatter 目前只有英文 description（全仓约定），中文词只能命中"场景包"tab（包有 `desc_zh`）。方案二选一：为 163 技能补 frontmatter `description_zh`；或站点生成时从正文摘要中文首段。建议随下一轮内容批次做。
+1. **三语 README 的 40 包目录**按场景库重排（等本分类定稿后再动，避免二次改版；本轮已同步计数与新增行）。
+2. **中文检索**：技能 frontmatter 大多数只有英文 description（全仓约定；飞书套件等中文技能已直接受益）。方案二选一：为余下技能补 frontmatter `description_zh`；或站点生成时从正文摘要中文首段。建议随下一轮内容批次做。
 3. `find_skill.py`（仓库内检索）与 taxonomy 场景库联动（可选：`search --group software`）。
-4. P0 各包的迁移与署名登记（`manifest.json` / `pack.json` 的 source 字段 + `SOURCES.md`）。
+4. 其余 P0 各包的迁移与署名登记（`manifest.json` / `pack.json` 的 source 字段 + `SOURCES.md`）。
 
 ---
 
@@ -129,9 +130,9 @@ Lawvable Legal 272 · OpenClaw Medical 863 · Cybersecurity 818 · headcount 172
 ```
 本轮：分类 + 导航 + 门禁 ✅
  ↓
-P0-1 飞书套件（国内最高频）→ P0-2 知识工作 → P0-3 工程方法论 → P0-4 前端规范
+P0-1 飞书套件 ✅（feishu-suite，28 技能已入库）→ P0-2 知识工作 → P0-3 工程方法论 → P0-4 前端规范
 → P0-5 云平台 → P0-6 营销/C-level → P0-7 PM → P0-8 微信长文 → P0-9 视频代码化
- ↓（每包一提交：许可核验 → 与 163+100 去重 → 重组为包 → 登记 source → 过门禁 → CHANGELOG）
+ ↓（每包一提交：许可核验 → 与 191+100 去重 → 重组为包 → 登记 source → 过门禁 → CHANGELOG）
  ↓
 站点/三语 README/安装包随发版更新；P1、P2 按序。
 ```

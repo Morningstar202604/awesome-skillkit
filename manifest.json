@@ -618,6 +618,130 @@
       "sha256": "c0a87db630a0236b8c9cbbcfd73f75e75da928f050f98888cdd3a418cdb92aff"
     },
     {
+      "id": "feishu-suite",
+      "name": "Feishu Suite (official Lark CLI)",
+      "name_zh": "飞书套件（官方 CLI）",
+      "description": "Official Lark/Feishu agent skills from larksuite/cli (MIT): 28 skills covering IM, Docs, Wiki, Base, Sheets, Slides, Calendar, Mail, Tasks, Meetings, Drive, Approval, OKR, Contacts, Events, Markdown, Whiteboard plus the shared auth/permission base and two workflow recipes.",
+      "description_zh": "飞书官方 CLI（larksuite/cli，MIT）28 个技能：消息、云文档、知识库、多维表格、电子表格、幻灯片、日历、邮箱、任务、会议、云盘、审批、OKR、通讯录、事件订阅、Markdown、画板，外加共享的认证/权限底座与两条工作流配方；覆盖国内办公最高频的协作链路（上游装机 880 万+）。",
+      "file": "dist/feishu-suite.zip",
+      "skills": [
+        {
+          "name": "lark-approval",
+          "source": "larksuite/cli (MIT) — skills/lark-approval"
+        },
+        {
+          "name": "lark-apps",
+          "source": "larksuite/cli (MIT) — skills/lark-apps"
+        },
+        {
+          "name": "lark-attendance",
+          "source": "larksuite/cli (MIT) — skills/lark-attendance"
+        },
+        {
+          "name": "lark-base",
+          "source": "larksuite/cli (MIT) — skills/lark-base"
+        },
+        {
+          "name": "lark-calendar",
+          "source": "larksuite/cli (MIT) — skills/lark-calendar"
+        },
+        {
+          "name": "lark-contact",
+          "source": "larksuite/cli (MIT) — skills/lark-contact"
+        },
+        {
+          "name": "lark-doc",
+          "source": "larksuite/cli (MIT) — skills/lark-doc"
+        },
+        {
+          "name": "lark-drive",
+          "source": "larksuite/cli (MIT) — skills/lark-drive"
+        },
+        {
+          "name": "lark-event",
+          "source": "larksuite/cli (MIT) — skills/lark-event"
+        },
+        {
+          "name": "lark-im",
+          "source": "larksuite/cli (MIT) — skills/lark-im"
+        },
+        {
+          "name": "lark-mail",
+          "source": "larksuite/cli (MIT) — skills/lark-mail"
+        },
+        {
+          "name": "lark-markdown",
+          "source": "larksuite/cli (MIT) — skills/lark-markdown"
+        },
+        {
+          "name": "lark-meeting",
+          "source": "larksuite/cli (MIT) — skills/lark-meeting"
+        },
+        {
+          "name": "lark-minutes",
+          "source": "larksuite/cli (MIT) — skills/lark-minutes"
+        },
+        {
+          "name": "lark-note",
+          "source": "larksuite/cli (MIT) — skills/lark-note"
+        },
+        {
+          "name": "lark-okr",
+          "source": "larksuite/cli (MIT) — skills/lark-okr"
+        },
+        {
+          "name": "lark-openapi-explorer",
+          "source": "larksuite/cli (MIT) — skills/lark-openapi-explorer"
+        },
+        {
+          "name": "lark-shared",
+          "source": "larksuite/cli (MIT) — skills/lark-shared"
+        },
+        {
+          "name": "lark-sheets",
+          "source": "larksuite/cli (MIT) — skills/lark-sheets"
+        },
+        {
+          "name": "lark-skill-maker",
+          "source": "larksuite/cli (MIT) — skills/lark-skill-maker"
+        },
+        {
+          "name": "lark-slides",
+          "source": "larksuite/cli (MIT) — skills/lark-slides"
+        },
+        {
+          "name": "lark-task",
+          "source": "larksuite/cli (MIT) — skills/lark-task"
+        },
+        {
+          "name": "lark-vc",
+          "source": "larksuite/cli (MIT) — skills/lark-vc"
+        },
+        {
+          "name": "lark-vc-agent",
+          "source": "larksuite/cli (MIT) — skills/lark-vc-agent"
+        },
+        {
+          "name": "lark-whiteboard",
+          "source": "larksuite/cli (MIT) — skills/lark-whiteboard"
+        },
+        {
+          "name": "lark-wiki",
+          "source": "larksuite/cli (MIT) — skills/lark-wiki"
+        },
+        {
+          "name": "lark-workflow-meeting-summary",
+          "source": "larksuite/cli (MIT) — skills/lark-workflow-meeting-summary"
+        },
+        {
+          "name": "lark-workflow-standup-report",
+          "source": "larksuite/cli (MIT) — skills/lark-workflow-standup-report"
+        }
+      ],
+      "size_kb": 1834,
+      "sha256": "24d11de9fa36f0f001062cdf11e6ee1119fc597c7a9405ff7f298a2fdbacec7b"
+    },
+    {
       "id": "github-workflow",
       "name": "GitHub Collaboration",
       "name_zh": "GitHub 协作工作流",
