@@ -11,6 +11,7 @@ description: >
   for choosing a single chart type without building anything (use
   chart-recommender), for academic publication figures (use pub-plotter), or for
   statistical modeling.
+description_zh: "分析 CSV 并生成单文件 HTML 仪表盘：推荐 KPI 与图表布局，内联 SVG 无依赖。"
 license: Apache-2.0
 compatibility: Requires Python 3.8+; the script is stdlib-only. The HTML output has zero external dependencies and works offline.
 metadata:

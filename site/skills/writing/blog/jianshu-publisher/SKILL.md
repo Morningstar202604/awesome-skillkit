@@ -7,6 +7,7 @@ description: >
   when the user asks for Jianshu content, Jianshu essay, jianshu essay, jianshu
   adaptation, platform-specific content for jianshu, or publish to Jianshu.
   Do NOT use for cookie-based posting automation or other platforms.
+description_zh: "为简书社区撰写或改写成平台原生的 Markdown 文章，产出简书风格随笔，配文艺语感、诗意短标题、专题与标签。"
 license: Apache-2.0
 metadata:
   author: awesome-skillkit

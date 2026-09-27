@@ -1,6 +1,7 @@
 ---
 name: video-voice-synth
 description: "Text-to-speech for video production via scripts/voice_synth.py: single-line and batch synthesis against a local TTS gateway, per-scene WAV files with the scene_{id}.wav naming contract, six built-in voices (baby/adult/mascot/narrator), --mock silent placeholders for downstream wiring. Use when the script is ready and audio is needed before lip-sync, or when the user asks to voice-over / synthesize speech / text-to-speech / TTS / give the video a voice / text to speech / generate voiceover / synthesize narration. Do NOT use for cloning a real person's voice without documented consent."
+description_zh: "视频制作配音：对本地 TTS 网关做单条与批量文生语音，按场景输出 WAV，提供多种内置音色"
 license: Apache-2.0
 compatibility: Requires the local TTS gateway (default 127.0.0.1:30081) or --mock mode; the script itself needs Python 3.8+ only. No API keys required (gateway auth optional via GATEWAY_API_KEY env).
 metadata:

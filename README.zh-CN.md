@@ -3,13 +3,13 @@
 <h1 align="center">awesome-skillkit</h1>
 
 <p align="center">
-  <b>两条产品线，一个仓库：<br>40 个场景包 · 191 个技能（喂给 AI 工具）&nbsp;+&nbsp; 18 支专家团队 · 219 位专家（多智能体协作）——<br>解压即用，把整套工作能力一次交给你的 AI 工具。</b>
+  <b>两条产品线，一个仓库：<br>52 个场景包 · 339 个技能（喂给 AI 工具）&nbsp;+&nbsp; 18 支专家团队 · 219 位专家（多智能体协作）——<br>解压即用，把整套工作能力一次交给你的 AI 工具。</b>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
-  <img src="https://img.shields.io/badge/skills-191-brightgreen?style=flat-square" alt="Skills" />
-  <img src="https://img.shields.io/badge/packs-40-blue?style=flat-square" alt="Packs" />
+  <img src="https://img.shields.io/badge/skills-339-brightgreen?style=flat-square" alt="Skills" />
+  <img src="https://img.shields.io/badge/packs-52-blue?style=flat-square" alt="Packs" />
   <img src="https://img.shields.io/badge/expert%20teams-18%20%C2%B7%20219%20agents-blueviolet?style=flat-square" alt="Expert Teams" />
   <img src="https://img.shields.io/badge/version-0.22.1-success?style=flat-square" alt="Version" />
 </p>
@@ -41,7 +41,7 @@
 | | **A · 场景技能包（skills）** | **B · 专家团（expert-teams）** |
 |---|---|---|
 | **定位** | 面向 AI 编程 / 智能体工具的技能：一包 = 一个真实场景，拖进 skills 目录即可用 | 面向 AI 编程工具及各类 AI 工具里的**多智能体协作**：分工明确的专家团队，互相规划、派单、门禁把关 |
-| **资产** | 40 包 · 191 技能 · 20 域 · 75 条链 | 18 支团队 · 219 位专家 agent · 100 个技能 · 编排协议（纯 Markdown） |
+| **资产** | 52 包 · 339 技能 · 27 域 · 88 条链 | 18 支团队 · 219 位专家 agent · 100 个技能 · 编排协议（纯 Markdown） |
 | **位置** | [`packs/`](packs/) + [`skills/`](skills/) | [`expert-teams/`](expert-teams/) |
 | **入口** | [官网](https://x33834.github.io/awesome-skillkit/) · [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) | [在线浏览](https://x33834.github.io/awesome-skillkit/expert-teams.html) · [四平台安装包](https://x33834.github.io/awesome-skillkit/expert-teams.html#download) |
 
@@ -92,7 +92,7 @@ flowchart LR
 
 ## 为什么值得用——五个重点
 
-- **场景优先，不是领域大杂烩**：191 个技能 / 40 个包 / 20 个域 / 75 条链——一包 = 一个能直接交给 AI 的具体活儿（「审 PR」「一篇文章分发 16 个中文平台」）。
+- **场景优先，不是领域大杂烩**：339 个技能 / 52 个包 / 27 个域 / 88 条链——一包 = 一个能直接交给 AI 的具体活儿（「审 PR」「一篇文章分发 16 个中文平台」）。
 - **粒度随你挑**：单个 `SKILL.md`、单个场景包 zip、或 [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) 全量——解压拖进 skills 目录，新开会话即用，零配置。
 - **先逛再拿**：[官网](https://x33834.github.io/awesome-skillkit/) 按技能 / 域 / 包检索、卡片上直接下载（简中 · English · 日本語 README + 双语站点）；也可以让 AI 跑 `find_skill.py search <关键词>` 自己找。
 - **质量可验证**：`tools/validate_skills.py` 以 **0 错误 / 0 警告** 为门槛（manifest 与站点 zip 摘要双向锁定），CI 每个 PR 跑全量单测。
@@ -119,52 +119,101 @@ flowchart LR
 
 > 每个包的 zip 由 `python3 build.py` 构建，并随每次 GitHub Release 一起发布；GitCode / Gitee 镜像推送相同标签并上传相同资源。
 
-## 场景包目录（全部 40 个）
+## 场景包目录（全部 52 个）
 
-下表是完整目录。每行链接到对应包目录，技能列列出了包内打包的全部 `SKILL.md`。
+下表是完整目录，按**8 大场景库**分组（与官网同源的两级导航：场景库 → 能力域）。每行链接到对应包目录，技能列列出了包内打包的全部 `SKILL.md`。
+
+### 🛠 软件开发 · 19 包
+
+| 包 ID | 场景包 | 名称 (EN) | 技能数 | 包含技能 |
+|---|---|---|:---:|---|
+| [`api-development`](packs/api-development) | **API 开发与测试** | API Development & Testing | 2 | `api-design-reviewer`, `api-test-suite-builder` |
+| [`architecture`](packs/architecture) | **系统架构设计** | System Architecture | 3 | `senior-architect`, `migration-architect`, `monorepo-navigator` |
+| [`ci-cd`](packs/ci-cd) | **CI/CD 流水线** | CI/CD Pipeline | 3 | `ci-cd-pipeline-builder`, `ship-gate`, `spec-driven-workflow` |
+| [`cloud-platforms`](packs/cloud-platforms) | **云平台工具箱** | Cloud Platforms | 12 | `azure-compute`, `azure-ai`, `azure-deploy`, `azure-messaging`, `azure-storage`, `workers-best-practices`, `cloudflare`, `wrangler`, `supabase`, `supabase-postgres-best-practices`, `firebase-basics`, `firebase-security-rules-auditor` |
+| [`code-planning`](packs/code-planning) | **代码规划与生成** | Code Planning & Generation | 3 | `code-intent-planner`, `code-generator`, `debug-diagnoser` |
+| [`code-quality-pro`](packs/code-quality-pro) | **代码质量进阶** | Code Quality Pro | 13 | `code-review-excellence`, `debugging-strategies`, `e2e-testing-patterns`, `error-handling-patterns`, `api-design-principles`, `architecture-patterns`, `sql-optimization-patterns`, `postgresql-table-design`, `auth-implementation-patterns`, `monorepo-management`, `deployment-pipeline-design`, `git-advanced-workflows`, `open-code-review` |
+| [`code-review`](packs/code-review) | **代码审查** | Code Review | 4 | `code-reviewer`, `api-design-reviewer`, `tech-debt-tracker`, `dependency-auditor` |
+| [`containers`](packs/containers) | **容器与编排** | Containers & Orchestration | 3 | `docker-development`, `helm-chart-builder`, `kubernetes-operator` |
+| [`database`](packs/database) | **数据库设计与管理** | Database Design & Management | 2 | `database-designer`, `sql-database-assistant` |
+| [`engineering-playbook`](packs/engineering-playbook) | **工程方法论手册** | Engineering Playbook | 21 | `brainstorming`, `dispatching-parallel-agents`, `executing-plans`, `finishing-a-development-branch`, `receiving-code-review`, `requesting-code-review`, `subagent-driven-development`, `systematic-debugging`, `test-driven-development`, `using-git-worktrees`, `verification-before-completion`, `writing-plans`, `spec-driven-development`, `planning-and-task-breakdown`, `code-review-and-quality`, `debugging-and-error-recovery`, `shipping-and-launch`, `incremental-implementation`, `tdd`, `handoff`, `grill-me` |
+| [`github-workflow`](packs/github-workflow) | **GitHub 协作工作流** | GitHub Collaboration | 3 | `git-worktree-manager`, `changelog-generator`, `code-reviewer` |
+| [`hf-ml-hub`](packs/hf-ml-hub) | **Hugging Face 机器学习** | Hugging Face ML Hub | 11 | `hf-cli`, `huggingface-datasets`, `huggingface-papers`, `huggingface-community-evals`, `trl-training`, `train-sentence-transformers`, `huggingface-spaces`, `huggingface-gradio`, `huggingface-local-models`, `huggingface-llm-trainer`, `huggingface-best` |
+| [`incident-response`](packs/incident-response) | **故障响应与 SRE** | Incident Response & SRE | 3 | `incident-commander`, `runbook-generator`, `slo-architect` |
+| [`infrastructure`](packs/infrastructure) | **基础设施即代码** | Infrastructure as Code | 3 | `terraform-patterns`, `observability-designer`, `kubernetes-operator` |
+| [`performance`](packs/performance) | **性能优化** | Performance Profiling | 1 | `performance-profiler` |
+| [`scientific-agent-skills`](packs/scientific-agent-skills) | **科研计算（精选）** | Scientific Computing | 12 | `exploratory-data-analysis`, `experimental-design`, `hypothesis-generation`, `literature-review`, `citation-management`, `peer-review`, `polars`, `networkx`, `matplotlib`, `statistical-analysis`, `optimize-for-gpu`, `get-available-resources` |
+| [`security`](packs/security) | **安全与密钥管理** | Security & Secrets | 4 | `secrets-vault-manager`, `env-secrets-manager`, `pii-redactor`, `prompt-injection-guard` |
+| [`tdd`](packs/tdd) | **测试驱动开发** | Test-Driven Development | 4 | `tdd-guide`, `webapp-flow-tester`, `webapp-e2e-harness`, `agent-eval-harness` |
+| [`web-ops`](packs/web-ops) | **网页操作** | Web Operations | 1 | `web-data-extractor` |
+
+### 🤖 AI 与智能体 · 4 包
 
 | 包 ID | 场景包 | 名称 (EN) | 技能数 | 包含技能 |
 |---|---|---|:---:|---|
 | [`ai-agent-development`](packs/ai-agent-development) | **AI Agent 开发** | AI Agent Development | 5 | `agent-designer`, `mcp-server-builder`, `feature-flags-architect`, `self-eval`, `skill-tester` |
+| [`chat-prompt-craft`](packs/chat-prompt-craft) | **聊天提示词工艺** | Chat Prompt Craft | 1 | `chat-prompt-engineer` |
+| [`memory-systems`](packs/memory-systems) | **长期记忆系统** | Memory Systems | 4 | `memory-architect`, `memory-extractor`, `memory-manager`, `memory-retriever` |
+| [`skill-forge`](packs/skill-forge) | **技能锻造厂** | Skill Forge | 5 | `skill-author`, `skill-linter`, `skill-finder`, `session-handoff`, `weekly-report-generator` |
+
+### 🎨 内容与创意 · 13 包
+
+| 包 ID | 场景包 | 名称 (EN) | 技能数 | 包含技能 |
+|---|---|---|:---:|---|
 | [`ai-media-toolkit`](packs/ai-media-toolkit) | **AI 媒体生成工具箱** | AI Media Toolkit | 3 | `video-generation`, `image-generation`, `music-generation` |
 | [`ai-research-writing`](packs/ai-research-writing) | **AI 研究与写作** | AI Research & Writing | 18 | `deep-research`, `web-search`, `paper-topic-selector`, `article-outliner`, `article-drafter`, `content-editor`, `seo-optimizer`, `lit-review`, `experiment-runner`, `arch-diagram`, `neural-net-draw`, `latex-formatter`, `self-reviewer`, `journal-adapt`, `anti-defensive`, `ai-humanizer`, `tex-cleaner`, `pub-plotter` |
 | [`ai-video-pipeline`](packs/ai-video-pipeline) | **AI 短视频生产流水线** | AI Video Pipeline | 9 | `video-script-writer`, `video-voice-synth`, `video-lip-sync`, `video-editor`, `video-subtitles`, `video-thumbnail`, `transition-designer`, `motion-effects-designer`, `sound-designer` |
-| [`api-development`](packs/api-development) | **API 开发与测试** | API Development & Testing | 2 | `api-design-reviewer`, `api-test-suite-builder` |
-| [`architecture`](packs/architecture) | **系统架构设计** | System Architecture | 3 | `senior-architect`, `migration-architect`, `monorepo-navigator` |
-| [`audio-studio`](packs/audio-studio) | **音频工作室** | Audio Studio | 4 | `podcast-producer`, `tts-voice-director`, `sound-designer`, `episode-publisher` |
-| [`chat-prompt-craft`](packs/chat-prompt-craft) | **聊天提示词工艺** | Chat Prompt Craft | 1 | `chat-prompt-engineer` |
-| [`ci-cd`](packs/ci-cd) | **CI/CD 流水线** | CI/CD Pipeline | 3 | `ci-cd-pipeline-builder`, `ship-gate`, `spec-driven-workflow` |
-| [`code-planning`](packs/code-planning) | **代码规划与生成** | Code Planning & Generation | 3 | `code-intent-planner`, `code-generator`, `debug-diagnoser` |
-| [`code-review`](packs/code-review) | **代码审查** | Code Review | 4 | `code-reviewer`, `api-design-reviewer`, `tech-debt-tracker`, `dependency-auditor` |
-| [`communication-essentials`](packs/communication-essentials) | **沟通必备** | Communication Essentials | 2 | `tactful-communication`, `decision-debiasing` |
-| [`containers`](packs/containers) | **容器与编排** | Containers & Orchestration | 3 | `docker-development`, `helm-chart-builder`, `kubernetes-operator` |
+| [`audio-studio`](packs/audio-studio) | **音频工作室** | Audio Studio | 4 | `podcast-producer`, `tts-voice-director`, `episode-publisher`, `sound-designer` |
 | [`content-publishing`](packs/content-publishing) | **内容多平台发布自动化** | Content Publishing Automation | 18 | `zhihu-content-manager`, `cnblogs-skill`, `wechat-mp-publisher`, `juejin-publisher`, `csdn-publisher`, `jianshu-publisher`, `bilibili-publisher`, `toutiao-publisher`, `baijiahao-publisher`, `xiaohongshu-publisher`, `weibo-publisher`, `douban-publisher`, `v2ex-publisher`, `segmentfault-publisher`, `oschina-publisher`, `static-blog-deploy`, `cross-post-orchestrator`, `image-generation` |
-| [`data-ml-science`](packs/data-ml-science) | **数据科学与科学计算** | Data, ML & Scientific Computing | 7 | `etl-builder`, `feature-engineer`, `model-formulator`, `model-solver`, `simulation-runner`, `result-visualizer`, `ml-pipeline` |
-| [`database`](packs/database) | **数据库设计与管理** | Database Design & Management | 2 | `database-designer`, `sql-database-assistant` |
-| [`dataviz-studio`](packs/dataviz-studio) | **数据可视化工作室** | Data Viz Studio | 2 | `dashboard-designer`, `chart-recommender` |
+| [`creator-boosters`](packs/creator-boosters) | **创作增强单品** | Creator Boosters | 5 | `humanizer`, `diagram-design`, `archify`, `archify-review`, `video-shotcraft` |
 | [`de-ai-writing`](packs/de-ai-writing) | **去 AI 味写作** | De-AI Writing | 3 | `ai-trace-auditor`, `humanize-rewriter`, `personal-voice-profile` |
-| [`edu-craft`](packs/edu-craft) | **教育工艺** | Edu Craft | 3 | `course-designer`, `exercise-generator`, `feynman-explainer` |
-| [`feishu-suite`](packs/feishu-suite) | **飞书套件（官方 CLI）** | Feishu Suite (official Lark CLI) | 28 | `lark-shared`, `lark-im`, `lark-doc`, `lark-wiki`, `lark-base`, `lark-sheets`, `lark-slides`, `lark-calendar`, `lark-mail`, `lark-task`, `lark-meeting`, `lark-drive`, `lark-approval`, `lark-okr`, `lark-contact`, `lark-event`, `lark-markdown`, `lark-whiteboard`, `lark-apps`, `lark-attendance`, `lark-openapi-explorer`, `lark-skill-maker`, `lark-minutes`, `lark-note`, `lark-vc`, `lark-vc-agent`, `lark-workflow-meeting-summary`, `lark-workflow-standup-report` |
-| [`github-workflow`](packs/github-workflow) | **GitHub 协作工作流** | GitHub Collaboration | 3 | `git-worktree-manager`, `changelog-generator`, `code-reviewer` |
-| [`growth-marketing`](packs/growth-marketing) | **增长营销** | Growth Marketing | 3 | `product-copywriter`, `campaign-designer`, `channel-adapter` |
-| [`homework-autopilot`](packs/homework-autopilot) | **作业自动驾驶** | Homework Autopilot | 3 | `assignment-intake`, `solution-drafter`, `own-voice-rewrite` |
 | [`image-studio`](packs/image-studio) | **画图工作台** | Image Studio | 4 | `image-prompt-engineer`, `image-generation`, `visual-style-anchor`, `image-batch-processor` |
-| [`incident-response`](packs/incident-response) | **故障响应与 SRE** | Incident Response & SRE | 3 | `incident-commander`, `runbook-generator`, `slo-architect` |
-| [`infrastructure`](packs/infrastructure) | **基础设施即代码** | Infrastructure as Code | 3 | `terraform-patterns`, `observability-designer`, `kubernetes-operator` |
-| [`knowledge-base`](packs/knowledge-base) | **个人知识库** | Knowledge Base | 2 | `personal-wiki`, `knowledge-graph-builder` |
-| [`life-essentials`](packs/life-essentials) | **生活必备** | Life Essentials | 4 | `home-renovation-avoidance`, `medical-visit-guide`, `car-purchase-maintenance`, `rental-contract-guide` |
-| [`memory-systems`](packs/memory-systems) | **长期记忆系统** | Memory Systems | 4 | `memory-architect`, `memory-extractor`, `memory-manager`, `memory-retriever` |
-| [`office-productivity`](packs/office-productivity) | **办公效率工具箱** | Office Productivity | 10 | `ppt-builder`, `excel-assistant`, `resume-tailor`, `meeting-notes`, `internal-comms-writer`, `docx-writer`, `pdf-pipeline`, `epub-builder`, `docx-template-fill`, `career-ops-lite` |
-| [`performance`](packs/performance) | **性能优化** | Performance Profiling | 1 | `performance-profiler` |
-| [`security`](packs/security) | **安全与密钥管理** | Security & Secrets | 4 | `secrets-vault-manager`, `env-secrets-manager`, `pii-redactor`, `prompt-injection-guard` |
-| [`skill-forge`](packs/skill-forge) | **技能锻造厂** | Skill Forge | 5 | `skill-author`, `skill-linter`, `skill-finder`, `session-handoff`, `weekly-report-generator` |
-| [`tdd`](packs/tdd) | **测试驱动开发** | Test-Driven Development | 4 | `tdd-guide`, `webapp-flow-tester`, `webapp-e2e-harness`, `agent-eval-harness` |
-| [`toolsmith`](packs/toolsmith) | **工具与自动化** | Toolsmith | 6 | `file-organizer`, `batch-renamer`, `format-converter`, `task-scheduler`, `invoice-organizer`, `bank-statement-reconcile` |
+| [`video-code`](packs/video-code) | **代码化视频（HyperFrames）** | Code-Driven Video (HyperFrames) | 5 | `hyperframes`, `hyperframes-cli`, `hyperframes-animation`, `hyperframes-audio`, `hyperframes-keyframes` |
 | [`video-design-studio`](packs/video-design-studio) | **视频设计工作室** | Video Design Studio | 5 | `storyboard-designer`, `shot-designer`, `visual-style-anchor`, `transition-designer`, `motion-effects-designer` |
 | [`viral-entertainment`](packs/viral-entertainment) | **爆款娱乐场景** | Viral Entertainment | 2 | `ai-baby-podcast`, `nailong-laugh-shorts` |
 | [`visual-design-studio`](packs/visual-design-studio) | **视觉设计工作室** | Visual Design Studio | 7 | `design-brief-interpreter`, `image-prompt-engineer`, `layout-spec-auditor`, `frontend-design-director`, `frontend-component-lab`, `ui-ux-accessibility`, `design-system-foundations` |
-| [`web-ops`](packs/web-ops) | **网页操作** | Web Operations | 1 | `web-data-extractor` |
+| [`wechat-longform`](packs/wechat-longform) | **微信长文工作室** | WeChat Longform Studio | 10 | `baoyu-post-to-wechat`, `baoyu-format-markdown`, `baoyu-markdown-to-html`, `baoyu-cover-image`, `baoyu-article-illustrator`, `baoyu-infographic`, `baoyu-wechat-summary`, `baoyu-translate`, `baoyu-xhs-images`, `baoyu-slide-deck` |
+
+### 📊 数据与科研 · 2 包
+
+| 包 ID | 场景包 | 名称 (EN) | 技能数 | 包含技能 |
+|---|---|---|:---:|---|
+| [`data-ml-science`](packs/data-ml-science) | **数据科学与科学计算** | Data, ML & Scientific Computing | 7 | `etl-builder`, `feature-engineer`, `model-formulator`, `model-solver`, `simulation-runner`, `result-visualizer`, `ml-pipeline` |
+| [`dataviz-studio`](packs/dataviz-studio) | **数据可视化工作室** | Data Viz Studio | 2 | `dashboard-designer`, `chart-recommender` |
+
+### 🗂 办公与效率 · 7 包
+
+| 包 ID | 场景包 | 名称 (EN) | 技能数 | 包含技能 |
+|---|---|---|:---:|---|
+| [`communication-essentials`](packs/communication-essentials) | **沟通基本功** | Communication Essentials | 2 | `tactful-communication`, `decision-debiasing` |
+| [`feishu-suite`](packs/feishu-suite) | **飞书套件（官方 CLI）** | Feishu Suite (official Lark CLI) | 28 | `lark-approval`, `lark-apps`, `lark-attendance`, `lark-base`, `lark-calendar`, `lark-contact`, `lark-doc`, `lark-drive`, `lark-event`, `lark-im`, `lark-mail`, `lark-markdown`, `lark-meeting`, `lark-minutes`, `lark-note`, `lark-okr`, `lark-openapi-explorer`, `lark-shared`, `lark-sheets`, `lark-skill-maker`, `lark-slides`, `lark-task`, `lark-vc`, `lark-vc-agent`, `lark-whiteboard`, `lark-wiki`, `lark-workflow-meeting-summary`, `lark-workflow-standup-report` |
+| [`google-workspace`](packs/google-workspace) | **Google Workspace 套件** | Google Workspace | 12 | `gws-shared`, `gws-gmail`, `gws-gmail-send`, `gws-calendar`, `gws-calendar-agenda`, `gws-drive`, `gws-docs`, `gws-sheets`, `gws-tasks`, `gws-people`, `gws-workflow-standup-report`, `gws-workflow-weekly-digest` |
+| [`knowledge-base`](packs/knowledge-base) | **个人知识库** | Knowledge Base | 2 | `personal-wiki`, `knowledge-graph-builder` |
+| [`office-productivity`](packs/office-productivity) | **办公效率工具箱** | Office Productivity | 10 | `ppt-builder`, `excel-assistant`, `resume-tailor`, `meeting-notes`, `internal-comms-writer`, `docx-writer`, `pdf-pipeline`, `epub-builder`, `docx-template-fill`, `career-ops-lite` |
+| [`toolsmith`](packs/toolsmith) | **工具与自动化** | Toolsmith | 6 | `file-organizer`, `batch-renamer`, `format-converter`, `task-scheduler`, `invoice-organizer`, `bank-statement-reconcile` |
 | [`workspace-integrations`](packs/workspace-integrations) | **外部集成工具箱** | Workspace Integrations | 4 | `notion-workspace`, `feishu-dingtalk-bridge`, `issue-tracker-sync`, `cloud-drive-manager` |
+
+### 📈 商业与增长 · 4 包
+
+| 包 ID | 场景包 | 名称 (EN) | 技能数 | 包含技能 |
+|---|---|---|:---:|---|
+| [`cmo-suite`](packs/cmo-suite) | **CMO 与高管套件** | CMO & C-Suite Suite | 12 | `landing`, `linkedin-analytics`, `linkedin-content`, `linkedin-engagement`, `linkedin-profile`, `linkedin-strategy`, `ceo-advisor`, `cfo-advisor`, `cmo-advisor`, `cto-advisor`, `chro-advisor`, `ciso-advisor` |
+| [`growth-marketing`](packs/growth-marketing) | **增长营销** | Growth Marketing | 3 | `product-copywriter`, `campaign-designer`, `channel-adapter` |
+| [`knowledge-work`](packs/knowledge-work) | **知识工作套件** | Knowledge Work Suite | 21 | `comp-analysis`, `interview-prep`, `onboarding`, `performance-review`, `policy-lookup`, `recruiting-pipeline`, `review-contract`, `legal-risk-assessment`, `compliance-check`, `triage-nda`, `variance-analysis`, `audit-support`, `process-optimization`, `risk-assessment`, `status-report`, `ticket-triage`, `draft-response`, `kb-article`, `user-research`, `research-synthesis`, `ux-copy` |
+| [`product-management`](packs/product-management) | **产品管理** | Product Management | 14 | `create-prd`, `outcome-roadmap`, `prioritization-frameworks`, `user-stories`, `job-stories`, `stakeholder-map`, `pre-mortem`, `sprint-plan`, `north-star-metric`, `competitive-battlecard`, `market-sizing`, `user-personas`, `to-spec`, `triage` |
+
+### 🎓 学习与教育 · 2 包
+
+| 包 ID | 场景包 | 名称 (EN) | 技能数 | 包含技能 |
+|---|---|---|:---:|---|
+| [`edu-craft`](packs/edu-craft) | **教育工艺** | Edu Craft | 3 | `course-designer`, `exercise-generator`, `feynman-explainer` |
+| [`homework-autopilot`](packs/homework-autopilot) | **作业自动驾驶** | Homework Autopilot | 3 | `assignment-intake`, `solution-drafter`, `own-voice-rewrite` |
+
+### 🏠 生活与个人 · 1 包
+
+| 包 ID | 场景包 | 名称 (EN) | 技能数 | 包含技能 |
+|---|---|---|:---:|---|
+| [`life-essentials`](packs/life-essentials) | **生活必备** | Life Essentials | 4 | `home-renovation-avoidance`, `medical-visit-guide`, `car-purchase-maintenance`, `rental-contract-guide` |
 
 > 部分技能（如 `api-design-reviewer`、`kubernetes-operator`、`image-generation`）会出现在多个包中——这是有意为之，因为它们在不同场景下被复用。
 

@@ -9,6 +9,7 @@ description: >-
   understand / teach-back, or when exercise results show a failed checkpoint
   needing remedial teaching. Do NOT use for course skeleton design
   (course-designer), nor for generating question banks (exercise-generator).
+description_zh: "用费曼循环交互式讲解一个概念：最简解释、诊断提问、定位理解缺口、用类比或示例修复、复述检验与迁移挑战。"
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime dependencies.
 metadata:

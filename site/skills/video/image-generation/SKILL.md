@@ -12,6 +12,7 @@ description: >
   artwork or platform cover sizes. Do NOT use for screenshot capture,
   cropping/resizing existing files, posting automation, or OCR — those need
   local tools, not this skill.
+description_zh: "通过本地生成网关按文本或参考图生成图片，支持公众号、小红书、B 站等平台封面尺寸与小于 1MB 的上传用 JPG。"
 license: Apache-2.0
 compatibility: Requires curl and network access to the generation gateway endpoint.
   The optional scripts/generate_cover.py convenience wrapper needs Python 3.8+;

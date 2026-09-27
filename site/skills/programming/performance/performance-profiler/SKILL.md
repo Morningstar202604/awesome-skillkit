@@ -1,6 +1,7 @@
 ---
 name: performance-profiler
 description: "Systematic performance profiling for Node.js, Python, and Go apps: locate CPU/memory/I/O bottlenecks, generate flame graphs, analyze bundle size, optimize database queries, and run load tests with k6 and Artillery. Always measure before changing. Use when troubleshooting a slow endpoint, planning a performance budget, tracking a memory leak, profiling performance, finding a bottleneck, or optimizing slow code. Do NOT use when the ask is to patch business logic or refactor the hot path directly (this skill only diagnoses and recommends)."
+description_zh: "对 Node.js、Python、Go 应用做系统性能剖析：定位 CPU/内存/IO 瓶颈、生成火焰图、分析包体积、优化数据库查询并做压测。"
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:

@@ -1,6 +1,7 @@
 ---
 name: personal-voice-profile
 description: "Distill a reusable personal voice profile from >=3 samples of the user's own writing: lexical habits and catchphrases, syntactic stats (sentence length median/variance, paragraph habits), tonal markers, structural tics, plus 3 verbatim representative snippets; outputs voice-profile.json and a one-page imitation card. Use when the user asks to build a style profile / distill my writing style / analyze my writing habits / make AI write like me / voice profile / writing style analysis / mimic my writing style. Do NOT use on third-party text without the author's consent, and never to impersonate someone else."
+description_zh: "从至少 3 篇本人写作样本提炼可复用的个人语气画像：词汇习惯、句法统计、语气标志与结构特征，输出 voice-profile.json 与仿写卡。"
 license: Apache-2.0
 compatibility: Pure prompt-based; no scripts, no environment probing. Optionally pairs with ai-trace-auditor's stdlib scanner downstream, but needs nothing itself.
 metadata:

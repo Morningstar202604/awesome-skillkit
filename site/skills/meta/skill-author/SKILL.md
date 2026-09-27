@@ -9,6 +9,7 @@ description: >-
   SKILL.md / build a skill / skill creation. Do NOT use for checking an existing
   skill against the spec (that is skill-linter) or for finding a skill in this
   repo (that is skill-finder).
+description_zh: "从零起草新 Agent 技能：命名、写触发描述、生成 SKILL.md 十段式骨架并设计带 argparse 的脚本"
 license: Apache-2.0
 compatibility: Pure prompt-based; optional python3 for the self-check step.
 metadata:

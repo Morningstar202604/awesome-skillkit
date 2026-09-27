@@ -1,6 +1,7 @@
 ---
 name: docker-development
 description: "Docker and container development agent skill and plugin for Dockerfile optimization, docker-compose orchestration, multi-stage builds, and container security hardening. Use when: the user wants to write a Dockerfile, containerize an app, optimize image size, optimize a Dockerfile, create or improve docker-compose configurations, implement multi-stage builds, audit container security, reduce image size, or follow container best practices. Covers build performance, layer caching, secret management, and production-ready container patterns. Do NOT use for running containers in a production cluster."
+description_zh: "Docker 与容器开发：优化 Dockerfile、docker-compose、多阶段构建与安全加固。"
 license: Apache-2.0
 compatibility: Requires docker. No API keys required.
 metadata:

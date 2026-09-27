@@ -1,6 +1,7 @@
 ---
 name: latex-formatter
 description: "Check and normalize paper LaTeX: document class/template sniffing (IEEE etc), balanced environments, unescaped special chars, bibliography presence, and cross-file undefined \\cite/\\ref. Use when the user asks to check LaTeX / paper format check / pre-compile check / typeset a paper / fix LaTeX errors / normalize tex per template / check for unclosed environments / check paper formatting / normalize LaTeX / fix LaTeX errors. Fails with rc=1 when the input file does not exist. Do NOT use for writing paper content or generating figures (use pub-plotter / article-drafter)."
+description_zh: "检查并规范化论文 LaTeX：识别模板与文档类、环境配对、转义特殊字符、参考文献，以及跨文件未定义的 cite/ref。"
 license: Apache-2.0
 compatibility: Stdlib-only static checks; optional chktex/latexindent/tex-fmt when installed (honest fallback to stdlib otherwise).
 metadata:

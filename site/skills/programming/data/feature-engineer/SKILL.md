@@ -1,6 +1,7 @@
 ---
 name: feature-engineer
 description: "Design feature engineering plans: identify feature types, suggest transforms, detect data quality issues, plan interactions. Outputs a feature spec for ML training. Use after ETL, before model training. Use when doing feature engineering, designing features, feature design, feature transformation, a feature transformation plan, a data quality check, a feature spec, or feature transformation. Do NOT use for model training or hyperparameter tuning."
+description_zh: "设计特征工程方案：识别特征类型、建议变换、检测数据质量问题、规划特征交互，为机器学习训练输出特征规格。"
 license: Apache-2.0
 compatibility: Pure Python standard library. No sklearn required for planning.
 metadata:

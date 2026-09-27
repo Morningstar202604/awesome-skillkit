@@ -1,6 +1,7 @@
 ---
 name: ai-humanizer
 description: "Strip AI-flavored writing from academic text on two axes: lexical tells (cliches like 'delve'/'leverage'/'state-of-the-art' spam, empty intensifiers, over-qualification, repetitive openers) AND structural tells (low sentence-length burstiness, consecutive same openers, low lexical diversity, repeated 5-grams), each hit located by line:col. Use when the user asks to remove AI flavor / reduce AI traces / de-cliche academic text / remove AI tone / humanize text / de-robot writing / lower AI-detection rate. Do NOT use for defensive/hedging tone (use anti-defensive) or pure LaTeX formatting (use latex-formatter)."
+description_zh: "去除学术文本的 AI 味：清理套话、空泛修饰、句式单调等词汇与结构痕迹。"
 license: Apache-2.0
 compatibility: Stdlib only; requires python3; reads --text or --file, optional --report / --output.
 metadata:

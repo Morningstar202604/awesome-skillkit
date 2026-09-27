@@ -8,6 +8,7 @@ description: >-
   to docx / format a document, or wants to inspect or restyle an existing
   .docx. Do NOT use for PDF manipulation (use pdf-pipeline), spreadsheets, or
   slide decks.
+description_zh: "从 Markdown 草稿或结构化 JSON 生成 Word 文档，正确处理标题层级、列表、表格、加粗与中文字体，也可查看和重排现有 docx。"
 license: Apache-2.0
 compatibility: Requires python3 + python-docx (pip-installable); degrades to markdown-only output without it
 metadata:

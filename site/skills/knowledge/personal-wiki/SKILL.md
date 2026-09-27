@@ -11,6 +11,7 @@ description: >
   knowledge base / documentation / wiki / information architecture / research. Do NOT use for extracting durable facts into agent memory
   (use memory-extractor), for building an entity-relation graph with metrics
   (use knowledge-graph-builder), or for publishing notes as a website.
+description_zh: "搭建并维护个人 Markdown 知识库（原始素材与笔记双层结构），做索引、全文搜索、检查与报告，暴露孤立笔记与断链。"
 license: Apache-2.0
 compatibility: Requires Python 3.8+; this skill's scripts use only the standard library, with no third-party dependencies.
 metadata:

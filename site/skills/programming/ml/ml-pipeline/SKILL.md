@@ -1,6 +1,7 @@
 ---
 name: ml-pipeline
 description: "End-to-end training, evaluation, and tuning of ML models: supports RandomForest, GradientBoosting, and LogisticRegression, outputting accuracy/F1/ROC-AUC with cross-validation. Use when feature engineering is done and you need to train, evaluate, and compare tabular models — building an ML training pipeline, training a tabular model, tuning hyperparameters, or comparing models. Do NOT use for deep-learning research (tabular sklearn/XGBoost workflows only) or for feature engineering itself (use feature-engineer)."
+description_zh: "端到端训练、评估与调优表格机器学习模型：支持 RandomForest、GradientBoosting、LogisticRegression，输出准确率、F1、ROC-AUC 与交叉验证。"
 license: Apache-2.0
 compatibility: Requires scikit-learn, pandas, numpy. No API keys required.
 metadata:

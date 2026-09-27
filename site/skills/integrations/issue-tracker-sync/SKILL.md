@@ -1,6 +1,7 @@
 ---
 name: issue-tracker-sync
 description: "Compose issue-create requests for Jira, Linear, and GitHub Issues from one input, map priorities and statuses across the three models, and render a grouped weekly report. Use when the user asks to create an issue / file a bug ticket / sync tasks to Jira / generate a weekly report / cross-platform issue sync / task status summary / create Jira ticket / create Linear issue / open GitHub issue / weekly engineering report. Do NOT use for chat notifications (use feishu-dingtalk-bridge), Notion databases (use notion-workspace), or code review comments on pull requests."
+description_zh: "用同一输入为 Jira、Linear 和 GitHub Issues 创建工单，映射三者的优先级与状态，并生成分组每周工程报告。"
 license: Apache-2.0
 compatibility: "Python 3.8+ stdlib only for the helper script. Live execution needs outbound HTTPS to your Jira site, api.linear.app or api.github.com, plus JIRA_TOKEN / LINEAR_API_KEY / GITHUB_TOKEN in environment variables."
 metadata:

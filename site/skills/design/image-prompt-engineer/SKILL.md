@@ -10,6 +10,7 @@ description: >-
   -image prompt / make image more professional / prompt audit. Do NOT use for
   video prompts (shot-designer), nor for choosing canvas sizes
   (design-brief-interpreter already fixed them).
+description_zh: "依据设计规格撰写文生图提示词：五段式结构、优先级排序、光影与镜头词汇、文字渲染规则与各模型方言，支持编写和审查模式。"
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime dependencies.
 metadata:

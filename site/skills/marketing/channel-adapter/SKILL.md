@@ -1,6 +1,7 @@
 ---
 name: channel-adapter
 description: "Adapt finished marketing copy into per-channel variants with machine-checked fit: built-in channel constraint table (word budgets, line limits, CTA counts, banned patterns) for Xiaohongshu notes, Douyin spoken scripts, WeChat moments, email subjects, and search-ad headlines; audit each variant with channel_fit_check.py. Final chain step of growth-marketing. Use when the user asks to adapt for a channel / publish one piece everywhere / rewrite for Xiaohongshu / Douyin spoken script / Moments copy / email subject / channel variants / content marketing / SEO / conversion. Do NOT use for writing the base copy (product-copywriter), nor for planning the campaign calendar (campaign-designer)."
+description_zh: "把营销文案适配为各渠道版本：小红书、抖音口播、朋友圈、邮件与搜索广告。"
 license: Apache-2.0
 compatibility: Python 3.8+ (channel_fit_check.py); no third-party dependencies.
 metadata:

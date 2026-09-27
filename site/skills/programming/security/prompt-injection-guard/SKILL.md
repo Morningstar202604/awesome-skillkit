@@ -8,6 +8,7 @@ description: >
   multilingual injection / indirect injection. Do NOT use for red-team penetration (this is detection,
   not attack generation) or for fine-tuning / alignment research; it scans text
   input, flags suspicious patterns, and emits a verdict.
+description_zh: "检测并防御输入 LLM 的提示注入与越狱攻击：扫描不可信文本、识别多语言与间接注入、标记可疑模式并输出判定结论。"
 license: Apache-2.0
 compatibility: "Pure Python 3 stdlib, offline, zero deps, zero network. Read-only: only reads the target text and writes a verdict report; never mutates input. No credentials required."
 metadata:

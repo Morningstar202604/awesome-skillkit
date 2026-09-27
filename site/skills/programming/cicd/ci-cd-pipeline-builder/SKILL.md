@@ -1,6 +1,7 @@
 ---
 name: ci-cd-pipeline-builder
 description: "Generate pragmatic CI/CD pipelines from detected project stack signals — fast baseline generation, repeatable checks, environment-aware deployment stages. Use when setting up CI for a new project, building a CI/CD pipeline, configuring automated build and deployment, refactoring existing pipelines, or standardizing deployment workflows across multiple repos. Do NOT use for debugging an existing pipeline on a live runner."
+description_zh: "根据项目技术栈生成 CI/CD 流水线：构建、检查与环境化部署阶段。"
 license: Apache-2.0
 compatibility: Pure prompt-based; runs Python stdlib scripts via Bash. No API keys required.
 metadata:

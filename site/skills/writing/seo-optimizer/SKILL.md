@@ -1,6 +1,7 @@
 ---
 name: seo-optimizer
 description: "Optimize article for search: extract keywords, generate meta tags, score SEO quality, and adapt titles/captions per platform. Use after editing, before publishing to specific platforms. Use when the user asks to do SEO optimization / pick keywords / optimize the title / check keyword density / generate a meta description / optimize SEO / extract keywords / SEO score / meta description / platform title limits. Do NOT use for paid advertising strategy, ad bidding, or writing the article itself."
+description_zh: "文章 SEO 优化：提取关键词、生成 meta 标签与描述、评估 SEO 得分、按平台适配标题长度"
 license: Apache-2.0
 compatibility: Pure Python analysis. No API keys required.
 metadata:

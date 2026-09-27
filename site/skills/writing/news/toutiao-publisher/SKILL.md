@@ -7,6 +7,7 @@ description: >
   the user asks for Toutiao content, Toutiao article, toutiao article, toutiao
   adaptation, platform-specific content for toutiao, or publish to Toutiao.
   Do NOT use for cookie-based posting automation or other platforms.
+description_zh: "为今日头条撰写平台化文章：适配推荐算法的标题、正文、配图与标签"
 license: Apache-2.0
 metadata:
   author: awesome-skillkit

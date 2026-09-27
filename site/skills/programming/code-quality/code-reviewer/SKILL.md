@@ -12,6 +12,7 @@ description: >-
   in this code / review a pull request / review a PR / assess a diff's blast
   radius / static analysis / generate a review report. Do NOT use for fixing the
   issues it reports (static analysis only) — that is code-generator's job.
+description_zh: "代码静态分析：检测复杂度、密钥泄露、SQL 注入与 SOLID 违规并审查 PR diff。"
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash. The three bundled scripts require Python 3.10+.
 metadata:

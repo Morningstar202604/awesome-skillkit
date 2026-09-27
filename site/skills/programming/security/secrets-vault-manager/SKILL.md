@@ -2,6 +2,7 @@
 name: secrets-vault-manager
 description: >-
   Use when the user asks to set up secret management infrastructure, integrate HashiCorp Vault, configure cloud secret stores (AWS Secrets Manager, Azure Key Vault, GCP Secret Manager), implement secret rotation, or audit secret access patterns. Triggers on "set up Vault", "vault policies", "AppRole or OIDC auth", "rotate database credentials", "dynamic secrets", "vault audit log", "secret leak response", "External Secrets Operator", using a vault to manage credentials, secret rotation, or auditing secret access. Do NOT use for storing or reading production secret values (workflow design only); local .env hygiene lives in env-secrets-manager.
+description_zh: "搭建密钥管理基础设施：集成 HashiCorp Vault、配置 AWS/Azure/GCP 云密钥库、实现凭证轮换与密钥访问审计，仅做流程设计。"
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:

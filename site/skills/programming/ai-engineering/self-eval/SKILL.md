@@ -1,6 +1,7 @@
 ---
 name: self-eval
 description: "Honestly evaluate AI work quality using a two-axis scoring system. Use after completing a task, code review, or work session to get an unbiased assessment. Detects score inflation, forces devil's advocate reasoning, and persists scores across sessions. Use when the user runs /self-eval, asks to evaluate my work quality / self-assessment / review this task / check if the score is inflated / honest review / rate my work. Do NOT use for grading user answers or producing production artifacts."
+description_zh: "用双轴评分诚实评估 AI 工作质量：识别分数虚高、强制扮演反方举证，并在会话间保留分数，用于任务后的自评复盘。"
 license: Apache-2.0
 compatibility: Pure prompt-based; no external tools. May append to `.self-eval-scores.jsonl` in the working directory.
 metadata:

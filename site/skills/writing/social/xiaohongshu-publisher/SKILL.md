@@ -8,6 +8,7 @@ description: >
   asks for Xiaohongshu content, Xiaohongshu note, RedNote note, xiaohongshu adaptation,
   platform-specific content for xiaohongshu, or publish to Xiaohongshu. Do NOT use
   for cookie-based posting automation, image editing, or other platforms.
+description_zh: "为小红书撰写平台化笔记：简短抓人标题、千字内 emoji 正文、话题标签与图文轮播建议"
 license: Apache-2.0
 metadata:
   author: awesome-skillkit

@@ -11,6 +11,7 @@ description: >
   distribute content across platforms. Do NOT use for posting automation,
   scheduling scripts, or single-platform deep formatting (use the per-platform
   skill).
+description_zh: "把一篇源文章改编成多平台原生版本：知乎、微信、掘金、小红书与微博等。"
 license: Apache-2.0
 metadata:
   author: awesome-skillkit

@@ -9,6 +9,7 @@ description: >-
   to webp / prep platform covers. Do NOT use for generating new images from text
   (use image-generation), posting or uploading to platforms, or pixel-level
   creative editing in a raster editor.
+description_zh: "用 Pillow 批量处理文件夹内的图片：压缩、等比缩放、裁剪、加水印、jpg 与 png 与 webp 互转及可选 OCR 转文本。"
 license: Apache-2.0
 compatibility: "Python 3.8+; requires Pillow (pip install pillow). --ocr additionally needs pytesseract and a tesseract binary; it degrades to a warning if absent. Reads inputs, writes only to --output; originals are never modified."
 metadata:

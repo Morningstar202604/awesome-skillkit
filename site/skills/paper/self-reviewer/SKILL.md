@@ -1,6 +1,7 @@
 ---
 name: self-reviewer
 description: "Simulate a peer review pass on your own draft: structural gates + ML reproducibility rubric (statistical significance, ablation, baselines, code/data/seeds), each check with reviewable evidence. Use when simulating a review / self-checking a paper / pre-submission check / reviewer-perspective check / paper structure self-review / checking whether it is ready to submit / after receiving reviewer comments that need self-checking. Do NOT use for LaTeX formatting cleanup (use latex-formatter) or adapting to a journal template (use journal-adapt) or writing the paper itself."
+description_zh: "以审稿人视角对自己的论文草稿做同行评审模拟：结构关卡与机器学习可复现性评分，覆盖显著性、消融、基线、代码数据种子。"
 license: Apache-2.0
 compatibility: Stdlib only; reads .tex or plain-text drafts. Optional LLM evidence via --llm-evidence JSON.
 metadata:

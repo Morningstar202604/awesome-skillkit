@@ -1,6 +1,7 @@
 ---
 name: result-visualizer
 description: "Plot model results into charts (line, scatter, histogram) as PNG/SVG for reports and presentations. When to use: the model is solved or the simulation is complete and you need a visualization — e.g. plotting results, data visualization, making a chart, or drawing line/scatter/histogram charts. Do NOT use for statistical inference beyond the given results, for numerical solving (use model-solver), for formalizing the model (use model-formulator), or for heatmap/bar charts not implemented by the bundled script (build those directly with matplotlib)."
+description_zh: "把模型或仿真结果绘制成图表（折线、散点、直方图），导出 PNG/SVG 用于报告与演示。"
 license: Apache-2.0
 compatibility: Requires matplotlib. No API keys required.
 metadata:

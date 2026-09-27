@@ -2,6 +2,7 @@
 name: env-secrets-manager
 description: >-
   Manage environment-variable hygiene and secrets safety across local development and production. Triggers on "audit .env", "secrets scan", "check for leaked keys", "rotate credentials", "env file hygiene", "committed secrets", "detect-secrets or gitleaks setup", "missing env var incident". Practical auditing, drift awareness, rotation readiness. Use when auditing .env files for committed secrets, planning a credential rotation, debugging missing-env-var production incidents, hardening a new project against secrets leakage, managing environment variables, auditing secrets, checking .env leaks, or preparing for rotation. Do NOT use for reading or printing secret values (hygiene checks only); production vault infrastructure and rotation execution live in secrets-vault-manager.
+description_zh: "审计 .env 与环境变量卫生，排查已提交的密钥泄露、监测配置漂移并准备凭证轮换，只做检查不读取或打印密钥值。"
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:

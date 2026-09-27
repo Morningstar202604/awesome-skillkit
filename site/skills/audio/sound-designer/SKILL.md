@@ -1,6 +1,7 @@
 ---
 name: sound-designer
 description: "Design and mix the audio bed for a podcast or short video: select and place sound effects (SFX), choose a background music (BGM) bed matched to the content mood, set per-platform loudness targets (LUFS), plan EQ and compression for speech clarity, and design ducking curves so music automatically drops under the voice. Use when the user asks to add sound effects / mix audio / make audio louder / level audio / add background music / BGM selection / audio ducking / EQ voice / compression / loudness / LUFS / podcast mix / video sound design / ambient sound. Do NOT use for writing the spoken script (podcast-producer), voice casting or TTS synthesis parameters (tts-voice-director), publishing metadata (episode-publisher), or video clip assembly (video-editor)."
+description_zh: "为播客或短视频设计与混音：选配音效 BGM、设定 LUFS 响度、EQ 与压缩、设计音乐自动避让人声的闪避曲线"
 license: Apache-2.0
 compatibility: Pure prompt-based; the bundled loudness_check.py needs Python 3.8+ stdlib only. No audio processing is performed by this skill — it outputs a mixing plan the user or their DAW/ffmpeg executes.
 metadata:

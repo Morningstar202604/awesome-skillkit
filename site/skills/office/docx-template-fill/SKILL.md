@@ -7,6 +7,7 @@ description: >-
   reports, or notices / fill template / merge data into document / comment
   review. Do NOT use for generating a brand-new document from scratch (use
   docx-writer), spreadsheets, or slide decks.
+description_zh: "用 JSON 数据填充 Word 模板中的占位符，可选追加审阅批注，保留原模板不变，适合批量生成合同、报告与通知。"
 license: Apache-2.0
 compatibility: Requires python3 + python-docx (pip install python-docx); degrades to "print placeholder list only" when missing
 metadata:

@@ -2,6 +2,7 @@
 name: feature-flags-architect
 description: >-
   Audit, plan, and govern feature flags across their full lifecycle (classify → ship → ramp → retire). Use when the user asks to configure feature flags / canary rollout / flag governance / feature flag / release gate / add a flag / ship behind a flag / rollout plan / kill switch / stale flags / flag debt / LaunchDarkly / GrowthBook / Statsig / Unleash / Flipt. Ships stdlib-only Python tools (flag_debt_scanner, rollout_planner, kill_switch_audit) plus 4 references on taxonomy, provider trade-offs, rollout strategies, and lifecycle. Do NOT use for writing the flag SDK calls inside application code.
+description_zh: "审计、规划并治理功能开关全生命周期，覆盖分类、上线、灰度放量与下线，含灰度发布计划、发布门禁与开关债务扫描。"
 license: Apache-2.0
 compatibility: Reads project structure via Bash and git. Requires Python 3.8+ (stdlib only) to run the bundled scripts.
 metadata:

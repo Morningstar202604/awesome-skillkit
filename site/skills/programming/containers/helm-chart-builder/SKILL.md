@@ -1,6 +1,7 @@
 ---
 name: helm-chart-builder
 description: "Helm chart development agent skill and plugin for Claude Code, Codex, Gemini CLI, Cursor, OpenClaw — chart scaffolding, values design, template patterns, dependency management, security hardening, and chart testing. Use when: the user wants to write a Helm chart, write K8s deployment manifests, create or improve Helm charts, design values.yaml files, implement template helpers, audit chart security (RBAC, network policies, pod security), manage subcharts, or run helm lint/test. Do NOT use for deploying charts to a live cluster (template generation only)."
+description_zh: "开发与完善 Helm chart：脚手架搭建、values.yaml 设计、Kubernetes 部署模板编写、依赖与子 chart 管理、安全加固及 lint 与 test 测试。"
 license: Apache-2.0
 compatibility: Requires helm CLI for lint/template; network only for `helm dependency update`. No API keys required.
 metadata:

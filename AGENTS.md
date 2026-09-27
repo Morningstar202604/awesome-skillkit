@@ -8,12 +8,12 @@
 
 三个查法（任一命中即可）：
 
-1. **扫描述**：浏览 `skills/<域>/<子类>/<技能名>/SKILL.md` 的 frontmatter `description`——其中的触发词（「当用户…」「Use when…」「Do NOT…」）就是匹配依据。`skills/` 顶级目录即域（20 个，与 [`skills/skill_chains.json`](skills/skill_chains.json) 的域一一对应）。
-2. **关键词检索**（在仓库根目录运行）：
+1. **扫描述**：浏览 `skills/<域>/<子类>/<技能名>/SKILL.md` 的 frontmatter `description`（另有面向中文的 `description_zh`）——其中的触发词（「当用户…」「Use when…」「Do NOT…」）就是匹配依据。`skills/` 顶级目录即域（27 个，与 [`skills/skill_chains.json`](skills/skill_chains.json) 的域一一对应）。
+2. **关键词检索**（在仓库根目录运行，中英文均可）：
    ```bash
    python3 skills/meta/skill-finder/scripts/find_skill.py search <关键词>
    ```
-   数据实时读自 `manifest.json` 与真实 `SKILL.md`，可加 `--json`、`--top N`、`--category`。
+   数据实时读自 `manifest.json` 与真实 `SKILL.md`，可加 `--json`、`--top N`、`--category`、`--group`（按 8 大场景库过滤，如 `--group software` / `--group 软件开发`）。
 3. **多步任务查链**：`skills/skill_chains.json` 里 `domains[].entry` 是该域的编排器（入口技能），`chains` 是既有工序链。从编排器进入，按链的 step 顺序推进。
 
 命中后的执行纪律：

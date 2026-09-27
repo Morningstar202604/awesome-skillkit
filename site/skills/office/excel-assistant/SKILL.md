@@ -7,6 +7,7 @@ description: >-
   data / analyze a spreadsheet / summarize this spreadsheet / fix my csv /
   summarize this table / spreadsheet analysis / data cleaning / pivot summary.
   Do NOT use for building presentations or writing reports.
+description_zh: "清洗、分析并汇总表格数据：查看结构、修复编码错误、合并单元格、日期变文本等常见缺陷，输出干净文件和结论。"
 license: Apache-2.0
 compatibility: Works best with python3 + pandas + openpyxl; degrades to manual guidance.
 metadata:

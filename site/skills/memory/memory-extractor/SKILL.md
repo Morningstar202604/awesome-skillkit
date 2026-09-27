@@ -1,6 +1,7 @@
 ---
 name: memory-extractor
 description: "Use when turning a conversation or document into structured memory candidates: decide what is worth remembering, split facts to fine granularity, deduplicate, and score confidence. Triggers on memory extraction, conversation to memory, extracting memory entries, memory extraction, extract memories, conversation to memory, candidate extraction, confidence scoring, fine-grained facts, knowledge retrieval, RAG. NOT for storing, updating, or retrieving memories — use memory-manager or memory-retriever."
+description_zh: "把对话或文档抽取为结构化记忆候选：判断值得记住的内容、细粒度拆分事实、去重并打置信度评分。"
 license: Apache-2.0
 compatibility: Pure prompt-based; no scripts, no environment probing.
 metadata:

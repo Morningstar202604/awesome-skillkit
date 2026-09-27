@@ -1,6 +1,7 @@
 ---
 name: video-lip-sync
 description: "Synchronize character mouth movements with TTS audio. Takes a face image + audio file, generates lip-synced video. Gateway-based with mock fallback. Use when the user asks for lip sync / mouth-sync / digital human talking / make a photo talk / talking head video / make the avatar talk. Do NOT use for voice synthesis (see video-voice-synth), subtitle generation (see video-subtitles), or generic video editing."
+description_zh: "让角色口型与 TTS 音频同步：输入人脸图片与音频，生成对口型数字人说话视频"
 license: Apache-2.0
 compatibility: Requires local lip-sync gateway at 127.0.0.1:30081 or mock mode. No API keys required.
 metadata:

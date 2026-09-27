@@ -8,6 +8,7 @@ description: >
   douban review, douban adaptation, platform-specific content for douban, or
   publish to Douban. Do NOT use for cookie-based posting automation or other
   platforms.
+description_zh: "为豆瓣社区撰写或改写成平台原生内容，生成豆瓣日记、书影音评论和小组帖子，带文艺语感、标签与小组定位。"
 license: Apache-2.0
 metadata:
   author: awesome-skillkit

@@ -8,6 +8,7 @@ description: >
   baby streamer / funny AI-kid short video, or wants meme-style
   talking-character shorts. Do NOT use for real-child footage editing,
   deepfakes of real people, or news-style content presented as factual.
+description_zh: "制作 AI 婴儿播客短视频：角色设计、脚本、配音、对口型与合规发布。"
 license: Apache-2.0
 compatibility: Uses web creation tools (image gen, TTS, lip-sync) in a browser workflow; no local install needed.
 metadata:

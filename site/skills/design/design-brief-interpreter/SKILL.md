@@ -9,6 +9,7 @@ description: >-
   when the user asks to make an image / design a cover / poster / infographic /
   illustration / cover / banner. Do NOT use for video frame prompts
   (shot-designer owns motion), nor for UI code generation.
+description_zh: "把模糊的视觉设计需求转成可校验规格：画布尺寸、构图、配色与文字层级。"
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime dependencies.
 metadata:

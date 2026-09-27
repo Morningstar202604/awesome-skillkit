@@ -11,6 +11,7 @@ description: >-
   implementation, or layout QA. Trigger words: design system, typography scale,
   color palette, spacing system, design tokens, UI spacing, responsive breakpoints,
   type scale, color contrast, motion spec, box shadow elevation.
+description_zh: "设计系统基础数值参考：字阶、色彩对比、8pt 间距、圆角阴影、动效与断点。"
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime deps.
 metadata:

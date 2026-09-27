@@ -1,6 +1,7 @@
 ---
 name: experiment-runner
 description: "Run reproducible experiments with fixed seeds, aggregate metrics across N runs, and apply REAL statistical tests (Welch t-test / p-value / Cohen's d / 95% CI) via scipy. Supports simulated (honest demo) and real (--metric module:func) modes; optional mlflow tracking. Use when the user asks to run experiments / run N times and average / statistical significance testing / repeat experiments / run N times with a fixed seed / reproduce an experiment / compute mean std / significance test / p-value. Do NOT use for drawing charts (hand results to pub-plotter)."
+description_zh: "运行可复现实验：固定随机种子、多次运行聚合指标，并用 scipy 做 Welch t 检验、p 值与 Cohen d 效应量等显著性检验。"
 license: Apache-2.0
 compatibility: Stdlib + scipy (falls back to pure-stdlib Welch t when scipy absent). numpy/torch seeded when installed. real mode imports user metrics via importlib. mlflow optional.
 metadata:

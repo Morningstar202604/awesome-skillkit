@@ -1,6 +1,7 @@
 ---
 name: cloud-drive-manager
 description: "Plan and verify cloud-drive archives: enumerate a local directory into an upload manifest with per-file chunk strategy, generate sha256/md5 checksum lists for post-upload comparison, and render Baidu / Aliyun / OneDrive listing responses as readable tables. Use when the user asks to archive to a cloud drive / upload to Baidu Netdisk / back up to Aliyun Drive / sync to OneDrive / list cloud-drive files / verify upload completeness / archive to cloud drive / upload to Baidu Netdisk / backup to Aliyun Drive / sync to OneDrive. Do NOT use for Notion pages (use notion-workspace), chat notifications (use feishu-dingtalk-bridge), or local-only file organization (use file-organizer)."
+description_zh: "规划并校验网盘归档：生成上传清单与校验和，解析百度/阿里云盘/OneDrive 列表。"
 license: Apache-2.0
 compatibility: "Python 3.8+ stdlib only for the helper script (hashlib/json/pathlib). Live uploads need outbound HTTPS plus BAIDU_ACCESS_TOKEN / ALIYUN_REFRESH_TOKEN / ONEDRIVE_ACCESS_TOKEN in environment variables; the bundled script never contacts a network or deletes anything."
 metadata:

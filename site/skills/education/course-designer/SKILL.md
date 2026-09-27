@@ -9,6 +9,7 @@ description: >-
   curriculum / teach me a subject / lesson design. Do NOT use for generating
   exercises (exercise-generator), nor for interactive concept teaching
   (feynman-explainer).
+description_zh: "从主题设计掌握式课程：学习契约、关卡拆解、学习路径与考试调整。"
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime dependencies.
 metadata:

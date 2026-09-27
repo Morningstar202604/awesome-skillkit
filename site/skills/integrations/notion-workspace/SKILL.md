@@ -1,6 +1,7 @@
 ---
 name: notion-workspace
 description: "Build and parse Notion API payloads offline: page creation bodies, database query filters with cursor pagination, and block-to-Markdown rendering. Use when the user asks to write to Notion / sync to Notion / create a Notion page / query a Notion database / export a Notion page / organize a Notion workspace / write to Notion / create Notion page / query Notion database / export Notion page / sync notes to Notion. Do NOT use for Slack or Feishu messaging (use feishu-dingtalk-bridge), issue trackers (use issue-tracker-sync), or local Markdown files that never leave disk."
+description_zh: "离线构建与解析 Notion API 载荷：页面创建体、带游标分页的数据库查询过滤，以及块转 Markdown，用于同步和导出笔记。"
 license: Apache-2.0
 compatibility: "Python 3.8+ stdlib only for the helper script. Live execution needs a Notion internal integration token in NOTION_TOKEN plus outbound HTTPS to api.notion.com — the bundled script never sends requests and runs fully offline."
 metadata:

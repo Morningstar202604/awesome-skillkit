@@ -1,6 +1,7 @@
 ---
 name: campaign-designer
 description: "Design an e-commerce/growth marketing campaign around finished product copy: marketing-calendar placement (festival nodes vs everyday), channel matrix with roles per channel, and single-variable A/B variant pairs (one change per pair, hypothesis stated). Reads copy from product-copywriter, hands variant matrix to channel-adapter. Use when the user asks to plan a campaign / marketing calendar / ad plan / A/B test / campaign / channel matrix / marketing campaign / growth / content marketing / conversion. Do NOT use for writing the base copy itself (product-copywriter), nor for per-platform reformatting (channel-adapter)."
+description_zh: "设计电商与增长营销活动：营销日历、渠道矩阵与单变量 A/B 测试方案。"
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime dependencies.
 metadata:

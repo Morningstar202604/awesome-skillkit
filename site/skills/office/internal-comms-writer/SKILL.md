@@ -10,6 +10,7 @@ description: >-
   FAQ answer / cross-team request. Do NOT use for external customer-facing copy,
   marketing material, or legal/PR statements that require sign-off from comms
   or legal teams.
+description_zh: "起草公司内部沟通：团队例行更新、全员通知、员工 FAQ 答复与跨团队协作邮件，先明确受众、事件、行动与截止时间。"
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime deps.
 metadata:

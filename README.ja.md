@@ -3,13 +3,13 @@
 <h1 align="center">awesome-skillkit</h1>
 
 <p align="center">
-  <b>2 つのプロダクトライン、1 つのリポジトリ：<br>AI ツール向け 40 シーンパック · 191 スキル&nbsp;＋&nbsp; マルチエージェント協働向け 18 チーム · 219 エージェント——<br>解凍してドロップイン、AI ツールが即座に仕事を覚えます。</b>
+  <b>2 つのプロダクトライン、1 つのリポジトリ：<br>AI ツール向け 52 シーンパック · 339 スキル&nbsp;＋&nbsp; マルチエージェント協働向け 18 チーム · 219 エージェント——<br>解凍してドロップイン、AI ツールが即座に仕事を覚えます。</b>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
-  <img src="https://img.shields.io/badge/skills-191-brightgreen?style=flat-square" alt="Skills" />
-  <img src="https://img.shields.io/badge/packs-40-blue?style=flat-square" alt="Packs" />
+  <img src="https://img.shields.io/badge/skills-339-brightgreen?style=flat-square" alt="Skills" />
+  <img src="https://img.shields.io/badge/packs-52-blue?style=flat-square" alt="Packs" />
   <img src="https://img.shields.io/badge/expert%20teams-18%20%C2%B7%20219%20agents-blueviolet?style=flat-square" alt="Expert Teams" />
   <img src="https://img.shields.io/badge/version-0.22.1-success?style=flat-square" alt="Version" />
 </p>
@@ -42,7 +42,7 @@
 | | **A · シーンパック（スキル）** | **B · Expert Teams（专家团）** |
 |---|---|---|
 | **ポジション** | AI コーディング / エージェントツール向けのスキル。1 パック = 1 つの実務シナリオ、skills ディレクトリに入れれば使える | AI コーディングツールや各種 AI ツールにおける**マルチエージェント協働**。役割分担した専門チームが計画・ディスパッチ・品質ゲートを担う |
-| **アセット** | 40 パック · 191 スキル · 20 ドメイン · 75 チェーン | 18 チーム · 219 エキスパートエージェント · 100 スキル · オーケストレーション規約（純 Markdown） |
+| **アセット** | 52 パック · 339 スキル · 27 ドメイン · 88 チェーン | 18 チーム · 219 エキスパートエージェント · 100 スキル · オーケストレーション規約（純 Markdown） |
 | **場所** | [`packs/`](packs/) + [`skills/`](skills/) | [`expert-teams/`](expert-teams/) |
 | **入手** | [公式サイト](https://x33834.github.io/awesome-skillkit/) · [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) | [オンライン閲覧](https://x33834.github.io/awesome-skillkit/expert-teams.html) · [4 プラットフォーム用パッケージ](https://x33834.github.io/awesome-skillkit/expert-teams.html#download) |
 
@@ -93,7 +93,7 @@ flowchart LR
 
 ## 使い込む理由 — 5 つの要点
 
-- **場面優先、テーマの寄せ集めではない**：191 スキル / 40 パック / 20 ドメイン / 75 チェーン——1 パック = AI にそのまま渡せる具体的な仕事（「PR レビュー」「記事を 16 つの中国語プラットフォームへ同時配信」）。
+- **場面優先、テーマの寄せ集めではない**：339 スキル / 52 パック / 27 ドメイン / 88 チェーン——1 パック = AI にそのまま渡せる具体的な仕事（「PR レビュー」「記事を 16 つの中国語プラットフォームへ同時配信」）。
 - **粒度は選べる**：単一 `SKILL.md`、パック単体 zip、[`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) の全量——解凍して skills ディレクトリへ入れ、新しいセッションで設定なしで動作。
 - **まず見てから**：[公式サイト](https://x33834.github.io/awesome-skillkit/) でスキル / ドメイン / パックを検索してカードから直接ダウンロード（日英中 README + 双語サイト）。または AI に `find_skill.py search <キーワード>` を実行させる。
 - **品質は検証可能**：`tools/validate_skills.py` が **0 errors / 0 warnings** を通過（manifest と配布 zip のダイジェスト相互固定）、CI が全 PR でユニットテスト実行。
@@ -120,52 +120,101 @@ flowchart LR
 
 > パック別 zip は `python3 build.py` で再ビルドされ、すべての GitHub Release に添付されます。GitCode / Gitee ミラーは同一タグをプッシュし、同一アセットをアップロードしています。
 
-## シナリオパック一覧（全 40 パック）
+## シナリオパック一覧（全 52 パック）
 
-以下が完全なカタログです。各行はパックフォルダへのリンクになっており、スキル列には同梱されるすべての `SKILL.md` を列挙しています。
+以下が完全なカタログです。**8 つのシーンライブラリ**ごとにグループ化しています（公式サイトと同じ 2 段階ナビゲーション：シーンライブラリ → ケイパビリティドメイン）。各行はパックフォルダへのリンクになっており、スキル列には同梱されるすべての `SKILL.md` を列挙しています。
+
+### 🛠 ソフトウェア開発 · 19 パック
+
+| Pack ID | パック名 (英語) | パック名 (日本語) | スキル数 | 同梱スキル |
+|---|---|---|:---:|---|
+| [`api-development`](packs/api-development) | API Development & Testing | API開発とテスト | 2 | `api-design-reviewer`, `api-test-suite-builder` |
+| [`architecture`](packs/architecture) | System Architecture | システムアーキテクチャ設計 | 3 | `senior-architect`, `migration-architect`, `monorepo-navigator` |
+| [`ci-cd`](packs/ci-cd) | CI/CD Pipeline | CI/CDパイプライン | 3 | `ci-cd-pipeline-builder`, `ship-gate`, `spec-driven-workflow` |
+| [`cloud-platforms`](packs/cloud-platforms) | Cloud Platforms | クラウドプラットフォームツールボックス | 12 | `azure-compute`, `azure-ai`, `azure-deploy`, `azure-messaging`, `azure-storage`, `workers-best-practices`, `cloudflare`, `wrangler`, `supabase`, `supabase-postgres-best-practices`, `firebase-basics`, `firebase-security-rules-auditor` |
+| [`code-planning`](packs/code-planning) | Code Planning & Generation | コード計画と生成 | 3 | `code-intent-planner`, `code-generator`, `debug-diagnoser` |
+| [`code-quality-pro`](packs/code-quality-pro) | Code Quality Pro | コード品質プロ | 13 | `code-review-excellence`, `debugging-strategies`, `e2e-testing-patterns`, `error-handling-patterns`, `api-design-principles`, `architecture-patterns`, `sql-optimization-patterns`, `postgresql-table-design`, `auth-implementation-patterns`, `monorepo-management`, `deployment-pipeline-design`, `git-advanced-workflows`, `open-code-review` |
+| [`code-review`](packs/code-review) | Code Review | コードレビュー | 4 | `code-reviewer`, `api-design-reviewer`, `tech-debt-tracker`, `dependency-auditor` |
+| [`containers`](packs/containers) | Containers & Orchestration | コンテナとオーケストレーション | 3 | `docker-development`, `helm-chart-builder`, `kubernetes-operator` |
+| [`database`](packs/database) | Database Design & Management | データベース設計と管理 | 2 | `database-designer`, `sql-database-assistant` |
+| [`engineering-playbook`](packs/engineering-playbook) | Engineering Playbook | エンジニアリング方法論ハンドブック | 21 | `brainstorming`, `dispatching-parallel-agents`, `executing-plans`, `finishing-a-development-branch`, `receiving-code-review`, `requesting-code-review`, `subagent-driven-development`, `systematic-debugging`, `test-driven-development`, `using-git-worktrees`, `verification-before-completion`, `writing-plans`, `spec-driven-development`, `planning-and-task-breakdown`, `code-review-and-quality`, `debugging-and-error-recovery`, `shipping-and-launch`, `incremental-implementation`, `tdd`, `handoff`, `grill-me` |
+| [`github-workflow`](packs/github-workflow) | GitHub Collaboration | GitHubコラボレーション | 3 | `git-worktree-manager`, `changelog-generator`, `code-reviewer` |
+| [`hf-ml-hub`](packs/hf-ml-hub) | Hugging Face ML Hub | Hugging Face機械学習 | 11 | `hf-cli`, `huggingface-datasets`, `huggingface-papers`, `huggingface-community-evals`, `trl-training`, `train-sentence-transformers`, `huggingface-spaces`, `huggingface-gradio`, `huggingface-local-models`, `huggingface-llm-trainer`, `huggingface-best` |
+| [`incident-response`](packs/incident-response) | Incident Response & SRE | 障害対応とSRE | 3 | `incident-commander`, `runbook-generator`, `slo-architect` |
+| [`infrastructure`](packs/infrastructure) | Infrastructure as Code | インフラ as Code | 3 | `terraform-patterns`, `observability-designer`, `kubernetes-operator` |
+| [`performance`](packs/performance) | Performance Profiling | パフォーマンス最適化 | 1 | `performance-profiler` |
+| [`scientific-agent-skills`](packs/scientific-agent-skills) | Scientific Computing | 科学研究計算（厳選） | 12 | `exploratory-data-analysis`, `experimental-design`, `hypothesis-generation`, `literature-review`, `citation-management`, `peer-review`, `polars`, `networkx`, `matplotlib`, `statistical-analysis`, `optimize-for-gpu`, `get-available-resources` |
+| [`security`](packs/security) | Security & Secrets | セキュリティとシークレット管理 | 4 | `secrets-vault-manager`, `env-secrets-manager`, `pii-redactor`, `prompt-injection-guard` |
+| [`tdd`](packs/tdd) | Test-Driven Development | テスト駆動開発 | 4 | `tdd-guide`, `webapp-flow-tester`, `webapp-e2e-harness`, `agent-eval-harness` |
+| [`web-ops`](packs/web-ops) | Web Operations | ウェブ操作 | 1 | `web-data-extractor` |
+
+### 🤖 AI とエージェント · 4 パック
 
 | Pack ID | パック名 (英語) | パック名 (日本語) | スキル数 | 同梱スキル |
 |---|---|---|:---:|---|
 | [`ai-agent-development`](packs/ai-agent-development) | AI Agent Development | AI Agent開発 | 5 | `agent-designer`, `mcp-server-builder`, `feature-flags-architect`, `self-eval`, `skill-tester` |
+| [`chat-prompt-craft`](packs/chat-prompt-craft) | Chat Prompt Craft | チャットプロンプト術 | 1 | `chat-prompt-engineer` |
+| [`memory-systems`](packs/memory-systems) | Memory Systems | 長期記憶システム | 4 | `memory-architect`, `memory-extractor`, `memory-manager`, `memory-retriever` |
+| [`skill-forge`](packs/skill-forge) | Skill Forge | スキル鍛造所 | 5 | `skill-author`, `skill-linter`, `skill-finder`, `session-handoff`, `weekly-report-generator` |
+
+### 🎨 コンテンツとクリエイティブ · 13 パック
+
+| Pack ID | パック名 (英語) | パック名 (日本語) | スキル数 | 同梱スキル |
+|---|---|---|:---:|---|
 | [`ai-media-toolkit`](packs/ai-media-toolkit) | AI Media Toolkit | AIメディア生成ツールボックス | 3 | `video-generation`, `image-generation`, `music-generation` |
 | [`ai-research-writing`](packs/ai-research-writing) | AI Research & Writing | AIリサーチ＆ライティング | 18 | `deep-research`, `web-search`, `paper-topic-selector`, `article-outliner`, `article-drafter`, `content-editor`, `seo-optimizer`, `lit-review`, `experiment-runner`, `arch-diagram`, `neural-net-draw`, `latex-formatter`, `self-reviewer`, `journal-adapt`, `anti-defensive`, `ai-humanizer`, `tex-cleaner`, `pub-plotter` |
 | [`ai-video-pipeline`](packs/ai-video-pipeline) | AI Video Pipeline | AIショート動画制作パイプライン | 9 | `video-script-writer`, `video-voice-synth`, `video-lip-sync`, `video-editor`, `video-subtitles`, `video-thumbnail`, `transition-designer`, `motion-effects-designer`, `sound-designer` |
-| [`api-development`](packs/api-development) | API Development & Testing | API開発とテスト | 2 | `api-design-reviewer`, `api-test-suite-builder` |
-| [`architecture`](packs/architecture) | System Architecture | システムアーキテクチャ設計 | 3 | `senior-architect`, `migration-architect`, `monorepo-navigator` |
 | [`audio-studio`](packs/audio-studio) | Audio Studio | オーディオスタジオ | 4 | `podcast-producer`, `tts-voice-director`, `episode-publisher`, `sound-designer` |
-| [`chat-prompt-craft`](packs/chat-prompt-craft) | Chat Prompt Craft | チャットプロンプト術 | 1 | `chat-prompt-engineer` |
-| [`ci-cd`](packs/ci-cd) | CI/CD Pipeline | CI/CDパイプライン | 3 | `ci-cd-pipeline-builder`, `ship-gate`, `spec-driven-workflow` |
-| [`code-planning`](packs/code-planning) | Code Planning & Generation | コード計画と生成 | 3 | `code-intent-planner`, `code-generator`, `debug-diagnoser` |
-| [`code-review`](packs/code-review) | Code Review | コードレビュー | 4 | `code-reviewer`, `api-design-reviewer`, `tech-debt-tracker`, `dependency-auditor` |
-| [`communication-essentials`](packs/communication-essentials) | Communication Essentials | コミュニケーション必携 | 2 | `tactful-communication`, `decision-debiasing` |
-| [`containers`](packs/containers) | Containers & Orchestration | コンテナとオーケストレーション | 3 | `docker-development`, `helm-chart-builder`, `kubernetes-operator` |
 | [`content-publishing`](packs/content-publishing) | Content Publishing Automation | コンテンツ多プラットフォーム自動公開 | 18 | `zhihu-content-manager`, `cnblogs-skill`, `wechat-mp-publisher`, `juejin-publisher`, `csdn-publisher`, `jianshu-publisher`, `bilibili-publisher`, `toutiao-publisher`, `baijiahao-publisher`, `xiaohongshu-publisher`, `weibo-publisher`, `douban-publisher`, `v2ex-publisher`, `segmentfault-publisher`, `oschina-publisher`, `static-blog-deploy`, `cross-post-orchestrator`, `image-generation` |
-| [`data-ml-science`](packs/data-ml-science) | Data, ML & Scientific Computing | データ・機械学習・科学計算 | 7 | `etl-builder`, `feature-engineer`, `model-formulator`, `model-solver`, `simulation-runner`, `result-visualizer`, `ml-pipeline` |
-| [`database`](packs/database) | Database Design & Management | データベース設計と管理 | 2 | `database-designer`, `sql-database-assistant` |
-| [`dataviz-studio`](packs/dataviz-studio) | Data Viz Studio | データ可視化スタジオ | 2 | `dashboard-designer`, `chart-recommender` |
+| [`creator-boosters`](packs/creator-boosters) | Creator Boosters | クリエイター強化ツール | 5 | `humanizer`, `diagram-design`, `archify`, `archify-review`, `video-shotcraft` |
 | [`de-ai-writing`](packs/de-ai-writing) | De-AI Writing | AIっぽさ除去ライティング | 3 | `ai-trace-auditor`, `humanize-rewriter`, `personal-voice-profile` |
-| [`edu-craft`](packs/edu-craft) | Edu Craft | 教育クラフト | 3 | `course-designer`, `exercise-generator`, `feynman-explainer` |
-| [`feishu-suite`](packs/feishu-suite) | Feishu Suite (official Lark CLI) | Feishu スイート（公式 CLI） | 28 | `lark-shared`, `lark-im`, `lark-doc`, `lark-wiki`, `lark-base`, `lark-sheets`, `lark-slides`, `lark-calendar`, `lark-mail`, `lark-task`, `lark-meeting`, `lark-drive`, `lark-approval`, `lark-okr`, `lark-contact`, `lark-event`, `lark-markdown`, `lark-whiteboard`, `lark-apps`, `lark-attendance`, `lark-openapi-explorer`, `lark-skill-maker`, `lark-minutes`, `lark-note`, `lark-vc`, `lark-vc-agent`, `lark-workflow-meeting-summary`, `lark-workflow-standup-report` |
-| [`github-workflow`](packs/github-workflow) | GitHub Collaboration | GitHubコラボレーション | 3 | `git-worktree-manager`, `changelog-generator`, `code-reviewer` |
-| [`growth-marketing`](packs/growth-marketing) | Growth Marketing | グロースマーケティング | 3 | `product-copywriter`, `campaign-designer`, `channel-adapter` |
-| [`homework-autopilot`](packs/homework-autopilot) | Homework Autopilot | 宿題オートパイロット | 3 | `assignment-intake`, `solution-drafter`, `own-voice-rewrite` |
 | [`image-studio`](packs/image-studio) | Image Studio | 画像生成ワークベンチ | 4 | `image-prompt-engineer`, `image-generation`, `visual-style-anchor`, `image-batch-processor` |
-| [`incident-response`](packs/incident-response) | Incident Response & SRE | 障害対応とSRE | 3 | `incident-commander`, `runbook-generator`, `slo-architect` |
-| [`infrastructure`](packs/infrastructure) | Infrastructure as Code | インフラ as Code | 3 | `terraform-patterns`, `observability-designer`, `kubernetes-operator` |
-| [`knowledge-base`](packs/knowledge-base) | Knowledge Base | パーソナル知識ベース | 2 | `personal-wiki`, `knowledge-graph-builder` |
-| [`life-essentials`](packs/life-essentials) | Life Essentials | 生活必携 | 4 | `home-renovation-avoidance`, `medical-visit-guide`, `car-purchase-maintenance`, `rental-contract-guide` |
-| [`memory-systems`](packs/memory-systems) | Memory Systems | 長期記憶システム | 4 | `memory-architect`, `memory-extractor`, `memory-manager`, `memory-retriever` |
-| [`office-productivity`](packs/office-productivity) | Office Productivity | 業務効率ツールボックス | 10 | `ppt-builder`, `excel-assistant`, `resume-tailor`, `meeting-notes`, `internal-comms-writer`, `docx-writer`, `pdf-pipeline`, `epub-builder`, `docx-template-fill`, `career-ops-lite` |
-| [`performance`](packs/performance) | Performance Profiling | パフォーマンス最適化 | 1 | `performance-profiler` |
-| [`security`](packs/security) | Security & Secrets | セキュリティとシークレット管理 | 4 | `secrets-vault-manager`, `env-secrets-manager`, `pii-redactor`, `prompt-injection-guard` |
-| [`skill-forge`](packs/skill-forge) | Skill Forge | スキル鍛造所 | 5 | `skill-author`, `skill-linter`, `skill-finder`, `session-handoff`, `weekly-report-generator` |
-| [`tdd`](packs/tdd) | Test-Driven Development | テスト駆動開発 | 4 | `tdd-guide`, `webapp-flow-tester`, `webapp-e2e-harness`, `agent-eval-harness` |
-| [`toolsmith`](packs/toolsmith) | Toolsmith | ツールと自動化 | 6 | `file-organizer`, `batch-renamer`, `format-converter`, `task-scheduler`, `invoice-organizer`, `bank-statement-reconcile` |
+| [`video-code`](packs/video-code) | Code-Driven Video (HyperFrames) | コード動画（HyperFrames） | 5 | `hyperframes`, `hyperframes-cli`, `hyperframes-animation`, `hyperframes-audio`, `hyperframes-keyframes` |
 | [`video-design-studio`](packs/video-design-studio) | Video Design Studio | 動画デザインスタジオ | 5 | `storyboard-designer`, `shot-designer`, `visual-style-anchor`, `transition-designer`, `motion-effects-designer` |
 | [`viral-entertainment`](packs/viral-entertainment) | Viral Entertainment | バズるエンタメシナリオ | 2 | `ai-baby-podcast`, `nailong-laugh-shorts` |
 | [`visual-design-studio`](packs/visual-design-studio) | Visual Design Studio | ビジュアルデザインスタジオ | 7 | `design-brief-interpreter`, `image-prompt-engineer`, `layout-spec-auditor`, `frontend-design-director`, `frontend-component-lab`, `ui-ux-accessibility`, `design-system-foundations` |
-| [`web-ops`](packs/web-ops) | Web Operations | ウェブ操作 | 1 | `web-data-extractor` |
+| [`wechat-longform`](packs/wechat-longform) | WeChat Longform Studio | WeChat長文スタジオ | 10 | `baoyu-post-to-wechat`, `baoyu-format-markdown`, `baoyu-markdown-to-html`, `baoyu-cover-image`, `baoyu-article-illustrator`, `baoyu-infographic`, `baoyu-wechat-summary`, `baoyu-translate`, `baoyu-xhs-images`, `baoyu-slide-deck` |
+
+### 📊 データと研究 · 2 パック
+
+| Pack ID | パック名 (英語) | パック名 (日本語) | スキル数 | 同梱スキル |
+|---|---|---|:---:|---|
+| [`data-ml-science`](packs/data-ml-science) | Data, ML & Scientific Computing | データ・機械学習・科学計算 | 7 | `etl-builder`, `feature-engineer`, `model-formulator`, `model-solver`, `simulation-runner`, `result-visualizer`, `ml-pipeline` |
+| [`dataviz-studio`](packs/dataviz-studio) | Data Viz Studio | データ可視化スタジオ | 2 | `dashboard-designer`, `chart-recommender` |
+
+### 🗂 オフィスと効率化 · 7 パック
+
+| Pack ID | パック名 (英語) | パック名 (日本語) | スキル数 | 同梱スキル |
+|---|---|---|:---:|---|
+| [`communication-essentials`](packs/communication-essentials) | Communication Essentials | コミュニケーション必携 | 2 | `tactful-communication`, `decision-debiasing` |
+| [`feishu-suite`](packs/feishu-suite) | Feishu Suite (official Lark CLI) | Feishu スイート（公式 CLI） | 28 | `lark-approval`, `lark-apps`, `lark-attendance`, `lark-base`, `lark-calendar`, `lark-contact`, `lark-doc`, `lark-drive`, `lark-event`, `lark-im`, `lark-mail`, `lark-markdown`, `lark-meeting`, `lark-minutes`, `lark-note`, `lark-okr`, `lark-openapi-explorer`, `lark-shared`, `lark-sheets`, `lark-skill-maker`, `lark-slides`, `lark-task`, `lark-vc`, `lark-vc-agent`, `lark-whiteboard`, `lark-wiki`, `lark-workflow-meeting-summary`, `lark-workflow-standup-report` |
+| [`google-workspace`](packs/google-workspace) | Google Workspace | Google Workspaceスイート | 12 | `gws-shared`, `gws-gmail`, `gws-gmail-send`, `gws-calendar`, `gws-calendar-agenda`, `gws-drive`, `gws-docs`, `gws-sheets`, `gws-tasks`, `gws-people`, `gws-workflow-standup-report`, `gws-workflow-weekly-digest` |
+| [`knowledge-base`](packs/knowledge-base) | Knowledge Base | パーソナル知識ベース | 2 | `personal-wiki`, `knowledge-graph-builder` |
+| [`office-productivity`](packs/office-productivity) | Office Productivity | 業務効率ツールボックス | 10 | `ppt-builder`, `excel-assistant`, `resume-tailor`, `meeting-notes`, `internal-comms-writer`, `docx-writer`, `pdf-pipeline`, `epub-builder`, `docx-template-fill`, `career-ops-lite` |
+| [`toolsmith`](packs/toolsmith) | Toolsmith | ツールと自動化 | 6 | `file-organizer`, `batch-renamer`, `format-converter`, `task-scheduler`, `invoice-organizer`, `bank-statement-reconcile` |
 | [`workspace-integrations`](packs/workspace-integrations) | Workspace Integrations | 外部連携ツールボックス | 4 | `notion-workspace`, `feishu-dingtalk-bridge`, `issue-tracker-sync`, `cloud-drive-manager` |
+
+### 📈 ビジネスと成長 · 4 パック
+
+| Pack ID | パック名 (英語) | パック名 (日本語) | スキル数 | 同梱スキル |
+|---|---|---|:---:|---|
+| [`cmo-suite`](packs/cmo-suite) | CMO & C-Suite Suite | CMO・経営層スイート | 12 | `landing`, `linkedin-analytics`, `linkedin-content`, `linkedin-engagement`, `linkedin-profile`, `linkedin-strategy`, `ceo-advisor`, `cfo-advisor`, `cmo-advisor`, `cto-advisor`, `chro-advisor`, `ciso-advisor` |
+| [`growth-marketing`](packs/growth-marketing) | Growth Marketing | グロースマーケティング | 3 | `product-copywriter`, `campaign-designer`, `channel-adapter` |
+| [`knowledge-work`](packs/knowledge-work) | Knowledge Work Suite | ナレッジワークスイート | 21 | `comp-analysis`, `interview-prep`, `onboarding`, `performance-review`, `policy-lookup`, `recruiting-pipeline`, `review-contract`, `legal-risk-assessment`, `compliance-check`, `triage-nda`, `variance-analysis`, `audit-support`, `process-optimization`, `risk-assessment`, `status-report`, `ticket-triage`, `draft-response`, `kb-article`, `user-research`, `research-synthesis`, `ux-copy` |
+| [`product-management`](packs/product-management) | Product Management | プロダクトマネジメント | 14 | `create-prd`, `outcome-roadmap`, `prioritization-frameworks`, `user-stories`, `job-stories`, `stakeholder-map`, `pre-mortem`, `sprint-plan`, `north-star-metric`, `competitive-battlecard`, `market-sizing`, `user-personas`, `to-spec`, `triage` |
+
+### 🎓 学習と教育 · 2 パック
+
+| Pack ID | パック名 (英語) | パック名 (日本語) | スキル数 | 同梱スキル |
+|---|---|---|:---:|---|
+| [`edu-craft`](packs/edu-craft) | Edu Craft | 教育クラフト | 3 | `course-designer`, `exercise-generator`, `feynman-explainer` |
+| [`homework-autopilot`](packs/homework-autopilot) | Homework Autopilot | 宿題オートパイロット | 3 | `assignment-intake`, `solution-drafter`, `own-voice-rewrite` |
+
+### 🏠 生活と個人 · 1 パック
+
+| Pack ID | パック名 (英語) | パック名 (日本語) | スキル数 | 同梱スキル |
+|---|---|---|:---:|---|
+| [`life-essentials`](packs/life-essentials) | Life Essentials | 生活必携 | 4 | `home-renovation-avoidance`, `medical-visit-guide`, `car-purchase-maintenance`, `rental-contract-guide` |
 
 > 一部のスキル（例: `api-design-reviewer`、`kubernetes-operator`、`image-generation`）は複数のパックに登場しますが、シナリオをまたいで再利用されるためです——意図的な設計です。
 

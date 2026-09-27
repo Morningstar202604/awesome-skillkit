@@ -8,6 +8,7 @@ description: >-
   agent didn't degrade / agent evaluation harness. Do NOT use for writing the
   agent itself (use skill-author / webapp-e2e-harness) or for pure unit tests of
   code (use tdd-guide / api-test-suite-builder).
+description_zh: "用可验证评分表把智能体行为量化成 0-100 分，支持评测用例与回归测试。"
 license: Apache-2.0
 compatibility: Pure Python offline script (writes files only, no network requests); mode B LLM-as-judge only produces copyable review prompts, actual model calls are wired by user (credentials via env).
 metadata:

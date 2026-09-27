@@ -1,6 +1,7 @@
 ---
 name: sql-database-assistant
 description: "Use when the user asks to write SQL queries, write SQL, optimize slow queries, optimize database performance, generate migrations, generate table-structure docs, explore database schemas, or work with ORMs like Prisma, Drizzle, TypeORM, or SQLAlchemy. Do NOT use for provisioning database servers or managing replicas."
+description_zh: "编写 SQL 查询、优化慢查询与数据库性能、生成迁移与表结构文档，适配 Prisma、TypeORM 等 ORM"
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:

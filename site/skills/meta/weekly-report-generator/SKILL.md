@@ -8,6 +8,7 @@ description: >-
   / auto-write weekly report / status update / sprint summary. Do NOT use for
   monthly business reviews (different scope) or for performance/HR narratives
   (this is a work-log, not a performance doc).
+description_zh: "依据 git log 与 diff 自动草拟周报，按已完成/阻塞/下周三段式结构生成，再由人补充"
 license: Apache-2.0
 compatibility: Pure local git operations; no network, no remote; default dry-run; needs python3 + git.
 metadata:

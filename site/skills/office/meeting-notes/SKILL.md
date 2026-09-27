@@ -8,6 +8,7 @@ description: >-
   meeting / clean up recording text / meeting minutes / action items. Do NOT
   use for live transcription, audio-to-text conversion, or project status
   reports without meeting content.
+description_zh: "把会议转录或草稿整理成结构化纪要：决议、带负责人与截止日的行动项、待解问题与可传阅摘要。"
 license: Apache-2.0
 compatibility: No special environment; accepts pasted transcript or notes.
 metadata:

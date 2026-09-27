@@ -9,6 +9,7 @@ description: >-
   exam practice, or automatically after course-designer produces checkpoints. Do
   NOT use for designing the course skeleton (course-designer), nor for teaching
   interactively (feynman-explainer).
+description_zh: "为课程检查点生成严格掌握型练习：开放式概念题、难度阶梯、评分量规与常见陷阱标注，输出可机器校验的格式。"
 license: Apache-2.0
 compatibility: Python 3.8+ (exercise_lint.py); no third-party dependencies.
 metadata:

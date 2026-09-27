@@ -1,6 +1,7 @@
 ---
 name: motion-effects-designer
 description: "Design motion graphics and visual effects for AI video: kinetic typography, lower thirds, animated charts, particles, overlays, subtitle animation styles, and easing/timing specs. Produces a motion spec that video-editor executes. Use when the user asks to design motion graphics / add animated text / animate a chart / add particles / style captions / choose easing / add lower thirds / plan VFX overlays / make text bounce. Do NOT use for cutting between scenes (use transition-designer), for executing the actual edit (use video-editor), or for generating background footage (use video-generation)."
+description_zh: "为 AI 视频设计动态图形与视觉效果：动态文字、下三分之一、动画图表、粒子、叠加层、字幕动画与缓动节奏规格。"
 license: Apache-2.0
 compatibility: Pure prompt-based design skill; no scripts required. Outputs a motion spec consumed by video-editor.
 metadata:

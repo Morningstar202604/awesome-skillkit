@@ -8,6 +8,7 @@ description: >-
   webapp automation, how to fix selector drift, or login-state reuse. Do NOT
   use for unit tests (use tdd-guide) or for pure API testing (use
   api-test-suite-builder).
+description_zh: "为本地 Web 应用搭建可运行的 Playwright 端到端测试套件，复用登录态并防止选择器漂移"
 license: Apache-2.0
 compatibility: Produces a Python test scaffold; running tests requires the user's `pip install pytest playwright` + `playwright install chromium` (the script itself is offline and does not download binaries).
 metadata:

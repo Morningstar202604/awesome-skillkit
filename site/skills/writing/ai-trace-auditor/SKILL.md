@@ -1,6 +1,7 @@
 ---
 name: ai-trace-auditor
 description: "Audit a text for AI-writing fingerprints: scan built-in Chinese/English AI high-frequency word lists, measure sentence-length variance (std/mean), list/parallelism density and structural cliches, then report a 0-100 score with per-finding locations as machine-parseable JSON. Use when the user asks to detect AI flavor / AI-trace detection / check whether this reads like AI wrote it / AI-rate check / audit AI traces / detect AI writing / scan for AI style / de-AI check. Do NOT use as an official AI detector for academic-integrity arbitration — heuristic self-check only."
+description_zh: "检测文本 AI 写作痕迹：扫描高频词表、统计句长变化，输出 0-100 分与定位 JSON。"
 license: Apache-2.0
 compatibility: Needs Python 3.8+ (stdlib only) for scripts/trace_scanner.py; if Python is unavailable, degrade to the manual checklist and mark the report manual_mode.
 metadata:

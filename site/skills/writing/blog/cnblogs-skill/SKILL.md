@@ -8,6 +8,7 @@ description: >
   post, cnblogs adaptation, platform-specific content for cnblogs, or publish to
   CNBlogs. Do NOT use for automation, image upload scripts, or posting to other
   platforms.
+description_zh: "为博客园 CNBlogs 改写原生 Markdown 文章：短段落、代码块、分类与标签。"
 license: Apache-2.0
 metadata:
   author: awesome-skillkit

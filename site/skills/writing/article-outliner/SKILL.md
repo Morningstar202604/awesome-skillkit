@@ -1,6 +1,7 @@
 ---
 name: article-outliner
 description: "Create article outlines: structure, section hierarchy, key points, and reading flow. Supports blog posts, technical articles, news, listicles, and opinion pieces. Also audits an existing draft's structure with reverse outlining, and de-duplicates listicle entries (MECE check). Use when the topic is defined but structure is needed before drafting, e.g. building an article outline / listing an outline / planning structure / help me organize the article framework / check whether the article structure has problems. Do NOT use for writing full prose (outline only — use article-drafter for that), nor for line-level editing of a finished draft (use content-editor)."
+description_zh: "创建文章大纲：结构层级、要点与阅读流，支持博客、技术文与新闻等。"
 license: Apache-2.0
 compatibility: "Pure prompt-based structuring. Optional scripts/outliner.py is a deterministic skeleton generator (Python 3.8+, stdlib only) — it emits template headings and field scaffolding, NOT content; the real outlining work happens in prompt mode. No API keys required."
 metadata:

@@ -1,6 +1,7 @@
 ---
 name: tts-voice-director
 description: "Direct text-to-speech synthesis for a produced script: cast voices per character from a voice catalog (Kokoro/DIA/Qwen3-TTS families), set per-segment synthesis parameters (speed, stability), plan stitching (per-segment render + ffmpeg concat + crossfade), and voice-design via descriptive prompts on supported models. Reads the script from podcast-producer, hands rendered audio plan to episode-publisher. Use when the user asks to select voices / TTS voiceover / speech synthesis / voice casting / make the voice sound natural / multi-character voiceover / TTS / voice / audio production. Do NOT use for writing or linting the script (podcast-producer), nor for publishing metadata (episode-publisher)."
+description_zh: "为成稿剧本指导 TTS 配音：按角色选音色、设定分段语速与稳定性、规划拼接与 ffmpeg 混音"
 license: Apache-2.0
 compatibility: Pure prompt-based; references only — no bundled synthesis binary (calls user-side TTS per catalog).
 metadata:

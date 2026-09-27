@@ -8,6 +8,7 @@ description: >-
   an epub / make an e-book from markdown / convert to epub / inspect an epub
   file / split ebook chapters / generate ebook / epub from markdown. Do NOT use
   for Word documents (use docx-writer) or PDF generation (use pdf-pipeline).
+description_zh: "把 Markdown 手稿转换为合规的 EPUB 3 电子书，校验元数据与章节顺序，支持查看电子书并拆分章节结构。"
 license: Apache-2.0
 compatibility: Requires python3 3.8+; script uses stdlib only (zipfile + ElementTree), no third-party dependencies.
 metadata:

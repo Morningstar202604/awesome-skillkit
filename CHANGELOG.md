@@ -18,6 +18,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **分类 v2 路线图全案落地：12 个新场景包 / 148 个新技能（21 个上游仓库，许可一律 LICENSE 文件级实测）**——按 [`docs/TAXONOMY-V2.md`](docs/TAXONOMY-V2.md) 开户清单一次做完 P0-1~P0-9 并提前落地 5 项 P1：
+  - 🗂 办公与效率：`knowledge-work`（anthropics/knowledge-work-plugins，Apache-2.0，21：HR/法务/财务/运营/客服/设计研究）、`google-workspace`（googleworkspace/cli，Apache-2.0，12）；
+  - 🛠 软件开发：`engineering-playbook`（obra/superpowers + addyosmani/agent-skills + mattpocock/skills，MIT，21）、`cloud-platforms`（Azure/Cloudflare/Supabase/Firebase，MIT+Apache-2.0，12）、`code-quality-pro`（wshobson/agents + alibaba/open-code-review，13）、`hf-ml-hub`（huggingface/skills，Apache-2.0，11）、`scientific-agent-skills`（K-Dense-AI 166 挑 12，MIT）；
+  - 📈 商业与增长：`cmo-suite`（alirezarezvani 增量：LinkedIn 6 + C-level 6，12）、`product-management`（phuryn/pm-skills 12 + mattpocock 2，14）；
+  - 🎨 内容与创意：`wechat-longform`（JimLiu/baoyu-skills，MIT，10）、`video-code`（heygen-com/hyperframes，Apache-2.0，5）、`creator-boosters`（humanizer / diagram-design / archify×2 / video-shotcraft，5）。
+  - 仓库总量：**339 技能 / 52 包 / 27 域 / 88 链**（原 191 / 40 / 20 / 75）；`skill_chains.json` 新增 product / hr / legal / finance / ops / customer / leadership 七个域，`taxonomy.json` 全部落位，`SOURCES.md` 新增「本批新收录」一节（12 包 × 21 仓库的许可、目录与更新指引）。
+  - 统一迁移规范化：frontmatter 归一（`license` + `compatibility` + `metadata.source`）、来源署名段、长参考文档补 `## 目录`、超长正文（≥500 行）拆入 `references/`、盘符/绝对路径占位化、嵌套 `SKILL.md` 与杂散目录清理、过短 description 补写、`name` 与目录名对齐。
+- **中文检索**：为 302 个原仅英文 description 的技能补 frontmatter `description_zh`（全仓 339 技能均可中文路由）；站点技能卡片优先展示中文描述、搜索命中 `desc_zh`；`find_skill.py` 搜索加 `description_zh` 权重与 CJK 字符集匹配（「合同审查」可命中「审查合同」）。
+- **`find_skill.py search --group`**：按 taxonomy 场景库过滤（支持 id / 中文名 / 英文名，如 `--group software` / `--group 软件开发`），与 `taxonomy.json` 单一事实源联动。
 - **专家团整体并入（`expert-teams/`）**：原独立仓库 `ai-expert-teams`（平台中立专家团队资产：18 支团队 / 219 位专家 agent / 100 个技能 + 编排协议 `orchestration-protocol.md` / `project-director` 路由 + 导出工具链 `export-agents.py` / `export-platforms.py`）整体迁入本仓库 `expert-teams/` 子目录，文档、工具与门禁（`verify.py` / `effectiveness.py` / `unittest` / `build-site.py --check`）在原位保持可用；原仓库在 GitHub（X33834 / Morningstar202604）、GitCode、Gitee 四个平台同步下线（迁移说明见子目录 README）。
 - **四平台安装包可下载**：`expert-teams/export-platforms.py` 新增可复现 zip 产物（`dist/zips/expert-teams-{opencode,claude,cursor,gemini,all}.zip`，固定时间戳 + 排序条目，重复构建字节一致）；构建时同步进 `site/downloads/`（GitCode Pages 从 main 的 /site 部署，必须入库），官网子页与三语 README 均提供下载表。
 - **官网新增专家团子页**：`site/expert-teams.html`（源文件 `expert-teams/site/index.html`，由子树 `build-site.py` 生成、根 `tools/build_site.py` 构建时同步进站点），含团队矩阵、数据快照与下载区；站点首页新增**双主线卡片**（产品线 A 场景技能包 / B 专家团·多智能体协作）。
@@ -29,12 +38,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - **站点 83 个技能卡片描述显示为 ">"**：`tools/build_site.py` 的 frontmatter 解析不支持 YAML 块标量（`>` / `>-` / `|`）——`description` 此前取值为 ">"，卡片无描述、中文关键词搜不到；已支持块标量（折叠/字面量），异常 desc 归零。
-- **导航计数口径不一致**（场景 chip 49 / 能力域 chip 48 / 卡片 49）：能力域 chip 数量改用实装口径 `n_packed`（原先用链域声明口径，含跨目录声明与 2 个不入包夹具）；现 8 场景 / 20 域 / 163 卡片三者自洽。
+- **导航计数口径不一致**（场景 chip 49 / 能力域 chip 48 / 卡片 49）：能力域 chip 数量改用实装口径 `n_packed`（原先用链域声明口径，含跨目录声明与 2 个不入包夹具）；扩容后 8 场景 / 27 域 / 339 卡片三者仍自洽。
 - **≤640px 窄屏整页横向溢出**：两级 chips 行竖排时改 `align-items: stretch` 并给 `.chips` 加 `min-width: 0`，恢复 chips 行内横向滚动（480px 实测 body 无横向溢出）。
 - **下载产物刷新（3 个包内容过期）+ 防呆门禁**：重跑 `build.py` + `tools/build_site.py`，`site/packs/*.zip` 与 `manifest.json` 摘要按当前源重建——`communication-essentials` / `skill-forge` / `visual-design-studio` 三个包此前停留在旧版内容（后续技能更新一直没进已提交 zip），其余 36 个包仅 zip 条目顺序规范化（逐文件内容比对一致）。`tools/build_site.py` 复制站内镜像前新增 dist↔manifest 摘要比对，不一致 fail-closed（防"过期 dist 覆盖已提交镜像"再犯）。
+- **`video-shotcraft/jianying-export/smoke_test.py` 阻断 pytest 收集**（可选依赖 `pyJianYingDraft` 未装时 `pytest skills` 整体中断）：脚本改为导入守卫——pytest 收集时 `skip`，手工运行给安装指引；顺手清理 125 个 `__pycache__` 残留。
+- **上一批导入脚本的机械改写残留修复（83 处）**：63 处 `upstream file … (not bundled)` 与 20 处「（…未随本包分发）」把上游文档改成了不可读、且部分破坏占位符（如 `NN-ref-{slug}.png`、`train_<type>_example.py`）的文本。本轮按「能解析的写回可解析引用、未随包的写明确说明、用户侧产物写纯文件名」三条口径逐一修回：随包引用恢复相对路径（`hyperframes-cli` → `../hyperframes/references/sub-compositions.md`、`beat-direction` → `../hyperframes-animation/adapters/animate-text.md` 等），未随包的改为直白说明（如 the upstream `agent-protocol` skill; not included in this pack），用户侧产物回归纯文件名（`todo.md`、`cover.md`、`EXTEND.md` 等）；另修正 `scripts/variables`（上游原文指脚本/变量，非路径）在 `data-attributes.md` 的同类误改写，并把上游 `media-use` 的 TTS 参考文档从误落的仓库根级 `skills/media-use/` 移入 `skills/video/media-use/`（video 域内，引用随之改为可解析路径）。
 
 ### Changed
 
+- **三语 README 场景包目录按 8 大场景库重排**：单表改为 8 个分组表格（软件开发 / AI 与智能体 / 内容与创意 / 数据与科研 / 办公与效率 / 商业与增长 / 学习与教育 / 生活与个人），新增 12 包行与日语包名；计数同步 52 包 / 339 技能 / 27 域 / 88 链（`README.ja.md` 的日语分组标题为本轮新撰）。
+- **`docs/TAXONOMY-V2.md` 结项**：状态升为「全案执行完毕」，§3 开户清单标注 P0 9/9、P1 已落地 5 项，§4/§5 重写为落地清单与完成情况，§6 执行顺序全部打勾。
+- **`SOURCES.md` 升为「五条线」**：新增「本批新收录」一节（12 包 × 21 上游仓库的许可、目录、统一迁移规范化与更新方法）与历史账目（339 = 28+32+5+126+148）。
 - **三语 README 计数与目录同步**：39→40 包 / 163→191 技能 / 73→75 链，目录表新增 `feishu-suite` 行；`SOURCES.md` 升为「四条线」（新增官方收录 28 个）并补飞书套件来源与更新指引。
 - **三语 README 改为并列双主线结构**：新增「两条产品线——互不冲突」总览表，专家团升格为「产品线 B（多智能体协作）」独立小节（定位、18 支团队清单、安装包下载表、来源说明）；`README.ja.md` 首屏计数同步为 39 包 / 163 技能（此前停留在 37 / 156）。根 `AGENTS.md` 增加子目录使用与门禁指引。
 - 专家团子目录：顶部「迁移说明 + 路径基准」；新增「下载安装包」小节；`export-platforms.py` 增加 `--no-zip` 开关；`CONTRIBUTING.md` 发布流程补充安装包上传说明。

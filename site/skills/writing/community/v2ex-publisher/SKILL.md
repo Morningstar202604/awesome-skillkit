@@ -7,6 +7,7 @@ description: >
   images. Use when the user asks for V2EX content, v2ex post, v2ex thread, v2ex
   adaptation, platform-specific content for v2ex, or publish to V2EX. Do NOT use
   for cookie-based posting automation or other platforms.
+description_zh: "为 V2EX 撰写平台化帖子：简洁标题、纯文本正文、按节点发布且不含内嵌图片"
 license: Apache-2.0
 metadata:
   author: awesome-skillkit

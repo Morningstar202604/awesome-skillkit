@@ -1,6 +1,7 @@
 # SOURCES — 技能来源与更新指引 / Skill Sources & Updates
 
-> 本仓库维护四条线（截至 0.23 候选，共 **191 个技能 / 40 个场景包** = 官方收录 28 + 上游精选 32 + 上游改造 5 + 自建 126）：
+> 本仓库维护五条线（截至 0.23 候选，共 **339 个技能 / 52 个场景包** = 官方收录 28 + 上游精选 32 +
+> 上游改造 5 + 自建 126 + 本批新收录 148）：
 > 0. **官方收录**（28 个，2026-09-27 起，`skills/integrations/lark/`）——飞书官方仓库 `larksuite/cli` 的
 >    Agent Skills，整包收录为 `feishu-suite`，见「官方收录」一节；
 > 1. **上游精选**（`skills/programming/` 下 13 个分类目录，32 个）——全部来自下方上游项目；
@@ -13,10 +14,13 @@
 >    `math/`、`ml/`、`planning/`、`web-data-extractor/`）与 3 个编在上游目录里的自建技能
 >    （`security/pii-redactor`、`security/prompt-injection-guard`、`testing/webapp-flow-tester`），
 >    本仓库原创维护。
+> 4. **本批新收录**（148 个，2026-09-27，12 个新场景包 × 21 个上游仓库，见「本批新收录」一节）——
+>    按路线图「开户」清单批量迁入：知识工作 / 工程方法论 / 云平台 / CMO / 产品管理 / 微信长文 /
+>    代码化视频 / Google Workspace / Hugging Face / 科研计算 / 代码质量 / 创作增强单品。
 
-> 4. **并入资产·专家团**（2026-09-27 起，`expert-teams/`）——原独立仓库 `ai-expert-teams`（MIT）
+> 5. **并入资产·专家团**（2026-09-27 起，`expert-teams/`）——原独立仓库 `ai-expert-teams`（MIT）
 >    整体迁入：18 支团队 / 219 位专家 agent / 100 个技能，自带索引与门禁；**不计入**上文
->    163 技能 / 39 场景包的计数口径。
+>    339 技能 / 52 场景包的计数口径。
 
 ## 上游仓库 / Upstream（skills/programming/ 的 13 个分类目录）
 
@@ -84,6 +88,36 @@ anthropics、santifer-career-ops——逐技能对应关系以各技能 `referen
   5. 少量文案修正（去盘符示例、去掉会误判为路径的写法）；`lark-slides/scripts/conftest.py` 为 pytest 收集补的 sys.path 垫片。
 - 更新方法：上游更新后，用 `skills/integrations/lark/<name>/` 覆盖同名目录（`references/` / `scripts/` 一并覆盖），
   再按上述 1–4 重新规范化，最后跑门禁（`python3 tools/validate_skills.py` / `pytest skills -q` / `build.py` / `tools/build_site.py`）。
+
+## 本批新收录 / New batch — 12 个新场景包（148 个，2026-09-27）
+
+按 [`docs/TAXONOMY-V2.md`](docs/TAXONOMY-V2.md) §3 开户清单批量迁入；许可一律以仓库内 **LICENSE 文件实测**为准（README 口述不采信），无许可不入仓（不迁裁决见 TAXONOMY-V2 §3）。
+
+| 场景包 | 上游仓库 | 许可 | 技能 | 目录 |
+|--------|----------|------|-----:|------|
+| knowledge-work | [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins) | Apache-2.0 | 21 | `skills/hr`(6) / `legal`(4) / `finance`(2) / `ops`(3) / `customer`(3) / `design`(3) |
+| engineering-playbook | [obra/superpowers](https://github.com/obra/superpowers)（12）+ [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)（6）+ [mattpocock/skills](https://github.com/mattpocock/skills)（3） | MIT ×3 | 21 | `skills/programming/methodology`(12) / `engineering`(9) |
+| cloud-platforms | [microsoft/azure-skills](https://github.com/microsoft/azure-skills)（5）+ [cloudflare/skills](https://github.com/cloudflare/skills)（3）+ [supabase/agent-skills](https://github.com/supabase/agent-skills)（2）+ [firebase/agent-skills](https://github.com/firebase/agent-skills)（2） | MIT / Apache-2.0 | 12 | `skills/programming/cloud` |
+| cmo-suite | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills)（增量：LinkedIn 6 + C-level 6） | MIT | 12 | `skills/marketing/cmo`(6) / `skills/leadership`(6) |
+| product-management | [phuryn/pm-skills](https://github.com/phuryn/pm-skills)（12）+ [mattpocock/skills](https://github.com/mattpocock/skills)（2：`to-spec` / `triage`） | MIT ×2 | 14 | `skills/product` |
+| wechat-longform | [JimLiu/baoyu-skills](https://github.com/JimLiu/baoyu-skills) | MIT | 10 | `skills/writing` |
+| video-code | [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) | Apache-2.0 | 5 | `skills/video` |
+| google-workspace | [googleworkspace/cli](https://github.com/googleworkspace/cli) | Apache-2.0 | 12 | `skills/integrations/gws` |
+| hf-ml-hub | [huggingface/skills](https://github.com/huggingface/skills) | Apache-2.0 | 11 | `skills/programming/ml` |
+| scientific-agent-skills | [K-Dense-AI/scientific-agent-skills](https://github.com/K-Dense-AI/scientific-agent-skills)（自 166 精选 12） | MIT | 12 | `skills/programming/science` |
+| code-quality-pro | [wshobson/agents](https://github.com/wshobson/agents)（12）+ [alibaba/open-code-review](https://github.com/alibaba/open-code-review)（1） | MIT / Apache-2.0 | 13 | `skills/programming/quality` |
+| creator-boosters | [blader/humanizer](https://github.com/blader/humanizer)（1）+ [cathrynlavery/diagram-design](https://github.com/cathrynlavery/diagram-design)（1）+ [tt-a1i/archify](https://github.com/tt-a1i/archify)（2）+ [Vincentwei1021/video-shotcraft](https://github.com/Vincentwei1021/video-shotcraft)（1） | MIT ×3 + Apache-2.0 | 5 | `skills/design`(3) / `writing`(1) / `video`(1) |
+
+**统一的迁移规范化**（同步上游时注意，勿覆盖）：
+
+1. frontmatter 规范化为本仓库 schema（`license` + `compatibility` + `metadata.{author,version,category,pattern,tier,verified-date,source}`），`name` 与目录名对齐；
+2. 每个技能正文尾附「来源与署名」段；
+3. 长参考文档（>100 行且无目录）增补 `## 目录`；超长正文（≥500 行）拆到 `references/` 并在正文留链接；
+4. 相对链接归一化为「技能目录相对」口径；盘符/绝对路径改 `<project-dir>` 占位或注释化；
+5. 移除上游的嵌套 / 重复 `SKILL.md` 与杂散目录；过短 description 补写至可路由粒度；
+6. 中文使用说明按需补 `compatibility`（如"部分技能假设已连接企业系统，未连接时按文内提示降级"）。
+
+**更新方法**：clone 上游 → 覆盖对应目录（`references/` / `scripts/` 一并覆盖）→ 按上述 1–6 重新规范化 → 跑门禁四连（`tools/validate_skills.py` / `pytest skills -q` / `build.py` / `tools/build_site.py`）。
 
 ## 并入资产 / Merged-in assets
 
@@ -277,7 +311,7 @@ v0.18 发版后新增、未及登记进上文分域表格的技能，此处补�
 
 以上 126 个自建技能不来自上游（另 5 个上游改造见上文），由本仓库原创维护，更新即改本仓库。
 
-## 全部技能清单（163 = 上游 32 + 上游改造 5 + 自建 126）
+## 全部技能清单（339 = 官方收录 28 + 上游精选 32 + 上游改造 5 + 自建 126 + 本批新收录 148）
 
 ### 上游精选（32）
 
@@ -323,6 +357,12 @@ v0.18 发版后新增、未及登记进上文分域表格的技能，此处补�
 按上文"自建场景技能"各小节的表格为准，此处不重复罗列。
 单一事实来源是 `manifest.json`（由 `build.py` 从 `packs/*/pack.json` 自动同步）。
 
+### 官方收录（28）与本批新收录（148）
+
+- 官方收录（feishu-suite 28）：见上文「官方收录」一节清单；
+- 本批新收录（12 包 148 个）：逐技能以 `packs/<id>/pack.json` 的 `skills[].name/source` 为准，
+  由 `build.py` 同步进 `manifest.json`，此处不重复罗列。
+
 ## 共享工具 / Shared helpers
 
 | 模块 | 说明 |
@@ -335,6 +375,15 @@ v0.18 发版后新增、未及登记进上文分域表格的技能，此处补�
 | `skills/programming/planning/pipeline_orchestrator.py` | 代码计划域编排器：意图→计划→生成 |
 
 ## 历史 / History
+
+- 2026-09-27（0.23 候选）：**本批新收录 12 包 / 148 技能（P0-2~P0-9 全落地 + P1 提前五个）**——
+  按 `docs/TAXONOMY-V2.md` 开户清单迁入：knowledge-work（Anthropic，Apache-2.0）、engineering-playbook
+  （superpowers + addyosmani + mattpocock，MIT）、cloud-platforms（Azure/Cloudflare/Supabase/Firebase）、
+  cmo-suite、product-management（phuryn + mattpocock）、wechat-longform（baoyu）、video-code（hyperframes）、
+  google-workspace（官方 CLI）、hf-ml-hub（Hugging Face）、scientific-agent-skills（K-Dense 精选）、
+  code-quality-pro（wshobson + alibaba）、creator-boosters（humanizer / diagram-design / archify / video-shotcraft）。
+  账目 339 = 28+32+5+126+148，与 `manifest.json` 逐一对齐；场景包 40→52，能力域 20→27（新增
+  product/hr/legal/finance/ops/customer/leadership），技能链 75→88。
 
 - 2026-09-26（v0.22.0）：**SOURCES 数字对账（第二次）**——总数 154→163、场景包 36→39；
   上游精选 33→32（`pr-review-expert` 已随重构移除），自建 116→126；分域表格补齐 v0.21

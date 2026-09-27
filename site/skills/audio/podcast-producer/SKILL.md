@@ -1,6 +1,7 @@
 ---
 name: podcast-producer
 description: "Produce a podcast episode script from a topic or a document: hook-first outline, segment structure with target durations, two-voice dialogue or single-voice narration, and a shownotes draft. Hard rule: spoken words only — no stage directions, no [pause] markers, TTS reads everything verbatim. Chain entry of audio-studio; hands the script to tts-voice-director. Use when the user asks to make a podcast / write a podcast script / podcast script / audio show / turn an article into a podcast / NotebookLM-style audio / podcast / TTS / voice. Do NOT use for voice selection or synthesis parameters (tts-voice-director), nor for publishing metadata (episode-publisher)."
+description_zh: "根据主题或文档生成播客单集脚本：先钩子的大纲、含时长的分段结构、双人对话或单人讲述及节目笔记草稿，只留口语内容。"
 license: Apache-2.0
 compatibility: Pure prompt-based; the bundled script_lint.py needs Python 3.8+ only.
 metadata:

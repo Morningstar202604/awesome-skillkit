@@ -11,6 +11,7 @@ description: >-
   for assignment intake / homework analysis / parse assignment requirements /
   break down homework / solve homework. Do NOT use during live exams or quizzes,
   nor for pure tutoring questions without a graded deliverable.
+description_zh: "解析作业要求为结构化 JSON：识别类型、提取硬性要求与评分维度。"
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime dependencies.
 metadata:

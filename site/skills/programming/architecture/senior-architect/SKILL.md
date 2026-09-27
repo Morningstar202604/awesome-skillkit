@@ -2,6 +2,7 @@
 name: senior-architect
 description: >-
   This skill should be used when the user asks to "design system architecture", do architecture review, tech selection, write an architecture decision record (ADR), do a system design review, split microservices, "evaluate microservices vs monolith", "create architecture diagrams", "analyze dependencies", "choose a database", "plan for scalability", "make technical decisions", or "review system design". Use for architecture decision records (ADRs), tech stack evaluation, system design reviews, dependency analysis, and generating architecture diagrams in Mermaid, PlantUML, or ASCII format. Also triggers on a system design review. Do NOT use for writing detailed implementation code (output stays at architecture level).
+description_zh: "系统架构设计、架构评审、技术选型、撰写 ADR，生成 Mermaid、PlantUML 或 ASCII 架构图"
 license: Apache-2.0
 compatibility: Pure prompt-based; runs Python stdlib scripts via Bash. No API keys required.
 metadata:

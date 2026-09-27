@@ -11,6 +11,7 @@ description: >-
   second opinion / risk review. Do NOT use for simple everyday choices, or for
   financial / legal / medical professional advice (route to licensed professionals),
   or when the user just wants validation.
+description_zh: "重大决策去偏流程：事前验尸、红队反驳与决策记录，对抗锚定等认知偏差。"
 license: Apache-2.0
 compatibility: Pure prompt skill, no scripts or runtime deps.
 metadata:

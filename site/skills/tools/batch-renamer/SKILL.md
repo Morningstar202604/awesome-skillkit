@@ -8,6 +8,7 @@ description: >-
   strip prefix from filenames / file renaming utility / batch processing. Do NOT
   use for moving or sorting files into folders, editing file contents, or
   renaming directories.
+description_zh: "批量重命名文件：模板、正则替换、前后缀与 EXIF 日期，支持预览与回滚。"
 license: Apache-2.0
 compatibility: "Python 3.8+; stdlib for all modes. EXIF date mode additionally uses Pillow (optional, falls back to file mtime if absent). Preview is the default; disk writes require the --yes flag."
 metadata:

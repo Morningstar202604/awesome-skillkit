@@ -14,7 +14,7 @@
       "name": "AI Agent Development",
       "name_zh": "AI Agent 开发",
       "file": "dist/ai-agent-development.zip",
-      "size_kb": 164,
+      "size_kb": 165,
       "description": "Build production-grade AI agents, design multi-agent workflows, MCP servers, feature flags, and self-evaluation.",
       "description_zh": "构建生产级 AI Agent、设计多 Agent 工作流、MCP 服务、功能开关与自评。",
       "skills": [
@@ -39,7 +39,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "5a48d00b2acd8b429e17a72df68588e952181b5ac73a8b279ecb7af4f79c5623"
+      "sha256": "1002dff718a460e130c74667cc1d67f1970ba86cbe313845cef9d1f7b02c30b9"
     },
     {
       "id": "ai-media-toolkit",
@@ -63,7 +63,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "0d127b3ef8395b281467bcbb98a590589712a4b68513ba7652360b1bf7077e56"
+      "sha256": "de27cb9a81ebae030518c93f2d1bace5770d03721dfab740b1b9829cdfce9afb"
     },
     {
       "id": "ai-research-writing",
@@ -146,8 +146,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 195,
-      "sha256": "a556973a81492973a13610c797da5102f713f227932893d70358215ec99ce820"
+      "size_kb": 198,
+      "sha256": "bc151b3fc2aadb0eab3fbda867fe815a7b99b5d04df9ca13909064ce46674b0e"
     },
     {
       "id": "ai-video-pipeline",
@@ -194,8 +194,8 @@
           "source": "skillkit authors (self-authored)"
         }
       ],
-      "size_kb": 110,
-      "sha256": "6f4720044ec3833e290d18570eb399fe1ba4df47c0e0a91756332a6fb56c9128"
+      "size_kb": 112,
+      "sha256": "1bf01fe69c27d9b25b9f9c798870a321dd4547cb9e11fad7db6adf14d0845e51"
     },
     {
       "id": "api-development",
@@ -215,14 +215,14 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "a5bd6c77a4dc83bb2935c2c426c81b5e65dc72d46bf8b80260d95547632f4198"
+      "sha256": "b8c32c2180478960c06f702c602f97ed733baaf6015678f8d64a24faa0be97ea"
     },
     {
       "id": "architecture",
       "name": "System Architecture",
       "name_zh": "系统架构设计",
       "file": "dist/architecture.zip",
-      "size_kb": 112,
+      "size_kb": 113,
       "description": "Design system architecture, plan zero-downtime migrations, and navigate monorepos.",
       "description_zh": "设计系统架构、规划零停机迁移、驾驭 monorepo。",
       "skills": [
@@ -239,7 +239,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "8656688841f0efcca5b60ad684eebefbbb23bffe740bb1d3a67e6939d5aefbc8"
+      "sha256": "c76277bd00b621b548743661ddffe152fa43f922f94790b15094fa232a666bbe"
     },
     {
       "id": "audio-studio",
@@ -266,8 +266,8 @@
           "source": "skillkit authors (self-authored)"
         }
       ],
-      "size_kb": 25,
-      "sha256": "2fd86f742697fa7cac18618de88f693bca03614b4ef90e9a07f40a677925adb8"
+      "size_kb": 26,
+      "sha256": "ded98a820efb454ad162c0193e4e2ad632ea8483a7e742dd714588cac6fa648d"
     },
     {
       "id": "chat-prompt-craft",
@@ -283,14 +283,14 @@
         }
       ],
       "size_kb": 10,
-      "sha256": "37bf675887ee16e5407c9cde8e568987bfc8f3f90a67312acfa492f7c7ee01e5"
+      "sha256": "d3624febb282353cb171546b8bfc1f6d09207659e59e96de3ee845b4425212f0"
     },
     {
       "id": "ci-cd",
       "name": "CI/CD Pipeline",
       "name_zh": "CI/CD 流水线",
       "file": "dist/ci-cd.zip",
-      "size_kb": 66,
+      "size_kb": 67,
       "description": "Generate pragmatic CI/CD pipelines, release gates, and spec-driven development workflows.",
       "description_zh": "生成务实的 CI/CD 流水线、发布门禁与规范驱动开发流程。",
       "skills": [
@@ -307,7 +307,123 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "5dca91dd1701b601616c366d8733c601c94a8f3aa60a7ac25940860575aa43b6"
+      "sha256": "1721ad8f190e4ad1340a35ac102e81fc803d8a00baa4e66ecba2c8d1f249b6fc"
+    },
+    {
+      "id": "cloud-platforms",
+      "name": "Cloud Platforms",
+      "name_zh": "云平台工具箱",
+      "file": "dist/cloud-platforms.zip",
+      "skills": [
+        {
+          "name": "azure-compute",
+          "source": "microsoft/azure-skills (MIT)"
+        },
+        {
+          "name": "azure-ai",
+          "source": "microsoft/azure-skills (MIT)"
+        },
+        {
+          "name": "azure-deploy",
+          "source": "microsoft/azure-skills (MIT)"
+        },
+        {
+          "name": "azure-messaging",
+          "source": "microsoft/azure-skills (MIT)"
+        },
+        {
+          "name": "azure-storage",
+          "source": "microsoft/azure-skills (MIT)"
+        },
+        {
+          "name": "workers-best-practices",
+          "source": "cloudflare/skills (Apache-2.0)"
+        },
+        {
+          "name": "cloudflare",
+          "source": "cloudflare/skills (Apache-2.0)"
+        },
+        {
+          "name": "wrangler",
+          "source": "cloudflare/skills (Apache-2.0)"
+        },
+        {
+          "name": "supabase",
+          "source": "supabase/agent-skills (MIT)"
+        },
+        {
+          "name": "supabase-postgres-best-practices",
+          "source": "supabase/agent-skills (MIT)"
+        },
+        {
+          "name": "firebase-basics",
+          "source": "firebase/agent-skills (Apache-2.0)"
+        },
+        {
+          "name": "firebase-security-rules-auditor",
+          "source": "firebase/agent-skills (Apache-2.0)"
+        }
+      ],
+      "size_kb": 655,
+      "sha256": "8dfc952613ac57706e9f0e5d321164b4f2ac27e2cb35ced291927aa6ee3ed4af"
+    },
+    {
+      "id": "cmo-suite",
+      "name": "CMO & C-Suite Suite",
+      "name_zh": "CMO 与高管套件",
+      "file": "dist/cmo-suite.zip",
+      "skills": [
+        {
+          "name": "landing",
+          "source": "alirezarezvani/claude-skills (MIT)"
+        },
+        {
+          "name": "linkedin-analytics",
+          "source": "alirezarezvani/claude-skills (MIT)"
+        },
+        {
+          "name": "linkedin-content",
+          "source": "alirezarezvani/claude-skills (MIT)"
+        },
+        {
+          "name": "linkedin-engagement",
+          "source": "alirezarezvani/claude-skills (MIT)"
+        },
+        {
+          "name": "linkedin-profile",
+          "source": "alirezarezvani/claude-skills (MIT)"
+        },
+        {
+          "name": "linkedin-strategy",
+          "source": "alirezarezvani/claude-skills (MIT)"
+        },
+        {
+          "name": "ceo-advisor",
+          "source": "alirezarezvani/claude-skills (MIT)"
+        },
+        {
+          "name": "cfo-advisor",
+          "source": "alirezarezvani/claude-skills (MIT)"
+        },
+        {
+          "name": "cmo-advisor",
+          "source": "alirezarezvani/claude-skills (MIT)"
+        },
+        {
+          "name": "cto-advisor",
+          "source": "alirezarezvani/claude-skills (MIT)"
+        },
+        {
+          "name": "chro-advisor",
+          "source": "alirezarezvani/claude-skills (MIT)"
+        },
+        {
+          "name": "ciso-advisor",
+          "source": "alirezarezvani/claude-skills (MIT)"
+        }
+      ],
+      "size_kb": 322,
+      "sha256": "fb5cfd3f65766069a853e005961c6e9fa26f53e251236cc4a4276687c2de403d"
     },
     {
       "id": "code-planning",
@@ -331,14 +447,76 @@
         }
       ],
       "size_kb": 66,
-      "sha256": "f3be37630628ae4abbd1fc6c11cf2a7e65dec9d4ac917fe32f8ca0215416f0bc"
+      "sha256": "fc71fe83d175d2609f792c449b7edfec6cc4082142afe822c83f98f0b925efc7"
+    },
+    {
+      "id": "code-quality-pro",
+      "name": "Code Quality Pro",
+      "name_zh": "代码质量进阶",
+      "file": "dist/code-quality-pro.zip",
+      "skills": [
+        {
+          "name": "code-review-excellence",
+          "source": "wshobson/agents (MIT)"
+        },
+        {
+          "name": "debugging-strategies",
+          "source": "wshobson/agents (MIT)"
+        },
+        {
+          "name": "e2e-testing-patterns",
+          "source": "wshobson/agents (MIT)"
+        },
+        {
+          "name": "error-handling-patterns",
+          "source": "wshobson/agents (MIT)"
+        },
+        {
+          "name": "api-design-principles",
+          "source": "wshobson/agents (MIT)"
+        },
+        {
+          "name": "architecture-patterns",
+          "source": "wshobson/agents (MIT)"
+        },
+        {
+          "name": "sql-optimization-patterns",
+          "source": "wshobson/agents (MIT)"
+        },
+        {
+          "name": "postgresql-table-design",
+          "source": "wshobson/agents (MIT)"
+        },
+        {
+          "name": "auth-implementation-patterns",
+          "source": "wshobson/agents (MIT)"
+        },
+        {
+          "name": "monorepo-management",
+          "source": "wshobson/agents (MIT)"
+        },
+        {
+          "name": "deployment-pipeline-design",
+          "source": "wshobson/agents (MIT)"
+        },
+        {
+          "name": "git-advanced-workflows",
+          "source": "wshobson/agents (MIT)"
+        },
+        {
+          "name": "open-code-review",
+          "source": "alibaba/open-code-review (Apache-2.0)"
+        }
+      ],
+      "size_kb": 104,
+      "sha256": "a7fa7b95b07aa44456021929db80afb0121c03b75f01e8410a9f9dc935aebd5e"
     },
     {
       "id": "code-review",
       "name": "Code Review",
       "name_zh": "代码审查",
       "file": "dist/code-review.zip",
-      "size_kb": 249,
+      "size_kb": 250,
       "description": "Review pull requests, analyze code quality, audit dependencies and tech debt across languages.",
       "description_zh": "审查 PR、分析代码质量、审计依赖与技术债，覆盖多语言。",
       "skills": [
@@ -359,7 +537,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "3050bcdf417642d904633ac31234511b1544021f62bace3e21e383db283aee6f"
+      "sha256": "291d83372d4a73024461c74f5086f84dc7f612d2f3b2a78d087a1a6d512e11a0"
     },
     {
       "id": "communication-essentials",
@@ -378,7 +556,7 @@
         }
       ],
       "size_kb": 35,
-      "sha256": "85f40bc6c847fbfdd500f9ada38d21c8a14abfa13dc28595aee9b95af5dda29b",
+      "sha256": "4293d8ccfab87f7f0256e9491810d37ac83282e5c0782577418e36895bea5605",
       "updated": ""
     },
     {
@@ -386,7 +564,7 @@
       "name": "Containers & Orchestration",
       "name_zh": "容器与编排",
       "file": "dist/containers.zip",
-      "size_kb": 74,
+      "size_kb": 75,
       "description": "Dockerfile optimization, docker-compose, Helm charts, and Kubernetes operators.",
       "description_zh": "Dockerfile 优化、docker-compose、Helm Chart 与 Kubernetes Operator。",
       "skills": [
@@ -403,14 +581,14 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "9ebd482b379d360c1ef0ec03fe8b3af9e923f7b19f50432029377c3fc003d627"
+      "sha256": "3eb93b5042b09c486fa228452e5bdfdc2db321fbc906e3698ed0563edcad3d15"
     },
     {
       "id": "content-publishing",
       "name": "Content Publishing Automation",
       "name_zh": "内容多平台发布自动化",
       "file": "dist/content-publishing.zip",
-      "size_kb": 50,
+      "size_kb": 53,
       "description": "Publish, edit and manage articles/videos on Chinese platforms (Zhihu, cnblogs, WeChat MP, Juejin, CSDN, Jianshu, Bilibili, Toutiao, Baijiahao, Xiaohongshu, Weibo, Douban, V2EX, SegmentFault, OSChina, Douban, Static Blogs) with battle-tested platform knowledge, plus a cross-post orchestrator and AI cover-image generation.",
       "description_zh": "在知乎、博客园、微信公众号、掘金、CSDN、简书、B站、头条、百家号、小红书、微博、豆瓣、V2EX、SegmentFault、开源中国、静态博客等中文平台发布、编辑、管理内容，沉淀实战平台经验；附跨平台发布编排器与 AI 封面图生成。",
       "skills": [
@@ -487,7 +665,37 @@
           "source": "existing (video)"
         }
       ],
-      "sha256": "70b217cd1457ee622d06eb006a142eb958aeaa229b55ef38800902fc056300fa"
+      "sha256": "77cfd224136b91f45b447cf462e656085d4bdb739dc2b1e83a1c536fe9f02568"
+    },
+    {
+      "id": "creator-boosters",
+      "name": "Creator Boosters",
+      "name_zh": "创作增强单品",
+      "file": "dist/creator-boosters.zip",
+      "skills": [
+        {
+          "name": "humanizer",
+          "source": "blader/humanizer (MIT)"
+        },
+        {
+          "name": "diagram-design",
+          "source": "cathrynlavery/diagram-design (MIT)"
+        },
+        {
+          "name": "archify",
+          "source": "tt-a1i/archify (MIT)"
+        },
+        {
+          "name": "archify-review",
+          "source": "tt-a1i/archify (MIT)"
+        },
+        {
+          "name": "video-shotcraft",
+          "source": "Vincentwei1021/video-shotcraft (Apache-2.0)"
+        }
+      ],
+      "size_kb": 8254,
+      "sha256": "4f80b6a2e2ae27e1cf852f2e40bdcf38db3bfb62b1d7b89dbe1e055a386fae3b"
     },
     {
       "id": "data-ml-science",
@@ -526,15 +734,15 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 75,
-      "sha256": "84940f2a5c9173fb601bc971bfc816e64211cce68949e127c6af56d6630d98e5"
+      "size_kb": 76,
+      "sha256": "88a4373e0dbc69d5c247310ceea508f13ec399c1350cef380e9628a0481e27ba"
     },
     {
       "id": "database",
       "name": "Database Design & Management",
       "name_zh": "数据库设计与管理",
       "file": "dist/database.zip",
-      "size_kb": 108,
+      "size_kb": 109,
       "description": "Design schemas, ERD diagrams, migrations, and optimize SQL queries.",
       "description_zh": "设计表结构、ERD 图、迁移方案，并优化 SQL 查询。",
       "skills": [
@@ -547,7 +755,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "2736326aee77d92bc36c37c3f0e1f7d6288d0c8f475870b2a8b0ca125ec5eebe"
+      "sha256": "b95cd53f058ecd590f61f98d8f1c510ce846631f4bffe6411fb2112f38d86732"
     },
     {
       "id": "dataviz-studio",
@@ -567,7 +775,7 @@
         }
       ],
       "size_kb": 33,
-      "sha256": "137092d14b568b3f09fc26f99b0779e5230d8fbacc7b41bb1d0841c02ef734cb"
+      "sha256": "ac0b8bc3b1b6c693de2b76768e252c8cad65b867cf224aa090f429d9208f435f"
     },
     {
       "id": "de-ai-writing",
@@ -590,8 +798,8 @@
           "source": "original"
         }
       ],
-      "size_kb": 28,
-      "sha256": "848de09b83a55eb90602a69d8e6169b91f0f296fa1317a135f9b1956809611ac"
+      "size_kb": 29,
+      "sha256": "ff15cd821a69d107eb39f1f5c20fd3e52708b88f20d53e01e75028fef89da25e"
     },
     {
       "id": "edu-craft",
@@ -615,7 +823,101 @@
         }
       ],
       "size_kb": 11,
-      "sha256": "c0a87db630a0236b8c9cbbcfd73f75e75da928f050f98888cdd3a418cdb92aff"
+      "sha256": "7b7c43a3fae142f4267dc7811286285d9e449def1a816645e94a145a3f2c94aa"
+    },
+    {
+      "id": "engineering-playbook",
+      "name": "Engineering Playbook",
+      "name_zh": "工程方法论手册",
+      "file": "dist/engineering-playbook.zip",
+      "skills": [
+        {
+          "name": "brainstorming",
+          "source": "obra/superpowers (MIT)"
+        },
+        {
+          "name": "dispatching-parallel-agents",
+          "source": "obra/superpowers (MIT)"
+        },
+        {
+          "name": "executing-plans",
+          "source": "obra/superpowers (MIT)"
+        },
+        {
+          "name": "finishing-a-development-branch",
+          "source": "obra/superpowers (MIT)"
+        },
+        {
+          "name": "receiving-code-review",
+          "source": "obra/superpowers (MIT)"
+        },
+        {
+          "name": "requesting-code-review",
+          "source": "obra/superpowers (MIT)"
+        },
+        {
+          "name": "subagent-driven-development",
+          "source": "obra/superpowers (MIT)"
+        },
+        {
+          "name": "systematic-debugging",
+          "source": "obra/superpowers (MIT)"
+        },
+        {
+          "name": "test-driven-development",
+          "source": "obra/superpowers (MIT)"
+        },
+        {
+          "name": "using-git-worktrees",
+          "source": "obra/superpowers (MIT)"
+        },
+        {
+          "name": "verification-before-completion",
+          "source": "obra/superpowers (MIT)"
+        },
+        {
+          "name": "writing-plans",
+          "source": "obra/superpowers (MIT)"
+        },
+        {
+          "name": "spec-driven-development",
+          "source": "addyosmani/agent-skills (MIT)"
+        },
+        {
+          "name": "planning-and-task-breakdown",
+          "source": "addyosmani/agent-skills (MIT)"
+        },
+        {
+          "name": "code-review-and-quality",
+          "source": "addyosmani/agent-skills (MIT)"
+        },
+        {
+          "name": "debugging-and-error-recovery",
+          "source": "addyosmani/agent-skills (MIT)"
+        },
+        {
+          "name": "shipping-and-launch",
+          "source": "addyosmani/agent-skills (MIT)"
+        },
+        {
+          "name": "incremental-implementation",
+          "source": "addyosmani/agent-skills (MIT)"
+        },
+        {
+          "name": "tdd",
+          "source": "mattpocock/skills (MIT)"
+        },
+        {
+          "name": "handoff",
+          "source": "mattpocock/skills (MIT)"
+        },
+        {
+          "name": "grill-me",
+          "source": "mattpocock/skills (MIT)"
+        }
+      ],
+      "size_kb": 172,
+      "sha256": "fe77ac8be38827c19954d47003644633f1b26147df0f3e1eb4a3f7dfae079363"
     },
     {
       "id": "feishu-suite",
@@ -739,14 +1041,14 @@
         }
       ],
       "size_kb": 1834,
-      "sha256": "24d11de9fa36f0f001062cdf11e6ee1119fc597c7a9405ff7f298a2fdbacec7b"
+      "sha256": "375b27ceeeae03b0dd1ed4ce1d5e400af58a0daf8af080d6c5bd6fbab3dc5d6a"
     },
     {
       "id": "github-workflow",
       "name": "GitHub Collaboration",
       "name_zh": "GitHub 协作工作流",
       "file": "dist/github-workflow.zip",
-      "size_kb": 102,
+      "size_kb": 103,
       "description": "Parallel worktrees, conventional-commit changelogs, and PR review on GitHub.",
       "description_zh": "并行 worktree、Conventional Commits 变更日志与 GitHub PR 审查。",
       "skills": [
@@ -763,7 +1065,65 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "72b8e7650be14cb0c13424a417aa90b492335989471062a23b703a3f460b4c02"
+      "sha256": "a8e5d12fbb1bd643d13400bc92a122f8152a1e1edfc791c8db7c0a3bd3e371a4"
+    },
+    {
+      "id": "google-workspace",
+      "name": "Google Workspace",
+      "name_zh": "Google Workspace 套件",
+      "file": "dist/google-workspace.zip",
+      "skills": [
+        {
+          "name": "gws-shared",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-gmail",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-gmail-send",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-calendar",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-calendar-agenda",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-drive",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-docs",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-sheets",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-tasks",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-people",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-workflow-standup-report",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-workflow-weekly-digest",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        }
+      ],
+      "size_kb": 22,
+      "sha256": "fa298cc80e086874ccd6157f9d73bd178fea8243899c4d628e4c2a8335d81f20"
     },
     {
       "id": "growth-marketing",
@@ -786,8 +1146,62 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 16,
-      "sha256": "85ace46196dd251d62e11840ef86f69459be857503f994e97701946d19eef0c1"
+      "size_kb": 17,
+      "sha256": "8879e12ca0733f0598d8c4ffa6a59e68d187f26697693e72712b5bdd3bcc2eb8"
+    },
+    {
+      "id": "hf-ml-hub",
+      "name": "Hugging Face ML Hub",
+      "name_zh": "Hugging Face 机器学习",
+      "file": "dist/hf-ml-hub.zip",
+      "skills": [
+        {
+          "name": "hf-cli",
+          "source": "huggingface/skills (Apache-2.0)"
+        },
+        {
+          "name": "huggingface-datasets",
+          "source": "huggingface/skills (Apache-2.0)"
+        },
+        {
+          "name": "huggingface-papers",
+          "source": "huggingface/skills (Apache-2.0)"
+        },
+        {
+          "name": "huggingface-community-evals",
+          "source": "huggingface/skills (Apache-2.0)"
+        },
+        {
+          "name": "trl-training",
+          "source": "huggingface/skills (Apache-2.0)"
+        },
+        {
+          "name": "train-sentence-transformers",
+          "source": "huggingface/skills (Apache-2.0)"
+        },
+        {
+          "name": "huggingface-spaces",
+          "source": "huggingface/skills (Apache-2.0)"
+        },
+        {
+          "name": "huggingface-gradio",
+          "source": "huggingface/skills (Apache-2.0)"
+        },
+        {
+          "name": "huggingface-local-models",
+          "source": "huggingface/skills (Apache-2.0)"
+        },
+        {
+          "name": "huggingface-llm-trainer",
+          "source": "huggingface/skills (Apache-2.0)"
+        },
+        {
+          "name": "huggingface-best",
+          "source": "huggingface/skills (Apache-2.0)"
+        }
+      ],
+      "size_kb": 305,
+      "sha256": "bb7b8b6a4b6ac8d568e775c3646da2f5f2f674bd677c48aeb24cd261d82c5a22"
     },
     {
       "id": "homework-autopilot",
@@ -811,7 +1225,7 @@
         }
       ],
       "size_kb": 24,
-      "sha256": "fd9e3eb6ba3ecc4f0ad336fb0666e6916c9fde6532eb1a660a729a828efae9a5"
+      "sha256": "ad343f0f184196f0118d9ed752b86760549c319adb8b7090e301aef75db0a537"
     },
     {
       "id": "image-studio",
@@ -838,15 +1252,15 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 48,
-      "sha256": "68c4459366628b9b4a9424beb26d41f7d2a14fdb29a9586e296a28ce2b49386f"
+      "size_kb": 49,
+      "sha256": "f27d5f56c6972daf47552ed2b61aa840b7731aefcc829cf6da11f42b24f258d3"
     },
     {
       "id": "incident-response",
       "name": "Incident Response & SRE",
       "name_zh": "故障响应与 SRE",
       "file": "dist/incident-response.zip",
-      "size_kb": 127,
+      "size_kb": 128,
       "description": "Command incidents, generate runbooks, and define SLOs/error budgets.",
       "description_zh": "事故指挥、生成 runbook、定义 SLO 与错误预算。",
       "skills": [
@@ -863,7 +1277,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "51b4a83e1665f9d16557537051395d04307940d63fbb8d849d07c2440700d646"
+      "sha256": "6090a68d09e898862de5a9e2c10b4cabf0577abb8340105be2d5c6c0af167777"
     },
     {
       "id": "infrastructure",
@@ -887,7 +1301,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "12b6bf7f74d5504c187f6b81d9d0e39387cf5ced71f250f9c7f1ab0094809506"
+      "sha256": "792619c9a57b20919bc4c9f1836fba5be6c79691ef3417730034df75a41017fb"
     },
     {
       "id": "knowledge-base",
@@ -907,7 +1321,101 @@
         }
       ],
       "size_kb": 29,
-      "sha256": "ec6d614d72b389bd1a3d16bb6b6b8b532e6d4d4dc20e138dcae97a934c982afd"
+      "sha256": "41ffde4c9b9b27d090fdc294ff772f3245c95fa4e07ffcf94551bbe841bb8915"
+    },
+    {
+      "id": "knowledge-work",
+      "name": "Knowledge Work Suite",
+      "name_zh": "知识工作套件",
+      "file": "dist/knowledge-work.zip",
+      "skills": [
+        {
+          "name": "comp-analysis",
+          "source": "anthropics/knowledge-work-plugins (Apache-2.0)"
+        },
+        {
+          "name": "interview-prep",
+          "source": "anthropics/knowledge-work-plugins (Apache-2.0)"
+        },
+        {
+          "name": "onboarding",
+          "source": "anthropics/knowledge-work-plugins (Apache-2.0)"
+        },
+        {
+          "name": "performance-review",
+          "source": "anthropics/knowledge-work-plugins (Apache-2.0)"
+        },
+        {
+          "name": "policy-lookup",
+          "source": "anthropics/knowledge-work-plugins (Apache-2.0)"
+        },
+        {
+          "name": "recruiting-pipeline",
+          "source": "anthropics/knowledge-work-plugins (Apache-2.0)"
+        },
+        {
+          "name": "review-contract",
+          "source": "anthropics/knowledge-work-plugins (Apache-2.0)"
+        },
+        {
+          "name": "legal-risk-assessment",
+          "source": "anthropics/knowledge-work-plugins (Apache-2.0)"
+        },
+        {
+          "name": "compliance-check",
+          "source": "anthropics/knowledge-work-plugins (Apache-2.0)"
+        },
+        {
+          "name": "triage-nda",
+          "source": "anthropics/knowledge-work-plugins (Apache-2.0)"
+        },
+        {
+          "name": "variance-analysis",
+          "source": "anthropics/knowledge-work-plugins (Apache-2.0)"
+        },
+        {
+          "name": "audit-support",
+          "source": "anthropics/knowledge-work-plugins (Apache-2.0)"
+        },
+        {
+          "name": "process-optimization",
+          "source": "anthropics/knowledge-work-plugins (Apache-2.0)"
+        },
+        {
+          "name": "risk-assessment",
+          "source": "anthropics/knowledge-work-plugins (Apache-2.0)"
+        },
+        {
+          "name": "status-report",
+          "source": "anthropics/knowledge-work-plugins (Apache-2.0)"
+        },
+        {
+          "name": "ticket-triage",
+          "source": "anthropics/knowledge-work-plugins (Apache-2.0)"
+        },
+        {
+          "name": "draft-response",
+          "source": "anthropics/knowledge-work-plugins (Apache-2.0)"
+        },
+        {
+          "name": "kb-article",
+          "source": "anthropics/knowledge-work-plugins (Apache-2.0)"
+        },
+        {
+          "name": "user-research",
+          "source": "anthropics/knowledge-work-plugins (Apache-2.0)"
+        },
+        {
+          "name": "research-synthesis",
+          "source": "anthropics/knowledge-work-plugins (Apache-2.0)"
+        },
+        {
+          "name": "ux-copy",
+          "source": "anthropics/knowledge-work-plugins (Apache-2.0)"
+        }
+      ],
+      "size_kb": 80,
+      "sha256": "056f5524a6d77628a349c1016ec668d1e1777f6f33a22675dd9315cd477d5695"
     },
     {
       "id": "life-essentials",
@@ -933,8 +1441,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 49,
-      "sha256": "6109ab0b4be6688f86e86c7252329638be8e27dd8d6635609828bf6061f56a26",
+      "size_kb": 50,
+      "sha256": "f28896d387bd88e59fbdf73f1d494ec034963ae1a575a944f2adac2014a5e01c",
       "updated": ""
     },
     {
@@ -963,7 +1471,7 @@
         }
       ],
       "size_kb": 25,
-      "sha256": "b208135a183d517590ccc4dce926ba40f8af6f65a5ced15aa3c44416224260af"
+      "sha256": "30058fc462eadecf4d9e774bee7eb90243ba8cbbc247e7fc09d3a5709d3c2ffa"
     },
     {
       "id": "office-productivity",
@@ -972,7 +1480,7 @@
       "description": "Daily office work: decks, spreadsheets, resumes, meeting minutes.",
       "description_zh": "日常办公四件套：PPT 制作、Excel 清洗分析、简历岗位定制、会议纪要结构化。",
       "file": "dist/office-productivity.zip",
-      "size_kb": 125,
+      "size_kb": 127,
       "skills": [
         {
           "name": "ppt-builder",
@@ -1015,7 +1523,7 @@
           "source": "self-authored (adapted from santifer/career-ops, MIT)"
         }
       ],
-      "sha256": "fdbef42a95f7b8e2d7057d7b5431d4581707f55839901b7ac4ced19327b07cd0"
+      "sha256": "815add7a0ba4f1388e3ca133bde66f74d48c49a226af57ae51c0ff356dd564f2"
     },
     {
       "id": "performance",
@@ -1031,7 +1539,131 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "170680e61862487a4331a46d6ba80f1aed7c2dc703675dd901f9d1c47c68d239"
+      "sha256": "631f30de14ab206a5ffb478f665a093aee14c6641f54d01fdf9aabf974a27ae5"
+    },
+    {
+      "id": "product-management",
+      "name": "Product Management",
+      "name_zh": "产品管理",
+      "file": "dist/product-management.zip",
+      "skills": [
+        {
+          "name": "create-prd",
+          "source": "phuryn/pm-skills (MIT)"
+        },
+        {
+          "name": "outcome-roadmap",
+          "source": "phuryn/pm-skills (MIT)"
+        },
+        {
+          "name": "prioritization-frameworks",
+          "source": "phuryn/pm-skills (MIT)"
+        },
+        {
+          "name": "user-stories",
+          "source": "phuryn/pm-skills (MIT)"
+        },
+        {
+          "name": "job-stories",
+          "source": "phuryn/pm-skills (MIT)"
+        },
+        {
+          "name": "stakeholder-map",
+          "source": "phuryn/pm-skills (MIT)"
+        },
+        {
+          "name": "pre-mortem",
+          "source": "phuryn/pm-skills (MIT)"
+        },
+        {
+          "name": "sprint-plan",
+          "source": "phuryn/pm-skills (MIT)"
+        },
+        {
+          "name": "north-star-metric",
+          "source": "phuryn/pm-skills (MIT)"
+        },
+        {
+          "name": "competitive-battlecard",
+          "source": "phuryn/pm-skills (MIT)"
+        },
+        {
+          "name": "market-sizing",
+          "source": "phuryn/pm-skills (MIT)"
+        },
+        {
+          "name": "user-personas",
+          "source": "phuryn/pm-skills (MIT)"
+        },
+        {
+          "name": "to-spec",
+          "source": "mattpocock/skills (MIT)"
+        },
+        {
+          "name": "triage",
+          "source": "mattpocock/skills (MIT)"
+        }
+      ],
+      "size_kb": 39,
+      "sha256": "95b0a560a3b7b8437cb726f23803d569934e6712a63254bf869cdb770c7e28b0"
+    },
+    {
+      "id": "scientific-agent-skills",
+      "name": "Scientific Computing",
+      "name_zh": "科研计算（精选）",
+      "file": "dist/scientific-agent-skills.zip",
+      "skills": [
+        {
+          "name": "exploratory-data-analysis",
+          "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+        },
+        {
+          "name": "experimental-design",
+          "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+        },
+        {
+          "name": "hypothesis-generation",
+          "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+        },
+        {
+          "name": "literature-review",
+          "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+        },
+        {
+          "name": "citation-management",
+          "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+        },
+        {
+          "name": "peer-review",
+          "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+        },
+        {
+          "name": "polars",
+          "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+        },
+        {
+          "name": "networkx",
+          "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+        },
+        {
+          "name": "matplotlib",
+          "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+        },
+        {
+          "name": "statistical-analysis",
+          "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+        },
+        {
+          "name": "optimize-for-gpu",
+          "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+        },
+        {
+          "name": "get-available-resources",
+          "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+        }
+      ],
+      "size_kb": 660,
+      "sha256": "9d9ba9a384a322f0ae2366f9683518b8d2fc2d728d259c00be779af958fce2f2"
     },
     {
       "id": "security",
@@ -1059,7 +1691,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "acf02fd15541b430a72abe88f23a6b3a1f9475a5d9a852752c037370a15a457c"
+      "sha256": "2c0bef08c042719c136a7da667079366f1a486a2bc0e89eac855707f2acb70e7"
     },
     {
       "id": "skill-forge",
@@ -1090,15 +1722,15 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 50,
-      "sha256": "2a1c9dd31e2652a8fbc52e850b5dc7eeb1e3cb61d1888f2098e28acd26bbb4e4"
+      "size_kb": 52,
+      "sha256": "efa447e05c8b3d53eb1fb22d27f4e8e25672af60be3c025ace96753a26cb5e8d"
     },
     {
       "id": "tdd",
       "name": "Test-Driven Development",
       "name_zh": "测试驱动开发",
       "file": "dist/tdd.zip",
-      "size_kb": 79,
+      "size_kb": 80,
       "description": "Write unit tests, fixtures, mocks, and guide red-green-refactor cycles.",
       "description_zh": "编写单元测试、fixture、mock，并引导红绿重构循环。",
       "skills": [
@@ -1119,7 +1751,7 @@
           "source": "self-authored (verification-type agent behavior scoring: 5-dim 0-100 rubric + LLM-as-judge prompt, offline)"
         }
       ],
-      "sha256": "4fee167f8dc80d28d1f99eda28077ea238ee6b6ad58650466952980322c2700b"
+      "sha256": "6e6c1028f9dd22d93a2df8c8f4d1eae98d57103e07b297e1f646785778370a2c"
     },
     {
       "id": "toolsmith",
@@ -1154,8 +1786,38 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 62,
-      "sha256": "3c4e42031d124913fa529408249d21895e68e938c4592376c7d3031b1cdb307b"
+      "size_kb": 63,
+      "sha256": "ef084e3d8dbfbef50f854e8a41cd9591d23fe65e369bd304c009f9dec79696e9"
+    },
+    {
+      "id": "video-code",
+      "name": "Code-Driven Video (HyperFrames)",
+      "name_zh": "代码化视频（HyperFrames）",
+      "file": "dist/video-code.zip",
+      "skills": [
+        {
+          "name": "hyperframes",
+          "source": "heygen-com/hyperframes (Apache-2.0)"
+        },
+        {
+          "name": "hyperframes-cli",
+          "source": "heygen-com/hyperframes (Apache-2.0)"
+        },
+        {
+          "name": "hyperframes-animation",
+          "source": "heygen-com/hyperframes (Apache-2.0)"
+        },
+        {
+          "name": "hyperframes-audio",
+          "source": "heygen-com/hyperframes (Apache-2.0)"
+        },
+        {
+          "name": "hyperframes-keyframes",
+          "source": "heygen-com/hyperframes (Apache-2.0)"
+        }
+      ],
+      "size_kb": 766,
+      "sha256": "5d907e169bc76f0f912de40ef1b0a69e67775041ce89499a93fffa49601a1efd"
     },
     {
       "id": "video-design-studio",
@@ -1186,8 +1848,8 @@
           "source": "skillkit authors (self-authored)"
         }
       ],
-      "size_kb": 49,
-      "sha256": "2383db64027bc33cca5b70d75d261526b0be69a5421bf28f82c87edb3dcd43ef"
+      "size_kb": 50,
+      "sha256": "d6d8adc8d97073405f27accbe7ec0dbd030c18cdbf68065059d3ba5178af5395"
     },
     {
       "id": "viral-entertainment",
@@ -1207,7 +1869,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "967158ecad3d9dad9771ecaf5005260417e0a6a6320989195907e120d5941493"
+      "sha256": "df06bc36d2c68681b4d0c3100d77554386e474b4d7f644bc82e3627c4eff290e"
     },
     {
       "id": "visual-design-studio",
@@ -1246,8 +1908,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 88,
-      "sha256": "a730ec41632302bf23be26f743dae25369bcd5412eee84b217d53e8a994f25de"
+      "size_kb": 89,
+      "sha256": "4bda0ac2b24cd314dd112bb5487302904d522a4d28fcd2a6d87af83e8986c9c2"
     },
     {
       "id": "web-ops",
@@ -1263,7 +1925,57 @@
         }
       ],
       "size_kb": 8,
-      "sha256": "7dee58c9729a8298f5c4eb4461fbaa12526363a6f241d276e1cb900738921e01"
+      "sha256": "89f7001996cd4046bc12b4ca57e655c5026c67c77bef50d9bd88bd9bb4a86336"
+    },
+    {
+      "id": "wechat-longform",
+      "name": "WeChat Longform Studio",
+      "name_zh": "微信长文工作室",
+      "file": "dist/wechat-longform.zip",
+      "skills": [
+        {
+          "name": "baoyu-post-to-wechat",
+          "source": "JimLiu/baoyu-skills (MIT)"
+        },
+        {
+          "name": "baoyu-format-markdown",
+          "source": "JimLiu/baoyu-skills (MIT)"
+        },
+        {
+          "name": "baoyu-markdown-to-html",
+          "source": "JimLiu/baoyu-skills (MIT)"
+        },
+        {
+          "name": "baoyu-cover-image",
+          "source": "JimLiu/baoyu-skills (MIT)"
+        },
+        {
+          "name": "baoyu-article-illustrator",
+          "source": "JimLiu/baoyu-skills (MIT)"
+        },
+        {
+          "name": "baoyu-infographic",
+          "source": "JimLiu/baoyu-skills (MIT)"
+        },
+        {
+          "name": "baoyu-wechat-summary",
+          "source": "JimLiu/baoyu-skills (MIT)"
+        },
+        {
+          "name": "baoyu-translate",
+          "source": "JimLiu/baoyu-skills (MIT)"
+        },
+        {
+          "name": "baoyu-xhs-images",
+          "source": "JimLiu/baoyu-skills (MIT)"
+        },
+        {
+          "name": "baoyu-slide-deck",
+          "source": "JimLiu/baoyu-skills (MIT)"
+        }
+      ],
+      "size_kb": 482,
+      "sha256": "bb26ffbb212bda907e9be7d4c6a4860bb9eb64b408dfded1ce9b9cfe2127f381"
     },
     {
       "id": "workspace-integrations",
@@ -1290,8 +2002,8 @@
           "source": "self-authored"
         }
       ],
-      "size_kb": 58,
-      "sha256": "50ec7f82977e5ee6d2d5f8faf4fd3cfb67bcfbc947e518d57029fb9632793177"
+      "size_kb": 59,
+      "sha256": "c979f755aea3d4b498188e1d8d0f74ee8ccbd046f86b5b7734cde926eed0cf72"
     }
   ]
 }

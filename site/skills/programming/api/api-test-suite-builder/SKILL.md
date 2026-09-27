@@ -1,6 +1,7 @@
 ---
 name: api-test-suite-builder
 description: "Generate API tests and integration test suites by scanning route definitions across frameworks (Next.js App Router, Express, FastAPI, Django REST). Covers auth, input validation, error codes, pagination, file upload, and rate limiting. Use when the user asks to generate API tests, generate interface tests, write integration tests, build contract tests, test REST endpoints, or create integration test suites. Do NOT use for running the generated suites inside CI (it only generates them)."
+description_zh: "扫描路由生成 API 测试与集成测试套件，覆盖鉴权、校验、分页与限流。"
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:

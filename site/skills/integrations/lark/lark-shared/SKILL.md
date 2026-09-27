@@ -2,6 +2,7 @@
 name: lark-shared
 description: >-
   Use for lark-cli setup/auth tasks: auth login/status/logout, user vs bot identity, business-domain permissions (--domain, including all/docs/drive), missing scopes, revoking authorization, or handling _notice JSON.
+description_zh: "lark-cli 的登录与授权设置：auth login/status/logout、用户与机器人身份、业务域权限与 scope、撤销授权、处理 _notice 提示。"
 license: MIT
 compatibility: 需安装飞书官方 CLI（lark-cli，npm 包 @larksuite/cli）；需网络访问；认证、租户与权限处理遵循同目录 lark-shared 技能。
 metadata:

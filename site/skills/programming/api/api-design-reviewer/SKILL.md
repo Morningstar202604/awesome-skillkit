@@ -1,6 +1,7 @@
 ---
 name: api-design-reviewer
 description: "Comprehensive REST API design review with automated linting, breaking-change detection, and design scorecards. Catches inconsistent conventions, missing versioning, and design smells before APIs ship. Use when reviewing an API design, doing a REST endpoint design review, finding anti-patterns, reviewing a PR that adds or changes API endpoints, auditing an existing API for v2 migration, or establishing API standards for a team. Do NOT use for implementing API endpoints or generating client SDKs."
+description_zh: "审查 REST API 设计：自动 lint、破坏性变更检测与设计评分卡，发现反模式。"
 license: Apache-2.0
 compatibility: Requires network access. No API keys required.
 metadata:

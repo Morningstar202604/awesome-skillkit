@@ -1,6 +1,7 @@
 ---
 name: database-designer
 description: "Use when the user asks to design database schemas, design database tables, design table structure, create ERD diagrams, add indexes, normalize schemas, plan data migrations, add multi-tenancy or row-level security, generate seed data, optimize queries, choose between SQL and NoSQL, or model data relationships. Do NOT use for executing schema changes against a live database."
+description_zh: "设计数据库：表结构、ERD、索引、范式化、迁移、多租户与查询优化。"
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:

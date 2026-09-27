@@ -1,6 +1,7 @@
 ---
 name: webapp-flow-tester
 description: "Drive end-to-end flow tests against a locally running web application with Playwright — discover interactive elements from the rendered page first, then navigate, interact, assert, and screenshot, with console-error collection and a server-lifecycle wrapper so crashing tests never leave orphan processes. Use when the user asks for web testing, e2e testing, automated testing, to walk through an order/checkout flow, to verify page functionality, web app testing, e2e test, playwright test, test user flow, or verify page works. Do NOT use for production traffic, load/stress testing, or testing sites you are not authorized to automate."
+description_zh: "用 Playwright 驱动本地 Web 应用端到端流程测试：发现元素、操作断言并截图，收集控制台错误"
 license: Apache-2.0
 compatibility: Requires Python 3.8+ with playwright (pip install playwright && playwright install chromium); scripts/with_server.py is stdlib-only.
 metadata:

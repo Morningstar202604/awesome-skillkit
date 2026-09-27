@@ -1,6 +1,7 @@
 ---
 name: incident-commander
 description: "Comprehensive incident response framework from detection through resolution and post-incident review. Battle-tested SRE/DevOps practices: severity classification, timeline reconstruction, structured post-incident analysis. Use when handling an outage or production incident, declaring an incident, coordinating multi-team response during an outage, leading a post-mortem, running incident command or emergency response, or setting up on-call practices for a new service. Do NOT use for performing the remediation actions it assigns."
+description_zh: "覆盖从检测、处置到复盘的事故响应框架：严重级别划分、时间线还原、结构化事后分析，指导值班与应急协调。"
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:

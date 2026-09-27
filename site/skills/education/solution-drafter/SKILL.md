@@ -10,6 +10,7 @@ description: >-
   pass through own-voice-rewrite. Use when the user asks to draft a solution /
   answer by type / write first draft / solve homework / draft solution. Do NOT use
   without an assignment-plan from assignment-intake, nor during live exams.
+description_zh: "按作业类型起草解题：数学分步推导、作文列提纲、报告先列大纲，每步给出完整过程并自检"
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime dependencies.
 metadata:

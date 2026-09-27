@@ -1,6 +1,7 @@
 ---
 name: memory-retriever
 description: "Use when retrieving memories from a long-term store to inject into an agent's context: rewrite queries from the current conversation, run hybrid retrieval (keyword + semantic + recency), fuse scores, and inject within a token budget. Triggers on memory retrieval, hybrid retrieval, memory injection, memory retrieval, hybrid search, context injection, token budget, query rewriting, recency weighting, knowledge retrieval, RAG, long-term memory. NOT for building the store or managing its lifecycle — use memory-architect or memory-manager."
+description_zh: "从长期记忆库检索记忆并注入 Agent 上下文：改写查询，混合检索关键词、语义与时效，融合分数并在 token 预算内注入。"
 license: Apache-2.0
 compatibility: Pure prompt-based; no scripts, no environment probing. Works with keyword-only stores via a documented degradation path.
 metadata:

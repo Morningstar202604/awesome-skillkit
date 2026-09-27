@@ -7,6 +7,7 @@ description: >
   voice. Use when the user asks for CSDN content, csdn article, CSDN blog post,
   csdn adaptation, platform-specific content for csdn, or publish to CSDN.
   Do NOT use for cookie-based posting automation or other platforms.
+description_zh: "为 CSDN 改写原生 Markdown 文章：SEO 标题、代码块、标签分类与教程口吻。"
 license: Apache-2.0
 metadata:
   author: awesome-skillkit

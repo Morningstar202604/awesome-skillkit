@@ -8,6 +8,7 @@ description: >
   official account article, official account article, wechat adaptation, platform-specific
   content for wechat, or publish to WeChat Official Account. Do NOT use for
   WeChat API automation, draft scripts, or posting to other platforms.
+description_zh: "为微信公众号撰写平台化富文本文章：控制标题长度、封面比例、内嵌图片且不含外链"
 license: Apache-2.0
 metadata:
   author: awesome-skillkit

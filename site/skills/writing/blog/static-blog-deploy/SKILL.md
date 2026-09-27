@@ -8,6 +8,7 @@ description: >
   post, Hexo article, static blog post, static-blog adaptation, platform-specific
   content for static blog, or write a post for my Hugo/Jekyll/Hexo blog. Do NOT
   use for build/deploy automation, hosting CLI scripts, or other platforms.
+description_zh: "为 Hugo、Jekyll、Hexo 生成平台化 Markdown 文章，处理 front matter 与短代码"
 license: Apache-2.0
 metadata:
   author: awesome-skillkit

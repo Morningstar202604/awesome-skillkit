@@ -9,6 +9,7 @@ description: >-
   audit / cover spec / image compliance, or automatically after generating an
   image in the visual-design-studio chain. Do NOT use for judging aesthetics (that
   is design critique), nor for writing prompts.
+description_zh: "按设计规范与平台版式规则审查图片：宽高比、最小分辨率、文字安全边距、文件大小限制与字数预算。"
 license: Apache-2.0
 compatibility: Python 3.8+; Pillow optional (needed only when auditing an actual image file).
 metadata:

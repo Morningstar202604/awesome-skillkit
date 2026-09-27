@@ -8,6 +8,7 @@ description: >-
   scheduled task / automation scheduling. Do NOT use for one-off delayed commands
   (use `at` or `sleep`), long-running daemons, or in-process job queues like
   Celery.
+description_zh: "把 cron 表达式翻译成白话、预览下次执行时间、生成 crontab 并映射到各系统计划任务"
 license: Apache-2.0
 compatibility: "Python 3.8+ stdlib for description and crontab parsing. croniter is optional and only improves next-fire-time precision (pip install croniter). The helper never writes to crontab itself; it prints the line for the user to install."
 metadata:
