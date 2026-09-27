@@ -23,7 +23,14 @@
     "programming": "编程开发",
     "tools": "实用工具",
     "video": "视频制作",
-    "writing": "内容写作"
+    "writing": "内容写作",
+    "product": "产品管理",
+    "hr": "人力资源",
+    "legal": "法务合规",
+    "finance": "财务",
+    "ops": "运营",
+    "customer": "客户支持",
+    "leadership": "高管决策"
   },
   "groups": [
     {
@@ -32,7 +39,9 @@
       "label_en": "Software Engineering",
       "emoji": "🛠",
       "desc": "从需求到上线运维：写码、测试、评审、CI/CD、架构、数据库、安全、故障响应",
-      "domains": ["programming"],
+      "domains": [
+        "programming"
+      ],
       "packs": [
         "api-development",
         "architecture",
@@ -47,7 +56,12 @@
         "performance",
         "security",
         "tdd",
-        "web-ops"
+        "web-ops",
+        "engineering-playbook",
+        "cloud-platforms",
+        "hf-ml-hub",
+        "scientific-agent-skills",
+        "code-quality-pro"
       ]
     },
     {
@@ -56,8 +70,17 @@
       "label_en": "AI & Agents",
       "emoji": "🤖",
       "desc": "让 AI 会干活：提示词工艺、长期记忆、Agent 开发、技能锻造与检索",
-      "domains": ["chat", "memory", "meta"],
-      "packs": ["ai-agent-development", "chat-prompt-craft", "memory-systems", "skill-forge"]
+      "domains": [
+        "chat",
+        "memory",
+        "meta"
+      ],
+      "packs": [
+        "ai-agent-development",
+        "chat-prompt-craft",
+        "memory-systems",
+        "skill-forge"
+      ]
     },
     {
       "id": "content",
@@ -65,7 +88,13 @@
       "label_en": "Content & Creative",
       "emoji": "🎨",
       "desc": "写作、视频、音频、视觉设计，一路到 18 个内容平台发布",
-      "domains": ["audio", "design", "music", "video", "writing"],
+      "domains": [
+        "audio",
+        "design",
+        "music",
+        "video",
+        "writing"
+      ],
       "packs": [
         "ai-media-toolkit",
         "ai-research-writing",
@@ -76,7 +105,10 @@
         "image-studio",
         "video-design-studio",
         "viral-entertainment",
-        "visual-design-studio"
+        "visual-design-studio",
+        "wechat-longform",
+        "video-code",
+        "creator-boosters"
       ]
     },
     {
@@ -85,8 +117,14 @@
       "label_en": "Data & Research",
       "emoji": "📊",
       "desc": "数据清洗建模、可视化仪表盘、论文与科研全流程",
-      "domains": ["dataviz", "paper"],
-      "packs": ["data-ml-science", "dataviz-studio"]
+      "domains": [
+        "dataviz",
+        "paper"
+      ],
+      "packs": [
+        "data-ml-science",
+        "dataviz-studio"
+      ]
     },
     {
       "id": "office",
@@ -94,14 +132,22 @@
       "label_en": "Office & Productivity",
       "emoji": "🗂",
       "desc": "文档表格 PPT、知识库、团队工具集成（飞书/Notion/Jira）、职场沟通",
-      "domains": ["communication", "integrations", "knowledge", "office", "ppt", "tools"],
+      "domains": [
+        "communication",
+        "integrations",
+        "knowledge",
+        "office",
+        "ppt",
+        "tools"
+      ],
       "packs": [
         "communication-essentials",
         "feishu-suite",
         "knowledge-base",
         "office-productivity",
         "toolsmith",
-        "workspace-integrations"
+        "workspace-integrations",
+        "google-workspace"
       ]
     },
     {
@@ -110,8 +156,22 @@
       "label_en": "Business & Growth",
       "emoji": "📈",
       "desc": "营销获客、电商运营、产品管理、销售客服、财务法务 HR —— 本轮扩容重点",
-      "domains": ["marketing"],
-      "packs": ["growth-marketing"]
+      "domains": [
+        "marketing",
+        "product",
+        "hr",
+        "legal",
+        "finance",
+        "ops",
+        "customer",
+        "leadership"
+      ],
+      "packs": [
+        "growth-marketing",
+        "knowledge-work",
+        "cmo-suite",
+        "product-management"
+      ]
     },
     {
       "id": "learning",
@@ -119,8 +179,13 @@
       "label_en": "Learning & Education",
       "emoji": "🎓",
       "desc": "课程与习题设计、作业辅导、以教代学",
-      "domains": ["education"],
-      "packs": ["edu-craft", "homework-autopilot"]
+      "domains": [
+        "education"
+      ],
+      "packs": [
+        "edu-craft",
+        "homework-autopilot"
+      ]
     },
     {
       "id": "life",
@@ -128,8 +193,12 @@
       "label_en": "Life & Personal",
       "emoji": "🏠",
       "desc": "消费避坑、就医、租房、装修等生活决策",
-      "domains": ["life"],
-      "packs": ["life-essentials"]
+      "domains": [
+        "life"
+      ],
+      "packs": [
+        "life-essentials"
+      ]
     }
   ]
 }

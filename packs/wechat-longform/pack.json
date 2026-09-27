@@ -1,0 +1,49 @@
+{
+  "id": "wechat-longform",
+  "name": "WeChat Longform Studio",
+  "name_zh": "微信长文工作室",
+  "desc": "WeChat Official Account longform pipeline: markdown formatting, HTML conversion, cover images, article illustrations, infographics, Xiaohongshu image sets, slide decks, translation and posting via API or Chrome CDP.",
+  "desc_zh": "微信公众号长文链路：Markdown 格式化、HTML 转换、封面图、文章插图、信息图、小红书图集、幻灯片册、翻译与 API/CDP 发布——与既有 18 平台发布包互补的\"微信长文生产链路\"。",
+  "skills": [
+    {
+      "name": "baoyu-post-to-wechat",
+      "source": "JimLiu/baoyu-skills (MIT)"
+    },
+    {
+      "name": "baoyu-format-markdown",
+      "source": "JimLiu/baoyu-skills (MIT)"
+    },
+    {
+      "name": "baoyu-markdown-to-html",
+      "source": "JimLiu/baoyu-skills (MIT)"
+    },
+    {
+      "name": "baoyu-cover-image",
+      "source": "JimLiu/baoyu-skills (MIT)"
+    },
+    {
+      "name": "baoyu-article-illustrator",
+      "source": "JimLiu/baoyu-skills (MIT)"
+    },
+    {
+      "name": "baoyu-infographic",
+      "source": "JimLiu/baoyu-skills (MIT)"
+    },
+    {
+      "name": "baoyu-wechat-summary",
+      "source": "JimLiu/baoyu-skills (MIT)"
+    },
+    {
+      "name": "baoyu-translate",
+      "source": "JimLiu/baoyu-skills (MIT)"
+    },
+    {
+      "name": "baoyu-xhs-images",
+      "source": "JimLiu/baoyu-skills (MIT)"
+    },
+    {
+      "name": "baoyu-slide-deck",
+      "source": "JimLiu/baoyu-skills (MIT)"
+    }
+  ]
+}

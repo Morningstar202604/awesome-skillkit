@@ -1,0 +1,53 @@
+{
+  "id": "hf-ml-hub",
+  "name": "Hugging Face ML Hub",
+  "name_zh": "Hugging Face 机器学习",
+  "desc": "Hugging Face Hub workflows: hf CLI, datasets, papers, community evals, TRL training, sentence-transformers, Spaces, Gradio apps, local models and LLM trainer recipes.",
+  "desc_zh": "Hugging Face 全流程：hf CLI、数据集、论文、社区评测、TRL 训练、句子向量训练、Spaces、Gradio 应用、本地模型与 LLM 训练配方。",
+  "skills": [
+    {
+      "name": "hf-cli",
+      "source": "huggingface/skills (Apache-2.0)"
+    },
+    {
+      "name": "huggingface-datasets",
+      "source": "huggingface/skills (Apache-2.0)"
+    },
+    {
+      "name": "huggingface-papers",
+      "source": "huggingface/skills (Apache-2.0)"
+    },
+    {
+      "name": "huggingface-community-evals",
+      "source": "huggingface/skills (Apache-2.0)"
+    },
+    {
+      "name": "trl-training",
+      "source": "huggingface/skills (Apache-2.0)"
+    },
+    {
+      "name": "train-sentence-transformers",
+      "source": "huggingface/skills (Apache-2.0)"
+    },
+    {
+      "name": "huggingface-spaces",
+      "source": "huggingface/skills (Apache-2.0)"
+    },
+    {
+      "name": "huggingface-gradio",
+      "source": "huggingface/skills (Apache-2.0)"
+    },
+    {
+      "name": "huggingface-local-models",
+      "source": "huggingface/skills (Apache-2.0)"
+    },
+    {
+      "name": "huggingface-llm-trainer",
+      "source": "huggingface/skills (Apache-2.0)"
+    },
+    {
+      "name": "huggingface-best",
+      "source": "huggingface/skills (Apache-2.0)"
+    }
+  ]
+}

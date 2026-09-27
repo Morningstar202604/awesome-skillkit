@@ -1,0 +1,29 @@
+{
+  "id": "creator-boosters",
+  "name": "Creator Boosters",
+  "name_zh": "创作增强单品",
+  "desc": "Four high-signal creator singles: humanizer (strip AI tells), diagram-design (diagram system with templates and validators), archify (architecture/workflow diagrams) and video-shotcraft (cinematic product videos).",
+  "desc_zh": "四个高价值创作单品：humanizer（去 AI 味标杆）、diagram-design（图表系统：模板 + 校验脚本）、archify（架构/流程图）、video-shotcraft（电影感产品视频）。",
+  "skills": [
+    {
+      "name": "humanizer",
+      "source": "blader/humanizer (MIT)"
+    },
+    {
+      "name": "diagram-design",
+      "source": "cathrynlavery/diagram-design (MIT)"
+    },
+    {
+      "name": "archify",
+      "source": "tt-a1i/archify (MIT)"
+    },
+    {
+      "name": "archify-review",
+      "source": "tt-a1i/archify (MIT)"
+    },
+    {
+      "name": "video-shotcraft",
+      "source": "Vincentwei1021/video-shotcraft (Apache-2.0)"
+    }
+  ]
+}

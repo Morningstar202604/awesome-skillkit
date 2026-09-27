@@ -1,0 +1,57 @@
+{
+  "id": "scientific-agent-skills",
+  "name": "Scientific Computing",
+  "name_zh": "科研计算（精选）",
+  "desc": "Scientific computing picks from the K-Dense library: exploratory data analysis, experimental design, hypothesis generation, literature review, citation management, peer review, Polars, NetworkX, Matplotlib, statistical analysis, GPU optimization and resource discovery.",
+  "desc_zh": "科研计算精选（K-Dense 上游 166 技能中挑 12）：探索性数据分析、实验设计、假设生成、文献综述、引用管理、同行评审、Polars、NetworkX、Matplotlib、统计分析、GPU 优化与资源探查。",
+  "skills": [
+    {
+      "name": "exploratory-data-analysis",
+      "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+    },
+    {
+      "name": "experimental-design",
+      "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+    },
+    {
+      "name": "hypothesis-generation",
+      "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+    },
+    {
+      "name": "literature-review",
+      "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+    },
+    {
+      "name": "citation-management",
+      "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+    },
+    {
+      "name": "peer-review",
+      "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+    },
+    {
+      "name": "polars",
+      "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+    },
+    {
+      "name": "networkx",
+      "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+    },
+    {
+      "name": "matplotlib",
+      "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+    },
+    {
+      "name": "statistical-analysis",
+      "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+    },
+    {
+      "name": "optimize-for-gpu",
+      "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+    },
+    {
+      "name": "get-available-resources",
+      "source": "K-Dense-AI/scientific-agent-skills (MIT)"
+    }
+  ]
+}

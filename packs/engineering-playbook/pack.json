@@ -1,0 +1,93 @@
+{
+  "id": "engineering-playbook",
+  "name": "Engineering Playbook",
+  "name_zh": "工程方法论手册",
+  "desc": "Engineering methodology stack: superpowers (brainstorming, planning, executing, parallel agents, worktrees, code review protocol, verification), addyosmani lifecycle (spec, planning, review, debugging, shipping, incremental delivery) and mattpocock picks (tdd, handoff, grill-me).",
+  "desc_zh": "工程方法论全家桶：superpowers（头脑风暴/计划/执行/并行子代理/worktree/代码评审协议/完成前验证）、addyosmani 工程全生命周期（规格/计划/评审/调试/发布/增量交付）与 mattpocock 精选（TDD/交接/追问拷问）——我们最薄的方法论层一次补齐。",
+  "skills": [
+    {
+      "name": "brainstorming",
+      "source": "obra/superpowers (MIT)"
+    },
+    {
+      "name": "dispatching-parallel-agents",
+      "source": "obra/superpowers (MIT)"
+    },
+    {
+      "name": "executing-plans",
+      "source": "obra/superpowers (MIT)"
+    },
+    {
+      "name": "finishing-a-development-branch",
+      "source": "obra/superpowers (MIT)"
+    },
+    {
+      "name": "receiving-code-review",
+      "source": "obra/superpowers (MIT)"
+    },
+    {
+      "name": "requesting-code-review",
+      "source": "obra/superpowers (MIT)"
+    },
+    {
+      "name": "subagent-driven-development",
+      "source": "obra/superpowers (MIT)"
+    },
+    {
+      "name": "systematic-debugging",
+      "source": "obra/superpowers (MIT)"
+    },
+    {
+      "name": "test-driven-development",
+      "source": "obra/superpowers (MIT)"
+    },
+    {
+      "name": "using-git-worktrees",
+      "source": "obra/superpowers (MIT)"
+    },
+    {
+      "name": "verification-before-completion",
+      "source": "obra/superpowers (MIT)"
+    },
+    {
+      "name": "writing-plans",
+      "source": "obra/superpowers (MIT)"
+    },
+    {
+      "name": "spec-driven-development",
+      "source": "addyosmani/agent-skills (MIT)"
+    },
+    {
+      "name": "planning-and-task-breakdown",
+      "source": "addyosmani/agent-skills (MIT)"
+    },
+    {
+      "name": "code-review-and-quality",
+      "source": "addyosmani/agent-skills (MIT)"
+    },
+    {
+      "name": "debugging-and-error-recovery",
+      "source": "addyosmani/agent-skills (MIT)"
+    },
+    {
+      "name": "shipping-and-launch",
+      "source": "addyosmani/agent-skills (MIT)"
+    },
+    {
+      "name": "incremental-implementation",
+      "source": "addyosmani/agent-skills (MIT)"
+    },
+    {
+      "name": "tdd",
+      "source": "mattpocock/skills (MIT)"
+    },
+    {
+      "name": "handoff",
+      "source": "mattpocock/skills (MIT)"
+    },
+    {
+      "name": "grill-me",
+      "source": "mattpocock/skills (MIT)"
+    }
+  ]
+}

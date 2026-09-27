@@ -1,0 +1,57 @@
+{
+  "id": "cmo-suite",
+  "name": "CMO & C-Suite Suite",
+  "name_zh": "CMO 与高管套件",
+  "desc": "Marketing execution (landing page, LinkedIn analytics/content/engagement/profile/strategy) plus C-suite advisor playbooks (CEO, CFO, CMO, CTO, CHRO, CISO) for budget, org design, board and strategy decisions.",
+  "desc_zh": "营销执行（落地页、LinkedIn 数据分析/内容/互动/主页/策略）+ 高管顾问打法（CEO/CFO/CMO/CTO/CHRO/CISO）：预算分配、增长模型、组织设计、董事会与战略决策——商业与增长场景库的主力。",
+  "skills": [
+    {
+      "name": "landing",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "linkedin-analytics",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "linkedin-content",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "linkedin-engagement",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "linkedin-profile",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "linkedin-strategy",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "ceo-advisor",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "cfo-advisor",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "cmo-advisor",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "cto-advisor",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "chro-advisor",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    },
+    {
+      "name": "ciso-advisor",
+      "source": "alirezarezvani/claude-skills (MIT)"
+    }
+  ]
+}

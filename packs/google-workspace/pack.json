@@ -1,0 +1,57 @@
+{
+  "id": "google-workspace",
+  "name": "Google Workspace",
+  "name_zh": "Google Workspace 套件",
+  "desc": "Google Workspace CLI skills: Gmail (read/send), Calendar (agenda), Drive, Docs, Sheets, Tasks, People, plus workflow recipes (standup report, weekly digest) and shared auth patterns.",
+  "desc_zh": "Google Workspace CLI 技能：Gmail（读写/发送）、日历（议程）、Drive、Docs、Sheets、Tasks、People，加站会报告/周报配方与共享认证底座——出海团队与飞书套件互补的办公套件。",
+  "skills": [
+    {
+      "name": "gws-shared",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-gmail",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-gmail-send",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-calendar",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-calendar-agenda",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-drive",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-docs",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-sheets",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-tasks",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-people",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-workflow-standup-report",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-workflow-weekly-digest",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    }
+  ]
+}

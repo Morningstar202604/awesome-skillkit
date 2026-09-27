@@ -1,0 +1,57 @@
+{
+  "id": "cloud-platforms",
+  "name": "Cloud Platforms",
+  "name_zh": "云平台工具箱",
+  "desc": "Cloud platform skills from the vendors themselves: Azure (Foundry, AI, deploy, Kubernetes, storage), Cloudflare (Workers best practices, platform, Wrangler), Supabase (platform, Postgres best practices) and Firebase (basics, security rules auditor).",
+  "desc_zh": "厂商官方云平台技能：Azure（Foundry/AI/部署/K8s/存储）、Cloudflare（Workers 最佳实践/平台/Wrangler）、Supabase（平台/Postgres 最佳实践）、Firebase（基础/安全规则审计）——补齐容器与基础设施之上的云厂商层（Azure 系上游装机 620 万+）。",
+  "skills": [
+    {
+      "name": "azure-compute",
+      "source": "microsoft/azure-skills (MIT)"
+    },
+    {
+      "name": "azure-ai",
+      "source": "microsoft/azure-skills (MIT)"
+    },
+    {
+      "name": "azure-deploy",
+      "source": "microsoft/azure-skills (MIT)"
+    },
+    {
+      "name": "azure-messaging",
+      "source": "microsoft/azure-skills (MIT)"
+    },
+    {
+      "name": "azure-storage",
+      "source": "microsoft/azure-skills (MIT)"
+    },
+    {
+      "name": "workers-best-practices",
+      "source": "cloudflare/skills (Apache-2.0)"
+    },
+    {
+      "name": "cloudflare",
+      "source": "cloudflare/skills (Apache-2.0)"
+    },
+    {
+      "name": "wrangler",
+      "source": "cloudflare/skills (Apache-2.0)"
+    },
+    {
+      "name": "supabase",
+      "source": "supabase/agent-skills (MIT)"
+    },
+    {
+      "name": "supabase-postgres-best-practices",
+      "source": "supabase/agent-skills (MIT)"
+    },
+    {
+      "name": "firebase-basics",
+      "source": "firebase/agent-skills (Apache-2.0)"
+    },
+    {
+      "name": "firebase-security-rules-auditor",
+      "source": "firebase/agent-skills (Apache-2.0)"
+    }
+  ]
+}

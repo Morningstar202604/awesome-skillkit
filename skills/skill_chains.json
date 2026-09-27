@@ -52,7 +52,76 @@
         "git-worktree-manager",
         "webapp-flow-tester",
         "webapp-e2e-harness",
-        "web-data-extractor"
+        "web-data-extractor",
+        "brainstorming",
+        "dispatching-parallel-agents",
+        "executing-plans",
+        "finishing-a-development-branch",
+        "receiving-code-review",
+        "requesting-code-review",
+        "subagent-driven-development",
+        "systematic-debugging",
+        "test-driven-development",
+        "using-git-worktrees",
+        "verification-before-completion",
+        "writing-plans",
+        "spec-driven-development",
+        "planning-and-task-breakdown",
+        "code-review-and-quality",
+        "debugging-and-error-recovery",
+        "shipping-and-launch",
+        "incremental-implementation",
+        "tdd",
+        "handoff",
+        "grill-me",
+        "azure-compute",
+        "azure-ai",
+        "azure-deploy",
+        "azure-messaging",
+        "azure-storage",
+        "workers-best-practices",
+        "cloudflare",
+        "wrangler",
+        "supabase",
+        "supabase-postgres-best-practices",
+        "firebase-basics",
+        "firebase-security-rules-auditor",
+        "hf-cli",
+        "huggingface-datasets",
+        "huggingface-papers",
+        "huggingface-community-evals",
+        "trl-training",
+        "train-sentence-transformers",
+        "huggingface-spaces",
+        "huggingface-gradio",
+        "huggingface-local-models",
+        "huggingface-llm-trainer",
+        "huggingface-best",
+        "exploratory-data-analysis",
+        "experimental-design",
+        "hypothesis-generation",
+        "literature-review",
+        "citation-management",
+        "peer-review",
+        "polars",
+        "networkx",
+        "matplotlib",
+        "statistical-analysis",
+        "optimize-for-gpu",
+        "get-available-resources",
+        "code-review-excellence",
+        "debugging-strategies",
+        "e2e-testing-patterns",
+        "error-handling-patterns",
+        "api-design-principles",
+        "architecture-patterns",
+        "sql-optimization-patterns",
+        "postgresql-table-design",
+        "auth-implementation-patterns",
+        "monorepo-management",
+        "deployment-pipeline-design",
+        "git-advanced-workflows",
+        "open-code-review"
       ],
       "chains": {
         "full_project": [
@@ -147,6 +216,12 @@
           "web-data-extractor",
           "etl-builder",
           "feature-engineer"
+        ],
+        "agentic_dev_cycle": [
+          "brainstorming",
+          "writing-plans",
+          "executing-plans",
+          "verification-before-completion"
         ]
       }
     },
@@ -168,7 +243,13 @@
         "image-generation",
         "music-generation",
         "ai-baby-podcast",
-        "nailong-laugh-shorts"
+        "nailong-laugh-shorts",
+        "hyperframes",
+        "hyperframes-cli",
+        "hyperframes-animation",
+        "hyperframes-audio",
+        "hyperframes-keyframes",
+        "video-shotcraft"
       ],
       "chains": {
         "talking_character": [
@@ -201,6 +282,11 @@
           "motion-effects-designer?",
           "transition-designer?",
           "video-script-writer"
+        ],
+        "code_video_production": [
+          "hyperframes",
+          "hyperframes-animation",
+          "hyperframes-audio"
         ]
       }
     },
@@ -231,7 +317,18 @@
         "static-blog-deploy",
         "ai-trace-auditor",
         "humanize-rewriter",
-        "personal-voice-profile"
+        "personal-voice-profile",
+        "baoyu-post-to-wechat",
+        "baoyu-format-markdown",
+        "baoyu-markdown-to-html",
+        "baoyu-cover-image",
+        "baoyu-article-illustrator",
+        "baoyu-infographic",
+        "baoyu-wechat-summary",
+        "baoyu-translate",
+        "baoyu-xhs-images",
+        "baoyu-slide-deck",
+        "humanizer"
       ],
       "chains": {
         "article": [
@@ -253,6 +350,11 @@
           "ai-trace-auditor",
           "humanize-rewriter",
           "personal-voice-profile"
+        ],
+        "wechat_longform_pipeline": [
+          "baoyu-format-markdown",
+          "baoyu-cover-image",
+          "baoyu-post-to-wechat"
         ]
       }
     },
@@ -288,7 +390,13 @@
         "frontend-component-lab",
         "image-batch-processor",
         "ui-ux-accessibility",
-        "design-system-foundations"
+        "design-system-foundations",
+        "user-research",
+        "research-synthesis",
+        "ux-copy",
+        "diagram-design",
+        "archify",
+        "archify-review"
       ],
       "chains": {
         "cover": [
@@ -366,7 +474,13 @@
       "skills": [
         "product-copywriter",
         "campaign-designer",
-        "channel-adapter"
+        "channel-adapter",
+        "landing",
+        "linkedin-analytics",
+        "linkedin-content",
+        "linkedin-engagement",
+        "linkedin-profile",
+        "linkedin-strategy"
       ],
       "chains": {
         "product_launch": [
@@ -624,7 +738,19 @@
         "lark-vc",
         "lark-vc-agent",
         "lark-workflow-meeting-summary",
-        "lark-workflow-standup-report"
+        "lark-workflow-standup-report",
+        "gws-shared",
+        "gws-gmail",
+        "gws-gmail-send",
+        "gws-calendar",
+        "gws-calendar-agenda",
+        "gws-drive",
+        "gws-docs",
+        "gws-sheets",
+        "gws-tasks",
+        "gws-people",
+        "gws-workflow-standup-report",
+        "gws-workflow-weekly-digest"
       ],
       "chains": {
         "weekly_status_broadcast": [
@@ -648,6 +774,11 @@
         "feishu_doc_publish": [
           "lark-doc",
           "lark-wiki?"
+        ],
+        "gws_daily_ops": [
+          "gws-shared",
+          "gws-calendar-agenda",
+          "gws-gmail"
         ]
       }
     },
@@ -716,6 +847,135 @@
         ],
         "rental_contract_review": [
           "rental-contract-guide"
+        ]
+      }
+    },
+    "product": {
+      "entry": "skills/product/create-prd",
+      "skills": [
+        "create-prd",
+        "outcome-roadmap",
+        "prioritization-frameworks",
+        "user-stories",
+        "job-stories",
+        "stakeholder-map",
+        "pre-mortem",
+        "sprint-plan",
+        "north-star-metric",
+        "competitive-battlecard",
+        "market-sizing",
+        "user-personas",
+        "to-spec",
+        "triage"
+      ],
+      "chains": {
+        "prd_to_spec": [
+          "create-prd",
+          "to-spec"
+        ],
+        "discovery_to_roadmap": [
+          "stakeholder-map",
+          "prioritization-frameworks",
+          "outcome-roadmap"
+        ]
+      }
+    },
+    "hr": {
+      "entry": "skills/hr/recruiting-pipeline",
+      "skills": [
+        "comp-analysis",
+        "interview-prep",
+        "onboarding",
+        "performance-review",
+        "policy-lookup",
+        "recruiting-pipeline"
+      ],
+      "chains": {
+        "hire_flow": [
+          "recruiting-pipeline",
+          "interview-prep",
+          "onboarding"
+        ],
+        "performance_cycle": [
+          "policy-lookup",
+          "performance-review"
+        ]
+      }
+    },
+    "legal": {
+      "entry": "skills/legal/review-contract",
+      "skills": [
+        "review-contract",
+        "legal-risk-assessment",
+        "compliance-check",
+        "triage-nda"
+      ],
+      "chains": {
+        "contract_review_flow": [
+          "review-contract",
+          "triage-nda",
+          "legal-risk-assessment"
+        ]
+      }
+    },
+    "finance": {
+      "entry": "skills/finance/variance-analysis",
+      "skills": [
+        "variance-analysis",
+        "audit-support"
+      ],
+      "chains": {
+        "close_and_audit": [
+          "audit-support",
+          "variance-analysis"
+        ]
+      }
+    },
+    "ops": {
+      "entry": "skills/ops/process-optimization",
+      "skills": [
+        "process-optimization",
+        "risk-assessment",
+        "status-report"
+      ],
+      "chains": {
+        "ops_review": [
+          "process-optimization",
+          "risk-assessment",
+          "status-report"
+        ]
+      }
+    },
+    "customer": {
+      "entry": "skills/customer/ticket-triage",
+      "skills": [
+        "ticket-triage",
+        "draft-response",
+        "kb-article"
+      ],
+      "chains": {
+        "support_loop": [
+          "ticket-triage",
+          "draft-response",
+          "kb-article"
+        ]
+      }
+    },
+    "leadership": {
+      "entry": "skills/leadership/ceo-advisor",
+      "skills": [
+        "ceo-advisor",
+        "cfo-advisor",
+        "cmo-advisor",
+        "cto-advisor",
+        "chro-advisor",
+        "ciso-advisor"
+      ],
+      "chains": {
+        "exec_review": [
+          "cmo-advisor",
+          "cfo-advisor",
+          "ceo-advisor"
         ]
       }
     }
