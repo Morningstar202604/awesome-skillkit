@@ -11,7 +11,7 @@
   <img src="https://img.shields.io/badge/skills-418-brightgreen?style=flat-square" alt="Skills" />
   <img src="https://img.shields.io/badge/packs-57-blue?style=flat-square" alt="Packs" />
   <img src="https://img.shields.io/badge/expert%20teams-18%20%C2%B7%20219%20agents-blueviolet?style=flat-square" alt="Expert Teams" />
-  <img src="https://img.shields.io/badge/version-0.23.1-success?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-0.23.2-success?style=flat-square" alt="Version" />
 </p>
 
 <p align="center">

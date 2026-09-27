@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > 另：0.4.0 – 0.6.1 发布于重置整理期，其内容随后被 squash 进 0.6.2 对应的提交
 > （`21769cb`），独立提交已不可考，故这四个版本没有对应的 git tag。
 
-## [Unreleased]
+## [0.23.2] - 2026-09-27
 
 ### Fixed
 
@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **video-shotcraft `workbench/GUIDE.md` 的 9 处插图断链**：补齐上游 `workbench/docs/`（overview / topbar / library-media / library-cards / library-sfx / preview / card-preview / inspector / timeline 共 9 图），GUIDE 图文完整、包内链接全部落地；
   - **26 个 lark 官方技能补 `description_zh`**（`description` 上游即中文，按仓库字段口径镜像到标准字段）——`description_zh` 至此 **418/418 真实全仓覆盖**，0.23.1 的"全仓覆盖"口径补实；
   - 清理 `__pycache__` / `.pytest_cache` 运行残留（25 个目录）。
-- 复查剩余条目逐条核验后**均为设计内**（90 → 清理运行残留后 ~28）：二进制样本（`.wav`/`.pkl`/`.epub`/`.db`）非文本、`.gitkeep`/`__init__.py` 空文件、文档示例路径（`/home/me/...`、`C:/`、`D:\_upstream`）、代码内盘符处理正则、`skill-tester` 的 `sample-skill`/`good-skill` 夹具（不入包、不参与镜像）、`env-secrets-manager` 的假密钥样本（值均含 `FAKE` 标注）。
+- 复查剩余条目逐条核验后**均为设计内**（62 条：路径/盘符示例、`.gitkeep` 与空 `__init__.py`、`skill-tester` 夹具（不入包、不镜像）、文档自述、`env-secrets-manager` 假密钥样本（值均含 `FAKE` 标注）；二进制样本误报已在审计口径中剔除）——**断链 0、缺 `description_zh` 0、运行残留 0、非 UTF-8 0、zip 0 损坏、JSON 0 错**。
 
 ### Added
 
@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - `manifest.json` / `site/data/site.json` / `site/packs/*` 随包重建（video-shotcraft、feishu-suite、creator-boosters、`_all` 摘要更新）。
+- 定版 **v0.23.2**：tag / Release / 站点每包的 `release_*` 下载钉链全部对齐本版；三语 README 版本徽章、SOURCES 日期同步。上一版站点钉链指向无 Release 的 v0.23.1（呆链），本版发布后即全部可下载。
 - 门禁复核：validator **418 技能 0 错 0 警**、pytest 284 过（2868 subtests）、站点数据一致（418 技能 / 57 包 / 27 域 / 112 链）。
 
 ## [0.23.1] - 2026-09-27
@@ -1151,8 +1152,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [0.12.2]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.12.1...v0.12.2
 [0.12.3]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.12.2...v0.12.3
 [0.13.0]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.12.3...v0.13.0
+[0.23.2]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.23.1...v0.23.2
 [0.23.1]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.23.0...v0.23.1
 [0.23.0]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.22.1...v0.23.0
-[Unreleased]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.23.1...HEAD
+[Unreleased]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.23.2...HEAD
 [0.14.0]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.13.1...v0.14.0
 [0.13.1]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.13.0...v0.13.1

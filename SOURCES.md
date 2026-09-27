@@ -1,6 +1,6 @@
 # SOURCES — 技能来源与更新指引 / Skill Sources & Updates
 
-> 本仓库维护六条线（截至 0.23.1，共 **418 个技能 / 57 个场景包** = 官方收录 28 + 上游精选 32 +
+> 本仓库维护六条线（截至 0.23.2，共 **418 个技能 / 57 个场景包** = 官方收录 28 + 上游精选 32 +
 > 上游改造 5 + 自建 126 + 新收录 I 148 + 新收录 II 64 + 查漏补缺 15）：
 > 0. **官方收录**（28 个，2026-09-27 起，`skills/integrations/lark/`）——飞书官方仓库 `larksuite/cli` 的
 >    Agent Skills，整包收录为 `feishu-suite`，见「官方收录」一节；
@@ -407,6 +407,12 @@ v0.18 发版后新增、未及登记进上文分域表格的技能，此处补�
 | `skills/programming/planning/pipeline_orchestrator.py` | 代码计划域编排器：意图→计划→生成 |
 
 ## 历史 / History
+
+- 2026-09-27（v0.23.2）：**二轮逐文件复查定版**——5814 个跟踪文件全覆盖：video-shotcraft
+  `workbench/GUIDE.md` 9 处插图断链补齐（上游 `workbench/docs/` 全 9 图随包分发）、26 个 lark
+  官方技能补 `description_zh`（418/418 真实全仓覆盖）、运行残留清理；分发侧落地 skills.sh
+  徽章 + `npx skills add` 安装路线（CLI 实测发现全部 418 技能），站点每包 `release_*` 钉链
+  随定版对齐（上一版钉在无 Release 的 v0.23.1）。账目不变 418 = 28+32+5+126+148+64+15。
 
 - 2026-09-27（v0.23.1）：**全仓查漏补缺**——逐文件审计（5721 个跟踪文件）后：修复 293 处相对引用
   （含 lark / diagram-design / baoyu 等上游路径口径不一）、补齐被引用的上游资产（knowledge-work 5 份

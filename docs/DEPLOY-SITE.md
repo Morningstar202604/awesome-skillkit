@@ -57,7 +57,7 @@ gh api -X POST repos/x33834/awesome-skillkit/pages -f "source[branch]=main" -f "
   || echo "→ 若 API 不接受，去 Settings → Pages → Source 手动选 GitHub Actions"
 
 # 3) 传 Release 附件（57 个场景包 zip + 1 个 _all.zip），让包卡片的 GitHub 直链生效
-gh release create v0.23.0 dist/*.zip --title "v0.23.0" --notes-file /tmp/relnotes.md
+gh release create v0.23.2 dist/*.zip --title "v0.23.2" --notes-file /tmp/relnotes-0.23.2.md
 ```
 
 之后每次 push main 会自动：`build.py` → `tools/build_site.py` → 上传 `site/` → 部署。
@@ -82,15 +82,15 @@ curl -s -X POST "https://gitee.com/api/v5/repos" \
 
 # 2) 推 main + tag（一次命令推两个 ref，一条连接）
 git remote add gitee https://badhope:$GITEE_TOKEN@gitee.com/badhope/awesome-skillkit.git
-git push gitee main v0.23.0
+git push gitee main v0.23.2
 
 # 3) 建 Release（tag 已随上一步推上去）
 curl -s -X POST "https://gitee.com/api/v5/repos/badhope/awesome-skillkit/releases" \
   -H "Content-Type: application/json" \
-  -d "{\"access_token\":\"$GITEE_TOKEN\",\"tag_name\":\"v0.23.0\",\"name\":\"v0.23.0\",\"body\":\"57 scene packs\"}"
+  -d "{\"access_token\":\"$GITEE_TOKEN\",\"tag_name\":\"v0.23.2\",\"name\":\"v0.23.2\",\"body\":\"418 skills / 57 packs\"}"
 
 # 4) 传 58 个 zip 附件（57 场景包 + 1 个 _all.zip；逐个、间隔 1-2 秒，避免触发限流）
-RID=$(curl -s "https://gitee.com/api/v5/repos/badhope/awesome-skillkit/releases/tags/v0.23.0?access_token=$GITEE_TOKEN" | python3 -c "import json,sys;print(json.load(sys.stdin)['id'])")
+RID=$(curl -s "https://gitee.com/api/v5/repos/badhope/awesome-skillkit/releases/tags/v0.23.2?access_token=$GITEE_TOKEN" | python3 -c "import json,sys;print(json.load(sys.stdin)['id'])")
 for z in dist/*.zip; do
   curl -s -X POST "https://gitee.com/api/v5/repos/badhope/awesome-skillkit/releases/$RID/attach_files" \
     -F "access_token=$GITEE_TOKEN" -F "file=@$z" && echo " → $z" && sleep 1.5
