@@ -12,6 +12,10 @@
 >    （`security/pii-redactor`、`security/prompt-injection-guard`、`testing/webapp-flow-tester`），
 >    本仓库原创维护。
 
+> 4. **并入资产·专家团**（2026-09-27 起，`expert-teams/`）——原独立仓库 `ai-expert-teams`（MIT）
+>    整体迁入：18 支团队 / 219 位专家 agent / 100 个技能，自带索引与门禁；**不计入**上文
+>    163 技能 / 39 场景包的计数口径。
+
 ## 上游仓库 / Upstream（skills/programming/ 的 13 个分类目录）
 
 | 项目 | 地址 | 协议 |
@@ -57,6 +61,20 @@ anthropics、santifer-career-ops——逐技能对应关系以各技能 `referen
 | career-ops-lite | `skills/office/career-ops-lite` |
 | session-handoff | `skills/meta/session-handoff` |
 | webapp-e2e-harness | `skills/programming/testing/webapp-e2e-harness` |
+
+## 并入资产 / Merged-in assets
+
+### 专家团 `expert-teams/`（原 `ai-expert-teams` 仓库，MIT）
+
+2026-09-27 自独立仓库整体迁入；原仓库已在 GitHub（X33834 / Morningstar202604）、GitCode、
+Gitee 四个平台下线。资产构成：
+
+- `teams/<team>/agents/*.md`——18 支团队共 219 位专家定义；根级 `project-director.md` 为跨团队路由入口（agent 合计 220 个）；
+- `teams/<team>/skills/`（团队专属 86 个）+ `skills/`（通用 14 个）——共 100 个技能，索引见 `expert-teams/SKILLS_INDEX.md`；
+- `orchestration-protocol.md`——共享编排协议（门禁 / 回炉 / 断路 / 交接四块模板）；
+- 工程层——`verify.py`、`effectiveness.py`、`export-agents.py`、`export-platforms.py`、`build-site.py`、`tests/`（pyyaml 依赖）；
+- 官网——源模板 `expert-teams/site/template.html`，生成页 `expert-teams/site/index.html`，构建时同步为站点子页 `site/expert-teams.html`；
+- 与主仓库技能重叠的 26 个同名技能在迁入前已完成融合裁定（8 取仓库版、10 融合含 Apache 署名、3 保留原版、5 无许可不入仓），同名以子目录内版本为准。
 
 ## 自建场景技能 / Self-authored scenarios（126 个）
 

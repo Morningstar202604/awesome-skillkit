@@ -96,3 +96,18 @@ jobs:
         # 为什么不用"直接执行 test_*.py"：pytest 风格的测试文件（如
         # test_smoke_*.py 的 assert 函数）直接运行不会执行任何断言——
         # 退出码恒 0，等于空跑假绿。统一走 pytest 才能保证语义一致。
+
+  expert-teams:
+    name: Expert Teams gate (expert-teams/)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install pyyaml (subtree verify.py dependency)
+        run: python3 -m pip install --quiet pyyaml==6.0.3
+      - name: "Content gate (verify.py: structure / skill binding / effectiveness)"
+        run: python3 expert-teams/verify.py
+      - name: Unit tests (subtree)
+        run: python3 -m unittest discover -s expert-teams/tests
+      - name: Site data drift check (build-site.py --check)
+        run: python3 expert-teams/build-site.py --check

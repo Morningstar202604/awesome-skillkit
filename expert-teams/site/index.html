@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>专家团 expert-teams · 把 219 位 AI 专家装进你的 Agent</title>
+<meta name="description" content="219 位 AI 领域专家 + 100 个开箱即用技能，覆盖学术/开发/建模/设计/内容/视频/数据/营销/电商/产品/财务/HR/法律/翻译/教育/音频/游戏 18 大领域。纯 Markdown、平台中立，任何 AI agent 接入即用。MIT 开源（awesome-skillkit 子目录）。">
+<meta name="keywords" content="AI专家团队, multi-agent, expert teams, agent 工作流, LLM agents, opencode 替代, 豆包, Markdown agents, expert-teams, awesome-skillkit">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2333475E'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='%23F4F1E8'%3E%E9%98%9F%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="专家团 expert-teams · 把 219 位 AI 专家装进你的 Agent">
+<meta property="og:description" content="219 位 AI 领域专家 + 100 个开箱即用技能，18 大领域全覆盖，纯 Markdown 平台中立，任何 AI agent 接入即用。MIT 开源（awesome-skillkit 子目录）。">
+<meta property="og:url" content="https://x33834.github.io/awesome-skillkit/expert-teams.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="专家团 expert-teams · 219 位 AI 专家即插即用">
+<meta name="twitter:description" content="219 位 AI 领域专家 + 100 个开箱技能，18 大领域，纯 Markdown，接入任意 AI agent 即用。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23B8472E'/%3E%3Ctext x='16' y='22' font-size='15' font-family='Georgia,serif' fill='%23F4F1E8' text-anchor='middle' font-weight='bold'%3EAT%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://miaoda.feishu.cn">
+<link href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F1E8;
+  --paper-2:#ECE8DC;
+  --ink:#20262E;
+  --ink-soft:#4A515B;
+  --red:#B8472E;
+  --red-deep:#96371F;
+  --blue:#33475E;
+  --gray:#7C8376;
+  --line:#D8D4C7;
+  --white:#FBF9F3;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Noto Sans SC",-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+  line-height:1.75;
+  font-size:16px;
+}
+.serif{font-family:"Noto Serif SC",Georgia,"Songti SC","SimSun",serif}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+
+/* ===== 顶栏 ===== */
+header.nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(244,241,232,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.2px}
+.brand .seal{
+  width:30px;height:30px;border-radius:5px;background:var(--red);
+  color:var(--paper);display:flex;align-items:center;justify-content:center;
+  font-family:"Noto Serif SC",Georgia,serif;font-weight:900;font-size:13px;
+}
+.nav-links{display:flex;gap:26px;align-items:center}
+.nav-links a{color:var(--ink-soft);text-decoration:none;font-size:14.5px;transition:color .15s}
+.nav-links a:hover{color:var(--red)}
+.nav-links .pill{
+  background:var(--ink);color:var(--white);padding:7px 16px;border-radius:999px;font-size:14px;font-weight:500;
+}
+.nav-links .pill:hover{background:var(--red);color:var(--white)}
+
+/* ===== Hero ===== */
+.hero{padding:88px 0 40px;position:relative}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid var(--line);border-radius:999px;padding:5px 14px;font-size:13px;color:var(--ink-soft);
+  background:var(--white);
+}
+.hero-tag .dot{width:7px;height:7px;border-radius:50%;background:var(--red)}
+.hero h1{
+  font-family:"Noto Serif SC",Georgia,serif;font-weight:900;
+  font-size:clamp(40px,6.4vw,72px);line-height:1.15;letter-spacing:.5px;
+  margin:26px 0 18px;
+}
+.hero h1 .num{color:var(--red);white-space:nowrap}
+.hero .sub{font-size:clamp(16px,1.9vw,19px);color:var(--ink-soft);max-width:640px;margin-bottom:34px}
+.hero .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:56px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;text-decoration:none;
+  padding:12px 22px;border-radius:6px;font-weight:700;font-size:15px;transition:all .15s;
+}
+.btn-primary{background:var(--red);color:#fff}
+.btn-primary:hover{background:var(--red-deep)}
+.btn-ghost{border:1px solid var(--ink);color:var(--ink);background:transparent}
+.btn-ghost:hover{background:var(--ink);color:var(--white)}
+.stat-row{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:10px;overflow:hidden;
+}
+.stat{
+  background:var(--white);padding:22px 18px;text-align:center;
+}
+.stat .v{font-family:"Noto Serif SC",Georgia,serif;font-weight:900;font-size:clamp(28px,3.4vw,40px);color:var(--ink);line-height:1.1}
+.stat .v em{font-style:normal;color:var(--red)}
+.stat .k{font-size:13px;color:var(--gray);margin-top:4px}
+
+/* ===== 章节通用 ===== */
+section{padding:72px 0}
+.sec-head{margin-bottom:38px}
+.sec-head .kicker{
+  display:inline-flex;align-items:center;gap:10px;font-size:13px;color:var(--red);
+  font-weight:700;letter-spacing:1px;
+}
+.sec-head .kicker::before{content:"";width:26px;height:2px;background:var(--red)}
+.sec-head h2{
+  font-family:"Noto Serif SC",Georgia,serif;font-weight:900;
+  font-size:clamp(26px,3.4vw,38px);margin-top:10px;letter-spacing:.3px;
+}
+.sec-head p{color:var(--ink-soft);margin-top:10px;max-width:700px;font-size:15.5px}
+
+/* ===== 数据概览图表 ===== */
+.chart-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:22px}
+.chart-card{
+  background:var(--white);border:1px solid var(--line);border-radius:10px;padding:22px;
+}
+.chart-card h3{font-size:16px;font-weight:700;margin-bottom:2px}
+.chart-card .cap{font-size:13px;color:var(--gray);margin-bottom:10px}
+.chart{width:100%;height:300px}
+
+/* ===== 团队档案矩阵 ===== */
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.team-card{
+  background:var(--white);border:1px solid var(--line);border-radius:10px;
+  padding:22px 20px;display:flex;flex-direction:column;gap:10px;
+  transition:transform .15s,box-shadow .15s;
+}
+.team-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(32,38,46,.08)}
+.team-card .t-head{display:flex;align-items:center;justify-content:space-between}
+.team-card .t-name{font-family:"Noto Serif SC",Georgia,serif;font-weight:900;font-size:17.5px}
+.team-card .t-num{
+  font-size:12px;color:var(--gray);border:1px solid var(--line);border-radius:999px;padding:2px 9px;white-space:nowrap;
+}
+.team-card .t-scene{font-size:13.5px;color:var(--ink-soft);min-height:63px}
+.team-card .t-roles{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
+.team-card .role{
+  font-size:12px;background:var(--paper-2);color:var(--ink-soft);
+  padding:3px 9px;border-radius:4px;
+}
+.team-card .role.hot{background:rgba(184,71,46,.12);color:var(--red-deep);font-weight:700}
+.team-card .t-meta{display:flex;gap:14px;font-size:12px;color:var(--gray);border-top:1px dashed var(--line);padding-top:10px}
+.team-card .t-meta b{color:var(--ink-soft);font-weight:700}
+.seal-badge{
+  width:34px;height:34px;flex-shrink:0;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:"Noto Serif SC",Georgia,serif;font-weight:900;font-size:12px;color:var(--paper);
+}
+/* 通用卡 */
+.team-card.core-card{background:var(--ink);border-color:var(--ink)}
+.team-card.core-card .t-name,.team-card.core-card .t-scene{color:var(--white)}
+.team-card.core-card .t-num{color:var(--paper);border-color:rgba(244,241,232,.35)}
+.team-card.core-card .role{background:rgba(244,241,232,.14);color:var(--paper)}
+.team-card.core-card .t-meta{color:rgba(244,241,232,.6);border-top-color:rgba(244,241,232,.25)}
+.team-card.core-card .t-meta b{color:var(--paper)}
+
+/* ===== 能力亮点 ===== */
+.feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.feature{
+  background:var(--white);border:1px solid var(--line);border-radius:10px;padding:24px;
+  display:flex;gap:16px;
+}
+.feature .ico{flex-shrink:0;width:42px;height:42px;border-radius:9px;background:rgba(51,71,94,.1);display:flex;align-items:center;justify-content:center}
+.feature h3{font-size:16.5px;font-weight:700;margin-bottom:6px}
+.feature p{font-size:14px;color:var(--ink-soft)}
+
+/* ===== 接入方式 ===== */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.step{
+  background:var(--white);border:1px solid var(--line);border-radius:10px;padding:24px;
+  position:relative;
+}
+.step .idx{
+  font-family:"Noto Serif SC",Georgia,serif;font-weight:900;font-size:15px;color:var(--red);
+  border:1px solid var(--red);border-radius:6px;width:34px;height:34px;
+  display:flex;align-items:center;justify-content:center;margin-bottom:14px;
+}
+.step h3{font-size:16px;font-weight:700;margin-bottom:8px}
+.step p{font-size:13.5px;color:var(--ink-soft);margin-bottom:10px}
+.step code{
+  display:block;background:var(--ink);color:#D9E2C8;font-family:"Noto Sans SC",ui-monospace,monospace;
+  font-size:12.5px;padding:8px 12px;border-radius:6px;overflow-x:auto;white-space:nowrap;
+}
+.step .hint{font-size:12px;color:var(--gray);margin-top:8px}
+
+/* ===== 仓库 CTA ===== */
+.repo-band{background:var(--ink);border-radius:14px;padding:44px 40px;color:var(--white);display:grid;grid-template-columns:1.2fr 1fr;gap:26px;align-items:center}
+.repo-band h2{font-family:"Noto Serif SC",Georgia,serif;font-weight:900;font-size:clamp(22px,2.8vw,30px);margin-bottom:10px}
+.repo-band p{color:rgba(244,241,232,.75);font-size:14.5px;margin-bottom:18px}
+.repo-links{display:flex;flex-direction:column;gap:10px}
+.repo-link{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:rgba(244,241,232,.08);border:1px solid rgba(244,241,232,.2);
+  border-radius:8px;padding:12px 16px;text-decoration:none;color:var(--white);transition:background .15s;
+}
+.repo-link:hover{background:rgba(244,241,232,.16)}
+.repo-link .rp{font-size:13.5px;opacity:.85}
+.repo-link .rr{font-size:13px;font-weight:700;font-family:ui-monospace,monospace}
+.repo-link .go{color:var(--red);font-weight:700}
+
+/* ===== footer ===== */
+footer{border-top:1px solid var(--line);padding:34px 0 46px;margin-top:20px}
+.foot{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--gray)}
+.foot a{color:var(--ink-soft);text-decoration:none}
+.foot a:hover{color:var(--red)}
+.foot .mit{display:inline-flex;align-items:center;gap:6px}
+
+/* ===== 响应式 ===== */
+@media(max-width:960px){
+  .team-grid{grid-template-columns:repeat(2,1fr)}
+  .chart-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .repo-band{grid-template-columns:1fr}
+  .stat-row{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:640px){
+  .team-grid{grid-template-columns:1fr}
+  .feature-grid{grid-template-columns:1fr}
+  .nav-links{gap:14px}
+  .nav-links a:not(.pill){display:none}
+  .hero{padding:60px 0 30px}
+  section{padding:56px 0}
+  .stat-row{grid-template-columns:repeat(2,1fr)}
+  .wrap{padding:0 18px}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== 顶栏 ===== -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <div class="brand"><span class="seal">AT</span><span>expert-teams 专家团</span></div>
+    <nav class="nav-links">
+      <a href="#teams">团队</a>
+      <a href="#insight">数据</a>
+      <a href="#features">能力</a>
+      <a href="#usage">接入</a>
+      <a class="pill" href="#repos">四平台仓库</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== Hero ===== -->
+<div class="hero">
+  <div class="wrap">
+    <span class="hero-tag"><span class="dot"></span>平台中立 · MIT 开源 · 纯 Markdown 资产</span>
+    <h1>把 <span class="num">219</span> 位 AI 专家，<br>装进你的 Agent</h1>
+    <p class="sub">18 大领域专家团队、100 个开箱即用技能，全部写成纯 Markdown——任何具备「读文件 / 派子 agent / 加载提示词」能力的 AI，接入即用，自带工作流与质检门禁。</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#teams">浏览专家团队</a>
+      <a class="btn btn-ghost" href="#usage">查看接入方式</a>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="v"><em>219</em></div><div class="k">位领域专家</div></div>
+      <div class="stat"><div class="v"><em>18</em></div><div class="k">大领域团队</div></div>
+      <div class="stat"><div class="v"><em>100</em></div><div class="k">个开箱技能</div></div>
+      <div class="stat"><div class="v"><em>0</em></div><div class="k">框架绑定依赖</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 数据概览 ===== -->
+<section id="insight">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">DATA SNAPSHOT</div>
+      <h2>专家与技能，一目了然</h2>
+      <p>每个团队都是自包含的完整工作流：主理人 + 领域专家 + 质检门禁。人数与技能按团队实际构成统计。</p>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3>团队规模分布</h3>
+        <div class="cap">18 支团队 · 219 位专家（各含 1 位主理人）</div>
+        <div id="chartBar" class="chart"></div>
+      </div>
+      <div class="chart-card">
+        <h3>技能构成</h3>
+        <div class="cap">100 个 skill：86 个团队专属 + 14 个通用保障</div>
+        <div id="chartDonut" class="chart"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 团队档案矩阵 ===== -->
+<section id="teams" style="background:var(--paper-2)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">EXPERT ARCHIVE</div>
+      <h2>18 支专家团队档案</h2>
+      <p>每支团队都是一条完整交付链路：从需求进来到终稿/交付包出去，中间所有角色与门禁都已配置好。</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="t-head"><span class="t-name">学术论文战队</span><span class="t-num">19 人 · 7 技能</span></div>
+        <div class="t-scene">选题、文献、研究设计、写作、审稿、期刊匹配到投稿交付，一条链路出完整论文包。</div>
+        <div class="t-roles"><span class="role hot">选题策略师</span><span class="role">文献综述师</span><span class="role">写作主笔</span><span class="role">模拟审稿</span><span class="role">格式守卫</span></div>
+        <div class="t-meta"><span><b>入口：</b>academic-team-lead</span></div>
+      </div>
+      <div class="team-card">
+        <div class="t-head"><span class="t-name">全栈 Web 战队</span><span class="t-num">19 人 · 11 技能</span></div>
+        <div class="t-scene">需求、架构、前后端、API、数据、DevOps、测试、安全、性能到可上线交付包。</div>
+        <div class="t-roles"><span class="role hot">系统架构师</span><span class="role">前端工程师</span><span class="role">后端工程师</span><span class="role">DevOps</span><span class="role">QA</span></div>
+        <div class="t-meta"><span><b>入口：</b>fullstack-team-lead</span></div>
+      </div>
+      <div class="team-card">
+        <div class="t-head"><span class="t-name">数学建模战队</span><span class="t-num">9 人 · 2 技能</span></div>
+        <div class="t-scene">国赛 72 小时全程托管：选题、建模、求解、写作到查重安全的论文 PDF。</div>
+        <div class="t-roles"><span class="role hot">建模专家</span><span class="role">算法求解师</span><span class="role">论文质检</span><span class="role">复现查重</span></div>
+        <div class="t-meta"><span><b>入口：</b>math-team-lead</span></div>
+      </div>
+      <div class="team-card">
+        <div class="t-head"><span class="t-name">软件开发战队</span><span class="t-num">12 人 · 3 技能</span></div>
+        <div class="t-scene">需求拆解、架构、实现、评审、测试到交付，强门禁、小步走、可回滚。</div>
+        <div class="t-roles"><span class="role">蓝图师</span><span class="role">服务端</span><span class="role hot">代码质量评审</span><span class="role">测试</span></div>
+        <div class="t-meta"><span><b>入口：</b>software-team-lead</span></div>
+      </div>
+      <div class="team-card">
+        <div class="t-head"><span class="t-name">视觉设计战队</span><span class="t-num">14 人 · 6 技能</span></div>
+        <div class="t-scene">需求简报拆解、风格定调、海报/电商/品牌/插画产出到只读评审质检交付。</div>
+        <div class="t-roles"><span class="role">海报设计师</span><span class="role hot">电商视觉</span><span class="role">品牌 VI</span><span class="role">插画师</span><span class="role">评审</span></div>
+        <div class="t-meta"><span><b>入口：</b>visual-team-lead</span></div>
+      </div>
+      <div class="team-card">
+        <div class="t-head"><span class="t-name">内容写作战队</span><span class="t-num">14 人 · 6 技能</span></div>
+        <div class="t-scene">选题、长文/社媒/短视频脚本成稿、标题打磨、多平台改编到事实核查终检。</div>
+        <div class="t-roles"><span class="role">策略师</span><span class="role">长文作者</span><span class="role">社媒作者</span><span class="role">短视频编剧</span><span class="role hot">事实核查</span></div>
+        <div class="t-meta"><span><b>入口：</b>content-team-lead</span></div>
+      </div>
+      <div class="team-card">
+        <div class="t-head"><span class="t-name">视频创作战队</span><span class="t-num">14 人 · 6 技能</span></div>
+        <div class="t-scene">从 brief 到成片：编剧导演、分镜、剪辑、调色、字幕到质检闸门合规发布。</div>
+        <div class="t-roles"><span class="role hot">编剧导演</span><span class="role">分镜师</span><span class="role">剪辑师</span><span class="role">调色师</span><span class="role">质检</span></div>
+        <div class="t-meta"><span><b>入口：</b>video-team-lead</span></div>
+      </div>
+      <div class="team-card">
+        <div class="t-head"><span class="t-name">数据分析战队</span><span class="t-num">12 人 · 5 技能</span></div>
+        <div class="t-scene">数据清洗、指标体系、漏斗归因、A/B 实验、可视化报表到数据治理与质检交付。</div>
+        <div class="t-roles"><span class="role">数据清洗</span><span class="role">漏斗归因</span><span class="role hot">A/B 实验</span><span class="role">可视化</span><span class="role">数据治理</span></div>
+        <div class="t-meta"><span><b>入口：</b>data-analysis-team-lead</span></div>
+      </div>
+      <div class="team-card">
+        <div class="t-head"><span class="t-name">市场营销战队</span><span class="t-num">12 人 · 5 技能</span></div>
+        <div class="t-scene">品牌定位、策略规划、活动策划、社媒/SEO/增长、KOC 管理到营销数据复盘。</div>
+        <div class="t-roles"><span class="role">策略规划</span><span class="role">活动策划</span><span class="role hot">增长黑客</span><span class="role">品牌公关</span><span class="role">KOC 管理</span></div>
+        <div class="t-meta"><span><b>入口：</b>marketing-team-lead</span></div>
+      </div>
+      <div class="team-card">
+        <div class="t-head"><span class="t-name">电商运营战队</span><span class="t-num">12 人 · 5 技能</span></div>
+        <div class="t-scene">选品调研、Listing 优化、店铺运营、定价供应链、客服物流到数据驱动增长。</div>
+        <div class="t-roles"><span class="role">选品</span><span class="role">Listing 优化</span><span class="role">店铺运营</span><span class="role">定价策略</span><span class="role">供应链</span></div>
+        <div class="t-meta"><span><b>入口：</b>ecommerce-ops-team-lead</span></div>
+      </div>
+      <div class="team-card">
+        <div class="t-head"><span class="t-name">产品管理战队</span><span class="t-num">12 人 · 5 技能</span></div>
+        <div class="t-scene">用户研究、PRD 撰写、路线图规划、竞品分析、数据驱动到体验评审与交付。</div>
+        <div class="t-roles"><span class="role">用户研究</span><span class="role hot">PRD 撰写</span><span class="role">路线图</span><span class="role">竞品分析</span><span class="role">体验评审</span></div>
+        <div class="t-meta"><span><b>入口：</b>product-team-lead</span></div>
+      </div>
+      <div class="team-card">
+        <div class="t-head"><span class="t-name">财务会计战队</span><span class="t-num">10 人 · 4 技能</span></div>
+        <div class="t-scene">会计核算、预算规划、财务报告、税务合规、成本资金管理到审计支持交付。</div>
+        <div class="t-roles"><span class="role">会计核算</span><span class="role">预算规划</span><span class="role">财务报告</span><span class="role">税务顾问</span><span class="role">成本控制</span></div>
+        <div class="t-meta"><span><b>入口：</b>finance-team-lead</span></div>
+      </div>
+      <div class="team-card">
+        <div class="t-head"><span class="t-name">人力资源战队</span><span class="t-num">10 人 · 4 技能</span></div>
+        <div class="t-scene">招聘 JD、面试评估、入职设计、绩效薪酬、培训发展到员工关系全流程交付。</div>
+        <div class="t-roles"><span class="role">招聘专员</span><span class="role">JD 撰写</span><span class="role">面试官</span><span class="role">绩效管理</span><span class="role">培训开发</span></div>
+        <div class="t-meta"><span><b>入口：</b>hr-team-lead</span></div>
+      </div>
+      <div class="team-card">
+        <div class="t-head"><span class="t-name">法律合规战队</span><span class="t-num">10 人 · 4 技能</span></div>
+        <div class="t-scene">合同审查、数据隐私、知识产权、劳动法、监管跟踪到法律文书起草交付。</div>
+        <div class="t-roles"><span class="role">合同审查</span><span class="role">合规官</span><span class="role hot">数据隐私</span><span class="role">知识产权</span><span class="role">监管跟踪</span></div>
+        <div class="t-meta"><span><b>入口：</b>legal-team-lead</span></div>
+      </div>
+      <div class="team-card">
+        <div class="t-head"><span class="t-name">翻译本地化战队</span><span class="t-num">10 人 · 4 技能</span></div>
+        <div class="t-scene">中英互译、技术翻译、术语管理、文化适配、字幕翻译到 QA 校对全流程交付。</div>
+        <div class="t-roles"><span class="role">中英译</span><span class="role">英中译</span><span class="role hot">技术翻译</span><span class="role">术语专家</span><span class="role">文化适配</span></div>
+        <div class="t-meta"><span><b>入口：</b>translation-team-lead</span></div>
+      </div>
+      <div class="team-card">
+        <div class="t-head"><span class="t-name">教育培训战队</span><span class="t-num">10 人 · 4 技能</span></div>
+        <div class="t-scene">课程设计、课件撰写、出题解析、讲解辅导、测评设计到学习路径规划交付。</div>
+        <div class="t-roles"><span class="role">课程设计</span><span class="role">课件撰写</span><span class="role">出题师</span><span class="role">讲解师</span><span class="role">学习路径</span></div>
+        <div class="t-meta"><span><b>入口：</b>education-team-lead</span></div>
+      </div>
+      <div class="team-card">
+        <div class="t-head"><span class="t-name">音频播客战队</span><span class="t-num">10 人 · 4 技能</span></div>
+        <div class="t-scene">播客脚本、声音导演、剪辑音效、配乐主持、品牌包装到音频质检评审交付。</div>
+        <div class="t-roles"><span class="role">脚本编剧</span><span class="role hot">声音导演</span><span class="role">音频剪辑</span><span class="role">音效设计</span><span class="role">主播主持</span></div>
+        <div class="t-meta"><span><b>入口：</b>audio-team-lead</span></div>
+      </div>
+      <div class="team-card">
+        <div class="t-head"><span class="t-name">游戏设计战队</span><span class="t-num">10 人 · 4 技能</span></div>
+        <div class="t-scene">玩法设计、关卡数值、叙事经济、原型开发、美术指导到 QA 评审全流程交付。</div>
+        <div class="t-roles"><span class="role">玩法设计</span><span class="role">关卡设计</span><span class="role hot">数值平衡</span><span class="role">叙事设计</span><span class="role">游戏经济</span></div>
+        <div class="t-meta"><span><b>入口：</b>game-team-lead</span></div>
+      </div>
+      <div class="team-card core-card">
+        <div class="t-head"><span class="t-name">通用保障层（跨团队）</span><span class="t-num">14 技能 · 6 单兵</span></div>
+        <div class="t-scene">准确性核查、交叉验证、质检门禁、事实核查单兵、深度检索与安全扫描——所有团队共享的底座。</div>
+        <div class="t-roles"><span class="role hot">事实核查官</span><span class="role">质检门禁</span><span class="role">准确性核查</span><span class="role">交叉验证</span><span class="role">安全扫描</span></div>
+        <div class="t-meta"><span><b>调用：</b>任意团队交付前</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 能力亮点 ===== -->
+<section id="features">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">WHAT'S INSIDE</div>
+      <h2>不只是角色清单，是完整机制</h2>
+    </div>
+    <div class="feature-grid">
+      <div class="feature">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#33475E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M12 16v6M2 12h6M16 12h6M12 2a10 10 0 0 1 10 10M12 2a10 10 0 0 0-10 10M22 12a10 10 0 0 1-10 10M2 12a10 10 0 0 0 10 10"/></svg></div>
+        <div><h3>内置工作流与门禁</h3><p>每队按 Phase 分阶段推进，产出过自检清单、质检角色与通用质检门禁，H 级问题不交付。</p></div>
+      </div>
+      <div class="feature">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#33475E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h8v8H2zM14 9h8v8h-8zM8 15v3h6v-3M16 7V4h-6"/></svg></div>
+        <div><h3>跨团队协作编排</h3><p>总调度按场景路由；小红书图文 = 内容+视觉、论文+代码 = 学术+开发，多团队并行、牵头整合、交接模板齐全。</p></div>
+      </div>
+      <div class="feature">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#33475E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 4.5-3.2 7.4-8 9-4.8-1.6-8-4.5-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><h3>准确性与多检验</h3><p>断言分级、证据强度判定、反例搜索、交叉验证、独立事实核查单兵——任何人不得自证自查。</p></div>
+      </div>
+      <div class="feature">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#33475E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 4v5M9 13h7M9 13v7M16 13v4M16 9V4"/></svg></div>
+        <div><h3>纯 Markdown 资产</h3><p>无运行时依赖、不绑定任何框架。读文件即用，可导出 system prompt 文本或 JSON，接入任意 agent。</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 接入方式 ===== -->
+<section id="usage" style="background:var(--paper-2)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">GET STARTED</div>
+      <h2>三种方式，接入任意 Agent</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="idx">01</div>
+        <h3>直接读团队 Markdown</h3>
+        <p>适合支持「读文件 + 派子 agent」的框架：把团队目录交给它，专家即可被路由调用。</p>
+        <code>teams/content-writing-team/</code>
+        <div class="hint">团队自包含：TEAM.md 编排 + agents/ 专家 + skills/ 技能</div>
+      </div>
+      <div class="step">
+        <div class="idx">02</div>
+        <h3>一键导出 system prompt</h3>
+        <p>运行导出脚本，得到每名专家的纯文本提示词与全队汇总包，直接粘贴进任何 agent。</p>
+        <code>python3 export-agents.py</code>
+        <div class="hint">输出 dist/agents.json + 219 份单专家文本 + 18 份整队汇总</div>
+      </div>
+      <div class="step">
+        <div class="idx">03</div>
+        <h3>整目录复制</h3>
+        <p>把 teams/ 目录整体复制给支持目录式专家的框架，配置即完成，无需转换。</p>
+        <code>cp -r teams/ /your/agent/path</code>
+        <div class="hint">无运行时依赖，复制即用</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 仓库 CTA ===== -->
+<section id="repos">
+  <div class="wrap">
+    <div class="repo-band">
+      <div>
+        <h2>四个平台，全部开源</h2>
+        <p>本页为原 <b>ai-expert-teams</b> 仓库官网入口；该资产已于 2026-09-27 整体并入 <b>awesome-skillkit</b>，原仓库四平台已下线。以下入口均指向 awesome-skillkit（<code>expert-teams/</code> 子目录）。</p>
+        <a class="btn btn-primary" href="#usage">先看怎么用</a>
+      </div>
+      <div class="repo-links">
+        <a class="repo-link" href="https://gitcode.com/badhope/awesome-skillkit/tree/main/expert-teams" target="_blank" rel="noopener"><span class="rp">GitCode</span><span class="rr">badhope/awesome-skillkit</span><span class="go">→</span></a>
+        <a class="repo-link" href="https://gitee.com/badhope/awesome-skillkit/tree/main/expert-teams" target="_blank" rel="noopener"><span class="rp">Gitee</span><span class="rr">badhope/awesome-skillkit</span><span class="go">→</span></a>
+        <a class="repo-link" href="https://github.com/X33834/awesome-skillkit/tree/main/expert-teams" target="_blank" rel="noopener"><span class="rp">GitHub</span><span class="rr">X33834/awesome-skillkit</span><span class="go">→</span></a>
+        <a class="repo-link" href="https://github.com/Morningstar202604/awesome-skillkit/tree/main/expert-teams" target="_blank" rel="noopener"><span class="rp">GitHub</span><span class="rr">Morningstar202604/awesome-skillkit</span><span class="go">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== footer ===== -->
+<footer>
+  <div class="wrap foot">
+    <div class="mit"><span>expert-teams 专家团</span> · 平台中立通用专家团队资产（awesome-skillkit 子目录） · 数据口径：219 专家 / 100 技能（自动生成于实装）</div>
+    <div><a href="https://github.com/X33834/awesome-skillkit" target="_blank" rel="noopener">GitHub</a> · <a href="https://gitcode.com/badhope/awesome-skillkit" target="_blank" rel="noopener">GitCode</a> · <a href="https://gitee.com/badhope/awesome-skillkit" target="_blank" rel="noopener">Gitee</a> · MIT License</div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<script>
+/* ===== ECharts：团队规模（横向条形，动态数据） ===== */
+function renderBar(){
+  var el = document.getElementById("chartBar");
+  var c = echarts.init(el);
+  var labels = ["学术论文", "全栈 Web ", "数学建模", "软件开发", "视觉设计", "内容写作", "视频创作", "数据分析", "市场营销", "电商运营", "产品管理", "财务会计", "人力资源", "法律合规", "翻译本地化", "教育培训", "音频播客", "游戏设计"];
+  var values = [19, 19, 9, 12, 14, 14, 14, 12, 12, 12, 12, 10, 10, 10, 10, 10, 10, 10];
+  c.setOption({
+    grid:{left:8,right:32,top:8,bottom:8,containLabel:true},
+    xAxis:{type:"value",show:false},
+    yAxis:{type:"category",data:labels,axisLine:{show:false},axisTick:{show:false},axisLabel:{color:"#4A515B",fontSize:11.5}},
+    series:[{
+      type:"bar",data:values,
+      barWidth:12,
+      itemStyle:{color:function(p){return p.dataIndex===0?"#B8472E":"#33475E";},borderRadius:[0,4,4,0]},
+      label:{show:true,position:"right",color:"#4A515B",fontSize:11.5,formatter:"{c} 人"}
+    }]
+  });
+  return c;
+}
+
+/* ===== ECharts：技能构成（团队专属 vs 通用，两段 donut） ===== */
+function renderDonut(){
+  var el = document.getElementById("chartDonut");
+  var c = echarts.init(el);
+  c.setOption({
+    tooltip:{trigger:"item",formatter:"{b}：{c} 个（{d}%）"},
+    legend:{bottom:0,itemWidth:12,itemHeight:12,textStyle:{color:"#4A515B",fontSize:13}},
+    color:["#B8472E","#33475E"],
+    series:[{
+      type:"pie",radius:["45%","68%"],center:["50%","42%"],
+      itemStyle:{borderColor:"#FBF9F3",borderWidth:3},
+      label:{color:"#20262E",fontSize:13,formatter:"{b}\n{c} 个"},
+      data:[{"value": 86, "name": "团队专属技能"}, {"value": 14, "name": "通用保障技能"}]
+    }]
+  });
+  return c;
+}
+
+/* ===== 初始化 + 自适应 ===== */
+var charts = [];
+charts.push(renderBar());
+charts.push(renderDonut());
+window.addEventListener("resize", function(){
+  charts.forEach(function(c){ c.resize(); });
+});
+</script>
+</body>
+</html>

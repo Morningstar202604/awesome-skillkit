@@ -3,13 +3,14 @@
 <h1 align="center">awesome-skillkit</h1>
 
 <p align="center">
-  <b>39 real-world scene packs · 163 curated skills · unzip &amp; drop-in —<br>your AI tool instantly knows the job.</b>
+  <b>39 real-world scene packs · 163 curated skills · 18 expert teams (219 agents) —<br>unzip &amp; drop-in, your AI tool instantly knows the job.</b>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
   <img src="https://img.shields.io/badge/skills-163-brightgreen?style=flat-square" alt="Skills" />
   <img src="https://img.shields.io/badge/packs-39-blue?style=flat-square" alt="Packs" />
+  <img src="https://img.shields.io/badge/expert%20teams-18%20%C2%B7%20219%20agents-blueviolet?style=flat-square" alt="Expert Teams" />
   <img src="https://img.shields.io/badge/version-0.22.1-success?style=flat-square" alt="Version" />
 </p>
 
@@ -55,6 +56,10 @@ flowchart LR
 - Every pack bundles **the skills that actually work together** for that scenario — from a focused pair (`API Development & Testing`) to a 19-skill suite (`AI Research & Writing`) or an 18-platform publishing machine (`Content Publishing Automation`).
 - Every skill's **source is attributed** per-skill in [`manifest.json`](manifest.json) and each `packs/*/pack.json` — self-authored, upstream curated (MIT), or distilled from public docs.
 
+## Also in this repo: Expert Teams (专家团)
+
+Beyond scene packs, this repo ships a platform-neutral **expert teams** asset under [`expert-teams/`](expert-teams/): **18 domain teams · 219 expert agents · 100 skills** — pure Markdown, each team self-contained with workflows, phase gates and hand-off contracts. Enter via [`expert-teams/project-director.md`](expert-teams/project-director.md) for scenario routing (papers / fullstack web / math modeling / design / writing / video / data / marketing / ecommerce / product / finance / HR / legal / translation / education / audio / game), or dispatch a team lead directly, e.g. `expert-teams/teams/fullstack-web-team/agents/fullstack-team-lead.md`. Browse it online on the [Expert Teams page](https://x33834.github.io/awesome-skillkit/expert-teams.html). Migrated on 2026-09-27 from the retired `ai-expert-teams` repository (MIT) — its own gates (`verify.py` / `unittest` / `build-site.py --check`) still run inside the subtree.
+
 ## Why this repo — five reasons to grab it
 
 - **Scenario-first, not topic soup**: 163 skills / 39 packs / 20 domains / 73 chains — one pack = one concrete job you can hand to an AI ("review a PR", "cross-post an article to 16 Chinese platforms").
@@ -79,6 +84,7 @@ flowchart LR
 | A single `SKILL.md` | Browse [`skills/`](skills/) and open the file raw |
 | One pack as a zip | [`dist/<pack-id>.zip`](dist/) (built locally) or the per-pack asset on [Releases](https://github.com/x33834/awesome-skillkit/releases/latest) |
 | All packs at once | `dist/_all.zip`, or the [`_all.zip` release asset](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) |
+| Expert teams asset (18 teams / 219 agents) | [`expert-teams/`](expert-teams/) — pure Markdown; start at `expert-teams/project-director.md` or browse `expert-teams/teams/<team>/agents/` |
 | Chinese mirrors | [GitCode](https://gitcode.com/badhope/awesome-skillkit) · [Gitee](https://gitee.com/badhope/awesome-skillkit) (same tags, release zips attached) |
 
 > Per-pack zips are rebuilt by `python3 build.py` and attached to every GitHub Release; the GitCode / Gitee mirrors push the same tags and upload the same assets.

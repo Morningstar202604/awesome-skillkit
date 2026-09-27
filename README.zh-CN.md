@@ -3,13 +3,14 @@
 <h1 align="center">awesome-skillkit</h1>
 
 <p align="center">
-  <b>39 个真实场景包 · 163 个精选技能 · 解压即用——<br>把整套工作能力，一次交给你的 AI 工具。</b>
+  <b>39 个真实场景包 · 163 个精选技能 · 18 支专家团队（219 位专家）——<br>解压即用，把整套工作能力一次交给你的 AI 工具。</b>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
   <img src="https://img.shields.io/badge/skills-163-brightgreen?style=flat-square" alt="Skills" />
   <img src="https://img.shields.io/badge/packs-39-blue?style=flat-square" alt="Packs" />
+  <img src="https://img.shields.io/badge/expert%20teams-18%20%C2%B7%20219%20agents-blueviolet?style=flat-square" alt="Expert Teams" />
   <img src="https://img.shields.io/badge/version-0.22.1-success?style=flat-square" alt="Version" />
 </p>
 
@@ -55,6 +56,10 @@ flowchart LR
 - 每个包打包的是**该场景下真正协同工作的那组技能**——小到双人搭档（`API 开发与测试`），大到 19 个技能的全家桶（`AI 研究与写作`），或是一台覆盖 18 个中文平台的分发机器（`内容多平台发布自动化`）。
 - 每个技能的**来源都逐项标注**于 [`manifest.json`](manifest.json) 和各 `packs/*/pack.json`——自研、上游精选（MIT）、或基于公开文档蒸馏，不含糊、不混装。
 
+## 仓库里还有：专家团（expert-teams/）
+
+除场景包外，本仓库还内置一套平台中立的**专家团队资产** [`expert-teams/`](expert-teams/)：**18 支领域团队 · 219 位专家 agent · 100 个技能**，纯 Markdown、每支团队自包含，自带工作流、Phase 门禁与交接协议。跨领域大任务从 [`expert-teams/project-director.md`](expert-teams/project-director.md) 进入按场景路由（学术论文 / 全栈 Web / 数学建模 / 视觉设计 / 内容写作 / 视频制作 / 数据分析 / 营销 / 电商 / 产品 / 财务 / HR / 法务 / 翻译 / 教育 / 音频 / 游戏），也可直接派发某支队伍的 team-lead，例如 `expert-teams/teams/fullstack-web-team/agents/fullstack-team-lead.md`。在线浏览见[专家团子页](https://x33834.github.io/awesome-skillkit/expert-teams.html)。该资产于 2026-09-27 自原 `ai-expert-teams` 仓库整体迁入（MIT），子目录自带门禁（`verify.py` / `unittest` / `build-site.py --check`）。
+
 ## 为什么值得用——五个重点
 
 - **场景优先，不是领域大杂烩**：163 个技能 / 39 个包 / 20 个域 / 73 条链——一包 = 一个能直接交给 AI 的具体活儿（「审 PR」「一篇文章分发 16 个中文平台」）。
@@ -79,6 +84,7 @@ flowchart LR
 | 单个 `SKILL.md` | 浏览 [`skills/`](skills/)，打开原始文件 |
 | 单个场景包 zip | [`dist/<pack-id>.zip`](dist/)（本地构建），或 [Releases](https://github.com/x33834/awesome-skillkit/releases/latest) 里对应的资源 |
 | 全量打包 | `dist/_all.zip`，或 [`_all.zip` Release 资源](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) |
+| 专家团资产（18 团队 / 219 专家） | [`expert-teams/`](expert-teams/)——纯 Markdown；从 `expert-teams/project-director.md` 进入，或浏览 `expert-teams/teams/<team>/agents/` |
 | 国内镜像 | [GitCode](https://gitcode.com/badhope/awesome-skillkit) · [Gitee](https://gitee.com/badhope/awesome-skillkit)（标签一致，Release 已挂好资源） |
 
 > 每个包的 zip 由 `python3 build.py` 构建，并随每次 GitHub Release 一起发布；GitCode / Gitee 镜像推送相同标签并上传相同资源。

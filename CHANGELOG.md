@@ -14,6 +14,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > 另：0.4.0 – 0.6.1 发布于重置整理期，其内容随后被 squash 进 0.6.2 对应的提交
 > （`21769cb`），独立提交已不可考，故这四个版本没有对应的 git tag。
 
+## [Unreleased]
+
+### Added
+
+- **专家团整体并入（`expert-teams/`）**：原独立仓库 `ai-expert-teams`（平台中立专家团队资产：18 支团队 / 219 位专家 agent / 100 个技能 + 编排协议 `orchestration-protocol.md` / `project-director` 路由 + 导出工具链 `export-agents.py` / `export-platforms.py`）整体迁入本仓库 `expert-teams/` 子目录，文档、工具与门禁（`verify.py` / `effectiveness.py` / `unittest` / `build-site.py --check`）在原位保持可用；原仓库在 GitHub（X33834 / Morningstar202604）、GitCode、Gitee 四个平台同步下线（迁移说明见子目录 README）。
+- **官网新增专家团子页**：`site/expert-teams.html`（源文件 `expert-teams/site/index.html`，由子树 `build-site.py` 生成、根 `tools/build_site.py` 构建时同步进站点），保留 18 团队 / 219 专家 / 100 技能的在线浏览；skillkit 官网首屏与页脚增加入口。
+- **CI 新增专家团门禁作业**：`expert-teams` job 运行子树 `verify.py`、`unittest discover -s expert-teams/tests` 与 `build-site.py --check`。
+
+### Changed
+
+- 三语 README 新增「Expert Teams（专家团）」段落、下载指南条目与徽章（`expert teams-18 · 219 agents`）；根 `AGENTS.md` 增加子目录使用与门禁指引。
+- `README.ja.md` 首屏计数同步为 39 包 / 163 技能（此前停留在 37 / 156）。
+- 专家团子目录路径基准：子树文档中的相对路径以 `expert-teams/` 为根（在仓库根引用时加前缀），见子目录 README/AGENTS.md 顶部「路径基准」说明。
+- 版本号保持 0.22.1 不变；按 [docs/VERSIONING.md](docs/VERSIONING.md) 流程，本批改动随下次发版升位（0.23.0 候选）。
+
 ## [0.22.1] - 2026-09-26
 
 ### Added

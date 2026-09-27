@@ -304,6 +304,18 @@ def main(argv: list[str]) -> int:
             (pack_dir / "_all.zip").write_bytes(_all.read_bytes())
             zips += 1
 
+    # 专家团子页（源：expert-teams/site/index.html，由 expert-teams/build-site.py
+    # 从子树实装数据生成；此处只做站点内同步，不做二次加工）
+    et_page = SCRIPT_DIR / "expert-teams" / "site" / "index.html"
+    if et_page.is_file():
+        write_text_lf(out_dir / "expert-teams.html", et_page.read_text(encoding="utf-8"))
+        print(f"expert-teams page -> {out_dir / 'expert-teams.html'}")
+    else:
+        print(
+            "WARN: expert-teams/site/index.html 不存在，跳过专家团子页",
+            file=sys.stderr,
+        )
+
     m = data["meta"]
     print(f"site.json: {m['n_skills']} skills / {m['n_packs']} packs / "
           f"{m['n_domains']} domains / {m['n_chains']} chains (v{m['version']})")

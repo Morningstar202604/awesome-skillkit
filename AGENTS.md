@@ -24,6 +24,19 @@
 
 中途需要回到规则 0 再查一次的信号：产出要进入下一阶段（写作→发布、数据→图表、草稿→审计）、当前技能明确点名了下游技能、或你正准备手搓一个技能描述里已经写好的流程。
 
+## 专家团队资产（`expert-teams/`）
+
+仓库内 `expert-teams/` 子目录是一套平台中立的**专家团队资产**（18 支领域团队 / 219 位专家 agent / 100 个技能，原独立仓库 `ai-expert-teams`，2026-09-27 整体迁入）。跨领域的大任务（论文、全栈应用、数学建模、设计、写作、视频、数据分析、营销、电商、产品、财务、HR、法务、翻译、教育、音频、游戏）先读 [`expert-teams/project-director.md`](expert-teams/project-director.md) 按场景路由，或把 `expert-teams/teams/<team>/agents/*.md` 作为子 agent 定义派发。
+
+- 该子目录文档里的相对路径以 `expert-teams/` 为根；在仓库根引用或派发时加前缀（如 `expert-teams/teams/hr-team/agents/hr-team-lead`）。
+- 子目录自带门禁，改动用它自己的命令验证：
+
+```bash
+python3 expert-teams/verify.py                       # 需 pyyaml
+python3 -m unittest discover -s expert-teams/tests
+python3 expert-teams/build-site.py --check
+```
+
 ## 修改本仓库时
 
 - 写 / 改技能前先读 `docs/SKILL_WRITING_GUIDE.md` 与 `docs/SKILL-STANDARD-v2.md`；

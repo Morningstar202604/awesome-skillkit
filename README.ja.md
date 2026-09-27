@@ -3,13 +3,14 @@
 <h1 align="center">awesome-skillkit</h1>
 
 <p align="center">
-  <b>37 の実務シーンパック · 156 の厳選スキル · 解凍してドロップイン——<br>AI ツールが即座に仕事を覚えます。</b>
+  <b>39 の実務シーンパック · 163 の厳選スキル · 18 のエキスパートチーム（219 エージェント）——<br>解凍してドロップイン、AI ツールが即座に仕事を覚えます。</b>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
   <img src="https://img.shields.io/badge/skills-163-brightgreen?style=flat-square" alt="Skills" />
   <img src="https://img.shields.io/badge/packs-39-blue?style=flat-square" alt="Packs" />
+  <img src="https://img.shields.io/badge/expert%20teams-18%20%C2%B7%20219%20agents-blueviolet?style=flat-square" alt="Expert Teams" />
   <img src="https://img.shields.io/badge/version-0.22.1-success?style=flat-square" alt="Version" />
 </p>
 
@@ -56,6 +57,10 @@ flowchart LR
 - 各パックは、そのシナリオで**実際に連携するスキルだけ**をまとめています——絞り込んだ 2 スキル構成（`API Development & Testing`）から、18 スキルのスイート（`AI Research & Writing`）、18 プラットフォームの自動出版マシン（`Content Publishing Automation`）まで。
 - 各スキルの**出典はスキルごとに** [`manifest.json`](manifest.json) と各 `packs/*/pack.json` に明記されています——自作、上流からの精選（MIT）、公開ドキュメントからの蒸留のいずれかです。
 
+## このリポジトリには Expert Teams（专家团）も同梱
+
+シーンパックに加えて、プラットフォーム非依存の**エキスパートチーム資産** [`expert-teams/`](expert-teams/) を同梱しています：**18 チーム · 219 エキスパートエージェント · 100 スキル**。すべて純 Markdown で、各チームはワークフロー・フェーズゲート・引き継ぎ規約を内蔵。横断的な大きなタスクは [`expert-teams/project-director.md`](expert-teams/project-director.md) からシナリオルーティング（論文 / フルスタック Web / 数理モデリング / デザイン / 執筆 / 動画 / データ分析 / マーケティング / EC / プロダクト / 財務 / HR / 法務 / 翻訳 / 教育 / 音声 / ゲーム）に入るか、チームリードを直接ディスパッチします（例：`expert-teams/teams/fullstack-web-team/agents/fullstack-team-lead.md`）。オンライン閲覧は [Expert Teams ページ](https://x33834.github.io/awesome-skillkit/expert-teams.html)。2026-09-27 に旧 `ai-expert-teams` リポジトリから移設（MIT）。サブツリー独自のゲート（`verify.py` / `unittest` / `build-site.py --check`）はそのまま使えます。
+
 ## 使い込む理由 — 5 つの要点
 
 - **場面優先、テーマの寄せ集めではない**：163 スキル / 39 パック / 20 ドメイン / 73 チェーン——1 パック = AI にそのまま渡せる具体的な仕事（「PR レビュー」「記事を 16 つの中国語プラットフォームへ同時配信」）。
@@ -80,6 +85,7 @@ flowchart LR
 | 単一の `SKILL.md` | [`skills/`](skills/) をブラウズしてファイルをそのまま開く |
 | 1 パックを zip で | [`dist/<pack-id>.zip`](dist/)（ローカルビルド）または [Releases](https://github.com/x33834/awesome-skillkit/releases/latest) のパック別アセット |
 | 全パックをまとめて | `dist/_all.zip`、または [`_all.zip` リリースアセット](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) |
+| Expert Teams 資産（18 チーム / 219 エージェント） | [`expert-teams/`](expert-teams/) — すべて Markdown；`expert-teams/project-director.md` から入るか `expert-teams/teams/<team>/agents/` を参照 |
 | 中国語ミラー | [GitCode](https://gitcode.com/badhope/awesome-skillkit) · [Gitee](https://gitee.com/badhope/awesome-skillkit)（同一タグ、リリース zip 添付） |
 
 > パック別 zip は `python3 build.py` で再ビルドされ、すべての GitHub Release に添付されます。GitCode / Gitee ミラーは同一タグをプッシュし、同一アセットをアップロードしています。

@@ -1,0 +1,5 @@
+apiVersion: v2
+name: mychart
+version: 0.1.0
+appVersion: "1.0.0"
+description: 演示用最小 chart
