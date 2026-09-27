@@ -9,7 +9,8 @@
     return n;
   };
 
-  const state = { data: null, tab: "skills", q: "", group: "all", domain: "all" };
+  const state = { data: null, tab: "skills", q: "", group: "all", domain: "all",
+                  filtersOpen: false };
   let toastTimer = null;
 
   function toast(msg) {
@@ -125,19 +126,19 @@
   /* ---------- 渲染：统计 / 头部 ---------- */
   function renderHead() {
     const m = state.data.meta;
-    // 口径：n_skills 为入包技能数，n_skills_on_disk 含 sample-skill 等不入包模板
-    const total = m.n_skills_on_disk || m.n_skills;
-    const tpl = total - m.n_skills;
+    // 口径统一：全站以「入包技能数」(n_skills) 为准（与 manifest / README 徽章同源）；
+    // 磁盘上另有 sample/good-skill 等模板参考技能，只在脚注说明，不再混进主口径
+    const total = m.n_skills;
+    const tpl = Math.max((m.n_skills_on_disk || total) - total, 0);
     document.title = `${m.hub} — ${total} Skills / ${m.n_packs} Scene Packs`;
     $("#brand").textContent = m.hub;
     const stats = $("#stats");
     stats.innerHTML = "";
     const items = [
-      [total, "SKILL.md files"],
-      [m.n_packs, "scene packs (.zip)"],
-      [m.n_domains, "skill domains"],
+      [total, "skills"],
+      [m.n_packs, "scene packs"],
+      [m.n_domains, "domains"],
       [m.n_chains, "skill chains"],
-      ["v" + m.version, "version"],
     ];
     items.forEach(([v, label]) => {
       const s = el("div", "stat");
@@ -151,14 +152,15 @@
     $("#gcBtn").href = m.gitcode.url;
     $("#footGh").href = m.github.url;
     $("#footGc").href = m.gitcode.url;
-    $("#footMeta").textContent = `${m.n_skills} skills · ${m.n_packs} packs · v${m.version}${m.updated ? " · updated " + m.updated : ""}`;
-    $("#cSkills").textContent = m.n_skills;
+    $("#footMeta").textContent = `${total} skills · ${m.n_packs} packs · v${m.version}${m.updated ? " · updated " + m.updated : ""}`;
+    $("#cSkills").textContent = total;
     $("#cPacks").textContent = m.n_packs;
     $("#cChains").textContent = m.n_chains;
-    // Hero tagline: English primary, Chinese subtitle lives in .tagline-zh (static in HTML)
-    $("#tagline").textContent = m.desc || $("#tagline").textContent;
+    $("#tagline").textContent =
+      `${total} skills · ${m.n_packs} scene packs · ${m.n_domains} domains · ` +
+      `${m.n_chains} skill chains — grab a single SKILL.md or a full-pack zip, drop it in, done.`;
     $("#statsNote").textContent = tpl > 0
-      ? `${m.n_skills} are packaged into scene packs; ${tpl} are template-only reference skills (not shipped in any pack).`
+      ? `${total} skills are shipped across ${m.n_packs} packs; ${tpl} template-only fixtures stay on disk and ship in no pack.`
       : "";
   }
 
@@ -172,6 +174,37 @@
     const hit = ((state.data && state.data.domains) || []).find((x) => x.id === d);
     return (hit && hit.label_zh) || d;
   };
+
+  /* ---------- 工具栏：紧凑模式 / 滚动提示 / 选中项回视 ---------- */
+  const COMPACT_AT = 340; // 滚过首屏后收起两级 chips，避免 sticky 遮住内容
+
+  function syncToolbar() {
+    // 窄屏工具栏是 static（不粘顶），无需折叠；回到顶部时重置"手动展开"状态
+    const isNarrow = window.matchMedia("(max-width: 720px)").matches;
+    if (window.scrollY < 120) state.filtersOpen = false;
+    const compact = !isNarrow && window.scrollY > COMPACT_AT && !state.filtersOpen;
+    $("#toolbar").classList.toggle("compact", compact);
+    $("#filterSummary").hidden = !compact;
+    if (!compact) return;
+    const g = groupOf(state.group);
+    const bits = [
+      "场景 " + (g ? g.label : "全部"),
+      "域 " + (state.domain === "all" ? "全部" : domainLabel(state.domain)),
+    ];
+    if (state.q) bits.push(`“${state.q}”`);
+    $("#sumText").textContent = bits.join(" · ");
+  }
+
+  function updateScrollHint(box) {
+    if (!box) return;
+    box.classList.toggle("can-left", box.scrollLeft > 4);
+    box.classList.toggle("can-right", box.scrollLeft + box.clientWidth < box.scrollWidth - 6);
+  }
+
+  function revealActiveChip(sel) {
+    const active = $(sel).querySelector(".chip.active");
+    if (active) active.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
+  }
 
   function renderGroups() {
     const box = $("#groupChips");
@@ -188,9 +221,11 @@
         if (state.domain !== "all" && (!g || !g.domains.includes(state.domain))) {
           state.domain = "all";
         }
+        state.filtersOpen = false; // 选完即收，滚回去看结果
         renderGroups();
         renderChips();
         render();
+        revealActiveChip("#groupChips");
       });
       if (state.group === id) c.classList.add("active");
       return c;
@@ -198,6 +233,7 @@
     box.append(mk("all", "全部场景", state.data.meta.n_skills, "显示全部场景库"));
     groups().forEach((g) =>
       box.append(mk(g.id, (g.emoji ? g.emoji + " " : "") + g.label, g.n_skills, g.desc)));
+    requestAnimationFrame(() => updateScrollHint(box));
   }
 
   function renderChips() {
@@ -214,14 +250,17 @@
       c.title = id === "all" ? "当前范围内的全部能力域" : id;
       c.addEventListener("click", () => {
         state.domain = id;
+        state.filtersOpen = false;
         renderChips();
         render();
+        revealActiveChip("#domainChips");
       });
       if (state.domain === id) c.classList.add("active");
       return c;
     };
     box.append(mk("all", "全部能力域", total));
     doms.forEach((d) => box.append(mk(d.id, domainLabel(d.id), packCount(d))));
+    requestAnimationFrame(() => updateScrollHint(box));
   }
 
   /* ---------- 过滤 ---------- */
@@ -260,22 +299,32 @@
       const h = el("h3");
       const name = el("span", null);
       name.append(highlight(s.name, q));
-      const domTag = el("span", "dom", domainLabel(s.domain));
-      domTag.title = s.domain;
-      h.append(name, domTag);
+      // 已按能力域筛选时，右上角不再重复同一个域标签（整屏同词，无信息量）
+      if (state.domain === "all") {
+        const domTag = el("span", "dom", domainLabel(s.domain));
+        domTag.title = s.domain;
+        h.append(name, domTag);
+      } else {
+        h.append(name);
+      }
       // 展示优先中文描述（desc_zh），无则回退英文 desc；匹配与高亮必须同一字符串，
       // 否则命中关键词的词被截断后，卡片上找不到高亮
       const p = el("p");
       p.append(highlight(s.desc_zh || s.desc, q));
       c.append(h, p);
 
-      const meta = el("div", "meta-row");
-      if (s.version) meta.append(el("span", "tag", "v" + s.version));
-      if (s.tier) meta.append(el("span", "tag", s.tier));
-      if (s.pattern) meta.append(el("span", "tag", s.pattern));
-      if (s.license) meta.append(el("span", "tag", s.license));
-      s.packs.forEach((pk) => meta.append(el("span", "tag pack", "📦 " + pk)));
-      c.append(meta);
+      // 版本/标准/模式/许可压缩为一行等宽摘要；包归属保留为可扫读的 pill
+      const bits = [];
+      if (s.version) bits.push("v" + s.version);
+      if (s.tier) bits.push(s.tier);
+      if (s.pattern) bits.push(s.pattern);
+      if (s.license) bits.push(s.license);
+      if (bits.length) c.append(el("div", "meta-line", bits.join(" · ")));
+      if (s.packs.length) {
+        const meta = el("div", "meta-row");
+        s.packs.forEach((pk) => meta.append(el("span", "tag pack", "📦 " + pk)));
+        c.append(meta);
+      }
 
       const act = el("div", "actions");
       act.append(dlBtn(s.file, "↓ SKILL.md", "act dl", s.name + ".SKILL.md"));
@@ -304,20 +353,19 @@
       if (dc) c.style.setProperty("--dc", dc);
       c.style.animationDelay = Math.min(i * 14, 280) + "ms";
 
-      const h = el("h3");
+      const h = el("h3", "pack-head");
+      h.append(el("span", "glyph", "📦"));
       const name = el("span", null);
       name.append(highlight(p.name || p.name_zh, q));
-      h.append(name, el("span", "dom", p.id));
+      h.append(name, el("span", "pack-n", p.n_skills + " skills"));
       const d = el("p");
       d.append(highlight(p.desc || p.desc_zh, q));
-      c.append(h, d);
+      c.append(h, el("div", "pack-id", p.id + ".zip"), d);
 
       const meta = el("div", "meta-row");
       const gp = groupOfPack(p.id);
       if (gp) meta.append(el("span", "tag", (gp.emoji ? gp.emoji + " " : "") + gp.label));
-      meta.append(el("span", "tag", p.n_skills + " skills"));
       meta.append(el("span", "tag", p.size_kb + " KB"));
-      meta.append(el("span", "tag", p.id + ".zip"));
       c.append(meta);
 
       const act = el("div", "actions");
@@ -329,7 +377,7 @@
       act.append(alt);
       c.append(act);
 
-      const dis = el("button", "disclose", `View ${p.n_skills} skills ▾`);
+      const dis = el("button", "disclose wide", `查看包含的 ${p.n_skills} 个技能 ▾`);
       const sl = el("div", "skill-list");
       p.skills.forEach((n) => {
         const b = el("button", null, n);
@@ -340,6 +388,7 @@
           state.q = n;
           $("#q").value = n;
           $("#clearQ").hidden = false;
+          $("#kbdHint").hidden = true;
           syncTabs();
           renderGroups();
           renderChips();
@@ -351,7 +400,7 @@
       dis.addEventListener("click", () => {
         sl.classList.toggle("open");
         dis.textContent = sl.classList.contains("open")
-          ? `Hide ▴` : `View ${p.n_skills} skills ▾`;
+          ? "收起技能列表 ▴" : `查看包含的 ${p.n_skills} 个技能 ▾`;
       });
       c.append(dis, sl);
       box.append(c);
@@ -401,24 +450,32 @@
   }
 
   /* ---------- 主渲染 ---------- */
+  function hintText(count) {
+    const m = state.data.meta;
+    const g = groupOf(state.group);
+    if (state.q || state.group !== "all" || state.domain !== "all") {
+      const label = { skills: "技能", packs: "场景包", chains: "技能链" }[state.tab];
+      return `筛选中：${label} ${count} 项` +
+        (g ? " · 场景 " + g.label : "") +
+        (state.domain !== "all" ? " · 能力域 " + domainLabel(state.domain) : "") +
+        (state.q ? " · 关键词 “" + state.q + "”" : "");
+    }
+    // 无筛选时：每个视图给一句"这个视图怎么用"，替代此前三个视图共用的一句话
+    return {
+      skills: `${m.n_skills} 个技能按能力域归类：先选「场景」（我在做什么）→ 再选「能力域」（用什么能力）→ 点卡片下载 SKILL.md。`,
+      packs: `${m.n_packs} 个场景包 = 一个真实场景的成套技能：下载 zip 解压即用；点卡片底部「查看包含的技能」可展开包内技能。`,
+      chains: `${m.n_chains} 条技能链 = 多步任务的推荐工序：从链头进入，按 → 顺序推进；虚线步骤为可选（带 ?）。`,
+    }[state.tab];
+  }
+
   function render() {
     let count = 0;
     if (state.tab === "skills") count = renderSkills();
     else if (state.tab === "packs") count = renderPacks();
     else count = renderChains();
     $("#empty").hidden = count > 0;
-    const label = { skills: "技能", packs: "场景包", chains: "技能链" }[state.tab];
-    const g = groupOf(state.group);
-    if (state.q || state.group !== "all" || state.domain !== "all") {
-      $("#hint").textContent = `筛选中：${label} ${count} 项` +
-        (g ? " · 场景 " + g.label : "") +
-        (state.domain !== "all" ? " · 能力域 " + domainLabel(state.domain) : "") +
-        (state.q ? " · 关键词 “" + state.q + "”" : "");
-    } else {
-      $("#hint").textContent =
-        "用法：一级选「场景」（我在做什么）→ 二级选「能力域」（用什么能力）→ 点卡片下载。" +
-        "技能按能力域归类，场景包按使用场景归类。";
-    }
+    $("#hint").textContent = hintText(count);
+    syncToolbar();
   }
 
   function syncTabs() {
@@ -436,9 +493,14 @@
       render();
     }));
 
+  function setSearchUI(hasText) {
+    $("#clearQ").hidden = !hasText;
+    $("#kbdHint").hidden = hasText;
+  }
+
   function clearSearch() {
     $("#q").value = "";
-    $("#clearQ").hidden = true;
+    setSearchUI(false);
     if (state.q) { state.q = ""; render(); }
     $("#q").focus();
   }
@@ -446,7 +508,7 @@
   let debounce = null;
   $("#q").addEventListener("input", (e) => {
     const v = e.target.value;
-    $("#clearQ").hidden = !v;
+    setSearchUI(!!v);
     clearTimeout(debounce);
     debounce = setTimeout(() => {
       state.q = v;
@@ -455,11 +517,25 @@
   });
   $("#clearQ").addEventListener("click", () => {
     $("#q").value = "";
-    $("#clearQ").hidden = true;
+    setSearchUI(false);
     state.q = "";
     render();
     $("#q").focus();
   });
+
+  /* 紧凑工具栏：滚动折叠两级 chips，点摘要展开筛选 */
+  $("#sumToggle").addEventListener("click", () => {
+    state.filtersOpen = true;
+    syncToolbar();
+  });
+  window.addEventListener("scroll", syncToolbar, { passive: true });
+  $("#groupChips").addEventListener("scroll", () => updateScrollHint($("#groupChips")), { passive: true });
+  $("#domainChips").addEventListener("scroll", () => updateScrollHint($("#domainChips")), { passive: true });
+  window.addEventListener("resize", () => {
+    updateScrollHint($("#groupChips"));
+    updateScrollHint($("#domainChips"));
+    syncToolbar();
+  }, { passive: true });
 
   /* 键盘：/ 聚焦搜索，Esc 清空 */
   document.addEventListener("keydown", (e) => {
