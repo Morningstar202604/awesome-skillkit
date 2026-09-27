@@ -9,6 +9,7 @@ description: >-
   / design system token / frontend design system / component spec. Do NOT use for
   pure image/design-mockup generation (use image-prompt-engineer) or for backend
   work.
+description_zh: "搭建生产级 React 与 TypeScript 组件脚手架，配套 CSS Modules 和 design-tokens.json，并提供规避魔法数字、内联样式等问题的审查清单。"
 license: Apache-2.0
 compatibility: Outputs .tsx/.css/.json source files; user wires into their TS project themselves (no network, no npm install needed to generate).
 metadata:

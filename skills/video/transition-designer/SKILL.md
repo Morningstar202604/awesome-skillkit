@@ -1,6 +1,7 @@
 ---
 name: transition-designer
 description: "Design a transition plan for AI video: choose the right transition type at every scene boundary, set durations, sync to music beats, and hand off an executable transition spec to video-editor. Covers hard cuts, match cuts, dissolves, wipes, J/L-cuts, whip pans, speed ramps, glitch and more. Use when the user asks to design transitions / plan a cut / decide how scenes connect / beat-sync editing / pacing a montage / choose between cut and dissolve / fix a jarring cut. Do NOT use for executing the actual edit (that is video-editor), for motion graphics or animated text (use motion-effects-designer), or for writing the script itself (use video-script-writer)."
+description_zh: "为 AI 视频设计转场方案：选择剪切类型、设定时长、对齐音乐节拍，输出可执行转场规范"
 license: Apache-2.0
 compatibility: Pure prompt-based design skill; no scripts required. Outputs a transition plan consumed by video-editor.
 metadata:

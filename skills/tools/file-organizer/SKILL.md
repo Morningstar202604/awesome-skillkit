@@ -8,6 +8,7 @@ description: >-
   downloads folder / tidy directory / file archiving / batch organize. Do NOT
   use for deleting files, renaming in place, syncing between machines, or
   touching system/VCS directories.
+description_zh: "审计并整理杂乱目录：先干跑生成可复核的移动方案，统计扩展名、日期与大小并快速检测重复文件。"
 license: Apache-2.0
 compatibility: "Python 3.8+ stdlib only (no third-party packages). Reads and moves files inside the directory you pass; apply is dry-run unless --yes is given."
 metadata:

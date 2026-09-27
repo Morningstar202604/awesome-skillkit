@@ -1,6 +1,7 @@
 ---
 name: monorepo-navigator
 description: "Navigate, manage, and optimize monorepos. Covers Turborepo, Nx, pnpm workspaces, and Lerna. Cross-package impact analysis, selective builds/tests on affected packages, remote caching, dependency graph visualization, and structured multi-repo to monorepo migrations. Use when setting up a new monorepo, sorting out a monorepo, navigating a large repo, understanding package dependencies, optimizing CI for a large workspace, debugging cross-package dependency issues, or planning a multi-repo consolidation. Do NOT use for building or publishing packages (navigation and impact analysis only)."
+description_zh: "浏览、管理与优化 monorepo：跨包影响分析、按受影响包选择性构建测试、远程缓存、依赖图可视化与多仓合并迁移。"
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:

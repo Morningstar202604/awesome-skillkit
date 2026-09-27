@@ -8,6 +8,7 @@ description: >
   zhihu column post, zhihu adaptation, platform-specific content for zhihu,
   publish to Zhihu, or SEO content for the Zhihu knowledge community.
   Do NOT use for automation, cookies, browser scripts, or posting to other platforms.
+description_zh: "为知乎撰写平台化长文与回答：专栏文章、详细回答、话题标签、封面图与编辑器可用结构"
 license: Apache-2.0
 metadata:
   author: awesome-skillkit

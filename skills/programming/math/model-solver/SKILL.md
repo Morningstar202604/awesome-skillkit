@@ -1,6 +1,7 @@
 ---
 name: model-solver
 description: "Numerically solve mathematical models: LP/MIP (scipy/cvxpy), ODE/PDE (scipy.integrate), Monte Carlo (numpy). Consumes the model spec produced by model-formulator and returns the solution plus convergence information. When to use: the model spec is ready and you need an optimal solution, an integral, or sampling results — e.g. solving a model, picking a solver, optimizing the problem, or computing a numerical solution. Do NOT use when the problem is still in prose and needs formalizing (use model-formulator), or when the ask is result interpretation and charts (use result-visualizer)."
+description_zh: "数值求解数学模型：LP/MIP（scipy、cvxpy）、ODE/PDE（scipy.integrate）、蒙特卡洛（numpy），返回求得的最优解与收敛信息。"
 license: Apache-2.0
 compatibility: "Requires scipy, numpy. Optional: cvxpy, pulp, ortools."
 metadata:

@@ -9,6 +9,7 @@ description: >-
   deposit dispute / move-in inspection / lease agreement / sub-landlord. Do NOT
   use for: home purchase contracts (different legal framework), or as a
   substitute for legal advice.
+description_zh: "面向中国城市租客的消费保护指南：识别假房东、租金贷陷阱与押金损失，理解合同条款及入住退租验房，应对押金纠纷。"
 license: Apache-2.0
 compatibility: Pure prompt skill, no scripts.
 metadata:

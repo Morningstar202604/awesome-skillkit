@@ -1,6 +1,7 @@
 ---
 name: tech-debt-tracker
 description: "Scan codebases for technical debt, score severity, track trends, and generate prioritized remediation plans. Use when users mention tech debt, code quality, refactoring priority, debt scoring, cleanup sprints, or code health assessment. Also use for legacy code modernization planning and maintenance cost estimation, sorting out technical debt, grading debt items, or a debt-repayment plan. Do NOT use for performing the refactors it tracks."
+description_zh: "扫描代码库技术债、评估严重度、追踪趋势并生成优先级整改计划，支持遗留系统现代化规划"
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:

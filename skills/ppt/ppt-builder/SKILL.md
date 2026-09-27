@@ -7,6 +7,7 @@ description: >
   create slides / make a deck / prepare a presentation about X / PowerPoint /
   presentation design / deck. Do NOT use for Word documents,
   spreadsheets, or PDF forms.
+description_zh: "制作演示文稿：结构化大纲、逐页内容规格，并通过内置脚本生成真实 .pptx 文件（Markdown 兜底），用于做 PPT 与幻灯片。"
 license: Apache-2.0
 compatibility: Optional python3 with python-pptx for .pptx export; fallback needs nothing.
 metadata:

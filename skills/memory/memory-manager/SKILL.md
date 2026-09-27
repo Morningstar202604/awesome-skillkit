@@ -1,6 +1,7 @@
 ---
 name: memory-manager
 description: "Use when managing the lifecycle of an agent's memory store: resolve conflicts between new candidates and existing entries, execute ADD/UPDATE/DELETE/NOOP operations, and run forgetting policies (TTL, recency decay, topic compaction). Triggers on memory management, memory deduplication, conflict resolution, memory lifecycle, memory deduplication, ADD UPDATE DELETE NOOP, TTL expiry, memory compaction, memory consolidation, long-term memory, RAG. NOT for extracting new candidates or retrieving memories — use memory-extractor or memory-retriever."
+description_zh: "管理 Agent 记忆库生命周期：解决新旧条目冲突，执行 ADD/UPDATE/DELETE/NOOP，并运行 TTL、时效衰减与主题压缩等遗忘策略。"
 license: Apache-2.0
 compatibility: Pure prompt-based; no scripts, no environment probing.
 metadata:

@@ -7,6 +7,7 @@ description: >
   for Baijiahao content, Baijiahao article, baijiahao article, baijiahao adaptation,
   platform-specific content for baijiahao, or publish to Baijiahao. Do NOT use for
   cookie-based posting automation or other platforms.
+description_zh: "为百家号改写平台化文章：标题、正文、配图与标签，适配百度搜索与推荐。"
 license: Apache-2.0
 metadata:
   author: awesome-skillkit

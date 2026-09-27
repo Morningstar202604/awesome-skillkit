@@ -1,6 +1,7 @@
 ---
 name: anti-defensive
 description: "Detect defensive academic writing and classify each hit as tighten vs retain: over-hedging (double 'may/might'), self-deprecating framing, vague attribution 'to the best of our knowledge', filler phrases — but hedges sitting next to statistical-uncertainty context (confidence interval / p-value / variance / sample size) are marked retain and never penalized. Reports hedge density per 100 words with line:col locations. Use when the user asks if the paper tone is too weak / remove defensive phrasing / strengthen statements / stop being so tentative / de-hedge text / make statements firmer / remove 'may possibly'. Do NOT use for removing AI-flavored cliches (use ai-humanizer) or LaTeX formatting (use latex-formatter)."
+description_zh: "识别学术写作的过度含糊与自我否定表达，给出保留或收紧建议及逐处定位。"
 license: Apache-2.0
 compatibility: Stdlib only; requires python3; reads --text or --file, optional --output.
 metadata:

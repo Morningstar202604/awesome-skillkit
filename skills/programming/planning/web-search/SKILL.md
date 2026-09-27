@@ -1,6 +1,7 @@
 ---
 name: web-search
 description: "Free web search via SearXNG (primary) and DuckDuckGo (fallback) with no API keys required. Auto-fallback, 24h cache, deep search mode. Use when the agent needs to find information from the web without paid API keys, search the web, look up references, or find information online. Do NOT use for multi-source synthesis reports (use deep-research)."
+description_zh: "免 API Key 的免费联网搜索：以 SearXNG 为主、DuckDuckGo 兜底，支持自动降级与结果缓存"
 license: Apache-2.0
 compatibility: Requires network access. No API keys required.
 metadata:

@@ -1,6 +1,7 @@
 ---
 name: lit-review
 description: "Multi-source literature review: real retrieval via Semantic Scholar Graph API (--s2, with true citations/venue/year/abstract) or arXiv (--arxiv), honest mock fallback for offline/CI; builds a REAL co-citation graph (shared references) instead of sequential links; synthesizes trends/gaps via LLM (model_route) with keyword-cooccurrence fallback. Use for literature review / related work / finding references / researching papers in a direction / surveying a topic / citation graph. Do NOT use for topic selection (use paper-topic-selector first)."
+description_zh: "多源文献综述与相关工作：经 Semantic Scholar 或 arXiv 真实检索，构建共被引图谱，用 LLM 综合研究趋势与空白。"
 license: Apache-2.0
 compatibility: Stdlib. --s2 hits api.semanticscholar.org, --arxiv hits export.arxiv.org (20s timeout, 429 backoff 3s). Any network/parse failure -> honest mock fallback (data_source=mock + warning). SKILLKIT_MOCK=1 forces mock. LLM synthesis via skills/meta/_shared/model_route when SKILLKIT_MODEL_URL set; else keyword-cooccurrence (offline).
 metadata:

@@ -1,6 +1,7 @@
 ---
 name: video-script-writer
 description: "Write video scripts: dialogue, narration, shot descriptions, timing markers, and platform-compliant titles/captions. Supports multiple video types (talking character, meme, tutorial, vlog, short). Includes a golden-3-second hook discipline, single-CTA rule, and speaking-rate word budgeting. Use when the user needs a script for a video before production, e.g. writing a video script / short-video copy / storyboard script / voice-over script. Do NOT use for generating video files (script text only), nor for scene-by-scene storyboards and prompt pairs (use storyboard-designer)."
+description_zh: "撰写视频脚本：台词、旁白、分镜描述、时间标记与合规标题，含黄金三秒钩子与字数预算"
 license: Apache-2.0
 compatibility: "Prompt-based with an optional helper script. scripts/script_writer.py (Python 3.8+, stdlib only) generates a deterministic scene skeleton and — if SKILLKIT_LLM_URL/KEY env vars are set — calls an OpenAI-compatible gateway to write real dialogue. Without the gateway it emits template placeholder lines and labels them honestly (dialogue_source=template). No API keys required."
 metadata:

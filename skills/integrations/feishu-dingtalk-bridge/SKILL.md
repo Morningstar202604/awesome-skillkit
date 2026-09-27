@@ -1,6 +1,7 @@
 ---
 name: feishu-dingtalk-bridge
 description: "Compose and parse chat messages across Feishu (Lark), DingTalk, and WeCom group robots, normalizing three different auth and payload protocols behind one workflow. Use when the user asks to send a Feishu bot message / send a DingTalk notification / send a WeCom message / push a notification to a group / push a bot alert / push a daily report to a group / send to Feishu bot / DingTalk webhook / WeCom group robot / push alert to chat group. Do NOT use for Notion pages (use notion-workspace), issue trackers (use issue-tracker-sync), or file archiving (use cloud-drive-manager)."
+description_zh: "编排并解析飞书、钉钉、企业微信群机器人的聊天消息，统一三套认证与消息载荷协议，向群组推送告警或日报。"
 license: Apache-2.0
 compatibility: "Python 3.8+ stdlib only for the helper script. Live execution needs outbound HTTPS to open.feishu.cn / oapi.dingtalk.com / qyapi.weixin.qq.com and the webhook token, access_token or sign secret in environment variables."
 metadata:

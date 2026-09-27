@@ -1,6 +1,7 @@
 ---
 name: runbook-generator
 description: "Generate operational runbooks from a service name — deployment, incident response, maintenance, and rollback workflows. Templated structure customizable per environment. Use when writing an ops manual, generating a runbook, documenting on-call or emergency-response procedures, documenting on-call procedures for a new service, standardizing incident response across teams, or producing runbooks before launching to production. Do NOT use for executing the runbook steps (generation only)."
+description_zh: "根据服务名生成运维手册：部署、事件响应、维护与回滚流程，模板化结构可按环境定制，产出即用型 runbook。"
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:

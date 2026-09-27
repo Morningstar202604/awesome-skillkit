@@ -8,6 +8,7 @@ description: >-
   tailor resume / career pipeline / track applications / ATS fit / cover letter
   draft. Do NOT use for scraping job portals or auto-applying (out of scope +
   compliance); this is scoring + drafting only.
+description_zh: "按简历给职位打分并生成定制求职信与申请追踪记录，仅评估不代投。"
 license: Apache-2.0
 compatibility: Plain text + Python offline; no network, no Playwright; scoring is heuristic word matching, final judgment stays with the human
 metadata:

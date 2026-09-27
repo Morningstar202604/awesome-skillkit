@@ -11,6 +11,7 @@ description: >-
   Do NOT use for formal document drafting (internal-comms-writer owns that),
   salary-negotiation strategy (route to a career coach), or any crisis involving
   grief, domestic violence, or self-harm (route to professionals immediately).
+description_zh: "中文高语境社交与职场沟通辅导：提供得体话术脚本、字面到意图对照，把生硬措辞改写为高情商回复"
 license: Apache-2.0
 compatibility: Pure prompt skill; no scripts or runtime deps. The references
   contain Chinese phrase banks as subject matter (like a grammar reference).

@@ -7,6 +7,7 @@ description: >
   the user asks for OSChina content, OSChina article, oschina article, oschina
   adaptation, platform-specific content for oschina, or publish to OSChina.
   Do NOT use for cookie-based posting automation or other platforms.
+description_zh: "为开源中国 OSChina 撰写并适配平台原生文章，输出带开源视角、代码块与标签的 OSChina 风格 Markdown 技术文。"
 license: Apache-2.0
 metadata:
   author: awesome-skillkit

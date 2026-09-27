@@ -14,6 +14,7 @@ description: >-
   make it sound like me / remove essay tone / rewrite at my level / sounds like
   a student wrote it. Do NOT use for experiences the student never had, nor as a
   guarantee against AI detection.
+description_zh: "用学生本人语气改写作业草稿：从真实写作样本提取句长与标点节奏等声音特征或按学段校准，注入真实素材并去除代写腔。"
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime dependencies.
 metadata:

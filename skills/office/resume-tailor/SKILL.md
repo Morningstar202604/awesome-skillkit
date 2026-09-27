@@ -7,6 +7,7 @@ description: >-
   resume / customize CV for a job / rewrite resume for this JD / tailor my
   resume for this JD / optimize my CV / resume customization. Do NOT use for
   writing cover letters, LinkedIn profiles, or fabricating experience.
+description_zh: "针对特定职位描述定制简历：提取 JD 要求、建立差距矩阵、用 STAR 与量化改写要点，输出 ATS 友好文档与修改记录。"
 license: Apache-2.0
 compatibility: No special environment needed; accepts plain text or pasted resume.
 metadata:

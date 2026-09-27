@@ -10,6 +10,7 @@ description: >-
   design / landing page / visual design / website page / page beautification. Do
   NOT use for image or poster generation (design-brief-interpreter owns that),
   nor for backend or non-visual code tasks.
+description_zh: "以前端设计总监视角做页面设计，先产出设计令牌方案再落地实现，摆脱模板化默认风格，含自查与自我批判。"
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime deps.
 metadata:

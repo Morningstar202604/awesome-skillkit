@@ -1,6 +1,7 @@
 ---
 name: video-editor
 description: "Assemble video clips with transitions, mix audio tracks, add effects, and produce final video. Supports FFmpeg-based real editing and mock mode. Use after lip-sync clips are ready, before subtitle/thumbnail steps. Use when the user asks to edit a video / stitch clips / assemble a final cut / add background music / composite video / add transitions / audio mix / cut video / stitch clips. Do NOT use for generating footage from text (use video-generation)."
+description_zh: "用 FFmpeg 剪辑合成视频：拼接片段、加转场与特效、混音并输出成片"
 license: Apache-2.0
 compatibility: Requires FFmpeg for real editing; mock mode works without. No API keys required.
 metadata:

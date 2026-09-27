@@ -1,6 +1,7 @@
 ---
 name: article-drafter
 description: "Generate an article first draft from an approved outline. Fills in each section with prose based on key points, audience level, and style. Use after the outline is approved, before editing/SEO, e.g. writing a first article draft / drafting the body / help me write this / expand the outline into an article. Also triggers on body drafting / write first draft / expand outline / draft article / write first draft. Do NOT use for publishing the finished draft to platforms, or for building the outline itself (use article-outliner)."
+description_zh: "根据已定大纲生成文章初稿，按要点、读者层次与风格填充正文。"
 license: Apache-2.0
 compatibility: Pure prompt-based drafting; LLM generates prose. Optional helper scripts/drafter.py requires Python 3.8+ (stdlib only). No API keys required.
 metadata:

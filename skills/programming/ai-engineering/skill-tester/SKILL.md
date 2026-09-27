@@ -1,6 +1,7 @@
 ---
 name: skill-tester
 description: "Validate, test, and score the quality of skills within the claude-skills ecosystem. Comprehensive meta-skill: structure validation, Python script testing (syntax + imports + runtime + output format), multi-dimensional quality scoring with letter grades and tier classification (BASIC/STANDARD/POWERFUL). Use when authoring a new skill, auditing existing skills for tier promotion, setting up pre-commit hooks for skill quality, integrating skill QA into CI, testing a skill, checking whether a skill is compliant, or grading a skill. Do NOT use for fixing the skills it audits (this skill only audits and scores)."
+description_zh: "校验、测试并评分技能质量：结构校验、Python 脚本测试、多维质量打分与分级"
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:

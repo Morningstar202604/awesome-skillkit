@@ -8,6 +8,7 @@ description: >-
   listing / paginate results / pull prices off a page. Do NOT use for
   JavaScript-heavy SPAs (needs a real browser), bypassing login walls, CAPTCHA
   solving, or large-scale distributed crawling.
+description_zh: "用 requests 与 BeautifulSoup 抓取网页数据：CSS 选择器、自动翻页、导出 CSV/JSON"
 license: Apache-2.0
 compatibility: "Python 3.8+; requires requests and beautifulsoup4 (pip install requests beautifulsoup4). CSV/JSON output uses stdlib. Needs network access to the target site; respects a configurable delay between pages."
 metadata:

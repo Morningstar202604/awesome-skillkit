@@ -8,6 +8,7 @@ description: >-
   png to jpg / batch convert images / compress image size / video transcode /
   format conversion / media conversion utility. Do NOT use for editing file
   contents, extracting archives, or OCR of scanned documents.
+description_zh: "一站式格式转换入口：用 pandoc 转文档、Pillow 转图片（可缩放压缩）、ffmpeg 转音视频，支持目录批量并预先探测依赖。"
 license: Apache-2.0
 compatibility: "Python 3.8+. Image mode requires Pillow (pip install pillow). Document mode requires pandoc. Media mode requires ffmpeg. Batch mode defaults to dry-run and needs --yes to write."
 metadata:

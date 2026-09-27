@@ -1,6 +1,7 @@
 ---
 name: simulation-runner
 description: "Run simulations: parameter sweeps, Monte Carlo, one-at-a-time (OAT) sensitivity analysis, and stress-testing of a model's solution. When to use: the model is solved and you need to test robustness under varying conditions — e.g. running a simulation, Monte Carlo simulation, sensitivity analysis, or a parameter sweep. Do NOT use for deterministic solving (use model-solver) or for production-grade load testing."
+description_zh: "对已求解模型运行参数扫描、蒙特卡洛模拟、敏感性分析与压力测试，评估方案稳健性"
 license: Apache-2.0
 compatibility: Requires numpy, random. No external solver needed.
 metadata:

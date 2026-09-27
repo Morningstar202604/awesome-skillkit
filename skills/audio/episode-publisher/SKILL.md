@@ -1,6 +1,7 @@
 ---
 name: episode-publisher
 description: "Package a rendered podcast episode for publishing: markdown shownotes (summary, guest/links, terminology table), timestamped chapter markers (podcasting 2.0 style), platform metadata (title formulas, episode numbering, cover spec) for Chinese platforms (Xiaoyuzhou/Ximalaya) and Apple Podcasts, plus the AI-content disclosure line. Reads the script and synthesis plan from upstream chain steps. Use when the user asks to publish a podcast / shownotes / chapter markers / podcast publishing / publish on Xiaoyuzhou / episode metadata / podcast / audio production. Do NOT use for writing the script (podcast-producer), nor for synthesis/voice selection (tts-voice-director)."
+description_zh: "打包播客节目用于发布：生成 Markdown 节目简介、时间戳章节标记、小宇宙与喜马拉雅及 Apple Podcasts 平台元数据和 AI 内容声明。"
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime dependencies.
 metadata:

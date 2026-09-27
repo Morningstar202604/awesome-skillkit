@@ -7,6 +7,7 @@ description: >-
   month / expense ledger / invoice categorization / receipt filing. Do NOT use
   for OCR / reading amounts off images (this works on filenames + an optional
   ledger, not pixels) or for actually submitting a reimbursement (human step).
+description_zh: "把零散的发票、收据和报销文件按月份与类别归档成目录树并生成 CSV 台账，适用于报销整理与票据分类。"
 license: Apache-2.0
 compatibility: Pure local filesystem + CSV; no network; default dry-run; move operations are manually reversible.
 metadata:

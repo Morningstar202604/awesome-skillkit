@@ -9,6 +9,7 @@ description: >-
   my skill is compliant / skill validation / skill compliance check. Do NOT use
   for creating a new skill (that is skill-author) or for grading documentation
   quality beyond spec compliance.
+description_zh: "按 awesome-skillkit 规范校验 SKILL.md，输出 PASS/WARN/FAIL 报告与修复建议"
 license: Apache-2.0
 compatibility: Requires python3 (stdlib only); run from the repository root.
 metadata:

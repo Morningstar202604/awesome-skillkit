@@ -11,6 +11,7 @@ description: >
   data visualization / charts / matplotlib / D3 / reporting / dashboard. Do NOT use for actually building a
   dashboard file (use dashboard-designer), for publication figures (use
   pub-plotter), or for statistical analysis of the data.
+description_zh: "为数据集推荐合适图表类型，比较候选方案并给出坐标轴等绘图规格。"
 license: Apache-2.0
 compatibility: Prompt-only, no runtime required; the lexicon is a local Markdown file.
 metadata:

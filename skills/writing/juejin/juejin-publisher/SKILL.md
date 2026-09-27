@@ -7,6 +7,7 @@ description: >
   user asks for Juejin content, juejin article, Juejinarticle, juejin adaptation,
   platform-specific content for juejin, or publish to Juejin. Do NOT use for
   cookie-based posting automation or other platforms.
+description_zh: "为掘金开发者社区撰写或改写成平台原生的 Markdown 文章，产出掘金格式技术博客，含代码块、标签与技术类目。"
 license: Apache-2.0
 metadata:
   author: awesome-skillkit

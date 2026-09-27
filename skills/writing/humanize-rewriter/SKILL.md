@@ -1,6 +1,7 @@
 ---
 name: humanize-rewriter
 description: "Rewrite AI-flavored text into natural human writing: inject burstiness (long-short sentence rhythm), upgrade abstractions to concrete details, add first-person reaction and controlled imperfection, while freezing all facts, numbers, terms and conclusions. Use when the user asks to remove AI flavor / humanize this text / make it sound human / rewrite to lower the AI rate / humanize text / make it sound human / rewrite the AI draft. Do NOT use for legal, medical or academic-submission texts, and never invent facts the source does not contain."
+description_zh: "把 AI 味文本改写为自然的人类写作，加入长短句节奏和具体细节，同时冻结全部事实、数字、术语和结论不变。"
 license: Apache-2.0
 compatibility: Needs Python 3.8+ (stdlib only) for the baseline/rescan step via the ai-trace-auditor bundle scanner; if unavailable, degrade to its manual checklist and mark the report manual_mode.
 metadata:

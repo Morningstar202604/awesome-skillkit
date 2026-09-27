@@ -1,6 +1,7 @@
 ---
 name: git-worktree-manager
 description: "Run parallel feature work safely with Git worktrees, using git worktrees, or doing multi-branch parallel development. Standardizes branch isolation, port allocation, environment sync, and cleanup so each worktree behaves like an independent local app. Optimized for multi-agent workflows where each agent or terminal session owns one worktree. Use when running multiple feature branches simultaneously, isolating experimental work, or coordinating multi-agent development across the same repo. Do NOT use for resolving merge conflicts inside a worktree."
+description_zh: "用 Git worktree 安全开展多分支并行开发，标准化分支隔离、端口分配、环境同步与清理，适配多代理协作。"
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:

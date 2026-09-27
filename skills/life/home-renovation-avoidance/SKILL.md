@@ -8,6 +8,7 @@ description: >-
   pitfalls / contractor scams / home renovation / construction acceptance /
   material selection / hidden-works check. Do NOT use for: interior design
   aesthetics (use design skills), or as legal advice.
+description_zh: "中国家装消费避坑指南：识别装修公司套路、偷换材料和虚高报价，掌握施工验收的数字标准与隐蔽工程检查。"
 license: Apache-2.0
 compatibility: Pure prompt skill, no scripts.
 metadata:

@@ -15,6 +15,7 @@ description: >
   video. Do NOT use for generating the video itself, writing dialogue or
   narration (use video-script-writer), or static image prompts (image-generation
   owns those).
+description_zh: "设计电影感分镜与跨模型文生视频提示词，含镜头景别、机位运动、构图与转场参考"
 license: Apache-2.0
 compatibility: Pure prompt-based design; the bundled scripts/prompt_audit.py needs Python 3.8+ only.
 metadata:

@@ -1,6 +1,7 @@
 ---
 name: ship-gate
 description: "Pre-production audit that scans a codebase for security, database, deployment, code quality, AI/LLM, dependency, frontend, and observability issues. Intercepts deploy commands and blocks until critical items pass. Use when doing a pre-launch check, a release gate, pre-release review, a launch check, a pre-release audit, or a deployment gate. Also triggers on / pre-deploy audit / release checklist. Do NOT use for fixing the failures it reports (this skill only gates and reports)."
+description_zh: "上线前发布门禁审计：扫描安全、数据库、部署、代码质量、依赖与可观测性问题，拦截部署直到严重项通过。"
 license: Apache-2.0
 compatibility: Pure prompt-based; runs Python stdlib scanner via Bash. No API keys required.
 metadata:

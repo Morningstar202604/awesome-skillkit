@@ -7,6 +7,7 @@ description: >
   generate a song / make BGM / write a melody / music generation /
   composition / audio / MIDI / soundtrack. Do NOT use for text-to-speech,
   audio editing, trimming MP3s, or transcription.
+description_zh: "通过本地生成网关按文本需求生成音乐曲目：风格、乐器、情绪、时长，含轮询与下载，可用于配乐、BGM 与旋律创作。"
 license: Apache-2.0
 compatibility: Requires curl and network access to the generation gateway endpoint.
 metadata:

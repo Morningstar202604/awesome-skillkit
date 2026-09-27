@@ -2,6 +2,7 @@
 name: observability-designer
 description: >-
   Design production-ready observability strategies combining metrics, logs, and traces. Triggers on "design a dashboard", "too many alerts", "alert fatigue", "golden signals", "grafana dashboard", "reduce alert noise", "monitoring for a new service", "observability strategy", or "alerting review". Ships a Grafana dashboard generator (golden-signal panels per service type and role) and an alert optimizer (noise, duplicates, coverage gaps). Use when adding observability to a new service, designing monitoring and alerting, building an observability plan, building dashboards, or refactoring noisy alerting. Do NOT use for installing or operating observability agents, or for SLO/error-budget design (use slo-architect).
+description_zh: "设计生产级可观测性方案，结合指标、日志与链路追踪：黄金信号仪表盘、告警降噪与覆盖缺口分析，适用于新服务监控与告警治理。"
 license: Apache-2.0
 compatibility: Stdlib-only Python scripts. No API keys required.
 metadata:

@@ -7,6 +7,7 @@ description: >-
   merge PDFs / split a PDF / extract PDF text / rotate pages / merge pdfs /
   pdf metadata / page extraction / PDF manipulation. Do NOT use for generating
   Word documents (use docx-writer), editing slide decks, or image editing.
+description_zh: "页面级 PDF 处理：合并、按页码范围拆分、带页标签提取文本、读写元数据、旋转页面，并探测表单域或识别扫描件。"
 license: Apache-2.0
 compatibility: Requires python3 + pypdf (pip-installable); without it only operational guidance and command lists can be given.
 metadata:

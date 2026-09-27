@@ -3,11 +3,13 @@
 
 Three subcommands:
 
-  search <keyword> [--json] [--top N] [--category C]
+  search <keyword> [--json] [--top N] [--category C] [--group G]
       Search the pack descriptions in this repo's manifest.json plus the name /
-      description / body of every SKILL.md, ranked by relevance. Weights: name hit
-      5 / description hit 3 / body hit 1, name-prefix hit +3. Outputs the skill name,
-      its pack, a one-line summary, and the path.
+      description / description_zh (中文描述) / body of every SKILL.md, ranked by
+      relevance. Weights: name hit 5 / description (EN or ZH) hit 3 / body hit 1,
+      name-prefix hit +3. `--group` scopes the search to one taxonomy scene group
+      (e.g. software / 软件开发). Outputs the skill name, its pack, a one-line
+      summary, and the path.
 
   pack <skill-name...> [--json]
       Given several skill names, return the pack they share; if there is no common
@@ -23,7 +25,9 @@ skill lists. Standard library only.
 
 Usage:
   python3 find_skill.py search video
+  python3 find_skill.py search 合同审查
   python3 find_skill.py search pdf --json --top 5
+  python3 find_skill.py search 部署 --group software
   python3 find_skill.py pack video-generation image-generation
   python3 find_skill.py stats
 """
@@ -150,6 +154,7 @@ def load_skills(root=ROOT):
         records.append({
             "name": str(meta.get("name", "") or md.parent.name),
             "description": str(meta.get("description", "") or ""),
+            "description_zh": str(meta.get("description_zh", "") or ""),
             "body": body,
             "path": md.relative_to(root).as_posix(),
             "dir": md.parent.relative_to(root).as_posix(),
@@ -181,10 +186,31 @@ def build_index(manifest, skills):
 # ---------------------------------------------------------------- Search
 
 
+CJK_RE = re.compile(r"[\u4e00-\u9fff]")
+
+
+def term_hit(term_lower, text_lower):
+    """Match a query term against a haystack.
+
+    ASCII terms: plain substring. CJK terms: substring first, then
+    character-set containment (all CJK chars of the term appear) — so
+    「合同审查」 also hits 「审查合同」, which raw substring would miss.
+    """
+    if not term_lower:
+        return False
+    if term_lower in text_lower:
+        return True
+    if CJK_RE.search(term_lower):
+        chars = {c for c in term_lower if CJK_RE.match(c)}
+        return bool(chars) and all(c in text_lower for c in chars)
+    return False
+
+
 def score_skill(rec, terms, manifest, skill_packs, pack_of):
     """Score a single skill; return (score, hit details)."""
     name = rec["name"].lower()
     desc = rec["description"].lower()
+    desc_zh = (rec.get("description_zh") or "").lower()
     body = rec["body"].lower()
     score = 0
     hits = []
@@ -195,9 +221,12 @@ def score_skill(rec, terms, manifest, skill_packs, pack_of):
             if name.startswith(tl):
                 score += W_NAME_PREFIX
             hits.append(f"name:{t}")
-        if tl in desc:
+        if term_hit(tl, desc):
             score += W_DESC
             hits.append(f"desc:{t}")
+        if desc_zh and term_hit(tl, desc_zh):
+            score += W_DESC
+            hits.append(f"desc_zh:{t}")
         for pid in skill_packs.get(rec["name"], []):
             blob = " ".join(str(pack_of[pid].get(k, "")) for k in
                             ("name", "name_zh", "description", "description_zh")).lower()
@@ -211,10 +240,49 @@ def score_skill(rec, terms, manifest, skill_packs, pack_of):
     return score, hits
 
 
+def load_taxonomy(root=ROOT):
+    """Load taxonomy.json (scene groups); return (groups, error)."""
+    path = root / "taxonomy.json"
+    if not path.is_file():
+        return [], f"taxonomy.json not found at {path}"
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    return doc.get("groups", []) or [], ""
+
+
+def resolve_group(spec, groups):
+    """Match --group by id / label / label_en (case-insensitive); return (group, error)."""
+    key = (spec or "").strip().lower()
+    for g in groups:
+        if key in (str(g.get("id", "")).lower(), str(g.get("label", "")).lower(),
+                   str(g.get("label_en", "")).lower()):
+            return g, ""
+    listing = ", ".join(f"{g.get('id')}({g.get('label')})" for g in groups)
+    return None, f"unknown group {spec!r}; available: {listing}"
+
+
+def skill_in_group(rec, group, skill_packs):
+    """A skill belongs to a scene group via its domain (dir head) or any owning pack."""
+    domain = rec["dir"].split("/")[0]
+    if domain in (group.get("domains") or []):
+        return True
+    return bool(set(skill_packs.get(rec["name"], [])) & set(group.get("packs") or []))
+
+
 def cmd_search(args):
     manifest = load_manifest()
     skills = load_skills()
     skill_packs, pack_of = build_index(manifest, skills)
+
+    group = None
+    if args.group:
+        groups, err = load_taxonomy()
+        if err:
+            print(err, file=sys.stderr)
+            return 2
+        group, err = resolve_group(args.group, groups)
+        if err:
+            print(err, file=sys.stderr)
+            return 2
 
     terms = [t for t in re.split(r"[\s,]+", args.keyword) if t]
     if not terms:
@@ -224,6 +292,8 @@ def cmd_search(args):
     scored = []
     for rec in skills:
         if args.category and rec["category"] != args.category:
+            continue
+        if group and not skill_in_group(rec, group, skill_packs):
             continue
         sc, hits = score_skill(rec, terms, manifest, skill_packs, pack_of)
         if sc > 0:
@@ -235,6 +305,7 @@ def cmd_search(args):
     if args.json:
         print(json.dumps({
             "keyword": args.keyword,
+            "group": group.get("id") if group else None,
             "matches": [
                 {
                     "name": r["name"],
@@ -435,6 +506,8 @@ def main(argv=None):
     p_search.add_argument("--json", action="store_true", help="output JSON")
     p_search.add_argument("--top", type=int, default=10, help="max results to show (default 10)")
     p_search.add_argument("--category", default="", help="search only within this category")
+    p_search.add_argument("--group", default="",
+                          help="search only within a taxonomy scene group (id/label, e.g. software / 软件开发)")
     p_search.set_defaults(func=cmd_search)
 
     p_pack = sub.add_parser("pack", help="find the shared pack, or suggest an ad-hoc combo")

@@ -1,6 +1,7 @@
 ---
 name: storyboard-designer
 description: "Design scene-by-scene storyboards for short videos: beat sheet with timings, per-scene prompt pairs (image board + video-generation prompt), and a continuity constraint table covering character, wardrobe, props, location, and aspect ratio. Applies real film grammar (180-degree axis, 30-degree rule, eyeline match, match-on-action, establishing shot, shot-size progression) so AI-generated shots cut together. Use when the user asks for storyboard design / draw a storyboard / make a storyboard / scene breakdown / produce a shot list / break a script into storyboards before video generation. Do NOT use for generating the video or images themselves (outputs are prompt scripts — feed them to video-generation / image-generation), nor for writing dialogue (use video-script-writer)."
+description_zh: "为短视频设计逐场景故事板：节拍表、每场图像与视频提示词对、角色与场景一致性约束表"
 license: Apache-2.0
 compatibility: Pure prompt-based design skill; the bundled scene_lint.py needs Python 3.8+ only.
 metadata:

@@ -7,6 +7,7 @@ description: >
   Use when the user asks for Weibo content, Weibo copy, weibo post, weibo adaptation,
   platform-specific content for weibo, or publish to Weibo. Do NOT use for
   cookie-based posting automation or other platforms.
+description_zh: "为微博撰写平台化短帖：精炼文案、话题标签、@ 提及、配图方案与长微博排版"
 license: Apache-2.0
 metadata:
   author: awesome-skillkit

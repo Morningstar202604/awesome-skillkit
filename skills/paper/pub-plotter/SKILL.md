@@ -1,6 +1,7 @@
 ---
 name: pub-plotter
 description: "Publication-grade plots with REAL journal physical widths (Nature/Science/IEEE/ACM/NeurIPS), Type-42 font embedding (pdf.fonttype=42, arXiv/LaTeX-safe), colorblind-safe palettes by default, and optional real `scienceplots` integration. Covers line / bar / boxplot / heatmap. This is the canonical paper plotting skill. Outputs PDF/PNG. Use when the user asks for journal-style figures / IEEE-style line plots / paper figures / publication-grade charts / camera-ready figures / figures sized to Nature/Science layout / heatmaps / publication plot. Do NOT use for architecture diagrams (use arch-diagram) or neuron-level networks (use neural-net-draw)."
+description_zh: "生成出版级论文图表：按 Nature/Science/IEEE/ACM/NeurIPS 真实版宽、Type-42 字体嵌入、色盲友好配色，支持折线/柱状/箱线/热力图。"
 license: Apache-2.0
 compatibility: Requires matplotlib (Agg backend). Uses real `scienceplots` if installed, else built-in equivalent rcParams (offline). When matplotlib absent -> status "mock" (no image, MUST tell user).
 metadata:

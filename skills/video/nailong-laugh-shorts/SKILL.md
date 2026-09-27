@@ -9,6 +9,7 @@ description: >
   Nailong emoji come alive / absurd funny little-dragon meme video, or
   wants a meme-style talking-character short. Do NOT use for harassing
   specific real persons, or political/factual disinformation contexts.
+description_zh: "制作奶龙大笑表情包短视频：生成黄色胖小龙形象、用真人素材做大笑或换脸动作、加工笑声音频、批量皮肤变体并配标题发布。"
 license: Apache-2.0
 compatibility: Uses web AI tools (text-to-image, image-to-video, action transfer); no local install needed.
 metadata:

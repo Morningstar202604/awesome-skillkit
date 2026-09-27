@@ -159,6 +159,9 @@ def collect(github_repo: str, gitcode_repo: str, gitee_repo: str,
             "path": f"skills/{rel}",                 # 站点内相对路径（目录）
             "file": f"skills/{rel}/SKILL.md",        # 站点内 SKILL.md 副本
             "desc": desc,
+            # 中文描述：frontmatter `description_zh`（中文检索与卡片展示用；
+            # 全仓技能已补齐，见 docs/TAXONOMY-V2.md §5 中文检索）
+            "desc_zh": fm.get("description_zh", "") or "",
             "license": fm.get("license", ""),
             "compatibility": fm.get("compatibility", ""),
             "version": meta.get("version", ""),

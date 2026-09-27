@@ -8,6 +8,7 @@ description: >-
   raise test coverage, generate mocks or stubs, run the
   red-green-refactor cycle, or mentions testing frameworks like Jest, pytest, or
   JUnit. Do NOT use for skipping the red-green-refactor cycle.
+description_zh: "测试驱动开发指南：编写单元测试、生成 fixtures 与 mock、分析覆盖率缺口，指导红绿重构流程"
 license: Apache-2.0
 compatibility: Pure prompt-based; the bundled scripts require Python 3.10+. May read project structure via Bash.
 metadata:

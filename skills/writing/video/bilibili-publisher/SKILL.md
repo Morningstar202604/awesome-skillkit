@@ -9,6 +9,7 @@ description: >
   bilibili dynamic post, bilibili adaptation, platform-specific content for
   bilibili, or publish to Bilibili. Do NOT use for upload automation, cookie
   scripts, or other platforms.
+description_zh: "为 B 站改写平台化文案：视频标题、简介、标签、动态与专栏文章。"
 license: Apache-2.0
 metadata:
   author: awesome-skillkit

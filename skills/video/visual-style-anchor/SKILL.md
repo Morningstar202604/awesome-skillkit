@@ -1,6 +1,7 @@
 ---
 name: visual-style-anchor
 description: "Create a reusable visual style anchor for a video or image project: one-page style guide locking color palette, lighting scheme, materials, era, and medium texture — plus a character consistency card (identity line, wardrobe, props, forbidden changes) that keeps every generated shot on-model. Use when the user asks to set the visual style / style setting / character setting / keep the character consistent / keep the face on-model / style guide / character sheet / visual consistency before batch generation. Do NOT use for writing per-shot prompts (use shot-designer), nor for generating the images themselves."
+description_zh: "为视频或图像项目建立可复用的视觉风格锚点：色彩、光影、材质与角色一致性卡片"
 license: Apache-2.0
 compatibility: Pure prompt-based design skill; no scripts, no API keys.
 metadata:

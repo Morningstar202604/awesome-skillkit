@@ -1,6 +1,7 @@
 ---
 name: video-subtitles
 description: "Generate SRT subtitles and platform-optimized captions from a video script. Supports multi-language, timing sync, and per-platform caption formats. Use when the user asks to add subtitles / generate subtitles / make a subtitle file / short-video subtitles / burn in subtitles / generate captions / add captions / make an SRT. Do NOT use for burning subtitles into video (see video-editor), translating audio (use a transcription tool), or styling thumbnails."
+description_zh: "从视频脚本生成 SRT 字幕与平台优化文案，支持多语言与时间轴同步"
 license: Apache-2.0
 compatibility: Pure Python, no external dependencies. No API keys required.
 metadata:

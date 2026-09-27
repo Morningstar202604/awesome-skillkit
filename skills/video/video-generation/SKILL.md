@@ -8,6 +8,7 @@ description: >
   image / generate a promo video, or wants AI-generated footage. Do NOT use
   for video editing, subtitle burning, screen recording, or downloading
   existing videos from the web.
+description_zh: "通过本地生成网关，用文本提示或参考图生成短视频，即文生视频与图生视频"
 license: Apache-2.0
 compatibility: Requires curl and network access to the generation gateway endpoint.
 metadata:

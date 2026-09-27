@@ -1,6 +1,7 @@
 ---
 name: video-thumbnail
 description: "Design and generate video thumbnails/covers per platform spec (douyin/bilibili/tiktok/youtube), via ffmpeg frame extraction or the image-generation gateway (scripts/thumbnail.py; --mock only for downstream wiring). Use when the user asks to make a video cover / design a cover image / thumbnail / cover art / video thumbnail / design a cover / YouTube cover image, as the final step before publishing. Do NOT use for generating the video itself, or for in-video subtitles."
+description_zh: "按抖音/哔哩哔哩/TikTok/YouTube 规范设计并生成视频封面缩略图，可抽帧或走图像生成网关"
 license: Apache-2.0
 compatibility: Route A (gateway) needs the image-generation gateway; Route B (frame extract) needs ffmpeg. No API keys required (gateway auth optional via GATEWAY_API_KEY env).
 metadata:

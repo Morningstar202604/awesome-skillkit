@@ -8,6 +8,7 @@ description: >-
   entries / bank statement vs billing / transaction reconciliation / account
   matching. Do NOT use for importing from a bank account (no network/credentials
   here) or for accounting journal entries (this is matching, not bookkeeping).
+description_zh: "对账银行/信用卡流水与账单 CSV：按金额、月份匹配并列出差异清单。"
 license: Apache-2.0
 compatibility: Pure local CSV; no network, no bank connection; default dry-run; matching is heuristic (amount + month + counterparty), unmatched items require human review.
 metadata:

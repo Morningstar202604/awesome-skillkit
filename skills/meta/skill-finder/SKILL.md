@@ -8,6 +8,7 @@ description: >-
   skills / which skill does X / list repo stats / skill lookup / skill discovery.
   Do NOT use for lint compliance (that is skill-linter) or for writing a new
   skill (skill-author).
+description_zh: "按关键词检索本仓库技能、推荐场景组合并输出统计，读取真实 manifest.json 与 SKILL.md"
 license: Apache-2.0
 compatibility: Requires python3 (stdlib only); run from the repository root.
 metadata:
@@ -116,6 +117,7 @@ points:
 | Skill `name` contains keyword | +5 | Name is strongest signal |
 | `name` starts with keyword | extra +3 | e.g. `pdf-pipeline` vs `pdf` |
 | `description` contains keyword | +3 | Description is routing basis, weight second |
+| `description_zh` (中文描述) contains keyword | +3 | Chinese queries match here; for CJK terms, all characters present counts as a hit (「合同审查」 also hits 「审查合同」) |
 | Owning pack's name/description contains keyword | +2 | Counted once per skill, avoid pack-internal score inflation |
 | Body contains keyword | +1 | Weakest signal, fallback only |
 
@@ -129,6 +131,7 @@ guaranteeing results are **reproducible**.
 | `search <keywords>` | any string, space-separated multi-word | any hit scores |
 | `--top N` | integer, default 10 | only affects display count, not total hits |
 | `--category C` | category value, e.g. `meta` | filter then search |
+| `--group G` | taxonomy scene group id/label, e.g. `software` / `软件开发` | filter then search; group→domains/packs mapping read from `taxonomy.json` |
 | `pack <names...>` | one or more skill names | with 1, only outputs that skill's metadata and ownership |
 | `stats` | no params | see `references/repo-map.md` for counting basis |
 | `--json` | all three subcommands support | `search` returns `matches[]` and `total_matches` |
@@ -142,6 +145,7 @@ guaranteeing results are **reproducible**.
 | `⚠ the following skills not on disk, ignored: xxx` | Skill name spelling inaccurate or placeholder name in source | Use `search` for accurate name; placeholder names (like `references/<filename>.md`) aren't skills |
 | Exit code 2 + "manifest.json not found" | Not run at repo root | `cd` to repo root then rerun, always use repo-relative paths |
 | `search` results have many tied-score skills | Keyword too generic (like "generate") | Add `--category` to narrow, or switch to a more specific action word |
+| Chinese keyword hits too many skills | CJK character-set matching is intentionally loose (any order) | Add a second keyword (e.g. `合同 审查 偏离`) or add `--group business` to scope |
 | `stats` reports many orphan skills | Skill on disk but referenced by no pack | Release process issue; report to user and suggest updating `manifest.json` and `packs/*/pack.json` |
 | `stats` reports "pack references skill not on disk" | Dangling reference in pack, CI will error | Report list and paths, hand to release process; this skill doesn't fix for you |
 | `--json` output truncated | Result redirected to file but process interrupted | Rerun and redirect stdout completely; JSON top level has `total_matches` to verify integrity |

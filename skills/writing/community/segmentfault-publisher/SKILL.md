@@ -8,6 +8,7 @@ description: >
   SegmentFault article, segmentfault article, segmentfault adaptation, platform-specific
   content for segmentfault, or publish to SegmentFault. Do NOT use for
   cookie-based posting automation or other platforms.
+description_zh: "为开发者问答与技术社区 SegmentFault 撰写并适配平台原生文章与问答，输出带代码块与标签的 SegmentFault 风格 Markdown。"
 license: Apache-2.0
 metadata:
   author: awesome-skillkit

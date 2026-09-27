@@ -2,6 +2,7 @@
 name: kubernetes-operator
 description: >-
   Use when building a Kubernetes Operator — custom controllers that reconcile CRD state. Triggers on "build an operator", "CRD design", "reconcile loop", "controller-runtime", "kubebuilder", "operator-sdk", "metacontroller", "KOPF", "operator capability levels", "custom resource", writing a K8s operator, or building a custom controller. Ships CRD validator, reconcile-loop linter, and OperatorHub capability auditor (all stdlib Python), 4 references on the operator pattern + CRD design + reconcile patterns + tooling landscape, and a /operator-audit slash command. NOT a generic k8s skill — specifically the Operator pattern. Do NOT use for operating a live cluster (manifest and operator authoring only).
+description_zh: "构建 Kubernetes Operator：用 controller-runtime、kubebuilder 等编写协调 CRD 状态的自定义控制器，含 CRD 设计、调谐循环与能力审计。"
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:

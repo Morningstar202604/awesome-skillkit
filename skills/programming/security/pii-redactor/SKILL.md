@@ -9,6 +9,7 @@ description: >
   Do NOT use for encryption at rest, key management, or secret
   rotation (use secrets-vault-manager / env-secrets-manager); this skill
   redacts already-visible text and structured fields.
+description_zh: "在日志、聊天记录、文件与结构化数据中检测并脱敏个人身份信息：身份证、手机号、邮箱等，用于合规日志与共享前隐私清理。"
 license: Apache-2.0
 compatibility: Pure Python 3 stdlib (no third-party deps). Read-only scan by default; redaction writes a NEW output file, never mutates the source. Credentials not required.
 metadata:

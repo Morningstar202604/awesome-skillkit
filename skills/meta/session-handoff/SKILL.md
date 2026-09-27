@@ -8,6 +8,7 @@ description: >-
   / cold-start pickup / context compression / knowledge transfer. Do NOT use for
   long-term memory across projects (use memory-architect) or for final deliverable
   reports (this is an internal relay, not a finished doc).
+description_zh: "把进行中的长会话压缩成冷启动交接文档，含目标、进度、下一步、坑点与关键文件，供新 Agent 接手"
 license: Apache-2.0
 compatibility: Pure local Markdown generation; offline, no network, no credentials; default dry-run.
 metadata:

@@ -7,6 +7,7 @@ description: >-
   symptom description, outpatient preparation, hospital visit prep, specialist
   referral, follow-up visit. Do NOT use for diagnosis, treatment recommendations,
   prescription advice, dosage questions, or emergency medical advice (call 120).
+description_zh: "就医准备指南：有效描述症状、整理问诊问题清单、了解中国门诊流程，覆盖挂号、专科转诊与复诊；不做诊断或用药建议。"
 license: Apache-2.0
 compatibility: Pure prompt skill, no scripts.
 metadata:

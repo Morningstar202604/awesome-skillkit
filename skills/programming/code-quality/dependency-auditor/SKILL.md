@@ -10,6 +10,7 @@ description: >-
   dependency security and licensing, checking outdated packages, or assessing
   upgrade risk. Do NOT use for upgrading dependencies (audit and
   advisory only).
+description_zh: "审计多语言项目依赖：漏洞、许可证冲突、传递依赖风险与安全升级路径。"
 license: Apache-2.0
 compatibility: Pure Python 3.10+; the three scripts are offline pattern-matchers over manifests and lockfiles. No network and no API keys required. Pair their findings with `npm audit` / `pip-audit` / `cargo audit` for live CVE coverage.
 metadata:

@@ -1,6 +1,7 @@
 ---
 name: journal-adapt
 description: "Adapt a draft to a target venue's submission rules: IEEE / ACM / NeurIPS / ACL / Nature — column-aware page estimate with reference-page accounting, abstract word limit, venue-required sections (incl. NeurIPS/ACL Limitations), banned-phrase screening (e.g. Nature dislikes 'In this paper we' / 'Novel'), citation-style and double-blind checks. Use when the user asks to submit to IEEE / change to Nature style / journal format adaptation / switch conference template / adapt to ACL format / revise a draft for a venue / check banned phrases. Fails with rc=1 when the input file does not exist. Do NOT use for LaTeX template mechanics (use latex-formatter)."
+description_zh: "按目标期刊会议要求改编论文稿：页数估算、摘要字数、必需章节、禁用措辞筛查、引用格式与双盲检查，覆盖 IEEE、ACM、NeurIPS、ACL、Nature。"
 license: Apache-2.0
 compatibility: Stdlib only; requires python3; static text checks against per-venue rule tables. Page counts are estimates — always confirm with the official venue template.
 metadata:

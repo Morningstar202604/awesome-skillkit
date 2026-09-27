@@ -13,6 +13,7 @@ description: >
   use for indexing or searching a note vault (use personal-wiki), for extracting
   durable facts into agent memory (use memory-extractor), or for drawing
   architecture diagrams (use arch-diagram).
+description_zh: "把 Markdown 笔记文件夹构建为知识图谱：抽取实体与关系为节点和边，导出 JSON、Graphviz DOT 或 Mermaid，并计算中心度等结构指标。"
 license: Apache-2.0
 compatibility: Requires Python 3.8+; the script is stdlib-only. Rendering DOT needs a local graphviz (optional, for validation).
 metadata:

@@ -1,6 +1,7 @@
 ---
 name: debug-diagnoser
 description: "Parse stack traces and error logs, identify root cause from 10+ known patterns, and suggest a minimal fix. Outputs a structured diagnosis consumable by code-generator. Use when triaging a crash/bug report before fixing — troubleshooting an error, locating a crash cause, looking at a traceback, or debugging an issue. Do NOT use for fixing the code itself (diagnosis and hypothesis ranking only)."
+description_zh: "解析堆栈与错误日志定位根因，匹配已知模式并给出最小修复建议。"
 license: Apache-2.0
 compatibility: Pure Python standard library (re). No external dependencies.
 metadata:

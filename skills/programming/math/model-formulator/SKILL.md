@@ -1,6 +1,7 @@
 ---
 name: model-formulator
 description: "Formalize a natural-language problem into a mathematical model: identify variables, constraints, objective function, and model type (ODE/ILP/stochastic/Bayesian), and output a model spec consumable by model-solver. When to use: the problem is already described in prose but lacks mathematical structure — e.g. math modeling, turning a problem into a model, defining variables and constraints, formalizing a problem, or writing a math model. Do NOT use when a formal model already exists and only numerical solving (use model-solver) or plotting results (use result-visualizer) is needed."
+description_zh: "把自然语言问题形式化为数学模型：确定变量、约束、目标函数与模型类型（ODE/ILP/随机/贝叶斯），输出供求解器使用的模型规格。"
 license: Apache-2.0
 compatibility: Pure Python + LLM assistance. No external solver needed at this step.
 metadata:

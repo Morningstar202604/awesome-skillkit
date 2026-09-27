@@ -1,6 +1,7 @@
 ---
 name: neural-net-draw
 description: "Draw neural-network structure diagrams as compile-ready LaTeX TikZ from a layer spec. Learned from PlotNeuralNet (25k stars). Use when the user asks to draw a network architecture diagram / draw a CNN layer diagram / draw an MLP structure diagram / neural network schematic / neural network diagram / TikZ network diagram / network architecture figure. Do NOT use for pipeline/block diagrams (use arch-diagram)."
+description_zh: "按层结构规格把神经网络结构图画成可直接编译的 LaTeX TikZ，如 CNN 层图、MLP 结构图与网络架构示意图。"
 license: Apache-2.0
 compatibility: Stdlib only; emits TikZ source for the PlotNeuralNet toolchain (compilation requires pgfplots + tikz in the preamble).
 metadata:

@@ -1,6 +1,7 @@
 ---
 name: product-copywriter
 description: "Write conversion-focused e-commerce product copy from raw product facts: framework selection (FAB / PAS / AIDA), benefit-first headlines, objection-handling section, and fact hygiene (no invented specs). Chain entry of growth-marketing — its copy feeds campaign-designer and channel-adapter directly. Use when the user asks to write product copy / detail page / selling points / product description / sales copy / product description / seeding copy / marketing campaign / conversion. Do NOT use for full campaign calendars (campaign-designer), nor per-platform reformatting of finished copy (channel-adapter)."
+description_zh: "基于原始产品事实撰写高转化电商文案：选择 FAB/PAS/AIDA 框架，写利益优先标题与异议处理段落，不虚构参数。"
 license: Apache-2.0
 compatibility: Pure prompt-based; no runtime dependencies.
 metadata:

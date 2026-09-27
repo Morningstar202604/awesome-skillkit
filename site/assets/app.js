@@ -78,15 +78,37 @@
   function highlight(text, q) {
     if (!q) return document.createTextNode(text);
     const lower = text.toLowerCase(), needle = q.toLowerCase();
-    const frag = document.createDocumentFragment();
-    let i = 0, hit;
-    while ((hit = lower.indexOf(needle, i)) >= 0) {
-      if (hit > i) frag.append(text.slice(i, hit));
-      frag.append(el("mark", null, text.slice(hit, hit + needle.length)));
-      i = hit + needle.length;
+    if (lower.includes(needle)) {
+      const frag = document.createDocumentFragment();
+      let i = 0, hit;
+      while ((hit = lower.indexOf(needle, i)) >= 0) {
+        if (hit > i) frag.append(text.slice(i, hit));
+        frag.append(el("mark", null, text.slice(hit, hit + needle.length)));
+        i = hit + needle.length;
+      }
+      if (i < text.length) frag.append(text.slice(i));
+      return frag;
     }
-    if (i < text.length) frag.append(text.slice(i));
-    return frag;
+    // CJK 宽松命中（词序不同，如「合同审查」命中「审查合同」）：逐字标出，
+    // 避免"命中了却看不到高亮"
+    const set = new Set((needle.match(/[\u4e00-\u9fff]/g) || []));
+    if (set.size) {
+      const frag = document.createDocumentFragment();
+      for (const ch of text) {
+        if (set.has(ch.toLowerCase())) frag.append(el("mark", null, ch));
+        else frag.append(document.createTextNode(ch));
+      }
+      return frag;
+    }
+    return document.createTextNode(text);
+  }
+
+  /* ---------- 命中判定：ASCII 子串；CJK 另允许"字符集包含"（词序无关） ---------- */
+  function termHit(haystackLower, needleLower) {
+    if (!needleLower) return true;
+    if (haystackLower.includes(needleLower)) return true;
+    const chars = [...new Set(needleLower.match(/[\u4e00-\u9fff]/g) || [])];
+    return chars.length > 0 && chars.every((c) => haystackLower.includes(c));
   }
 
   /* ---------- 数字滚动：stat 从 0 数到目标值 ---------- */
@@ -209,8 +231,8 @@
     const domainOk = state.domain === "all" || s.domain === state.domain;
     if (!q) return groupOk && domainOk;
     return groupOk && domainOk &&
-      (s.name + " " + s.desc + " " + s.domain + " " + domainLabel(s.domain) + " " + s.packs.join(" "))
-        .toLowerCase().includes(q);
+      termHit((s.name + " " + s.desc + " " + (s.desc_zh || "") + " " + s.domain + " " +
+        domainLabel(s.domain) + " " + s.packs.join(" ")).toLowerCase(), q);
   }
   function matchesPack(p) {
     const q = state.q.trim().toLowerCase();
@@ -219,8 +241,8 @@
     const domainOk = state.domain === "all" ||
       p.skills.some((n) => (state.data.skills.find((s) => s.name === n) || {}).domain === state.domain);
     if (!q) return groupOk && domainOk;
-    return groupOk && domainOk && (p.id + " " + p.name + " " + p.name_zh + " " + p.desc + " " +
-      p.desc_zh + " " + (g ? g.label : "") + " " + p.skills.join(" ")).toLowerCase().includes(q);
+    return groupOk && domainOk && termHit((p.id + " " + p.name + " " + p.name_zh + " " + p.desc + " " +
+      p.desc_zh + " " + (g ? g.label : "") + " " + p.skills.join(" ")).toLowerCase(), q);
   }
 
   /* ---------- 渲染：技能 ---------- */
@@ -241,10 +263,10 @@
       const domTag = el("span", "dom", domainLabel(s.domain));
       domTag.title = s.domain;
       h.append(name, domTag);
-      // 用完整 desc（CSS line-clamp 截 3 行展示）——匹配与高亮必须同一字符串，
-      // 否则命中关键词的词被 short 截断后，卡片上找不到高亮
+      // 展示优先中文描述（desc_zh），无则回退英文 desc；匹配与高亮必须同一字符串，
+      // 否则命中关键词的词被截断后，卡片上找不到高亮
       const p = el("p");
-      p.append(highlight(s.desc, q));
+      p.append(highlight(s.desc_zh || s.desc, q));
       c.append(h, p);
 
       const meta = el("div", "meta-row");
@@ -347,8 +369,8 @@
       if (state.domain !== "all" && d.id !== state.domain) return;
       if (!domainInGroup(d.id)) return;
       const chains = d.chains.filter((c) =>
-        !q || (c.name + " " + c.steps.join(" ") + " " + d.id + " " + domainLabel(d.id))
-          .toLowerCase().includes(q));
+        !q || termHit((c.name + " " + c.steps.join(" ") + " " + d.id + " " + domainLabel(d.id))
+          .toLowerCase(), q));
       if (!chains.length) return;
       const wrap = el("div", "chain-domain");
       const dc = domainColor(d.id);

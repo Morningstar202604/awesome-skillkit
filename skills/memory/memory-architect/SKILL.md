@@ -1,6 +1,7 @@
 ---
 name: memory-architect
 description: "Use when designing a long-term memory architecture for an AI agent: layered memory (working/core/archival), storage selection, memory entry schema, read/write paths, and forgetting policy. Triggers on memory system design, memory architecture, agent long-term memory, memory design, memory schema, memory layering, storage selection, forgetting mechanism, memory pressure, knowledge retrieval, RAG. NOT for extraction/management/retrieval logic itself — use memory-extractor, memory-manager, or memory-retriever."
+description_zh: "为 AI Agent 设计长期记忆架构：分层记忆、存储选型、记忆条目结构、读写路径与遗忘策略。"
 license: Apache-2.0
 compatibility: Pure prompt-based; no scripts, no environment probing.
 metadata:

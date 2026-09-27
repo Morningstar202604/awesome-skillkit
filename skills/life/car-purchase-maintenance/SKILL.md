@@ -7,6 +7,7 @@ description: >-
   dealer tricks, first service, oil change interval. Do NOT use for mechanical
   diagnosis (take the car to a licensed mechanic), insurance claims, or
   investment / financing advice beyond reading a loan contract.
+description_zh: "买车与养车指南：比价议价、提车验车与保养计划，含二手车检查。"
 license: Apache-2.0
 compatibility: Pure prompt skill, no scripts.
 metadata:

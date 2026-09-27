@@ -1,6 +1,7 @@
 ---
 name: terraform-patterns
 description: "Terraform infrastructure-as-code agent skill and plugin for Claude Code, Codex, Gemini CLI, Cursor, OpenClaw. Covers module design patterns, state management strategies, provider configuration, security hardening, policy-as-code with Sentinel/OPA, and CI/CD plan/apply workflows. Use when: the user wants to write Terraform, design Terraform modules, manage state backends, review Terraform security, implement multi-region deployments, author IaC modules, or follow IaC best practices. Do NOT use for running terraform apply (pattern authoring only)."
+description_zh: "Terraform 基础设施即代码：模块设计、状态后端管理、provider 配置与 Sentinel/OPA 策略"
 license: Apache-2.0
 compatibility: Pure prompt-based; may read project structure via Bash.
 metadata:
