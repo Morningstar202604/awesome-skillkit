@@ -16,8 +16,8 @@
 | 单个 SKILL.md 下载 | `site/skills/<域>/<技能>/SKILL.md` | 站点自带副本，同域直链，不依赖 raw 服务、不怕域名被墙 |
 | 场景包 zip 下载（主） | `site/packs/<id>.zip` | 站内镜像，任何时候都可下载 |
 | 场景包 zip 下载（副） | GitHub / GitCode / Gitee 的 Release 通道 | 见 §6 |
-| 浏览与检索 | 143 技能 / 36 包 / 18 域 / 58 条链 | 实时搜索（命中高亮）、域筛选、三视图、包内技能跳转、`/` 聚焦搜索 |
-| 换肤 | 玄青 / 玄紫 / 玄黄 + 明暗 | localStorage 记忆；18 域各有识别色 |
+| 浏览与检索 | 403 技能 / 57 包 / 27 域 / 108 条链 | 实时搜索（命中高亮）、域筛选、三视图、包内技能跳转、`/` 聚焦搜索 |
+| 换肤 | 玄青 / 玄紫 / 玄黄 + 明暗 | localStorage 记忆；27 域各有识别色 |
 
 ## 2. 本地预览
 
@@ -58,8 +58,8 @@ gh repo create x33834/awesome-skillkit --public --source=. --remote=github --pus
 gh api -X POST repos/x33834/awesome-skillkit/pages -f "source[branch]=main" -f "source[path]=/" 2>/dev/null \
   || echo "→ 若 API 不接受，去 Settings → Pages → Source 手动选 GitHub Actions"
 
-# 3) 传 Release 附件（36 个场景包 zip + 1 个 _all.zip），让包卡片的 GitHub 直链生效
-gh release create v0.14.0 dist/*.zip --title "v0.14.0" --notes-file /tmp/relnotes.md
+# 3) 传 Release 附件（57 个场景包 zip + 1 个 _all.zip），让包卡片的 GitHub 直链生效
+gh release create v0.23.0 dist/*.zip --title "v0.23.0" --notes-file /tmp/relnotes.md
 ```
 
 之后每次 push main 会自动：`build.py` → `tools/build_site.py` → 上传 `site/` → 部署。
@@ -85,15 +85,15 @@ curl -s -X POST "https://gitee.com/api/v5/repos" \
 
 # 2) 推 main + tag（一次命令推两个 ref，一条连接）
 git remote add gitee https://badhope:$GITEE_TOKEN@gitee.com/badhope/awesome-skillkit.git
-git push gitee main v0.14.0
+git push gitee main v0.23.0
 
 # 3) 建 Release（tag 已随上一步推上去）
 curl -s -X POST "https://gitee.com/api/v5/repos/badhope/awesome-skillkit/releases" \
   -H "Content-Type: application/json" \
-  -d "{\"access_token\":\"$GITEE_TOKEN\",\"tag_name\":\"v0.14.0\",\"name\":\"v0.14.0\",\"body\":\"36 scene packs\"}"
+  -d "{\"access_token\":\"$GITEE_TOKEN\",\"tag_name\":\"v0.23.0\",\"name\":\"v0.23.0\",\"body\":\"57 scene packs\"}"
 
-# 4) 传 37 个 zip 附件（36 场景包 + 1 个 _all.zip；逐个、间隔 1-2 秒，避免触发限流）
-RID=$(curl -s "https://gitee.com/api/v5/repos/badhope/awesome-skillkit/releases/tags/v0.14.0?access_token=$GITEE_TOKEN" | python3 -c "import json,sys;print(json.load(sys.stdin)['id'])")
+# 4) 传 58 个 zip 附件（57 场景包 + 1 个 _all.zip；逐个、间隔 1-2 秒，避免触发限流）
+RID=$(curl -s "https://gitee.com/api/v5/repos/badhope/awesome-skillkit/releases/tags/v0.23.0?access_token=$GITEE_TOKEN" | python3 -c "import json,sys;print(json.load(sys.stdin)['id'])")
 for z in dist/*.zip; do
   curl -s -X POST "https://gitee.com/api/v5/repos/badhope/awesome-skillkit/releases/$RID/attach_files" \
     -F "access_token=$GITEE_TOKEN" -F "file=@$z" && echo " → $z" && sleep 1.5
@@ -112,7 +112,7 @@ Release 附件只是第二通道，缺失不影响下载：
 
 | 平台 | 附件直链 | 说明 |
 |---|---|---|
-| GitHub | `…/releases/download/vX.Y.Z/<id>.zip` | API 支持上传，发版时把 `dist/*.zip`（37 个：36 场景包 + _all）挂到 Release 资产 |
+| GitHub | `…/releases/download/vX.Y.Z/<id>.zip` | API 支持上传，发版时把 `dist/*.zip`（58 个：57 场景包 + _all）挂到 Release 资产 |
 | Gitee | `…/releases/download/vX.Y.Z/<id>.zip`（与 GitHub 同构） | API 支持 `attach_files` 上传（§5 第 4 步），附件直链实测可达 |
 | GitCode | 无直链，站点指向 Release 页面 | `attach_files` 接口返回 405/404，API 不支持上传附件；如需附件，在 Release 页面手动拖入 |
 
