@@ -1,0 +1,25 @@
+# 操作系统
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 编辑器 / IDE
+.idea/
+.vscode/
+*.swp
+*~
+*.bak
+
+# 日志与临时文件
+*.log
+*.tmp
+
+# 导出产物（由 export-agents.py 生成，不提交）
+dist/
+
+# Python 缓存
+__pycache__/
+*.pyc
+site/_shots
+
+.aqg/

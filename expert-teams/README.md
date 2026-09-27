@@ -17,7 +17,7 @@
   </p>
 </div>
 
-> **迁移说明（2026-09-27）**：本目录整体自独立仓库 `ai-expert-teams` 迁入 `awesome-skillkit`；原仓库已在 GitHub（X33834 / Morningstar202604）、GitCode、Gitee 四个平台下线，全部资产在本目录内完整保留、原样可用。
+> **迁移说明（2026-09-27）**：本目录整体自独立仓库 `ai-expert-teams` 迁入 `awesome-skillkit`；原仓库已在 GitHub（X33834 / Morningstar202604）、GitCode、Gitee 四个平台下线，全部资产在本目录内完整保留、原样可用。原仓库 CI（`verify.py` + `unittest` + 官网防漂移检查）已并入 `awesome-skillkit` 根 CI 的 `expert-teams` 作业；根级 `.editorconfig` / `.gitattributes` 与根仓库同款，沿用根配置，不再重复放置。
 >
 > **路径基准**：本目录内所有文档中的相对路径（`teams/...`、`skills/...`、`orchestration-protocol.md`、`project-director` 等）均以**本目录（`expert-teams/`）为根**；在 `awesome-skillkit` 仓库根引用或派发子 agent 时，请加 `expert-teams/` 前缀。示例：路径 ID `teams/hr-team/agents/hr-team-lead` → 仓库内实际路径 `expert-teams/teams/hr-team/agents/hr-team-lead.md`；命令 `python3 verify.py` → `python3 expert-teams/verify.py`。
 
