@@ -3,7 +3,7 @@
 <h1 align="center">awesome-skillkit</h1>
 
 <p align="center">
-  <b>39 の実務シーンパック · 163 の厳選スキル · 18 のエキスパートチーム（219 エージェント）——<br>解凍してドロップイン、AI ツールが即座に仕事を覚えます。</b>
+  <b>2 つのプロダクトライン、1 つのリポジトリ：<br>AI ツール向け 39 シーンパック · 163 スキル&nbsp;＋&nbsp; マルチエージェント協働向け 18 チーム · 219 エージェント——<br>解凍してドロップイン、AI ツールが即座に仕事を覚えます。</b>
 </p>
 
 <p align="center">
@@ -37,9 +37,20 @@
 
 ---
 
+## 2 つのプロダクトライン — 互いに干渉しない
+
+| | **A · シーンパック（スキル）** | **B · Expert Teams（专家团）** |
+|---|---|---|
+| **ポジション** | AI コーディング / エージェントツール向けのスキル。1 パック = 1 つの実務シナリオ、skills ディレクトリに入れれば使える | AI コーディングツールや各種 AI ツールにおける**マルチエージェント協働**。役割分担した専門チームが計画・ディスパッチ・品質ゲートを担う |
+| **アセット** | 39 パック · 163 スキル · 20 ドメイン · 73 チェーン | 18 チーム · 219 エキスパートエージェント · 100 スキル · オーケストレーション規約（純 Markdown） |
+| **場所** | [`packs/`](packs/) + [`skills/`](skills/) | [`expert-teams/`](expert-teams/) |
+| **入手** | [公式サイト](https://x33834.github.io/awesome-skillkit/) · [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) | [オンライン閲覧](https://x33834.github.io/awesome-skillkit/expert-teams.html) · [4 プラットフォーム用パッケージ](https://x33834.github.io/awesome-skillkit/expert-teams.html#download) |
+
+---
+
 ## これは何？
 
-**awesome-skillkit** は、AI コーディング / エージェントツール（Claude Code や `SKILL.md` を読み込めるあらゆるツール）向けに精選した**シナリオパック集**です。各パックは、**1 つの具体的な実世界シナリオ**のために連携するスキルをまとめてバンドルしています——「PR をレビューする」「CI/CD パイプラインをリリースする」「記事を 16 の中国語プラットフォームにクロスポストする」「ショート動画をエンドツーエンドで制作する」といった単位です。
+**awesome-skillkit** は 2 つのプロダクトラインを 1 リポジトリで維持しています（上の表）。このセクションは**ライン A — シーンパック**の説明です：AI コーディング / エージェントツール（Claude Code や `SKILL.md` を読み込めるあらゆるツール）向けに精選した**シナリオパック集**です。各パックは、**1 つの具体的な実世界シナリオ**のために連携するスキルをまとめてバンドルしています——「PR をレビューする」「CI/CD パイプラインをリリースする」「記事を 16 の中国語プラットフォームにクロスポストする」「ショート動画をエンドツーエンドで制作する」といった単位です。
 
 設計思想は徹底してシンプルです。
 
@@ -57,9 +68,28 @@ flowchart LR
 - 各パックは、そのシナリオで**実際に連携するスキルだけ**をまとめています——絞り込んだ 2 スキル構成（`API Development & Testing`）から、18 スキルのスイート（`AI Research & Writing`）、18 プラットフォームの自動出版マシン（`Content Publishing Automation`）まで。
 - 各スキルの**出典はスキルごとに** [`manifest.json`](manifest.json) と各 `packs/*/pack.json` に明記されています——自作、上流からの精選（MIT）、公開ドキュメントからの蒸留のいずれかです。
 
-## このリポジトリには Expert Teams（专家团）も同梱
+## Expert Teams — ライン B（マルチエージェント協働）
 
-シーンパックに加えて、プラットフォーム非依存の**エキスパートチーム資産** [`expert-teams/`](expert-teams/) を同梱しています：**18 チーム · 219 エキスパートエージェント · 100 スキル**。すべて純 Markdown で、各チームはワークフロー・フェーズゲート・引き継ぎ規約を内蔵。横断的な大きなタスクは [`expert-teams/project-director.md`](expert-teams/project-director.md) からシナリオルーティング（論文 / フルスタック Web / 数理モデリング / デザイン / 執筆 / 動画 / データ分析 / マーケティング / EC / プロダクト / 財務 / HR / 法務 / 翻訳 / 教育 / 音声 / ゲーム）に入るか、チームリードを直接ディスパッチします（例：`expert-teams/teams/fullstack-web-team/agents/fullstack-team-lead.md`）。オンライン閲覧は [Expert Teams ページ](https://x33834.github.io/awesome-skillkit/expert-teams.html)。2026-09-27 に旧 `ai-expert-teams` リポジトリから移設（MIT）。サブツリー独自のゲート（`verify.py` / `unittest` / `build-site.py --check`）はそのまま使えます。
+**ポジション**：AI コーディングツールや各種 AI ツールにおける**マルチエージェント協働**。**18 チーム**はいずれも自己完結した専門班（リード + スペシャリスト + 読み取り専用 QA）で、ワークフロー・フェーズゲート・引き継ぎ規約を内蔵——純 Markdown・プラットフォーム非依存・ランタイム依存なし。
+
+- **アセット**：[`expert-teams/teams/<team>/agents/*.md`](expert-teams/teams/)（219 のエキスパート定義）、チームスキル `expert-teams/teams/<team>/skills/` ＋ 共通スキル `expert-teams/skills/`（計 100）、共通 [`orchestration-protocol.md`](expert-teams/orchestration-protocol.md)、横断ルーター [`project-director.md`](expert-teams/project-director.md)。
+- **18 チーム**：学術論文 · フルスタック Web · 数理モデリング · ソフトウェア開発 · ビジュアルデザイン · コンテンツ執筆 · 動画制作 · データ分析 · マーケティング · EC 運営 · プロダクト · 財務会計 · HR · 法務コンプライアンス · 翻訳ローカライズ · 教育研修 · 音声ポッドキャスト · ゲームデザイン。
+- **使い方**：横断タスクは `expert-teams/project-director.md` からルーティング。チームリードを直接ディスパッチする場合は `expert-teams/teams/fullstack-web-team/agents/fullstack-team-lead.md` のように指定（リポジトリルートからは全て `expert-teams/` を前置）。
+- **オンライン閲覧**：[Expert Teams ページ](https://x33834.github.io/awesome-skillkit/expert-teams.html)——チームマトリクス・データスナップショット・インストールガイド。
+
+### 4 プラットフォーム用パッケージをダウンロード（解凍してインストール）
+
+| パッケージ | 内容 | インストール |
+|---|---|---|
+| [expert-teams-opencode.zip](https://x33834.github.io/awesome-skillkit/downloads/expert-teams-opencode.zip) | `.opencode/agents/*.md` + `.opencode/skills/*` | プロジェクトルートで解凍 |
+| [expert-teams-claude.zip](https://x33834.github.io/awesome-skillkit/downloads/expert-teams-claude.zip) | `.claude/agents/*.md` + `.claude/skills/*`（読み取り専用ロールは `disallowedTools` にマップ済み） | プロジェクトルートで解凍 |
+| [expert-teams-cursor.zip](https://x33834.github.io/awesome-skillkit/downloads/expert-teams-cursor.zip) | Cursor プラグインフォルダ（`expert-teams/`、`.cursor-plugin/plugin.json` + agents + skills） | プラグインとしてインストール |
+| [expert-teams-gemini.zip](https://x33834.github.io/awesome-skillkit/downloads/expert-teams-gemini.zip) | Gemini CLI 拡張（`gemini-extension.json` + `GEMINI.md` + 18 個の `/<team>` コマンド） | 拡張としてインストール |
+| [expert-teams-all.zip](https://x33834.github.io/awesome-skillkit/downloads/expert-teams-all.zip) | プラットフォーム非依存のソースバンドル（`expert-teams/`：teams + skills + 主要ドキュメント） | ファイルを読める任意のエージェントに渡す |
+
+パッケージは**再現可能ビルド**（CI でダイジェスト固定）。`python3 expert-teams/export-platforms.py` でいつでも再生成できます（PyYAML のみ）。GitCode / Gitee サイト用の同一ファイルは [`site/downloads/`](site/downloads/) にミラーされています。
+
+> **由来**：2026-09-27 に旧 `ai-expert-teams` リポジトリ（MIT）から移設。旧リポジトリは GitHub ×2 / GitCode / Gitee の 4 プラットフォームで公開終了。サブツリー独自のゲート（`verify.py` / `unittest` / `build-site.py --check`）と [`README`](expert-teams/README.md) / [`AGENTS.md`](expert-teams/AGENTS.md) を持ちます。
 
 ## 使い込む理由 — 5 つの要点
 
@@ -85,7 +115,7 @@ flowchart LR
 | 単一の `SKILL.md` | [`skills/`](skills/) をブラウズしてファイルをそのまま開く |
 | 1 パックを zip で | [`dist/<pack-id>.zip`](dist/)（ローカルビルド）または [Releases](https://github.com/x33834/awesome-skillkit/releases/latest) のパック別アセット |
 | 全パックをまとめて | `dist/_all.zip`、または [`_all.zip` リリースアセット](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) |
-| Expert Teams 資産（18 チーム / 219 エージェント） | [`expert-teams/`](expert-teams/) — すべて Markdown；`expert-teams/project-director.md` から入るか `expert-teams/teams/<team>/agents/` を参照 |
+| Expert Teams 資産（18 チーム / 219 エージェント） | [`expert-teams/`](expert-teams/) — すべて Markdown；または[4 プラットフォーム用パッケージ](https://x33834.github.io/awesome-skillkit/expert-teams.html#download)（OpenCode / Claude Code / Cursor / Gemini CLI）を取得 |
 | 中国語ミラー | [GitCode](https://gitcode.com/badhope/awesome-skillkit) · [Gitee](https://gitee.com/badhope/awesome-skillkit)（同一タグ、リリース zip 添付） |
 
 > パック別 zip は `python3 build.py` で再ビルドされ、すべての GitHub Release に添付されます。GitCode / Gitee ミラーは同一タグをプッシュし、同一アセットをアップロードしています。

@@ -10,6 +10,9 @@
   "n_packs": 39,
   "n_domains": 20,
   "n_chains": 73,
+  "n_et_teams": 18,
+  "n_et_agents": 219,
+  "n_et_skills": 100,
   "github": {
    "repo": "x33834/awesome-skillkit",
    "url": "https://github.com/x33834/awesome-skillkit",

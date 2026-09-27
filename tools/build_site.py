@@ -198,6 +198,20 @@ def collect(github_repo: str, gitcode_repo: str, gitee_repo: str,
         s["raw_github"] = f"{gh_raw}/{s['repo_file']}"
         s["raw_gitcode"] = f"{gc_raw}/{s['repo_file']}"
 
+    # 专家团实装统计（首页双主线卡片用；数据源：expert-teams/ 子树，口径与
+    # expert-teams/verify.py 一致：团队=teams/* 目录数，专家=teams/*/agents/*.md，
+    # 技能=通用 skills/ + 团队 teams/*/skills/ 下 SKILL.md 总数）
+    et_root = SCRIPT_DIR / "expert-teams"
+    et_teams = (
+        sorted(d for d in (et_root / "teams").iterdir() if d.is_dir())
+        if (et_root / "teams").is_dir()
+        else []
+    )
+    n_et_agents = sum(len(list((t / "agents").glob("*.md"))) for t in et_teams)
+    n_et_skills = len(list((et_root / "skills").rglob("SKILL.md"))) + sum(
+        len(list((t / "skills").rglob("SKILL.md"))) for t in et_teams
+    )
+
     return {
         "meta": {
             "hub": manifest.get("hub", "awesome-skillkit"),
@@ -212,6 +226,10 @@ def collect(github_repo: str, gitcode_repo: str, gitee_repo: str,
             "n_packs": len(packs),
             "n_domains": len(domains),
             "n_chains": sum(d["n_chains"] for d in domains),
+            # 专家团（第二条产品线）
+            "n_et_teams": len(et_teams),
+            "n_et_agents": n_et_agents,
+            "n_et_skills": n_et_skills,
             "github": {"repo": github_repo, "url": f"https://github.com/{github_repo}",
                        "raw": gh_raw},
             "gitcode": {"repo": gitcode_repo, "url": f"https://gitcode.com/{gitcode_repo}",
@@ -236,6 +254,11 @@ INDEX_COUNT_ANCHORS = (
     (r"\d+ skills · \d+ scene packs · \d+ domains · \d+ skill chains",
      "{n_skills} skills · {n_packs} scene packs · {n_domains} domains · {n_chains} skill chains"),
     (r"\d+ 个场景包", "{n_packs} 个场景包"),
+    # 首页双主线卡片（产品线 A/B）：计数与 site.json meta 同源，防静默漂移
+    (r"\d+ 个场景包 · \d+ 个技能",
+     "{n_packs} 个场景包 · {n_skills} 个技能"),
+    (r"\d+ 支团队 · \d+ 位专家 · \d+ 个技能",
+     "{n_et_teams} 支团队 · {n_et_agents} 位专家 · {n_et_skills} 个技能"),
 )
 
 
@@ -313,6 +336,23 @@ def main(argv: list[str]) -> int:
     else:
         print(
             "WARN: expert-teams/site/index.html 不存在，跳过专家团子页",
+            file=sys.stderr,
+        )
+
+    # 专家团安装包（源：expert-teams/dist/zips/，由 expert-teams/export-platforms.py 生成）。
+    # 提交进 site/downloads/：GitCode Pages 直接从 main 的 /site 目录部署，
+    # 不提交 = 镜像站下载按钮全部失效（与 site/packs/*.zip 同理）。
+    et_zips = sorted((SCRIPT_DIR / "expert-teams" / "dist" / "zips").glob("*.zip"))
+    if et_zips:
+        dl_dir = out_dir / "downloads"
+        dl_dir.mkdir(parents=True, exist_ok=True)
+        for z in et_zips:
+            (dl_dir / z.name).write_bytes(z.read_bytes())
+        print(f"expert-teams downloads -> {dl_dir} ({len(et_zips)} zips)")
+    else:
+        print(
+            "WARN: expert-teams/dist/zips 不存在（先跑 expert-teams/export-platforms.py），"
+            "跳过安装包同步（已提交的 site/downloads 原样保留）",
             file=sys.stderr,
         )
 

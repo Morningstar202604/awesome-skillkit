@@ -74,6 +74,22 @@ graph TB
 
 ---
 
+## 下载安装包（四平台 + 全量源包）
+
+不想手动导出？直接下载（随 awesome-skillkit 站点分发，同一份文件也镜像在仓库 `site/downloads/`）：
+
+| 安装包 | 内容 | 安装方式 |
+|---|---|---|
+| [expert-teams-opencode.zip](https://x33834.github.io/awesome-skillkit/downloads/expert-teams-opencode.zip) | `.opencode/agents/*.md` + `.opencode/skills/*` | 在项目根解压 |
+| [expert-teams-claude.zip](https://x33834.github.io/awesome-skillkit/downloads/expert-teams-claude.zip) | `.claude/agents/*.md` + `.claude/skills/*` | 在项目根解压 |
+| [expert-teams-cursor.zip](https://x33834.github.io/awesome-skillkit/downloads/expert-teams-cursor.zip) | Cursor 插件目录（`.cursor-plugin/plugin.json` + agents + skills） | 作为插件目录安装 |
+| [expert-teams-gemini.zip](https://x33834.github.io/awesome-skillkit/downloads/expert-teams-gemini.zip) | Gemini CLI 扩展（`gemini-extension.json` + `GEMINI.md` + 18 个 `/<团队>` 命令） | 作为扩展目录安装 |
+| [expert-teams-all.zip](https://x33834.github.io/awesome-skillkit/downloads/expert-teams-all.zip) | 平台中立源包（`expert-teams/`：teams + skills + 核心文档） | 喂给任意读文件型 agent |
+
+本地重建（可复现构建，摘要锁定）：`python3 expert-teams/export-platforms.py` → 产物在 `expert-teams/dist/zips/`。
+
+---
+
 ## 快速开始
 
 > 想先看全貌？访问官网在线浏览：https://x33834.github.io/awesome-skillkit/expert-teams.html

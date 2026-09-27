@@ -19,15 +19,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - **专家团整体并入（`expert-teams/`）**：原独立仓库 `ai-expert-teams`（平台中立专家团队资产：18 支团队 / 219 位专家 agent / 100 个技能 + 编排协议 `orchestration-protocol.md` / `project-director` 路由 + 导出工具链 `export-agents.py` / `export-platforms.py`）整体迁入本仓库 `expert-teams/` 子目录，文档、工具与门禁（`verify.py` / `effectiveness.py` / `unittest` / `build-site.py --check`）在原位保持可用；原仓库在 GitHub（X33834 / Morningstar202604）、GitCode、Gitee 四个平台同步下线（迁移说明见子目录 README）。
-- **官网新增专家团子页**：`site/expert-teams.html`（源文件 `expert-teams/site/index.html`，由子树 `build-site.py` 生成、根 `tools/build_site.py` 构建时同步进站点），保留 18 团队 / 219 专家 / 100 技能的在线浏览；skillkit 官网首屏与页脚增加入口。
-- **CI 新增专家团门禁作业**：`expert-teams` job 运行子树 `verify.py`、`unittest discover -s expert-teams/tests` 与 `build-site.py --check`。
+- **四平台安装包可下载**：`expert-teams/export-platforms.py` 新增可复现 zip 产物（`dist/zips/expert-teams-{opencode,claude,cursor,gemini,all}.zip`，固定时间戳 + 排序条目，重复构建字节一致）；构建时同步进 `site/downloads/`（GitCode Pages 从 main 的 /site 部署，必须入库），官网子页与三语 README 均提供下载表。
+- **官网新增专家团子页**：`site/expert-teams.html`（源文件 `expert-teams/site/index.html`，由子树 `build-site.py` 生成、根 `tools/build_site.py` 构建时同步进站点），含团队矩阵、数据快照与下载区；站点首页新增**双主线卡片**（产品线 A 场景技能包 / B 专家团·多智能体协作）。
+- **CI 新增专家团门禁作业**：`expert-teams` job 运行子树 `verify.py`、`unittest discover -s expert-teams/tests`、`build-site.py --check`，并校验 `site/downloads/*.zip` 摘要与重新构建产物一致（防安装包静默漂移）。
+- `tools/build_site.py` 新增专家团实装统计（`meta.n_et_teams/n_et_agents/n_et_skills`）与首页双主线计数锚点注入（沿用既有 fail-closed 防漂移机制）。
 
 ### Changed
 
-- 三语 README 新增「Expert Teams（专家团）」段落、下载指南条目与徽章（`expert teams-18 · 219 agents`）；根 `AGENTS.md` 增加子目录使用与门禁指引。
-- `README.ja.md` 首屏计数同步为 39 包 / 163 技能（此前停留在 37 / 156）。
-- 专家团子目录路径基准：子树文档中的相对路径以 `expert-teams/` 为根（在仓库根引用时加前缀），见子目录 README/AGENTS.md 顶部「路径基准」说明。
-- 版本号保持 0.22.1 不变；按 [docs/VERSIONING.md](docs/VERSIONING.md) 流程，本批改动随下次发版升位（0.23.0 候选）。
+- **三语 README 改为并列双主线结构**：新增「两条产品线——互不冲突」总览表，专家团升格为「产品线 B（多智能体协作）」独立小节（定位、18 支团队清单、安装包下载表、来源说明）；`README.ja.md` 首屏计数同步为 39 包 / 163 技能（此前停留在 37 / 156）。根 `AGENTS.md` 增加子目录使用与门禁指引。
+- 专家团子目录：顶部「迁移说明 + 路径基准」；新增「下载安装包」小节；`export-platforms.py` 增加 `--no-zip` 开关；`CONTRIBUTING.md` 发布流程补充安装包上传说明。
+- 版本号保持 0.22.1 不变；按 [docs/VERSIONING.md](docs/VERSIONING.md) 流程，本批改动随下次发版升位（0.23.0 候选，发版时附带安装包到 Release）。
 
 ## [0.22.1] - 2026-09-26
 

@@ -3,7 +3,7 @@
 <h1 align="center">awesome-skillkit</h1>
 
 <p align="center">
-  <b>39 real-world scene packs · 163 curated skills · 18 expert teams (219 agents) —<br>unzip &amp; drop-in, your AI tool instantly knows the job.</b>
+  <b>Two product lines, one repo:<br>39 scene packs · 163 skills for AI tools &nbsp;+&nbsp; 18 expert teams · 219 agents for multi-agent collaboration —<br>unzip &amp; drop-in, your AI tool instantly knows the job.</b>
 </p>
 
 <p align="center">
@@ -36,9 +36,20 @@ The SKILL.md files inside the repo are being translated to English, but many of 
 
 ---
 
+## Two product lines — no overlap
+
+| | **A · Scene packs (skills)** | **B · Expert Teams (专家团)** |
+|---|---|---|
+| **Positioning** | Tool skills for AI coding / agent tools — one pack = one real-world scenario, drop it into the skills directory and go | Multi-agent collaboration inside AI coding tools and other AI tools — role-specialised agent teams that plan, dispatch, and gate each other's work |
+| **Assets** | 39 packs · 163 skills · 20 domains · 73 skill chains | 18 teams · 219 expert agents · 100 skills · orchestration protocol (pure Markdown) |
+| **Location** | [`packs/`](packs/) + [`skills/`](skills/) | [`expert-teams/`](expert-teams/) |
+| **Get started** | [Official site](https://x33834.github.io/awesome-skillkit/) · [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) | [Browse page](https://x33834.github.io/awesome-skillkit/expert-teams.html) · [platform packages](https://x33834.github.io/awesome-skillkit/expert-teams.html#download) |
+
+---
+
 ## What is this?
 
-**awesome-skillkit** is a curated collection of **scene packs** for AI coding / agent tools (Claude Code and any tool that reads `SKILL.md`). Each pack bundles the skills that work together for **one concrete real-world scenario** — "review a PR", "ship a CI/CD pipeline", "cross-post an article to 16 Chinese platforms", "produce a short video end-to-end".
+**awesome-skillkit** ships two product lines (table above). This section covers **line A — scene packs**: a curated collection of **scene packs** for AI coding / agent tools (Claude Code and any tool that reads `SKILL.md`). Each pack bundles the skills that work together for **one concrete real-world scenario** — "review a PR", "ship a CI/CD pipeline", "cross-post an article to 16 Chinese platforms", "produce a short video end-to-end".
 
 The model is deliberately simple:
 
@@ -56,9 +67,28 @@ flowchart LR
 - Every pack bundles **the skills that actually work together** for that scenario — from a focused pair (`API Development & Testing`) to a 19-skill suite (`AI Research & Writing`) or an 18-platform publishing machine (`Content Publishing Automation`).
 - Every skill's **source is attributed** per-skill in [`manifest.json`](manifest.json) and each `packs/*/pack.json` — self-authored, upstream curated (MIT), or distilled from public docs.
 
-## Also in this repo: Expert Teams (专家团)
+## Expert Teams — line B (multi-agent collaboration)
 
-Beyond scene packs, this repo ships a platform-neutral **expert teams** asset under [`expert-teams/`](expert-teams/): **18 domain teams · 219 expert agents · 100 skills** — pure Markdown, each team self-contained with workflows, phase gates and hand-off contracts. Enter via [`expert-teams/project-director.md`](expert-teams/project-director.md) for scenario routing (papers / fullstack web / math modeling / design / writing / video / data / marketing / ecommerce / product / finance / HR / legal / translation / education / audio / game), or dispatch a team lead directly, e.g. `expert-teams/teams/fullstack-web-team/agents/fullstack-team-lead.md`. Browse it online on the [Expert Teams page](https://x33834.github.io/awesome-skillkit/expert-teams.html). Migrated on 2026-09-27 from the retired `ai-expert-teams` repository (MIT) — its own gates (`verify.py` / `unittest` / `build-site.py --check`) still run inside the subtree.
+**Positioning**: multi-agent collaboration for AI coding tools and other AI tools. Each of the **18 teams** is a self-contained crew of role-specialised agents (lead + specialists + read-only QA) with its own workflow, phase gates and hand-off contracts — pure Markdown, platform-neutral, no runtime dependency.
+
+- **Assets**: [`expert-teams/teams/<team>/agents/*.md`](expert-teams/teams/) (219 expert definitions), team skills `expert-teams/teams/<team>/skills/` + shared skills `expert-teams/skills/` (100 skills), the shared [`orchestration-protocol.md`](expert-teams/orchestration-protocol.md), and the cross-team router [`project-director.md`](expert-teams/project-director.md).
+- **The 18 teams**: Academic Paper · Fullstack Web · Math Modeling · Software Dev · Visual Design · Content Writing · Video Production · Data Analysis · Marketing · Ecommerce Ops · Product · Finance · HR · Legal Compliance · Translation · Education Training · Audio Podcast · Game Design.
+- **Use it**: read `expert-teams/project-director.md` for scenario routing, or dispatch a team lead directly — e.g. `expert-teams/teams/fullstack-web-team/agents/fullstack-team-lead.md` (from the repo root, prefix every asset path with `expert-teams/`).
+- **Browse online**: [Expert Teams page](https://x33834.github.io/awesome-skillkit/expert-teams.html) — team matrix, data snapshot, install guide.
+
+### Download platform packages (unzip & install)
+
+| Package | What you get | How to install |
+|---|---|---|
+| [expert-teams-opencode.zip](https://x33834.github.io/awesome-skillkit/downloads/expert-teams-opencode.zip) | `.opencode/agents/*.md` + `.opencode/skills/*` | Unzip at your project root |
+| [expert-teams-claude.zip](https://x33834.github.io/awesome-skillkit/downloads/expert-teams-claude.zip) | `.claude/agents/*.md` + `.claude/skills/*` (read-only roles mapped to `disallowedTools`) | Unzip at your project root |
+| [expert-teams-cursor.zip](https://x33834.github.io/awesome-skillkit/downloads/expert-teams-cursor.zip) | Cursor plugin folder (`expert-teams/` with `.cursor-plugin/plugin.json` + agents + skills) | Install the folder as a plugin |
+| [expert-teams-gemini.zip](https://x33834.github.io/awesome-skillkit/downloads/expert-teams-gemini.zip) | Gemini CLI extension (`gemini-extension.json` + `GEMINI.md` + 18 `/<team>` commands) | Install the folder as an extension |
+| [expert-teams-all.zip](https://x33834.github.io/awesome-skillkit/downloads/expert-teams-all.zip) | Platform-neutral source bundle (`expert-teams/` with teams + skills + core docs) | Feed it to any file-reading agent |
+
+Packages are reproducible builds (digest-locked in CI); rebuild anytime with `python3 expert-teams/export-platforms.py` (needs PyYAML only). The same files are mirrored under [`site/downloads/`](site/downloads/) for the GitCode / Gitee sites.
+
+> **Provenance**: migrated on 2026-09-27 from the retired `ai-expert-teams` repository (MIT) across GitHub ×2 / GitCode / Gitee. The subtree keeps its own gates (`verify.py` / `unittest` / `build-site.py --check`) and its own [`README`](expert-teams/README.md) / [`AGENTS.md`](expert-teams/AGENTS.md).
 
 ## Why this repo — five reasons to grab it
 
@@ -84,7 +114,7 @@ Beyond scene packs, this repo ships a platform-neutral **expert teams** asset un
 | A single `SKILL.md` | Browse [`skills/`](skills/) and open the file raw |
 | One pack as a zip | [`dist/<pack-id>.zip`](dist/) (built locally) or the per-pack asset on [Releases](https://github.com/x33834/awesome-skillkit/releases/latest) |
 | All packs at once | `dist/_all.zip`, or the [`_all.zip` release asset](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) |
-| Expert teams asset (18 teams / 219 agents) | [`expert-teams/`](expert-teams/) — pure Markdown; start at `expert-teams/project-director.md` or browse `expert-teams/teams/<team>/agents/` |
+| Expert teams asset (18 teams / 219 agents) | [`expert-teams/`](expert-teams/) — pure Markdown; or grab the [platform packages](https://x33834.github.io/awesome-skillkit/expert-teams.html#download) (OpenCode / Claude Code / Cursor / Gemini CLI) |
 | Chinese mirrors | [GitCode](https://gitcode.com/badhope/awesome-skillkit) · [Gitee](https://gitee.com/badhope/awesome-skillkit) (same tags, release zips attached) |
 
 > Per-pack zips are rebuilt by `python3 build.py` and attached to every GitHub Release; the GitCode / Gitee mirrors push the same tags and upload the same assets.

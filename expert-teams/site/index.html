@@ -239,7 +239,9 @@ footer{border-top:1px solid var(--line);padding:34px 0 46px;margin-top:20px}
       <a href="#insight">数据</a>
       <a href="#features">能力</a>
       <a href="#usage">接入</a>
+      <a href="#download">下载</a>
       <a class="pill" href="#repos">四平台仓库</a>
+      <a class="pill" href="https://x33834.github.io/awesome-skillkit/" title="返回 awesome-skillkit 技能库首页">← 技能库 Skills</a>
     </nav>
   </div>
 </header>
@@ -252,6 +254,7 @@ footer{border-top:1px solid var(--line);padding:34px 0 46px;margin-top:20px}
     <p class="sub">18 大领域专家团队、100 个开箱即用技能，全部写成纯 Markdown——任何具备「读文件 / 派子 agent / 加载提示词」能力的 AI，接入即用，自带工作流与质检门禁。</p>
     <div class="cta-row">
       <a class="btn btn-primary" href="#teams">浏览专家团队</a>
+      <a class="btn btn-primary" href="#download">下载安装包</a>
       <a class="btn btn-ghost" href="#usage">查看接入方式</a>
     </div>
     <div class="stat-row">
@@ -469,6 +472,61 @@ footer{border-top:1px solid var(--line);padding:34px 0 46px;margin-top:20px}
         <p>把 teams/ 目录整体复制给支持目录式专家的框架，配置即完成，无需转换。</p>
         <code>cp -r teams/ /your/agent/path</code>
         <div class="hint">无运行时依赖，复制即用</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 下载安装包 ===== -->
+<section id="download">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">DOWNLOAD</div>
+      <h2>四平台安装包，下载即用</h2>
+      <p>由 <code>export-platforms.py</code> 从本目录的平台中立源格式导出（可复现构建、摘要锁定，随 awesome-skillkit 站点分发）；不想装包也可以直接读仓库源码。</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="idx">01</div>
+        <h3>OpenCode</h3>
+        <p>项目级包：解压到项目根即得 <code>.opencode/agents|skills/</code>，文件名即 agent 名。</p>
+        <a class="btn btn-primary" href="downloads/expert-teams-opencode.zip" download>↓ expert-teams-opencode.zip</a>
+        <div class="hint">约 1.2 MB · 219 agents + 100 skills</div>
+      </div>
+      <div class="step">
+        <div class="idx">02</div>
+        <h3>Claude Code</h3>
+        <p>项目级包：解压到项目根即得 <code>.claude/agents|skills/</code>，只读角色已映射 disallowedTools。</p>
+        <a class="btn btn-primary" href="downloads/expert-teams-claude.zip" download>↓ expert-teams-claude.zip</a>
+        <div class="hint">约 1.2 MB · 219 agents + 100 skills</div>
+      </div>
+      <div class="step">
+        <div class="idx">03</div>
+        <h3>Cursor</h3>
+        <p>Plugin 包：解压得 <code>expert-teams/</code> 插件目录（<code>.cursor-plugin/plugin.json</code> + agents + skills）。</p>
+        <a class="btn btn-primary" href="downloads/expert-teams-cursor.zip" download>↓ expert-teams-cursor.zip</a>
+        <div class="hint">约 1.2 MB · 插件目录整体安装</div>
+      </div>
+      <div class="step">
+        <div class="idx">04</div>
+        <h3>Gemini CLI</h3>
+        <p>扩展包：解压得 <code>expert-teams/</code> 扩展目录，含 <code>gemini-extension.json</code> + <code>GEMINI.md</code> + 18 个 <code>/团队</code> 命令。</p>
+        <a class="btn btn-primary" href="downloads/expert-teams-gemini.zip" download>↓ expert-teams-gemini.zip</a>
+        <div class="hint">约 0.7 MB · 用 /&lt;team-name&gt; 直接调团队 lead</div>
+      </div>
+      <div class="step">
+        <div class="idx">05</div>
+        <h3>全量源包（平台中立）</h3>
+        <p><code>expert-teams/</code> 目录：<code>teams/</code> + <code>skills/</code> + 核心文档（README/AGENTS/SKILLS_INDEX/编排协议），喂给任意读文件型 agent。</p>
+        <a class="btn btn-primary" href="downloads/expert-teams-all.zip" download>↓ expert-teams-all.zip</a>
+        <div class="hint">约 1.3 MB · 纯 Markdown，无运行时依赖</div>
+      </div>
+      <div class="step">
+        <div class="idx">06</div>
+        <h3>从源码自己打</h3>
+        <p>永远拿到与仓库一致的版本（含导出脚本，依赖仅 PyYAML）：</p>
+        <code>python3 expert-teams/export-platforms.py</code>
+        <div class="hint">产物落在 expert-teams/dist/zips/</div>
       </div>
     </div>
   </div>

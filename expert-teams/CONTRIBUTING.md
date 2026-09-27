@@ -27,7 +27,7 @@
 
 ## 发布流程（维护者）
 
-本子目录资产随 **awesome-skillkit** 仓库统一发布（版本、tag、Release 与站点部署均按仓库根目录 [CONTRIBUTING.md](../CONTRIBUTING.md) / [docs/VERSIONING.md](../docs/VERSIONING.md) 执行）。
+本子目录资产随 **awesome-skillkit** 仓库统一发布（版本、tag、Release 与站点部署均按仓库根目录 [CONTRIBUTING.md](../CONTRIBUTING.md) / [docs/VERSIONING.md](../docs/VERSIONING.md) 执行）。发版时除 pack zip 外，请一并把 `site/downloads/expert-teams-*.zip`（或重新生成的 `expert-teams/dist/zips/*.zip`）上传到 GitHub / Gitee Release 附件，供非 git 用户直接下载。
 
 改动本子目录后，本地门禁须全绿：
 
@@ -35,4 +35,6 @@
 python3 expert-teams/verify.py                          # 内容质量总校验（需 pyyaml）
 python3 -m unittest discover -s expert-teams/tests      # 子目录单测
 python3 expert-teams/build-site.py --check              # 官网数据防漂移
+python3 expert-teams/export-platforms.py                # 重生成四平台安装包
+python3 tools/build_site.py --no-zip                    # 同步站点子页与 site/downloads/
 ```

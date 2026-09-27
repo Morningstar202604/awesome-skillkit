@@ -74,6 +74,7 @@ Gitee 四个平台下线。资产构成：
 - `orchestration-protocol.md`——共享编排协议（门禁 / 回炉 / 断路 / 交接四块模板）；
 - 工程层——`verify.py`、`effectiveness.py`、`export-agents.py`、`export-platforms.py`、`build-site.py`、`tests/`（pyyaml 依赖）；
 - 官网——源模板 `expert-teams/site/template.html`，生成页 `expert-teams/site/index.html`，构建时同步为站点子页 `site/expert-teams.html`；
+- 安装包——`expert-teams/export-platforms.py` 生成四平台包与全量源包（可复现 zip），提交在 `site/downloads/expert-teams-*.zip` 供站点/镜像直接下载，发版时同步挂 Release 附件；
 - 与主仓库技能重叠的 26 个同名技能在迁入前已完成融合裁定（8 取仓库版、10 融合含 Apache 署名、3 保留原版、5 无许可不入仓），同名以子目录内版本为准。
 
 ## 自建场景技能 / Self-authored scenarios（126 个）

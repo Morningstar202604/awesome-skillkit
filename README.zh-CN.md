@@ -3,7 +3,7 @@
 <h1 align="center">awesome-skillkit</h1>
 
 <p align="center">
-  <b>39 个真实场景包 · 163 个精选技能 · 18 支专家团队（219 位专家）——<br>解压即用，把整套工作能力一次交给你的 AI 工具。</b>
+  <b>两条产品线，一个仓库：<br>39 个场景包 · 163 个技能（喂给 AI 工具）&nbsp;+&nbsp; 18 支专家团队 · 219 位专家（多智能体协作）——<br>解压即用，把整套工作能力一次交给你的 AI 工具。</b>
 </p>
 
 <p align="center">
@@ -36,9 +36,20 @@
 
 ---
 
+## 两条产品线——互不冲突
+
+| | **A · 场景技能包（skills）** | **B · 专家团（expert-teams）** |
+|---|---|---|
+| **定位** | 面向 AI 编程 / 智能体工具的技能：一包 = 一个真实场景，拖进 skills 目录即可用 | 面向 AI 编程工具及各类 AI 工具里的**多智能体协作**：分工明确的专家团队，互相规划、派单、门禁把关 |
+| **资产** | 39 包 · 163 技能 · 20 域 · 73 条链 | 18 支团队 · 219 位专家 agent · 100 个技能 · 编排协议（纯 Markdown） |
+| **位置** | [`packs/`](packs/) + [`skills/`](skills/) | [`expert-teams/`](expert-teams/) |
+| **入口** | [官网](https://x33834.github.io/awesome-skillkit/) · [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) | [在线浏览](https://x33834.github.io/awesome-skillkit/expert-teams.html) · [四平台安装包](https://x33834.github.io/awesome-skillkit/expert-teams.html#download) |
+
+---
+
 ## 这是什么？
 
-**awesome-skillkit** 是一套面向 AI 编程 / 智能体工具（Claude Code 以及任何能读取 `SKILL.md` 的工具）的精选**场景技能包**。每个场景包都围绕一个具体的真实工作场景组织——"评审一个 PR"、"搭好一条 CI/CD 流水线"、"把一篇文章一键分发到 16 个中文平台"、"端到端产出一条短视频"——而不是笼统的"工程"或"营销"。
+**awesome-skillkit** 同时维护两条产品线（见上表）。本节讲**产品线 A——场景技能包**：面向 AI 编程 / 智能体工具（Claude Code 以及任何能读取 `SKILL.md` 的工具）的精选**场景技能包**。每个场景包都围绕一个具体的真实工作场景组织——"评审一个 PR"、"搭好一条 CI/CD 流水线"、"把一篇文章一键分发到 16 个中文平台"、"端到端产出一条短视频"——而不是笼统的"工程"或"营销"。
 
 用法极简：
 
@@ -56,9 +67,28 @@ flowchart LR
 - 每个包打包的是**该场景下真正协同工作的那组技能**——小到双人搭档（`API 开发与测试`），大到 19 个技能的全家桶（`AI 研究与写作`），或是一台覆盖 18 个中文平台的分发机器（`内容多平台发布自动化`）。
 - 每个技能的**来源都逐项标注**于 [`manifest.json`](manifest.json) 和各 `packs/*/pack.json`——自研、上游精选（MIT）、或基于公开文档蒸馏，不含糊、不混装。
 
-## 仓库里还有：专家团（expert-teams/）
+## 专家团——产品线 B（多智能体协作）
 
-除场景包外，本仓库还内置一套平台中立的**专家团队资产** [`expert-teams/`](expert-teams/)：**18 支领域团队 · 219 位专家 agent · 100 个技能**，纯 Markdown、每支团队自包含，自带工作流、Phase 门禁与交接协议。跨领域大任务从 [`expert-teams/project-director.md`](expert-teams/project-director.md) 进入按场景路由（学术论文 / 全栈 Web / 数学建模 / 视觉设计 / 内容写作 / 视频制作 / 数据分析 / 营销 / 电商 / 产品 / 财务 / HR / 法务 / 翻译 / 教育 / 音频 / 游戏），也可直接派发某支队伍的 team-lead，例如 `expert-teams/teams/fullstack-web-team/agents/fullstack-team-lead.md`。在线浏览见[专家团子页](https://x33834.github.io/awesome-skillkit/expert-teams.html)。该资产于 2026-09-27 自原 `ai-expert-teams` 仓库整体迁入（MIT），子目录自带门禁（`verify.py` / `unittest` / `build-site.py --check`）。
+**定位**：面向 AI 编程工具及各类 AI 工具里的**多智能体协作**。**18 支团队**每支都是自包含的专家班组（主理人 + 领域专家 + 只读质检），自带工作流、Phase 门禁与交接协议——纯 Markdown、平台中立、无运行时依赖。
+
+- **资产**：[`expert-teams/teams/<team>/agents/*.md`](expert-teams/teams/)（219 位专家定义）、团队技能 `expert-teams/teams/<team>/skills/` + 通用技能 `expert-teams/skills/`（共 100 个），共享 [`orchestration-protocol.md`](expert-teams/orchestration-protocol.md)，以及跨团队路由 [`project-director.md`](expert-teams/project-director.md)。
+- **18 支团队**：学术论文 · 全栈 Web · 数学建模 · 软件开发 · 视觉设计 · 内容写作 · 视频制作 · 数据分析 · 市场营销 · 电商运营 · 产品管理 · 财务会计 · 人力资源 · 法律合规 · 翻译本地化 · 教育培训 · 音频播客 · 游戏设计。
+- **怎么用**：跨场景任务先读 `expert-teams/project-director.md` 按场景路由；也可直接派发某支队伍的 team-lead，如 `expert-teams/teams/fullstack-web-team/agents/fullstack-team-lead.md`（在仓库根引用时统一加 `expert-teams/` 前缀）。
+- **在线浏览**：[专家团子页](https://x33834.github.io/awesome-skillkit/expert-teams.html)——团队矩阵、数据概览、安装指引。
+
+### 下载四平台安装包（解压即装）
+
+| 安装包 | 内容 | 安装方式 |
+|---|---|---|
+| [expert-teams-opencode.zip](https://x33834.github.io/awesome-skillkit/downloads/expert-teams-opencode.zip) | `.opencode/agents/*.md` + `.opencode/skills/*` | 在项目根解压 |
+| [expert-teams-claude.zip](https://x33834.github.io/awesome-skillkit/downloads/expert-teams-claude.zip) | `.claude/agents/*.md` + `.claude/skills/*`（只读角色已映射 `disallowedTools`） | 在项目根解压 |
+| [expert-teams-cursor.zip](https://x33834.github.io/awesome-skillkit/downloads/expert-teams-cursor.zip) | Cursor 插件目录（`expert-teams/`，含 `.cursor-plugin/plugin.json` + agents + skills） | 作为插件目录安装 |
+| [expert-teams-gemini.zip](https://x33834.github.io/awesome-skillkit/downloads/expert-teams-gemini.zip) | Gemini CLI 扩展（`gemini-extension.json` + `GEMINI.md` + 18 个 `/<团队>` 命令） | 作为扩展目录安装 |
+| [expert-teams-all.zip](https://x33834.github.io/awesome-skillkit/downloads/expert-teams-all.zip) | 平台中立源包（`expert-teams/`：teams + skills + 核心文档） | 喂给任意读文件型 agent |
+
+安装包为**可复现构建**（CI 摘要锁定）；随时可用 `python3 expert-teams/export-platforms.py` 重新生成（只依赖 PyYAML）。GitCode / Gitee 站点用的同一份文件镜像在 [`site/downloads/`](site/downloads/)。
+
+> **来源说明**：2026-09-27 自原 `ai-expert-teams` 仓库（MIT）整体迁入，原仓库已在 GitHub ×2 / GitCode / Gitee 四平台下线。子树保留自己的门禁（`verify.py` / `unittest` / `build-site.py --check`）与自己的 [`README`](expert-teams/README.md) / [`AGENTS.md`](expert-teams/AGENTS.md)。
 
 ## 为什么值得用——五个重点
 
@@ -84,7 +114,7 @@ flowchart LR
 | 单个 `SKILL.md` | 浏览 [`skills/`](skills/)，打开原始文件 |
 | 单个场景包 zip | [`dist/<pack-id>.zip`](dist/)（本地构建），或 [Releases](https://github.com/x33834/awesome-skillkit/releases/latest) 里对应的资源 |
 | 全量打包 | `dist/_all.zip`，或 [`_all.zip` Release 资源](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) |
-| 专家团资产（18 团队 / 219 专家） | [`expert-teams/`](expert-teams/)——纯 Markdown；从 `expert-teams/project-director.md` 进入，或浏览 `expert-teams/teams/<team>/agents/` |
+| 专家团资产（18 团队 / 219 专家） | [`expert-teams/`](expert-teams/)——纯 Markdown；或直接取[四平台安装包](https://x33834.github.io/awesome-skillkit/expert-teams.html#download)（OpenCode / Claude Code / Cursor / Gemini CLI） |
 | 国内镜像 | [GitCode](https://gitcode.com/badhope/awesome-skillkit) · [Gitee](https://gitee.com/badhope/awesome-skillkit)（标签一致，Release 已挂好资源） |
 
 > 每个包的 zip 由 `python3 build.py` 构建，并随每次 GitHub Release 一起发布；GitCode / Gitee 镜像推送相同标签并上传相同资源。

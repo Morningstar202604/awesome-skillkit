@@ -6,6 +6,14 @@
   dist/claude/.claude/{agents,skills}/         Claude Code 项目级包
   dist/cursor/{.cursor-plugin,agents,skills}/  Cursor Plugin 包
   dist/gemini/{gemini-extension.json,GEMINI.md,commands,skills}
+  dist/zips/expert-teams-{opencode,claude,cursor,gemini,all}.zip
+                                               可下载安装包（可复现，随站点发布到
+                                               site/downloads/；--no-zip 可跳过）
+
+zip 布局约定：
+  opencode / claude  平铺（在项目根解压即得 .opencode/ 或 .claude/）
+  cursor / gemini    包一层 expert-teams/ 目录（作为插件/扩展目录整体安装）
+  all                平台中立源包：expert-teams/{teams,skills,*.md,LICENSE}
 
 平台契约（来源，2026-09 抓取）：
   OpenCode   opencode.ai/docs/agents — .opencode/agents/*.md，文件名即 agent 名，
@@ -18,24 +26,42 @@
              (name/version/contextFileName) + GEMINI.md + commands/*.toml
              (prompt 多行字符串 + {{args}} 注入)
 
-仅依赖标准库 + PyYAML。用法：python3 export-platforms.py
+仅依赖标准库 + PyYAML。用法：python3 export-platforms.py [--no-zip]
 """
 
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import json
 import shutil
 import sys
+import zipfile
 from pathlib import Path
 
 import yaml
 
 REPO = Path(__file__).resolve().parent
 DIST = REPO / "dist"
+ZIPS = DIST / "zips"
 VERSION = "1.0.0"
 PLUGIN_NAME = "expert-teams"
 CLAUDE_TOOLS_MAP = {"write": "Write", "edit": "Edit", "bash": "Bash", "read": "Read"}
+
+# 可复现 zip：固定时间戳 + 排序条目，相同输入 → 相同字节（与根 build.py 同口径）
+FIXED_DATE = (2026, 1, 1, 0, 0, 0)
+SKIP_DIRS = {"__pycache__", ".git", ".pytest_cache", ".ruff_cache"}
+SKIP_SUFFIXES = {".pyc"}
+
+# 全量源包（expert-teams-all.zip）随包文档
+ALL_BUNDLE_FILES = (
+    "project-director.md",
+    "orchestration-protocol.md",
+    "SKILLS_INDEX.md",
+    "README.md",
+    "AGENTS.md",
+    "LICENSE",
+)
 
 
 def load_split_frontmatter():
@@ -277,6 +303,66 @@ def build_gemini_context(teams: list[str]) -> str:
     return "\n".join(lines)
 
 
+def _zip_entries(src_dir: Path):
+    """产出 (arcname, bytes) 序列：字典序、跳过缓存，保证可复现。"""
+    for path in sorted(src_dir.rglob("*")):
+        rel = path.relative_to(src_dir)
+        if set(rel.parts) & SKIP_DIRS or path.suffix in SKIP_SUFFIXES:
+            continue
+        if path.is_dir():
+            continue
+        yield rel.as_posix(), path.read_bytes()
+
+
+def _add_tree(zf: zipfile.ZipFile, src_dir: Path, prefix: str = "") -> int:
+    count = 0
+    for arcname, data in _zip_entries(src_dir):
+        zi = zipfile.ZipInfo(f"{prefix}{arcname}", date_time=FIXED_DATE)
+        zi.compress_type = zipfile.ZIP_DEFLATED
+        zi.external_attr = 0o644 << 16
+        zf.writestr(zi, data)
+        count += 1
+    return count
+
+
+def _write_zip(zip_path: Path, add) -> None:
+    zip_path.parent.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
+        add(zf)
+
+
+def export_zips() -> list[Path]:
+    """4 个平台安装包 + 全量源包 → dist/zips/（布局约定见模块 docstring）。"""
+    made: list[Path] = []
+
+    for name in ("opencode", "claude"):
+        zp = ZIPS / f"expert-teams-{name}.zip"
+        _write_zip(zp, lambda zf, src=DIST / name: _add_tree(zf, src))
+        made.append(zp)
+
+    for name in ("cursor", "gemini"):
+        zp = ZIPS / f"expert-teams-{name}.zip"
+        _write_zip(zp, lambda zf, src=DIST / name: _add_tree(zf, src, "expert-teams/"))
+        made.append(zp)
+
+    def add_all(zf: zipfile.ZipFile) -> None:
+        for sub in ("teams", "skills"):
+            _add_tree(zf, REPO / sub, f"expert-teams/{sub}/")
+        for fname in ALL_BUNDLE_FILES:
+            src = REPO / fname
+            if not src.is_file():
+                raise SystemExit(f"[缺失] 全量源包缺少 {fname}")
+            zi = zipfile.ZipInfo(f"expert-teams/{fname}", date_time=FIXED_DATE)
+            zi.compress_type = zipfile.ZIP_DEFLATED
+            zi.external_attr = 0o644 << 16
+            zf.writestr(zi, src.read_bytes())
+
+    zp = ZIPS / "expert-teams-all.zip"
+    _write_zip(zp, add_all)
+    made.append(zp)
+    return made
+
+
 def main() -> int:
     agents = collect_agents()
     skills = collect_skills()
@@ -297,6 +383,16 @@ def main() -> int:
     )
     for sub in ("opencode", "claude", "cursor", "gemini"):
         print(f"  dist/{sub}/")
+
+    if "--no-zip" in sys.argv[1:]:
+        print("  （--no-zip：跳过安装包 zip 生成）")
+    else:
+        for zp in export_zips():
+            digest = hashlib.sha256(zp.read_bytes()).hexdigest()
+            print(
+                f"  {zp.relative_to(REPO).as_posix()}"
+                f"  ({zp.stat().st_size // 1024} KB, sha256:{digest[:12]})"
+            )
     return 0
 
 

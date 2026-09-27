@@ -111,3 +111,28 @@ jobs:
         run: python3 -m unittest discover -s expert-teams/tests
       - name: Site data drift check (build-site.py --check)
         run: python3 expert-teams/build-site.py --check
+      - name: Assert download digests match committed site/downloads
+        run: |
+          # 安装包是提交进仓库的产物（site/downloads/）：重建到 dist 后逐个比对摘要，
+          # 防止子目录改动后忘记重新生成/提交（与 packs 的摘要门禁同思路）
+          python3 expert-teams/export-platforms.py >/dev/null
+          python3 - <<'PY'
+          import hashlib
+          from pathlib import Path
+          built = sorted(Path("expert-teams/dist/zips").glob("*.zip"))
+          committed = sorted(Path("site/downloads").glob("expert-teams-*.zip"))
+          assert built, "未产出任何安装包 zip"
+          assert len(built) == len(committed), (
+              f"安装包数量不一致：built={len(built)} committed={len(committed)}"
+          )
+          drift = [
+              p.name for p in built
+              if hashlib.sha256(p.read_bytes()).hexdigest()
+              != hashlib.sha256((Path("site/downloads") / p.name).read_bytes()).hexdigest()
+          ]
+          assert not drift, (
+              "site/downloads 与构建产物摘要不一致（请重跑 export-platforms.py 后，"
+              f"用 tools/build_site.py 同步并提交）：{drift}"
+          )
+          print(f"下载包摘要一致：{len(built)} 个")
+          PY
