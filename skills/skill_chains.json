@@ -121,7 +121,35 @@
         "monorepo-management",
         "deployment-pipeline-design",
         "git-advanced-workflows",
-        "open-code-review"
+        "open-code-review",
+        "analyzing-memory-dumps-with-volatility",
+        "analyzing-linux-audit-logs-for-intrusion",
+        "analyzing-security-logs-with-splunk",
+        "analyzing-network-traffic-with-wireshark",
+        "analyzing-cobalt-strike-beacon-configuration",
+        "analyzing-malware-behavior-with-cuckoo-sandbox",
+        "analyzing-ransomware-encryption-mechanisms",
+        "analyzing-email-headers-for-phishing-investigation",
+        "analyzing-kubernetes-audit-logs",
+        "analyzing-azure-activity-logs-for-threats",
+        "analyzing-sbom-for-supply-chain-vulnerabilities",
+        "analyzing-threat-actor-ttps-with-mitre-attack",
+        "detecting-dcsync-attack-in-active-directory",
+        "hunting-for-lateral-movement-via-wmi",
+        "go",
+        "rust",
+        "python",
+        "typescript",
+        "cpp",
+        "c-sharp",
+        "java",
+        "ruby",
+        "php-development",
+        "swift",
+        "elixir",
+        "kotlin-development",
+        "sql-best-practices",
+        "bash-scripting"
       ],
       "chains": {
         "full_project": [
@@ -222,6 +250,36 @@
           "writing-plans",
           "executing-plans",
           "verification-before-completion"
+        ],
+        "security_forensics": [
+          "analyzing-linux-audit-logs-for-intrusion",
+          "analyzing-security-logs-with-splunk",
+          "analyzing-memory-dumps-with-volatility",
+          "analyzing-threat-actor-ttps-with-mitre-attack"
+        ],
+        "malware_triage": [
+          "analyzing-malware-behavior-with-cuckoo-sandbox",
+          "analyzing-cobalt-strike-beacon-configuration",
+          "analyzing-ransomware-encryption-mechanisms"
+        ],
+        "cloud_security_audit": [
+          "analyzing-azure-activity-logs-for-threats",
+          "analyzing-kubernetes-audit-logs",
+          "analyzing-sbom-for-supply-chain-vulnerabilities"
+        ],
+        "phishing_response": [
+          "analyzing-email-headers-for-phishing-investigation",
+          "analyzing-network-traffic-with-wireshark"
+        ],
+        "ad_attack_hunt": [
+          "detecting-dcsync-attack-in-active-directory",
+          "hunting-for-lateral-movement-via-wmi"
+        ],
+        "language_standards": [
+          "typescript",
+          "python",
+          "go",
+          "rust"
         ]
       }
     },
@@ -480,7 +538,23 @@
         "linkedin-content",
         "linkedin-engagement",
         "linkedin-profile",
-        "linkedin-strategy"
+        "linkedin-strategy",
+        "meta-ads-analyzer",
+        "google-search-ads-builder",
+        "ad-angle-miner",
+        "competitor-ad-intelligence",
+        "ad-to-landing-page-auditor",
+        "paid-channel-prioritizer",
+        "launch-positioning-builder",
+        "brand-voice-extractor",
+        "battlecard-generator",
+        "competitor-intel",
+        "competitive-pricing-intel",
+        "campaign-brief-generator",
+        "content-repurposing",
+        "seo-opportunity-finder",
+        "github-repo-signals",
+        "community-signals"
       ],
       "chains": {
         "product_launch": [
@@ -491,6 +565,32 @@
         "single_post": [
           "product-copywriter",
           "channel-adapter"
+        ],
+        "paid_ads_diagnosis": [
+          "meta-ads-analyzer",
+          "competitor-ad-intelligence",
+          "ad-angle-miner",
+          "ad-to-landing-page-auditor"
+        ],
+        "positioning_launch": [
+          "launch-positioning-builder",
+          "brand-voice-extractor",
+          "campaign-brief-generator",
+          "content-repurposing"
+        ],
+        "competitive_intel_cycle": [
+          "battlecard-generator",
+          "competitive-pricing-intel",
+          "competitor-intel"
+        ],
+        "devtool_lead_signals": [
+          "github-repo-signals",
+          "community-signals"
+        ],
+        "seo_growth": [
+          "seo-opportunity-finder",
+          "google-search-ads-builder",
+          "paid-channel-prioritizer"
         ]
       }
     },
@@ -679,7 +779,14 @@
         "session-handoff",
         "weekly-report-generator",
         "agent-eval-harness",
-        "self-eval"
+        "self-eval",
+        "caveman",
+        "caveman-commit",
+        "caveman-review",
+        "caveman-help",
+        "caveman-stats",
+        "caveman-compress",
+        "cavecrew"
       ],
       "chains": {
         "new_skill_pipeline": [
@@ -701,6 +808,17 @@
           "webapp-e2e-harness?",
           "agent-eval-harness",
           "ci-cd-pipeline-builder?"
+        ],
+        "terse_mode": [
+          "caveman",
+          "caveman-commit",
+          "caveman-review"
+        ],
+        "token_economy": [
+          "caveman-compress",
+          "caveman-stats",
+          "caveman-help",
+          "cavecrew"
         ]
       }
     },
@@ -866,7 +984,8 @@
         "market-sizing",
         "user-personas",
         "to-spec",
-        "triage"
+        "triage",
+        "pricing-and-packaging"
       ],
       "chains": {
         "prd_to_spec": [
@@ -877,6 +996,10 @@
           "stakeholder-map",
           "prioritization-frameworks",
           "outcome-roadmap"
+        ],
+        "pricing_design": [
+          "pricing-and-packaging",
+          "competitive-battlecard"
         ]
       }
     },
@@ -922,11 +1045,16 @@
       "entry": "skills/finance/variance-analysis",
       "skills": [
         "variance-analysis",
-        "audit-support"
+        "audit-support",
+        "unit-economics"
       ],
       "chains": {
         "close_and_audit": [
           "audit-support",
+          "variance-analysis"
+        ],
+        "unit_economics_review": [
+          "unit-economics",
           "variance-analysis"
         ]
       }
@@ -936,13 +1064,35 @@
       "skills": [
         "process-optimization",
         "risk-assessment",
-        "status-report"
+        "status-report",
+        "operating-cadence",
+        "process-design",
+        "business-continuity-and-resilience",
+        "vendor-management",
+        "service-level-management",
+        "program-management",
+        "dependency-and-risk-management",
+        "estimating-and-contingency"
       ],
       "chains": {
         "ops_review": [
           "process-optimization",
           "risk-assessment",
           "status-report"
+        ],
+        "ops_cadence": [
+          "operating-cadence",
+          "service-level-management",
+          "vendor-management"
+        ],
+        "ops_delivery": [
+          "program-management",
+          "dependency-and-risk-management",
+          "estimating-and-contingency"
+        ],
+        "ops_resilience": [
+          "business-continuity-and-resilience",
+          "process-design"
         ]
       }
     },
@@ -969,12 +1119,23 @@
         "cmo-advisor",
         "cto-advisor",
         "chro-advisor",
-        "ciso-advisor"
+        "ciso-advisor",
+        "scenario-planning",
+        "market-entry",
+        "agent-hierarchy"
       ],
       "chains": {
         "exec_review": [
           "cmo-advisor",
           "cfo-advisor",
+          "ceo-advisor"
+        ],
+        "strategy_under_uncertainty": [
+          "scenario-planning",
+          "market-entry"
+        ],
+        "agent_org_design": [
+          "agent-hierarchy",
           "ceo-advisor"
         ]
       }

@@ -270,6 +270,44 @@
       "sha256": "ded98a820efb454ad162c0193e4e2ad632ea8483a7e742dd714588cac6fa648d"
     },
     {
+      "id": "caveman-toolkit",
+      "name": "Caveman Toolkit",
+      "name_zh": "Caveman 省 token 工具包",
+      "file": "dist/caveman-toolkit.zip",
+      "skills": [
+        {
+          "name": "caveman",
+          "source": "JuliusBrussee/caveman (MIT)"
+        },
+        {
+          "name": "caveman-commit",
+          "source": "JuliusBrussee/caveman (MIT)"
+        },
+        {
+          "name": "caveman-review",
+          "source": "JuliusBrussee/caveman (MIT)"
+        },
+        {
+          "name": "caveman-help",
+          "source": "JuliusBrussee/caveman (MIT)"
+        },
+        {
+          "name": "caveman-stats",
+          "source": "JuliusBrussee/caveman (MIT)"
+        },
+        {
+          "name": "caveman-compress",
+          "source": "JuliusBrussee/caveman (MIT)"
+        },
+        {
+          "name": "cavecrew",
+          "source": "JuliusBrussee/caveman (MIT)"
+        }
+      ],
+      "size_kb": 48,
+      "sha256": "904446b2217a064205f69a855f82fcbfae8609515174af5f31fafa81fc1ddf38"
+    },
+    {
       "id": "chat-prompt-craft",
       "name": "Chat Prompt Craft",
       "name_zh": "聊天提示词工艺",
@@ -560,6 +598,68 @@
       "updated": ""
     },
     {
+      "id": "company-playbooks",
+      "name": "Company Playbooks",
+      "name_zh": "公司运营手册",
+      "file": "dist/company-playbooks.zip",
+      "skills": [
+        {
+          "name": "scenario-planning",
+          "source": "cbrock84/headcount (MIT)"
+        },
+        {
+          "name": "market-entry",
+          "source": "cbrock84/headcount (MIT)"
+        },
+        {
+          "name": "agent-hierarchy",
+          "source": "cbrock84/headcount (MIT)"
+        },
+        {
+          "name": "operating-cadence",
+          "source": "cbrock84/headcount (MIT)"
+        },
+        {
+          "name": "process-design",
+          "source": "cbrock84/headcount (MIT)"
+        },
+        {
+          "name": "business-continuity-and-resilience",
+          "source": "cbrock84/headcount (MIT)"
+        },
+        {
+          "name": "vendor-management",
+          "source": "cbrock84/headcount (MIT)"
+        },
+        {
+          "name": "service-level-management",
+          "source": "cbrock84/headcount (MIT)"
+        },
+        {
+          "name": "program-management",
+          "source": "cbrock84/headcount (MIT)"
+        },
+        {
+          "name": "dependency-and-risk-management",
+          "source": "cbrock84/headcount (MIT)"
+        },
+        {
+          "name": "estimating-and-contingency",
+          "source": "cbrock84/headcount (MIT)"
+        },
+        {
+          "name": "unit-economics",
+          "source": "cbrock84/headcount (MIT)"
+        },
+        {
+          "name": "pricing-and-packaging",
+          "source": "cbrock84/headcount (MIT)"
+        }
+      ],
+      "size_kb": 62,
+      "sha256": "6dbc3117cac75dad74a410b3bd15c85a21a4b503c8707c71856d298c89f2bd27"
+    },
+    {
       "id": "containers",
       "name": "Containers & Orchestration",
       "name_zh": "容器与编排",
@@ -696,6 +796,72 @@
       ],
       "size_kb": 8254,
       "sha256": "4f80b6a2e2ae27e1cf852f2e40bdcf38db3bfb62b1d7b89dbe1e055a386fae3b"
+    },
+    {
+      "id": "cybersecurity-pro",
+      "name": "Cybersecurity Pro",
+      "name_zh": "网络安全实战精选",
+      "file": "dist/cybersecurity-pro.zip",
+      "skills": [
+        {
+          "name": "analyzing-memory-dumps-with-volatility",
+          "source": "mukul975/Anthropic-Cybersecurity-Skills (Apache-2.0)"
+        },
+        {
+          "name": "analyzing-linux-audit-logs-for-intrusion",
+          "source": "mukul975/Anthropic-Cybersecurity-Skills (Apache-2.0)"
+        },
+        {
+          "name": "analyzing-security-logs-with-splunk",
+          "source": "mukul975/Anthropic-Cybersecurity-Skills (Apache-2.0)"
+        },
+        {
+          "name": "analyzing-network-traffic-with-wireshark",
+          "source": "mukul975/Anthropic-Cybersecurity-Skills (Apache-2.0)"
+        },
+        {
+          "name": "analyzing-cobalt-strike-beacon-configuration",
+          "source": "mukul975/Anthropic-Cybersecurity-Skills (Apache-2.0)"
+        },
+        {
+          "name": "analyzing-malware-behavior-with-cuckoo-sandbox",
+          "source": "mukul975/Anthropic-Cybersecurity-Skills (Apache-2.0)"
+        },
+        {
+          "name": "analyzing-ransomware-encryption-mechanisms",
+          "source": "mukul975/Anthropic-Cybersecurity-Skills (Apache-2.0)"
+        },
+        {
+          "name": "analyzing-email-headers-for-phishing-investigation",
+          "source": "mukul975/Anthropic-Cybersecurity-Skills (Apache-2.0)"
+        },
+        {
+          "name": "analyzing-kubernetes-audit-logs",
+          "source": "mukul975/Anthropic-Cybersecurity-Skills (Apache-2.0)"
+        },
+        {
+          "name": "analyzing-azure-activity-logs-for-threats",
+          "source": "mukul975/Anthropic-Cybersecurity-Skills (Apache-2.0)"
+        },
+        {
+          "name": "analyzing-sbom-for-supply-chain-vulnerabilities",
+          "source": "mukul975/Anthropic-Cybersecurity-Skills (Apache-2.0)"
+        },
+        {
+          "name": "analyzing-threat-actor-ttps-with-mitre-attack",
+          "source": "mukul975/Anthropic-Cybersecurity-Skills (Apache-2.0)"
+        },
+        {
+          "name": "detecting-dcsync-attack-in-active-directory",
+          "source": "mukul975/Anthropic-Cybersecurity-Skills (Apache-2.0)"
+        },
+        {
+          "name": "hunting-for-lateral-movement-via-wmi",
+          "source": "mukul975/Anthropic-Cybersecurity-Skills (Apache-2.0)"
+        }
+      ],
+      "size_kb": 198,
+      "sha256": "54daee38dded5c4a8e1cff8c1e8fbd9c6c53bc082e87126a0b29fd94054e447c"
     },
     {
       "id": "data-ml-science",
@@ -1150,6 +1316,80 @@
       "sha256": "8879e12ca0733f0598d8c4ffa6a59e68d187f26697693e72712b5bdd3bcc2eb8"
     },
     {
+      "id": "gtm-growth",
+      "name": "GTM Growth Suite",
+      "name_zh": "GTM 增长套件",
+      "file": "dist/gtm-growth.zip",
+      "skills": [
+        {
+          "name": "meta-ads-analyzer",
+          "source": "gooseworks-ai/goose-skills (MIT)"
+        },
+        {
+          "name": "google-search-ads-builder",
+          "source": "gooseworks-ai/goose-skills (MIT)"
+        },
+        {
+          "name": "ad-angle-miner",
+          "source": "gooseworks-ai/goose-skills (MIT)"
+        },
+        {
+          "name": "competitor-ad-intelligence",
+          "source": "gooseworks-ai/goose-skills (MIT)"
+        },
+        {
+          "name": "ad-to-landing-page-auditor",
+          "source": "gooseworks-ai/goose-skills (MIT)"
+        },
+        {
+          "name": "paid-channel-prioritizer",
+          "source": "gooseworks-ai/goose-skills (MIT)"
+        },
+        {
+          "name": "launch-positioning-builder",
+          "source": "gooseworks-ai/goose-skills (MIT)"
+        },
+        {
+          "name": "brand-voice-extractor",
+          "source": "gooseworks-ai/goose-skills (MIT)"
+        },
+        {
+          "name": "battlecard-generator",
+          "source": "gooseworks-ai/goose-skills (MIT)"
+        },
+        {
+          "name": "competitor-intel",
+          "source": "gooseworks-ai/goose-skills (MIT)"
+        },
+        {
+          "name": "competitive-pricing-intel",
+          "source": "gooseworks-ai/goose-skills (MIT)"
+        },
+        {
+          "name": "campaign-brief-generator",
+          "source": "gooseworks-ai/goose-skills (MIT)"
+        },
+        {
+          "name": "content-repurposing",
+          "source": "gooseworks-ai/goose-skills (MIT)"
+        },
+        {
+          "name": "seo-opportunity-finder",
+          "source": "gooseworks-ai/goose-skills (MIT)"
+        },
+        {
+          "name": "github-repo-signals",
+          "source": "gooseworks-ai/goose-skills (MIT)"
+        },
+        {
+          "name": "community-signals",
+          "source": "gooseworks-ai/goose-skills (MIT)"
+        }
+      ],
+      "size_kb": 111,
+      "sha256": "253cb835ac201d558ca5e58a8e405b9bb4508f10b449fff1610f5c92a0774808"
+    },
+    {
       "id": "hf-ml-hub",
       "name": "Hugging Face ML Hub",
       "name_zh": "Hugging Face 机器学习",
@@ -1416,6 +1656,72 @@
       ],
       "size_kb": 80,
       "sha256": "056f5524a6d77628a349c1016ec668d1e1777f6f33a22675dd9315cd477d5695"
+    },
+    {
+      "id": "language-standards",
+      "name": "Language Standards",
+      "name_zh": "语言工程规范",
+      "file": "dist/language-standards.zip",
+      "skills": [
+        {
+          "name": "go",
+          "source": "mindrally/skills (Apache-2.0)"
+        },
+        {
+          "name": "rust",
+          "source": "mindrally/skills (Apache-2.0)"
+        },
+        {
+          "name": "python",
+          "source": "mindrally/skills (Apache-2.0)"
+        },
+        {
+          "name": "typescript",
+          "source": "mindrally/skills (Apache-2.0)"
+        },
+        {
+          "name": "cpp",
+          "source": "mindrally/skills (Apache-2.0)"
+        },
+        {
+          "name": "c-sharp",
+          "source": "mindrally/skills (Apache-2.0)"
+        },
+        {
+          "name": "java",
+          "source": "mindrally/skills (Apache-2.0)"
+        },
+        {
+          "name": "ruby",
+          "source": "mindrally/skills (Apache-2.0)"
+        },
+        {
+          "name": "php-development",
+          "source": "mindrally/skills (Apache-2.0)"
+        },
+        {
+          "name": "swift",
+          "source": "mindrally/skills (Apache-2.0)"
+        },
+        {
+          "name": "elixir",
+          "source": "mindrally/skills (Apache-2.0)"
+        },
+        {
+          "name": "kotlin-development",
+          "source": "mindrally/skills (Apache-2.0)"
+        },
+        {
+          "name": "sql-best-practices",
+          "source": "mindrally/skills (Apache-2.0)"
+        },
+        {
+          "name": "bash-scripting",
+          "source": "mindrally/skills (Apache-2.0)"
+        }
+      ],
+      "size_kb": 26,
+      "sha256": "779856952b358a3b9aebde90d31093d8ab9195c1946b7acb4dc15ca610880e95"
     },
     {
       "id": "life-essentials",

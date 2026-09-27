@@ -3,12 +3,12 @@
 <h1 align="center">awesome-skillkit</h1>
 
 <p align="center">
-  <b>两条产品线，一个仓库：<br>52 个场景包 · 339 个技能（喂给 AI 工具）&nbsp;+&nbsp; 18 支专家团队 · 219 位专家（多智能体协作）——<br>解压即用，把整套工作能力一次交给你的 AI 工具。</b>
+  <b>两条产品线，一个仓库：<br>57 个场景包 · 403 个技能（喂给 AI 工具）&nbsp;+&nbsp; 18 支专家团队 · 219 位专家（多智能体协作）——<br>解压即用，把整套工作能力一次交给你的 AI 工具。</b>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
-  <img src="https://img.shields.io/badge/skills-339-brightgreen?style=flat-square" alt="Skills" />
+  <img src="https://img.shields.io/badge/skills-403-brightgreen?style=flat-square" alt="Skills" />
   <img src="https://img.shields.io/badge/packs-52-blue?style=flat-square" alt="Packs" />
   <img src="https://img.shields.io/badge/expert%20teams-18%20%C2%B7%20219%20agents-blueviolet?style=flat-square" alt="Expert Teams" />
   <img src="https://img.shields.io/badge/version-0.22.1-success?style=flat-square" alt="Version" />
@@ -41,7 +41,7 @@
 | | **A · 场景技能包（skills）** | **B · 专家团（expert-teams）** |
 |---|---|---|
 | **定位** | 面向 AI 编程 / 智能体工具的技能：一包 = 一个真实场景，拖进 skills 目录即可用 | 面向 AI 编程工具及各类 AI 工具里的**多智能体协作**：分工明确的专家团队，互相规划、派单、门禁把关 |
-| **资产** | 52 包 · 339 技能 · 27 域 · 88 条链 | 18 支团队 · 219 位专家 agent · 100 个技能 · 编排协议（纯 Markdown） |
+| **资产** | 57 包 · 403 技能 · 27 域 · 108 条链 | 18 支团队 · 219 位专家 agent · 100 个技能 · 编排协议（纯 Markdown） |
 | **位置** | [`packs/`](packs/) + [`skills/`](skills/) | [`expert-teams/`](expert-teams/) |
 | **入口** | [官网](https://x33834.github.io/awesome-skillkit/) · [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) | [在线浏览](https://x33834.github.io/awesome-skillkit/expert-teams.html) · [四平台安装包](https://x33834.github.io/awesome-skillkit/expert-teams.html#download) |
 
@@ -92,7 +92,7 @@ flowchart LR
 
 ## 为什么值得用——五个重点
 
-- **场景优先，不是领域大杂烩**：339 个技能 / 52 个包 / 27 个域 / 88 条链——一包 = 一个能直接交给 AI 的具体活儿（「审 PR」「一篇文章分发 16 个中文平台」）。
+- **场景优先，不是领域大杂烩**：403 个技能 / 57 个包 / 27 个域 / 108 条链——一包 = 一个能直接交给 AI 的具体活儿（「审 PR」「一篇文章分发 16 个中文平台」）。
 - **粒度随你挑**：单个 `SKILL.md`、单个场景包 zip、或 [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) 全量——解压拖进 skills 目录，新开会话即用，零配置。
 - **先逛再拿**：[官网](https://x33834.github.io/awesome-skillkit/) 按技能 / 域 / 包检索、卡片上直接下载（简中 · English · 日本語 README + 双语站点）；也可以让 AI 跑 `find_skill.py search <关键词>` 自己找。
 - **质量可验证**：`tools/validate_skills.py` 以 **0 错误 / 0 警告** 为门槛（manifest 与站点 zip 摘要双向锁定），CI 每个 PR 跑全量单测。
@@ -119,11 +119,11 @@ flowchart LR
 
 > 每个包的 zip 由 `python3 build.py` 构建，并随每次 GitHub Release 一起发布；GitCode / Gitee 镜像推送相同标签并上传相同资源。
 
-## 场景包目录（全部 52 个）
+## 场景包目录（全部 57 个）
 
 下表是完整目录，按**8 大场景库**分组（与官网同源的两级导航：场景库 → 能力域）。每行链接到对应包目录，技能列列出了包内打包的全部 `SKILL.md`。
 
-### 🛠 软件开发 · 19 包
+### 🛠 软件开发 · 21 包
 
 | 包 ID | 场景包 | 名称 (EN) | 技能数 | 包含技能 |
 |---|---|---|:---:|---|
@@ -135,23 +135,26 @@ flowchart LR
 | [`code-quality-pro`](packs/code-quality-pro) | **代码质量进阶** | Code Quality Pro | 13 | `code-review-excellence`, `debugging-strategies`, `e2e-testing-patterns`, `error-handling-patterns`, `api-design-principles`, `architecture-patterns`, `sql-optimization-patterns`, `postgresql-table-design`, `auth-implementation-patterns`, `monorepo-management`, `deployment-pipeline-design`, `git-advanced-workflows`, `open-code-review` |
 | [`code-review`](packs/code-review) | **代码审查** | Code Review | 4 | `code-reviewer`, `api-design-reviewer`, `tech-debt-tracker`, `dependency-auditor` |
 | [`containers`](packs/containers) | **容器与编排** | Containers & Orchestration | 3 | `docker-development`, `helm-chart-builder`, `kubernetes-operator` |
+| [`cybersecurity-pro`](packs/cybersecurity-pro) | **网络安全实战精选** | Cybersecurity Pro | 14 | `analyzing-memory-dumps-with-volatility`, `analyzing-linux-audit-logs-for-intrusion`, `analyzing-security-logs-with-splunk`, `analyzing-network-traffic-with-wireshark`, `analyzing-cobalt-strike-beacon-configuration`, `analyzing-malware-behavior-with-cuckoo-sandbox`, `analyzing-ransomware-encryption-mechanisms`, `analyzing-email-headers-for-phishing-investigation`, `analyzing-kubernetes-audit-logs`, `analyzing-azure-activity-logs-for-threats`, `analyzing-sbom-for-supply-chain-vulnerabilities`, `analyzing-threat-actor-ttps-with-mitre-attack`, `detecting-dcsync-attack-in-active-directory`, `hunting-for-lateral-movement-via-wmi` |
 | [`database`](packs/database) | **数据库设计与管理** | Database Design & Management | 2 | `database-designer`, `sql-database-assistant` |
 | [`engineering-playbook`](packs/engineering-playbook) | **工程方法论手册** | Engineering Playbook | 21 | `brainstorming`, `dispatching-parallel-agents`, `executing-plans`, `finishing-a-development-branch`, `receiving-code-review`, `requesting-code-review`, `subagent-driven-development`, `systematic-debugging`, `test-driven-development`, `using-git-worktrees`, `verification-before-completion`, `writing-plans`, `spec-driven-development`, `planning-and-task-breakdown`, `code-review-and-quality`, `debugging-and-error-recovery`, `shipping-and-launch`, `incremental-implementation`, `tdd`, `handoff`, `grill-me` |
 | [`github-workflow`](packs/github-workflow) | **GitHub 协作工作流** | GitHub Collaboration | 3 | `git-worktree-manager`, `changelog-generator`, `code-reviewer` |
 | [`hf-ml-hub`](packs/hf-ml-hub) | **Hugging Face 机器学习** | Hugging Face ML Hub | 11 | `hf-cli`, `huggingface-datasets`, `huggingface-papers`, `huggingface-community-evals`, `trl-training`, `train-sentence-transformers`, `huggingface-spaces`, `huggingface-gradio`, `huggingface-local-models`, `huggingface-llm-trainer`, `huggingface-best` |
 | [`incident-response`](packs/incident-response) | **故障响应与 SRE** | Incident Response & SRE | 3 | `incident-commander`, `runbook-generator`, `slo-architect` |
 | [`infrastructure`](packs/infrastructure) | **基础设施即代码** | Infrastructure as Code | 3 | `terraform-patterns`, `observability-designer`, `kubernetes-operator` |
+| [`language-standards`](packs/language-standards) | **语言工程规范** | Language Standards | 14 | `go`, `rust`, `python`, `typescript`, `cpp`, `c-sharp`, `java`, `ruby`, `php-development`, `swift`, `elixir`, `kotlin-development`, `sql-best-practices`, `bash-scripting` |
 | [`performance`](packs/performance) | **性能优化** | Performance Profiling | 1 | `performance-profiler` |
 | [`scientific-agent-skills`](packs/scientific-agent-skills) | **科研计算（精选）** | Scientific Computing | 12 | `exploratory-data-analysis`, `experimental-design`, `hypothesis-generation`, `literature-review`, `citation-management`, `peer-review`, `polars`, `networkx`, `matplotlib`, `statistical-analysis`, `optimize-for-gpu`, `get-available-resources` |
 | [`security`](packs/security) | **安全与密钥管理** | Security & Secrets | 4 | `secrets-vault-manager`, `env-secrets-manager`, `pii-redactor`, `prompt-injection-guard` |
 | [`tdd`](packs/tdd) | **测试驱动开发** | Test-Driven Development | 4 | `tdd-guide`, `webapp-flow-tester`, `webapp-e2e-harness`, `agent-eval-harness` |
 | [`web-ops`](packs/web-ops) | **网页操作** | Web Operations | 1 | `web-data-extractor` |
 
-### 🤖 AI 与智能体 · 4 包
+### 🤖 AI 与智能体 · 5 包
 
 | 包 ID | 场景包 | 名称 (EN) | 技能数 | 包含技能 |
 |---|---|---|:---:|---|
 | [`ai-agent-development`](packs/ai-agent-development) | **AI Agent 开发** | AI Agent Development | 5 | `agent-designer`, `mcp-server-builder`, `feature-flags-architect`, `self-eval`, `skill-tester` |
+| [`caveman-toolkit`](packs/caveman-toolkit) | **Caveman 省 token 工具包** | Caveman Toolkit | 7 | `caveman`, `caveman-commit`, `caveman-review`, `caveman-help`, `caveman-stats`, `caveman-compress`, `cavecrew` |
 | [`chat-prompt-craft`](packs/chat-prompt-craft) | **聊天提示词工艺** | Chat Prompt Craft | 1 | `chat-prompt-engineer` |
 | [`memory-systems`](packs/memory-systems) | **长期记忆系统** | Memory Systems | 4 | `memory-architect`, `memory-extractor`, `memory-manager`, `memory-retriever` |
 | [`skill-forge`](packs/skill-forge) | **技能锻造厂** | Skill Forge | 5 | `skill-author`, `skill-linter`, `skill-finder`, `session-handoff`, `weekly-report-generator` |
@@ -193,12 +196,14 @@ flowchart LR
 | [`toolsmith`](packs/toolsmith) | **工具与自动化** | Toolsmith | 6 | `file-organizer`, `batch-renamer`, `format-converter`, `task-scheduler`, `invoice-organizer`, `bank-statement-reconcile` |
 | [`workspace-integrations`](packs/workspace-integrations) | **外部集成工具箱** | Workspace Integrations | 4 | `notion-workspace`, `feishu-dingtalk-bridge`, `issue-tracker-sync`, `cloud-drive-manager` |
 
-### 📈 商业与增长 · 4 包
+### 📈 商业与增长 · 6 包
 
 | 包 ID | 场景包 | 名称 (EN) | 技能数 | 包含技能 |
 |---|---|---|:---:|---|
 | [`cmo-suite`](packs/cmo-suite) | **CMO 与高管套件** | CMO & C-Suite Suite | 12 | `landing`, `linkedin-analytics`, `linkedin-content`, `linkedin-engagement`, `linkedin-profile`, `linkedin-strategy`, `ceo-advisor`, `cfo-advisor`, `cmo-advisor`, `cto-advisor`, `chro-advisor`, `ciso-advisor` |
+| [`company-playbooks`](packs/company-playbooks) | **公司运营手册** | Company Playbooks | 13 | `scenario-planning`, `market-entry`, `agent-hierarchy`, `operating-cadence`, `process-design`, `business-continuity-and-resilience`, `vendor-management`, `service-level-management`, `program-management`, `dependency-and-risk-management`, `estimating-and-contingency`, `unit-economics`, `pricing-and-packaging` |
 | [`growth-marketing`](packs/growth-marketing) | **增长营销** | Growth Marketing | 3 | `product-copywriter`, `campaign-designer`, `channel-adapter` |
+| [`gtm-growth`](packs/gtm-growth) | **GTM 增长套件** | GTM Growth Suite | 16 | `meta-ads-analyzer`, `google-search-ads-builder`, `ad-angle-miner`, `competitor-ad-intelligence`, `ad-to-landing-page-auditor`, `paid-channel-prioritizer`, `launch-positioning-builder`, `brand-voice-extractor`, `battlecard-generator`, `competitor-intel`, `competitive-pricing-intel`, `campaign-brief-generator`, `content-repurposing`, `seo-opportunity-finder`, `github-repo-signals`, `community-signals` |
 | [`knowledge-work`](packs/knowledge-work) | **知识工作套件** | Knowledge Work Suite | 21 | `comp-analysis`, `interview-prep`, `onboarding`, `performance-review`, `policy-lookup`, `recruiting-pipeline`, `review-contract`, `legal-risk-assessment`, `compliance-check`, `triage-nda`, `variance-analysis`, `audit-support`, `process-optimization`, `risk-assessment`, `status-report`, `ticket-triage`, `draft-response`, `kb-article`, `user-research`, `research-synthesis`, `ux-copy` |
 | [`product-management`](packs/product-management) | **产品管理** | Product Management | 14 | `create-prd`, `outcome-roadmap`, `prioritization-frameworks`, `user-stories`, `job-stories`, `stakeholder-map`, `pre-mortem`, `sprint-plan`, `north-star-metric`, `competitive-battlecard`, `market-sizing`, `user-personas`, `to-spec`, `triage` |
 

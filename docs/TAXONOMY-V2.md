@@ -1,7 +1,7 @@
 # 分类 v2：场景库信息架构 + 领域扩容「开户」方案
 
-> 制定日期：**2026-09-27** · 状态：**全案执行完毕**——导航已落地；**P0-1~P0-9 全部落地**（12 个新场景包、148 个新技能），P1 已提前落地 5 项（见 §4/§5）；本次不开新版号，随下次发版（0.23.0 候选）
-> 依据：2026-09-27 生态调研报告（GitHub raw LICENSE 逐仓实测 + skills.sh 装机榜 + Skillful/Agentman 生态报告）+ 本仓库资产实测（52 包 / 339 技能 / 27 域 / 88 链）
+> 制定日期：**2026-09-27** · 状态：**全案执行完毕（P1/P2 已结项）**——导航已落地；**P0-1~P0-9 全部落地**（12 个新场景包、148 个新技能），**P1 6/6 落地**（caveman 收尾），**P2 许可核验 7 源完成**（4 源精选迁入、3 源裁决不迁，见 §3）；本次不开新版号，随下次发版（0.23.0 候选）
+> 依据：2026-09-27 生态调研报告（GitHub raw LICENSE 逐仓实测 + skills.sh 装机榜 + Skillful/Agentman 生态报告）+ 本仓库资产实测（57 包 / 403 技能 / 27 域 / 108 链）
 > 配套数据文件：[`taxonomy.json`](../taxonomy.json)（站点一级导航的单一事实源）
 
 ---
@@ -36,15 +36,15 @@
 
 | 场景库 | 一句话 | 能力域 | 包/技能（现装） | 现状 |
 |---|---|---|---|---|
-| 🛠 软件开发 | 从需求到上线运维 | programming | 19 / 118 | 厚：方法论（superpowers 等）+ 前端/代码质量 + 云平台已补 |
-| 🤖 AI 与智能体 | 让 AI 会干活 | chat / memory / meta | 4 / 11 | 够，按需补（caveman 待核许可） |
+| 🛠 软件开发 | 从需求到上线运维 | programming | 21 / 146 | 厚：方法论（superpowers 等）+ 前端/代码质量 + 云平台 + 网络安全/语言规范已补 |
+| 🤖 AI 与智能体 | 让 AI 会干活 | chat / memory / meta | 5 / 18 | 厚：caveman 省 token 工具包已落地 |
 | 🎨 内容与创意 | 写作/视频/音频/设计→发布 | audio / design / music / video / writing | 13 / 75 | 厚：微信长文（baoyu）+ 视频代码化（HyperFrames）已补 |
 | 📊 数据与科研 | 数据→仪表盘、论文全流程 | dataviz / paper | 2 / 14 | 中：科研计算精选（K-Dense）、HF 归软件侧 |
 | 🗂 办公与效率 | 文档表格 PPT、知识库、工具集成 | communication / integrations / knowledge / office / ppt / tools | 7 / 64 | 厚：飞书官方套件 + 知识工作 + Google Workspace 已补 |
-| 📈 商业与增长 | 营销/电商/PM/销售/财务法务 HR | marketing / product / hr / legal / finance / ops / customer / leadership | 4 / 47 | **本轮扩容重点已落地**：知识工作 + CMO/C-level + PM |
+| 📈 商业与增长 | 营销/电商/PM/销售/财务法务 HR | marketing / product / hr / legal / finance / ops / customer / leadership | 6 / 76 | 厚：知识工作 + CMO/C-level + PM + GTM 增长 + 公司运营手册 |
 | 🎓 学习与教育 | 课程/习题/作业辅导 | education | 2 / 6 | 中，上游缺少优质源，走自研 |
 | 🏠 生活与个人 | 消费/就医/租房/装修决策 | life | 1 / 4 | 薄，医疗/个人财务待核实源 |
-| **合计** | | **27 域** | **52 / 339** | 与 `manifest.json` 同口径 |
+| **合计** | | **27 域** | **57 / 403** | 与 `manifest.json` 同口径 |
 
 - 全量归属（27 域 / 52 包，每项恰好一组）见 [`taxonomy.json`](../taxonomy.json)；覆盖校验由 [`tools/taxonomy_check.py`](../tools/taxonomy_check.py) 守住（漏登记 / 重复 / 幽灵 id → FAIL；已接入 `validate_skills.py` 门禁与站点构建）。
 - 站点展示口径：**技能按能力域归组、场景包按使用场景归组**（两者允许不同：找包看场景，找技能看能力）。
@@ -78,22 +78,31 @@
 | 8 | 🎨 内容与创意 | `wechat-longform` ✅ **已落地** | [JimLiu/baoyu-skills](https://github.com/JimLiu/baoyu-skills)（公众号发布 / 封面 / 插图 / Markdown 格式化） | **MIT** | 10 |
 | 9 | 🎨 内容与创意 | `video-code` ✅ **已落地** | [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes)（HTML 视频合成，装机 47~50 万） | **Apache-2.0** | 5 |
 
-### P1 —— 需筛选（逐个过 validator，宁精勿多）——**已提前落地 5 项**
+### P1 —— 需筛选（逐个过 validator，宁精勿多）——**6/6 全部落地**
 
 - 🗂 `google-workspace` ✅ ← googleworkspace/cli（Apache-2.0，12 技能）
 - 📊 `hf-ml-hub` ✅ ← [huggingface/skills](https://github.com/huggingface/skills)（Apache-2.0，11 技能）；`scientific-agent-skills` ✅ ← K-Dense-AI（MIT，166 挑 12）
 - 🎨 单技能补强 ✅：`humanizer`（MIT）、`diagram-design`（MIT）、`archify` + `archify-review`（MIT）、`video-shotcraft`（Apache）→ 成包 `creator-boosters`（5）
 - 🛠 wshobson/agents ✅（MIT，183 挑 12）+ alibaba/open-code-review ✅（Apache，1）→ 成包 `code-quality-pro`（13）
-- ⏳ 未做：caveman（token 经济，**许可待核实**）；「find-skills 式发现」自行增强 `skill-finder` ✅（`--group` 联动 + 中文检索，见 §5）
+- 🪨 `caveman` ✅ ← [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)（技能面 **MIT**、引擎目录 BSL-1.1 不取）→ 成包 `caveman-toolkit`（7）；「find-skills 式发现」自行增强 `skill-finder` ✅（`--group` 联动 + 中文检索，见 §5）
 
-### P2 —— 先核许可再谈（多为垂直大包）
+### P2 —— 许可核验完成（2026-09-27 raw LICENSE 实测）——**4 迁 3 不迁**
 
-Lawvable Legal 272 · OpenClaw Medical 863 · Cybersecurity 818 · headcount 172 · goose-skills 257 · Mindrally 265 —— 一律先找到 LICENSE 文件；医疗/法律类额外做内容合规与人审。来源线索见调研报告 §5。
+| 来源 | LICENSE 实测 | 裁决 |
+|---|---|---|
+| Cybersecurity 818（mukul975/Anthropic-Cybersecurity-Skills，社区项目） | **Apache-2.0** | ✅ 精选 14 → `cybersecurity-pro` |
+| goose-skills 257（gooseworks-ai/goose-skills） | **MIT** | ✅ 精选 16 → `gtm-growth` |
+| Mindrally 265（mindrally/skills，Cursor Rules 转换） | **Apache-2.0** | ✅ 精选 14 → `language-standards` |
+| headcount 172（cbrock84/headcount） | **MIT** | ✅ 精选 13 → `company-playbooks` |
+| Lawvable Legal 272（lawvable/awesome-legal-skills） | **CC BY-NC-ND 4.0**（禁商用 + 禁衍生物；个别条目另有 AGPL-3.0 标注） | ⛔ 不迁（ND 禁止改写再分发） |
+| OpenClaw Medical 863（FreedomIntelligence/OpenClaw-Medical-Skills） | **无 LICENSE 文件**（README 口述不采信） | ⛔ 不迁（医疗内容另需合规审查 + 人审） |
+| buildwithclaude 373（davepoon/buildwithclaude） | MIT（但本体是发现/市场平台，条目授权链路混杂） | ⛔ 不迁（聚合平台非作者本体） |
 
 ### 不迁（本轮实测新增的裁决）
 
 - [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) —— **raw main 无 LICENSE 文件**（README 口述 MIT 不采信；调研报告中的"待复核"到此结案为暂缓，除非上游补 LICENSE）。
 - [remotion-dev/skills](https://github.com/remotion-dev/skills)（无 LICENSE）、[llllllllama/RigorPilot-Skills](https://github.com/llllllllama/RigorPilot-Skills)（无 LICENSE）。
+- [lawvable/awesome-legal-skills](https://github.com/lawvable/awesome-legal-skills)（**CC BY-NC-ND 4.0**：禁商用 + 禁衍生物）、[FreedomIntelligence/OpenClaw-Medical-Skills](https://github.com/FreedomIntelligence/OpenClaw-Medical-Skills)（**无 LICENSE 文件**）、[davepoon/buildwithclaude](https://github.com/davepoon/buildwithclaude)（MIT 本体为聚合平台，条目授权链路混杂）。
 - anthropics/skills 的 docx / pdf / pptx / xlsx（source-available）；ComposioHQ / travisvn / anbeime 等无许可清单仓。
 
 ---
@@ -108,7 +117,15 @@ Lawvable Legal 272 · OpenClaw Medical 863 · Cybersecurity 818 · headcount 172
 - 首页产品线 A 卡片新增「8 大场景库」计数锚点（与 site.json meta 同源，防漂移）。
 - 三语 README（EN/简中/日）场景包目录按 8 大场景库重排为分组表格（新增 12 包行 + 日语包名），计数同步 52 包 / 339 技能 / 27 域 / 88 链。
 
-**资产层（本轮批量迁入 12 包 / 148 技能，21 个上游仓库）**
+**资产层 II（P1 收尾 + P2 四源精选：5 包 / 64 技能，2026-09-27 追加）**
+
+- `caveman-toolkit`（caveman 技能面 7，MIT）、`cybersecurity-pro`（818 挑 14，Apache-2.0）、`gtm-growth`（281 挑 16，MIT）、
+  `language-standards`（14，Apache-2.0）、`company-playbooks`（13，MIT；落 ops/leadership/finance/product 四域）。
+- 注册：`packs/*` 新增 5 包 + `manifest.json`（57 包 / 403 技能）；`skill_chains.json` 88→108 链（27 域不变）；`taxonomy.json` 三组落位；
+  `SOURCES.md` 新增「本批新收录 II」一节（5 包 × 5 仓库许可与更新指引 + 三项不迁裁决）。
+- 迁移规范化：同 §4 既有口径（frontmatter 归一、署名段、长参考补目录、绝对路径占位化、补 `description_zh`）；cyber 的 5 个长参考文档补 TOC。
+
+**资产层 I（本轮批量迁入 12 包 / 148 技能，21 个上游仓库）**
 
 - `P0-1` feishu-suite（28，larksuite/cli，MIT）：frontmatter 规范化、140 个长参考文档补目录、约 230 处相对链接归一化、每技能附来源署名；上游自带 232 项测试纳入 CI。
 - `P0-2~P0-9` + P1 五个：knowledge-work（21）、engineering-playbook（21）、cloud-platforms（12）、cmo-suite（12）、product-management（14）、wechat-longform（10）、video-code（5）、google-workspace（12）、hf-ml-hub（11）、scientific-agent-skills（12）、code-quality-pro（13）、creator-boosters（5）。
@@ -135,8 +152,10 @@ Lawvable Legal 272 · OpenClaw Medical 863 · Cybersecurity 818 · headcount 172
 2. ✅ **中文检索**：取「补 frontmatter `description_zh`」方案——302 个技能补齐（另 37 个原本已有中文 description）；站点展示与搜索引擎同步。
 3. ✅ `find_skill.py` 与 taxonomy 场景库联动（`search --group software`，支持 id / 中文名 / 英文名）。
 4. ✅ 全部 P0 包的迁移与署名登记（`pack.json` 的 `skills[].source` + `manifest.json` + `SOURCES.md`「本批新收录」）。
+5. ✅ **P1 收尾与 P2 许可核验**：caveman 落地为 `caveman-toolkit`；P2 七源逐仓实测 LICENSE——四源精选迁入（cybersecurity-pro / gtm-growth / language-standards / company-playbooks）、三源裁决不迁（Lawvable / OpenClaw Medical / buildwithclaude，见 §3）。
+6. ✅ **可选依赖脚本测试**：上游为可选依赖的脚本统一走 skip 守卫（`video-shotcraft/jianying-export/smoke_test.py` 已实现；本轮复核全仓测试脚本无同类阻断项）。
 
-**仍未做（不阻塞全案）**：caveman（许可待核实）；P2 各垂直大包的许可核验（Lawvable / OpenClaw 等）；上游为「可选依赖」的脚本测试统一走 skip（本轮已为 video-shotcraft 的 `smoke_test.py` 补装 skip 守卫）。
+**结论：路线图全部执行完毕（2026-09-27 结项），无遗留项。**
 
 ---
 
@@ -148,9 +167,10 @@ Lawvable Legal 272 · OpenClaw Medical 863 · Cybersecurity 818 · headcount 172
 P0-1 飞书套件 ✅ → P0-2 知识工作 ✅ → P0-3 工程方法论 ✅ → P0-4 前端规范 ✅（并入 engineering-playbook/code-quality-pro）
 → P0-5 云平台 ✅ → P0-6 营销/C-level ✅ → P0-7 PM ✅ → P0-8 微信长文 ✅ → P0-9 视频代码化 ✅
  ↓（每包一提交：许可核验 → 去重 → 重组为包 → 登记 source → 过门禁 → CHANGELOG）
- ↓ P1：google-workspace ✅ / hf-ml-hub ✅ / scientific ✅ / creator-boosters ✅ / code-quality-pro ✅；caveman ⏳
+ ↓ P1：google-workspace ✅ / hf-ml-hub ✅ / scientific ✅ / creator-boosters ✅ / code-quality-pro ✅ / caveman ✅
+ ↓ P2：许可核验 7 源——cybersecurity ✅ / goose-skills ✅ / mindrally ✅ / headcount ✅ 精选迁入；Lawvable ⛔ / OpenClaw Medical ⛔ / buildwithclaude ⛔（见 §3）
  ↓
-站点/三语 README/安装包随发版更新；P2 按序。
+站点/三语 README/安装包已随本轮更新；**全部结项**。
 ```
 
 **每包验收沿用既有纪律**：`python3 tools/validate_skills.py`（0/0）→ `python3 -m pytest skills -q` → `python3 build.py` → `python3 tools/build_site.py`；taxonomy 覆盖校验自动生效（新包必须在 `taxonomy.json` 里落位，否则门禁 FAIL）。

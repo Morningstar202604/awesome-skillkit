@@ -3,12 +3,12 @@
 <h1 align="center">awesome-skillkit</h1>
 
 <p align="center">
-  <b>2 つのプロダクトライン、1 つのリポジトリ：<br>AI ツール向け 52 シーンパック · 339 スキル&nbsp;＋&nbsp; マルチエージェント協働向け 18 チーム · 219 エージェント——<br>解凍してドロップイン、AI ツールが即座に仕事を覚えます。</b>
+  <b>2 つのプロダクトライン、1 つのリポジトリ：<br>AI ツール向け 57 シーンパック · 403 スキル&nbsp;＋&nbsp; マルチエージェント協働向け 18 チーム · 219 エージェント——<br>解凍してドロップイン、AI ツールが即座に仕事を覚えます。</b>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
-  <img src="https://img.shields.io/badge/skills-339-brightgreen?style=flat-square" alt="Skills" />
+  <img src="https://img.shields.io/badge/skills-403-brightgreen?style=flat-square" alt="Skills" />
   <img src="https://img.shields.io/badge/packs-52-blue?style=flat-square" alt="Packs" />
   <img src="https://img.shields.io/badge/expert%20teams-18%20%C2%B7%20219%20agents-blueviolet?style=flat-square" alt="Expert Teams" />
   <img src="https://img.shields.io/badge/version-0.22.1-success?style=flat-square" alt="Version" />
@@ -42,7 +42,7 @@
 | | **A · シーンパック（スキル）** | **B · Expert Teams（专家团）** |
 |---|---|---|
 | **ポジション** | AI コーディング / エージェントツール向けのスキル。1 パック = 1 つの実務シナリオ、skills ディレクトリに入れれば使える | AI コーディングツールや各種 AI ツールにおける**マルチエージェント協働**。役割分担した専門チームが計画・ディスパッチ・品質ゲートを担う |
-| **アセット** | 52 パック · 339 スキル · 27 ドメイン · 88 チェーン | 18 チーム · 219 エキスパートエージェント · 100 スキル · オーケストレーション規約（純 Markdown） |
+| **アセット** | 57 パック · 403 スキル · 27 ドメイン · 108 チェーン | 18 チーム · 219 エキスパートエージェント · 100 スキル · オーケストレーション規約（純 Markdown） |
 | **場所** | [`packs/`](packs/) + [`skills/`](skills/) | [`expert-teams/`](expert-teams/) |
 | **入手** | [公式サイト](https://x33834.github.io/awesome-skillkit/) · [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) | [オンライン閲覧](https://x33834.github.io/awesome-skillkit/expert-teams.html) · [4 プラットフォーム用パッケージ](https://x33834.github.io/awesome-skillkit/expert-teams.html#download) |
 
@@ -93,7 +93,7 @@ flowchart LR
 
 ## 使い込む理由 — 5 つの要点
 
-- **場面優先、テーマの寄せ集めではない**：339 スキル / 52 パック / 27 ドメイン / 88 チェーン——1 パック = AI にそのまま渡せる具体的な仕事（「PR レビュー」「記事を 16 つの中国語プラットフォームへ同時配信」）。
+- **場面優先、テーマの寄せ集めではない**：403 スキル / 57 パック / 27 ドメイン / 108 チェーン——1 パック = AI にそのまま渡せる具体的な仕事（「PR レビュー」「記事を 16 つの中国語プラットフォームへ同時配信」）。
 - **粒度は選べる**：単一 `SKILL.md`、パック単体 zip、[`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) の全量——解凍して skills ディレクトリへ入れ、新しいセッションで設定なしで動作。
 - **まず見てから**：[公式サイト](https://x33834.github.io/awesome-skillkit/) でスキル / ドメイン / パックを検索してカードから直接ダウンロード（日英中 README + 双語サイト）。または AI に `find_skill.py search <キーワード>` を実行させる。
 - **品質は検証可能**：`tools/validate_skills.py` が **0 errors / 0 warnings** を通過（manifest と配布 zip のダイジェスト相互固定）、CI が全 PR でユニットテスト実行。
@@ -120,11 +120,11 @@ flowchart LR
 
 > パック別 zip は `python3 build.py` で再ビルドされ、すべての GitHub Release に添付されます。GitCode / Gitee ミラーは同一タグをプッシュし、同一アセットをアップロードしています。
 
-## シナリオパック一覧（全 52 パック）
+## シナリオパック一覧（全 57 パック）
 
 以下が完全なカタログです。**8 つのシーンライブラリ**ごとにグループ化しています（公式サイトと同じ 2 段階ナビゲーション：シーンライブラリ → ケイパビリティドメイン）。各行はパックフォルダへのリンクになっており、スキル列には同梱されるすべての `SKILL.md` を列挙しています。
 
-### 🛠 ソフトウェア開発 · 19 パック
+### 🛠 ソフトウェア開発 · 21 パック
 
 | Pack ID | パック名 (英語) | パック名 (日本語) | スキル数 | 同梱スキル |
 |---|---|---|:---:|---|
@@ -136,23 +136,26 @@ flowchart LR
 | [`code-quality-pro`](packs/code-quality-pro) | Code Quality Pro | コード品質プロ | 13 | `code-review-excellence`, `debugging-strategies`, `e2e-testing-patterns`, `error-handling-patterns`, `api-design-principles`, `architecture-patterns`, `sql-optimization-patterns`, `postgresql-table-design`, `auth-implementation-patterns`, `monorepo-management`, `deployment-pipeline-design`, `git-advanced-workflows`, `open-code-review` |
 | [`code-review`](packs/code-review) | Code Review | コードレビュー | 4 | `code-reviewer`, `api-design-reviewer`, `tech-debt-tracker`, `dependency-auditor` |
 | [`containers`](packs/containers) | Containers & Orchestration | コンテナとオーケストレーション | 3 | `docker-development`, `helm-chart-builder`, `kubernetes-operator` |
+| [`cybersecurity-pro`](packs/cybersecurity-pro) | Cybersecurity Pro | サイバーセキュリティ実践精選 | 14 | `analyzing-memory-dumps-with-volatility`, `analyzing-linux-audit-logs-for-intrusion`, `analyzing-security-logs-with-splunk`, `analyzing-network-traffic-with-wireshark`, `analyzing-cobalt-strike-beacon-configuration`, `analyzing-malware-behavior-with-cuckoo-sandbox`, `analyzing-ransomware-encryption-mechanisms`, `analyzing-email-headers-for-phishing-investigation`, `analyzing-kubernetes-audit-logs`, `analyzing-azure-activity-logs-for-threats`, `analyzing-sbom-for-supply-chain-vulnerabilities`, `analyzing-threat-actor-ttps-with-mitre-attack`, `detecting-dcsync-attack-in-active-directory`, `hunting-for-lateral-movement-via-wmi` |
 | [`database`](packs/database) | Database Design & Management | データベース設計と管理 | 2 | `database-designer`, `sql-database-assistant` |
 | [`engineering-playbook`](packs/engineering-playbook) | Engineering Playbook | エンジニアリング方法論ハンドブック | 21 | `brainstorming`, `dispatching-parallel-agents`, `executing-plans`, `finishing-a-development-branch`, `receiving-code-review`, `requesting-code-review`, `subagent-driven-development`, `systematic-debugging`, `test-driven-development`, `using-git-worktrees`, `verification-before-completion`, `writing-plans`, `spec-driven-development`, `planning-and-task-breakdown`, `code-review-and-quality`, `debugging-and-error-recovery`, `shipping-and-launch`, `incremental-implementation`, `tdd`, `handoff`, `grill-me` |
 | [`github-workflow`](packs/github-workflow) | GitHub Collaboration | GitHubコラボレーション | 3 | `git-worktree-manager`, `changelog-generator`, `code-reviewer` |
 | [`hf-ml-hub`](packs/hf-ml-hub) | Hugging Face ML Hub | Hugging Face機械学習 | 11 | `hf-cli`, `huggingface-datasets`, `huggingface-papers`, `huggingface-community-evals`, `trl-training`, `train-sentence-transformers`, `huggingface-spaces`, `huggingface-gradio`, `huggingface-local-models`, `huggingface-llm-trainer`, `huggingface-best` |
 | [`incident-response`](packs/incident-response) | Incident Response & SRE | 障害対応とSRE | 3 | `incident-commander`, `runbook-generator`, `slo-architect` |
 | [`infrastructure`](packs/infrastructure) | Infrastructure as Code | インフラ as Code | 3 | `terraform-patterns`, `observability-designer`, `kubernetes-operator` |
+| [`language-standards`](packs/language-standards) | Language Standards | 言語エンジニアリング規格 | 14 | `go`, `rust`, `python`, `typescript`, `cpp`, `c-sharp`, `java`, `ruby`, `php-development`, `swift`, `elixir`, `kotlin-development`, `sql-best-practices`, `bash-scripting` |
 | [`performance`](packs/performance) | Performance Profiling | パフォーマンス最適化 | 1 | `performance-profiler` |
 | [`scientific-agent-skills`](packs/scientific-agent-skills) | Scientific Computing | 科学研究計算（厳選） | 12 | `exploratory-data-analysis`, `experimental-design`, `hypothesis-generation`, `literature-review`, `citation-management`, `peer-review`, `polars`, `networkx`, `matplotlib`, `statistical-analysis`, `optimize-for-gpu`, `get-available-resources` |
 | [`security`](packs/security) | Security & Secrets | セキュリティとシークレット管理 | 4 | `secrets-vault-manager`, `env-secrets-manager`, `pii-redactor`, `prompt-injection-guard` |
 | [`tdd`](packs/tdd) | Test-Driven Development | テスト駆動開発 | 4 | `tdd-guide`, `webapp-flow-tester`, `webapp-e2e-harness`, `agent-eval-harness` |
 | [`web-ops`](packs/web-ops) | Web Operations | ウェブ操作 | 1 | `web-data-extractor` |
 
-### 🤖 AI とエージェント · 4 パック
+### 🤖 AI とエージェント · 5 パック
 
 | Pack ID | パック名 (英語) | パック名 (日本語) | スキル数 | 同梱スキル |
 |---|---|---|:---:|---|
 | [`ai-agent-development`](packs/ai-agent-development) | AI Agent Development | AI Agent開発 | 5 | `agent-designer`, `mcp-server-builder`, `feature-flags-architect`, `self-eval`, `skill-tester` |
+| [`caveman-toolkit`](packs/caveman-toolkit) | Caveman Toolkit | Caveman トークン節約ツールキット | 7 | `caveman`, `caveman-commit`, `caveman-review`, `caveman-help`, `caveman-stats`, `caveman-compress`, `cavecrew` |
 | [`chat-prompt-craft`](packs/chat-prompt-craft) | Chat Prompt Craft | チャットプロンプト術 | 1 | `chat-prompt-engineer` |
 | [`memory-systems`](packs/memory-systems) | Memory Systems | 長期記憶システム | 4 | `memory-architect`, `memory-extractor`, `memory-manager`, `memory-retriever` |
 | [`skill-forge`](packs/skill-forge) | Skill Forge | スキル鍛造所 | 5 | `skill-author`, `skill-linter`, `skill-finder`, `session-handoff`, `weekly-report-generator` |
@@ -194,12 +197,14 @@ flowchart LR
 | [`toolsmith`](packs/toolsmith) | Toolsmith | ツールと自動化 | 6 | `file-organizer`, `batch-renamer`, `format-converter`, `task-scheduler`, `invoice-organizer`, `bank-statement-reconcile` |
 | [`workspace-integrations`](packs/workspace-integrations) | Workspace Integrations | 外部連携ツールボックス | 4 | `notion-workspace`, `feishu-dingtalk-bridge`, `issue-tracker-sync`, `cloud-drive-manager` |
 
-### 📈 ビジネスと成長 · 4 パック
+### 📈 ビジネスと成長 · 6 パック
 
 | Pack ID | パック名 (英語) | パック名 (日本語) | スキル数 | 同梱スキル |
 |---|---|---|:---:|---|
 | [`cmo-suite`](packs/cmo-suite) | CMO & C-Suite Suite | CMO・経営層スイート | 12 | `landing`, `linkedin-analytics`, `linkedin-content`, `linkedin-engagement`, `linkedin-profile`, `linkedin-strategy`, `ceo-advisor`, `cfo-advisor`, `cmo-advisor`, `cto-advisor`, `chro-advisor`, `ciso-advisor` |
+| [`company-playbooks`](packs/company-playbooks) | Company Playbooks | 企業運営プレイブック | 13 | `scenario-planning`, `market-entry`, `agent-hierarchy`, `operating-cadence`, `process-design`, `business-continuity-and-resilience`, `vendor-management`, `service-level-management`, `program-management`, `dependency-and-risk-management`, `estimating-and-contingency`, `unit-economics`, `pricing-and-packaging` |
 | [`growth-marketing`](packs/growth-marketing) | Growth Marketing | グロースマーケティング | 3 | `product-copywriter`, `campaign-designer`, `channel-adapter` |
+| [`gtm-growth`](packs/gtm-growth) | GTM Growth Suite | GTM グローススイート | 16 | `meta-ads-analyzer`, `google-search-ads-builder`, `ad-angle-miner`, `competitor-ad-intelligence`, `ad-to-landing-page-auditor`, `paid-channel-prioritizer`, `launch-positioning-builder`, `brand-voice-extractor`, `battlecard-generator`, `competitor-intel`, `competitive-pricing-intel`, `campaign-brief-generator`, `content-repurposing`, `seo-opportunity-finder`, `github-repo-signals`, `community-signals` |
 | [`knowledge-work`](packs/knowledge-work) | Knowledge Work Suite | ナレッジワークスイート | 21 | `comp-analysis`, `interview-prep`, `onboarding`, `performance-review`, `policy-lookup`, `recruiting-pipeline`, `review-contract`, `legal-risk-assessment`, `compliance-check`, `triage-nda`, `variance-analysis`, `audit-support`, `process-optimization`, `risk-assessment`, `status-report`, `ticket-triage`, `draft-response`, `kb-article`, `user-research`, `research-synthesis`, `ux-copy` |
 | [`product-management`](packs/product-management) | Product Management | プロダクトマネジメント | 14 | `create-prd`, `outcome-roadmap`, `prioritization-frameworks`, `user-stories`, `job-stories`, `stakeholder-map`, `pre-mortem`, `sprint-plan`, `north-star-metric`, `competitive-battlecard`, `market-sizing`, `user-personas`, `to-spec`, `triage` |
 

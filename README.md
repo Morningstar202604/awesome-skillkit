@@ -3,12 +3,12 @@
 <h1 align="center">awesome-skillkit</h1>
 
 <p align="center">
-  <b>Two product lines, one repo:<br>52 scene packs · 339 skills for AI tools &nbsp;+&nbsp; 18 expert teams · 219 agents for multi-agent collaboration —<br>unzip &amp; drop-in, your AI tool instantly knows the job.</b>
+  <b>Two product lines, one repo:<br>57 scene packs · 403 skills for AI tools &nbsp;+&nbsp; 18 expert teams · 219 agents for multi-agent collaboration —<br>unzip &amp; drop-in, your AI tool instantly knows the job.</b>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
-  <img src="https://img.shields.io/badge/skills-339-brightgreen?style=flat-square" alt="Skills" />
+  <img src="https://img.shields.io/badge/skills-403-brightgreen?style=flat-square" alt="Skills" />
   <img src="https://img.shields.io/badge/packs-52-blue?style=flat-square" alt="Packs" />
   <img src="https://img.shields.io/badge/expert%20teams-18%20%C2%B7%20219%20agents-blueviolet?style=flat-square" alt="Expert Teams" />
   <img src="https://img.shields.io/badge/version-0.22.1-success?style=flat-square" alt="Version" />
@@ -41,7 +41,7 @@ The SKILL.md files inside the repo are being translated to English, but many of 
 | | **A · Scene packs (skills)** | **B · Expert Teams (专家团)** |
 |---|---|---|
 | **Positioning** | Tool skills for AI coding / agent tools — one pack = one real-world scenario, drop it into the skills directory and go | Multi-agent collaboration inside AI coding tools and other AI tools — role-specialised agent teams that plan, dispatch, and gate each other's work |
-| **Assets** | 52 packs · 339 skills · 27 domains · 88 skill chains | 18 teams · 219 expert agents · 100 skills · orchestration protocol (pure Markdown) |
+| **Assets** | 57 packs · 403 skills · 27 domains · 108 skill chains | 18 teams · 219 expert agents · 100 skills · orchestration protocol (pure Markdown) |
 | **Location** | [`packs/`](packs/) + [`skills/`](skills/) | [`expert-teams/`](expert-teams/) |
 | **Get started** | [Official site](https://x33834.github.io/awesome-skillkit/) · [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) | [Browse page](https://x33834.github.io/awesome-skillkit/expert-teams.html) · [platform packages](https://x33834.github.io/awesome-skillkit/expert-teams.html#download) |
 
@@ -92,7 +92,7 @@ Packages are reproducible builds (digest-locked in CI); rebuild anytime with `py
 
 ## Why this repo — five reasons to grab it
 
-- **Scenario-first, not topic soup**: 339 skills / 52 packs / 27 domains / 88 chains — one pack = one concrete job you can hand to an AI ("review a PR", "cross-post an article to 16 Chinese platforms").
+- **Scenario-first, not topic soup**: 403 skills / 57 packs / 27 domains / 108 chains — one pack = one concrete job you can hand to an AI ("review a PR", "cross-post an article to 16 Chinese platforms").
 - **Pick your granularity**: a single `SKILL.md`, one pack zip, or everything via [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) — unzip into your tool's skills directory and it works in a fresh session, no config.
 - **Browse before you commit**: the [official site](https://x33834.github.io/awesome-skillkit/) searches skills / domains / packs with per-card downloads (EN · 简中 · 日本語 README + bilingual site); or ask your agent to run `find_skill.py search <keyword>`.
 - **Quality you can verify**: `tools/validate_skills.py` gates the repo at **0 errors / 0 warnings** (manifest ↔ shipped zips digests locked), and CI runs the full unit-test suite on every PR.
@@ -119,11 +119,11 @@ Packages are reproducible builds (digest-locked in CI); rebuild anytime with `py
 
 > Per-pack zips are rebuilt by `python3 build.py` and attached to every GitHub Release; the GitCode / Gitee mirrors push the same tags and upload the same assets.
 
-## Scenario pack directory (all 52 packs)
+## Scenario pack directory (all 57 packs)
 
 Below is the complete catalog, grouped by the **8 scene libraries** (the same two-level navigation as the official site: scene library → capability domain). Each row links to its pack folder; the skill column lists every `SKILL.md` shipped inside.
 
-### 🛠 Software Engineering · 19 packs
+### 🛠 Software Engineering · 21 packs
 
 | Pack ID | Pack name (EN) | 名称 (中文) | Skills | Skills included |
 |---|---|---|:---:|---|
@@ -135,23 +135,26 @@ Below is the complete catalog, grouped by the **8 scene libraries** (the same tw
 | [`code-quality-pro`](packs/code-quality-pro) | Code Quality Pro | 代码质量进阶 | 13 | `code-review-excellence`, `debugging-strategies`, `e2e-testing-patterns`, `error-handling-patterns`, `api-design-principles`, `architecture-patterns`, `sql-optimization-patterns`, `postgresql-table-design`, `auth-implementation-patterns`, `monorepo-management`, `deployment-pipeline-design`, `git-advanced-workflows`, `open-code-review` |
 | [`code-review`](packs/code-review) | Code Review | 代码审查 | 4 | `code-reviewer`, `api-design-reviewer`, `tech-debt-tracker`, `dependency-auditor` |
 | [`containers`](packs/containers) | Containers & Orchestration | 容器与编排 | 3 | `docker-development`, `helm-chart-builder`, `kubernetes-operator` |
+| [`cybersecurity-pro`](packs/cybersecurity-pro) | Cybersecurity Pro | 网络安全实战精选 | 14 | `analyzing-memory-dumps-with-volatility`, `analyzing-linux-audit-logs-for-intrusion`, `analyzing-security-logs-with-splunk`, `analyzing-network-traffic-with-wireshark`, `analyzing-cobalt-strike-beacon-configuration`, `analyzing-malware-behavior-with-cuckoo-sandbox`, `analyzing-ransomware-encryption-mechanisms`, `analyzing-email-headers-for-phishing-investigation`, `analyzing-kubernetes-audit-logs`, `analyzing-azure-activity-logs-for-threats`, `analyzing-sbom-for-supply-chain-vulnerabilities`, `analyzing-threat-actor-ttps-with-mitre-attack`, `detecting-dcsync-attack-in-active-directory`, `hunting-for-lateral-movement-via-wmi` |
 | [`database`](packs/database) | Database Design & Management | 数据库设计与管理 | 2 | `database-designer`, `sql-database-assistant` |
 | [`engineering-playbook`](packs/engineering-playbook) | Engineering Playbook | 工程方法论手册 | 21 | `brainstorming`, `dispatching-parallel-agents`, `executing-plans`, `finishing-a-development-branch`, `receiving-code-review`, `requesting-code-review`, `subagent-driven-development`, `systematic-debugging`, `test-driven-development`, `using-git-worktrees`, `verification-before-completion`, `writing-plans`, `spec-driven-development`, `planning-and-task-breakdown`, `code-review-and-quality`, `debugging-and-error-recovery`, `shipping-and-launch`, `incremental-implementation`, `tdd`, `handoff`, `grill-me` |
 | [`github-workflow`](packs/github-workflow) | GitHub Collaboration | GitHub 协作工作流 | 3 | `git-worktree-manager`, `changelog-generator`, `code-reviewer` |
 | [`hf-ml-hub`](packs/hf-ml-hub) | Hugging Face ML Hub | Hugging Face 机器学习 | 11 | `hf-cli`, `huggingface-datasets`, `huggingface-papers`, `huggingface-community-evals`, `trl-training`, `train-sentence-transformers`, `huggingface-spaces`, `huggingface-gradio`, `huggingface-local-models`, `huggingface-llm-trainer`, `huggingface-best` |
 | [`incident-response`](packs/incident-response) | Incident Response & SRE | 故障响应与 SRE | 3 | `incident-commander`, `runbook-generator`, `slo-architect` |
 | [`infrastructure`](packs/infrastructure) | Infrastructure as Code | 基础设施即代码 | 3 | `terraform-patterns`, `observability-designer`, `kubernetes-operator` |
+| [`language-standards`](packs/language-standards) | Language Standards | 语言工程规范 | 14 | `go`, `rust`, `python`, `typescript`, `cpp`, `c-sharp`, `java`, `ruby`, `php-development`, `swift`, `elixir`, `kotlin-development`, `sql-best-practices`, `bash-scripting` |
 | [`performance`](packs/performance) | Performance Profiling | 性能优化 | 1 | `performance-profiler` |
 | [`scientific-agent-skills`](packs/scientific-agent-skills) | Scientific Computing | 科研计算（精选） | 12 | `exploratory-data-analysis`, `experimental-design`, `hypothesis-generation`, `literature-review`, `citation-management`, `peer-review`, `polars`, `networkx`, `matplotlib`, `statistical-analysis`, `optimize-for-gpu`, `get-available-resources` |
 | [`security`](packs/security) | Security & Secrets | 安全与密钥管理 | 4 | `secrets-vault-manager`, `env-secrets-manager`, `pii-redactor`, `prompt-injection-guard` |
 | [`tdd`](packs/tdd) | Test-Driven Development | 测试驱动开发 | 4 | `tdd-guide`, `webapp-flow-tester`, `webapp-e2e-harness`, `agent-eval-harness` |
 | [`web-ops`](packs/web-ops) | Web Operations | 网页操作 | 1 | `web-data-extractor` |
 
-### 🤖 AI & Agents · 4 packs
+### 🤖 AI & Agents · 5 packs
 
 | Pack ID | Pack name (EN) | 名称 (中文) | Skills | Skills included |
 |---|---|---|:---:|---|
 | [`ai-agent-development`](packs/ai-agent-development) | AI Agent Development | AI Agent 开发 | 5 | `agent-designer`, `mcp-server-builder`, `feature-flags-architect`, `self-eval`, `skill-tester` |
+| [`caveman-toolkit`](packs/caveman-toolkit) | Caveman Toolkit | Caveman 省 token 工具包 | 7 | `caveman`, `caveman-commit`, `caveman-review`, `caveman-help`, `caveman-stats`, `caveman-compress`, `cavecrew` |
 | [`chat-prompt-craft`](packs/chat-prompt-craft) | Chat Prompt Craft | 聊天提示词工艺 | 1 | `chat-prompt-engineer` |
 | [`memory-systems`](packs/memory-systems) | Memory Systems | 长期记忆系统 | 4 | `memory-architect`, `memory-extractor`, `memory-manager`, `memory-retriever` |
 | [`skill-forge`](packs/skill-forge) | Skill Forge | 技能锻造厂 | 5 | `skill-author`, `skill-linter`, `skill-finder`, `session-handoff`, `weekly-report-generator` |
@@ -193,12 +196,14 @@ Below is the complete catalog, grouped by the **8 scene libraries** (the same tw
 | [`toolsmith`](packs/toolsmith) | Toolsmith | 工具与自动化 | 6 | `file-organizer`, `batch-renamer`, `format-converter`, `task-scheduler`, `invoice-organizer`, `bank-statement-reconcile` |
 | [`workspace-integrations`](packs/workspace-integrations) | Workspace Integrations | 外部集成工具箱 | 4 | `notion-workspace`, `feishu-dingtalk-bridge`, `issue-tracker-sync`, `cloud-drive-manager` |
 
-### 📈 Business & Growth · 4 packs
+### 📈 Business & Growth · 6 packs
 
 | Pack ID | Pack name (EN) | 名称 (中文) | Skills | Skills included |
 |---|---|---|:---:|---|
 | [`cmo-suite`](packs/cmo-suite) | CMO & C-Suite Suite | CMO 与高管套件 | 12 | `landing`, `linkedin-analytics`, `linkedin-content`, `linkedin-engagement`, `linkedin-profile`, `linkedin-strategy`, `ceo-advisor`, `cfo-advisor`, `cmo-advisor`, `cto-advisor`, `chro-advisor`, `ciso-advisor` |
+| [`company-playbooks`](packs/company-playbooks) | Company Playbooks | 公司运营手册 | 13 | `scenario-planning`, `market-entry`, `agent-hierarchy`, `operating-cadence`, `process-design`, `business-continuity-and-resilience`, `vendor-management`, `service-level-management`, `program-management`, `dependency-and-risk-management`, `estimating-and-contingency`, `unit-economics`, `pricing-and-packaging` |
 | [`growth-marketing`](packs/growth-marketing) | Growth Marketing | 增长营销 | 3 | `product-copywriter`, `campaign-designer`, `channel-adapter` |
+| [`gtm-growth`](packs/gtm-growth) | GTM Growth Suite | GTM 增长套件 | 16 | `meta-ads-analyzer`, `google-search-ads-builder`, `ad-angle-miner`, `competitor-ad-intelligence`, `ad-to-landing-page-auditor`, `paid-channel-prioritizer`, `launch-positioning-builder`, `brand-voice-extractor`, `battlecard-generator`, `competitor-intel`, `competitive-pricing-intel`, `campaign-brief-generator`, `content-repurposing`, `seo-opportunity-finder`, `github-repo-signals`, `community-signals` |
 | [`knowledge-work`](packs/knowledge-work) | Knowledge Work Suite | 知识工作套件 | 21 | `comp-analysis`, `interview-prep`, `onboarding`, `performance-review`, `policy-lookup`, `recruiting-pipeline`, `review-contract`, `legal-risk-assessment`, `compliance-check`, `triage-nda`, `variance-analysis`, `audit-support`, `process-optimization`, `risk-assessment`, `status-report`, `ticket-triage`, `draft-response`, `kb-article`, `user-research`, `research-synthesis`, `ux-copy` |
 | [`product-management`](packs/product-management) | Product Management | 产品管理 | 14 | `create-prd`, `outcome-roadmap`, `prioritization-frameworks`, `user-stories`, `job-stories`, `stakeholder-map`, `pre-mortem`, `sprint-plan`, `north-star-metric`, `competitive-battlecard`, `market-sizing`, `user-personas`, `to-spec`, `triage` |
 

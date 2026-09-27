@@ -1,7 +1,7 @@
 # SOURCES — 技能来源与更新指引 / Skill Sources & Updates
 
-> 本仓库维护五条线（截至 0.23 候选，共 **339 个技能 / 52 个场景包** = 官方收录 28 + 上游精选 32 +
-> 上游改造 5 + 自建 126 + 本批新收录 148）：
+> 本仓库维护六条线（截至 0.23 候选，共 **403 个技能 / 57 个场景包** = 官方收录 28 + 上游精选 32 +
+> 上游改造 5 + 自建 126 + 新收录 I 148 + 新收录 II 64）：
 > 0. **官方收录**（28 个，2026-09-27 起，`skills/integrations/lark/`）——飞书官方仓库 `larksuite/cli` 的
 >    Agent Skills，整包收录为 `feishu-suite`，见「官方收录」一节；
 > 1. **上游精选**（`skills/programming/` 下 13 个分类目录，32 个）——全部来自下方上游项目；
@@ -14,11 +14,16 @@
 >    `math/`、`ml/`、`planning/`、`web-data-extractor/`）与 3 个编在上游目录里的自建技能
 >    （`security/pii-redactor`、`security/prompt-injection-guard`、`testing/webapp-flow-tester`），
 >    本仓库原创维护。
-> 4. **本批新收录**（148 个，2026-09-27，12 个新场景包 × 21 个上游仓库，见「本批新收录」一节）——
+> 4. **新收录 I**（148 个，2026-09-27，12 个新场景包 × 21 个上游仓库，见「本批新收录」一节）——
 >    按路线图「开户」清单批量迁入：知识工作 / 工程方法论 / 云平台 / CMO / 产品管理 / 微信长文 /
 >    代码化视频 / Google Workspace / Hugging Face / 科研计算 / 代码质量 / 创作增强单品。
+> 5. **新收录 II**（64 个，2026-09-27，5 个新场景包 × 5 个上游仓库，见「本批新收录 II」一节）——
+>    路线图 P1 收尾（caveman 省 token 工具包）+ P2 许可核验后的四源精选：网络安全实战（cybersecurity-pro，
+>    Apache-2.0 社区大包精选）、GTM 增长（goose-skills）、语言工程规范（mindrally/skills）、
+>    公司运营手册（headcount）；同批裁决三项**不迁**（Lawvable CC BY-NC-ND、OpenClaw Medical 无 LICENSE、
+>    buildwithclaude 聚合平台）。
 
-> 5. **并入资产·专家团**（2026-09-27 起，`expert-teams/`）——原独立仓库 `ai-expert-teams`（MIT）
+> 6. **并入资产·专家团**（2026-09-27 起，`expert-teams/`）——原独立仓库 `ai-expert-teams`（MIT）
 >    整体迁入：18 支团队 / 219 位专家 agent / 100 个技能，自带索引与门禁；**不计入**上文
 >    339 技能 / 52 场景包的计数口径。
 
@@ -118,6 +123,33 @@ anthropics、santifer-career-ops——逐技能对应关系以各技能 `referen
 6. 中文使用说明按需补 `compatibility`（如"部分技能假设已连接企业系统，未连接时按文内提示降级"）。
 
 **更新方法**：clone 上游 → 覆盖对应目录（`references/` / `scripts/` 一并覆盖）→ 按上述 1–6 重新规范化 → 跑门禁四连（`tools/validate_skills.py` / `pytest skills -q` / `build.py` / `tools/build_site.py`）。
+
+## 本批新收录 II / New batch II — 5 个新场景包（64 个，2026-09-27）
+
+> 分类 v2 路线图 P1 收尾（caveman）+ P2 许可核验后的四源精选；许可一律 raw LICENSE 文件级实测。
+
+| 场景包 | 上游仓库 | 许可 | 技能 | 目录 |
+|--------|----------|------|-----:|------|
+| caveman-toolkit | [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)（仅取 `skills/` 技能面 7 个） | MIT（引擎目录 `engine/` `proxy/` 等为 BSL-1.1，**未收录**） | 7 | `skills/meta` |
+| cybersecurity-pro | [mukul975/Anthropic-Cybersecurity-Skills](https://github.com/mukul975/Anthropic-Cybersecurity-Skills)（818 精选 14；社区项目，非 Anthropic 官方） | Apache-2.0 | 14 | `skills/programming/security` |
+| gtm-growth | [gooseworks-ai/goose-skills](https://github.com/gooseworks-ai/goose-skills)（281 精选 16） | MIT | 16 | `skills/marketing/gtm` |
+| language-standards | [mindrally/skills](https://github.com/mindrally/skills)（Cursor Rules 转换，240+ 精选 14） | Apache-2.0 | 14 | `skills/programming/standards` |
+| company-playbooks | [cbrock84/headcount](https://github.com/cbrock84/headcount)（172 精选 13） | MIT | 13 | `skills/ops`(8) / `skills/leadership`(3) / `skills/finance`(1) / `skills/product`(1) |
+
+**P2 许可核验裁决（核验未通过，不迁）**：
+
+| 来源 | 实测 | 裁决 |
+|---|---|---|
+| [lawvable/awesome-legal-skills](https://github.com/lawvable/awesome-legal-skills)（272） | 根 LICENSE = **CC BY-NC-ND 4.0**（禁商用 + 禁衍生物）；部分条目另有 AGPL-3.0 标注 | 不迁（ND 禁止改写与再分发） |
+| [FreedomIntelligence/OpenClaw-Medical-Skills](https://github.com/FreedomIntelligence/OpenClaw-Medical-Skills)（~870） | **无 LICENSE 文件**（README 徽章口述 MIT，不采信） | 不迁（沿用 vercel-labs 先例）；医疗内容另需合规审查与人审 |
+| [davepoon/buildwithclaude](https://github.com/davepoon/buildwithclaude)（373） | MIT（但本体是发现/市场平台，条目来自不同作者，授权链路混杂） | 不迁（聚合平台非作者本体） |
+
+**迁移规范化**：与「本批新收录」一节 1–6 条同口径（frontmatter 归一、来源署名段、长参考文档补目录、
+绝对路径占位化、name 与目录名对齐、补 `description_zh`）；cyber 技能的 5 个超 100 行参考文档已补
+`## 目录 / Contents`，headcount 的 `sources.md` 生成脚注改写为未随包的说明。
+
+**更新方法**：clone 上述上游 → 覆盖对应 `skills/` 目录（`references/` / `scripts/` 一并覆盖）→
+按 1–6 重新规范化 → 跑门禁四连（`tools/validate_skills.py` / `pytest skills -q` / `build.py` / `tools/build_site.py`）。
 
 ## 并入资产 / Merged-in assets
 
@@ -311,7 +343,7 @@ v0.18 发版后新增、未及登记进上文分域表格的技能，此处补�
 
 以上 126 个自建技能不来自上游（另 5 个上游改造见上文），由本仓库原创维护，更新即改本仓库。
 
-## 全部技能清单（339 = 官方收录 28 + 上游精选 32 + 上游改造 5 + 自建 126 + 本批新收录 148）
+## 全部技能清单（403 = 官方收录 28 + 上游精选 32 + 上游改造 5 + 自建 126 + 新收录 I 148 + 新收录 II 64）
 
 ### 上游精选（32）
 
@@ -357,11 +389,11 @@ v0.18 发版后新增、未及登记进上文分域表格的技能，此处补�
 按上文"自建场景技能"各小节的表格为准，此处不重复罗列。
 单一事实来源是 `manifest.json`（由 `build.py` 从 `packs/*/pack.json` 自动同步）。
 
-### 官方收录（28）与本批新收录（148）
+### 官方收录（28）与本批新收录（I 148 + II 64）
 
 - 官方收录（feishu-suite 28）：见上文「官方收录」一节清单；
-- 本批新收录（12 包 148 个）：逐技能以 `packs/<id>/pack.json` 的 `skills[].name/source` 为准，
-  由 `build.py` 同步进 `manifest.json`，此处不重复罗列。
+- 新收录 I（12 包 148 个）与新收录 II（5 包 64 个）：逐技能以 `packs/<id>/pack.json` 的
+  `skills[].name/source` 为准，由 `build.py` 同步进 `manifest.json`，此处不重复罗列。
 
 ## 共享工具 / Shared helpers
 
@@ -375,6 +407,13 @@ v0.18 发版后新增、未及登记进上文分域表格的技能，此处补�
 | `skills/programming/planning/pipeline_orchestrator.py` | 代码计划域编排器：意图→计划→生成 |
 
 ## 历史 / History
+
+- 2026-09-27（0.23 候选，续）：**新收录 II 5 包 / 64 技能（P1 收尾 + P2 四源精选）**——
+  caveman-toolkit（caveman 技能面 7，MIT）、cybersecurity-pro（818 精选 14，Apache-2.0）、
+  gtm-growth（goose-skills 精选 16，MIT）、language-standards（mindrally 精选 14，Apache-2.0）、
+  company-playbooks（headcount 精选 13，MIT）；同批裁决不迁三项（Lawvable CC BY-NC-ND、OpenClaw Medical
+  无 LICENSE、buildwithclaude 聚合平台）。账目 403 = 28+32+5+126+148+64，与 `manifest.json` 逐一对齐；
+  场景包 52→57，能力域 27（不变），技能链 88→108。
 
 - 2026-09-27（0.23 候选）：**本批新收录 12 包 / 148 技能（P0-2~P0-9 全落地 + P1 提前五个）**——
   按 `docs/TAXONOMY-V2.md` 开户清单迁入：knowledge-work（Anthropic，Apache-2.0）、engineering-playbook

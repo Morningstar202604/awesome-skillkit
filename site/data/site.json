@@ -5,12 +5,12 @@
   "updated": "2026-09-27",
   "desc": "Curated scene packs for AI tools: each pack = one real-world scenario, containing multiple skills. Download zip -> unzip -> drag the skill folders into your AI tool's skills directory.",
   "desc_zh": "精选场景包合集：每个场景包 = 一个真实场景，内含多个 skill。下载 zip -> 解压 -> 把 skill 文件夹拖进 AI 工具的 skills 目录即可使用。",
-  "n_skills": 339,
-  "n_skills_on_disk": 341,
-  "n_packs": 52,
+  "n_skills": 403,
+  "n_skills_on_disk": 405,
+  "n_packs": 57,
   "n_domains": 27,
   "n_groups": 8,
-  "n_chains": 88,
+  "n_chains": 108,
   "n_et_teams": 18,
   "n_et_agents": 219,
   "n_et_skills": 100,
@@ -281,14 +281,21 @@
    "label": "finance",
    "label_zh": "财务",
    "entry": "skills/finance/variance-analysis",
-   "n_skills": 2,
-   "n_packed": 2,
-   "n_chains": 1,
+   "n_skills": 3,
+   "n_packed": 3,
+   "n_chains": 2,
    "chains": [
     {
      "name": "close_and_audit",
      "steps": [
       "audit-support",
+      "variance-analysis"
+     ]
+    },
+    {
+     "name": "unit_economics_review",
+     "steps": [
+      "unit-economics",
       "variance-analysis"
      ]
     }
@@ -399,16 +406,30 @@
    "label": "leadership",
    "label_zh": "高管决策",
    "entry": "skills/leadership/ceo-advisor",
-   "n_skills": 6,
-   "n_packed": 6,
-   "n_chains": 1,
+   "n_skills": 9,
+   "n_packed": 9,
+   "n_chains": 3,
    "chains": [
+    {
+     "name": "agent_org_design",
+     "steps": [
+      "agent-hierarchy",
+      "ceo-advisor"
+     ]
+    },
     {
      "name": "exec_review",
      "steps": [
       "cmo-advisor",
       "cfo-advisor",
       "ceo-advisor"
+     ]
+    },
+    {
+     "name": "strategy_under_uncertainty",
+     "steps": [
+      "scenario-planning",
+      "market-entry"
      ]
     }
    ]
@@ -472,16 +493,57 @@
    "label": "marketing",
    "label_zh": "营销增长",
    "entry": "product-copywriter",
-   "n_skills": 9,
-   "n_packed": 9,
-   "n_chains": 2,
+   "n_skills": 25,
+   "n_packed": 25,
+   "n_chains": 7,
    "chains": [
+    {
+     "name": "competitive_intel_cycle",
+     "steps": [
+      "battlecard-generator",
+      "competitive-pricing-intel",
+      "competitor-intel"
+     ]
+    },
+    {
+     "name": "devtool_lead_signals",
+     "steps": [
+      "github-repo-signals",
+      "community-signals"
+     ]
+    },
+    {
+     "name": "paid_ads_diagnosis",
+     "steps": [
+      "meta-ads-analyzer",
+      "competitor-ad-intelligence",
+      "ad-angle-miner",
+      "ad-to-landing-page-auditor"
+     ]
+    },
+    {
+     "name": "positioning_launch",
+     "steps": [
+      "launch-positioning-builder",
+      "brand-voice-extractor",
+      "campaign-brief-generator",
+      "content-repurposing"
+     ]
+    },
     {
      "name": "product_launch",
      "steps": [
       "product-copywriter",
       "campaign-designer",
       "channel-adapter"
+     ]
+    },
+    {
+     "name": "seo_growth",
+     "steps": [
+      "seo-opportunity-finder",
+      "google-search-ads-builder",
+      "paid-channel-prioritizer"
      ]
     },
     {
@@ -533,9 +595,9 @@
    "label": "meta",
    "label_zh": "元技能",
    "entry": "skills/meta/skill-author",
-   "n_skills": 7,
-   "n_packed": 6,
-   "n_chains": 5,
+   "n_skills": 14,
+   "n_packed": 13,
+   "n_chains": 7,
    "chains": [
     {
      "name": "agent_eval",
@@ -564,6 +626,23 @@
       "skill-author",
       "skill-linter",
       "self-eval?"
+     ]
+    },
+    {
+     "name": "terse_mode",
+     "steps": [
+      "caveman",
+      "caveman-commit",
+      "caveman-review"
+     ]
+    },
+    {
+     "name": "token_economy",
+     "steps": [
+      "caveman-compress",
+      "caveman-stats",
+      "caveman-help",
+      "cavecrew"
      ]
     },
     {
@@ -630,10 +709,33 @@
    "label": "ops",
    "label_zh": "运营",
    "entry": "skills/ops/process-optimization",
-   "n_skills": 3,
-   "n_packed": 3,
-   "n_chains": 1,
+   "n_skills": 11,
+   "n_packed": 11,
+   "n_chains": 4,
    "chains": [
+    {
+     "name": "ops_cadence",
+     "steps": [
+      "operating-cadence",
+      "service-level-management",
+      "vendor-management"
+     ]
+    },
+    {
+     "name": "ops_delivery",
+     "steps": [
+      "program-management",
+      "dependency-and-risk-management",
+      "estimating-and-contingency"
+     ]
+    },
+    {
+     "name": "ops_resilience",
+     "steps": [
+      "business-continuity-and-resilience",
+      "process-design"
+     ]
+    },
     {
      "name": "ops_review",
      "steps": [
@@ -719,9 +821,9 @@
    "label": "product",
    "label_zh": "产品管理",
    "entry": "skills/product/create-prd",
-   "n_skills": 14,
-   "n_packed": 14,
-   "n_chains": 2,
+   "n_skills": 15,
+   "n_packed": 15,
+   "n_chains": 3,
    "chains": [
     {
      "name": "discovery_to_roadmap",
@@ -737,6 +839,13 @@
       "create-prd",
       "to-spec"
      ]
+    },
+    {
+     "name": "pricing_design",
+     "steps": [
+      "pricing-and-packaging",
+      "competitive-battlecard"
+     ]
     }
    ]
   },
@@ -745,10 +854,17 @@
    "label": "programming",
    "label_zh": "编程开发",
    "entry": "code-intent-planner",
-   "n_skills": 117,
-   "n_packed": 118,
-   "n_chains": 15,
+   "n_skills": 145,
+   "n_packed": 146,
+   "n_chains": 21,
    "chains": [
+    {
+     "name": "ad_attack_hunt",
+     "steps": [
+      "detecting-dcsync-attack-in-active-directory",
+      "hunting-for-lateral-movement-via-wmi"
+     ]
+    },
     {
      "name": "agentic_dev_cycle",
      "steps": [
@@ -775,6 +891,14 @@
       "code-generator",
       "tdd-guide",
       "code-reviewer"
+     ]
+    },
+    {
+     "name": "cloud_security_audit",
+     "steps": [
+      "analyzing-azure-activity-logs-for-threats",
+      "analyzing-kubernetes-audit-logs",
+      "analyzing-sbom-for-supply-chain-vulnerabilities"
      ]
     },
     {
@@ -839,12 +963,36 @@
      ]
     },
     {
+     "name": "language_standards",
+     "steps": [
+      "typescript",
+      "python",
+      "go",
+      "rust"
+     ]
+    },
+    {
+     "name": "malware_triage",
+     "steps": [
+      "analyzing-malware-behavior-with-cuckoo-sandbox",
+      "analyzing-cobalt-strike-beacon-configuration",
+      "analyzing-ransomware-encryption-mechanisms"
+     ]
+    },
+    {
      "name": "math_modeling",
      "steps": [
       "model-formulator",
       "model-solver",
       "simulation-runner",
       "result-visualizer"
+     ]
+    },
+    {
+     "name": "phishing_response",
+     "steps": [
+      "analyzing-email-headers-for-phishing-investigation",
+      "analyzing-network-traffic-with-wireshark"
      ]
     },
     {
@@ -867,6 +1015,15 @@
       "tdd-guide",
       "code-reviewer",
       "ship-gate"
+     ]
+    },
+    {
+     "name": "security_forensics",
+     "steps": [
+      "analyzing-linux-audit-logs-for-intrusion",
+      "analyzing-security-logs-with-splunk",
+      "analyzing-memory-dumps-with-volatility",
+      "analyzing-threat-actor-ttps-with-mitre-attack"
      ]
     },
     {
@@ -1068,10 +1225,12 @@
     "cloud-platforms",
     "hf-ml-hub",
     "scientific-agent-skills",
-    "code-quality-pro"
+    "code-quality-pro",
+    "cybersecurity-pro",
+    "language-standards"
    ],
-   "n_packs": 19,
-   "n_skills": 118
+   "n_packs": 21,
+   "n_skills": 146
   },
   {
    "id": "ai-agent",
@@ -1088,10 +1247,11 @@
     "ai-agent-development",
     "chat-prompt-craft",
     "memory-systems",
-    "skill-forge"
+    "skill-forge",
+    "caveman-toolkit"
    ],
-   "n_packs": 4,
-   "n_skills": 11
+   "n_packs": 5,
+   "n_skills": 18
   },
   {
    "id": "content",
@@ -1187,10 +1347,12 @@
     "growth-marketing",
     "knowledge-work",
     "cmo-suite",
-    "product-management"
+    "product-management",
+    "gtm-growth",
+    "company-playbooks"
    ],
-   "n_packs": 4,
-   "n_skills": 47
+   "n_packs": 6,
+   "n_skills": 76
   },
   {
    "id": "learning",
@@ -1225,6 +1387,46 @@
   }
  ],
  "skills": [
+  {
+   "name": "ad-angle-miner",
+   "domain": "marketing",
+   "path": "skills/marketing/gtm/ad-angle-miner",
+   "file": "skills/marketing/gtm/ad-angle-miner/SKILL.md",
+   "desc": "Mine the highest-converting ad angles from customer reviews, Reddit complaints, support tickets, and competitor ads. Extracts actual pain language, competitor weaknesses, and outcome phrases that real buyers use. Outputs a ranked angle bank with proof quotes and recommended ad formats per angle.",
+   "desc_zh": "从评论、Reddit 吐槽、工单与竞品广告里挖最高转化的广告角度与用户痛点原话。",
+   "license": "MIT",
+   "compatibility": "纯提示型；部分技能需外部数据源或脚本（广告库抓取、API 密钥等），无密钥时走公开数据路径。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/marketing/gtm/ad-angle-miner/SKILL.md",
+   "packs": [
+    "gtm-growth"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/marketing/gtm/ad-angle-miner/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/gtm/ad-angle-miner/SKILL.md"
+  },
+  {
+   "name": "ad-to-landing-page-auditor",
+   "domain": "marketing",
+   "path": "skills/marketing/gtm/ad-to-landing-page-auditor",
+   "file": "skills/marketing/gtm/ad-to-landing-page-auditor/SKILL.md",
+   "desc": "Analyze the message match between your ads and landing pages. Checks if the promise in the ad copy carries through to the landing page headline, body, and CTA. Flags disconnects that kill conversion rates. Works with Google, Meta, and LinkedIn ads.",
+   "desc_zh": "审计广告与落地页的信息一致性：广告承诺是否在落地页正文与标题中兑现。",
+   "license": "MIT",
+   "compatibility": "纯提示型；部分技能需外部数据源或脚本（广告库抓取、API 密钥等），无密钥时走公开数据路径。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/marketing/gtm/ad-to-landing-page-auditor/SKILL.md",
+   "packs": [
+    "gtm-growth"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/marketing/gtm/ad-to-landing-page-auditor/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/gtm/ad-to-landing-page-auditor/SKILL.md"
+  },
   {
    "name": "agent-designer",
    "domain": "programming",
@@ -1264,6 +1466,26 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/meta/agent-eval-harness/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/meta/agent-eval-harness/SKILL.md"
+  },
+  {
+   "name": "agent-hierarchy",
+   "domain": "leadership",
+   "path": "skills/leadership/agent-hierarchy",
+   "file": "skills/leadership/agent-hierarchy/SKILL.md",
+   "desc": "Designs orchestrator-and-subagent hierarchies for a repository — splitting agents by exclusive write surface, pairing every producer with an independent auditor, and enforcing the split with a script that runs in CI. Use this whenever the user wants to set up, expand, audit, or fix a multi-agent or subagent structure for a codebase; asks how to divide work between agents; wants agent charters, roles, or a surface map written; or is hitting agents that collide on the same files, review their own work, or drift from their remit. Also use when sizing a roster or deciding whether a new agent is justified.",
+   "desc_zh": "为仓库设计编排者-子代理层级：按独占写入面拆分代理，让产出者与独立校验者配对。",
+   "license": "MIT",
+   "compatibility": "纯提示型；涉及财务、合规或法律判断时建议人工复核。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/leadership/agent-hierarchy/SKILL.md",
+   "packs": [
+    "company-playbooks"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/leadership/agent-hierarchy/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/leadership/agent-hierarchy/SKILL.md"
   },
   {
    "name": "ai-baby-podcast",
@@ -1324,6 +1546,246 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/ai-trace-auditor/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/ai-trace-auditor/SKILL.md"
+  },
+  {
+   "name": "analyzing-azure-activity-logs-for-threats",
+   "domain": "programming",
+   "path": "skills/programming/security/analyzing-azure-activity-logs-for-threats",
+   "file": "skills/programming/security/analyzing-azure-activity-logs-for-threats/SKILL.md",
+   "desc": "'Queries Azure Monitor activity logs and sign-in logs via azure-monitor-query",
+   "desc_zh": "查询 Azure Monitor 活动与登录日志，发现可疑管理操作、异地登录与提权行为。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/security/analyzing-azure-activity-logs-for-threats/SKILL.md",
+   "packs": [
+    "cybersecurity-pro"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/security/analyzing-azure-activity-logs-for-threats/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/security/analyzing-azure-activity-logs-for-threats/SKILL.md"
+  },
+  {
+   "name": "analyzing-cobalt-strike-beacon-configuration",
+   "domain": "programming",
+   "path": "skills/programming/security/analyzing-cobalt-strike-beacon-configuration",
+   "file": "skills/programming/security/analyzing-cobalt-strike-beacon-configuration/SKILL.md",
+   "desc": "Extract and analyze Cobalt Strike beacon configuration from PE files",
+   "desc_zh": "从 PE 文件与内存镜像提取并分析 Cobalt Strike beacon 配置，识别 C2 设施与操作者指纹。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/security/analyzing-cobalt-strike-beacon-configuration/SKILL.md",
+   "packs": [
+    "cybersecurity-pro"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/security/analyzing-cobalt-strike-beacon-configuration/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/security/analyzing-cobalt-strike-beacon-configuration/SKILL.md"
+  },
+  {
+   "name": "analyzing-email-headers-for-phishing-investigation",
+   "domain": "programming",
+   "path": "skills/programming/security/analyzing-email-headers-for-phishing-investigation",
+   "file": "skills/programming/security/analyzing-email-headers-for-phishing-investigation/SKILL.md",
+   "desc": "Parse and analyze email headers (Received chain, Return-Path, Message-ID)",
+   "desc_zh": "解析邮件头（Received / Return-Path / Message-ID）追踪钓鱼来源并校验 SPF / DKIM / DMARC。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/security/analyzing-email-headers-for-phishing-investigation/SKILL.md",
+   "packs": [
+    "cybersecurity-pro"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/security/analyzing-email-headers-for-phishing-investigation/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/security/analyzing-email-headers-for-phishing-investigation/SKILL.md"
+  },
+  {
+   "name": "analyzing-kubernetes-audit-logs",
+   "domain": "programming",
+   "path": "skills/programming/security/analyzing-kubernetes-audit-logs",
+   "file": "skills/programming/security/analyzing-kubernetes-audit-logs/SKILL.md",
+   "desc": "Parses Kubernetes API server audit logs (JSON lines) to detect exec-into-pod, secret access, RBAC modifications, privileged pod creation, and anonymous API access, and builds SIEM detection rules from the event patterns. Use when investigating a suspected cluster compromise, reconstructing what an attacker did through the API server, or writing Kubernetes-specific detection content. Keywords: audit policy, audit log, kube-apiserver, exec into pod, RBAC change, anonymous access, detection rules. Do not use for syscall-level detection inside a running container - use detecting-container-runtime-threats-with-falco. '",
+   "desc_zh": "解析 Kubernetes API 审计日志：发现 exec 进容器、密钥读取、RBAC 变更与特权 Pod 等威胁。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/security/analyzing-kubernetes-audit-logs/SKILL.md",
+   "packs": [
+    "cybersecurity-pro"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/security/analyzing-kubernetes-audit-logs/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/security/analyzing-kubernetes-audit-logs/SKILL.md"
+  },
+  {
+   "name": "analyzing-linux-audit-logs-for-intrusion",
+   "domain": "programming",
+   "path": "skills/programming/security/analyzing-linux-audit-logs-for-intrusion",
+   "file": "skills/programming/security/analyzing-linux-audit-logs-for-intrusion/SKILL.md",
+   "desc": "'Uses the Linux Audit framework (auditd) with ausearch and aureport utilities",
+   "desc_zh": "用 auditd / ausearch / aureport 分析 Linux 审计日志，发现入侵、越权与可疑系统活动。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/security/analyzing-linux-audit-logs-for-intrusion/SKILL.md",
+   "packs": [
+    "cybersecurity-pro"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/security/analyzing-linux-audit-logs-for-intrusion/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/security/analyzing-linux-audit-logs-for-intrusion/SKILL.md"
+  },
+  {
+   "name": "analyzing-malware-behavior-with-cuckoo-sandbox",
+   "domain": "programming",
+   "path": "skills/programming/security/analyzing-malware-behavior-with-cuckoo-sandbox",
+   "file": "skills/programming/security/analyzing-malware-behavior-with-cuckoo-sandbox/SKILL.md",
+   "desc": "'Detonate malware samples in Cuckoo Sandbox to observe runtime behavior",
+   "desc_zh": "在 Cuckoo 沙箱引爆恶意样本，观察进程、文件、注册表与网络行为。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/security/analyzing-malware-behavior-with-cuckoo-sandbox/SKILL.md",
+   "packs": [
+    "cybersecurity-pro"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/security/analyzing-malware-behavior-with-cuckoo-sandbox/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/security/analyzing-malware-behavior-with-cuckoo-sandbox/SKILL.md"
+  },
+  {
+   "name": "analyzing-memory-dumps-with-volatility",
+   "domain": "programming",
+   "path": "skills/programming/security/analyzing-memory-dumps-with-volatility",
+   "file": "skills/programming/security/analyzing-memory-dumps-with-volatility/SKILL.md",
+   "desc": "'Analyzes RAM memory dumps from compromised systems using the Volatility framework to identify malicious processes,",
+   "desc_zh": "用 Volatility 分析内存镜像：定位恶意进程、注入代码、网络连接与内核痕迹。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/security/analyzing-memory-dumps-with-volatility/SKILL.md",
+   "packs": [
+    "cybersecurity-pro"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/security/analyzing-memory-dumps-with-volatility/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/security/analyzing-memory-dumps-with-volatility/SKILL.md"
+  },
+  {
+   "name": "analyzing-network-traffic-with-wireshark",
+   "domain": "programming",
+   "path": "skills/programming/security/analyzing-network-traffic-with-wireshark",
+   "file": "skills/programming/security/analyzing-network-traffic-with-wireshark/SKILL.md",
+   "desc": "'Captures and analyzes network packet data using Wireshark and tshark",
+   "desc_zh": "用 Wireshark / tshark 分析抓包：识别恶意流量、诊断协议问题、提取取证物。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/security/analyzing-network-traffic-with-wireshark/SKILL.md",
+   "packs": [
+    "cybersecurity-pro"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/security/analyzing-network-traffic-with-wireshark/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/security/analyzing-network-traffic-with-wireshark/SKILL.md"
+  },
+  {
+   "name": "analyzing-ransomware-encryption-mechanisms",
+   "domain": "programming",
+   "path": "skills/programming/security/analyzing-ransomware-encryption-mechanisms",
+   "file": "skills/programming/security/analyzing-ransomware-encryption-mechanisms/SKILL.md",
+   "desc": "'Analyzes encryption algorithms, key management, and file encryption",
+   "desc_zh": "分析勒索软件的加密算法与密钥管理，评估解密可行性并识别家族特征。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/security/analyzing-ransomware-encryption-mechanisms/SKILL.md",
+   "packs": [
+    "cybersecurity-pro"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/security/analyzing-ransomware-encryption-mechanisms/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/security/analyzing-ransomware-encryption-mechanisms/SKILL.md"
+  },
+  {
+   "name": "analyzing-sbom-for-supply-chain-vulnerabilities",
+   "domain": "programming",
+   "path": "skills/programming/security/analyzing-sbom-for-supply-chain-vulnerabilities",
+   "file": "skills/programming/security/analyzing-sbom-for-supply-chain-vulnerabilities/SKILL.md",
+   "desc": "'Parses Software Bill of Materials (SBOM) in CycloneDX and SPDX JSON",
+   "desc_zh": "解析 CycloneDX / SPDX 格式 SBOM，关联 CVE 排查供应链组件漏洞。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/security/analyzing-sbom-for-supply-chain-vulnerabilities/SKILL.md",
+   "packs": [
+    "cybersecurity-pro"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/security/analyzing-sbom-for-supply-chain-vulnerabilities/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/security/analyzing-sbom-for-supply-chain-vulnerabilities/SKILL.md"
+  },
+  {
+   "name": "analyzing-security-logs-with-splunk",
+   "domain": "programming",
+   "path": "skills/programming/security/analyzing-security-logs-with-splunk",
+   "file": "skills/programming/security/analyzing-security-logs-with-splunk/SKILL.md",
+   "desc": "'Leverages Splunk Enterprise Security and SPL (Search Processing Language)",
+   "desc_zh": "用 Splunk 与 SPL 做安全日志关联、时间线重建与事件调查。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/security/analyzing-security-logs-with-splunk/SKILL.md",
+   "packs": [
+    "cybersecurity-pro"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/security/analyzing-security-logs-with-splunk/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/security/analyzing-security-logs-with-splunk/SKILL.md"
+  },
+  {
+   "name": "analyzing-threat-actor-ttps-with-mitre-attack",
+   "domain": "programming",
+   "path": "skills/programming/security/analyzing-threat-actor-ttps-with-mitre-attack",
+   "file": "skills/programming/security/analyzing-threat-actor-ttps-with-mitre-attack/SKILL.md",
+   "desc": "Systematically map threat actor behavior and observed IOCs to the MITRE ATT&CK framework, build technique coverage heatmaps with the ATT&CK Navigator, identify detection gaps, and produce actionable threat intelligence reports across the Enterprise, Mobile, and ICS matrices. Use when analyzing threat actor TTPs, correlating IOCs to specific ATT&CK techniques, or assessing defensive detection coverage against adversary behavior.",
+   "desc_zh": "把威胁行为与 IOC 系统映射到 MITRE ATT&CK，产出技术覆盖热图与攻击者画像。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/security/analyzing-threat-actor-ttps-with-mitre-attack/SKILL.md",
+   "packs": [
+    "cybersecurity-pro"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/security/analyzing-threat-actor-ttps-with-mitre-attack/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/security/analyzing-threat-actor-ttps-with-mitre-attack/SKILL.md"
   },
   {
    "name": "anti-defensive",
@@ -1927,6 +2389,26 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/baoyu-xhs-images/SKILL.md"
   },
   {
+   "name": "bash-scripting",
+   "domain": "programming",
+   "path": "skills/programming/standards/bash-scripting",
+   "file": "skills/programming/standards/bash-scripting/SKILL.md",
+   "desc": "Bash scripting guidelines covering security, portability, error handling, and automation best practices for DevOps.",
+   "desc_zh": "Bash 脚本规范：安全、可移植、错误处理与自动化。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；随语言与框架版本演进，以上游为准。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/standards/bash-scripting/SKILL.md",
+   "packs": [
+    "language-standards"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/standards/bash-scripting/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/standards/bash-scripting/SKILL.md"
+  },
+  {
    "name": "batch-renamer",
    "domain": "tools",
    "path": "skills/tools/batch-renamer",
@@ -1945,6 +2427,26 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/tools/batch-renamer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/tools/batch-renamer/SKILL.md"
+  },
+  {
+   "name": "battlecard-generator",
+   "domain": "marketing",
+   "path": "skills/marketing/gtm/battlecard-generator",
+   "file": "skills/marketing/gtm/battlecard-generator/SKILL.md",
+   "desc": "Research a specific competitor across their website, reviews, ads, social presence, and pricing — then produce a structured sales battlecard with positioning traps, objection handlers, landmine questions, and win/loss themes. Chains web research, review mining, and ad intelligence. Use when sales needs competitive ammo or when entering a new market with established incumbents.",
+   "desc_zh": "跨官网、评价、广告、社媒与定价研究竞品，产出结构化销售对战卡。",
+   "license": "MIT",
+   "compatibility": "纯提示型；部分技能需外部数据源或脚本（广告库抓取、API 密钥等），无密钥时走公开数据路径。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/marketing/gtm/battlecard-generator/SKILL.md",
+   "packs": [
+    "gtm-growth"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/marketing/gtm/battlecard-generator/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/gtm/battlecard-generator/SKILL.md"
   },
   {
    "name": "bilibili-publisher",
@@ -1985,6 +2487,86 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/methodology/brainstorming/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/methodology/brainstorming/SKILL.md"
+  },
+  {
+   "name": "brand-voice-extractor",
+   "domain": "marketing",
+   "path": "skills/marketing/gtm/brand-voice-extractor",
+   "file": "skills/marketing/gtm/brand-voice-extractor/SKILL.md",
+   "desc": "Analyze a company's published content to extract their brand voice, writing style, and tone guidelines. Reads 10-20 of their best content pieces and produces a brand voice profile covering tone, vocabulary level, sentence structure, formatting patterns, CTAs, and target persona. Useful before writing outreach, content, or campaigns that should match a client's existing voice.",
+   "desc_zh": "从公开发布内容中提取品牌语气、文风与用语规范，产出可复用的声线指南。",
+   "license": "MIT",
+   "compatibility": "纯提示型；部分技能需外部数据源或脚本（广告库抓取、API 密钥等），无密钥时走公开数据路径。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/marketing/gtm/brand-voice-extractor/SKILL.md",
+   "packs": [
+    "gtm-growth"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/marketing/gtm/brand-voice-extractor/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/gtm/brand-voice-extractor/SKILL.md"
+  },
+  {
+   "name": "business-continuity-and-resilience",
+   "domain": "ops",
+   "path": "skills/ops/business-continuity-and-resilience",
+   "file": "skills/ops/business-continuity-and-resilience/SKILL.md",
+   "desc": "Plans for operating through disruption — impact analysis, recovery objectives, continuity plans, and the exercises that prove they work. Use this to run a business impact analysis, set RTO and RPO, write or test a continuity plan, prepare for a supplier or site failure, or answer a customer's resilience questionnaire.",
+   "desc_zh": "业务连续性规划：影响分析、恢复目标、连续性预案与演练验证。",
+   "license": "MIT",
+   "compatibility": "纯提示型；涉及财务、合规或法律判断时建议人工复核。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/ops/business-continuity-and-resilience/SKILL.md",
+   "packs": [
+    "company-playbooks"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/ops/business-continuity-and-resilience/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/ops/business-continuity-and-resilience/SKILL.md"
+  },
+  {
+   "name": "c-sharp",
+   "domain": "programming",
+   "path": "skills/programming/standards/c-sharp",
+   "file": "skills/programming/standards/c-sharp/SKILL.md",
+   "desc": "Guidelines for C# development including Blazor, Unity game development, and .NET backend best practices",
+   "desc_zh": "C# 开发规范：Blazor、Unity 与 .NET 后端实践。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；随语言与框架版本演进，以上游为准。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/standards/c-sharp/SKILL.md",
+   "packs": [
+    "language-standards"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/standards/c-sharp/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/standards/c-sharp/SKILL.md"
+  },
+  {
+   "name": "campaign-brief-generator",
+   "domain": "marketing",
+   "path": "skills/marketing/gtm/campaign-brief-generator",
+   "file": "skills/marketing/gtm/campaign-brief-generator/SKILL.md",
+   "desc": "Generate a complete marketing campaign brief from a launch goal, ICP, and product context. Pure reasoning skill. Outputs channel plan, messaging angles, content types, timeline, and success metrics. Designed for seed/Series A founders and small GTM teams who aren't professional marketers but need to run focused campaigns. No scripts — pure reasoning.",
+   "desc_zh": "从发布目标、ICP 与产品信息生成完整营销战役简报：渠道计划、信息角度与节奏。",
+   "license": "MIT",
+   "compatibility": "纯提示型；部分技能需外部数据源或脚本（广告库抓取、API 密钥等），无密钥时走公开数据路径。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/marketing/gtm/campaign-brief-generator/SKILL.md",
+   "packs": [
+    "gtm-growth"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/marketing/gtm/campaign-brief-generator/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/gtm/campaign-brief-generator/SKILL.md"
   },
   {
    "name": "campaign-designer",
@@ -2045,6 +2627,146 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/office/career-ops-lite/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/office/career-ops-lite/SKILL.md"
+  },
+  {
+   "name": "cavecrew",
+   "domain": "meta",
+   "path": "skills/meta/cavecrew",
+   "file": "skills/meta/cavecrew/SKILL.md",
+   "desc": "When to delegate to `cavecrew-investigator` (locate code), `cavecrew-builder` (1-2 file edit) or `cavecrew-reviewer` (diff review) instead of working inline or using `Explore`. Their output is compressed, so main context lasts longer.",
+   "desc_zh": "何时把任务委派给 cavecrew 三件套：定位代码的调查员、1-2 文件改动的建造者、diff 评审者。",
+   "license": "MIT",
+   "compatibility": "纯提示型，任意支持 SKILL.md 的工具可用；caveman-stats / caveman-compress 的 CLI 能力依赖上游 caveman 安装。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/meta/cavecrew/SKILL.md",
+   "packs": [
+    "caveman-toolkit"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/meta/cavecrew/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/meta/cavecrew/SKILL.md"
+  },
+  {
+   "name": "caveman",
+   "domain": "meta",
+   "path": "skills/meta/caveman",
+   "file": "skills/meta/caveman/SKILL.md",
+   "desc": "Ultra-compressed communication mode that cuts output tokens while keeping technical accuracy. Levels: lite, full, ultra and the wenyan variants. Use for /caveman, \"caveman mode\", \"talk like caveman\", \"be brief\" or \"less tokens\".",
+   "desc_zh": "超压缩沟通模式：输出砍掉冗词但技术信息不变，支持 lite/full/ultra 与文言档位，用于省 token 的简洁回复。",
+   "license": "MIT",
+   "compatibility": "纯提示型，任意支持 SKILL.md 的工具可用；caveman-stats / caveman-compress 的 CLI 能力依赖上游 caveman 安装。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/meta/caveman/SKILL.md",
+   "packs": [
+    "caveman-toolkit"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/meta/caveman/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/meta/caveman/SKILL.md"
+  },
+  {
+   "name": "caveman-commit",
+   "domain": "meta",
+   "path": "skills/meta/caveman-commit",
+   "file": "skills/meta/caveman-commit/SKILL.md",
+   "desc": "Write a Conventional Commits message compressed to intent only. Use for \"write a commit\", \"commit message\", /commit or /caveman-commit.",
+   "desc_zh": "把提交信息压到只剩意图的 Conventional Commits 写法；触发于写 commit message、/commit。",
+   "license": "MIT",
+   "compatibility": "纯提示型，任意支持 SKILL.md 的工具可用；caveman-stats / caveman-compress 的 CLI 能力依赖上游 caveman 安装。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/meta/caveman-commit/SKILL.md",
+   "packs": [
+    "caveman-toolkit"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/meta/caveman-commit/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/meta/caveman-commit/SKILL.md"
+  },
+  {
+   "name": "caveman-compress",
+   "domain": "meta",
+   "path": "skills/meta/caveman-compress",
+   "file": "skills/meta/caveman-compress/SKILL.md",
+   "desc": "Compress a memory file such as CLAUDE.md or a todo list into caveman format to save input tokens, keeping a readable backup. Trigger: /caveman-compress.",
+   "desc_zh": "把记忆文件（如 CLAUDE.md、todo 清单）压缩成 caveman 格式省输入 token，并保留可读备份。",
+   "license": "MIT",
+   "compatibility": "纯提示型，任意支持 SKILL.md 的工具可用；caveman-stats / caveman-compress 的 CLI 能力依赖上游 caveman 安装。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/meta/caveman-compress/SKILL.md",
+   "packs": [
+    "caveman-toolkit"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/meta/caveman-compress/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/meta/caveman-compress/SKILL.md"
+  },
+  {
+   "name": "caveman-help",
+   "domain": "meta",
+   "path": "skills/meta/caveman-help",
+   "file": "skills/meta/caveman-help/SKILL.md",
+   "desc": "Quick-reference card for caveman modes, skills and commands. Trigger: /caveman-help or \"caveman help\".",
+   "desc_zh": "caveman 模式、技能与命令的速查卡；触发于 /caveman-help 或「caveman help」。",
+   "license": "MIT",
+   "compatibility": "纯提示型，任意支持 SKILL.md 的工具可用；caveman-stats / caveman-compress 的 CLI 能力依赖上游 caveman 安装。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/meta/caveman-help/SKILL.md",
+   "packs": [
+    "caveman-toolkit"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/meta/caveman-help/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/meta/caveman-help/SKILL.md"
+  },
+  {
+   "name": "caveman-review",
+   "domain": "meta",
+   "path": "skills/meta/caveman-review",
+   "file": "skills/meta/caveman-review/SKILL.md",
+   "desc": "Compressed code review - one line per finding with location, problem and fix. Use for /caveman-review, \"review this PR\", or \"review the diff\".",
+   "desc_zh": "压缩版代码评审：每条发现一行，给出位置、问题与修复；触发于 review PR / review diff。",
+   "license": "MIT",
+   "compatibility": "纯提示型，任意支持 SKILL.md 的工具可用；caveman-stats / caveman-compress 的 CLI 能力依赖上游 caveman 安装。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/meta/caveman-review/SKILL.md",
+   "packs": [
+    "caveman-toolkit"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/meta/caveman-review/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/meta/caveman-review/SKILL.md"
+  },
+  {
+   "name": "caveman-stats",
+   "domain": "meta",
+   "path": "skills/meta/caveman-stats",
+   "file": "skills/meta/caveman-stats/SKILL.md",
+   "desc": "Show recorded output and cache-read token usage and mode attribution for the current Claude Code session, or locate the host's native usage report. Trigger: /caveman-stats.",
+   "desc_zh": "查看当前会话记录的输出与缓存读取 token 用量及模式归属，或定位宿主的原生用量报告。",
+   "license": "MIT",
+   "compatibility": "纯提示型，任意支持 SKILL.md 的工具可用；caveman-stats / caveman-compress 的 CLI 能力依赖上游 caveman 安装。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/meta/caveman-stats/SKILL.md",
+   "packs": [
+    "caveman-toolkit"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/meta/caveman-stats/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/meta/caveman-stats/SKILL.md"
   },
   {
    "name": "ceo-advisor",
@@ -2428,6 +3150,26 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/code-quality/code-reviewer/SKILL.md"
   },
   {
+   "name": "community-signals",
+   "domain": "marketing",
+   "path": "skills/marketing/gtm/community-signals",
+   "file": "skills/marketing/gtm/community-signals/SKILL.md",
+   "desc": "Extract leads from developer forums (Hacker News, Reddit) by detecting intent signals — alternative seeking, competitor pain, scaling challenges, DIY solutions, and migration intent. Scores users by intent strength and cross-platform presence.",
+   "desc_zh": "从 Hacker News / Reddit 检测购买意图信号（找替代、迁移、痛点、对比）并打分线索。",
+   "license": "MIT",
+   "compatibility": "纯提示型；部分技能需外部数据源或脚本（广告库抓取、API 密钥等），无密钥时走公开数据路径。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/marketing/gtm/community-signals/SKILL.md",
+   "packs": [
+    "gtm-growth"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/marketing/gtm/community-signals/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/gtm/community-signals/SKILL.md"
+  },
+  {
    "name": "comp-analysis",
    "domain": "hr",
    "path": "skills/hr/comp-analysis",
@@ -2466,6 +3208,66 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/product/competitive-battlecard/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/product/competitive-battlecard/SKILL.md"
+  },
+  {
+   "name": "competitive-pricing-intel",
+   "domain": "marketing",
+   "path": "skills/marketing/gtm/competitive-pricing-intel",
+   "file": "skills/marketing/gtm/competitive-pricing-intel/SKILL.md",
+   "desc": "Monitor competitor pricing pages via live web scrape and Web Archive snapshots. Track plan changes, tier restructuring, new pricing models, and feature gating shifts. Produces a pricing comparison matrix and flags when a competitor changes packaging. Use when a product marketing team needs to stay current on competitive pricing or when preparing for a pricing change of their own.",
+   "desc_zh": "监控竞品定价页与存档快照，追踪套餐结构、价格与功能变化。",
+   "license": "MIT",
+   "compatibility": "纯提示型；部分技能需外部数据源或脚本（广告库抓取、API 密钥等），无密钥时走公开数据路径。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/marketing/gtm/competitive-pricing-intel/SKILL.md",
+   "packs": [
+    "gtm-growth"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/marketing/gtm/competitive-pricing-intel/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/gtm/competitive-pricing-intel/SKILL.md"
+  },
+  {
+   "name": "competitor-ad-intelligence",
+   "domain": "marketing",
+   "path": "skills/marketing/gtm/competitor-ad-intelligence",
+   "file": "skills/marketing/gtm/competitor-ad-intelligence/SKILL.md",
+   "desc": "Scrape competitor ads from Meta, TikTok, Google, and LinkedIn ad libraries, analyze creative patterns (hooks, formats, CTAs), reverse-engineer landing page funnels, and produce a strategic teardown with vulnerability analysis and counter-play recommendations. Use when you need to understand the competitive ad landscape, find new creative directions, or identify weaknesses in a competitor's paid strategy.",
+   "desc_zh": "抓取 Meta / TikTok / Google / LinkedIn 广告库，分析竞品创意模式并逆向其落地页。",
+   "license": "MIT",
+   "compatibility": "纯提示型；部分技能需外部数据源或脚本（广告库抓取、API 密钥等），无密钥时走公开数据路径。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/marketing/gtm/competitor-ad-intelligence/SKILL.md",
+   "packs": [
+    "gtm-growth"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/marketing/gtm/competitor-ad-intelligence/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/gtm/competitor-ad-intelligence/SKILL.md"
+  },
+  {
+   "name": "competitor-intel",
+   "domain": "marketing",
+   "path": "skills/marketing/gtm/competitor-intel",
+   "file": "skills/marketing/gtm/competitor-intel/SKILL.md",
+   "desc": "Competitor intelligence system. Research competitors across web, Reddit, Twitter/X, LinkedIn, and blogs. Build deep competitor profiles, monitor content and positioning changes, track what gets traction, and identify competitive gaps. Covers data collection, content tracking, and strategy analysis. Pure research skill — uses web search, web fetch, and optionally Apify for social scraping. No scripts required.",
+   "desc_zh": "多源竞品情报系统：从 Web、Reddit、X、LinkedIn 与博客持续跟踪并维护竞品档案。",
+   "license": "MIT",
+   "compatibility": "纯提示型；部分技能需外部数据源或脚本（广告库抓取、API 密钥等），无密钥时走公开数据路径。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/marketing/gtm/competitor-intel/SKILL.md",
+   "packs": [
+    "gtm-growth"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/marketing/gtm/competitor-intel/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/gtm/competitor-intel/SKILL.md"
   },
   {
    "name": "compliance-check",
@@ -2508,6 +3310,26 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/content-editor/SKILL.md"
   },
   {
+   "name": "content-repurposing",
+   "domain": "marketing",
+   "path": "skills/marketing/gtm/content-repurposing",
+   "file": "skills/marketing/gtm/content-repurposing/SKILL.md",
+   "desc": "Turn public social videos, transcripts, posts, creator research, or the user's own source material into platform-specific LinkedIn posts, X posts and threads, short-form scripts, newsletters, blog outlines, carousel briefs, and content calendars. Use when the user wants to reuse a strong idea without copying the source.",
+   "desc_zh": "把公开视频、转录稿、帖子或自有素材改写成各平台分发的 LinkedIn / X 内容。",
+   "license": "MIT",
+   "compatibility": "纯提示型；部分技能需外部数据源或脚本（广告库抓取、API 密钥等），无密钥时走公开数据路径。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/marketing/gtm/content-repurposing/SKILL.md",
+   "packs": [
+    "gtm-growth"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/marketing/gtm/content-repurposing/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/gtm/content-repurposing/SKILL.md"
+  },
+  {
    "name": "course-designer",
    "domain": "education",
    "path": "skills/education/course-designer",
@@ -2526,6 +3348,26 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/education/course-designer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/education/course-designer/SKILL.md"
+  },
+  {
+   "name": "cpp",
+   "domain": "programming",
+   "path": "skills/programming/standards/cpp",
+   "file": "skills/programming/standards/cpp/SKILL.md",
+   "desc": "Guidelines for modern C++ development with C++17/20 standards, memory safety, and performance optimization",
+   "desc_zh": "现代 C++（C++17/20）规范：内存安全与性能优化。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；随语言与框架版本演进，以上游为准。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/standards/cpp/SKILL.md",
+   "packs": [
+    "language-standards"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/standards/cpp/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/standards/cpp/SKILL.md"
   },
   {
    "name": "create-prd",
@@ -2748,6 +3590,26 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/planning/deep-research/SKILL.md"
   },
   {
+   "name": "dependency-and-risk-management",
+   "domain": "ops",
+   "path": "skills/ops/dependency-and-risk-management",
+   "file": "skills/ops/dependency-and-risk-management/SKILL.md",
+   "desc": "Manages delivery risk and cross-team dependencies — identifying, sizing, mitigating and escalating what could stop the work. Use this to build a risk register that gets used, manage dependencies between teams, decide what to escalate and when, or work out why the same risks keep materializing unmanaged.",
+   "desc_zh": "交付风险与跨团队依赖管理：识别、量化、缓解与升级可能阻断交付的事项。",
+   "license": "MIT",
+   "compatibility": "纯提示型；涉及财务、合规或法律判断时建议人工复核。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/ops/dependency-and-risk-management/SKILL.md",
+   "packs": [
+    "company-playbooks"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/ops/dependency-and-risk-management/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/ops/dependency-and-risk-management/SKILL.md"
+  },
+  {
    "name": "dependency-auditor",
    "domain": "programming",
    "path": "skills/programming/code-quality/dependency-auditor",
@@ -2826,6 +3688,26 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/design/design-system-foundations/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/design/design-system-foundations/SKILL.md"
+  },
+  {
+   "name": "detecting-dcsync-attack-in-active-directory",
+   "domain": "programming",
+   "path": "skills/programming/security/detecting-dcsync-attack-in-active-directory",
+   "file": "skills/programming/security/detecting-dcsync-attack-in-active-directory/SKILL.md",
+   "desc": "Detect DCSync attacks (MITRE T1003.006) where adversaries abuse Active Directory replication privileges to extract password hashes, by auditing Event ID 4662 for the DS-Replication-Get-Changes GUIDs and flagging non-domain-controller accounts issuing DsGetNCChanges RPC calls. Use when hunting for credential theft via Mimikatz lsadump::dcsync or Impacket secretsdump, investigating lateral movement with domain admin credentials, or auditing AD replication permissions.",
+   "desc_zh": "通过 AD 事件日志审计检测 DCSync 复制提权攻击（MITRE T1003.006）。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/security/detecting-dcsync-attack-in-active-directory/SKILL.md",
+   "packs": [
+    "cybersecurity-pro"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/security/detecting-dcsync-attack-in-active-directory/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/security/detecting-dcsync-attack-in-active-directory/SKILL.md"
   },
   {
    "name": "diagram-design",
@@ -2988,6 +3870,26 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/quality/e2e-testing-patterns/SKILL.md"
   },
   {
+   "name": "elixir",
+   "domain": "programming",
+   "path": "skills/programming/standards/elixir",
+   "file": "skills/programming/standards/elixir/SKILL.md",
+   "desc": "Expert in Elixir and Phoenix development with functional programming patterns",
+   "desc_zh": "Elixir 与 Phoenix 规范：函数式模式与并发实践。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；随语言与框架版本演进，以上游为准。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/standards/elixir/SKILL.md",
+   "packs": [
+    "language-standards"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/standards/elixir/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/standards/elixir/SKILL.md"
+  },
+  {
    "name": "env-secrets-manager",
    "domain": "programming",
    "path": "skills/programming/security/env-secrets-manager",
@@ -3066,6 +3968,26 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/quality/error-handling-patterns/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/quality/error-handling-patterns/SKILL.md"
+  },
+  {
+   "name": "estimating-and-contingency",
+   "domain": "ops",
+   "path": "skills/ops/estimating-and-contingency",
+   "file": "skills/ops/estimating-and-contingency/SKILL.md",
+   "desc": "Produces a cost or effort estimate someone can defend — decomposing the work, choosing between analogous, parametric and bottom-up methods, documenting the basis and its assumptions, expressing confidence as a range, and sizing contingency and management reserve separately. Use this to build an estimate, challenge one you have been handed, work out why estimates keep coming in low, or decide how much reserve a portfolio actually needs.",
+   "desc_zh": "可辩护的成本/工作量估算：分解工作、选类比/参数/自下而上方法并留预备量。",
+   "license": "MIT",
+   "compatibility": "纯提示型；涉及财务、合规或法律判断时建议人工复核。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/ops/estimating-and-contingency/SKILL.md",
+   "packs": [
+    "company-playbooks"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/ops/estimating-and-contingency/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/ops/estimating-and-contingency/SKILL.md"
   },
   {
    "name": "etl-builder",
@@ -3486,6 +4408,66 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/github/git-worktree-manager/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/github/git-worktree-manager/SKILL.md"
+  },
+  {
+   "name": "github-repo-signals",
+   "domain": "marketing",
+   "path": "skills/marketing/gtm/github-repo-signals",
+   "file": "skills/marketing/gtm/github-repo-signals/SKILL.md",
+   "desc": "Extract and score leads from GitHub repositories by analyzing stars, forks, issues, PRs, comments, and contributions. Produces unified multi-repo CSV with deduplicated user profiles. No paid API credits required.",
+   "desc_zh": "从 GitHub 仓库的 star / fork / issue / PR / 评论互动中提取并打分线索，产出多仓线索表。",
+   "license": "MIT",
+   "compatibility": "纯提示型；部分技能需外部数据源或脚本（广告库抓取、API 密钥等），无密钥时走公开数据路径。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/marketing/gtm/github-repo-signals/SKILL.md",
+   "packs": [
+    "gtm-growth"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/marketing/gtm/github-repo-signals/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/gtm/github-repo-signals/SKILL.md"
+  },
+  {
+   "name": "go",
+   "domain": "programming",
+   "path": "skills/programming/standards/go",
+   "file": "skills/programming/standards/go/SKILL.md",
+   "desc": "Expert in Go/Golang development with focus on APIs, microservices, and clean architecture",
+   "desc_zh": "Go 语言工程规范：API、微服务与整洁架构实践。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；随语言与框架版本演进，以上游为准。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/standards/go/SKILL.md",
+   "packs": [
+    "language-standards"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/standards/go/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/standards/go/SKILL.md"
+  },
+  {
+   "name": "google-search-ads-builder",
+   "domain": "marketing",
+   "path": "skills/marketing/gtm/google-search-ads-builder",
+   "file": "skills/marketing/gtm/google-search-ads-builder/SKILL.md",
+   "desc": "End-to-end Google Search Ads campaign builder. Performs deep keyword research (competitor SEO, review language mining, Reddit/HN community terminology, site audit), builds keyword architecture with funnel mapping and intent classification, creates ad group structure, generates headline/description variants, builds negative keyword lists, recommends bid strategy, and exports a campaign-ready CSV for Google Ads Editor import.",
+   "desc_zh": "端到端搭建 Google 搜索广告：关键词深挖、广告组结构、文案与出价起量路径。",
+   "license": "MIT",
+   "compatibility": "纯提示型；部分技能需外部数据源或脚本（广告库抓取、API 密钥等），无密钥时走公开数据路径。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/marketing/gtm/google-search-ads-builder/SKILL.md",
+   "packs": [
+    "gtm-growth"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/marketing/gtm/google-search-ads-builder/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/gtm/google-search-ads-builder/SKILL.md"
   },
   {
    "name": "grill-me",
@@ -4028,6 +5010,26 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/humanizer/SKILL.md"
   },
   {
+   "name": "hunting-for-lateral-movement-via-wmi",
+   "domain": "programming",
+   "path": "skills/programming/security/hunting-for-lateral-movement-via-wmi",
+   "file": "skills/programming/security/hunting-for-lateral-movement-via-wmi/SKILL.md",
+   "desc": "Detects WMI-based lateral movement (e.g. wmic process call create,",
+   "desc_zh": "用 WMI 遥测狩猎横向移动：排查可疑远程执行、进程创建与网络连接。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/security/hunting-for-lateral-movement-via-wmi/SKILL.md",
+   "packs": [
+    "cybersecurity-pro"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/security/hunting-for-lateral-movement-via-wmi/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/security/hunting-for-lateral-movement-via-wmi/SKILL.md"
+  },
+  {
    "name": "hyperframes",
    "domain": "video",
    "path": "skills/video/hyperframes",
@@ -4331,6 +5333,26 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/issue-tracker-sync/SKILL.md"
   },
   {
+   "name": "java",
+   "domain": "programming",
+   "path": "skills/programming/standards/java",
+   "file": "skills/programming/standards/java/SKILL.md",
+   "desc": "Expert in Java development with Spring Boot and enterprise patterns",
+   "desc_zh": "Java 企业开发规范：Spring Boot 与分层模式。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；随语言与框架版本演进，以上游为准。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/standards/java/SKILL.md",
+   "packs": [
+    "language-standards"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/standards/java/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/standards/java/SKILL.md"
+  },
+  {
    "name": "jianshu-publisher",
    "domain": "writing",
    "path": "skills/writing/blog/jianshu-publisher",
@@ -4449,6 +5471,26 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/knowledge/knowledge-graph-builder/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/knowledge/knowledge-graph-builder/SKILL.md"
+  },
+  {
+   "name": "kotlin-development",
+   "domain": "programming",
+   "path": "skills/programming/standards/kotlin-development",
+   "file": "skills/programming/standards/kotlin-development/SKILL.md",
+   "desc": "Kotlin development guidelines with best practices for clean code, naming conventions, function design, and data handling",
+   "desc_zh": "Kotlin 规范：命名、函数设计、空安全与数据处理。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；随语言与框架版本演进，以上游为准。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/standards/kotlin-development/SKILL.md",
+   "packs": [
+    "language-standards"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/standards/kotlin-development/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/standards/kotlin-development/SKILL.md"
   },
   {
    "name": "kubernetes-operator",
@@ -5072,6 +6114,26 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/paper/latex-formatter/SKILL.md"
   },
   {
+   "name": "launch-positioning-builder",
+   "domain": "marketing",
+   "path": "skills/marketing/gtm/launch-positioning-builder",
+   "file": "skills/marketing/gtm/launch-positioning-builder/SKILL.md",
+   "desc": "Research competitors, analyze their messaging, and generate a positioning document with category definition, differentiation claims, value propositions, and proof points. Chains web research, competitor site analysis, and review mining to produce a positioning doc ready for website copy and sales deck use. Use when a product marketing team needs to define or refresh positioning ahead of a launch, rebrand, or competitive shift.",
+   "desc_zh": "研究竞品信息并生成定位文档：品类定义、差异化主张、价值点与证据。",
+   "license": "MIT",
+   "compatibility": "纯提示型；部分技能需外部数据源或脚本（广告库抓取、API 密钥等），无密钥时走公开数据路径。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/marketing/gtm/launch-positioning-builder/SKILL.md",
+   "packs": [
+    "gtm-growth"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/marketing/gtm/launch-positioning-builder/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/gtm/launch-positioning-builder/SKILL.md"
+  },
+  {
    "name": "layout-spec-auditor",
    "domain": "design",
    "path": "skills/design/layout-spec-auditor",
@@ -5252,6 +6314,26 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/science/literature-review/SKILL.md"
   },
   {
+   "name": "market-entry",
+   "domain": "leadership",
+   "path": "skills/leadership/market-entry",
+   "file": "skills/leadership/market-entry/SKILL.md",
+   "desc": "Decides whether and how to enter a new market — sizing demand from the bottom up rather than from a market report, testing whether your advantage transfers, choosing between organic entry, partnership and acquisition, sequencing the operational and regulatory work that entry actually requires, and setting the criteria that would tell you to stop. Use this to evaluate a new geography, segment or vertical, pressure-test an entry plan, or work out why a launched market never reached scale.",
+   "desc_zh": "判断是否与如何进入新市场：自下而上估算需求，验证优势可迁移性并定进入方式。",
+   "license": "MIT",
+   "compatibility": "纯提示型；涉及财务、合规或法律判断时建议人工复核。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/leadership/market-entry/SKILL.md",
+   "packs": [
+    "company-playbooks"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/leadership/market-entry/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/leadership/market-entry/SKILL.md"
+  },
+  {
    "name": "market-sizing",
    "domain": "product",
    "path": "skills/product/market-sizing",
@@ -5430,6 +6512,26 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/memory/memory-retriever/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/memory/memory-retriever/SKILL.md"
+  },
+  {
+   "name": "meta-ads-analyzer",
+   "domain": "marketing",
+   "path": "skills/marketing/gtm/meta-ads-analyzer",
+   "file": "skills/marketing/gtm/meta-ads-analyzer/SKILL.md",
+   "desc": "Diagnose Meta Ads campaign performance and account gaps using Meta's actual system mechanics — including customer-journey coverage, Breakdown Effect, Learning Phase, Auction Overlap, Pacing, and Creative Fatigue. Use for performance diagnosis, account audits, full-funnel or TOF/MOF/BOF gap analysis, deciding what to test or create next, and producing novice-friendly recommendations without forcing every campaign or ad into a funnel stage.",
+   "desc_zh": "诊断 Meta 广告投放：按拍卖机制、学习期、疲劳度等真实机制定位问题，给出可测试的改进建议。",
+   "license": "MIT",
+   "compatibility": "纯提示型；部分技能需外部数据源或脚本（广告库抓取、API 密钥等），无密钥时走公开数据路径。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/marketing/gtm/meta-ads-analyzer/SKILL.md",
+   "packs": [
+    "gtm-growth"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/marketing/gtm/meta-ads-analyzer/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/gtm/meta-ads-analyzer/SKILL.md"
   },
   {
    "name": "migration-architect",
@@ -5753,6 +6855,26 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/quality/open-code-review/SKILL.md"
   },
   {
+   "name": "operating-cadence",
+   "domain": "ops",
+   "path": "skills/ops/operating-cadence",
+   "file": "skills/ops/operating-cadence/SKILL.md",
+   "desc": "Designs the rhythm an organization runs on — which reviews happen weekly, monthly and quarterly, what each one decides, who owns the numbers presented, and how a signal at the front line reaches the people who can act on it. Use this to set up a management operating system, fix a meeting calendar that produces no decisions, work out where a recurring problem keeps failing to surface, or cut a review structure that has grown past what it informs.",
+   "desc_zh": "设计组织运营节奏：周/月/季评审各决定什么、谁对数字负责、信息如何滚动。",
+   "license": "MIT",
+   "compatibility": "纯提示型；涉及财务、合规或法律判断时建议人工复核。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/ops/operating-cadence/SKILL.md",
+   "packs": [
+    "company-playbooks"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/ops/operating-cadence/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/ops/operating-cadence/SKILL.md"
+  },
+  {
    "name": "optimize-for-gpu",
    "domain": "programming",
    "path": "skills/programming/science/optimize-for-gpu",
@@ -5831,6 +6953,26 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/education/own-voice-rewrite/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/education/own-voice-rewrite/SKILL.md"
+  },
+  {
+   "name": "paid-channel-prioritizer",
+   "domain": "marketing",
+   "path": "skills/marketing/gtm/paid-channel-prioritizer",
+   "file": "skills/marketing/gtm/paid-channel-prioritizer/SKILL.md",
+   "desc": "For founders who don't know where to start with paid ads. Analyzes ICP, competitor ad presence, budget constraints, and product type to recommend which 1-2 paid channels to start with and provides a 90-day ramp plan. Prevents the common mistake of spreading a small budget across too many platforms.",
+   "desc_zh": "为起步阶段排序付费渠道：结合 ICP、竞品投放、预算约束与产品类型推荐先投哪里。",
+   "license": "MIT",
+   "compatibility": "纯提示型；部分技能需外部数据源或脚本（广告库抓取、API 密钥等），无密钥时走公开数据路径。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/marketing/gtm/paid-channel-prioritizer/SKILL.md",
+   "packs": [
+    "gtm-growth"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/marketing/gtm/paid-channel-prioritizer/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/gtm/paid-channel-prioritizer/SKILL.md"
   },
   {
    "name": "paper-topic-selector",
@@ -5971,6 +7113,26 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/knowledge/personal-wiki/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/knowledge/personal-wiki/SKILL.md"
+  },
+  {
+   "name": "php-development",
+   "domain": "programming",
+   "path": "skills/programming/standards/php-development",
+   "file": "skills/programming/standards/php-development/SKILL.md",
+   "desc": "Expert guidance for PHP 8+ development with SOLID principles, PSR standards, and modern best practices",
+   "desc_zh": "PHP 8+ 规范：SOLID 原则与 PSR 标准。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；随语言与框架版本演进，以上游为准。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/standards/php-development/SKILL.md",
+   "packs": [
+    "language-standards"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/standards/php-development/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/standards/php-development/SKILL.md"
   },
   {
    "name": "pii-redactor",
@@ -6133,6 +7295,26 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/product/pre-mortem/SKILL.md"
   },
   {
+   "name": "pricing-and-packaging",
+   "domain": "product",
+   "path": "skills/product/pricing-and-packaging",
+   "file": "skills/product/pricing-and-packaging/SKILL.md",
+   "desc": "Sets price, structures packages and tiers, and designs the monetization surfaces that carry them — upgrade paths, paywalls, and offer construction. Use this to set or change pricing, design or restructure tiers, choose a pricing metric, build an offer, design upgrade prompts and paywalls, or evaluate whether a pricing change is safe to make.",
+   "desc_zh": "定价与套餐设计：分层、升级路径、付费墙与优惠构造，把价值映射到价格。",
+   "license": "MIT",
+   "compatibility": "纯提示型；涉及财务、合规或法律判断时建议人工复核。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/product/pricing-and-packaging/SKILL.md",
+   "packs": [
+    "company-playbooks"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/product/pricing-and-packaging/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/product/pricing-and-packaging/SKILL.md"
+  },
+  {
    "name": "prioritization-frameworks",
    "domain": "product",
    "path": "skills/product/prioritization-frameworks",
@@ -6151,6 +7333,26 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/product/prioritization-frameworks/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/product/prioritization-frameworks/SKILL.md"
+  },
+  {
+   "name": "process-design",
+   "domain": "ops",
+   "path": "skills/ops/process-design",
+   "file": "skills/ops/process-design/SKILL.md",
+   "desc": "Designs, documents, and fixes operational processes — mapping the current state, finding where work actually stalls, redesigning the flow, and building controls that hold. Use this when the same failure keeps recurring, when a handoff between teams is unreliable, when onboarding a repeated task, when work takes far longer than the work itself, or when deciding whether to automate, standardize, or eliminate a process.",
+   "desc_zh": "设计、记录并修复运营流程：映射现状、找真实卡点、重设流程与配套度量。",
+   "license": "MIT",
+   "compatibility": "纯提示型；涉及财务、合规或法律判断时建议人工复核。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/ops/process-design/SKILL.md",
+   "packs": [
+    "company-playbooks"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/ops/process-design/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/ops/process-design/SKILL.md"
   },
   {
    "name": "process-optimization",
@@ -6193,6 +7395,26 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/product-copywriter/SKILL.md"
   },
   {
+   "name": "program-management",
+   "domain": "ops",
+   "path": "skills/ops/program-management",
+   "file": "skills/ops/program-management/SKILL.md",
+   "desc": "Plans and drives cross-functional programs to delivery — scope, sequencing, dependencies, status, risk, and the escalations that keep work moving. Use this to run a multi-team initiative, recover a program that is slipping, build a delivery plan with dependencies, structure status reporting, or diagnose why cross-team work keeps missing dates.",
+   "desc_zh": "跨职能项目管理：范围、排序、依赖、状态、风险与升级机制，推进到交付。",
+   "license": "MIT",
+   "compatibility": "纯提示型；涉及财务、合规或法律判断时建议人工复核。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/ops/program-management/SKILL.md",
+   "packs": [
+    "company-playbooks"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/ops/program-management/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/ops/program-management/SKILL.md"
+  },
+  {
    "name": "prompt-injection-guard",
    "domain": "programming",
    "path": "skills/programming/security/prompt-injection-guard",
@@ -6231,6 +7453,26 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/paper/pub-plotter/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/paper/pub-plotter/SKILL.md"
+  },
+  {
+   "name": "python",
+   "domain": "programming",
+   "path": "skills/programming/standards/python",
+   "file": "skills/programming/standards/python/SKILL.md",
+   "desc": "Expert in Python development with best practices across web, data science, and automation",
+   "desc_zh": "Python 开发最佳实践：覆盖 Web、数据科学与自动化。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；随语言与框架版本演进，以上游为准。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/standards/python/SKILL.md",
+   "packs": [
+    "language-standards"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/standards/python/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/standards/python/SKILL.md"
   },
   {
    "name": "receiving-code-review",
@@ -6413,6 +7655,26 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/ops/risk-assessment/SKILL.md"
   },
   {
+   "name": "ruby",
+   "domain": "programming",
+   "path": "skills/programming/standards/ruby",
+   "file": "skills/programming/standards/ruby/SKILL.md",
+   "desc": "Ruby development guidelines covering idiomatic code style, Ruby 3.x features, testing with RSpec, and best practices for building maintainable Ruby applications.",
+   "desc_zh": "Ruby 规范：地道写法、Ruby 3.x 特性与 RSpec 测试。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；随语言与框架版本演进，以上游为准。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/standards/ruby/SKILL.md",
+   "packs": [
+    "language-standards"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/standards/ruby/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/standards/ruby/SKILL.md"
+  },
+  {
    "name": "runbook-generator",
    "domain": "programming",
    "path": "skills/programming/incident/runbook-generator",
@@ -6431,6 +7693,46 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/incident/runbook-generator/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/incident/runbook-generator/SKILL.md"
+  },
+  {
+   "name": "rust",
+   "domain": "programming",
+   "path": "skills/programming/standards/rust",
+   "file": "skills/programming/standards/rust/SKILL.md",
+   "desc": "Expert in Rust development with focus on safety, performance, and async programming",
+   "desc_zh": "Rust 开发规范：内存安全、性能与异步编程。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；随语言与框架版本演进，以上游为准。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/standards/rust/SKILL.md",
+   "packs": [
+    "language-standards"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/standards/rust/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/standards/rust/SKILL.md"
+  },
+  {
+   "name": "scenario-planning",
+   "domain": "leadership",
+   "path": "skills/leadership/scenario-planning",
+   "file": "skills/leadership/scenario-planning/SKILL.md",
+   "desc": "Plans under genuine uncertainty — building scenarios, identifying which assumptions are load-bearing, setting early-warning indicators, and stress-testing a plan against futures rather than forecasting one. Use this when a decision depends on something unknowable, when a plan assumes conditions that may not hold, before a large irreversible commitment, or when a market, regulatory, or technology shift could invalidate the strategy.",
+   "desc_zh": "在真实不确定下做情景规划：构建情景、找承重假设、设早期预警指标并做压力测试。",
+   "license": "MIT",
+   "compatibility": "纯提示型；涉及财务、合规或法律判断时建议人工复核。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/leadership/scenario-planning/SKILL.md",
+   "packs": [
+    "company-playbooks"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/leadership/scenario-planning/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/leadership/scenario-planning/SKILL.md"
   },
   {
    "name": "secrets-vault-manager",
@@ -6533,6 +7835,26 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/architecture/senior-architect/SKILL.md"
   },
   {
+   "name": "seo-opportunity-finder",
+   "domain": "marketing",
+   "path": "skills/marketing/gtm/seo-opportunity-finder",
+   "file": "skills/marketing/gtm/seo-opportunity-finder/SKILL.md",
+   "desc": "Find quick-win SEO content opportunities by comparing your site's existing content against competitor keyword rankings. Chains site-content-catalog and seo-domain-analyzer to build a content inventory, then identifies gaps — topics competitors rank for that you don't cover yet. Outputs a prioritized list of posts to write or update. Use when a seed/Series A team wants to start winning organic traffic without guessing.",
+   "desc_zh": "对比自身内容与竞品关键词排名，找出快赢 SEO 选题机会。",
+   "license": "MIT",
+   "compatibility": "纯提示型；部分技能需外部数据源或脚本（广告库抓取、API 密钥等），无密钥时走公开数据路径。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/marketing/gtm/seo-opportunity-finder/SKILL.md",
+   "packs": [
+    "gtm-growth"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/marketing/gtm/seo-opportunity-finder/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/marketing/gtm/seo-opportunity-finder/SKILL.md"
+  },
+  {
    "name": "seo-optimizer",
    "domain": "writing",
    "path": "skills/writing/seo-optimizer",
@@ -6551,6 +7873,26 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/writing/seo-optimizer/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/writing/seo-optimizer/SKILL.md"
+  },
+  {
+   "name": "service-level-management",
+   "domain": "ops",
+   "path": "skills/ops/service-level-management",
+   "file": "skills/ops/service-level-management/SKILL.md",
+   "desc": "Defines and manages service levels — setting targets that reflect what customers need, measuring honestly, and handling breaches. Use this to write or negotiate an SLA, decide what to measure and at what threshold, respond to a missed service level, or work out why a service that meets its targets still has unhappy customers.",
+   "desc_zh": "服务等级管理：设定贴合客户需求的目标、如实度量并处理违约。",
+   "license": "MIT",
+   "compatibility": "纯提示型；涉及财务、合规或法律判断时建议人工复核。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/ops/service-level-management/SKILL.md",
+   "packs": [
+    "company-playbooks"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/ops/service-level-management/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/ops/service-level-management/SKILL.md"
   },
   {
    "name": "session-handoff",
@@ -6854,6 +8196,26 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/product/sprint-plan/SKILL.md"
   },
   {
+   "name": "sql-best-practices",
+   "domain": "programming",
+   "path": "skills/programming/standards/sql-best-practices",
+   "file": "skills/programming/standards/sql-best-practices/SKILL.md",
+   "desc": "SQL development best practices for writing efficient, secure, and maintainable database queries",
+   "desc_zh": "SQL 最佳实践：高效、安全、可维护的查询写法与索引使用。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；随语言与框架版本演进，以上游为准。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/standards/sql-best-practices/SKILL.md",
+   "packs": [
+    "language-standards"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/standards/sql-best-practices/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/standards/sql-best-practices/SKILL.md"
+  },
+  {
    "name": "sql-database-assistant",
    "domain": "programming",
    "path": "skills/programming/database/sql-database-assistant",
@@ -7052,6 +8414,26 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/cloud/supabase-postgres-best-practices/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/cloud/supabase-postgres-best-practices/SKILL.md"
+  },
+  {
+   "name": "swift",
+   "domain": "programming",
+   "path": "skills/programming/standards/swift",
+   "file": "skills/programming/standards/swift/SKILL.md",
+   "desc": "Expert in Swift and SwiftUI development for iOS, macOS, and Apple platforms",
+   "desc_zh": "Swift 与 SwiftUI 规范：iOS / macOS / Apple 平台开发。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；随语言与框架版本演进，以上游为准。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/standards/swift/SKILL.md",
+   "packs": [
+    "language-standards"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/standards/swift/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/standards/swift/SKILL.md"
   },
   {
    "name": "systematic-debugging",
@@ -7415,6 +8797,26 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/audio/tts-voice-director/SKILL.md"
   },
   {
+   "name": "typescript",
+   "domain": "programming",
+   "path": "skills/programming/standards/typescript",
+   "file": "skills/programming/standards/typescript/SKILL.md",
+   "desc": "Expert in TypeScript development with best practices for type safety and clean code",
+   "desc_zh": "TypeScript 规范：类型安全与整洁代码实践。",
+   "license": "Apache-2.0",
+   "compatibility": "纯提示型；随语言与框架版本演进，以上游为准。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/programming/standards/typescript/SKILL.md",
+   "packs": [
+    "language-standards"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/programming/standards/typescript/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/programming/standards/typescript/SKILL.md"
+  },
+  {
    "name": "ui-ux-accessibility",
    "domain": "design",
    "path": "skills/design/ui-ux-accessibility",
@@ -7433,6 +8835,26 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/design/ui-ux-accessibility/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/design/ui-ux-accessibility/SKILL.md"
+  },
+  {
+   "name": "unit-economics",
+   "domain": "finance",
+   "path": "skills/finance/unit-economics",
+   "file": "skills/finance/unit-economics/SKILL.md",
+   "desc": "Establishes whether the business makes money on each customer or unit — contribution margin, acquisition cost, payback period, lifetime value, and the cohort behavior underneath. Use this to assess whether growth is profitable, evaluate a channel or segment, support a pricing decision, judge how fast the business can afford to grow, or diagnose why revenue growth is not producing profit.",
+   "desc_zh": "单客与单位经济性：贡献毛利、获客成本、回收期、LTV 与关键杠杆测算。",
+   "license": "MIT",
+   "compatibility": "纯提示型；涉及财务、合规或法律判断时建议人工复核。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/finance/unit-economics/SKILL.md",
+   "packs": [
+    "company-playbooks"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/finance/unit-economics/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/finance/unit-economics/SKILL.md"
   },
   {
    "name": "user-personas",
@@ -7573,6 +8995,26 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/finance/variance-analysis/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/finance/variance-analysis/SKILL.md"
+  },
+  {
+   "name": "vendor-management",
+   "domain": "ops",
+   "path": "skills/ops/vendor-management",
+   "file": "skills/ops/vendor-management/SKILL.md",
+   "desc": "Selects, contracts, and manages suppliers and vendors — requirements, evaluation, negotiation support, onboarding, performance management, and exit. Use this to choose a vendor, run a selection process, structure a service agreement's operational terms, manage an underperforming supplier, plan an exit or migration, or assess concentration and continuity risk.",
+   "desc_zh": "供应商全周期管理：需求、评估、合同、上线、绩效管理与退出。",
+   "license": "MIT",
+   "compatibility": "纯提示型；涉及财务、合规或法律判断时建议人工复核。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/ops/vendor-management/SKILL.md",
+   "packs": [
+    "company-playbooks"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/ops/vendor-management/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/ops/vendor-management/SKILL.md"
   },
   {
    "name": "verification-before-completion",
@@ -8181,6 +9623,30 @@
    "dist_exists": true
   },
   {
+   "id": "caveman-toolkit",
+   "name": "Caveman Toolkit",
+   "name_zh": "Caveman 省 token 工具包",
+   "desc": "",
+   "desc_zh": "",
+   "size_kb": 48,
+   "sha256": "904446b2217a064205f69a855f82fcbfae8609515174af5f31fafa81fc1ddf38",
+   "n_skills": 7,
+   "skills": [
+    "caveman",
+    "caveman-commit",
+    "caveman-review",
+    "caveman-help",
+    "caveman-stats",
+    "caveman-compress",
+    "cavecrew"
+   ],
+   "local_url": "packs/caveman-toolkit.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/caveman-toolkit.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/caveman-toolkit.zip",
+   "dist_exists": true
+  },
+  {
    "id": "chat-prompt-craft",
    "name": "Chat Prompt Craft",
    "name_zh": "聊天提示词工艺",
@@ -8367,6 +9833,36 @@
    "dist_exists": true
   },
   {
+   "id": "company-playbooks",
+   "name": "Company Playbooks",
+   "name_zh": "公司运营手册",
+   "desc": "",
+   "desc_zh": "",
+   "size_kb": 62,
+   "sha256": "6dbc3117cac75dad74a410b3bd15c85a21a4b503c8707c71856d298c89f2bd27",
+   "n_skills": 13,
+   "skills": [
+    "scenario-planning",
+    "market-entry",
+    "agent-hierarchy",
+    "operating-cadence",
+    "process-design",
+    "business-continuity-and-resilience",
+    "vendor-management",
+    "service-level-management",
+    "program-management",
+    "dependency-and-risk-management",
+    "estimating-and-contingency",
+    "unit-economics",
+    "pricing-and-packaging"
+   ],
+   "local_url": "packs/company-playbooks.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/company-playbooks.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/company-playbooks.zip",
+   "dist_exists": true
+  },
+  {
    "id": "containers",
    "name": "Containers & Orchestration",
    "name_zh": "容器与编排",
@@ -8441,6 +9937,37 @@
    "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/creator-boosters.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
    "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/creator-boosters.zip",
+   "dist_exists": true
+  },
+  {
+   "id": "cybersecurity-pro",
+   "name": "Cybersecurity Pro",
+   "name_zh": "网络安全实战精选",
+   "desc": "",
+   "desc_zh": "",
+   "size_kb": 198,
+   "sha256": "54daee38dded5c4a8e1cff8c1e8fbd9c6c53bc082e87126a0b29fd94054e447c",
+   "n_skills": 14,
+   "skills": [
+    "analyzing-memory-dumps-with-volatility",
+    "analyzing-linux-audit-logs-for-intrusion",
+    "analyzing-security-logs-with-splunk",
+    "analyzing-network-traffic-with-wireshark",
+    "analyzing-cobalt-strike-beacon-configuration",
+    "analyzing-malware-behavior-with-cuckoo-sandbox",
+    "analyzing-ransomware-encryption-mechanisms",
+    "analyzing-email-headers-for-phishing-investigation",
+    "analyzing-kubernetes-audit-logs",
+    "analyzing-azure-activity-logs-for-threats",
+    "analyzing-sbom-for-supply-chain-vulnerabilities",
+    "analyzing-threat-actor-ttps-with-mitre-attack",
+    "detecting-dcsync-attack-in-active-directory",
+    "hunting-for-lateral-movement-via-wmi"
+   ],
+   "local_url": "packs/cybersecurity-pro.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/cybersecurity-pro.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/cybersecurity-pro.zip",
    "dist_exists": true
   },
   {
@@ -8698,6 +10225,39 @@
    "dist_exists": true
   },
   {
+   "id": "gtm-growth",
+   "name": "GTM Growth Suite",
+   "name_zh": "GTM 增长套件",
+   "desc": "",
+   "desc_zh": "",
+   "size_kb": 111,
+   "sha256": "253cb835ac201d558ca5e58a8e405b9bb4508f10b449fff1610f5c92a0774808",
+   "n_skills": 16,
+   "skills": [
+    "meta-ads-analyzer",
+    "google-search-ads-builder",
+    "ad-angle-miner",
+    "competitor-ad-intelligence",
+    "ad-to-landing-page-auditor",
+    "paid-channel-prioritizer",
+    "launch-positioning-builder",
+    "brand-voice-extractor",
+    "battlecard-generator",
+    "competitor-intel",
+    "competitive-pricing-intel",
+    "campaign-brief-generator",
+    "content-repurposing",
+    "seo-opportunity-finder",
+    "github-repo-signals",
+    "community-signals"
+   ],
+   "local_url": "packs/gtm-growth.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/gtm-growth.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/gtm-growth.zip",
+   "dist_exists": true
+  },
+  {
    "id": "hf-ml-hub",
    "name": "Hugging Face ML Hub",
    "name_zh": "Hugging Face 机器学习",
@@ -8861,6 +10421,37 @@
    "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/knowledge-work.zip",
    "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
    "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/knowledge-work.zip",
+   "dist_exists": true
+  },
+  {
+   "id": "language-standards",
+   "name": "Language Standards",
+   "name_zh": "语言工程规范",
+   "desc": "",
+   "desc_zh": "",
+   "size_kb": 26,
+   "sha256": "779856952b358a3b9aebde90d31093d8ab9195c1946b7acb4dc15ca610880e95",
+   "n_skills": 14,
+   "skills": [
+    "go",
+    "rust",
+    "python",
+    "typescript",
+    "cpp",
+    "c-sharp",
+    "java",
+    "ruby",
+    "php-development",
+    "swift",
+    "elixir",
+    "kotlin-development",
+    "sql-best-practices",
+    "bash-scripting"
+   ],
+   "local_url": "packs/language-standards.zip",
+   "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.22.1/language-standards.zip",
+   "release_gitcode": "https://gitcode.com/badhope/awesome-skillkit/releases/tag/v0.22.1",
+   "release_gitee": "https://gitee.com/badhope/awesome-skillkit/releases/download/v0.22.1/language-standards.zip",
    "dist_exists": true
   },
   {

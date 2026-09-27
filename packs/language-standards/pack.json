@@ -1,0 +1,65 @@
+{
+  "id": "language-standards",
+  "name": "Language Standards",
+  "name_zh": "语言工程规范",
+  "desc": "Language and query standards converted from Cursor Rules by mindrally/skills (Apache-2.0): idiomatic guidance for Go, Rust, Python, TypeScript, C++, C#, Java, Ruby, PHP, Swift, Elixir, Kotlin, plus SQL best practices and Bash scripting.",
+  "desc_zh": "语言工程规范（mindrally/skills，Apache-2.0，由 Cursor Rules 转换）：Go / Rust / Python / TypeScript / C++ / C# / Java / Ruby / PHP / Swift / Elixir / Kotlin 的地道写法与工程约定，另含 SQL 最佳实践与 Bash 脚本规范。",
+  "skills": [
+    {
+      "name": "go",
+      "source": "mindrally/skills (Apache-2.0)"
+    },
+    {
+      "name": "rust",
+      "source": "mindrally/skills (Apache-2.0)"
+    },
+    {
+      "name": "python",
+      "source": "mindrally/skills (Apache-2.0)"
+    },
+    {
+      "name": "typescript",
+      "source": "mindrally/skills (Apache-2.0)"
+    },
+    {
+      "name": "cpp",
+      "source": "mindrally/skills (Apache-2.0)"
+    },
+    {
+      "name": "c-sharp",
+      "source": "mindrally/skills (Apache-2.0)"
+    },
+    {
+      "name": "java",
+      "source": "mindrally/skills (Apache-2.0)"
+    },
+    {
+      "name": "ruby",
+      "source": "mindrally/skills (Apache-2.0)"
+    },
+    {
+      "name": "php-development",
+      "source": "mindrally/skills (Apache-2.0)"
+    },
+    {
+      "name": "swift",
+      "source": "mindrally/skills (Apache-2.0)"
+    },
+    {
+      "name": "elixir",
+      "source": "mindrally/skills (Apache-2.0)"
+    },
+    {
+      "name": "kotlin-development",
+      "source": "mindrally/skills (Apache-2.0)"
+    },
+    {
+      "name": "sql-best-practices",
+      "source": "mindrally/skills (Apache-2.0)"
+    },
+    {
+      "name": "bash-scripting",
+      "source": "mindrally/skills (Apache-2.0)"
+    }
+  ]
+}

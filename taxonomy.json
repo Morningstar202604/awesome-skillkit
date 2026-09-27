@@ -61,7 +61,9 @@
         "cloud-platforms",
         "hf-ml-hub",
         "scientific-agent-skills",
-        "code-quality-pro"
+        "code-quality-pro",
+        "cybersecurity-pro",
+        "language-standards"
       ]
     },
     {
@@ -79,7 +81,8 @@
         "ai-agent-development",
         "chat-prompt-craft",
         "memory-systems",
-        "skill-forge"
+        "skill-forge",
+        "caveman-toolkit"
       ]
     },
     {
@@ -170,7 +173,9 @@
         "growth-marketing",
         "knowledge-work",
         "cmo-suite",
-        "product-management"
+        "product-management",
+        "gtm-growth",
+        "company-playbooks"
       ]
     },
     {
