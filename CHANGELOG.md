@@ -14,6 +14,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > 另：0.4.0 – 0.6.1 发布于重置整理期，其内容随后被 squash 进 0.6.2 对应的提交
 > （`21769cb`），独立提交已不可考，故这四个版本没有对应的 git tag。
 
+## [Unreleased]
+
+### Fixed
+
+- **二轮全仓逐文件复查（5814 个跟踪文件，非抽样）**——修掉上一轮遗留的真实问题：
+  - **video-shotcraft `workbench/GUIDE.md` 的 9 处插图断链**：补齐上游 `workbench/docs/`（overview / topbar / library-media / library-cards / library-sfx / preview / card-preview / inspector / timeline 共 9 图），GUIDE 图文完整、包内链接全部落地；
+  - **26 个 lark 官方技能补 `description_zh`**（`description` 上游即中文，按仓库字段口径镜像到标准字段）——`description_zh` 至此 **418/418 真实全仓覆盖**，0.23.1 的"全仓覆盖"口径补实；
+  - 清理 `__pycache__` / `.pytest_cache` 运行残留（25 个目录）。
+- 复查剩余条目逐条核验后**均为设计内**（90 → 清理运行残留后 ~28）：二进制样本（`.wav`/`.pkl`/`.epub`/`.db`）非文本、`.gitkeep`/`__init__.py` 空文件、文档示例路径（`/home/me/...`、`C:/`、`D:\_upstream`）、代码内盘符处理正则、`skill-tester` 的 `sample-skill`/`good-skill` 夹具（不入包、不参与镜像）、`env-secrets-manager` 的假密钥样本（值均含 `FAKE` 标注）。
+
+### Added
+
+- **分发渠道落地（生态调研 §九）**：三语 README 挂 [skills.sh 安装量徽章](https://skills.sh/x33834/awesome-skillkit)，安装章节新增 `npx skills add x33834/awesome-skillkit` 一条命令路线——CLI 实测可发现全部 418 个技能（`-l` 列目录、`-s <技能名>` 单装、`-s '*'` 全装）；SkillsMP 为自动抓取，仓库已在收录中。
+
+### Changed
+
+- `manifest.json` / `site/data/site.json` / `site/packs/*` 随包重建（video-shotcraft、feishu-suite、creator-boosters、`_all` 摘要更新）。
+- 门禁复核：validator **418 技能 0 错 0 警**、pytest 284 过（2868 subtests）、站点数据一致（418 技能 / 57 包 / 27 域 / 112 链）。
+
 ## [0.23.1] - 2026-09-27
 
 ### Fixed

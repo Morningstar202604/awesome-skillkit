@@ -794,8 +794,8 @@
           "source": "Vincentwei1021/video-shotcraft (Apache-2.0)"
         }
       ],
-      "size_kb": 8237,
-      "sha256": "b7e6a6049baccc2fe5e4c992c88ec96eb1540c48fbb5d51ebef40fd47e8ffb3f"
+      "size_kb": 9292,
+      "sha256": "7faa92c04a53f3d5ddb33b7d8c982e527442764f996a611409f63d8320f2dffa"
     },
     {
       "id": "cybersecurity-pro",
@@ -1206,8 +1206,8 @@
           "source": "larksuite/cli (MIT) — skills/lark-workflow-standup-report"
         }
       ],
-      "size_kb": 1834,
-      "sha256": "8e4902d72a1a6f413f0ce78706118798aa6022a056d3d677055402f019327ecb"
+      "size_kb": 1835,
+      "sha256": "5388a20916390f01de52b229745e1b2174061da0014fa43893186c00da6e0824"
     },
     {
       "id": "github-workflow",

@@ -2,6 +2,7 @@
 name: lark-openapi-explorer
 description: >-
   飞书/Lark 原生 OpenAPI 探索：从官方文档库中挖掘未经 CLI 封装的原生 OpenAPI 接口。当用户的需求无法被现有 lark-* skill 或 lark-cli 已注册命令满足，需要查找并调用原生飞书 OpenAPI 时使用。
+description_zh: "飞书/Lark 原生 OpenAPI 探索：从官方文档库中挖掘未经 CLI 封装的原生 OpenAPI 接口。当用户的需求无法被现有 lark-* skill 或 lark-cli 已注册命令满足，需要查找并调用原生飞书 OpenAPI 时使用。"
 license: MIT
 compatibility: 需安装飞书官方 CLI（lark-cli，npm 包 @larksuite/cli）；需网络访问；认证、租户与权限处理遵循同目录 lark-shared 技能。
 metadata:

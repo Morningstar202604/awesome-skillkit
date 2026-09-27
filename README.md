@@ -19,6 +19,7 @@
   <a href="https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip"><img src="https://img.shields.io/badge/%E2%AC%87%EF%B8%8F_Download-_all.zip-blue?style=flat-square" alt="Download all packs" /></a>
   <a href="https://gitcode.com/badhope/awesome-skillkit"><img src="https://img.shields.io/badge/GitCode-Mirror-3A72BE?style=flat-square" alt="GitCode" /></a>
   <a href="https://gitee.com/badhope/awesome-skillkit"><img src="https://img.shields.io/badge/Gitee-Mirror-C71D23?style=flat-square" alt="Gitee" /></a>
+  <a href="https://skills.sh/x33834/awesome-skillkit"><img src="https://skills.sh/b/x33834/awesome-skillkit" alt="skills.sh" /></a>
 </p>
 
 <p align="center"><strong>English</strong> | <a href="README.zh-CN.md">简体中文</a> | <a href="README.ja.md">日本語</a></p>
@@ -223,6 +224,8 @@ Below is the complete catalog, grouped by the **8 scene libraries** (the same tw
 > Some skills (e.g. `api-design-reviewer`, `kubernetes-operator`, `image-generation`) appear in more than one pack because they are reused across scenarios — that is intentional.
 
 ## How to install (30 seconds)
+
+> **⚡ Fastest route (skills.sh ecosystem)**: `npx skills add x33834/awesome-skillkit` — one command installs into Claude Code / Cursor / Copilot and 20+ other tools (`-l` lists all 418 skills first, `-s <skill>` installs one, `-s '*'` installs everything).
 
 1. **Download** the zip for the scenario you need (or grab `_all.zip`).
 2. **Unzip** — you get one folder per skill, each containing a `SKILL.md`.

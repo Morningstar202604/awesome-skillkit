@@ -19,6 +19,7 @@
   <a href="https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip"><img src="https://img.shields.io/badge/%E2%AC%87%EF%B8%8F_Download-_all.zip-blue?style=flat-square" alt="Download all packs" /></a>
   <a href="https://gitcode.com/badhope/awesome-skillkit"><img src="https://img.shields.io/badge/GitCode-Mirror-3A72BE?style=flat-square" alt="GitCode" /></a>
   <a href="https://gitee.com/badhope/awesome-skillkit"><img src="https://img.shields.io/badge/Gitee-Mirror-C71D23?style=flat-square" alt="Gitee" /></a>
+  <a href="https://skills.sh/x33834/awesome-skillkit"><img src="https://skills.sh/b/x33834/awesome-skillkit" alt="skills.sh" /></a>
 </p>
 
 <p align="center"><a href="README.md">English</a> | <a href="README.zh-CN.md">简体中文</a> | <strong>日本語</strong></p>
@@ -224,6 +225,8 @@ flowchart LR
 > 一部のスキル（例: `api-design-reviewer`、`kubernetes-operator`、`image-generation`）は複数のパックに登場しますが、シナリオをまたいで再利用されるためです——意図的な設計です。
 
 ## インストール方法（30 秒）
+
+> **⚡ 最速ルート（skills.sh エコシステム）**: `npx skills add x33834/awesome-skillkit` —— 1 コマンドで Claude Code / Cursor / Copilot など 20+ ツールに導入（`-l` で全 418 スキルを一覧、`-s <スキル名>` で個別、`-s '*'` で全導入）。
 
 1. 必要なシナリオの zip を**ダウンロード**します（または `_all.zip` を取得）。
 2. **解凍**すると、スキルごとに 1 フォルダ（各 `SKILL.md` を含む）が得られます。

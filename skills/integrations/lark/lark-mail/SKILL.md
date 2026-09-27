@@ -2,6 +2,7 @@
 name: lark-mail
 description: >-
   飞书邮箱：Use when user mentions 起草邮件、写邮件、草稿、发送/回复/转发邮件、查阅邮件、看邮件、搜索邮件、邮件文件夹、邮件标签、邮件联系人、监听新邮件、邮件收信规则等；use for mail/email intent only. Do not use for docs/sheets/calendar/auth setup/pure contact lookup/IM chat tasks.
+description_zh: "飞书邮箱：Use when user mentions 起草邮件、写邮件、草稿、发送/回复/转发邮件、查阅邮件、看邮件、搜索邮件、邮件文件夹、邮件标签、邮件联系人、监听新邮件、邮件收信规则等；use for mail/email intent only. Do not use for docs/sheets/calendar/auth setup/pure contact lookup/IM chat tasks."
 license: MIT
 compatibility: 需安装飞书官方 CLI（lark-cli，npm 包 @larksuite/cli）；需网络访问；认证、租户与权限处理遵循同目录 lark-shared 技能。
 metadata:

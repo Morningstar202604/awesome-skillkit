@@ -2,6 +2,7 @@
 name: lark-attendance
 description: >-
   飞书考勤打卡：查询自己的考勤打卡记录（原生 API user_tasks.query，需 scope attendance:task:readonly）。当用户需要查看本人打卡记录、核对上下班打卡时间、排查漏打卡时使用；不负责请假/加班审批（走 lark-approval 技能）。
+description_zh: "飞书考勤打卡：查询自己的考勤打卡记录（原生 API user_tasks.query，需 scope attendance:task:readonly）。当用户需要查看本人打卡记录、核对上下班打卡时间、排查漏打卡时使用；不负责请假/加班审批（走 lark-approval 技能）。"
 license: MIT
 compatibility: 需安装飞书官方 CLI（lark-cli，npm 包 @larksuite/cli）；需网络访问；认证、租户与权限处理遵循同目录 lark-shared 技能。
 metadata:

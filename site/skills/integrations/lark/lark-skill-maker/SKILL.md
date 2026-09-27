@@ -2,6 +2,7 @@
 name: lark-skill-maker
 description: >-
   创建 lark-cli 的自定义 Skill。当用户需要把飞书 API 操作封装成可复用的 Skill（包装原子 API 或编排多步流程）时使用。
+description_zh: "创建 lark-cli 的自定义 Skill。当用户需要把飞书 API 操作封装成可复用的 Skill（包装原子 API 或编排多步流程）时使用。"
 license: MIT
 compatibility: 需安装飞书官方 CLI（lark-cli，npm 包 @larksuite/cli）；需网络访问；认证、租户与权限处理遵循同目录 lark-shared 技能。
 metadata:

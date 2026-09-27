@@ -19,6 +19,7 @@
   <a href="https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip"><img src="https://img.shields.io/badge/%E2%AC%87%EF%B8%8F_%E4%B8%8B%E8%BD%BD-_all.zip-blue?style=flat-square" alt="Download all packs" /></a>
   <a href="https://gitcode.com/badhope/awesome-skillkit"><img src="https://img.shields.io/badge/GitCode-镜像-3A72BE?style=flat-square" alt="GitCode" /></a>
   <a href="https://gitee.com/badhope/awesome-skillkit"><img src="https://img.shields.io/badge/Gitee-镜像-C71D23?style=flat-square" alt="Gitee" /></a>
+  <a href="https://skills.sh/x33834/awesome-skillkit"><img src="https://skills.sh/b/x33834/awesome-skillkit" alt="skills.sh" /></a>
 </p>
 
 <p align="center"><a href="README.md">English</a> | <strong>简体中文</strong> | <a href="README.ja.md">日本語</a></p>
@@ -223,6 +224,8 @@ flowchart LR
 > 部分技能（如 `api-design-reviewer`、`kubernetes-operator`、`image-generation`）会出现在多个包中——这是有意为之，因为它们在不同场景下被复用。
 
 ## 如何安装（30 秒）
+
+> **⚡ 最快路线（skills.sh 生态）**：`npx skills add x33834/awesome-skillkit`——一条命令装进 Claude Code / Cursor / Copilot 等 20+ 工具（`-l` 先列出全部 418 个技能，`-s <技能名>` 只装指定技能，`-s '*'` 全装）。
 
 1. **下载**你所需场景的 zip（或直接拿 `_all.zip`）。
 2. **解压**——你会得到若干个技能文件夹，每个里面有一个 `SKILL.md`。
