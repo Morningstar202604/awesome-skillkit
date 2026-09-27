@@ -868,7 +868,22 @@
         "gws-tasks",
         "gws-people",
         "gws-workflow-standup-report",
-        "gws-workflow-weekly-digest"
+        "gws-workflow-weekly-digest",
+        "gws-calendar-insert",
+        "gws-docs-write",
+        "gws-drive-upload",
+        "gws-gmail-triage",
+        "gws-gmail-reply",
+        "gws-gmail-reply-all",
+        "gws-gmail-forward",
+        "gws-gmail-read",
+        "gws-gmail-watch",
+        "gws-sheets-append",
+        "gws-sheets-read",
+        "gws-workflow",
+        "gws-workflow-email-to-task",
+        "gws-workflow-file-announce",
+        "gws-workflow-meeting-prep"
       ],
       "chains": {
         "weekly_status_broadcast": [
@@ -897,6 +912,24 @@
           "gws-shared",
           "gws-calendar-agenda",
           "gws-gmail"
+        ],
+        "gws_inbox_triage": [
+          "gws-gmail-triage",
+          "gws-gmail-read",
+          "gws-gmail-reply"
+        ],
+        "gws_calendar_flow": [
+          "gws-calendar-agenda",
+          "gws-calendar-insert"
+        ],
+        "gws_sheet_flow": [
+          "gws-sheets-read",
+          "gws-sheets-append"
+        ],
+        "gws_workflow_flow": [
+          "gws-workflow",
+          "gws-workflow-meeting-prep",
+          "gws-workflow-standup-report"
         ]
       }
     },

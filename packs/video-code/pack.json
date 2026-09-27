@@ -2,8 +2,8 @@
   "id": "video-code",
   "name": "Code-Driven Video (HyperFrames)",
   "name_zh": "代码化视频（HyperFrames）",
-  "desc": "Code-driven video production with HyperFrames: write HTML compositions, animate with keyframes, add audio, and render promo/explainer/title videos from a single agent prompt.",
-  "desc_zh": "代码化视频生产（HyperFrames）：用 HTML 写视频合成、关键帧动画、音轨与批量渲染，从一句话生成产品宣传片/讲解片/标题卡（上游装机 47~50 万）。",
+  "description": "Code-driven video production with HyperFrames: write HTML compositions, animate with keyframes, add audio, and render promo/explainer/title videos from a single agent prompt.",
+  "description_zh": "代码化视频生产（HyperFrames）：用 HTML 写视频合成、关键帧动画、音轨与批量渲染，从一句话生成产品宣传片/讲解片/标题卡（上游装机 47~50 万）。",
   "skills": [
     {
       "name": "hyperframes",

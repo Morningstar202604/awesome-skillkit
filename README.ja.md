@@ -3,15 +3,15 @@
 <h1 align="center">awesome-skillkit</h1>
 
 <p align="center">
-  <b>2 つのプロダクトライン、1 つのリポジトリ：<br>AI ツール向け 57 シーンパック · 403 スキル&nbsp;＋&nbsp; マルチエージェント協働向け 18 チーム · 219 エージェント——<br>解凍してドロップイン、AI ツールが即座に仕事を覚えます。</b>
+  <b>2 つのプロダクトライン、1 つのリポジトリ：<br>AI ツール向け 57 シーンパック · 418 スキル&nbsp;＋&nbsp; マルチエージェント協働向け 18 チーム · 219 エージェント——<br>解凍してドロップイン、AI ツールが即座に仕事を覚えます。</b>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
-  <img src="https://img.shields.io/badge/skills-403-brightgreen?style=flat-square" alt="Skills" />
+  <img src="https://img.shields.io/badge/skills-418-brightgreen?style=flat-square" alt="Skills" />
   <img src="https://img.shields.io/badge/packs-57-blue?style=flat-square" alt="Packs" />
   <img src="https://img.shields.io/badge/expert%20teams-18%20%C2%B7%20219%20agents-blueviolet?style=flat-square" alt="Expert Teams" />
-  <img src="https://img.shields.io/badge/version-0.23.0-success?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-0.23.1-success?style=flat-square" alt="Version" />
 </p>
 
 <p align="center">
@@ -42,7 +42,7 @@
 | | **A · シーンパック（スキル）** | **B · Expert Teams（专家团）** |
 |---|---|---|
 | **ポジション** | AI コーディング / エージェントツール向けのスキル。1 パック = 1 つの実務シナリオ、skills ディレクトリに入れれば使える | AI コーディングツールや各種 AI ツールにおける**マルチエージェント協働**。役割分担した専門チームが計画・ディスパッチ・品質ゲートを担う |
-| **アセット** | 57 パック · 403 スキル · 27 ドメイン · 108 チェーン | 18 チーム · 219 エキスパートエージェント · 100 スキル · オーケストレーション規約（純 Markdown） |
+| **アセット** | 57 パック · 418 スキル · 27 ドメイン · 112 チェーン | 18 チーム · 219 エキスパートエージェント · 100 スキル · オーケストレーション規約（純 Markdown） |
 | **場所** | [`packs/`](packs/) + [`skills/`](skills/) | [`expert-teams/`](expert-teams/) |
 | **入手** | [公式サイト](https://x33834.github.io/awesome-skillkit/) · [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) | [オンライン閲覧](https://x33834.github.io/awesome-skillkit/expert-teams.html) · [4 プラットフォーム用パッケージ](https://x33834.github.io/awesome-skillkit/expert-teams.html#download) |
 
@@ -93,7 +93,7 @@ flowchart LR
 
 ## 使い込む理由 — 5 つの要点
 
-- **場面優先、テーマの寄せ集めではない**：403 スキル / 57 パック / 27 ドメイン / 108 チェーン——1 パック = AI にそのまま渡せる具体的な仕事（「PR レビュー」「記事を 16 つの中国語プラットフォームへ同時配信」）。
+- **場面優先、テーマの寄せ集めではない**：418 スキル / 57 パック / 27 ドメイン / 112 チェーン——1 パック = AI にそのまま渡せる具体的な仕事（「PR レビュー」「記事を 16 つの中国語プラットフォームへ同時配信」）。
 - **粒度は選べる**：単一 `SKILL.md`、パック単体 zip、[`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) の全量——解凍して skills ディレクトリへ入れ、新しいセッションで設定なしで動作。
 - **まず見てから**：[公式サイト](https://x33834.github.io/awesome-skillkit/) でスキル / ドメイン / パックを検索してカードから直接ダウンロード（日英中 README + 双語サイト）。または AI に `find_skill.py search <キーワード>` を実行させる。
 - **品質は検証可能**：`tools/validate_skills.py` が **0 errors / 0 warnings** を通過（manifest と配布 zip のダイジェスト相互固定）、CI が全 PR でユニットテスト実行。
@@ -191,7 +191,7 @@ flowchart LR
 |---|---|---|:---:|---|
 | [`communication-essentials`](packs/communication-essentials) | Communication Essentials | コミュニケーション必携 | 2 | `tactful-communication`, `decision-debiasing` |
 | [`feishu-suite`](packs/feishu-suite) | Feishu Suite (official Lark CLI) | Feishu スイート（公式 CLI） | 28 | `lark-approval`, `lark-apps`, `lark-attendance`, `lark-base`, `lark-calendar`, `lark-contact`, `lark-doc`, `lark-drive`, `lark-event`, `lark-im`, `lark-mail`, `lark-markdown`, `lark-meeting`, `lark-minutes`, `lark-note`, `lark-okr`, `lark-openapi-explorer`, `lark-shared`, `lark-sheets`, `lark-skill-maker`, `lark-slides`, `lark-task`, `lark-vc`, `lark-vc-agent`, `lark-whiteboard`, `lark-wiki`, `lark-workflow-meeting-summary`, `lark-workflow-standup-report` |
-| [`google-workspace`](packs/google-workspace) | Google Workspace | Google Workspaceスイート | 12 | `gws-shared`, `gws-gmail`, `gws-gmail-send`, `gws-calendar`, `gws-calendar-agenda`, `gws-drive`, `gws-docs`, `gws-sheets`, `gws-tasks`, `gws-people`, `gws-workflow-standup-report`, `gws-workflow-weekly-digest` |
+| [`google-workspace`](packs/google-workspace) | Google Workspace | Google Workspaceスイート | 27 | `gws-calendar`, `gws-calendar-agenda`, `gws-calendar-insert`, `gws-docs`, `gws-docs-write`, `gws-drive`, `gws-drive-upload`, `gws-gmail`, `gws-gmail-forward`, `gws-gmail-read`, `gws-gmail-reply`, `gws-gmail-reply-all`, `gws-gmail-send`, `gws-gmail-triage`, `gws-gmail-watch`, `gws-people`, `gws-shared`, `gws-sheets`, `gws-sheets-append`, `gws-sheets-read`, `gws-tasks`, `gws-workflow`, `gws-workflow-email-to-task`, `gws-workflow-file-announce`, `gws-workflow-meeting-prep`, `gws-workflow-standup-report`, `gws-workflow-weekly-digest` |
 | [`knowledge-base`](packs/knowledge-base) | Knowledge Base | パーソナル知識ベース | 2 | `personal-wiki`, `knowledge-graph-builder` |
 | [`office-productivity`](packs/office-productivity) | Office Productivity | 業務効率ツールボックス | 10 | `ppt-builder`, `excel-assistant`, `resume-tailor`, `meeting-notes`, `internal-comms-writer`, `docx-writer`, `pdf-pipeline`, `epub-builder`, `docx-template-fill`, `career-ops-lite` |
 | [`toolsmith`](packs/toolsmith) | Toolsmith | ツールと自動化 | 6 | `file-organizer`, `batch-renamer`, `format-converter`, `task-scheduler`, `invoice-organizer`, `bank-statement-reconcile` |

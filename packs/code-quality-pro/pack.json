@@ -2,8 +2,8 @@
   "id": "code-quality-pro",
   "name": "Code Quality Pro",
   "name_zh": "代码质量进阶",
-  "desc": "Battle-tested engineering practices from wshobson/agents plus Alibaba open-code-review: review excellence, debugging, e2e testing, error handling, API design, architecture patterns, SQL optimization, Postgres schema design, auth patterns, monorepo management, deployment pipelines, advanced git and AI code review CLI.",
-  "desc_zh": "工程实践精选（wshobson/agents）+ 阿里 open-code-review：评审卓越、调试策略、E2E 测试、错误处理、API 设计、架构模式、SQL 优化、Postgres 表设计、认证模式、Monorepo、发布流水线、进阶 Git 与 AI 代码审查 CLI。",
+  "description": "Battle-tested engineering practices from wshobson/agents plus Alibaba open-code-review: review excellence, debugging, e2e testing, error handling, API design, architecture patterns, SQL optimization, Postgres schema design, auth patterns, monorepo management, deployment pipelines, advanced git and AI code review CLI.",
+  "description_zh": "工程实践精选（wshobson/agents）+ 阿里 open-code-review：评审卓越、调试策略、E2E 测试、错误处理、API 设计、架构模式、SQL 优化、Postgres 表设计、认证模式、Monorepo、发布流水线、进阶 Git 与 AI 代码审查 CLI。",
   "skills": [
     {
       "name": "code-review-excellence",

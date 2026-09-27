@@ -3,15 +3,15 @@
 <h1 align="center">awesome-skillkit</h1>
 
 <p align="center">
-  <b>两条产品线，一个仓库：<br>57 个场景包 · 403 个技能（喂给 AI 工具）&nbsp;+&nbsp; 18 支专家团队 · 219 位专家（多智能体协作）——<br>解压即用，把整套工作能力一次交给你的 AI 工具。</b>
+  <b>两条产品线，一个仓库：<br>57 个场景包 · 418 个技能（喂给 AI 工具）&nbsp;+&nbsp; 18 支专家团队 · 219 位专家（多智能体协作）——<br>解压即用，把整套工作能力一次交给你的 AI 工具。</b>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
-  <img src="https://img.shields.io/badge/skills-403-brightgreen?style=flat-square" alt="Skills" />
+  <img src="https://img.shields.io/badge/skills-418-brightgreen?style=flat-square" alt="Skills" />
   <img src="https://img.shields.io/badge/packs-57-blue?style=flat-square" alt="Packs" />
   <img src="https://img.shields.io/badge/expert%20teams-18%20%C2%B7%20219%20agents-blueviolet?style=flat-square" alt="Expert Teams" />
-  <img src="https://img.shields.io/badge/version-0.23.0-success?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-0.23.1-success?style=flat-square" alt="Version" />
 </p>
 
 <p align="center">
@@ -41,7 +41,7 @@
 | | **A · 场景技能包（skills）** | **B · 专家团（expert-teams）** |
 |---|---|---|
 | **定位** | 面向 AI 编程 / 智能体工具的技能：一包 = 一个真实场景，拖进 skills 目录即可用 | 面向 AI 编程工具及各类 AI 工具里的**多智能体协作**：分工明确的专家团队，互相规划、派单、门禁把关 |
-| **资产** | 57 包 · 403 技能 · 27 域 · 108 条链 | 18 支团队 · 219 位专家 agent · 100 个技能 · 编排协议（纯 Markdown） |
+| **资产** | 57 包 · 418 技能 · 27 域 · 112 条链 | 18 支团队 · 219 位专家 agent · 100 个技能 · 编排协议（纯 Markdown） |
 | **位置** | [`packs/`](packs/) + [`skills/`](skills/) | [`expert-teams/`](expert-teams/) |
 | **入口** | [官网](https://x33834.github.io/awesome-skillkit/) · [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) | [在线浏览](https://x33834.github.io/awesome-skillkit/expert-teams.html) · [四平台安装包](https://x33834.github.io/awesome-skillkit/expert-teams.html#download) |
 
@@ -92,7 +92,7 @@ flowchart LR
 
 ## 为什么值得用——五个重点
 
-- **场景优先，不是领域大杂烩**：403 个技能 / 57 个包 / 27 个域 / 108 条链——一包 = 一个能直接交给 AI 的具体活儿（「审 PR」「一篇文章分发 16 个中文平台」）。
+- **场景优先，不是领域大杂烩**：418 个技能 / 57 个包 / 27 个域 / 112 条链——一包 = 一个能直接交给 AI 的具体活儿（「审 PR」「一篇文章分发 16 个中文平台」）。
 - **粒度随你挑**：单个 `SKILL.md`、单个场景包 zip、或 [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) 全量——解压拖进 skills 目录，新开会话即用，零配置。
 - **先逛再拿**：[官网](https://x33834.github.io/awesome-skillkit/) 按技能 / 域 / 包检索、卡片上直接下载（简中 · English · 日本語 README + 双语站点）；也可以让 AI 跑 `find_skill.py search <关键词>` 自己找。
 - **质量可验证**：`tools/validate_skills.py` 以 **0 错误 / 0 警告** 为门槛（manifest 与站点 zip 摘要双向锁定），CI 每个 PR 跑全量单测。
@@ -190,7 +190,7 @@ flowchart LR
 |---|---|---|:---:|---|
 | [`communication-essentials`](packs/communication-essentials) | **沟通基本功** | Communication Essentials | 2 | `tactful-communication`, `decision-debiasing` |
 | [`feishu-suite`](packs/feishu-suite) | **飞书套件（官方 CLI）** | Feishu Suite (official Lark CLI) | 28 | `lark-approval`, `lark-apps`, `lark-attendance`, `lark-base`, `lark-calendar`, `lark-contact`, `lark-doc`, `lark-drive`, `lark-event`, `lark-im`, `lark-mail`, `lark-markdown`, `lark-meeting`, `lark-minutes`, `lark-note`, `lark-okr`, `lark-openapi-explorer`, `lark-shared`, `lark-sheets`, `lark-skill-maker`, `lark-slides`, `lark-task`, `lark-vc`, `lark-vc-agent`, `lark-whiteboard`, `lark-wiki`, `lark-workflow-meeting-summary`, `lark-workflow-standup-report` |
-| [`google-workspace`](packs/google-workspace) | **Google Workspace 套件** | Google Workspace | 12 | `gws-shared`, `gws-gmail`, `gws-gmail-send`, `gws-calendar`, `gws-calendar-agenda`, `gws-drive`, `gws-docs`, `gws-sheets`, `gws-tasks`, `gws-people`, `gws-workflow-standup-report`, `gws-workflow-weekly-digest` |
+| [`google-workspace`](packs/google-workspace) | **Google Workspace 套件** | Google Workspace | 27 | `gws-calendar`, `gws-calendar-agenda`, `gws-calendar-insert`, `gws-docs`, `gws-docs-write`, `gws-drive`, `gws-drive-upload`, `gws-gmail`, `gws-gmail-forward`, `gws-gmail-read`, `gws-gmail-reply`, `gws-gmail-reply-all`, `gws-gmail-send`, `gws-gmail-triage`, `gws-gmail-watch`, `gws-people`, `gws-shared`, `gws-sheets`, `gws-sheets-append`, `gws-sheets-read`, `gws-tasks`, `gws-workflow`, `gws-workflow-email-to-task`, `gws-workflow-file-announce`, `gws-workflow-meeting-prep`, `gws-workflow-standup-report`, `gws-workflow-weekly-digest` |
 | [`knowledge-base`](packs/knowledge-base) | **个人知识库** | Knowledge Base | 2 | `personal-wiki`, `knowledge-graph-builder` |
 | [`office-productivity`](packs/office-productivity) | **办公效率工具箱** | Office Productivity | 10 | `ppt-builder`, `excel-assistant`, `resume-tailor`, `meeting-notes`, `internal-comms-writer`, `docx-writer`, `pdf-pipeline`, `epub-builder`, `docx-template-fill`, `career-ops-lite` |
 | [`toolsmith`](packs/toolsmith) | **工具与自动化** | Toolsmith | 6 | `file-organizer`, `batch-renamer`, `format-converter`, `task-scheduler`, `invoice-organizer`, `bank-statement-reconcile` |

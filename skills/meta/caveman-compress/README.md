@@ -62,7 +62,7 @@ preserved exactly.
 </td>
 <td width="50%">
 
-### <img src="../../docs/assets/dancing-rock.svg" width="20" height="20" alt="rock"/> Caveman (285 tokens)
+### <img src="https://raw.githubusercontent.com/JuliusBrussee/caveman/main/docs/assets/dancing-rock.svg" width="20" height="20" alt="rock"/> Caveman (285 tokens)
 
 > "Prefer TypeScript strict mode always. No `any` unless unavoidable; comment why if used. Proper types catch bugs early."
 

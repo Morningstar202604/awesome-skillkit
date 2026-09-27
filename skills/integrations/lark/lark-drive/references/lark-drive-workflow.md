@@ -19,7 +19,7 @@
 
 ## 必读上下文
 
-执行本总框架内的 workflow 前，必须先阅读 [`../lark-shared/SKILL.md`](../lark-shared/SKILL.md) 了解认证、全局参数和安全规则。
+执行本总框架内的 workflow 前，必须先阅读 [`../lark-shared/SKILL.md`](../../lark-shared/SKILL.md) 了解认证、全局参数和安全规则。
 
 下游 reference 只能按需逐步加载。不要因为命中本总框架，就预加载所有 workflow 文件或相关 skill。
 

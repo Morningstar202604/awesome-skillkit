@@ -1,7 +1,9 @@
 ---
+
 name: baoyu-translate
 description: >-
   This skill should be used when the user asks to "translate", "翻译", "精翻", "translate article", "translate to Chinese", "translate to English", "改成中文", "改成英文", "convert to Chinese", "localize", "本地化", "refined translation", "精细翻译", "proofread translation", "快速翻译", "快翻", "这篇文章翻译一下", or provides a URL/file with translation intent. Supports three modes (quick/normal/refined) with custom glossary support.
+description_zh: "精细翻译工作流：中英互译与本地化，分块翻译并保持术语一致。"
 license: MIT
 compatibility: 需要网络与对应平台凭据（微信公众号 API / Chrome CDP 等）；发布类操作先预览再确认。
 metadata:

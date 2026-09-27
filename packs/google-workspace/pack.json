@@ -2,8 +2,8 @@
   "id": "google-workspace",
   "name": "Google Workspace",
   "name_zh": "Google Workspace 套件",
-  "desc": "Google Workspace CLI skills: Gmail (read/send), Calendar (agenda), Drive, Docs, Sheets, Tasks, People, plus workflow recipes (standup report, weekly digest) and shared auth patterns.",
-  "desc_zh": "Google Workspace CLI 技能：Gmail（读写/发送）、日历（议程）、Drive、Docs、Sheets、Tasks、People，加站会报告/周报配方与共享认证底座——出海团队与飞书套件互补的办公套件。",
+  "description": "Google Workspace CLI skills: Gmail (read/send), Calendar (agenda), Drive, Docs, Sheets, Tasks, People, plus workflow recipes (standup report, weekly digest) and shared auth patterns.",
+  "description_zh": "Google Workspace CLI 技能：Gmail（读写/发送）、日历（议程）、Drive、Docs、Sheets、Tasks、People，加站会报告/周报配方与共享认证底座——出海团队与飞书套件互补的办公套件。",
   "skills": [
     {
       "name": "gws-shared",
@@ -51,6 +51,66 @@
     },
     {
       "name": "gws-workflow-weekly-digest",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-calendar-insert",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-docs-write",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-drive-upload",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-gmail-triage",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-gmail-reply",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-gmail-reply-all",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-gmail-forward",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-gmail-read",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-gmail-watch",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-sheets-append",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-sheets-read",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-workflow",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-workflow-email-to-task",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-workflow-file-announce",
+      "source": "googleworkspace/cli (Apache-2.0)"
+    },
+    {
+      "name": "gws-workflow-meeting-prep",
       "source": "googleworkspace/cli (Apache-2.0)"
     }
   ]

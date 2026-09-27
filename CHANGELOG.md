@@ -14,6 +14,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > 另：0.4.0 – 0.6.1 发布于重置整理期，其内容随后被 squash 进 0.6.2 对应的提交
 > （`21769cb`），独立提交已不可考，故这四个版本没有对应的 git tag。
 
+## [0.23.1] - 2026-09-27
+
+### Fixed
+
+- **全仓逐文件查漏补缺（5721 个跟踪文件）**：修复 **293 处相对引用**——三套解析策略（技能根 / 仓库根 / 路径后缀唯一匹配）自动改写 293 处，剩余仅 8 处为文档示例占位符（`./a.png`、`img_xxx`、`图片URL` 等，按设计保留）。
+- **`references/iconpark-index.json` 假扩展名**（内容为 Markdown 的兼容入口，扩展名却是 `.json`）：改为 `iconpark-index.md` 并重写为不依赖链接的路径表述（同时满足人可读与门禁解析）。
+
+### Added
+
+- **补齐被引用的上游资产（此前链接悬空）**：knowledge-work 的 5 份 `CONNECTORS.md`（hr / legal / ops / customer / design）随 13 个技能分发；HyperFrames `frame-presets`（48 文件）+ `templates/design-picker.html`；video-shotcraft `workbench/GUIDE.md`。
+- **gws 包 12 → 27 技能**：补齐此前被引用的 15 个上游兄弟技能（gmail triage/reply/reply-all/forward/read/watch、calendar-insert、docs-write、drive-upload、sheets-read/append、workflow + 3 个 workflow 子流程），链接全部落地。
+- 补 12 个技能的 `description_zh`（baoyu ×7、video-shotcraft、gws 旧 3 个改为标准 `description_zh` 字段）。
+
+### Changed
+
+- **`pack.json` 字段归一**：17 个新批次包由 `desc`/`desc_zh` 改为 `description`/`description_zh`（与 `build_site.py` 读取口径一致，此前这些包在站点上没有描述）。
+- 仓库总量 **418 技能 / 57 包 / 27 域 / 112 链**；三语 README、SOURCES、TAXONOMY-V2、DEPLOY-SITE 同步。
+- 清理 `__pycache__` 等运行残留（62 处）；video-shotcraft 删除 3 份上游仓库营销 README（引用未随包文件）。
+
 ## [0.23.0] - 2026-09-27
 
 ### Added
@@ -1113,7 +1132,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [0.12.2]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.12.1...v0.12.2
 [0.12.3]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.12.2...v0.12.3
 [0.13.0]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.12.3...v0.13.0
+[0.23.1]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.23.0...v0.23.1
 [0.23.0]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.22.1...v0.23.0
-[Unreleased]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.23.0...HEAD
+[Unreleased]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.23.1...HEAD
 [0.14.0]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.13.1...v0.14.0
 [0.13.1]: https://gitcode.com/badhope/awesome-skillkit/compare/v0.13.0...v0.13.1

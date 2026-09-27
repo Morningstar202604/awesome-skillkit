@@ -1,6 +1,6 @@
 # VC Events
 
-> **Prerequisite:** Read [`SKILL.md`](SKILL.md) first for the `event consume` essentials (commands, subprocess contract, jq usage).
+> **Prerequisite:** Read [`SKILL.md`](../SKILL.md) first for the `event consume` essentials (commands, subprocess contract, jq usage).
 
 ## 目录
 

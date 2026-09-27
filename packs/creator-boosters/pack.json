@@ -2,8 +2,8 @@
   "id": "creator-boosters",
   "name": "Creator Boosters",
   "name_zh": "创作增强单品",
-  "desc": "Four high-signal creator singles: humanizer (strip AI tells), diagram-design (diagram system with templates and validators), archify (architecture/workflow diagrams) and video-shotcraft (cinematic product videos).",
-  "desc_zh": "四个高价值创作单品：humanizer（去 AI 味标杆）、diagram-design（图表系统：模板 + 校验脚本）、archify（架构/流程图）、video-shotcraft（电影感产品视频）。",
+  "description": "Four high-signal creator singles: humanizer (strip AI tells), diagram-design (diagram system with templates and validators), archify (architecture/workflow diagrams) and video-shotcraft (cinematic product videos).",
+  "description_zh": "四个高价值创作单品：humanizer（去 AI 味标杆）、diagram-design（图表系统：模板 + 校验脚本）、archify（架构/流程图）、video-shotcraft（电影感产品视频）。",
   "skills": [
     {
       "name": "humanizer",

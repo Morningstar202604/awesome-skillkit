@@ -17,11 +17,11 @@ This file owns target parsing, scope clarification, resource inventory, Resource
 
 Before executing rules in this file:
 
-1. Follow [`../lark-shared/SKILL.md`](../lark-shared/SKILL.md) for identity, auth, and permission handling.
-2. For Wiki / personal library targets, follow [`../lark-wiki/SKILL.md`](../lark-wiki/SKILL.md).
+1. Follow [`../lark-shared/SKILL.md`](../../lark-shared/SKILL.md) for identity, auth, and permission handling.
+2. For Wiki / personal library targets, follow [`../lark-wiki/SKILL.md`](../../lark-wiki/SKILL.md).
 3. For Drive folder inventory, follow [`lark-drive-files-list.md`](lark-drive-files-list.md).
 4. For Drive search targets, follow [`lark-drive-search.md`](lark-drive-search.md).
-5. For URL / token inspection, follow [`lark-drive-inspect.md`](lark-drive-inspect.md) and [`../lark-wiki/references/lark-wiki-node-get.md`](../lark-wiki/references/lark-wiki-node-get.md).
+5. For URL / token inspection, follow [`lark-drive-inspect.md`](lark-drive-inspect.md) and [`../lark-wiki/references/lark-wiki-node-get.md`](../../lark-wiki/references/lark-wiki-node-get.md).
 
 ## State: PARSE_SCOPE
 
@@ -164,7 +164,7 @@ Example:
 
 ### Wiki Inventory Rules
 
-1. Follow [`../lark-wiki/references/lark-wiki-node-list.md`](../lark-wiki/references/lark-wiki-node-list.md) traversal semantics.
+1. Follow [`../lark-wiki/references/lark-wiki-node-list.md`](../../lark-wiki/references/lark-wiki-node-list.md) traversal semantics.
 2. Generate stable paths from parent-child traversal.
 3. Preserve Wiki node identity fields needed by `ResourceItem`.
 4. Treat `my_library` as Wiki personal library, not Drive root.

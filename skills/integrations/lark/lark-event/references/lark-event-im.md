@@ -1,6 +1,6 @@
 # IM Events
 
-> **Prerequisite:** Read [`SKILL.md`](SKILL.md) first for the `event consume` essentials (commands, subprocess contract, jq usage).
+> **Prerequisite:** Read [`SKILL.md`](../SKILL.md) first for the `event consume` essentials (commands, subprocess contract, jq usage).
 >
 > **Heads-up for AI agents**: this key's `.content` is **NOT** the raw OAPI payload shape your training data may suggest. `lark-cli` runs a Process hook (`convertlib`) that flattens the V2 envelope and **pre-renders** `.content` to human-readable text for `text` / `post` / `image` / `file` / `audio` / etc. Only `interactive` (cards) keeps the raw JSON string. Don't blindly `fromjson`.
 
@@ -27,7 +27,7 @@
 
 **sender_id is open_id only**: the event payload carries no display name. Call the contact API separately if you need the sender's name.
 
-**`.content` shape depends on `message_type`** (this key uses a flat Custom schema; see [`events/im/message_receive.go`](../../../events/im/message_receive.go)):
+**`.content` shape depends on `message_type`** (this key uses a flat Custom schema; see the upstream SDK source `events/im/message_receive.go` (not bundled here)):
 
 | message_type | `.content` shape | How to read |
 |---|---|---|

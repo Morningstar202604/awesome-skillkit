@@ -154,7 +154,7 @@ Rules:
 - Use historical labels for **continuity** ("又双叒叕化身空中直播员") or **contrast** ("一向省钱的 XX 今天居然...").
 - **Strict separation**: normal pass reads only `profiles/`, roast pass reads only `profiles-roast/`. Never cross-load.
 
-See [references/profiles.md](references/profiles.md) for the full file format.
+See [references/profiles.md](profiles.md) for the full file format.
 
 ### Step 3.7.5: Load group memory（群级事实记忆）
 
@@ -200,13 +200,13 @@ Some group members address the digest bot directly — e.g. `@bot 帮我把昨�
 
 **Misfire filtering**: if a real member's nickname happens to equal an alias, judge by context. Keep only messages genuinely aimed at the digest bot (a question or request for it); skip clear person-to-person talk — a reply to that real person, or banter teasing them. (Choosing a `bot_aliases` value no real member uses avoids this at the source; the filter is a backstop.) Pure greetings/banter (`@bot 在吗`) may be kept with a brief reply.
 
-**Answer-source constraint** (honored when rendering the section per [references/output-formats.md](references/output-formats.md)): answer from the group chat context plus your own knowledge only — **no web access**. For any request needing real-time or external information you can't verify, say so honestly (`这个我查不到实时数据，需要联网确认`) rather than fabricating.
+**Answer-source constraint** (honored when rendering the section per [references/output-formats.md](output-formats.md)): answer from the group chat context plus your own knowledge only — **no web access**. For any request needing real-time or external information you can't verify, say so honestly (`这个我查不到实时数据，需要联网确认`) rather than fabricating.
 
 **No hits** → both versions omit the @bot 答疑 section entirely.
 
 Do this in the same read-through as Round 1's skeleton (via its `== @bot 请求清单 ==` block) so the messages aren't scanned twice.
 
-Generate the digest in three rounds so nothing slips through. The methodology stays here in SKILL.md; the content/style rules live in [references/output-formats.md](references/output-formats.md) — read that file in Round 2 before drafting.
+Generate the digest in three rounds so nothing slips through. The methodology stays here in SKILL.md; the content/style rules live in [references/output-formats.md](output-formats.md) — read that file in Round 2 before drafting.
 
 #### Round 1 — Build the skeleton
 
@@ -268,7 +268,7 @@ The `imgs/` directory exists as an **extension point**: a user (or a future wx-c
 
 **Section order in the output file (fixed)**: 标题行 → 开头概览（群聊摘要）→ 正文分类（群话题）→ 痛点（可选）→ @bot 答疑（可选）→ 消息统计 + 排行榜 → 群友画像 → 结尾。
 
-Detailed structure, voice, formatting rules, and content guidelines are in [references/output-formats.md](references/output-formats.md). Load that file now if not already loaded.
+Detailed structure, voice, formatting rules, and content guidelines are in [references/output-formats.md](output-formats.md). Load that file now if not already loaded.
 
 #### Round 3 — Audit
 
@@ -352,11 +352,11 @@ For each user with 3+ messages in this batch who appeared in the 群友画像 se
 - If `include_normal`, update `{folder}/profiles/{wxid}-{nickname}.md`.
 - If `include_roast`, update `{folder}/profiles-roast/{wxid}-{nickname}.md`.
 
-Counts, frontmatter updates, append-only rules for quotes and events, and privacy guardrails are detailed in [references/profiles.md](references/profiles.md). Load that file when running this step.
+Counts, frontmatter updates, append-only rules for quotes and events, and privacy guardrails are detailed in [references/profiles.md](profiles.md). Load that file when running this step.
 
 ### Step 8.6: Update group memory（群级事实记忆）
 
-更新画像后，扫描本期消息，看是否有需要写入/修订 `{folder}/memory.md` 的事实修正。**执行前读 [references/group-memory.md](references/group-memory.md)**（扫描流程、写入门槛、防注入规则、文件格式）。
+更新画像后，扫描本期消息，看是否有需要写入/修订 `{folder}/memory.md` 的事实修正。**执行前读 [references/group-memory.md](group-memory.md)**（扫描流程、写入门槛、防注入规则、文件格式）。
 
 硬约束（不读参考文件也必须遵守）：
 
@@ -390,4 +390,4 @@ When the user says "回溯画像" / "初始化画像" / "backfill profiles":
 5. Write to `profiles/` (and `profiles-roast/` if any `-roast.md` files exist).
 6. Report back: how many profiles were created, how many users covered.
 
-Full procedure in [references/profiles.md](references/profiles.md).
+Full procedure in [references/profiles.md](profiles.md).

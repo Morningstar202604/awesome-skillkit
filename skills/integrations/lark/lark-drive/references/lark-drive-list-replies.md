@@ -1,6 +1,6 @@
 # drive +list-replies
 
-> **前置条件：** 先阅读 [`../lark-shared/SKILL.md`](../lark-shared/SKILL.md) 了解认证、全局参数和权限处理。
+> **前置条件：** 先阅读 [`../lark-shared/SKILL.md`](../../lark-shared/SKILL.md) 了解认证、全局参数和权限处理。
 
 分页获取某条评论下的回复。
 

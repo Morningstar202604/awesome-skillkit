@@ -2,8 +2,8 @@
   "id": "knowledge-work",
   "name": "Knowledge Work Suite",
   "name_zh": "知识工作套件",
-  "desc": "Enterprise knowledge-work skills: HR (comp, interview, onboarding, performance, policy, recruiting), legal (contract review, risk, compliance, NDA triage), finance (variance, audit support), operations (process, risk, status), customer support (triage, response, KB), and design research (user research, synthesis, UX copy).",
-  "desc_zh": "企业知识工作技能：人力资源（薪酬/面试/入职/绩效/制度/招聘）、法务（合同审查/法律风险/合规/保密协议）、财务（差异分析/审计支持）、运营（流程/风险/状态报告）、客户支持（工单分级/回复草稿/知识库）、设计研究（用户研究/研究综合/文案）——补齐商业侧空白域。",
+  "description": "Enterprise knowledge-work skills: HR (comp, interview, onboarding, performance, policy, recruiting), legal (contract review, risk, compliance, NDA triage), finance (variance, audit support), operations (process, risk, status), customer support (triage, response, KB), and design research (user research, synthesis, UX copy).",
+  "description_zh": "企业知识工作技能：人力资源（薪酬/面试/入职/绩效/制度/招聘）、法务（合同审查/法律风险/合规/保密协议）、财务（差异分析/审计支持）、运营（流程/风险/状态报告）、客户支持（工单分级/回复草稿/知识库）、设计研究（用户研究/研究综合/文案）——补齐商业侧空白域。",
   "skills": [
     {
       "name": "comp-analysis",

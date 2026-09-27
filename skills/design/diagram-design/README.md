@@ -107,9 +107,9 @@ Every visual type ships in three static variants: minimal light, minimal dark, a
 </tr>
 </table>
 
-The v2.5.10 release added the final ten types above. Compare their light, dark, and full-editorial variants in the [30-variant contact sheet](.github/pr-previews/editorial-diagrams-2.5.10.jpg).
+The v2.5.10 release added the final ten types above. Compare their light, dark, and full-editorial variants in the [30-variant contact sheet](https://github.com/cathrynlavery/diagram-design/blob/main/.github/pr-previews/editorial-diagrams-2.5.10.jpg).
 
-**Browse the live gallery:** [cathrynlavery.github.io/diagram-design](https://cathrynlavery.github.io/diagram-design/) — or open [`skills/diagram-design/assets/index.html`](skills/diagram-design/assets/index.html) locally to flip through every diagram with light / dark / full-editorial tabs.
+**Browse the live gallery:** [cathrynlavery.github.io/diagram-design](https://cathrynlavery.github.io/diagram-design/) — or open [`skills/diagram-design/assets/index.html`](assets/index.html) locally to flip through every diagram with light / dark / full-editorial tabs.
 
 ---
 
@@ -246,7 +246,7 @@ Every diagram template gives the inline SVG an accessible name and description: 
 
 ### Manual override
 
-Prefer to set tokens by hand? Open [`skills/diagram-design/references/style-guide.md`](skills/diagram-design/references/style-guide.md) and edit the table. Everything downstream reads from there — every diagram, the annotation primitive, and the gallery all inherit semantic role names (`accent`, not `#eb6c36`).
+Prefer to set tokens by hand? Open [`skills/diagram-design/references/style-guide.md`](references/style-guide.md) and edit the table. Everything downstream reads from there — every diagram, the annotation primitive, and the gallery all inherit semantic role names (`accent`, not `#eb6c36`).
 
 ### First-run gate
 
@@ -254,13 +254,13 @@ The skill won't silently ship default-skinned diagrams into a branded project. O
 
 > *"This is your first diagram in this project. The style guide is still at the default. Want to run onboarding, paste tokens manually, or proceed with default?"*
 
-See [`skills/diagram-design/references/onboarding.md`](skills/diagram-design/references/onboarding.md) for the full spec.
+See [`skills/diagram-design/references/onboarding.md`](references/onboarding.md) for the full spec.
 
 ### Working with multiple clients
 
 Onboard a brand once, save the result as a named profile, then add a `.diagram-design` marker containing `profile: <slug>` to each client project. Marker projects read `~/.diagram-design/profiles/<slug>.md` directly, so parallel workspaces can use different brands without overwriting a shared installed `style-guide.md`.
 
-The profile library is shared across Claude Code, Codex, Factory Droid, and Pi. Use `/diagram-design:profile` in Claude Code, `/profile` in Factory Droid or Pi, or ask in natural language in any host. See [`profiles.md`](skills/diagram-design/references/profiles.md) for the storage, marker, and recovery contract.
+The profile library is shared across Claude Code, Codex, Factory Droid, and Pi. Use `/diagram-design:profile` in Claude Code, `/profile` in Factory Droid or Pi, or ask in natural language in any host. See [`profiles.md`](references/profiles.md) for the storage, marker, and recovery contract.
 
 ---
 
@@ -291,9 +291,9 @@ cp skills/diagram-design/assets/template-motion.html my-diagram.html # optional 
 
 ### Semantic patterns and optional motion
 
-When behavior matters, the skill chooses a semantic pattern first and a visual type second. The nine routed patterns cover fan-in queues and bottlenecks, repeated stage slots, unstructured-input transformation, paired policy traces, secure paved roads, governance catalogs, compensating security layers, traceable block decomposition, and lifecycle phase maps. Each pattern defines its triggers, primitives, budget, anti-patterns, static fallback, and nearest visual type in [`semantic-patterns.md`](skills/diagram-design/references/semantic-patterns.md).
+When behavior matters, the skill chooses a semantic pattern first and a visual type second. The nine routed patterns cover fan-in queues and bottlenecks, repeated stage slots, unstructured-input transformation, paired policy traces, secure paved roads, governance catalogs, compensating security layers, traceable block decomposition, and lifecycle phase maps. Each pattern defines its triggers, primitives, budget, anti-patterns, static fallback, and nearest visual type in [`semantic-patterns.md`](references/semantic-patterns.md).
 
-Motion is optional and does not create another visual type. [`animation.md`](skills/diagram-design/references/animation.md) defines `none`, `reveal`, `step`, and `loop` modes with a complete static first frame, deterministic timing, and controls when interaction is available. Reduced-motion output shows the complete static frame and hides/disables playback controls. Motion HTML uses the exact reviewed controller from `template-motion.html`; arbitrary or modified inline scripts, remote assets, CSS imports, and executable HTML attributes are rejected. The default is `none`: ordinary output remains static and script-free. [`example-policy-trace-animated.html`](skills/diagram-design/assets/example-policy-trace-animated.html) is the self-contained interactive example.
+Motion is optional and does not create another visual type. [`animation.md`](references/animation.md) defines `none`, `reveal`, `step`, and `loop` modes with a complete static first frame, deterministic timing, and controls when interaction is available. Reduced-motion output shows the complete static frame and hides/disables playback controls. Motion HTML uses the exact reviewed controller from `template-motion.html`; arbitrary or modified inline scripts, remote assets, CSS imports, and executable HTML attributes are rejected. The default is `none`: ordinary output remains static and script-free. [`example-policy-trace-animated.html`](assets/example-policy-trace-animated.html) is the self-contained interactive example.
 
 ---
 
@@ -340,7 +340,7 @@ Dropped:   1 sticky note ("legacy path, to be retired") — unconnected in sourc
 Kept in full: the request path (Web/Mobile → Gateway → Orders → Postgres)
 ```
 
-What never carries over: source or renderer coordinates, source palette, source fonts, draw.io's diagonal connector spaghetti, Mermaid's automatic layout, or Excalidraw's hand-drawn geometry. What always does: components, relationships, grouping, and direction. See [`references/import-drawio.md`](skills/diagram-design/references/import-drawio.md), [`references/import-mermaid.md`](skills/diagram-design/references/import-mermaid.md), [`references/import-excalidraw.md`](skills/diagram-design/references/import-excalidraw.md), and [`references/output-spec.md`](skills/diagram-design/references/output-spec.md).
+What never carries over: source or renderer coordinates, source palette, source fonts, draw.io's diagonal connector spaghetti, Mermaid's automatic layout, or Excalidraw's hand-drawn geometry. What always does: components, relationships, grouping, and direction. See [`references/import-drawio.md`](references/import-drawio.md), [`references/import-mermaid.md`](references/import-mermaid.md), [`references/import-excalidraw.md`](references/import-excalidraw.md), and [`references/output-spec.md`](references/output-spec.md).
 
 ---
 
@@ -376,9 +376,9 @@ Or just ask in natural language:
 - **SVG** — extracts the `<svg>` node and injects Google Fonts so it renders standalone in browsers, Figma, and Illustrator.
 - **PNG** — rasterizes the diagram via Playwright at 2× by default. One-time setup: `pip install playwright && playwright install chromium`.
 
-Both formats are diagram-only — editorial cards and headers from `-full` variants aren't included. For a screenshot of the full editorial layout, use your browser's print-to-PDF or full-page screenshot. See [`skills/diagram-design/references/export.md`](skills/diagram-design/references/export.md) for the full procedure.
+Both formats are diagram-only — editorial cards and headers from `-full` variants aren't included. For a screenshot of the full editorial layout, use your browser's print-to-PDF or full-page screenshot. See [`skills/diagram-design/references/export.md`](references/export.md) for the full procedure.
 
-- **`--registry`** — for diagrams using the [traceable block decomposition](skills/diagram-design/references/semantic-patterns.md) pattern, also emits `<basename>.registry.json`, a structured projection of every block's `data-block-*` metadata. Combine with either raster format or run alone. See [`skills/diagram-design/references/export-registry.md`](skills/diagram-design/references/export-registry.md).
+- **`--registry`** — for diagrams using the [traceable block decomposition](references/semantic-patterns.md) pattern, also emits `<basename>.registry.json`, a structured projection of every block's `data-block-*` metadata. Combine with either raster format or run alone. See [`skills/diagram-design/references/export-registry.md`](references/export-registry.md).
 
 For motion-enabled HTML, export the explicit final state: open `?motion=static`, wait for `document.fonts.ready`, and confirm the motion root has `data-frame="static"` before capture. Use `?motion=step&step=N` only when a named intermediate frame was requested.
 
@@ -514,7 +514,7 @@ pass — it covers scene parsing, bound labels, groups and frames, adversarial l
 trust-boundary behavior, resource caps, named failures, and reference/command wiring.
 
 Label placement is gated geometrically: `python3 scripts/verify-geometry.py --all` fails CI when a label mask overlaps a node declared later in the document, because the node fill would clip the text at render time. `python3 scripts/test-verify-geometry.py` keeps that checker honest in both directions.
-Diagrams using the traceable block decomposition pattern get a structural gate on top of that: `python3 scripts/verify-block-registry.py --all` fails CI on a duplicate `data-block-id`, a `data-block-parent` that doesn't resolve to another block in the same file, a cycle in the parent chain, a blank `data-block-id`, or a missing or blank `data-block-name` — the same defects that would make `--registry`'s exported JSON (see [`export-registry.md`](skills/diagram-design/references/export-registry.md)) misrepresent the tree it claims to describe. `python3 scripts/test-verify-block-registry.py` keeps that checker honest in both directions.
+Diagrams using the traceable block decomposition pattern get a structural gate on top of that: `python3 scripts/verify-block-registry.py --all` fails CI on a duplicate `data-block-id`, a `data-block-parent` that doesn't resolve to another block in the same file, a cycle in the parent chain, a blank `data-block-id`, or a missing or blank `data-block-name` — the same defects that would make `--registry`'s exported JSON (see [`export-registry.md`](references/export-registry.md)) misrepresent the tree it claims to describe. `python3 scripts/test-verify-block-registry.py` keeps that checker honest in both directions.
 Treemaps get a second geometric gate, because their whole claim is that area *is* the encoding: `python3 scripts/verify-treemap.py --all` fails CI when a cell's share of the drawn area doesn't match the value printed inside it, or when a label overruns the cell it names. It measures area error as a *relative* figure — an absolute one passes exactly the small cells most likely to be wrong. `python3 scripts/test-verify-treemap.py` keeps it honest in both directions.
 Waterfalls get the same treatment, because their whole claim is that the running total is conserved: `python3 scripts/verify-waterfall.py --all` fails CI when the declared start, deltas, and end don't reconcile, when a bridge bar is drawn anywhere other than its two running levels on the shared scale, when a carry connector is missing or sits at the wrong level, when a delta prints without an explicit sign, or when the two directions collapse into one fill. `python3 scripts/test-verify-waterfall.py` keeps it honest in both directions.
 Docs and routing surfaces are themselves gated: `python3 scripts/verify-docs-sync.py` fails CI if the SKILL.md description loses a type's lexical hook, the gallery can't reach a shipped example, the README tree names a file that doesn't exist, a relative reference link is broken, a scanner-visible support path is not shipped inside the skill package, or any command/prompt surface drifts from its routed reference. `python3 scripts/test-verify-docs-sync.py` exercises those newer checks adversarially, including the strict-bundler behavior used by Hermes Agent. The skill also ships `skills/diagram-design/scripts/self_check.py` — a distilled output checker installed agents can run on their own generated diagrams; `python3 scripts/test-self-check.py` keeps it honest. Settled design decisions (why one pinned controller, why patterns never add types, the autoplay policy, the SKILL.md byte cap, why label placement is verified geometrically, and why client profiles use marker-first resolution) live as short ADRs in `docs/adr/` — read them before relitigating one, add one when you settle a new policy.
@@ -595,15 +595,15 @@ If any of these fail, that's a bug worth filing.
 
 ## The design system (in one paragraph)
 
-One accent color, 1–2 focal elements per diagram. Three font families: Instrument Serif (title + italic callouts), Geist sans (node names), Geist Mono (technical sublabels). 1px hairline borders, no shadows, max border-radius 10px. Every coord, width, and gap divisible by 4 — non-negotiable, it's what keeps the diagrams from feeling AI-generated. Mono is for technical content (ports, URLs, field types), not a blanket "dev" aesthetic. Coral-tinted focal nodes draw the eye to the 1–2 things that matter. Full spec in [`SKILL.md`](skills/diagram-design/SKILL.md#5-design-system).
+One accent color, 1–2 focal elements per diagram. Three font families: Instrument Serif (title + italic callouts), Geist sans (node names), Geist Mono (technical sublabels). 1px hairline borders, no shadows, max border-radius 10px. Every coord, width, and gap divisible by 4 — non-negotiable, it's what keeps the diagrams from feeling AI-generated. Mono is for technical content (ports, URLs, field types), not a blanket "dev" aesthetic. Coral-tinted focal nodes draw the eye to the 1–2 things that matter. Full spec in [`SKILL.md`](SKILL.md#5-design-system).
 
 ---
 
 ## Primitives
 
-- **Annotation callout** — italic Instrument Serif + dashed Bézier leader, for editorial asides that sit in the margins. See [`skills/diagram-design/references/primitive-annotation.md`](skills/diagram-design/references/primitive-annotation.md).
-- **Sketchy filter** — SVG turbulence + displacement map for a hand-drawn variant. Good for essays, not for technical docs. See [`skills/diagram-design/references/primitive-sketchy.md`](skills/diagram-design/references/primitive-sketchy.md).
-- **Icon set** — 87 monochrome IT/cloud icons (laptop, phone, user, server, database, Docker, Kubernetes, AWS, Azure, GitHub, Postgres…) for richer architecture and sequence diagrams. Stroked icons from [Tabler Icons](https://tabler.io/icons) (MIT); brand silhouettes from [Simple Icons](https://simpleicons.org) (CC0). Each icon uses `currentColor` so it inherits the editorial skin or your onboarded brand. See [`skills/diagram-design/references/primitive-icons.md`](skills/diagram-design/references/primitive-icons.md); browse the [gallery](skills/diagram-design/assets/icons.html). Regenerate with `python scripts/build-icons.py`.
+- **Annotation callout** — italic Instrument Serif + dashed Bézier leader, for editorial asides that sit in the margins. See [`skills/diagram-design/references/primitive-annotation.md`](references/primitive-annotation.md).
+- **Sketchy filter** — SVG turbulence + displacement map for a hand-drawn variant. Good for essays, not for technical docs. See [`skills/diagram-design/references/primitive-sketchy.md`](references/primitive-sketchy.md).
+- **Icon set** — 87 monochrome IT/cloud icons (laptop, phone, user, server, database, Docker, Kubernetes, AWS, Azure, GitHub, Postgres…) for richer architecture and sequence diagrams. Stroked icons from [Tabler Icons](https://tabler.io/icons) (MIT); brand silhouettes from [Simple Icons](https://simpleicons.org) (CC0). Each icon uses `currentColor` so it inherits the editorial skin or your onboarded brand. See [`skills/diagram-design/references/primitive-icons.md`](references/primitive-icons.md); browse the [gallery](assets/icons.html). Regenerate with `python scripts/build-icons.py`.
 
 ---
 

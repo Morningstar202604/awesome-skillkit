@@ -17,7 +17,7 @@ metadata:
 
 # /research-synthesis
 
-> If you see unfamiliar placeholders or need to check which tools are connected, see [CONNECTORS.md](../../CONNECTORS.md).
+> If you see unfamiliar placeholders or need to check which tools are connected, see [CONNECTORS.md](references/CONNECTORS.md).
 
 Synthesize user research data into actionable insights. See the **user-research** skill for research methods, interview guides, and analysis frameworks.
 

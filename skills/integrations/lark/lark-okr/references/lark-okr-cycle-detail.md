@@ -1,6 +1,6 @@
 # okr +cycle-detail
 
-> **前置条件：** 先阅读 [`../lark-shared/SKILL.md`](../../../lark-shared/SKILL.md) 了解认证、全局参数和安全规则。
+> **前置条件：** 先阅读 [`../lark-shared/SKILL.md`](../../lark-shared/SKILL.md) 了解认证、全局参数和安全规则。
 
 列出指定 OKR 周期下的所有目标及其关键结果。
 

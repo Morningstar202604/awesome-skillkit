@@ -1,6 +1,6 @@
 # okr +patch
 
-> **前置条件：** 先阅读 [`../lark-shared/SKILL.md`](../../../lark-shared/SKILL.md) 了解认证、全局参数和安全规则。
+> **前置条件：** 先阅读 [`../lark-shared/SKILL.md`](../../lark-shared/SKILL.md) 了解认证、全局参数和安全规则。
 
 部分更新 OKR 目标（Objective）或关键结果（Key Result）的 content、notes、score、deadline 字段。支持增量更新，只需提供要修改的字段。
 

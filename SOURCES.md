@@ -1,7 +1,7 @@
 # SOURCES — 技能来源与更新指引 / Skill Sources & Updates
 
-> 本仓库维护六条线（截至 0.23 候选，共 **403 个技能 / 57 个场景包** = 官方收录 28 + 上游精选 32 +
-> 上游改造 5 + 自建 126 + 新收录 I 148 + 新收录 II 64）：
+> 本仓库维护六条线（截至 0.23.1，共 **418 个技能 / 57 个场景包** = 官方收录 28 + 上游精选 32 +
+> 上游改造 5 + 自建 126 + 新收录 I 148 + 新收录 II 64 + 查漏补缺 15）：
 > 0. **官方收录**（28 个，2026-09-27 起，`skills/integrations/lark/`）——飞书官方仓库 `larksuite/cli` 的
 >    Agent Skills，整包收录为 `feishu-suite`，见「官方收录」一节；
 > 1. **上游精选**（`skills/programming/` 下 13 个分类目录，32 个）——全部来自下方上游项目；
@@ -107,7 +107,7 @@ anthropics、santifer-career-ops——逐技能对应关系以各技能 `referen
 | product-management | [phuryn/pm-skills](https://github.com/phuryn/pm-skills)（12）+ [mattpocock/skills](https://github.com/mattpocock/skills)（2：`to-spec` / `triage`） | MIT ×2 | 14 | `skills/product` |
 | wechat-longform | [JimLiu/baoyu-skills](https://github.com/JimLiu/baoyu-skills) | MIT | 10 | `skills/writing` |
 | video-code | [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) | Apache-2.0 | 5 | `skills/video` |
-| google-workspace | [googleworkspace/cli](https://github.com/googleworkspace/cli) | Apache-2.0 | 12 | `skills/integrations/gws` |
+| google-workspace | [googleworkspace/cli](https://github.com/googleworkspace/cli) | Apache-2.0 | 12 → **27**（2026-09-27 查漏补缺：补齐被引用的 15 个兄弟技能） | `skills/integrations/gws` |
 | hf-ml-hub | [huggingface/skills](https://github.com/huggingface/skills) | Apache-2.0 | 11 | `skills/programming/ml` |
 | scientific-agent-skills | [K-Dense-AI/scientific-agent-skills](https://github.com/K-Dense-AI/scientific-agent-skills)（自 166 精选 12） | MIT | 12 | `skills/programming/science` |
 | code-quality-pro | [wshobson/agents](https://github.com/wshobson/agents)（12）+ [alibaba/open-code-review](https://github.com/alibaba/open-code-review)（1） | MIT / Apache-2.0 | 13 | `skills/programming/quality` |
@@ -343,7 +343,7 @@ v0.18 发版后新增、未及登记进上文分域表格的技能，此处补�
 
 以上 126 个自建技能不来自上游（另 5 个上游改造见上文），由本仓库原创维护，更新即改本仓库。
 
-## 全部技能清单（403 = 官方收录 28 + 上游精选 32 + 上游改造 5 + 自建 126 + 新收录 I 148 + 新收录 II 64）
+## 全部技能清单（418 = 官方收录 28 + 上游精选 32 + 上游改造 5 + 自建 126 + 新收录 I 148 + 新收录 II 64 + 查漏补缺 15）
 
 ### 上游精选（32）
 
@@ -392,8 +392,8 @@ v0.18 发版后新增、未及登记进上文分域表格的技能，此处补�
 ### 官方收录（28）与本批新收录（I 148 + II 64）
 
 - 官方收录（feishu-suite 28）：见上文「官方收录」一节清单；
-- 新收录 I（12 包 148 个）与新收录 II（5 包 64 个）：逐技能以 `packs/<id>/pack.json` 的
-  `skills[].name/source` 为准，由 `build.py` 同步进 `manifest.json`，此处不重复罗列。
+- 新收录 I（12 包 148 个）、新收录 II（5 包 64 个）与查漏补缺（15 个 gws 兄弟技能）：逐技能以
+  `packs/<id>/pack.json` 的 `skills[].name/source` 为准，由 `build.py` 同步进 `manifest.json`，此处不重复罗列。
 
 ## 共享工具 / Shared helpers
 
@@ -407,6 +407,13 @@ v0.18 发版后新增、未及登记进上文分域表格的技能，此处补�
 | `skills/programming/planning/pipeline_orchestrator.py` | 代码计划域编排器：意图→计划→生成 |
 
 ## 历史 / History
+
+- 2026-09-27（v0.23.1）：**全仓查漏补缺**——逐文件审计（5721 个跟踪文件）后：修复 293 处相对引用
+  （含 lark / diagram-design / baoyu 等上游路径口径不一）、补齐被引用的上游资产（knowledge-work 5 份
+  CONNECTORS.md → 13 个技能 `references/`；HyperFrames frame-presets 48 文件 + design-picker 模板；
+  video-shotcraft workbench/GUIDE.md）、gws 包 12 → 27（补齐 15 个被引用的兄弟技能）、`pack.json` 字段
+  归一（desc→description，与 build_site 读取口径一致），`references/iconpark-index.json` 假扩展名改名。
+  账目 418 = 28+32+5+126+148+64+15；技能链 108→112；门禁 0 错 0 警、pytest 284 过。
 
 - 2026-09-27（0.23 候选，续）：**新收录 II 5 包 / 64 技能（P1 收尾 + P2 四源精选）**——
   caveman-toolkit（caveman 技能面 7，MIT）、cybersecurity-pro（818 精选 14，Apache-2.0）、

@@ -1,6 +1,6 @@
 # im +messages-send
 
-> **Prerequisite:** Read [`../lark-shared/SKILL.md`](../lark-shared/SKILL.md) first to understand authentication, global parameters, and safety rules.
+> **Prerequisite:** Read [`../lark-shared/SKILL.md`](../../lark-shared/SKILL.md) first to understand authentication, global parameters, and safety rules.
 
 Send a message to a group chat or a direct message conversation. Supports both user identity (`--as user`) and bot identity (`--as bot`).
 
@@ -244,7 +244,7 @@ lark-cli im +messages-send --chat-id oc_xxx --msg-type interactive --content '<c
 | `media` | `{"file_key":"file_xxx","image_key":"img_xxx"}` (video; `image_key` is the cover from `--video-cover` — **required**) |
 | `share_chat` | `{"chat_id":"oc_xxx"}` |
 | `share_user` | `{"user_id":"ou_xxx"}` |
-| `interactive` | Card JSON — **MUST** be produced by the [`references/card/lark-im-card-create.md`](references/card/lark-im-card-create.md) workflow. Read it before writing any card; never hand-craft the JSON here |
+| `interactive` | Card JSON — **MUST** be produced by the [`references/card/lark-im-card-create.md`](card/lark-im-card-create.md) workflow. Read it before writing any card; never hand-craft the JSON here |
 
 > **`post` vs `interactive`:** `post` is a static rich-text message (title, paragraphs, @mentions, links, inline images) — content is fixed once sent. `interactive` is a card with structured layout and UI components (buttons, forms, selects, date pickers, charts) — content can be updated after sending and supports user-action callbacks. Use `post` for read-only content; use `interactive` when the message needs user interaction or dynamic updates.
 
@@ -298,4 +298,4 @@ Card content is **not** normalized — use the card-native `<at>` syntax inside 
 - `--as bot` uses a tenant access token (TAT) and requires the `im:message:send_as_bot` scope
 - When sending as a bot, the app must already be in the target group or already have a direct-message relationship with the target user
 - When using `--markdown` with images, pre-uploading via `images.create` to obtain an `image_key` is recommended for reliability; remote URLs may be auto-resolved at runtime, but if download/upload fails the image is removed with a warning; local paths are not supported
-- **Interactive cards are gated:** you MUST read and follow the [`references/card/lark-im-card-create.md`](references/card/lark-im-card-create.md) workflow to produce the card JSON *before* sending. Do not hand-write or copy a card payload — the JSON given to `--msg-type interactive --content` must be the workflow's output. This applies every time, with no exception
+- **Interactive cards are gated:** you MUST read and follow the [`references/card/lark-im-card-create.md`](card/lark-im-card-create.md) workflow to produce the card JSON *before* sending. Do not hand-write or copy a card payload — the JSON given to `--msg-type interactive --content` must be the workflow's output. This applies every time, with no exception

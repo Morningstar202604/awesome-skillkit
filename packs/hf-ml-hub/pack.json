@@ -2,8 +2,8 @@
   "id": "hf-ml-hub",
   "name": "Hugging Face ML Hub",
   "name_zh": "Hugging Face 机器学习",
-  "desc": "Hugging Face Hub workflows: hf CLI, datasets, papers, community evals, TRL training, sentence-transformers, Spaces, Gradio apps, local models and LLM trainer recipes.",
-  "desc_zh": "Hugging Face 全流程：hf CLI、数据集、论文、社区评测、TRL 训练、句子向量训练、Spaces、Gradio 应用、本地模型与 LLM 训练配方。",
+  "description": "Hugging Face Hub workflows: hf CLI, datasets, papers, community evals, TRL training, sentence-transformers, Spaces, Gradio apps, local models and LLM trainer recipes.",
+  "description_zh": "Hugging Face 全流程：hf CLI、数据集、论文、社区评测、TRL 训练、句子向量训练、Spaces、Gradio 应用、本地模型与 LLM 训练配方。",
   "skills": [
     {
       "name": "hf-cli",

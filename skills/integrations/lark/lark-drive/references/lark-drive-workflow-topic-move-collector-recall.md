@@ -20,7 +20,7 @@
 
 执行本文档规则前：
 
-1. 按 [`../lark-shared/SKILL.md`](../lark-shared/SKILL.md) 处理身份、认证和权限。
+1. 按 [`../lark-shared/SKILL.md`](../../lark-shared/SKILL.md) 处理身份、认证和权限。
 2. 按 [`lark-drive-search.md`](lark-drive-search.md) 处理 `drive +search` 语法、过滤条件、单批最多 5 页和身份语义；本 workflow 的全量续批规则见下文。
 
 ## 搜索原则

@@ -2,8 +2,8 @@
   "id": "cybersecurity-pro",
   "name": "Cybersecurity Pro",
   "name_zh": "网络安全实战精选",
-  "desc": "Curated offensive/defensive security skills from mukul975/Anthropic-Cybersecurity-Skills (818, Apache-2.0, community project; mapped to MITRE ATT&CK / NIST CSF): memory forensics, Linux auditd investigation, Splunk log analysis, Wireshark traffic analysis, Cobalt Strike beacon config, malware sandboxing, ransomware encryption analysis, phishing header tracing, Kubernetes/Azure audit logs, SBOM supply chain, ATT&CK TTP mapping, DCSync detection, WMI lateral-movement hunting.",
-  "desc_zh": "从 mukul975/Anthropic-Cybersecurity-Skills（818 项，Apache-2.0，社区项目；映射 MITRE ATT&CK / NIST CSF）精选：内存取证、Linux auditd 入侵分析、Splunk 日志调查、Wireshark 流量分析、Cobalt Strike 配置解析、恶意样本沙箱、勒索加密分析、钓鱼邮件头溯源、K8s/Azure 审计日志、SBOM 供应链、ATT&CK TTP 映射、DCSync 检测、WMI 横向移动狩猎。",
+  "description": "Curated offensive/defensive security skills from mukul975/Anthropic-Cybersecurity-Skills (818, Apache-2.0, community project; mapped to MITRE ATT&CK / NIST CSF): memory forensics, Linux auditd investigation, Splunk log analysis, Wireshark traffic analysis, Cobalt Strike beacon config, malware sandboxing, ransomware encryption analysis, phishing header tracing, Kubernetes/Azure audit logs, SBOM supply chain, ATT&CK TTP mapping, DCSync detection, WMI lateral-movement hunting.",
+  "description_zh": "从 mukul975/Anthropic-Cybersecurity-Skills（818 项，Apache-2.0，社区项目；映射 MITRE ATT&CK / NIST CSF）精选：内存取证、Linux auditd 入侵分析、Splunk 日志调查、Wireshark 流量分析、Cobalt Strike 配置解析、恶意样本沙箱、勒索加密分析、钓鱼邮件头溯源、K8s/Azure 审计日志、SBOM 供应链、ATT&CK TTP 映射、DCSync 检测、WMI 横向移动狩猎。",
   "skills": [
     {
       "name": "analyzing-memory-dumps-with-volatility",

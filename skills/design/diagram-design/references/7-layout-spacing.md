@@ -55,7 +55,7 @@
 | Max activities / slices / cards (story map) | 5 / 3 / 12 |
 | Max tables / columns / FKs (db schema) | 5 / 8 shown / 6 |
 | Max annotation callouts | 2 |
-| Max motion (optional) | 8 steps, 12 marked items, 2 simultaneous items — see [animation.md](references/animation.md) |
+| Max motion (optional) | 8 steps, 12 marked items, 2 simultaneous items — see [animation.md](animation.md) |
 
 If you exceed, split into two diagrams (overview + detail).
 

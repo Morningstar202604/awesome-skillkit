@@ -1,6 +1,6 @@
 # whiteboard +update（更新画板）
 
-> **前置条件：** 先阅读 [`../lark-shared/SKILL.md`](../lark-shared/SKILL.md) 了解认证、全局参数和安全规则。
+> **前置条件：** 先阅读 [`../lark-shared/SKILL.md`](../../lark-shared/SKILL.md) 了解认证、全局参数和安全规则。
 
 更新画板内容，支持四种输入格式：
 
@@ -107,7 +107,7 @@ lark-cli whiteboard +update \
 
 ### 示例 5：使用 SVG 写入画板（从文件读取）
 
-适用于从零创建（直接写入 SVG）和编辑现有画板（编辑工作流详见 [`routes/svg-edit.md`](routes/svg-edit.md)）。
+适用于从零创建（直接写入 SVG）和编辑现有画板（编辑工作流详见 [`routes/svg-edit.md`](../routes/svg-edit.md)）。
 
 ```bash
 # 编写或导出 SVG 文件

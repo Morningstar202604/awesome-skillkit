@@ -1,6 +1,6 @@
 # okr +create
 
-> **前置条件：** 先阅读 [`../lark-shared/SKILL.md`](../../../lark-shared/SKILL.md) 了解认证、全局参数和安全规则。
+> **前置条件：** 先阅读 [`../lark-shared/SKILL.md`](../../lark-shared/SKILL.md) 了解认证、全局参数和安全规则。
 
 创建单个 OKR 目标（Objective）或关键结果（Key Result）。这是单条写入场景的首选 shortcut；如果需要一次创建多个 Objective 及其 KR，可使用 [`+batch-create`](lark-okr-batch-create.md)。
 

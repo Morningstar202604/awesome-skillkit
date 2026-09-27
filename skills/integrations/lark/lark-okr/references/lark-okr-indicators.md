@@ -1,6 +1,6 @@
 # OKR 量化指标管理
 
-> **前置条件：** 先阅读 [`../lark-shared/SKILL.md`](../../../lark-shared/SKILL.md) 了解认证、全局参数和安全规则。
+> **前置条件：** 先阅读 [`../lark-shared/SKILL.md`](../../lark-shared/SKILL.md) 了解认证、全局参数和安全规则。
 
 管理 OKR 目标（Objective）和关键结果（Key Result）的量化指标，包括查询和更新指标。
 

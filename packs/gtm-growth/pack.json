@@ -2,8 +2,8 @@
   "id": "gtm-growth",
   "name": "GTM Growth Suite",
   "name_zh": "GTM 增长套件",
-  "desc": "Go-to-market growth skills from gooseworks-ai/goose-skills (MIT): Meta and Google ads diagnosis and building, ad angle mining, competitor ad intelligence, ad-to-landing-page audit, paid channel prioritization, positioning and brand voice, sales battlecards, competitive intel and pricing tracking, campaign briefs, content repurposing, SEO opportunity finding, and devtool lead signals from GitHub / Hacker News / Reddit.",
-  "desc_zh": "GTM 增长套件（gooseworks-ai/goose-skills，MIT）：Meta/Google 广告诊断与搭建、广告角度挖掘、竞品广告情报、广告-落地页一致性审计、付费渠道排序、定位与品牌声线、销售对战卡、竞品与定价追踪、战役简报、内容分发改写、SEO 快赢选题，以及 GitHub / Hacker News / Reddit 的开发者线索信号。",
+  "description": "Go-to-market growth skills from gooseworks-ai/goose-skills (MIT): Meta and Google ads diagnosis and building, ad angle mining, competitor ad intelligence, ad-to-landing-page audit, paid channel prioritization, positioning and brand voice, sales battlecards, competitive intel and pricing tracking, campaign briefs, content repurposing, SEO opportunity finding, and devtool lead signals from GitHub / Hacker News / Reddit.",
+  "description_zh": "GTM 增长套件（gooseworks-ai/goose-skills，MIT）：Meta/Google 广告诊断与搭建、广告角度挖掘、竞品广告情报、广告-落地页一致性审计、付费渠道排序、定位与品牌声线、销售对战卡、竞品与定价追踪、战役简报、内容分发改写、SEO 快赢选题，以及 GitHub / Hacker News / Reddit 的开发者线索信号。",
   "skills": [
     {
       "name": "meta-ads-analyzer",

@@ -115,7 +115,7 @@ npx hyperframes cloud render --quality high --fps 60
 
 ## Templates and variables
 
-Cloud rendering supports [composition variables](../../hyperframes-core/references/variables-and-media.md#variables): declare `data-composition-variables` on the composition, then fill them at render time.
+Cloud rendering supports [composition variables](variables-and-media.md#variables): declare `data-composition-variables` on the composition, then fill them at render time.
 
 ```bash
 npx hyperframes cloud render --variables '{"title":"Q4 Recap","theme":"dark"}'

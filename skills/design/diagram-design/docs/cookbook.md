@@ -1,8 +1,8 @@
 # Diagram Design cookbook
 
-Operator recipes for this repository. The design system still lives in [`skills/diagram-design/SKILL.md`](../skills/diagram-design/SKILL.md); this file is the runbook: what to say, which files to load, and which commands to run.
+Operator recipes for this repository. The design system still lives in [`skills/diagram-design/SKILL.md`](../SKILL.md); this file is the runbook: what to say, which files to load, and which commands to run.
 
-Use it from an **editable clone** (this checkout). Managed marketplace installs can still follow the recipes, but do not edit `references/style-guide.md` inside a package that updates will replace — save a [client profile](../skills/diagram-design/references/profiles.md) instead.
+Use it from an **editable clone** (this checkout). Managed marketplace installs can still follow the recipes, but do not edit `references/style-guide.md` inside a package that updates will replace — save a [client profile](../references/profiles.md) instead.
 
 ---
 
@@ -90,7 +90,7 @@ Pi still registers the **repo root**: `pi install <clone-path>`.
 
 Ask in any host: `run diagram-design doctor` or `/diagram-design:doctor` / `/doctor`.
 
-The procedure is [`references/doctor.md`](../skills/diagram-design/references/doctor.md). It must not install packages. Typical local setup for PNG export:
+The procedure is [`references/doctor.md`](../references/doctor.md). It must not install packages. Typical local setup for PNG export:
 
 ```bash
 python -m pip install playwright
@@ -105,11 +105,11 @@ On Windows, `python` is the usual interpreter; the skill also accepts `python3` 
 
 Work in the **project that will own the HTML**, not inside `skills/diagram-design/assets/` unless you are contributing an example.
 
-1. **Style-guide gate** ([SKILL.md §0](../skills/diagram-design/SKILL.md)). If the working copy is still shipped defaults (paper `#f5f5f5`, ink `#2d3142`, accent `#eb6c36`), the agent must pause and offer onboarding, a profile, or an explicit default. Skip the gate when a valid `.diagram-design` marker selects a profile (including `profile: default`).
-2. **Confirm before drawing** ([SKILL.md §3](../skills/diagram-design/SKILL.md)): visual type, optional semantic pattern, size preset, and what the complexity budget will cut.
-3. **Load** the matching `references/type-*.md` before writing SVG. If a semantic pattern applies, load [`semantic-patterns.md`](../skills/diagram-design/references/semantic-patterns.md) first.
+1. **Style-guide gate** ([SKILL.md §0](../SKILL.md)). If the working copy is still shipped defaults (paper `#f5f5f5`, ink `#2d3142`, accent `#eb6c36`), the agent must pause and offer onboarding, a profile, or an explicit default. Skip the gate when a valid `.diagram-design` marker selects a profile (including `profile: default`).
+2. **Confirm before drawing** ([SKILL.md §3](../SKILL.md)): visual type, optional semantic pattern, size preset, and what the complexity budget will cut.
+3. **Load** the matching `references/type-*.md` before writing SVG. If a semantic pattern applies, load [`semantic-patterns.md`](../references/semantic-patterns.md) first.
 4. **Write** a self-contained HTML file in the project (for example `docs/diagrams/<name>.html`). Do not silently overwrite gallery examples.
-5. **Run** the pre-output checklist ([SKILL.md §9](../skills/diagram-design/SKILL.md)). Orthogonal connectors, 4px grid, ≤9 nodes unless you split, accent on ≤2 focals.
+5. **Run** the pre-output checklist ([SKILL.md §9](../SKILL.md)). Orthogonal connectors, 4px grid, ≤9 nodes unless you split, accent on ≤2 focals.
 
 Marker file at the project root, entire file:
 
@@ -117,13 +117,13 @@ Marker file at the project root, entire file:
 profile: <slug>
 ```
 
-See [`profiles.md`](../skills/diagram-design/references/profiles.md). Profiles live in `~/.diagram-design/profiles/`, not in this clone.
+See [`profiles.md`](../references/profiles.md). Profiles live in `~/.diagram-design/profiles/`, not in this clone.
 
 ---
 
 ## R3. Onboard a skin
 
-Full flow: [`onboarding.md`](../skills/diagram-design/references/onboarding.md).
+Full flow: [`onboarding.md`](../references/onboarding.md).
 
 Say one of:
 
@@ -138,7 +138,7 @@ Then: propose the style-guide diff, wait for approval, write `references/style-g
 
 ## R4. Selection cheat sheet
 
-Do not duplicate the 40-type table here. Open [SKILL.md §3](../skills/diagram-design/SKILL.md) and pick one layout grammar.
+Do not duplicate the 40-type table here. Open [SKILL.md §3](../SKILL.md) and pick one layout grammar.
 
 **Behavior first** (then nearest type):
 
@@ -152,11 +152,11 @@ Do not duplicate the 40-type table here. Open [SKILL.md §3](../skills/diagram-d
 | Controls by enforcement layer | Governance catalog → Layer stack |
 | Compensating defenses, residual risk | Compensating layers → Layer stack |
 
-**Hard stops:** if a table or paragraph is clearer, do not draw. If you are over the [complexity budget](../skills/diagram-design/SKILL.md) (9 nodes / 12 arrows as the default ceiling), split overview + detail.
+**Hard stops:** if a table or paragraph is clearer, do not draw. If you are over the [complexity budget](../SKILL.md) (9 nodes / 12 arrows as the default ceiling), split overview + detail.
 
-**Size** ([output-spec.md](../skills/diagram-design/references/output-spec.md)): `doc-inline` for docs, `slide-16x9` for decks, `social-og` for cards, `fit` for Figma SVG. Size changes type ramp, not just viewBox.
+**Size** ([output-spec.md](../references/output-spec.md)): `doc-inline` for docs, `slide-16x9` for decks, `social-og` for cards, `fit` for Figma SVG. Size changes type ramp, not just viewBox.
 
-**Motion:** default is static. Load [`animation.md`](../skills/diagram-design/references/animation.md) only when the user asked for motion or ordered change is otherwise unclear.
+**Motion:** default is static. Load [`animation.md`](../references/animation.md) only when the user asked for motion or ordered change is otherwise unclear.
 
 ---
 
@@ -187,7 +187,7 @@ Shipped examples are `assets/example-<type>.html` plus `-dark` and `-full` varia
 
 ## R6. Import
 
-Load [`import-drawio.md`](../skills/diagram-design/references/import-drawio.md), [`import-mermaid.md`](../skills/diagram-design/references/import-mermaid.md), or [`import-excalidraw.md`](../skills/diagram-design/references/import-excalidraw.md) and set the four dials **before** redrawing ([output-spec.md](../skills/diagram-design/references/output-spec.md)):
+Load [`import-drawio.md`](../references/import-drawio.md), [`import-mermaid.md`](../references/import-mermaid.md), or [`import-excalidraw.md`](../references/import-excalidraw.md) and set the four dials **before** redrawing ([output-spec.md](../references/output-spec.md)):
 
 | Dial | Typical values |
 |---|---|
@@ -204,7 +204,7 @@ Extractors in this checkout: `skills/diagram-design/scripts/drawio_extract.py`, 
 
 ## R7. Export
 
-**Never export unprompted.** Procedure: [`export.md`](../skills/diagram-design/references/export.md).
+**Never export unprompted.** Procedure: [`export.md`](../references/export.md).
 
 - SVG: first `<svg>` only, XML-escaped Google Fonts `@import`, diagram-only (no full-page cards).
 - PNG: Playwright screenshot of that SVG box, transparent background. Motion HTML: `?motion=static`, wait for `document.fonts.ready`, `data-frame="static"`.
@@ -260,7 +260,7 @@ Copy and fill. Keep one type, one size, one destination.
 
 | Topic | File |
 |---|---|
-| Philosophy, types, checklist | [`SKILL.md`](../skills/diagram-design/SKILL.md) |
-| Tokens | [`style-guide.md`](../skills/diagram-design/references/style-guide.md) |
+| Philosophy, types, checklist | [`SKILL.md`](../SKILL.md) |
+| Tokens | [`style-guide.md`](../references/style-guide.md) |
 | Settled design decisions | [`docs/adr/`](adr/) |
 | Maintainer validation | [`CONTRIBUTING.md`](../CONTRIBUTING.md) |

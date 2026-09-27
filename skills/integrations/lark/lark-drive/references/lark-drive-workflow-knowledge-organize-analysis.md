@@ -17,8 +17,8 @@ This file owns low-confidence partial reads, issue analysis, classification rule
 Before executing rules in this file:
 
 1. `resource_items` MUST already exist from [`lark-drive-workflow-knowledge-organize-discovery.md`](lark-drive-workflow-knowledge-organize-discovery.md).
-2. For document partial reads, follow [`../lark-doc/SKILL.md`](../lark-doc/SKILL.md) and [`../lark-doc/references/lark-doc-fetch.md`](../lark-doc/references/lark-doc-fetch.md).
-3. For sheet / bitable down-drill, follow [`../lark-sheets/SKILL.md`](../lark-sheets/SKILL.md) or [`../lark-base/SKILL.md`](../lark-base/SKILL.md) only when title and path are insufficient.
+2. For document partial reads, follow [`../lark-doc/SKILL.md`](../../lark-doc/SKILL.md) and [`../lark-doc/references/lark-doc-fetch.md`](../../lark-doc/references/lark-doc-fetch.md).
+3. For sheet / bitable down-drill, follow [`../lark-sheets/SKILL.md`](../../lark-sheets/SKILL.md) or [`../lark-base/SKILL.md`](../../lark-base/SKILL.md) only when title and path are insufficient.
 
 ## State: CONTENT_READ
 

@@ -1,6 +1,6 @@
 # okr +progress-list
 
-> **前置条件：** 先阅读 [`../lark-shared/SKILL.md`](../../../lark-shared/SKILL.md) 了解认证、全局参数和安全规则。
+> **前置条件：** 先阅读 [`../lark-shared/SKILL.md`](../../lark-shared/SKILL.md) 了解认证、全局参数和安全规则。
 
 获取目标（Objective）或关键结果（Key Result）的一页进展记录列表，支持外部控制翻页。
 

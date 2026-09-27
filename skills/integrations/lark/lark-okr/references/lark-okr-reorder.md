@@ -1,6 +1,6 @@
 # okr +reorder
 
-> **前置条件：** 先阅读 [`../lark-shared/SKILL.md`](../../../lark-shared/SKILL.md) 了解认证、全局参数和安全规则。
+> **前置条件：** 先阅读 [`../lark-shared/SKILL.md`](../../lark-shared/SKILL.md) 了解认证、全局参数和安全规则。
 
 调整 OKR 周期下目标（Objective）或目标下关键结果（Key Result）的顺序。
 

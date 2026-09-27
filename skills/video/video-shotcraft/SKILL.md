@@ -1,7 +1,9 @@
 ---
+
 name: video-shotcraft
 description: >-
   Create cinematic product videos from shot recipe cards, a validated template, and code/audio assets (Remotion + real page screenshots + 2.5D camera moves + beat-synced cuts + sound design). Use when the user asks to turn a frontend project or webpage into a product video, says "use video-shotcraft to make a video/promo", names the Ink Press template or asks to reproduce its effect, or wants a single shot card's motion. 用镜头配方卡 + 已验收模板 + 代码/音频资产制作电影感产品视频（Remotion + 真实页面截图 + 2.5D 运镜 + 节奏卡点 + 声音设计）。当用户要求"用 video-shotcraft 做视频/宣传片"、把前端项目/网页做成产品视频、点名 Ink Press 模板或要求复刻模板片效果，或要用镜头卡做单个动效镜头时使用。
+description_zh: "用镜头配方卡 + 校验过的模板 + 代码/音频资产制作电影感产品视频（Remotion、真机截图、2.5D 运镜、卡点剪辑与声音设计）。"
 license: Apache-2.0
 compatibility: 纯提示型，任意支持 SKILL.md 的工具可用；无外部依赖。
 metadata:

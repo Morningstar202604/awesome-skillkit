@@ -1,7 +1,9 @@
 ---
+
 name: baoyu-xhs-images
 description: >-
   Generates infographic image card series with 12 visual styles, 8 layouts, and 3 color palettes. Breaks content into 1-10 cartoon-style image cards optimized for social media engagement. Use when user mentions "小红书图片", "小红书种草", "小绿书", "微信图文", "微信贴图", "image cards", "图片卡片", baoyu-xhs-images, or wants social media infographic series.
+description_zh: "生成小红书图文卡片系列：12 种风格、8 种版式、3 套配色，把内容拆成 1–10 张卡片。"
 license: MIT
 compatibility: 需要网络与对应平台凭据（微信公众号 API / Chrome CDP 等）；发布类操作先预览再确认。
 metadata:

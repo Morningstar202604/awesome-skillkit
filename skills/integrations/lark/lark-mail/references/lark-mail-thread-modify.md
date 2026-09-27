@@ -1,6 +1,6 @@
 # mail +thread-modify
 
-> **前置条件：** 先阅读 [`../lark-shared/SKILL.md`](../lark-shared/SKILL.md) 了解认证、全局参数和安全规则。
+> **前置条件：** 先阅读 [`../lark-shared/SKILL.md`](../../lark-shared/SKILL.md) 了解认证、全局参数和安全规则。
 
 如果操作对象是具体邮件 `message_id`，不是整个会话，使用 [`mail +message-modify`](./lark-mail-message-modify.md)。
 

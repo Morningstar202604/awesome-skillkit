@@ -5,12 +5,12 @@
   "updated": "2026-09-27",
   "desc": "Curated scene packs for AI tools: each pack = one real-world scenario, containing multiple skills. Download zip -> unzip -> drag the skill folders into your AI tool's skills directory.",
   "desc_zh": "精选场景包合集：每个场景包 = 一个真实场景，内含多个 skill。下载 zip -> 解压 -> 把 skill 文件夹拖进 AI 工具的 skills 目录即可使用。",
-  "n_skills": 403,
-  "n_skills_on_disk": 405,
+  "n_skills": 418,
+  "n_skills_on_disk": 420,
   "n_packs": 57,
   "n_domains": 27,
   "n_groups": 8,
-  "n_chains": 108,
+  "n_chains": 112,
   "n_et_teams": 18,
   "n_et_agents": 219,
   "n_et_skills": 100,
@@ -332,9 +332,9 @@
    "label": "integrations",
    "label_zh": "工具集成",
    "entry": "skills/integrations/notion-workspace",
-   "n_skills": 44,
-   "n_packed": 44,
-   "n_chains": 6,
+   "n_skills": 59,
+   "n_packed": 59,
+   "n_chains": 10,
    "chains": [
     {
      "name": "deliverable_archive",
@@ -359,11 +359,41 @@
      ]
     },
     {
+     "name": "gws_calendar_flow",
+     "steps": [
+      "gws-calendar-agenda",
+      "gws-calendar-insert"
+     ]
+    },
+    {
      "name": "gws_daily_ops",
      "steps": [
       "gws-shared",
       "gws-calendar-agenda",
       "gws-gmail"
+     ]
+    },
+    {
+     "name": "gws_inbox_triage",
+     "steps": [
+      "gws-gmail-triage",
+      "gws-gmail-read",
+      "gws-gmail-reply"
+     ]
+    },
+    {
+     "name": "gws_sheet_flow",
+     "steps": [
+      "gws-sheets-read",
+      "gws-sheets-append"
+     ]
+    },
+    {
+     "name": "gws_workflow_flow",
+     "steps": [
+      "gws-workflow",
+      "gws-workflow-meeting-prep",
+      "gws-workflow-standup-report"
      ]
     },
     {
@@ -1325,7 +1355,7 @@
     "google-workspace"
    ],
    "n_packs": 7,
-   "n_skills": 64
+   "n_skills": 79
   },
   {
    "id": "business",
@@ -2194,7 +2224,7 @@
    "path": "skills/writing/baoyu-article-illustrator",
    "file": "skills/writing/baoyu-article-illustrator/SKILL.md",
    "desc": "Analyzes article structure, identifies positions requiring visual aids, generates illustrations with Type × Style × Palette three-dimension approach. Use when user asks to \"illustrate article\", \"add images\", \"generate images for article\", or \"为文章配图\".",
-   "desc_zh": "",
+   "desc_zh": "分析文章结构、定位配图位置，用「类型 × 风格 × 配色」三维方法生成插图。",
    "license": "MIT",
    "compatibility": "需要网络与对应平台凭据（微信公众号 API / Chrome CDP 等）；发布类操作先预览再确认。",
    "version": "1.0.0",
@@ -2254,7 +2284,7 @@
    "path": "skills/writing/baoyu-infographic",
    "file": "skills/writing/baoyu-infographic/SKILL.md",
    "desc": "Generate professional infographics with 21 layout types and 22 visual styles. Analyzes content, recommends layout×style combinations, and generates publication-ready infographics. Use when user asks to create \"infographic\", \"信息图\", \"visual summary\", \"可视化\", or \"高密度信息大图\".",
-   "desc_zh": "",
+   "desc_zh": "生成专业信息图：21 种版式 × 22 种视觉风格，自动推荐组合并产出可发布成品。",
    "license": "MIT",
    "compatibility": "需要网络与对应平台凭据（微信公众号 API / Chrome CDP 等）；发布类操作先预览再确认。",
    "version": "1.0.0",
@@ -2274,7 +2304,7 @@
    "path": "skills/writing/baoyu-markdown-to-html",
    "file": "skills/writing/baoyu-markdown-to-html/SKILL.md",
    "desc": "Converts Markdown to styled HTML with WeChat-compatible themes. Supports code highlighting, math, Mermaid (rendered to PNG via headless Chrome), PlantUML, footnotes, alerts, infographics, and optional bottom citations for external links. Use when user asks for \"markdown to html\", \"convert md to html\", \"md 转 html\", \"微信外链转底部引用\", or needs styled HTML output from markdown.",
-   "desc_zh": "",
+   "desc_zh": "把 Markdown 转成微信兼容主题的样式化 HTML（代码高亮、数学、Mermaid、PlantUML、脚注等）。",
    "license": "MIT",
    "compatibility": "需要网络与对应平台凭据（微信公众号 API / Chrome CDP 等）；发布类操作先预览再确认。",
    "version": "1.0.0",
@@ -2294,7 +2324,7 @@
    "path": "skills/writing/baoyu-post-to-wechat",
    "file": "skills/writing/baoyu-post-to-wechat/SKILL.md",
    "desc": "Posts content to WeChat Official Account (微信公众号) via API or Chrome CDP. Supports article posting (文章) with HTML, markdown, or plain text input, and image-text posting (贴图, formerly 图文) with multiple images. Markdown article workflows default to converting ordinary external links into bottom citations for WeChat-friendly output. Use when user mentions \"发布公众号\", \"post to wechat\", \"微信公众号\", or \"贴图/图文/文章\".",
-   "desc_zh": "",
+   "desc_zh": "把内容发布到微信公众号（API 或 Chrome CDP）：支持文章与贴图，Markdown 自动排版。",
    "license": "MIT",
    "compatibility": "需要网络与对应平台凭据（微信公众号 API / Chrome CDP 等）；发布类操作先预览再确认。",
    "version": "1.0.0",
@@ -2334,7 +2364,7 @@
    "path": "skills/writing/baoyu-translate",
    "file": "skills/writing/baoyu-translate/SKILL.md",
    "desc": "This skill should be used when the user asks to \"translate\", \"翻译\", \"精翻\", \"translate article\", \"translate to Chinese\", \"translate to English\", \"改成中文\", \"改成英文\", \"convert to Chinese\", \"localize\", \"本地化\", \"refined translation\", \"精细翻译\", \"proofread translation\", \"快速翻译\", \"快翻\", \"这篇文章翻译一下\", or provides a URL/file with translation intent. Supports three modes (quick/normal/refined) with custom glossary support.",
-   "desc_zh": "",
+   "desc_zh": "精细翻译工作流：中英互译与本地化，分块翻译并保持术语一致。",
    "license": "MIT",
    "compatibility": "需要网络与对应平台凭据（微信公众号 API / Chrome CDP 等）；发布类操作先预览再确认。",
    "version": "1.0.0",
@@ -2354,7 +2384,7 @@
    "path": "skills/writing/baoyu-wechat-summary",
    "file": "skills/writing/baoyu-wechat-summary/SKILL.md",
    "desc": "Summarizes WeChat group chat highlights into a structured digest using the local wx-cli binary (https://github.com/jackwener/wx-cli). Generates a normal digest by default; a roast (毒舌) version is opt-in. Maintains per-group history (history.json + history-digests.jsonl), per-user profiles, and per-group fact memory (memory.md) across runs, with privacy guardrails baked in. Use when the user asks to \"总结群聊\", \"群聊精华\", \"群聊摘要\", \"summarize group chat\", \"group chat digest\", mentions a WeChat group name with a time range, says \"帮我看看 XX 群最近聊了什么\", \"XX 群有什么值得看的\", or asks to \"回溯画像\" / \"初始化画像\" / \"backfill profiles\". Adds the roast version when the user says \"毒舌版\", \"roast 版\", \"再来个毒舌的\", or similar.",
-   "desc_zh": "",
+   "desc_zh": "用本地 wx-cli 把微信群聊亮点总结成结构化纪要（可选毒舌版，按群维护历史）。",
    "license": "MIT",
    "compatibility": "需要网络与对应平台凭据（微信公众号 API / Chrome CDP 等）；发布类操作先预览再确认。",
    "version": "1.0.0",
@@ -2374,7 +2404,7 @@
    "path": "skills/writing/baoyu-xhs-images",
    "file": "skills/writing/baoyu-xhs-images/SKILL.md",
    "desc": "Generates infographic image card series with 12 visual styles, 8 layouts, and 3 color palettes. Breaks content into 1-10 cartoon-style image cards optimized for social media engagement. Use when user mentions \"小红书图片\", \"小红书种草\", \"小绿书\", \"微信图文\", \"微信贴图\", \"image cards\", \"图片卡片\", baoyu-xhs-images, or wants social media infographic series.",
-   "desc_zh": "",
+   "desc_zh": "生成小红书图文卡片系列：12 种风格、8 种版式、3 套配色，把内容拆成 1–10 张卡片。",
    "license": "MIT",
    "compatibility": "需要网络与对应平台凭据（微信公众号 API / Chrome CDP 等）；发布类操作先预览再确认。",
    "version": "1.0.0",
@@ -4530,12 +4560,32 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/gws/gws-calendar-agenda/SKILL.md"
   },
   {
+   "name": "gws-calendar-insert",
+   "domain": "integrations",
+   "path": "skills/integrations/gws/gws-calendar-insert",
+   "file": "skills/integrations/gws/gws-calendar-insert/SKILL.md",
+   "desc": "Google Calendar: create a new event via the gws CLI. Use when the user wants to add an event or schedule a meeting on Google Calendar.",
+   "desc_zh": "Google 日历：新建日程（时间、参会人、会议室与提醒）。",
+   "license": "Apache-2.0",
+   "compatibility": "需要 Google Workspace CLI（gws）与 OAuth 凭据。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/integrations/gws/gws-calendar-insert/SKILL.md",
+   "packs": [
+    "google-workspace"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/integrations/gws/gws-calendar-insert/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/gws/gws-calendar-insert/SKILL.md"
+  },
+  {
    "name": "gws-docs",
    "domain": "integrations",
    "path": "skills/integrations/gws/gws-docs",
    "file": "skills/integrations/gws/gws-docs/SKILL.md",
-   "desc": "Google Docs: read and write documents (create, fetch text, insert/update content, apply formatting) via the gws CLI. 当用户要读或改 Google 文档内容时使用。",
-   "desc_zh": "",
+   "desc": "Google Docs: read and write documents (create, fetch text, insert/update content, apply formatting) via the gws CLI",
+   "desc_zh": "\\\"Google Docs：读写文档内容（创建、取正文、插入、替换、格式化）。\\\"",
    "license": "Apache-2.0",
    "compatibility": "需要 Google Workspace CLI（gws）与 OAuth 凭据。",
    "version": "1.0.0",
@@ -4548,6 +4598,26 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/integrations/gws/gws-docs/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/gws/gws-docs/SKILL.md"
+  },
+  {
+   "name": "gws-docs-write",
+   "domain": "integrations",
+   "path": "skills/integrations/gws/gws-docs-write",
+   "file": "skills/integrations/gws/gws-docs-write/SKILL.md",
+   "desc": "Google Docs: append text to an existing document via the gws CLI. Use when the user wants to add or append content to a Google Doc.",
+   "desc_zh": "Google Docs：向文档追加写入内容。",
+   "license": "Apache-2.0",
+   "compatibility": "需要 Google Workspace CLI（gws）与 OAuth 凭据。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/integrations/gws/gws-docs-write/SKILL.md",
+   "packs": [
+    "google-workspace"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/integrations/gws/gws-docs-write/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/gws/gws-docs-write/SKILL.md"
   },
   {
    "name": "gws-drive",
@@ -4570,12 +4640,32 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/gws/gws-drive/SKILL.md"
   },
   {
+   "name": "gws-drive-upload",
+   "domain": "integrations",
+   "path": "skills/integrations/gws/gws-drive-upload",
+   "file": "skills/integrations/gws/gws-drive-upload/SKILL.md",
+   "desc": "Google Drive: upload a file with automatic metadata via the gws CLI. Use when the user wants to put a local file into Google Drive.",
+   "desc_zh": "Google Drive：上传文件并自动补全元数据。",
+   "license": "Apache-2.0",
+   "compatibility": "需要 Google Workspace CLI（gws）与 OAuth 凭据。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/integrations/gws/gws-drive-upload/SKILL.md",
+   "packs": [
+    "google-workspace"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/integrations/gws/gws-drive-upload/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/gws/gws-drive-upload/SKILL.md"
+  },
+  {
    "name": "gws-gmail",
    "domain": "integrations",
    "path": "skills/integrations/gws/gws-gmail",
    "file": "skills/integrations/gws/gws-gmail/SKILL.md",
-   "desc": "Gmail: send, read, reply, forward, filter, triage and watch email via the gws CLI. 当用户要读邮件、发邮件、回复/转发、建过滤器、批量整理收件箱时使用。",
-   "desc_zh": "",
+   "desc": "Gmail: send, read, reply, forward, filter, triage and watch email via the gws CLI",
+   "desc_zh": "\\\"Gmail：收发、读取、回复、转发、过滤、分诊与监听邮件。\\\"",
    "license": "Apache-2.0",
    "compatibility": "需要 Google Workspace CLI（gws）与 OAuth 凭据。",
    "version": "1.0.0",
@@ -4590,12 +4680,92 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/gws/gws-gmail/SKILL.md"
   },
   {
+   "name": "gws-gmail-forward",
+   "domain": "integrations",
+   "path": "skills/integrations/gws/gws-gmail-forward",
+   "file": "skills/integrations/gws/gws-gmail-forward/SKILL.md",
+   "desc": "Gmail: forward a message to new recipients via the gws CLI. Use when the user wants to pass an email on to someone else.",
+   "desc_zh": "Gmail：把邮件转发给新收件人。",
+   "license": "Apache-2.0",
+   "compatibility": "需要 Google Workspace CLI（gws）与 OAuth 凭据。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/integrations/gws/gws-gmail-forward/SKILL.md",
+   "packs": [
+    "google-workspace"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/integrations/gws/gws-gmail-forward/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/gws/gws-gmail-forward/SKILL.md"
+  },
+  {
+   "name": "gws-gmail-read",
+   "domain": "integrations",
+   "path": "skills/integrations/gws/gws-gmail-read",
+   "file": "skills/integrations/gws/gws-gmail-read/SKILL.md",
+   "desc": "Gmail: read a message and extract its body or headers via the gws CLI. Use when the user wants the contents of a specific email.",
+   "desc_zh": "Gmail：读取邮件正文或头部信息。",
+   "license": "Apache-2.0",
+   "compatibility": "需要 Google Workspace CLI（gws）与 OAuth 凭据。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/integrations/gws/gws-gmail-read/SKILL.md",
+   "packs": [
+    "google-workspace"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/integrations/gws/gws-gmail-read/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/gws/gws-gmail-read/SKILL.md"
+  },
+  {
+   "name": "gws-gmail-reply",
+   "domain": "integrations",
+   "path": "skills/integrations/gws/gws-gmail-reply",
+   "file": "skills/integrations/gws/gws-gmail-reply/SKILL.md",
+   "desc": "Gmail: reply to a message, handling threading automatically, via the gws CLI. Use when the user wants to answer an email.",
+   "desc_zh": "Gmail：回复邮件，自动处理会话串。",
+   "license": "Apache-2.0",
+   "compatibility": "需要 Google Workspace CLI（gws）与 OAuth 凭据。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/integrations/gws/gws-gmail-reply/SKILL.md",
+   "packs": [
+    "google-workspace"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/integrations/gws/gws-gmail-reply/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/gws/gws-gmail-reply/SKILL.md"
+  },
+  {
+   "name": "gws-gmail-reply-all",
+   "domain": "integrations",
+   "path": "skills/integrations/gws/gws-gmail-reply-all",
+   "file": "skills/integrations/gws/gws-gmail-reply-all/SKILL.md",
+   "desc": "Gmail: reply-all to a message, handling threading automatically, via the gws CLI. Use when the user wants to answer the whole recipient list.",
+   "desc_zh": "Gmail：全部回复，自动处理会话串。",
+   "license": "Apache-2.0",
+   "compatibility": "需要 Google Workspace CLI（gws）与 OAuth 凭据。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/integrations/gws/gws-gmail-reply-all/SKILL.md",
+   "packs": [
+    "google-workspace"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/integrations/gws/gws-gmail-reply-all/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/gws/gws-gmail-reply-all/SKILL.md"
+  },
+  {
    "name": "gws-gmail-send",
    "domain": "integrations",
    "path": "skills/integrations/gws/gws-gmail-send",
    "file": "skills/integrations/gws/gws-gmail-send/SKILL.md",
-   "desc": "Gmail send: compose and send an email (to/cc/bcc, subject, body, attachments) via the gws CLI. 当用户要写并发出一封邮件时使用。",
-   "desc_zh": "",
+   "desc": "Gmail send: compose and send an email (to/cc/bcc, subject, body, attachments) via the gws CLI",
+   "desc_zh": "\\\"Gmail：撰写并发送邮件（收件人、主题、正文、附件）。\\\"",
    "license": "Apache-2.0",
    "compatibility": "需要 Google Workspace CLI（gws）与 OAuth 凭据。",
    "version": "1.0.0",
@@ -4608,6 +4778,46 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/integrations/gws/gws-gmail-send/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/gws/gws-gmail-send/SKILL.md"
+  },
+  {
+   "name": "gws-gmail-triage",
+   "domain": "integrations",
+   "path": "skills/integrations/gws/gws-gmail-triage",
+   "file": "skills/integrations/gws/gws-gmail-triage/SKILL.md",
+   "desc": "Gmail: show an unread inbox summary (sender, subject, date) via the gws CLI. Use when the user wants to scan or triage unread email.",
+   "desc_zh": "Gmail：快速分诊收件箱——未读邮件摘要（发件人/主题/日期）。",
+   "license": "Apache-2.0",
+   "compatibility": "需要 Google Workspace CLI（gws）与 OAuth 凭据。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/integrations/gws/gws-gmail-triage/SKILL.md",
+   "packs": [
+    "google-workspace"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/integrations/gws/gws-gmail-triage/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/gws/gws-gmail-triage/SKILL.md"
+  },
+  {
+   "name": "gws-gmail-watch",
+   "domain": "integrations",
+   "path": "skills/integrations/gws/gws-gmail-watch",
+   "file": "skills/integrations/gws/gws-gmail-watch/SKILL.md",
+   "desc": "Gmail: watch for new emails and stream them as NDJSON via the gws CLI. Use when the user wants a live feed of incoming mail.",
+   "desc_zh": "Gmail：监听新邮件并以 NDJSON 流式输出。",
+   "license": "Apache-2.0",
+   "compatibility": "需要 Google Workspace CLI（gws）与 OAuth 凭据。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/integrations/gws/gws-gmail-watch/SKILL.md",
+   "packs": [
+    "google-workspace"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/integrations/gws/gws-gmail-watch/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/gws/gws-gmail-watch/SKILL.md"
   },
   {
    "name": "gws-people",
@@ -4670,6 +4880,46 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/gws/gws-sheets/SKILL.md"
   },
   {
+   "name": "gws-sheets-append",
+   "domain": "integrations",
+   "path": "skills/integrations/gws/gws-sheets-append",
+   "file": "skills/integrations/gws/gws-sheets-append/SKILL.md",
+   "desc": "Google Sheets: append a row to a spreadsheet via the gws CLI. Use when the user wants to add a record or line to a sheet.",
+   "desc_zh": "Google Sheets：向表格追加一行数据。",
+   "license": "Apache-2.0",
+   "compatibility": "需要 Google Workspace CLI（gws）与 OAuth 凭据。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/integrations/gws/gws-sheets-append/SKILL.md",
+   "packs": [
+    "google-workspace"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/integrations/gws/gws-sheets-append/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/gws/gws-sheets-append/SKILL.md"
+  },
+  {
+   "name": "gws-sheets-read",
+   "domain": "integrations",
+   "path": "skills/integrations/gws/gws-sheets-read",
+   "file": "skills/integrations/gws/gws-sheets-read/SKILL.md",
+   "desc": "Google Sheets: read values from a spreadsheet range via the gws CLI. Use when the user wants data out of a Google Sheet.",
+   "desc_zh": "Google Sheets：读取表格区域的值。",
+   "license": "Apache-2.0",
+   "compatibility": "需要 Google Workspace CLI（gws）与 OAuth 凭据。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/integrations/gws/gws-sheets-read/SKILL.md",
+   "packs": [
+    "google-workspace"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/integrations/gws/gws-sheets-read/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/gws/gws-sheets-read/SKILL.md"
+  },
+  {
    "name": "gws-tasks",
    "domain": "integrations",
    "path": "skills/integrations/gws/gws-tasks",
@@ -4688,6 +4938,86 @@
    ],
    "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/integrations/gws/gws-tasks/SKILL.md",
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/gws/gws-tasks/SKILL.md"
+  },
+  {
+   "name": "gws-workflow",
+   "domain": "integrations",
+   "path": "skills/integrations/gws/gws-workflow",
+   "file": "skills/integrations/gws/gws-workflow/SKILL.md",
+   "desc": "Google Workspace workflows: cross-service productivity flows that chain Gmail, Drive, Calendar and Tasks via the gws CLI. Use when the user wants an end-to-end routine rather than a single API call.",
+   "desc_zh": "Google Workspace 跨服务效率工作流入口（串联 Gmail / Drive / Calendar / Tasks 等）。",
+   "license": "Apache-2.0",
+   "compatibility": "需要 Google Workspace CLI（gws）与 OAuth 凭据。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/integrations/gws/gws-workflow/SKILL.md",
+   "packs": [
+    "google-workspace"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/integrations/gws/gws-workflow/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/gws/gws-workflow/SKILL.md"
+  },
+  {
+   "name": "gws-workflow-email-to-task",
+   "domain": "integrations",
+   "path": "skills/integrations/gws/gws-workflow-email-to-task",
+   "file": "skills/integrations/gws/gws-workflow-email-to-task/SKILL.md",
+   "desc": "Workspace workflow: convert a Gmail message into a Google Tasks entry via the gws CLI. Use when the user wants to turn an email into a tracked task.",
+   "desc_zh": "工作流：把 Gmail 邮件转成 Google Tasks 待办。",
+   "license": "Apache-2.0",
+   "compatibility": "需要 Google Workspace CLI（gws）与 OAuth 凭据。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/integrations/gws/gws-workflow-email-to-task/SKILL.md",
+   "packs": [
+    "google-workspace"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/integrations/gws/gws-workflow-email-to-task/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/gws/gws-workflow-email-to-task/SKILL.md"
+  },
+  {
+   "name": "gws-workflow-file-announce",
+   "domain": "integrations",
+   "path": "skills/integrations/gws/gws-workflow-file-announce",
+   "file": "skills/integrations/gws/gws-workflow-file-announce/SKILL.md",
+   "desc": "Workspace workflow: announce a Drive file in a Google Chat space via the gws CLI. Use when the user wants to share a file with a team channel.",
+   "desc_zh": "工作流：在 Chat 空间里公告一个 Drive 文件。",
+   "license": "Apache-2.0",
+   "compatibility": "需要 Google Workspace CLI（gws）与 OAuth 凭据。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/integrations/gws/gws-workflow-file-announce/SKILL.md",
+   "packs": [
+    "google-workspace"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/integrations/gws/gws-workflow-file-announce/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/gws/gws-workflow-file-announce/SKILL.md"
+  },
+  {
+   "name": "gws-workflow-meeting-prep",
+   "domain": "integrations",
+   "path": "skills/integrations/gws/gws-workflow-meeting-prep",
+   "file": "skills/integrations/gws/gws-workflow-meeting-prep/SKILL.md",
+   "desc": "Workspace workflow: prepare for the next meeting — agenda, attendees and linked docs — via the gws CLI. Use when the user asks for meeting preparation.",
+   "desc_zh": "工作流：会议准备——议程、参会人与关联文档。",
+   "license": "Apache-2.0",
+   "compatibility": "需要 Google Workspace CLI（gws）与 OAuth 凭据。",
+   "version": "1.0.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-27",
+   "repo_file": "skills/integrations/gws/gws-workflow-meeting-prep/SKILL.md",
+   "packs": [
+    "google-workspace"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/integrations/gws/gws-workflow-meeting-prep/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/integrations/gws/gws-workflow-meeting-prep/SKILL.md"
   },
   {
    "name": "gws-workflow-standup-report",
@@ -9122,7 +9452,7 @@
    "path": "skills/video/video-shotcraft",
    "file": "skills/video/video-shotcraft/SKILL.md",
    "desc": "Create cinematic product videos from shot recipe cards, a validated template, and code/audio assets (Remotion + real page screenshots + 2.5D camera moves + beat-synced cuts + sound design). Use when the user asks to turn a frontend project or webpage into a product video, says \"use video-shotcraft to make a video/promo\", names the Ink Press template or asks to reproduce its effect, or wants a single shot card's motion. 用镜头配方卡 + 已验收模板 + 代码/音频资产制作电影感产品视频（Remotion + 真实页面截图 + 2.5D 运镜 + 节奏卡点 + 声音设计）。当用户要求\"用 video-shotcraft 做视频/宣传片\"、把前端项目/网页做成产品视频、点名 Ink Press 模板或要求复刻模板片效果，或要用镜头卡做单个动效镜头时使用。",
-   "desc_zh": "",
+   "desc_zh": "用镜头配方卡 + 校验过的模板 + 代码/音频资产制作电影感产品视频（Remotion、真机截图、2.5D 运镜、卡点剪辑与声音设计）。",
    "license": "Apache-2.0",
    "compatibility": "纯提示型，任意支持 SKILL.md 的工具可用；无外部依赖。",
    "version": "1.0.0",
@@ -9628,8 +9958,8 @@
    "name_zh": "Caveman 省 token 工具包",
    "desc": "",
    "desc_zh": "",
-   "size_kb": 48,
-   "sha256": "904446b2217a064205f69a855f82fcbfae8609515174af5f31fafa81fc1ddf38",
+   "size_kb": 49,
+   "sha256": "c06844cfeb3ce24af348c0f3af8c86e1fba872322a51bbfcecdf3d0393e9c2dc",
    "n_skills": 7,
    "skills": [
     "caveman",
@@ -9691,7 +10021,7 @@
    "desc": "",
    "desc_zh": "",
    "size_kb": 655,
-   "sha256": "8dfc952613ac57706e9f0e5d321164b4f2ac27e2cb35ced291927aa6ee3ed4af",
+   "sha256": "4a55c7f187094521fcbbeb0777e816937be2b6bc8654195584d6725b0413c85a",
    "n_skills": 12,
    "skills": [
     "azure-compute",
@@ -9769,7 +10099,7 @@
    "desc": "",
    "desc_zh": "",
    "size_kb": 104,
-   "sha256": "a7fa7b95b07aa44456021929db80afb0121c03b75f01e8410a9f9dc935aebd5e",
+   "sha256": "86d75a84056998494c06fc99bba93481c2a5fa26c322fe44032b3da180eb4b6a",
    "n_skills": 13,
    "skills": [
     "code-review-excellence",
@@ -9923,8 +10253,8 @@
    "name_zh": "创作增强单品",
    "desc": "",
    "desc_zh": "",
-   "size_kb": 8254,
-   "sha256": "4f80b6a2e2ae27e1cf852f2e40bdcf38db3bfb62b1d7b89dbe1e055a386fae3b",
+   "size_kb": 8237,
+   "sha256": "b7e6a6049baccc2fe5e4c992c88ec96eb1540c48fbb5d51ebef40fd47e8ffb3f",
    "n_skills": 5,
    "skills": [
     "humanizer",
@@ -10079,7 +10409,7 @@
    "desc": "",
    "desc_zh": "",
    "size_kb": 172,
-   "sha256": "fe77ac8be38827c19954d47003644633f1b26147df0f3e1eb4a3f7dfae079363",
+   "sha256": "ef972bafa445d5c1b34287e40ab2f480b4d31ec342eb16b0ced21318377fb772",
    "n_skills": 21,
    "skills": [
     "brainstorming",
@@ -10117,7 +10447,7 @@
    "desc": "Official Lark/Feishu agent skills from larksuite/cli (MIT): 28 skills covering IM, Docs, Wiki, Base, Sheets, Slides, Calendar, Mail, Tasks, Meetings, Drive, Approval, OKR, Contacts, Events, Markdown, Whiteboard plus the shared auth/permission base and two workflow recipes.",
    "desc_zh": "飞书官方 CLI（larksuite/cli，MIT）28 个技能：消息、云文档、知识库、多维表格、电子表格、幻灯片、日历、邮箱、任务、会议、云盘、审批、OKR、通讯录、事件订阅、Markdown、画板，外加共享的认证/权限底座与两条工作流配方；覆盖国内办公最高频的协作链路（上游装机 880 万+）。",
    "size_kb": 1834,
-   "sha256": "375b27ceeeae03b0dd1ed4ce1d5e400af58a0daf8af080d6c5bd6fbab3dc5d6a",
+   "sha256": "75ca2525186d072b772a34a1573ae0b4fba090a85dbc1a7f2c4d8c49167cd42e",
    "n_skills": 28,
    "skills": [
     "lark-approval",
@@ -10181,9 +10511,9 @@
    "name_zh": "Google Workspace 套件",
    "desc": "",
    "desc_zh": "",
-   "size_kb": 22,
-   "sha256": "fa298cc80e086874ccd6157f9d73bd178fea8243899c4d628e4c2a8335d81f20",
-   "n_skills": 12,
+   "size_kb": 42,
+   "sha256": "d04276da7150b76b29aa25163aea17f4cdd9b831f7893be17d6d798d701e0c99",
+   "n_skills": 27,
    "skills": [
     "gws-shared",
     "gws-gmail",
@@ -10196,7 +10526,22 @@
     "gws-tasks",
     "gws-people",
     "gws-workflow-standup-report",
-    "gws-workflow-weekly-digest"
+    "gws-workflow-weekly-digest",
+    "gws-calendar-insert",
+    "gws-docs-write",
+    "gws-drive-upload",
+    "gws-gmail-triage",
+    "gws-gmail-reply",
+    "gws-gmail-reply-all",
+    "gws-gmail-forward",
+    "gws-gmail-read",
+    "gws-gmail-watch",
+    "gws-sheets-append",
+    "gws-sheets-read",
+    "gws-workflow",
+    "gws-workflow-email-to-task",
+    "gws-workflow-file-announce",
+    "gws-workflow-meeting-prep"
    ],
    "local_url": "packs/google-workspace.zip",
    "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.23.0/google-workspace.zip",
@@ -10391,8 +10736,8 @@
    "name_zh": "知识工作套件",
    "desc": "",
    "desc_zh": "",
-   "size_kb": 80,
-   "sha256": "056f5524a6d77628a349c1016ec668d1e1777f6f33a22675dd9315cd477d5695",
+   "size_kb": 91,
+   "sha256": "1d6cb3b38b46862fa2c84e103975748eba5d228a2b79c8cf7513c893df6ec763",
    "n_skills": 21,
    "skills": [
     "comp-analysis",
@@ -10694,8 +11039,8 @@
    "name_zh": "代码化视频（HyperFrames）",
    "desc": "",
    "desc_zh": "",
-   "size_kb": 766,
-   "sha256": "5d907e169bc76f0f912de40ef1b0a69e67775041ce89499a93fffa49601a1efd",
+   "size_kb": 1128,
+   "sha256": "27344a691d643df08f700b5ad86f34bedfd7989f2e0d27ac84ce52d12a648a82",
    "n_skills": 5,
    "skills": [
     "hyperframes",
@@ -10800,7 +11145,7 @@
    "desc": "",
    "desc_zh": "",
    "size_kb": 482,
-   "sha256": "bb26ffbb212bda907e9be7d4c6a4860bb9eb64b408dfded1ce9b9cfe2127f381",
+   "sha256": "61b44e4ae05cc9299b3923f4d8423c22434f658796f23d6ef711b847f56d8136",
    "n_skills": 10,
    "skills": [
     "baoyu-post-to-wechat",

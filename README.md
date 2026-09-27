@@ -3,15 +3,15 @@
 <h1 align="center">awesome-skillkit</h1>
 
 <p align="center">
-  <b>Two product lines, one repo:<br>57 scene packs · 403 skills for AI tools &nbsp;+&nbsp; 18 expert teams · 219 agents for multi-agent collaboration —<br>unzip &amp; drop-in, your AI tool instantly knows the job.</b>
+  <b>Two product lines, one repo:<br>57 scene packs · 418 skills for AI tools &nbsp;+&nbsp; 18 expert teams · 219 agents for multi-agent collaboration —<br>unzip &amp; drop-in, your AI tool instantly knows the job.</b>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
-  <img src="https://img.shields.io/badge/skills-403-brightgreen?style=flat-square" alt="Skills" />
+  <img src="https://img.shields.io/badge/skills-418-brightgreen?style=flat-square" alt="Skills" />
   <img src="https://img.shields.io/badge/packs-57-blue?style=flat-square" alt="Packs" />
   <img src="https://img.shields.io/badge/expert%20teams-18%20%C2%B7%20219%20agents-blueviolet?style=flat-square" alt="Expert Teams" />
-  <img src="https://img.shields.io/badge/version-0.23.0-success?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-0.23.1-success?style=flat-square" alt="Version" />
 </p>
 
 <p align="center">
@@ -41,7 +41,7 @@ The SKILL.md files inside the repo are being translated to English, but many of 
 | | **A · Scene packs (skills)** | **B · Expert Teams (专家团)** |
 |---|---|---|
 | **Positioning** | Tool skills for AI coding / agent tools — one pack = one real-world scenario, drop it into the skills directory and go | Multi-agent collaboration inside AI coding tools and other AI tools — role-specialised agent teams that plan, dispatch, and gate each other's work |
-| **Assets** | 57 packs · 403 skills · 27 domains · 108 skill chains | 18 teams · 219 expert agents · 100 skills · orchestration protocol (pure Markdown) |
+| **Assets** | 57 packs · 418 skills · 27 domains · 112 skill chains | 18 teams · 219 expert agents · 100 skills · orchestration protocol (pure Markdown) |
 | **Location** | [`packs/`](packs/) + [`skills/`](skills/) | [`expert-teams/`](expert-teams/) |
 | **Get started** | [Official site](https://x33834.github.io/awesome-skillkit/) · [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) | [Browse page](https://x33834.github.io/awesome-skillkit/expert-teams.html) · [platform packages](https://x33834.github.io/awesome-skillkit/expert-teams.html#download) |
 
@@ -92,7 +92,7 @@ Packages are reproducible builds (digest-locked in CI); rebuild anytime with `py
 
 ## Why this repo — five reasons to grab it
 
-- **Scenario-first, not topic soup**: 403 skills / 57 packs / 27 domains / 108 chains — one pack = one concrete job you can hand to an AI ("review a PR", "cross-post an article to 16 Chinese platforms").
+- **Scenario-first, not topic soup**: 418 skills / 57 packs / 27 domains / 112 chains — one pack = one concrete job you can hand to an AI ("review a PR", "cross-post an article to 16 Chinese platforms").
 - **Pick your granularity**: a single `SKILL.md`, one pack zip, or everything via [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) — unzip into your tool's skills directory and it works in a fresh session, no config.
 - **Browse before you commit**: the [official site](https://x33834.github.io/awesome-skillkit/) searches skills / domains / packs with per-card downloads (EN · 简中 · 日本語 README + bilingual site); or ask your agent to run `find_skill.py search <keyword>`.
 - **Quality you can verify**: `tools/validate_skills.py` gates the repo at **0 errors / 0 warnings** (manifest ↔ shipped zips digests locked), and CI runs the full unit-test suite on every PR.
@@ -190,7 +190,7 @@ Below is the complete catalog, grouped by the **8 scene libraries** (the same tw
 |---|---|---|:---:|---|
 | [`communication-essentials`](packs/communication-essentials) | Communication Essentials | 沟通基本功 | 2 | `tactful-communication`, `decision-debiasing` |
 | [`feishu-suite`](packs/feishu-suite) | Feishu Suite (official Lark CLI) | 飞书套件（官方 CLI） | 28 | `lark-approval`, `lark-apps`, `lark-attendance`, `lark-base`, `lark-calendar`, `lark-contact`, `lark-doc`, `lark-drive`, `lark-event`, `lark-im`, `lark-mail`, `lark-markdown`, `lark-meeting`, `lark-minutes`, `lark-note`, `lark-okr`, `lark-openapi-explorer`, `lark-shared`, `lark-sheets`, `lark-skill-maker`, `lark-slides`, `lark-task`, `lark-vc`, `lark-vc-agent`, `lark-whiteboard`, `lark-wiki`, `lark-workflow-meeting-summary`, `lark-workflow-standup-report` |
-| [`google-workspace`](packs/google-workspace) | Google Workspace | Google Workspace 套件 | 12 | `gws-shared`, `gws-gmail`, `gws-gmail-send`, `gws-calendar`, `gws-calendar-agenda`, `gws-drive`, `gws-docs`, `gws-sheets`, `gws-tasks`, `gws-people`, `gws-workflow-standup-report`, `gws-workflow-weekly-digest` |
+| [`google-workspace`](packs/google-workspace) | Google Workspace | Google Workspace 套件 | 27 | `gws-calendar`, `gws-calendar-agenda`, `gws-calendar-insert`, `gws-docs`, `gws-docs-write`, `gws-drive`, `gws-drive-upload`, `gws-gmail`, `gws-gmail-forward`, `gws-gmail-read`, `gws-gmail-reply`, `gws-gmail-reply-all`, `gws-gmail-send`, `gws-gmail-triage`, `gws-gmail-watch`, `gws-people`, `gws-shared`, `gws-sheets`, `gws-sheets-append`, `gws-sheets-read`, `gws-tasks`, `gws-workflow`, `gws-workflow-email-to-task`, `gws-workflow-file-announce`, `gws-workflow-meeting-prep`, `gws-workflow-standup-report`, `gws-workflow-weekly-digest` |
 | [`knowledge-base`](packs/knowledge-base) | Knowledge Base | 个人知识库 | 2 | `personal-wiki`, `knowledge-graph-builder` |
 | [`office-productivity`](packs/office-productivity) | Office Productivity | 办公效率工具箱 | 10 | `ppt-builder`, `excel-assistant`, `resume-tailor`, `meeting-notes`, `internal-comms-writer`, `docx-writer`, `pdf-pipeline`, `epub-builder`, `docx-template-fill`, `career-ops-lite` |
 | [`toolsmith`](packs/toolsmith) | Toolsmith | 工具与自动化 | 6 | `file-organizer`, `batch-renamer`, `format-converter`, `task-scheduler`, `invoice-organizer`, `bank-statement-reconcile` |

@@ -2,8 +2,8 @@
   "id": "caveman-toolkit",
   "name": "Caveman Toolkit",
   "name_zh": "Caveman 省 token 工具包",
-  "desc": "Token economy for coding agents from the caveman project (skills face only, MIT): ultra-compressed response mode (lite/full/ultra/wenyan), compressed commits and code review, memory-file compression with backups, session token stats, and a three-role delegation crew.",
-  "desc_zh": "省 token 工具包（JuliusBrussee/caveman，仅技能面 MIT）：超压缩回复模式（lite/full/ultra/文言）、压缩版提交与代码评审、记忆文件压缩（带备份）、会话 token 统计与 cavecrew 三角色委派。",
+  "description": "Token economy for coding agents from the caveman project (skills face only, MIT): ultra-compressed response mode (lite/full/ultra/wenyan), compressed commits and code review, memory-file compression with backups, session token stats, and a three-role delegation crew.",
+  "description_zh": "省 token 工具包（JuliusBrussee/caveman，仅技能面 MIT）：超压缩回复模式（lite/full/ultra/文言）、压缩版提交与代码评审、记忆文件压缩（带备份）、会话 token 统计与 cavecrew 三角色委派。",
   "skills": [
     {
       "name": "caveman",

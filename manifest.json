@@ -304,8 +304,8 @@
           "source": "JuliusBrussee/caveman (MIT)"
         }
       ],
-      "size_kb": 48,
-      "sha256": "904446b2217a064205f69a855f82fcbfae8609515174af5f31fafa81fc1ddf38"
+      "size_kb": 49,
+      "sha256": "c06844cfeb3ce24af348c0f3af8c86e1fba872322a51bbfcecdf3d0393e9c2dc"
     },
     {
       "id": "chat-prompt-craft",
@@ -403,7 +403,7 @@
         }
       ],
       "size_kb": 655,
-      "sha256": "8dfc952613ac57706e9f0e5d321164b4f2ac27e2cb35ced291927aa6ee3ed4af"
+      "sha256": "4a55c7f187094521fcbbeb0777e816937be2b6bc8654195584d6725b0413c85a"
     },
     {
       "id": "cmo-suite",
@@ -547,7 +547,7 @@
         }
       ],
       "size_kb": 104,
-      "sha256": "a7fa7b95b07aa44456021929db80afb0121c03b75f01e8410a9f9dc935aebd5e"
+      "sha256": "86d75a84056998494c06fc99bba93481c2a5fa26c322fe44032b3da180eb4b6a"
     },
     {
       "id": "code-review",
@@ -794,8 +794,8 @@
           "source": "Vincentwei1021/video-shotcraft (Apache-2.0)"
         }
       ],
-      "size_kb": 8254,
-      "sha256": "4f80b6a2e2ae27e1cf852f2e40bdcf38db3bfb62b1d7b89dbe1e055a386fae3b"
+      "size_kb": 8237,
+      "sha256": "b7e6a6049baccc2fe5e4c992c88ec96eb1540c48fbb5d51ebef40fd47e8ffb3f"
     },
     {
       "id": "cybersecurity-pro",
@@ -1083,7 +1083,7 @@
         }
       ],
       "size_kb": 172,
-      "sha256": "fe77ac8be38827c19954d47003644633f1b26147df0f3e1eb4a3f7dfae079363"
+      "sha256": "ef972bafa445d5c1b34287e40ab2f480b4d31ec342eb16b0ced21318377fb772"
     },
     {
       "id": "feishu-suite",
@@ -1207,7 +1207,7 @@
         }
       ],
       "size_kb": 1834,
-      "sha256": "375b27ceeeae03b0dd1ed4ce1d5e400af58a0daf8af080d6c5bd6fbab3dc5d6a"
+      "sha256": "75ca2525186d072b772a34a1573ae0b4fba090a85dbc1a7f2c4d8c49167cd42e"
     },
     {
       "id": "github-workflow",
@@ -1286,10 +1286,70 @@
         {
           "name": "gws-workflow-weekly-digest",
           "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-calendar-insert",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-docs-write",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-drive-upload",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-gmail-triage",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-gmail-reply",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-gmail-reply-all",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-gmail-forward",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-gmail-read",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-gmail-watch",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-sheets-append",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-sheets-read",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-workflow",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-workflow-email-to-task",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-workflow-file-announce",
+          "source": "googleworkspace/cli (Apache-2.0)"
+        },
+        {
+          "name": "gws-workflow-meeting-prep",
+          "source": "googleworkspace/cli (Apache-2.0)"
         }
       ],
-      "size_kb": 22,
-      "sha256": "fa298cc80e086874ccd6157f9d73bd178fea8243899c4d628e4c2a8335d81f20"
+      "size_kb": 42,
+      "sha256": "d04276da7150b76b29aa25163aea17f4cdd9b831f7893be17d6d798d701e0c99"
     },
     {
       "id": "growth-marketing",
@@ -1654,8 +1714,8 @@
           "source": "anthropics/knowledge-work-plugins (Apache-2.0)"
         }
       ],
-      "size_kb": 80,
-      "sha256": "056f5524a6d77628a349c1016ec668d1e1777f6f33a22675dd9315cd477d5695"
+      "size_kb": 91,
+      "sha256": "1d6cb3b38b46862fa2c84e103975748eba5d228a2b79c8cf7513c893df6ec763"
     },
     {
       "id": "language-standards",
@@ -2122,8 +2182,8 @@
           "source": "heygen-com/hyperframes (Apache-2.0)"
         }
       ],
-      "size_kb": 766,
-      "sha256": "5d907e169bc76f0f912de40ef1b0a69e67775041ce89499a93fffa49601a1efd"
+      "size_kb": 1128,
+      "sha256": "27344a691d643df08f700b5ad86f34bedfd7989f2e0d27ac84ce52d12a648a82"
     },
     {
       "id": "video-design-studio",
@@ -2281,7 +2341,7 @@
         }
       ],
       "size_kb": 482,
-      "sha256": "bb26ffbb212bda907e9be7d4c6a4860bb9eb64b408dfded1ce9b9cfe2127f381"
+      "sha256": "61b44e4ae05cc9299b3923f4d8423c22434f658796f23d6ef711b847f56d8136"
     },
     {
       "id": "workspace-integrations",

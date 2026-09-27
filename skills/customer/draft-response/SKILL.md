@@ -17,7 +17,7 @@ metadata:
 
 # /draft-response
 
-> If you see unfamiliar placeholders or need to check which tools are connected, see [CONNECTORS.md](../../CONNECTORS.md).
+> If you see unfamiliar placeholders or need to check which tools are connected, see [CONNECTORS.md](references/CONNECTORS.md).
 
 Draft a professional, customer-facing response tailored to the situation, customer relationship, and communication context.
 

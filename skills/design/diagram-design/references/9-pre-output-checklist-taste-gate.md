@@ -9,7 +9,7 @@ Run before producing any diagram.
 - [ ] Stated type, pattern, size preset, and planned cuts before drawing — confirmed, or assumptions noted? (§3)
 - [ ] Would a table / paragraph do the same job? (If yes — don't draw.)
 - [ ] Loaded the matching type reference linked in the visual-type guide?
-- [ ] If this is an import — format, size, detail level, and audience set? `viewBox` and type ramp match the size preset? (§11, [output-spec.md §6](references/output-spec.md))
+- [ ] If this is an import — format, size, detail level, and audience set? `viewBox` and type ramp match the size preset? (§11, [output-spec.md §6](output-spec.md))
 - [ ] If this is an import — fidelity ledger ready to report? (§11)
 
 **Remove test:**
@@ -51,7 +51,7 @@ Run before producing any diagram.
 - [ ] Human-readable names in Geist sans, not Geist Mono?
 - [ ] Technical sublabels (ports, commands, URLs) in Geist Mono?
 - [ ] Page title in Instrument Serif?
-- [ ] Annotation callouts (if any) in *italic* Instrument Serif? (see [primitive-annotation.md](references/primitive-annotation.md))
+- [ ] Annotation callouts (if any) in *italic* Instrument Serif? (see [primitive-annotation.md](primitive-annotation.md))
 - [ ] No JetBrains Mono anywhere?
 
 ---

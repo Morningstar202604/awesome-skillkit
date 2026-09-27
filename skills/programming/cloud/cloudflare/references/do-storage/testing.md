@@ -6,7 +6,7 @@ Fetch the relevant current documentation before implementing or reviewing change
 
 | Task | Documentation |
 |------|---------------|
-| Set up or migrate a test suite, choose helpers, and manage isolation | [Testing Durable Objects](../../../durable-objects/references/testing.md) |
+| Set up or migrate a test suite, choose helpers, and manage isolation | the upstream `durable-objects` skill's testing reference (not bundled in this pack) |
 | Exercise RPC, SQLite storage, and alarms | [Testing Durable Objects example](https://developers.cloudflare.com/durable-objects/examples/testing-with-durable-objects/) |
 | Determine the storage or recovery contract to verify | [SQLite storage API](https://developers.cloudflare.com/durable-objects/api/sqlite-storage-api/); [Legacy KV storage API](https://developers.cloudflare.com/durable-objects/api/legacy-kv-storage-api/) |
 

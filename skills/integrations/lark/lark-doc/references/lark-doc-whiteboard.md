@@ -143,7 +143,7 @@ lark-cli whiteboard +export \
 - board_token
 - 图表目标、推荐画板类型、受众
 - 与图表直接相关的源段落或数据
-- 要求读取 [`../lark-whiteboard/SKILL.md`](../lark-whiteboard/SKILL.md)，按其完整流程写入该 board_token
+- 要求读取 [`../lark-whiteboard/SKILL.md`](../../lark-whiteboard/SKILL.md)，按其完整流程写入该 board_token
 
 多个画板互不依赖时，可并行启动多个 SubAgent；每个 SubAgent 只负责一个画板或一个 SVG 插入点，不要互相复用上下文。
 
@@ -159,4 +159,4 @@ lark-cli whiteboard +export \
 
 ## 关联参考
 
-- 画板查询/创作/修改/渲染写入：[`../lark-whiteboard/SKILL.md`](../lark-whiteboard/SKILL.md)
+- 画板查询/创作/修改/渲染写入：[`../lark-whiteboard/SKILL.md`](../../lark-whiteboard/SKILL.md)

@@ -1,7 +1,9 @@
 ---
+
 name: baoyu-post-to-wechat
 description: >-
   Posts content to WeChat Official Account (微信公众号) via API or Chrome CDP. Supports article posting (文章) with HTML, markdown, or plain text input, and image-text posting (贴图, formerly 图文) with multiple images. Markdown article workflows default to converting ordinary external links into bottom citations for WeChat-friendly output. Use when user mentions "发布公众号", "post to wechat", "微信公众号", or "贴图/图文/文章".
+description_zh: "把内容发布到微信公众号（API 或 Chrome CDP）：支持文章与贴图，Markdown 自动排版。"
 license: MIT
 compatibility: 需要网络与对应平台凭据（微信公众号 API / Chrome CDP 等）；发布类操作先预览再确认。
 metadata:

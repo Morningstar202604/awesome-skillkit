@@ -1,7 +1,10 @@
 ---
+
 name: gws-docs
 description: >-
-  Google Docs: read and write documents (create, fetch text, insert/update content, apply formatting) via the gws CLI. 当用户要读或改 Google 文档内容时使用。
+  Google Docs: read and write documents (create, fetch text, insert/update
+  content, apply formatting) via the gws CLI
+description_zh: \"Google Docs：读写文档内容（创建、取正文、插入、替换、格式化）。\"
 license: Apache-2.0
 compatibility: 需要 Google Workspace CLI（gws）与 OAuth 凭据。
 metadata:

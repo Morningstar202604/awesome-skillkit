@@ -1,6 +1,6 @@
 # mail +thread-trash
 
-> **前置条件：** 先阅读 [`../lark-shared/SKILL.md`](../lark-shared/SKILL.md) 了解认证、全局参数和安全规则。
+> **前置条件：** 先阅读 [`../lark-shared/SKILL.md`](../../lark-shared/SKILL.md) 了解认证、全局参数和安全规则。
 
 已有 `thread_id` 且要按会话维度软删除邮件时，优先使用 `mail +thread-trash`。执行前必须先拿到真实 `thread_id`，并让用户确认删除预览。
 

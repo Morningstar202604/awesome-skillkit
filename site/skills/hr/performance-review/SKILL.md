@@ -17,7 +17,7 @@ metadata:
 
 # /performance-review
 
-> If you see unfamiliar placeholders or need to check which tools are connected, see [CONNECTORS.md](../../CONNECTORS.md).
+> If you see unfamiliar placeholders or need to check which tools are connected, see [CONNECTORS.md](references/CONNECTORS.md).
 
 Generate performance review templates and help structure feedback.
 

@@ -2,8 +2,8 @@
   "id": "product-management",
   "name": "Product Management",
   "name_zh": "产品管理",
-  "desc": "Product management from discovery to roadmap: PRD, outcome roadmaps, prioritization frameworks, user/job stories, stakeholder maps, pre-mortems, sprint plans, north-star metrics, competitive battlecards, market sizing, personas — plus spec authoring and issue triage.",
-  "desc_zh": "产品管理全流程：PRD、结果导向路线图、优先级框架、用户/岗位故事、干系人地图、事前验尸、Sprint 计划、北极星指标、竞争作战卡、市场测算、用户画像，外加规格撰写（to-spec）与 issue 分诊（triage）。",
+  "description": "Product management from discovery to roadmap: PRD, outcome roadmaps, prioritization frameworks, user/job stories, stakeholder maps, pre-mortems, sprint plans, north-star metrics, competitive battlecards, market sizing, personas — plus spec authoring and issue triage.",
+  "description_zh": "产品管理全流程：PRD、结果导向路线图、优先级框架、用户/岗位故事、干系人地图、事前验尸、Sprint 计划、北极星指标、竞争作战卡、市场测算、用户画像，外加规格撰写（to-spec）与 issue 分诊（triage）。",
   "skills": [
     {
       "name": "create-prd",

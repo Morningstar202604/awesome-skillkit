@@ -1,7 +1,7 @@
 # 分类 v2：场景库信息架构 + 领域扩容「开户」方案
 
 > 制定日期：**2026-09-27** · 状态：**全案执行完毕（P1/P2 已结项）**——导航已落地；**P0-1~P0-9 全部落地**（12 个新场景包、148 个新技能），**P1 6/6 落地**（caveman 收尾），**P2 许可核验 7 源完成**（4 源精选迁入、3 源裁决不迁，见 §3）；本次不开新版号，随下次发版（0.23.0 候选）
-> 依据：2026-09-27 生态调研报告（GitHub raw LICENSE 逐仓实测 + skills.sh 装机榜 + Skillful/Agentman 生态报告）+ 本仓库资产实测（57 包 / 403 技能 / 27 域 / 108 链）
+> 依据：2026-09-27 生态调研报告（GitHub raw LICENSE 逐仓实测 + skills.sh 装机榜 + Skillful/Agentman 生态报告）+ 本仓库资产实测（57 包 / 418 技能 / 27 域 / 112 链）
 > 配套数据文件：[`taxonomy.json`](../taxonomy.json)（站点一级导航的单一事实源）
 
 ---
@@ -40,11 +40,11 @@
 | 🤖 AI 与智能体 | 让 AI 会干活 | chat / memory / meta | 5 / 18 | 厚：caveman 省 token 工具包已落地 |
 | 🎨 内容与创意 | 写作/视频/音频/设计→发布 | audio / design / music / video / writing | 13 / 75 | 厚：微信长文（baoyu）+ 视频代码化（HyperFrames）已补 |
 | 📊 数据与科研 | 数据→仪表盘、论文全流程 | dataviz / paper | 2 / 14 | 中：科研计算精选（K-Dense）、HF 归软件侧 |
-| 🗂 办公与效率 | 文档表格 PPT、知识库、工具集成 | communication / integrations / knowledge / office / ppt / tools | 7 / 64 | 厚：飞书官方套件 + 知识工作 + Google Workspace 已补 |
+| 🗂 办公与效率 | 文档表格 PPT、知识库、工具集成 | communication / integrations / knowledge / office / ppt / tools | 7 / 79 | 厚：飞书官方套件 + 知识工作 + Google Workspace（27）已补 |
 | 📈 商业与增长 | 营销/电商/PM/销售/财务法务 HR | marketing / product / hr / legal / finance / ops / customer / leadership | 6 / 76 | 厚：知识工作 + CMO/C-level + PM + GTM 增长 + 公司运营手册 |
 | 🎓 学习与教育 | 课程/习题/作业辅导 | education | 2 / 6 | 中，上游缺少优质源，走自研 |
 | 🏠 生活与个人 | 消费/就医/租房/装修决策 | life | 1 / 4 | 薄，医疗/个人财务待核实源 |
-| **合计** | | **27 域** | **57 / 403** | 与 `manifest.json` 同口径 |
+| **合计** | | **27 域** | **57 / 418** | 与 `manifest.json` 同口径 |
 
 - 全量归属（27 域 / 52 包，每项恰好一组）见 [`taxonomy.json`](../taxonomy.json)；覆盖校验由 [`tools/taxonomy_check.py`](../tools/taxonomy_check.py) 守住（漏登记 / 重复 / 幽灵 id → FAIL；已接入 `validate_skills.py` 门禁与站点构建）。
 - 站点展示口径：**技能按能力域归组、场景包按使用场景归组**（两者允许不同：找包看场景，找技能看能力）。
@@ -121,7 +121,7 @@
 
 - `caveman-toolkit`（caveman 技能面 7，MIT）、`cybersecurity-pro`（818 挑 14，Apache-2.0）、`gtm-growth`（281 挑 16，MIT）、
   `language-standards`（14，Apache-2.0）、`company-playbooks`（13，MIT；落 ops/leadership/finance/product 四域）。
-- 注册：`packs/*` 新增 5 包 + `manifest.json`（57 包 / 403 技能）；`skill_chains.json` 88→108 链（27 域不变）；`taxonomy.json` 三组落位；
+- 注册：`packs/*` 新增 5 包 + `manifest.json`（57 包 / 418 技能，含 2026-09-27 查漏补缺的 15 个 gws 兄弟技能）；`skill_chains.json` 88→112 链（27 域不变）；`taxonomy.json` 三组落位；
   `SOURCES.md` 新增「本批新收录 II」一节（5 包 × 5 仓库许可与更新指引 + 三项不迁裁决）。
 - 迁移规范化：同 §4 既有口径（frontmatter 归一、署名段、长参考补目录、绝对路径占位化、补 `description_zh`）；cyber 的 5 个长参考文档补 TOC。
 

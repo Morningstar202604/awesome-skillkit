@@ -2,8 +2,8 @@
   "id": "company-playbooks",
   "name": "Company Playbooks",
   "name_zh": "公司运营手册",
-  "desc": "Company operating playbooks from cbrock84/headcount (MIT), each citing the standards and regulators that settle the question: scenario planning, market entry, agent hierarchy design, operating cadence, process design, business continuity and resilience, vendor management, service-level management, program management, dependency and risk management, estimating and contingency, unit economics, pricing and packaging.",
-  "desc_zh": "公司运营手册（cbrock84/headcount，MIT，每篇注明所依据的标准与监管条文）：情景规划、市场进入、Agent 层级设计、运营节奏、流程设计、业务连续性、供应商管理、服务等级、项目管理、依赖与风险管理、估算与预备量、单位经济性、定价与套餐。",
+  "description": "Company operating playbooks from cbrock84/headcount (MIT), each citing the standards and regulators that settle the question: scenario planning, market entry, agent hierarchy design, operating cadence, process design, business continuity and resilience, vendor management, service-level management, program management, dependency and risk management, estimating and contingency, unit economics, pricing and packaging.",
+  "description_zh": "公司运营手册（cbrock84/headcount，MIT，每篇注明所依据的标准与监管条文）：情景规划、市场进入、Agent 层级设计、运营节奏、流程设计、业务连续性、供应商管理、服务等级、项目管理、依赖与风险管理、估算与预备量、单位经济性、定价与套餐。",
   "skills": [
     {
       "name": "scenario-planning",

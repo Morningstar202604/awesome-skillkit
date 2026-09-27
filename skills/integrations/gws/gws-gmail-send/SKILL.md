@@ -1,7 +1,10 @@
 ---
+
 name: gws-gmail-send
 description: >-
-  Gmail send: compose and send an email (to/cc/bcc, subject, body, attachments) via the gws CLI. 当用户要写并发出一封邮件时使用。
+  Gmail send: compose and send an email (to/cc/bcc, subject, body,
+  attachments) via the gws CLI
+description_zh: \"Gmail：撰写并发送邮件（收件人、主题、正文、附件）。\"
 license: Apache-2.0
 compatibility: 需要 Google Workspace CLI（gws）与 OAuth 凭据。
 metadata:
