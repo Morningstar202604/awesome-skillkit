@@ -1,11 +1,11 @@
-# 站点部署说明（GitHub Pages + GitCode Pages + Gitee Pages）
+# 站点部署说明（GitHub Pages；GitCode / Gitee 仅作代码与 Release 镜像）
 
 `site/` 是一个**零依赖、零构建**的静态站点：纯 HTML/CSS/JS + 一份 `data/site.json`。
 数据由 `tools/build_site.py` 从 `manifest.json` / `skills/skill_chains.json` / 各技能 SKILL.md 生成，
 任何静态托管都能直接跑。
 
-**部署模式：只有 main 分支，没有发布分支。** GitCode Pages 直接指向 `main` 的 `/site`
-目录；GitHub Pages 走 Actions（从 main 构建，同样不产生分支）。`site/skills/`、
+**部署模式：只有 main 分支，没有发布分支。** 站点统一由 GitHub Pages 走 Actions 从 main
+构建（不产生分支）；GitCode 与 Gitee 不部署站点，仅作代码与 Release 镜像。`site/skills/`、
 `site/packs/` 这两个生成目录因此**必须提交进 main**——它们是站点的下载副本，
 不在仓库里 = 下载按钮全部失效。
 
@@ -31,15 +31,13 @@ cd site && python3 -m http.server 8000
 注意：必须走 HTTP 服务，直接双击 `index.html`（file://）会因浏览器 CORS 限制读不到 `data/site.json`，
 页面会给出对应提示。
 
-## 3. GitCode Pages（main + /site，一次性开启）
+## 3. GitCode（代码与 Release 镜像；**Pages 不启用**）
 
-1. 打开 `https://gitcode.com/badhope/awesome-skillkit` → **项目设置 → Pages**（或项目菜单 Pages）
-2. 模板选 **html**；部署分支选 **main**；路径填 **/site**
-3. 保存，等 1–2 分钟，平台会分配地址
+GitCode 仓库 `badhope/awesome-skillkit` 只承担镜像职责：推 main 后代码同步，
+`releases/tag/vX.Y.Z` 页面可用（Release 附件不支持 API 上传），仓库主页字段指向 GitHub Pages 站点。
+**不再尝试开启 GitCode Pages**（平台未提供/不启用；如需请人工在平台侧处理，本仓库不做准备）。
 
-后续更新站点 = 正常推 main（见 §7），Pages 自动跟着走，无额外发布动作。
-
-## 4. GitHub Pages（Actions 自动部署）
+## 4. GitHub Pages（Actions 自动部署 —— 唯一启用站点的平台）
 
 工作流已就位：`.github/workflows/pages.yml`（push 到 main 即构建部署，不建任何分支）。
 
@@ -68,11 +66,10 @@ gh release create v0.23.0 dist/*.zip --title "v0.23.0" --notes-file /tmp/relnote
 注意：推送历史含 `.github/workflows/pages.yml`，token 必须带 **`workflow`** scope，
 否则 push 会被 `refusing to allow ... to create/update workflow` 拒绝。
 
-## 5. Gitee（实名认证 + 手动 Pages，API 方法与 GitHub/GitCode 均不同）
+## 5. Gitee（代码 + Release 镜像，附件可用 API 上传；**Pages 不启用**）
 
-Gitee 与前两家差异：**Release 附件可用 API 上传**（`attach_files`，GitCode 不行），
-**Pages 只能网页手动开启**（需先实名认证，无 API），且 Pages 部署的是整个分支——
-站点不在根路径，地址带 `/site/` 后缀。
+Gitee 仓库 `badhope/awesome-skillkit` 承担镜像职责：推 main 同步代码，Release 用
+`attach_files` API 上传附件（GitCode 不行），仓库主页字段指向 GitHub Pages 站点。
 
 ```bash
 # token 只走环境变量
@@ -100,10 +97,7 @@ for z in dist/*.zip; do
 done
 ```
 
-Pages 手动开启（网页操作，一次性）：
-1. 仓库页 → **服务 → Gitee Pages**（首次会引导实名认证）
-2. 部署分支选 **main**，启动
-3. 站点地址：`https://badhope.gitee.io/awesome-skillkit/site/`（整个分支被伺服，站点在 `/site` 子路径）
+**Gitee Pages 不启用**：站点统一由 GitHub Pages 提供；Gitee 侧不再准备 Pages（如需请人工在平台侧处理）。
 
 ## 6. Release 附件（zip 的第二下载通道）
 
@@ -125,7 +119,7 @@ Release 附件只是第二通道，缺失不影响下载：
 python3 build.py                      # 1. 重新打包 dist/*.zip（同步 manifest）
 python3 tools/build_site.py           # 2. 刷新站点数据与副本（site/skills、site/packs 进 main）
 git add -A && git commit -m "..." && git push origin main
-# 3. 推完即部署：GitCode Pages 读 main/site；GitHub Actions 自动构建发布
+# 3. 推完即部署：GitHub Actions 自动构建并发布站点；GitCode / Gitee 同步代码与 Release 镜像（不部署站点）
 ```
 
 ## 8. 文件清单
