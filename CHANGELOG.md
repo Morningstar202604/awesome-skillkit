@@ -23,6 +23,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **官网新增专家团子页**：`site/expert-teams.html`（源文件 `expert-teams/site/index.html`，由子树 `build-site.py` 生成、根 `tools/build_site.py` 构建时同步进站点），含团队矩阵、数据快照与下载区；站点首页新增**双主线卡片**（产品线 A 场景技能包 / B 专家团·多智能体协作）。
 - **CI 新增专家团门禁作业**：`expert-teams` job 运行子树 `verify.py`、`unittest discover -s expert-teams/tests`、`build-site.py --check`，并校验 `site/downloads/*.zip` 摘要与重新构建产物一致（防安装包静默漂移）。
 - `tools/build_site.py` 新增专家团实装统计（`meta.n_et_teams/n_et_agents/n_et_skills`）与首页双主线计数锚点注入（沿用既有 fail-closed 防漂移机制）。
+- **场景库分类 v2 + 站点两级导航**：新增 [`taxonomy.json`](taxonomy.json)（8 个场景库，20 能力域与 39 场景包各归唯一一组，含能力域中文名）；站点首页导航由单层域筛选升级为「场景库 → 能力域」两级联动（技能按能力域归组、场景包按使用场景归组），场景包卡片带场景库标签、技能链按中文域名分组；新增 [`tools/taxonomy_check.py`](tools/taxonomy_check.py) 覆盖校验，接入 `validate_skills.py`（CI 门禁）与 `tools/build_site.py`（构建前 fail-closed），漏登记/重复/幽灵 id 一律 FAIL。方案与扩容「开户」清单见 [`docs/TAXONOMY-V2.md`](docs/TAXONOMY-V2.md)。
+
+### Fixed
+
+- **站点 83 个技能卡片描述显示为 ">"**：`tools/build_site.py` 的 frontmatter 解析不支持 YAML 块标量（`>` / `>-` / `|`）——`description` 此前取值为 ">"，卡片无描述、中文关键词搜不到；已支持块标量（折叠/字面量），异常 desc 归零。
+- **导航计数口径不一致**（场景 chip 49 / 能力域 chip 48 / 卡片 49）：能力域 chip 数量改用实装口径 `n_packed`（原先用链域声明口径，含跨目录声明与 2 个不入包夹具）；现 8 场景 / 20 域 / 163 卡片三者自洽。
+- **≤640px 窄屏整页横向溢出**：两级 chips 行竖排时改 `align-items: stretch` 并给 `.chips` 加 `min-width: 0`，恢复 chips 行内横向滚动（480px 实测 body 无横向溢出）。
+- **下载产物刷新（3 个包内容过期）+ 防呆门禁**：重跑 `build.py` + `tools/build_site.py`，`site/packs/*.zip` 与 `manifest.json` 摘要按当前源重建——`communication-essentials` / `skill-forge` / `visual-design-studio` 三个包此前停留在旧版内容（后续技能更新一直没进已提交 zip），其余 36 个包仅 zip 条目顺序规范化（逐文件内容比对一致）。`tools/build_site.py` 复制站内镜像前新增 dist↔manifest 摘要比对，不一致 fail-closed（防"过期 dist 覆盖已提交镜像"再犯）。
 
 ### Changed
 

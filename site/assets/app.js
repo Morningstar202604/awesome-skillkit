@@ -9,7 +9,7 @@
     return n;
   };
 
-  const state = { data: null, tab: "skills", q: "", domain: "all" };
+  const state = { data: null, tab: "skills", q: "", group: "all", domain: "all" };
   let toastTimer = null;
 
   function toast(msg) {
@@ -140,12 +140,56 @@
       : "";
   }
 
+  /* ---------- 场景库（一级）→ 能力域（二级）：taxonomy 由 build_site 注入 site.json ---------- */
+  const groups = () => (state.data && state.data.groups) || [];
+  const groupOf = (id) => groups().find((g) => g.id === id) || null;
+  const groupOfPack = (pid) => groups().find((g) => g.packs.includes(pid)) || null;
+  const domainInGroup = (d) =>
+    state.group === "all" || (groupOf(state.group) || { domains: [] }).domains.includes(d);
+  const domainLabel = (d) => {
+    const hit = ((state.data && state.data.domains) || []).find((x) => x.id === d);
+    return (hit && hit.label_zh) || d;
+  };
+
+  function renderGroups() {
+    const box = $("#groupChips");
+    if (!box) return;
+    box.innerHTML = "";
+    const mk = (id, label, count, title) => {
+      const c = el("button", "chip l1");
+      c.append(document.createTextNode(label + " "), el("i", null, String(count)));
+      if (title) c.title = title;
+      c.addEventListener("click", () => {
+        state.group = id;
+        const g = groupOf(id);
+        // 换场景后旧能力域不属于该场景 → 归零，避免出现"空列表"误导
+        if (state.domain !== "all" && (!g || !g.domains.includes(state.domain))) {
+          state.domain = "all";
+        }
+        renderGroups();
+        renderChips();
+        render();
+      });
+      if (state.group === id) c.classList.add("active");
+      return c;
+    };
+    box.append(mk("all", "全部场景", state.data.meta.n_skills, "显示全部场景库"));
+    groups().forEach((g) =>
+      box.append(mk(g.id, (g.emoji ? g.emoji + " " : "") + g.label, g.n_skills, g.desc)));
+  }
+
   function renderChips() {
     const box = $("#domainChips");
     box.innerHTML = "";
+    const g = state.group === "all" ? null : groupOf(state.group);
+    const doms = state.data.domains.filter((d) => !g || g.domains.includes(d.id));
+    // n_packed：与技能网格实际渲染口径一致（n_skills 是链域声明口径，仅 chains 视图用）
+    const packCount = (d) => (d.n_packed != null ? d.n_packed : d.n_skills);
+    const total = g ? doms.reduce((n, d) => n + packCount(d), 0) : state.data.meta.n_skills;
     const mk = (id, label, count) => {
       const c = el("button", "chip");
       c.append(document.createTextNode(label + " "), el("i", null, String(count)));
+      c.title = id === "all" ? "当前范围内的全部能力域" : id;
       c.addEventListener("click", () => {
         state.domain = id;
         renderChips();
@@ -154,25 +198,29 @@
       if (state.domain === id) c.classList.add("active");
       return c;
     };
-    box.append(mk("all", "全部", state.data.meta.n_skills));
-    state.data.domains.forEach((d) => box.append(mk(d.id, d.id, d.n_skills)));
+    box.append(mk("all", "全部能力域", total));
+    doms.forEach((d) => box.append(mk(d.id, domainLabel(d.id), packCount(d))));
   }
 
   /* ---------- 过滤 ---------- */
   function matches(s) {
     const q = state.q.trim().toLowerCase();
+    const groupOk = domainInGroup(s.domain);
     const domainOk = state.domain === "all" || s.domain === state.domain;
-    if (!q) return domainOk;
-    return domainOk && (s.name + " " + s.desc + " " + s.domain + " " + s.packs.join(" "))
-      .toLowerCase().includes(q);
+    if (!q) return groupOk && domainOk;
+    return groupOk && domainOk &&
+      (s.name + " " + s.desc + " " + s.domain + " " + domainLabel(s.domain) + " " + s.packs.join(" "))
+        .toLowerCase().includes(q);
   }
   function matchesPack(p) {
     const q = state.q.trim().toLowerCase();
+    const g = groupOfPack(p.id);
+    const groupOk = state.group === "all" || (g && g.id === state.group);
     const domainOk = state.domain === "all" ||
       p.skills.some((n) => (state.data.skills.find((s) => s.name === n) || {}).domain === state.domain);
-    if (!q) return domainOk;
-    return domainOk && (p.id + " " + p.name + " " + p.name_zh + " " + p.desc + " " + p.desc_zh +
-      " " + p.skills.join(" ")).toLowerCase().includes(q);
+    if (!q) return groupOk && domainOk;
+    return groupOk && domainOk && (p.id + " " + p.name + " " + p.name_zh + " " + p.desc + " " +
+      p.desc_zh + " " + (g ? g.label : "") + " " + p.skills.join(" ")).toLowerCase().includes(q);
   }
 
   /* ---------- 渲染：技能 ---------- */
@@ -190,7 +238,9 @@
       const h = el("h3");
       const name = el("span", null);
       name.append(highlight(s.name, q));
-      h.append(name, el("span", "dom", s.domain));
+      const domTag = el("span", "dom", domainLabel(s.domain));
+      domTag.title = s.domain;
+      h.append(name, domTag);
       // 用完整 desc（CSS line-clamp 截 3 行展示）——匹配与高亮必须同一字符串，
       // 否则命中关键词的词被 short 截断后，卡片上找不到高亮
       const p = el("p");
@@ -241,6 +291,8 @@
       c.append(h, d);
 
       const meta = el("div", "meta-row");
+      const gp = groupOfPack(p.id);
+      if (gp) meta.append(el("span", "tag", (gp.emoji ? gp.emoji + " " : "") + gp.label));
       meta.append(el("span", "tag", p.n_skills + " skills"));
       meta.append(el("span", "tag", p.size_kb + " KB"));
       meta.append(el("span", "tag", p.id + ".zip"));
@@ -261,11 +313,13 @@
         const b = el("button", null, n);
         b.addEventListener("click", () => {
           state.tab = "skills";
+          state.group = "all"; // 从包内跳技能：清掉场景/域过滤，保证一定能看到命中的技能
           state.domain = "all";
           state.q = n;
           $("#q").value = n;
           $("#clearQ").hidden = false;
           syncTabs();
+          renderGroups();
           renderChips();
           render();
           window.scrollTo({ top: document.querySelector(".toolbar").offsetTop, behavior: "smooth" });
@@ -291,14 +345,18 @@
     let n = 0;
     state.data.domains.forEach((d, di) => {
       if (state.domain !== "all" && d.id !== state.domain) return;
+      if (!domainInGroup(d.id)) return;
       const chains = d.chains.filter((c) =>
-        !q || (c.name + " " + c.steps.join(" ") + " " + d.id).toLowerCase().includes(q));
+        !q || (c.name + " " + c.steps.join(" ") + " " + d.id + " " + domainLabel(d.id))
+          .toLowerCase().includes(q));
       if (!chains.length) return;
       const wrap = el("div", "chain-domain");
       const dc = domainColor(d.id);
       if (dc) wrap.style.setProperty("--dc", dc);
       wrap.style.animationDelay = Math.min(di * 40, 200) + "ms";
-      wrap.append(el("h3", null, d.id));
+      const h3 = el("h3", null, domainLabel(d.id));
+      h3.title = d.id;
+      wrap.append(h3);
       wrap.append(el("div", "sub", `${d.n_skills} 技能 · ${d.n_chains} 条链${d.entry ? " · 编排器 " + d.entry.split("/").pop() : ""}`));
       chains.forEach((c) => {
         n += 1;
@@ -328,9 +386,17 @@
     else count = renderChains();
     $("#empty").hidden = count > 0;
     const label = { skills: "技能", packs: "场景包", chains: "技能链" }[state.tab];
-    $("#hint").textContent = state.q || state.domain !== "all"
-      ? `筛选中：${label} ${count} 项${state.domain !== "all" ? " · 域 " + state.domain : ""}${state.q ? " · 关键词 “" + state.q + "”" : ""}`
-      : "";
+    const g = groupOf(state.group);
+    if (state.q || state.group !== "all" || state.domain !== "all") {
+      $("#hint").textContent = `筛选中：${label} ${count} 项` +
+        (g ? " · 场景 " + g.label : "") +
+        (state.domain !== "all" ? " · 能力域 " + domainLabel(state.domain) : "") +
+        (state.q ? " · 关键词 “" + state.q + "”" : "");
+    } else {
+      $("#hint").textContent =
+        "用法：一级选「场景」（我在做什么）→ 二级选「能力域」（用什么能力）→ 点卡片下载。" +
+        "技能按能力域归类，场景包按使用场景归类。";
+    }
   }
 
   function syncTabs() {
@@ -399,6 +465,7 @@
     .then((d) => {
       state.data = d;
       renderHead();
+      renderGroups();
       renderChips();
       syncTabs();
       render();

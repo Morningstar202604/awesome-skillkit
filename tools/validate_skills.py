@@ -23,6 +23,10 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 ROOT = SCRIPT_DIR.parent
 SKILLS_DIR = ROOT / "skills"
 
+# tools/ 内共享模块（脚本方式运行时 tools/ 已在 sys.path[0]；显式插入防被当包导入）
+sys.path.insert(0, str(SCRIPT_DIR))
+from taxonomy_check import check_taxonomy  # noqa: E402
+
 # Refs exempted from existence checks:
 #   - "*.local.json": documented user-local config pattern (never ships)
 EXEMPT_SUFFIXES = (".local.json",)
@@ -549,6 +553,9 @@ def main(argv):
     check_manifest_digests(
         ROOT / "manifest.json", ROOT / "site" / "packs", issues_global
     )
+    # 站点一级导航数据（taxonomy.json）覆盖校验：每包/每域恰好归入一个场景库
+    for msg in check_taxonomy(ROOT):
+        issues_global.append(Issue("ERROR", msg))
 
     for skill_md in skill_paths:
         issues, score = validate_skill(skill_md)

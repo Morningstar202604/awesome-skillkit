@@ -1,0 +1,134 @@
+{
+  "id": "taxonomy-v2",
+  "version": 1,
+  "updated": "2026-09-27",
+  "note": "站点一级导航（场景库）数据源：按“人的使用场景”把能力域与场景包各归入唯一一组。覆盖校验见 tools/taxonomy_check.py（validate_skills 门禁与 build_site 共用），漏登记/重复登记/引用不存在的 id 都会 FAIL。",
+  "domain_labels": {
+    "audio": "音频播客",
+    "chat": "提示词对话",
+    "communication": "沟通表达",
+    "dataviz": "数据可视化",
+    "design": "视觉设计",
+    "education": "教育学习",
+    "integrations": "工具集成",
+    "knowledge": "知识管理",
+    "life": "生活服务",
+    "marketing": "营销增长",
+    "memory": "记忆系统",
+    "meta": "元技能",
+    "music": "音乐生成",
+    "office": "办公文档",
+    "paper": "论文科研",
+    "ppt": "演示文稿",
+    "programming": "编程开发",
+    "tools": "实用工具",
+    "video": "视频制作",
+    "writing": "内容写作"
+  },
+  "groups": [
+    {
+      "id": "software",
+      "label": "软件开发",
+      "label_en": "Software Engineering",
+      "emoji": "🛠",
+      "desc": "从需求到上线运维：写码、测试、评审、CI/CD、架构、数据库、安全、故障响应",
+      "domains": ["programming"],
+      "packs": [
+        "api-development",
+        "architecture",
+        "ci-cd",
+        "code-planning",
+        "code-review",
+        "containers",
+        "database",
+        "github-workflow",
+        "incident-response",
+        "infrastructure",
+        "performance",
+        "security",
+        "tdd",
+        "web-ops"
+      ]
+    },
+    {
+      "id": "ai-agent",
+      "label": "AI 与智能体",
+      "label_en": "AI & Agents",
+      "emoji": "🤖",
+      "desc": "让 AI 会干活：提示词工艺、长期记忆、Agent 开发、技能锻造与检索",
+      "domains": ["chat", "memory", "meta"],
+      "packs": ["ai-agent-development", "chat-prompt-craft", "memory-systems", "skill-forge"]
+    },
+    {
+      "id": "content",
+      "label": "内容与创意",
+      "label_en": "Content & Creative",
+      "emoji": "🎨",
+      "desc": "写作、视频、音频、视觉设计，一路到 18 个内容平台发布",
+      "domains": ["audio", "design", "music", "video", "writing"],
+      "packs": [
+        "ai-media-toolkit",
+        "ai-research-writing",
+        "ai-video-pipeline",
+        "audio-studio",
+        "content-publishing",
+        "de-ai-writing",
+        "image-studio",
+        "video-design-studio",
+        "viral-entertainment",
+        "visual-design-studio"
+      ]
+    },
+    {
+      "id": "data",
+      "label": "数据与科研",
+      "label_en": "Data & Research",
+      "emoji": "📊",
+      "desc": "数据清洗建模、可视化仪表盘、论文与科研全流程",
+      "domains": ["dataviz", "paper"],
+      "packs": ["data-ml-science", "dataviz-studio"]
+    },
+    {
+      "id": "office",
+      "label": "办公与效率",
+      "label_en": "Office & Productivity",
+      "emoji": "🗂",
+      "desc": "文档表格 PPT、知识库、团队工具集成（飞书/Notion/Jira）、职场沟通",
+      "domains": ["communication", "integrations", "knowledge", "office", "ppt", "tools"],
+      "packs": [
+        "communication-essentials",
+        "knowledge-base",
+        "office-productivity",
+        "toolsmith",
+        "workspace-integrations"
+      ]
+    },
+    {
+      "id": "business",
+      "label": "商业与增长",
+      "label_en": "Business & Growth",
+      "emoji": "📈",
+      "desc": "营销获客、电商运营、产品管理、销售客服、财务法务 HR —— 本轮扩容重点",
+      "domains": ["marketing"],
+      "packs": ["growth-marketing"]
+    },
+    {
+      "id": "learning",
+      "label": "学习与教育",
+      "label_en": "Learning & Education",
+      "emoji": "🎓",
+      "desc": "课程与习题设计、作业辅导、以教代学",
+      "domains": ["education"],
+      "packs": ["edu-craft", "homework-autopilot"]
+    },
+    {
+      "id": "life",
+      "label": "生活与个人",
+      "label_en": "Life & Personal",
+      "emoji": "🏠",
+      "desc": "消费避坑、就医、租房、装修等生活决策",
+      "domains": ["life"],
+      "packs": ["life-essentials"]
+    }
+  ]
+}

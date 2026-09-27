@@ -2,13 +2,14 @@
  "meta": {
   "hub": "awesome-skillkit",
   "version": "0.22.1",
-  "updated": "2026-09-26",
+  "updated": "2026-09-27",
   "desc": "Curated scene packs for AI tools: each pack = one real-world scenario, containing multiple skills. Download zip -> unzip -> drag the skill folders into your AI tool's skills directory.",
   "desc_zh": "精选场景包合集：每个场景包 = 一个真实场景，内含多个 skill。下载 zip -> 解压 -> 把 skill 文件夹拖进 AI 工具的 skills 目录即可使用。",
   "n_skills": 163,
   "n_skills_on_disk": 165,
   "n_packs": 39,
   "n_domains": 20,
+  "n_groups": 8,
   "n_chains": 73,
   "n_et_teams": 18,
   "n_et_agents": 219,
@@ -32,8 +33,10 @@
   {
    "id": "audio",
    "label": "audio",
+   "label_zh": "音频播客",
    "entry": "podcast-producer",
    "n_skills": 4,
+   "n_packed": 4,
    "n_chains": 3,
    "chains": [
     {
@@ -65,8 +68,10 @@
   {
    "id": "chat",
    "label": "chat",
+   "label_zh": "提示词对话",
    "entry": "chat-prompt-engineer",
    "n_skills": 1,
+   "n_packed": 1,
    "n_chains": 1,
    "chains": [
     {
@@ -80,8 +85,10 @@
   {
    "id": "communication",
    "label": "communication",
+   "label_zh": "沟通表达",
    "entry": "tactful-communication",
    "n_skills": 2,
+   "n_packed": 2,
    "n_chains": 3,
    "chains": [
     {
@@ -108,8 +115,10 @@
   {
    "id": "dataviz",
    "label": "dataviz",
+   "label_zh": "数据可视化",
    "entry": "skills/dataviz/dashboard-designer",
    "n_skills": 2,
+   "n_packed": 2,
    "n_chains": 1,
    "chains": [
     {
@@ -124,8 +133,10 @@
   {
    "id": "design",
    "label": "design",
+   "label_zh": "视觉设计",
    "entry": "design-brief-interpreter",
    "n_skills": 8,
+   "n_packed": 8,
    "n_chains": 9,
    "chains": [
     {
@@ -202,8 +213,10 @@
   {
    "id": "education",
    "label": "education",
+   "label_zh": "教育学习",
    "entry": "course-designer",
    "n_skills": 6,
+   "n_packed": 6,
    "n_chains": 5,
    "chains": [
     {
@@ -247,8 +260,10 @@
   {
    "id": "integrations",
    "label": "integrations",
+   "label_zh": "工具集成",
    "entry": "skills/integrations/notion-workspace",
    "n_skills": 4,
+   "n_packed": 4,
    "n_chains": 3,
    "chains": [
     {
@@ -278,8 +293,10 @@
   {
    "id": "knowledge",
    "label": "knowledge",
+   "label_zh": "知识管理",
    "entry": "skills/knowledge/personal-wiki",
    "n_skills": 2,
+   "n_packed": 2,
    "n_chains": 1,
    "chains": [
     {
@@ -294,8 +311,10 @@
   {
    "id": "life",
    "label": "life",
+   "label_zh": "生活服务",
    "entry": "home-renovation-avoidance",
    "n_skills": 4,
+   "n_packed": 4,
    "n_chains": 4,
    "chains": [
     {
@@ -327,8 +346,10 @@
   {
    "id": "marketing",
    "label": "marketing",
+   "label_zh": "营销增长",
    "entry": "product-copywriter",
    "n_skills": 3,
+   "n_packed": 3,
    "n_chains": 2,
    "chains": [
     {
@@ -351,8 +372,10 @@
   {
    "id": "memory",
    "label": "memory",
+   "label_zh": "记忆系统",
    "entry": "memory-architect",
    "n_skills": 4,
+   "n_packed": 4,
    "n_chains": 3,
    "chains": [
     {
@@ -384,8 +407,10 @@
   {
    "id": "meta",
    "label": "meta",
+   "label_zh": "元技能",
    "entry": "skills/meta/skill-author",
    "n_skills": 7,
+   "n_packed": 6,
    "n_chains": 5,
    "chains": [
     {
@@ -428,8 +453,10 @@
   {
    "id": "music",
    "label": "music",
+   "label_zh": "音乐生成",
    "entry": "music-generation",
    "n_skills": 1,
+   "n_packed": 1,
    "n_chains": 1,
    "chains": [
     {
@@ -443,8 +470,10 @@
   {
    "id": "office",
    "label": "office",
+   "label_zh": "办公文档",
    "entry": "docx-writer",
    "n_skills": 9,
+   "n_packed": 9,
    "n_chains": 3,
    "chains": [
     {
@@ -475,8 +504,10 @@
   {
    "id": "paper",
    "label": "paper",
+   "label_zh": "论文科研",
    "entry": "paper-topic-selector",
    "n_skills": 12,
+   "n_packed": 12,
    "n_chains": 4,
    "chains": [
     {
@@ -526,8 +557,10 @@
   {
    "id": "ppt",
    "label": "ppt",
+   "label_zh": "演示文稿",
    "entry": "ppt-builder",
    "n_skills": 1,
+   "n_packed": 1,
    "n_chains": 1,
    "chains": [
     {
@@ -541,8 +574,10 @@
   {
    "id": "programming",
    "label": "programming",
+   "label_zh": "编程开发",
    "entry": "code-intent-planner",
    "n_skills": 48,
+   "n_packed": 49,
    "n_chains": 14,
    "chains": [
     {
@@ -685,8 +720,10 @@
   {
    "id": "tools",
    "label": "tools",
+   "label_zh": "实用工具",
    "entry": "skills/tools/file-organizer",
    "n_skills": 6,
+   "n_packed": 6,
    "n_chains": 3,
    "chains": [
     {
@@ -716,8 +753,10 @@
   {
    "id": "video",
    "label": "video",
+   "label_zh": "视频制作",
    "entry": "video-script-writer",
    "n_skills": 16,
+   "n_packed": 15,
    "n_chains": 4,
    "chains": [
     {
@@ -768,8 +807,10 @@
   {
    "id": "writing",
    "label": "writing",
+   "label_zh": "内容写作",
    "entry": "article-outliner",
    "n_skills": 25,
+   "n_packed": 24,
    "n_chains": 3,
    "chains": [
     {
@@ -804,6 +845,171 @@
    ]
   }
  ],
+ "groups": [
+  {
+   "id": "software",
+   "label": "软件开发",
+   "label_en": "Software Engineering",
+   "emoji": "🛠",
+   "desc": "从需求到上线运维：写码、测试、评审、CI/CD、架构、数据库、安全、故障响应",
+   "domains": [
+    "programming"
+   ],
+   "packs": [
+    "api-development",
+    "architecture",
+    "ci-cd",
+    "code-planning",
+    "code-review",
+    "containers",
+    "database",
+    "github-workflow",
+    "incident-response",
+    "infrastructure",
+    "performance",
+    "security",
+    "tdd",
+    "web-ops"
+   ],
+   "n_packs": 14,
+   "n_skills": 49
+  },
+  {
+   "id": "ai-agent",
+   "label": "AI 与智能体",
+   "label_en": "AI & Agents",
+   "emoji": "🤖",
+   "desc": "让 AI 会干活：提示词工艺、长期记忆、Agent 开发、技能锻造与检索",
+   "domains": [
+    "chat",
+    "memory",
+    "meta"
+   ],
+   "packs": [
+    "ai-agent-development",
+    "chat-prompt-craft",
+    "memory-systems",
+    "skill-forge"
+   ],
+   "n_packs": 4,
+   "n_skills": 11
+  },
+  {
+   "id": "content",
+   "label": "内容与创意",
+   "label_en": "Content & Creative",
+   "emoji": "🎨",
+   "desc": "写作、视频、音频、视觉设计，一路到 18 个内容平台发布",
+   "domains": [
+    "audio",
+    "design",
+    "music",
+    "video",
+    "writing"
+   ],
+   "packs": [
+    "ai-media-toolkit",
+    "ai-research-writing",
+    "ai-video-pipeline",
+    "audio-studio",
+    "content-publishing",
+    "de-ai-writing",
+    "image-studio",
+    "video-design-studio",
+    "viral-entertainment",
+    "visual-design-studio"
+   ],
+   "n_packs": 10,
+   "n_skills": 52
+  },
+  {
+   "id": "data",
+   "label": "数据与科研",
+   "label_en": "Data & Research",
+   "emoji": "📊",
+   "desc": "数据清洗建模、可视化仪表盘、论文与科研全流程",
+   "domains": [
+    "dataviz",
+    "paper"
+   ],
+   "packs": [
+    "data-ml-science",
+    "dataviz-studio"
+   ],
+   "n_packs": 2,
+   "n_skills": 14
+  },
+  {
+   "id": "office",
+   "label": "办公与效率",
+   "label_en": "Office & Productivity",
+   "emoji": "🗂",
+   "desc": "文档表格 PPT、知识库、团队工具集成（飞书/Notion/Jira）、职场沟通",
+   "domains": [
+    "communication",
+    "integrations",
+    "knowledge",
+    "office",
+    "ppt",
+    "tools"
+   ],
+   "packs": [
+    "communication-essentials",
+    "knowledge-base",
+    "office-productivity",
+    "toolsmith",
+    "workspace-integrations"
+   ],
+   "n_packs": 5,
+   "n_skills": 24
+  },
+  {
+   "id": "business",
+   "label": "商业与增长",
+   "label_en": "Business & Growth",
+   "emoji": "📈",
+   "desc": "营销获客、电商运营、产品管理、销售客服、财务法务 HR —— 本轮扩容重点",
+   "domains": [
+    "marketing"
+   ],
+   "packs": [
+    "growth-marketing"
+   ],
+   "n_packs": 1,
+   "n_skills": 3
+  },
+  {
+   "id": "learning",
+   "label": "学习与教育",
+   "label_en": "Learning & Education",
+   "emoji": "🎓",
+   "desc": "课程与习题设计、作业辅导、以教代学",
+   "domains": [
+    "education"
+   ],
+   "packs": [
+    "edu-craft",
+    "homework-autopilot"
+   ],
+   "n_packs": 2,
+   "n_skills": 6
+  },
+  {
+   "id": "life",
+   "label": "生活与个人",
+   "label_en": "Life & Personal",
+   "emoji": "🏠",
+   "desc": "消费避坑、就医、租房、装修等生活决策",
+   "domains": [
+    "life"
+   ],
+   "packs": [
+    "life-essentials"
+   ],
+   "n_packs": 1,
+   "n_skills": 4
+  }
+ ],
  "skills": [
   {
    "name": "agent-designer",
@@ -829,7 +1035,7 @@
    "domain": "meta",
    "path": "skills/meta/agent-eval-harness",
    "file": "skills/meta/agent-eval-harness/SKILL.md",
-   "desc": ">-",
+   "desc": "Quantify \"is the AI agent behaving correctly\" into a 0-100 score with a verifiable rubric, so you stop relying on gut feel when you ship an agent. Use when the user asks to evaluate an agent / score an agent / eval test cases / LLM behavior verification / regression test for agent behavior / prove the agent didn't degrade / agent evaluation harness. Do NOT use for writing the agent itself (use skill-author / webapp-e2e-harness) or for pure unit tests of code (use tdd-guide / api-test-suite-builder).",
    "license": "Apache-2.0",
    "compatibility": "Pure Python offline script (writes files only, no network requests); mode B LLM-as-judge only produces copyable review prompts, actual model calls are wired by user (credentials via env).",
    "version": "1.0",
@@ -848,7 +1054,7 @@
    "domain": "video",
    "path": "skills/video/ai-baby-podcast",
    "file": "skills/video/ai-baby-podcast/SKILL.md",
-   "desc": ">",
+   "desc": "Produce viral \"AI baby podcast / talking baby\" entertainment shorts: character design, script with adult-voice contrast, TTS audio, lip-sync generation, and platform-compliant publishing. Use when the user asks to make a baby podcast video / AI baby video / talking baby / baby podcast / baby streamer / funny AI-kid short video, or wants meme-style talking-character shorts. Do NOT use for real-child footage editing, deepfakes of real people, or news-style content presented as factual.",
    "license": "Apache-2.0",
    "compatibility": "Uses web creation tools (image gen, TTS, lip-sync) in a browser workflow; no local install needed.",
    "version": "1.0",
@@ -1020,7 +1226,7 @@
    "domain": "education",
    "path": "skills/education/assignment-intake",
    "file": "skills/education/assignment-intake/SKILL.md",
-   "desc": ">-",
+   "desc": "Parse a homework assignment into a machine-usable assignment-plan JSON: identify the type via a 9-type decision table (essay / diary / reading response / math / english writing / handmade poster / slides / survey report / lab report), extract hard requirements (word count, format, deadline, must-include, forbidden items) with per-item evidence, map scoring dimensions, and list the personal materials the student must supply. Entry point of the homework-autopilot chain; output feeds solution-drafter. Use when the user asks for assignment intake / homework analysis / parse assignment requirements / break down homework / solve homework. Do NOT use during live exams or quizzes, nor for pure tutoring questions without a graded deliverable.",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; no runtime dependencies.",
    "version": "1.0",
@@ -1039,7 +1245,7 @@
    "domain": "writing",
    "path": "skills/writing/news/baijiahao-publisher",
    "file": "skills/writing/news/baijiahao-publisher/SKILL.md",
-   "desc": ">",
+   "desc": "Helps adapt and write platform-native articles for Baijiahao (Baijiahao), Baidu's content platform. Produces Baijiahao-style headlines, body copy, images, and tags optimized for Baidu search and the Baijiahao feed. Use when the user asks for Baijiahao content, Baijiahao article, baijiahao article, baijiahao adaptation, platform-specific content for baijiahao, or publish to Baijiahao. Do NOT use for cookie-based posting automation or other platforms.",
    "license": "Apache-2.0",
    "compatibility": "",
    "version": "2.0",
@@ -1058,7 +1264,7 @@
    "domain": "tools",
    "path": "skills/tools/bank-statement-reconcile",
    "file": "skills/tools/bank-statement-reconcile/SKILL.md",
-   "desc": ">-",
+   "desc": "Reconcile a bank/credit-card statement CSV against a billing/expense CSV: match transactions by amount + month + optional counterparty, then hand the human three lists (matched / only-in-statement / only-in-billing). Use when the user asks to reconcile statements / match transactions / find missing entries / bank statement vs billing / transaction reconciliation / account matching. Do NOT use for importing from a bank account (no network/credentials here) or for accounting journal entries (this is matching, not bookkeeping).",
    "license": "Apache-2.0",
    "compatibility": "Pure local CSV; no network, no bank connection; default dry-run; matching is heuristic (amount + month + counterparty), unmatched items require human review.",
    "version": "1.0",
@@ -1077,7 +1283,7 @@
    "domain": "tools",
    "path": "skills/tools/batch-renamer",
    "file": "skills/tools/batch-renamer/SKILL.md",
-   "desc": ">-",
+   "desc": "Batch-rename files with a preview-first contract: template patterns, regex substitution, prefix/suffix, case folding, and EXIF-shooting-date prefixes, plus a JSON change log for one-command rollback. Use when the user asks to batch rename / rename files / rename photos by date / regex replace filenames / strip prefix from filenames / file renaming utility / batch processing. Do NOT use for moving or sorting files into folders, editing file contents, or renaming directories.",
    "license": "Apache-2.0",
    "compatibility": "Python 3.8+; stdlib for all modes. EXIF date mode additionally uses Pillow (optional, falls back to file mtime if absent). Preview is the default; disk writes require the --yes flag.",
    "version": "1.0",
@@ -1096,7 +1302,7 @@
    "domain": "writing",
    "path": "skills/writing/video/bilibili-publisher",
    "file": "skills/writing/video/bilibili-publisher/SKILL.md",
-   "desc": ">",
+   "desc": "Helps adapt and write platform-native text for Bilibili (Bilibili): video titles, descriptions, tags, cover/intro copy, short dynamic posts (dynamic post), and Bilibili column articles (column). Produces Bilibili-style metadata, danmu-friendly hooks, and the Markdown for Bilibili's in-house article editor. Use when the user asks for Bilibili content, bilibili video description, Bilibili column article, bilibili dynamic post, bilibili adaptation, platform-specific content for bilibili, or publish to Bilibili. Do NOT use for upload automation, cookie scripts, or other platforms.",
    "license": "Apache-2.0",
    "compatibility": "",
    "version": "2.0",
@@ -1134,7 +1340,7 @@
    "domain": "life",
    "path": "skills/life/car-purchase-maintenance",
    "file": "skills/life/car-purchase-maintenance/SKILL.md",
-   "desc": ">-",
+   "desc": "Use when the user is buying a car (new or used), negotiating price, doing delivery inspection, or planning maintenance. Triggers: car buying, price negotiation, delivery inspection, maintenance schedule, used car check, dealer tricks, first service, oil change interval. Do NOT use for mechanical diagnosis (take the car to a licensed mechanic), insurance claims, or investment / financing advice beyond reading a loan contract.",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt skill, no scripts.",
    "version": "1.0",
@@ -1153,7 +1359,7 @@
    "domain": "office",
    "path": "skills/office/career-ops-lite",
    "file": "skills/office/career-ops-lite/SKILL.md",
-   "desc": ">-",
+   "desc": "Score a job posting against your resume (per-requirement A-F grades + a 0-5 holistic score), then draft a tailored cover-letter block and a tracker entry. Offline, human-in-the-loop: it evaluates and drafts, it never submits. Use when the user asks to evaluate a job posting / should I apply / job match / tailor resume / career pipeline / track applications / ATS fit / cover letter draft. Do NOT use for scraping job portals or auto-applying (out of scope + compliance); this is scoring + drafting only.",
    "license": "Apache-2.0",
    "compatibility": "Plain text + Python offline; no network, no Playwright; scoring is heuristic word matching, final judgment stays with the human",
    "version": "1.0",
@@ -1210,7 +1416,7 @@
    "domain": "dataviz",
    "path": "skills/dataviz/chart-recommender",
    "file": "skills/dataviz/chart-recommender/SKILL.md",
-   "desc": ">",
+   "desc": "Choose the right chart for a dataset before drawing anything: read the data shape and the analytical intent, look up the selection lexicon, compare two or three candidate chart types with their trade-offs, and emit a drawing spec covering axes, legend, annotations, and number formatting. Use when the user asks to what chart should this data use / how do I choose a chart type / help me pick a chart / is this pie chart appropriate / how best to visualize this data / which chart should I use / help me pick a visualization / is a pie chart ok here / data visualization / charts / matplotlib / D3 / reporting / dashboard. Do NOT use for actually building a dashboard file (use dashboard-designer), for publication figures (use pub-plotter), or for statistical analysis of the data.",
    "license": "Apache-2.0",
    "compatibility": "Prompt-only, no runtime required; the lexicon is a local Markdown file.",
    "version": "1.0",
@@ -1286,7 +1492,7 @@
    "domain": "writing",
    "path": "skills/writing/blog/cnblogs-skill",
    "file": "skills/writing/blog/cnblogs-skill/SKILL.md",
-   "desc": ">",
+   "desc": "Helps adapt and write platform-native Markdown articles for CNBlogs (CNBlogs), the Chinese developer blogging community. Produces CNBlogs-format Markdown with short paragraphs, emoji headings, code blocks, tables, images, categories, and tags. Use when the user asks for CNBlogs content, cnblogs article, blog garden post, cnblogs adaptation, platform-specific content for cnblogs, or publish to CNBlogs. Do NOT use for automation, image upload scripts, or posting to other platforms.",
    "license": "Apache-2.0",
    "compatibility": "",
    "version": "2.0",
@@ -1343,7 +1549,7 @@
    "domain": "programming",
    "path": "skills/programming/code-quality/code-reviewer",
    "file": "skills/programming/code-quality/code-reviewer/SKILL.md",
-   "desc": ">-",
+   "desc": "Automated static-analysis engine for code changes and files in TypeScript, JavaScript, Python, Go, Swift, Kotlin, C#, .NET, Java, C, C++, Rust, Ruby, PHP, and Dart/Flutter. Detects complexity, risk, hardcoded secrets, SQL injection, and SOLID violations; generates review reports. Also reviews pull request / merge request diffs end-to-end: diff-scoped review, blast-radius and change-impact assessment, regression risk, test-coverage delta, breaking-change detection, and a merge-readiness checklist via gh/glab. Use when the user asks to review code / do a code review / look over this code / check the risk in this code / review a pull request / review a PR / assess a diff's blast radius / static analysis / generate a review report. Do NOT use for fixing the issues it reports (static analysis only) — that is code-generator's job.",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; may read project structure via Bash. The three bundled scripts require Python 3.10+.",
    "version": "1.0",
@@ -1382,7 +1588,7 @@
    "domain": "education",
    "path": "skills/education/course-designer",
    "file": "skills/education/course-designer/SKILL.md",
-   "desc": ">-",
+   "desc": "Design a mastery-based course from a topic: learning contract (scope/level/target/constraints, <=3 questions), checkpoint breakdown with dependency order, per-module study path, and exam-mode adjustments. Chain entry of edu-craft — checkpoints feed exercise-generator directly. Use when the user asks to design a course / make an outline / study plan / syllabus / curriculum / teach me a subject / lesson design. Do NOT use for generating exercises (exercise-generator), nor for interactive concept teaching (feynman-explainer).",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; no runtime dependencies.",
    "version": "1.0",
@@ -1401,7 +1607,7 @@
    "domain": "writing",
    "path": "skills/writing/orchestrator/cross-post-orchestrator",
    "file": "skills/writing/orchestrator/cross-post-orchestrator/SKILL.md",
-   "desc": ">",
+   "desc": "Cross-platform content adaptation guide. Helps adapt ONE source article into platform-native versions for multiple Chinese platforms (Zhihu, WeChat MP, Juejin, CNBlogs, CSDN, Jianshu, Xiaohongshu, Weibo, Toutiao, Baijiahao, Bilibili, Douban, V2EX, SegmentFault, OSChina, static blog) simultaneously. Produces per-platform titles, adapted bodies, tag sets, and image briefs. Use when the user asks to adapt an article for multiple platforms, cross-post content, multi-platform content adaptation, one article for many platforms, or distribute content across platforms. Do NOT use for posting automation, scheduling scripts, or single-platform deep formatting (use the per-platform skill).",
    "license": "Apache-2.0",
    "compatibility": "",
    "version": "2.0",
@@ -1420,7 +1626,7 @@
    "domain": "writing",
    "path": "skills/writing/blog/csdn-publisher",
    "file": "skills/writing/blog/csdn-publisher/SKILL.md",
-   "desc": ">",
+   "desc": "Helps adapt and write platform-native Markdown articles for CSDN, the Chinese developer blog and search-indexed tech content platform. Produces CSDN-style posts with SEO-friendly titles, code blocks, tags, categories, and a tutorial voice. Use when the user asks for CSDN content, csdn article, CSDN blog post, csdn adaptation, platform-specific content for csdn, or publish to CSDN. Do NOT use for cookie-based posting automation or other platforms.",
    "license": "Apache-2.0",
    "compatibility": "",
    "version": "2.0",
@@ -1439,7 +1645,7 @@
    "domain": "dataviz",
    "path": "skills/dataviz/dashboard-designer",
    "file": "skills/dataviz/dashboard-designer/SKILL.md",
-   "desc": ">",
+   "desc": "Profile a CSV, then recommend and generate a dashboard: infer column types and distributions, propose a KPI-plus-chart layout with reasons, and build a self-contained single-file HTML dashboard whose charts are inline SVG with no CDN or network dependency. Use when the user asks to build a dashboard / data board / visualize this CSV / analyze data into charts / generate an HTML report / build a dashboard / visualize this CSV / make a data report / create an HTML dashboard / data visualization / dashboard / charts / reporting. Do NOT use for choosing a single chart type without building anything (use chart-recommender), for academic publication figures (use pub-plotter), or for statistical modeling.",
    "license": "Apache-2.0",
    "compatibility": "Requires Python 3.8+; the script is stdlib-only. The HTML output has zero external dependencies and works offline.",
    "version": "1.0",
@@ -1496,7 +1702,7 @@
    "domain": "communication",
    "path": "skills/communication/decision-debiasing",
    "file": "skills/communication/decision-debiasing/SKILL.md",
-   "desc": ">-",
+   "desc": "Structured debiasing protocol for consequential decisions that compensates for the assistant's own sycophancy and the user's cognitive biases (anchoring, confirmation, sunk cost). It forces a past-tense pre-mortem, a dedicated red-team argument against the user's favorite option, and a written decision record. Use when the user faces a consequential decision and wants to avoid cognitive bias, or asks for a pre-mortem, red-team, second opinion, or decision review. Triggers: decision debiasing / pre-mortem / red team / cognitive bias / second opinion / risk review. Do NOT use for simple everyday choices, or for financial / legal / medical professional advice (route to licensed professionals), or when the user just wants validation.",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt skill, no scripts or runtime deps.",
    "version": "1.0",
@@ -1534,7 +1740,7 @@
    "domain": "programming",
    "path": "skills/programming/code-quality/dependency-auditor",
    "file": "skills/programming/code-quality/dependency-auditor/SKILL.md",
-   "desc": ">-",
+   "desc": "Audit and manage dependencies across multi-language projects. Identifies vulnerabilities, license conflicts, transitive dependency risks, and safe-upgrade paths. Use when auditing third-party packages before release, investigating a CVE, planning a major version bump, or running a license compliance review. Examples: 'audit our npm dependencies', 'do we have GPL contamination', 'plan the upgrade to React 19', auditing dependencies, dependency security and licensing, checking outdated packages, or assessing upgrade risk. Do NOT use for upgrading dependencies (audit and advisory only).",
    "license": "Apache-2.0",
    "compatibility": "Pure Python 3.10+; the three scripts are offline pattern-matchers over manifests and lockfiles. No network and no API keys required. Pair their findings with `npm audit` / `pip-audit` / `cargo audit` for live CVE coverage.",
    "version": "1.0",
@@ -1553,7 +1759,7 @@
    "domain": "design",
    "path": "skills/design/design-brief-interpreter",
    "file": "skills/design/design-brief-interpreter/SKILL.md",
-   "desc": ">-",
+   "desc": "Interpret a vague visual design request into a machine-checkable design spec: purpose, audience, platform + exact canvas size/ratio, composition, style anchor, color palette, text hierarchy, and text budget. This is the entry skill of the visual-design-studio chain — its output feeds image-prompt-engineer directly, and layout-spec-auditor verifies the final image against it. Use when the user asks to make an image / design a cover / poster / infographic / illustration / cover / banner. Do NOT use for video frame prompts (shot-designer owns motion), nor for UI code generation.",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; no runtime dependencies.",
    "version": "2.0",
@@ -1572,7 +1778,7 @@
    "domain": "design",
    "path": "skills/design/design-system-foundations",
    "file": "skills/design/design-system-foundations/SKILL.md",
-   "desc": ">-",
+   "desc": "Hard-number reference for design system foundations: typography scales, color contrast values, 8pt spacing tokens, radius/shadow elevation, motion duration and easing curves, responsive breakpoints, and z-index layering. Use when the user asks to build or audit a design system, pick a type scale, define color tokens, set spacing units, spec micro-interaction motion, choose responsive breakpoints, or establish design token naming. Do NOT use for visual design direction or brand personality (frontend-design-director owns that), component implementation, or layout QA. Trigger words: design system, typography scale, color palette, spacing system, design tokens, UI spacing, responsive breakpoints, type scale, color contrast, motion spec, box shadow elevation.",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; no runtime deps.",
    "version": "1.0",
@@ -1610,7 +1816,7 @@
    "domain": "office",
    "path": "skills/office/docx-template-fill",
    "file": "skills/office/docx-template-fill/SKILL.md",
-   "desc": ">-",
+   "desc": "Fill an existing Word template's {{placeholders}} with JSON data, optionally append a review note, and keep the original template untouched. Use when the user asks to fill a Word template / populate a docx / batch-generate contracts, reports, or notices / fill template / merge data into document / comment review. Do NOT use for generating a brand-new document from scratch (use docx-writer), spreadsheets, or slide decks.",
    "license": "Apache-2.0",
    "compatibility": "Requires python3 + python-docx (pip install python-docx); degrades to \"print placeholder list only\" when missing",
    "version": "1.0",
@@ -1629,7 +1835,7 @@
    "domain": "office",
    "path": "skills/office/docx-writer",
    "file": "skills/office/docx-writer/SKILL.md",
-   "desc": ">-",
+   "desc": "Generate and audit real Word (.docx) files from a markdown-ish draft or structured JSON, with correct heading levels, lists, tables, bold spans, and CJK font setup. Use when the user asks to write a document / create a Word file / generate a docx report / create document / make a Word report / export to docx / format a document, or wants to inspect or restyle an existing .docx. Do NOT use for PDF manipulation (use pdf-pipeline), spreadsheets, or slide decks.",
    "license": "Apache-2.0",
    "compatibility": "Requires python3 + python-docx (pip-installable); degrades to markdown-only output without it",
    "version": "1.0",
@@ -1648,7 +1854,7 @@
    "domain": "writing",
    "path": "skills/writing/community/douban-publisher",
    "file": "skills/writing/community/douban-publisher/SKILL.md",
-   "desc": ">",
+   "desc": "Helps adapt and write platform-native content for Douban (Douban), the Chinese book / movie / music / culture community. Produces Douban-style notes (diary), reviews (film/book review), and group posts with a thoughtful, literary voice, tags, and group targeting. Use when the user asks for Douban content, Douban note, douban review, douban adaptation, platform-specific content for douban, or publish to Douban. Do NOT use for cookie-based posting automation or other platforms.",
    "license": "Apache-2.0",
    "compatibility": "",
    "version": "2.0",
@@ -1667,7 +1873,7 @@
    "domain": "programming",
    "path": "skills/programming/security/env-secrets-manager",
    "file": "skills/programming/security/env-secrets-manager/SKILL.md",
-   "desc": ">-",
+   "desc": "Manage environment-variable hygiene and secrets safety across local development and production. Triggers on \"audit .env\", \"secrets scan\", \"check for leaked keys\", \"rotate credentials\", \"env file hygiene\", \"committed secrets\", \"detect-secrets or gitleaks setup\", \"missing env var incident\". Practical auditing, drift awareness, rotation readiness. Use when auditing .env files for committed secrets, planning a credential rotation, debugging missing-env-var production incidents, hardening a new project against secrets leakage, managing environment variables, auditing secrets, checking .env leaks, or preparing for rotation. Do NOT use for reading or printing secret values (hygiene checks only); production vault infrastructure and rotation execution live in secrets-vault-manager.",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; may read project structure via Bash.",
    "version": "1.0",
@@ -1705,7 +1911,7 @@
    "domain": "office",
    "path": "skills/office/epub-builder",
    "file": "skills/office/epub-builder/SKILL.md",
-   "desc": ">-",
+   "desc": "Convert a Markdown manuscript into a valid EPUB 3 e-book with correct mimetype/container.xml/content.opf/toc.ncx/nav.xhtml structure, then read the EPUB back to verify metadata and chapter order. Uses only the Python standard library because EPUB is just a zip plus XML. Use when the user asks to build an epub / make an e-book from markdown / convert to epub / inspect an epub file / split ebook chapters / generate ebook / epub from markdown. Do NOT use for Word documents (use docx-writer) or PDF generation (use pdf-pipeline).",
    "license": "Apache-2.0",
    "compatibility": "Requires python3 3.8+; script uses stdlib only (zipfile + ElementTree), no third-party dependencies.",
    "version": "1.0",
@@ -1743,7 +1949,7 @@
    "domain": "office",
    "path": "skills/office/excel-assistant",
    "file": "skills/office/excel-assistant/SKILL.md",
-   "desc": ">-",
+   "desc": "Clean, analyze, and summarize spreadsheet data: inspect structure, fix common defects (encoding, merged cells, dates-as-text), compute answers, and deliver a cleaned file plus findings. Use when the user asks to process Excel / clean data / analyze a spreadsheet / summarize this spreadsheet / fix my csv / summarize this table / spreadsheet analysis / data cleaning / pivot summary. Do NOT use for building presentations or writing reports.",
    "license": "Apache-2.0",
    "compatibility": "Works best with python3 + pandas + openpyxl; degrades to manual guidance.",
    "version": "1.0",
@@ -1762,7 +1968,7 @@
    "domain": "education",
    "path": "skills/education/exercise-generator",
    "file": "skills/education/exercise-generator/SKILL.md",
-   "desc": ">-",
+   "desc": "Generate strict mastery exercises for course checkpoints: open-ended conceptual questions (MCQ banned to prevent guessing), difficulty ladder (recall / apply / transfer), answer rubric with point bands, and common-trap annotations. Machine-checkable block format enforced by exercise_lint.py. Use when the user asks to generate exercises / make a quiz / practice questions / question bank / exam practice, or automatically after course-designer produces checkpoints. Do NOT use for designing the course skeleton (course-designer), nor for teaching interactively (feynman-explainer).",
    "license": "Apache-2.0",
    "compatibility": "Python 3.8+ (exercise_lint.py); no third-party dependencies.",
    "version": "1.0",
@@ -1819,7 +2025,7 @@
    "domain": "programming",
    "path": "skills/programming/ai-engineering/feature-flags-architect",
    "file": "skills/programming/ai-engineering/feature-flags-architect/SKILL.md",
-   "desc": ">-",
+   "desc": "Audit, plan, and govern feature flags across their full lifecycle (classify → ship → ramp → retire). Use when the user asks to configure feature flags / canary rollout / flag governance / feature flag / release gate / add a flag / ship behind a flag / rollout plan / kill switch / stale flags / flag debt / LaunchDarkly / GrowthBook / Statsig / Unleash / Flipt. Ships stdlib-only Python tools (flag_debt_scanner, rollout_planner, kill_switch_audit) plus 4 references on taxonomy, provider trade-offs, rollout strategies, and lifecycle. Do NOT use for writing the flag SDK calls inside application code.",
    "license": "Apache-2.0",
    "compatibility": "Reads project structure via Bash and git. Requires Python 3.8+ (stdlib only) to run the bundled scripts.",
    "version": "1.0",
@@ -1857,7 +2063,7 @@
    "domain": "education",
    "path": "skills/education/feynman-explainer",
    "file": "skills/education/feynman-explainer/SKILL.md",
-   "desc": ">-",
+   "desc": "Teach one concept interactively via the Feynman loop: simplest-possible explanation, one diagnostic question, inspect the learner's answer for gaps, repair with analogy or worked example, require teach-back, then a transfer challenge — with depth control per learner level. Use when the user asks to explain a concept / teach me this / explain in plain language / why don't I understand / teach-back, or when exercise results show a failed checkpoint needing remedial teaching. Do NOT use for course skeleton design (course-designer), nor for generating question banks (exercise-generator).",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; no runtime dependencies.",
    "version": "1.0",
@@ -1876,7 +2082,7 @@
    "domain": "tools",
    "path": "skills/tools/file-organizer",
    "file": "skills/tools/file-organizer/SKILL.md",
-   "desc": ">-",
+   "desc": "Audit and reorganize a messy directory with a dry-run-first planner: extension/date/size statistics, fast duplicate detection (size + first-1KB hash), and a reviewable move plan before anything touches disk. Use when the user asks to organize my files / file cleanup / find duplicate files / sort downloads folder / tidy directory / file archiving / batch organize. Do NOT use for deleting files, renaming in place, syncing between machines, or touching system/VCS directories.",
    "license": "Apache-2.0",
    "compatibility": "Python 3.8+ stdlib only (no third-party packages). Reads and moves files inside the directory you pass; apply is dry-run unless --yes is given.",
    "version": "1.1",
@@ -1895,7 +2101,7 @@
    "domain": "tools",
    "path": "skills/tools/format-converter",
    "file": "skills/tools/format-converter/SKILL.md",
-   "desc": ">-",
+   "desc": "One entry point for format conversion: documents via pandoc, images via Pillow (with resize and quality), audio/video via ffmpeg, plus directory batch mode. Probes every external dependency first and prints the exact install command when something is missing. Use when the user asks to convert file format / png to jpg / batch convert images / compress image size / video transcode / format conversion / media conversion utility. Do NOT use for editing file contents, extracting archives, or OCR of scanned documents.",
    "license": "Apache-2.0",
    "compatibility": "Python 3.8+. Image mode requires Pillow (pip install pillow). Document mode requires pandoc. Media mode requires ffmpeg. Batch mode defaults to dry-run and needs --yes to write.",
    "version": "1.0",
@@ -1914,7 +2120,7 @@
    "domain": "design",
    "path": "skills/design/frontend-component-lab",
    "file": "skills/design/frontend-component-lab/SKILL.md",
-   "desc": ">-",
+   "desc": "Scaffold production-grade React/TypeScript UI components wired to a design token system: component + CSS Modules + design-tokens.json, plus a review checklist that kills the classic LLM frontend sins (magic numbers, inline styles, untyped props, missing a11y). Use when the user asks to build a component / create a React component / component scaffold / UI component library / design system token / frontend design system / component spec. Do NOT use for pure image/design-mockup generation (use image-prompt-engineer) or for backend work.",
    "license": "Apache-2.0",
    "compatibility": "Outputs .tsx/.css/.json source files; user wires into their TS project themselves (no network, no npm install needed to generate).",
    "version": "1.0",
@@ -1933,7 +2139,7 @@
    "domain": "design",
    "path": "skills/design/frontend-design-director",
    "file": "skills/design/frontend-design-director/SKILL.md",
-   "desc": ">-",
+   "desc": "Act as a frontend design director who pulls AI-generated UI away from templated defaults toward opinionated, brief-specific design. Runs a two-pass workflow - first produce a named design-token plan (palette, type, layout concept, unique principle) without touching code, audit that plan against an AI-tell checklist, then implement with restrained motion and typographic care, and close with self-critique. Use when the user asks for frontend design / page design / UI design / landing page / visual design / website page / page beautification. Do NOT use for image or poster generation (design-brief-interpreter owns that), nor for backend or non-visual code tasks.",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; no runtime deps.",
    "version": "1.0",
@@ -1990,7 +2196,7 @@
    "domain": "life",
    "path": "skills/life/home-renovation-avoidance",
    "file": "skills/life/home-renovation-avoidance/SKILL.md",
-   "desc": ">-",
+   "desc": "Consumer-protection guide for Chinese home renovation: avoid contractor scams, material substitution, and inflated pricing; know numeric acceptance thresholds. Use when the user is renovating, signing a renovation contract, selecting materials, or doing construction acceptance inspection. Triggers: renovation pitfalls / contractor scams / home renovation / construction acceptance / material selection / hidden-works check. Do NOT use for: interior design aesthetics (use design skills), or as legal advice.",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt skill, no scripts.",
    "version": "1.0",
@@ -2028,7 +2234,7 @@
    "domain": "design",
    "path": "skills/design/image-batch-processor",
    "file": "skills/design/image-batch-processor/SKILL.md",
-   "desc": ">-",
+   "desc": "Batch-process a folder of images locally with Pillow: compress (JPEG quality), resize to fit (keep aspect ratio), crop, overlay text/image watermarks with position and opacity, convert between jpg/png/webp, and optional OCR to .txt. Use when the user asks to batch compress images / resize images in a folder / add a watermark / OCR a screenshot / image batch processing / convert images to webp / prep platform covers. Do NOT use for generating new images from text (use image-generation), posting or uploading to platforms, or pixel-level creative editing in a raster editor.",
    "license": "Apache-2.0",
    "compatibility": "Python 3.8+; requires Pillow (pip install pillow). --ocr additionally needs pytesseract and a tesseract binary; it degrades to a warning if absent. Reads inputs, writes only to --output; originals are never modified.",
    "version": "1.0",
@@ -2047,7 +2253,7 @@
    "domain": "video",
    "path": "skills/video/image-generation",
    "file": "skills/video/image-generation/SKILL.md",
-   "desc": ">",
+   "desc": "Generate images from text prompts or reference images through a local generation gateway (text-to-image and image-to-image with polling and download), including platform-specific covers and banners at the right dimensions (WeChat MP 896x384, Xiaohongshu 3:4, Bilibili 16:9, Open Graph 1200x630, and more), with an optional <1MB JPG for upload. Use when the user asks to generate an image / draw a picture / text-to-image / image-to-image / edit this photo / create artwork / make an illustration / design a cover / blog header / article banner / post thumbnail / product render, or wants AI artwork or platform cover sizes. Do NOT use for screenshot capture, cropping/resizing existing files, posting automation, or OCR — those need local tools, not this skill.",
    "license": "Apache-2.0",
    "compatibility": "Requires curl and network access to the generation gateway endpoint.",
    "version": "2.0",
@@ -2068,7 +2274,7 @@
    "domain": "design",
    "path": "skills/design/image-prompt-engineer",
    "file": "skills/design/image-prompt-engineer/SKILL.md",
-   "desc": ">-",
+   "desc": "Engineer text-to-image prompts from a design spec: five-segment structure (canvas + subject + composition + style anchor + text spec), prompt-priority ordering (position = weight), lighting and camera physics vocabulary, text-rendering rules (quote exact strings, match length), negative terms as nouns, and per-model dialects including the text-rendering rule of thumb. Write or audit modes. Use when the user asks to write an image prompt / text-to -image prompt / make image more professional / prompt audit. Do NOT use for video prompts (shot-designer), nor for choosing canvas sizes (design-brief-interpreter already fixed them).",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; no runtime dependencies.",
    "version": "2.0",
@@ -2107,7 +2313,7 @@
    "domain": "office",
    "path": "skills/office/internal-comms-writer",
    "file": "skills/office/internal-comms-writer/SKILL.md",
-   "desc": ">-",
+   "desc": "Draft company internal communications in four standard genres — recurring team updates, all-hands announcements, FAQ answers, and cross-team request emails — after pinning down audience, event, expected action and deadline. Use when the user asks to write a team update / internal notice / company announcement / reply to employee FAQ / send a cross-team coordination email / team update / company announcement / internal comms / company newsletter / FAQ answer / cross-team request. Do NOT use for external customer-facing copy, marketing material, or legal/PR statements that require sign-off from comms or legal teams.",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; no runtime deps.",
    "version": "1.0",
@@ -2126,7 +2332,7 @@
    "domain": "tools",
    "path": "skills/tools/invoice-organizer",
    "file": "skills/tools/invoice-organizer/SKILL.md",
-   "desc": ">-",
+   "desc": "Sort a pile of loose invoice/receipt/expense files into a month/category tree and emit a CSV ledger, so reimbursement filing stops being a mess. Use when the user asks to organize receipts / sort invoices / archive reimbursement by month / expense ledger / invoice categorization / receipt filing. Do NOT use for OCR / reading amounts off images (this works on filenames + an optional ledger, not pixels) or for actually submitting a reimbursement (human step).",
    "license": "Apache-2.0",
    "compatibility": "Pure local filesystem + CSV; no network; default dry-run; move operations are manually reversible.",
    "version": "1.0",
@@ -2164,7 +2370,7 @@
    "domain": "writing",
    "path": "skills/writing/blog/jianshu-publisher",
    "file": "skills/writing/blog/jianshu-publisher/SKILL.md",
-   "desc": ">",
+   "desc": "Helps adapt and write platform-native Markdown essays and articles for Jianshu (Jianshu), the Chinese literary / personal-essay community. Produces Jianshu-style posts with a literary voice, short poetic title, collections, and tags. Use when the user asks for Jianshu content, Jianshu essay, jianshu essay, jianshu adaptation, platform-specific content for jianshu, or publish to Jianshu. Do NOT use for cookie-based posting automation or other platforms.",
    "license": "Apache-2.0",
    "compatibility": "",
    "version": "2.0",
@@ -2202,7 +2408,7 @@
    "domain": "writing",
    "path": "skills/writing/juejin/juejin-publisher",
    "file": "skills/writing/juejin/juejin-publisher/SKILL.md",
-   "desc": ">",
+   "desc": "Helps adapt and write platform-native Markdown articles for Juejin (Juejin), the Chinese front-end / full-stack developer community. Produces Juejin-format posts with strong code blocks, tags, categories, and a tech-blog voice. Use when the user asks for Juejin content, juejin article, Juejinarticle, juejin adaptation, platform-specific content for juejin, or publish to Juejin. Do NOT use for cookie-based posting automation or other platforms.",
    "license": "Apache-2.0",
    "compatibility": "",
    "version": "2.0",
@@ -2221,7 +2427,7 @@
    "domain": "knowledge",
    "path": "skills/knowledge/knowledge-graph-builder",
    "file": "skills/knowledge/knowledge-graph-builder/SKILL.md",
-   "desc": ">",
+   "desc": "Turn a folder of markdown notes into an explicit knowledge graph: extract entities and relations into nodes plus edges, export as JSON, Graphviz DOT, or Mermaid, and compute structural metrics such as degree centrality, connected components, and isolated nodes. Use when the user asks to build a knowledge graph / turn notes into a graph / extract entity relations / export a graphviz or mermaid diagram / find isolated nodes in notes / analyze note-link structure / build a knowledge graph / extract entities and relations / map my notes / find isolated notes / knowledge base / documentation / wiki / information architecture / research. Do NOT use for indexing or searching a note vault (use personal-wiki), for extracting durable facts into agent memory (use memory-extractor), or for drawing architecture diagrams (use arch-diagram).",
    "license": "Apache-2.0",
    "compatibility": "Requires Python 3.8+; the script is stdlib-only. Rendering DOT needs a local graphviz (optional, for validation).",
    "version": "1.0",
@@ -2240,7 +2446,7 @@
    "domain": "programming",
    "path": "skills/programming/infrastructure/kubernetes-operator",
    "file": "skills/programming/infrastructure/kubernetes-operator/SKILL.md",
-   "desc": ">-",
+   "desc": "Use when building a Kubernetes Operator — custom controllers that reconcile CRD state. Triggers on \"build an operator\", \"CRD design\", \"reconcile loop\", \"controller-runtime\", \"kubebuilder\", \"operator-sdk\", \"metacontroller\", \"KOPF\", \"operator capability levels\", \"custom resource\", writing a K8s operator, or building a custom controller. Ships CRD validator, reconcile-loop linter, and OperatorHub capability auditor (all stdlib Python), 4 references on the operator pattern + CRD design + reconcile patterns + tooling landscape, and a /operator-audit slash command. NOT a generic k8s skill — specifically the Operator pattern. Do NOT use for operating a live cluster (manifest and operator authoring only).",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; may read project structure via Bash.",
    "version": "1.0",
@@ -2279,7 +2485,7 @@
    "domain": "design",
    "path": "skills/design/layout-spec-auditor",
    "file": "skills/design/layout-spec-auditor/SKILL.md",
-   "desc": ">-",
+   "desc": "Audit a generated image (or its plan) against a design spec and platform layout rules: aspect ratio match, minimum resolution, safe-area margins for text, platform file-size limits, and text-budget compliance. Reads the actual image file with Pillow when available, or audits declared dimensions. Use when the user asks to check image specs / verify dimensions / audit an image / layout audit / cover spec / image compliance, or automatically after generating an image in the visual-design-studio chain. Do NOT use for judging aesthetics (that is design critique), nor for writing prompts.",
    "license": "Apache-2.0",
    "compatibility": "Python 3.8+; Pillow optional (needed only when auditing an actual image file).",
    "version": "1.1",
@@ -2336,7 +2542,7 @@
    "domain": "life",
    "path": "skills/life/medical-visit-guide",
    "file": "skills/life/medical-visit-guide/SKILL.md",
-   "desc": ">-",
+   "desc": "Use when the user is preparing for a doctor visit, wants to describe symptoms effectively, needs a question list for the consultation, or is confused about the Chinese outpatient workflow. Triggers: doctor visit, medical appointment, symptom description, outpatient preparation, hospital visit prep, specialist referral, follow-up visit. Do NOT use for diagnosis, treatment recommendations, prescription advice, dosage questions, or emergency medical advice (call 120).",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt skill, no scripts.",
    "version": "1.0",
@@ -2355,7 +2561,7 @@
    "domain": "office",
    "path": "skills/office/meeting-notes",
    "file": "skills/office/meeting-notes/SKILL.md",
-   "desc": ">-",
+   "desc": "Turn raw meeting transcripts or rough notes into structured minutes: decisions, action items with owners and deadlines, open questions, and a circulation-ready summary. Use when the user asks to organize meeting notes / transcribe meeting record / notes from this transcript / summarize this meeting / clean up recording text / meeting minutes / action items. Do NOT use for live transcription, audio-to-text conversion, or project status reports without meeting content.",
    "license": "Apache-2.0",
    "compatibility": "No special environment; accepts pasted transcript or notes.",
    "version": "1.0",
@@ -2565,7 +2771,7 @@
    "domain": "music",
    "path": "skills/music/music-generation",
    "file": "skills/music/music-generation/SKILL.md",
-   "desc": ">",
+   "desc": "Generate music tracks from a text brief through a local generation gateway (style, instruments, mood, duration; polling and download included). Use when the user asks to generate music / make a track / score / background music / generate a song / make BGM / write a melody / music generation / composition / audio / MIDI / soundtrack. Do NOT use for text-to-speech, audio editing, trimming MP3s, or transcription.",
    "license": "Apache-2.0",
    "compatibility": "Requires curl and network access to the generation gateway endpoint.",
    "version": "1.0",
@@ -2584,7 +2790,7 @@
    "domain": "video",
    "path": "skills/video/nailong-laugh-shorts",
    "file": "skills/video/nailong-laugh-shorts/SKILL.md",
-   "desc": ">",
+   "desc": "Produce \"laughing Nailong\"-style laughing dragon meme videos: generate the chubby yellow dragon character image, animate belly-laugh actions or swap actions from human footage, add processed giggle audio, batch skin variants, and publish with probability-bait captions. Use when the user asks to make a Nailong video / laughing Nailong / belly-laughing Nailong / Nailong emoji come alive / absurd funny little-dragon meme video, or wants a meme-style talking-character short. Do NOT use for harassing specific real persons, or political/factual disinformation contexts.",
    "license": "Apache-2.0",
    "compatibility": "Uses web AI tools (text-to-image, image-to-video, action transfer); no local install needed.",
    "version": "1.0",
@@ -2641,7 +2847,7 @@
    "domain": "programming",
    "path": "skills/programming/infrastructure/observability-designer",
    "file": "skills/programming/infrastructure/observability-designer/SKILL.md",
-   "desc": ">-",
+   "desc": "Design production-ready observability strategies combining metrics, logs, and traces. Triggers on \"design a dashboard\", \"too many alerts\", \"alert fatigue\", \"golden signals\", \"grafana dashboard\", \"reduce alert noise\", \"monitoring for a new service\", \"observability strategy\", or \"alerting review\". Ships a Grafana dashboard generator (golden-signal panels per service type and role) and an alert optimizer (noise, duplicates, coverage gaps). Use when adding observability to a new service, designing monitoring and alerting, building an observability plan, building dashboards, or refactoring noisy alerting. Do NOT use for installing or operating observability agents, or for SLO/error-budget design (use slo-architect).",
    "license": "Apache-2.0",
    "compatibility": "Stdlib-only Python scripts. No API keys required.",
    "version": "1.0",
@@ -2660,7 +2866,7 @@
    "domain": "writing",
    "path": "skills/writing/community/oschina-publisher",
    "file": "skills/writing/community/oschina-publisher/SKILL.md",
-   "desc": ">",
+   "desc": "Helps adapt and write platform-native articles for OSChina (OSChina), the Chinese open-source developer community. Produces OSChina-style Markdown posts with open-source framing, code blocks, tags, and a practitioner voice. Use when the user asks for OSChina content, OSChina article, oschina article, oschina adaptation, platform-specific content for oschina, or publish to OSChina. Do NOT use for cookie-based posting automation or other platforms.",
    "license": "Apache-2.0",
    "compatibility": "",
    "version": "2.0",
@@ -2679,7 +2885,7 @@
    "domain": "education",
    "path": "skills/education/own-voice-rewrite",
    "file": "skills/education/own-voice-rewrite/SKILL.md",
-   "desc": ">-",
+   "desc": "Rewrite a homework draft in the student's own voice. Two calibration paths: if a real writing sample from the student is available, extract distributional voice features (sentence-length band, punctuation rhythm, connective preferences) and a negative-constraint list; otherwise fall back to grade-level calibration (primary / middle / high-school vocabulary, sentence-length caps) and declare it as a proxy. Then force-inject the student's real materials in place of generic filler, add restrained human touches, re-audit with ai-trace-auditor, and deliver with a read-through-before-submitting reminder plus an append-only calibration record. The human-warmth core of the homework-autopilot chain. Use when the user asks to rewrite in student voice / make it sound like me / remove essay tone / rewrite at my level / sounds like a student wrote it. Do NOT use for experiences the student never had, nor as a guarantee against AI detection.",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; no runtime dependencies.",
    "version": "2.0",
@@ -2717,7 +2923,7 @@
    "domain": "office",
    "path": "skills/office/pdf-pipeline",
    "file": "skills/office/pdf-pipeline/SKILL.md",
-   "desc": ">-",
+   "desc": "Page-level PDF processing: merge multiple PDFs, split by page ranges, extract text with page tags, read/write metadata, rotate pages, and probe AcroForm fields or detect scanned (no text layer) files. Use when the user asks to merge PDFs / split a PDF / extract PDF text / rotate pages / merge pdfs / pdf metadata / page extraction / PDF manipulation. Do NOT use for generating Word documents (use docx-writer), editing slide decks, or image editing.",
    "license": "Apache-2.0",
    "compatibility": "Requires python3 + pypdf (pip-installable); without it only operational guidance and command lists can be given.",
    "version": "1.0",
@@ -2774,7 +2980,7 @@
    "domain": "knowledge",
    "path": "skills/knowledge/personal-wiki",
    "file": "skills/knowledge/personal-wiki/SKILL.md",
-   "desc": ">",
+   "desc": "Build and maintain a personal markdown wiki with a two-layer raw/notes layout, then index, full-text search, lint, and report on it. Turns loose clippings into a linked, tagged, searchable knowledge base and surfaces orphan notes, broken wiki links, and empty stubs. Use when the user asks to build a personal knowledge base / set up a wiki / organize my notes / link notes to each other / search my note vault / build a personal wiki / organize my notes / find orphan notes / search my note vault / knowledge base / documentation / wiki / information architecture / research. Do NOT use for extracting durable facts into agent memory (use memory-extractor), for building an entity-relation graph with metrics (use knowledge-graph-builder), or for publishing notes as a website.",
    "license": "Apache-2.0",
    "compatibility": "Requires Python 3.8+; this skill's scripts use only the standard library, with no third-party dependencies.",
    "version": "1.0",
@@ -2793,7 +2999,7 @@
    "domain": "programming",
    "path": "skills/programming/security/pii-redactor",
    "file": "skills/programming/security/pii-redactor/SKILL.md",
-   "desc": ">",
+   "desc": "Detect and redact personally identifiable information (PII) in logs, chat transcripts, files, and structured data before sharing or logging. Use when the user asks to redact PII / scrub sensitive data / PII detection / mask data / privacy cleanup / compliant logging / GDPR redaction / anonymize logs / mask PII / redact personal data / scrub PII / ID card / phone number / email redaction. Do NOT use for encryption at rest, key management, or secret rotation (use secrets-vault-manager / env-secrets-manager); this skill redacts already-visible text and structured fields.",
    "license": "Apache-2.0",
    "compatibility": "Pure Python 3 stdlib (no third-party deps). Read-only scan by default; redaction writes a NEW output file, never mutates the source. Credentials not required.",
    "version": "1.1",
@@ -2831,7 +3037,7 @@
    "domain": "ppt",
    "path": "skills/ppt/ppt-builder",
    "file": "skills/ppt/ppt-builder/SKILL.md",
-   "desc": ">",
+   "desc": "Build presentation decks: structured outline, per-slide content spec, and a real .pptx file via bundled script (with graceful markdown fallback). Use when the user asks to make a PPT / build a presentation / write slides / create slides / make a deck / prepare a presentation about X / PowerPoint / presentation design / deck. Do NOT use for Word documents, spreadsheets, or PDF forms.",
    "license": "Apache-2.0",
    "compatibility": "Optional python3 with python-pptx for .pptx export; fallback needs nothing.",
    "version": "1.0",
@@ -2869,7 +3075,7 @@
    "domain": "programming",
    "path": "skills/programming/security/prompt-injection-guard",
    "file": "skills/programming/security/prompt-injection-guard/SKILL.md",
-   "desc": ">",
+   "desc": "Detect and defend against prompt injection / jailbreak attempts in untrusted input fed to LLMs. Use when the user asks for prompt-injection detection / jailbreak protection / jailbreak defense / prompt injection / anti-injection / input sanitization / malicious-prompt identification / prompt security review / multilingual injection / indirect injection. Do NOT use for red-team penetration (this is detection, not attack generation) or for fine-tuning / alignment research; it scans text input, flags suspicious patterns, and emits a verdict.",
    "license": "Apache-2.0",
    "compatibility": "Pure Python 3 stdlib, offline, zero deps, zero network. Read-only: only reads the target text and writes a verdict report; never mutates input. No credentials required.",
    "version": "1.0",
@@ -2907,7 +3113,7 @@
    "domain": "life",
    "path": "skills/life/rental-contract-guide",
    "file": "skills/life/rental-contract-guide/SKILL.md",
-   "desc": ">-",
+   "desc": "Consumer-protection guide for Chinese urban renters: avoid fake landlords, rent-loan traps, and deposit loss; understand contract terms and move-in/move-out inspection. Use when the user is renting an apartment, signing a lease, checking a rental contract, dealing with deposit disputes, or doing move-in / move-out inspection. Triggers: rental contract / lease review / deposit dispute / move-in inspection / lease agreement / sub-landlord. Do NOT use for: home purchase contracts (different legal framework), or as a substitute for legal advice.",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt skill, no scripts.",
    "version": "1.0",
@@ -2945,7 +3151,7 @@
    "domain": "office",
    "path": "skills/office/resume-tailor",
    "file": "skills/office/resume-tailor/SKILL.md",
-   "desc": ">-",
+   "desc": "Tailor a resume to one specific job description: extract JD requirements, build a gap matrix, rewrite bullets with metrics (STAR), and output an ATS-safe document plus an edit changelog. Use when the user asks to tailor a resume / customize CV for a job / rewrite resume for this JD / tailor my resume for this JD / optimize my CV / resume customization. Do NOT use for writing cover letters, LinkedIn profiles, or fabricating experience.",
    "license": "Apache-2.0",
    "compatibility": "No special environment needed; accepts plain text or pasted resume.",
    "version": "1.0",
@@ -2983,7 +3189,7 @@
    "domain": "programming",
    "path": "skills/programming/security/secrets-vault-manager",
    "file": "skills/programming/security/secrets-vault-manager/SKILL.md",
-   "desc": ">-",
+   "desc": "Use when the user asks to set up secret management infrastructure, integrate HashiCorp Vault, configure cloud secret stores (AWS Secrets Manager, Azure Key Vault, GCP Secret Manager), implement secret rotation, or audit secret access patterns. Triggers on \"set up Vault\", \"vault policies\", \"AppRole or OIDC auth\", \"rotate database credentials\", \"dynamic secrets\", \"vault audit log\", \"secret leak response\", \"External Secrets Operator\", using a vault to manage credentials, secret rotation, or auditing secret access. Do NOT use for storing or reading production secret values (workflow design only); local .env hygiene lives in env-secrets-manager.",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; may read project structure via Bash.",
    "version": "1.0",
@@ -3002,7 +3208,7 @@
    "domain": "writing",
    "path": "skills/writing/community/segmentfault-publisher",
    "file": "skills/writing/community/segmentfault-publisher/SKILL.md",
-   "desc": ">",
+   "desc": "Helps adapt and write platform-native articles and Q&A for SegmentFault (SegmentFault), the Chinese developer Q&A and technical blog community. Produces SegmentFault-style Markdown posts with strong code blocks, tags, and a technical Q&A / how-to voice. Use when the user asks for SegmentFault content, SegmentFault article, segmentfault article, segmentfault adaptation, platform-specific content for segmentfault, or publish to SegmentFault. Do NOT use for cookie-based posting automation or other platforms.",
    "license": "Apache-2.0",
    "compatibility": "",
    "version": "2.0",
@@ -3059,7 +3265,7 @@
    "domain": "programming",
    "path": "skills/programming/architecture/senior-architect",
    "file": "skills/programming/architecture/senior-architect/SKILL.md",
-   "desc": ">-",
+   "desc": "This skill should be used when the user asks to \"design system architecture\", do architecture review, tech selection, write an architecture decision record (ADR), do a system design review, split microservices, \"evaluate microservices vs monolith\", \"create architecture diagrams\", \"analyze dependencies\", \"choose a database\", \"plan for scalability\", \"make technical decisions\", or \"review system design\". Use for architecture decision records (ADRs), tech stack evaluation, system design reviews, dependency analysis, and generating architecture diagrams in Mermaid, PlantUML, or ASCII format. Also triggers on a system design review. Do NOT use for writing detailed implementation code (output stays at architecture level).",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; runs Python stdlib scripts via Bash. No API keys required.",
    "version": "1.0",
@@ -3097,7 +3303,7 @@
    "domain": "meta",
    "path": "skills/meta/session-handoff",
    "file": "skills/meta/session-handoff/SKILL.md",
-   "desc": ">-",
+   "desc": "Compress a long in-flight session into a cold-start handoff doc so a fresh agent (or a future-you, or a teammate) can pick up with zero context: goal, done, next, gotchas, key files, one-page cheat sheet. Use when the user asks for a handoff / session handoff / write the current state for the next person / cold-start pickup / context compression / knowledge transfer. Do NOT use for long-term memory across projects (use memory-architect) or for final deliverable reports (this is an internal relay, not a finished doc).",
    "license": "Apache-2.0",
    "compatibility": "Pure local Markdown generation; offline, no network, no credentials; default dry-run.",
    "version": "1.0",
@@ -3135,7 +3341,7 @@
    "domain": "video",
    "path": "skills/video/shot-designer",
    "file": "skills/video/shot-designer/SKILL.md",
-   "desc": ">",
+   "desc": "Design cinematic shots and write cross-model text-to-video prompts. Two modes: (A) assemble a shot list from 12 recipe cards (establishing-wide, hook-pop-in, insert-closeup, parallax-push, title-card, match-cut, reaction-cutaway, process-montage, reveal-pan, beat-sync-cut, final-frame-hold, cta-endcard), each with energy and duration; or (B) build a custom six-slot prompt (subject + action + camera + lighting + style + duration/aspect) and audit it with bundled prompt_audit.py. Includes a full camera-design reference: shot sizes ECU to ELS, angles, moves, composition. Use when the user asks to design shots / produce a shot list / write a video prompt / text-to-video prompt / prompt audit / camera-move design / transition design / make footage cinematic for a promo, short film, or product video. Do NOT use for generating the video itself, writing dialogue or narration (use video-script-writer), or static image prompts (image-generation owns those).",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based design; the bundled scripts/prompt_audit.py needs Python 3.8+ only.",
    "version": "1.0",
@@ -3173,7 +3379,7 @@
    "domain": "meta",
    "path": "skills/meta/skill-author",
    "file": "skills/meta/skill-author/SKILL.md",
-   "desc": ">-",
+   "desc": "Draft a new agent skill from scratch: clarify the need in one batch of five questions, name it as a searchable kebab-case action phrase, write a trigger-rich description, generate the ten-section SKILL.md skeleton, and design its scripts with argparse subcommands and a dry-run default. Use when the user asks to author a skill / create a new skill / scaffold a skill / write SKILL.md / build a skill / skill creation. Do NOT use for checking an existing skill against the spec (that is skill-linter) or for finding a skill in this repo (that is skill-finder).",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; optional python3 for the self-check step.",
    "version": "1.0",
@@ -3192,7 +3398,7 @@
    "domain": "meta",
    "path": "skills/meta/skill-finder",
    "file": "skills/meta/skill-finder/SKILL.md",
-   "desc": ">-",
+   "desc": "Search this repository's skills by keyword, work out which scene pack a set of skills belongs to (or suggest an ad-hoc combo with ordering), and print repo-wide statistics — all read from the real manifest.json and SKILL.md files, never a hardcoded list. Use when the user asks to find a skill / search skills / which skill does X / list repo stats / skill lookup / skill discovery. Do NOT use for lint compliance (that is skill-linter) or for writing a new skill (skill-author).",
    "license": "Apache-2.0",
    "compatibility": "Requires python3 (stdlib only); run from the repository root.",
    "version": "1.0",
@@ -3211,7 +3417,7 @@
    "domain": "meta",
    "path": "skills/meta/skill-linter",
    "file": "skills/meta/skill-linter/SKILL.md",
-   "desc": ">-",
+   "desc": "Check a single SKILL.md or a whole skills directory against the awesome-skillkit spec and print a PASS/WARN/FAIL report with an explicit fix line per problem: frontmatter blocks, name/directory sync, description routing, the ten-section skeleton, line count, CJK body ratio, reference existence, and failure-table depth. Use when the user asks to lint a skill / validate skill spec / check if my skill is compliant / skill validation / skill compliance check. Do NOT use for creating a new skill (that is skill-author) or for grading documentation quality beyond spec compliance.",
    "license": "Apache-2.0",
    "compatibility": "Requires python3 (stdlib only); run from the repository root.",
    "version": "1.0",
@@ -3249,7 +3455,7 @@
    "domain": "programming",
    "path": "skills/programming/incident/slo-architect",
    "file": "skills/programming/incident/slo-architect/SKILL.md",
-   "desc": ">-",
+   "desc": "Use when defining, reviewing, or operating SLOs/SLIs/error budgets, setting an SLO, designing SLIs and error budgets, or choosing availability targets. Triggers on \"define an SLO\", \"what should our SLO be\", \"error budget\", \"burn rate\", \"SLI\", \"service level objective\", \"Google SRE workbook\", \"multi-window burn-rate alert\", or any reliability-target question. Ships SLO designer, error-budget calculator with multi-window burn-rate thresholds, and SLO reviewer that catches the common bugs (target too aggressive, window too short, conflicting SLOs, no SLI definition). 4 references on SLO principles + SLI design + error budget math + composition with feature-flags-architect/chaos-engineering/kubernetes-operator. NOT a generic observability skill — specifically the SLO discipline. Do NOT use for provisioning monitoring infrastructure.",
    "license": "Apache-2.0",
    "compatibility": "Requires network access. No API keys required.",
    "version": "1.0",
@@ -3268,7 +3474,7 @@
    "domain": "education",
    "path": "skills/education/solution-drafter",
    "file": "skills/education/solution-drafter/SKILL.md",
-   "desc": ">-",
+   "desc": "Draft a homework solution per assignment type from an assignment-plan: math goes analyze→set up→step-by-step→verify with no skipped steps, essays go thesis→material allocation→paragraph outline→write, reports stay outline-first, English uses sentence frames then fills content; every step shows full working and the draft self-checks against every requirement in the plan. Middle stage of the homework-autopilot chain — the draft is deliberately AI-neat and must pass through own-voice-rewrite. Use when the user asks to draft a solution / answer by type / write first draft / solve homework / draft solution. Do NOT use without an assignment-plan from assignment-intake, nor during live exams.",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; no runtime dependencies.",
    "version": "1.0",
@@ -3345,7 +3551,7 @@
    "domain": "writing",
    "path": "skills/writing/blog/static-blog-deploy",
    "file": "skills/writing/blog/static-blog-deploy/SKILL.md",
-   "desc": ">",
+   "desc": "Helps adapt and write platform-native Markdown content for static site generators (Hugo, Jekyll, Hexo). Produces posts with correct front matter, Markdown flavor, shortcodes, image shortcodes, draft status, and permalinks for self-hosted static blogs. Use when the user asks for Hugo content, Jekyll post, Hexo article, static blog post, static-blog adaptation, platform-specific content for static blog, or write a post for my Hugo/Jekyll/Hexo blog. Do NOT use for build/deploy automation, hosting CLI scripts, or other platforms.",
    "license": "Apache-2.0",
    "compatibility": "",
    "version": "2.0",
@@ -3383,7 +3589,7 @@
    "domain": "communication",
    "path": "skills/communication/tactful-communication",
    "file": "skills/communication/tactful-communication/SKILL.md",
-   "desc": ">-",
+   "desc": "Scenario-based communication coaching for Chinese high-context social and workplace settings, where generic AI output lands as blunt, stiff, or hollow. It supplies culturally specific scripts and a literal-to-intent lookup so the reply preserves face and carries real meaning. Use when the user needs tactful communication / Chinese etiquette / high-EQ phrases / decline gracefully / workplace reporting / subtext decoding / social scripts, or wants to rewrite a blunt or uncanny AI reply into something culturally appropriate. Do NOT use for formal document drafting (internal-comms-writer owns that), salary-negotiation strategy (route to a career coach), or any crisis involving grief, domestic violence, or self-harm (route to professionals immediately).",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt skill; no scripts or runtime deps. The references",
    "version": "1.0",
@@ -3402,7 +3608,7 @@
    "domain": "tools",
    "path": "skills/tools/task-scheduler",
    "file": "skills/tools/task-scheduler/SKILL.md",
-   "desc": ">-",
+   "desc": "Translate cron expressions into plain language, preview next fire times, generate safe crontab lines, and map the same schedule onto Linux cron, macOS launchd, and Windows Task Scheduler. Use when the user asks to schedule a recurring job / crontab syntax / run this every day / cron expression / daily scheduled task / automation scheduling. Do NOT use for one-off delayed commands (use `at` or `sleep`), long-running daemons, or in-process job queues like Celery.",
    "license": "Apache-2.0",
    "compatibility": "Python 3.8+ stdlib for description and crontab parsing. croniter is optional and only improves next-fire-time precision (pip install croniter). The helper never writes to crontab itself; it prints the line for the user to install.",
    "version": "1.0",
@@ -3421,7 +3627,7 @@
    "domain": "programming",
    "path": "skills/programming/code-quality/tdd-guide",
    "file": "skills/programming/code-quality/tdd-guide/SKILL.md",
-   "desc": ">-",
+   "desc": "Test-driven development skill for writing unit tests, generating test fixtures and mocks, analyzing coverage gaps, and guiding red-green-refactor workflows across Jest, Pytest, JUnit, Vitest, and Mocha. Use when the user asks to write tests, improve test coverage, practice TDD, write tests before implementation, raise test coverage, generate mocks or stubs, run the red-green-refactor cycle, or mentions testing frameworks like Jest, pytest, or JUnit. Do NOT use for skipping the red-green-refactor cycle.",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; the bundled scripts require Python 3.10+. May read project structure via Bash.",
    "version": "1.0",
@@ -3497,7 +3703,7 @@
    "domain": "writing",
    "path": "skills/writing/news/toutiao-publisher",
    "file": "skills/writing/news/toutiao-publisher/SKILL.md",
-   "desc": ">",
+   "desc": "Helps adapt and write platform-native articles for Toutiao (Toutiao), the Chinese algorithmic news and content feed. Produces Toutiao-style headlines, body copy, images, and tags optimized for the recommendation engine. Use when the user asks for Toutiao content, Toutiao article, toutiao article, toutiao adaptation, platform-specific content for toutiao, or publish to Toutiao. Do NOT use for cookie-based posting automation or other platforms.",
    "license": "Apache-2.0",
    "compatibility": "",
    "version": "2.0",
@@ -3555,7 +3761,7 @@
    "domain": "design",
    "path": "skills/design/ui-ux-accessibility",
    "file": "skills/design/ui-ux-accessibility/SKILL.md",
-   "desc": ">-",
+   "desc": "Audit UI designs and code against hard usability, accessibility, and interaction rules. Runs a five-pass workflow: scope, Nielsen heuristic review, WCAG 2.2 numeric audit (contrast ratios, target sizes, focus indicators, reflow, text spacing), ARIA/keyboard widget check, and a scored remediation report. Use when the user asks for UI review, accessibility audit, WCAG compliance, usability heuristic, ARIA fix, contrast check, target-size check, or pattern selection. Do NOT use for visual design generation (frontend-design-director owns that), component implementation (frontend-component-lab owns that), or backend tasks.",
    "license": "Apache-2.0",
    "compatibility": "Pure prompt-based; no runtime deps.",
    "version": "1.0",
@@ -3574,7 +3780,7 @@
    "domain": "writing",
    "path": "skills/writing/community/v2ex-publisher",
    "file": "skills/writing/community/v2ex-publisher/SKILL.md",
-   "desc": ">",
+   "desc": "Helps adapt and write platform-native posts for V2EX, the Chinese hacker / developer community forum organized by nodes. Produces V2EX-style discussion threads with a concise title, plain-text body, node targeting, and no inline images. Use when the user asks for V2EX content, v2ex post, v2ex thread, v2ex adaptation, platform-specific content for v2ex, or publish to V2EX. Do NOT use for cookie-based posting automation or other platforms.",
    "license": "Apache-2.0",
    "compatibility": "",
    "version": "2.0",
@@ -3612,7 +3818,7 @@
    "domain": "video",
    "path": "skills/video/video-generation",
    "file": "skills/video/video-generation/SKILL.md",
-   "desc": ">",
+   "desc": "Generate short videos from text prompts or reference images through a local generation gateway (text-to-video and image-to-video with polling and download). Use when the user asks to generate a video / make a short video / text-to-video / image-to-video / make a video from this text / animate this image / generate a promo video, or wants AI-generated footage. Do NOT use for video editing, subtitle burning, screen recording, or downloading existing videos from the web.",
    "license": "Apache-2.0",
    "compatibility": "Requires curl and network access to the generation gateway endpoint.",
    "version": "1.1",
@@ -3746,7 +3952,7 @@
    "domain": "programming",
    "path": "skills/programming/web-data-extractor",
    "file": "skills/programming/web-data-extractor/SKILL.md",
-   "desc": ">-",
+   "desc": "Extract structured data from websites with a polite, dry-run-first requests + BeautifulSoup scraper: CSS-selector field mapping, automatic pagination, CSV/JSON output, and built-in rate limiting. Use when the user asks to web scraping / data extraction / crawl a website / extract a table / scrape a listing / paginate results / pull prices off a page. Do NOT use for JavaScript-heavy SPAs (needs a real browser), bypassing login walls, CAPTCHA solving, or large-scale distributed crawling.",
    "license": "Apache-2.0",
    "compatibility": "Python 3.8+; requires requests and beautifulsoup4 (pip install requests beautifulsoup4). CSV/JSON output uses stdlib. Needs network access to the target site; respects a configurable delay between pages.",
    "version": "1.0",
@@ -3784,7 +3990,7 @@
    "domain": "programming",
    "path": "skills/programming/testing/webapp-e2e-harness",
    "file": "skills/programming/testing/webapp-e2e-harness/SKILL.md",
-   "desc": ">-",
+   "desc": "Scaffold a runnable Playwright end-to-end test suite for a local web app, with the discipline that keeps tests from rotting: semantic-first selectors, login-state reuse via storage_state, and anti-scrape/anti-429 etiquette. Use when the user asks for e2e testing, end-to-end testing, Playwright tests, webapp automation, how to fix selector drift, or login-state reuse. Do NOT use for unit tests (use tdd-guide) or for pure API testing (use api-test-suite-builder).",
    "license": "Apache-2.0",
    "compatibility": "Produces a Python test scaffold; running tests requires the user's `pip install pytest playwright` + `playwright install chromium` (the script itself is offline and does not download binaries).",
    "version": "1.0",
@@ -3822,7 +4028,7 @@
    "domain": "writing",
    "path": "skills/writing/wechat/wechat-mp-publisher",
    "file": "skills/writing/wechat/wechat-mp-publisher/SKILL.md",
-   "desc": ">",
+   "desc": "Helps adapt and write platform-native articles for WeChat Official Accounts (WeChat Official Account). Produces WeChat-MP-style rich-text articles with the right title length, cover image ratio, inline images, no external links, and a mobile-first reading flow. Use when the user asks for WeChat MP content, official account article, official account article, wechat adaptation, platform-specific content for wechat, or publish to WeChat Official Account. Do NOT use for WeChat API automation, draft scripts, or posting to other platforms.",
    "license": "Apache-2.0",
    "compatibility": "",
    "version": "2.0",
@@ -3841,7 +4047,7 @@
    "domain": "meta",
    "path": "skills/meta/weekly-report-generator",
    "file": "skills/meta/weekly-report-generator/SKILL.md",
-   "desc": ">-",
+   "desc": "Auto-draft a weekly report from `git log` + `git diff --stat` over a look-back window, structured into the three paragraphs every company expects (done / blockers / next week), then let the human fill in the qualitative bits. Use when the user asks for a weekly report / daily report / weekly report template / auto-write weekly report / status update / sprint summary. Do NOT use for monthly business reviews (different scope) or for performance/HR narratives (this is a work-log, not a performance doc).",
    "license": "Apache-2.0",
    "compatibility": "Pure local git operations; no network, no remote; default dry-run; needs python3 + git.",
    "version": "1.0",
@@ -3860,7 +4066,7 @@
    "domain": "writing",
    "path": "skills/writing/social/weibo-publisher",
    "file": "skills/writing/social/weibo-publisher/SKILL.md",
-   "desc": ">",
+   "desc": "Helps adapt and write platform-native short posts for Weibo (Weibo), the Chinese microblog and public-square platform. Produces Weibo-style posts with punchy copy, hashtags, @mentions, image plans, and thread-style long-post formatting. Use when the user asks for Weibo content, Weibo copy, weibo post, weibo adaptation, platform-specific content for weibo, or publish to Weibo. Do NOT use for cookie-based posting automation or other platforms.",
    "license": "Apache-2.0",
    "compatibility": "",
    "version": "2.0",
@@ -3879,7 +4085,7 @@
    "domain": "writing",
    "path": "skills/writing/social/xiaohongshu-publisher",
    "file": "skills/writing/social/xiaohongshu-publisher/SKILL.md",
-   "desc": ">",
+   "desc": "Helps adapt and write platform-native notes for Xiaohongshu (Xiaohongshu / RedNote), the image-first Chinese lifestyle and product-discovery community. Produces Xiaohongshu-style notes with a short punchy title, emoji-rich body under the 1000-character limit, hashtags, and image/carousel guidance. Use when the user asks for Xiaohongshu content, Xiaohongshu note, RedNote note, xiaohongshu adaptation, platform-specific content for xiaohongshu, or publish to Xiaohongshu. Do NOT use for cookie-based posting automation, image editing, or other platforms.",
    "license": "Apache-2.0",
    "compatibility": "",
    "version": "2.0",
@@ -3898,7 +4104,7 @@
    "domain": "writing",
    "path": "skills/writing/zhihu/zhihu-content-manager",
    "file": "skills/writing/zhihu/zhihu-content-manager/SKILL.md",
-   "desc": ">",
+   "desc": "Helps adapt and write platform-native long-form articles and answers for Zhihu (Zhihu). Produces Zhihu-style columns (zhuanlan), detailed answers, topic tags, cover images, and the HTML/Markdown structure the Zhihu editor accepts. Use when the user asks for Zhihu content, a Zhihu article, a Zhihu answer, zhihu column post, zhihu adaptation, platform-specific content for zhihu, publish to Zhihu, or SEO content for the Zhihu knowledge community. Do NOT use for automation, cookies, browser scripts, or posting to other platforms.",
    "license": "Apache-2.0",
    "compatibility": "",
    "version": "2.0",
@@ -3921,6 +4127,7 @@
    "desc": "Build production-grade AI agents, design multi-agent workflows, MCP servers, feature flags, and self-evaluation.",
    "desc_zh": "构建生产级 AI Agent、设计多 Agent 工作流、MCP 服务、功能开关与自评。",
    "size_kb": 164,
+   "sha256": "5a48d00b2acd8b429e17a72df68588e952181b5ac73a8b279ecb7af4f79c5623",
    "n_skills": 5,
    "skills": [
     "agent-designer",
@@ -3942,6 +4149,7 @@
    "desc": "Generate videos, images, covers, and music from prompts through a local generation gateway.",
    "desc_zh": "通过本地生成网关用提示词生成视频、图片、封面与配乐：文生/图生全流程（提交、轮询、下载交付）。",
    "size_kb": 23,
+   "sha256": "0d127b3ef8395b281467bcbb98a590589712a4b68513ba7652360b1bf7077e56",
    "n_skills": 3,
    "skills": [
     "video-generation",
@@ -3961,6 +4169,7 @@
    "desc": "Research a topic and turn it into a structured article: multi-round search, outline, draft, edit, SEO.",
    "desc_zh": "从选题调研到成稿发布的长文生产链路：多轮检索与报告综合、大纲搭建、初稿撰写、风格润色、关键词与平台规则优化，以及学术选题的研究空白识别与投稿匹配。",
    "size_kb": 195,
+   "sha256": "a556973a81492973a13610c797da5102f713f227932893d70358215ec99ce820",
    "n_skills": 18,
    "skills": [
     "deep-research",
@@ -3995,6 +4204,7 @@
    "desc": "End-to-end short-video production: script, voice, lip-sync, assembly, subtitles, thumbnail.",
    "desc_zh": "从脚本到成片的一条龙短视频生产线：脚本撰写、配音合成、口型对齐、剪辑合成、字幕、封面图。六个技能按序衔接，输出可直接发布的竖屏视频。",
    "size_kb": 110,
+   "sha256": "6f4720044ec3833e290d18570eb399fe1ba4df47c0e0a91756332a6fb56c9128",
    "n_skills": 9,
    "skills": [
     "video-script-writer",
@@ -4020,6 +4230,7 @@
    "desc": "Review REST API designs and generate integration/contract test suites.",
    "desc_zh": "审查 REST API 设计并生成集成/契约测试套件。",
    "size_kb": 49,
+   "sha256": "a5bd6c77a4dc83bb2935c2c426c81b5e65dc72d46bf8b80260d95547632f4198",
    "n_skills": 2,
    "skills": [
     "api-design-reviewer",
@@ -4038,6 +4249,7 @@
    "desc": "Design system architecture, plan zero-downtime migrations, and navigate monorepos.",
    "desc_zh": "设计系统架构、规划零停机迁移、驾驭 monorepo。",
    "size_kb": 112,
+   "sha256": "8656688841f0efcca5b60ad684eebefbbb23bffe740bb1d3a67e6939d5aefbc8",
    "n_skills": 3,
    "skills": [
     "senior-architect",
@@ -4057,6 +4269,7 @@
    "desc": "AI audio production chain: turn a topic or document into a segmented podcast script (spoken words only - TTS reads everything), direct voice synthesis with a voice catalog and per-character casting, and publish with shownotes, timestamped chapters, and platform metadata. Topic in, publishable episode out, no step left dangling.",
    "desc_zh": "AI 音频生产链条：把选题或文档变成分段播客脚本（纯口播词——TTS 会把一切都读出来），按声音目录做角色选声与合成参数执导，并以 shownotes、时间戳章节、平台元数据收尾发布。选题进、可发布节目出，链条不断头。方法论借鉴 Kokoro/Qwen3-TTS 生态与 Podify/inference.sh 实践并已署名。",
    "size_kb": 25,
+   "sha256": "2fd86f742697fa7cac18618de88f693bca03614b4ef90e9a07f40a677925adb8",
    "n_skills": 4,
    "skills": [
     "podcast-producer",
@@ -4077,6 +4290,7 @@
    "desc": "Prompt engineering for conversational AI assistants (Doubao, ChatGPT, Kimi, DeepSeek, etc.): one-shot task prompts built on the five-element formula (role + background + task + requirements + format), agent/persona system prompts on the five-section skeleton, reverse constraints that kill filler, and heuristic structural audit.",
    "desc_zh": "面向对话式 AI 助手（豆包、ChatGPT、Kimi、DeepSeek 等）的提示词工程：五要素公式（角色 + 背景 + 任务 + 要求 + 格式）写一次性任务提示词，五段骨架写智能体人设 system prompt，反向约束砍废话，附启发式结构审计脚本。方法论提炼自豆包官方教程与 Coze 最佳实践并已署名。",
    "size_kb": 10,
+   "sha256": "37bf675887ee16e5407c9cde8e568987bfc8f3f90a67312acfa492f7c7ee01e5",
    "n_skills": 1,
    "skills": [
     "chat-prompt-engineer"
@@ -4094,6 +4308,7 @@
    "desc": "Generate pragmatic CI/CD pipelines, release gates, and spec-driven development workflows.",
    "desc_zh": "生成务实的 CI/CD 流水线、发布门禁与规范驱动开发流程。",
    "size_kb": 66,
+   "sha256": "5dca91dd1701b601616c366d8733c601c94a8f3aa60a7ac25940860575aa43b6",
    "n_skills": 3,
    "skills": [
     "ci-cd-pipeline-builder",
@@ -4113,6 +4328,7 @@
    "desc": "Turn vague requests into structured plans, then into working code; diagnose and fix failures.",
    "desc_zh": "把模糊需求变成可执行代码：三层瀑布式意图识别、结构化实施计划、两档代码生成（模板引擎 + LLM）、运行时故障诊断与调试清单。",
    "size_kb": 66,
+   "sha256": "f3be37630628ae4abbd1fc6c11cf2a7e65dec9d4ac917fe32f8ca0215416f0bc",
    "n_skills": 3,
    "skills": [
     "code-intent-planner",
@@ -4132,6 +4348,7 @@
    "desc": "Review pull requests, analyze code quality, audit dependencies and tech debt across languages.",
    "desc_zh": "审查 PR、分析代码质量、审计依赖与技术债，覆盖多语言。",
    "size_kb": 249,
+   "sha256": "3050bcdf417642d904633ac31234511b1544021f62bace3e21e383db283aee6f",
    "n_skills": 4,
    "skills": [
     "code-reviewer",
@@ -4152,6 +4369,7 @@
    "desc": "Tactful Chinese social and workplace communication scripts, etiquette, and subtext decoding.",
    "desc_zh": "得体的中文社交与职场沟通话术、礼仪与潜台词解读。",
    "size_kb": 35,
+   "sha256": "85f40bc6c847fbfdd500f9ada38d21c8a14abfa13dc28595aee9b95af5dda29b",
    "n_skills": 2,
    "skills": [
     "tactful-communication",
@@ -4170,6 +4388,7 @@
    "desc": "Dockerfile optimization, docker-compose, Helm charts, and Kubernetes operators.",
    "desc_zh": "Dockerfile 优化、docker-compose、Helm Chart 与 Kubernetes Operator。",
    "size_kb": 74,
+   "sha256": "9ebd482b379d360c1ef0ec03fe8b3af9e923f7b19f50432029377c3fc003d627",
    "n_skills": 3,
    "skills": [
     "docker-development",
@@ -4189,6 +4408,7 @@
    "desc": "Publish, edit and manage articles/videos on Chinese platforms (Zhihu, cnblogs, WeChat MP, Juejin, CSDN, Jianshu, Bilibili, Toutiao, Baijiahao, Xiaohongshu, Weibo, Douban, V2EX, SegmentFault, OSChina, Douban, Static Blogs) with battle-tested platform knowledge, plus a cross-post orchestrator and AI cover-image generation.",
    "desc_zh": "在知乎、博客园、微信公众号、掘金、CSDN、简书、B站、头条、百家号、小红书、微博、豆瓣、V2EX、SegmentFault、开源中国、静态博客等中文平台发布、编辑、管理内容，沉淀实战平台经验；附跨平台发布编排器与 AI 封面图生成。",
    "size_kb": 50,
+   "sha256": "70b217cd1457ee622d06eb006a142eb958aeaa229b55ef38800902fc056300fa",
    "n_skills": 18,
    "skills": [
     "zhihu-content-manager",
@@ -4223,6 +4443,7 @@
    "desc": "Data pipelines, feature engineering, mathematical modeling, simulation, and ML training workflows.",
    "desc_zh": "数据与建模的完整工具箱：ETL 清洗变换、特征工程、数学建模与求解器选型、蒙特卡洛仿真、结果可视化、ML 训练流水线与超参调优、指标体系解读。",
    "size_kb": 75,
+   "sha256": "84940f2a5c9173fb601bc971bfc816e64211cce68949e127c6af56d6630d98e5",
    "n_skills": 7,
    "skills": [
     "etl-builder",
@@ -4246,6 +4467,7 @@
    "desc": "Design schemas, ERD diagrams, migrations, and optimize SQL queries.",
    "desc_zh": "设计表结构、ERD 图、迁移方案，并优化 SQL 查询。",
    "size_kb": 108,
+   "sha256": "2736326aee77d92bc36c37c3f0e1f7d6288d0c8f475870b2a8b0ca125ec5eebe",
    "n_skills": 2,
    "skills": [
     "database-designer",
@@ -4264,6 +4486,7 @@
    "desc": "From raw CSV to a shippable dashboard: profile columns, recommend a layout, and emit a self-contained single-file HTML dashboard with zero external requests. Plus a chart-selection lexicon covering encoding priority, per-chart-type caveats, and the classic mistakes.",
    "desc_zh": "从原始 CSV 到能交付的仪表盘：列类型推断与分布摘要、布局推荐、生成零外部依赖的自包含单文件 HTML。另附图表选择词库（视觉编码优先级、各图型适用与反例、截断坐标轴等经典错误清单）。",
    "size_kb": 33,
+   "sha256": "137092d14b568b3f09fc26f99b0779e5230d8fbacc7b41bb1d0841c02ef734cb",
    "n_skills": 2,
    "skills": [
     "dashboard-designer",
@@ -4282,6 +4505,7 @@
    "desc": "Rewrite AI-generated text into natural human writing: trace auditing, humanized rewriting, personal voice profiling.",
    "desc_zh": "把 AI 生成文本改写成自然的人味文字：AI 痕迹审计、人性化重写、个人风格画像对齐。让 AI 代笔的内容读起来像你自己写的。",
    "size_kb": 28,
+   "sha256": "848de09b83a55eb90602a69d8e6169b91f0f296fa1317a135f9b1956809611ac",
    "n_skills": 3,
    "skills": [
     "ai-trace-auditor",
@@ -4301,6 +4525,7 @@
    "desc": "Teaching and knowledge-product chain: learning-contract-driven course design with checkpoint breakdown, strict exercise generation (open-ended questions, MCQ banned, rubric included), and a Feynman loop explainer (diagnose, repair, teach-back, transfer). Topic in, mastery-ready course kit out.",
    "desc_zh": "教学与知识产品链条：学习契约驱动的课程设计（checkpoint 分解）、严格习题生成（开放题防蒙、附评分标准）、费曼循环讲解器（诊断→修复→回讲→迁移）。主题进、可交付掌握式课程包出。方法论借鉴费曼学习法生态与掌握式学习实践并已署名。",
    "size_kb": 11,
+   "sha256": "c0a87db630a0236b8c9cbbcfd73f75e75da928f050f98888cdd3a418cdb92aff",
    "n_skills": 3,
    "skills": [
     "course-designer",
@@ -4320,6 +4545,7 @@
    "desc": "Parallel worktrees, conventional-commit changelogs, and PR review on GitHub.",
    "desc_zh": "并行 worktree、Conventional Commits 变更日志与 GitHub PR 审查。",
    "size_kb": 102,
+   "sha256": "72b8e7650be14cb0c13424a417aa90b492335989471062a23b703a3f460b4c02",
    "n_skills": 3,
    "skills": [
     "git-worktree-manager",
@@ -4339,6 +4565,7 @@
    "desc": "E-commerce and growth marketing chain: framework-driven product copy (FAB/PAS/AIDA with objection handling), campaign design with single-variable A/B variant pairs, and channel adaptation with machine-checked fit rules (word budgets, CTA counts per platform). Product facts in, launch-ready channel variants out.",
    "desc_zh": "电商与增长营销链条：框架驱动的商品文案（FAB/PAS/AIDA + 异议处理）、单变量 A/B 变体对的活动策划、附机器适配校验（各平台字数预算与 CTA 约束）的渠道适配。商品事实进、可投放渠道变体出。方法论借鉴 AIDA/PAS/FAB 直复营销框架与开源营销技能生态并已署名。",
    "size_kb": 16,
+   "sha256": "85ace46196dd251d62e11840ef86f69459be857503f994e97701946d19eef0c1",
    "n_skills": 3,
    "skills": [
     "product-copywriter",
@@ -4358,6 +4585,7 @@
    "desc": "One-shot homework completion pipeline with a human voice: assignment intake, per-type solution drafting, rewrite in the student's own words.",
    "desc_zh": "一键完成老师布置的任务，但保住人味：审题拆解、分题型作答、再用学生自己的口吻重写。真实素材注入、年级语言水平校准，拒绝冷血模板文。",
    "size_kb": 24,
+   "sha256": "fd9e3eb6ba3ecc4f0ad336fb0666e6916c9fde6532eb1a660a729a828efae9a5",
    "n_skills": 3,
    "skills": [
     "assignment-intake",
@@ -4377,6 +4605,7 @@
    "desc": "End-to-end image creation workspace: prompt engineering, style anchoring, generation via gateway, cover art.",
    "desc_zh": "端到端画图工作台：生图提示词工程、风格锚定、网关生图执行、封面图生成。把散落的生图技能组装成一条龙。",
    "size_kb": 48,
+   "sha256": "68c4459366628b9b4a9424beb26d41f7d2a14fdb29a9586e296a28ce2b49386f",
    "n_skills": 4,
    "skills": [
     "image-prompt-engineer",
@@ -4397,6 +4626,7 @@
    "desc": "Command incidents, generate runbooks, and define SLOs/error budgets.",
    "desc_zh": "事故指挥、生成 runbook、定义 SLO 与错误预算。",
    "size_kb": 127,
+   "sha256": "51b4a83e1665f9d16557537051395d04307940d63fbb8d849d07c2440700d646",
    "n_skills": 3,
    "skills": [
     "incident-commander",
@@ -4416,6 +4646,7 @@
    "desc": "Terraform patterns, observability design, and Kubernetes operators.",
    "desc_zh": "Terraform 模式、可观测性设计与 Kubernetes Operator。",
    "size_kb": 100,
+   "sha256": "12b6bf7f74d5504c187f6b81d9d0e39387cf5ced71f250f9c7f1ab0094809506",
    "n_skills": 3,
    "skills": [
     "terraform-patterns",
@@ -4435,6 +4666,7 @@
    "desc": "Turn scattered notes into a searchable base and a queryable graph: build a sharded-index wiki with orphan/broken-link linting, and extract entities plus relations from Markdown into Mermaid or Graphviz output.",
    "desc_zh": "把零散笔记变成可检索的知识库与可查询的图谱：分片索引 wiki（含孤儿笔记、断链、空笔记体检）与实体关系抽取（可导出 Mermaid / Graphviz，附度中心性与连通分量分析）。",
    "size_kb": 29,
+   "sha256": "ec6d614d72b389bd1a3d16bb6b6b8b532e6d4d4dc20e138dcae97a934c982afd",
    "n_skills": 2,
    "skills": [
     "personal-wiki",
@@ -4453,6 +4685,7 @@
    "desc": "Consumer protection and life-navigation skills: renovation pitfalls, medical visit coaching, car purchase and maintenance, rental contract review.",
    "desc_zh": "消费者保护与生活导航技能：装修避坑、就医指导、购车保养、租房合同审查。",
    "size_kb": 49,
+   "sha256": "6109ab0b4be6688f86e86c7252329638be8e27dd8d6635609828bf6061f56a26",
    "n_skills": 4,
    "skills": [
     "home-renovation-avoidance",
@@ -4473,6 +4706,7 @@
    "desc": "Design, populate, manage and retrieve long-term memory for AI agents: layered architecture, extraction, lifecycle and hybrid retrieval.",
    "desc_zh": "为 AI agent 设计、填充、管理与检索长期记忆：分层架构、记忆抽取、生命周期管理与混合检索。方法论蒸馏自 mem0 / letta (MemGPT) / Claude memory tool。",
    "size_kb": 25,
+   "sha256": "b208135a183d517590ccc4dce926ba40f8af6f65a5ced15aa3c44416224260af",
    "n_skills": 4,
    "skills": [
     "memory-architect",
@@ -4493,6 +4727,7 @@
    "desc": "Daily office work: decks, spreadsheets, resumes, meeting minutes.",
    "desc_zh": "日常办公四件套：PPT 制作、Excel 清洗分析、简历岗位定制、会议纪要结构化。",
    "size_kb": 125,
+   "sha256": "fdbef42a95f7b8e2d7057d7b5431d4581707f55839901b7ac4ced19327b07cd0",
    "n_skills": 10,
    "skills": [
     "ppt-builder",
@@ -4519,6 +4754,7 @@
    "desc": "Profile CPU/memory/I/O bottlenecks in Node.js, Python, and Go.",
    "desc_zh": "剖析 Node.js、Python、Go 的 CPU/内存/IO 瓶颈。",
    "size_kb": 13,
+   "sha256": "170680e61862487a4331a46d6ba80f1aed7c2dc703675dd901f9d1c47c68d239",
    "n_skills": 1,
    "skills": [
     "performance-profiler"
@@ -4536,6 +4772,7 @@
    "desc": "Set up secret vaults and manage environment-variable hygiene, plus two self-scanners: a PII redactor (dry-run first) and a prompt-injection auditor.",
    "desc_zh": "搭建密钥库并管理环境变量卫生，附两个自扫描器：PII 脱敏（默认 dry-run）与提示词注入审计。",
    "size_kb": 67,
+   "sha256": "acf02fd15541b430a72abe88f23a6b3a1f9475a5d9a852752c037370a15a457c",
    "n_skills": 4,
    "skills": [
     "secrets-vault-manager",
@@ -4555,7 +4792,8 @@
    "name_zh": "技能锻造厂",
    "desc": "Meta skills about skills themselves: author a new SKILL.md from a one-batch clarification, lint an existing one against the repo spec with an exit code CI can gate on, and search/pack/stats this repo from real data. Idea in, compliant shipped skill out.",
    "desc_zh": "关于技能本身的元技能三件套：一次性问齐需求后生成合规 SKILL.md（skill-author）、八项静态检查并返回可做 CI 门禁的退出码（skill-linter）、基于真实数据检索技能与装配组合（skill-finder）。想法进、可提交的技能出。",
-   "size_kb": 48,
+   "size_kb": 50,
+   "sha256": "2a1c9dd31e2652a8fbc52e850b5dc7eeb1e3cb61d1888f2098e28acd26bbb4e4",
    "n_skills": 5,
    "skills": [
     "skill-author",
@@ -4577,6 +4815,7 @@
    "desc": "Write unit tests, fixtures, mocks, and guide red-green-refactor cycles.",
    "desc_zh": "编写单元测试、fixture、mock，并引导红绿重构循环。",
    "size_kb": 79,
+   "sha256": "4fee167f8dc80d28d1f99eda28077ea238ee6b6ad58650466952980322c2700b",
    "n_skills": 4,
    "skills": [
     "tdd-guide",
@@ -4597,6 +4836,7 @@
    "desc": "Local file and automation chores done safely: reorganize a messy directory with a dry-run planner, batch-rename files with one-command rollback, convert documents/images/media, schedule recurring jobs across cron/launchd/Task Scheduler, organize invoices/receipts into a month/category tree, and reconcile a bank statement against your expense ledger.",
    "desc_zh": "本地文件与自动化的六件顺手工具：目录体检与整理（含快速判重）、批量重命名（EXIF 日期 + 日志回滚）、文档/图片/音视频格式转换统一入口、定时任务（cron 表达式翻译 + 三平台落地）、发票/报销按月份类别归档 + 台账、银行流水 vs 记账账单逐笔对账。全部默认 dry-run、只读优先、不删文件。",
    "size_kb": 62,
+   "sha256": "3c4e42031d124913fa529408249d21895e68e938c4592376c7d3031b1cdb307b",
    "n_skills": 6,
    "skills": [
     "file-organizer",
@@ -4619,6 +4859,7 @@
    "desc": "Pre-production design layer for AI video: storyboards with continuity contracts, cinematic shot lists from recipe cards, cross-model text-to-video prompt engineering with structural audit, and reusable visual style anchors with character consistency cards.",
    "desc_zh": "AI 视频的前期设计层：分镜设计（节拍表 + 逐场景 prompt 对 + 连续性约束表，附机器校验）、12 卡镜头清单设计、跨模型文生视频提示词工程（六槽位结构 + 机器审计）、视觉风格锚与角色一致性卡。方法论借鉴 video-storyboard / video-shotcraft / visual-skills 等开源项目并已署名。",
    "size_kb": 49,
+   "sha256": "2383db64027bc33cca5b70d75d261526b0be69a5421bf28f82c87edb3dcd43ef",
    "n_skills": 5,
    "skills": [
     "storyboard-designer",
@@ -4640,6 +4881,7 @@
    "desc": "Special entertainment scenarios: talking-character viral shorts.",
    "desc_zh": "特别娱乐场景：AI 宝宝播客等会说话角色的病毒式短视频完整流水线（含合规标识与角色一致性纪律）。",
    "size_kb": 10,
+   "sha256": "967158ecad3d9dad9771ecaf5005260417e0a6a6320989195907e120d5941493",
    "n_skills": 2,
    "skills": [
     "ai-baby-podcast",
@@ -4658,6 +4900,7 @@
    "desc": "AI visual design chain: interpret a vague brief into a design spec (purpose, platform size, style anchor), engineer text-to-image prompts with model dialects and text-rendering rules, and audit output against platform layout specs (safe areas, ratios, text budgets). One brief flows through spec -> prompt -> audit without leaving the chain.",
    "desc_zh": "AI 视觉设计链条：把模糊需求翻译成设计规格单（用途/平台尺寸/风格锚），按模型方言与文字渲染规则写文生图 prompt，并按平台版面规格（比例/安全区/文字预算）审计产出。一条需求从规格到 prompt 到审计全程不出链。方法论借鉴 Anthropic canvas-design / designskills / Replicate prompting 指南并已署名。",
    "size_kb": 88,
+   "sha256": "a730ec41632302bf23be26f743dae25369bcd5412eee84b217d53e8a994f25de",
    "n_skills": 7,
    "skills": [
     "design-brief-interpreter",
@@ -4681,6 +4924,7 @@
    "desc": "Polite, dry-run-first extraction of structured data from static websites: CSS-selector field mapping, pagination, rate limiting, and CSV/JSON output.",
    "desc_zh": "礼貌、先预览的静态网页结构化数据提取：CSS 选择器字段映射、自动翻页、速率限制、CSV/JSON 输出。",
    "size_kb": 8,
+   "sha256": "7dee58c9729a8298f5c4eb4461fbaa12526363a6f241d276e1cb900738921e01",
    "n_skills": 1,
    "skills": [
     "web-data-extractor"
@@ -4698,6 +4942,7 @@
    "desc": "Connect an AI session to the tools a team already lives in: Notion pages and databases, Feishu / DingTalk / WeCom group robots, Jira / Linear / GitHub Issues, and Baidu / Aliyun / OneDrive cloud drives. Every write path is dry-run by default, credentials live only in environment variables, and the bundled scripts build and parse payloads offline so they can be tested without a network.",
    "desc_zh": "把 AI 会话接到团队真正在用的工具上：Notion 页面与数据库、飞书/钉钉/企业微信群机器人、Jira/Linear/GitHub Issues 协同与周报、百度网盘/阿里云盘/OneDrive 归档校验。四条链路共享同一套操作契约——写操作默认 dry-run 先出负载、凭证只走环境变量、脚本离线构造与解析（不发网络请求），未接凭证即可完整演练。",
    "size_kb": 58,
+   "sha256": "50ec7f82977e5ee6d2d5f8faf4fd3cfb67bcfbc947e518d57029fb9632793177",
    "n_skills": 4,
    "skills": [
     "notion-workspace",
