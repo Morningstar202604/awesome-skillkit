@@ -232,11 +232,11 @@ Below is the complete catalog, grouped by the **8 scene libraries** (the same tw
 3. **Drag** the skill folders into your AI tool's skills directory:
    - Claude Code: `~/.claude/skills/` (global) or `.claude/skills/` (per-project)
    - Other tools with skills support: use their documented skills directory.
-4. **Start a new session.** No environment variables, no config — the skill activates when the user's request matches its description.
+4. **Start a new session.** No environment variables needed. The skill activates when the user's request matches its description — and to make your agent *actively* route to skills (instead of waiting for a passive match), spend one minute adding the [skill-first global rule](GLOBAL-RULES.md) to your global instruction file.
 
 ## Use with an AI agent — check skills first
 
-When an AI agent works in or with this repo, the global rule in [AGENTS.md](AGENTS.md) applies: **at the start of every task — and again whenever you enter a new stage or hit a sub-problem — check whether this repo already ships a matching skill, and use it if so.**
+When an AI agent works in or with this repo, the global rule in [AGENTS.md](AGENTS.md) applies. **Skills installed into your tool's directory do NOT carry that rule with them** — paste the out-of-repo version from [GLOBAL-RULES.md](GLOBAL-RULES.md) into your global instruction file. In-repo rule: **at the start of every task — and again whenever you enter a new stage or hit a sub-problem — check whether this repo already ships a matching skill, and use it if so.**
 
 1. Scan skill descriptions: `skills/**/SKILL.md` frontmatter `description` — its trigger words ("Use when" / "Do NOT") are the matching criteria.
 2. Search by keyword: `python3 skills/meta/skill-finder/scripts/find_skill.py search <keyword>`.

@@ -28,4 +28,8 @@ for zip in "$HUB_DIR"/dist/*.zip; do
 done
 
 echo "done: installed $count skill(s) to $TARGET"
+echo ""
+echo "Recommended 1-min step: add the skill-first global rule so your agent"
+echo "actively routes to these skills (without it, skills only fire passively)."
+echo "See GLOBAL-RULES.md in the repo root for the paste-ready block."
 echo "Start a new session to use them."

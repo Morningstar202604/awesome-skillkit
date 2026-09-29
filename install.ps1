@@ -51,3 +51,7 @@ if ($discovered.Count -eq 0) {
     exit 2
 }
 Write-Host "Start a new session to use them."
+Write-Host ""
+Write-Host "Recommended 1-min step: add the skill-first global rule so your agent"
+Write-Host "actively routes to these skills (without it, skills only fire passively)."
+Write-Host "See GLOBAL-RULES.md in the repo root for the paste-ready block."

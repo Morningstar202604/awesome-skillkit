@@ -232,11 +232,11 @@ flowchart LR
 3. **拖入** AI 工具的 skills 目录：
    - Claude Code：`~/.claude/skills/`（全局）或 `.claude/skills/`（项目级）
    - 其他支持 skills 的工具：放到其官方文档指定的目录即可。
-4. **开一个新会话**。无需环境变量、无需配置——当你的请求命中技能描述时，它会自动生效。
+4. **开一个新会话**。无需环境变量。当请求命中技能描述时技能会自动生效——但要让 agent **主动**路由到技能（而不是被动等命中），花一分钟把 [全局规则](GLOBAL-RULES.md)（skill-first）配置到你的全局指令文件。
 
 ## 配合 AI 使用——先查技能，再动手
 
-AI agent 在本仓库工作时，遵守 [AGENTS.md](AGENTS.md) 的全局规则：**每个任务开始时，以及每进入一个新阶段、遇到新子问题时，先查本仓库有没有现成的匹配技能；有就用上。**
+AI agent 在本仓库工作时，遵守 [AGENTS.md](AGENTS.md) 的全局规则。**技能装进你的工具目录后并不会带上这条规则**——请把 [GLOBAL-RULES.md](GLOBAL-RULES.md) 里的仓库外版本粘贴进你的全局指令文件。仓库内规则：**每个任务开始时，以及每进入一个新阶段、遇到新子问题时，先查本仓库有没有现成的匹配技能；有就用上。**
 
 1. 扫描述：`skills/**/SKILL.md` 的 frontmatter `description`——触发词（「当用户…」「Do NOT…」）就是匹配依据。
 2. 关键词检索：`python3 skills/meta/skill-finder/scripts/find_skill.py search <关键词>`。
