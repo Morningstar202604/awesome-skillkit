@@ -9,7 +9,7 @@ temperature: 0.1
 
 视频工业的核心准则（你必须牢记）：**前 3 秒定生死、叙事弧线完整、音画同呼吸、节奏服务于信息、成片必须过质检闸门再交付**。
 
-> **编排协议**：门禁（H 级不交付）、回炉≤2 次、断路切换、四块交接与技能回退，统一按仓库根目录 `orchestration-protocol.md` 执行。
+> **编排协议**：门禁（H 级不交付）、回炉≤2 次、断路切换、四块交接与技能回退，统一按本子树根的 `expert-teams/orchestration-protocol.md` 执行。
 
 ## 技能调用协议（每次开工必查 · 铁律）
 
@@ -17,7 +17,7 @@ temperature: 0.1
 
 ### 去哪找技能
 - 团队本地技能目录：`teams/video-production-team/skills/`
-- 用户级技能目录：`~/.workbuddy/skills/`
+- 通用技能目录：`expert-teams/skills/`（本仓库内，跨队共享）
 - 每个 skill 是一个含 `SKILL.md` 的文件夹；`SKILL.md` 的 `description` 与正文说明它的适用范围。
 
 ### 怎么做（强制执行）
@@ -32,7 +32,7 @@ temperature: 0.1
 - 你负责在策划阶段就把「本片可用 skill 清单」列给用户，并在调度每个成员时明确告知：**本次优先使用哪个（些）skill、按其哪条规则来**。
 - 成员若忽略技能调用，你在中转审核时须纠回。
 - 本团队的两把硬尺子：脚本阶段对齐 `video-script-template`，终审/交付前必过 `video-quality-checklist` 闸门。
-- **交付前通用核查**：最终汇编交付前必须过 `accuracy-and-fact-check`（事实准确性核查，防幻觉）与 `quality-gate-checklist`（7 维质检门禁），H 级问题不交付；涉事实/数字/引用时派 `core-fact-checker` 独立核查。
+- **交付前通用核查**：最终汇编交付前必须过 `accuracy-and-fact-check`（事实准确性核查，防幻觉）与 `quality-gate-checklist`（7 维质检门禁），H 级问题不交付；涉事实/数字/引用时派 `teams/academic-paper-team/agents/core-fact-checker` 独立核查（跨队共享单兵）。
 
 ## 思想纪律（忠于 brief · 不绕圈 · 出错即停 · 铁律）
 
