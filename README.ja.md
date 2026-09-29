@@ -60,7 +60,7 @@ flowchart LR
     A[Real-world scenario] --> B[Scene pack<br/>1 pack = 1 scenario]
     B --> C[Group of collaborating skills<br/>1–19 of them]
     C --> D[Drop into AI tool<br/>skills directory]
-    D --> E[Works in a new session<br/>no config]
+    D --> E[Works in a new session<br/>+ 1分のグローバルルール]
     style A fill:#eaf2ff,stroke:#5b8def
     style E fill:#eafaea,stroke:#4caf72
 ```
@@ -95,7 +95,7 @@ flowchart LR
 ## 使い込む理由 — 5 つの要点
 
 - **場面優先、テーマの寄せ集めではない**：418 スキル / 57 パック / 27 ドメイン / 112 チェーン——1 パック = AI にそのまま渡せる具体的な仕事（「PR レビュー」「記事を 16 つの中国語プラットフォームへ同時配信」）。
-- **粒度は選べる**：単一 `SKILL.md`、パック単体 zip、[`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) の全量——解凍して skills ディレクトリへ入れ、新しいセッションで設定なしで動作。
+- **粒度は選べる**：単一 `SKILL.md`、パック単体 zip、[`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) の全量——解凍して skills ディレクトリへ入れれば新しいセッションで動作。1 分の [skill-first グローバルルール](GLOBAL-RULES.md) 設定で、エージェントが能動的にスキルへルーティングします。
 - **まず見てから**：[公式サイト](https://x33834.github.io/awesome-skillkit/) でスキル / ドメイン / パックを検索してカードから直接ダウンロード（日英中 README + 双語サイト）。または AI に `find_skill.py search <キーワード>` を実行させる。
 - **品質は検証可能**：`tools/validate_skills.py` が **0 errors / 0 warnings** を通過（manifest と配布 zip のダイジェスト相互固定）、CI が全 PR でユニットテスト実行。
 - **Agent 対応**：[`AGENTS.md`](AGENTS.md) がタスク開始時・作業途中のスキル先行確認を規定、[`skills/skill_chains.json`](skills/skill_chains.json) がワークフロー内のスキル連携を記録。
@@ -233,11 +233,11 @@ flowchart LR
 3. スキルフォルダを AI ツールの skills ディレクトリに**ドラッグ**します:
    - Claude Code: `~/.claude/skills/`（グローバル）または `.claude/skills/`（プロジェクト別）
    - その他の skills 対応ツール: 各ツールのドキュメントに記載された skills ディレクトリを使用します。
-4. **新しいセッションを開始**します。環境変数も設定も不要——ユーザーのリクエストがスキルの説明に一致すると、自動的に起動します。
+4. **新しいセッションを開始**します。環境変数は不要です。リクエストがスキルの説明に一致すれば自動的に起動します——エージェントに能動的にルーティングさせるには、1 分かけて [グローバルルール](GLOBAL-RULES.md) をグローバル命令ファイルに設定するのがおすすめです。
 
 ## AI と一緒に使う — まずスキルを確認
 
-AI エージェントが本リポジトリで作業するときは、[AGENTS.md](AGENTS.md) のグローバルルールに従います：**各タスクの開始時、および新しい段階に入ったとき・サブ問題に出会ったとき、まず本リポジトリに該当するスキルがあるか確認し、あればそれを使うこと。**
+AI エージェントが本リポジトリで作業するときは、[AGENTS.md](AGENTS.md) のグローバルルールに従います。**スキルをツールのディレクトリにインストールしても、このルールは一緒には付きません** — [GLOBAL-RULES.md](GLOBAL-RULES.md) のリポジトリ外版をグローバル命令ファイルに貼り付けてください。リポジトリ内ルール：**各タスクの開始時、および新しい段階に入ったとき・サブ問題に出会ったとき、まず本リポジトリに該当するスキルがあるか確認し、あればそれを使うこと。**
 
 1. 説明を確認：`skills/**/SKILL.md` の frontmatter `description`（トリガー語 / "Use when" / "Do NOT"）が照合基準です。
 2. キーワード検索：`python3 skills/meta/skill-finder/scripts/find_skill.py search <キーワード>`。

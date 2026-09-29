@@ -59,7 +59,7 @@ flowchart LR
     A[Real-world scenario] --> B[Scene pack<br/>1 pack = 1 scenario]
     B --> C[Group of collaborating skills<br/>1–19 of them]
     C --> D[Drop into AI tool<br/>skills directory]
-    D --> E[Works in a new session<br/>no config]
+    D --> E[Works in a new session<br/>+ 1-min global rule]
     style A fill:#eaf2ff,stroke:#5b8def
     style E fill:#eafaea,stroke:#4caf72
 ```
@@ -94,7 +94,7 @@ Packages are reproducible builds (digest-locked in CI); rebuild anytime with `py
 ## Why this repo — five reasons to grab it
 
 - **Scenario-first, not topic soup**: 418 skills / 57 packs / 27 domains / 112 chains — one pack = one concrete job you can hand to an AI ("review a PR", "cross-post an article to 16 Chinese platforms").
-- **Pick your granularity**: a single `SKILL.md`, one pack zip, or everything via [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) — unzip into your tool's skills directory and it works in a fresh session, no config.
+- **Pick your granularity**: a single `SKILL.md`, one pack zip, or everything via [`_all.zip`](https://github.com/x33834/awesome-skillkit/releases/latest/download/_all.zip) — unzip into your tool's skills directory and it works in a fresh session; add the one-minute [skill-first global rule](GLOBAL-RULES.md) so your agent actively routes to skills.
 - **Browse before you commit**: the [official site](https://x33834.github.io/awesome-skillkit/) searches skills / domains / packs with per-card downloads (EN · 简中 · 日本語 README + bilingual site); or ask your agent to run `find_skill.py search <keyword>`.
 - **Quality you can verify**: `tools/validate_skills.py` gates the repo at **0 errors / 0 warnings** (manifest ↔ shipped zips digests locked), and CI runs the full unit-test suite on every PR.
 - **Agent-native**: [`AGENTS.md`](AGENTS.md) tells any AI to check this repo for a matching skill at task start and mid-task; [`skills/skill_chains.json`](skills/skill_chains.json) documents how skills hand off inside a workflow.
