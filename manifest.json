@@ -39,7 +39,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "e60473e50a4866c2dfcfd251d5c4ce499e8d266b7dff226697cc9b69f40b9bb4"
+      "sha256": "1cd9b7f22ecccc1bde5ada09f844148e167f4386ed1ceb693f27377656a7f1c7"
     },
     {
       "id": "ai-media-toolkit",
@@ -63,7 +63,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "c41271605ffa0bdbea12a2d21ad8f20124713cbbf38b0ce79b944a462c4be012"
+      "sha256": "99c70cdaa94ae282de0e0260954f80f16ead1e847eed97afe6f717596e87d3bd"
     },
     {
       "id": "ai-research-writing",
@@ -147,7 +147,7 @@
         }
       ],
       "size_kb": 198,
-      "sha256": "b7f4b8f83b565ee6db98b907d6116059bdf40c4136aff837083a451f27e39ae2"
+      "sha256": "cc7574faaa2de5b7ea121b80edbf1affce8cfc433deac56d6b720095fe2b3c1e"
     },
     {
       "id": "ai-video-pipeline",
@@ -195,7 +195,7 @@
         }
       ],
       "size_kb": 112,
-      "sha256": "66ae012b6aec477e194a1f6511c810ccad346a1ae9d1c674b4ee53d637d8f8f5"
+      "sha256": "a07ea63a6ee4aaefac168d941449f4c9c1bf312e5b2564f6e4654a8e872caa5b"
     },
     {
       "id": "api-development",
@@ -267,7 +267,7 @@
         }
       ],
       "size_kb": 26,
-      "sha256": "69a8d4617f18a229414bcd37e764295ae3fe92d4d8fe04fd32e65257e352000f"
+      "sha256": "de97ef67d8a8ccb600c7de02a7ff8ebea90747f876959e8379a0db52bd7640c5"
     },
     {
       "id": "caveman-toolkit",
@@ -345,7 +345,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "c806c96cdf199ec90d6c607422fc0ca6d9e7989bc6ddd2fbe62327c601a3d2e5"
+      "sha256": "edc39c64805587d1819df8acda4b069ca620e41e8952a93b9e5bbf1ed523fae4"
     },
     {
       "id": "cloud-platforms",
@@ -403,7 +403,7 @@
         }
       ],
       "size_kb": 655,
-      "sha256": "ae81d97b36c3208f0edecc18f1a70bac1d95db51383e3d4c82408f4530199df9"
+      "sha256": "f8c9473e8ab0161cee94cd643e2289cff736797fe12f76ee4ce6dc0bd4756feb"
     },
     {
       "id": "cmo-suite",
@@ -461,7 +461,7 @@
         }
       ],
       "size_kb": 323,
-      "sha256": "df89a79e05107f08d877067ff8e07121758a8de640af355b7d1159a6f50704e9"
+      "sha256": "0086546e49bd441e39959c89697b4dfc6346483010ebe8a483b56ecd1ea39750"
     },
     {
       "id": "code-planning",
@@ -485,7 +485,7 @@
         }
       ],
       "size_kb": 66,
-      "sha256": "555081b24544e019cd1edac04c085eed34ae5a7d494f2fed0a13845e12959b59"
+      "sha256": "4b38c0ab729a1b3924271967ff3c5b06b9eed5a0d09d14541f37076129168ca8"
     },
     {
       "id": "code-quality-pro",
@@ -547,7 +547,7 @@
         }
       ],
       "size_kb": 105,
-      "sha256": "85a855299b3539d05d4a58207cc1ea415de156edfe07db19c6103e1b6108697a"
+      "sha256": "72ff6f5061250eb10050dbf052ed76a578a4e97eaa430dcf70179578a22d7641"
     },
     {
       "id": "code-review",
@@ -657,7 +657,7 @@
         }
       ],
       "size_kb": 62,
-      "sha256": "859ce8a46cf8b33c5f8ead785faaac8409c0148747ea359ba1b3dc5947d33f10"
+      "sha256": "7033dc3476dc8e02bb6cc26d1dbd888cb3f3e769f90293f778a9ba1579c24d21"
     },
     {
       "id": "containers",
@@ -681,7 +681,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "9303d64281bcf88e0fcfbee3756ba031512699635d1090a9c34c30e23c9ad2e1"
+      "sha256": "5bb84e53535f4a06143cbc6226b0994bae0f3ca4844fb7568beb76fdb2513887"
     },
     {
       "id": "content-publishing",
@@ -765,7 +765,7 @@
           "source": "existing (video)"
         }
       ],
-      "sha256": "4fc6cc8d5bfb784946d363601cceec213edb6c616e1cdc34e0b470701137c3a9"
+      "sha256": "43ebc7f0fa403d1e13004144900d16f4e500470ce8bfad45d4e5790ed2c138be"
     },
     {
       "id": "creator-boosters",
@@ -794,8 +794,8 @@
           "source": "Vincentwei1021/video-shotcraft (Apache-2.0)"
         }
       ],
-      "size_kb": 9292,
-      "sha256": "6bfde41e715606c39ecaf2e67ccb64b9ac21520d1fcb20e928f732d1241ea2c6"
+      "size_kb": 9291,
+      "sha256": "1668d40200d417ff9704786b25c9f8fe6b8981c369e0cbae378c0f2ee8b939ce"
     },
     {
       "id": "cybersecurity-pro",
@@ -861,7 +861,7 @@
         }
       ],
       "size_kb": 200,
-      "sha256": "9bcfeab7f1b9425c7e7b62c626fd38fdc985d8d8e3d8e8a8d59b021830dd96fb"
+      "sha256": "748016b433b5d177bb81e95961ee12425de7b4ac47ffdaf00cec736c515916ce"
     },
     {
       "id": "data-ml-science",
@@ -921,7 +921,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "959524b95dbddac2e18a3e4fcb801f5fa53ed74a0163b7f9c135098265c851db"
+      "sha256": "4d8d7cb7a53606f14d2eb2d114de9f9761ca2f7cd49de20d83a8a3e192cfc543"
     },
     {
       "id": "dataviz-studio",
@@ -989,7 +989,7 @@
         }
       ],
       "size_kb": 11,
-      "sha256": "2e0aa0a1201bf91522e2bff9bfb98607103d061558c04786d2c969c3000b905b"
+      "sha256": "856d181b36574907ec88b2317ce55dfa7df9c7ec8045e053119962aebc309149"
     },
     {
       "id": "engineering-playbook",
@@ -1083,7 +1083,7 @@
         }
       ],
       "size_kb": 173,
-      "sha256": "1bb4101d148e8fc14d8941ab8d9a0a49a92ca8f378d0b935d9f870c4bfcc6522"
+      "sha256": "527c464bb5a90f3d8721a48bbc0cc742cdf9c287a1eca97078d9256f3a3188e5"
     },
     {
       "id": "feishu-suite",
@@ -1207,7 +1207,7 @@
         }
       ],
       "size_kb": 1835,
-      "sha256": "ef45b9485359cd127f18460c7a28ab6b9c3fc81253fe88708112335776874d5a"
+      "sha256": "cad303e013c276bf30a876838e060c81c6caf0a465b4b7e0c5035e713c1e4ff9"
     },
     {
       "id": "github-workflow",
@@ -1446,8 +1446,8 @@
           "source": "gooseworks-ai/goose-skills (MIT)"
         }
       ],
-      "size_kb": 111,
-      "sha256": "fe62cd1e29c853c4e3982407fbc2060404a65b1086130c04b5eaa339356c1d2c"
+      "size_kb": 112,
+      "sha256": "8d9f92c2e3520089d8b4e53ff30819ba395f2d462d64f6db30ae85c47b0cd437"
     },
     {
       "id": "hf-ml-hub",
@@ -1501,7 +1501,7 @@
         }
       ],
       "size_kb": 305,
-      "sha256": "5ed2c522636139481453fc7d376ffc5c6eb3f3573abc20b1443300e3cd92d9b6"
+      "sha256": "5c593ab7f3a85200e5e8bcbb1c2d54fd96c9131c810d284f8555202c675097d8"
     },
     {
       "id": "homework-autopilot",
@@ -1553,7 +1553,7 @@
         }
       ],
       "size_kb": 49,
-      "sha256": "d78d5cc30a78fd037f6e07c614711bb68a8924980038a6f2598bb4b65631877f"
+      "sha256": "902c37779a9327a9fd3e2861934a1d343bf13104a43d4ca99cb48c403d6ddffd"
     },
     {
       "id": "incident-response",
@@ -1577,7 +1577,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "86ed5a25e24d940bab7504075094aeee0dd17659e736f9d99d664681eb4a9c1e"
+      "sha256": "48389ccb13d7a65a04b1ea0492c1b418872a0b74d31b564eadb654152094c10a"
     },
     {
       "id": "infrastructure",
@@ -1601,7 +1601,7 @@
           "source": "alirezarezvani/claude-skills (MIT)"
         }
       ],
-      "sha256": "68bc701beb217953e20b00b6a0a3aad6d46b38639d269eeaf540da5b3f0ff107"
+      "sha256": "c21e165f0c2b25d6b4dd1d990920a5e846849b5bdedbc3a6f9e2bbe8b7078ca7"
     },
     {
       "id": "knowledge-base",
@@ -1808,7 +1808,7 @@
         }
       ],
       "size_kb": 50,
-      "sha256": "e12b7f1b02b06325cce1d0049080373ab22fafffac8a6db865b5131d25083c6a",
+      "sha256": "1d44a98da3d3e6c0eb14f20a96637c763d0a3bf505ea90ae55ef025f3a607f6c",
       "updated": ""
     },
     {
@@ -2029,7 +2029,7 @@
         }
       ],
       "size_kb": 660,
-      "sha256": "318b67632861a1ce0ca0d6a1110947ea28218abdbad3cb3866a66fda9c482766"
+      "sha256": "55a7c1f17a79b5fe43a5c6bd27bf8f3da3b2695f2cfa2983247fdf7456b23969"
     },
     {
       "id": "security",
@@ -2057,7 +2057,7 @@
           "source": "self-authored"
         }
       ],
-      "sha256": "3583daf27a12aef080b7fb2e3a01f2990cb8b2a9a7b5dc8bc6b6601950499ab2"
+      "sha256": "c3bfdec471fc7243f4046140282919556469957953c365e11f11f7a84663d803"
     },
     {
       "id": "skill-forge",
@@ -2089,7 +2089,7 @@
         }
       ],
       "size_kb": 52,
-      "sha256": "20f45f05fe85ff319fd90f06b123a1cd08ab9bb1db358e7e919509d6a3ac54fa"
+      "sha256": "d7dd5eb7e3a57845756d140f9e75cfa2e16c64c56a456e94413712d280525125"
     },
     {
       "id": "tdd",
@@ -2117,7 +2117,7 @@
           "source": "self-authored (verification-type agent behavior scoring: 5-dim 0-100 rubric + LLM-as-judge prompt, offline)"
         }
       ],
-      "sha256": "8f1258ca9bc9547e73e07ceb39ff3473b53dfce514db8a30f8db0a096a1abbbf"
+      "sha256": "6be6c084387c700eb6bed79344d2266eb6d522f101b549683ae2f8951a3021b8"
     },
     {
       "id": "toolsmith",
@@ -2183,7 +2183,7 @@
         }
       ],
       "size_kb": 1128,
-      "sha256": "c18753d3ca299426c20e75c731171dce507fd7ec49c9d29611e581112143a2ca"
+      "sha256": "b1f2ed8d8810f8b130adfef867993b18677c9475afdc0994286246fdf6ce6a64"
     },
     {
       "id": "video-design-studio",
@@ -2291,7 +2291,7 @@
         }
       ],
       "size_kb": 8,
-      "sha256": "8ff97ca7440320db1206cfec062f06ba737bf1ffd8fca0b9e6ebeb4dfd20878e"
+      "sha256": "6311180a3900b8b3a681997b7485f76642e4db3aa54453cbac9eca6a30998536"
     },
     {
       "id": "wechat-longform",
@@ -2341,7 +2341,7 @@
         }
       ],
       "size_kb": 483,
-      "sha256": "7b481f070ce90d6f7c5cfeb397bb4c7645a0b2d3434818acab22df4bb059caf9"
+      "sha256": "338f5883f0ae0ec69291657562d4dfd3ba5cf3281f10bdc851e73e27f6f9b8fa"
     },
     {
       "id": "workspace-integrations",

@@ -102,4 +102,4 @@ Deliver: shownotes.md + chapters.txt + per-platform metadata cards. **The chain 
 
 ## References
 
-The methodology references live in the podcast-producer skill package (shared within the package, not duplicated here): go into the podcast-producer skill directory and read its references directory's sources-and-methodology document. Platform disclosure requirements and open-source provenance are recorded in that file as well.
+The methodology references live in the podcast-producer skill package (shared within the package, not duplicated here): read [`../podcast-producer/references/sources-and-methodology.md`](../podcast-producer/references/sources-and-methodology.md). Platform disclosure requirements and open-source provenance are recorded in that file as well.

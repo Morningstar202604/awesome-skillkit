@@ -125,7 +125,7 @@ On failure: the voice sounds squashed (no dynamics) → reduce ratio to 2:1 and 
 
 If the user needs background music:
 
-1. **Mood match**: use the mood input to pick a BGM style. The [music-style-lexicon.md] in the music-generation skill is the reference for generating a track if none exists.
+1. **Mood match**: use the mood input to pick a BGM style. The [music-style-lexicon.md](../music/music-generation/references/music-style-lexicon.md) in the music-generation skill is the reference for generating a track if none exists.
 2. **Placement rule**: BGM appears only in three places: intro (0–15 s), between segments (5–10 s stingers), and outro (last 15–30 s). Do not run continuous BGM under the entire episode — it fatigues the listener.
 3. **Level**: when BGM is under speech (ducked), it sits at −20 to −26 dB below the voice. When BGM is solo (intro/outro), it can be at the target loudness.
 

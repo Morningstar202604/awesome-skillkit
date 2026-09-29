@@ -29,6 +29,8 @@ This isn't a Docker tutorial — it's a set of concrete decisions about how to b
 | `/docker:compose` | Generate or improve docker-compose.yml per best practices |
 | `/docker:security` | Audit a Dockerfile or running container for security issues |
 
+If the host has no `/docker:*` slash commands registered, run the equivalent steps directly from this skill's workflow sections below.
+
 ## When to Activate
 
 Recognize these phrasings from the user:
@@ -314,9 +316,9 @@ Completeness verification: both analyzer and validator pass (validator with `--s
 
 ## Related Skills
 
-- **senior-devops** — broader DevOps scope (CI/CD, IaC, monitoring). Complementary — use docker-development for container specifics, senior-devops for pipelines and infrastructure.
-- **senior-security** — application security. Complementary — docker-development covers container security, senior-security covers app-layer threats.
-- **autoresearch-agent** — can optimize Docker build time or image size as a measurable experiment.
+- **senior-devops**（上游生态技能，未随包收录） — broader DevOps scope (CI/CD, IaC, monitoring). Complementary — use docker-development for container specifics, senior-devops for pipelines and infrastructure.
+- **senior-security**（上游生态技能，未随包收录） — application security. Complementary — docker-development covers container security, senior-security covers app-layer threats.
+- **autoresearch-agent**（上游生态技能，未随包收录） — can optimize Docker build time or image size as a measurable experiment.
 - **ci-cd-pipeline-builder** — pipeline building. Complementary — docker-development builds containers, ci-cd-pipeline-builder deploys them.
 
 Once images and compose are ready, **then say: "Containerization is done; next, call helm-chart-builder to generate the deployment chart" — the chain unfolds automatically**.

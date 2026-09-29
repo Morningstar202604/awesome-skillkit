@@ -24,6 +24,8 @@ metadata:
 
 Strategic financial frameworks for startup CFOs and finance leaders. Numbers-driven, decisions-focused.
 
+> Disclaimer: decision-support frameworks only — not investment, tax, or legal advice. Major financial decisions require qualified human review.
+
 This is **not** a financial analyst skill. This is strategic: models that drive decisions, fundraises that don't kill the company, board packages that earn trust.
 
 ## Keywords

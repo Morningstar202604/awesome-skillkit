@@ -36,8 +36,8 @@ plan the user enters manually.
   sharing a tip.
 - **Formatting**: no Markdown rendering in the caption — use line breaks,
   emoji, and all-caps sparingly; bullet style with emoji (✅ ❌ 🔥).
-- **Hashtags**: use `#topic#` syntax in the caption; add 5–15 tags at the end
-  or inline.
+- **Hashtags**: use `#topic#` syntax in the caption; up to 10 hashtags (platform cap —
+  the publish page's prompt is authoritative), 3–5 precise ones is the working norm.
 - **Images / carousel**: 1–9 images; the cover decides the click; preferred
   ratios are 3:4 (portrait) or 1:1; vertical 3:4 takes the most feed space.
 - **Links**: external hyperlinks are not allowed in the caption; guides put

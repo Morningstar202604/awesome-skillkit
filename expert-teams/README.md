@@ -245,7 +245,7 @@ expert-teams/                 # awesome-skillkit 子目录（本目录即上方�
     ├── academic-paper-team/     # 19 专家 · 7 skill
     ├── fullstack-web-team/      # 19 专家 · 11 skill
     ├── math-modeling-team/      # 9 专家 · 2 skill
-    ├── software-dev-team/       # 12 专家 · 绑定 3 通用 skill
+    ├── software-dev-team/       # 12 专家 · 通用技能在 expert-teams/skills/ 根目录（本队无独立 skills/ 子目录）
     ├── visual-design-team/      # 14 专家 · 6 skill
     ├── content-writing-team/    # 14 专家 · 6 skill
     ├── video-production-team/   # 14 专家 · 6 skill

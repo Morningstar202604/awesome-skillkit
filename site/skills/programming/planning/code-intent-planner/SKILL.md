@@ -113,7 +113,7 @@ On failure (no match) → escalate to L2.
 
 ### Step 4: L2 Flash LLM and confidence routing
 
-Model: Flash/Mini (e.g. deepseek-v4-flash, glm-4-flash). Prompt template (injected by the script):
+Model: Flash/Mini (e.g. glm-4-flash — verify current model names with your provider; this list ages fast). Prompt template (injected by the script):
 
 ```text
 Analyze the user's programming intent; return JSON only:

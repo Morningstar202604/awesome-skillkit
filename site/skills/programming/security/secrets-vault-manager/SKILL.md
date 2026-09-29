@@ -461,7 +461,6 @@ Read only when the corresponding situation arises:
 ## Cross-References
 
 - **env-secrets-manager** — local `.env` file hygiene, leak detection, drift awareness
-- **senior-secops** — security operations, incident response, threat modeling
 - **ci-cd-pipeline-builder** — pipeline design that consumes secrets
 - **docker-development** — container secret injection patterns
 - **helm-chart-builder** — Kubernetes secret management in Helm charts

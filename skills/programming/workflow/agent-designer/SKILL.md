@@ -122,7 +122,7 @@ Action (run): when you want a skeleton before the full flow:
 ```bash
 # sequential / parallel / router / orchestrator / evaluator skeletons
 python3 scripts/workflow_scaffolder.py sequential --name content-pipeline
-python3 scripts/workflow_scaffolder.py orchestrator --name incident-triage --output assets/incident-triage.json
+python3 scripts/workflow_scaffolder.py orchestrator --name incident-triage --output ./incident-triage.json   # write OUTSIDE the skill package
 ```
 
 Expected: produce the workflow skeleton JSON for the chosen pattern; with no `--output` it prints to stdout.

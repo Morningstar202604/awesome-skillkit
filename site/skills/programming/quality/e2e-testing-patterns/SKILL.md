@@ -94,7 +94,7 @@ Detailed pattern documentation lives in `references/details.md`. Read that file 
 cy.get(".btn.btn-primary.submit-button").click();
 cy.get("div > form > div:nth-child(2) > input").type("text");
 
-// ✅ Good selectors
+// ✅ Good selectors (getByRole/getByLabel require @testing-library/cypress)
 cy.getByRole("button", { name: "Submit" }).click();
 cy.getByLabel("Email address").type("user@example.com");
 cy.get('[data-testid="email-input"]').type("user@example.com");

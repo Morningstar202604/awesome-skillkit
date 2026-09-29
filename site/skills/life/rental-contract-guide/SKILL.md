@@ -93,7 +93,7 @@ Full detail in `references/deposit-rules.md`. Hard points:
 
 | Item | Rule |
 |------|------|
-| Earnest money | non-refundable; capped at **20% of annual rent** (Civil Code) |
+| Earnest money | non-refundable; capped at **20% of the total contract rent** (Civil Code Art. 586 — the base is the whole lease term's rent, not one year) |
 | Prepayment | refundable if no deal |
 | Maximum lease term | **20 years** (Civil Code Art. 705) |
 | Deposit deduction | landlord must provide **evidence of damage**; normal wear excluded |

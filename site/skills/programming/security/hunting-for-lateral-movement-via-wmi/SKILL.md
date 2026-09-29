@@ -58,6 +58,18 @@ Parse WMI-Activity/Operational log for event consumer creation indicating persis
 
 JSON report with WMI-spawned processes, suspicious command lines, WMI event subscription alerts, and timeline of lateral movement activity.
 
+## Bundled Tooling
+
+`scripts/agent.py` is the report generator the Steps above refer to — it parses EVTX exports (Security, Sysmon, WMI-Activity) for WmiPrvSE.exe child-process patterns, suspicious command lines, and WMI event-subscription persistence, and writes the JSON report this skill promises:
+
+```bash
+python scripts/agent.py Security.evtx Sysmon.evtx WMI-Activity.evtx --output-dir ./hunt_out
+# -> ./hunt_out/wmi_lateral_movement_report.json
+```
+
+- Input: one or more EVTX file paths (positional); output lands in `--output-dir`.
+- `references/api-reference.md` — the WMI/RPC interface details used by the detection logic.
+
 ---
 
 ## 来源与署名 / Source & Attribution

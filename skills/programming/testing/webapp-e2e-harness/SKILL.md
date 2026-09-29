@@ -48,7 +48,7 @@ The core judgment: **the biggest cost of e2e tests isn't writing them, it's main
 python3 scripts/e2e_scaffold.py --url http://127.0.0.1:8000 --out e2e
 
 # 2. Actually generate
-python3 scripts/e2e_scaffold.py --url http://127.0.0.1:8000 --out examples/e2e --write   # real generation writes examples/e2e/; in CI use a temp directory
+python3 scripts/e2e_scaffold.py --url http://127.0.0.1:8000 --out ./e2e --write   # generate into YOUR project (or a temp dir in CI), never into the skill package
 
 # 3. Run in one step (install deps + install browser + pytest)
 E2E_BASE_URL=http://127.0.0.1:8000 bash e2e/run_e2e.sh

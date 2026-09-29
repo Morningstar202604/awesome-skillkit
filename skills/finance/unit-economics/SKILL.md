@@ -22,6 +22,8 @@ metadata:
 
 # Unit economics
 
+> Disclaimer: analysis framework only — not investment advice. Major pricing, funding, or layoff decisions require qualified human review.
+
 The question is simple and usually unanswered: does one more customer make the business better off,
 and how long does that take?
 

@@ -155,7 +155,7 @@ metadata:
 | # | 检查项 | 工具/方法 |
 |---|---|---|
 | G1 | frontmatter 合规（§1 全部约束） | `skills-ref validate` + 自研 validator |
-| G2 | 引用完整性：SKILL.md 及 references 中提到的相对路径全部存在 | `tools/check_integrity.py`（v1.7 交付） |
+| G2 | 引用完整性：SKILL.md 及 references 中提到的相对路径全部存在 | `tools/validate_skills.py`（G2 引用完整性检查；v1.7 时代的 check_integrity.py 已并入其中） |
 | G3 | 触发矩阵：≥10 条应触发查询命中 + ≥5 条不应触发的负例不误触 | 人工 + 测试用例固化 |
 | G4 | 输出稳定性：同一输入执行 3 次，产物结构一致 | 人工抽查 |
 | G5 | 正文行数 <500；引用一层深；>100 行 reference 有 TOC | validator |

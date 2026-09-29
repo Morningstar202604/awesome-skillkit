@@ -145,7 +145,7 @@ the extracted content. Prefer an official API when one exists.
 
 ## Chain Handoff
 
-- To **data-ml-science**: hand the CSV/JSON for cleaning, ETL, and analysis.
+- To **ml-pipeline** (programming/ml): hand the CSV/JSON for cleaning, ETL, and analysis.
 - To **excel-assistant** (office domain): open the CSV for pivots and charts.
 
 ## References

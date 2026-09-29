@@ -330,7 +330,7 @@ Report: topic, layout, style, aspect, language, image backend, output path, file
 - `references/structured-content-template.md` - Content format
 - `references/base-prompt.md` - Prompt template
 - `references/layouts/<layout>.md` - 21 layout definitions
-- `references/styles/<style>.md` - 21 style definitions
+- `references/styles/<style>.md` - 22 style definitions
 
 ## Changing Preferences
 

@@ -1,7 +1,7 @@
 ---
 name: handoff
 description: >-
-  Compact the current conversation into a handoff document for another agent to pick up.
+  Compact the current conversation into a handoff document for another agent to pick up. Use when the user asks to 交接 / hand off / write a session summary for the next agent or session. Do NOT use for commit messages, changelogs, or status reports.
 description_zh: "把当前对话压缩成一份交接文档，方便另一个代理快速接手继续工作。"
 license: MIT
 compatibility: 纯提示型，任意支持 SKILL.md 的工具可用；无外部依赖。

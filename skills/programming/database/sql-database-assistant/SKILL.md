@@ -414,4 +414,4 @@ Backup discipline: automated backups, periodically rehearsed restores, offsite c
 | **database-designer** | Schema architecture, normalization analysis, ERD generation, RLS/multi-tenancy patterns |
 | **migration-architect** | Complex multi-step migration orchestration |
 | **api-design-reviewer** | Ensuring API endpoints align with query patterns |
-| **observability-platform** | Query-performance monitoring, slow-query alerting |
+| **observability-platform**（上游生态技能，未随包收录） | Query-performance monitoring, slow-query alerting |

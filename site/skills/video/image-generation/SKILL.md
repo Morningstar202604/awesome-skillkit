@@ -131,6 +131,9 @@ curl -s -X POST "$IMAGE_GATEWAY_BASE/api/image/generate" \
   -d '{"model":"gpt-image-2","prompt":"<STEP-2 PROMPT>","params":{"size":"1024x1024","quality":"auto","n":1}}'
 ```
 
+> `gpt-image-2` is this gateway's contract name — VERIFY BEFORE USE against your
+> gateway's model list (`$IMAGE_GATEWAY_BASE/v1/models`); it is not a public API name.
+
 For image-to-image, append `"images":["<url>", ...]` inside `params`.
 
 Expected: JSON returned containing `task_id`. If it fails: HTTP error or HTML returned -> retry once as-is; still failing -> report the status line per the failure table and stop. Returns a size/params error -> adjust the size per the constraints and resubmit once.

@@ -317,5 +317,5 @@ Fixes:
 
 - **sql-database-assistant** — everyday SQL query writing, optimization, and troubleshooting
 - **migration-architect** — large-scale cross-engine migration planning, or big schema overhauls
-- **senior-backend** — app-layer patterns (connection pooling, ORM best practices)
-- **senior-devops** — infrastructure provisioning for database clusters and replicas
+- **senior-backend**（上游生态技能，未随包收录） — app-layer patterns (connection pooling, ORM best practices)
+- **senior-devops**（上游生态技能，未随包收录） — infrastructure provisioning for database clusters and replicas

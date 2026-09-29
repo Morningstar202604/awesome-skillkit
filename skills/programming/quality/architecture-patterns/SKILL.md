@@ -175,10 +175,10 @@ For detailed DDD bounded context mapping, full multi-service project trees, Anti
 
 ## Related Skills
 
-- `microservices-patterns` — Apply these architecture patterns when decomposing a monolith into services
-- `cqrs-implementation` — Use Clean Architecture as the structural foundation for CQRS command/query separation
-- `saga-orchestration` — Sagas require well-defined aggregate boundaries, which DDD tactical patterns provide
-- `event-store-design` — Domain events produced by aggregates feed directly into an event store
+- `microservices-patterns` *(upstream skill, not bundled in this pack)* — Apply these architecture patterns when decomposing a monolith into services
+- `cqrs-implementation` *(upstream skill, not bundled in this pack)* — Use Clean Architecture as the structural foundation for CQRS command/query separation
+- `saga-orchestration` *(upstream skill, not bundled in this pack)* — Sagas require well-defined aggregate boundaries, which DDD tactical patterns provide
+- `event-store-design` *(upstream skill, not bundled in this pack)* — Domain events produced by aggregates feed directly into an event store
 
 ---
 

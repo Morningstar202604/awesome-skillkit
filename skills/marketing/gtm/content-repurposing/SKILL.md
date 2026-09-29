@@ -31,6 +31,8 @@ Convert source material into original, voice-matched content for the channels th
 
 ## Workflow
 
+Tool names below (`transcript-intelligence`, `outlier-post-finder`, `creator-profile-teardown`, `create-linkedin-content`, `create-x-content`) belong to the upstream GooseWorks suite and are NOT bundled in this pack — when absent, perform each step manually (obtain the transcript, pick the pattern, extract atoms, tune per platform) without them.
+
 1. Confirm which sources may be transformed and whether they are owned, quoted, or used only as inspiration.
 2. For a video source, use `transcript-intelligence` to obtain or analyze its transcript. Do not download, transcode, or edit the video, and do not introduce an FFmpeg dependency. If the user already supplied a transcript or captions, work from them directly. If only a URL is available and the current environment cannot call the transcript provider, ask for the transcript or captions; do not improvise a terminal-only media workflow.
 3. Use `outlier-post-finder` or `creator-profile-teardown` when the user wants to repurpose a winning pattern rather than a single source.

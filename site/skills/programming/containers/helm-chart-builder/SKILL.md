@@ -29,6 +29,8 @@ This isn't a Helm tutorial — it's a set of concrete decisions about how to bui
 | `/helm:review` | Analyze an existing chart for problems — missing labels, hardcoded values, template anti-patterns |
 | `/helm:security` | Audit a chart's security issues — RBAC, network policies, pod security, secret handling |
 
+If the host has no `/helm:*` slash commands registered, run the equivalent steps directly from this skill's workflow sections below.
+
 ## When to Activate
 
 Recognize these phrasings from the user:
@@ -396,9 +398,9 @@ Completeness verification: `helm template` output renders all expected resources
 
 ## Related Skills
 
-- **senior-devops** — broader DevOps scope (CI/CD, IaC, monitoring). Complementary — use helm-chart-builder for chart specifics, senior-devops for pipelines and infrastructure.
+- **senior-devops**（上游生态技能，未随包收录） — broader DevOps scope (CI/CD, IaC, monitoring). Complementary — use helm-chart-builder for chart specifics, senior-devops for pipelines and infrastructure.
 - **docker-development** — container building. Complementary — docker-development builds images, helm-chart-builder deploys them to Kubernetes.
 - **ci-cd-pipeline-builder** — pipeline building. Complementary — helm-chart-builder defines the deployment artifact, ci-cd-pipeline-builder automates its delivery.
-- **senior-security** — application security. Complementary — helm-chart-builder covers the Kubernetes layer (RBAC, pod security), senior-security covers app-layer threats.
+- **senior-security**（上游生态技能，未随包收录） — application security. Complementary — helm-chart-builder covers the Kubernetes layer (RBAC, pod security), senior-security covers app-layer threats.
 
 Once the chart is generated, **then say: "The chart is validated; next, call kubernetes-operator to add the controller/CRD design" — the chain unfolds automatically**.

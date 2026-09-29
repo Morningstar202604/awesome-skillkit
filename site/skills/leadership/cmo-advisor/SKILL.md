@@ -31,10 +31,10 @@ CMO, chief marketing officer, brand strategy, brand positioning, growth model, p
 
 ```bash
 # Model budget allocation across channels, project MQL output by scenario
-python scripts/marketing_budget_modeler.py
+python scripts/marketing_budget_modeler.py   # no args = prints built-in DEMO data, not your numbers
 
 # Project MRR growth by model, show impact of channel mix shifts
-python scripts/growth_model_simulator.py
+python scripts/growth_model_simulator.py   # no args = prints built-in DEMO data, not your numbers
 ```
 
 **Reference docs (load when needed):**

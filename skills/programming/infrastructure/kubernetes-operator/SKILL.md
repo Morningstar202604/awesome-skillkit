@@ -30,8 +30,8 @@ Build correctly-reconciling operators. Most operator problems aren't Kubernetes 
 ## When Not to Use
 
 - Pure Helm chart packaging → use `helm-chart-builder`
-- Routine kubectl operations / blue-green releases → use `senior-devops`
-- Generic k8s security posture → use `cloud-security`
+- Routine kubectl operations / blue-green releases → use `senior-devops` *(upstream skill, not bundled in this pack)*
+- Generic k8s security posture → use `cloud-security` *(upstream skill, not bundled in this pack)*
 - "I just want to run a workload" — that's a Deployment / Job, not an operator
 
 ## Input Checklist

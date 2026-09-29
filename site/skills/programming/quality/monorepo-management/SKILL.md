@@ -90,6 +90,8 @@ cd my-monorepo
 
 ### Configuration
 
+Turbo v1 uses the `pipeline` key; Turbo v2 renamed it to `tasks` — match the key to your installed turbo version.
+
 ```json
 // turbo.json
 {

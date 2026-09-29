@@ -9,7 +9,7 @@ description: >-
   Kubernetes-specific detection content. Keywords: audit policy, audit log,
   kube-apiserver, exec into pod, RBAC change, anonymous access, detection
   rules. Do not use for syscall-level detection inside a running container -
-  use detecting-container-runtime-threats-with-falco. '
+  use a Falco-based container-runtime threat detector (the upstream skill is not bundled in this pack). '
 description_zh: "解析 Kubernetes API 审计日志：发现 exec 进容器、密钥读取、RBAC 变更与特权 Pod 等威胁。"
 license: Apache-2.0
 compatibility: 纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。
@@ -72,6 +72,17 @@ Key events to detect:
 if verb in ("get", "list") and resource == "secrets":
     print(f"Secret access: {user} -> {event['objectRef'].get('name')}")
 ```
+
+## Bundled Tooling
+
+`scripts/agent.py` parses Kubernetes audit logs (JSON lines, stdlib only — no extra installs) and emits the findings report:
+
+```bash
+python scripts/agent.py --audit-log <audit.log> --action full_analysis --output report.json
+```
+
+- `--action` scopes the sweep: `exec` / `secrets` / `rbac` / `privileged` / `anonymous` / `full_analysis`.
+- `references/api-reference.md` — the audit-event field reference used by the parser.
 
 ---
 

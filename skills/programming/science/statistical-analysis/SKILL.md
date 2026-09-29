@@ -53,7 +53,7 @@ uv pip install "pymc>=5.0" "arviz>=1.0"
 - **ArviZ 1.x**: `az.summary()` now defaults to **89% intervals** (`eti89` columns) and the width parameter is `ci_prob` (not `hdi_prob`). To report a conventional 95% credible interval, pass `az.summary(trace, ci_prob=0.95)`.
 - **One-sided Bayes Factors are gone from Pingouin**: `pg.ttest(..., alternative='greater')` silently drops the `BF10` column, and `pg.bayesfactor_ttest` raises on one-sided alternatives. For one-sided Bayesian tests, use PyMC directly (compute the posterior probability of the directional hypothesis) or JASP/R's BayesFactor.
 
-For model-specific APIs (OLS, GLM, ARIMA), see the **statsmodels** skill. For PyMC workflows, see the **pymc** skill.
+For model-specific APIs (OLS, GLM, ARIMA), consult the statsmodels documentation; for PyMC workflows, the PyMC docs (these are Python libraries, not bundled skills).
 
 ---
 
@@ -105,7 +105,7 @@ All tests have Bayesian versions providing direct probability statements about h
 
 **Always check assumptions before interpreting test results**, and report the checks — reviewers look for them.
 
-Use the bundled `scripts/assumption_checks.py` module. Run Python from the skill directory (`skills/statistical-analysis/`) or add `scripts/` to `sys.path`:
+Use the bundled `scripts/assumption_checks.py` module. Run Python from the skill directory (`skills/programming/science/statistical-analysis/`) or add `scripts/` to `sys.path`:
 
 ```python
 from assumption_checks import comprehensive_assumption_check

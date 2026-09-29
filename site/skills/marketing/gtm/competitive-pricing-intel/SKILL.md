@@ -240,7 +240,7 @@ Save to `pricing-comparison-[YYYY-MM-DD].md` in the current working directory.
 Run monthly (pricing changes are infrequent but impactful):
 
 ```bash
-0 8 1 * * python3 run_skill.py competitive-pricing-intel --client <client-name>
+0 8 1 * * <your-runner> competitive-pricing-intel --client <client-name>
 ```
 
 ## Cost

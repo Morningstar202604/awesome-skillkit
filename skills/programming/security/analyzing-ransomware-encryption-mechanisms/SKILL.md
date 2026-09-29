@@ -210,7 +210,7 @@ Use identified weaknesses for key recovery:
 ```python
 # Recovery Method 1: Extract key from memory dump
 # Volatility plugin to scan for AES key schedules
-# vol3 -f memory.dmp windows.yarascan --yara-rule "aes_key_schedule"
+# vol3 -f memory.dmp windows.yarascan.YaraScan --yara-file rules.yar
 
 # Recovery Method 2: Known-plaintext attack (weak algorithms)
 def xor_key_recovery(encrypted_file, known_plaintext):

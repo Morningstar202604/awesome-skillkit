@@ -226,7 +226,7 @@ Step 3: 按 slide_plan.json 生成 XML → 创建
 Step 4: 审查 & 交付
   - 创建完成后，必须用 `slides +xml-get --presentation <xml_presentation_id>` 读取全文 XML，并按 workflow/validation-xml.md 做显式验证记录，包括 XML 文本重叠检查
   - 失败或部分成功按 workflow/error-handling.md 处理；局部问题优先用 `+replace-slide` 修正
-  - 没问题 → 交付：使用 NotifyHuman 工具交付 PPT 链接
+  - 没问题 → 交付：把 PPT 链接直接发给用户（宿主无 NotifyHuman 工具时，输出链接与一句验收说明即可）
 ```
 
 > 渐变色必须使用 `rgba()` 格式并带百分比停靠点，如 `linear-gradient(135deg,rgba(15,23,42,1) 0%,rgba(56,97,140,1) 100%)`。使用 `rgb()` 或省略停靠点会导致服务端回退为白色。

@@ -1,7 +1,7 @@
 ---
 name: azure-ai
 description: >-
-  Use for Azure AI: Search, Speech, OpenAI, Document Intelligence. Helps with search, vector/hybrid search, speech-to-text, text-to-speech, transcription, OCR. WHEN: AI Search, query search, vector search, hybrid search, semantic search, speech-to-text, text-to-speech, transcribe, OCR, convert text to speech.
+  Use for Azure AI: Search, Speech, OpenAI, Document Intelligence. Helps with search, vector/hybrid search, speech-to-text, text-to-speech, transcription, OCR. WHEN: AI Search, query search, vector search, hybrid search, semantic search, speech-to-text, text-to-speech, transcribe, OCR, convert text to speech. Do NOT use for non-Azure OpenAI providers, local model serving, or general MLOps.
 description_zh: "Azure AI 服务：搜索、语音、OpenAI 与文档智能，含 OCR 与语音转写。"
 license: MIT
 compatibility: 需要 Azure CLI / azd 与有效订阅；命令默认先预览，写操作需显式确认。

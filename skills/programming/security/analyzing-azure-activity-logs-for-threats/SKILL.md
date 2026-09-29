@@ -74,6 +74,19 @@ AuditLogs
 '''
 ```
 
+## Bundled Tooling
+
+`scripts/agent.py` queries the Log Analytics workspace via `azure-monitor-query` and produces the investigation report:
+
+```bash
+pip install azure-identity azure-monitor-query
+python scripts/agent.py --workspace-id <id> --action full_hunt --output report.json
+# service-principal auth (optional): add --tenant-id --client-id --client-secret
+```
+
+- `--action` scopes the hunt: `privesc` / `nsg` / `keyvault` / `travel` / `deletion` / `full_hunt`.
+- `references/api-reference.md` — the Azure Monitor query API surface the script uses.
+
 ---
 
 ## 来源与署名 / Source & Attribution

@@ -23,6 +23,8 @@ metadata:
 
 # Skill Linter (Skill Spec Validation)
 
+> Scope note: skills ported from upstream repos (gws, lark, caveman, baoyu, superpowers, wshobson, etc.) intentionally keep their original structure and are expected to FAIL `DESC-ROUTE`/`BODY-SECTS`/`LANG-CJK` until they are migrated to the v2 skeleton. The quality-score gate targets self-authored skills; for upstream ports, fix only compliance hard errors (broken refs, name mismatch, missing frontmatter).
+
 Eight static checks on SKILL.md, turning "is this skill compliant" into one exit
 code: returns 1 when there's a FAIL, can hang directly in CI or pre-commit.
 Only reports and gives fixes, **doesn't modify files for you**.

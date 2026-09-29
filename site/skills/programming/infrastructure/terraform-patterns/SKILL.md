@@ -385,9 +385,9 @@ clawhub install terraform-patterns
 
 ## Related Skills
 
-- **senior-devops** — broader DevOps scope (CI/CD, monitoring); use it for pipelines and infrastructure operations.
-- **aws-solution-architect** — designing AWS architecture; terraform-patterns handles the implementation.
-- **senior-security** — application-layer threats; terraform-patterns covers the infrastructure security posture.
+- **senior-devops**（上游生态技能，未随包收录） — broader DevOps scope (CI/CD, monitoring); use it for pipelines and infrastructure operations.
+- **aws-solution-architect**（上游生态技能，未随包收录） — designing AWS architecture; terraform-patterns handles the implementation.
+- **senior-security**（上游生态技能，未随包收录） — application-layer threats; terraform-patterns covers the infrastructure security posture.
 - **ci-cd-pipeline-builder** — automates the deployment of what terraform-patterns defines.
 
 ## Failure Handling Table

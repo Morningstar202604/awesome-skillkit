@@ -294,7 +294,7 @@ Every deployment needs a rollback plan before it happens:
 - For security pre-launch checks, see `../../references/security-checklist.md`
 - For performance pre-launch checklist, see `../../references/performance-checklist.md`
 - For accessibility verification before launch, see `../../references/accessibility-checklist.md`
-- For the alerting rules and SLO-tied thresholds, see `observability-and-instrumentation`
+- For the alerting rules and SLO-tied thresholds, see `observability-and-instrumentation` *(upstream skill, not bundled in this pack)*
 
 ## Common Rationalizations
 

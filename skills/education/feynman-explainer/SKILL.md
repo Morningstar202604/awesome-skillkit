@@ -110,4 +110,4 @@ re-teach → retest.
 ## References
 
 Feynman loop and depth control source: see course-designer's
-sources-and-methodology.md (shared within pack).
+sources-and-methodology.md (shared within pack: `../course-designer/references/sources-and-methodology.md`).

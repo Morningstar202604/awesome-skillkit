@@ -96,7 +96,9 @@ ffmpeg -i combined.mp4 -i bgm.mp3 -filter_complex \
 
 # Crossfade between clips
 ffmpeg -i clip1.mp4 -i clip2.mp4 -filter_complex \
-  "xfade=transition=fade:duration=0.5" output.mp4
+  "xfade=transition=fade:duration=0.5:offset=<clip1_len-0.5>" output.mp4
+# offset is REQUIRED: xfade starts the transition at this timestamp; without it
+# the crossfade happens at t=0 and clips the start of the output
 ```
 
 ## Editing Rhythm and Pacing

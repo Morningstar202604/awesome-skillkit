@@ -293,7 +293,7 @@ reason to name the group.
 ### One bus for many tracks
 
 Membership alone is enough to carve against, as above — but add an
-`「hf-audio-group」` element with that id and the group becomes a real submix bus:
+`hf-audio-group` element with that id and the group becomes a real submix bus:
 one chain, one fader, one automation clock for every member.
 
 ```html

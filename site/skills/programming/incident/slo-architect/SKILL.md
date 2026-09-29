@@ -180,7 +180,7 @@ This skill explicitly composes with three others:
 | `chaos-engineering` | The blast-radius calculator already takes the monthly error budget as input — define it here |
 | `kubernetes-operator` | Operator capability L4 (Deep Insights) requires an SLO + Prometheus rules |
 
-The output of `error_budget_calculator.py` matches the shape the chaos-engineering skill's `blast_radius_calculator.py` expects on stdin.
+The output of `error_budget_calculator.py` matches the shape the upstream chaos-engineering skill's `blast_radius_calculator.py` expects on stdin (that skill（上游生态技能，未随包收录）; the stdin contract is kept so the two connect once it is available).
 
 ## Workflows
 

@@ -1,6 +1,7 @@
 ---
 description: 模拟同行评审员。执行完整模拟审稿：评分、结构化问题清单与结论。当用户投稿前想要模拟审稿意见、分数或问题清单时调用。
 temperature: 0.2
+tools: { write: false, edit: false }
 ---
 
 # 模拟审稿人 - 裴慎鉴

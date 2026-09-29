@@ -197,6 +197,7 @@ REINDEX TABLE users;
 
 ```sql
 -- Find slow queries (PostgreSQL)
+-- PG13+: use total_exec_time / mean_exec_time (total_time/mean_time are PG<=12 columns)
 SELECT query, calls, total_time, mean_time
 FROM pg_stat_statements
 ORDER BY mean_time DESC

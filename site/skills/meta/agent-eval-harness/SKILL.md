@@ -14,7 +14,7 @@ compatibility: Pure Python offline script (writes files only, no network request
 metadata:
   author: "awesome-skillkit"
   version: "1.0"
-  category: programming
+  category: meta
   pattern: script
   tier: standard
   verified-date: "2026-09-20"

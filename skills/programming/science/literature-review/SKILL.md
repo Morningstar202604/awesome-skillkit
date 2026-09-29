@@ -4,7 +4,7 @@ description: >-
   Conduct comprehensive, systematic literature reviews using multiple academic databases (PubMed, arXiv, bioRxiv, Semantic Scholar, etc.). This skill should be used when conducting systematic literature reviews, meta-analyses, research synthesis, or comprehensive literature searches across biomedical, scientific, and technical domains. Creates professionally formatted markdown documents and PDFs with verified citations in multiple citation styles (APA, Nature, Vancouver, etc.).
 description_zh: "用 PubMed、arXiv、bioRxiv、Semantic Scholar 等数据库做系统性文献综述与元分析，生成带已验证引用的 Markdown 文档与 PDF。"
 license: MIT
-compatibility: 需要 Python 3.11+ 与对应科学计算库；脚本本地运行，默认无网络。
+compatibility: 需要 Python 3.11+ 与对应科学计算库；离线可完成本地分析，联网检索需安装 parallel-cli（安装命令见正文工具节）。
 metadata:
   author: "K-Dense scientific-agent-skills 上游（MIT）"
   version: "1.0.0"
@@ -36,9 +36,9 @@ Use this skill when:
 
 ## Visual Enhancement with Scientific Schematics
 
-**⚠️ MANDATORY: Every literature review MUST include at least 1-2 AI-generated figures using the scientific-schematics skill.**
+**Recommended: include 1-2 figures (e.g., a PRISMA flow diagram). Generate them with the scientific-schematics skill if your environment has it — it is not bundled in this pack; any schematic tool, or a text-described figure spec the user can render later, is an acceptable fallback.**
 
-This is not optional. Literature reviews without visual elements are incomplete. Before finalizing any document:
+Before finalizing, plan the figure set:
 1. Generate at minimum ONE schematic or diagram (e.g., PRISMA flow diagram for systematic reviews)
 2. Prefer 2-3 figures for comprehensive reviews (search strategy flowchart, thematic synthesis diagram, conceptual framework)
 
@@ -101,12 +101,6 @@ review is in [references/example_workflow.md](references/example_workflow.md).
 5. **Test and refine**: Run pilot searches, review results, adjust search terms
 6. **Sort by citations**: When available, sort search results by citation count to surface influential work first
 7. **Use parallel-cli extract**: Fetch full content from promising URLs found during search to verify relevance before full-text screening
-
-### Screening and Selection
-1. **Use multiple databases** (minimum 3): Ensures comprehensive coverage
-2. **Include preprint servers**: Captures latest unpublished findings
-3. **Document everything**: Search strings, dates, result counts for reproducibility
-4. **Test and refine**: Run pilot searches, review results, adjust search terms
 
 ### Screening and Selection
 1. **Use clear criteria**: Document inclusion/exclusion criteria before screening

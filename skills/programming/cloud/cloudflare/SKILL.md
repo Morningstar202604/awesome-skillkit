@@ -1,7 +1,7 @@
 ---
 name: cloudflare
 description: >-
-  Discover and choose Cloudflare products for apps, APIs, AI agents, storage, networking, and security. Use for architecture and product selection, including when the user describes a need without naming a Cloudflare product; then find the relevant skill or documentation.
+  Discover and choose Cloudflare products for apps, APIs, AI agents, storage, networking, and security. Use for architecture and product selection, including when the user describes a need without naming a Cloudflare product; then find the relevant skill or documentation. Do NOT use for AWS/GCP/Azure equivalents, or for wrangler CLI mechanics (use wrangler).
 description_zh: "发现并选择 Cloudflare 产品：应用、API、AI、存储、网络与安全架构选型。"
 license: Apache-2.0
 compatibility: 需要 Node.js 与 Wrangler；部署等写操作需显式确认。

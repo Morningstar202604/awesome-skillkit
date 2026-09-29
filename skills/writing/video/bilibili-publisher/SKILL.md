@@ -36,8 +36,8 @@ user enters manually.
   the series / topic, and keep it click-worthy but not misleading.
 - **Video description**: up to 250 characters in the visible snippet; longer
   text hides behind "expand". Put the most important info first.
-- **Tags**: up to 12 tags; mix 1 broad tag (e.g. knowledge, tech), 2–3 niche tags,
-  and 1–2 meme / community tags.
+- **Tags**: up to 10 tags (platform ceiling, re-verify on the投稿 page); mix 1 broad
+  tag (e.g. knowledge, tech), 2–3 niche tags, and 1–2 meme / community tags.
 - **Column article (column)**: Markdown supported; headings, code blocks, images,
   and quote blocks render natively.
 - **Dynamic (dynamic post)**: a short feed post, up to ~230 chars visible; supports

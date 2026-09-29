@@ -129,7 +129,7 @@ See `references/checks.md` for the full definition of every check, and `referenc
 
 ## Scope
 
-This skill only audits; it doesn't fix. When it finds problems, it reports them with file locations and fix suggestions; fixing is done by the user or other skills (systematic-debugging, backend-patterns, shadcn-stack).
+This skill only audits; it doesn't fix. When it finds problems, it reports them with file locations and fix suggestions; fixing is done by the user or other skills (systematic-debugging; backend-patterns and shadcn-stack are upstream skills（上游生态技能，未随包收录）).
 
 This skill does NOT:
 
@@ -173,7 +173,7 @@ This skill does NOT:
 
 ## Related Skills
 
-- **karpathy-coder**: run ship-gate after the karpathy-check passes — keep it simple first, then go to production
-- **adversarial-reviewer**: deep security review of the issues ship-gate judges critical
-- **security-pen-testing**: penetration-testing methodology for SEC findings
+- **karpathy-coder**（上游生态技能，未随包收录）: run ship-gate after the karpathy-check passes — keep it simple first, then go to production
+- **adversarial-reviewer**（上游生态技能，未随包收录）: deep security review of the issues ship-gate judges critical
+- **security-pen-testing**（上游生态技能，未随包收录）: penetration-testing methodology for SEC findings
 - **code-reviewer**: general code-quality review, complementary to ship-gate's automated checks

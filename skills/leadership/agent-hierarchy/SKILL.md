@@ -11,7 +11,7 @@ description: >-
   (use agent-designer) or human-resources org charts.
 description_zh: "为仓库设计编排者-子代理层级：按独占写入面拆分代理，让产出者与独立校验者配对。"
 license: MIT
-compatibility: 纯提示型；涉及财务、合规或法律判断时建议人工复核。
+compatibility: 纯提示型，任意支持 SKILL.md 的工具可用。
 metadata:
   author: "cbrock84/headcount 上游（MIT）"
   version: "1.0.0"

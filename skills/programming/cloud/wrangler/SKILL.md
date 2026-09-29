@@ -1,7 +1,7 @@
 ---
 name: wrangler
 description: >-
-  Run or troubleshoot Wrangler CLI commands and configure Worker projects for local development, Previews, deployment, and Cloudflare resource management.
+  Run or troubleshoot Wrangler CLI commands and configure Worker projects for local development, Previews, deployment, and Cloudflare resource management. Use when the user asks to deploy/tail/debug Workers or manage KV/D1/R2 via wrangler. Do NOT use for Cloudflare product selection (use cloudflare) or Workers code patterns (use workers-best-practices).
 description_zh: "运行与排查 Wrangler CLI，配置 Worker 项目的本地开发、预览、部署与 Cloudflare 资源管理"
 license: Apache-2.0
 compatibility: 需要 Node.js 与 Wrangler；部署等写操作需显式确认。

@@ -117,9 +117,9 @@ For platform-specific pipeline configurations, multi-region promotion workflows,
 
 ## Related Skills
 
-- `github-actions-templates` - For GitHub Actions implementation patterns and reusable workflows
-- `gitlab-ci-patterns` - For GitLab CI/CD pipeline implementation
-- `secrets-management` - For secrets handling in CI/CD pipelines
+- `github-actions-templates` *(upstream skill, not bundled in this pack)* - For GitHub Actions implementation patterns and reusable workflows
+- `gitlab-ci-patterns` *(upstream skill, not bundled in this pack)* - For GitLab CI/CD pipeline implementation
+- `secrets-management` *(upstream skill, not bundled in this pack)* - For secrets handling in CI/CD pipelines
 
 ---
 

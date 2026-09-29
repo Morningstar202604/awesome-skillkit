@@ -17,7 +17,7 @@ metadata:
 
 A command-and-post-mortem framework for availability/reliability incidents: severity classification, timeline reconstruction, and structured post-incident review (PIR). This skill handles orchestration and decision-making; it does **not perform the remediation actions it assigns**.
 
-> Distinction: this skill handles availability incidents (outages, degradation, failed releases). Security incidents (ransomware, intrusion, data exfiltration, IOC forensics) → route to `incident-response`. Both use SEV1–SEV4, but this skill classifies by business impact (users/revenue/SLA).
+> Distinction: this skill handles availability incidents (outages, degradation, failed releases). Security incidents (ransomware, intrusion, data exfiltration, IOC forensics) → handle with a dedicated security-incident workflow (the upstream `incident-response` skill is not bundled in this pack). Both use SEV1–SEV4, but this skill classifies by business impact (users/revenue/SLA).
 
 ## Input Checklist
 

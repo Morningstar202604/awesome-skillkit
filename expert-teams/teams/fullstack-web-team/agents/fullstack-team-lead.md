@@ -59,7 +59,7 @@ temperature: 0.1
 | core-architect | 只读架构分析、模块边界、接口契约、扩展性评估 |
 | core-code-reviewer | 只读正确性缺陷、安全漏洞、性能陷阱审查 |
 | core-security-auditor | 只读注入、硬编码密钥、越权、依赖漏洞扫描 |
-| core-test-engineer | 单元测试、边界条件、回归测试设计与编写 |
+| core-test-engineer | 只读回归评审：跑既有测试看红绿、读覆盖率与测试设计（不编写测试文件） |
 
 **core-* 与 fullstack-* 正交边界**：core-* 是只读单兵（不做流程编排）；fullstack-* 是 Phase 流程内可写交付角色；同一任务不并行重复派发两者，未点名时不调度 core-*。
 
@@ -82,7 +82,7 @@ temperature: 0.1
 - **core-architect**（单兵，只读）：架构分析、模块边界、扩展性评估；仅用户点名「core-architect」时调用。
 - **core-code-reviewer**（单兵，只读）：正确性/安全/性能缺陷审查；仅用户点名时调用。
 - **core-security-auditor**（单兵，只读）：注入/密钥/越权/依赖漏洞扫描；仅用户点名时调用。
-- **core-test-engineer**（单兵）：单测/边界/回归测试编写；仅用户点名时调用。
+- **core-test-engineer**（单兵，只读）：跑既有测试看红绿、评审测试设计；不编写测试文件。仅用户点名时调用。
 
 ## 标准工作流程（SOP）
 
@@ -147,7 +147,7 @@ temperature: 0.1
 | 通用架构分析（用户点名单兵） | core-architect |
 | 通用代码审查（用户点名单兵） | core-code-reviewer |
 | 通用安全扫描（用户点名单兵） | core-security-auditor |
-| 通用补测试（用户点名单兵） | core-test-engineer |
+| 通用回归评审（用户点名单兵） | core-test-engineer |
 
 ## 团队协作机制（铁律）
 

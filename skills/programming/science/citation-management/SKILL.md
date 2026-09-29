@@ -37,8 +37,7 @@ Use this skill when:
 - Checking for duplicate citations
 - Ensuring consistent citation formatting
 
-If a document built from these citations needs a diagram, use the
-**scientific-schematics** skill.
+If a document built from these citations needs a diagram, use a schematic tool (the upstream **scientific-schematics** skill（上游生态技能，未随包收录）).
 
 ---
 

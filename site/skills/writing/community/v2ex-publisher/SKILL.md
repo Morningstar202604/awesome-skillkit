@@ -33,8 +33,9 @@ the user enters manually.
   clickbait titles.
 - **Body**: Markdown is supported but used sparingly; plain text with line
   breaks is the norm.
-- **Images**: V2EX does not support inline image upload in posts; reference
-  external image links only when essential, and prefer text.
+- **Images**: V2EX supports image upload/paste in posts; many users still prefer
+  external image hosts (paste the bare URL, not Markdown). Text-first culture —
+  use images only when they carry the point.
 - **Code blocks**: fenced triple backticks for snippets.
 - **Links**: bare links are common; V2EX users paste raw URLs.
 - **Polls / tags**: posts are assigned to one node (node); there are no free

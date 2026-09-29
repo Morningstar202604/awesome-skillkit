@@ -228,9 +228,9 @@ These are structural — they can't be fixed in analysis, only in design.
   interim stopping, and adaptive sample-size re-estimation.
 
 ### Related skills
-- **statistical-power** — required sample size / power for the design you've chosen.
+- **statistical-power** *(upstream skill, not bundled in this pack)* — required sample size / power for the design you've chosen.
 - **statistical-analysis** — running and reporting the analysis after collection.
-- **statsmodels** / **pymc** — fitting the models the design implies.
+- **statsmodels** / **pymc** (Python libraries, not skills) — fitting the models the design implies.
 
 ### Key references
 - Fisher, R. A. (1935). *The Design of Experiments*.

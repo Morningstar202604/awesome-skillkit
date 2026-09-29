@@ -1,7 +1,7 @@
 ---
 name: workers-best-practices
 description: >-
-  Cloudflare Workers best practices for production applications. Use when writing, reviewing, or configuring Workers.
+  Cloudflare Workers best practices for production applications. Use when writing, reviewing, or configuring Workers. Do NOT use for wrangler CLI operations (use wrangler) or generic Node.js servers.
 description_zh: "Cloudflare Workers 生产级最佳实践，指导编写、评审与配置 Workers 应用"
 license: Apache-2.0
 compatibility: 需要 Node.js 与 Wrangler；部署等写操作需显式确认。

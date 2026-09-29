@@ -172,6 +172,6 @@ When escalating you must provide: the blocked requirement number, the specific p
 
 ## Related Skills
 
-- **`engineering-team/tdd-guide`** — red-green-refactor discipline, coverage analysis; use after Step 4.
-- **`engineering/focused-fix`** — for diagnosing systematic problems that arise during spec-driven implementation.
-- **`engineering/rag-architect`** — technical design when the feature involves retrieval/knowledge systems.
+- **`code-quality/tdd-guide`** — red-green-refactor discipline, coverage analysis; use after Step 4.
+- **`quality/debugging-strategies`** — for diagnosing systematic problems that arise during spec-driven implementation.
+- **`engineering/rag-architect`**（上游生态技能，未随包收录） — technical design when the feature involves retrieval/knowledge systems.
