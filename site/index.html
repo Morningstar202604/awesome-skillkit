@@ -25,7 +25,7 @@
       </span>
     </div>
     <h1>Drop a whole scenario into your AI tool,<br><em>in one unzip.</em></h1>
-    <p class="tagline" id="tagline">418 skills · 57 scene packs · 27 domains · 112 skill chains — grab a single SKILL.md or a full-pack zip, drop it in, done.</p>
+    <p class="tagline" id="tagline">418 skills · 57 scene packs · 27 domains · 112 skill chains — grab a pack, drop it in, add the 1-minute skill-first global rule, done.</p>
     <p class="tagline-zh">精选场景包合集：一包 = 一个真实场景，内含多个 skill；下载解压后拖入 AI 工具的 skills 目录即可使用。也支持 skills.sh 一条命令安装：<code>npx skills add x33834/awesome-skillkit</code></p>
     <div class="stats" id="stats">
       <div class="stat sk"></div><div class="stat sk"></div>
@@ -56,6 +56,24 @@
       <p>面向 AI 编程与各类 AI 工具里的<b>多智能体协作</b>：<b>18 支团队 · 219 位专家 · 100 个技能</b>，自带工作流、Phase 门禁与交接协议。</p>
       <p class="line-meta">四平台安装包（OpenCode / Claude Code / Cursor / Gemini CLI）下载即用，也可纯 Markdown 接入</p>
       <a class="btn primary" href="expert-teams.html">进入专家团 / 下载安装包 →</a>
+    </article>
+  </div>
+</section>
+
+<section class="lines" aria-label="安装后 1 分钟配置">
+  <div class="wrap">
+    <article class="line-card" style="grid-column: 1 / -1;">
+      <div class="line-tag">安装后唯一值得做的 1 分钟配置 · SKILL-FIRST 全局规则</div>
+      <h2>先查技能，再动手</h2>
+      <p>技能只有被<b>主动路由</b>才会被用上。请求恰好命中 description 时技能会自动生效——但那是被动的。把下面五条规则粘贴进你的全局指令文件（ZCode：<code>~/.zcode/AGENTS.md</code> · Claude Code：<code>~/.claude/CLAUDE.md</code> · 其他工具用等价的全局指令文件），agent 就会在每个任务开始时主动找技能。完整说明见 <a href="GLOBAL-RULES.md">GLOBAL-RULES.md</a>。</p>
+      <ol>
+        <li>任何专业任务开始时，先查已安装技能里有没有匹配项：扫各 SKILL.md 的 description 触发词（「当用户…」「Use when…」「Do NOT…」）。</li>
+        <li>任务进入新阶段或遇到新子问题时再查一次（写作→发布、数据→图表、草稿→审计都是换技能信号）。</li>
+        <li>命中后先读完整个 SKILL.md 再开工，遵守其流程与边界（尤其 Do NOT）；技能写明「交给 XX 技能」时，把那个技能也查出来一起用。</li>
+        <li>SKILL.md 的约定与你的默认习惯冲突时，以 SKILL.md 为准。</li>
+        <li>查不到匹配就正常干活，不许硬套技能。</li>
+      </ol>
+      <p class="line-meta">已克隆仓库？检索器 <code>python3 skills/meta/skill-finder/scripts/find_skill.py search &lt;关键词&gt;</code>（中英文均可）；多步任务查 <code>skills/skill_chains.json</code>——每域有编排器（entry），按链的 step 推进。</p>
     </article>
   </div>
 </section>

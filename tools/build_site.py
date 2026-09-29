@@ -403,6 +403,11 @@ def main(argv: list[str]) -> int:
             (pack_dir / "_all.zip").write_bytes(_all.read_bytes())
             zips += 1
 
+    # 全局规则（安装后 1 分钟配置）随站点分发，保证官网链接可达
+    gr = SCRIPT_DIR / "GLOBAL-RULES.md"
+    if gr.is_file():
+        write_text_lf(out_dir / "GLOBAL-RULES.md", gr.read_text(encoding="utf-8"))
+
     # 专家团子页（源：expert-teams/site/index.html，由 expert-teams/build-site.py
     # 从子树实装数据生成；此处只做站点内同步，不做二次加工）
     et_page = SCRIPT_DIR / "expert-teams" / "site" / "index.html"
