@@ -42,6 +42,11 @@ def find_skill_dir(name: str) -> Path | None:
         for p in SCRIPT_DIR.glob(f"skills/**/{name}/SKILL.md")
         if p.parent.name == name
     ]
+    if len(hits) > 1:
+        raise SystemExit(
+            f"ERROR: duplicate skill name '{name}' in {len(hits)} dirs: "
+            + ", ".join(str(h) for h in hits)
+        )
     return hits[0] if hits else None
 
 

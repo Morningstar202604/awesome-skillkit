@@ -93,6 +93,10 @@ jobs:
           # pub-plotter→matplotlib（test_all_scripts_import_cleanly 会真实导入脚本）。
           python3 -m pip install --quiet pytest==9.1.1 python-docx==1.2.0 pypdf==6.19.0 matplotlib==3.11.2
           python3 -m pytest skills -q
+          # 文档自检命令冒烟测试：SKILL.md 声称的 pre-flight 命令必须产出声称的结果
+          # （validator 只查路径存在，查不出"文档命令与脚本行为漂移"——见
+          # tests/test_skill_selfchecks.py 文件头说明）。
+          python3 -m pytest tests -q
         # 为什么不用"直接执行 test_*.py"：pytest 风格的测试文件（如
         # test_smoke_*.py 的 assert 函数）直接运行不会执行任何断言——
         # 退出码恒 0，等于空跑假绿。统一走 pytest 才能保证语义一致。

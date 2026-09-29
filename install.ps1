@@ -17,6 +17,11 @@ New-Item -ItemType Directory -Force -Path $Target | Out-Null
 $packCount = 0
 
 Get-ChildItem -LiteralPath $DistDir -Filter "*.zip" | ForEach-Object {
+    # _all.zip is the bundle of every pack; per-pack zips already cover it
+    if ($_.BaseName -eq "_all") {
+        Write-Host "skipping $($_.Name) (bundle, already covered by per-pack zips)"
+        return
+    }
     $tmp = Join-Path $env:TEMP ("skillkit_" + [guid]::NewGuid().ToString("N"))
     New-Item -ItemType Directory -Force -Path $tmp | Out-Null
     try {

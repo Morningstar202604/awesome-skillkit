@@ -66,7 +66,12 @@ class XmlTextOverlapLintGeometryTest(unittest.TestCase):
                 '</presentation>',
                 encoding="utf-8",
             )
-            requested_path.symlink_to(resolved_path)
+            try:
+                requested_path.symlink_to(resolved_path)
+            except OSError:
+                self.skipTest(
+                    "symlink privilege unavailable on this platform/account"
+                )
 
             completed = subprocess.run(
                 [sys.executable, str(script_path), "--input", str(requested_path)],
