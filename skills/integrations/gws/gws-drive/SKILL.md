@@ -1,7 +1,9 @@
 ---
 name: gws-drive
 description: >-
-  Google Drive: Manage files, folders, and shared drives.
+  Google Drive: manage files, folders, and shared drives via the gws CLI. Use when the user asks
+  to 找文件 / 传到云盘 / share a Drive file / organize folders. Do NOT use for editing document contents
+  (use gws-docs / gws-sheets), sending files by email, or local filesystem cleanup.
 description_zh: "通过 gws CLI 管理 Google Drive 的文件、文件夹和共享云盘，完成查找、上传与整理。"
 license: Apache-2.0
 compatibility: 需要 Google Workspace CLI（gws）与 OAuth 凭据。

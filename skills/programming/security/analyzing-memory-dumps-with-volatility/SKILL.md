@@ -1,8 +1,11 @@
 ---
 name: analyzing-memory-dumps-with-volatility
 description: >-
-  'Analyzes RAM memory dumps from compromised systems using the Volatility
-  framework to identify malicious processes,
+  Analyzes RAM memory dumps from compromised systems using the Volatility framework to identify
+  malicious processes, injected code, network connections, and kernel artifacts. Use when triaging
+  a memory image after compromise or validating host-based findings. Use when the user says 内存取证 /
+  memory dump / Volatility / RAM analysis. Do NOT use for disk-image forensics or live-process
+  triage on a running machine.
 description_zh: "用 Volatility 分析内存镜像：定位恶意进程、注入代码、网络连接与内核痕迹。"
 license: Apache-2.0
 compatibility: 纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。
@@ -111,8 +114,10 @@ vol3 -f memory.dmp windows.malfind --dump --pid 2184
 # List loaded DLLs per process
 vol3 -f memory.dmp windows.dlllist --pid 2184
 
-# Detect hollowed processes by comparing mapped image to disk
-vol3 -f memory.dmp windows.hollowfind
+# Detect code injection / process-hollowing candidates
+# (Volatility 2's hollowfind has no Vol3 port; use malfind, and pair
+# windows.pslist vs windows.psscan to spot hidden processes)
+vol3 -f memory.dmp windows.malfind
 
 # Scan for loaded drivers (potential rootkit drivers)
 vol3 -f memory.dmp windows.driverscan

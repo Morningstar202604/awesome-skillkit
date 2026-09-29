@@ -1,7 +1,10 @@
 ---
 name: legal-risk-assessment
 description: >-
-  Assess and classify legal risks using a severity-by-likelihood framework with escalation criteria. Use when evaluating contract risk, assessing deal exposure, classifying issues by severity, or determining whether a matter needs senior counsel or outside legal review.
+  Assess and classify legal risks using a severity-by-likelihood framework with escalation
+  criteria. Use when evaluating contract risk, assessing deal exposure, classifying issues by
+  severity, or determining whether a matter needs senior counsel or outside legal review. Do NOT
+  use for reviewing one specific contract (use review-contract) or preparing regulatory filings.
 description_zh: "用严重度乘可能性框架评估和分级法律风险，含升级标准，判断合同风险、交易敞口及是否需高级或外部律师复核。"
 license: Apache-2.0
 compatibility: 任意兼容 Agent Skills 的工具可用；部分技能假设已连接企业系统（CRM/HRIS/文档库），未连接时按文内提示降级。

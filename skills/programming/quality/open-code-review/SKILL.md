@@ -1,7 +1,13 @@
 ---
 name: open-code-review
 description: >-
-  Performs AI-powered code review on Git changes using the `ocr` CLI from alibaba/open-code-review. Use when the user asks to review code, review a pull request, review staged/unstaged changes, review a commit, or compare branches for code quality issues. Produces line-level review comments and can automatically apply fixes when requested. With appropriate review rules, can detect various types of issues including bugs, security vulnerabilities, performance problems, and code quality concerns.
+  Performs AI-powered code review on Git changes using the `ocr` CLI from alibaba/open-code-
+  review. Use when the user asks to review code, review a pull request, review staged/unstaged
+  changes, review a commit, or compare branches for code quality issues. Produces line-level
+  review comments and can automatically apply fixes when requested. With appropriate review rules,
+  can detect various types of issues including bugs, security vulnerabilities, performance
+  problems, and code quality concerns. Do NOT use when the open-code-review tool is not the target
+  - for general review craft use code-review-excellence.
 description_zh: "用 alibaba/open-code-review 的 ocr 命令行对 Git 变更做 AI 代码审查：审 PR、暂存改动或提交，输出行级评论并可自动修复。"
 license: Apache-2.0
 compatibility: 需要安装 ocr CLI（alibaba/open-code-review）与模型凭据。

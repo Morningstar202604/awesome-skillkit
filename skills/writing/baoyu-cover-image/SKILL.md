@@ -1,10 +1,14 @@
 ---
 name: baoyu-cover-image
 description: >-
-  Generates article cover images with 5 dimensions (type, palette, rendering, text, mood) combining 11 color palettes and 7 rendering styles. Supports cinematic (2.35:1), widescreen (16:9), and square (1:1) aspects. Use when user asks to "generate cover image", "create article cover", or "make cover".
+  Generates article cover images with 5 dimensions (type, palette, rendering, text, mood)
+  combining 11 color palettes and 7 rendering styles. Supports cinematic (2.35:1), widescreen
+  (16:9), and square (1:1) aspects. Use when user asks to "generate cover image", "create article
+  cover", or "make cover". Do NOT use for in-article illustrations (use baoyu-article-illustrator)
+  or video thumbnails.
 description_zh: "生成文章封面图：11 种配色与 7 种渲染风格，支持多种画幅比例。"
 license: MIT
-compatibility: 需要网络与对应平台凭据（微信公众号 API / Chrome CDP 等）；发布类操作先预览再确认。
+compatibility: 需要可用的图像生成后端（外部生图服务或本地模型）；不涉及发布与凭据。
 metadata:
   author: "JimLiu/baoyu-skills 上游（MIT）"
   version: "1.0.0"

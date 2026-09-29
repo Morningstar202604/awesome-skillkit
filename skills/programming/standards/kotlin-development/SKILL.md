@@ -1,8 +1,9 @@
 ---
 name: kotlin-development
 description: >-
-  Kotlin development guidelines with best practices for clean code, naming
-  conventions, function design, and data handling
+  Kotlin development guidelines with best practices for clean code, naming conventions, function
+  design, and data handling Do NOT use for Java-to-Kotlin migration mechanics, Kotlin
+  Multiplatform architecture, or Android SDK specifics.
 description_zh: "Kotlin 规范：命名、函数设计、空安全与数据处理。"
 license: Apache-2.0
 compatibility: 纯提示型；随语言与框架版本演进，以上游为准。
@@ -122,6 +123,12 @@ metadata:
 - Keep files focused and cohesive
 - Use packages/modules to organize code by feature or layer
 - Maintain consistent file structure across the project
+
+## Verification Commands
+
+- `ktlint --reporter=plain src/` — expect no findings.
+- `./gradlew detekt` — expect build successful (findings within baseline).
+- `./gradlew build 2>&1 | grep -i "warning" | wc -l` — expect 0 new warnings.
 
 ---
 

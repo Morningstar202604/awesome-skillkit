@@ -148,10 +148,11 @@ lark-cli im --help
 # → 没有 announcement 相关命令
 
 # Step 2-4: 挖掘文档
-# → PATCH /open-apis/im/v1/chats/:chat_id/announcement
+# → PUT /open-apis/im/v1/chats/:chat_id/announcement
+#   （官方文档页名为 patch，但 HTTP 方法是 PUT；新版群公告另见官方「更新新版群公告」接口）
 
 # Step 5: 调用
-lark-cli api PATCH /open-apis/im/v1/chats/oc_xxx/announcement \
+lark-cli api PUT /open-apis/im/v1/chats/oc_xxx/announcement \
   --data '{"revision":"0","requests":["<html>公告内容</html>"]}'
 ```
 

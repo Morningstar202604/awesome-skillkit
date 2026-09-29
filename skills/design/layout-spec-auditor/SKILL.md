@@ -113,7 +113,7 @@ audited dimensions alone.
 
 Built-in spec library covers mainstream Chinese and overseas platforms (WeChat
 header 900x383 / Xiaohongshu 3:4 vertical 1080x1440 and 1:1 square / Bilibili
-cover 1146x717 / Douyin vertical 1080x1920 / YouTube thumbnail 1280x720 ≤2MB etc).
+cover 1146x717 (shared source: `skills/references/platform-specs.md`) / Douyin vertical 1080x1920 / YouTube thumbnail 1280x720 ≤2MB etc).
 When platform not in library, use `--expect WxH` **paired with** `--width/--height`
 to declare target W×H (see step 1 item 4 example).
 

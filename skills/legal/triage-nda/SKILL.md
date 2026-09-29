@@ -1,7 +1,11 @@
 ---
 name: triage-nda
 description: >-
-  Rapidly triage an incoming NDA and classify it as GREEN (standard approval), YELLOW (counsel review), or RED (full legal review). Use when a new NDA arrives from sales or business development, when screening for embedded non-solicits, non-competes, or missing carveouts, or when deciding whether an NDA can be signed under standard delegation.
+  Rapidly triage an incoming NDA and classify it as GREEN (standard approval), YELLOW (counsel
+  review), or RED (full legal review). Use when a new NDA arrives from sales or business
+  development, when screening for embedded non-solicits, non-competes, or missing carveouts, or
+  when deciding whether an NDA can be signed under standard delegation. Do NOT use for full
+  commercial contract review (use review-contract) - NDA triage only.
 description_zh: "快速分诊收到的 NDA，按绿/黄/红分级判定可否标准审批，筛查非招揽、竞业与缺失豁免条款"
 license: Apache-2.0
 compatibility: 任意兼容 Agent Skills 的工具可用；部分技能假设已连接企业系统（CRM/HRIS/文档库），未连接时按文内提示降级。

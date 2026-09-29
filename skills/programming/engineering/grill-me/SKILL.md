@@ -15,7 +15,25 @@ metadata:
   source: "https://github.com/mattpocock/skills/tree/main"
 ---
 
-Call the Skill tool with "grilling".
+## How to grill (self-contained protocol)
+
+The upstream `grilling` skill is not bundled in this pack — run the interview yourself, in this order:
+
+1. **Restate the plan in one sentence.** Ask the user to confirm your restatement before any questioning. If they can't confirm it, that is the first finding.
+2. **One question at a time.** Never batch questions. Wait for the answer, reflect it back in one line, then ask the next.
+3. **Probe in this sequence** — go down the list; skip only what the plan genuinely doesn't touch:
+   - Assumption: "What are you taking for granted here that could be false?"
+   - Failure: "What does this look like when it goes wrong in production / in front of a user?"
+   - Edge: "What input or scale breaks this first?"
+   - Alternative: "What did you decide NOT to do, and why is that the right call?"
+   - Cost: "What does this cost in the worst case — money, time, trust?"
+4. **Don't accept vague answers.** If the answer is "it depends" or "we'll figure it out", that's a finding — record it and re-ask with a concrete scenario.
+5. **Converge.** After ~5-8 questions (or when answers stop changing the plan), stop. Output three lists:
+   - **Sharpened**: claims that survived questioning (with the evidence given)
+   - **Changed**: claims the user revised mid-interview
+   - **Open**: unanswered risks, each with a suggested owner and deadline
+
+Success criterion: the user can state the plan's weakest point without your help.
 
 ---
 

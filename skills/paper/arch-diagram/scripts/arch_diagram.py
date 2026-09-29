@@ -17,6 +17,7 @@ import argparse
 import json
 import math
 import sys
+import tempfile
 from pathlib import Path
 
 # colorblind-safe palette (same source as pub-plotter)
@@ -111,7 +112,7 @@ def generate_tikz_pipeline(blocks: list, output: str = None, layout: str = "row"
     parts.append("\\end{tikzpicture}")
     tikz = "\n".join(parts) + "\n"
 
-    out = Path(output or "/tmp/arch.tex")
+    out = Path(output or (Path(tempfile.gettempdir()) / "arch.tex"))
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(tikz, encoding="utf-8")
     return {"output": str(out), "format": "tikz", "layout": layout, "n_blocks": n,
@@ -168,7 +169,7 @@ def generate_svg_pipeline(blocks: list, output: str = None, layout: str = "row",
     svg.append("</svg>")
     content = "\n".join(svg) + "\n"
 
-    out = Path(output or "/tmp/arch.svg")
+    out = Path(output or (Path(tempfile.gettempdir()) / "arch.svg"))
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(content, encoding="utf-8")
     return {"output": str(out), "format": "svg", "layout": layout, "n_blocks": n,
@@ -180,7 +181,7 @@ def generate_svg_pipeline(blocks: list, output: str = None, layout: str = "row",
 def generate_neural_net(layers: list, output: str = None) -> dict:
     """Simplified stacked diagram. **For neuron-level network structure diagrams, prefer neural-net-draw**
     (this function only draws an illustrative dot matrix)."""
-    out = Path(output or "/tmp/nn_diagram.tex")
+    out = Path(output or (Path(tempfile.gettempdir()) / "nn_diagram.tex"))
     info = []
     for layer in layers:
         name, _, size = layer.partition("(")

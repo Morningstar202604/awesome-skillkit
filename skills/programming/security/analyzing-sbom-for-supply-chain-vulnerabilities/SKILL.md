@@ -1,7 +1,11 @@
 ---
 name: analyzing-sbom-for-supply-chain-vulnerabilities
 description: >-
-  'Parses Software Bill of Materials (SBOM) in CycloneDX and SPDX JSON
+  Parses Software Bill of Materials (SBOM) in CycloneDX and SPDX JSON formats and cross-references
+  components against CVE feeds for supply-chain exposure. Use when auditing a product's
+  dependencies or responding to a newly disclosed vulnerability. Use when the user says SBOM 审计 /
+  供应链漏洞 / CycloneDX / SPDX. Do NOT use for generating SBOMs from scratch, runtime container image
+  scanning, or license-compliance review.
 description_zh: "解析 CycloneDX / SPDX 格式 SBOM，关联 CVE 排查供应链组件漏洞。"
 license: Apache-2.0
 compatibility: 纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。

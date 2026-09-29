@@ -284,7 +284,8 @@ def cmd_search(args):
             print(err, file=sys.stderr)
             return 2
 
-    terms = [t for t in re.split(r"[\s,]+", args.keyword) if t]
+    raw_keywords = args.keyword if isinstance(args.keyword, list) else [args.keyword]
+    terms = [t for kw in raw_keywords for t in re.split(r"[\s,]+", kw) if t]
     if not terms:
         print("empty keyword", file=sys.stderr)
         return 2
@@ -502,7 +503,7 @@ def main(argv=None):
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     p_search = sub.add_parser("search", help="search skills by keyword")
-    p_search.add_argument("keyword", help="keyword; separate several with spaces (any hit scores)")
+    p_search.add_argument("keyword", nargs="+", help="one or more keywords; separate several with spaces (any hit scores)")
     p_search.add_argument("--json", action="store_true", help="output JSON")
     p_search.add_argument("--top", type=int, default=10, help="max results to show (default 10)")
     p_search.add_argument("--category", default="", help="search only within this category")

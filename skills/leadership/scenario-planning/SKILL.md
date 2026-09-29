@@ -1,13 +1,12 @@
 ---
 name: scenario-planning
 description: >-
-  Plans under genuine uncertainty — building scenarios, identifying which
-  assumptions are load-bearing, setting early-warning indicators, and
-  stress-testing a plan against futures rather than forecasting one. Use
-  this when a decision depends on something unknowable, when a plan assumes
-  conditions that may not hold, before a large irreversible commitment, or
-  when a market, regulatory, or technology shift could invalidate the
-  strategy.
+  Plans under genuine uncertainty — building scenarios, identifying which assumptions are load-
+  bearing, setting early-warning indicators, and stress-testing a plan against futures rather than
+  forecasting one. Use this when a decision depends on something unknowable, when a plan assumes
+  conditions that may not hold, before a large irreversible commitment, or when a market,
+  regulatory, or technology shift could invalidate the strategy. Do NOT use for single-quarter
+  budgeting or financial forecasting mechanics (use the finance skills).
 description_zh: "在真实不确定下做情景规划：构建情景、找承重假设、设早期预警指标并做压力测试。"
 license: MIT
 compatibility: 纯提示型；涉及财务、合规或法律判断时建议人工复核。

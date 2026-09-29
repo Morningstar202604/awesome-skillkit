@@ -39,6 +39,8 @@ metadata:
 >
 > `azure-prepare` → `azure-validate` → `azure-deploy`
 
+> **Fallback when the prerequisite skills are not installed**: `azure-prepare` and `azure-validate` are separate Microsoft skills and are NOT bundled in this pack. If they are unavailable, do NOT auto-proceed. Ask the user to confirm each of these manually before deploying: (1) `azure.yaml` and `infra/` exist and compile (`azd provision --preview` or equivalent); (2) the target environment/subscription is the intended one; (3) the user explicitly accepts the deployment. Record all three confirmations in the output before running any deploy command.
+
 ## Triggers
 
 Activate this skill when user wants to:

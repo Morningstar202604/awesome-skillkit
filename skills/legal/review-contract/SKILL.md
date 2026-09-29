@@ -1,7 +1,11 @@
 ---
 name: review-contract
 description: >-
-  Review a contract against your organization's negotiation playbook — flag deviations, generate redlines, provide business impact analysis. Use when reviewing vendor or customer agreements, when you need clause-by-clause analysis against standard positions, or when preparing a negotiation strategy with prioritized redlines and fallback positions.
+  Review a contract against your organization's negotiation playbook — flag deviations, generate
+  redlines, provide business impact analysis. Use when reviewing vendor or customer agreements,
+  when you need clause-by-clause analysis against standard positions, or when preparing a
+  negotiation strategy with prioritized redlines and fallback positions. Do NOT use for
+  compliance-program design (use compliance-check) or as a substitute for counsel negotiation.
 description_zh: "按组织谈判手册审查合同：标注偏离条款、生成红线修订并提出业务影响分析，支持逐条比对与谈判策略准备。"
 license: Apache-2.0
 compatibility: 任意兼容 Agent Skills 的工具可用；部分技能假设已连接企业系统（CRM/HRIS/文档库），未连接时按文内提示降级。

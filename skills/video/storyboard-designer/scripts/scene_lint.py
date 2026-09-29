@@ -13,16 +13,18 @@ import re
 import sys
 from pathlib import Path
 
+# Field names follow the Scene-File Structure Formula in SKILL.md (single source
+# of truth); matching is case-insensitive.
 REQUIRED_FIELDS = [
-    ("Duration", r"Duration:\s*\S+"),
-    ("Aspect", r"Aspect:\s*\S+"),
-    ("Shot", r"Shot:\s*\S+"),
-    ("Frame", r"Frame:\s*\S+"),
-    ("Camera", r"Camera:\s*\S+"),
-    ("Lighting", r"Lighting:\s*\S+"),
-    ("Sound", r"Sound:\s*\S+"),
-    ("Video prompt", r"Video prompt:\s*\S+"),
-    ("Transition", r"Transition:\s*\S+"),
+    ("Duration", r"duration:\s*\S+"),
+    ("Aspect", r"aspect:\s*\S+"),
+    ("Shot size", r"shot size:\s*\S+"),
+    ("Frame", r"frame:\s*\S+"),
+    ("Camera move", r"camera move:\s*\S+"),
+    ("Lighting", r"lighting:\s*\S+"),
+    ("Sound", r"sound:\s*\S+"),
+    ("Video prompt", r"video prompt:\s*\S+"),
+    ("Transition", r"transition:\s*\S+"),
 ]
 
 SCENE_RE = re.compile(r"^scene-(\d{2})\.md$")
@@ -45,7 +47,7 @@ def lint(directory: Path) -> list[str]:
     for p in scene_files:
         text = p.read_text(encoding="utf-8")
         for name, pattern in REQUIRED_FIELDS:
-            if not re.search(pattern, text):
+            if not re.search(pattern, text, re.I):
                 problems.append(f"FIELD: {p.name} missing field '{name}'")
         m = DURATION_RE.search(text)
         if m:

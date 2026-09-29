@@ -1,7 +1,11 @@
 ---
 name: kb-article
 description: >-
-  Draft a knowledge base article from a resolved issue or common question. Use when a ticket resolution is worth documenting for self-service, the same question keeps coming up, a workaround needs to be published, or a known issue should be communicated to customers.
+  Draft a knowledge base article from a resolved issue or common question. Use when a ticket
+  resolution is worth documenting for self-service, the same question keeps coming up, a
+  workaround needs to be published, or a known issue should be communicated to customers. Do NOT
+  use for replying to individual tickets (use draft-response) or triaging queues (use ticket-
+  triage).
 description_zh: "根据已解决的问题或常见疑问起草知识库文章，用于客户自助服务、发布变通方案或告知已知问题。"
 license: Apache-2.0
 compatibility: 任意兼容 Agent Skills 的工具可用；部分技能假设已连接企业系统（CRM/HRIS/文档库），未连接时按文内提示降级。

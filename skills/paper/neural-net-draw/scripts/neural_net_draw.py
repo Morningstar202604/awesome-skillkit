@@ -23,6 +23,7 @@ does not run pdflatex. Compilation requires a preamble with pgfplots + tikz.
 import argparse
 import json
 import sys
+import tempfile
 from pathlib import Path
 
 # type -> (display abbreviation, fill color)  -- aligned with common paper color conventions (not hard science, illustrative)
@@ -88,7 +89,7 @@ def draw_nn(spec: str, label: str = "Model", activation: str = "relu",
 
     style: auto (typed-blocks when types are present, otherwise per-neuron) / per-neuron / typed-blocks
     """
-    out = Path(output or "/tmp/nn_model.tex")
+    out = Path(output or (Path(tempfile.gettempdir()) / "nn_model.tex"))
     layers = _parse_layers(spec)
     n_layers = len(layers)
     has_type = any(t != "fc" for _, t in layers)
@@ -197,7 +198,7 @@ def main():
     parser.add_argument("--style", default="auto",
                         choices=["auto", "per-neuron", "typed-blocks"],
                         help="auto=typed-blocks when types present, else per-neuron (default)")
-    parser.add_argument("--output", help="Output .tex file (default /tmp/nn_model.tex)")
+    parser.add_argument("--output", help="Output .tex file (default: system temp dir)")
     args = parser.parse_args()
     result = draw_nn(args.layers, args.label, args.activation, args.output, args.style)
     print(json.dumps(result, ensure_ascii=False, indent=2))

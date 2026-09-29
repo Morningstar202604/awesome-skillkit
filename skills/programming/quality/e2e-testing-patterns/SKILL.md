@@ -1,7 +1,10 @@
 ---
 name: e2e-testing-patterns
 description: >-
-  Master end-to-end testing with Playwright and Cypress to build reliable test suites that catch bugs, improve confidence, and enable fast deployment. Use when implementing E2E tests, debugging flaky tests, or establishing testing standards.
+  Master end-to-end testing with Playwright and Cypress to build reliable test suites that catch
+  bugs, improve confidence, and enable fast deployment. Use when implementing E2E tests, debugging
+  flaky tests, or establishing testing standards. Do NOT use for unit/integration test design,
+  framework selection, or test-data management.
 description_zh: "用 Playwright 与 Cypress 做端到端测试，编写可靠测试套件、调试不稳定的 flaky 用例并建立团队测试标准。"
 license: MIT
 compatibility: 纯提示型，任意支持 SKILL.md 的工具可用；无外部依赖。

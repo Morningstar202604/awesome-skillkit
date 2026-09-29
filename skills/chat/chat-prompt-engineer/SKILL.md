@@ -124,4 +124,4 @@ For long-content tasks, run **three rounds of iteration**: round one asks only f
 
 ## Chain Handoff (downstream suggestion)
 
-This skill is independent of other domains — a standalone "prompt engineering" skill that any domain's orchestrator can call when it needs to "write the prompt well before executing"; its structure is isomorphic to shot-designer but they are not linked to each other. Suggest adding a chat domain in skill_chains.json and registering this skill, e.g. the chat domain's prompt_audit chain: chat-prompt-engineer (self-audit across task / agent two modes).
+This skill is independent of other domains — a standalone "prompt engineering" skill that any domain's orchestrator can call when it needs to "write the prompt well before executing"; its structure is isomorphic to shot-designer but they are not linked to each other. This skill currently ships standalone (not registered in skill_chains.json); any domain's orchestrator may call it directly before prompt execution.

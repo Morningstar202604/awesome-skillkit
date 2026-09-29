@@ -256,8 +256,8 @@ because they can contain identifiers or paths.
 - `scripts/snapshot_tools.py` — schema validator and bounded structural diff.
 - `scripts/accelerator_diagnostics.py` — non-executing read-only diagnostic
   plan.
-- `tests/get-available-resources/` in the repository root — network-free
-  Linux, macOS, Windows, cgroup, Slurm, and accelerator cases.
+- upstream test suite `tests/get-available-resources/` — network-free Linux,
+  macOS, Windows, cgroup, Slurm, and accelerator cases (not bundled in this pack).
 - `references/resource_semantics.md` — interpretation and platform details.
 - `references/snapshot_schema.md` — schema 1.1 contract.
 - `references/sources.md` — dated official-source ledger.

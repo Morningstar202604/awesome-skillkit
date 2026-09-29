@@ -1,7 +1,10 @@
 ---
 name: code-review-excellence
 description: >-
-  Master effective code review practices to provide constructive feedback, catch bugs early, and foster knowledge sharing while maintaining team morale. Use when reviewing pull requests, establishing review standards, or mentoring developers.
+  Master effective code review practices to provide constructive feedback, catch bugs early, and
+  foster knowledge sharing while maintaining team morale. Use when reviewing pull requests,
+  establishing review standards, or mentoring developers. Do NOT use for security-focused review
+  (use security skills) or repository-specific checklist enforcement.
 description_zh: "掌握高效代码评审实践：给出建设性反馈、早发现缺陷并促进知识共享。"
 license: MIT
 compatibility: 纯提示型，任意支持 SKILL.md 的工具可用；无外部依赖。
@@ -383,7 +386,6 @@ function UserProfile({ user, onView }: Props) {
 - [ ] No hardcoded secrets?
 - [ ] CSRF protection for state-changing operations?
 - [ ] Rate limiting on public endpoints?
-```
 
 ## Giving Difficult Feedback
 

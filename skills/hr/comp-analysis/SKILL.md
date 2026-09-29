@@ -1,7 +1,10 @@
 ---
 name: comp-analysis
 description: >-
-  Analyze compensation — benchmarking, band placement, and equity modeling. Trigger with "what should we pay a [role]", "is this offer competitive", "model this equity grant", or when uploading comp data to find outliers and retention risks.
+  Analyze compensation — benchmarking, band placement, and equity modeling. Trigger with "what
+  should we pay a [role]", "is this offer competitive", "model this equity grant", or when
+  uploading comp data to find outliers and retention risks. Do NOT use for executive compensation
+  strategy (use chro-advisor) or payroll processing.
 description_zh: "薪酬分析：市场对标、职级带宽定位与股权建模，识别异常与留人风险。"
 license: Apache-2.0
 compatibility: 任意兼容 Agent Skills 的工具可用；部分技能假设已连接企业系统（CRM/HRIS/文档库），未连接时按文内提示降级。

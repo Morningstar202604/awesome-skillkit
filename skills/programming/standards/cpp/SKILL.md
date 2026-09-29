@@ -1,8 +1,9 @@
 ---
 name: cpp
 description: >-
-  Guidelines for modern C++ development with C++17/20 standards, memory
-  safety, and performance optimization
+  Guidelines for modern C++ development with C++17/20 standards, memory safety, and performance
+  optimization Do NOT use for pure C (not C++) codebases, build-system selection, or third-party
+  library choice.
 description_zh: "现代 C++（C++17/20）规范：内存安全与性能优化。"
 license: Apache-2.0
 compatibility: 纯提示型；随语言与框架版本演进，以上游为准。
@@ -134,6 +135,12 @@ You are an expert in modern C++ development with deep knowledge of C++17/20 stan
 - Use package managers (vcpkg, Conan) for dependencies
 - Enable compiler warnings and static analysis
 - Configure proper debug and release builds
+
+## Verification Commands
+
+- `clang-tidy -p build/ src/file.cpp` — expect no `clang-analyzer-*` or `bugprone-*` findings on touched files.
+- `cppcheck --enable=warning,performance src/` — expect exit 0.
+- `cmake --build build/ 2>&1 | grep -i warning | wc -l` — expect 0 new warnings vs. main branch.
 
 ---
 

@@ -1,8 +1,8 @@
 ---
 name: rust
 description: >-
-  Expert in Rust development with focus on safety, performance, and async
-  programming
+  Expert in Rust development with focus on safety, performance, and async programming Do NOT use
+  for unsafe/FFI design review, async-runtime selection, or Cargo workspace restructuring.
 description_zh: "Rust 开发规范：内存安全、性能与异步编程。"
 license: Apache-2.0
 compatibility: 纯提示型；随语言与框架版本演进，以上游为准。
@@ -71,6 +71,12 @@ You are an expert in Rust development with deep knowledge of systems programming
 - Validate all inputs thoroughly
 - Conduct regular vulnerability audits
 - Follow security best practices for data handling
+
+## Verification Commands
+
+- `cargo fmt --check` — expect silent exit 0.
+- `cargo clippy --all-targets -- -D warnings` — expect exit 0.
+- `cargo doc --no-deps 2>&1 | grep -c warning` — expect 0 broken intra-doc links.
 
 ---
 

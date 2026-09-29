@@ -48,11 +48,11 @@ Route A: also give a title; route B: also give the final-cut path."
 | Platform | Size | Ratio | Size Limit |
 |------|------|------|------|
 | Douyin | 1080x1920 | 9:16 | 2MB |
-| Bilibili | 1920x1080 | 16:9 | 2MB |
+| Bilibili | 1146x717 | 16:10 (1920x1080 also accepted, auto-cropped) | 5MB |
 | TikTok | 1080x1920 | 9:16 | 2MB |
 | YouTube | 1280x720 | 16:9 | 2MB |
 
-(The script has the same `PLATFORM_SPECS` built in; 2026 common values — check the platform's latest spec before publishing.)
+(The script has the same `PLATFORM_SPECS` built in; cross-checked values live in [`skills/references/platform-specs.md`](../../references/platform-specs.md) — re-verify against the platform before publishing.)
 
 ## Pre-flight Checks
 

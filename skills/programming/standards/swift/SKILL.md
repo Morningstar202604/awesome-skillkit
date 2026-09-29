@@ -1,8 +1,8 @@
 ---
 name: swift
 description: >-
-  Expert in Swift and SwiftUI development for iOS, macOS, and Apple
-  platforms
+  Expert in Swift and SwiftUI development for iOS, macOS, and Apple platforms Do NOT use for
+  Objective-C interop design, App Store review issues, or SwiftUI vs UIKit architecture choices.
 description_zh: "Swift 与 SwiftUI 规范：iOS / macOS / Apple 平台开发。"
 license: Apache-2.0
 compatibility: 纯提示型；随语言与框架版本演进，以上游为准。
@@ -70,6 +70,11 @@ You are an expert in Swift and SwiftUI development for Apple platforms including
 - Use lazy loading for large data sets
 - Implement proper caching strategies
 - Profile with Instruments
+
+## Verification Commands
+
+- `swiftlint lint --strict` — expect no error-level findings.
+- `swift build 2>&1 | grep -c "warning:"` — expect 0 new warnings vs. main branch.
 
 ---
 

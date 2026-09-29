@@ -1,7 +1,12 @@
 ---
 name: spec-driven-development
 description: >-
-  Creates specs before coding. Use when starting a new project, feature, or significant change and no specification exists yet. Use when drafting a PRD or requirements document with objectives and scope, or when requirements are unclear, ambiguous, or only exist as a vague idea. Use when a single requirement spans several independently testable capabilities and needs decomposing into a capability map of modules before specifying.
+  Creates specs before coding. Use when starting a new project, feature, or significant change and
+  no specification exists yet. Use when drafting a PRD or requirements document with objectives
+  and scope, or when requirements are unclear, ambiguous, or only exist as a vague idea. Use when
+  a single requirement spans several independently testable capabilities and needs decomposing
+  into a capability map of modules before specifying. Do NOT use for executing the implementation
+  phases after the spec is approved (use spec-driven-workflow).
 description_zh: "编码前先写规格：为项目、功能或改动起草含目标与范围的 PRD，把模糊需求拆成可测的能力模块"
 license: MIT
 compatibility: 纯提示型，任意支持 SKILL.md 的工具可用；无外部依赖。

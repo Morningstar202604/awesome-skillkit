@@ -227,7 +227,7 @@ Output the final plan as a markdown table plus a short prose note on the overall
 | Slide | 0.3-0.6s | `xfade=transition=slideleft` / `slideright` | |
 | Wipe up/down | 0.3-0.6s | `xfade=transition=wiperight` variants | |
 | Whip pan | 0.2-0.4s | Not native to xfade; use `rx="...":ry="..."` zoompan or motion-blur overlay | Plan only; execution in video-editor |
-| Glitch | 0.2-0.5s | Not native; use `glitch` filter or overlay clip | Plan only |
+| Glitch | 0.2-0.5s | Not native to xfade; use a `noise` + `chromashift` stack or an overlay clip | Plan only |
 | Speed ramp | 0.5-1.5s | `setpts` + `fps`; not an xfade | Plan only |
 | J-cut | audio leads 0.5-1.5s | `adelay` on next clip's audio, or `acrossfade` | See video-editor recipes |
 | L-cut | video leads, audio tails 0.5-2.0s | `apad` on previous clip's audio | |

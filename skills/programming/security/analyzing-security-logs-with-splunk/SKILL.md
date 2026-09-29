@@ -1,7 +1,11 @@
 ---
 name: analyzing-security-logs-with-splunk
 description: >-
-  'Leverages Splunk Enterprise Security and SPL (Search Processing Language)
+  Leverages Splunk Enterprise Security and SPL (Search Processing Language) for security-log
+  correlation, timeline reconstruction, and incident investigation. Use when writing SPL
+  detections or investigating across indexed security telemetry. Use when the user says SPL 检索 /
+  Splunk 调查 / timeline / correlation search. Do NOT use for Splunk cluster administration, index
+  tuning, or ingestion pipeline management.
 description_zh: "用 Splunk 与 SPL 做安全日志关联、时间线重建与事件调查。"
 license: Apache-2.0
 compatibility: 纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。
@@ -42,7 +46,7 @@ metadata:
 Define search parameters based on incident triage data:
 
 ```spl
-| Set initial investigation scope
+# Set initial investigation scope
 index=windows OR index=firewall OR index=proxy
   earliest="2025-11-14T00:00:00" latest="2025-11-16T00:00:00"
   (host="WKSTN-042" OR src_ip="10.1.5.42" OR user="jsmith")
@@ -57,7 +61,7 @@ This query establishes which log sources contain relevant data for the investiga
 Investigate suspicious authentication patterns using Windows Security Event Logs:
 
 ```spl
-| Detect brute force and credential stuffing
+# Detect brute force and credential stuffing
 index=windows sourcetype="WinEventLog:Security" EventCode=4625
   earliest=-24h
 | stats count as failed_attempts, values(src_ip) as source_ips,
@@ -65,12 +69,12 @@ index=windows sourcetype="WinEventLog:Security" EventCode=4625
 | where failed_attempts > 10
 | sort -failed_attempts
 
-| Detect pass-the-hash (Logon Type 9 - NewCredentials)
+# Detect pass-the-hash (Logon Type 9 - NewCredentials)
 index=windows sourcetype="WinEventLog:Security" EventCode=4624
   Logon_Type=9
 | table _time, host, TargetUserName, src_ip, LogonProcessName
 
-| Detect lateral movement via RDP
+# Detect lateral movement via RDP
 index=windows sourcetype="WinEventLog:Security" EventCode=4624
   Logon_Type=10
 | stats count, values(host) as targets by TargetUserName, src_ip
@@ -89,14 +93,14 @@ index=sysmon EventCode=1 host="WKSTN-042"
 | table _time, ParentImage, ParentCommandLine, Image, CommandLine, User, Hashes
 | sort _time
 
-| Detect suspicious PowerShell execution
+# Detect suspicious PowerShell execution
 index=sysmon EventCode=1 Image="*\\powershell.exe"
   (CommandLine="*-enc*" OR CommandLine="*-encodedcommand*"
    OR CommandLine="*downloadstring*" OR CommandLine="*iex*")
 | table _time, host, User, ParentImage, CommandLine
 | sort _time
 
-| Detect LSASS credential dumping
+# Detect LSASS credential dumping
 index=sysmon EventCode=10 TargetImage="*\\lsass.exe"
   GrantedAccess=0x1010
 | table _time, host, SourceImage, SourceUser, GrantedAccess
@@ -107,19 +111,19 @@ index=sysmon EventCode=10 TargetImage="*\\lsass.exe"
 Correlate network logs with endpoint events:
 
 ```spl
-| Detect C2 beaconing pattern
+# Detect C2 beaconing pattern
 index=proxy OR index=firewall dest_ip="185.220.101.42"
 | timechart span=1m count by src_ip
 | where count > 0
 
-| Detect DNS tunneling (high query volume to single domain)
+# Detect DNS tunneling (high query volume to single domain)
 index=dns
 | rex field=query "(?<subdomain>[^\.]+)\.(?<domain>[^\.]+\.[^\.]+)$"
 | stats count, avg(len(query)) as avg_query_len by domain, src_ip
 | where count > 500 AND avg_query_len > 40
 | sort -count
 
-| Detect large data transfers (potential exfiltration)
+# Detect large data transfers (potential exfiltration)
 index=proxy action=allowed
 | stats sum(bytes_out) as total_bytes by src_ip, dest_ip, dest_host
 | eval total_MB=round(total_bytes/1024/1024,2)
@@ -132,7 +136,7 @@ index=proxy action=allowed
 Reconstruct a unified timeline across all log sources:
 
 ```spl
-| Unified incident timeline
+# Unified incident timeline
 index=windows OR index=sysmon OR index=proxy OR index=firewall
   (host="WKSTN-042" OR src_ip="10.1.5.42" OR user="jsmith")
   earliest="2025-11-15T14:00:00" latest="2025-11-15T16:00:00"

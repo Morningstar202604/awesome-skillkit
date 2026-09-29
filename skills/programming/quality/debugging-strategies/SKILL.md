@@ -1,7 +1,10 @@
 ---
 name: debugging-strategies
 description: >-
-  Master systematic debugging techniques, profiling tools, and root cause analysis to efficiently track down bugs across any codebase or technology stack. Use when investigating bugs, performance issues, or unexpected behavior.
+  Master systematic debugging techniques, profiling tools, and root cause analysis to efficiently
+  track down bugs across any codebase or technology stack. Use when investigating bugs,
+  performance issues, or unexpected behavior. Do NOT use for performance profiling (use
+  performance-profiler) or post-mortem/incident process design.
 description_zh: "掌握系统化调试：剖析工具、性能排查与根因分析，跨技术栈定位缺陷。"
 license: MIT
 compatibility: 纯提示型，任意支持 SKILL.md 的工具可用；无外部依赖。
@@ -343,10 +346,7 @@ git bisect reset  # when done
 
 ### Technique 2: Differential Debugging
 
-Compare working vs broken:
-
-```markdown
-- 本主题的完整细节见 [references/what-s-different.md](references/what-s-different.md)。
+Compare working vs broken: run the same operation against a known-good baseline (last green commit, sibling service, or canned fixture) and diff the observable behavior — state, timing, side effects. The diff isolates the failure surface. Full details: [references/what-s-different.md](references/what-s-different.md).
 
 ## Debugging Patterns by Issue Type
 

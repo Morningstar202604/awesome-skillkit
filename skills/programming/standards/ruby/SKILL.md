@@ -1,9 +1,9 @@
 ---
 name: ruby
 description: >-
-  Ruby development guidelines covering idiomatic code style, Ruby 3.x
-  features, testing with RSpec, and best practices for building maintainable
-  Ruby applications.
+  Ruby development guidelines covering idiomatic code style, Ruby 3.x features, testing with
+  RSpec, and best practices for building maintainable Ruby applications. Do NOT use for Rails-
+  specific conventions, gem packaging, or Ruby version upgrades.
 description_zh: "Ruby 规范：地道写法、Ruby 3.x 特性与 RSpec 测试。"
 license: Apache-2.0
 compatibility: 纯提示型；随语言与框架版本演进，以上游为准。
@@ -99,6 +99,11 @@ end
 - Use parameterized queries
 - Keep dependencies updated
 - Follow security best practices for handling sensitive data
+
+## Verification Commands
+
+- `rubocop` — expect `no offenses detected` (or only accepted todos from .rubocop_todo.yml).
+- `rubocop --format json | jq '.summary.offense_count'` — expect 0 on touched files.
 
 ---
 

@@ -1,7 +1,11 @@
 ---
 name: onboarding
 description: >-
-  Generate an onboarding checklist and first-week plan for a new hire. Use when someone has a start date coming up, building the pre-start task list (accounts, equipment, buddy), scheduling Day 1 and Week 1, or setting 30/60/90-day goals for a new team member.
+  Generate an onboarding checklist and first-week plan for a new hire. Use when someone has a
+  start date coming up, building the pre-start task list (accounts, equipment, buddy), scheduling
+  Day 1 and Week 1, or setting 30/60/90-day goals for a new team member. Do NOT use for
+  offboarding/exit processes, drafting new policy (use policy-lookup for existing policy), or
+  legal compliance review.
 description_zh: "为新员工生成入职清单与首周计划：入职前账号设备与伙伴安排、Day 1 与第一周日程，以及 30/60/90 天目标。"
 license: Apache-2.0
 compatibility: 任意兼容 Agent Skills 的工具可用；部分技能假设已连接企业系统（CRM/HRIS/文档库），未连接时按文内提示降级。

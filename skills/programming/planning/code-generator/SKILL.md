@@ -41,8 +41,7 @@ Converts code-intent-planner's task plan into runnable code files. Two-tier arch
 |------|------|------|------|
 | plan_json | Yes | The complete JSON output of code-intent-planner (a file path or inline JSON) | code-intent-planner |
 | project_root | No | The project root directory | Auto-detected |
-| output | No | Report output file path (markdown/json report persisted) | — |
-| output_dir | No | Code-file output directory (code files are written only with `--format json` and non-dry-run) | Defaults to current directory |
+| output | No | Output directory for generated code files (`--output` / `-o`) | Defaults to current directory |
 | dry_run | No | Only output the report, don't write any files | false |
 
 Missing-input prompt template: "Please provide: (1) the JSON output of code-intent-planner (or the plan file path). The project directory is auto-detected."
@@ -178,7 +177,7 @@ code-generator → generate code files → agent validation (Step 4) → tdd-gui
 
 - Definition of success: all generatable sub_tasks in the plan produce files, and **agent validation** (Step 4) passes or is explicitly listed as "needs human intervention".
 - Artifact naming: follow the plan's target and module conventions (e.g. `src/{target}/model.py`, `tests/test_{target}_service.py`).
-- Save location: code → `--output-dir` (default current directory); report → `--output` (defaults to stdout).
+- Save location: code → `--output` (defaults to current directory); report → stdout unless `--format json` persists it alongside the code.
 - Completeness verification: rerunning Step 4 is all ✓; the "generated + pending + failed" counts match actual artifacts; the scaffold's three IOUs are written into the delivery notes.
 
 ## References

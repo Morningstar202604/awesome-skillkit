@@ -1,8 +1,8 @@
 ---
 name: elixir
 description: >-
-  Expert in Elixir and Phoenix development with functional programming
-  patterns
+  Expert in Elixir and Phoenix development with functional programming patterns Do NOT use for
+  Erlang-only codebases, OTP release/deployment ops, or Phoenix-specific patterns.
 description_zh: "Elixir 与 Phoenix 规范：函数式模式与并发实践。"
 license: Apache-2.0
 compatibility: 纯提示型；随语言与框架版本演进，以上游为准。
@@ -66,6 +66,12 @@ You are an expert in Elixir and Phoenix development with deep knowledge of funct
 - Use Ecto's `preload` to avoid N+1 queries
 - Leverage OTP patterns for concurrent operations
 - Use process pooling for resource management
+
+## Verification Commands
+
+- `mix format --check-formatted` — expect exit 0.
+- `mix credo --strict` — expect no `consistency` or `readability` failures; record accepted ones.
+- `mix compile --warnings-as-errors` — expect exit 0.
 
 ---
 

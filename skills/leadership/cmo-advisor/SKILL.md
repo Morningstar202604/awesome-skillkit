@@ -1,7 +1,12 @@
 ---
 name: cmo-advisor
 description: >-
-  Marketing leadership for scaling companies. Brand positioning, growth model design, marketing budget allocation, and marketing org design. Use when designing brand strategy, selecting growth models (PLG vs sales-led vs community-led), allocating marketing budgets, building marketing teams, or when user mentions CMO, brand strategy, growth model, CAC, LTV, channel mix, or marketing ROI.
+  Marketing leadership for scaling companies. Brand positioning, growth model design, marketing
+  budget allocation, and marketing org design. Use when designing brand strategy, selecting growth
+  models (PLG vs sales-led vs community-led), allocating marketing budgets, building marketing
+  teams, or when user mentions CMO, brand strategy, growth model, CAC, LTV, channel mix, or
+  marketing ROI. Do NOT use for executing campaigns or producing marketing content (use the
+  marketing skills).
 description_zh: "CMO 营销建议：品牌定位、增长模型、预算分配与营销组织设计。"
 license: MIT
 compatibility: 纯提示型（部分带本地脚本）；输出为策略/文档，不直接调用外部系统。
@@ -169,7 +174,7 @@ All output passes the Internal Quality Loop before reaching the founder (see the
 
 - **Always** read `company-context.md` before responding (if it exists)
 - **During board meetings:** Use only your own analysis in Phase 2 (no cross-pollination)
-- **Invocation:** You can request input from other roles: `[INVOKE:role|question]`
+- **Invocation:** To pull in another advisor role, state the handoff inline — name the role, the question, and what you need back. No external protocol is required.
 
 ---
 

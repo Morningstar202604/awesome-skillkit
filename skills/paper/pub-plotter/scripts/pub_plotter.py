@@ -17,6 +17,7 @@ is a real PDF/PNG.
 import argparse
 import json
 import sys
+import tempfile
 from pathlib import Path
 
 # real journal physical widths (inches); publication-grade figures should align to the target
@@ -119,7 +120,7 @@ def _save(fig, out):
 def plot_line(data: dict, style="ieee", output=None, colorblind=True,
               journal: str = None) -> dict:
     plt, c = setup_style(style, colorblind, journal)
-    out = Path(output or "/tmp/fig_pub_line.pdf")
+    out = Path(output or (Path(tempfile.gettempdir()) / "fig_pub_line.pdf"))
     fig, ax = plt.subplots(figsize=(c["width"], c["width"] * 0.7))
     series = data.get("series", [{"name": "Ours", "values": data.get("y", [0.7, 0.8, 0.9])}])
     xs = data.get("x", list(range(len(series[0].get("values", [0])))))
@@ -141,7 +142,7 @@ def plot_line(data: dict, style="ieee", output=None, colorblind=True,
 def plot_bar(data: dict, style="ieee", output=None, colorblind=True,
              journal: str = None) -> dict:
     plt, c = setup_style(style, colorblind, journal)
-    out = Path(output or "/tmp/fig_pub_bar.pdf")
+    out = Path(output or (Path(tempfile.gettempdir()) / "fig_pub_bar.pdf"))
     fig, ax = plt.subplots(figsize=(c["width"], c["width"] * 0.7))
     labels = data.get("labels", ["A", "B", "C", "D"])
     values = data.get("values", [0.75, 0.80, 0.82, 0.85])
@@ -162,7 +163,7 @@ def plot_bar(data: dict, style="ieee", output=None, colorblind=True,
 def plot_boxplot(data: dict, style="ieee", output=None, colorblind=True,
                  journal: str = None) -> dict:
     plt, c = setup_style(style, colorblind, journal)
-    out = Path(output or "/tmp/fig_pub_box.pdf")
+    out = Path(output or (Path(tempfile.gettempdir()) / "fig_pub_box.pdf"))
     fig, ax = plt.subplots(figsize=(c["width"], c["width"] * 0.7))
     groups = data.get("groups", ["Baseline", "Ours"])
     data_g = data.get("data", [[0.8, 0.82, 0.78], [0.88, 0.91, 0.85]])
@@ -191,7 +192,7 @@ def plot_heatmap(data: dict, style="ieee", output=None, colorblind=True,
         import numpy as np
     except ImportError:
         return {"status": "skipped", "note": "numpy not available (required by matplotlib)"}
-    out = Path(output or "/tmp/fig_pub_heatmap.pdf")
+    out = Path(output or (Path(tempfile.gettempdir()) / "fig_pub_heatmap.pdf"))
     matrix = data.get("matrix", [[0.80, 0.72, 0.65], [0.68, 0.85, 0.79]])
     m = np.asarray(matrix, dtype=float)
     if m.ndim != 2:

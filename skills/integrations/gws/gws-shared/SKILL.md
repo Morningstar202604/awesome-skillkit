@@ -1,7 +1,10 @@
 ---
 name: gws-shared
 description: >-
-  gws CLI: Shared patterns for authentication, global flags, and output formatting.
+  gws CLI: shared patterns for authentication, global flags, and output formatting, reused by
+  every Google Workspace skill in this pack. Use when debugging auth/flag/output questions that
+  apply across gws-* skills or before running any gws CLI command for the first time. Do NOT use
+  for product-specific operations — go to the matching per-product gws skill first.
 description_zh: "gws CLI 通用模式说明：认证方式、全局参数与输出格式，供各 Google Workspace 技能共享复用。"
 license: Apache-2.0
 compatibility: 需要 Google Workspace CLI（gws）与 OAuth 凭据。

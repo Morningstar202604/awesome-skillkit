@@ -1,10 +1,13 @@
 ---
 name: baoyu-format-markdown
 description: >-
-  Formats plain text or markdown files with frontmatter, titles, summaries, headings, bold, lists, and code blocks. Use when user asks to "format markdown", "beautify article", "add formatting", or improve article layout. Outputs to {filename}-formatted.md.
+  Formats plain text or markdown files with frontmatter, titles, summaries, headings, bold, lists,
+  and code blocks. Use when user asks to "format markdown", "beautify article", "add formatting",
+  or improve article layout. Outputs to {filename}-formatted.md. Do NOT use for translation (use
+  baoyu-translate) or HTML rendering (use baoyu-markdown-to-html).
 description_zh: "整理 Markdown 或纯文本：添加 frontmatter、标题、摘要、列表与代码块。"
 license: MIT
-compatibility: 需要网络与对应平台凭据（微信公众号 API / Chrome CDP 等）；发布类操作先预览再确认。
+compatibility: 纯提示型 + 本地文件操作，无网络与凭据要求。
 metadata:
   author: "JimLiu/baoyu-skills 上游（MIT）"
   version: "1.0.0"

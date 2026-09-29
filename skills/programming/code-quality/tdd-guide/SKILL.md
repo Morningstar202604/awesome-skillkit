@@ -1,13 +1,13 @@
 ---
 name: tdd-guide
 description: >-
-  Test-driven development skill for writing unit tests, generating test fixtures
-  and mocks, analyzing coverage gaps, and guiding red-green-refactor workflows
-  across Jest, Pytest, JUnit, Vitest, and Mocha. Use when the user asks to write
-  tests, improve test coverage, practice TDD, write tests before implementation,
-  raise test coverage, generate mocks or stubs, run the
-  red-green-refactor cycle, or mentions testing frameworks like Jest, pytest, or
-  JUnit. Do NOT use for skipping the red-green-refactor cycle.
+  Test-driven development skill for writing unit tests, generating test fixtures and mocks,
+  analyzing coverage gaps, and guiding red-green-refactor workflows across Jest, Pytest, JUnit,
+  Vitest, and Mocha. Use when the user asks to write tests, improve test coverage, practice TDD,
+  write tests before implementation, raise test coverage, generate mocks or stubs, run the red-
+  green-refactor cycle, or mentions testing frameworks like Jest, pytest, or JUnit. Do NOT use for
+  skipping the red-green-refactor cycle. Do NOT use to drive the TDD loop itself (use test-driven-
+  development) - this skill covers test authoring, fixtures, mocks, and coverage tooling.
 description_zh: "测试驱动开发指南：编写单元测试、生成 fixtures 与 mock、分析覆盖率缺口，指导红绿重构流程"
 license: Apache-2.0
 compatibility: Pure prompt-based; the bundled scripts require Python 3.10+. May read project structure via Bash.

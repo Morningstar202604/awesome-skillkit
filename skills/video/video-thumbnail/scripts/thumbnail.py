@@ -40,7 +40,7 @@ GENERATE_PATH = "/v1/generate"
 # platform cover specs (common 2026 values; verify the platform's latest rules before publishing)
 PLATFORM_SPECS = {
     "douyin": {"width": 1080, "height": 1920, "ratio": "9:16", "max_size_kb": 2048},
-    "bilibili": {"width": 1920, "height": 1080, "ratio": "16:9", "max_size_kb": 2048},
+    "bilibili": {"width": 1146, "height": 717, "ratio": "16:10", "max_size_kb": 5120},
     "tiktok": {"width": 1080, "height": 1920, "ratio": "9:16", "max_size_kb": 2048},
     "youtube": {"width": 1280, "height": 720, "ratio": "16:9", "max_size_kb": 2048},
 }

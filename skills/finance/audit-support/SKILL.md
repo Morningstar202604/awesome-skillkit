@@ -1,7 +1,10 @@
 ---
 name: audit-support
 description: >-
-  Support SOX 404 compliance with control testing methodology, sample selection, and documentation standards. Use when generating testing workpapers, selecting audit samples, classifying control deficiencies, or preparing for internal or external audits.
+  Support SOX 404 compliance with control testing methodology, sample selection, and documentation
+  standards. Use when generating testing workpapers, selecting audit samples, classifying control
+  deficiencies, or preparing for internal or external audits. Do NOT use for tax filing, statutory
+  external audit opinions, or investment advice.
 description_zh: "支持 SOX 404 合规：控制测试方法、抽样选择与底稿文档标准。"
 license: Apache-2.0
 compatibility: 任意兼容 Agent Skills 的工具可用；部分技能假设已连接企业系统（CRM/HRIS/文档库），未连接时按文内提示降级。

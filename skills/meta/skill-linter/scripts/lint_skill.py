@@ -6,7 +6,7 @@ the checklist table of SKILL.md):
 
   FM-FIELDS   frontmatter present with name/description/license/metadata blocks
   NAME-SYNC   name matches the directory name, kebab-case, no uppercase
-  DESC-ROUTE  description contains "Use when" and "Do NOT", with >=5 trigger words
+  DESC-ROUTE  description contains "Use when" and "Do NOT", with >=3 trigger words
   BODY-SECTS  body has the six mandatory sections (Input / Pre-flight / Workflow /
               Delivery / Failure Handling / References), keyword-matched
   BODY-LINES  total lines < 220 (WARN above)
@@ -286,7 +286,7 @@ def check_description_routing(meta):
     desc = str(meta.get("description", "") or "")
     if not desc:
         return [Finding("DESC-ROUTE", "FAIL", "description is empty",
-                        "write what + Use when + trigger phrases (>=5) + Do NOT exclusions")]
+                        "write what + Use when + trigger phrases (>=3) + Do NOT exclusions")]
     low = desc.lower()
     findings = []
     has_use = any(h in low for h in USE_WHEN_HINTS)

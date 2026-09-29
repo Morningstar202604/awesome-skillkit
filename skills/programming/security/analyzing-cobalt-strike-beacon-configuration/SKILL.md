@@ -1,7 +1,10 @@
 ---
 name: analyzing-cobalt-strike-beacon-configuration
 description: >-
-  Extract and analyze Cobalt Strike beacon configuration from PE files
+  Extract and analyze Cobalt Strike beacon configuration from PE files and memory images to
+  identify C2 infrastructure and operator fingerprints. Use when processing captured implants or
+  mapping C2 channels. Use when the user says CS 配置提取 / beacon config / C2 extraction. Do NOT use
+  for generic static triage of non-CS malware families or reverse-engineering arbitrary binaries.
 description_zh: "从 PE 文件与内存镜像提取并分析 Cobalt Strike beacon 配置，识别 C2 设施与操作者指纹。"
 license: Apache-2.0
 compatibility: 纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。

@@ -1,7 +1,11 @@
 ---
 name: analyzing-ransomware-encryption-mechanisms
 description: >-
-  'Analyzes encryption algorithms, key management, and file encryption
+  Analyzes encryption algorithms, key management, and file encryption behaviors in ransomware to
+  assess decryption feasibility and identify family traits. Use when evaluating recovery options
+  for encrypted systems or classifying a ransomware sample. Use when the user says 勒索分析 / 解密可行性 /
+  ransomware family. Do NOT use for ransom negotiations, generic malware behavioral analysis, or
+  incident-response coordination.
 description_zh: "分析勒索软件的加密算法与密钥管理，评估解密可行性并识别家族特征。"
 license: Apache-2.0
 compatibility: 纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。

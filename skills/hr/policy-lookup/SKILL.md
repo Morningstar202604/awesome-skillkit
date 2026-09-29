@@ -1,7 +1,10 @@
 ---
 name: policy-lookup
 description: >-
-  Find and explain company policies in plain language. Trigger with "what's our PTO policy", "can I work remotely from another country", "how do expenses work", or any plain-language question about benefits, travel, leave, or handbook rules.
+  Find and explain company policies in plain language. Trigger with "what's our PTO policy", "can
+  I work remotely from another country", "how do expenses work", or any plain-language question
+  about benefits, travel, leave, or handbook rules. Do NOT use for creating or amending policy, or
+  as legal advice - it interprets existing documents only.
 description_zh: "用大白话查询并解释公司政策，如带薪休假、异地远程办公、报销流程，以及福利、出差、假期与员工手册规定。"
 license: Apache-2.0
 compatibility: 任意兼容 Agent Skills 的工具可用；部分技能假设已连接企业系统（CRM/HRIS/文档库），未连接时按文内提示降级。

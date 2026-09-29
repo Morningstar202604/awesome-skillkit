@@ -2,10 +2,18 @@
 
 name: baoyu-wechat-summary
 description: >-
-  Summarizes WeChat group chat highlights into a structured digest using the local wx-cli binary (https://github.com/jackwener/wx-cli). Generates a normal digest by default; a roast (毒舌) version is opt-in. Maintains per-group history (history.json + history-digests.jsonl), per-user profiles, and per-group fact memory (memory.md) across runs, with privacy guardrails baked in. Use when the user asks to "总结群聊", "群聊精华", "群聊摘要", "summarize group chat", "group chat digest", mentions a WeChat group name with a time range, says "帮我看看 XX 群最近聊了什么", "XX 群有什么值得看的", or asks to "回溯画像" / "初始化画像" / "backfill profiles". Adds the roast version when the user says "毒舌版", "roast 版", "再来个毒舌的", or similar.
+  Summarizes WeChat group chat highlights into a structured digest using the local wx-cli binary
+  (https://github.com/jackwener/wx-cli). Generates a normal digest by default; a roast (毒舌)
+  version is opt-in. Maintains per-group history (history.json + history-digests.jsonl), per-user
+  profiles, and per-group fact memory (memory.md) across runs, with privacy guardrails baked in.
+  Use when the user asks to "总结群聊", "群聊精华", "群聊摘要", "summarize group chat", "group chat digest",
+  mentions a WeChat group name with a time range, says "帮我看看 XX 群最近聊了什么", "XX 群有什么值得看的", or asks
+  to "回溯画像" / "初始化画像" / "backfill profiles". Adds the roast version when the user says "毒舌版",
+  "roast 版", "再来个毒舌的", or similar. Do NOT use for summarizing articles or documents (chat records
+  only) or sending any message.
 description_zh: "用本地 wx-cli 把微信群聊亮点总结成结构化纪要（可选毒舌版，按群维护历史）。"
 license: MIT
-compatibility: 需要网络与对应平台凭据（微信公众号 API / Chrome CDP 等）；发布类操作先预览再确认。
+compatibility: 需要本机安装 wx-cli（`wx` 命令）读取微信群聊记录；其余为纯提示型。wx-cli 需访问沙箱外路径，执行时按正文说明关闭沙箱。
 metadata:
   author: "JimLiu/baoyu-skills 上游（MIT）"
   version: "1.0.0"

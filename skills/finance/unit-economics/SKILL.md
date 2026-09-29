@@ -1,12 +1,12 @@
 ---
 name: unit-economics
 description: >-
-  Establishes whether the business makes money on each customer or unit —
-  contribution margin, acquisition cost, payback period, lifetime value, and
-  the cohort behavior underneath. Use this to assess whether growth is
-  profitable, evaluate a channel or segment, support a pricing decision,
-  judge how fast the business can afford to grow, or diagnose why revenue
-  growth is not producing profit.
+  Establishes whether the business makes money on each customer or unit — contribution margin,
+  acquisition cost, payback period, lifetime value, and the cohort behavior underneath. Use this
+  to assess whether growth is profitable, evaluate a channel or segment, support a pricing
+  decision, judge how fast the business can afford to grow, or diagnose why revenue growth is not
+  producing profit. Do NOT use for full financial statements or company-wide budgeting (use
+  variance-analysis / cfo-advisor).
 description_zh: "单客与单位经济性：贡献毛利、获客成本、回收期、LTV 与关键杠杆测算。"
 license: MIT
 compatibility: 纯提示型；涉及财务、合规或法律判断时建议人工复核。
