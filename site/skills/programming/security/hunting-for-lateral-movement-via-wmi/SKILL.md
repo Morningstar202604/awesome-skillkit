@@ -1,7 +1,11 @@
 ---
 name: hunting-for-lateral-movement-via-wmi
 description: >-
-  Detects WMI-based lateral movement (e.g. wmic process call create,
+  Detects WMI-based lateral movement (e.g. wmic process call create, WMI event subscriptions,
+  remote WMI connections) in Windows telemetry. Use when hunting attacker pivoting between hosts
+  or investigating suspicious remote execution. Use when the user says 横向移动 / WMI 狩猎 / lateral
+  movement / remote execution hunt. Do NOT use for generic malware analysis, memory forensics, or
+  phishing investigations.
 description_zh: "用 WMI 遥测狩猎横向移动：排查可疑远程执行、进程创建与网络连接。"
 license: Apache-2.0
 compatibility: 纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。

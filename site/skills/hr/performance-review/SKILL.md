@@ -1,7 +1,11 @@
 ---
 name: performance-review
 description: >-
-  Structure a performance review with self-assessment, manager template, and calibration prep. Use when review season kicks off and you need a self-assessment template, writing a manager review for a direct report, prepping rating distributions and promotion cases for calibration, or turning vague feedback into specific behavioral examples.
+  Structure a performance review with self-assessment, manager template, and calibration prep. Use
+  when review season kicks off and you need a self-assessment template, writing a manager review
+  for a direct report, prepping rating distributions and promotion cases for calibration, or
+  turning vague feedback into specific behavioral examples. Do NOT use for compensation decisions
+  (use comp-analysis), PIP initiation, or termination processes.
 description_zh: "组织绩效评估：提供自评模板、经理评估模板与校准准备，把模糊反馈转成具体行为事例，支持评分分布与晋升案例。"
 license: Apache-2.0
 compatibility: 任意兼容 Agent Skills 的工具可用；部分技能假设已连接企业系统（CRM/HRIS/文档库），未连接时按文内提示降级。

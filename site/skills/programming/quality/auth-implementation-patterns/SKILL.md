@@ -1,7 +1,10 @@
 ---
 name: auth-implementation-patterns
 description: >-
-  Master authentication and authorization patterns including JWT, OAuth2, session management, and RBAC to build secure, scalable access control systems. Use when implementing auth systems, securing APIs, or debugging security issues.
+  Master authentication and authorization patterns including JWT, OAuth2, session management, and
+  RBAC to build secure, scalable access control systems. Use when implementing auth systems,
+  securing APIs, or debugging security issues. Do NOT use for a specific OAuth/identity provider's
+  setup guide or auditing a live system's existing auth.
 description_zh: "掌握鉴权与授权模式：JWT、OAuth2、会话管理与 RBAC 权限控制。"
 license: MIT
 compatibility: 纯提示型，任意支持 SKILL.md 的工具可用；无外部依赖。

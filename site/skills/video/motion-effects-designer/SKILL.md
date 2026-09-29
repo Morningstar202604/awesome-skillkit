@@ -218,7 +218,7 @@ Combine into a single handoff document. Note overlaps with transition-designer (
 | Film grain | continuous subtle | n/a | FFmpeg `noise` filter, overlay |
 | Vignette | static | n/a | FFmpeg `vignette` filter |
 | Lens flare | 0.5-1.5s | ease in-out | Stock overlay, blend screen |
-| Glitch | 0.2-0.5s | abrupt | AE, CapCut glitch effect; FFmpeg `glitch` |
+| Glitch | 0.2-0.5s | abrupt | AE, CapCut glitch effect; FFmpeg: stack `noise` + `chromashift` (no native `glitch` filter) |
 | Karaoke caption | per syllable | linear sync | AE, CapCut caption tool |
 | Word-by-word caption | 0.15s/word | ease-out | CapCut, AE |
 

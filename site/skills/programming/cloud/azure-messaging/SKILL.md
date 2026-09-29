@@ -58,7 +58,7 @@ metadata:
 
 ## Troubleshooting Guides
 
-Connectivity, SDK, and auth troubleshooting guides are located in the azure-diagnostics skill under `troubleshooting/messaging/`.
+The azure-diagnostics skill referenced upstream is not bundled in this pack. For messaging failures, triage in this order: (1) connection string / credentials validity and expiry; (2) network reachability — DNS, proxy, firewall, private endpoints; (3) SDK auth errors — token scope, audience, region mismatch; (4) quota and throttling on the namespace.
 
 ## References
 

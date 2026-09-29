@@ -1,7 +1,10 @@
 ---
 name: monorepo-management
 description: >-
-  Master monorepo management with Turborepo, Nx, and pnpm workspaces to build efficient, scalable multi-package repositories with optimized builds and dependency management. Use when setting up monorepos, optimizing builds, or managing shared dependencies.
+  Master monorepo management with Turborepo, Nx, and pnpm workspaces to build efficient, scalable
+  multi-package repositories with optimized builds and dependency management. Use when setting up
+  monorepos, optimizing builds, or managing shared dependencies. Do NOT use for simple single-repo
+  setup, CI pipeline authoring, or dependency version conflicts inside one package.
 description_zh: "用 Turborepo、Nx 与 pnpm workspaces 管理 monorepo，构建高效可扩展的多包仓库并优化构建与共享依赖。"
 license: MIT
 compatibility: 纯提示型，任意支持 SKILL.md 的工具可用；无外部依赖。

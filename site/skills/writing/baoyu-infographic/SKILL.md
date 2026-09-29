@@ -2,10 +2,13 @@
 
 name: baoyu-infographic
 description: >-
-  Generate professional infographics with 21 layout types and 22 visual styles. Analyzes content, recommends layout×style combinations, and generates publication-ready infographics. Use when user asks to create "infographic", "信息图", "visual summary", "可视化", or "高密度信息大图".
+  Generate professional infographics with 21 layout types and 22 visual styles. Analyzes content,
+  recommends layout×style combinations, and generates publication-ready infographics. Use when
+  user asks to create "infographic", "信息图", "visual summary", "可视化", or "高密度信息大图". Do NOT use for
+  simple covers (use baoyu-cover-image) or code-driven diagrams (use archify).
 description_zh: "生成专业信息图：21 种版式 × 22 种视觉风格，自动推荐组合并产出可发布成品。"
 license: MIT
-compatibility: 需要网络与对应平台凭据（微信公众号 API / Chrome CDP 等）；发布类操作先预览再确认。
+compatibility: 需要可用的图像生成后端（外部生图服务或本地模型）；长图拼接建议安装 ImageMagick。
 metadata:
   author: "JimLiu/baoyu-skills 上游（MIT）"
   version: "1.0.0"

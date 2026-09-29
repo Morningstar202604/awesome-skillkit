@@ -1,7 +1,10 @@
 ---
 name: tdd
 description: >-
-  Test-driven development. Use when the user wants to build features or fix bugs test-first, mentions "red-green-refactor", or wants integration tests.
+  Test-driven development. Use when the user wants to build features or fix bugs test-first,
+  mentions "red-green-refactor", or wants integration tests. Do NOT use for test framework setup,
+  fixtures, or coverage tooling (use tdd-guide); for the full discipline workflow see test-driven-
+  development.
 description_zh: "测试驱动开发：以测试先行方式构建功能或修复 bug，践行红绿重构并编写集成测试"
 license: MIT
 compatibility: 纯提示型，任意支持 SKILL.md 的工具可用；无外部依赖。

@@ -2,8 +2,10 @@
 
 name: gws-gmail
 description: >-
-  Gmail: send, read, reply, forward, filter, triage and watch email via the
-  gws CLI
+  Gmail: send, read, reply, forward, filter, triage and watch email via the gws CLI. Use when the
+  user asks to 收发邮件 / 查邮件 / send an email / check my inbox / reply to this thread / set up a Gmail
+  filter. Do NOT use for Google Chat messages, Calendar invites (use gws-calendar), or non-Google
+  mail providers.
 description_zh: \"Gmail：收发、读取、回复、转发、过滤、分诊与监听邮件。\"
 license: Apache-2.0
 compatibility: 需要 Google Workspace CLI（gws）与 OAuth 凭据。

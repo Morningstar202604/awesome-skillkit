@@ -1,8 +1,9 @@
 ---
 name: bash-scripting
 description: >-
-  Bash scripting guidelines covering security, portability, error handling,
-  and automation best practices for DevOps.
+  Bash scripting guidelines covering security, portability, error handling, and automation best
+  practices for DevOps. Do NOT use for executing or debugging a failing script, POSIX sh
+  portability audits, or PowerShell/zsh/fish specifics.
 description_zh: "Bash 脚本规范：安全、可移植、错误处理与自动化。"
 license: Apache-2.0
 compatibility: 纯提示型；随语言与框架版本演进，以上游为准。
@@ -96,6 +97,12 @@ main "$@"
 - Bootstrap servers and configure environments
 - Manage backups with reliable, auditable processes
 - Implement deployment scripts with rollback capability
+
+## Verification Commands
+
+- `shellcheck script.sh` — expect exit 0, no output (add to CI on every script change).
+- `bash -n script.sh` — syntax-only parse; expect silent exit 0.
+- `shellcheck --severity=style script.sh` — stricter pass; treat new style findings as review comments, not blockers.
 
 ---
 

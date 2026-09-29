@@ -1,8 +1,9 @@
 ---
 name: python
 description: >-
-  Expert in Python development with best practices across web, data science,
-  and automation
+  Expert in Python development with best practices across web, data science, and automation Do NOT
+  use for Python 2 compatibility, framework-specific conventions (Django/FastAPI/pandas), or
+  packaging/publishing workflows.
 description_zh: "Python 开发最佳实践：覆盖 Web、数据科学与自动化。"
 license: Apache-2.0
 compatibility: 纯提示型；随语言与框架版本演进，以上游为准。
@@ -73,6 +74,12 @@ You are an expert in Python development across multiple domains including web de
 - Implement caching where appropriate
 - Use lazy loading for large datasets
 - Profile code to identify bottlenecks
+
+## Verification Commands
+
+- `ruff check .` — expect `All checks passed!`.
+- `ruff format --check .` — expect no files would be reformatted.
+- `mypy src/` (if configured) — expect `Success: no issues found`.
 
 ---
 

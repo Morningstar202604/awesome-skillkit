@@ -1,7 +1,11 @@
 ---
 name: deployment-pipeline-design
 description: >-
-  Design multi-stage CI/CD pipelines with approval gates, security checks, and deployment orchestration. Use this skill when designing zero-downtime deployment pipelines, implementing canary rollout strategies, setting up multi-environment promotion workflows, or debugging failed deployment gates in CI/CD.
+  Design multi-stage CI/CD pipelines with approval gates, security checks, and deployment
+  orchestration. Use this skill when designing zero-downtime deployment pipelines, implementing
+  canary rollout strategies, setting up multi-environment promotion workflows, or debugging failed
+  deployment gates in CI/CD. Do NOT use for authoring CI vendor YAML syntax or rolling back a
+  failed deployment right now (use the cicd skills).
 description_zh: "设计多阶段 CI/CD 流水线：审批门禁、安全检查、灰度发布与多环境晋级。"
 license: MIT
 compatibility: 纯提示型，任意支持 SKILL.md 的工具可用；无外部依赖。

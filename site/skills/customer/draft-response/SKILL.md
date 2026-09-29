@@ -1,7 +1,11 @@
 ---
 name: draft-response
 description: >-
-  Draft a professional customer-facing response tailored to the situation and relationship. Use when answering a product question, responding to an escalation or outage, delivering bad news like a delay or won't-fix, declining a feature request, or replying to a billing issue.
+  Draft a professional customer-facing response tailored to the situation and relationship. Use
+  when answering a product question, responding to an escalation or outage, delivering bad news
+  like a delay or won't-fix, declining a feature request, or replying to a billing issue. Do NOT
+  use for classifying or routing tickets (use ticket-triage) or publishing knowledge-base articles
+  (use kb-article).
 description_zh: "针对具体情境与客户关系起草得体的客户对外回复，覆盖产品答疑、故障与升级、延期等坏消息、拒绝需求与账单问题。"
 license: Apache-2.0
 compatibility: 任意兼容 Agent Skills 的工具可用；部分技能假设已连接企业系统（CRM/HRIS/文档库），未连接时按文内提示降级。

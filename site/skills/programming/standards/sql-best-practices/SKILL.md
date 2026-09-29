@@ -1,8 +1,9 @@
 ---
 name: sql-best-practices
 description: >-
-  SQL development best practices for writing efficient, secure, and
-  maintainable database queries
+  SQL development best practices for writing efficient, secure, and maintainable database queries
+  Do NOT use for query performance tuning (use sql-optimization-patterns) or schema design (use
+  postgresql-table-design).
 description_zh: "SQL 最佳实践：高效、安全、可维护的查询写法与索引使用。"
 license: Apache-2.0
 compatibility: 纯提示型；随语言与框架版本演进，以上游为准。
@@ -223,6 +224,11 @@ VALUES
 - Log errors with sufficient context for debugging
 - Return meaningful error messages to calling applications
 - Use TRY-CATCH blocks where supported
+
+## Verification Commands
+
+- `sqlfluff lint --dialect <your-dialect> query.sql` — expect exit 0 on touched files.
+- `EXPLAIN <query>` — verify no full scans on large tables before merging new queries.
 
 ---
 

@@ -1,7 +1,10 @@
 ---
 name: git-advanced-workflows
 description: >-
-  Master advanced Git workflows including rebasing, cherry-picking, bisect, worktrees, and reflog to maintain clean history and recover from any situation. Use when managing complex Git histories, collaborating on feature branches, or troubleshooting repository issues.
+  Master advanced Git workflows including rebasing, cherry-picking, bisect, worktrees, and reflog
+  to maintain clean history and recover from any situation. Use when managing complex Git
+  histories, collaborating on feature branches, or troubleshooting repository issues. Do NOT use
+  for basic commit/branch usage, resolving a specific conflict right now, or GitHub UI operations.
 description_zh: "掌握高级 Git 工作流：变基、拣选、bisect、worktree 与 reflog，维护整洁历史并从各种仓库问题中恢复。"
 license: MIT
 compatibility: 纯提示型，任意支持 SKILL.md 的工具可用；无外部依赖。

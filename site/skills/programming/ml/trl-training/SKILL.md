@@ -1,7 +1,9 @@
 ---
 name: trl-training
 description: >-
-  Train and fine-tune transformer language models using TRL (Transformers Reinforcement Learning). Supports SFT, DPO, GRPO, KTO, RLOO and Reward Model training via CLI commands.
+  Train and fine-tune transformer language models using TRL (Transformers Reinforcement Learning).
+  Supports SFT, DPO, GRPO, KTO, RLOO and Reward Model training via CLI commands. Do NOT use for
+  hosted Hugging Face Jobs runs (use huggingface-llm-trainer).
 description_zh: "用 TRL 训练与微调 Transformer 模型，支持 SFT、DPO、GRPO、KTO、RLOO 与奖励模型训练"
 license: Apache-2.0
 compatibility: 需要 hf CLI 与 Hugging Face 账号。

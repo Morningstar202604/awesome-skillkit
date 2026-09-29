@@ -1,7 +1,11 @@
 ---
 name: analyzing-email-headers-for-phishing-investigation
 description: >-
-  Parse and analyze email headers (Received chain, Return-Path, Message-ID)
+  Parse and analyze email headers (Received chain, Return-Path, Message-ID) to trace phishing
+  origins and verify SPF / DKIM / DMARC alignment. Use when investigating a suspicious email,
+  tracing sender infrastructure, or confirming spoofing. Use when the user says 邮件头分析 / 钓鱼溯源 / SPF
+  DKIM DMARC / header analysis. Do NOT use for analyzing attachments or payloads (submit to a
+  sandbox instead) or for email server administration.
 description_zh: "解析邮件头（Received / Return-Path / Message-ID）追踪钓鱼来源并校验 SPF / DKIM / DMARC。"
 license: Apache-2.0
 compatibility: 纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。

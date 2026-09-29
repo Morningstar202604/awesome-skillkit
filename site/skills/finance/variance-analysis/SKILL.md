@@ -1,7 +1,10 @@
 ---
 name: variance-analysis
 description: >-
-  Decompose financial variances into drivers with narrative explanations and waterfall analysis. Use when analyzing budget vs. actual, period-over-period changes, revenue or expense variances, or preparing variance commentary for leadership.
+  Decompose financial variances into drivers with narrative explanations and waterfall analysis.
+  Use when analyzing budget vs. actual, period-over-period changes, revenue or expense variances,
+  or preparing variance commentary for leadership. Do NOT use for unit-level pricing decisions
+  (use unit-economics) or bookkeeping entries.
 description_zh: "拆解财务差异到驱动因素：预算与实际对比、同比环比、收入与费用差异及瀑布分析"
 license: Apache-2.0
 compatibility: 任意兼容 Agent Skills 的工具可用；部分技能假设已连接企业系统（CRM/HRIS/文档库），未连接时按文内提示降级。

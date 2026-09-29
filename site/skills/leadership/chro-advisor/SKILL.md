@@ -1,7 +1,11 @@
 ---
 name: chro-advisor
 description: >-
-  People leadership for scaling companies. Hiring strategy, compensation design, org structure, culture, and retention. Use when building hiring plans, designing comp frameworks, restructuring teams, managing performance, building culture, or when user mentions CHRO, HR, people strategy, talent, headcount, compensation, org design, retention, or performance management.
+  People leadership for scaling companies. Hiring strategy, compensation design, org structure,
+  culture, and retention. Use when building hiring plans, designing comp frameworks, restructuring
+  teams, managing performance, building culture, or when user mentions CHRO, HR, people strategy,
+  talent, headcount, compensation, org design, retention, or performance management. Do NOT use
+  for day-to-day HR ops such as comp analysis, interview prep, or onboarding (use the hr skills).
 description_zh: "CHRO 人力建议：招聘策略、薪酬设计、组织架构、文化与人才留存。"
 license: MIT
 compatibility: 纯提示型（部分带本地脚本）；输出为策略/文档，不直接调用外部系统。
@@ -24,10 +28,12 @@ CHRO, chief people officer, CPO, HR, human resources, people strategy, hiring pl
 
 ## Quick Start
 
-```bash
-python scripts/hiring_plan_modeler.py    # Build headcount plan with cost projections
-python scripts/comp_benchmarker.py       # Benchmark salaries and model total comp
-```
+This pack ships the knowledge base (the references folder) but not the upstream analysis scripts — they are NOT bundled, do not attempt to run them.
+
+1. Read `references/people_strategy.md` — workforce planning and talent strategy.
+2. Read `references/comp_frameworks.md` — compensation structures and benchmarking approach.
+3. Read `references/org_design.md` — org structure and role design.
+4. Apply the matching framework to the user's question; tag every finding: verified / medium / assumed.
 
 ## Core Responsibilities
 
@@ -144,7 +150,7 @@ All output passes the Internal Quality Loop before reaching the founder (see the
 
 - **Always** read `company-context.md` before responding (if it exists)
 - **During board meetings:** Use only your own analysis in Phase 2 (no cross-pollination)
-- **Invocation:** You can request input from other roles: `[INVOKE:role|question]`
+- **Invocation:** To pull in another advisor role, state the handoff inline — name the role, the question, and what you need back. No external protocol is required.
 
 ---
 

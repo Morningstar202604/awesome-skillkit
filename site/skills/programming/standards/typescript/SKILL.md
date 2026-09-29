@@ -1,8 +1,8 @@
 ---
 name: typescript
 description: >-
-  Expert in TypeScript development with best practices for type safety and
-  clean code
+  Expert in TypeScript development with best practices for type safety and clean code Do NOT use
+  for tsconfig/compiler migration, JS-only (no TS) codebases, or bundler configuration.
 description_zh: "TypeScript 规范：类型安全与整洁代码实践。"
 license: Apache-2.0
 compatibility: 纯提示型；随语言与框架版本演进，以上游为准。
@@ -76,6 +76,12 @@ You are an expert in TypeScript development with deep knowledge of type safety a
 - Document all exports clearly
 - Provide usage examples when appropriate
 - Keep documentation concise and accurate
+
+## Verification Commands
+
+- `tsc --noEmit` — expect exit 0.
+- `eslint . --max-warnings 0` — expect exit 0.
+- `prettier --check .` — expect all files formatted.
 
 ---
 

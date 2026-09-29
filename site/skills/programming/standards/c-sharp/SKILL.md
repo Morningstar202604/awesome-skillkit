@@ -1,8 +1,9 @@
 ---
 name: c-sharp
 description: >-
-  Guidelines for C# development including Blazor, Unity game development,
-  and .NET backend best practices
+  Guidelines for C# development including Blazor, Unity game development, and .NET backend best
+  practices Do NOT use for legacy .NET Framework migration planning or ASP.NET-specific
+  architecture decisions.
 description_zh: "C# 开发规范：Blazor、Unity 与 .NET 后端实践。"
 license: Apache-2.0
 compatibility: 纯提示型；随语言与框架版本演进，以上游为准。
@@ -114,6 +115,12 @@ You are an expert in C# development with deep knowledge of .NET, Blazor, Unity, 
 - Follow the Component pattern for modularity
 - Use coroutines for time-based operations
 - Implement object pooling for frequently instantiated objects
+
+## Verification Commands
+
+- `dotnet build -warnaserror` — expect exit 0.
+- `dotnet format --verify-no-changes` — expect exit 0 (style gate).
+- `dotnet test` — expect all green before merging style changes.
 
 ---
 

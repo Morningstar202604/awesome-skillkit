@@ -1,8 +1,9 @@
 ---
 name: php-development
 description: >-
-  Expert guidance for PHP 8+ development with SOLID principles, PSR
-  standards, and modern best practices
+  Expert guidance for PHP 8+ development with SOLID principles, PSR standards, and modern best
+  practices Do NOT use for legacy PHP 5 codebases or framework internals (Laravel/Symfony have
+  their own guides).
 description_zh: "PHP 8+ 规范：SOLID 原则与 PSR 标准。"
 license: Apache-2.0
 compatibility: 纯提示型；随语言与框架版本演进，以上游为准。
@@ -80,6 +81,12 @@ You are an expert PHP developer with deep knowledge of PHP 8+, object-oriented p
 - Use PHPUnit for testing framework
 - Follow Arrange-Act-Assert pattern
 - Mock external dependencies in unit tests
+
+## Verification Commands
+
+- `php -l src/file.php` — expect `No syntax errors detected` for each touched file.
+- `php-cs-fixer fix --dry-run --diff` — expect no pending fixes.
+- `phpstan analyse --level=6 src/` — expect `[OK] No errors`.
 
 ---
 

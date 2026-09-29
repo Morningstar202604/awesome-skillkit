@@ -1,13 +1,13 @@
 ---
 name: market-entry
 description: >-
-  Decides whether and how to enter a new market — sizing demand from the
-  bottom up rather than from a market report, testing whether your advantage
-  transfers, choosing between organic entry, partnership and acquisition,
-  sequencing the operational and regulatory work that entry actually
-  requires, and setting the criteria that would tell you to stop. Use this
-  to evaluate a new geography, segment or vertical, pressure-test an entry
-  plan, or work out why a launched market never reached scale.
+  Decides whether and how to enter a new market — sizing demand from the bottom up rather than
+  from a market report, testing whether your advantage transfers, choosing between organic entry,
+  partnership and acquisition, sequencing the operational and regulatory work that entry actually
+  requires, and setting the criteria that would tell you to stop. Use this to evaluate a new
+  geography, segment or vertical, pressure-test an entry plan, or work out why a launched market
+  never reached scale. Do NOT use for pricing tactics alone (use competitive-pricing-intel) or
+  product feature scoping (use the product skills).
 description_zh: "判断是否与如何进入新市场：自下而上估算需求，验证优势可迁移性并定进入方式。"
 license: MIT
 compatibility: 纯提示型；涉及财务、合规或法律判断时建议人工复核。

@@ -161,5 +161,5 @@ If it fails: any item fails -> return to the corresponding step (a missing slot 
 ## Chain Handoff (Downstream Suggestions)
 
 This skill is the upstream "visual planning" skill in the video-domain production chains. Suggested orchestration order:
-visual-style-anchor -> storyboard-designer -> shot-designer -> shot-designer -> video-script-writer, then plug into the already-registered video-domain talking_character / meme chains (video-voice-synth -> video-lip-sync -> video-editor -> video-subtitles -> video-thumbnail).
+visual-style-anchor -> storyboard-designer -> shot-designer -> video-script-writer, then plug into the already-registered video-domain talking_character / meme chains (video-voice-synth -> video-lip-sync -> video-editor -> video-subtitles -> video-thumbnail).
 Currently this skill isn't registered in skill_chains.json's video-domain skills list (standalone); the handoff above is descriptive only, with no cross-directory hard links.

@@ -1,7 +1,9 @@
 ---
 name: gws-people
 description: >-
-  Google People: Manage contacts and profiles.
+  Google People: manage contacts and profiles via the gws CLI. Use when the user asks to 查联系人 /
+  加通讯录 / find someone's email or phone in the directory. Do NOT use for Gmail recipient lookup
+  inside an email task (read the header instead) or for CRM systems outside Google.
 description_zh: "通过 gws CLI 管理 Google People 联系人信息与个人资料，查询和更新通讯录条目。"
 license: Apache-2.0
 compatibility: 需要 Google Workspace CLI（gws）与 OAuth 凭据。

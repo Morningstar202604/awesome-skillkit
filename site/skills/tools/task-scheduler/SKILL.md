@@ -35,8 +35,9 @@ redirection" two rules, avoiding three major failure causes.
 
 **This skill doesn't write to crontab for you.** `cron-add` only prints
 ready-to-paste lines and install steps—once a scheduled task is wrong (e.g.
-missing a asterisk means running every second), consequences are severe and
-there's no undo stack; the human confirmation gate can't be skipped.
+a wrong field count makes cron reject the entry outright, or a typo turns it
+into an unintended frequent schedule), consequences are severe and there's no
+undo stack; the human confirmation gate can't be skipped.
 
 ## Input Checklist
 

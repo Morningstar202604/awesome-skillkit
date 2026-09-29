@@ -7,7 +7,7 @@ description: >-
   so main context lasts longer.
 description_zh: "何时把任务委派给 cavecrew 三件套：定位代码的调查员、1-2 文件改动的建造者、diff 评审者。"
 license: MIT
-compatibility: 纯提示型，任意支持 SKILL.md 的工具可用；caveman-stats / caveman-compress 的 CLI 能力依赖上游 caveman 安装。
+compatibility: 纯提示型，任意支持 SKILL.md 的工具可用；三件套依赖上游 caveman 的 subagent 预设（cavecrew-investigator / cavecrew-builder / cavecrew-reviewer）——本包未附带 agent 定义文件，需先安装上游 caveman 预设，否则按正文派发会路由到不存在的 agent；caveman-stats / caveman-compress 的 CLI 能力同样依赖上游 caveman 安装。
 metadata:
   author: "JuliusBrussee/caveman 上游（MIT；仅采用技能面，引擎目录另为 BSL-1.1）"
   version: "1.0.0"

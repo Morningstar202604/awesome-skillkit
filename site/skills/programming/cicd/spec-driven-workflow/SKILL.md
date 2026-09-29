@@ -1,6 +1,8 @@
 ---
 name: spec-driven-workflow
-description: "Use when the user asks to write a spec before code, write specifications, define acceptance criteria, do spec-driven development, plan features before implementation, generate tests from specifications, or follow spec-first development practices. Do NOT use for free-form coding without a written spec."
+description: >-
+  Do NOT use for writing a PRD or requirements document itself (use spec-driven-development) -
+  this skill drives the phase workflow around it.
 description_zh: "先写规格再编码：撰写规格文档、定义验收标准、从规格生成测试，践行规格先行的开发流程"
 license: Apache-2.0
 compatibility: Requires network access. No API keys required.

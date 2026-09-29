@@ -19,12 +19,14 @@ metadata:
 
 Create a self-contained, interactive HTML diagram from a small typed JSON specification. Static output is the default; enable motion only when the user asks for a demo or presentation.
 
+> **Bundle note**: this pack ships the `schemas/`, `renderers/`, and update-check scripts, but NOT the upstream CLI (`bin/archify.mjs`) or the `examples/` directory. If `node bin/archify.mjs ...` fails, degrade gracefully: validate candidates by hand against `schemas/<type>.schema.json` + `schemas/common.schema.json`, skip the CLI receipt steps (validate / deliver / visual-check / doctor / demo), and state plainly in the delivery notes that the artifact was not CLI-validated. Never claim a passing receipt you did not obtain.
+
 ## Fast authoring path
 
 Use this bounded path for ordinary generation. Do not read the optional Viewer Runtime reference unless the user asks about those features.
 
 1. Choose `architecture`, `workflow`, `sequence`, `dataflow`, or `lifecycle` from the question.
-2. Read one matching schema in `schemas/`, `schemas/common.schema.json`, and one matching JSON example in `examples/`. Read only those files. Fresh authorship means new stable IDs, domain wording, and layout; use the example for field shape, not facts. New workflow sources use `schema_version: 2` and its readable layout contract; keep `schema_version: 1` only when preserving an existing workflow's fixed geometry. When real product identity matters, query `node bin/archify.mjs brands "<name>" --json`; read `references/brand-marks.md` only for an unknown brand with a user-provided URL.
+2. Read one matching schema in `schemas/`, `schemas/common.schema.json`, and one matching JSON example in `examples/` (not bundled in this pack — if absent, derive the field shape from the schema's `$defs` alone). Read only those files. Fresh authorship means new stable IDs, domain wording, and layout; use the example for field shape, not facts. New workflow sources use `schema_version: 2` and its readable layout contract; keep `schema_version: 1` only when preserving an existing workflow's fixed geometry. When real product identity matters, query `node bin/archify.mjs brands "<name>" --json`; read `references/brand-marks.md` only for an unknown brand with a user-provided URL.
 3. Artifact first: the next tool action must write the candidate. Write the candidate before inspecting renderer internals. Do not plan exact coordinates in prose. Start with one clear main path, short side branches, sparse labels, and at most 12 primary nodes. Set `meta.quality_profile` to `"showcase"` unless the user explicitly requests a dense `standard` map. Start with automatic routes and labels. Do not add `via`, `channelX`, `channelY`, or `labelAt` before a diagnostic calls for one; apply at most one diagnosed geometry control per repair.
 4. Validate after every candidate edit and immediately before handoff:
 

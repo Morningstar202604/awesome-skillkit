@@ -1,8 +1,11 @@
 ---
 name: analyzing-linux-audit-logs-for-intrusion
 description: >-
-  'Uses the Linux Audit framework (auditd) with ausearch and aureport
-  utilities
+  Uses the Linux Audit framework (auditd) with ausearch and aureport utilities to detect
+  intrusions, privilege abuse, and suspicious system activity. Use when triaging a Linux host
+  after suspicious activity, reviewing auditd rules, or building detection queries. Use when the
+  user says auditd 排查 / Linux 审计 / ausearch / intrusion triage. Do NOT use for network packet
+  analysis, Windows event logs, or container runtime logs.
 description_zh: "用 auditd / ausearch / aureport 分析 Linux 审计日志，发现入侵、越权与可疑系统活动。"
 license: Apache-2.0
 compatibility: 纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。

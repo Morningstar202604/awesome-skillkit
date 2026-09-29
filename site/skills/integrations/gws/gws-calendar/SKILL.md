@@ -1,7 +1,9 @@
 ---
 name: gws-calendar
 description: >-
-  Google Calendar: Manage calendars and events.
+  Google Calendar: manage calendars and events via the gws CLI. Use when the user asks to 查日程 /
+  约会议 / create or reschedule an event / check my availability. Do NOT use for booking external
+  meeting rooms outside Calendar, sending email, or managing tasks (use gws-tasks).
 description_zh: "通过 gws CLI 管理 Google 日历和日程事件，创建、查看、修改与删除日历及活动。"
 license: Apache-2.0
 compatibility: 需要 Google Workspace CLI（gws）与 OAuth 凭据。

@@ -1,7 +1,11 @@
 ---
 name: humanizer
 description: >-
-  Rewrite AI-sounding text so it reads like the writer without changing what it says. Use when editing or reviewing prose for AI tells: not-X-but-Y contrasts, one-line closers, staged openers, forced triads, dashes everywhere, inflated claims, sales language, stock AI words, bold labels, or filler. Based on Wikipedia's "Signs of AI writing."
+  Rewrite AI-sounding text so it reads like the writer without changing what it says. Use when
+  editing or reviewing prose for AI tells: not-X-but-Y contrasts, one-line closers, staged
+  openers, forced triads, dashes everywhere, inflated claims, sales language, stock AI words, bold
+  labels, or filler. Based on Wikipedia's "Signs of AI writing." Do NOT use for factual
+  verification or plagiarism checking - it rewrites style, not truth.
 description_zh: "把 AI 腔调的文本改写得更像真人书写且不改变原意，依据维基百科的 AI 写作迹象清除套话、强行对比与排比。"
 license: MIT
 compatibility: 纯提示型，任意支持 SKILL.md 的工具可用；无外部依赖。

@@ -234,7 +234,7 @@ Expected: all three pass. If it fails: payoff mismatch -> change either title or
 - `references/script-templates.md` — finished templates per type; copy the skeleton before writing.
 - `references/timing-guide.md` — rhythm / beat rules and time allocation.
 - `references/sources-and-methodology.md` — sources of tacit knowledge 1-7 and sourcing discipline (reject percentage efficacy promises), script-behavior probe records. Read when delivering/attributing/being challenged.
-- [shot-designer camera-design section](shot-designer/SKILL.md (camera design section)) — shot-language lexicon (transitions/actions/performance detail): pick shot-direction words for scripts from this.
+- shot-designer camera-design section (`../shot-designer/SKILL.md`, see its camera design table) — shot-language lexicon (transitions/actions/performance detail): pick shot-direction words for scripts from this.
 
 ## Appendix: CLI Contract (Parameter Quick Reference)
 

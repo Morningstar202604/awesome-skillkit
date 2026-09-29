@@ -280,7 +280,7 @@ Every deployment needs a rollback plan before it happens:
 3. Communicate: notify team of rollback
 
 ### Database Considerations
-- Migration [X] has a rollback: `npx prisma migrate rollback`
+- Migration [X] rollback plan: restore from backup, redeploy the previous schema, or `npx prisma migrate resolve --rolled-back <migration>` for a failed migration (Prisma CLI has no one-shot `rollback` subcommand)
 - Data inserted by new feature: [preserved / cleaned up]
 
 ### Time to Rollback

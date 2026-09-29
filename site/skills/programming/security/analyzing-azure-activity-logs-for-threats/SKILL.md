@@ -1,8 +1,11 @@
 ---
 name: analyzing-azure-activity-logs-for-threats
 description: >-
-  'Queries Azure Monitor activity logs and sign-in logs via
-  azure-monitor-query
+  Queries Azure Monitor activity logs and sign-in logs via azure-monitor-query to surface
+  suspicious admin operations, impossible-travel sign-ins, and privilege escalation. Use when
+  investigating an Azure subscription, auditing control-plane changes, or hunting anomalous
+  logins. Use when the user says 排查 Azure 日志 / 活动日志审计 / sign-in investigation / Azure audit. Do
+  NOT use for Azure cost analysis, resource performance tuning, or on-premises Windows event logs.
 description_zh: "查询 Azure Monitor 活动与登录日志，发现可疑管理操作、异地登录与提权行为。"
 license: Apache-2.0
 compatibility: 纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。

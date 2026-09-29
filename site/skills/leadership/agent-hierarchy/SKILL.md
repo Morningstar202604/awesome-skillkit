@@ -1,15 +1,14 @@
 ---
 name: agent-hierarchy
 description: >-
-  Designs orchestrator-and-subagent hierarchies for a repository — splitting
-  agents by exclusive write surface, pairing every producer with an
-  independent auditor, and enforcing the split with a script that runs in
-  CI. Use this whenever the user wants to set up, expand, audit, or fix a
-  multi-agent or subagent structure for a codebase; asks how to divide work
-  between agents; wants agent charters, roles, or a surface map written; or
-  is hitting agents that collide on the same files, review their own work,
-  or drift from their remit. Also use when sizing a roster or deciding
-  whether a new agent is justified.
+  Designs orchestrator-and-subagent hierarchies for a repository — splitting agents by exclusive
+  write surface, pairing every producer with an independent auditor, and enforcing the split with
+  a script that runs in CI. Use this whenever the user wants to set up, expand, audit, or fix a
+  multi-agent or subagent structure for a codebase; asks how to divide work between agents; wants
+  agent charters, roles, or a surface map written; or is hitting agents that collide on the same
+  files, review their own work, or drift from their remit. Also use when sizing a roster or
+  deciding whether a new agent is justified. Do NOT use for single-agent prompt or tool design
+  (use agent-designer) or human-resources org charts.
 description_zh: "为仓库设计编排者-子代理层级：按独占写入面拆分代理，让产出者与独立校验者配对。"
 license: MIT
 compatibility: 纯提示型；涉及财务、合规或法律判断时建议人工复核。

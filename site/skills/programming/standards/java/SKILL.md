@@ -1,7 +1,8 @@
 ---
 name: java
 description: >-
-  Expert in Java development with Spring Boot and enterprise patterns
+  Expert in Java development with Spring Boot and enterprise patterns Do NOT use for Android-
+  specific Java style, JVM tuning, or build-tool migration.
 description_zh: "Java 企业开发规范：Spring Boot 与分层模式。"
 license: Apache-2.0
 compatibility: 纯提示型；随语言与框架版本演进，以上游为准。
@@ -76,6 +77,12 @@ You are an expert in Java development with deep knowledge of Spring Boot, enterp
 - Maven or Gradle
 - JUnit, Mockito
 - Quarkus, Jakarta EE, MicroProfile (alternative stack)
+
+## Verification Commands
+
+- `mvn -q checkstyle:check` — expect exit 0.
+- `mvn -q compile 2>&1 | grep -c "warning"` — expect no new warnings vs. main branch.
+- SpotBPM/PMD optional: `mvn -q pmd:check` — expect exit 0 once configured.
 
 ---
 

@@ -1,7 +1,9 @@
 ---
 name: gws-sheets
 description: >-
-  Google Sheets: Read and write spreadsheets.
+  Google Sheets: read and write spreadsheets via the gws CLI. Use when the user asks to 查表格 / 改表数据
+  / update cells or ranges / read a sheet for a report. Do NOT use for Drive file organization
+  (use gws-drive), building charts in Slides, or local CSV editing.
 description_zh: "通过 gws CLI 读写 Google Sheets 电子表格，查看、编辑和更新单元格与区域数据。"
 license: Apache-2.0
 compatibility: 需要 Google Workspace CLI（gws）与 OAuth 凭据。

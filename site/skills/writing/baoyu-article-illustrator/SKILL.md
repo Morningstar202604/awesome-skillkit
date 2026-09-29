@@ -2,10 +2,13 @@
 
 name: baoyu-article-illustrator
 description: >-
-  Analyzes article structure, identifies positions requiring visual aids, generates illustrations with Type × Style × Palette three-dimension approach. Use when user asks to "illustrate article", "add images", "generate images for article", or "为文章配图".
+  Analyzes article structure, identifies positions requiring visual aids, generates illustrations
+  with Type × Style × Palette three-dimension approach. Use when user asks to "illustrate
+  article", "add images", "generate images for article", or "为文章配图". Do NOT use for article covers
+  (use baoyu-cover-image) or photographic stock imagery.
 description_zh: "分析文章结构、定位配图位置，用「类型 × 风格 × 配色」三维方法生成插图。"
 license: MIT
-compatibility: 需要网络与对应平台凭据（微信公众号 API / Chrome CDP 等）；发布类操作先预览再确认。
+compatibility: 需要可用的图像生成后端（外部生图服务或本地模型）；不涉及发布与凭据。
 metadata:
   author: "JimLiu/baoyu-skills 上游（MIT）"
   version: "1.0.0"

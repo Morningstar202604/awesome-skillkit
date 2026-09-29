@@ -1,7 +1,8 @@
 ---
 name: test-driven-development
 description: >-
-  Use when implementing any feature or bugfix, before writing implementation code
+  Use when implementing any feature or bugfix, before writing implementation code Do NOT use for
+  test framework setup, mocks, or coverage tooling (use tdd-guide).
 description_zh: "在编写实现代码前，用测试驱动开发方式实现任何功能或修复缺陷"
 license: MIT
 compatibility: 纯提示型，任意支持 SKILL.md 的工具可用；无外部依赖。

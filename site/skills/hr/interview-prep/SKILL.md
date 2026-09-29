@@ -1,10 +1,13 @@
 ---
 name: interview-prep
 description: >-
-  Create structured interview plans with competency-based questions and scorecards. Trigger with "interview plan for", "interview questions for", "how should we interview", "scorecard for", or when the user is preparing to interview candidates.
+  Create structured interview plans with competency-based questions and scorecards. Trigger with
+  "interview plan for", "interview questions for", "how should we interview", "scorecard for", or
+  when the user is preparing to interview candidates. Do NOT use for job-description writing or
+  pipeline metrics (use recruiting-pipeline) or background-check compliance.
 description_zh: "制定结构化面试方案，包含基于胜任力的面试问题与评分卡，适用于准备面试候选人、设计面试流程与评分标准。"
 license: Apache-2.0
-compatibility: 任意兼容 Agent Skills 的工具可用；部分技能假设已连接企业系统（CRM/HRIS/文档库），未连接时按文内提示降级。
+compatibility: 纯提示型，任意兼容 Agent Skills 的工具可用；无外部系统依赖。
 metadata:
   author: "anthropics/knowledge-work-plugins 上游（Apache-2.0）"
   version: "1.0.0"
@@ -39,10 +42,28 @@ For each competency, provide:
 - Follow-up probes
 
 ### Scorecard
-Rate each competency on a consistent scale (1-4) with clear descriptions of what each level looks like.
+Rate each competency 1-4 with quoted evidence, using this rubric (adapt the level descriptions to each competency):
+
+| Score | Meaning | Evidence standard |
+|---|---|---|
+| 4 | Exceptional | Multiple concrete verified examples above the bar; has taught or led others in it |
+| 3 | Strong | Specific example(s) meeting the bar with a measurable outcome |
+| 2 | Mixed | Partial or vague examples; needed prompting to produce specifics |
+| 1 | Below bar | No credible example, or the answer contradicts the competency |
+
+Rules: every score cites at least one quoted answer; never score without evidence; write "insufficient data" instead of guessing.
 
 ### Debrief Template
-Structured format for interviewers to share findings and make a decision.
+Each interviewer submits independently BEFORE the group debrief (no score sharing first, to avoid anchoring):
+
+- **Recommendation**: Strong Hire / Hire / No Hire / Strong No Hire
+- **Confidence**: High / Medium / Low
+- **Top strengths** (quote the answer): 1) ... 2) ...
+- **Top concerns** (quote the answer): 1) ... 2) ...
+- **Competency scores**: `<competency>: 1-4` + one-line evidence each
+- **Own-team test**: would you put this person on your own team? Yes/No + one line why
+
+Group debrief order: strongest dissent speaks first, then the majority; the hiring manager decides and records the rationale.
 
 ## Output
 

@@ -1,8 +1,8 @@
 ---
 name: go
 description: >-
-  Expert in Go/Golang development with focus on APIs, microservices, and
-  clean architecture
+  Expert in Go/Golang development with focus on APIs, microservices, and clean architecture Do NOT
+  use for embedded/tinygo targets, gopherjs, or Go runtime internals.
 description_zh: "Go 语言工程规范：API、微服务与整洁架构实践。"
 license: Apache-2.0
 compatibility: 纯提示型；随语言与框架版本演进，以上游为准。
@@ -75,6 +75,12 @@ You are an expert in Go development with deep knowledge of APIs, microservices, 
 - Security checks in CI pipelines
 - OpenTelemetry for distributed tracing and observability
 - Proper logging with structured log formats
+
+## Verification Commands
+
+- `gofmt -l .` — expect empty output (any listed file is a failure).
+- `go vet ./...` — expect exit 0.
+- `golangci-lint run` — expect no new findings vs. main branch.
 
 ---
 

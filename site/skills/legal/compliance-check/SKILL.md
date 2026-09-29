@@ -1,7 +1,12 @@
 ---
 name: compliance-check
 description: >-
-  Run a compliance check on a proposed action, product feature, or business initiative, surfacing applicable regulations, required approvals, and risk areas. Use when launching a feature that touches personal data, when marketing or product proposes something with regulatory implications, or when you need to know which approvals and jurisdictional requirements apply before proceeding.
+  Run a compliance check on a proposed action, product feature, or business initiative, surfacing
+  applicable regulations, required approvals, and risk areas. Use when launching a feature that
+  touches personal data, when marketing or product proposes something with regulatory
+  implications, or when you need to know which approvals and jurisdictional requirements apply
+  before proceeding. Do NOT use for clause-by-clause contract review (use review-contract) -
+  informational only, not legal advice.
 description_zh: "对拟推行的功能或商业举措做合规检查：适用法规、所需审批与风险点。"
 license: Apache-2.0
 compatibility: 任意兼容 Agent Skills 的工具可用；部分技能假设已连接企业系统（CRM/HRIS/文档库），未连接时按文内提示降级。

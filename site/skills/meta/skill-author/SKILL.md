@@ -135,13 +135,12 @@ Four common skeleton variants (pick one, don't invent a seventh section):
 
 - **Action**: Run `python3 skills/meta/skill-linter/scripts/lint_skill.py
   <skill directory>`, and go through the Ten Commandments below line by line.
-- **Expected**: a correctly written English skill is compliant per the Ten
-  Commandments and the English section names. Note: the shipped linter script
-  still checks for Chinese H2 names and a Chinese-body CJK ratio, so on an
-  English skill it will emit ~6 spurious `BODY-SECTS`/`FAIL-TABLE` FAILs and a
-  `LANG-CJK` WARN — these are script/repo drift, not defects (see skill-linter's
-  drift note). Ignore those specific checks; still act on any **other** FAIL
-  (e.g. `NAME-SYNC`, `REF-EXISTS`, real `DESC-ROUTE` shortfall).
+- **Expected**: a correctly written English skill passes with 0 FAILs. The
+  linter adapts to the English skeleton; expect at most advisory WARNs (e.g.
+  `BODY-SECTS` "1 short of the 10-section skeleton", `BODY-LINES` near the
+  220-line self-discipline limit). Act on any FAIL (e.g. `NAME-SYNC`,
+  `REF-EXISTS`, `DESC-ROUTE` shortfall); WARNs are judgment calls, not
+  defects — note the ones you accept in delivery notes.
 - **If it fails**: any non-drift FAIL → fix per `FIX:` lines then rerun; don't
   call it "done" until those are zeroed. Keep genuinely-held WARNs (and the
   expected drift noise) in delivery notes.

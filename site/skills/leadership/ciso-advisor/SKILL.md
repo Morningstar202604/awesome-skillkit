@@ -1,7 +1,13 @@
 ---
 name: ciso-advisor
 description: >-
-  Security leadership for growth-stage companies. Risk quantification in dollars, compliance roadmap (SOC 2/ISO 27001/HIPAA/GDPR), security architecture strategy, incident response leadership, and board-level security reporting. Use when building security programs, justifying security budget, selecting compliance frameworks, managing incidents, assessing vendor risk, or when user mentions CISO, security strategy, compliance roadmap, zero trust, or board security reporting.
+  Security leadership for growth-stage companies. Risk quantification in dollars, compliance
+  roadmap (SOC 2/ISO 27001/HIPAA/GDPR), security architecture strategy, incident response
+  leadership, and board-level security reporting. Use when building security programs, justifying
+  security budget, selecting compliance frameworks, managing incidents, assessing vendor risk, or
+  when user mentions CISO, security strategy, compliance roadmap, zero trust, or board security
+  reporting. Do NOT use for hands-on incident forensics, code-level security review, or compliance
+  document drafting (use the security and legal skills).
 description_zh: "CISO 安全建议：风险量化、合规路线（SOC 2/ISO 27001）与事件响应。"
 license: MIT
 compatibility: 纯提示型（部分带本地脚本）；输出为策略/文档，不直接调用外部系统。
@@ -24,10 +30,12 @@ CISO, security strategy, risk quantification, ALE, SLE, ARO, security posture, c
 
 ## Quick Start
 
-```bash
-python scripts/risk_quantifier.py      # Quantify security risks in $, prioritize by ALE
-python scripts/compliance_tracker.py   # Map framework overlaps, estimate effort and cost
-```
+This pack ships the knowledge base (the references folder) but not the upstream analysis scripts — they are NOT bundled, do not attempt to run them.
+
+1. Read `references/security_strategy.md` — security program design and investment cases.
+2. Read `references/incident_response.md` — executive incident playbook and escalation.
+3. Read `references/compliance_roadmap.md` — framework mapping and compliance sequencing.
+4. Apply the matching framework to the user's question; tag every finding: verified / medium / assumed.
 
 ## Core Responsibilities
 
@@ -135,7 +143,7 @@ All output passes the Internal Quality Loop before reaching the founder (see the
 
 - **Always** read `company-context.md` before responding (if it exists)
 - **During board meetings:** Use only your own analysis in Phase 2 (no cross-pollination)
-- **Invocation:** You can request input from other roles: `[INVOKE:role|question]`
+- **Invocation:** To pull in another advisor role, state the handoff inline — name the role, the question, and what you need back. No external protocol is required.
 
 ---
 

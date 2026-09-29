@@ -1,7 +1,11 @@
 ---
 name: analyzing-network-traffic-with-wireshark
 description: >-
-  'Captures and analyzes network packet data using Wireshark and tshark
+  Captures and analyzes network packet data using Wireshark and tshark to identify malicious
+  traffic, diagnose protocol issues, and extract forensic artifacts. Use when investigating
+  suspicious connections or dissecting captured traffic. Use when the user says 抓包分析 / pcap /
+  tshark / traffic investigation. Do NOT use for host log analysis, memory forensics, or wireless
+  spectrum analysis.
 description_zh: "用 Wireshark / tshark 分析抓包：识别恶意流量、诊断协议问题、提取取证物。"
 license: Apache-2.0
 compatibility: 纯提示型；配套命令面向真实安全工具链（Volatility/Splunk/Wireshark/云 CLI 等），请在获得授权的环境使用。

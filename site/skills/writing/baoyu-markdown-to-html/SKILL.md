@@ -2,10 +2,14 @@
 
 name: baoyu-markdown-to-html
 description: >-
-  Converts Markdown to styled HTML with WeChat-compatible themes. Supports code highlighting, math, Mermaid (rendered to PNG via headless Chrome), PlantUML, footnotes, alerts, infographics, and optional bottom citations for external links. Use when user asks for "markdown to html", "convert md to html", "md 转 html", "微信外链转底部引用", or needs styled HTML output from markdown.
+  Converts Markdown to styled HTML with WeChat-compatible themes. Supports code highlighting,
+  math, Mermaid (rendered to PNG via headless Chrome), PlantUML, footnotes, alerts, infographics,
+  and optional bottom citations for external links. Use when user asks for "markdown to html",
+  "convert md to html", "md 转 html", "微信外链转底部引用", or needs styled HTML output from markdown. Do
+  NOT use for writing or restructuring content (use baoyu-format-markdown).
 description_zh: "把 Markdown 转成微信兼容主题的样式化 HTML（代码高亮、数学、Mermaid、PlantUML、脚注等）。"
 license: MIT
-compatibility: 需要网络与对应平台凭据（微信公众号 API / Chrome CDP 等）；发布类操作先预览再确认。
+compatibility: 纯提示型 + 本地脚本渲染，无网络与凭据要求。
 metadata:
   author: "JimLiu/baoyu-skills 上游（MIT）"
   version: "1.0.0"

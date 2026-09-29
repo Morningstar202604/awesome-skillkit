@@ -257,7 +257,7 @@ Exit codes: `0` = all pass; `1` = problems (listed one by one) or directory does
 
 ## References
 
-- [shot-designer camera-design section](shot-designer/SKILL.md (camera design section)) — Deep shot-language lexicon: 17 transitions, action-verb spatial semantics, micro-expression performance, speed/rhythm (the shot-card "camera direction" column picks words from this)
+- shot-designer camera-design section (`../shot-designer/SKILL.md`, see its camera design table) — Deep shot-language lexicon: 17 transitions, action-verb spatial semantics, micro-expression performance, speed/rhythm (the shot-card "camera direction" column picks words from this)
 - [sources-and-methodology.md](references/sources-and-methodology.md) — open-source provenance of the storyboard methodology, sources and credits for film grammar, lint probe records (required reading)
 - The bundled `shot-designer` skill (note: cross-skill linking is forbidden; this is a textual mention only) — call it separately when you need finer camera-move/transition design
 

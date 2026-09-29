@@ -1,7 +1,9 @@
 ---
 name: postgresql-table-design
 description: >-
-  Use this skill when designing or reviewing a PostgreSQL-specific schema. Covers best-practices, data types, indexing, constraints, performance patterns, and advanced features
+  Use this skill when designing or reviewing a PostgreSQL-specific schema. Covers best-practices,
+  data types, indexing, constraints, performance patterns, and advanced features Do NOT use for
+  query tuning (use sql-optimization-patterns), non-PostgreSQL engines, or ORM model authoring.
 description_zh: "设计或审查 PostgreSQL 数据库表结构：最佳实践、数据类型、索引、约束、性能模式与高级特性。"
 license: MIT
 compatibility: 纯提示型，任意支持 SKILL.md 的工具可用；无外部依赖。

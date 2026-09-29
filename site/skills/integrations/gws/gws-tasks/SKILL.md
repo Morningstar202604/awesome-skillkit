@@ -1,7 +1,9 @@
 ---
 name: gws-tasks
 description: >-
-  Google Tasks: Manage task lists and tasks.
+  Google Tasks: manage task lists and tasks via the gws CLI. Use when the user asks to 加待办 /
+  清理任务清单 / mark tasks done. Do NOT use for Calendar events with fixed times (use gws-calendar) or
+  project-management tools outside Google.
 description_zh: "通过 gws CLI 管理 Google Tasks 任务清单与待办任务，创建、查看并更新任务状态。"
 license: Apache-2.0
 compatibility: 需要 Google Workspace CLI（gws）与 OAuth 凭据。

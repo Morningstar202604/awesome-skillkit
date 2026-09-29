@@ -198,7 +198,7 @@ The tool will:
 
 ## Phase 4: Analyze & Recommend
 
-### Step 9: Analyze the Results
+### Step 8: Analyze the Results
 
 Read the output CSV files and present a structured briefing:
 

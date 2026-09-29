@@ -1,7 +1,10 @@
 ---
 name: sql-optimization-patterns
 description: >-
-  Master SQL query optimization, indexing strategies, and EXPLAIN analysis to dramatically improve database performance and eliminate slow queries. Use when debugging slow queries, designing database schemas, or optimizing application performance.
+  Master SQL query optimization, indexing strategies, and EXPLAIN analysis to dramatically improve
+  database performance and eliminate slow queries. Use when debugging slow queries, designing
+  database schemas, or optimizing application performance. Do NOT use for schema/table design (use
+  postgresql-table-design) or ORM-level query fixes.
 description_zh: "精通 SQL 查询优化、索引策略与 EXPLAIN 执行计划分析，消除慢查询并提升数据库性能"
 license: MIT
 compatibility: 纯提示型，任意支持 SKILL.md 的工具可用；无外部依赖。

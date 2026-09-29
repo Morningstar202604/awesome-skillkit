@@ -1,7 +1,12 @@
 ---
 name: architecture-patterns
 description: >-
-  Implement proven backend architecture patterns including Clean Architecture, Hexagonal Architecture, and Domain-Driven Design. Use this skill when designing clean architecture for a new microservice, when refactoring a monolith to use bounded contexts, when implementing hexagonal or onion architecture patterns, or when debugging dependency cycles between application layers.
+  Implement proven backend architecture patterns including Clean Architecture, Hexagonal
+  Architecture, and Domain-Driven Design. Use this skill when designing clean architecture for a
+  new microservice, when refactoring a monolith to use bounded contexts, when implementing
+  hexagonal or onion architecture patterns, or when debugging dependency cycles between
+  application layers. Do NOT use for detailed single-service design, framework selection, or
+  infrastructure provisioning.
 description_zh: "实现后端架构模式：整洁架构、六边形架构与领域驱动设计 DDD。"
 license: MIT
 compatibility: 纯提示型，任意支持 SKILL.md 的工具可用；无外部依赖。

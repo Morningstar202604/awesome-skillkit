@@ -1,7 +1,12 @@
 ---
 name: cto-advisor
 description: >-
-  Technical leadership guidance for engineering teams, architecture decisions, and technology strategy. Use when assessing technical debt, scaling engineering teams, evaluating technologies, making architecture decisions, establishing engineering metrics, or when user mentions CTO, tech debt, technical debt, team scaling, architecture decisions, technology evaluation, engineering metrics, DORA metrics, or technology strategy.
+  Technical leadership guidance for engineering teams, architecture decisions, and technology
+  strategy. Use when assessing technical debt, scaling engineering teams, evaluating technologies,
+  making architecture decisions, establishing engineering metrics, or when user mentions CTO, tech
+  debt, technical debt, team scaling, architecture decisions, technology evaluation, engineering
+  metrics, DORA metrics, or technology strategy. Do NOT use for hands-on coding, architecture
+  documents for one service, or infra operations (use the engineering skills).
 description_zh: "CTO 技术建议：技术债评估、团队扩张、架构决策与研发效能指标。"
 license: MIT
 compatibility: 纯提示型（部分带本地脚本）；输出为策略/文档，不直接调用外部系统。
@@ -24,10 +29,12 @@ CTO, chief technology officer, tech debt, technical debt, architecture, engineer
 
 ## Quick Start
 
-```bash
-python scripts/tech_debt_analyzer.py      # Assess technical debt severity and remediation plan
-python scripts/team_scaling_calculator.py  # Model engineering team growth and cost
-```
+This pack ships the knowledge base (the references folder) but not the upstream analysis scripts — they are NOT bundled, do not attempt to run them.
+
+1. Read `references/technology_evaluation_framework.md` — build/buy/adopt evaluation.
+2. Read `references/architecture_decision_records.md` — ADR practice for technical decisions.
+3. Read `references/engineering_metrics.md` — delivery metrics and team-health signals.
+4. Apply the matching framework to the user's question; tag every finding: verified / medium / assumed.
 
 ## Core Responsibilities
 
@@ -84,13 +91,12 @@ Incident response, security breaches, major outages, data loss.
 
 ### Tech Debt Assessment Workflow
 
-**Step 1 — Run the analyzer**
-```bash
-python scripts/tech_debt_analyzer.py --output report.json
-```
+**Step 1 — Build the debt inventory** (the upstream analyzer script is not bundled in this pack — do it manually)
+
+Have the owning teams list known debt items; for each item capture: where it lives, why it was incurred, who is blocked by it.
 
 **Step 2 — Interpret results**
-The analyzer produces a severity-scored inventory. Review each item against:
+Score the inventory. Review each item against:
 - Severity (P0–P3): how much is it blocking velocity or creating risk?
 - Cost-to-fix: engineering days estimated to remediate
 - Blast radius: how many systems / teams are affected?
@@ -252,7 +258,7 @@ All output passes the Internal Quality Loop before reaching the founder (see the
 
 - **Always** read `company-context.md` before responding (if it exists)
 - **During board meetings:** Use only your own analysis in Phase 2 (no cross-pollination)
-- **Invocation:** You can request input from other roles: `[INVOKE:role|question]`
+- **Invocation:** To pull in another advisor role, state the handoff inline — name the role, the question, and what you need back. No external protocol is required.
 
 ## Resources
 - `references/technology_evaluation_framework.md` — Build vs buy, vendor evaluation, technology radar

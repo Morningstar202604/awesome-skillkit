@@ -1,7 +1,10 @@
 ---
 name: error-handling-patterns
 description: >-
-  Master error handling patterns across languages including exceptions, Result types, error propagation, and graceful degradation to build resilient applications. Use when implementing error handling, designing APIs, or improving application reliability.
+  Master error handling patterns across languages including exceptions, Result types, error
+  propagation, and graceful degradation to build resilient applications. Use when implementing
+  error handling, designing APIs, or improving application reliability. Do NOT use for logging
+  infrastructure setup, SLO/alert threshold design, or on-call process.
 description_zh: "掌握跨语言的错误处理模式，包括异常、Result 类型、错误传播与优雅降级，帮助构建健壮可靠的应用。"
 license: MIT
 compatibility: 纯提示型，任意支持 SKILL.md 的工具可用；无外部依赖。
