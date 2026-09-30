@@ -66,24 +66,6 @@ def add_tree(zf: zipfile.ZipFile, src_dir: Path, arc_prefix: str) -> int:
     return count
 
 
-def skill_imports_common(skill_dir: Path) -> bool:
-    """判断某技能脚本是否复用了 _common/publish_common。"""
-    scripts = skill_dir / "scripts"
-    if not scripts.is_dir():
-        return False
-    for py in scripts.glob("*.py"):
-        try:
-            text = py.read_text(encoding="utf-8", errors="ignore")
-        except OSError:
-            continue
-        if "publish_common" in text:
-            return True
-    return False
-
-
-COMMON_DIR = SCRIPT_DIR / "skills" / "writing" / "_common"
-
-
 def sync_manifest(fingerprints: dict[str, dict]) -> None:
     """把构建产物的 size_kb/sha256 回写 manifest.json，并补齐新增的 pack。
 
@@ -178,11 +160,6 @@ def main(argv: list[str]) -> int:
                 all_skills.setdefault(skill["name"], skill_dir)
                 pack_skill_dirs.append(skill_dir)
                 add_tree(zf, skill_dir, skill["name"])
-            # 若本包技能复用了公共模块，则一并打包，保证解压后即可运行
-            if COMMON_DIR.is_dir() and any(
-                skill_imports_common(sd) for sd in pack_skill_dirs
-            ):
-                add_tree(zf, COMMON_DIR, "_common")
         size_kb = max(zip_path.stat().st_size // 1024, 1)
         digest = hashlib.sha256(zip_path.read_bytes()).hexdigest()
         fingerprints[pack_id] = {"size_kb": size_kb, "sha256": digest}
@@ -199,10 +176,6 @@ def main(argv: list[str]) -> int:
         with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
             for name in sorted(all_skills):
                 add_tree(zf, all_skills[name], name)
-            if COMMON_DIR.is_dir() and any(
-                skill_imports_common(sd) for sd in all_skills.values()
-            ):
-                add_tree(zf, COMMON_DIR, "_common")
         size_kb = max(zip_path.stat().st_size // 1024, 1)
         print(
             f"built: {zip_path}  (_all bundle, {len(all_skills)} skills, ~{size_kb} KB)"

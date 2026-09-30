@@ -380,7 +380,6 @@ def main(argv: list[str]) -> int:
     if not args.no_skill_copy:
         sz_dir = out_dir / "skills-zip"
         sz_dir.mkdir(parents=True, exist_ok=True)
-        common_src = SCRIPT_DIR / "skills" / "writing" / "_common"
         for skill in data["skills"]:
             src = (SCRIPT_DIR / skill["repo_file"]).parent  # repo_file 指向 SKILL.md，取技能目录
             zp = sz_dir / f"{skill['name']}.zip"
@@ -390,16 +389,6 @@ def main(argv: list[str]) -> int:
                         continue
                     zf.writestr(f"{skill['name']}/{f.relative_to(src).as_posix()}",
                                 f.read_bytes())
-                uses_common = any(
-                    "publish_common" in g.read_text(encoding="utf-8", errors="ignore")
-                    for g in (src / "scripts").glob("*.py")
-                ) if (src / "scripts").is_dir() else False
-                if uses_common and common_src.is_dir():
-                    for f in sorted(common_src.rglob("*")):
-                        if f.is_dir() or "__pycache__" in f.parts:
-                            continue
-                        zf.writestr(f"_common/{f.relative_to(common_src).as_posix()}",
-                                    f.read_bytes())
             skill_zips += 1
 
     # zip 副本（站内镜像）
