@@ -19,6 +19,7 @@
 import argparse
 import hashlib
 import json
+import zipfile
 import os
 import re
 import sys
@@ -373,6 +374,34 @@ def main(argv: list[str]) -> int:
             dst.write_text(src.read_text(encoding="utf-8"), encoding="utf-8", newline="\n")
             copied += 1
 
+    # 单技能 zip（市场级：每个技能一个独立压缩包，整文件夹含 scripts/references；
+    # 写作发布器家族复用 _common，随包附带保证解压即用）
+    skill_zips = 0
+    if not args.no_skill_copy:
+        sz_dir = out_dir / "skills-zip"
+        sz_dir.mkdir(parents=True, exist_ok=True)
+        common_src = SCRIPT_DIR / "skills" / "writing" / "_common"
+        for skill in data["skills"]:
+            src = (SCRIPT_DIR / skill["repo_file"]).parent  # repo_file 指向 SKILL.md，取技能目录
+            zp = sz_dir / f"{skill['name']}.zip"
+            with zipfile.ZipFile(zp, "w", zipfile.ZIP_DEFLATED) as zf:
+                for f in sorted(src.rglob("*")):
+                    if f.is_dir() or "__pycache__" in f.parts or f.suffix == ".pyc":
+                        continue
+                    zf.writestr(f"{skill['name']}/{f.relative_to(src).as_posix()}",
+                                f.read_bytes())
+                uses_common = any(
+                    "publish_common" in g.read_text(encoding="utf-8", errors="ignore")
+                    for g in (src / "scripts").glob("*.py")
+                ) if (src / "scripts").is_dir() else False
+                if uses_common and common_src.is_dir():
+                    for f in sorted(common_src.rglob("*")):
+                        if f.is_dir() or "__pycache__" in f.parts:
+                            continue
+                        zf.writestr(f"_common/{f.relative_to(common_src).as_posix()}",
+                                    f.read_bytes())
+            skill_zips += 1
+
     # zip 副本（站内镜像）
     zips = 0
     if not args.no_zip:
@@ -441,7 +470,7 @@ def main(argv: list[str]) -> int:
     print(f"site.json: {m['n_skills']} skills / {m['n_packs']} packs / "
           f"{m['n_domains']} domains / {m['n_groups']} groups / "
           f"{m['n_chains']} chains (v{m['version']})")
-    print(f"SKILL.md copies: {copied} | zip copies: {zips} -> {out_dir}")
+    print(f"SKILL.md copies: {copied} | zip copies: {zips} | skill zips: {skill_zips} -> {out_dir}")
     missing = [p["id"] for p in data["packs"] if not p["dist_exists"]]
     if missing:
         print(f"WARN: dist 缺少 zip: {missing}", file=sys.stderr)

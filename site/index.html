@@ -47,7 +47,7 @@
       <div class="line-tag">产品线 A · SKILLS</div>
       <h2>场景技能包</h2>
       <p><b>57 个场景包 · 419 个技能</b>，按 <b>8 大场景库</b>分门别类：从需求到上线、从写作到发布，一个真实场景一包搞定。</p>
-      <p class="line-meta">取用方式：单取某个 SKILL.md · 整包 zip · 全量 _all.zip · <a href="data/site.json" download>site.json 数据源</a></p>
+      <p class="line-meta">取用方式：单技能整包 zip（卡片 ↓ 整包）· 单取某个 SKILL.md · 场景包 zip · 全量 _all.zip · <a href="data/site.json" download>site.json 数据源</a></p>
       <a class="btn primary" href="#view-skills">浏览技能库 ↓</a>
     </article>
     <article class="line-card">
@@ -111,6 +111,15 @@
   <div class="wrap level">
     <span class="level-tag">能力域</span>
     <div class="chips scrollx" id="domainChips" aria-label="能力域（二级导航）"></div>
+  </div>
+  <div class="wrap level">
+    <span class="level-tag">排序</span>
+    <div class="chips" id="sortChips" aria-label="排序">
+      <button class="chip active" data-sort="default">默认</button>
+      <button class="chip" data-sort="name">名称 A→Z</button>
+      <button class="chip" data-sort="tier">层级 高→低</button>
+      <button class="chip" data-sort="verified">最近验证</button>
+    </div>
   </div>
 </nav>
 

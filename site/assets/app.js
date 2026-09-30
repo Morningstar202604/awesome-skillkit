@@ -10,7 +10,7 @@
   };
 
   const state = { data: null, tab: "skills", q: "", group: "all", domain: "all",
-                  filtersOpen: false };
+                  sort: "default", filtersOpen: false };
   let toastTimer = null;
 
   function toast(msg) {
@@ -290,6 +290,14 @@
     box.innerHTML = "";
     const q = state.q.trim();
     const list = state.data.skills.filter(matches);
+    const TIER_RANK = { powerful: 3, standard: 2, minimal: 1 };
+    if (state.sort === "name")
+      list.sort((a, b) => a.name.localeCompare(b.name));
+    else if (state.sort === "tier")
+      list.sort((a, b) => (TIER_RANK[b.tier] || 0) - (TIER_RANK[a.tier] || 0) ||
+        a.name.localeCompare(b.name));
+    else if (state.sort === "verified")
+      list.sort((a, b) => (b.verified || "").localeCompare(a.verified || ""));
     list.forEach((s, i) => {
       const c = el("article", "card");
       const dc = domainColor(s.domain);
@@ -327,7 +335,11 @@
       }
 
       const act = el("div", "actions");
-      act.append(dlBtn(s.file, "↓ SKILL.md", "act dl", s.name + ".SKILL.md"));
+      act.append(dlBtn("skills-zip/" + s.name + ".zip", "↓ 整包 zip", "act dl", s.name + ".zip"));
+      act.append(dlBtn(s.file, "↓ SKILL.md", "act", s.name + ".SKILL.md"));
+      const det = el("button", "act sm", "详情");
+      det.addEventListener("click", () => openSkillModal(s));
+      act.append(det);
       const cp = el("button", "act sm", "复制路径");
       cp.addEventListener("click", () => copy(s.name));
       act.append(cp);
@@ -339,6 +351,96 @@
       box.append(c);
     });
     return list.length;
+  }
+
+
+  /* ---------- 详情弹窗：技能市场核心交互 ---------- */
+  function jumpToPack(id) {
+    state.tab = "packs";
+    state.group = "all";
+    state.domain = "all";
+    state.q = id;
+    $("#q").value = id;
+    $("#clearQ").hidden = false;
+    $("#kbdHint").hidden = true;
+    syncTabs();
+    render();
+    window.scrollTo({ top: document.querySelector(".toolbar").offsetTop, behavior: "smooth" });
+  }
+
+  function openSkillModal(s) {
+    document.querySelector(".modal-overlay")?.remove();
+    const ov = el("div", "modal-overlay");
+    const m = el("div", "modal");
+    const close = el("button", "close", "×");
+    close.setAttribute("aria-label", "关闭");
+    close.addEventListener("click", () => ov.remove());
+    ov.addEventListener("click", (e) => { if (e.target === ov) ov.remove(); });
+
+    const h = el("h3", null, null);
+    h.append(el("span", null, s.name), el("span", "dom", domainLabel(s.domain)));
+    m.append(close, h);
+
+    if (s.desc_zh) m.append(el("p", "m-desc", s.desc_zh));
+    if (s.desc) m.append(el("p", "m-desc en", s.desc));
+
+    const bits = [];
+    if (s.version) bits.push("v" + s.version);
+    if (s.tier) bits.push("层级 " + s.tier);
+    if (s.pattern) bits.push("模式 " + s.pattern);
+    if (s.license) bits.push(s.license);
+    if (s.verified) bits.push("验证于 " + s.verified);
+    if (bits.length) m.append(el("div", "meta-line", bits.join(" · ")));
+    if (s.compatibility) m.append(el("p", "m-compat", "⚙ " + s.compatibility));
+
+    if (s.packs.length) {
+      const row = el("div", "meta-row");
+      row.append(el("span", "tag", "隶属场景包："));
+      s.packs.forEach((id) => {
+        const b = el("button", "tag pack", "📦 " + id);
+        b.addEventListener("click", () => { ov.remove(); jumpToPack(id); });
+        row.append(b);
+      });
+      m.append(row);
+    }
+
+    const inst = el("div", "m-install");
+    inst.append(el("div", "m-label", "一键安装（skills.sh 生态）"));
+    const cmdRow = el("div", "cmd-row");
+    const cmd = "npx skills add x33834/awesome-skillkit -s " + s.name;
+    cmdRow.append(el("code", null, cmd));
+    const cb = el("button", "act sm", "复制");
+    cb.addEventListener("click", () => copy(cmd));
+    cmdRow.append(cb);
+    inst.append(cmdRow);
+
+    const dl = el("div", "cmd-row");
+    dl.append(dlBtn("skills-zip/" + s.name + ".zip", "↓ 整技能 zip（含 scripts/references）", "act dl", s.name + ".zip"));
+    dl.append(dlBtn(s.file, "↓ 仅 SKILL.md", "act", s.name + ".SKILL.md"));
+    dl.append(extLink(s.raw_github, "raw GitHub"));
+    dl.append(extLink(s.raw_gitcode, "raw GitCode"));
+    inst.append(dl);
+    m.append(inst);
+
+    const prevBtn = el("button", "act wide", "展开 SKILL.md 正文预览 ▾");
+    const pre = el("pre", "m-pre");
+    pre.hidden = true;
+    prevBtn.addEventListener("click", async () => {
+      if (pre.hidden && !pre.textContent) {
+        try {
+          const res = await fetch(s.file);
+          pre.textContent = await res.text();
+        } catch (_) {
+          pre.textContent = "（正文加载失败，请用上面的 raw 链接查看）";
+        }
+      }
+      pre.hidden = !pre.hidden;
+      prevBtn.textContent = pre.hidden ? "展开 SKILL.md 正文预览 ▾" : "收起正文 ▴";
+    });
+    m.append(prevBtn, pre);
+
+    ov.append(m);
+    document.body.append(ov);
   }
 
   /* ---------- 渲染：场景包 ---------- */
@@ -531,6 +633,14 @@
   window.addEventListener("scroll", syncToolbar, { passive: true });
   $("#groupChips").addEventListener("scroll", () => updateScrollHint($("#groupChips")), { passive: true });
   $("#domainChips").addEventListener("scroll", () => updateScrollHint($("#domainChips")), { passive: true });
+  $("#sortChips").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-sort]");
+    if (!b) return;
+    state.sort = b.dataset.sort;
+    document.querySelectorAll("#sortChips .chip").forEach((c) =>
+      c.classList.toggle("active", c === b));
+    render();
+  });
   window.addEventListener("resize", () => {
     updateScrollHint($("#groupChips"));
     updateScrollHint($("#domainChips"));
