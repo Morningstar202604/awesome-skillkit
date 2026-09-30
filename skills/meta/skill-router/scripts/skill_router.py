@@ -36,6 +36,44 @@ AUTO_DETECT_CANDIDATES = [
 ]
 
 
+
+# Query-side alias expansion: zh (and shorthand) -> English terms used in
+# descriptions. Deterministic, curated, and cheap — this is what lifts
+# cross-lingual recall without any embeddings.
+ALIAS = {
+    "分镜": ["storyboard"], "字幕": ["subtitle"], "架构图": ["architecture"],
+    "架构": ["architecture"], "爬取": ["scrape", "web", "scraping"], "抓取": ["scrape", "scraping"],
+    "慢查询": ["slow", "query"], "密钥": ["secret", "secrets"], "供应链": ["supply", "chain"],
+    "内存取证": ["memory", "forensics"], "内存": ["memory"], "取证": ["forensics"],
+    "部署": ["deploy", "deployment"], "发布": ["publish", "publishing"],
+    "性能": ["performance"], "瓶颈": ["profiling", "performance"],
+    "面试": ["interview"], "工单": ["ticket"], "待办": ["tasks"],
+    "网表": ["schema"], "表结构": ["schema", "tables"], "数据库设计": ["schema"],
+    "单位经济": ["unit", "economics"], " Humanizer": ["humanize"],
+    "人味": ["humanize", "humanizer"], "ai味": ["humanize", "humanizer"],
+    "定时": ["cron", "schedule"], "计划任务": ["cron", "schedule"],
+    "备份": ["backup"], "翻译": ["translate", "translation"],
+    "摘要": ["summary"], "封面": ["cover"], "海报": ["poster"],
+    "幻灯片": ["slides"], "渲染": ["render"], "抓包": ["packet"],
+    "勒索": ["ransomware"], "钓鱼": ["phishing"], "漏洞": ["vulnerability", "security"],
+    "纵深": ["lateral"], "横向移动": ["lateral", "movement"],
+    "微调": ["fine-tune", "training", "lora"], "训练": ["training", "train"],
+    "数据集": ["dataset"], "embedding": ["embeddings"],
+    "公众号": ["wechat", "official"], "排版": ["html", "formatting"],
+    "整理": ["organize", "organizer"], "文件夹": ["folder", "files"],
+    "下载": ["download"], "清理": ["cleanup", "cleaner"],
+    "图表": ["plot", "figure"], "论文": ["paper", "paper"],
+}
+
+def expand_aliases(task_terms: set) -> set:
+    joined = " ".join(task_terms)
+    extra = set()
+    for k, vals in ALIAS.items():
+        if k in joined:
+            extra.update(vals)
+    return task_terms | extra  # original terms + alias expansion
+
+
 def terms_of(text: str) -> list[str]:
     """English words (len>=2) + CJK bigrams (strong) + CJK unigrams (weak)."""
     out = [w.lower() for w in WORD_RE.findall(text)]
@@ -81,6 +119,8 @@ def build_index(skills_dir: Path) -> dict:
         if not desc:
             continue
         name_terms = set(name.split("-"))
+        first_sentence = re.split(r"(?<=[.!?。！？])\s+", desc, maxsplit=1)[0]
+        first_terms = set(terms_of(first_sentence))
         desc_terms = set(terms_of(desc)) | set(terms_of(desc_zh))
         # skill terms = what this skill can be found by
         skill_terms = (name_terms | desc_terms) - {name}
@@ -88,6 +128,8 @@ def build_index(skills_dir: Path) -> dict:
             "dir": str(md.parent),
             "name_terms": name_terms,
             "terms": skill_terms,
+            "first_terms": first_terms,
+            "len": len(desc_terms) or 1,
         }
         for t in skill_terms:
             df[t] = df.get(t, 0) + 1
@@ -109,7 +151,7 @@ MIN_WEAK = 8.0  # score >= this -> WEAK MATCH (scan the SKILL.md yourself)
 
 def route(task: str, index: dict, top: int = 5, min_use: float | None = None,
           min_weak: float | None = None) -> dict:
-    task_terms = set(terms_of(task))
+    task_terms = expand_aliases(set(terms_of(task)))
     if not task_terms:
         return {"verdict": "NO SKILL NEEDED", "reason": "empty/unrecognized task", "results": []}
     scored = []
@@ -118,6 +160,11 @@ def route(task: str, index: dict, top: int = 5, min_use: float | None = None,
         if not hits:
             continue
         score = sum(rec["weighted"][t] for t in hits)
+        # first sentence of the description is the "what" clause — trust it more
+        first_hits = sum(1 for t in hits if t in rec.get("first_terms", set()))
+        score *= 1.0 + 0.08 * min(first_hits, 5)
+        # pivoted length normalization: demote hub skills with huge descriptions
+        score /= (rec.get("len", 1) ** 0.2)
         name_hits = len(hits & rec["name_terms"])
         score += name_hits * 1.5
         strong_hits = sum(1 for t in hits if not t.startswith("~"))
@@ -146,6 +193,26 @@ def route(task: str, index: dict, top: int = 5, min_use: float | None = None,
     return {"verdict": verdict, "task_terms": len(task_terms), "results": results}
 
 
+
+def hook_mode(skills_dir: Path) -> int:
+    """UserPromptSubmit hook contract: stdin {"prompt": "..."} ->
+    stdout {"additionalContext": "..."} (strict schema; nothing else)."""
+    try:
+        data = json.load(sys.stdin)
+    except Exception:
+        data = {}
+    prompt = str(data.get("prompt") or "")
+    if not prompt.strip():
+        return 0
+    index = build_index(skills_dir)
+    r = route(prompt, index, top=3)
+    names = " > ".join(x["skill"] for x in r["results"][:3]) or "-"
+    line = f"[skill-router] {r['verdict']} | 候选: {names}"
+    if r["results"]:
+        line += f" | 命中: {'/'.join(r['results'][0]['matched'][:5])}"
+    print(json.dumps({"additionalContext": line}, ensure_ascii=False))
+    return 0
+
 def detect_skills_dir(explicit: str | None) -> Path:
     if explicit:
         p = Path(explicit)
@@ -160,14 +227,19 @@ def detect_skills_dir(explicit: str | None) -> Path:
 
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description="Decide which skills a task needs (deterministic, offline)")
-    ap.add_argument("task", help="the task text, quoted")
+    ap.add_argument("task", nargs="?", default="", help="the task text, quoted (empty in --hook mode)")
     ap.add_argument("--skills-dir", default="", help="skills directory (default: auto-detect)")
     ap.add_argument("--top", type=int, default=5, help="max candidates to show (default 5)")
     ap.add_argument("--json", action="store_true", help="machine-readable output")
     ap.add_argument("--min-use", type=float, default=None,
                     help="USE threshold override (defaults are tuned for 400+ skill libraries)")
     ap.add_argument("--min-weak", type=float, default=None, help="WEAK threshold override")
+    ap.add_argument("--hook", action="store_true",
+                    help="UserPromptSubmit hook mode: read {\"prompt\"} from stdin, emit {\"additionalContext\"}")
     args = ap.parse_args(argv[1:])
+
+    if args.hook:
+        return hook_mode(detect_skills_dir(args.skills_dir))
 
     sdir = detect_skills_dir(args.skills_dir)
     index = build_index(sdir)

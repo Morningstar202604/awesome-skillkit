@@ -1,0 +1,271 @@
+{
+  "note": "skill-router 基准：task=任务原文，expect=可接受的目标技能（top3 命中任一即算对），none=true 表示应当判定 NO SKILL",
+  "cases": [
+    {
+      "task": "帮我审一个 PR，重点是安全问题",
+      "expect": [
+        "code-review-and-quality",
+        "open-code-review",
+        "code-reviewer",
+        "ship-gate",
+        "caveman-review"
+      ]
+    },
+    {
+      "task": "部署一个应用到 Cloudflare Workers",
+      "expect": [
+        "cloudflare",
+        "wrangler",
+        "workers-best-practices"
+      ]
+    },
+    {
+      "task": "开发一个 Kubernetes operator",
+      "expect": [
+        "kubernetes-operator"
+      ]
+    },
+    {
+      "task": "优化这个 Dockerfile，镜像太大",
+      "expect": [
+        "docker-development"
+      ]
+    },
+    {
+      "task": "这条 SQL 查询很慢，帮我优化",
+      "expect": [
+        "sql-database-assistant",
+        "sql-optimization-patterns"
+      ]
+    },
+    {
+      "task": "设计 PostgreSQL 的表结构",
+      "expect": [
+        "postgresql-table-design"
+      ]
+    },
+    {
+      "task": "画一个 CNN 网络结构图",
+      "expect": [
+        "neural-net-draw",
+        "figure-maker"
+      ]
+    },
+    {
+      "task": "写论文的文献综述",
+      "expect": [
+        "literature-review",
+        "lit-review"
+      ]
+    },
+    {
+      "task": "arXiv 投稿前清理 LaTeX 工程",
+      "expect": [
+        "tex-cleaner"
+      ]
+    },
+    {
+      "task": "给论文画一张出版级图表",
+      "expect": [
+        "pub-plotter"
+      ]
+    },
+    {
+      "task": "把这篇文章发到小红书",
+      "expect": [
+        "xiaohongshu-publisher",
+        "baoyu-xhs-images",
+        "channel-adapter"
+      ]
+    },
+    {
+      "task": "多平台一键分发这篇文章",
+      "expect": [
+        "cross-post-orchestrator"
+      ]
+    },
+    {
+      "task": "把这篇文章转成公众号 HTML 排版",
+      "expect": [
+        "baoyu-markdown-to-html"
+      ]
+    },
+    {
+      "task": "做一期播客节目",
+      "expect": [
+        "podcast-producer",
+        "episode-publisher"
+      ]
+    },
+    {
+      "task": "写一个短视频脚本",
+      "expect": [
+        "video-script-writer"
+      ]
+    },
+    {
+      "task": "给视频加字幕",
+      "expect": [
+        "video-editor",
+        "video-subtitles"
+      ]
+    },
+    {
+      "task": "设计这条广告片的分镜",
+      "expect": [
+        "shot-designer",
+        "storyboard-designer"
+      ]
+    },
+    {
+      "task": "设置每天凌晨的定时备份计划任务",
+      "expect": [
+        "task-scheduler"
+      ]
+    },
+    {
+      "task": "管理我的 .env 密钥防止泄露",
+      "expect": [
+        "env-secrets-manager",
+        "secrets-vault-manager"
+      ]
+    },
+    {
+      "task": "审计 SBOM 供应链漏洞",
+      "expect": [
+        "analyzing-sbom-for-supply-chain-vulnerabilities"
+      ]
+    },
+    {
+      "task": "排查 Azure 登录日志里的异常",
+      "expect": [
+        "analyzing-azure-activity-logs-for-threats"
+      ]
+    },
+    {
+      "task": "分析内存转储找恶意进程",
+      "expect": [
+        "analyzing-memory-dumps-with-volatility"
+      ]
+    },
+    {
+      "task": "操作飞书多维表格",
+      "expect": [
+        "lark-base"
+      ]
+    },
+    {
+      "task": "帮我发一封 Gmail",
+      "expect": [
+        "gws-gmail",
+        "gws-gmail-forward",
+        "gws-gmail-send"
+      ]
+    },
+    {
+      "task": "微调一个 LoRA 模型",
+      "expect": [
+        "huggingface-llm-trainer",
+        "train-sentence-transformers",
+        "trl-training"
+      ]
+    },
+    {
+      "task": "准备明天的产品经理面试",
+      "expect": [
+        "interview-prep"
+      ]
+    },
+    {
+      "task": "审一下这份 NDA",
+      "expect": [
+        "triage-nda",
+        "review-contract"
+      ]
+    },
+    {
+      "task": "给客户工单分类分级",
+      "expect": [
+        "ticket-triage"
+      ]
+    },
+    {
+      "task": "测算这个业务的单位经济模型",
+      "expect": [
+        "unit-economics"
+      ]
+    },
+    {
+      "task": "整理我乱糟糟的下载文件夹",
+      "expect": [
+        "file-organizer"
+      ]
+    },
+    {
+      "task": "生成一份产品介绍 PPT",
+      "expect": [
+        "ppt-builder",
+        "baoyu-slide-deck"
+      ]
+    },
+    {
+      "task": "给系统画一张架构图",
+      "expect": [
+        "arch-diagram",
+        "archify",
+        "diagram-builder-pro",
+        "diagram-design",
+        "senior-architect"
+      ]
+    },
+    {
+      "task": "把这段 AI 味的文字改得像人写的",
+      "expect": [
+        "humanize-rewriter",
+        "humanizer"
+      ]
+    },
+    {
+      "task": "爬取这个网站的数据",
+      "expect": [
+        "web-data-extractor"
+      ]
+    },
+    {
+      "task": "剖析这个服务的性能瓶颈",
+      "expect": [
+        "performance-profiler"
+      ]
+    },
+    {
+      "task": "谢谢",
+      "expect": [],
+      "none": true
+    },
+    {
+      "task": "1+1 等于几",
+      "expect": [],
+      "none": true
+    },
+    {
+      "task": "继续",
+      "expect": [],
+      "none": true
+    },
+    {
+      "task": "你好呀",
+      "expect": [],
+      "none": true
+    },
+    {
+      "task": "今天星期几",
+      "expect": [],
+      "none": true
+    },
+    {
+      "task": "嗯嗯好的就这么办",
+      "expect": [],
+      "none": true
+    }
+  ]
+}

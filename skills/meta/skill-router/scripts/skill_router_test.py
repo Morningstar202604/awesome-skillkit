@@ -91,3 +91,29 @@ class CliSmokeTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class BenchmarkGateTest(unittest.TestCase):
+    """Accuracy regression gate: pinned to the repo's real skill library."""
+
+    def test_benchmark_accuracy_floor(self):
+        repo = Path(__file__).resolve().parents[4]
+        bench = Path(skill_router.__file__).parent / "benchmark.py"
+        sys.path.insert(0, str(bench.parent))
+        import benchmark  # noqa: PLC0415
+        cases = json.loads((bench.parent / "benchmark_tasks.json").read_text(encoding="utf-8"))["cases"]
+        index = skill_router.build_index(repo / "skills")
+        top3 = use = fp = 0
+        for c in cases:
+            r = skill_router.route(c["task"], index, top=3)
+            got = [x["skill"] for x in r["results"]]
+            if c.get("none"):
+                if r["verdict"] == "USE SKILLS":
+                    fp += 1
+            else:
+                use += 1
+                if exp := set(c["expect"]):
+                    if exp & set(got):
+                        top3 += 1
+        self.assertGreaterEqual(top3 / max(use, 1), 0.90, "top3 accuracy regressed below 90%")
+        self.assertEqual(fp, 0, "false-positive USE verdicts on none-tasks")

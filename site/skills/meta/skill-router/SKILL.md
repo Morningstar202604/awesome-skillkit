@@ -52,6 +52,12 @@ a SKILL.md with a non-empty `description`; it ignores `_common`, `templates`,
 
 ## Workflow
 
+0. **Forced invocation (host hook)**: configured as a `UserPromptSubmit` hook,
+   the router runs on EVERY user prompt automatically and injects a one-line
+   verdict into context — no reliance on the model remembering the rule.
+   Manual equivalent of what the hook injects:
+
+
 1. **Ask the router** (one command, milliseconds):
 
    ```bash
@@ -70,6 +76,12 @@ a SKILL.md with a non-empty `description`; it ignores `_common`, `templates`,
    skill handoffs happen.
 
 ## Delivery Criteria
+
+- Measured on `scripts/benchmark_tasks.json` (35 use-tasks across domains +
+  6 no-skill traps) against the full library: **top1 ≈ 77%, top3 ≈ 97%,
+  false-positive USE on chit-chat ≈ 0**. The benchmark doubles as a
+  regression gate (`test_benchmark_accuracy_floor`).
+
 
 - A verdict line (`USE SKILLS` / `WEAK MATCH` / `NO SKILL NEEDED`) plus a
   ranked list with scores and matched terms — or the explicit statement that
