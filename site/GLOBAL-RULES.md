@@ -17,6 +17,7 @@
 ```markdown
 ## Skill-first（技能优先）
 
+0. 已装判别器时一条命令先路由：`python "<skills目录>/skill-router/scripts/skill_router.py" "<任务>" --skills-dir "<skills目录>"` —— 输出用哪些技能、各打几分、要不要用（USE / WEAK / NO）。
 1. 任何专业任务开始时，先查已安装技能里有没有匹配项：扫 skills 目录下各
    SKILL.md 的 frontmatter description——其中的触发词（「当用户…」「Use
    when…」「Do NOT…」）就是匹配依据。

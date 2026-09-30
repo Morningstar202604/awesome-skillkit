@@ -786,7 +786,8 @@
         "caveman-help",
         "caveman-stats",
         "caveman-compress",
-        "cavecrew"
+        "cavecrew",
+        "skill-router"
       ],
       "chains": {
         "new_skill_pipeline": [

@@ -2,11 +2,11 @@
  "meta": {
   "hub": "awesome-skillkit",
   "version": "0.23.2",
-  "updated": "2026-09-29",
+  "updated": "2026-09-30",
   "desc": "Curated scene packs for AI tools: each pack = one real-world scenario, containing multiple skills. Download zip -> unzip -> drag the skill folders into your AI tool's skills directory.",
   "desc_zh": "精选场景包合集：每个场景包 = 一个真实场景，内含多个 skill。下载 zip -> 解压 -> 把 skill 文件夹拖进 AI 工具的 skills 目录即可使用。",
-  "n_skills": 418,
-  "n_skills_on_disk": 420,
+  "n_skills": 419,
+  "n_skills_on_disk": 421,
   "n_packs": 57,
   "n_domains": 27,
   "n_groups": 8,
@@ -625,8 +625,8 @@
    "label": "meta",
    "label_zh": "元技能",
    "entry": "skills/meta/skill-author",
-   "n_skills": 14,
-   "n_packed": 13,
+   "n_skills": 15,
+   "n_packed": 14,
    "n_chains": 7,
    "chains": [
     {
@@ -1281,7 +1281,7 @@
     "caveman-toolkit"
    ],
    "n_packs": 5,
-   "n_skills": 18
+   "n_skills": 19
   },
   {
    "id": "content",
@@ -8385,6 +8385,26 @@
    "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/meta/skill-linter/SKILL.md"
   },
   {
+   "name": "skill-router",
+   "domain": "meta",
+   "path": "skills/meta/skill-router",
+   "file": "skills/meta/skill-router/SKILL.md",
+   "desc": "Decide WHICH installed skills (if any) a task needs, in milliseconds, before work starts. Indexes all SKILL.md descriptions (Chinese + English) into a deterministic TF-IDF term index and scores the task against it — ranked candidates, matched terms, and a USE / WEAK / NO-SKILL verdict. Use when starting any professional task and unsure which skill fits, when choosing between several similar skills, when the skill-first rule says \"check for a matching skill\", or when the user asks 技能路由 / 用哪个技能 / 判断要不要用技能 / which skill should I use / route this task to skills. Do NOT use for writing new skills (use skill-author), auditing skill quality (use skill-linter), or as an embedding/vector service — it is lexical matching, deterministic and offline.",
+   "desc_zh": "任务一开始就判断：该用哪些已安装技能、各打几分、要不要用。确定性离线词法匹配，毫秒级出结果。",
+   "license": "Apache-2.0",
+   "compatibility": "Python 3.8+ stdlib only; offline; auto-detects the skills directory (repo layout or ~/.zcode, ~/.workbuddy, ~/.claude, ~/.config/opencode).",
+   "version": "1.0",
+   "tier": "standard",
+   "pattern": "single-task",
+   "verified": "2026-09-30",
+   "repo_file": "skills/meta/skill-router/SKILL.md",
+   "packs": [
+    "skill-forge"
+   ],
+   "raw_github": "https://raw.githubusercontent.com/x33834/awesome-skillkit/main/skills/meta/skill-router/SKILL.md",
+   "raw_gitcode": "https://gitcode.com/badhope/awesome-skillkit/raw/main/skills/meta/skill-router/SKILL.md"
+  },
+  {
    "name": "skill-tester",
    "domain": "programming",
    "path": "skills/programming/ai-engineering/skill-tester",
@@ -10973,15 +10993,16 @@
    "name_zh": "技能锻造厂",
    "desc": "Meta skills about skills themselves: author a new SKILL.md from a one-batch clarification, lint an existing one against the repo spec with an exit code CI can gate on, and search/pack/stats this repo from real data. Idea in, compliant shipped skill out.",
    "desc_zh": "关于技能本身的元技能三件套：一次性问齐需求后生成合规 SKILL.md（skill-author）、八项静态检查并返回可做 CI 门禁的退出码（skill-linter）、基于真实数据检索技能与装配组合（skill-finder）。想法进、可提交的技能出。",
-   "size_kb": 52,
-   "sha256": "d7dd5eb7e3a57845756d140f9e75cfa2e16c64c56a456e94413712d280525125",
-   "n_skills": 5,
+   "size_kb": 60,
+   "sha256": "9639422ef6f6448a7b65f653790d570812ff712e3aefa6b016b428e118e3d50b",
+   "n_skills": 6,
    "skills": [
     "skill-author",
     "skill-linter",
     "skill-finder",
     "session-handoff",
-    "weekly-report-generator"
+    "weekly-report-generator",
+    "skill-router"
    ],
    "local_url": "packs/skill-forge.zip",
    "release_github": "https://github.com/x33834/awesome-skillkit/releases/download/v0.23.2/skill-forge.zip",

@@ -1,7 +1,7 @@
 {
   "hub": "awesome-skillkit",
   "version": "0.23.2",
-  "updated": "2026-09-29",
+  "updated": "2026-09-30",
   "description": "Curated scene packs for AI tools: each pack = one real-world scenario, containing multiple skills. Download zip -> unzip -> drag the skill folders into your AI tool's skills directory.",
   "description_zh": "精选场景包合集：每个场景包 = 一个真实场景，内含多个 skill。下载 zip -> 解压 -> 把 skill 文件夹拖进 AI 工具的 skills 目录即可使用。",
   "source_notes": {
@@ -2086,10 +2086,14 @@
         {
           "name": "weekly-report-generator",
           "source": "self-authored"
+        },
+        {
+          "name": "skill-router",
+          "source": "self-authored"
         }
       ],
-      "size_kb": 52,
-      "sha256": "d7dd5eb7e3a57845756d140f9e75cfa2e16c64c56a456e94413712d280525125"
+      "size_kb": 60,
+      "sha256": "9639422ef6f6448a7b65f653790d570812ff712e3aefa6b016b428e118e3d50b"
     },
     {
       "id": "tdd",

@@ -24,6 +24,10 @@
     {
       "name": "weekly-report-generator",
       "source": "self-authored"
+    },
+    {
+      "name": "skill-router",
+      "source": "self-authored"
     }
   ]
 }

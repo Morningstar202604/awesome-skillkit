@@ -6,6 +6,8 @@
 
 > 本规则只在本仓库内生效。技能安装到用户工具目录后的仓库外版本（含粘贴即用的全局规则块）见 [GLOBAL-RULES.md](GLOBAL-RULES.md)。
 
+先跑判别器：`python3 skills/meta/skill-router/scripts/skill_router.py "<任务>" --skills-dir skills`，按结论分流（USE→用技能 / WEAK→自己看 SKILL.md / NO→直接干活）。
+
 **每个任务开始时**，先确认本仓库是否已有能完成该任务的技能；**任务进行中每进入一个新阶段、或遇到新的子问题，再查一次**。查到匹配的就必须用上；查不到就正常干活，不许硬套。
 
 三个查法（任一命中即可）：
